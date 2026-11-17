@@ -17,7 +17,7 @@
     "routine": "corpus_digest in corpora/vectors-anchored-chain/gen_vectors.py",
     "routine-file": "corpora/vectors-anchored-chain/gen_vectors.py",
     "serialization": "corpus-routine",
-    "sha256": "a92cf47c64f905ec6a57c4bf624c2667c075da4a76d58b4d251584831202dc86",
+    "sha256": "9c0a80e182458ba389e4fd86b698f8bdc5911ff9eaa074da7702b0fae2406fc8",
     "verdicts": {
       "availability-failure": "inconclusive",
       "integrity-failure": "fail"
@@ -166,7 +166,7 @@
         "go.mod"
       ],
       "serialization": "sha256-listing-v1",
-      "sha256": "6f8722c9cc0d9f6407e1d48ff84a738ec5a6631145f4edc8ac3b25a925dc7a07"
+      "sha256": "0d01b6a937459d897c58b468237016a4beeb339b3554f19d667a58c835492ee7"
     },
     "runtime": {
       "name": "go",
@@ -896,7 +896,8 @@
     ],
     "leaves-open": [
       "whether an implementation written from the specification, run by someone other than an author, reaches the same verdicts",
-      "whether release/CORPUS-DIGESTS.txt is a list a release signed: the signature beside it does not verify over these bytes, so the anchor is a located line, not a verified one"
+      "whether release/CORPUS-DIGESTS.txt is a list a release signed: the signature beside it does not verify over these bytes, so the anchor is a located line, not a verified one",
+      "whether a re-run by someone other than an author on these exact bytes agrees; none is on the record for them"
     ]
   },
   "selector": {

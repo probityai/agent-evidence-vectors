@@ -4,7 +4,7 @@
 /// SHA-256 of the corpus file it was copied from.
 #[rustfmt::skip]
 pub(crate) static FILES: &[(&str, &str, &[u8])] = &[
-    ("jcs-byte-vectors/cases.json", "650fe8f2ad243d890604697dfde0a0d3becdb978b8cae3ba9dde6e899c091759", include_bytes!("../data/jcs-byte-vectors/cases.json")),
+    ("jcs-byte-vectors/cases.json", "60af72657a6b1141224d8b58e381a149eee49ad5349f3d7c0cdf4d322fb554f6", include_bytes!("../data/jcs-byte-vectors/cases.json")),
     ("vectors-a2a-jcs-v01/MANIFEST.json", "d38f4121bcae85f875be5de4802fa9ca4e773aec5e3a9ae1c0134825a5779a98", include_bytes!("../data/vectors-a2a-jcs-v01/MANIFEST.json")),
     ("vectors-a2a-jcs-v01/a2-signatures-exclusion/A2-001.json", "dc15ec0f7dea5c98cb6e23a1f0ad36f69b8b945c269e71846b4f1cbfcb1b279c", include_bytes!("../data/vectors-a2a-jcs-v01/a2-signatures-exclusion/A2-001.json")),
     ("vectors-a2a-jcs-v01/a2-signatures-exclusion/A2-002.json", "70707b61ffbf80bb4a983de21af9677cc0611be1ad05184e538bcfdbabafe2d5", include_bytes!("../data/vectors-a2a-jcs-v01/a2-signatures-exclusion/A2-002.json")),
