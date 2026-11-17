@@ -205,6 +205,12 @@ def audit_record_decide(entry: dict[str, Any], root: Path) -> dict[str, Any]:
                                   "trust": "trust"}
     if "predicateType" in entry:
         assessment["predicate_type"] = entry["predicateType"]
+    # The consumer says what it holds, so a retained record or set too broken to show its
+    # shape is refused as that shape and never re-read as one envelope (X16, X17).
+    expected = entry.get("expected", {})
+    assessment["shape"] = (
+        "retained" if "dating" in expected else "set" if "set" in expected else "envelope"
+    )
     case = {"schema_version": "probity-case/v1", "case_id": entry["id"], "artifacts": artifacts}
     policy = {"schema_version": "probity-policy/v1", "assessments": {entry["id"]: assessment}}
     return dict(adjudicate(case, policy, root)["checks"][0])
