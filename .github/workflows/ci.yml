@@ -3023,7 +3023,11 @@ jobs:
       - uses: astral-sh/setup-uv@37802adc94f370d6bfd71619e3f0bf239e1f3b78 # v7
       - name: every check state is reached by its own case
         run: python3 scripts/field-readiness-test.py
+      # The live read measures the field (outside workflows, adopter records), which no
+      # change in this repository can move, so it reports on its own schedule and on a
+      # manual run; a pull request runs the test of every check state above.
       - name: restart field, live
+        if: ${{ github.event_name == 'schedule' || github.event_name == 'workflow_dispatch' }}
         env:
           GH_TOKEN: ${{ github.token }}
         run: python3 scripts/field-readiness.py restart
