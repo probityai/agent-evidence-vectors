@@ -46,6 +46,9 @@ sets `ensure_ascii=False`; both paths use Python key and number formatting.
 The fixture is a byte contract for the entry array. A TRACE record's signature,
 schema, and call count require their own checks.
 
+Why parse, sort keys and `JSON.stringify` fails these cases, and the fix byte by byte:
+[JSON.stringify used as JCS](../../docs/guides/json-stringify-as-jcs.md).
+
 ## Drift and depth families
 
 `cases.json` also carries two generated families, written by
