@@ -232,6 +232,15 @@ git push origin refs/tags/vX.Y.Z:refs/tags/vX.Y.Z
 #    `merge-freeze clear probityai/agent-evidence-vectors`.
 python3 -B path/to/probityai-.github/scripts/version-pins.py write
 python3 -B path/to/probityai-.github/scripts/version-pins.py check
+
+# 12. Open the reproduction request issue for vX.Y.Z from
+#    docs/REPRODUCTION-REQUEST.md: the tag, the commit, the PyPI page, the
+#    exact commands and the last lines a clean run printed, pasted from the
+#    release run. Label it reproduction-request and close the previous
+#    release's request with a link to the new one. Replies come through the
+#    reproduction report form and stay in the issue as posted.
+gh issue create -R probityai/agent-evidence-vectors --label reproduction-request \
+  --title "Reproduction request: vX.Y.Z" --body-file <filled copy of the template body>
 ```
 
 A tag that missed main is not repaired. `release.yml` fails it in `verify`
