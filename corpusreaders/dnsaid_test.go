@@ -96,3 +96,72 @@ func TestDNSAIDReportsARepeatedCode(t *testing.T) {
 		t.Fatalf("no finding for a repeated code: %q", got)
 	}
 }
+
+// Each tampering of the sig corpus and the finding it must produce.
+var dnsAidTamperings = []struct {
+	name, file, from, to, want string
+}{
+	{"accept declared invalid", "MANIFEST.json", `"verdict": "valid"`, `"verdict": "invalid"`, "does not fit the kind"},
+	{"decision unknown", "MANIFEST.json", `"decision": "agrees"`, `"decision": "maybe"`, "decision \"maybe\" does not fit"},
+	{"codes unsorted", "MANIFEST.json", `"codes": [
+     "alg-not-es256"
+    ]`, `"codes": [
+     "zz",
+     "alg-not-es256"
+    ]`, "not sorted"},
+	{"file outside cases", "MANIFEST.json", `"file": "cases/alg-none.json"`, `"file": "alg-none.json"`, "not under cases/"},
+	{"file missing", "MANIFEST.json", `"file": "cases/alg-none.json"`, `"file": "cases/absent.json"`, "missing"},
+	{"member edited", "cases/alg-none.json", `"now": 1790000000`, `"now": 1790000001`, "does not recompute"},
+	{"member names another case", "cases/alg-none.json", `"case": "alg-none"`, `"case": "expired"`, "names another case"},
+	{"counts wrong", "MANIFEST.json", `"accept": `, `"accept": 1`, "counts disagree"},
+	{"duplicate id", "MANIFEST.json", `"id": "expired"`, `"id": "alg-none"`, "duplicate id"},
+}
+
+func TestDNSAIDReportsEachTampering(t *testing.T) {
+	for _, tc := range dnsAidTamperings {
+		t.Run(tc.name, func(t *testing.T) {
+			dir := dnsAidStage(t, "vectors-dns-aid-sig-v01")
+			dnsAidEdit(t, filepath.Join(dir, tc.file), tc.from, tc.to)
+			if got := dnsAidFindings(t, dir); !strings.Contains(got, tc.want) {
+				t.Fatalf("want a finding containing %q, got %q", tc.want, got)
+			}
+		})
+	}
+}
+
+func TestDNSAIDRefusesAnUnparsableManifest(t *testing.T) {
+	dir := dnsAidStage(t, "vectors-dns-aid-rrset-v01")
+	dnsAidEdit(t, filepath.Join(dir, "MANIFEST.json"), `"counts": {`, `"counts": [`)
+	if _, err := corpusreaders.Judge(dir); err == nil {
+		t.Fatal("a manifest that does not parse must be an error")
+	}
+}
+
+func TestDNSAIDReportsAMemberThatDoesNotParse(t *testing.T) {
+	dir := dnsAidStage(t, "vectors-dns-aid-rrset-v01")
+	path := filepath.Join(dir, "cases", "proto-empty.json")
+	if err := os.WriteFile(path, []byte("{"), 0o600); err != nil {
+		t.Fatal(err)
+	}
+	if got := dnsAidFindings(t, dir); !strings.Contains(got, "does not parse") {
+		t.Fatalf("no finding for a member that does not parse: %q", got)
+	}
+}
+
+func TestDNSAIDReportsAMissingCasesDirectory(t *testing.T) {
+	dir := dnsAidStage(t, "vectors-dns-aid-rrset-v01")
+	if err := os.RemoveAll(filepath.Join(dir, "cases")); err != nil {
+		t.Fatal(err)
+	}
+	if got := dnsAidFindings(t, dir); !strings.Contains(got, "cases/ cannot be read") {
+		t.Fatalf("no finding for a missing cases/: %q", got)
+	}
+}
+
+func TestDNSAIDFindsARepeatedKeyInsideAnArray(t *testing.T) {
+	dir := dnsAidStage(t, "vectors-dns-aid-rrset-v01")
+	dnsAidEdit(t, filepath.Join(dir, "MANIFEST.json"), `"id": "alpn-as-list"`, `"id": "alpn-as-list", "ID": "x"`)
+	if got := dnsAidFindings(t, dir); !strings.Contains(got, "twice in one object") {
+		t.Fatalf("no finding for a repeated key inside the vectors array: %q", got)
+	}
+}
