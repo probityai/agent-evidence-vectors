@@ -338,13 +338,22 @@ func arUnder(path, scope string) bool {
 // not allow, and refuses the lowercase t and z, which it does.
 var arRFC3339 = regexp.MustCompile(`^(\d{4})-(\d{2})-(\d{2})[Tt](\d{2}):(\d{2}):(\d{2})(?:\.(\d+))?([Zz]|[+-]\d{2}:\d{2})$`)
 
+// arOffsetInRange holds a numeric offset to RFC 3339's bounds, hours at most 23 and
+// minutes at most 59, which time.Parse does not (it reads +24:00 and +05:60).
+func arOffsetInRange(zone string) bool {
+	if len(zone) != 6 {
+		return true // Z or z
+	}
+	return zone[1:3] <= "23" && zone[4:6] <= "59"
+}
+
 // arInstant reads an RFC 3339 date-time, its fraction kept to the microsecond as
 // the Python reader keeps it, so the two rails order every pair of times alike. A
 // seconds value of 60 is a leap second, read only at 23:59 UTC on the last day of a
 // month (Sections 5.6 and 5.7), as the instant one second after 23:59:59.
 func arInstant(value string) (time.Time, error) {
 	m := arRFC3339.FindStringSubmatch(value)
-	if m == nil {
+	if m == nil || !arOffsetInRange(m[8]) {
 		return time.Time{}, arRefuse("timestamp-malformed")
 	}
 	second, fraction := m[6], m[7]
