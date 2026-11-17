@@ -1,0 +1,564 @@
+{
+  "corpusDigest": "7684f32cf12af5cd4732e5fbaf3b4e36deb7e2bcfda72d5e5bc60d452521c1db",
+  "counts": {
+    "failure": 16,
+    "indeterminate": 3,
+    "missing": 2,
+    "not_evaluated": 5,
+    "refused": 7,
+    "satisfied": 6
+  },
+  "keySeedLabel": "aev-lifecycle-binding-vectors/",
+  "revision": 1,
+  "suite": "lifecycle-binding/v1",
+  "synthetic": true,
+  "vectors": [
+    {
+      "edit": "decision, issuer and receiver controls, execution: all agree",
+      "expected": {
+        "decision": "satisfied",
+        "reason": "satisfied"
+      },
+      "expectedClass": "positive",
+      "family": "lifecycle-shape",
+      "files": {
+        "record.json": "7219d260ce364db516d15c921d619f3e6191f58c3825c5844fe44e0a8aef496d"
+      },
+      "id": "shape-complete",
+      "path": "cases/shape-complete"
+    },
+    {
+      "edit": "no receiving-side record: the profile does not require one",
+      "expected": {
+        "decision": "satisfied",
+        "reason": "satisfied"
+      },
+      "expectedClass": "positive",
+      "family": "lifecycle-shape",
+      "files": {
+        "record.json": "5125f148942229ceb42de1e1c0ac522f33f0c8883887a4caddc2dbf4c24d7c1f"
+      },
+      "id": "shape-issuer-only-authorization",
+      "path": "cases/shape-issuer-only-authorization"
+    },
+    {
+      "edit": "authorized, never reported executed",
+      "expected": {
+        "decision": "missing",
+        "reason": "missing"
+      },
+      "expectedClass": "absent",
+      "family": "lifecycle-shape",
+      "files": {
+        "record.json": "89498ac35c6393654652009e2418110ee3d4720dac1eda0ec845181253059b25"
+      },
+      "id": "shape-no-execution",
+      "path": "cases/shape-no-execution"
+    },
+    {
+      "edit": "an execution no authorization covers",
+      "expected": {
+        "decision": "not_evaluated",
+        "reason": "not_evaluated"
+      },
+      "expectedClass": "absent",
+      "family": "lifecycle-shape",
+      "files": {
+        "record.json": "2bf4e48e7794c72d27c5c7c6845f2951535d6ff3817b7bd8dce7b19857c5b1a2"
+      },
+      "id": "shape-no-control",
+      "path": "cases/shape-no-control"
+    },
+    {
+      "edit": "the cited decision record is absent",
+      "expected": {
+        "decision": "missing",
+        "reason": "missing"
+      },
+      "expectedClass": "absent",
+      "family": "lifecycle-shape",
+      "files": {
+        "record.json": "042c9ffd70560ac174eebc2325416231d2029e968bad124ae7834c939a45542a"
+      },
+      "id": "shape-no-decision",
+      "path": "cases/shape-no-decision"
+    },
+    {
+      "edit": "the executor reports another action",
+      "expected": {
+        "decision": "failure",
+        "reason": "failure"
+      },
+      "expectedClass": "negative",
+      "family": "lifecycle-shape",
+      "files": {
+        "record.json": "fecdd8ae80a63f849a006738011c41a7256d87f88179a57f9bdeb8577fd2a234"
+      },
+      "id": "shape-authorized-differs-from-executed",
+      "path": "cases/shape-authorized-differs-from-executed"
+    },
+    {
+      "edit": "two groups under one decision, each complete",
+      "expected": {
+        "decision": "satisfied",
+        "reason": "satisfied"
+      },
+      "expectedClass": "positive",
+      "family": "lifecycle-shape",
+      "files": {
+        "record.json": "670b008571f26a90e513a3c90ba23ebf09560c50edd3e2cb1062d79705d6abcb"
+      },
+      "id": "shape-two-instructions-both-complete",
+      "path": "cases/shape-two-instructions-both-complete"
+    },
+    {
+      "edit": "the decision edited after sealing",
+      "expected": {
+        "decision": "failure",
+        "reason": "failure"
+      },
+      "expectedClass": "negative",
+      "family": "lifecycle-shape",
+      "files": {
+        "record.json": "2ecbf7cf9bc85694887d3273788a20b27f571c6df1f15320dd7eef8b2ff20e04"
+      },
+      "id": "shape-broken-decision",
+      "path": "cases/shape-broken-decision"
+    },
+    {
+      "edit": "a control edited after sealing",
+      "expected": {
+        "decision": "failure",
+        "reason": "failure"
+      },
+      "expectedClass": "negative",
+      "family": "lifecycle-shape",
+      "files": {
+        "record.json": "5409cc96f68298036de0df2d1856865577f0401b9dc18efc4696f865d4ba6378"
+      },
+      "id": "shape-broken-control",
+      "path": "cases/shape-broken-control"
+    },
+    {
+      "edit": "an execution edited after sealing",
+      "expected": {
+        "decision": "failure",
+        "reason": "failure"
+      },
+      "expectedClass": "negative",
+      "family": "lifecycle-shape",
+      "files": {
+        "record.json": "27cb8f6df6c46b1584cc2a8be57f15de0e475b2d414d044c1b31f0a648ebd8b9"
+      },
+      "id": "shape-broken-execution",
+      "path": "cases/shape-broken-execution"
+    },
+    {
+      "edit": "the governor's binding is revoked in the snapshot",
+      "expected": {
+        "decision": "not_evaluated",
+        "reason": "not_evaluated"
+      },
+      "expectedClass": "absent",
+      "family": "lifecycle-shape",
+      "files": {
+        "record.json": "85b4ca1219f25eacd8431c4525137f66c6406b5f62ea2e1859b18ce32a39d510"
+      },
+      "id": "shape-revoked-governor",
+      "path": "cases/shape-revoked-governor"
+    },
+    {
+      "edit": "V1: the execution reports pause-2; only pause-1 was authorized",
+      "expected": {
+        "decision": "not_evaluated",
+        "reason": "not_evaluated"
+      },
+      "expectedClass": "negative",
+      "family": "binding-scope",
+      "files": {
+        "record.json": "a43d7863a24c006c53f316d547fe8ea8f64791f12175ee774e920eee157b7365"
+      },
+      "id": "scope-v1-cross-instruction",
+      "path": "cases/scope-v1-cross-instruction"
+    },
+    {
+      "edit": "V2: the issuer authorized X, the receiver recorded Y, the executor reports X",
+      "expected": {
+        "decision": "failure",
+        "reason": "failure"
+      },
+      "expectedClass": "negative",
+      "family": "binding-scope",
+      "files": {
+        "record.json": "025d0abb058afa0a53adb6b9957326feceb6f6a3d6ae0d48cddee22816b65426"
+      },
+      "id": "scope-v2-receiver-disagrees",
+      "path": "cases/scope-v2-receiver-disagrees"
+    },
+    {
+      "edit": "V3: two executions share one id, one X and one Y",
+      "expected": {
+        "decision": "indeterminate",
+        "reason": "indeterminate"
+      },
+      "expectedClass": "negative",
+      "family": "binding-scope",
+      "files": {
+        "record.json": "74741ddf6efce69a04669ce7bd38ec8a7410d15f3ff5dc0f841adfcd4015e1da"
+      },
+      "id": "scope-v3-duplicate-execution-identity",
+      "path": "cases/scope-v3-duplicate-execution-identity"
+    },
+    {
+      "edit": "V3b: the same set in the other order",
+      "expected": {
+        "decision": "indeterminate",
+        "reason": "indeterminate"
+      },
+      "expectedClass": "negative",
+      "family": "binding-scope",
+      "files": {
+        "record.json": "2059551da936997d65893b9ffd70040dffd5e0ecc4475b53caad7ae185f1a924"
+      },
+      "id": "scope-v3b-duplicate-identity-reordered",
+      "path": "cases/scope-v3b-duplicate-identity-reordered"
+    },
+    {
+      "edit": "V4: a valid signature under a revoked executor binding",
+      "expected": {
+        "decision": "not_evaluated",
+        "reason": "not_evaluated"
+      },
+      "expectedClass": "negative",
+      "family": "binding-scope",
+      "files": {
+        "record.json": "0fd3dd7bb11a581a39bb4785e85a1746d9a5ce0cb253030f40f31af42c356ff3"
+      },
+      "id": "scope-v4-revoked-executor",
+      "path": "cases/scope-v4-revoked-executor"
+    },
+    {
+      "edit": "V5: an execution sealed by a key nobody bound",
+      "expected": {
+        "decision": "failure",
+        "reason": "failure"
+      },
+      "expectedClass": "negative",
+      "family": "binding-scope",
+      "files": {
+        "record.json": "2af816061e3098658b4ee795ef496d723273eb96bff1731c95a30d7711a4b0ca"
+      },
+      "id": "scope-v5-unbound-key",
+      "path": "cases/scope-v5-unbound-key"
+    },
+    {
+      "edit": "V6: the self-hash recomputes; the signature is zeroed",
+      "expected": {
+        "decision": "failure",
+        "reason": "failure"
+      },
+      "expectedClass": "negative",
+      "family": "binding-scope",
+      "files": {
+        "record.json": "693aa343fb8ecbc69afa63da90d17ccaeaad89edfed05d63ceaf16342916ff18"
+      },
+      "id": "scope-v6-unsigned-valid-self-hash",
+      "path": "cases/scope-v6-unsigned-valid-self-hash"
+    },
+    {
+      "edit": "V7: an honest execution under a revoked binding",
+      "expected": {
+        "decision": "not_evaluated",
+        "reason": "not_evaluated"
+      },
+      "expectedClass": "negative",
+      "family": "binding-scope",
+      "files": {
+        "record.json": "0fd3dd7bb11a581a39bb4785e85a1746d9a5ce0cb253030f40f31af42c356ff3"
+      },
+      "id": "scope-v7-honest-revoked-executor",
+      "path": "cases/scope-v7-honest-revoked-executor"
+    },
+    {
+      "edit": "V8: two byte-identical executions share one id and report another action",
+      "expected": {
+        "decision": "indeterminate",
+        "reason": "indeterminate"
+      },
+      "expectedClass": "negative",
+      "family": "binding-scope",
+      "files": {
+        "record.json": "63341aa33346268e9f1b2952b236588c6b41093625c28a897199f7b28c502738"
+      },
+      "id": "scope-v8-duplicate-identity-other-action",
+      "path": "cases/scope-v8-duplicate-identity-other-action"
+    },
+    {
+      "edit": "C0: control",
+      "expected": {
+        "decision": "satisfied",
+        "reason": "satisfied"
+      },
+      "expectedClass": "positive",
+      "family": "binding-scope",
+      "files": {
+        "record.json": "7219d260ce364db516d15c921d619f3e6191f58c3825c5844fe44e0a8aef496d"
+      },
+      "id": "scope-c0-honest",
+      "path": "cases/scope-c0-honest"
+    },
+    {
+      "edit": "A1: a control's body hashed under the decision hash tag",
+      "expected": {
+        "decision": "failure",
+        "reason": "failure"
+      },
+      "expectedClass": "negative",
+      "family": "tag-confusion",
+      "files": {
+        "record.json": "acdbba70990758ef185e1b080f868400d1be2586a8cf5417a48d252ed3344f66"
+      },
+      "id": "tag-a1-hashed-under-another-type-tag",
+      "path": "cases/tag-a1-hashed-under-another-type-tag"
+    },
+    {
+      "edit": "A2: a decision's integrity carried onto a record typed execution",
+      "expected": {
+        "decision": "failure",
+        "reason": "failure"
+      },
+      "expectedClass": "negative",
+      "family": "tag-confusion",
+      "files": {
+        "record.json": "a8ce3d1604c829cc614024641153e972c0c276b8c2f1c4c1083931c4f8885fe4"
+      },
+      "id": "tag-a2-decision-retyped-as-execution",
+      "path": "cases/tag-a2-decision-retyped-as-execution"
+    },
+    {
+      "edit": "A3: a signature over the decision signature tag on a control",
+      "expected": {
+        "decision": "failure",
+        "reason": "failure"
+      },
+      "expectedClass": "negative",
+      "family": "tag-confusion",
+      "files": {
+        "record.json": "d5f6ac83e172311a8ed396c42c4939e9d2bf2c6aada4625461f3480308b8e7ff"
+      },
+      "id": "tag-a3-decision-signature-on-control",
+      "path": "cases/tag-a3-decision-signature-on-control"
+    },
+    {
+      "edit": "A5: hash and signature over untagged bytes",
+      "expected": {
+        "decision": "failure",
+        "reason": "failure"
+      },
+      "expectedClass": "negative",
+      "family": "tag-confusion",
+      "files": {
+        "record.json": "cad6f1961529fcac26585fc3d610ccd7defcdc6722cb03ff2e1cb5537ce3ec32"
+      },
+      "id": "tag-a5-untagged-pre-image",
+      "path": "cases/tag-a5-untagged-pre-image"
+    },
+    {
+      "edit": "A6: a type no tag is registered for, refused with no nearest match",
+      "expected": {
+        "decision": "refused",
+        "reason": "unregistered_tag"
+      },
+      "expectedClass": "negative",
+      "family": "tag-confusion",
+      "files": {
+        "record.json": "215697a263562cb1e528f919398c732d0ecc77fadeeb2334e15bafea777b7a41"
+      },
+      "id": "tag-a6-unregistered-type",
+      "path": "cases/tag-a6-unregistered-type"
+    },
+    {
+      "edit": "A7: a type differing only in case",
+      "expected": {
+        "decision": "refused",
+        "reason": "unregistered_tag"
+      },
+      "expectedClass": "negative",
+      "family": "tag-confusion",
+      "files": {
+        "record.json": "f205bed6991ae79dc4f9b9776698ce1b47b1d1e153266f100879421d434bd1ba"
+      },
+      "id": "tag-a7-case-folded-type",
+      "path": "cases/tag-a7-case-folded-type"
+    },
+    {
+      "edit": "A8: CRLF between the tag and the bytes",
+      "expected": {
+        "decision": "failure",
+        "reason": "failure"
+      },
+      "expectedClass": "negative",
+      "family": "tag-confusion",
+      "files": {
+        "record.json": "cf33028a7381ac76d9029efaaec654e2ddd9dce3854b1ce1159d773f946794f5"
+      },
+      "id": "tag-a8-crlf-separator",
+      "path": "cases/tag-a8-crlf-separator"
+    },
+    {
+      "edit": "A8: two LF between the tag and the bytes",
+      "expected": {
+        "decision": "failure",
+        "reason": "failure"
+      },
+      "expectedClass": "negative",
+      "family": "tag-confusion",
+      "files": {
+        "record.json": "aede378a8220195f8fb7ac68d54d26bc19421a71389653a38da00dd2ad74fa3e"
+      },
+      "id": "tag-a8-double-lf-separator",
+      "path": "cases/tag-a8-double-lf-separator"
+    },
+    {
+      "edit": "A9: a version no tag is registered for",
+      "expected": {
+        "decision": "refused",
+        "reason": "unregistered_tag"
+      },
+      "expectedClass": "negative",
+      "family": "tag-confusion",
+      "files": {
+        "record.json": "3afdb89a0b65fa994551c0990ced45a9c513274a62c9cad655a593b68bb78737"
+      },
+      "id": "tag-a9-other-version",
+      "path": "cases/tag-a9-other-version"
+    },
+    {
+      "edit": "A9: a member rewritten after the hash and signature",
+      "expected": {
+        "decision": "failure",
+        "reason": "failure"
+      },
+      "expectedClass": "negative",
+      "family": "tag-confusion",
+      "files": {
+        "record.json": "ac1b3d616d27326a3316b7668b0dcb5698b72797c5a05aa4256920a0029ccd53"
+      },
+      "id": "tag-a9-body-rewritten-after-signing",
+      "path": "cases/tag-a9-body-rewritten-after-signing"
+    },
+    {
+      "edit": "A11a: the wire alg is informative only",
+      "expected": {
+        "decision": "satisfied",
+        "reason": "satisfied"
+      },
+      "expectedClass": "positive",
+      "family": "tag-confusion",
+      "files": {
+        "record.json": "590b5a5430ec86c42f6c83805784dda073eae4dc4a56d5acf238bf4ea9f30639"
+      },
+      "id": "tag-a11a-wire-alg-relabelled",
+      "path": "cases/tag-a11a-wire-alg-relabelled"
+    },
+    {
+      "edit": "A11b: the signature input names a suite the binding does not",
+      "expected": {
+        "decision": "failure",
+        "reason": "failure"
+      },
+      "expectedClass": "negative",
+      "family": "tag-confusion",
+      "files": {
+        "record.json": "a4c8b9225665b4f7ef0ac043637e34e29ed62caa64aaf32d9092340d4b32fc83"
+      },
+      "id": "tag-a11b-other-suite-in-pre-image",
+      "path": "cases/tag-a11b-other-suite-in-pre-image"
+    },
+    {
+      "edit": "a signature over a DSSE pre-authentication encoding presented as a record signature",
+      "expected": {
+        "decision": "failure",
+        "reason": "failure"
+      },
+      "expectedClass": "negative",
+      "family": "tag-confusion",
+      "files": {
+        "record.json": "84113aabb2c670c757df8f31f87dbf32f0079817926673e1d383dae4d43c689b"
+      },
+      "id": "tag-cross-format-dsse-pae-replayed",
+      "path": "cases/tag-cross-format-dsse-pae-replayed"
+    },
+    {
+      "edit": "a member repeated under an escaped spelling",
+      "expected": {
+        "decision": "refused",
+        "reason": "no_duplicate_member"
+      },
+      "expectedClass": "negative",
+      "family": "admissibility",
+      "files": {
+        "record.json": "0c9de4785a2dd1394cf0af9033b4712ae0f6750507fbf88cdf17f767f982d074"
+      },
+      "id": "json-duplicate-after-escape",
+      "path": "cases/json-duplicate-after-escape"
+    },
+    {
+      "edit": "a lone surrogate in a string",
+      "expected": {
+        "decision": "refused",
+        "reason": "record_shape"
+      },
+      "expectedClass": "negative",
+      "family": "admissibility",
+      "files": {
+        "record.json": "99df921c2d688b76410bafaffa7e9a4b663d97ee6198ebbe0cf3f9a5f545def7"
+      },
+      "id": "json-lone-surrogate",
+      "path": "cases/json-lone-surrogate"
+    },
+    {
+      "edit": "1E400 has no finite value",
+      "expected": {
+        "decision": "refused",
+        "reason": "record_shape"
+      },
+      "expectedClass": "negative",
+      "family": "admissibility",
+      "files": {
+        "record.json": "0f780cb54a65b5d165e882d251f897f542b6cc12df4984e3f382a737c00c1ea6"
+      },
+      "id": "json-number-overflow",
+      "path": "cases/json-number-overflow"
+    },
+    {
+      "edit": "9007199254740993 is outside the I-JSON integer range",
+      "expected": {
+        "decision": "refused",
+        "reason": "record_shape"
+      },
+      "expectedClass": "negative",
+      "family": "admissibility",
+      "files": {
+        "record.json": "dcf84573718b66d2d310f215c2e0a1f78c0505548584e3f878c6ebbeef1d1846"
+      },
+      "id": "json-unsafe-integer",
+      "path": "cases/json-unsafe-integer"
+    },
+    {
+      "edit": "-0 is the number 0 and its RFC 8785 form is 0, so the sealed hash still recomputes",
+      "expected": {
+        "decision": "satisfied",
+        "reason": "satisfied"
+      },
+      "expectedClass": "positive",
+      "family": "admissibility",
+      "files": {
+        "record.json": "adba0b0e9c3fcb00035d227449170d386512bbcd643ce0cf33f74f6f63982e52"
+      },
+      "id": "json-negative-zero-admitted",
+      "path": "cases/json-negative-zero-admitted"
+    }
+  ],
+  "verifierContract": "verifier record.json --json; exit 0 satisfied, 1 failure or refused, 2 missing, not_evaluated or indeterminate"
+}
