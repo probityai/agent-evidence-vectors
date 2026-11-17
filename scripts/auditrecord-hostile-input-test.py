@@ -183,9 +183,8 @@ class TypeConfusionTests(unittest.TestCase):
 
     def test_the_catch_all_code_names_no_python_exception(self) -> None:
         # The Go rail's recover() reports the same code, so the two rails agree on it.
-        self.assertEqual(
-            self.judged(lambda p: p["effect"].update(pathScope=None)), ("malformed", ["unhandled-shape"])
-        )
+        found = self.judged(lambda p: p["effect"].update(pathScope=None))
+        self.assertEqual(found, ("malformed", ["unhandled-shape"]))
 
 
 class RetainedTests(unittest.TestCase):
