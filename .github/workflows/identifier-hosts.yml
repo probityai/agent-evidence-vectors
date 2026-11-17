@@ -8,16 +8,17 @@ name: identifier-hosts
 # URI resolves only through GitHub's 301. Creating any repository at
 # probityai/agent-evidence-vocabulary would end the redirect, and the URI would
 # then name whatever that new repository holds. The same holds for
-# probityai/agent-evidence, which was archived by transfer to probityai-archive,
-# so its links resolve only through the same 301. This job fails when either
-# redirect is gone.
+# every other repository listed in scripts/archived-repos.toml, which were archived by
+# transfer to probityai-archive, so their links resolve only through the same 301.
+# This job fails when any of those redirects is gone, when the archive organisation
+# holds a repository the list does not name, or when a home no longer exists.
 
 on:
   schedule:
     - cron: "17 6 * * 1"
   workflow_dispatch:
   pull_request:
-    paths: [".github/workflows/identifier-hosts.yml"]
+    paths: [".github/workflows/identifier-hosts.yml", "scripts/archived-repos.toml", "scripts/archived-repo-gate.py"]
 
 permissions:
   contents: read
@@ -61,12 +62,12 @@ jobs:
             exit 1
           fi
           echo "$uri answers $code to $location, then 200"
-      - name: agent-evidence is still the archived one behind the redirect
-        run: |
-          set -euo pipefail
-          name="$(gh api repos/probityai/agent-evidence --jq .full_name)"
-          if [ "$name" != "probityai-archive/agent-evidence" ]; then
-            echo "::error::probityai/agent-evidence resolves to '$name'; a repository at that path ends the redirect that keeps every old link to the archived repository working"
-            exit 1
-          fi
-          echo "probityai/agent-evidence redirects to $name"
+      # Every archived repository, not only agent-evidence: each old name still redirects to
+      # its archived copy, the archive organisation holds no repository the list does not
+      # name, and every home in scripts/archived-repos.toml still exists.
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+          sparse-checkout: scripts
+      - name: the list of archived repositories matches GitHub
+        run: python3 scripts/archived-repo-gate.py --live
