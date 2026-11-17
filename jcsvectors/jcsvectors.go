@@ -15,6 +15,16 @@
 //		got, err := canonicalize(v.Input)
 //		// got must equal v.Canonical byte for byte
 //	}
+//
+// An implementation that supports a subset of RFC 8785 declares a [Profile]
+// and scores the cases outside it apart, by the [Feature] list each case
+// carries:
+//
+//	in, out, err := jcsvectors.Filter(jcsvectors.ProfileIntegerOnly, vectors)
+//	// a divergence on in is a failure; out is reported as out of profile
+//
+// [ParserDifferential] yields the byte strings two JSON readers read apart,
+// with what RFC 8785 and the bounded I-JSON profile each do with them.
 package jcsvectors
 
 import (
@@ -33,6 +43,10 @@ import (
 //
 //go:embed vectors-a2a-jcs-v01 jcs-byte-vectors
 var FS embed.FS
+
+// source is what readFile reads: FS, except in the test that edits one byte
+// of a copy to prove the digest check refuses it.
+var source fs.FS = FS
 
 const (
 	a2aCorpus  = "vectors-a2a-jcs-v01"
@@ -58,6 +72,11 @@ type Vector struct {
 	// Canonical is the RFC 8785 output for Input. It is nil for a case that
 	// a canonicalizer must refuse.
 	Canonical []byte
+	// Features names what the case exercises, read from its bytes: the kinds
+	// of number token, string escapes, non-ASCII text and input that is not
+	// UTF-8. A [Profile] admits or excludes the case by them. Sorted, with no
+	// repeats.
+	Features []Feature
 }
 
 // Canonical returns every case whose input a canonicalizer must accept, with
@@ -168,7 +187,7 @@ func depthCases() (reject, accept []Vector, err error) {
 		v.Canonical = canonical
 		accept = append(accept, v)
 	}
-	return reject, accept, nil
+	return withFeatures(reject), withFeatures(accept), nil
 }
 
 type a2aManifest struct {
@@ -194,18 +213,41 @@ type a2aVector struct {
 	} `json:"expected"`
 }
 
+// acceptCase is a case RFC 8785 accepts, with its exact output. Bounded and
+// BoundedError say whether the corpus's bounded profile (I-JSON strings and
+// safe integers only) admits it too.
+type acceptCase struct {
+	ID           string `json:"id"`
+	Family       string `json:"family"`
+	Input        string `json:"input"`
+	CanonicalHex string `json:"canonicalHex"`
+	SHA256       string `json:"sha256"`
+	Bounded      string `json:"bounded"`
+	BoundedError string `json:"boundedError"`
+}
+
+// canonical returns the case's pinned output, checked against its digest.
+func (c acceptCase) canonical() ([]byte, error) {
+	canonical, err := hex.DecodeString(c.CanonicalHex)
+	if err != nil || len(canonical) == 0 {
+		return nil, fmt.Errorf("%s case %s: no canonical bytes", byteCorpus, c.ID)
+	}
+	if err := checkDigest(byteCorpus+" case "+c.ID, canonical, c.SHA256); err != nil {
+		return nil, err
+	}
+	return canonical, nil
+}
+
 type byteCases struct {
-	Format         string `json:"format"`
-	CanonicalCases []struct {
-		ID           string `json:"id"`
-		Input        string `json:"input"`
-		CanonicalHex string `json:"canonicalHex"`
-		SHA256       string `json:"sha256"`
-	} `json:"canonicalCases"`
-	RejectCases []struct {
+	Format         string       `json:"format"`
+	CanonicalCases []acceptCase `json:"canonicalCases"`
+	RejectCases    []struct {
 		ID       string `json:"id"`
 		Input    string `json:"input"`
 		JCSError string `json:"jcsError"`
+		// BoundedError is the code an I-JSON reader refuses the input with,
+		// where RFC 8785 alone does not.
+		BoundedError string `json:"boundedError"`
 	} `json:"rejectCases"`
 	DriftCases []struct {
 		ID           string `json:"id"`
@@ -223,20 +265,17 @@ type byteCases struct {
 		CanonicalHex string `json:"canonicalHex"`
 		SHA256       string `json:"sha256"`
 	} `json:"depthCases"`
-	// RefusalCases is input that is not one valid RFC 8785 input at all, which
-	// no profile excuses a canonicalizer for printing. InputHex carries input
-	// that is not UTF-8.
 	// NoncharacterCases put a Unicode noncharacter, or the scalar value next to
 	// one, in a string; RFC 8785 prints each as its UTF-8 bytes, so each is an
 	// accept case here (an I-JSON profile refuses the noncharacters).
-	NoncharacterCases []struct {
-		ID           string `json:"id"`
-		Input        string `json:"input"`
-		CanonicalHex string `json:"canonicalHex"`
-		SHA256       string `json:"sha256"`
-	} `json:"noncharacterCases"`
+	NoncharacterCases []acceptCase `json:"noncharacterCases"`
+	// RefusalCases is input that is not one valid RFC 8785 input at all, which
+	// no profile excuses a canonicalizer for printing. InputHex carries input
+	// that is not UTF-8.
 	RefusalCases []struct {
 		ID       string  `json:"id"`
+		Family   string  `json:"family"`
+		Error    string  `json:"error"`
 		Expect   string  `json:"expect"`
 		Input    *string `json:"input"`
 		InputHex *string `json:"inputHex"`
@@ -252,7 +291,7 @@ func load() (accept, reject []Vector, err error) {
 	if err != nil {
 		return nil, nil, err
 	}
-	return append(accept, byteAccept...), append(reject, byteReject...), nil
+	return withFeatures(append(accept, byteAccept...)), withFeatures(append(reject, byteReject...)), nil
 }
 
 func loadA2A() (accept, reject []Vector, err error) {
@@ -320,16 +359,9 @@ func loadBytes() (accept, reject []Vector, err error) {
 	if cases.Format != "jcs-byte-vectors/v1" {
 		return nil, nil, fmt.Errorf("%s: unknown format %q", byteCorpus, cases.Format)
 	}
-	accepts := cases.CanonicalCases
-	for _, c := range cases.NoncharacterCases {
-		accepts = append(accepts, c)
-	}
-	for _, c := range accepts {
-		canonical, err := hex.DecodeString(c.CanonicalHex)
-		if err != nil || len(canonical) == 0 {
-			return nil, nil, fmt.Errorf("%s case %s: no canonical bytes", byteCorpus, c.ID)
-		}
-		if err := checkDigest(byteCorpus+" case "+c.ID, canonical, c.SHA256); err != nil {
+	for _, c := range append(append([]acceptCase{}, cases.CanonicalCases...), cases.NoncharacterCases...) {
+		canonical, err := c.canonical()
+		if err != nil {
 			return nil, nil, err
 		}
 		accept = append(accept, Vector{ID: c.ID, Corpus: byteCorpus, Input: []byte(c.Input), Canonical: canonical})
@@ -345,28 +377,36 @@ func loadBytes() (accept, reject []Vector, err error) {
 		if c.Expect != "reject" {
 			return nil, nil, fmt.Errorf("%s case %s: a refusal case expects %q, not reject", byteCorpus, c.ID, c.Expect)
 		}
-		var input []byte
-		switch {
-		case c.Input != nil && c.InputHex == nil:
-			input = []byte(*c.Input)
-		case c.Input == nil && c.InputHex != nil:
-			decoded, err := hex.DecodeString(*c.InputHex)
-			if err != nil {
-				return nil, nil, fmt.Errorf("%s case %s: inputHex is not hex", byteCorpus, c.ID)
-			}
-			input = decoded
-		default:
-			return nil, nil, fmt.Errorf("%s case %s: needs exactly one of input and inputHex", byteCorpus, c.ID)
+		input, err := refusalInput(c.ID, c.Input, c.InputHex)
+		if err != nil {
+			return nil, nil, err
 		}
 		reject = append(reject, Vector{ID: c.ID, Corpus: byteCorpus, Input: input})
 	}
 	return accept, reject, nil
 }
 
+// refusalInput is a refusal case's input: its text, or the bytes its hex
+// spells when the input is not UTF-8. A case gives exactly one of the two.
+func refusalInput(id string, text, inputHex *string) ([]byte, error) {
+	switch {
+	case text != nil && inputHex == nil:
+		return []byte(*text), nil
+	case text == nil && inputHex != nil:
+		decoded, err := hex.DecodeString(*inputHex)
+		if err != nil {
+			return nil, fmt.Errorf("%s case %s: inputHex is not hex", byteCorpus, id)
+		}
+		return decoded, nil
+	default:
+		return nil, fmt.Errorf("%s case %s: needs exactly one of input and inputHex", byteCorpus, id)
+	}
+}
+
 // readFile reads an embedded file and checks it against the digest recorded
 // for it when the module was generated.
 func readFile(name string) ([]byte, error) {
-	raw, err := fs.ReadFile(FS, name)
+	raw, err := fs.ReadFile(source, name)
 	if err != nil {
 		return nil, err
 	}
