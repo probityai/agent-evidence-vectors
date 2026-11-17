@@ -403,7 +403,8 @@ def key_history(history: list[dict], key_id: str, issued_at: int) -> Derived:
     Each history entry is {key, authorized_from, retired_at?, revoked_at?}; times are integers in 0 to
     2^53-1. A key may have several entries (re-authorization windows); every entry that names the key is
     read, never only the first. A revocation of the key in any entry applies at its effective time, which
-    may precede its publication: at or before issuance it gives key_revoked. The key was authorized at
+    may precede its publication: at or before issuance it gives key_revoked. An entry that is not an object,
+    or a window whose retired_at precedes its authorized_from, makes the history malformed. The key was authorized at
     issuance when some window [authorized_from, retired_at) holds it. It is key_current only when such a
     window is still open and no revocation is recorded; a retirement or a revocation effective after
     issuance gives key_rotated_out, and the record stays valid. An unnamed key is key_unknown.
@@ -411,6 +412,8 @@ def key_history(history: list[dict], key_id: str, issued_at: int) -> Derived:
     term = "key_history"
     if not _safe_count(issued_at):
         return _refuse(term, "issued-at-outside-the-safe-range")
+    if not isinstance(history, list) or not all(isinstance(e, dict) for e in history):
+        return _refuse(term, "history-entry-malformed")
     entries = [e for e in history if e.get("key") == key_id]
     if not entries:
         return Derived(term, "key_unknown", False, "the history does not name the key")
@@ -419,6 +422,8 @@ def key_history(history: list[dict], key_id: str, issued_at: int) -> Derived:
                                                  if entry.get(k) is not None)]
         if not all(_safe_count(t) for t in times):
             return _refuse(term, "history-entry-malformed")
+        if entry.get("retired_at") is not None and entry["retired_at"] < entry["authorized_from"]:
+            return _refuse(term, "history-window-ends-before-it-starts")
     revocations = [e["revoked_at"] for e in entries if e.get("revoked_at") is not None]
     if any(r <= issued_at for r in revocations):
         return Derived(term, "key_revoked", False, "revoked at or before issuance")
@@ -440,7 +445,7 @@ def trajectory_head_preimage(stream_id: str, last_digest: str, count: int) -> by
     if not stream_id or not last_digest or not _safe_count(count) or any(
             "\n" in field for field in (stream_id, last_digest)):
         raise ValueError("a head names a stream, a digest and a count in 0 to 2^53-1, none spanning a line")
-    return TRAJECTORY_HEAD_DOMAIN + f"{stream_id}\n{last_digest}\n{count}".encode("utf-8")
+    return TRAJECTORY_HEAD_DOMAIN + f"{stream_id}\n{last_digest}\n{count}".encode()
 
 
 def trajectory_head(head: dict | None, stream_id: str, last_digest: str, count: int) -> Derived:
@@ -451,12 +456,15 @@ def trajectory_head(head: dict | None, stream_id: str, last_digest: str, count: 
     booleans say whether the head's signature over ``trajectory_head_preimage`` verifies under a pinned
     witness key the producer does not hold, or under the producer's own key. A head that names no stream,
     or another stream, does not close this one. A head whose digest or count differs from the walk is
-    refused. A head no key verifies is refused, never read as absent.
+    refused. A head whose fields trajectory_head_preimage cannot carry (a field spanning a line) has no signed
+    bytes and is refused, whatever its booleans say. A head no key verifies is refused, never read as absent.
     """
     term = "trajectory_head"
     if head is None:
         return Derived(term, "absent", False, "no signed head; the end of the stream is not established")
-    if not head.get("stream_id"):
+    if not isinstance(head, dict):
+        return _refuse(term, "head-not-an-object")
+    if not head.get("stream_id") or not isinstance(head["stream_id"], str):
         return _refuse(term, "head-names-no-stream")
     if head["stream_id"] != stream_id:
         return _refuse(term, "head-names-another-stream")
@@ -464,6 +472,10 @@ def trajectory_head(head: dict | None, stream_id: str, last_digest: str, count: 
         return _refuse(term, "head-count-differs-from-walk")
     if head.get("digest") != last_digest:
         return _refuse(term, "head-digest-differs-from-walk")
+    try:
+        trajectory_head_preimage(head["stream_id"], head["digest"], head["count"])
+    except (ValueError, TypeError):
+        return _refuse(term, "head-fields-have-no-signed-bytes")
     if head.get("witness_verified") is True:
         return Derived(term, "witnessed", False, "signed under a pinned witness key")
     if head.get("producer_verified") is True:

@@ -1,6 +1,6 @@
 {
   "source": "vocabulary.yaml",
-  "source_sha256": "1f1966c417b9175242af7210eca43db29cd910f80f266685184eae12fa6653cb",
+  "source_sha256": "4bbc4e3061ac7fb8fb691082fd57842704a70563cd149ec660f5970538ec5be7",
   "term_uri_base": "https://w3id.org/agent-evidence/vocab/v1/",
   "terms": {
     "acceptance_observed": {
@@ -1227,7 +1227,7 @@
     },
     "trajectory_head": {
       "criticality": "critical",
-      "definition": "What fixes the end of a record stream. A digest chain proves its middle and its start, and says nothing about records cut from the end: the producer, or anyone holding its storage, can truncate the tail and every remaining record still verifies. Only a head signed by a key outside the producer's reach turns \"these records verify\" into \"these are all the records up to this point\". producer_signed fixes the end against a third party who edits storage, never against the producer itself. The head names the stream it closes: a head over a digest and a count alone can be presented as the end of another stream by the same producer, so one stream's head would close a second, truncated one. The signed bytes are the stream identity, the last digest and the count under a signing domain that names the head, so a head signature is never valid as a record signature or the reverse.",
+      "definition": "What fixes the end of a record stream. A digest chain proves its middle and its start, and says nothing about records cut from the end: the producer, or anyone holding its storage, can truncate the tail and every remaining record still verifies. Only a head signed by a key outside the producer's reach turns \"these records verify\" into \"these are all the records up to this point\". producer_signed fixes the end against a third party who edits storage, never against the producer itself. The head names the stream it closes: a head over a digest and a count alone can be presented as the end of another stream by the same producer, so one stream's head would close a second, truncated one. The signed bytes are the stream identity, the last digest and the count under a signing domain that names the head, so a head signature is never valid as a record signature or the reverse. Exactly: the ASCII bytes agent-evidence/record-binding/v1/trajectory-head, one byte 0x0A, the stream identity, 0x0A, the last digest, 0x0A, then the count in decimal ASCII digits with no sign and no leading zero, with nothing after it. The identity and the digest are the exact strings the head carries, UTF-8 encoded with no normalization; neither may be empty or contain 0x0A, and the count is an integer in 0 to 2^53-1.",
       "section": "record_binding",
       "uri": "https://w3id.org/agent-evidence/vocab/v1/trajectory_head",
       "value_definitions": {

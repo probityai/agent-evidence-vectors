@@ -2920,14 +2920,22 @@ record_binding:
       producer, so one stream's head would close a second, truncated one.
       The signed bytes are the stream identity, the last digest and the
       count under a signing domain that names the head, so a head signature
-      is never valid as a record signature or the reverse.
+      is never valid as a record signature or the reverse. Exactly: the
+      ASCII bytes agent-evidence/record-binding/v1/trajectory-head, one byte
+      0x0A, the stream identity, 0x0A, the last digest, 0x0A, then the count
+      in decimal ASCII digits with no sign and no leading zero, with nothing
+      after it. The identity and the digest are the exact strings the head
+      carries, UTF-8 encoded with no normalization; neither may be empty or
+      contain 0x0A, and the count is an integer in 0 to 2^53-1.
     check: >
       A verifier reports witnessed only when the head's signature verifies
       under a pinned witness key, the head's stream identity equals the
       identity the consumer asked for, the head's digest equals the digest of
       the last record it walked and the count equals the number walked. A
       head with no stream identity, or one naming a different stream, does
-      not close the stream being read. registry.trajectory_head applies the
+      not close the stream being read. A head whose identity or digest
+      contains 0x0A has no signed bytes and is refused, whatever a signature
+      check reported. registry.trajectory_head applies the
       rule and registry.trajectory_head_preimage builds the signed bytes. It reports
       a stream with an absent head as complete only up to an end it could not
       establish, and never as complete.
@@ -3085,7 +3093,9 @@ record_binding:
     check: >
       A verifier evaluates the history at the record's issuance time, not at
       the time of checking, and only when the issuance time is itself bound
-      by the signature. A revocation for compromise is applied at its
+      by the signature. It refuses a history whose entry is not an object or
+      whose window ends (retired_at) before it starts (authorized_from),
+      never reading it as an empty window. A revocation for compromise is applied at its
       effective time, which may precede its publication. It reads every
       entry that names the key (a key may hold several authorization
       windows), never only the first, so a later entry that revokes the key

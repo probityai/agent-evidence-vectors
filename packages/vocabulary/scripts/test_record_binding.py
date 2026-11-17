@@ -212,6 +212,8 @@ _HISTORY = [
     {"key": "k-window", "authorized_from": 0, "retired_at": 100},
     {"key": "k-window", "authorized_from": 300},
     {"key": "k-bad", "authorized_from": True},
+    # A window that ends before it starts is a malformed entry, never an empty window.
+    {"key": "k-backwards", "authorized_from": 300, "retired_at": 100},
 ]
 
 #: (key, issued_at, expected value)
@@ -227,7 +229,8 @@ _KEYS = (
     ("k-window", 200, "key_not_authorized_at_issue"),
     ("k-window", 50, "key_rotated_out"),
     ("k-window", 350, "key_current"),
-    ("k-bad", 200, None),
+    ("k-bad", 200, "history-entry-malformed"),
+    ("k-backwards", 200, "history-window-ends-before-it-starts"),
     ("k-nobody", 200, "key_unknown"),
 )
 
@@ -261,6 +264,12 @@ def _check_heads(registry) -> list[str]:
     one = registry.trajectory_head_preimage("s1", "d9", 9)
     if not one.startswith(registry.TRAJECTORY_HEAD_DOMAIN) or one == registry.trajectory_head_preimage("s2", "d9", 9):
         failures.append("trajectory_head_preimage does not bind the stream under the head domain")
+    # A head whose fields span a line has no signed bytes, so no boolean can make it verify.
+    for stream, digest in (("s1\nd9", "d9"), ("s1", "d9\nx")):
+        head = {"stream_id": stream, "digest": digest, "count": 9, "witness_verified": True}
+        got = _label(registry.trajectory_head(head, stream, digest, 9))
+        if got != "head-fields-have-no-signed-bytes":
+            failures.append(f"trajectory_head over {stream!r}, {digest!r} gave {got!r}, expected a refusal")
     for bad in (("", "d9", 9), ("s1\nd9", "d9", 9), ("s1", "d9", -1)):
         try:
             registry.trajectory_head_preimage(*bad)
@@ -286,11 +295,14 @@ def _check_derivations(registry) -> tuple[list[str], int]:
         if got != expected:
             failures.append(f"sequence_numbers({seqs!r}, {start!r}) gave {got!r}, expected {expected!r}")
     for key, issued_at, expected in _KEYS:
-        got = registry.key_history(_HISTORY, key, issued_at).value
+        got = _label(registry.key_history(_HISTORY, key, issued_at))
         if got != expected:
             failures.append(f"key_history({key!r}, {issued_at}) gave {got!r}, expected {expected!r}")
+    got = _label(registry.key_history([*_HISTORY, "k-current"], "k-current", 200))
+    if got != "history-entry-malformed":
+        failures.append(f"key_history with an entry that is not an object gave {got!r}, expected a refusal")
     failures.extend(_check_heads(registry))
-    return failures, len(_NUMBERS) + len(_SEQUENCES) + len(_STARTS) + len(_KEYS) + len(_HEADS) + 4
+    return failures, len(_NUMBERS) + len(_SEQUENCES) + len(_STARTS) + len(_KEYS) + len(_HEADS) + 7
 
 
 def main() -> int:
