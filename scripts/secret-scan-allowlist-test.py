@@ -82,7 +82,10 @@ DNS_AID_X = _DNS_AID_CASE["jwks"]["keys"][0]["x"]
         ("corpora/vectors-credential-release/gen_vectors.py",
          f'cred = dict(token="{EMPTY_JWT}")\n'),
         (JWS_PATH, AGREEMENT),
-        (DNS_AID, f'{{\n "jwks": {{"keys": [{{"x": "{DNS_AID_X}"}}]}},\n "sig": "{DNS_AID_SIG}"\n}}\n'),
+        (
+            DNS_AID,
+            f'{{\n "jwks": {{"keys": [{{"x": "{DNS_AID_X}"}}]}},\n "sig": "{DNS_AID_SIG}"\n}}\n',
+        ),
     ],
 )
 def test_the_fixture_shapes_scan_clean(tmp_path: Path, relpath: str, text: str) -> None:
