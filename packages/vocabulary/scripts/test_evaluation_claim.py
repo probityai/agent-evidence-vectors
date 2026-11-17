@@ -7,7 +7,7 @@ them; the guide at docs/evaluation-claim.md names every term and every value; ev
 accepted and an unregistered one refused through registry.check_value; the real validator
 accepts a crosswalk that maps the section and refuses one that files a term under the wrong
 section; and the reference derivations (the payment-scope/v1 evaluator, asserted-verdict
-re-derivation, the three-valued decision, check order, vacuity, signer distinctness,
+re-derivation, the three-valued decision, check order, vacuity, evidence attribution, signer distinctness,
 lifecycle binding with three rule-deletion mutants, and the time bounds) give the expected
 value for each case. Nothing is restated here.
 
@@ -321,6 +321,18 @@ _TIMES = (
 )
 
 
+#: (signer verifies, co-signature: None absent, else whether it verifies, expected value or refusal code).
+_ATTRIBUTION = (
+    (True, True, "co_signed"),
+    (True, None, "single_signed"),
+    (True, False, "unattributed_evidence"),
+    (False, None, "unattributed_evidence"),
+    (False, True, "unattributed_evidence"),
+    ("yes", None, "attribution-result-not-a-boolean"),
+    (True, 1, "attribution-result-not-a-boolean"),
+)
+
+
 def _label(derived) -> str:
     return derived.reason if derived.refused and derived.value is None else derived.value
 
@@ -405,6 +417,10 @@ def _check_derivations(registry) -> tuple[list[str], int]:
         got = _label(registry.vacuity_witness(passed, witness))
         if got != expected:
             failures.append(f"vacuity_witness({passed}, {witness}) gave {got!r}, expected {expected!r}")
+    for signature, cosignature, expected in _ATTRIBUTION:
+        got = _label(registry.evidence_attribution(signature, cosignature))
+        if got != expected:
+            failures.append(f"evidence_attribution({signature}, {cosignature}) gave {got!r}, expected {expected!r}")
     for named, sigs, required, issuer, expected in _SIGNERS:
         got = _label(registry.signer_distinctness(named, sigs, required, issuer))
         if got != expected:
@@ -451,7 +467,7 @@ def _check_derivations(registry) -> tuple[list[str], int]:
     if got != "in-bounds":
         failures.append(f"time_bounds with no anchor time asked for anchor_early_allowance and gave {got!r}")
     failures.extend(_lifecycle_mutants(registry))
-    count = (len(_PAYMENTS) + len(_MALFORMED) + 2 + len(_ASSERTED) + len(_DECISIONS) + len(_REPORTS) + len(_VACUITY)
+    count = (len(_PAYMENTS) + len(_MALFORMED) + 2 + len(_ASSERTED) + len(_DECISIONS) + len(_REPORTS) + len(_VACUITY) + len(_ATTRIBUTION)
              + len(_SIGNERS) + len(_LIFECYCLE) + len(_TIMES) + 11)
     return failures, count
 

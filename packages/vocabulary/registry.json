@@ -1,6 +1,6 @@
 {
   "source": "vocabulary.yaml",
-  "source_sha256": "a1e0b140ca514cc8e1d5c9fc86aa9a80f25ef4ab8b7394255c59657c59405860",
+  "source_sha256": "5f779b5e141ee7d8a5fdeef39d31674f89e4bea81a7327dfed90605f899502e2",
   "term_uri_base": "https://w3id.org/agent-evidence/vocab/v1/",
   "terms": {
     "acceptance_observed": {
@@ -255,7 +255,7 @@
     },
     "conformance_extension": {
       "criticality": "informational",
-      "definition": "An identifier an agent card or capability document lists among its declared extensions to state that the records its agent emits are judged by a named corpus revision under a named verifier. The identifier is this term's own URI, https://w3id.org/agent-evidence/vocab/v1/conformance_extension, written inside the signed card, so the statement is covered by the card's signature: removing it invalidates the card. Its parameters name the corpus and its pinned version, and the verifier and its pinned version. The statement is a claim by the card's signer that a third party checks by running the named verifier on the named corpus; it is never a claim that the agent behaves well.",
+      "definition": "An identifier an agent card or capability document lists among its declared extensions to state that the records its agent emits are judged by a named corpus revision under a named verifier. The identifier is this term's own URI, https://w3id.org/agent-evidence/vocab/v1/conformance_extension, written inside the signed card, so the statement is covered by the card's signature: removing it invalidates the card. Its params object carries exactly four members, each a non-empty string: corpus (the corpus package name), corpus_version, verifier (the verifier package name) and verifier_version. A version is one exact release (digits and dots, an optional pre-release tag), never a range. The card lists the extension once. The statement is a claim by the card's signer that a third party checks by running the named verifier on the named corpus; it is never a claim that the agent behaves well.",
       "section": "evaluation_claim",
       "uri": "https://w3id.org/agent-evidence/vocab/v1/conformance_extension",
       "value_definitions": {},
