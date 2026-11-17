@@ -2,7 +2,7 @@
 
 Every function here runs under ``python -S`` with nothing installed, because the
 conformance mode (scripts/action-conformance.py) runs before any setup step and
-the job summary (scripts/action-summary.py) must agree with it. Five things live
+the job summary (scripts/action-summary.py) must agree with it. Six things live
 here, each answering one question a green run used to leave open:
 
 * ``count_cases``: how many cases the corpus lists and how many are on this
@@ -19,6 +19,7 @@ here, each answering one question a green run used to leave open:
   and the summary says so.
 * ``read_expected``: the expected-verdicts file of the conformance mode.
 * ``ACCEPT_KINDS``: the member kinds that expect acceptance, across readers.
+* ``split_command``: a verifier command line as argv, on Windows too.
 """
 
 from __future__ import annotations
@@ -26,6 +27,7 @@ from __future__ import annotations
 import json
 import os
 import re
+import shlex
 from collections.abc import Iterable
 from pathlib import Path, PurePosixPath
 from typing import Any
@@ -51,10 +53,6 @@ FEATURES = frozenset(
 
 _NUMBER = re.compile(r"-?(?:0|[1-9][0-9]*)(?:\.[0-9]+)?(?:[eE][+-]?[0-9]+)?")
 _STRING = re.compile(r'"(?:[^"\\]|\\.)*"', re.DOTALL)
-_NON_ASCII_ESCAPE = re.compile(
-    r"\\u(?:00[89a-fA-F][0-9a-fA-F]|0[1-9a-fA-F][0-9a-fA-F]{2}|[1-9a-fA-F][0-9a-fA-F]{3})"
-)
-_SURROGATE = re.compile(r"\\u[dD][89abAB][0-9a-fA-F]{2}|\\u[dD][c-fC-F][0-9a-fA-F]{2}")
 
 
 # ---------------------------------------------------------------- corpus members
@@ -114,21 +112,24 @@ def count_cases(
     ``missingOnDisk`` names listed files this runner cannot see; ``missingFromReport``
     names listed members the replay did not score. A report that names a target
     scores only the members that target owns, so for it the count gap is given
-    and no member is named.
+    and no member is named. ``filesOnDisk`` counts every file under the
+    directory, so a directory with files and no MANIFEST.json is never read as
+    an empty one.
     """
     manifest = manifest_of(corpus_dir)
+    disk = files_on_disk(corpus_dir) if os.path.isdir(corpus_dir) else set()
     if manifest is None:
         return {
             "manifest": False,
             "listed": 0,
             "present": 0,
+            "filesOnDisk": len(disk),
             "missingOnDisk": [],
             "missingFromReport": [],
             "reportGap": 0,
             "os": os.name,
         }
     members = listed_members(manifest)
-    disk = files_on_disk(corpus_dir)
     missing_disk = sorted(m["path"] for m in members if m["path"] not in disk)
     missing_report: list[str] = []
     gap = 0
@@ -147,6 +148,7 @@ def count_cases(
         "manifest": True,
         "listed": len(members),
         "present": len(members) - len(missing_disk),
+        "filesOnDisk": len(disk),
         "missingOnDisk": missing_disk,
         "missingFromReport": missing_report,
         "reportGap": gap,
@@ -157,31 +159,118 @@ def count_cases(
 # ---------------------------------------------------------------- profiles
 
 
+class _Number:
+    """A number token as the text spells it: the json hooks below keep the spelling."""
+
+    __slots__ = ("token",)
+
+    def __init__(self, token: str) -> None:
+        self.token = token
+
+
+def _refuse_constant(name: str) -> Any:
+    raise ValueError(f"{name} is not a JSON number")
+
+
+def _parsed(text: str) -> Any:
+    """``text`` parsed with every number kept as its token; raises ValueError.
+
+    ``NaN`` and ``Infinity`` are refused rather than read as numbers: they are
+    not JSON, so a member that carries one needs no float support to be
+    rejected, and it stays inside ``integer-only``.
+    """
+    return json.loads(
+        text,
+        parse_int=_Number,
+        parse_float=_Number,
+        parse_constant=_refuse_constant,
+        strict=False,
+    )
+
+
+def _number_features(token: str, found: set[str]) -> None:
+    if not re.fullmatch(r"-?[0-9]+", token):
+        found.add("non-integer-number")
+    elif abs(int(token)) > SAFE_INTEGER:
+        found.add("unsafe-integer")
+    if re.fullmatch(r"-0(?:\.0+)?(?:[eE][+-]?[0-9]+)?", token):
+        found.add("negative-zero")
+
+
+def _string_features(value: str, found: set[str]) -> None:
+    if any(0xD800 <= ord(ch) <= 0xDFFF for ch in value):
+        found.add("surrogate-escape")
+    if any(ord(ch) > 0x7F for ch in value):
+        found.add("non-ascii")
+
+
+def _scan_value(value: Any, found: set[str]) -> None:
+    """Features of a value parsed by ``_parsed``, keys included."""
+    stack = [value]
+    while stack:
+        item = stack.pop()
+        if isinstance(item, _Number):
+            _number_features(item.token, found)
+        elif isinstance(item, str):
+            _string_features(item, found)
+        elif isinstance(item, dict):
+            for key, inner in item.items():
+                _string_features(key, found)
+                stack.append(inner)
+        elif isinstance(item, list):
+            stack.extend(item)
+
+
 def _scan_text(text: str, found: set[str]) -> None:
     """Features of JSON text, read from its tokens rather than a parsed value.
 
-    Parsing first would lose what a profile is about: ``1.0`` and ``1`` parse
-    to equal numbers, ``-0`` to ``0``, and an escaped lone surrogate to a
-    string Python cannot encode.
+    Parsing to Python values would lose what a profile is about: ``1.0`` and
+    ``1`` parse to equal numbers and ``-0`` to ``0``. So the text is parsed with
+    every number kept as its token. Text that does not parse (a must-reject
+    input) is scanned token by token, each string token decoded on its own, so
+    an escaped backslash before ``u00e9`` reads as the ASCII text it is.
     """
+    try:
+        _scan_value(_parsed(text), found)
+        return
+    except (ValueError, RecursionError):
+        pass
     for match in _STRING.finditer(text):
         token = match.group(0)
-        if _SURROGATE.search(token):
-            found.add("surrogate-escape")
-        if any(ord(ch) > 0x7F for ch in token) or _NON_ASCII_ESCAPE.search(token):
-            found.add("non-ascii")
+        try:
+            _string_features(json.loads(token, strict=False), found)
+        except ValueError:
+            _string_features(_unescaped(token), found)
     stripped = _STRING.sub('""', text)
     for match in _NUMBER.finditer(stripped):
-        token = match.group(0)
         start = match.start()
         if start and (stripped[start - 1].isalnum() or stripped[start - 1] in "_."):
             continue
-        if any(c in token for c in ".eE"):
-            found.add("non-integer-number")
-        elif abs(int(token)) > SAFE_INTEGER:
-            found.add("unsafe-integer")
-        if re.fullmatch(r"-0(?:\.0+)?(?:[eE][+-]?[0-9]+)?", token):
-            found.add("negative-zero")
+        _number_features(match.group(0), found)
+
+
+def _unescaped(token: str) -> str:
+    """A string token that does not decode, with each ``\\uXXXX`` escape read by parity.
+
+    Only an escape preceded by an even number of backslashes is an escape; the
+    rest of the token is kept as written.
+    """
+    out: list[str] = []
+    index = 0
+    while index < len(token):
+        ch = token[index]
+        if ch == "\\" and index + 1 < len(token):
+            nxt = token[index + 1]
+            if nxt == "u" and re.fullmatch(r"[0-9a-fA-F]{4}", token[index + 2 : index + 6]):
+                out.append(chr(int(token[index + 2 : index + 6], 16)))
+                index += 6
+                continue
+            out.append(nxt)
+            index += 2
+            continue
+        out.append(ch)
+        index += 1
+    return "".join(out)
 
 
 def features_of(raw: bytes, declared: Iterable[str] | None = None) -> set[str]:
@@ -189,39 +278,30 @@ def features_of(raw: bytes, declared: Iterable[str] | None = None) -> set[str]:
 
     A manifest entry that declares ``features`` is taken at its word. Otherwise
     the member's input is scanned: ``input_raw`` verbatim, else the file's own
-    JSON text (the a2a vectors keep their numbers as written in the file).
+    top-level ``input`` member as the file spells it (the a2a vectors keep their
+    numbers as written in the file), else the whole file. The ``input`` member
+    is the top-level one of the parsed document, never the first key spelled
+    ``input`` anywhere in the text: a nested ``"input": 1.5`` before an integer
+    top-level input moved a member out of ``integer-only`` and excused its
+    failure.
     """
     if declared is not None:
         return {str(f) for f in declared}
     text = raw.decode("utf-8", errors="surrogatepass")
     found: set[str] = set()
     try:
-        document = json.loads(text)
-    except ValueError:
+        document = _parsed(text)
+    except (ValueError, RecursionError):
         document = None
     if isinstance(document, dict) and isinstance(document.get("input_raw"), str):
         _scan_text(document["input_raw"], found)
     elif isinstance(document, dict) and "input" in document:
-        _scan_text(_member_text(text, "input"), found)
+        _scan_value(document["input"], found)
+    elif document is not None:
+        _scan_value(document, found)
     else:
         _scan_text(text, found)
     return found
-
-
-def _member_text(text: str, name: str) -> str:
-    """The JSON text of one top-level member, sliced from the file as written.
-
-    ``raw_decode`` finds where the value ends; the slice keeps every token as
-    the file spells it, which the parsed value would not.
-    """
-    match = re.search(r'"' + re.escape(name) + r'"\s*:\s*', text)
-    if match is None:
-        return text
-    try:
-        _value, end = json.JSONDecoder().raw_decode(text, match.end())
-    except ValueError:
-        return text[match.end() :]
-    return text[match.end() : end]
 
 
 def load_profile(spec: str) -> dict[str, Any]:
@@ -256,11 +336,19 @@ def load_profile(spec: str) -> dict[str, Any]:
 
 
 def member_features(corpus_dir: str | os.PathLike[str]) -> dict[str, set[str]]:
-    """Features of every listed member, by member id."""
+    """Features of every listed member, by member id and by the id inside its file.
+
+    An id two members both answer to (one member's manifest id is another's
+    inner id) names no single member, so it is kept with no feature, which keeps
+    a row carrying it inside every profile: one member's float input cannot
+    excuse another member's failure.
+    """
     manifest = manifest_of(corpus_dir)
     out: dict[str, set[str]] = {}
     if manifest is None:
         return out
+    owner: dict[str, str] = {}
+    ambiguous: set[str] = set()
     for member in listed_members(manifest):
         path = Path(corpus_dir) / member["path"]
         try:
@@ -268,13 +356,20 @@ def member_features(corpus_dir: str | os.PathLike[str]) -> dict[str, set[str]]:
         except OSError:
             continue
         declared = member["entry"].get("features")
-        out[member["id"]] = features_of(raw, declared if isinstance(declared, list) else None)
+        found = features_of(raw, declared if isinstance(declared, list) else None)
         try:
             inner = json.loads(raw)
         except ValueError:
             inner = None
+        names = {member["id"]}
         if isinstance(inner, dict) and isinstance(inner.get("id"), str):
-            out[inner["id"]] = out[member["id"]]
+            names.add(inner["id"])
+        for name in names:
+            if owner.setdefault(name, member["path"]) != member["path"]:
+                ambiguous.add(name)
+            out[name] = found
+    for name in ambiguous:
+        out[name] = set()
     return out
 
 
@@ -395,6 +490,14 @@ _VALID = {"valid", "accept", "pass", "must-accept", "ok", "0"}
 _INVALID = {"invalid", "reject", "fail", "must-reject", "1"}
 
 
+class _PairedDict(dict):  # type: ignore[type-arg]
+    """A JSON object that also keeps every key-value pair as written, duplicates included."""
+
+    def __init__(self, pairs: list[tuple[str, Any]]) -> None:
+        super().__init__(pairs)
+        self.pairs = pairs
+
+
 def read_expected(path: str | os.PathLike[str]) -> dict[str, str]:
     """An expected-verdicts file: case path to ``valid`` or ``invalid``.
 
@@ -407,14 +510,18 @@ def read_expected(path: str | os.PathLike[str]) -> dict[str, str]:
     pairs: list[tuple[str, str]] = []
     stripped = text.lstrip()
     if stripped.startswith("{"):
-        document = json.loads(text)
+        # Pairs, not a dict: json.loads keeps the last of two equal keys, so a
+        # case listed `valid` and then `invalid` would be judged once, silently.
+        document = json.loads(text, object_pairs_hook=_PairedDict)
         cases = document.get("cases", document) if isinstance(document, dict) else None
-        if not isinstance(cases, dict):
+        if not isinstance(cases, _PairedDict):
             raise ValueError(f"{path}: a JSON expected-verdicts file maps each case to a verdict")
-        pairs = [(str(k), str(v)) for k, v in cases.items()]
+        pairs = [(str(k), str(v)) for k, v in cases.pairs]
     else:
         for number, line in enumerate(text.splitlines(), 1):
-            line = line.split("#", 1)[0].strip()
+            # `#` starts a comment at the start of a line or after whitespace;
+            # inside a path (`cases/#12.json`) it is part of the name.
+            line = re.split(r"(?:^|\s)#", line, maxsplit=1)[0].strip()
             if not line:
                 continue
             parts = line.rsplit(None, 1)
@@ -434,3 +541,22 @@ def read_expected(path: str | os.PathLike[str]) -> dict[str, str]:
     if len(out) != len(pairs):
         raise ValueError(f"{path}: a case is listed twice")
     return out
+
+
+# ---------------------------------------------------------------- command lines
+
+
+def split_command(text: str, windows: bool = os.name == "nt") -> list[str]:
+    """A verifier command line as argv.
+
+    On Windows ``shlex`` runs in non-POSIX mode, which keeps the quotes around a
+    quoted word (``"C:\\Program Files\\v.exe"`` stays quoted and names no
+    file), so a word wrapped in one pair of quotes loses them. An empty command
+    is refused: with no verifier the case file itself would be run.
+    """
+    words = shlex.split(text, posix=not windows)
+    if windows:
+        words = [w[1:-1] if len(w) > 1 and w[0] == w[-1] and w[0] in "\"'" else w for w in words]
+    if not words:
+        raise ValueError("no verifier named: the action runs `<verifier> <file>`")
+    return words
