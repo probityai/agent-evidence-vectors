@@ -11,7 +11,7 @@ Name the rule that turns a record's inputs into its verdict, the outcomes of re-
 | `verification_decision` | the verifier's decision on one record, with a third outcome | rejected if any check failed; indeterminate only when none failed and one was undecided; exit status 0, 1 or 2 |
 | `check_outcome` | the outcome of one check in a fixed-order verification | every check after the first failure is `not_evaluated`, never `pass` |
 | `vacuity_witness` | whether a property reported as holding was ever exercised | a pass with a falsified witness is refused and the case counts as not run |
-| `evidence_attribution` | which parties a record binds | two signatures bind two parties; they never prove the record true or the parties independent |
+| `evidence_attribution` | which parties a record binds | decided with key authority: a key that may not speak for its party binds none; two signatures bind two parties and never prove the record true or the parties independent |
 | `signer_distinctness` | whether the signers counted toward a threshold are distinct keys and distinct authorities | a count met only by counting a key or an authority twice is refused; the issuer's own key listed among the signers is refused whatever the count; a required count below 1 is refused |
 | `lifecycle_binding` | whether the authenticated execution report names the action the authenticated control authorized | grouped by decision and instruction, every pair compared, five states |
 | `on_behalf_of` | the party an agent acted for | reported next to the signer that attributed it; never read as consent |
@@ -19,7 +19,7 @@ Name the rule that turns a record's inputs into its verdict, the outcomes of re-
 | `anchor_early_allowance` | the early bound on a record's external time anchor | an anchor earlier than issuance minus the allowance is refused; never borrowed from the late bound |
 | `block_time_allowance` | the seconds added to one bound for the uncertainty of an anchor's clock | applied only to the bound it is declared for |
 | `clock_skew_tolerance` | how far a record's issuance time may lie in the verifier's future | the future bound is the skew alone, never the maximum age |
-| `conformance_extension` | an extension URI in a signed agent card naming the corpus and verifier its records are judged by | read only inside a card whose signature verifies under its own DID's key; `params` is exactly `corpus`, `corpus_version`, `verifier`, `verifier_version`, versions exact |
+| `conformance_extension` | an extension URI in a signed agent card naming the corpus and verifier its records are judged by | read only inside a card whose signature verifies under its own DID's key; `params` is exactly `corpus`, `corpus_version`, `verifier`, `verifier_version`, each version a normalized PEP 440 public version or SemVer 2.0.0 without build metadata |
 
 ## The values
 

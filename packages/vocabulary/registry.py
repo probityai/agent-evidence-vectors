@@ -658,19 +658,27 @@ def vacuity_witness(passed: bool, witness: bool | None) -> Derived:
     return Derived(term, "witnessed", False, "the guarded state is reachable")
 
 
-def evidence_attribution(signature_verifies: bool, cosignature: bool | None) -> Derived:
-    """Which parties a signed record binds: the signer's signature, then any co-signature.
+def evidence_attribution(signature_verifies: bool, cosignature: bool | None, authorized: bool | None) -> Derived:
+    """Which parties a signed record binds: the signer's signature, then any co-signature, then key authority.
 
     ``cosignature`` is None when the record carries no co-signature, else whether it verifies under a key
-    other than the signer's. A co-signature that is present and does not verify makes the record
-    unattributed evidence, never single-signed: the record claims a binding it does not have. A result
+    other than the signer's. ``authorized`` is whether key authority lets every signing key speak for its
+    own party, None while it is undecided. A co-signature that is present and does not verify makes the
+    record unattributed evidence, never single-signed: the record claims a binding it does not have. A key
+    the authority refuses binds no party, so the record is unattributed evidence too. With every present
+    signature verifying and authority undecided there is no value yet, and the derivation refuses. A result
     that is not a boolean is refused, never read by truthiness.
     """
     term = "evidence_attribution"
-    if not isinstance(signature_verifies, bool) or (cosignature is not None and not isinstance(cosignature, bool)):
+    if (not isinstance(signature_verifies, bool) or (cosignature is not None and not isinstance(cosignature, bool))
+            or (authorized is not None and not isinstance(authorized, bool))):
         return _refuse(term, "attribution-result-not-a-boolean")
     if not signature_verifies or cosignature is False:
         return Derived(term, "unattributed_evidence", False, "a signature that is present does not verify")
+    if authorized is None:
+        return _refuse(term, "attribution-authority-undecided")
+    if not authorized:
+        return Derived(term, "unattributed_evidence", False, "key authority refuses a signing key for its party")
     if cosignature is None:
         return Derived(term, "single_signed", False, "one party signed")
     return Derived(term, "co_signed", False, "two parties with distinct keys signed the same bytes")

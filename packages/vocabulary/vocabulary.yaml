@@ -3287,9 +3287,9 @@ evaluation_claim:
     review_by: "2027-05-15"
     values: [co_signed, single_signed, unattributed_evidence]
     value_definitions:
-      co_signed: "Two parties with distinct keys signed the same record bytes, and both signatures verify."
-      single_signed: "One party signed the record."
-      unattributed_evidence: "The record carries no verifying signature, or a co-signature member that is present does not verify; the evidence is attributed to no party."
+      co_signed: "Two parties with distinct keys signed the same record bytes, both signatures verify, and key authority lets each key speak for its own party."
+      single_signed: "One party signed the record, the signature verifies, and key authority lets the key speak for that party."
+      unattributed_evidence: "The record carries no verifying signature, a co-signature member that is present does not verify, or key authority refuses a signing key for its party; the evidence is attributed to no party."
     definition: >
       Which parties a record binds. Two signatures bind two parties to one
       record. They do not prove the record true, and they do not prove the
@@ -3297,12 +3297,18 @@ evaluation_claim:
       parties can agree on a false statement. A co-signature that is present
       and does not verify is not a weaker co-signature; it makes the record
       unattributed evidence, because the record claims a binding it does not
-      have.
+      have. A signature under a key that may not speak for its party binds no
+      party either, so the value is decided with key authority: a forger who
+      signs as the agent under a key of his own makes the record unattributed
+      evidence, not co-signed.
     check: >
-      A verifier reports co_signed only when both signatures verify under keys
-      whose authority paths are distinct, reports a present co-signature that
-      fails as unattributed_evidence, and never raises a verdict about the
-      record's content because a second signature is present.
+      A verifier reports co_signed only when both signatures verify under two
+      distinct keys and key authority, asked about each key with that party
+      as the subject, lets each speak for its own party; reports a present
+      signature that fails, or a key an authority refuses, as
+      unattributed_evidence; reports no value while key authority is
+      undecided; and never raises a verdict about the record's content
+      because a second signature is present.
     source_path: "the signature and co-signature members of a receipt"
     issuers_in_production: []
     promotion_trigger: "An independently maintained producer that is not us emits co-signed receipts and a verifier that is not ours checks both signatures by this rule, filing a crosswalk with evidence: emitted."
@@ -3560,9 +3566,12 @@ evaluation_claim:
       signature: removing it invalidates the card. Its params object carries
       exactly four members, each a non-empty string: corpus (the corpus
       package name), corpus_version, verifier (the verifier package name) and
-      verifier_version. A version is one exact release (digits and dots, an
-      optional pre-release tag), never a range. The card lists the extension
-      once. The statement is a claim by the card's signer that a third party
+      verifier_version. A version is one exact release in one spelling: a
+      normalized PEP 440 public version (0.7.0, 1.0rc1, 0.7.0.post1, 2.0.dev3)
+      or a SemVer 2.0.0 version without build metadata (1.0.0-rc.1). Leading
+      zeros, spellings PEP 440 normalizes away (1.0-rc1, 1.0.0alpha), an
+      epoch, a local label, build metadata and any range, operator or
+      wildcard are refused. The card lists the extension once. The statement is a claim by the card's signer that a third party
       checks by running the named verifier on the named corpus; it is never a
       claim that the agent behaves well.
     check: >

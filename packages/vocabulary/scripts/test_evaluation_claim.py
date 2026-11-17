@@ -321,15 +321,22 @@ _TIMES = (
 )
 
 
-#: (signer verifies, co-signature: None absent, else whether it verifies, expected value or refusal code).
+#: (signer verifies, co-signature: None absent, else whether it verifies, every key authorised: None
+#: undecided, expected value or refusal code).
 _ATTRIBUTION = (
-    (True, True, "co_signed"),
-    (True, None, "single_signed"),
-    (True, False, "unattributed_evidence"),
-    (False, None, "unattributed_evidence"),
-    (False, True, "unattributed_evidence"),
-    ("yes", None, "attribution-result-not-a-boolean"),
-    (True, 1, "attribution-result-not-a-boolean"),
+    (True, True, True, "co_signed"),
+    (True, None, True, "single_signed"),
+    (True, False, True, "unattributed_evidence"),
+    (True, False, None, "unattributed_evidence"),
+    (False, None, None, "unattributed_evidence"),
+    (False, True, True, "unattributed_evidence"),
+    (True, True, False, "unattributed_evidence"),
+    (True, None, False, "unattributed_evidence"),
+    (True, True, None, "attribution-authority-undecided"),
+    (True, None, None, "attribution-authority-undecided"),
+    ("yes", None, True, "attribution-result-not-a-boolean"),
+    (True, 1, True, "attribution-result-not-a-boolean"),
+    (True, None, 1, "attribution-result-not-a-boolean"),
 )
 
 
@@ -417,10 +424,11 @@ def _check_derivations(registry) -> tuple[list[str], int]:
         got = _label(registry.vacuity_witness(passed, witness))
         if got != expected:
             failures.append(f"vacuity_witness({passed}, {witness}) gave {got!r}, expected {expected!r}")
-    for signature, cosignature, expected in _ATTRIBUTION:
-        got = _label(registry.evidence_attribution(signature, cosignature))
+    for signature, cosignature, authorized, expected in _ATTRIBUTION:
+        got = _label(registry.evidence_attribution(signature, cosignature, authorized))
         if got != expected:
-            failures.append(f"evidence_attribution({signature}, {cosignature}) gave {got!r}, expected {expected!r}")
+            failures.append(f"evidence_attribution({signature}, {cosignature}, {authorized}) gave {got!r}, "
+                            f"expected {expected!r}")
     for named, sigs, required, issuer, expected in _SIGNERS:
         got = _label(registry.signer_distinctness(named, sigs, required, issuer))
         if got != expected:
