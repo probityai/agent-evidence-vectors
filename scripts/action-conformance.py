@@ -48,6 +48,7 @@ from typing import Any
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 import action_checks  # noqa: E402
 
+DESCRIPTION = "Run a verifier over your own cases and hold it to an expected-verdicts file."
 TIMEOUT_S = 60
 MAX_ROWS = 50
 
@@ -228,7 +229,7 @@ def _flag(value: str) -> bool:
 
 
 def main(argv: list[str] | None = None) -> int:
-    parser = argparse.ArgumentParser(prog="action-conformance", description=__doc__.split("\n")[0])
+    parser = argparse.ArgumentParser(prog="action-conformance", description=DESCRIPTION)
     parser.add_argument("--expected", required=True, help="expected-verdicts file")
     parser.add_argument("--cases", required=True, help="directory the case paths are relative to")
     parser.add_argument("--verifier", required=True, help="verifier command line")

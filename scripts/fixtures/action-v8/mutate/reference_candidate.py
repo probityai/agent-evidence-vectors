@@ -13,6 +13,8 @@ from pathlib import Path
 
 STAGE = Path(__file__).resolve().parents[3] / "action-reference-stage.py"
 spec = importlib.util.spec_from_file_location("stage", STAGE)
+if spec is None or spec.loader is None:
+    raise SystemExit(f"cannot load {STAGE}")
 stage = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(stage)
 
