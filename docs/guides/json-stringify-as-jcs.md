@@ -26,8 +26,9 @@ refusals RFC 8785 requires happen at the parse and decode layer, and
 
 All ids are in [`corpora/jcs-byte-vectors/cases.json`](../../corpora/jcs-byte-vectors/cases.json).
 Run a candidate against them with `node corpora/jcs-byte-vectors/check.mjs --verifier <command>`
-for RFC 8785, and add `--profile bounded` for the exact-integer profile. The last two rows are
-canonical cases: a correct canonicalizer prints their pinned bytes rather than refusing them.
+for RFC 8785, or `node corpora/jcs-byte-vectors/check.mjs --profile bounded --verifier <command>`
+for the exact-integer profile (the profile comes first). The last two rows are canonical cases: a
+correct canonicalizer prints their pinned bytes rather than refusing them.
 
 ## The fix, at the byte level
 
