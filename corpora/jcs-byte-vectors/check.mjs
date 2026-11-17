@@ -148,18 +148,28 @@ for (const entry of cases.depthCases) {
 // the ECMAScript oracle must reproduce from both spellings. RFC 7493 section 2.1
 // forbids one in a member name or string value, escaped or not, so the bounded
 // profile holds a verifier to a refusal.
+// A neighbour member carries the scalar value next to an edge of that set and
+// must be printed under every profile, so a bounded verifier whose noncharacter
+// test is too wide fails it. Each member's code point is classified here from
+// the Unicode definition, not taken from either generator's list.
+const isNoncharacter = (cp) => (cp & 0xfffe) === 0xfffe || (cp >= 0xfdd0 && cp <= 0xfdef);
 for (const entry of cases.noncharacterCases) {
   const value = JSON.parse(entry.input);
   assertScalars(value);
   const pinned = Buffer.from(entry.canonicalHex, "hex");
+  const cp = parseInt(entry.codePoint.slice(2), 16);
+  const refused = entry.family === "noncharacter";
   if (
     !Buffer.from(canonical(value), "utf8").equals(pinned) ||
     createHash("sha256").update(pinned).digest("hex") !== entry.sha256 ||
-    entry.boundedError !== "invalid-unicode"
+    !pinned.toString("utf8").includes(String.fromCodePoint(cp)) ||
+    isNoncharacter(cp) !== refused ||
+    !["noncharacter", "noncharacter-neighbour"].includes(entry.family) ||
+    (refused ? entry.boundedError !== "invalid-unicode" : entry.boundedError !== undefined)
   ) {
     throw new Error(`${entry.id}: noncharacter case disagrees with the ECMAScript oracle`);
   }
-  runVerifier(entry, profile === "bounded" ? null : pinned);
+  runVerifier(entry, profile === "bounded" && refused ? null : pinned);
 }
 
 // Preimage cases: which bytes a field digest covers. A scalar text value hashes
@@ -168,22 +178,36 @@ for (const entry of cases.noncharacterCases) {
 // which must be a different digest, so agreeing with it is a failure.
 const sha = bytes => createHash("sha256").update(bytes).digest("hex");
 for (const entry of cases.preimageCases) {
-  let right, wrong;
+  let right;
   if (entry.profile === "scalar-text") {
     const value = JSON.parse(entry.value);
     if (typeof value !== "string") throw new Error(`${entry.id}: not a scalar text value`);
     right = Buffer.from(value, "utf8");
-    wrong = Buffer.from(canonical(value), "utf8");
   } else if (entry.profile === "structured-json") {
     right = Buffer.from(canonical(JSON.parse(entry.value)), "utf8");
-    wrong = Buffer.from(entry.value, "utf8");
   } else if (entry.profile === "absent") {
     if (entry.value !== undefined) throw new Error(`${entry.id}: an absent value carries a value`);
     right = Buffer.alloc(0);
-    wrong = Buffer.from("null", "utf8");
   } else {
     throw new Error(`${entry.id}: unknown preimage profile ${entry.profile}`);
   }
+  // The stated wrong answer, recomputed from the mistake it names: the scalar's
+  // JSON form, the structured value as written, a present null read as absent,
+  // or an absent field read as null.
+  const mistakes = {
+    "json-form": ["scalar-text", () => Buffer.from(canonical(JSON.parse(entry.value)), "utf8")],
+    "as-written": ["structured-json", () => Buffer.from(entry.value, "utf8")],
+    "null-as-absent": ["structured-json", () => Buffer.alloc(0)],
+    "json-null": ["absent", () => Buffer.from("null", "utf8")],
+  };
+  const mistake = mistakes[entry.statedWrongReading];
+  if (!mistake || mistake[0] !== entry.profile) {
+    throw new Error(`${entry.id}: stated wrong reading ${entry.statedWrongReading} does not fit ${entry.profile}`);
+  }
+  if (entry.statedWrongReading === "null-as-absent" && JSON.parse(entry.value) !== null) {
+    throw new Error(`${entry.id}: null-as-absent names a value that is not null`);
+  }
+  const wrong = mistake[1]();
   if (
     right.toString("hex") !== entry.preimageHex || sha(right) !== entry.sha256 ||
     wrong.toString("hex") !== entry.statedWrongPreimageHex || sha(wrong) !== entry.statedWrongSha256 ||

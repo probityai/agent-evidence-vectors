@@ -104,7 +104,25 @@ class NoncharacterFamily(unittest.TestCase):
             with self.subTest(case["id"]):
                 printed = a2ajcs.canonicalize(a2ajcs.parse(case["input"]))
                 self.assertEqual(printed.hex(), case["canonicalHex"])
-                self.assertEqual(case["boundedError"], "invalid-unicode")
+                code = int(case["codePoint"][2:], 16)
+                noncharacter = code & 0xFFFE == 0xFFFE or 0xFDD0 <= code <= 0xFDEF
+                self.assertEqual(case["family"] == "noncharacter", noncharacter)
+                self.assertEqual(
+                    case.get("boundedError"), "invalid-unicode" if noncharacter else None
+                )
+
+    def test_a_too_wide_noncharacter_test_fails_the_neighbours(self) -> None:
+        """Refusing all of U+FDC0..U+FDFF and every U+nFFFx passed the family before."""
+
+        def too_wide(code: int) -> bool:
+            return code & 0xFFF0 == 0xFFF0 or 0xFDC0 <= code <= 0xFDFF
+
+        neighbours = [
+            c for c in CORPUS["noncharacterCases"] if c["family"] == "noncharacter-neighbour"
+        ]
+        self.assertTrue(neighbours)
+        refused = {c["codePoint"] for c in neighbours if too_wide(int(c["codePoint"][2:], 16))}
+        self.assertEqual(refused, {"U+FDCF", "U+FDF0", "U+FFFD", "U+1FFFD", "U+10FFFD"})
 
     def test_every_position_and_spelling_is_present(self) -> None:
         seen = {(c["position"], c["spelling"]) for c in CORPUS["noncharacterCases"]}
@@ -142,6 +160,13 @@ class PreimageFamily(unittest.TestCase):
                 got = field_digest(case["profile"], case.get("value"), json_form=True)
                 self.assertNotEqual(got, case["sha256"])
                 self.assertEqual(got, case["statedWrongSha256"])
+
+    def test_a_reader_that_maps_null_to_absent_fails_the_null_case(self) -> None:
+        by_id = {c["id"]: c for c in CORPUS["preimageCases"]}
+        null, absent = by_id["preimage-structured-null"], by_id["preimage-absent"]
+        self.assertEqual(null["sha256"], absent["statedWrongSha256"])
+        self.assertEqual(null["statedWrongSha256"], absent["sha256"])
+        self.assertEqual(hashlib.sha256(b"").hexdigest(), null["statedWrongSha256"])
 
     def test_the_empty_string_collides_with_absent_and_says_so(self) -> None:
         by_id = {c["id"]: c for c in CORPUS["preimageCases"]}

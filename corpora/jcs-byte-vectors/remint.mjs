@@ -40,7 +40,11 @@ function depthCases() {
 
 function noncharacterCases() {
   const out = [];
-  for (const cp of [0xfdd0, 0xfdef, 0xfffe, 0xffff, 0x1fffe, 0x10ffff]) {
+  const members = [
+    ...[0xfdd0, 0xfdef, 0xfffe, 0xffff, 0x1fffe, 0x10ffff].map((cp) => ["noncharacter", cp]),
+    ...[0xfdcf, 0xfdf0, 0xfffd, 0x1fffd, 0x10fffd].map((cp) => ["noncharacter-neighbour", cp]),
+  ];
+  for (const [family, cp] of members) {
     const raw = String.fromCodePoint(cp);
     const escaped = cp < 0x10000
       ? `\\u${hex4(cp)}`
@@ -50,17 +54,18 @@ function noncharacterCases() {
         const written = spelling === "raw" ? raw : escaped;
         const text = position === "value" ? `["${written}"]` : `{"${written}":1}`;
         const canonical = position === "value" ? `["${raw}"]` : `{"${raw}":1}`;
-        out.push({
-          id: `noncharacter-u${hex4(cp)}-${position}-${spelling}`,
-          family: "noncharacter",
+        const member = {
+          id: `${family}-u${hex4(cp)}-${position}-${spelling}`,
+          family,
           codePoint: `U+${cp.toString(16).toUpperCase().padStart(4, "0")}`,
           position,
           spelling,
           input: text,
           canonicalHex: utf8(canonical).toString("hex"),
           sha256: sha256(utf8(canonical)),
-          boundedError: "invalid-unicode",
-        });
+        };
+        if (family === "noncharacter") member.boundedError = "invalid-unicode";
+        out.push(member);
       }
     }
   }
@@ -76,6 +81,7 @@ function preimageCases() {
     ["scalar-empty", "scalar-text", '""', "", '""', "json-form"],
     ["structured-reordered", "structured-json", '{"b":2,"a":1}', '{"a":1,"b":2}', '{"b":2,"a":1}', "as-written"],
     ["structured-escaped", "structured-json", '["caf\\u00e9"]', '["café"]', '["caf\\u00e9"]', "as-written"],
+    ["structured-null", "structured-json", "null", "null", "", "null-as-absent"],
     ["absent", "absent", null, "", "null", "json-null"],
   ];
   const empty = sha256(Buffer.alloc(0));

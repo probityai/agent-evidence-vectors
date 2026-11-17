@@ -109,11 +109,17 @@ that passed before can fail now, so the families arrived in a minor release.
 Unicode noncharacter in a string value and in a member name, spelled raw and as a
 `\u` escape: U+FDD0 and U+FDEF (both ends of the contiguous run), U+FFFE and
 U+FFFF, U+1FFFE and U+10FFFF (supplementary planes, escaped as surrogate pairs).
+Its `noncharacter-neighbour` members put the scalar value just outside each edge
+(U+FDCF, U+FDF0, U+FFFD, U+1FFFD, U+10FFFD) in the same four places with no
+`boundedError`: every profile prints them, so a bounded verifier whose
+noncharacter test is too wide (all of U+FDC0..U+FDFF, or every U+nFFFx) fails
+them instead of passing the family. `check.mjs` classifies each member's code
+point from the Unicode definition rather than from either generator's list.
 
 | Profile | Expected answer | Why |
 | --- | --- | --- |
 | default (`jcs`) | the pinned `canonicalHex`, the noncharacter printed as UTF-8 | A noncharacter is a Unicode scalar value, and RFC 8785 section 3.2.2.2 prints it as itself. |
-| `bounded` | refuse (`boundedError: invalid-unicode`) | [RFC 7493 section 2.1](https://www.rfc-editor.org/rfc/rfc7493#section-2.1): member names and string values MUST NOT include code points that identify noncharacters, escaped or not. |
+| `bounded` | refuse (`boundedError: invalid-unicode`) a `noncharacter` member; print the pinned bytes of a `noncharacter-neighbour` member | [RFC 7493 section 2.1](https://www.rfc-editor.org/rfc/rfc7493#section-2.1): member names and string values MUST NOT include code points that identify noncharacters, escaped or not. The neighbours are ordinary scalar values. |
 
 The raw and escaped spellings of one value pin the same bytes, so a verifier that
 refuses only one spelling fails the bounded run, and one that refuses either
@@ -129,7 +135,12 @@ answer a reader usually gives, so agreeing with it fails the member:
 | --- | --- | --- |
 | `scalar-text` | the string's raw UTF-8 bytes | its JSON form, quotes and escapes included (`json-form`) |
 | `structured-json` | the value's RFC 8785 bytes | the value as written (`as-written`) |
+| `structured-json`, value `null` | the four bytes `null` | the empty input, as if the field were absent (`null-as-absent`) |
 | `absent` | the empty input, SHA-256 `e3b0c442...b855` | the text `null` (`json-null`) |
+
+A present `null` is a value, not an absent field: `preimage-structured-null` and
+`preimage-absent` pin each other's answers as their wrong ones, so a reader that
+maps `null` to absent, or absent to `null`, fails one of the two.
 
 `preimage-scalar-empty` carries `collidesWith: preimage-absent`: under this
 profile an empty string and an absent field hash the same bytes, so a record that

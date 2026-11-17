@@ -777,6 +777,206 @@
       "canonicalHex": "7b22f48fbfbf223a317d",
       "sha256": "dc5fbc2a31d6374ad2ad5938a39c28215d06a96434d3d55cde09ef06bbcfd9c8",
       "boundedError": "invalid-unicode"
+    },
+    {
+      "id": "noncharacter-neighbour-ufdcf-value-raw",
+      "family": "noncharacter-neighbour",
+      "codePoint": "U+FDCF",
+      "position": "value",
+      "spelling": "raw",
+      "input": "[\"\ufdcf\"]",
+      "canonicalHex": "5b22efb78f225d",
+      "sha256": "f3d0d0e7fd6114e72820366c4660735a00afb647bf7f2ee64e879d65a3897eb6"
+    },
+    {
+      "id": "noncharacter-neighbour-ufdcf-value-escaped",
+      "family": "noncharacter-neighbour",
+      "codePoint": "U+FDCF",
+      "position": "value",
+      "spelling": "escaped",
+      "input": "[\"\\ufdcf\"]",
+      "canonicalHex": "5b22efb78f225d",
+      "sha256": "f3d0d0e7fd6114e72820366c4660735a00afb647bf7f2ee64e879d65a3897eb6"
+    },
+    {
+      "id": "noncharacter-neighbour-ufdcf-member-name-raw",
+      "family": "noncharacter-neighbour",
+      "codePoint": "U+FDCF",
+      "position": "member-name",
+      "spelling": "raw",
+      "input": "{\"\ufdcf\":1}",
+      "canonicalHex": "7b22efb78f223a317d",
+      "sha256": "f298152d0890b1bb1bad4ced77c9ed2825287e748a8882f1bc9def6fc1246600"
+    },
+    {
+      "id": "noncharacter-neighbour-ufdcf-member-name-escaped",
+      "family": "noncharacter-neighbour",
+      "codePoint": "U+FDCF",
+      "position": "member-name",
+      "spelling": "escaped",
+      "input": "{\"\\ufdcf\":1}",
+      "canonicalHex": "7b22efb78f223a317d",
+      "sha256": "f298152d0890b1bb1bad4ced77c9ed2825287e748a8882f1bc9def6fc1246600"
+    },
+    {
+      "id": "noncharacter-neighbour-ufdf0-value-raw",
+      "family": "noncharacter-neighbour",
+      "codePoint": "U+FDF0",
+      "position": "value",
+      "spelling": "raw",
+      "input": "[\"\ufdf0\"]",
+      "canonicalHex": "5b22efb7b0225d",
+      "sha256": "48a7831050a3cb624f418ad617285338a45a7330ed822505bf280372621a2be6"
+    },
+    {
+      "id": "noncharacter-neighbour-ufdf0-value-escaped",
+      "family": "noncharacter-neighbour",
+      "codePoint": "U+FDF0",
+      "position": "value",
+      "spelling": "escaped",
+      "input": "[\"\\ufdf0\"]",
+      "canonicalHex": "5b22efb7b0225d",
+      "sha256": "48a7831050a3cb624f418ad617285338a45a7330ed822505bf280372621a2be6"
+    },
+    {
+      "id": "noncharacter-neighbour-ufdf0-member-name-raw",
+      "family": "noncharacter-neighbour",
+      "codePoint": "U+FDF0",
+      "position": "member-name",
+      "spelling": "raw",
+      "input": "{\"\ufdf0\":1}",
+      "canonicalHex": "7b22efb7b0223a317d",
+      "sha256": "334b53288ccdd322822d2dfa94b252062a531cfa502eb850695c7bd90c1fe095"
+    },
+    {
+      "id": "noncharacter-neighbour-ufdf0-member-name-escaped",
+      "family": "noncharacter-neighbour",
+      "codePoint": "U+FDF0",
+      "position": "member-name",
+      "spelling": "escaped",
+      "input": "{\"\\ufdf0\":1}",
+      "canonicalHex": "7b22efb7b0223a317d",
+      "sha256": "334b53288ccdd322822d2dfa94b252062a531cfa502eb850695c7bd90c1fe095"
+    },
+    {
+      "id": "noncharacter-neighbour-ufffd-value-raw",
+      "family": "noncharacter-neighbour",
+      "codePoint": "U+FFFD",
+      "position": "value",
+      "spelling": "raw",
+      "input": "[\"\ufffd\"]",
+      "canonicalHex": "5b22efbfbd225d",
+      "sha256": "c1c3f1aa8521f9f91120eb3b242b280df4c90d4f2aa3bfda44904c2fbcf287cf"
+    },
+    {
+      "id": "noncharacter-neighbour-ufffd-value-escaped",
+      "family": "noncharacter-neighbour",
+      "codePoint": "U+FFFD",
+      "position": "value",
+      "spelling": "escaped",
+      "input": "[\"\\ufffd\"]",
+      "canonicalHex": "5b22efbfbd225d",
+      "sha256": "c1c3f1aa8521f9f91120eb3b242b280df4c90d4f2aa3bfda44904c2fbcf287cf"
+    },
+    {
+      "id": "noncharacter-neighbour-ufffd-member-name-raw",
+      "family": "noncharacter-neighbour",
+      "codePoint": "U+FFFD",
+      "position": "member-name",
+      "spelling": "raw",
+      "input": "{\"\ufffd\":1}",
+      "canonicalHex": "7b22efbfbd223a317d",
+      "sha256": "526085d95c318d0bff4ee6370e3ff0157b443771be9718dd99e14026c3bc5148"
+    },
+    {
+      "id": "noncharacter-neighbour-ufffd-member-name-escaped",
+      "family": "noncharacter-neighbour",
+      "codePoint": "U+FFFD",
+      "position": "member-name",
+      "spelling": "escaped",
+      "input": "{\"\\ufffd\":1}",
+      "canonicalHex": "7b22efbfbd223a317d",
+      "sha256": "526085d95c318d0bff4ee6370e3ff0157b443771be9718dd99e14026c3bc5148"
+    },
+    {
+      "id": "noncharacter-neighbour-u1fffd-value-raw",
+      "family": "noncharacter-neighbour",
+      "codePoint": "U+1FFFD",
+      "position": "value",
+      "spelling": "raw",
+      "input": "[\"\ud83f\udffd\"]",
+      "canonicalHex": "5b22f09fbfbd225d",
+      "sha256": "06ab4f4c3be0da304409af6e3aba8db0a5489ea99e69512328b9320d598a1bee"
+    },
+    {
+      "id": "noncharacter-neighbour-u1fffd-value-escaped",
+      "family": "noncharacter-neighbour",
+      "codePoint": "U+1FFFD",
+      "position": "value",
+      "spelling": "escaped",
+      "input": "[\"\\ud83f\\udffd\"]",
+      "canonicalHex": "5b22f09fbfbd225d",
+      "sha256": "06ab4f4c3be0da304409af6e3aba8db0a5489ea99e69512328b9320d598a1bee"
+    },
+    {
+      "id": "noncharacter-neighbour-u1fffd-member-name-raw",
+      "family": "noncharacter-neighbour",
+      "codePoint": "U+1FFFD",
+      "position": "member-name",
+      "spelling": "raw",
+      "input": "{\"\ud83f\udffd\":1}",
+      "canonicalHex": "7b22f09fbfbd223a317d",
+      "sha256": "2280548737f00e5f7d3ea1fd3b84cd9ea64bfd8dc5de3759e416e0d308d4b205"
+    },
+    {
+      "id": "noncharacter-neighbour-u1fffd-member-name-escaped",
+      "family": "noncharacter-neighbour",
+      "codePoint": "U+1FFFD",
+      "position": "member-name",
+      "spelling": "escaped",
+      "input": "{\"\\ud83f\\udffd\":1}",
+      "canonicalHex": "7b22f09fbfbd223a317d",
+      "sha256": "2280548737f00e5f7d3ea1fd3b84cd9ea64bfd8dc5de3759e416e0d308d4b205"
+    },
+    {
+      "id": "noncharacter-neighbour-u10fffd-value-raw",
+      "family": "noncharacter-neighbour",
+      "codePoint": "U+10FFFD",
+      "position": "value",
+      "spelling": "raw",
+      "input": "[\"\udbff\udffd\"]",
+      "canonicalHex": "5b22f48fbfbd225d",
+      "sha256": "57f35481a269337f60c56a4a192c61639959c5a00baa69da4c33f64299ca2462"
+    },
+    {
+      "id": "noncharacter-neighbour-u10fffd-value-escaped",
+      "family": "noncharacter-neighbour",
+      "codePoint": "U+10FFFD",
+      "position": "value",
+      "spelling": "escaped",
+      "input": "[\"\\udbff\\udffd\"]",
+      "canonicalHex": "5b22f48fbfbd225d",
+      "sha256": "57f35481a269337f60c56a4a192c61639959c5a00baa69da4c33f64299ca2462"
+    },
+    {
+      "id": "noncharacter-neighbour-u10fffd-member-name-raw",
+      "family": "noncharacter-neighbour",
+      "codePoint": "U+10FFFD",
+      "position": "member-name",
+      "spelling": "raw",
+      "input": "{\"\udbff\udffd\":1}",
+      "canonicalHex": "7b22f48fbfbd223a317d",
+      "sha256": "371de921263e69c212799c12758407974d9c96f7ec6d627a68bd46c27e4a3ac9"
+    },
+    {
+      "id": "noncharacter-neighbour-u10fffd-member-name-escaped",
+      "family": "noncharacter-neighbour",
+      "codePoint": "U+10FFFD",
+      "position": "member-name",
+      "spelling": "escaped",
+      "input": "{\"\\udbff\\udffd\":1}",
+      "canonicalHex": "7b22f48fbfbd223a317d",
+      "sha256": "371de921263e69c212799c12758407974d9c96f7ec6d627a68bd46c27e4a3ac9"
     }
   ],
   "preimageCases": [
@@ -840,6 +1040,16 @@
       "statedWrongPreimageHex": "5b226361665c7530306539225d",
       "statedWrongSha256": "d9957358c680f7382fdf2e65ede7171846b650ebea7953d521837c3b16eed288",
       "statedWrongReading": "as-written"
+    },
+    {
+      "id": "preimage-structured-null",
+      "profile": "structured-json",
+      "value": "null",
+      "preimageHex": "6e756c6c",
+      "sha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+      "statedWrongPreimageHex": "",
+      "statedWrongSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "statedWrongReading": "null-as-absent"
     },
     {
       "id": "preimage-absent",

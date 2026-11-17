@@ -31,12 +31,18 @@ Noncharacter cases (``noncharacterCases``): a Unicode noncharacter inside a
 string value and inside a member name, written raw and as a ``\\u`` escape.
 RFC 8785 prints a noncharacter as its UTF-8 bytes, so the default profile pins
 ``canonicalHex``. RFC 7493 section 2.1 says a member name or string value MUST
-NOT include one, escaped or not, so the bounded profile refuses every member
-(``boundedError``), as ``jcs_admit::admit_ijson`` does.
+NOT include one, escaped or not, so the bounded profile refuses every
+``noncharacter`` member (``boundedError``), as ``jcs_admit::admit_ijson`` does.
+The ``noncharacter-neighbour`` members carry the scalar value next to each edge of
+the noncharacter set (U+FDCF, U+FDF0, U+FFFD, U+1FFFD, U+10FFFD) and no
+``boundedError``: every profile prints them, so a bounded verifier whose
+noncharacter test is too wide fails them instead of passing the family.
 
 Preimage cases (``preimageCases``): which bytes a field digest covers. A scalar
 text value hashes its raw UTF-8 bytes, a structured value hashes its RFC 8785
-bytes, and an absent value hashes the empty input. Each member pins the correct
+bytes, and an absent value hashes the empty input. A present ``null`` is a
+structured value and hashes the four bytes ``null``; only a field the record does
+not carry is absent. Each member pins the correct
 ``sha256`` and the ``statedWrongSha256`` a reader gets from the usual mistake
 (hashing the scalar's JSON form, the structured value as written, or ``null``),
 so a reader that makes the mistake fails the member instead of agreeing with it.
@@ -361,6 +367,10 @@ def refusal_cases() -> list[dict[str, str]]:
 # contiguous U+FDD0..U+FDEF run (both ends) and the last two code points of a
 # plane (the BMP pair and the first and last supplementary planes).
 NONCHARACTERS: tuple[int, ...] = (0xFDD0, 0xFDEF, 0xFFFE, 0xFFFF, 0x1FFFE, 0x10FFFF)
+# The scalar value just outside each edge of that set: below and above the run,
+# and below the pair of the BMP and of the first and last supplementary planes.
+# Each must be accepted under every profile.
+NEIGHBOURS: tuple[int, ...] = (0xFDCF, 0xFDF0, 0xFFFD, 0x1FFFD, 0x10FFFD)
 
 
 def escape(code_point: int) -> str:
@@ -373,7 +383,9 @@ def escape(code_point: int) -> str:
 
 def noncharacter_cases() -> list[dict[str, str]]:
     out: list[dict[str, str]] = []
-    for code_point in NONCHARACTERS:
+    families = [("noncharacter", c) for c in NONCHARACTERS]
+    families += [("noncharacter-neighbour", c) for c in NEIGHBOURS]
+    for family, code_point in families:
         raw = chr(code_point)
         for position in ("value", "member-name"):
             for spelling in ("raw", "escaped"):
@@ -383,19 +395,19 @@ def noncharacter_cases() -> list[dict[str, str]]:
                 else:
                     text, canonical = f'{{"{written}":1}}', f'{{"{raw}":1}}'
                 pinned = canonical.encode("utf-8")
-                out.append(
-                    {
-                        "id": f"noncharacter-u{code_point:04x}-{position}-{spelling}",
-                        "family": "noncharacter",
-                        "codePoint": f"U+{code_point:04X}",
-                        "position": position,
-                        "spelling": spelling,
-                        "input": text,
-                        "canonicalHex": pinned.hex(),
-                        "sha256": hashlib.sha256(pinned).hexdigest(),
-                        "boundedError": "invalid-unicode",
-                    }
-                )
+                member = {
+                    "id": f"{family}-u{code_point:04x}-{position}-{spelling}",
+                    "family": family,
+                    "codePoint": f"U+{code_point:04X}",
+                    "position": position,
+                    "spelling": spelling,
+                    "input": text,
+                    "canonicalHex": pinned.hex(),
+                    "sha256": hashlib.sha256(pinned).hexdigest(),
+                }
+                if family == "noncharacter":
+                    member["boundedError"] = "invalid-unicode"
+                out.append(member)
     return out
 
 
@@ -429,6 +441,7 @@ PREIMAGES: tuple[tuple[str, str, str | None, bytes, bytes, str], ...] = (
         b'["caf\\u00e9"]',
         "as-written",
     ),
+    ("structured-null", "structured-json", "null", b"null", b"", "null-as-absent"),
     ("absent", "absent", None, b"", b"null", "json-null"),
 )
 
