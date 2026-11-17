@@ -1691,6 +1691,14 @@ jobs:
         run: uv run python scripts/regenerability-gate.py
       - name: the regenerability gate counts only tracked files as committed
         run: uv run python scripts/regenerability-gate-test.py
+      # The mutation checks below switch one rule off at a time. The lattice keeps every
+      # set of rules (every subset up to twelve, seeded chains above) and fails when keeping
+      # more rules un-refuses a case or when a subset refuses what the full reader admits.
+      - name: the gate corpora's rules only add, and no subset refuses an accepted case
+        run: |
+          set -euo pipefail
+          uv run --extra dev pytest -q scripts/ablation-lattice-test.py
+          uv run python scripts/ablation-lattice.py --json "$RUNNER_TEMP/ablation-lattice.json"
       # The v0.1 report reader's rules that no corpus member can pin: a tree
       # shape outside the closed set is refused rather than hashed as another
       # shape, and each registered shape is hashed by the construction its name
