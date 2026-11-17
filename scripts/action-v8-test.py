@@ -500,7 +500,7 @@ def case_a_profile_that_excuses_everything_goes_red(work: Path) -> None:
 
 def case_a_missing_case_tolerant_count_goes_red(work: Path) -> None:
     mutant = _copy_with(
-        work, "action-conformance.py", "if missing and fail_on_missing:", "if False:"
+        work, "action-conformance.py", "bool(missing) and fail_on_missing", "False"
     )
     fixture = FIXTURES / "conformance"
     done = run(
