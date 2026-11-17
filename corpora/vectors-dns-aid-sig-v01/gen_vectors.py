@@ -56,17 +56,39 @@ SPECIFICATION = {
         "fingerprint) ties the key set to the owner of the zone. All fixtures are synthetic."
     ),
     "profile": {
-        "payload": "I-JSON (RFC 7493): a duplicate member name is refused",
-        "integers": "port, iat and exp are JSON integers; 443.0 is not 443",
+        "payload": (
+            "I-JSON (RFC 7493): a duplicate member name, a NaN or Infinity literal, and a "
+            "surrogate or noncharacter code point in a name or string are refused; the member "
+            "file itself is I-JSON too"
+        ),
+        "integers": (
+            "port, iat and exp are JSON integers from -(2^53-1) to 2^53-1 (RFC 7493 section 2.2); "
+            "443.0 is not 443; port is 0 to 65535"
+        ),
+        "names": "fqdn, target and zone compare by ASCII case only (RFC 4343) with one optional root dot",
+        "keys": (
+            "a JWK verifies only when it is EC P-256 with 32-octet coordinates, its use is sig or "
+            "absent, its key_ops name verify or are absent, and its alg is ES256 or absent; any "
+            "other key in the set is ignored (RFC 7517 section 5)"
+        ),
         "iatSkewSeconds": 300,
         "crit": "a crit header is refused (RFC 7515 section 4.1.11): this profile defines no extension",
         "base64url": "the strict alphabet without padding, and the canonical encoding only",
-        "protocol": "the payload alpn is compared with the record's proto when present, else its alpn",
-        "jwksHost": "dns-aid.<zone> or the zone apex, over https",
+        "protocol": (
+            "the payload's fqdn, target and alpn are strings; its alpn is compared with the "
+            "record's proto when that member is present (an empty proto names nothing), else "
+            "with its alpn"
+        ),
+        "jwksHost": (
+            "https://dns-aid.<zone> or https://<zone>, with an optional port, path and query and "
+            "no userinfo, backslash or fragment"
+        ),
     },
     "sources": [
         "RFC 7515 JSON Web Signature, sections 2, 4.1.11 and 7.1",
-        "RFC 7518 JSON Web Algorithms, section 3.4 (ES256)",
+        "RFC 7518 JSON Web Algorithms, sections 3.4 (ES256) and 6.2.1.2 (coordinate length)",
+        "RFC 7517 JSON Web Key, sections 4.2 to 4.4 and 5",
+        "RFC 4343 DNS case insensitivity",
         "RFC 7493 The I-JSON Message Format",
         "RFC 9460 Service Binding and Parameter Specification via the DNS (SVCB)",
         "RFC 4648 section 3.5 (canonical encoding)",
@@ -94,6 +116,7 @@ CODES: dict[str, str] = {
     "payload-not-object": "contradicted",
     "payload-duplicate-member": "contradicted",
     "payload-integer-required": "contradicted",
+    "payload-not-i-json": "contradicted",
     "expired": "contradicted",
     "endpoint-mismatch": "contradicted",
     "svcb1-digest-mismatch": "contradicted",
@@ -322,6 +345,51 @@ def _no_zone() -> dict[str, Any]:
     return member(rec, _good())
 
 
+def _payload_tail(extra: bytes) -> dict[str, Any]:
+    """The good payload with raw JSON text appended before its closing brace."""
+    return member(RECORD, _crafted(cjson(payload(RECORD))[:-1] + extra + b"}"))
+
+
+def _signed_as(signed: dict[str, Any], served: dict[str, Any]) -> dict[str, Any]:
+    return member(served, compact("owner", cjson(payload(signed))))
+
+
+def _jwk(**changes: Any) -> Build:
+    def build() -> dict[str, Any]:
+        case = member(RECORD, _good())
+        case["jwks"]["keys"][0].update(changes)
+        return case
+    return build
+
+
+def _x_33_bytes() -> dict[str, Any]:
+    case = member(RECORD, _good())
+    key = case["jwks"]["keys"][0]
+    key["x"] = b64u(b"\x00" + base64.urlsafe_b64decode(key["x"] + "="))
+    return case
+
+
+def _skips_malformed_key() -> dict[str, Any]:
+    header = {"alg": "ES256", "typ": "JWT"}
+    case = member(RECORD, compact("owner", cjson(payload(RECORD)), header))
+    case["jwks"]["keys"].insert(0, {"crv": "P-256", "kid": "k0", "kty": "EC", "x": "not base64url!", "y": ""})
+    case["key_authority"] = {"jwks_fingerprint": jwks_fingerprint(case["jwks"]), "kind": "pin"}
+    return case
+
+
+def _no_target() -> dict[str, Any]:
+    rec = {k: v for k, v in RECORD.items() if k != "target"}
+    body = {k: v for k, v in payload(RECORD).items() if k != "target"}
+    return member(rec, compact("owner", cjson(body)))
+
+
+#: Member files whose text is edited after writing, so one is not plain I-JSON:
+#: (the line to find, the line put in front of it).
+TEXT_EDITS = {
+    "member-duplicate-target": ('  "target": "chat.example.com",\n', '  "target": "evil.example.net",\n'),
+}
+
+
 def _dawn_shape() -> dict[str, Any]:
     served = with_record(RECORD_NO_REALM, alpn="h2,h3", proto="a2a")
     return member(served, compact("owner", cjson(payload(RECORD_NO_REALM, alpn="a2a"))))
@@ -398,6 +466,54 @@ MEMBERS: tuple[tuple[str, Build, list[str], str], ...] = (
      ["key-authority-kind-unread"], "the key authority is a DNSSEC chain, which this profile's pin reader does not read"),
     ("signature-base64url-non-canonical", _non_canonical, ["base64url-non-canonical"],
      "the signature verifies once decoded, but its text sets unused low bits: the encoding is not canonical"),
+    ("payload-nan-literal", lambda: _payload_tail(b',"z":NaN'), ["payload-not-object"],
+     "the signed payload holds a NaN literal, which is not JSON though a lenient parser reads it"),
+    ("header-infinity-literal", lambda: _raw_header(b'{"alg":"ES256","kid":"k1","typ":"JWT","x":-Infinity}'),
+     ["jws-malformed"], "the protected header holds a -Infinity literal, which is not JSON"),
+    ("payload-lone-surrogate", lambda: _payload_tail(b',"z":"\\ud800"'), ["payload-not-i-json"],
+     "the signed payload holds a lone surrogate escape, which RFC 7493 section 2.1 forbids"),
+    ("payload-noncharacter", lambda: _payload_tail(',"z":"\ufdd0"'.encode()), ["payload-not-i-json"],
+     "the signed payload holds the noncharacter U+FDD0, which RFC 7493 section 2.1 forbids"),
+    ("exp-beyond-safe-integer", lambda: member(RECORD, compact("owner", cjson(payload(RECORD, exp=2**53)))),
+     ["payload-integer-required"], "exp is 2^53, past the exact integer range RFC 7493 section 2.2 names"),
+    ("port-out-of-range", lambda: _signed_as(with_record(RECORD, port=65536), with_record(RECORD, port=65536)),
+     ["payload-integer-required"], "port 65536 on both sides: signed and served agree, but it is not a 16-bit port"),
+    ("jwks-url-backslash-userinfo",
+     lambda: member(RECORD_NO_REALM, compact("owner", cjson(payload(RECORD_NO_REALM))),
+                    url="https://evil.example\\@dns-aid.example.com/.well-known/dns-aid-jwks.json"),
+     ["jwks-host-not-zone"],
+     "a WHATWG parser fetches this URL from evil.example and an RFC 3986 parser from dns-aid.example.com"),
+    ("jwks-url-userinfo",
+     lambda: member(RECORD_NO_REALM, compact("owner", cjson(payload(RECORD_NO_REALM))),
+                    url="https://agent@dns-aid.example.com/.well-known/dns-aid-jwks.json"),
+     ["jwks-host-not-zone"], "the JWKS URL carries userinfo, which the profile's URL shape does not allow"),
+    ("target-kelvin-sign",
+     lambda: _signed_as(with_record(RECORD, target="kchat.example.com"),
+                        with_record(RECORD, target="\u212achat.example.com")),
+     ["endpoint-mismatch"],
+     "signed target kchat, served target with the Kelvin sign U+212A: Unicode lowercasing makes them equal, DNS does not"),
+    ("target-two-trailing-dots", lambda: member(with_record(RECORD, target="chat.example.com.."), _good()),
+     ["endpoint-mismatch"], "served target ends in two dots; only one root dot is dropped before comparing"),
+    ("target-root-dot", lambda: member(with_record(RECORD, target="chat.example.com."), _good()), [],
+     "control: served target ends in the root dot, which names the same host"),
+    ("fqdn-ascii-case", lambda: member(with_record(RECORD, fqdn="_CHAT._A2A._AGENTS.Example.COM"), _good()), [],
+     "control: served fqdn differs from the signed one in ASCII case only (RFC 4343)"),
+    ("jwk-use-enc", _jwk(use="enc"), ["key-unusable"],
+     "the only key is published for encryption (use enc, RFC 7517 section 4.2), so it verifies no signature"),
+    ("jwk-key-ops-derive", _jwk(key_ops=["deriveBits"]), ["key-unusable"],
+     "the only key's key_ops do not name verify (RFC 7517 section 4.3)"),
+    ("jwk-alg-es384", _jwk(alg="ES384"), ["key-unusable"],
+     "the only key is published for ES384 (RFC 7517 section 4.4), not for this ES256 signature"),
+    ("jwk-x-33-bytes", _x_33_bytes, ["key-unusable"],
+     "x carries a leading zero octet: the same integer, but RFC 7518 section 6.2.1.2 requires 32 octets"),
+    ("jwk-set-skips-malformed-key", _skips_malformed_key, [],
+     "control: a header with no kid and a key set whose first key is malformed: that key is ignored (RFC 7517 section 5)"),
+    ("record-proto-empty", lambda: member(with_record(RECORD, proto=""), _good()), ["endpoint-mismatch"],
+     "the record carries an empty proto, which names no protocol, so the signed alpn a2a does not match"),
+    ("target-absent-both-sides", _no_target, ["endpoint-mismatch"],
+     "neither the payload nor the record names a target: an endpoint that names no host binds nothing"),
+    ("member-duplicate-target", lambda: member(RECORD, _good()), ["jws-malformed"],
+     "the member file names the record's target twice; a first-wins reader serves evil.example.net"),
 )
 
 
@@ -433,7 +549,12 @@ def members() -> dict[str, bytes]:
     for name, build, _, _ in MEMBERS:
         case = build()
         case["case"] = name
-        out[f"cases/{name}.json"] = _json(case)
+        data = _json(case)
+        if name in TEXT_EDITS:
+            find, before = TEXT_EDITS[name]
+            assert data.count(find.encode()) == 1, name
+            data = data.replace(find.encode(), (before + find).encode())
+        out[f"cases/{name}.json"] = data
     return out
 
 

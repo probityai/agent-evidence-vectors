@@ -22,7 +22,6 @@ import re
 import sys
 from pathlib import Path
 from typing import Any
-from urllib.parse import urlsplit
 
 from cryptography.exceptions import InvalidSignature
 from cryptography.hazmat.primitives import hashes
@@ -32,6 +31,13 @@ from cryptography.hazmat.primitives.asymmetric.utils import encode_dss_signature
 ROOT = Path(__file__).resolve().parent
 SKEW = 300
 B64URL = re.compile(r"\A[A-Za-z0-9_-]*\Z")
+#: RFC 7493 section 2.2: an integer beyond this magnitude is not exact in every receiver.
+SAFE_INTEGER = 2**53 - 1
+#: The only JWKS URL shape read here: https, a host of LDH labels, an optional port, an
+#: RFC 3986 path and query, and nothing else (no userinfo, no backslash, no fragment).
+#: A WHATWG parser reads "https://evil\\@host/" as host evil, a RFC 3986 one as host.
+JWKS_URL = re.compile(r"\Ahttps://([A-Za-z0-9.-]+)(?::[0-9]{1,5})?(?:/[A-Za-z0-9._~!$&'()*+,;=:@%/-]*)?"
+                      r"(?:\?[A-Za-z0-9._~!$&'()*+,;=:@%/?-]*)?\Z")
 REGISTERED_HEADERS = {"alg", "jku", "jwk", "kid", "x5u", "x5c", "x5t", "x5t#S256", "typ", "cty", "crit"}
 DECISION = {
     "key-unusable": "cannot-tell", "zone-absent": "cannot-tell", "key-authority-absent": "cannot-tell",
@@ -55,7 +61,16 @@ def ub64(text: Any, what: str) -> bytes:
     return raw
 
 
-def strict_object(raw: bytes, what: str, dup_code: str) -> dict[str, Any]:
+def not_unicode_scalar_text(text: str) -> bool:
+    """RFC 7493 section 2.1: no surrogate and no noncharacter code point."""
+    return any(0xD800 <= (o := ord(ch)) <= 0xDFFF or 0xFDD0 <= o <= 0xFDEF or (o & 0xFFFE) == 0xFFFE
+               for ch in text)
+
+
+def i_json(raw: bytes, what: str, dup_code: str, parse_code: str, text_code: str) -> Any:
+    """Parse I-JSON or raise: a duplicate name, a NaN or Infinity literal (not JSON at
+    all, though Python's json accepts them), and a surrogate or noncharacter in a name
+    or string each refuse the input."""
     def pairs(items: list[tuple[str, Any]]) -> dict[str, Any]:
         out: dict[str, Any] = {}
         for k, v in items:
@@ -63,21 +78,51 @@ def strict_object(raw: bytes, what: str, dup_code: str) -> dict[str, Any]:
                 raise Finding(dup_code, f"{what} names {k!r} twice (not I-JSON)")
             out[k] = v
         return out
+
+    def constant(name: str) -> Any:
+        raise Finding(parse_code, f"{what}: {name} is not a JSON value")
+
     try:
-        value = json.loads(raw.decode("utf-8"), object_pairs_hook=pairs)
-    except (UnicodeDecodeError, ValueError) as exc:
-        raise Finding("jws-malformed" if what == "header" else "payload-not-object", f"{what}: {exc}") from None
+        value = json.loads(raw.decode("utf-8"), object_pairs_hook=pairs, parse_constant=constant)
+    except (UnicodeDecodeError, ValueError, RecursionError) as exc:  # nesting too deep is not a crash
+        raise Finding(parse_code, f"{what}: {exc}") from None
+    stack = [value]
+    while stack:
+        item = stack.pop()
+        if isinstance(item, dict):
+            if any(not_unicode_scalar_text(k) for k in item):
+                raise Finding(text_code, f"{what}: a member name holds a surrogate or noncharacter (RFC 7493 2.1)")
+            stack.extend(item.values())
+        elif isinstance(item, list):
+            stack.extend(item)
+        elif isinstance(item, str) and not_unicode_scalar_text(item):
+            raise Finding(text_code, f"{what}: a string holds a surrogate or noncharacter (RFC 7493 2.1)")
+    return value
+
+
+def strict_object(raw: bytes, what: str, dup_code: str) -> dict[str, Any]:
+    header = what == "header"
+    value = i_json(raw, what, dup_code, "jws-malformed" if header else "payload-not-object",
+                   "jws-malformed" if header else "payload-not-i-json")
     if not isinstance(value, dict):
-        raise Finding("jws-malformed" if what == "header" else "payload-not-object", f"{what} is not an object")
+        raise Finding("jws-malformed" if header else "payload-not-object", f"{what} is not an object")
     return value
 
 
 def is_int(value: Any) -> bool:
-    return isinstance(value, int) and not isinstance(value, bool)
+    return isinstance(value, int) and not isinstance(value, bool) and -SAFE_INTEGER <= value <= SAFE_INTEGER
+
+
+ASCII_LOWER = str.maketrans("ABCDEFGHIJKLMNOPQRSTUVWXYZ", "abcdefghijklmnopqrstuvwxyz")
 
 
 def norm(name: Any) -> str | None:
-    return name.rstrip(".").lower() if isinstance(name, str) else None
+    """A DNS name compared the way DNS compares it: ASCII case only (RFC 4343) and one
+    optional root dot. str.lower() would fold the Kelvin sign to k and make a served
+    target that resolves elsewhere equal the signed one."""
+    if not isinstance(name, str):
+        return None
+    return (name[:-1] if name.endswith(".") else name).translate(ASCII_LOWER)
 
 
 def within(name: Any, zone: Any) -> bool:
@@ -97,21 +142,40 @@ def jwks_fingerprint(key_set: dict[str, Any]) -> str:
     return base64.urlsafe_b64encode(hashlib.sha256("\n".join(lines).encode()).digest()).decode().rstrip("=")
 
 
+def signing_key(k: Any) -> ec.EllipticCurvePublicKey | None:
+    """The P-256 verification key a JWK holds, or None when it holds none.
+
+    RFC 7517 section 5 says to ignore a JWK that is missing required members or whose
+    values are out of range, so one bad key does not void the set. A key whose `use`
+    is not sig (4.2), whose `key_ops` lacks verify (4.3) or whose `alg` is not ES256
+    (4.4) was published for something else, and RFC 7518 6.2.1.2 requires each
+    coordinate to be the full 32 octets."""
+    if not (isinstance(k, dict) and k.get("kty") == "EC" and k.get("crv") == "P-256"):
+        return None
+    if k.get("use", "sig") != "sig" or k.get("alg", "ES256") != "ES256":
+        return None
+    if "key_ops" in k and not (isinstance(k["key_ops"], list) and "verify" in k["key_ops"]):
+        return None
+    try:
+        xb, yb = ub64(k.get("x"), "jwk x"), ub64(k.get("y"), "jwk y")
+    except Finding:
+        return None
+    if len(xb) != 32 or len(yb) != 32:
+        return None
+    try:
+        return ec.EllipticCurvePublicNumbers(int.from_bytes(xb, "big"), int.from_bytes(yb, "big"),
+                                             ec.SECP256R1()).public_key()
+    except ValueError:
+        return None
+
+
 def keys_for(key_set: Any, kid: Any) -> list[ec.EllipticCurvePublicKey]:
-    if not isinstance(key_set, dict):
+    if not isinstance(key_set, dict) or not isinstance(key_set.get("keys"), list):
         return []
-    usable = [k for k in key_set.get("keys", []) if isinstance(k, dict) and k.get("kty") == "EC"
-              and k.get("crv") == "P-256"]
+    usable = [(k, key) for k in key_set["keys"] if (key := signing_key(k)) is not None]
     if kid is not None:
-        usable = [k for k in usable if k.get("kid") == kid] or usable  # RFC 7515 4.1.4: kid is a hint
-    out = []
-    for k in usable:
-        x, y = int.from_bytes(ub64(k.get("x"), "jwk x"), "big"), int.from_bytes(ub64(k.get("y"), "jwk y"), "big")
-        try:
-            out.append(ec.EllipticCurvePublicNumbers(x, y, ec.SECP256R1()).public_key())
-        except ValueError:
-            continue
-    return out
+        usable = [p for p in usable if p[0].get("kid") == kid] or usable  # RFC 7515 4.1.4: kid is a hint
+    return [key for _, key in usable]
 
 
 def check_crit(header: dict[str, Any]) -> None:
@@ -131,9 +195,11 @@ def check_authority(case: dict[str, Any], record: dict[str, Any]) -> None:
         raise Finding("zone-absent", "no publishing zone that contains the fqdn")
     url = case.get("jwks_url")
     if url is not None:
-        parts = urlsplit(url)
-        if parts.scheme != "https" or norm(parts.hostname) not in (f"dns-aid.{norm(zone)}", norm(zone)):
-            raise Finding("jwks-host-not-zone", f"JWKS host {parts.hostname!r} is not dns-aid.{zone} or {zone}")
+        shape = JWKS_URL.match(url) if isinstance(url, str) else None
+        host = norm(shape.group(1)) if shape else None
+        if host not in (f"dns-aid.{norm(zone)}", norm(zone)):
+            raise Finding("jwks-host-not-zone", f"JWKS URL {url!r} is not https on dns-aid.{zone} or {zone} "
+                          "with no userinfo, backslash or fragment")
     authority = case.get("key_authority")
     fingerprint = jwks_fingerprint(case["jwks"])
     if authority is None:
@@ -173,12 +239,16 @@ def judge(case: dict[str, Any]) -> tuple[str, str]:
     body = strict_object(ub64(parts[1], "payload"), "payload", "payload-duplicate-member")
     for field in ("port", "iat", "exp"):
         if not is_int(body.get(field)):
-            raise Finding("payload-integer-required", f"{field} is not a JSON integer ({body.get(field)!r})")
+            raise Finding("payload-integer-required",
+                          f"{field} is not a JSON integer within I-JSON's exact range ({body.get(field)!r})")
+    if not 0 <= body["port"] <= 65535:
+        raise Finding("payload-integer-required", f"port {body['port']} is not a 16-bit port (RFC 9460 7.2)")
     if body["exp"] <= now:
         raise Finding("expired", "expired at the check time")
-    protocol = record.get("proto") or record.get("alpn")
-    if not (norm(body.get("fqdn")) == norm(record.get("fqdn")) and norm(body.get("target")) == norm(record.get("target"))
-            and body["port"] == record.get("port") and body.get("alpn") == protocol):
+    protocol = record["proto"] if "proto" in record else record.get("alpn")
+    named = all(isinstance(body.get(f), str) for f in ("fqdn", "target", "alpn"))
+    if not (named and norm(body["fqdn"]) == norm(record.get("fqdn")) and norm(body["target"]) == norm(record.get("target"))
+            and body["port"] == record.get("port") and body["alpn"] == protocol):
         raise Finding("endpoint-mismatch", "the signed endpoint differs from the served record")
     if "svcb" in body and body["svcb"] != svcb1(record.get("params") or {}):
         raise Finding("svcb1-digest-mismatch", "the svcb1 digest differs from the served params")
@@ -190,8 +260,19 @@ def judge(case: dict[str, Any]) -> tuple[str, str]:
     return "", "ES256 valid, unexpired, endpoint and svcb1 bound, key set pinned for the zone"
 
 
+def load_case(raw: bytes) -> Any:
+    """A member file is I-JSON too: a case that names a record field twice binds one
+    value in a first-wins reader and another in a last-wins one."""
+    try:
+        return i_json(raw, "member", "jws-malformed", "jws-malformed", "jws-malformed")
+    except Finding as finding:
+        return finding
+
+
 def report(case: Any) -> dict[str, Any]:
     try:
+        if isinstance(case, Finding):
+            raise case
         if not isinstance(case, dict) or not isinstance(case.get("record"), dict) or not isinstance(case.get("jwks"), dict):
             raise Finding("jws-malformed", "the member is not a record, a JWS and a key set")
         code, detail = judge(case)
@@ -208,7 +289,7 @@ def self_check(root: Path = ROOT) -> list[str]:
     manifest = json.loads((root / "MANIFEST.json").read_text(encoding="utf-8"))
     problems = []
     for entry in manifest["vectors"]:
-        got = report(json.loads((root / entry["file"]).read_text(encoding="utf-8")))
+        got = report(load_case((root / entry["file"]).read_bytes()))
         want = entry["expected"]
         for field in ("verdict", "decision", "codes"):
             if got[field] != want[field]:
@@ -218,7 +299,7 @@ def self_check(root: Path = ROOT) -> list[str]:
 
 def main(argv: list[str]) -> int:
     if argv:
-        rep = report(json.loads(Path(argv[0]).read_text(encoding="utf-8")))
+        rep = report(load_case(Path(argv[0]).read_bytes()))
         print(json.dumps(rep, sort_keys=True))
         return 0 if rep["verdict"] == "valid" else 1
     problems = self_check()
