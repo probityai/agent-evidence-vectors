@@ -3168,8 +3168,13 @@ evaluation_claim:
       inputs, compares, and refuses on a difference even when the signature
       and the key are valid. It refuses a record whose inputs the named
       evaluator holds as malformed (missing, of another type, out of range)
-      and never re-derives a verdict from them. Without the evaluator it
-      reports evaluator_unknown and an indeterminate result.
+      and never re-derives a verdict from them. It refuses a record that
+      names an evaluator it holds and carries no asserted verdict, or one
+      that is not among the evaluator's output values (for payment-scope/v1,
+      within or outside, compared byte for byte), and never reports either
+      as asserted_verdict_contradicted: there is no claim to contradict.
+      Without the evaluator it reports evaluator_unknown and an
+      indeterminate result.
     source_path: "the asserted verdict member and the evaluator member of a record"
     issuers_in_production: []
     promotion_trigger: "An independently maintained verifier that is not us re-derives asserted verdicts and refuses contradicted ones on real records, filing a crosswalk with evidence: emitted."
@@ -3230,7 +3235,10 @@ evaluation_claim:
       refuses a report that omits a check the profile names. The report as a
       whole is fail when a check failed, pass only when every check ran and
       passed, and not_evaluated when none failed and one did not run: a
-      report of checks that did not run never reads as a pass.
+      report of checks that did not run never reads as a pass. It refuses a
+      profile that names no check, since a pass over no checks is a pass over
+      nothing, and one that names a check twice, so one run cannot stand for
+      two.
     source_path: "the per-check list of a verifier's report"
     issuers_in_production: []
     promotion_trigger: "An independently maintained verifier that is not us reports checks after the first failure as not evaluated on real records and files a crosswalk with evidence: emitted."
@@ -3262,7 +3270,8 @@ evaluation_claim:
       is reported as no_witness and never counted toward coverage that the
       case set claims to have exercised. A failing result whose witness is
       falsified is refused as contradictory: a property over an unreachable
-      guarded state has no trace that can violate it.
+      guarded state has no trace that can violate it. A result or a witness
+      that is not a boolean is refused, never read by truthiness.
     source_path: "the witness member of a case in a case set, and the verifier's per-case report"
     issuers_in_production: []
     promotion_trigger: "An independently maintained formal-model or test case set that is not ours declares a witness per property and a verifier that is not ours refuses vacuous passes, filing a crosswalk with evidence: emitted."
@@ -3330,7 +3339,11 @@ evaluation_claim:
       counting a key or an authority twice, refuses a named signer whose
       signature is absent or does not verify, refuses two named signers under
       one identifier, and reports a count of distinct keys below the required
-      number as below_threshold.
+      number as below_threshold. It reports own_key_as_cosigner for a record
+      that lists the issuer's own key among its signers whatever the count,
+      since the issuer never counts toward it, and refuses a required count
+      that is not an integer of at least 1: a threshold of 0 is met by nobody
+      signing.
     source_path: "the signatures, signer list and required-signer count of a record"
     issuers_in_production: []
     promotion_trigger: "An independently maintained verifier that is not us counts signers by distinct key and authority on real records and files a crosswalk with evidence: emitted."
@@ -3376,7 +3389,11 @@ evaluation_claim:
       executed bytes themselves were observed.
     check: >
       A verifier groups by decision and instruction, refuses to choose between
-      two artifacts with one identity (indeterminate, independent of order),
+      two artifacts with one identity (indeterminate, independent of order,
+      and for every group that holds the identity, even when the two
+      artifacts sit in different groups), refuses an artifact that lacks a
+      member or carries one of another type (authenticated is a boolean, the
+      rest are strings),
       applies its rules in one order to every artifact of the group, the
       cited decision record included: identity first, then an execution no
       control covers (not_evaluated), then a missing control, execution or
@@ -3516,7 +3533,8 @@ evaluation_claim:
     check: >
       A verifier refuses a value outside 0 to 2^53-1 before any arithmetic,
       refuses a profile that lacks a bound the check needs (never a default),
-      refuses a record whose issuance time is later than the check time plus
+      refuses a profile member it does not define by name (a misspelled
+      allowance is never ignored), refuses a record whose issuance time is later than the check time plus
       the skew tolerance, accepts one exactly at that bound, and never uses
       the maximum age for the future bound.
     source_path: "the skew tolerance of a verifier profile or record"

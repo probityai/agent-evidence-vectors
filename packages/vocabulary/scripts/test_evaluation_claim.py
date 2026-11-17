@@ -202,6 +202,12 @@ _ASSERTED = (
       "asserted": "within"}, "evaluator-inputs-malformed"),
     ({"evaluator": _EVAL, "asserted": "within"}, "evaluator-inputs-malformed"),
     ({"evaluator": _EVAL, "inputs": {"scope": _SCOPE}, "asserted": "within"}, "evaluator-inputs-malformed"),
+    # A record with no assertion makes no claim to contradict; one outside the evaluator's outputs is no verdict.
+    ({"evaluator": _EVAL, "inputs": {"scope": _SCOPE, "payment": _PAY}}, "no-asserted-verdict"),
+    ({"evaluator": _EVAL, "inputs": {"scope": _SCOPE, "payment": _PAY}, "asserted": ["within"]},
+     "asserted-verdict-not-an-evaluator-output"),
+    ({"evaluator": _EVAL, "inputs": {"scope": _SCOPE, "payment": _PAY}, "asserted": "Within"},
+     "asserted-verdict-not-an-evaluator-output"),
 )
 
 #: (per-check results, expected decision, expected exit status)
@@ -227,7 +233,8 @@ _REPORTS = (
 
 #: (passed, witness, expected value)
 _VACUITY = ((True, True, "witnessed"), (True, False, "vacuous_pass"), (True, None, "no_witness"),
-            (False, True, "witnessed"), (False, False, None))
+            (False, True, "witnessed"), (False, False, "witness-contradicts-a-failing-property"),
+            ("no", False, "vacuity-result-not-a-boolean"), (True, 0, "vacuity-result-not-a-boolean"))
 
 _A = {"id": "a", "key": "ka", "authority": "org-a"}
 _B = {"id": "b", "key": "kb", "authority": "org-b"}
@@ -244,6 +251,11 @@ _SIGNERS = (
     ([_B], {"b": True}, 1, "ka", "distinct"),
     ([_A, _B], {"a": True, "b": True}, 1, "ka", "own_key_as_cosigner"),
     ([_A, _B], {"a": True, "b": "yes"}, 2, None, "key_named_not_signing"),
+    # A threshold below 1, or a boolean, is met by nobody signing.
+    ([], {}, 0, None, "required-count-not-a-positive-integer"),
+    ([_A], {"a": True}, -3, None, "required-count-not-a-positive-integer"),
+    ([_A], {"a": True}, True, None, "required-count-not-a-positive-integer"),
+    ([{"key": "ka", "authority": "org-a"}], {}, 1, None, "signer-entry-malformed"),
 )
 
 
@@ -282,6 +294,9 @@ _LIFECYCLE = (
     ("V11 two decision records with one identity",
      [_DEC, _art("dec", "decision", "i1", "Z"), _art("c1", "control", "i1", "X"),
       _art("e1", "execution", "i1", "X")], "i1", "indeterminate"),
+    ("V13 one identity in two groups", [_DEC, _art("dec2", "decision", "i2", "-"), _art("c1", "control", "i1", "X"),
+     _art("e1", "execution", "i1", "X"), _art("c1", "control", "i2", "Y"), _art("e2", "execution", "i2", "Y")],
+     "i1", "indeterminate"),
     ("V12 decision under a revoked binding", [_art("dec", "decision", "i1", "-", binding="b-revoked"),
      _art("c1", "control", "i1", "X"), _art("e1", "execution", "i1", "X")], "i1", "not_evaluated"),
 )
@@ -315,14 +330,18 @@ def _lifecycle_mutants(registry) -> list[str]:
     failures = []
     original = registry._group_state
 
-    def no_duplicate_rule(group, active):
+    def no_duplicate_rule(group, active, shared=frozenset()):
         return original([a for i, a in enumerate(group) if a["id"] not in {g["id"] for g in group[:i]}], active)
 
-    def no_revocation_rule(group, active):
-        return original(group, frozenset({a["binding"] for a in group}))
+    def no_revocation_rule(group, active, shared=frozenset()):
+        return original(group, frozenset({a["binding"] for a in group}), shared)
+
+    def no_cross_group_identity_rule(group, active, shared=frozenset()):
+        return original(group, active)
 
     mutants = (("duplicate", no_duplicate_rule, "V3 duplicate identity"),
-               ("revocation", no_revocation_rule, "V4 revoked binding"))
+               ("revocation", no_revocation_rule, "V4 revoked binding"),
+               ("cross-group identity", no_cross_group_identity_rule, "V13 one identity in two groups"))
     for rule, mutant, case in mutants:
         registry._group_state = mutant
         try:
@@ -376,12 +395,18 @@ def _check_derivations(registry) -> tuple[list[str], int]:
         got = _label(registry.check_outcomes(report, _PROFILE))
         if got != expected:
             failures.append(f"check_outcomes({report}) gave {got!r}, expected {expected!r}")
+    for report, profile, expected in (([], [], "profile-names-no-check"),
+                                      ([("parse", "pass"), ("parse", "pass")], ["parse", "parse"],
+                                       "profile-names-a-check-twice")):
+        got = _label(registry.check_outcomes(report, profile))
+        if got != expected:
+            failures.append(f"check_outcomes over the profile {profile} gave {got!r}, expected {expected!r}")
     for passed, witness, expected in _VACUITY:
-        got = registry.vacuity_witness(passed, witness).value
+        got = _label(registry.vacuity_witness(passed, witness))
         if got != expected:
             failures.append(f"vacuity_witness({passed}, {witness}) gave {got!r}, expected {expected!r}")
     for named, sigs, required, issuer, expected in _SIGNERS:
-        got = registry.signer_distinctness(named, sigs, required, issuer).value
+        got = _label(registry.signer_distinctness(named, sigs, required, issuer))
         if got != expected:
             failures.append(f"signer_distinctness case {expected} gave {got!r}")
     for name, artifacts, instruction, expected in _LIFECYCLE:
@@ -398,18 +423,26 @@ def _check_derivations(registry) -> tuple[list[str], int]:
         except registry.MalformedInputs:
             continue
         failures.append(f"payment_scope_v1 with {scope_change} {pay_change} gave {got}, expected malformed")
-    unregistered = [_DEC, _art("c1", "control", "i1", "X"), _art("e1", "execution", "i1", "X"),
-                    _art("e2", "execution_report", "i1", "Y")]
-    try:
-        got = registry.lifecycle_binding(unregistered, _ACTIVE)
-        failures.append(f"lifecycle_binding skipped an unregistered artifact kind and gave {got}")
-    except registry.MalformedInputs:
-        pass
+    honest = [_DEC, _art("c1", "control", "i1", "X"), _art("e1", "execution", "i1", "X")]
+    no_auth = {k: v for k, v in honest[2].items() if k != "authenticated"}
+    for name, bad in (("an unregistered artifact kind", _art("e2", "execution_report", "i1", "Y")),
+                      ("an artifact with no authenticated member", no_auth),
+                      ("an authenticated member that is a string", {**honest[2], "authenticated": "true"}),
+                      ("an artifact that is not an object", "e1")):
+        try:
+            got = registry.lifecycle_binding([*honest[:2], bad], _ACTIVE)
+            failures.append(f"lifecycle_binding accepted {name} and gave {got}")
+        except registry.MalformedInputs:
+            pass
     failures.extend(_preimage_cases(registry))
     partial = {k: v for k, v in _TIME.items() if k != "anchor_within"}
     got = _label(registry.time_bounds(10000, 10000, 10500, partial))
     if got != "time-profile-member-missing":
         failures.append(f"time_bounds with no anchor_within gave {got!r}, expected a refusal")
+    misspelled = {**_TIME, "clock_skew_tollerance": 300}
+    got = _label(registry.time_bounds(10000, 10000, None, misspelled))
+    if got != "time-profile-member-unknown":
+        failures.append(f"time_bounds with a misspelled member gave {got!r}, expected a refusal by name")
     no_early = {k: v for k, v in _TIME.items() if k != "anchor_early_allowance"}
     got = _label(registry.time_bounds(10000, 10000, 10500, no_early))
     if got != "time-profile-member-missing":
@@ -419,7 +452,7 @@ def _check_derivations(registry) -> tuple[list[str], int]:
         failures.append(f"time_bounds with no anchor time asked for anchor_early_allowance and gave {got!r}")
     failures.extend(_lifecycle_mutants(registry))
     count = (len(_PAYMENTS) + len(_MALFORMED) + 2 + len(_ASSERTED) + len(_DECISIONS) + len(_REPORTS) + len(_VACUITY)
-             + len(_SIGNERS) + len(_LIFECYCLE) + len(_TIMES) + 5)
+             + len(_SIGNERS) + len(_LIFECYCLE) + len(_TIMES) + 11)
     return failures, count
 
 

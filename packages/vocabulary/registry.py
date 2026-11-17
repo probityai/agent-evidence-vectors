@@ -511,9 +511,16 @@ def check_outcomes(report: list[tuple[str, str]], profile: list[str]) -> Derived
 
     The report derives fail when a check failed, pass only when every check ran and passed, and
     not_evaluated when none failed and at least one did not run (its inputs were absent): a report whose
-    checks did not run never reads as a pass.
+    checks did not run never reads as a pass. A profile that names no check, or names one check twice, is
+    refused: a pass over no checks is a pass over nothing, and a repeated name lets one check stand for two.
     """
     term = "check_outcome"
+    if not isinstance(profile, list) or not profile:
+        return _refuse(term, "profile-names-no-check")
+    if len(set(profile)) != len(profile):
+        return _refuse(term, "profile-names-a-check-twice")
+    if not isinstance(report, list) or not all(isinstance(e, tuple) and len(e) == 2 for e in report):
+        return _refuse(term, "report-entry-malformed")
     if [name for name, _ in report] != profile:
         return _refuse(term, "report-does-not-list-the-profile-in-order")
     failed = skipped = False
@@ -583,9 +590,10 @@ def payment_scope_v1(scope: dict, payment: dict) -> tuple[str, str | None]:
     return "within", None
 
 
+#: name -> (function from recorded inputs to a verdict, the verdicts the function can return)
 EVALUATORS = {
     "https://probityai.github.io/agent-evidence-vectors/evaluator/payment-scope/v1":
-        lambda inputs: payment_scope_v1(inputs["scope"], inputs["payment"])[0],
+        (lambda inputs: payment_scope_v1(inputs["scope"], inputs["payment"])[0], ("within", "outside")),
 }
 
 
@@ -599,24 +607,34 @@ def _absolute_https(name: object) -> bool:
 def asserted_verdict(record: dict, evaluators: dict | None = None) -> Derived:
     """Re-derive a record's asserted verdict under the evaluator it names; never read the assertion as input.
 
-    A named evaluator must be an absolute https URI with a host. Inputs the named evaluator holds as
-    malformed (missing, of another type, out of range) refuse the record; they never re-derive a verdict.
+    A named evaluator must be an absolute https URI with a host. ``evaluators`` maps a name to (function,
+    output values). A record that carries no asserted verdict, or one that is not among the evaluator's output
+    values, is refused (never read as contradicted: there is no claim to contradict). Inputs the named
+    evaluator holds as malformed (missing, of another type, out of range) refuse the record; they never
+    re-derive a verdict.
     """
     term = "asserted_verdict"
     known = EVALUATORS if evaluators is None else evaluators
+    if not isinstance(record, dict):
+        return _refuse(term, "record-not-an-object")
     name = record.get("evaluator")
     if name is not None and not _absolute_https(name):
         return _refuse(term, "evaluator-not-an-https-uri")
     if name not in known:
         return Derived(term, "evaluator_unknown", False, "no evaluator the verifier holds")
+    function, outputs = known[name]
+    if "asserted" not in record:
+        return _refuse(term, "no-asserted-verdict")
+    if not isinstance(record["asserted"], str) or record["asserted"] not in outputs:
+        return _refuse(term, "asserted-verdict-not-an-evaluator-output")
     inputs = record.get("inputs")
     if not isinstance(inputs, dict):
         return _refuse(term, "evaluator-inputs-malformed")
     try:
-        rederived = known[name](inputs)
+        rederived = function(inputs)
     except (MalformedInputs, KeyError, TypeError):
         return _refuse(term, "evaluator-inputs-malformed")
-    if rederived == record.get("asserted"):
+    if rederived == record["asserted"]:
         return Derived(term, "rederived_agrees", False, "re-derived verdict equals the assertion")
     return Derived(term, "asserted_verdict_contradicted", False, "re-derived verdict differs")
 
@@ -625,9 +643,12 @@ def vacuity_witness(passed: bool, witness: bool | None) -> Derived:
     """Judge a property result with its reachability witness (None: no witness declared or run).
 
     A failing property with a falsified witness is refused: a property over an unreachable guarded state
-    has no trace that can violate it, so the two results contradict each other.
+    has no trace that can violate it, so the two results contradict each other. A result that is not a
+    boolean (the witness may also be None) is refused: the string "no" is not a failing property.
     """
     term = "vacuity_witness"
+    if not isinstance(passed, bool) or (witness is not None and not isinstance(witness, bool)):
+        return _refuse(term, "vacuity-result-not-a-boolean")
     if witness is None:
         return Derived(term, "no_witness", False, "no witness")
     if passed and not witness:
@@ -643,9 +664,18 @@ def signer_distinctness(named: list[dict], signatures: dict, required: int, issu
     ``named``: [{id, key, authority}]; ``signatures``: {id: verifies (bool)}; ``issuer_key``: the issuer's
     own key, which never counts as a cosigner. Two named signers under one id share one signature, so the
     second is named and not signing. A count of distinct keys below ``required`` is one_key_two_ids when a
-    key was listed twice and below_threshold otherwise.
+    key was listed twice and below_threshold otherwise. A record that names the issuer's own key among its
+    signers is own_key_as_cosigner whatever the count. ``required`` is an integer of at least 1, never a
+    boolean: a threshold of 0 is met by nobody signing. A named signer that is not an object with string id,
+    key and authority is refused.
     """
     term = "signer_distinctness"
+    if isinstance(required, bool) or not isinstance(required, int) or required < 1:
+        return _refuse(term, "required-count-not-a-positive-integer")
+    if not isinstance(named, list) or not isinstance(signatures, dict) or not all(
+            isinstance(s, dict) and all(isinstance(s.get(k), str) for k in ("id", "key", "authority"))
+            for s in named):
+        return _refuse(term, "signer-entry-malformed")
     seen: set = set()
     for signer in named:
         if signer["id"] in seen:
@@ -668,12 +698,25 @@ def signer_distinctness(named: list[dict], signatures: dict, required: int, issu
 _LIFECYCLE_KINDS = ("decision", "control", "execution")
 
 
-def _group_state(group: list[dict], active: frozenset[str]) -> str:
-    """The state of one (decision, instruction) group, decision records included."""
-    if any(a["kind"] not in _LIFECYCLE_KINDS for a in group):
+_ARTIFACT_TYPES = (("id", str), ("kind", str), ("decision", str), ("instruction", str), ("digest", str),
+                   ("authenticated", bool), ("binding", str))
+
+
+def _well_formed(artifact) -> None:
+    if not isinstance(artifact, dict) or not all(isinstance(artifact.get(name), kind)
+                                                 for name, kind in _ARTIFACT_TYPES):
+        raise MalformedInputs("a lifecycle artifact lacks a member or carries one of another type")
+    if artifact["kind"] not in _LIFECYCLE_KINDS:
         raise MalformedInputs("an artifact kind is not decision, control or execution")
+
+
+def _group_state(group: list[dict], active: frozenset[str], shared: frozenset[str] = frozenset()) -> str:
+    """The state of one (decision, instruction) group, decision records included.
+
+    ``shared``: identities that appear on more than one artifact anywhere in the input.
+    """
     ids = [a["id"] for a in group]
-    if len(set(ids)) < len(ids):
+    if len(set(ids)) < len(ids) or shared.intersection(ids):
         return "indeterminate"
     decisions = [a for a in group if a["kind"] == "decision"]
     authorize = [a for a in group if a["kind"] == "control"]
@@ -711,18 +754,29 @@ def lifecycle_binding(artifacts: list[dict], active_bindings: frozenset[str]) ->
     """The lifecycle-binding state per (decision, instruction) group.
 
     Each artifact is {id, kind ('decision', 'control' or 'execution'), decision, instruction, digest,
-    authenticated (bool: the signature verifies under the key its producer's binding names), binding}. Any
-    other kind raises MalformedInputs: an unregistered artifact type fails closed. The rules apply in this
+    authenticated (bool: the signature verifies under the key its producer's binding names), binding}, every
+    member a string except authenticated. Any other kind, a missing member or a member of another type
+    raises MalformedInputs: an unregistered artifact type fails closed. An identity is one artifact across
+    the whole input: an id carried by two artifacts makes every group holding it indeterminate, even when the
+    two sit in different groups. The rules apply in this
     order to every artifact of the group, the cited decision record included: two artifacts with one id
     give indeterminate; an execution no control covers gives not_evaluated; a group without a control, an
     execution or the decision record it cites is missing; an artifact that does not authenticate gives
     failure; one bound by a binding that is not active gives not_evaluated; otherwise every control digest
     must equal every execution digest. Returns {(decision, instruction): state}.
     """
+    if not isinstance(artifacts, list):
+        raise MalformedInputs("the lifecycle artifacts are not a list")
+    for artifact in artifacts:
+        _well_formed(artifact)
+    counts: dict[str, int] = {}
+    for artifact in artifacts:
+        counts[artifact["id"]] = counts.get(artifact["id"], 0) + 1
+    shared = frozenset(i for i, n in counts.items() if n > 1)
     groups: dict[tuple, list[dict]] = {}
     for artifact in artifacts:
         groups.setdefault((artifact["decision"], artifact["instruction"]), []).append(artifact)
-    return {key: _group_state(group, active_bindings) for key, group in groups.items()}
+    return {key: _group_state(group, active_bindings, shared) for key, group in groups.items()}
 
 
 _TIME_PAST_AND_FUTURE = ("max_age", "uncertainty", "clock_skew_tolerance")
@@ -734,12 +788,17 @@ def time_bounds(issued_at: int, check_time: int, anchor_time: int | None, profil
 
     ``profile``: max_age, uncertainty, clock_skew_tolerance, and, when an anchor time is given,
     anchor_within, block_time_allowance and anchor_early_allowance (seconds). A profile missing a member the
-    check needs is refused, never defaulted. Past bound: max_age plus uncertainty. Future bound:
+    check needs is refused, never defaulted, and a member the profile does not define (a misspelled
+    allowance) is refused by name. Past bound: max_age plus uncertainty. Future bound:
     clock_skew_tolerance only. Anchor: at most anchor_within plus block_time_allowance after issuance, and at
     most anchor_early_allowance before it. Every bound admits equality.
     """
     term = "clock_skew_tolerance"
     needed = _TIME_PAST_AND_FUTURE + (_TIME_ANCHOR if anchor_time is not None else ())
+    if not isinstance(profile, dict):
+        return _refuse(term, "time-profile-member-missing")
+    if any(name not in _TIME_PAST_AND_FUTURE + _TIME_ANCHOR for name in profile):
+        return _refuse(term, "time-profile-member-unknown")
     if any(name not in profile for name in needed):
         return _refuse(term, "time-profile-member-missing")
     values = [issued_at, check_time, *(v for v in [anchor_time] if v is not None), *profile.values()]

@@ -12,7 +12,7 @@ Name the rule that turns a record's inputs into its verdict, the outcomes of re-
 | `check_outcome` | the outcome of one check in a fixed-order verification | every check after the first failure is `not_evaluated`, never `pass` |
 | `vacuity_witness` | whether a property reported as holding was ever exercised | a pass with a falsified witness is refused and the case counts as not run |
 | `evidence_attribution` | which parties a record binds | two signatures bind two parties; they never prove the record true or the parties independent |
-| `signer_distinctness` | whether the signers counted toward a threshold are distinct keys and distinct authorities | a count met only by counting a key or an authority twice is refused |
+| `signer_distinctness` | whether the signers counted toward a threshold are distinct keys and distinct authorities | a count met only by counting a key or an authority twice is refused; the issuer's own key listed among the signers is refused whatever the count; a required count below 1 is refused |
 | `lifecycle_binding` | whether the authenticated execution report names the action the authenticated control authorized | grouped by decision and instruction, every pair compared, five states |
 | `on_behalf_of` | the party an agent acted for | reported next to the signer that attributed it; never read as consent |
 | `anchor_within` | the late bound on a record's external time anchor | checked with equality allowed, after a range check |
