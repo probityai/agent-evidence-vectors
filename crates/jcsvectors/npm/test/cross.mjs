@@ -1,5 +1,6 @@
 // The cross-language check: the Go module and this package must agree on every
-// case: its kind, identifier, input and canonical digests, features and codes.
+// case: its kind, identifier, clause, family, input and canonical digests,
+// features, profile and codes.
 // Usage: node test/cross.mjs <summary.json written by the Go TestWriteSummary>
 import { readFileSync } from "node:fs";
 import { isDeepStrictEqual } from "node:util";

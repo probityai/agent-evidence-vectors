@@ -37,6 +37,7 @@ export const PROFILES = Object.freeze(Object.keys(EXCLUDED));
 
 const MAX_SAFE_INTEGER = 2n ** 53n - 1n;
 const utf8 = new TextEncoder();
+const tokenDecoder = new TextDecoder("utf-8");
 
 /** True when a case with these features is inside the profile; throws on an unknown profile. */
 export function admits(profile, features) {
@@ -45,11 +46,20 @@ export function admits(profile, features) {
   return !features.some((f) => out.includes(f));
 }
 
-/** Split cases into those inside the profile and those outside it, keeping their order. */
+/**
+ * True when the profile holds an implementation to the case. A case with no
+ * canonical bytes must be refused and is inside every profile: a subset of RFC
+ * 8785 accepts less input, never more. Throws on an unknown profile.
+ */
+export function includes(profile, c) {
+  return admits(profile, c.features) || c.canonical === null;
+}
+
+/** Split cases into those inside the profile and those outside it, as `includes` decides, keeping their order. */
 export function filter(profile, cases) {
   const inProfile = [];
   const outOfProfile = [];
-  for (const c of cases) (admits(profile, c.features) ? inProfile : outOfProfile).push(c);
+  for (const c of cases) (includes(profile, c) ? inProfile : outOfProfile).push(c);
   return { inProfile, outOfProfile };
 }
 
@@ -92,14 +102,12 @@ function numberFeatures(token) {
   if (fraction) out.push(FEATURES.fraction);
   if (token[0] === "-" && !/[1-9]/.test(significand)) out.push(FEATURES.negativeZero);
   if (exponent || fraction) return out;
-  let value;
-  try {
-    value = BigInt(token);
-  } catch {
-    // Digits with a stray sign: malformed, refused before any number is read.
-    return out;
-  }
-  if ((value < 0n ? -value : value) > MAX_SAFE_INTEGER) out.push(FEATURES.unsafeInteger);
+  const digits = token.startsWith("-") ? token.slice(1) : token;
+  // Digits with a stray sign: malformed, refused before any number is read.
+  if (!/^[0-9]+$/.test(digits)) return out;
+  // 2^53 - 1 has 16 digits, so a longer magnitude is unsafe without being parsed.
+  const magnitude = digits.replace(/^0+/, "");
+  if (magnitude.length > 16 || BigInt(`0${magnitude}`) > MAX_SAFE_INTEGER) out.push(FEATURES.unsafeInteger);
   else out.push(FEATURES.integer);
   return out;
 }
@@ -123,7 +131,9 @@ export function features(input, canonical = null) {
     } else if (!inString && (b === 0x2d || isDigit(b))) {
       const start = i;
       while (i + 1 < input.length && isNumberByte(input[i + 1])) i++;
-      const token = String.fromCharCode(...input.subarray(start, i + 1));
+      // Every byte of a number token is ASCII. A spread into fromCharCode
+      // would overflow the stack on a token of a few hundred thousand digits.
+      const token = tokenDecoder.decode(input.subarray(start, i + 1));
       for (const f of numberFeatures(token)) set.add(f);
     }
   }

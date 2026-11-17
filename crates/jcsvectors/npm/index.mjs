@@ -1,20 +1,21 @@
 // RFC 8785 (JSON Canonicalization Scheme) test vectors as files inside this
 // package, each checked against its SHA-256 before any case is returned. The
 // same files, read by the same rules, as the Go module
-// github.com/probityai/agent-evidence-vectors/jcsvectors and the Rust crate
-// jcsvectors.
+// github.com/probityai/agent-evidence-vectors/jcsvectors; the Rust crate
+// jcsvectors 0.1 carries the same files without features, profiles or
+// parser differentials.
 
 import { readFileSync } from "node:fs";
 
 import { readers } from "./lib.mjs";
 
-export { A2A_CORPUS, BYTE_CORPUS, DEPTH_CAP, FEATURES, PROFILES, SOURCE_GO, admits, features, filter } from "./lib.mjs";
+export { A2A_CORPUS, BYTE_CORPUS, DEPTH_CAP, FEATURES, PROFILES, SOURCE_GO, admits, features, filter, includes } from "./lib.mjs";
 
 const vectors = readers((name) => new Uint8Array(readFileSync(new URL(`./data/${name}`, import.meta.url))));
 
 /** Every case a canonicalizer must accept, with the exact bytes RFC 8785 requires. */
 export const canonical = vectors.canonical;
-/** Every case a canonicalizer must refuse. Some inputs are not UTF-8: compare bytes. */
+/** Every case a canonicalizer must refuse, under any profile. Some inputs are not UTF-8: compare bytes. */
 export const reject = vectors.reject;
 /** Bytes a printer presents as canonical that RFC 8785 does not print that way. */
 export const drifts = vectors.drifts;

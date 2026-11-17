@@ -47,7 +47,7 @@ export interface Differential {
 }
 
 export interface ProfileOption {
-  /** Return only the cases inside this profile. */
+  /** Return only the cases inside this profile. Every case that must be refused is inside every profile. */
   profile?: Profile;
 }
 
@@ -68,4 +68,6 @@ export function files(): [string, Uint8Array][];
 export function features(input: Uint8Array, canonical?: Uint8Array | null): Feature[];
 /** Throws on a profile this package does not know. */
 export function admits(profile: Profile, features: readonly Feature[]): boolean;
-export function filter<T extends { features: Feature[] }>(profile: Profile, cases: T[]): { inProfile: T[]; outOfProfile: T[] };
+/** True when the profile holds an implementation to the case: a case with no canonical bytes is inside every profile. */
+export function includes(profile: Profile, c: { features: readonly Feature[]; canonical: Uint8Array | null }): boolean;
+export function filter<T extends { features: Feature[]; canonical: Uint8Array | null }>(profile: Profile, cases: T[]): { inProfile: T[]; outOfProfile: T[] };

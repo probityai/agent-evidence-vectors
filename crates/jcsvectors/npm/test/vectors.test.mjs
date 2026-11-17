@@ -15,6 +15,7 @@ import {
   features,
   files,
   filter,
+  includes,
   parserDifferential,
   reject,
   tooDeep,
@@ -101,6 +102,9 @@ test("number and string features", () => {
     ['{"n":1e3}', ["exponent"]],
     ['{"n":1E3}', ["exponent"]],
     ['{"n":-1.5e-7}', ["exponent", "fraction"]],
+    ['{"n":00000000000000000000001}', ["integer"]],
+    ['{"n":-00000000000000009007199254740992}', ["unsafe-integer"]],
+    ['{"n":1-2}', []],
     ['{"n":-0}', ["integer", "negative-zero"]],
     ['{"n":-0.0}', ["fraction", "negative-zero"]],
     ['{"n":-Infinity}', []],
@@ -112,6 +116,11 @@ test("number and string features", () => {
   assert.deepEqual(features(enc.encode('{"s":"caf\u00e9"}')), ["non-ascii"]);
   assert.deepEqual(features(Uint8Array.from([0x5b, 0x22, 0xff, 0x22, 0x5d])), ["non-ascii", "not-utf8"]);
   assert.ok(features(enc.encode('["\\u00e9"]'), enc.encode('["\u00e9"]')).includes(FEATURES.nonAscii));
+  // A token far longer than a call's argument limit is read, not a RangeError.
+  const long = new Uint8Array(1 << 20).fill(0x31);
+  long[0] = 0x5b;
+  long[long.length - 1] = 0x5d;
+  assert.deepEqual(features(long), ["unsafe-integer"]);
 });
 
 test("every case's features are read from its bytes, sorted and unique", () => {
@@ -121,13 +130,21 @@ test("every case's features are read from its bytes, sorted and unique", () => {
   }
 });
 
-test("the integer-only profile excludes exactly fraction, exponent and unsafe integers", () => {
+test("the integer-only profile excludes exactly the accept cases with a fraction, exponent or unsafe integer", () => {
   const all = [...canonical(), ...reject()];
   const { inProfile, outOfProfile } = filter("integer-only", all);
   assert.equal(inProfile.length + outOfProfile.length, all.length);
   const nonInteger = (v) => v.features.some((f) => ["fraction", "exponent", "unsafe-integer"].includes(f));
-  for (const v of inProfile) assert.ok(!nonInteger(v), v.id);
-  for (const v of outOfProfile) assert.ok(nonInteger(v), v.id);
+  for (const v of inProfile) assert.ok(v.canonical === null || !nonInteger(v), v.id);
+  for (const v of outOfProfile) assert.ok(nonInteger(v) && v.canonical !== null, v.id);
+  // "[1e999]" is refused by every profile: an integer-only canonicalizer that
+  // prints it has failed, not left its profile.
+  const refusals = reject({ profile: "integer-only" });
+  assert.equal(refusals.length, reject().length);
+  assert.equal(refusals.filter((v) => v.id.startsWith("refuse-non-finite-overflow") && nonInteger(v)).length, 3);
+  assert.ok(refusals.every((v) => includes("integer-only", v)));
+  assert.throws(() => includes("integer", { features: [], canonical: null }), /unknown profile/);
+  assert.throws(() => reject({ profile: "integer" }), /unknown profile/);
   assert.equal(outOfProfile.filter((v) => v.corpus === A2A_CORPUS).length, 11);
   assert.equal(canonical({ profile: "integer-only" }).length, inProfile.filter((v) => v.canonical !== null).length);
   assert.equal(canonical({ profile: "rfc8785" }).length, canonical().length);
@@ -165,6 +182,13 @@ test("parser differentials", () => {
     }
   }
   assert.ok(lenient > 0 && lenient < all.length, `JSON.parse accepted ${lenient} of ${all.length}`);
+  // A reader that edits its input in place cannot change the next call.
+  for (const d of parserDifferential()) {
+    d.input.fill(0);
+    d.canonical?.fill(0);
+    d.features.length = 0;
+  }
+  assert.deepEqual([...parserDifferential()], all);
   const iterator = parserDifferential();
   assert.equal(iterator.next().done, false);
   assert.equal(typeof iterator.return, "function");
@@ -192,4 +216,14 @@ test("drift and depth cases", () => {
     assert.equal(nesting(v.input), DEPTH_CAP, v.id);
     assert.deepEqual(v.input, v.canonical, v.id);
   }
+});
+
+test("provenance is asked for only by the release workflow", () => {
+  // The first version goes up by token from a checkout, where npm cannot
+  // generate provenance and refuses a publish that asks for it.
+  const pkg = JSON.parse(readFileSync(new URL("../package.json", import.meta.url), "utf8"));
+  assert.equal(pkg.publishConfig?.provenance, undefined);
+  const release = readFileSync(new URL("../../../../.github/workflows/release.yml", import.meta.url), "utf8");
+  const job = release.slice(release.indexOf("publish-jcsvectors-npm:"));
+  assert.match(job.slice(0, job.indexOf("\n  qualify-")), /npm publish "\$TARBALL" --access public --provenance/);
 });
