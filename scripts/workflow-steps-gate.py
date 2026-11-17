@@ -385,7 +385,11 @@ def own_action(inputs: dict[str, Any]) -> Local:
         return Local(
             ': "${RUNNER_TEMP:?RUNNER_TEMP is required}"\n'
             f"python3 -S scripts/action-conformance.py {shlex.join(argv)}"
-            f' --report "$RUNNER_TEMP"/{shlex.quote(pathlib.Path(report).name)} --github\n',
+            f' --report "$RUNNER_TEMP"/{shlex.quote(pathlib.Path(report).name)} --github'
+            " || true\n"
+            # The action's last step lets `pass` and `no-verdict` through and
+            # fails everything else, whatever the script's exit; so does this.
+            'grep -qx -e "result=pass" -e "result=no-verdict" "$GITHUB_OUTPUT" || exit 1\n',
             "",
         )
     corpus = str(inputs.get("corpus", "") or "vectors")

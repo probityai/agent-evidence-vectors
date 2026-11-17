@@ -44,7 +44,6 @@ import importlib.util
 import json
 import os
 import re
-import shlex
 import subprocess
 import sys
 import tempfile
@@ -127,7 +126,16 @@ HEX64 = re.compile(r"^[0-9a-f]{64}$")
 
 
 def nudged(value: Any) -> list[tuple[str, Any]]:
-    """The one-unit moves of a scalar, each with its name."""
+    """The one-unit moves of a scalar that change it, each with its name.
+
+    A move that lands on the value it started from (2^53 moved to 2^53, a float
+    past 2^53 plus one) is not a mutant: it is the accepted member again, and
+    both verifiers accepting it would be filed as a survivor no rule could bind.
+    """
+    return [(name, new) for name, new in _moves(value) if new != value]
+
+
+def _moves(value: Any) -> list[tuple[str, Any]]:
     if isinstance(value, bool):
         return [("negated", not value)]
     if isinstance(value, int):
@@ -245,14 +253,43 @@ def _flip(document: Any, path: Path_, payload: bytes, index: int) -> Build:
     return build
 
 
-def bytes_mutants(document: Any, paths: list[Path_]) -> Iterator[tuple[str, Build]]:
+#: A mutant's control: the unmutated member rebuilt the way that mutant is
+#: built (re-encoded, and re-signed when the mutant is). Both verifiers must
+#: accept it, or a rejection of the mutant says nothing about the edit: a wrong
+#: re-sign key, a batch root computed another way, or an encoding a verifier
+#: refuses kills every mutant without any rule binding the field.
+Control = tuple[str, Build]
+DOCUMENT = "document as re-encoded"
+
+
+def _as_is(document: Any) -> Build:
+    def build() -> bytes:
+        return json.dumps(document).encode()
+
+    return build
+
+
+def _resealed_as_is(document: Any, path: Path_, inner: Any, seed: bytes) -> Build:
+    def build() -> bytes:
+        mutant = copy.deepcopy(document)
+        body = json.dumps(inner, separators=(",", ":")).encode()
+        get_at(mutant, path)["payload"] = base64.b64encode(body).decode()
+        reseal(mutant, seed, path)
+        return json.dumps(mutant).encode()
+
+    return build
+
+
+def bytes_mutants(document: Any, paths: list[Path_]) -> Iterator[tuple[str, Build, Control]]:
     """Every bit of every DSSE payload, flipped; never re-signed."""
+    control = (DOCUMENT, _as_is(document))
     for path in paths:
         payload = base64.b64decode(get_at(document, path)["payload"])
         for index in range(len(payload) * 8):
             yield (
                 f"{'/'.join(map(str, path))} payload bit {index}",
                 _flip(document, path, payload, index),
+                control,
             )
 
 
@@ -282,16 +319,17 @@ def _edited(document: Any, target_path: Path_, edit: tuple[Path_, Any]) -> Build
 
 def structural_mutants(
     document: Any, paths: list[Path_], seed: bytes
-) -> Iterator[tuple[str, Build]]:
+) -> Iterator[tuple[str, Build, Control]]:
     """Each signed payload's edits, re-signed; then the statement's own edits."""
     for path in paths:
         try:
             inner = json.loads(base64.b64decode(get_at(document, path)["payload"]))
         except ValueError:
             continue
+        where = "/".join(map(str, path))
+        control = (f"{where} re-signed unchanged", _resealed_as_is(document, path, inner, seed))
         for name, sub, value in structural_edits(inner):
-            label = f"{'/'.join(map(str, path))}: {name}"
-            yield label, _resigned(document, path, inner, (sub, value), seed)
+            yield f"{where}: {name}", _resigned(document, path, inner, (sub, value), seed), control
     has_predicate = isinstance(document, dict) and isinstance(document.get("predicate"), dict)
     target_path: Path_ = ["predicate"] if has_predicate else []
     inside = {tuple(p[len(target_path) :]) for p in paths}
@@ -299,11 +337,14 @@ def structural_mutants(
         if any(s and tuple(sub[: len(s)]) == s for s in inside):
             continue  # an edit inside an envelope is made, and re-signed, above
         label = f"{'/'.join(map(str, target_path + sub))}: {name}"
-        yield label, _edited(document, target_path, (sub, value))
+        yield label, _edited(document, target_path, (sub, value)), (DOCUMENT, _as_is(document))
 
 
-def mutants(raw: bytes, mode: str, seed: bytes | None) -> Iterator[tuple[str, Build | str]]:
-    """(description, builder) for one member; a str in place of a builder is a refusal."""
+Mutant = tuple[str, Build, Control] | tuple[str, str]
+
+
+def mutants(raw: bytes, mode: str, seed: bytes | None) -> Iterator[Mutant]:
+    """(description, builder, control) for one member; (description, str) is a refusal."""
     try:
         document = json.loads(raw)
     except ValueError:
@@ -366,6 +407,7 @@ def reference_route(manifest: dict[str, Any]) -> tuple[Any, str] | None:
 
 
 def candidate(verifier: list[str], path: Path) -> str:
+    """The verifier under test on one file: valid, invalid, or why it did not answer."""
     try:
         done = subprocess.run(  # noqa: S603 -- the consumer's verifier, as in the replay
             [*verifier, str(path)],
@@ -386,23 +428,36 @@ def candidate(verifier: list[str], path: Path) -> str:
     )
 
 
+Planned = tuple[dict[str, Any], str, Build, tuple[str, str]]
+
+
 def plan(
     members: list[dict[str, Any]], corpus_dir: Path, mode: str, seed: bytes | None
-) -> tuple[list[tuple[dict[str, Any], str, Build]], list[str], list[str]]:
-    """Every mutant of every member, unbuilt; and the members refused or skipped."""
-    planned: list[tuple[dict[str, Any], str, Build]] = []
+) -> tuple[list[Planned], dict[tuple[str, str], Build], list[str], list[str]]:
+    """Every mutant of every member, unbuilt, with its control; the members refused or skipped."""
+    planned: list[Planned] = []
+    controls: dict[tuple[str, str], Build] = {}
     refusals: list[str] = []
     skipped: list[str] = []
     for member in members:
         raw = (corpus_dir / member["path"]).read_bytes()
-        for name, build in mutants(raw, mode, seed):
-            if isinstance(build, str):
-                (skipped if build.startswith(SKIP) else refusals).append(
-                    f"{member['id']}: {build.removeprefix(SKIP)}"
+        for item in mutants(raw, mode, seed):
+            if len(item) == 2:
+                (skipped if item[1].startswith(SKIP) else refusals).append(
+                    f"{member['id']}: {item[1].removeprefix(SKIP)}"
                 )
                 break
-            planned.append((member, name, build))
-    return planned, refusals, skipped
+            name, build, (control_name, control_build) = item
+            key = (member["id"], control_name)
+            controls.setdefault(key, control_build)
+            planned.append((member, name, build, key))
+    return planned, controls, refusals, skipped
+
+
+def file_name(member_id: str, suffix: str) -> str:
+    """A temporary file name for a member's mutant: the id may hold `/` or `..`."""
+    safe = re.sub(r"[^A-Za-z0-9._-]", "_", member_id).lstrip(".")[:80] or "member"
+    return f"{safe}-{suffix}.json"
 
 
 def compare(mine: str, theirs: str | None, label: str, tally: dict[str, Any]) -> None:
@@ -419,6 +474,38 @@ def compare(mine: str, theirs: str | None, label: str, tally: dict[str, Any]) ->
         tally["survivors"].append(f"{label}: both verifiers say {mine}")
 
 
+def judge_controls(
+    keys: set[tuple[str, str]],
+    controls: dict[tuple[str, str], Build],
+    verifier: list[str],
+    route: tuple[Any, str] | None,
+    root: Path,
+) -> dict[tuple[str, str], str | None]:
+    """Each needed control judged by both verifiers: None when both accept it, else why not."""
+    failed: dict[tuple[str, str], str | None] = {}
+    for number, key in enumerate(sorted(keys)):
+        member_id, name = key
+        path = root / file_name(member_id, f"c{number:06d}")
+        path.write_bytes(controls[key]())
+        mine = candidate(verifier, path)
+        theirs = None
+        if route is not None:
+            try:
+                theirs = route[0]({"id": member_id, "file": path.name}, root)
+            except Exception as exc:  # noqa: BLE001 -- one control must not hide the rest
+                theirs = f"errored ({exc!r})"
+        path.unlink()
+        if mine == "valid" and theirs in (None, "valid"):
+            failed[key] = None
+        else:
+            failed[key] = (
+                f"{member_id}: the unmutated member ({name}) is {mine} to the verifier under "
+                f"test and {theirs or 'unjudged'} to the reference, so a rejected mutant of it "
+                "says nothing about its edit"
+            )
+    return failed
+
+
 def run(mode: str, verifier: list[str], corpus_dir: Path, limit: int) -> dict[str, Any]:
     manifest = action_checks.manifest_of(corpus_dir) or {}
     members = [
@@ -428,7 +515,7 @@ def run(mode: str, verifier: list[str], corpus_dir: Path, limit: int) -> dict[st
         in action_checks.ACCEPT_KINDS
     ]
     route = reference_route(manifest)
-    planned, refusals, skipped = plan(members, corpus_dir, mode, key_seed(manifest))
+    planned, controls, refusals, skipped = plan(members, corpus_dir, mode, key_seed(manifest))
     chosen = sample(len(planned), limit)
     tally: dict[str, Any] = {
         "checked": 0,
@@ -436,12 +523,19 @@ def run(mode: str, verifier: list[str], corpus_dir: Path, limit: int) -> dict[st
         "survivors": [],
         "disagreements": [],
         "unjudged": [],
+        "uncontrolled": 0,
     }
     with tempfile.TemporaryDirectory(prefix="aev-mutants-") as tmp:
         root = Path(tmp)
+        control = judge_controls({planned[i][3] for i in chosen}, controls, verifier, route, root)
+        control_failures = [why for why in control.values() if why]
+        refusals.extend(control_failures)
         for index in sorted(chosen):
-            member, name, build = planned[index]
-            path = root / f"{member['id']}-m{index:06d}.json"
+            member, name, build, key = planned[index]
+            if control[key]:
+                tally["uncontrolled"] += 1
+                continue
+            path = root / file_name(member["id"], f"m{index:06d}")
             path.write_bytes(build())
             theirs = None
             if route is not None:
@@ -452,6 +546,11 @@ def run(mode: str, verifier: list[str], corpus_dir: Path, limit: int) -> dict[st
             compare(candidate(verifier, path), theirs, f"{member['id']} #{index} ({name})", tally)
             path.unlink()
     notes = [] if route else ["no reference route into this corpus, so no mutant was compared"]
+    if tally["uncontrolled"]:
+        notes.append(
+            f"{tally['uncontrolled']} mutants were not compared: their unmutated control was "
+            "not accepted by both verifiers"
+        )
     if skipped:
         notes.append(
             f"{len(skipped)} of {len(members)} accept members have nothing to mutate in {mode} mode"
@@ -468,6 +567,7 @@ def run(mode: str, verifier: list[str], corpus_dir: Path, limit: int) -> dict[st
         "survivors": tally["survivors"],
         "disagreements": tally["disagreements"],
         "refusals": refusals,
+        "controls": {"judged": len(control), "failed": len(control_failures)},
         "notes": notes,
         "referenceVerifierId": route[1] if route else None,
         "pass": bool(judged) and tally["checked"] == judged and not refusals,
@@ -480,7 +580,10 @@ def main() -> int:
     corpus_dir = Path(required("CORPUS_DIR"))
     summary_path = required("GITHUB_STEP_SUMMARY")
     output_path = required("GITHUB_OUTPUT")
-    verifier = shlex.split(os.environ.get("VERIFIER", ""), posix=os.name != "nt")
+    try:
+        verifier = action_checks.split_command(os.environ.get("VERIFIER", ""))
+    except ValueError:
+        verifier = []
     limit = int(os.environ.get("MUTATE_LIMIT") or 2000)
     if mode not in ("structural", "bytes"):
         sys.exit(f"action-mutate-stage: mutate must be none, structural or bytes, not {mode!r}")
@@ -495,6 +598,7 @@ def main() -> int:
             "survivors": [],
             "disagreements": [],
             "refusals": [],
+            "controls": {"judged": 0, "failed": 0},
             "notes": ["mutate needs the `verifier` input"],
             "referenceVerifierId": None,
             "pass": False,

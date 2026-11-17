@@ -100,7 +100,11 @@ def main() -> int:
             counted = action_checks.count_cases(corpus_dir)
             summary.append(_count_line(counted) + "\n\n")
             outputs.append(f"vectors-found={counted['present']}\n")
-            if counted["present"] == 0 and not _flag("FAIL_ON_NO_VECTORS"):
+            # No case on this runner: a listed corpus with nothing on disk, or
+            # a directory with no manifest and no file. A directory holding
+            # files the harness refused is not an empty corpus.
+            empty = counted["present"] == 0 and (counted["manifest"] or not counted["filesOnDisk"])
+            if empty and not _flag("FAIL_ON_NO_VECTORS"):
                 result = "no-verdict"
         summary.append(action_checks.controls_line(action_checks.controls([], None, None)) + "\n")
         outputs.append(f"vectors=0\nconform=0\nresult={result}\n")
@@ -209,6 +213,16 @@ def _gates(report: dict[str, Any], corpus_dir: str) -> tuple[dict[str, Any], lis
     gates = _Gates()
     if corpus_dir:
         _count_gate(gates, action_checks.count_cases(corpus_dir, report))
+    elif "CORPUS_DIR" in os.environ:
+        # The action always passes CORPUS_DIR; empty means the replay step could
+        # not resolve the corpus directory, so no case was counted. That is a
+        # count that did not run, never a count that found nothing missing.
+        gates.rows.append(
+            "**Cases were not counted:** the corpus directory could not be resolved on "
+            "this runner, so no listed case was checked against the disk or the report.\n\n"
+        )
+        if _flag("FAIL_ON_MISSING_CASE"):
+            gates.blocking.append("cases not counted")
     if not report["totals"].get("vectors", 0):
         gates.no_vectors = True
         if _flag("FAIL_ON_NO_VECTORS"):
@@ -229,8 +243,6 @@ def _gates(report: dict[str, Any], corpus_dir: str) -> tuple[dict[str, Any], lis
 def _count_gate(gates: _Gates, counted: dict[str, Any]) -> None:
     gates.rows.append(_count_line(counted) + "\n\n")
     gates.outputs.append(f"vectors-found={counted['present']}\n")
-    if counted["manifest"] and counted["listed"] and counted["present"] == 0:
-        gates.no_vectors = True
     missing = counted["missingOnDisk"] + counted["missingFromReport"]
     gates.outputs.append(f"missing-cases={len(counted['missingOnDisk']) + counted['reportGap']}\n")
     if not (missing or counted["reportGap"]):
@@ -266,10 +278,32 @@ def _profile_gate(gates: _Gates, report: dict[str, Any], corpus_dir: str, spec: 
     gates.outputs.append(
         f"out-of-profile={outside['vectors']}\nout-of-profile-pass={outside['pass']}\n"
     )
-    # Failures excused only when every in-profile member passed and the suite refused nothing.
-    clean = not report["totals"].get("suiteRefusals") and bool(inside["vectors"])
-    gates.profile_excuses = clean and inside["fail"] == 0
+    gates.profile_excuses = _profile_excuses(report, inside, outside)
     report["profile"] = split
+
+
+def _profile_excuses(
+    report: dict[str, Any], inside: dict[str, int], outside: dict[str, int]
+) -> bool:
+    """Whether the profile accounts for the harness's failing exit, and nothing else does.
+
+    A profile excuses a failing exit only when that exit is explained by rows
+    outside the profile: at least one out-of-profile row failed, no in-profile
+    row failed, every vector the report counts is a row here, the report's own
+    fail count is exactly the out-of-profile failures, and the suite refused
+    nothing. An exit 1 with no out-of-profile failure has some other cause, and
+    a profile is never a reason to read it as a pass.
+    """
+    totals = report["totals"]
+    rows = report.get("vectors") or []
+    return (
+        not totals.get("suiteRefusals")
+        and inside["vectors"] > 0
+        and inside["fail"] == 0
+        and outside["fail"] > 0
+        and len(rows) == totals.get("vectors")
+        and totals.get("fail") == outside["fail"]
+    )
 
 
 def _control_gate(gates: _Gates, report: dict[str, Any]) -> None:
