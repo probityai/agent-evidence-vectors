@@ -2,7 +2,7 @@ name: crate-jcs-admit
 
 # Every check of crates/jcs-admit, run from the crate directory. ci.yml calls
 # this when a change touches crates/jcs-admit or a shared file. The jobs are the
-# ones probityai/jcs-admit ran before its import (ci.yml, go-jcs.yml,
+# ones probityai-archive/jcs-admit ran before its import (ci.yml, go-jcs.yml,
 # mintid-trace-records.yml, python.yml, readme.yml, npm.yml):
 #   test    the committed Cargo.lock on stable, with rustfmt, clippy and rustdoc
 #           holding every warning as an error;
