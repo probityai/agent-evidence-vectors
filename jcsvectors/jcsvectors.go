@@ -61,7 +61,9 @@ type Vector struct {
 }
 
 // Canonical returns every case whose input a canonicalizer must accept, with
-// the exact bytes RFC 8785 requires for it.
+// the exact bytes RFC 8785 requires for it, noncharacters included: RFC 8785
+// prints a Unicode noncharacter as its UTF-8 bytes, although an I-JSON profile
+// refuses it.
 func Canonical() ([]Vector, error) {
 	accept, _, err := load()
 	return accept, err
@@ -224,6 +226,15 @@ type byteCases struct {
 	// RefusalCases is input that is not one valid RFC 8785 input at all, which
 	// no profile excuses a canonicalizer for printing. InputHex carries input
 	// that is not UTF-8.
+	// NoncharacterCases put a Unicode noncharacter, or the scalar value next to
+	// one, in a string; RFC 8785 prints each as its UTF-8 bytes, so each is an
+	// accept case here (an I-JSON profile refuses the noncharacters).
+	NoncharacterCases []struct {
+		ID           string `json:"id"`
+		Input        string `json:"input"`
+		CanonicalHex string `json:"canonicalHex"`
+		SHA256       string `json:"sha256"`
+	} `json:"noncharacterCases"`
 	RefusalCases []struct {
 		ID       string  `json:"id"`
 		Expect   string  `json:"expect"`
@@ -309,7 +320,11 @@ func loadBytes() (accept, reject []Vector, err error) {
 	if cases.Format != "jcs-byte-vectors/v1" {
 		return nil, nil, fmt.Errorf("%s: unknown format %q", byteCorpus, cases.Format)
 	}
-	for _, c := range cases.CanonicalCases {
+	accepts := cases.CanonicalCases
+	for _, c := range cases.NoncharacterCases {
+		accepts = append(accepts, c)
+	}
+	for _, c := range accepts {
 		canonical, err := hex.DecodeString(c.CanonicalHex)
 		if err != nil || len(canonical) == 0 {
 			return nil, nil, fmt.Errorf("%s case %s: no canonical bytes", byteCorpus, c.ID)

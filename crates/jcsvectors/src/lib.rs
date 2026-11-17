@@ -141,7 +141,8 @@ impl fmt::Display for Error {
 impl std::error::Error for Error {}
 
 /// Every case whose input a canonicalizer must accept, with the exact bytes RFC
-/// 8785 requires for it.
+/// 8785 requires for it, noncharacters included: RFC 8785 prints a Unicode
+/// noncharacter as its UTF-8 bytes, although an I-JSON profile refuses it.
 pub fn canonical() -> Result<Vec<Vector>, Error> {
     Ok(load()?.0)
 }
@@ -244,6 +245,8 @@ struct ByteCases {
     drift_cases: Vec<DriftCase>,
     depth_cases: Vec<DepthCase>,
     refusal_cases: Vec<RefusalCase>,
+    #[serde(default)]
+    noncharacter_cases: Vec<CanonicalCase>,
 }
 
 #[derive(Deserialize)]
@@ -388,7 +391,13 @@ fn byte_cases() -> Result<ByteCases, Error> {
 fn load_bytes() -> Result<Split, Error> {
     let cases = byte_cases()?;
     let mut accept = Vec::new();
-    for c in cases.canonical_cases {
+    // A noncharacter is a Unicode scalar value, so RFC 8785 prints it; only an
+    // I-JSON profile refuses it, which this crate does not model.
+    for c in cases
+        .canonical_cases
+        .into_iter()
+        .chain(cases.noncharacter_cases)
+    {
         let canonical = canonical_bytes(&c.id, &c.canonical_hex, &c.sha256)?;
         accept.push(byte_vector(c.id, c.input, Some(canonical)));
     }

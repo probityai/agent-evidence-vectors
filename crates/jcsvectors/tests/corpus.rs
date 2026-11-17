@@ -128,12 +128,35 @@ fn every_byte_corpus_family_is_read() {
         "driftCases",
         "depthCases",
         "refusalCases",
+        "noncharacterCases",
     ];
+    // Field-digest preimages are not canonicalizer cases.
+    let not_read = ["preimageCases"];
     let cases = byte_cases();
     for key in cases.as_object().unwrap().keys() {
         assert!(
-            read.contains(&key.as_str()),
+            read.contains(&key.as_str()) || not_read.contains(&key.as_str()),
             "cases.json family {key} is not read by this crate"
+        );
+    }
+}
+
+/// Every noncharacter member is an accept case: RFC 8785 prints the scalar
+/// value as its UTF-8 bytes.
+#[test]
+fn noncharacter_cases_are_accept_cases() {
+    let canonical = jcsvectors::canonical().unwrap();
+    let cases = byte_cases();
+    for case in cases["noncharacterCases"].as_array().into_iter().flatten() {
+        let id = case["id"].as_str().unwrap();
+        let v = canonical
+            .iter()
+            .find(|v| v.corpus == jcsvectors::BYTE_CORPUS && v.id == id)
+            .unwrap_or_else(|| panic!("{id}: missing from canonical()"));
+        assert_eq!(
+            v.canonical.as_deref(),
+            Some(hex(case["canonicalHex"].as_str().unwrap()).as_slice()),
+            "{id}"
         );
     }
 }

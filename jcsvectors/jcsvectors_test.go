@@ -270,6 +270,9 @@ func TestEveryByteCorpusFamilyIsRead(t *testing.T) {
 	read := map[string]bool{
 		"format": true, "canonicalCases": true, "rejectCases": true,
 		"driftCases": true, "depthCases": true, "refusalCases": true,
+		"noncharacterCases": true,
+		// Field-digest preimages are not canonicalizer cases.
+		"preimageCases": true,
 	}
 	for key := range byteCasesRaw(t) {
 		if !read[key] {
