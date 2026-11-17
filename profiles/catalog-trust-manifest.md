@@ -6,6 +6,8 @@ Two documents define signed agent catalogs today, and they sign different bytes.
 
 This profile makes the construction an input. A verdict is one decision over one signed object, a set of DID documents an offline resolver returned, the artifact bytes, any vendored attestation documents, a declared role and a check time.
 
+The context names them: `construction`, `role`, `at` (the check time), `entry` and `manifest` (which entry of `entries` and which manifest of its `trustManifests` carry the signature, 0 when absent) and `attestationFiles` (the vendored file for each `attestations[]` item, by position). An index is a non-negative JSON integer; `1.0` is the integer 1, and a negative, fractional or non-numeric index selects nothing, so the read ends with `signature_missing`. A vendored file is named by one path segment of the case directory: no `/`, `\`, NUL, `.` or `..`.
+
 ## Constructions (a closed term)
 
 | Construction | Source | Signing input | Protected `typ` |
@@ -19,7 +21,7 @@ A verifier given any other construction refuses with `construction_unknown`. The
 
 ## Checks, in order
 
-The first check that fails decides the reason. `construction_unknown`, `role_unknown`, `json_invalid` (the catalog or the DID documents are not JSON: invalid UTF-8, `NaN`, a syntax error) and `signature_missing` end the read; every other check can be switched off one at a time, and the corpus holds a case that changes verdict when it is.
+The first check that fails decides the reason. `construction_unknown`, `role_unknown`, `json_invalid` (the catalog or the DID documents are not JSON: invalid UTF-8, `NaN`, a syntax error; or more than 64 arrays and objects are open at once, a limit stated so that every reader holds the same values) and `signature_missing` end the read; every other check can be switched off one at a time, and the corpus holds a case that changes verdict when it is.
 
 1. `duplicate_member`: the catalog or a DID document repeats a member name (AI Catalog: parsers MUST reject duplicates).
 2. `jws_malformed`: not detached compact serialization, padded or non-canonical base64url, a header that is not a strict JSON object, or a `b64` value that is not a boolean (RFC 7797 section 3).
@@ -30,7 +32,7 @@ The first check that fails decides the reason. `construction_unknown`, `role_unk
 7. `jws_crit_unsupported`: `crit` names anything other than `b64`, or a parameter the header does not carry (RFC 7515 section 4.1.11).
 8. `b64_without_crit`: `b64` present and not declared critical (RFC 7797 section 6); a verifier that ignores it checks other bytes.
 9. `profile_unsupported`: AI Catalog constructions only; `signature.profile` is not exactly `did-web-v1`. Consumers select the procedure the profile names and never infer one (AI Catalog "Profile Selection"), so an absent or other profile is refused, not read as did:web.
-10. `signer_not_root_did_web`: AI Catalog constructions only; `signature.signer` is not a root `did:web` DID: a lowercase ASCII domain (A-labels allowed), no port, path, IP address or trailing dot.
+10. `signer_not_root_did_web`: AI Catalog constructions only; `signature.signer` is not a root `did:web` DID: a lowercase ASCII domain (A-labels allowed) of at most 253 octets (RFC 1035 section 2.3.4) whose last label is not all digits (RFC 3696 section 2, which also rules out an IPv4 address), with no port, path or trailing dot.
 11. `kid_not_under_identity`: `kid` is not the exact identity DID (draft `identity`, AI Catalog `signature.signer`) followed by a non-empty RFC 3986 fragment (unreserved characters, sub-delimiters, `:`, `@`, `/`, `?` and well-formed percent-escapes).
 12. `did_document_not_identity`: no document for the identity, or its `id` differs.
 13. `kid_not_in_did_document`: no verification method has the `kid` as its id, after relative DID URLs are resolved against the document id (DID Core section 3.2.2).
@@ -47,13 +49,13 @@ The first check that fails decides the reason. `construction_unknown`, `role_unk
 24. `subject_entry_mismatch`: identifier and type are strings on the entry and equal on the subject, digest equal, and version absent on both or equal on both.
 25. `entry_delivery_not_one`: draft constructions; the entry carries both `url` and `data`, or neither (draft section 3.1 requires exactly one).
 26. `entry_digest_missing_for_url`: an entry referenced by `url` (or any AI Catalog entry) with no `digest` (draft 3.5.2 item 1).
-27. `artifact_digest_mismatch`.
-28. `url_origin_unbound`: draft constructions, an entry with a `url`; its origin is not `https://<publisher>` and the artifact there does not declare the entry identifier (draft 6.2). An entry delivered as inline `data` has no origin to bind.
-29. `attestation_digest_mismatch` (including a file name that leaves the case directory).
-30. `attestation_unsigned` (the vendored statement is not a DSSE in-toto Statement signed by a key that the DID document of the keyid's DID, whose `id` is that DID, authorizes for assertions).
+27. `artifact_digest_mismatch`: the entry's `digest` is not the SHA-256 of the artifact. For an entry with `url` the artifact is the bytes retrieved (the case's `artifact.json`); for an entry with `data` it is the UTF-8 RFC 8785 bytes of `data` (AI Catalog `digest`: "For `data`, hash the UTF-8 JCS-canonicalized JSON value"; the draft's digest is "of the target artifact referenced by url (or inline data)"). Inline data is not signed under `ard-draft-bu-00`, so the digest is what binds it.
+28. `url_origin_unbound`: draft constructions, an entry with a `url`; its origin is not `https://<publisher>` and the artifact there does not declare the entry identifier (draft 6.2). The origin is RFC 6454's: the scheme and host compare case-insensitively and port 443 is the same origin as no port. A `url` with userinfo has no origin to bind (RFC 9110 section 4.2.4: a recipient treats https userinfo as an error), nor does a host with a percent-escape or an IP literal. An entry delivered as inline `data` has no origin to bind.
+29. `attestation_digest_mismatch` (including a file name that is not one path segment of the case directory).
+30. `attestation_unsigned` (the vendored statement is not a DSSE in-toto Statement signed by a key that the DID document of the keyid's DID, whose `id` is that DID, authorizes for assertions). The `payload` and each `sig` are padded base64 in the standard or the URL-safe alphabet, one alphabet per string ("verifiers MUST accept either", DSSE protocol); any other character, a line break included, refuses the field (RFC 4648 section 3.3). An ES256 `sig` is either raw `r || s` (as in JWS) or a DER ECDSA-Sig-Value (RFC 3279 section 2.2.3, as sigstore and in-toto signers write it); a DER value with a non-minimal length or integer, or trailing bytes, is refused.
 31. `attestation_transplanted` (its subject is another artifact).
 32. `publisher_not_signer` (AI Catalog exact rule: the signer is exactly `did:web:<publisher>`) or `publisher_authorization_absent` (draft rule: the identity must match or be authorized by the publisher, and no authorization record is given offline). Judged only in the `publisher` role.
-33. `timestamp_invalid`: the check time, `issuedAt` or `expiresAt` is not an RFC 3339 date-time naming a real instant, the AI Catalog Signature object has no `issuedAt`, or `expiresAt` is not later than `issuedAt`. Times are compared as instants, so fractional seconds and numeric offsets are read, not refused.
+33. `timestamp_invalid`: the check time, `issuedAt` or `expiresAt` is not an RFC 3339 date-time naming a real instant, the AI Catalog Signature object has no `issuedAt`, or `expiresAt` is not later than `issuedAt`. Times are compared as instants, so fractional seconds and numeric offsets are read, not refused. A second of `60` names a real instant only at 23:59:60 UTC on a day the IERS leap-second list (`leap-seconds.list`, expiring 28 June 2027) ends with a leap second, the last being 2016-12-31; it is read as the instant of the next second.
 34. `issued_in_future`.
 35. `manifest_expired` (rejected at or after `expiresAt`).
 

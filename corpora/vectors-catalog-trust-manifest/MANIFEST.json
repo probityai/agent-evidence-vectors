@@ -1,8 +1,8 @@
 {
-  "corpusDigest": "526b7b1aa409f5a10a7b992e3bcc8802166524f3b57b74f74e014c522fde9d24",
+  "corpusDigest": "4837efe0f17a63263aefc41c6e4866b7366b28a78531234ad5113ce4694174da",
   "counts": {
-    "accept": 20,
-    "reject": 70
+    "accept": 27,
+    "reject": 84
   },
   "suite": "catalog-trust-manifest/v1",
   "vectors": [
@@ -1047,6 +1047,51 @@
       "path": "cases/reject-aic-signer-port"
     },
     {
+      "edit": "the signer is did:web:192.0.2.1, not a root did:web DID (lowercase ASCII domain, no port, no path)",
+      "expected": {
+        "decision": "reject",
+        "reason": "signer_not_root_did_web"
+      },
+      "files": {
+        "artifact.json": "5346c3b356f1b2db025b97d464d73a62442ca39ad1480549e23daff147f35ef1",
+        "catalog.json": "0bff6057e7e18f14af780713fb0aed48e923e6befac1b46c07b28ada35340685",
+        "context.json": "90f394c10afb9b3eab76b71a8ca8066955161cb6e31e014deedcada8f11262a6",
+        "did-documents.json": "b33e5bea20852aefac49f9576d9059381e5ec5f27cf71b36e94dc50d71e1000e"
+      },
+      "id": "reject-aic-signer-ipv4",
+      "path": "cases/reject-aic-signer-ipv4"
+    },
+    {
+      "edit": "the signer is did:web:agents.2026, not a root did:web DID (lowercase ASCII domain, no port, no path)",
+      "expected": {
+        "decision": "reject",
+        "reason": "signer_not_root_did_web"
+      },
+      "files": {
+        "artifact.json": "5346c3b356f1b2db025b97d464d73a62442ca39ad1480549e23daff147f35ef1",
+        "catalog.json": "133d55dd7739696e347e1b8eebf8e3605ab74fe4ced78866ed3b550028c4374b",
+        "context.json": "90f394c10afb9b3eab76b71a8ca8066955161cb6e31e014deedcada8f11262a6",
+        "did-documents.json": "575f730e785821f81e988e40ec64cffdb35df67f360e126030947634fc07415e"
+      },
+      "id": "reject-aic-signer-numeric-tld",
+      "path": "cases/reject-aic-signer-numeric-tld"
+    },
+    {
+      "edit": "the signer is did:web:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa.aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa.aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa.bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb.example, not a root did:web DID (lowercase ASCII domain, no port, no path)",
+      "expected": {
+        "decision": "reject",
+        "reason": "signer_not_root_did_web"
+      },
+      "files": {
+        "artifact.json": "5346c3b356f1b2db025b97d464d73a62442ca39ad1480549e23daff147f35ef1",
+        "catalog.json": "e85c392b06de0e25c79b4c6e940b1184289ddc75a785e072cd48fb50520d75b4",
+        "context.json": "90f394c10afb9b3eab76b71a8ca8066955161cb6e31e014deedcada8f11262a6",
+        "did-documents.json": "3eb0b137c1c2db942705d3e3e1d2a0f3d78d353727a68008835909c856733699"
+      },
+      "id": "reject-aic-signer-domain-past-253-octets",
+      "path": "cases/reject-aic-signer-domain-past-253-octets"
+    },
+    {
       "edit": "a catalog signature by a path-based did:web DID",
       "expected": {
         "decision": "reject",
@@ -1348,19 +1393,294 @@
       "path": "cases/accept-issued-with-offset"
     },
     {
-      "edit": "control: an entry delivered as inline data has no url, so there is no origin to bind (draft 3.3, 6.2)",
+      "edit": "control: an entry delivered as inline data has no url, so there is no origin to bind (draft 3.3, 6.2), and its digest is of the RFC 8785 bytes of data (AI Catalog digest)",
       "expected": {
         "decision": "accept",
         "reason": "signature_covers_release"
       },
       "files": {
         "artifact.json": "5346c3b356f1b2db025b97d464d73a62442ca39ad1480549e23daff147f35ef1",
-        "catalog.json": "7789b79c3f0d0836ee071bc2b302e82193325bb8fa88827c20001a1c3a245ca9",
+        "catalog.json": "8b186d84e5bfe66951f7d8007fef69017da810d68332a51fae491d8d1f4b7560",
         "context.json": "06cb286f62c546c49571afedf5d9d0246cf61df15b74e60c79b973d0096b4920",
         "did-documents.json": "8b49c5d7a3dad753d337a8879ad50ea41947883460bf47e3bf3353f41a28c3fe"
       },
       "id": "accept-draft-inline-data",
       "path": "cases/accept-draft-inline-data"
+    },
+    {
+      "edit": "inline data changed after signing; the digest is of the RFC 8785 bytes of data, so it no longer matches (AI Catalog digest, draft 3.2 digest)",
+      "expected": {
+        "decision": "reject",
+        "reason": "artifact_digest_mismatch"
+      },
+      "files": {
+        "artifact.json": "5346c3b356f1b2db025b97d464d73a62442ca39ad1480549e23daff147f35ef1",
+        "catalog.json": "63aef991b91fc4608cf05680f6a2ec1eca6c5689037a1ebd97c0ceee54480d4b",
+        "context.json": "06cb286f62c546c49571afedf5d9d0246cf61df15b74e60c79b973d0096b4920",
+        "did-documents.json": "8b49c5d7a3dad753d337a8879ad50ea41947883460bf47e3bf3353f41a28c3fe"
+      },
+      "id": "reject-draft-inline-data-swapped",
+      "path": "cases/reject-draft-inline-data-swapped"
+    },
+    {
+      "edit": "control: a DSSE envelope in URL-safe base64; DSSE verifiers MUST accept either alphabet (protocol.md)",
+      "expected": {
+        "decision": "accept",
+        "reason": "signature_covers_release"
+      },
+      "files": {
+        "artifact.json": "5346c3b356f1b2db025b97d464d73a62442ca39ad1480549e23daff147f35ef1",
+        "attestation-0.dsse.json": "b839f4eada6e1e2b745b514dab1cfc0a90fd67e754f685c6b6fe3a2d60a7c393",
+        "catalog.json": "90389557cf19058c329b6d612f497aa8c2485f9a8909bfd2164a618e881e008c",
+        "context.json": "9a12352d99580fa7aef85f1f9a5a58029692f2b013b905be2989e473cc7f60d5",
+        "did-documents.json": "8b49c5d7a3dad753d337a8879ad50ea41947883460bf47e3bf3353f41a28c3fe"
+      },
+      "id": "accept-dsse-url-safe-base64",
+      "path": "cases/accept-dsse-url-safe-base64"
+    },
+    {
+      "edit": "control: a DSSE ES256 signature in DER, as sigstore and in-toto signers write it",
+      "expected": {
+        "decision": "accept",
+        "reason": "signature_covers_release"
+      },
+      "files": {
+        "artifact.json": "5346c3b356f1b2db025b97d464d73a62442ca39ad1480549e23daff147f35ef1",
+        "attestation-0.dsse.json": "004e412001f480897cb2e37f9391fd1109bcc06a9063ce2b0a50ee358b613fa5",
+        "catalog.json": "a4473e3db1c5eef0e271c997a3e9070ed91bfa28764caf790f9e0793c5d1c605",
+        "context.json": "9a12352d99580fa7aef85f1f9a5a58029692f2b013b905be2989e473cc7f60d5",
+        "did-documents.json": "8b49c5d7a3dad753d337a8879ad50ea41947883460bf47e3bf3353f41a28c3fe"
+      },
+      "id": "accept-dsse-der-signature",
+      "path": "cases/accept-dsse-der-signature"
+    },
+    {
+      "edit": "a DER signature whose r carries a zero octet it does not need; DER has one encoding per value",
+      "expected": {
+        "decision": "reject",
+        "reason": "attestation_unsigned"
+      },
+      "files": {
+        "artifact.json": "5346c3b356f1b2db025b97d464d73a62442ca39ad1480549e23daff147f35ef1",
+        "attestation-0.dsse.json": "46e0554498b1152229121fa6f40f97f081dcbaa0a5a2ce32e74061f87c148223",
+        "catalog.json": "4f8d959c87656753280e71dc52d6c05a03974f24e9cff89b1b603f1778b61e2b",
+        "context.json": "9a12352d99580fa7aef85f1f9a5a58029692f2b013b905be2989e473cc7f60d5",
+        "did-documents.json": "8b49c5d7a3dad753d337a8879ad50ea41947883460bf47e3bf3353f41a28c3fe"
+      },
+      "id": "reject-dsse-der-non-minimal",
+      "path": "cases/reject-dsse-der-non-minimal"
+    },
+    {
+      "edit": "a DSSE payload with a line break inside the base64; RFC 4648 section 3.3 refuses characters outside the alphabet",
+      "expected": {
+        "decision": "reject",
+        "reason": "attestation_unsigned"
+      },
+      "files": {
+        "artifact.json": "5346c3b356f1b2db025b97d464d73a62442ca39ad1480549e23daff147f35ef1",
+        "attestation-0.dsse.json": "2ad0273453d326421c76d2fbe003dcb3d123e02fc77f664246496acc72ae7491",
+        "catalog.json": "b72574fb81a7e40698a927b3a7dcdb94f7eb1307a1fa32b81689aa7e9ecbcb49",
+        "context.json": "9a12352d99580fa7aef85f1f9a5a58029692f2b013b905be2989e473cc7f60d5",
+        "did-documents.json": "8b49c5d7a3dad753d337a8879ad50ea41947883460bf47e3bf3353f41a28c3fe"
+      },
+      "id": "reject-dsse-payload-newline",
+      "path": "cases/reject-dsse-payload-newline"
+    },
+    {
+      "edit": "the context names the vendored file as ./attestation-0.dsse.json; a vendored file is named by one path segment",
+      "expected": {
+        "decision": "reject",
+        "reason": "attestation_digest_mismatch"
+      },
+      "files": {
+        "artifact.json": "5346c3b356f1b2db025b97d464d73a62442ca39ad1480549e23daff147f35ef1",
+        "attestation-0.dsse.json": "1684e05d36c3f11a0283df5b712e87bb9d1c119e6d20f79b2f7452cd44b4e728",
+        "catalog.json": "15e8a9ea3bfd5c0d0c2f11039827499073f7dea270bfb0fb486cc56c8cac30c1",
+        "context.json": "446983d184955df2af583dfc22384bd8a628aab1a5c562dee2c6e116dd69809b",
+        "did-documents.json": "8b49c5d7a3dad753d337a8879ad50ea41947883460bf47e3bf3353f41a28c3fe"
+      },
+      "id": "reject-attestation-file-not-one-segment",
+      "path": "cases/reject-attestation-file-not-one-segment"
+    },
+    {
+      "edit": "control: 64 arrays and objects open at once",
+      "expected": {
+        "decision": "accept",
+        "reason": "signature_covers_release"
+      },
+      "files": {
+        "artifact.json": "5346c3b356f1b2db025b97d464d73a62442ca39ad1480549e23daff147f35ef1",
+        "catalog.json": "264d6f40be526a48cbb99ff4de71340b7ec42e5c8aca6f5a6f8389c1fc3dabb7",
+        "context.json": "06cb286f62c546c49571afedf5d9d0246cf61df15b74e60c79b973d0096b4920",
+        "did-documents.json": "8b49c5d7a3dad753d337a8879ad50ea41947883460bf47e3bf3353f41a28c3fe"
+      },
+      "id": "accept-nesting-at-the-limit",
+      "path": "cases/accept-nesting-at-the-limit"
+    },
+    {
+      "edit": "65 arrays and objects open at once, outside the signed bytes; readers hold different values past a nesting limit",
+      "expected": {
+        "decision": "reject",
+        "reason": "json_invalid"
+      },
+      "files": {
+        "artifact.json": "5346c3b356f1b2db025b97d464d73a62442ca39ad1480549e23daff147f35ef1",
+        "catalog.json": "3ab9dbad88d63f8a354857d23de3e9cef91a8ae9e7bac34ccd77e1aff3b389e6",
+        "context.json": "06cb286f62c546c49571afedf5d9d0246cf61df15b74e60c79b973d0096b4920",
+        "did-documents.json": "8b49c5d7a3dad753d337a8879ad50ea41947883460bf47e3bf3353f41a28c3fe"
+      },
+      "id": "reject-nesting-past-the-limit",
+      "path": "cases/reject-nesting-past-the-limit"
+    },
+    {
+      "edit": "control: the context names entry 1.0, the integer 1 (JSON does not tell 1.0 from 1)",
+      "expected": {
+        "decision": "accept",
+        "reason": "signature_covers_release"
+      },
+      "files": {
+        "artifact.json": "7aad0135e23de1278ca7546137b2ccbba5d3e606a869917cdd28225535360c02",
+        "catalog.json": "31b62ad4dceb96fb60cf9bd279ce6842147a025f9cabc79b5419dbbcffd5fe2d",
+        "context.json": "61c8634c56ca66de0f9ff11bdfbaf0d7677bd5429449d539496829d0973f7329",
+        "did-documents.json": "8b49c5d7a3dad753d337a8879ad50ea41947883460bf47e3bf3353f41a28c3fe"
+      },
+      "id": "accept-context-entry-integral-number",
+      "path": "cases/accept-context-entry-integral-number"
+    },
+    {
+      "edit": "the context names entry -1, which selects nothing (an index is a non-negative integer)",
+      "expected": {
+        "decision": "reject",
+        "reason": "signature_missing"
+      },
+      "files": {
+        "artifact.json": "5346c3b356f1b2db025b97d464d73a62442ca39ad1480549e23daff147f35ef1",
+        "catalog.json": "2133928a4dde8ea9c151197b8603a6f3f30f6e0394b4369ca5121c755571b100",
+        "context.json": "8f738be28b816be04694dbfa9fa70332acb2ed5363ff4923e015e1fa52ec9f85",
+        "did-documents.json": "8b49c5d7a3dad753d337a8879ad50ea41947883460bf47e3bf3353f41a28c3fe"
+      },
+      "id": "reject-context-entry-negative",
+      "path": "cases/reject-context-entry-negative"
+    },
+    {
+      "edit": "the context names entry true, which is not a number",
+      "expected": {
+        "decision": "reject",
+        "reason": "signature_missing"
+      },
+      "files": {
+        "artifact.json": "7aad0135e23de1278ca7546137b2ccbba5d3e606a869917cdd28225535360c02",
+        "catalog.json": "31b62ad4dceb96fb60cf9bd279ce6842147a025f9cabc79b5419dbbcffd5fe2d",
+        "context.json": "a93fefd4db2df29f1f6620254b2ac329e95fb9cc146c879b2d0dcdeb1b544731",
+        "did-documents.json": "8b49c5d7a3dad753d337a8879ad50ea41947883460bf47e3bf3353f41a28c3fe"
+      },
+      "id": "reject-context-entry-boolean",
+      "path": "cases/reject-context-entry-boolean"
+    },
+    {
+      "edit": "issuedAt 2026-11-01T00:00:60Z: no leap second falls there, so it names no instant (RFC 3339 section 5.7)",
+      "expected": {
+        "decision": "reject",
+        "reason": "timestamp_invalid"
+      },
+      "files": {
+        "artifact.json": "5346c3b356f1b2db025b97d464d73a62442ca39ad1480549e23daff147f35ef1",
+        "catalog.json": "26d6ed187ea7de9701395cabc745ee6a88e95b08782e1f6145c6fc8619196e3f",
+        "context.json": "1c46a20b6b1fa27b14ff5896143f4d22d9f8085bb7998ac90145133a8b88c1c7",
+        "did-documents.json": "8b49c5d7a3dad753d337a8879ad50ea41947883460bf47e3bf3353f41a28c3fe"
+      },
+      "id": "reject-issued-second-60-not-leap",
+      "path": "cases/reject-issued-second-60-not-leap"
+    },
+    {
+      "edit": "issuedAt 2016-12-31T23:59:60+01:00 is 22:59:60 UTC, no leap second",
+      "expected": {
+        "decision": "reject",
+        "reason": "timestamp_invalid"
+      },
+      "files": {
+        "artifact.json": "5346c3b356f1b2db025b97d464d73a62442ca39ad1480549e23daff147f35ef1",
+        "catalog.json": "7a0cb6b323e5e36dc78dae1fac762f044ef14af91753c05de0589f43dc29866f",
+        "context.json": "1c46a20b6b1fa27b14ff5896143f4d22d9f8085bb7998ac90145133a8b88c1c7",
+        "did-documents.json": "8b49c5d7a3dad753d337a8879ad50ea41947883460bf47e3bf3353f41a28c3fe"
+      },
+      "id": "reject-issued-second-60-offset-not-leap",
+      "path": "cases/reject-issued-second-60-offset-not-leap"
+    },
+    {
+      "edit": "control: 2016-12-31T23:59:60Z, the last leap second in the IERS list",
+      "expected": {
+        "decision": "accept",
+        "reason": "signature_covers_release"
+      },
+      "files": {
+        "artifact.json": "5346c3b356f1b2db025b97d464d73a62442ca39ad1480549e23daff147f35ef1",
+        "catalog.json": "cc6e93a04bd451233fd24b56d8aa9c216f7a848b9597b1f5e225bf3429b67761",
+        "context.json": "1c46a20b6b1fa27b14ff5896143f4d22d9f8085bb7998ac90145133a8b88c1c7",
+        "did-documents.json": "8b49c5d7a3dad753d337a8879ad50ea41947883460bf47e3bf3353f41a28c3fe"
+      },
+      "id": "accept-issued-on-a-leap-second",
+      "path": "cases/accept-issued-on-a-leap-second"
+    },
+    {
+      "edit": "control: the same leap second written as 18:59:60-05:00",
+      "expected": {
+        "decision": "accept",
+        "reason": "signature_covers_release"
+      },
+      "files": {
+        "artifact.json": "5346c3b356f1b2db025b97d464d73a62442ca39ad1480549e23daff147f35ef1",
+        "catalog.json": "288d64d7e7294d91f4453e9069dc87f93425bff5c05f886e9e0e559c76434f69",
+        "context.json": "1c46a20b6b1fa27b14ff5896143f4d22d9f8085bb7998ac90145133a8b88c1c7",
+        "did-documents.json": "8b49c5d7a3dad753d337a8879ad50ea41947883460bf47e3bf3353f41a28c3fe"
+      },
+      "id": "accept-issued-on-a-leap-second-with-offset",
+      "path": "cases/accept-issued-on-a-leap-second-with-offset"
+    },
+    {
+      "edit": "control: HTTPS://PUBLISHER.example:443 is the origin https://publisher.example (RFC 6454 section 4)",
+      "expected": {
+        "decision": "accept",
+        "reason": "signature_covers_release"
+      },
+      "files": {
+        "artifact.json": "5346c3b356f1b2db025b97d464d73a62442ca39ad1480549e23daff147f35ef1",
+        "catalog.json": "a739f9d92c6590dc576d88d2210dea6c9e3705a1029ec788f309dc9e80c1b1c9",
+        "context.json": "06cb286f62c546c49571afedf5d9d0246cf61df15b74e60c79b973d0096b4920",
+        "did-documents.json": "8b49c5d7a3dad753d337a8879ad50ea41947883460bf47e3bf3353f41a28c3fe"
+      },
+      "id": "accept-url-origin-case-and-default-port",
+      "path": "cases/accept-url-origin-case-and-default-port"
+    },
+    {
+      "edit": "a url with userinfo before the publisher host; a recipient treats https userinfo as an error (RFC 9110 section 4.2.4)",
+      "expected": {
+        "decision": "reject",
+        "reason": "url_origin_unbound"
+      },
+      "files": {
+        "artifact.json": "5346c3b356f1b2db025b97d464d73a62442ca39ad1480549e23daff147f35ef1",
+        "catalog.json": "e56bb66a0154eac4af371a6105c0657f12b7e2f7d76fc081ff9c8bc63d82dd52",
+        "context.json": "06cb286f62c546c49571afedf5d9d0246cf61df15b74e60c79b973d0096b4920",
+        "did-documents.json": "8b49c5d7a3dad753d337a8879ad50ea41947883460bf47e3bf3353f41a28c3fe"
+      },
+      "id": "reject-url-userinfo",
+      "path": "cases/reject-url-userinfo"
+    },
+    {
+      "edit": "a url on the publisher host at port 8443, another origin",
+      "expected": {
+        "decision": "reject",
+        "reason": "url_origin_unbound"
+      },
+      "files": {
+        "artifact.json": "5346c3b356f1b2db025b97d464d73a62442ca39ad1480549e23daff147f35ef1",
+        "catalog.json": "18932d62cfba25793869898c1a25fdbe6bfcc6a45c42104f42cf880c40fb21a8",
+        "context.json": "06cb286f62c546c49571afedf5d9d0246cf61df15b74e60c79b973d0096b4920",
+        "did-documents.json": "8b49c5d7a3dad753d337a8879ad50ea41947883460bf47e3bf3353f41a28c3fe"
+      },
+      "id": "reject-url-other-port",
+      "path": "cases/reject-url-other-port"
     }
   ]
 }

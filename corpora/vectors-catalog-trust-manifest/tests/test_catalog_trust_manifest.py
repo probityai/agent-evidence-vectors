@@ -188,7 +188,8 @@ def test_an_attestation_file_outside_the_case_directory_is_refused(tmp_path: Pat
 @pytest.mark.parametrize("text,seconds", [
     ("2026-11-01T00:00:00Z", 1793491200), ("2026-11-01T01:00:00+01:00", 1793491200),
     ("2026-11-01t00:00:00.5z", Fraction(3586982401, 2)), ("2026-10-31T19:00:00-05:00", 1793491200),
-    ("0000-02-29T00:00:00Z", -62162121600), ("2026-11-01T23:59:60Z", 1793577600)])
+    ("0000-02-29T00:00:00Z", -62162121600), ("2016-12-31T23:59:60Z", 1483228800),
+    ("2016-12-31T18:59:60-05:00", 1483228800), ("1972-06-30T23:59:60.5Z", Fraction(157593601, 2))])
 def test_rfc3339_times_are_instants(text: str, seconds: Fraction) -> None:
     assert reader._instant(text) == seconds
 
@@ -196,6 +197,66 @@ def test_rfc3339_times_are_instants(text: str, seconds: Fraction) -> None:
 @pytest.mark.parametrize("text", ["2026-02-30T00:00:00Z", "2026-11-01T24:00:00Z",
                                   "2026-11-01T00:00:00", "2026-11-01 00:00:00Z",
                                   "2026-11-01T00:00:00+24:00", "1900-02-29T00:00:00Z",
-                                  "\u0662\u0660\u0662\u0666-11-01T00:00:00Z", 1793491200])
+                                  "\u0662\u0660\u0662\u0666-11-01T00:00:00Z", 1793491200,
+                                  "2026-11-01T23:59:60Z", "2026-11-01T00:00:60Z",
+                                  "2016-12-31T23:59:60+01:00", "2016-12-30T23:59:60Z"])
 def test_non_rfc3339_times_are_not_instants(text: object) -> None:
     assert reader._instant(text) is None
+
+
+def test_nesting_is_bounded_before_parsing() -> None:
+    limit = reader.MAX_NESTING
+    assert not reader.too_deep(b"[" * limit + b"]" * limit)
+    assert reader.too_deep(b"[" * (limit + 1) + b"]" * (limit + 1))
+    assert not reader.too_deep(b'{"a": "' + b"[" * 100 + b'"}')  # brackets inside a string
+    # A string ending in an escaped backslash closes, so the brackets after it count.
+    assert reader.too_deep(b'["\\\\",' + b"[" * limit + b"]" * limit + b"]")
+    with pytest.raises(ValueError):
+        reader.strict_loads(b"[" * 100000 + b"]" * 100000)
+
+
+@pytest.mark.parametrize("text,raw", [("YWJj", b"abc"), ("YWI=", b"ab"), ("-_8=", b"\xfb\xff"),
+                                      ("+/8=", b"\xfb\xff"), ("", b"")])
+def test_dsse_base64_takes_either_alphabet(text: str, raw: bytes) -> None:
+    assert reader.dsse_b64_decode(text) == raw
+
+
+@pytest.mark.parametrize("text", ["YWI", "YW\nJj", "+_8=", "YWJj ", "YQ==YQ==", 5])
+def test_dsse_base64_refuses_everything_else(text: object) -> None:
+    with pytest.raises(ValueError):
+        reader.dsse_b64_decode(text)
+
+
+@pytest.mark.parametrize("value,index", [(0, 0), (3, 3), (1.0, 1), (-1, None), (0.5, None),
+                                         (True, None), ("1", None), (2**40, None)])
+def test_context_index_is_a_non_negative_integer(value: object, index: object) -> None:
+    assert reader.index_of(value) == index
+
+
+@pytest.mark.parametrize("url,origin", [
+    ("https://publisher.example/a", "https://publisher.example"),
+    ("HTTPS://Publisher.Example:443/a", "https://publisher.example"),
+    ("https://publisher.example:/a", "https://publisher.example"),
+    ("https://publisher.example:8443/a", None), ("http://publisher.example/a", None),
+    ("https://user@publisher.example/a", None), ("https://publisher%2Eexample/a", None),
+    ("https://[::1]/a", None), ("https:///a", None)])
+def test_url_origin_is_rfc6454(url: str, origin: object) -> None:
+    assert reader._origin(url) == origin
+
+
+def test_der_signatures_are_strict() -> None:
+    raw = bytes(range(1, 33)) + bytes(range(129, 161))
+    der = generator.der(raw)
+    assert reader.der_signature(der) == raw
+    assert reader.der_signature(generator.der(raw, True)) is None
+    assert reader.der_signature(der + b"\x00") is None
+    assert reader.der_signature(der[:-1]) is None
+
+
+@pytest.mark.parametrize("did,root", [
+    ("did:web:publisher.example", True), ("did:web:xn--bcher-kva.example", True),
+    ("did:web:192.0.2.1", False), ("did:web:agents.2026", False), ("did:web:2026", False),
+    ("did:web:" + "a" * 63 + "." + ("b" * 63 + ".") * 2 + "c" * 61, True),
+    ("did:web:" + "a" * 63 + "." + ("b" * 63 + ".") * 2 + "c" * 62, False)])
+def test_root_did_web(did: str, root: bool) -> None:
+    assert reader.root_did_web(did) is root

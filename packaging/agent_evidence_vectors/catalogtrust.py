@@ -32,6 +32,7 @@ import decimal
 import hashlib
 import importlib
 import json
+import math
 import re
 import shlex
 import subprocess
@@ -118,12 +119,28 @@ _LABEL = r"[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?"
 # A root did:web DID: a lowercase ASCII domain (A-labels allowed), no port, path or
 # trailing dot (AI Catalog, "The did:web Signer Profile").
 _ROOT_DID_WEB = re.compile(rf"did:web:(?:{_LABEL}\.)*{_LABEL}")
-_IPV4 = re.compile(r"did:web:[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+")
 # RFC 3339 section 5.6 date-time; "T" and "Z" may be lowercase (section 5.6 NOTE).
 # ASCII digits only: a str pattern's \d also matches other scripts' digits, which
 # int() then reads, and RFC 3339 is ASCII.
 _TIME = re.compile(r"([0-9]{4})-([0-9]{2})-([0-9]{2})[Tt]([0-9]{2}):([0-9]{2}):([0-9]{2})"
                    r"(\.[0-9]+)?(?:([Zz])|([+-])([0-9]{2}):([0-9]{2}))")
+# The UTC days that end in a leap second, from the IERS list (leap-seconds.list, file hash
+# a9bad145 84c31c70 758402aa b37bfd54 5923836a, expires 28 June 2027). A second of 60
+# names a real instant only at 23:59:60 UTC on one of them (RFC 3339 section 5.7).
+LEAP_SECOND_DAYS = (
+    (1972, 6, 30), (1972, 12, 31), (1973, 12, 31), (1974, 12, 31), (1975, 12, 31),
+    (1976, 12, 31), (1977, 12, 31), (1978, 12, 31), (1979, 12, 31), (1981, 6, 30),
+    (1982, 6, 30), (1983, 6, 30), (1985, 6, 30), (1987, 12, 31), (1989, 12, 31),
+    (1990, 12, 31), (1992, 6, 30), (1993, 6, 30), (1994, 6, 30), (1995, 12, 31),
+    (1997, 6, 30), (1998, 12, 31), (2005, 12, 31), (2008, 12, 31), (2012, 6, 30),
+    (2015, 6, 30), (2016, 12, 31))
+# A JSON text with more than this many arrays and objects open at once is refused before
+# it is parsed, so every reader holds the same values (json_invalid).
+MAX_NESTING = 64
+# DSSE: "Either standard or URL-safe base64 encodings are allowed. Signers may use either,
+# and verifiers MUST accept either" (protocol.md); one alphabet per string, padded (RFC 4648).
+_DSSE_B64 = (re.compile(r"(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?"),
+             re.compile(r"(?:[A-Za-z0-9_-]{4})*(?:[A-Za-z0-9_-]{2}==|[A-Za-z0-9_-]{3}=)?"))
 
 
 class Refused(Exception):
@@ -155,9 +172,56 @@ def _constant(name: str) -> Any:
     raise ValueError(f"{name} is not JSON")
 
 
+def too_deep(data: bytes) -> bool:
+    """True when more than MAX_NESTING arrays and objects are open at once. Structural
+    characters are ASCII and no UTF-8 sequence holds an ASCII byte, so bytes suffice."""
+    depth, in_string, escaped = 0, False, False
+    for byte in data:
+        if in_string:
+            if escaped:
+                escaped = False
+            elif byte == 0x5C:
+                escaped = True
+            elif byte == 0x22:
+                in_string = False
+        elif byte == 0x22:
+            in_string = True
+        elif byte in (0x5B, 0x7B):
+            depth += 1
+            if depth > MAX_NESTING:
+                return True
+        elif byte in (0x5D, 0x7D):
+            depth -= 1
+    return False
+
+
 def strict_loads(data: bytes) -> Any:
-    """Parse UTF-8 JSON, refusing a repeated member and the non-JSON constants."""
-    return json.loads(data.decode("utf-8"), object_pairs_hook=_pairs, parse_constant=_constant)
+    """Parse UTF-8 JSON, refusing a repeated member, the non-JSON constants and nesting
+    past MAX_NESTING."""
+    text = data.decode("utf-8")
+    if too_deep(data):
+        raise ValueError(f"more than {MAX_NESTING} arrays and objects open at once")
+    return json.loads(text, object_pairs_hook=_pairs, parse_constant=_constant)
+
+
+def dsse_b64_decode(text: Any) -> bytes:
+    """A DSSE base64 field: standard or URL-safe alphabet, padded, nothing else."""
+    if not isinstance(text, str) or len(text) % 4:
+        raise ValueError("not padded base64")
+    if _DSSE_B64[0].fullmatch(text):
+        return base64.b64decode(text, validate=True)
+    if _DSSE_B64[1].fullmatch(text):
+        return base64.urlsafe_b64decode(text)
+    raise ValueError("not standard or URL-safe base64")
+
+
+def index_of(value: Any) -> int | None:
+    """A context index: a non-negative JSON integer (1.0 is the integer 1), else None."""
+    if isinstance(value, bool):
+        return None
+    if isinstance(value, float) and value.is_integer():
+        value = int(value)
+    return value if isinstance(value, int) and 0 <= value <= 2**31 else None
 
 
 def b64url_decode(text: str) -> bytes:
@@ -265,13 +329,15 @@ def _numbers_first(value: Any) -> None:
 
 # --------------------------------------------------------------------------- signing inputs
 
-def payload(construction: str, catalog: dict[str, Any], entry: int, manifest: int) -> Any:
+def payload(construction: str, catalog: dict[str, Any], entry: int | None,
+            manifest: int | None) -> Any:
     """The JSON value whose RFC 8785 bytes a construction signs."""
     if construction == SNAPSHOT:
         out = copy.deepcopy(catalog)
         out.get("signature", {}).pop("jws", None)
         out.pop("additionalSignatures", None)
         return out
+    assert entry is not None and (manifest is not None or construction != AIC)
     item = catalog["entries"][entry]
     if construction == DRAFT:
         out = copy.deepcopy(item["trustManifest"])
@@ -281,18 +347,21 @@ def payload(construction: str, catalog: dict[str, Any], entry: int, manifest: in
         out = copy.deepcopy(item)
         out["trustManifest"].pop("signature", None)
         return out
+    assert manifest is not None
     out = copy.deepcopy(item["trustManifests"][manifest])
     out.get("signature", {}).pop("jws", None)
     out.pop("additionalSignatures", None)
     return out
 
 
-def signed_object(construction: str, catalog: dict[str, Any], entry: int,
-                  manifest: int) -> dict[str, Any] | None:
+def signed_object(construction: str, catalog: dict[str, Any], entry: int | None,
+                  manifest: int | None) -> dict[str, Any] | None:
     """The object that carries the signature, or None when the path names nothing."""
     try:
         if construction == SNAPSHOT:
             return catalog if isinstance(catalog.get("signature"), dict) else None
+        if entry is None or (manifest is None and construction == AIC):
+            return None
         item = catalog["entries"][entry]
         if construction in ARD_SHAPED:
             value = item.get("trustManifest")
@@ -370,6 +439,37 @@ def verify_signature(alg: str, key: Any, message: bytes, signature: bytes) -> bo
     return p256.verify(key, message, signature)
 
 
+def _der_integer(data: bytes, at: int) -> tuple[int, int] | None:
+    """One minimal, non-negative DER INTEGER with a short-form length at ``at``."""
+    if at + 2 > len(data) or data[at] != 0x02 or not 0 < data[at + 1] < 0x80:
+        return None
+    end = at + 2 + data[at + 1]
+    body = data[at + 2:end]
+    if end > len(data) or body[0] & 0x80 or (len(body) > 1 and body[0] == 0 and body[1] < 0x80):
+        return None
+    return int.from_bytes(body, "big"), end
+
+
+def der_signature(data: bytes) -> bytes | None:
+    """An ECDSA-Sig-Value (RFC 3279 section 2.2.3) in strict DER as raw r || s, else None."""
+    if len(data) < 2 or data[0] != 0x30 or data[1] >= 0x80 or data[1] != len(data) - 2:
+        return None
+    first = _der_integer(data, 2)
+    second = _der_integer(data, first[1]) if first else None
+    if first is None or second is None or second[1] != len(data):
+        return None
+    r, s = first[0], second[0]
+    return r.to_bytes(32, "big") + s.to_bytes(32, "big") if max(r, s) < 2**256 else None
+
+
+def verify_dsse_signature(alg: str, key: Any, message: bytes, signature: bytes) -> bool:
+    """A DSSE signature: as JWS, and for ES256 also the DER form signers commonly write."""
+    if verify_signature(alg, key, message, signature):
+        return True
+    raw = der_signature(signature) if alg == "ES256" else None
+    return raw is not None and verify_signature(alg, key, message, raw)
+
+
 def _jwk_fault(method: dict[str, Any], alg: Any) -> bool:
     """True when the method's JWK is not a public key fit to verify ``alg`` (RFC 7517 4.2-4.4,
     RFC 7518 6.2.1, AI Catalog "JWS Algorithm and Key Requirements")."""
@@ -425,6 +525,16 @@ def _selected(methods: list[dict[str, Any]], kid: Any) -> list[dict[str, Any]]:
 
 # --------------------------------------------------------------------------- the verdict
 
+def root_did_web(identity: Any) -> bool:
+    """A root did:web DID: labels of a lowercase ASCII domain of at most 253 octets
+    (RFC 1035 section 2.3.4) whose last label is not all digits (RFC 3696 section 2), which
+    also excludes a dotted IPv4 address."""
+    if not isinstance(identity, str) or not _ROOT_DID_WEB.fullmatch(identity):
+        return False
+    domain = identity[len("did:web:"):]
+    return len(domain) <= 253 and not domain.rsplit(".", 1)[-1].isdigit()
+
+
 def _days_from_civil(year: int, month: int, day: int) -> int:
     """Days since 1970-01-01 in the proleptic Gregorian calendar, for every year RFC 3339
     can write, 0000 included (the datetime module stops at year 1)."""
@@ -461,7 +571,19 @@ def _instant(text: Any) -> Fraction | None:
             return None
         offset = (offset_hours * 60 + offset_minutes) * 60
         seconds -= offset if match[9] == "+" else -offset
+    if second == 60 and not _leap_second(math.floor(seconds) - 1):
+        return None
     return seconds
+
+
+_LEAP_DAYS = frozenset(_days_from_civil(*day) for day in LEAP_SECOND_DAYS)
+
+
+def _leap_second(before: int) -> bool:
+    """True when ``before`` (whole UTC seconds since 1970) is 23:59:59 on a leap day, so
+    the second after it is 23:59:60."""
+    day, of_day = divmod(before, 86400)
+    return of_day == 86399 and day in _LEAP_DAYS
 
 
 def _publisher(identifier: Any) -> str | None:
@@ -470,8 +592,18 @@ def _publisher(identifier: Any) -> str | None:
 
 
 def _origin(url: Any) -> str | None:
-    match = re.fullmatch(r"(https://[^/?#]+)(?:[/?#].*)?", url) if isinstance(url, str) else None
-    return match.group(1) if match else None
+    """The RFC 6454 origin of an https URL as https://<host>, or None. The scheme and host
+    are case-insensitive and port 443 is the default; a URL with userinfo is not read
+    (RFC 9110 section 4.2.4: a recipient treats it as an error), nor is a host with a
+    percent-escape or an IP literal."""
+    match = re.fullmatch(r"([A-Za-z][A-Za-z0-9+.-]*)://([^/?#]*)(?:[/?#].*)?", url) \
+        if isinstance(url, str) else None
+    if match is None or match[1].lower() != "https" or "@" in match[2]:
+        return None
+    host, _, port = match[2].partition(":")
+    if not host or "%" in host or "[" in host or port not in ("", "443"):
+        return None
+    return "https://" + host.lower()
 
 
 def _dsse_pae(payload_type: str, body: bytes) -> bytes:
@@ -488,10 +620,11 @@ def _attestations(construction: str, case: Path, obj: dict[str, Any], entry: dic
         name = files[index] if isinstance(files, list) and index < len(files) else None
         if not name:
             continue
-        path = case / name if isinstance(name, str) and "\\" not in name else None
-        # A vendored file sits in the case directory itself; a path that leaves it is not one.
-        data = path.read_bytes() if path is not None and path.parent == case and \
-            path.is_file() else None
+        # A vendored file is named by one path segment of the case directory itself.
+        single = isinstance(name, str) and not any(c in name for c in "/\\\0") and \
+            name not in (".", "..")
+        path = case / name if single else None
+        data = path.read_bytes() if path is not None and path.is_file() else None
         digest = item.get("digest") if isinstance(item, dict) else None
         if "attestation_digest_mismatch" not in skip and \
                 (data is None or digest != "sha256:" + sha256_hex(data)):
@@ -533,7 +666,7 @@ def _signed_statement(data: bytes, documents: dict[str, Any]) -> dict[str, Any] 
     document's id is that DID, as for the manifest signer."""
     try:
         envelope = strict_loads(data)
-        body = base64.b64decode(envelope["payload"], validate=True)
+        body = dsse_b64_decode(envelope["payload"])
         kind = envelope["payloadType"]
         signatures = envelope["signatures"]
     except (ValueError, KeyError, TypeError, binascii.Error, UnicodeDecodeError):
@@ -546,10 +679,10 @@ def _signed_statement(data: bytes, documents: dict[str, Any]) -> dict[str, Any] 
         if key is None:
             continue
         try:
-            raw = base64.b64decode(signature.get("sig", ""), validate=True)
+            raw = dsse_b64_decode(signature.get("sig", ""))
         except (binascii.Error, ValueError, TypeError):
             continue
-        if key is not None and verify_signature(alg, key, _dsse_pae(kind, body), raw):
+        if key is not None and verify_dsse_signature(alg, key, _dsse_pae(kind, body), raw):
             try:
                 statement = strict_loads(body)
             except (ValueError, UnicodeDecodeError):
@@ -612,7 +745,8 @@ class _Read:
         self.case, self.skip = case, skip
         self.context: dict[str, Any] = {}
         self.construction = ""
-        self.entry_index = self.manifest_index = 0
+        self.entry_index: int | None = 0
+        self.manifest_index: int | None = 0
         self.catalog: dict[str, Any] = {}
         self.documents: dict[str, Any] = {}
         self.obj: dict[str, Any] = {}
@@ -641,8 +775,8 @@ class _Read:
         self.construction = construction
         if self.context.get("role") not in ROLES:
             raise Refused("role_unknown")
-        self.entry_index = self.context.get("entry", 0)
-        self.manifest_index = self.context.get("manifest", 0)
+        self.entry_index = index_of(self.context.get("entry", 0))
+        self.manifest_index = index_of(self.context.get("manifest", 0))
         raw_catalog = (self.case / "catalog.json").read_bytes()
         raw_documents = (self.case / "did-documents.json").read_bytes()
         try:
@@ -664,6 +798,7 @@ class _Read:
         self.obj = found
         self.parts = jws_of(self.construction, found).split(".")
         if self.construction != SNAPSHOT:
+            assert self.entry_index is not None  # signed_object found the entry
             self.entry = self.catalog["entries"][self.entry_index]
 
     def read_header(self) -> None:
@@ -709,8 +844,7 @@ class _Read:
             # AI Catalog "Profile Selection": the named procedure, never one inferred.
             if self.obj["signature"].get("profile") != SIGNER_PROFILE:
                 self.fail("profile_unsupported")
-            if not isinstance(identity, str) or not _ROOT_DID_WEB.fullmatch(identity) \
-                    or _IPV4.fullmatch(identity):
+            if not root_did_web(identity):
                 self.fail("signer_not_root_did_web")
         self.kid = kid = self.header_value.get("kid")
         kid_ok = (isinstance(kid, str) and isinstance(identity, str)
@@ -787,8 +921,16 @@ class _Read:
             self.fail("entry_delivery_not_one")
         if "digest" not in entry and ("url" in entry or self.construction == AIC):
             self.fail("entry_digest_missing_for_url")
-        artifact = self.case / "artifact.json"
-        self.artifact_bytes = artifact.read_bytes() if artifact.is_file() else None
+        if "data" in entry and "url" not in entry:
+            # AI Catalog "digest": for data, hash the UTF-8 JCS-canonicalized JSON value; the
+            # draft's digest is "of the target artifact referenced by url (or inline data)".
+            try:
+                self.artifact_bytes = canonical(entry["data"])
+            except Refused:
+                self.artifact_bytes = None
+        else:
+            artifact = self.case / "artifact.json"
+            self.artifact_bytes = artifact.read_bytes() if artifact.is_file() else None
         if self.artifact_bytes is None or \
                 entry.get("digest") != "sha256:" + sha256_hex(self.artifact_bytes):
             self.fail("artifact_digest_mismatch")
@@ -799,7 +941,7 @@ class _Read:
         self.publisher_domain = publisher = _publisher(entry.get("identifier"))
         if self.construction not in ARD_SHAPED or "url" not in entry:
             return
-        if publisher is not None and _origin(entry.get("url")) == f"https://{publisher}":
+        if publisher is not None and _origin(entry.get("url")) == f"https://{publisher.lower()}":
             return
         try:
             descriptor = strict_loads(self.artifact_bytes) if self.artifact_bytes else {}

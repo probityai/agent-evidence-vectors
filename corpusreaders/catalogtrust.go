@@ -51,10 +51,11 @@ var (
 		ctAIC: {"ES256"}, ctSnapshot: {"ES256"}}
 	ctLabel    = `[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?`
 	ctRootDID  = regexp.MustCompile(`\Adid:web:(?:` + ctLabel + `\.)*` + ctLabel + `\z`)
-	ctIPv4DID  = regexp.MustCompile(`\Adid:web:[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+\z`)
 	ctFragment = regexp.MustCompile(`\A(?:[A-Za-z0-9._~!$&'()*+,;=:@/?-]|%[0-9A-Fa-f]{2})+\z`)
 	ctB64URL   = regexp.MustCompile(`\A[A-Za-z0-9_-]*\z`)
-	ctOrigin   = regexp.MustCompile(`\A(https://[^/?#]+)(?:[/?#].*)?\z`)
+	ctURL      = regexp.MustCompile(`\A([A-Za-z][A-Za-z0-9+.-]*)://([^/?#]*)(?:[/?#].*)?\z`)
+	ctDSSEStd  = regexp.MustCompile(`\A(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?\z`)
+	ctDSSEURL  = regexp.MustCompile(`\A(?:[A-Za-z0-9_-]{4})*(?:[A-Za-z0-9_-]{2}==|[A-Za-z0-9_-]{3}=)?\z`)
 	ctTime     = regexp.MustCompile(`\A([0-9]{4})-([0-9]{2})-([0-9]{2})[Tt]([0-9]{2}):([0-9]{2}):` +
 		`([0-9]{2})(\.[0-9]+)?(?:([Zz])|([+-])([0-9]{2}):([0-9]{2}))\z`)
 	ctPrivateJWK = []string{"d", "p", "q", "dp", "dq", "qi", "oth", "k"}
@@ -122,11 +123,11 @@ type ctParser struct {
 // closes, so a fault inside a later member value of the same object is reported
 // first, as a scanning parser meets it.
 func ctParse(data []byte) (any, error) {
-	if !utf8.Valid(data) {
+	if !utf8.Valid(data) || ctTooDeep(data) {
 		return nil, errCTInvalid
 	}
 	p := &ctParser{data: data}
-	v, err := p.value(0)
+	v, err := p.value()
 	if err != nil {
 		return nil, err
 	}
@@ -137,25 +138,53 @@ func ctParse(data []byte) (any, error) {
 	return v, nil
 }
 
+// ctMaxNesting bounds the arrays and objects open at once; a deeper text is refused
+// before it is parsed, so every reader holds the same values (json_invalid).
+const ctMaxNesting = 64
+
+// ctTooDeep scans the bytes for more than ctMaxNesting open arrays and objects. The
+// structural characters are ASCII, and no UTF-8 sequence holds an ASCII byte.
+func ctTooDeep(data []byte) bool {
+	depth, inString, escaped := 0, false, false
+	for _, b := range data {
+		switch {
+		case inString && escaped:
+			escaped = false
+		case inString && b == '\\':
+			escaped = true
+		case inString && b == '"':
+			inString = false
+		case inString:
+		case b == '"':
+			inString = true
+		case b == '[' || b == '{':
+			depth++
+			if depth > ctMaxNesting {
+				return true
+			}
+		case b == ']' || b == '}':
+			depth--
+		}
+	}
+	return false
+}
+
 func (p *ctParser) space() {
 	for p.pos < len(p.data) && strings.IndexByte(" \t\n\r", p.data[p.pos]) >= 0 {
 		p.pos++
 	}
 }
 
-func (p *ctParser) value(depth int) (any, error) {
-	if depth > 512 {
-		return nil, errCTInvalid
-	}
+func (p *ctParser) value() (any, error) {
 	p.space()
 	if p.pos >= len(p.data) {
 		return nil, errCTInvalid
 	}
 	switch p.data[p.pos] {
 	case '{':
-		return p.object(depth)
+		return p.object()
 	case '[':
-		return p.array(depth)
+		return p.array()
 	case '"':
 		return p.string()
 	case 't':
@@ -177,7 +206,7 @@ func (p *ctParser) literal(word string, v any) (any, error) {
 	return v, nil
 }
 
-func (p *ctParser) object(depth int) (any, error) {
+func (p *ctParser) object() (any, error) {
 	p.pos++
 	out := &ctObject{vals: map[string]any{}}
 	duplicate := false
@@ -200,7 +229,7 @@ func (p *ctParser) object(depth int) (any, error) {
 			return nil, errCTInvalid
 		}
 		p.pos++
-		v, err := p.value(depth + 1)
+		v, err := p.value()
 		if err != nil {
 			return nil, err
 		}
@@ -229,7 +258,7 @@ func (p *ctParser) object(depth int) (any, error) {
 	}
 }
 
-func (p *ctParser) array(depth int) (any, error) {
+func (p *ctParser) array() (any, error) {
 	p.pos++
 	out := []any{}
 	p.space()
@@ -238,7 +267,7 @@ func (p *ctParser) array(depth int) (any, error) {
 		return out, nil
 	}
 	for {
-		v, err := p.value(depth + 1)
+		v, err := p.value()
 		if err != nil {
 			return nil, err
 		}
@@ -566,9 +595,6 @@ func ctIndex(v any, i int) any {
 	if !ok {
 		return nil
 	}
-	if i < 0 {
-		i += len(list)
-	}
 	if i < 0 || i >= len(list) {
 		return nil
 	}
@@ -691,6 +717,19 @@ func ctVerify(key ctKey, message, signature []byte) bool {
 	return false
 }
 
+// ctVerifyDSSE checks a DSSE signature: as JWS, and for ES256 also the strict DER
+// ECDSA-Sig-Value (RFC 3279 section 2.2.3) sigstore and in-toto signers write.
+func ctVerifyDSSE(key ctKey, message, signature []byte) bool {
+	if ctVerify(key, message, signature) {
+		return true
+	}
+	if key.alg != "ES256" {
+		return false
+	}
+	digest := sha256.Sum256(message)
+	return ecdsa.VerifyASN1(key.ec, digest[:], signature)
+}
+
 func ctAbsolute(ref any, base any) any {
 	r, ok := ref.(string)
 	b, okBase := base.(string)
@@ -773,14 +812,43 @@ func ctInstant(v any) *big.Rat {
 		if n(10) > 23 || n(11) > 59 {
 			return nil
 		}
-		offset := new(big.Rat).SetInt64(int64((n(10)*60 + n(11)) * 60))
-		if m[9] == "+" {
-			seconds.Sub(seconds, offset)
-		} else {
-			seconds.Add(seconds, offset)
+		offset := int64((n(10)*60 + n(11)) * 60)
+		if m[9] == "-" {
+			offset = -offset
 		}
+		total -= offset
+		seconds.Sub(seconds, new(big.Rat).SetInt64(offset))
+	}
+	if second == 60 && !ctLeapSecond(total-1) {
+		return nil
 	}
 	return seconds
+}
+
+// ctLeapSecondDays are the UTC days that end in a leap second, from the IERS list
+// (leap-seconds.list, file hash a9bad145 84c31c70 758402aa b37bfd54 5923836a, expires 28
+// June 2027). A second of 60 names a real instant only at 23:59:60 UTC on one of them.
+var ctLeapSecondDays = func() map[int64]bool {
+	days := map[int64]bool{}
+	for _, d := range [][3]int{{1972, 6, 30}, {1972, 12, 31}, {1973, 12, 31}, {1974, 12, 31},
+		{1975, 12, 31}, {1976, 12, 31}, {1977, 12, 31}, {1978, 12, 31}, {1979, 12, 31},
+		{1981, 6, 30}, {1982, 6, 30}, {1983, 6, 30}, {1985, 6, 30}, {1987, 12, 31},
+		{1989, 12, 31}, {1990, 12, 31}, {1992, 6, 30}, {1993, 6, 30}, {1994, 6, 30},
+		{1995, 12, 31}, {1997, 6, 30}, {1998, 12, 31}, {2005, 12, 31}, {2008, 12, 31},
+		{2012, 6, 30}, {2015, 6, 30}, {2016, 12, 31}} {
+		days[ctDaysFromCivil(d[0], d[1], d[2])] = true
+	}
+	return days
+}()
+
+// ctLeapSecond reports whether before (whole UTC seconds since 1970) is 23:59:59 on a
+// leap day, so the second after it is 23:59:60.
+func ctLeapSecond(before int64) bool {
+	day, ofDay := before/86400, before%86400
+	if ofDay < 0 {
+		day, ofDay = day-1, ofDay+86400
+	}
+	return ofDay == 86399 && ctLeapSecondDays[day]
 }
 
 func ctDaysInMonth(year, month int) int {
@@ -873,8 +941,9 @@ type ctCase struct {
 	publisher    string
 }
 
-// ctNoIndex stands for an index the context gives as something other than an
-// integer: it selects nothing, as a list subscript by such a value finds nothing.
+// ctNoIndex stands for an index the context gives as something other than a
+// non-negative integer: it selects nothing (1.0 is the integer 1; -1, 0.5 and true are
+// not indexes).
 const ctNoIndex = math.MinInt
 
 func ctIndexOf(context map[string]any, name string) int {
@@ -883,7 +952,7 @@ func ctIndexOf(context map[string]any, name string) int {
 		return 0
 	}
 	f, ok := v.(float64)
-	if !ok || f != math.Trunc(f) || math.Abs(f) > 1<<31 {
+	if !ok || f != math.Trunc(f) || f < 0 || f > 1<<31 {
 		return ctNoIndex
 	}
 	return int(f)
@@ -1077,7 +1146,7 @@ func (c *ctCase) signer() string {
 			return "profile_unsupported"
 		}
 		id, isStr := identity.(string)
-		if !isStr || !ctRootDID.MatchString(id) || ctIPv4DID.MatchString(id) {
+		if !isStr || !ctRootDIDWeb(id) {
 			return "signer_not_root_did_web"
 		}
 	}
@@ -1192,7 +1261,14 @@ func (c *ctCase) artifactDigest() string {
 	if !hasDigest && (hasURL || c.construction == ctAIC) {
 		return "entry_digest_missing_for_url"
 	}
-	artifact, err := readIn(c.dir, "artifact.json")
+	var artifact []byte
+	var err error
+	if data, hasData := c.entry.get("data"); hasData && !hasURL {
+		// AI Catalog "digest": for data, hash the UTF-8 JCS-canonicalized JSON value.
+		artifact, err = ctCanonical(data)
+	} else {
+		artifact, err = readIn(c.dir, "artifact.json")
+	}
 	if err != nil || entryDigest != "sha256:"+sha(artifact) {
 		return "artifact_digest_mismatch"
 	}
@@ -1212,8 +1288,7 @@ func (c *ctCase) origin() string {
 		return ""
 	}
 	url, _ := c.entry.str("url")
-	if origin := ctOrigin.FindStringSubmatch(url); c.publisher != "" && origin != nil &&
-		origin[1] == "https://"+c.publisher {
+	if c.publisher != "" && ctHTTPSOrigin(url) == "https://"+strings.ToLower(c.publisher) {
 		return ""
 	}
 	var declared any
@@ -1226,6 +1301,33 @@ func (c *ctCase) origin() string {
 		return "url_origin_unbound"
 	}
 	return ""
+}
+
+// ctRootDIDWeb reports a root did:web DID: labels of a lowercase ASCII domain of at
+// most 253 octets (RFC 1035 section 2.3.4) whose last label is not all digits (RFC 3696
+// section 2), which also excludes a dotted IPv4 address.
+func ctRootDIDWeb(id string) bool {
+	if !ctRootDID.MatchString(id) {
+		return false
+	}
+	domain := strings.TrimPrefix(id, "did:web:")
+	last := domain[strings.LastIndexByte(domain, '.')+1:]
+	return len(domain) <= 253 && strings.Trim(last, "0123456789") != ""
+}
+
+// ctHTTPSOrigin is the RFC 6454 origin of an https URL as https://<host>, or "". The
+// scheme and host are case-insensitive and 443 is the default port; userinfo (RFC 9110
+// section 4.2.4), a percent-escaped host and an IP literal are not read.
+func ctHTTPSOrigin(url string) string {
+	m := ctURL.FindStringSubmatch(url)
+	if m == nil || strings.ToLower(m[1]) != "https" || strings.Contains(m[2], "@") {
+		return ""
+	}
+	host, port, _ := strings.Cut(m[2], ":")
+	if host == "" || strings.ContainsAny(host, "%[") || (port != "" && port != "443") {
+		return ""
+	}
+	return "https://" + strings.ToLower(host)
 }
 
 // publisherRule applies publisher_not_signer or publisher_authorization_absent.
@@ -1280,7 +1382,7 @@ func (c *ctCase) attestations() string {
 			continue
 		}
 		var data []byte
-		if text, ok := name.(string); ok && !strings.ContainsAny(text, `/\`) && text != "." &&
+		if text, ok := name.(string); ok && !strings.ContainsAny(text, "/\\\x00") && text != "." &&
 			text != ".." && existsIn(c.dir, text) {
 			data, _ = readIn(c.dir, text)
 		}
@@ -1329,8 +1431,8 @@ func (c *ctCase) signedStatement(data []byte) *ctObject {
 		list, ok := v.([]any)
 		return list, ok
 	}()
-	body, err := base64.StdEncoding.DecodeString(payloadText)
-	if !okPayload || err != nil || kind != ctDSSEType || !isList {
+	body, okBody := ctDSSEDecode(payloadText)
+	if !okPayload || !okBody || kind != ctDSSEType || !isList {
 		return nil
 	}
 	pae := append([]byte(fmt.Sprintf("DSSEv1 %d %s %d ", len(ctDSSEType), ctDSSEType, len(body))),
@@ -1347,8 +1449,8 @@ func (c *ctCase) signedStatement(data []byte) *ctObject {
 		if !present {
 			sigText, isStr = "", true
 		}
-		raw, decodeErr := base64.StdEncoding.DecodeString(sigText)
-		if key.alg == "none" || !isStr || decodeErr != nil || !ctVerify(key, pae, raw) {
+		raw, okSig := ctDSSEDecode(sigText)
+		if key.alg == "none" || !isStr || !okSig || !ctVerifyDSSE(key, pae, raw) {
 			continue
 		}
 		statementValue, err := ctParse(body)
@@ -1359,6 +1461,26 @@ func (c *ctCase) signedStatement(data []byte) *ctObject {
 		return statement
 	}
 	return nil
+}
+
+// ctDSSEDecode reads a DSSE base64 field: "Either standard or URL-safe base64
+// encodings are allowed. Signers may use either, and verifiers MUST accept either"
+// (DSSE protocol.md); one alphabet per string, padded, and nothing else, so the line
+// breaks encoding/base64 skips are refused (RFC 4648 section 3.3).
+func ctDSSEDecode(text string) ([]byte, bool) {
+	var raw []byte
+	var err error
+	switch {
+	case len(text)%4 != 0:
+		return nil, false
+	case ctDSSEStd.MatchString(text):
+		raw, err = base64.StdEncoding.DecodeString(text)
+	case ctDSSEURL.MatchString(text):
+		raw, err = base64.URLEncoding.DecodeString(text)
+	default:
+		return nil, false
+	}
+	return raw, err == nil
 }
 
 func (c *ctCase) dsseKey(keyid string) ctKey {

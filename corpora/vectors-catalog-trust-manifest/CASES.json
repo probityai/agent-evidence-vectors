@@ -16,6 +16,7 @@
         "manifest": 0,
         "role": "publisher"
       },
+      "contextAfter": [],
       "dids": [],
       "edit": "control: ARD draft trust manifest, ES256, publisher DID",
       "expected": {
@@ -53,6 +54,7 @@
         "manifest": 0,
         "role": "publisher"
       },
+      "contextAfter": [],
       "dids": [],
       "edit": "control: the draft names ES256 as mandatory to implement, not as the only algorithm, so EdDSA is accepted under it",
       "expected": {
@@ -90,6 +92,7 @@
         "manifest": 0,
         "role": "publisher"
       },
+      "contextAfter": [],
       "dids": [],
       "edit": "control: RFC 7797 unencoded payload declared critical; the draft does not forbid it",
       "expected": {
@@ -146,6 +149,7 @@
         "manifest": 0,
         "role": "publisher"
       },
+      "contextAfter": [],
       "dids": [],
       "edit": "control: member names that sort differently by UTF-16 code unit and by code point; RFC 8785 orders by UTF-16",
       "expected": {
@@ -183,6 +187,7 @@
         "manifest": 0,
         "role": "publisher"
       },
+      "contextAfter": [],
       "dids": [],
       "edit": "control: the whole-entry input measured in the field (entry minus trustManifest.signature)",
       "expected": {
@@ -238,6 +243,7 @@
         "manifest": 0,
         "role": "publisher"
       },
+      "contextAfter": [],
       "dids": [],
       "edit": "control: url on another origin, and the artifact fetched from it declares the entry identifier (draft 6.2)",
       "expected": {
@@ -289,6 +295,7 @@
         "manifest": 0,
         "role": "publisher"
       },
+      "contextAfter": [],
       "dids": [],
       "edit": "control: two attestations, each a DSSE in-toto statement whose subject digest equals entry.digest, typed by the agent-card-receipt and observed-effect predicate URIs",
       "expected": {
@@ -326,6 +333,7 @@
         "manifest": 0,
         "role": "publisher"
       },
+      "contextAfter": [],
       "dids": [],
       "edit": "control: AI Catalog trust manifest under the did:web Signer and Publisher Profiles",
       "expected": {
@@ -363,6 +371,7 @@
         "manifest": 1,
         "role": "contributor"
       },
+      "contextAfter": [],
       "dids": [],
       "edit": "control: an assessor manifest beside the publisher's, judged in the contributor role",
       "expected": {
@@ -408,6 +417,7 @@
         "manifest": 0,
         "role": "publisher"
       },
+      "contextAfter": [],
       "dids": [],
       "edit": "control: the same catalog, the publisher's manifest in the publisher role",
       "expected": {
@@ -470,6 +480,7 @@
         "manifest": 0,
         "role": "publisher"
       },
+      "contextAfter": [],
       "dids": [],
       "edit": "control: members named signature and additionalSignatures below the manifest stay in the payload (exclusions are not recursive)",
       "expected": {
@@ -523,6 +534,7 @@
         "manifest": 0,
         "role": "publisher"
       },
+      "contextAfter": [],
       "dids": [],
       "edit": "control: the reserved immediate additionalSignatures member added after signing is outside the payload",
       "expected": {
@@ -560,6 +572,7 @@
         "manifest": 0,
         "role": "publisher"
       },
+      "contextAfter": [],
       "dids": [],
       "edit": "control: a whole-catalog snapshot signature over a catalog carrying a signed manifest",
       "expected": {
@@ -605,6 +618,7 @@
         "manifest": 0,
         "role": "publisher"
       },
+      "contextAfter": [],
       "dids": [],
       "edit": "one catalog signed over the draft input, judged under ard-draft-bu-00; the four contradict cases of this group carry byte-identical catalogs",
       "expected": {
@@ -642,6 +656,7 @@
         "manifest": 0,
         "role": "publisher"
       },
+      "contextAfter": [],
       "dids": [],
       "edit": "one catalog signed over the draft input, judged under field-whole-entry; the four contradict cases of this group carry byte-identical catalogs",
       "expected": {
@@ -679,6 +694,7 @@
         "manifest": 0,
         "role": "publisher"
       },
+      "contextAfter": [],
       "dids": [],
       "edit": "one catalog signed over the draft input, judged under ai-catalog-2026-11; the four contradict cases of this group carry byte-identical catalogs",
       "expected": {
@@ -716,6 +732,7 @@
         "manifest": 0,
         "role": "publisher"
       },
+      "contextAfter": [],
       "dids": [],
       "edit": "one catalog signed over the draft input, judged under ai-catalog-snapshot; the four contradict cases of this group carry byte-identical catalogs",
       "expected": {
@@ -753,6 +770,7 @@
         "manifest": 0,
         "role": "publisher"
       },
+      "contextAfter": [],
       "dids": [],
       "edit": "one catalog signed over the whole-entry input, judged under ard-draft-bu-00; the four contradict cases of this group carry byte-identical catalogs",
       "expected": {
@@ -790,6 +808,7 @@
         "manifest": 0,
         "role": "publisher"
       },
+      "contextAfter": [],
       "dids": [],
       "edit": "one catalog signed over the whole-entry input, judged under field-whole-entry; the four contradict cases of this group carry byte-identical catalogs",
       "expected": {
@@ -827,6 +846,7 @@
         "manifest": 0,
         "role": "publisher"
       },
+      "contextAfter": [],
       "dids": [],
       "edit": "one catalog signed over the whole-entry input, judged under ai-catalog-2026-11; the four contradict cases of this group carry byte-identical catalogs",
       "expected": {
@@ -864,6 +884,7 @@
         "manifest": 0,
         "role": "publisher"
       },
+      "contextAfter": [],
       "dids": [],
       "edit": "one catalog signed over the whole-entry input, judged under ai-catalog-snapshot; the four contradict cases of this group carry byte-identical catalogs",
       "expected": {
@@ -901,6 +922,7 @@
         "manifest": 0,
         "role": "publisher"
       },
+      "contextAfter": [],
       "dids": [],
       "edit": "the context names a construction outside the closed term",
       "expected": {
@@ -938,6 +960,7 @@
         "manifest": 0,
         "role": "publisher"
       },
+      "contextAfter": [],
       "dids": [],
       "edit": "a second identifier member in the entry; a last-wins parser reads another publisher",
       "expected": {
@@ -980,6 +1003,7 @@
         "manifest": 0,
         "role": "publisher"
       },
+      "contextAfter": [],
       "dids": [],
       "edit": "a trust manifest with no signature",
       "expected": {
@@ -1008,6 +1032,7 @@
         "manifest": 0,
         "role": "publisher"
       },
+      "contextAfter": [],
       "dids": [],
       "edit": "the stored JWS carries its payload segment",
       "expected": {
@@ -1045,6 +1070,7 @@
         "manifest": 0,
         "role": "publisher"
       },
+      "contextAfter": [],
       "dids": [],
       "edit": "the signature segment is padded base64url",
       "expected": {
@@ -1082,6 +1108,7 @@
         "manifest": 0,
         "role": "publisher"
       },
+      "contextAfter": [],
       "dids": [],
       "edit": "an AI Catalog manifest signature without typ",
       "expected": {
@@ -1121,6 +1148,7 @@
         "manifest": 0,
         "role": "publisher"
       },
+      "contextAfter": [],
       "dids": [],
       "edit": "a manifest-typed signature presented as the catalog snapshot signature",
       "expected": {
@@ -1168,6 +1196,7 @@
         "manifest": 0,
         "role": "publisher"
       },
+      "contextAfter": [],
       "dids": [],
       "edit": "alg none",
       "expected": {
@@ -1207,6 +1236,7 @@
         "manifest": 0,
         "role": "publisher"
       },
+      "contextAfter": [],
       "dids": [],
       "edit": "EdDSA under the AI Catalog did:web Signer Profile, which allows ES256 only",
       "expected": {
@@ -1244,6 +1274,7 @@
         "manifest": 0,
         "role": "publisher"
       },
+      "contextAfter": [],
       "dids": [],
       "edit": "the protected header names a key source (jku)",
       "expected": {
@@ -1283,6 +1314,7 @@
         "manifest": 0,
         "role": "publisher"
       },
+      "contextAfter": [],
       "dids": [],
       "edit": "the protected header names a key source (jwk)",
       "expected": {
@@ -1327,6 +1359,7 @@
         "manifest": 0,
         "role": "publisher"
       },
+      "contextAfter": [],
       "dids": [],
       "edit": "the protected header names a key source (x5u)",
       "expected": {
@@ -1366,6 +1399,7 @@
         "manifest": 0,
         "role": "publisher"
       },
+      "contextAfter": [],
       "dids": [],
       "edit": "the protected header names a key source (x5c)",
       "expected": {
@@ -1407,6 +1441,7 @@
         "manifest": 0,
         "role": "publisher"
       },
+      "contextAfter": [],
       "dids": [],
       "edit": "b64 in an AI Catalog protected header, even declared critical",
       "expected": {
@@ -1449,6 +1484,7 @@
         "manifest": 0,
         "role": "publisher"
       },
+      "contextAfter": [],
       "dids": [],
       "edit": "crit names a parameter the verifier does not implement",
       "expected": {
@@ -1491,6 +1527,7 @@
         "manifest": 0,
         "role": "publisher"
       },
+      "contextAfter": [],
       "dids": [],
       "edit": "b64 false without crit (RFC 7797 section 6): a verifier that ignores b64 checks other bytes",
       "expected": {
@@ -1530,6 +1567,7 @@
         "manifest": 0,
         "role": "publisher"
       },
+      "contextAfter": [],
       "dids": [],
       "edit": "the kid names another DID than the manifest identity",
       "expected": {
@@ -1567,6 +1605,7 @@
         "manifest": 0,
         "role": "publisher"
       },
+      "contextAfter": [],
       "dids": [
         {
           "op": "set",
@@ -1613,6 +1652,7 @@
         "manifest": 0,
         "role": "publisher"
       },
+      "contextAfter": [],
       "dids": [],
       "edit": "the kid fragment names no verification method",
       "expected": {
@@ -1652,6 +1692,7 @@
         "manifest": 0,
         "role": "publisher"
       },
+      "contextAfter": [],
       "dids": [
         {
           "op": "set",
@@ -1700,6 +1741,7 @@
         "manifest": 0,
         "role": "publisher"
       },
+      "contextAfter": [],
       "dids": [],
       "edit": "an ES256 header over a signature from the Ed25519 key",
       "expected": {
@@ -1761,6 +1803,7 @@
         "manifest": 0,
         "role": "publisher"
       },
+      "contextAfter": [],
       "dids": [],
       "edit": "the record carries 9007199254740993; the signature covers 9007199254740991",
       "expected": {
@@ -1820,6 +1863,7 @@
         "manifest": 0,
         "role": "publisher"
       },
+      "contextAfter": [],
       "dids": [],
       "edit": "a member value that is a lone surrogate has no UTF-8 form",
       "expected": {
@@ -1868,6 +1912,7 @@
         "manifest": 0,
         "role": "publisher"
       },
+      "contextAfter": [],
       "dids": [],
       "edit": "issuedAt changed after signing",
       "expected": {
@@ -1917,6 +1962,7 @@
         "manifest": 0,
         "role": "publisher"
       },
+      "contextAfter": [],
       "dids": [],
       "edit": "the manifest names one contributor and is signed by another",
       "expected": {
@@ -1964,6 +2010,7 @@
         "manifest": 0,
         "role": "publisher"
       },
+      "contextAfter": [],
       "dids": [],
       "edit": "a signed trust manifest with no subject",
       "expected": {
@@ -2013,6 +2060,7 @@
         "manifest": 0,
         "role": "publisher"
       },
+      "contextAfter": [],
       "dids": [],
       "edit": "the entry has a version and the subject does not",
       "expected": {
@@ -2073,6 +2121,7 @@
         "manifest": 0,
         "role": "publisher"
       },
+      "contextAfter": [],
       "dids": [],
       "edit": "a valid manifest moved to an entry with the same identifier and another digest",
       "expected": {
@@ -2129,6 +2178,7 @@
         "manifest": 0,
         "role": "publisher"
       },
+      "contextAfter": [],
       "dids": [],
       "edit": "an entry referenced by url with no digest, and a subject with no digest",
       "expected": {
@@ -2174,6 +2224,7 @@
         "manifest": 0,
         "role": "publisher"
       },
+      "contextAfter": [],
       "dids": [],
       "edit": "the artifact bytes differ from entry.digest",
       "expected": {
@@ -2221,6 +2272,7 @@
         "manifest": 0,
         "role": "publisher"
       },
+      "contextAfter": [],
       "dids": [],
       "edit": "url on another origin, and the artifact there does not declare the entry identifier (draft 6.2)",
       "expected": {
@@ -2268,6 +2320,7 @@
         "manifest": 0,
         "role": "publisher"
       },
+      "contextAfter": [],
       "dids": [],
       "edit": "the vendored attestation differs from its signed digest",
       "expected": {
@@ -2313,6 +2366,7 @@
         "manifest": 0,
         "role": "publisher"
       },
+      "contextAfter": [],
       "dids": [],
       "edit": "an unsigned scan result: neither a signature over the artifact nor a signed subject (draft 3.5.2 item 1)",
       "expected": {
@@ -2358,6 +2412,7 @@
         "manifest": 0,
         "role": "publisher"
       },
+      "contextAfter": [],
       "dids": [],
       "edit": "a signed statement whose subject is another artifact",
       "expected": {
@@ -2419,6 +2474,7 @@
         "manifest": 0,
         "role": "publisher"
       },
+      "contextAfter": [],
       "dids": [],
       "edit": "a www. subdomain signer under the AI Catalog exact-match publisher rule",
       "expected": {
@@ -2467,6 +2523,7 @@
         "manifest": 0,
         "role": "publisher"
       },
+      "contextAfter": [],
       "dids": [],
       "edit": "a www. subdomain signer under the draft rule, with no authorization record offline",
       "expected": {
@@ -2504,6 +2561,7 @@
         "manifest": 1,
         "role": "publisher"
       },
+      "contextAfter": [],
       "dids": [],
       "edit": "a valid assessor manifest judged in the publisher role",
       "expected": {
@@ -2549,6 +2607,7 @@
         "manifest": 0,
         "role": "publisher"
       },
+      "contextAfter": [],
       "dids": [],
       "edit": "checked before issuedAt",
       "expected": {
@@ -2586,6 +2645,7 @@
         "manifest": 0,
         "role": "publisher"
       },
+      "contextAfter": [],
       "dids": [],
       "edit": "checked at expiresAt",
       "expected": {
@@ -2623,6 +2683,7 @@
         "manifest": 1,
         "role": "Publisher"
       },
+      "contextAfter": [],
       "dids": [],
       "edit": "the context names a role outside the closed term (publisher, contributor); a verifier that skips the publisher rule for it accepts an assessor as the publisher",
       "expected": {
@@ -2668,6 +2729,7 @@
         "manifest": 0,
         "role": "publisher"
       },
+      "contextAfter": [],
       "dids": [],
       "edit": "the catalog carries NaN, which is not JSON",
       "expected": {
@@ -2710,6 +2772,7 @@
         "manifest": 0,
         "role": "publisher"
       },
+      "contextAfter": [],
       "dids": [],
       "edit": "b64 is the string \"false\" (RFC 7797 section 3: the value is a boolean), declared critical",
       "expected": {
@@ -2765,6 +2828,7 @@
         "manifest": 0,
         "role": "publisher"
       },
+      "contextAfter": [],
       "dids": [],
       "edit": "signature.profile names a procedure this verifier does not implement; AI Catalog consumers never infer another",
       "expected": {
@@ -2814,6 +2878,7 @@
         "manifest": 0,
         "role": "publisher"
       },
+      "contextAfter": [],
       "dids": [],
       "edit": "the Signature object has no profile member",
       "expected": {
@@ -2860,6 +2925,7 @@
         "manifest": 0,
         "role": "publisher"
       },
+      "contextAfter": [],
       "dids": [],
       "edit": "the catalog signature names a profile this verifier does not implement",
       "expected": {
@@ -2929,6 +2995,7 @@
         "manifest": 0,
         "role": "contributor"
       },
+      "contextAfter": [],
       "dids": [
         {
           "from": [
@@ -3040,6 +3107,7 @@
         "manifest": 0,
         "role": "contributor"
       },
+      "contextAfter": [],
       "dids": [
         {
           "from": [
@@ -3151,6 +3219,7 @@
         "manifest": 0,
         "role": "contributor"
       },
+      "contextAfter": [],
       "dids": [
         {
           "from": [
@@ -3233,6 +3302,342 @@
         {
           "op": "set",
           "path": [
+            "entries",
+            0,
+            "trustManifests",
+            0,
+            "contributor"
+          ],
+          "value": "did:web:192.0.2.1"
+        },
+        {
+          "op": "set",
+          "path": [
+            "entries",
+            0,
+            "trustManifests",
+            0,
+            "signature",
+            "signer"
+          ],
+          "value": "did:web:192.0.2.1"
+        }
+      ],
+      "context": {
+        "at": "2026-11-16T00:00:00Z",
+        "attestationFiles": [],
+        "construction": "ai-catalog-2026-11",
+        "entry": 0,
+        "manifest": 0,
+        "role": "contributor"
+      },
+      "contextAfter": [],
+      "dids": [
+        {
+          "from": [
+            "did:web:other.example"
+          ],
+          "op": "copy",
+          "path": [
+            "did:web:192.0.2.1"
+          ]
+        },
+        {
+          "op": "set",
+          "path": [
+            "did:web:192.0.2.1",
+            "id"
+          ],
+          "value": "did:web:192.0.2.1"
+        },
+        {
+          "op": "set",
+          "path": [
+            "did:web:192.0.2.1",
+            "verificationMethod",
+            0,
+            "id"
+          ],
+          "value": "did:web:192.0.2.1#es256"
+        },
+        {
+          "op": "set",
+          "path": [
+            "did:web:192.0.2.1",
+            "verificationMethod",
+            0,
+            "controller"
+          ],
+          "value": "did:web:192.0.2.1"
+        },
+        {
+          "op": "set",
+          "path": [
+            "did:web:192.0.2.1",
+            "assertionMethod"
+          ],
+          "value": [
+            "did:web:192.0.2.1#es256"
+          ]
+        }
+      ],
+      "edit": "the signer is did:web:192.0.2.1, not a root did:web DID (lowercase ASCII domain, no port, no path)",
+      "expected": {
+        "decision": "reject",
+        "reason": "signer_not_root_did_web"
+      },
+      "id": "reject-aic-signer-ipv4",
+      "raw": [],
+      "secondEntry": false,
+      "shape": "aic",
+      "sign": [
+        {
+          "construction": "ai-catalog-2026-11",
+          "entry": 0,
+          "form": "detached",
+          "header": {
+            "kid": "did:web:192.0.2.1#es256"
+          },
+          "key": "other",
+          "manifest": 0
+        }
+      ]
+    },
+    {
+      "after": [],
+      "artifact": [],
+      "artifactAfter": [],
+      "assessor": false,
+      "attestationAfter": [],
+      "attestations": [],
+      "before": [
+        {
+          "op": "set",
+          "path": [
+            "entries",
+            0,
+            "trustManifests",
+            0,
+            "contributor"
+          ],
+          "value": "did:web:agents.2026"
+        },
+        {
+          "op": "set",
+          "path": [
+            "entries",
+            0,
+            "trustManifests",
+            0,
+            "signature",
+            "signer"
+          ],
+          "value": "did:web:agents.2026"
+        }
+      ],
+      "context": {
+        "at": "2026-11-16T00:00:00Z",
+        "attestationFiles": [],
+        "construction": "ai-catalog-2026-11",
+        "entry": 0,
+        "manifest": 0,
+        "role": "contributor"
+      },
+      "contextAfter": [],
+      "dids": [
+        {
+          "from": [
+            "did:web:other.example"
+          ],
+          "op": "copy",
+          "path": [
+            "did:web:agents.2026"
+          ]
+        },
+        {
+          "op": "set",
+          "path": [
+            "did:web:agents.2026",
+            "id"
+          ],
+          "value": "did:web:agents.2026"
+        },
+        {
+          "op": "set",
+          "path": [
+            "did:web:agents.2026",
+            "verificationMethod",
+            0,
+            "id"
+          ],
+          "value": "did:web:agents.2026#es256"
+        },
+        {
+          "op": "set",
+          "path": [
+            "did:web:agents.2026",
+            "verificationMethod",
+            0,
+            "controller"
+          ],
+          "value": "did:web:agents.2026"
+        },
+        {
+          "op": "set",
+          "path": [
+            "did:web:agents.2026",
+            "assertionMethod"
+          ],
+          "value": [
+            "did:web:agents.2026#es256"
+          ]
+        }
+      ],
+      "edit": "the signer is did:web:agents.2026, not a root did:web DID (lowercase ASCII domain, no port, no path)",
+      "expected": {
+        "decision": "reject",
+        "reason": "signer_not_root_did_web"
+      },
+      "id": "reject-aic-signer-numeric-tld",
+      "raw": [],
+      "secondEntry": false,
+      "shape": "aic",
+      "sign": [
+        {
+          "construction": "ai-catalog-2026-11",
+          "entry": 0,
+          "form": "detached",
+          "header": {
+            "kid": "did:web:agents.2026#es256"
+          },
+          "key": "other",
+          "manifest": 0
+        }
+      ]
+    },
+    {
+      "after": [],
+      "artifact": [],
+      "artifactAfter": [],
+      "assessor": false,
+      "attestationAfter": [],
+      "attestations": [],
+      "before": [
+        {
+          "op": "set",
+          "path": [
+            "entries",
+            0,
+            "trustManifests",
+            0,
+            "contributor"
+          ],
+          "value": "did:web:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa.aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa.aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa.bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb.example"
+        },
+        {
+          "op": "set",
+          "path": [
+            "entries",
+            0,
+            "trustManifests",
+            0,
+            "signature",
+            "signer"
+          ],
+          "value": "did:web:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa.aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa.aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa.bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb.example"
+        }
+      ],
+      "context": {
+        "at": "2026-11-16T00:00:00Z",
+        "attestationFiles": [],
+        "construction": "ai-catalog-2026-11",
+        "entry": 0,
+        "manifest": 0,
+        "role": "contributor"
+      },
+      "contextAfter": [],
+      "dids": [
+        {
+          "from": [
+            "did:web:other.example"
+          ],
+          "op": "copy",
+          "path": [
+            "did:web:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa.aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa.aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa.bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb.example"
+          ]
+        },
+        {
+          "op": "set",
+          "path": [
+            "did:web:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa.aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa.aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa.bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb.example",
+            "id"
+          ],
+          "value": "did:web:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa.aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa.aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa.bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb.example"
+        },
+        {
+          "op": "set",
+          "path": [
+            "did:web:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa.aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa.aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa.bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb.example",
+            "verificationMethod",
+            0,
+            "id"
+          ],
+          "value": "did:web:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa.aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa.aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa.bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb.example#es256"
+        },
+        {
+          "op": "set",
+          "path": [
+            "did:web:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa.aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa.aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa.bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb.example",
+            "verificationMethod",
+            0,
+            "controller"
+          ],
+          "value": "did:web:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa.aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa.aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa.bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb.example"
+        },
+        {
+          "op": "set",
+          "path": [
+            "did:web:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa.aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa.aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa.bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb.example",
+            "assertionMethod"
+          ],
+          "value": [
+            "did:web:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa.aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa.aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa.bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb.example#es256"
+          ]
+        }
+      ],
+      "edit": "the signer is did:web:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa.aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa.aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa.bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb.example, not a root did:web DID (lowercase ASCII domain, no port, no path)",
+      "expected": {
+        "decision": "reject",
+        "reason": "signer_not_root_did_web"
+      },
+      "id": "reject-aic-signer-domain-past-253-octets",
+      "raw": [],
+      "secondEntry": false,
+      "shape": "aic",
+      "sign": [
+        {
+          "construction": "ai-catalog-2026-11",
+          "entry": 0,
+          "form": "detached",
+          "header": {
+            "kid": "did:web:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa.aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa.aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa.bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb.example#es256"
+          },
+          "key": "other",
+          "manifest": 0
+        }
+      ]
+    },
+    {
+      "after": [],
+      "artifact": [],
+      "artifactAfter": [],
+      "assessor": false,
+      "attestationAfter": [],
+      "attestations": [],
+      "before": [
+        {
+          "op": "set",
+          "path": [
             "signature",
             "signer"
           ],
@@ -3247,6 +3652,7 @@
         "manifest": 0,
         "role": "publisher"
       },
+      "contextAfter": [],
       "dids": [
         {
           "from": [
@@ -3342,6 +3748,7 @@
         "manifest": 0,
         "role": "publisher"
       },
+      "contextAfter": [],
       "dids": [
         {
           "from": [
@@ -3415,6 +3822,7 @@
         "manifest": 0,
         "role": "publisher"
       },
+      "contextAfter": [],
       "dids": [
         {
           "op": "set",
@@ -3463,6 +3871,7 @@
         "manifest": 0,
         "role": "publisher"
       },
+      "contextAfter": [],
       "dids": [
         {
           "op": "set",
@@ -3512,6 +3921,7 @@
         "manifest": 0,
         "role": "publisher"
       },
+      "contextAfter": [],
       "dids": [
         {
           "op": "set",
@@ -3561,6 +3971,7 @@
         "manifest": 0,
         "role": "publisher"
       },
+      "contextAfter": [],
       "dids": [
         {
           "op": "set",
@@ -3610,6 +4021,7 @@
         "manifest": 0,
         "role": "publisher"
       },
+      "contextAfter": [],
       "dids": [
         {
           "op": "set",
@@ -3661,6 +4073,7 @@
         "manifest": 0,
         "role": "publisher"
       },
+      "contextAfter": [],
       "dids": [
         {
           "op": "set",
@@ -3722,6 +4135,7 @@
         "manifest": 0,
         "role": "publisher"
       },
+      "contextAfter": [],
       "dids": [],
       "edit": "the Signature object has no issuedAt, which the AI Catalog requires",
       "expected": {
@@ -3772,6 +4186,7 @@
         "manifest": 0,
         "role": "publisher"
       },
+      "contextAfter": [],
       "dids": [],
       "edit": "issuedAt is 2026-02-30, which matches the pattern and names no day",
       "expected": {
@@ -3822,6 +4237,7 @@
         "manifest": 0,
         "role": "publisher"
       },
+      "contextAfter": [],
       "dids": [],
       "edit": "expiresAt precedes issuedAt",
       "expected": {
@@ -3878,6 +4294,7 @@
         "manifest": 0,
         "role": "contributor"
       },
+      "contextAfter": [],
       "dids": [],
       "edit": "entry and subject both lack identifier, so the signed subject names no entry",
       "expected": {
@@ -3923,6 +4340,7 @@
         "manifest": 0,
         "role": "publisher"
       },
+      "contextAfter": [],
       "dids": [
         {
           "op": "set",
@@ -3969,6 +4387,7 @@
         "manifest": 0,
         "role": "publisher"
       },
+      "contextAfter": [],
       "dids": [
         {
           "op": "set",
@@ -4030,6 +4449,7 @@
         "manifest": 0,
         "role": "publisher"
       },
+      "contextAfter": [],
       "dids": [],
       "edit": "the entry carries both url and data; the draft requires exactly one",
       "expected": {
@@ -4076,6 +4496,7 @@
         "manifest": 0,
         "role": "publisher"
       },
+      "contextAfter": [],
       "dids": [],
       "edit": "the entry carries neither url nor data",
       "expected": {
@@ -4113,6 +4534,7 @@
         "manifest": 0,
         "role": "publisher"
       },
+      "contextAfter": [],
       "dids": [
         {
           "op": "set",
@@ -4174,6 +4596,7 @@
         "manifest": 0,
         "role": "publisher"
       },
+      "contextAfter": [],
       "dids": [
         {
           "op": "set",
@@ -4248,6 +4671,7 @@
         "manifest": 0,
         "role": "publisher"
       },
+      "contextAfter": [],
       "dids": [],
       "edit": "control: an RFC 3339 issuedAt with fractional seconds",
       "expected": {
@@ -4298,6 +4722,7 @@
         "manifest": 0,
         "role": "publisher"
       },
+      "contextAfter": [],
       "dids": [],
       "edit": "control: an RFC 3339 issuedAt with a numeric offset, compared as an instant",
       "expected": {
@@ -4343,9 +4768,31 @@
             "data"
           ],
           "value": {
+            "description": "The travel agent.",
             "name": "travel agent",
+            "url": "https://publisher.example/agents/travel",
             "version": "1.0.0"
           }
+        },
+        {
+          "op": "set",
+          "path": [
+            "entries",
+            0,
+            "digest"
+          ],
+          "value": "$CARD_JCS"
+        },
+        {
+          "op": "set",
+          "path": [
+            "entries",
+            0,
+            "trustManifest",
+            "subject",
+            "digest"
+          ],
+          "value": "$CARD_JCS"
         }
       ],
       "context": {
@@ -4356,13 +4803,941 @@
         "manifest": 0,
         "role": "publisher"
       },
+      "contextAfter": [],
       "dids": [],
-      "edit": "control: an entry delivered as inline data has no url, so there is no origin to bind (draft 3.3, 6.2)",
+      "edit": "control: an entry delivered as inline data has no url, so there is no origin to bind (draft 3.3, 6.2), and its digest is of the RFC 8785 bytes of data (AI Catalog digest)",
       "expected": {
         "decision": "accept",
         "reason": "signature_covers_release"
       },
       "id": "accept-draft-inline-data",
+      "raw": [],
+      "secondEntry": false,
+      "shape": "ard",
+      "sign": [
+        {
+          "construction": "ard-draft-bu-00",
+          "entry": 0,
+          "form": "detached",
+          "header": {},
+          "key": "publisher",
+          "manifest": 0
+        }
+      ]
+    },
+    {
+      "after": [
+        {
+          "op": "set",
+          "path": [
+            "entries",
+            0,
+            "data",
+            "url"
+          ],
+          "value": "https://evil.example/agents/travel"
+        }
+      ],
+      "artifact": [],
+      "artifactAfter": [],
+      "assessor": false,
+      "attestationAfter": [],
+      "attestations": [],
+      "before": [
+        {
+          "op": "del",
+          "path": [
+            "entries",
+            0,
+            "url"
+          ]
+        },
+        {
+          "op": "set",
+          "path": [
+            "entries",
+            0,
+            "data"
+          ],
+          "value": {
+            "description": "The travel agent.",
+            "name": "travel agent",
+            "url": "https://publisher.example/agents/travel",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "op": "set",
+          "path": [
+            "entries",
+            0,
+            "digest"
+          ],
+          "value": "$CARD_JCS"
+        },
+        {
+          "op": "set",
+          "path": [
+            "entries",
+            0,
+            "trustManifest",
+            "subject",
+            "digest"
+          ],
+          "value": "$CARD_JCS"
+        }
+      ],
+      "context": {
+        "at": "2026-11-16T00:00:00Z",
+        "attestationFiles": [],
+        "construction": "ard-draft-bu-00",
+        "entry": 0,
+        "manifest": 0,
+        "role": "publisher"
+      },
+      "contextAfter": [],
+      "dids": [],
+      "edit": "inline data changed after signing; the digest is of the RFC 8785 bytes of data, so it no longer matches (AI Catalog digest, draft 3.2 digest)",
+      "expected": {
+        "decision": "reject",
+        "reason": "artifact_digest_mismatch"
+      },
+      "id": "reject-draft-inline-data-swapped",
+      "raw": [],
+      "secondEntry": false,
+      "shape": "ard",
+      "sign": [
+        {
+          "construction": "ard-draft-bu-00",
+          "entry": 0,
+          "form": "detached",
+          "header": {},
+          "key": "publisher",
+          "manifest": 0
+        }
+      ]
+    },
+    {
+      "after": [],
+      "artifact": [],
+      "artifactAfter": [],
+      "assessor": false,
+      "attestationAfter": [],
+      "attestations": [
+        {
+          "encoding": "url-safe",
+          "kind": "dsse",
+          "predicate": "https://w3id.org/agent-evidence/predicate/v1/agent-card-receipt?view=>>>",
+          "subject": "artifact"
+        }
+      ],
+      "before": [],
+      "context": {
+        "at": "2026-11-16T00:00:00Z",
+        "attestationFiles": [
+          "attestation-0.dsse.json"
+        ],
+        "construction": "ard-draft-bu-00",
+        "entry": 0,
+        "manifest": 0,
+        "role": "publisher"
+      },
+      "contextAfter": [],
+      "dids": [],
+      "edit": "control: a DSSE envelope in URL-safe base64; DSSE verifiers MUST accept either alphabet (protocol.md)",
+      "expected": {
+        "decision": "accept",
+        "reason": "signature_covers_release"
+      },
+      "id": "accept-dsse-url-safe-base64",
+      "raw": [],
+      "secondEntry": false,
+      "shape": "ard",
+      "sign": [
+        {
+          "construction": "ard-draft-bu-00",
+          "entry": 0,
+          "form": "detached",
+          "header": {},
+          "key": "publisher",
+          "manifest": 0
+        }
+      ]
+    },
+    {
+      "after": [],
+      "artifact": [],
+      "artifactAfter": [],
+      "assessor": false,
+      "attestationAfter": [],
+      "attestations": [
+        {
+          "encoding": "der",
+          "kind": "dsse",
+          "predicate": "https://w3id.org/agent-evidence/predicate/v1/agent-card-receipt?view=>>>",
+          "subject": "artifact"
+        }
+      ],
+      "before": [],
+      "context": {
+        "at": "2026-11-16T00:00:00Z",
+        "attestationFiles": [
+          "attestation-0.dsse.json"
+        ],
+        "construction": "ard-draft-bu-00",
+        "entry": 0,
+        "manifest": 0,
+        "role": "publisher"
+      },
+      "contextAfter": [],
+      "dids": [],
+      "edit": "control: a DSSE ES256 signature in DER, as sigstore and in-toto signers write it",
+      "expected": {
+        "decision": "accept",
+        "reason": "signature_covers_release"
+      },
+      "id": "accept-dsse-der-signature",
+      "raw": [],
+      "secondEntry": false,
+      "shape": "ard",
+      "sign": [
+        {
+          "construction": "ard-draft-bu-00",
+          "entry": 0,
+          "form": "detached",
+          "header": {},
+          "key": "publisher",
+          "manifest": 0
+        }
+      ]
+    },
+    {
+      "after": [],
+      "artifact": [],
+      "artifactAfter": [],
+      "assessor": false,
+      "attestationAfter": [],
+      "attestations": [
+        {
+          "encoding": "der-non-minimal",
+          "kind": "dsse",
+          "predicate": "https://w3id.org/agent-evidence/predicate/v1/agent-card-receipt?view=>>>",
+          "subject": "artifact"
+        }
+      ],
+      "before": [],
+      "context": {
+        "at": "2026-11-16T00:00:00Z",
+        "attestationFiles": [
+          "attestation-0.dsse.json"
+        ],
+        "construction": "ard-draft-bu-00",
+        "entry": 0,
+        "manifest": 0,
+        "role": "publisher"
+      },
+      "contextAfter": [],
+      "dids": [],
+      "edit": "a DER signature whose r carries a zero octet it does not need; DER has one encoding per value",
+      "expected": {
+        "decision": "reject",
+        "reason": "attestation_unsigned"
+      },
+      "id": "reject-dsse-der-non-minimal",
+      "raw": [],
+      "secondEntry": false,
+      "shape": "ard",
+      "sign": [
+        {
+          "construction": "ard-draft-bu-00",
+          "entry": 0,
+          "form": "detached",
+          "header": {},
+          "key": "publisher",
+          "manifest": 0
+        }
+      ]
+    },
+    {
+      "after": [],
+      "artifact": [],
+      "artifactAfter": [],
+      "assessor": false,
+      "attestationAfter": [],
+      "attestations": [
+        {
+          "encoding": "newline",
+          "kind": "dsse",
+          "predicate": "https://w3id.org/agent-evidence/predicate/v1/agent-card-receipt?view=>>>",
+          "subject": "artifact"
+        }
+      ],
+      "before": [],
+      "context": {
+        "at": "2026-11-16T00:00:00Z",
+        "attestationFiles": [
+          "attestation-0.dsse.json"
+        ],
+        "construction": "ard-draft-bu-00",
+        "entry": 0,
+        "manifest": 0,
+        "role": "publisher"
+      },
+      "contextAfter": [],
+      "dids": [],
+      "edit": "a DSSE payload with a line break inside the base64; RFC 4648 section 3.3 refuses characters outside the alphabet",
+      "expected": {
+        "decision": "reject",
+        "reason": "attestation_unsigned"
+      },
+      "id": "reject-dsse-payload-newline",
+      "raw": [],
+      "secondEntry": false,
+      "shape": "ard",
+      "sign": [
+        {
+          "construction": "ard-draft-bu-00",
+          "entry": 0,
+          "form": "detached",
+          "header": {},
+          "key": "publisher",
+          "manifest": 0
+        }
+      ]
+    },
+    {
+      "after": [],
+      "artifact": [],
+      "artifactAfter": [],
+      "assessor": false,
+      "attestationAfter": [],
+      "attestations": [
+        {
+          "kind": "dsse",
+          "predicate": "https://w3id.org/agent-evidence/predicate/v1/agent-card-receipt?view=>>>",
+          "subject": "artifact"
+        }
+      ],
+      "before": [],
+      "context": {
+        "at": "2026-11-16T00:00:00Z",
+        "attestationFiles": [
+          "attestation-0.dsse.json"
+        ],
+        "construction": "ard-draft-bu-00",
+        "entry": 0,
+        "manifest": 0,
+        "role": "publisher"
+      },
+      "contextAfter": [
+        {
+          "op": "set",
+          "path": [
+            "attestationFiles",
+            0
+          ],
+          "value": "./attestation-0.dsse.json"
+        }
+      ],
+      "dids": [],
+      "edit": "the context names the vendored file as ./attestation-0.dsse.json; a vendored file is named by one path segment",
+      "expected": {
+        "decision": "reject",
+        "reason": "attestation_digest_mismatch"
+      },
+      "id": "reject-attestation-file-not-one-segment",
+      "raw": [],
+      "secondEntry": false,
+      "shape": "ard",
+      "sign": [
+        {
+          "construction": "ard-draft-bu-00",
+          "entry": 0,
+          "form": "detached",
+          "header": {},
+          "key": "publisher",
+          "manifest": 0
+        }
+      ]
+    },
+    {
+      "after": [],
+      "artifact": [],
+      "artifactAfter": [],
+      "assessor": false,
+      "attestationAfter": [],
+      "attestations": [],
+      "before": [],
+      "context": {
+        "at": "2026-11-16T00:00:00Z",
+        "attestationFiles": [],
+        "construction": "ard-draft-bu-00",
+        "entry": 0,
+        "manifest": 0,
+        "role": "publisher"
+      },
+      "contextAfter": [],
+      "dids": [],
+      "edit": "control: 64 arrays and objects open at once",
+      "expected": {
+        "decision": "accept",
+        "reason": "signature_covers_release"
+      },
+      "id": "accept-nesting-at-the-limit",
+      "raw": [
+        [
+          "\"specVersion\": \"1.0\"",
+          "\"x-deep\": [[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[1]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]], \"specVersion\": \"1.0\""
+        ]
+      ],
+      "secondEntry": false,
+      "shape": "ard",
+      "sign": [
+        {
+          "construction": "ard-draft-bu-00",
+          "entry": 0,
+          "form": "detached",
+          "header": {},
+          "key": "publisher",
+          "manifest": 0
+        }
+      ]
+    },
+    {
+      "after": [],
+      "artifact": [],
+      "artifactAfter": [],
+      "assessor": false,
+      "attestationAfter": [],
+      "attestations": [],
+      "before": [],
+      "context": {
+        "at": "2026-11-16T00:00:00Z",
+        "attestationFiles": [],
+        "construction": "ard-draft-bu-00",
+        "entry": 0,
+        "manifest": 0,
+        "role": "publisher"
+      },
+      "contextAfter": [],
+      "dids": [],
+      "edit": "65 arrays and objects open at once, outside the signed bytes; readers hold different values past a nesting limit",
+      "expected": {
+        "decision": "reject",
+        "reason": "json_invalid"
+      },
+      "id": "reject-nesting-past-the-limit",
+      "raw": [
+        [
+          "\"specVersion\": \"1.0\"",
+          "\"x-deep\": [[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[1]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]], \"specVersion\": \"1.0\""
+        ]
+      ],
+      "secondEntry": false,
+      "shape": "ard",
+      "sign": [
+        {
+          "construction": "ard-draft-bu-00",
+          "entry": 0,
+          "form": "detached",
+          "header": {},
+          "key": "publisher",
+          "manifest": 0
+        }
+      ]
+    },
+    {
+      "after": [],
+      "artifact": [
+        {
+          "op": "set",
+          "path": [
+            "description"
+          ],
+          "value": "The billing agent."
+        },
+        {
+          "op": "set",
+          "path": [
+            "name"
+          ],
+          "value": "billing agent"
+        },
+        {
+          "op": "set",
+          "path": [
+            "url"
+          ],
+          "value": "https://publisher.example/agents/billing"
+        }
+      ],
+      "artifactAfter": [],
+      "assessor": false,
+      "attestationAfter": [],
+      "attestations": [],
+      "before": [],
+      "context": {
+        "at": "2026-11-16T00:00:00Z",
+        "attestationFiles": [],
+        "construction": "ard-draft-bu-00",
+        "entry": 1.0,
+        "manifest": 0,
+        "role": "publisher"
+      },
+      "contextAfter": [],
+      "dids": [],
+      "edit": "control: the context names entry 1.0, the integer 1 (JSON does not tell 1.0 from 1)",
+      "expected": {
+        "decision": "accept",
+        "reason": "signature_covers_release"
+      },
+      "id": "accept-context-entry-integral-number",
+      "raw": [],
+      "secondEntry": true,
+      "shape": "ard",
+      "sign": [
+        {
+          "construction": "ard-draft-bu-00",
+          "entry": 1,
+          "form": "detached",
+          "header": {},
+          "key": "publisher",
+          "manifest": 0
+        }
+      ]
+    },
+    {
+      "after": [],
+      "artifact": [],
+      "artifactAfter": [],
+      "assessor": false,
+      "attestationAfter": [],
+      "attestations": [],
+      "before": [],
+      "context": {
+        "at": "2026-11-16T00:00:00Z",
+        "attestationFiles": [],
+        "construction": "ard-draft-bu-00",
+        "entry": -1,
+        "manifest": 0,
+        "role": "publisher"
+      },
+      "contextAfter": [],
+      "dids": [],
+      "edit": "the context names entry -1, which selects nothing (an index is a non-negative integer)",
+      "expected": {
+        "decision": "reject",
+        "reason": "signature_missing"
+      },
+      "id": "reject-context-entry-negative",
+      "raw": [],
+      "secondEntry": false,
+      "shape": "ard",
+      "sign": [
+        {
+          "construction": "ard-draft-bu-00",
+          "entry": 0,
+          "form": "detached",
+          "header": {},
+          "key": "publisher",
+          "manifest": 0
+        }
+      ]
+    },
+    {
+      "after": [],
+      "artifact": [
+        {
+          "op": "set",
+          "path": [
+            "description"
+          ],
+          "value": "The billing agent."
+        },
+        {
+          "op": "set",
+          "path": [
+            "name"
+          ],
+          "value": "billing agent"
+        },
+        {
+          "op": "set",
+          "path": [
+            "url"
+          ],
+          "value": "https://publisher.example/agents/billing"
+        }
+      ],
+      "artifactAfter": [],
+      "assessor": false,
+      "attestationAfter": [],
+      "attestations": [],
+      "before": [],
+      "context": {
+        "at": "2026-11-16T00:00:00Z",
+        "attestationFiles": [],
+        "construction": "ard-draft-bu-00",
+        "entry": true,
+        "manifest": 0,
+        "role": "publisher"
+      },
+      "contextAfter": [],
+      "dids": [],
+      "edit": "the context names entry true, which is not a number",
+      "expected": {
+        "decision": "reject",
+        "reason": "signature_missing"
+      },
+      "id": "reject-context-entry-boolean",
+      "raw": [],
+      "secondEntry": true,
+      "shape": "ard",
+      "sign": [
+        {
+          "construction": "ard-draft-bu-00",
+          "entry": 1,
+          "form": "detached",
+          "header": {},
+          "key": "publisher",
+          "manifest": 0
+        }
+      ]
+    },
+    {
+      "after": [],
+      "artifact": [],
+      "artifactAfter": [],
+      "assessor": false,
+      "attestationAfter": [],
+      "attestations": [],
+      "before": [
+        {
+          "op": "set",
+          "path": [
+            "entries",
+            0,
+            "trustManifests",
+            0,
+            "signature",
+            "issuedAt"
+          ],
+          "value": "2026-11-01T00:00:60Z"
+        }
+      ],
+      "context": {
+        "at": "2026-11-16T00:00:00Z",
+        "attestationFiles": [],
+        "construction": "ai-catalog-2026-11",
+        "entry": 0,
+        "manifest": 0,
+        "role": "publisher"
+      },
+      "contextAfter": [],
+      "dids": [],
+      "edit": "issuedAt 2026-11-01T00:00:60Z: no leap second falls there, so it names no instant (RFC 3339 section 5.7)",
+      "expected": {
+        "decision": "reject",
+        "reason": "timestamp_invalid"
+      },
+      "id": "reject-issued-second-60-not-leap",
+      "raw": [],
+      "secondEntry": false,
+      "shape": "aic",
+      "sign": [
+        {
+          "construction": "ai-catalog-2026-11",
+          "entry": 0,
+          "form": "detached",
+          "header": {},
+          "key": "publisher",
+          "manifest": 0
+        }
+      ]
+    },
+    {
+      "after": [],
+      "artifact": [],
+      "artifactAfter": [],
+      "assessor": false,
+      "attestationAfter": [],
+      "attestations": [],
+      "before": [
+        {
+          "op": "set",
+          "path": [
+            "entries",
+            0,
+            "trustManifests",
+            0,
+            "signature",
+            "issuedAt"
+          ],
+          "value": "2016-12-31T23:59:60+01:00"
+        }
+      ],
+      "context": {
+        "at": "2026-11-16T00:00:00Z",
+        "attestationFiles": [],
+        "construction": "ai-catalog-2026-11",
+        "entry": 0,
+        "manifest": 0,
+        "role": "publisher"
+      },
+      "contextAfter": [],
+      "dids": [],
+      "edit": "issuedAt 2016-12-31T23:59:60+01:00 is 22:59:60 UTC, no leap second",
+      "expected": {
+        "decision": "reject",
+        "reason": "timestamp_invalid"
+      },
+      "id": "reject-issued-second-60-offset-not-leap",
+      "raw": [],
+      "secondEntry": false,
+      "shape": "aic",
+      "sign": [
+        {
+          "construction": "ai-catalog-2026-11",
+          "entry": 0,
+          "form": "detached",
+          "header": {},
+          "key": "publisher",
+          "manifest": 0
+        }
+      ]
+    },
+    {
+      "after": [],
+      "artifact": [],
+      "artifactAfter": [],
+      "assessor": false,
+      "attestationAfter": [],
+      "attestations": [],
+      "before": [
+        {
+          "op": "set",
+          "path": [
+            "entries",
+            0,
+            "trustManifests",
+            0,
+            "signature",
+            "issuedAt"
+          ],
+          "value": "2016-12-31T23:59:60Z"
+        }
+      ],
+      "context": {
+        "at": "2026-11-16T00:00:00Z",
+        "attestationFiles": [],
+        "construction": "ai-catalog-2026-11",
+        "entry": 0,
+        "manifest": 0,
+        "role": "publisher"
+      },
+      "contextAfter": [],
+      "dids": [],
+      "edit": "control: 2016-12-31T23:59:60Z, the last leap second in the IERS list",
+      "expected": {
+        "decision": "accept",
+        "reason": "signature_covers_release"
+      },
+      "id": "accept-issued-on-a-leap-second",
+      "raw": [],
+      "secondEntry": false,
+      "shape": "aic",
+      "sign": [
+        {
+          "construction": "ai-catalog-2026-11",
+          "entry": 0,
+          "form": "detached",
+          "header": {},
+          "key": "publisher",
+          "manifest": 0
+        }
+      ]
+    },
+    {
+      "after": [],
+      "artifact": [],
+      "artifactAfter": [],
+      "assessor": false,
+      "attestationAfter": [],
+      "attestations": [],
+      "before": [
+        {
+          "op": "set",
+          "path": [
+            "entries",
+            0,
+            "trustManifests",
+            0,
+            "signature",
+            "issuedAt"
+          ],
+          "value": "2016-12-31T18:59:60-05:00"
+        }
+      ],
+      "context": {
+        "at": "2026-11-16T00:00:00Z",
+        "attestationFiles": [],
+        "construction": "ai-catalog-2026-11",
+        "entry": 0,
+        "manifest": 0,
+        "role": "publisher"
+      },
+      "contextAfter": [],
+      "dids": [],
+      "edit": "control: the same leap second written as 18:59:60-05:00",
+      "expected": {
+        "decision": "accept",
+        "reason": "signature_covers_release"
+      },
+      "id": "accept-issued-on-a-leap-second-with-offset",
+      "raw": [],
+      "secondEntry": false,
+      "shape": "aic",
+      "sign": [
+        {
+          "construction": "ai-catalog-2026-11",
+          "entry": 0,
+          "form": "detached",
+          "header": {},
+          "key": "publisher",
+          "manifest": 0
+        }
+      ]
+    },
+    {
+      "after": [],
+      "artifact": [],
+      "artifactAfter": [],
+      "assessor": false,
+      "attestationAfter": [],
+      "attestations": [],
+      "before": [
+        {
+          "op": "set",
+          "path": [
+            "entries",
+            0,
+            "url"
+          ],
+          "value": "HTTPS://PUBLISHER.example:443/agents/travel/agent-card.json"
+        }
+      ],
+      "context": {
+        "at": "2026-11-16T00:00:00Z",
+        "attestationFiles": [],
+        "construction": "ard-draft-bu-00",
+        "entry": 0,
+        "manifest": 0,
+        "role": "publisher"
+      },
+      "contextAfter": [],
+      "dids": [],
+      "edit": "control: HTTPS://PUBLISHER.example:443 is the origin https://publisher.example (RFC 6454 section 4)",
+      "expected": {
+        "decision": "accept",
+        "reason": "signature_covers_release"
+      },
+      "id": "accept-url-origin-case-and-default-port",
+      "raw": [],
+      "secondEntry": false,
+      "shape": "ard",
+      "sign": [
+        {
+          "construction": "ard-draft-bu-00",
+          "entry": 0,
+          "form": "detached",
+          "header": {},
+          "key": "publisher",
+          "manifest": 0
+        }
+      ]
+    },
+    {
+      "after": [],
+      "artifact": [],
+      "artifactAfter": [],
+      "assessor": false,
+      "attestationAfter": [],
+      "attestations": [],
+      "before": [
+        {
+          "op": "set",
+          "path": [
+            "entries",
+            0,
+            "url"
+          ],
+          "value": "https://publisher.example@cdn.other.example/agent-card.json"
+        }
+      ],
+      "context": {
+        "at": "2026-11-16T00:00:00Z",
+        "attestationFiles": [],
+        "construction": "ard-draft-bu-00",
+        "entry": 0,
+        "manifest": 0,
+        "role": "publisher"
+      },
+      "contextAfter": [],
+      "dids": [],
+      "edit": "a url with userinfo before the publisher host; a recipient treats https userinfo as an error (RFC 9110 section 4.2.4)",
+      "expected": {
+        "decision": "reject",
+        "reason": "url_origin_unbound"
+      },
+      "id": "reject-url-userinfo",
+      "raw": [],
+      "secondEntry": false,
+      "shape": "ard",
+      "sign": [
+        {
+          "construction": "ard-draft-bu-00",
+          "entry": 0,
+          "form": "detached",
+          "header": {},
+          "key": "publisher",
+          "manifest": 0
+        }
+      ]
+    },
+    {
+      "after": [],
+      "artifact": [],
+      "artifactAfter": [],
+      "assessor": false,
+      "attestationAfter": [],
+      "attestations": [],
+      "before": [
+        {
+          "op": "set",
+          "path": [
+            "entries",
+            0,
+            "url"
+          ],
+          "value": "https://publisher.example:8443/agents/travel/agent-card.json"
+        }
+      ],
+      "context": {
+        "at": "2026-11-16T00:00:00Z",
+        "attestationFiles": [],
+        "construction": "ard-draft-bu-00",
+        "entry": 0,
+        "manifest": 0,
+        "role": "publisher"
+      },
+      "contextAfter": [],
+      "dids": [],
+      "edit": "a url on the publisher host at port 8443, another origin",
+      "expected": {
+        "decision": "reject",
+        "reason": "url_origin_unbound"
+      },
+      "id": "reject-url-other-port",
       "raw": [],
       "secondEntry": false,
       "shape": "ard",

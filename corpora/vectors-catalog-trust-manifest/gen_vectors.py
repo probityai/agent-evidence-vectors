@@ -96,7 +96,8 @@ def _case(case_id: str, edit: str, decision: str, reason: str, shape: str,
     case = {"id": case_id, "edit": edit, "expected": {"decision": decision, "reason": reason},
             "shape": shape, "assessor": False, "secondEntry": False, "sign": sign,
             "artifact": [], "artifactAfter": [], "attestations": [], "attestationAfter": [],
-            "before": [], "after": [], "raw": [], "dids": [], "context": context}
+            "before": [], "after": [], "raw": [], "dids": [], "context": context,
+            "contextAfter": []}
     case.update(knobs)
     return case
 
@@ -131,7 +132,10 @@ def _closed_terms() -> list[dict[str, Any]]:
               "(lowercase ASCII domain, no port, no path)", NO, "signer_not_root_did_web",
               "aic", AIC, [_sign(AIC, "other", header={"kid": did + "#es256"})],
               before=_signed_by(did), dids=_did_alias(did), context={"role": "contributor"})
-        for slug, did in (("path-did", path), ("uppercase-domain", upper), ("port", port))]
+        for slug, did in (("path-did", path), ("uppercase-domain", upper), ("port", port),
+                          ("ipv4", "did:web:192.0.2.1"), ("numeric-tld", "did:web:agents.2026"),
+                          ("domain-past-253-octets", "did:web:" + ("a" * 63 + ".") * 3
+                           + "b" * 63 + ".example"))]
     return [
         _case("reject-role-unknown", "the context names a role outside the closed term "
               "(publisher, contributor); a verifier that skips the publisher rule for it "
@@ -227,9 +231,104 @@ def _closed_terms() -> list[dict[str, Any]]:
               "compared as an instant", OK, PASS, "aic", AIC, [_sign(AIC)],
               before=[_set(M0 + ["signature", "issuedAt"], "2026-11-01T01:00:00+01:00")]),
         _case("accept-draft-inline-data", "control: an entry delivered as inline data has no url, "
-              "so there is no origin to bind (draft 3.3, 6.2)", OK, PASS, "ard", D, [_sign(D)],
-              before=[_del(["entries", 0, "url"]),
-                      _set(["entries", 0, "data"], {"name": "travel agent", "version": "1.0.0"})]),
+              "so there is no origin to bind (draft 3.3, 6.2), and its digest is of the RFC 8785 "
+              "bytes of data (AI Catalog digest)", OK, PASS, "ard", D, [_sign(D)],
+              before=_inline()),
+        *_round_four(),
+    ]
+
+
+def _inline() -> list[dict[str, Any]]:
+    """Deliver the entry as inline data: the card itself (artifact_value(IDENTIFIER), written
+    out because the interpreter below is defined after the table), digested over its RFC 8785
+    bytes."""
+    card = {"description": "The travel agent.", "name": "travel agent",
+            "url": "https://publisher.example/agents/travel", "version": "1.0.0"}
+    return [_del(["entries", 0, "url"]), _set(["entries", 0, "data"], card),
+            _set(["entries", 0, "digest"], "$CARD_JCS"),
+            _set(TM + ["subject", "digest"], "$CARD_JCS")]
+
+
+def _deep(levels: int) -> list[list[str]]:
+    """A raw edit adding a host-level member nested ``levels`` arrays deep, outside the
+    signed bytes of a draft trust manifest."""
+    return [['"specVersion": "1.0"',
+             '"x-deep": ' + "[" * levels + "1" + "]" * levels + ', "specVersion": "1.0"']]
+
+
+def _round_four() -> list[dict[str, Any]]:
+    """Counter-examples from the fourth adversarial round: each verdict below was wrong in
+    one reader or both before it."""
+    dsse = [{"kind": "dsse", "predicate": CARD_RECEIPT + "?view=>>>", "subject": "artifact"}]
+    files = {"attestationFiles": ["attestation-0.dsse.json"]}
+    leap = [_set(M0 + ["signature", "issuedAt"], "2016-12-31T23:59:60Z")]
+    billing = [_set(["description"], "The billing agent."), _set(["name"], "billing agent"),
+               _set(["url"], "https://publisher.example/agents/billing")]
+    return [
+        _case("reject-draft-inline-data-swapped", "inline data changed after signing; the "
+              "digest is of the RFC 8785 bytes of data, so it no longer matches (AI Catalog "
+              "digest, draft 3.2 digest)", NO, "artifact_digest_mismatch", "ard", D, [_sign(D)],
+              before=_inline(),
+              after=[_set(["entries", 0, "data", "url"], "https://evil.example/agents/travel")]),
+        _case("accept-dsse-url-safe-base64", "control: a DSSE envelope in URL-safe base64; DSSE "
+              "verifiers MUST accept either alphabet (protocol.md)", OK, PASS, "ard", D,
+              [_sign(D)], attestations=[{**dsse[0], "encoding": "url-safe"}], context=files),
+        _case("accept-dsse-der-signature", "control: a DSSE ES256 signature in DER, as sigstore "
+              "and in-toto signers write it", OK, PASS, "ard", D, [_sign(D)],
+              attestations=[{**dsse[0], "encoding": "der"}], context=files),
+        _case("reject-dsse-der-non-minimal", "a DER signature whose r carries a zero octet it "
+              "does not need; DER has one encoding per value", NO, "attestation_unsigned",
+              "ard", D, [_sign(D)], attestations=[{**dsse[0], "encoding": "der-non-minimal"}],
+              context=files),
+        _case("reject-dsse-payload-newline", "a DSSE payload with a line break inside the base64; "
+              "RFC 4648 section 3.3 refuses characters outside the alphabet",
+              NO, "attestation_unsigned", "ard", D, [_sign(D)],
+              attestations=[{**dsse[0], "encoding": "newline"}], context=files),
+        _case("reject-attestation-file-not-one-segment", "the context names the vendored file "
+              "as ./attestation-0.dsse.json; a vendored file is named by one path segment",
+              NO, "attestation_digest_mismatch", "ard", D, [_sign(D)], attestations=dsse,
+              context=files,
+              contextAfter=[_set(["attestationFiles", 0], "./attestation-0.dsse.json")]),
+        _case("accept-nesting-at-the-limit", "control: 64 arrays and objects open at once",
+              OK, PASS, "ard", D, [_sign(D)], raw=_deep(63)),
+        _case("reject-nesting-past-the-limit", "65 arrays and objects open at once, outside "
+              "the signed bytes; readers hold different values past a nesting limit",
+              NO, "json_invalid", "ard", D, [_sign(D)], raw=_deep(64)),
+        _case("accept-context-entry-integral-number", "control: the context names entry 1.0, "
+              "the integer 1 (JSON does not tell 1.0 from 1)", OK, PASS, "ard", D,
+              [_sign(D, entry=1)], secondEntry=True, artifact=billing, context={"entry": 1.0}),
+        _case("reject-context-entry-negative", "the context names entry -1, which selects "
+              "nothing (an index is a non-negative integer)", NO, "signature_missing", "ard", D,
+              [_sign(D)], context={"entry": -1}),
+        _case("reject-context-entry-boolean", "the context names entry true, which is not a "
+              "number", NO, "signature_missing", "ard", D, [_sign(D, entry=1)],
+              secondEntry=True, artifact=billing, context={"entry": True}),
+        _case("reject-issued-second-60-not-leap", "issuedAt 2026-11-01T00:00:60Z: no leap "
+              "second falls there, so it names no instant (RFC 3339 section 5.7)",
+              NO, "timestamp_invalid", "aic", AIC, [_sign(AIC)],
+              before=[_set(M0 + ["signature", "issuedAt"], "2026-11-01T00:00:60Z")]),
+        _case("reject-issued-second-60-offset-not-leap", "issuedAt 2016-12-31T23:59:60+01:00 "
+              "is 22:59:60 UTC, no leap second", NO, "timestamp_invalid", "aic", AIC,
+              [_sign(AIC)], before=[_set(M0 + ["signature", "issuedAt"],
+                                         "2016-12-31T23:59:60+01:00")]),
+        _case("accept-issued-on-a-leap-second", "control: 2016-12-31T23:59:60Z, the last leap "
+              "second in the IERS list", OK, PASS, "aic", AIC, [_sign(AIC)], before=leap),
+        _case("accept-issued-on-a-leap-second-with-offset", "control: the same leap second "
+              "written as 18:59:60-05:00", OK, PASS, "aic", AIC, [_sign(AIC)],
+              before=[_set(M0 + ["signature", "issuedAt"], "2016-12-31T18:59:60-05:00")]),
+        _case("accept-url-origin-case-and-default-port", "control: HTTPS://PUBLISHER.example:443 "
+              "is the origin https://publisher.example (RFC 6454 section 4)", OK, PASS,
+              "ard", D, [_sign(D)], before=[_set(["entries", 0, "url"],
+                         "HTTPS://PUBLISHER.example:443/agents/travel/agent-card.json")]),
+        _case("reject-url-userinfo", "a url with userinfo before the publisher host; a recipient "
+              "treats https userinfo as an error (RFC 9110 section 4.2.4)",
+              NO, "url_origin_unbound", "ard", D, [_sign(D)],
+              before=[_set(["entries", 0, "url"],
+                           "https://publisher.example@cdn.other.example/agent-card.json")]),
+        _case("reject-url-other-port", "a url on the publisher host at port 8443, another origin",
+              NO, "url_origin_unbound", "ard", D, [_sign(D)],
+              before=[_set(["entries", 0, "url"],
+                           "https://publisher.example:8443/agents/travel/agent-card.json")]),
     ]
 
 
@@ -431,6 +530,20 @@ def jwk(name: str) -> dict[str, str]:
             "y": b64u(y.to_bytes(32, "big"))}
 
 
+def der(raw: bytes, non_minimal: bool = False) -> bytes:
+    """A raw r || s ECDSA signature as a DER ECDSA-Sig-Value; ``non_minimal`` prefixes r
+    with a zero octet it does not need."""
+    def integer(value: bytes, pad: bool) -> bytes:
+        body = value.lstrip(b"\x00") or b"\x00"
+        if body[0] & 0x80:
+            body = b"\x00" + body
+        if pad:
+            body = b"\x00" + body
+        return bytes([0x02, len(body)]) + body
+    inner = integer(raw[:32], non_minimal) + integer(raw[32:], False)
+    return bytes([0x30, len(inner)]) + inner
+
+
 def raw_sign(name: str, message: bytes) -> bytes:
     _, _, alg, label = KEYS[name]
     if alg == "EdDSA":
@@ -504,6 +617,9 @@ def manifest_value(signer: str, subject: dict[str, Any]) -> dict[str, Any]:
 
 
 def attestation_file(spec: dict[str, Any], digests: dict[str, str]) -> bytes:
+    """A vendored attestation; ``encoding`` writes the DSSE base64 fields standard (the
+    default), URL-safe, or with a line break inside the payload, and the ES256 signature
+    raw (the default), in DER, or in DER with a non-minimal integer."""
     target = digests["$ARTIFACT"] if spec["subject"] == "artifact" else digests["$OTHER"]
     if spec["kind"] == "sarif":
         return enc({"runs": [{"results": [], "tool": {"driver": {"name": "scanner"}}}],
@@ -516,9 +632,16 @@ def attestation_file(spec: dict[str, Any], digests: dict[str, str]) -> bytes:
     kind = b"application/vnd.in-toto+json"
     pae = b"DSSEv1 %d %s %d %s" % (len(kind), kind, len(body), body)
     signature = raw_sign("assessor", pae)
-    return enc({"payload": base64.b64encode(body).decode(), "payloadType": kind.decode(),
+    encoding = spec.get("encoding", "standard")
+    if encoding in ("der", "der-non-minimal"):
+        signature = der(signature, encoding == "der-non-minimal")
+    encode = base64.urlsafe_b64encode if encoding == "url-safe" else base64.b64encode
+    text = encode(body).decode()
+    if encoding == "newline":
+        text = text[:8] + "\n" + text[8:]
+    return enc({"payload": text, "payloadType": kind.decode(),
                 "signatures": [{"keyid": ASSESSOR + "#es256",
-                                "sig": base64.b64encode(signature).decode()}]})
+                                "sig": encode(signature).decode()}]})
 
 
 def place(catalog: dict[str, Any], spec: dict[str, Any], jws: str) -> None:
@@ -560,7 +683,8 @@ def build(case: dict[str, Any]) -> dict[str, bytes]:
     apply(artifact, case["artifact"], {})
     artifact_bytes = enc(artifact)
     other_bytes = enc(artifact_value("urn:air:publisher.example:agent:billing"))
-    digests = {"$ARTIFACT": "sha256:" + sha(artifact_bytes), "$OTHER": "sha256:" + sha(other_bytes)}
+    digests = {"$ARTIFACT": "sha256:" + sha(artifact_bytes), "$OTHER": "sha256:" + sha(other_bytes),
+               "$CARD_JCS": "sha256:" + sha(reader.canonical(artifact))}
     kind = "ard" if shape == "ard" else "aic"
     first = entry_value(IDENTIFIER, digests["$ARTIFACT"], kind, PUB)
     catalog: dict[str, Any] = {"entries": [first],
@@ -604,8 +728,10 @@ def build(case: dict[str, Any]) -> dict[str, bytes]:
     apply(artifact, case["artifactAfter"], {})
     dids = did_documents()
     apply(dids, case["dids"], digests)
+    context = copy.deepcopy(case["context"])
+    apply(context, case["contextAfter"], digests)
     files.update({"artifact.json": enc(artifact), "catalog.json": catalog_bytes,
-                  "context.json": enc(case["context"]), "did-documents.json": enc(dids)})
+                  "context.json": enc(context), "did-documents.json": enc(dids)})
     return files
 
 

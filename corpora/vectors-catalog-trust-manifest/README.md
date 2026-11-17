@@ -1,8 +1,8 @@
 # vectors-catalog-trust-manifest
 
-Suite `catalog-trust-manifest/v1`: 90 cases (20 accept, 70 reject) for a verifier of signed ARD and AI Catalog objects. The profile is [profiles/catalog-trust-manifest.md](../../profiles/catalog-trust-manifest.md).
+Suite `catalog-trust-manifest/v1`: 111 cases (27 accept, 84 reject) for a verifier of signed ARD and AI Catalog objects. The profile is [profiles/catalog-trust-manifest.md](../../profiles/catalog-trust-manifest.md).
 
-Each case directory holds `catalog.json` (the bytes as published), `did-documents.json` (what an offline did:web resolver returned, keyed by DID), `artifact.json` (the bytes the entry names), any vendored attestation document, and `context.json` (construction, entry and manifest index, role, check time, attestation file names).
+Each case directory holds `catalog.json` (the bytes as published), `did-documents.json` (what an offline did:web resolver returned, keyed by DID), `artifact.json` (the bytes an entry with `url` names; an entry with inline `data` is digested over the RFC 8785 bytes of `data` instead), any vendored attestation document, and `context.json` (construction, entry and manifest index, role, check time, attestation file names; the profile says how each is read).
 
 Run the reference reader or your own verifier:
 
@@ -103,6 +103,9 @@ Test keys only: each is derived from the SHA-256 of a public label in `gen_vecto
 | `reject-aic-signer-path-did` | reject | `signer_not_root_did_web` | the signer is did:web:other.example:team, not a root did:web DID (lowercase ASCII domain, no port, no path) |
 | `reject-aic-signer-uppercase-domain` | reject | `signer_not_root_did_web` | the signer is did:web:Other.example, not a root did:web DID (lowercase ASCII domain, no port, no path) |
 | `reject-aic-signer-port` | reject | `signer_not_root_did_web` | the signer is did:web:other.example%3A8443, not a root did:web DID (lowercase ASCII domain, no port, no path) |
+| `reject-aic-signer-ipv4` | reject | `signer_not_root_did_web` | the signer is did:web:192.0.2.1, not a root did:web DID (lowercase ASCII domain, no port, no path) |
+| `reject-aic-signer-numeric-tld` | reject | `signer_not_root_did_web` | the signer is did:web:agents.2026, not a root did:web DID (lowercase ASCII domain, no port, no path) |
+| `reject-aic-signer-domain-past-253-octets` | reject | `signer_not_root_did_web` | the signer is did:web:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa.aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa.aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa.bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb.example, not a root did:web DID (lowercase ASCII domain, no port, no path) |
 | `reject-snapshot-signer-path-did` | reject | `signer_not_root_did_web` | a catalog signature by a path-based did:web DID |
 | `reject-verification-method-ambiguous` | reject | `verification_method_ambiguous` | two verification methods carry the kid as their id, the second holding another key that made the signature |
 | `reject-aic-method-controller-other` | reject | `method_controller_mismatch` | the selected method's controller is another DID than the signer |
@@ -123,4 +126,22 @@ Test keys only: each is derived from the SHA-256 of a public label in `gen_vecto
 | `reject-kid-fragment-bad-escape` | reject | `kid_not_under_identity` | the kid fragment carries a malformed percent-escape |
 | `accept-issued-with-fraction` | accept | `signature_covers_release` | control: an RFC 3339 issuedAt with fractional seconds |
 | `accept-issued-with-offset` | accept | `signature_covers_release` | control: an RFC 3339 issuedAt with a numeric offset, compared as an instant |
-| `accept-draft-inline-data` | accept | `signature_covers_release` | control: an entry delivered as inline data has no url, so there is no origin to bind (draft 3.3, 6.2) |
+| `accept-draft-inline-data` | accept | `signature_covers_release` | control: an entry delivered as inline data has no url, so there is no origin to bind (draft 3.3, 6.2), and its digest is of the RFC 8785 bytes of data (AI Catalog digest) |
+| `reject-draft-inline-data-swapped` | reject | `artifact_digest_mismatch` | inline data changed after signing; the digest is of the RFC 8785 bytes of data, so it no longer matches (AI Catalog digest, draft 3.2 digest) |
+| `accept-dsse-url-safe-base64` | accept | `signature_covers_release` | control: a DSSE envelope in URL-safe base64; DSSE verifiers MUST accept either alphabet (protocol.md) |
+| `accept-dsse-der-signature` | accept | `signature_covers_release` | control: a DSSE ES256 signature in DER, as sigstore and in-toto signers write it |
+| `reject-dsse-der-non-minimal` | reject | `attestation_unsigned` | a DER signature whose r carries a zero octet it does not need; DER has one encoding per value |
+| `reject-dsse-payload-newline` | reject | `attestation_unsigned` | a DSSE payload with a line break inside the base64; RFC 4648 section 3.3 refuses characters outside the alphabet |
+| `reject-attestation-file-not-one-segment` | reject | `attestation_digest_mismatch` | the context names the vendored file as ./attestation-0.dsse.json; a vendored file is named by one path segment |
+| `accept-nesting-at-the-limit` | accept | `signature_covers_release` | control: 64 arrays and objects open at once |
+| `reject-nesting-past-the-limit` | reject | `json_invalid` | 65 arrays and objects open at once, outside the signed bytes; readers hold different values past a nesting limit |
+| `accept-context-entry-integral-number` | accept | `signature_covers_release` | control: the context names entry 1.0, the integer 1 (JSON does not tell 1.0 from 1) |
+| `reject-context-entry-negative` | reject | `signature_missing` | the context names entry -1, which selects nothing (an index is a non-negative integer) |
+| `reject-context-entry-boolean` | reject | `signature_missing` | the context names entry true, which is not a number |
+| `reject-issued-second-60-not-leap` | reject | `timestamp_invalid` | issuedAt 2026-11-01T00:00:60Z: no leap second falls there, so it names no instant (RFC 3339 section 5.7) |
+| `reject-issued-second-60-offset-not-leap` | reject | `timestamp_invalid` | issuedAt 2016-12-31T23:59:60+01:00 is 22:59:60 UTC, no leap second |
+| `accept-issued-on-a-leap-second` | accept | `signature_covers_release` | control: 2016-12-31T23:59:60Z, the last leap second in the IERS list |
+| `accept-issued-on-a-leap-second-with-offset` | accept | `signature_covers_release` | control: the same leap second written as 18:59:60-05:00 |
+| `accept-url-origin-case-and-default-port` | accept | `signature_covers_release` | control: HTTPS://PUBLISHER.example:443 is the origin https://publisher.example (RFC 6454 section 4) |
+| `reject-url-userinfo` | reject | `url_origin_unbound` | a url with userinfo before the publisher host; a recipient treats https userinfo as an error (RFC 9110 section 4.2.4) |
+| `reject-url-other-port` | reject | `url_origin_unbound` | a url on the publisher host at port 8443, another origin |

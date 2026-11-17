@@ -24,7 +24,10 @@ from typing import Any
 from cryptography.hazmat.primitives import hashes
 from cryptography.hazmat.primitives.asymmetric import ec
 from cryptography.hazmat.primitives.asymmetric.ed25519 import Ed25519PrivateKey
-from cryptography.hazmat.primitives.asymmetric.utils import decode_dss_signature
+from cryptography.hazmat.primitives.asymmetric.utils import (
+    decode_dss_signature,
+    encode_dss_signature,
+)
 from cryptography.hazmat.primitives.serialization import Encoding, PublicFormat
 
 HERE = Path(__file__).resolve().parent
@@ -183,9 +186,23 @@ class Minter:
                           separators=(",", ":"), sort_keys=True).encode()
         pae = b"DSSEv1 " + str(len(DSSE_KIND)).encode() + b" " + DSSE_KIND + b" " + \
             str(len(body)).encode() + b" " + body
-        return dump({"payload": base64.b64encode(body).decode(), "payloadType": DSSE_KIND.decode(),
-                     "signatures": [{"keyid": self.assessor + "#es256", "sig": base64.b64encode(
-                         self.keys.sign("assessor", pae)).decode()}]})
+        style = spec.get("encoding", "standard")
+        alphabet = base64.urlsafe_b64encode if style == "url-safe" else base64.b64encode
+        payload = alphabet(body).decode()
+        if style == "newline":
+            payload = payload[:8] + "\n" + payload[8:]
+        signature = self.keys.sign("assessor", pae)
+        if style in ("der", "der-non-minimal"):
+            encoded = encode_dss_signature(int.from_bytes(signature[:32], "big"),
+                                           int.from_bytes(signature[32:], "big"))
+            if style == "der-non-minimal":  # one more zero octet in front of r
+                r_length = encoded[3]
+                inner = bytes([0x02, r_length + 1, 0]) + encoded[4:]
+                encoded = bytes([0x30, len(inner)]) + inner
+            signature = encoded
+        return dump({"payload": payload, "payloadType": DSSE_KIND.decode(),
+                     "signatures": [{"keyid": self.assessor + "#es256",
+                                     "sig": alphabet(signature).decode()}]})
 
     def jws(self, catalog: dict[str, Any], spec: dict[str, Any]) -> str:
         did, fragment, alg, _ = self.key_table[spec["key"]]
@@ -234,7 +251,8 @@ class Minter:
         card = self.card("travel")
         edit(card, case["artifact"], {})
         names = {"$ARTIFACT": "sha256:" + digest(dump(card)),
-                 "$OTHER": "sha256:" + digest(dump(self.card("billing")))}
+                 "$OTHER": "sha256:" + digest(dump(self.card("billing"))),
+                 "$CARD_JCS": "sha256:" + digest(jcs(card))}
         ard = case["shape"] == "ard"
         catalog: dict[str, Any] = {
             "entries": [self.entry("travel", names["$ARTIFACT"], ard)],
@@ -278,7 +296,9 @@ class Minter:
         out["did-documents.json"] = self.documents(case["dids"], names)
         out["artifact.json"] = dump(card)
         out["catalog.json"] = text.encode("ascii")
-        out["context.json"] = dump(case["context"])
+        context = json.loads(json.dumps(case["context"]))
+        edit(context, case["contextAfter"], names)
+        out["context.json"] = dump(context)
         return out
 
 

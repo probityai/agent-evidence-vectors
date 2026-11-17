@@ -2,19 +2,21 @@
   "entries": [
     {
       "data": {
+        "description": "The travel agent.",
         "name": "travel agent",
+        "url": "https://publisher.example/agents/travel",
         "version": "1.0.0"
       },
-      "digest": "sha256:5346c3b356f1b2db025b97d464d73a62442ca39ad1480549e23daff147f35ef1",
+      "digest": "sha256:9402b81dd01ee18b51f67271a05a781e6d5655d7b5e321981b08cdd863b0af5a",
       "displayName": "travel",
       "identifier": "urn:air:publisher.example:agent:travel",
       "trustManifest": {
         "expiresAt": "2027-11-01T00:00:00Z",
         "identity": "did:web:publisher.example",
         "issuedAt": "2026-11-01T00:00:00Z",
-        "signature": "eyJhbGciOiJFUzI1NiIsImtpZCI6ImRpZDp3ZWI6cHVibGlzaGVyLmV4YW1wbGUjZXMyNTYifQ..USlspfCsJ9jPB-a5wKVAR443abtHXstk8OvpSu8EKYj1uI1cyOpCOL75sy5r_cpBpU2q9iNNa-y6B2YToTkWyQ",
+        "signature": "eyJhbGciOiJFUzI1NiIsImtpZCI6ImRpZDp3ZWI6cHVibGlzaGVyLmV4YW1wbGUjZXMyNTYifQ..K9WfTtv2sSggWm52cFLptUgqr3HBz7EgJMmzSsZnlneIIgqn88QgMGCdcZJbC6PUqxDf-3q7_JY-kZQHnr4zdQ",
         "subject": {
-          "digest": "sha256:5346c3b356f1b2db025b97d464d73a62442ca39ad1480549e23daff147f35ef1",
+          "digest": "sha256:9402b81dd01ee18b51f67271a05a781e6d5655d7b5e321981b08cdd863b0af5a",
           "identifier": "urn:air:publisher.example:agent:travel",
           "type": "application/a2a-agent-card+json",
           "version": "1.0.0"
