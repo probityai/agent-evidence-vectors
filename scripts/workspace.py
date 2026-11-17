@@ -21,6 +21,7 @@ import subprocess
 import sys
 import tomllib
 from pathlib import Path, PurePosixPath
+from types import ModuleType
 
 ROOT = Path(__file__).resolve().parents[1]
 _DOCS = re.compile(r"(docs/.*|.*\.md|LICENSE)\Z")
@@ -93,9 +94,11 @@ def _version(unit: dict[str, str], root: Path) -> str:
 _MANIFEST = {"crates.io": "Cargo.toml", "pypi": "pyproject.toml", "npm": "package.json"}
 
 
-def _release_links():
+def _release_links() -> ModuleType:
     """Load scripts/release_links.py from beside this file; the tests load this file by path."""
     spec = importlib.util.spec_from_file_location("release_links", Path(__file__).with_name("release_links.py"))
+    if spec is None or spec.loader is None:
+        raise SystemExit("scripts/release_links.py cannot be loaded")
     module = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(module)
     return module
