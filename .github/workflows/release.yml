@@ -38,6 +38,8 @@ name: release
 #   jcs-admit-v                 crates.io  crates/jcs-admit
 #   jcs-admit-py-v              PyPI       crates/jcs-admit/python (seven wheels and the sdist)
 #   jcs-admit-npm-v             npm        crates/jcs-admit/npm (the tarball crate-jcs-admit-npm.yml qualified)
+#   jcsvectors-v                crates.io  crates/jcsvectors (the first version went up by token: a
+#                                          trusted publisher can be added only to a crate that exists)
 #   agent-evidence-vocabulary-v PyPI       the vocabulary distribution
 #   agent-evidence-vocabulary-python-v PyPI  the same distribution, when the data tag exists already
 #   agent-evidence-admission-v  PyPI       the admission distribution
@@ -558,6 +560,36 @@ jobs:
     environment:
       name: crates-io
       url: https://crates.io/crates/jcs-admit
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: install the stable toolchain
+        run: |
+          rustup toolchain install stable --profile minimal
+          rustup default stable
+      - name: package exactly the files that will be published
+        working-directory: ${{ needs.resolve.outputs.directory }}
+        run: cargo package --locked
+      - uses: rust-lang/crates-io-auth-action@3268eb413133e2960fa4ae0e963ca76380c54cd9 # v1.0.6
+        id: auth
+      - name: publish through crates.io trusted publishing
+        working-directory: ${{ needs.resolve.outputs.directory }}
+        env:
+          CARGO_REGISTRY_TOKEN: ${{ steps.auth.outputs.token }}
+        run: cargo publish --locked
+
+  publish-crate-jcsvectors:
+    needs: resolve
+    if: needs.resolve.outputs.registry != 'none' && (needs.resolve.outputs.prefix == 'jcsvectors')
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    environment:
+      name: crates-io
+      url: https://crates.io/crates/jcsvectors
     permissions:
       contents: read
       id-token: write
