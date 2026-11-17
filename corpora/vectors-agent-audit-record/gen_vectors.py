@@ -38,7 +38,7 @@ import json
 import os
 import sys
 from collections.abc import Callable
-from typing import Any
+from typing import Any, TypedDict
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, HERE)
@@ -1871,7 +1871,14 @@ REVISION_04 = "draft-gilda-audit-agent-audit-record-04"
 #: Value A is 30 seconds old under 60 and expires at 11:04:32; value B is 3600
 #: seconds old under 7200 and expires at 12:04:02. Both are fresh.
 FR14_REPORTED_AT = "2026-09-19T11:04:02Z"
-FR14_VALUES = [
+
+
+class HeldValue(TypedDict):
+    lastResult: str
+    maxAge: int
+
+
+FR14_VALUES: list[HeldValue] = [
     {"lastResult": "2026-09-19T11:03:32Z", "maxAge": 60},
     {"lastResult": "2026-09-19T10:04:02Z", "maxAge": 2 * HOUR},
 ]
