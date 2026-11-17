@@ -108,6 +108,112 @@ def test_the_minter_runs_without_the_repository_on_its_path(tmp_path: Path) -> N
     assert "ModuleNotFoundError" in problems[0]
 
 
+COPIER = """
+import shutil, sys
+from pathlib import Path
+src = Path({corpus!r})
+out = Path(sys.argv[1])
+shutil.copy(src / "MANIFEST.json", out / "MANIFEST.json")
+shutil.copytree(src / "cases", out / "cases")
+"""
+
+
+def test_a_minter_that_copies_the_committed_corpus_is_refused(tmp_path: Path) -> None:
+    # The break: an absolute path reaches the committed bytes, and a copy matches byte for byte.
+    corpora = make_corpus(tmp_path)
+    source = COPIER.format(corpus=str(corpora / "vectors-x"))
+    problems = gate.check_minter("vectors-x", make_minter(tmp_path, source), corpora)
+    assert len(problems) == 1 and "the minter exited 1" in problems[0]
+    assert "reading" in problems[0] and "refused" in problems[0]
+
+
+def test_a_minter_cannot_import_the_first_generator_by_path(tmp_path: Path) -> None:
+    corpora = make_corpus(tmp_path)
+    (corpora / "vectors-x" / "gen_vectors.py").write_text("BODY = b'{}\\n'\n")
+    source = (
+        "import importlib, sys\n"
+        f"sys.path.insert(0, {str(corpora / 'vectors-x')!r})\n"
+        "importlib.import_module('gen_vectors')\n" + MINTER
+    )
+    problems = gate.check_minter("vectors-x", make_minter(tmp_path, source), corpora)
+    # The import machinery's directory listing is refused, so the module is not found.
+    assert len(problems) == 1 and "No module named 'gen_vectors'" in problems[0], problems
+
+
+def test_a_minter_cannot_start_a_process(tmp_path: Path) -> None:
+    corpora = make_corpus(tmp_path)
+    source = "import subprocess\nsubprocess.run(['true'])\n" + MINTER
+    problems = gate.check_minter("vectors-x", make_minter(tmp_path, source), corpora)
+    assert len(problems) == 1 and "refused" in problems[0], problems
+
+
+def test_a_minter_cannot_link_the_committed_file_into_its_output(tmp_path: Path) -> None:
+    corpora = make_corpus(tmp_path)
+    case = corpora / "vectors-x" / "cases" / "one" / "case.json"
+    source = MINTER.replace(
+        '(out / "cases" / "one" / "case.json").write_bytes(body())',
+        f'import os\nos.symlink({str(case)!r}, out / "cases" / "one" / "case.json")',
+    )
+    problems = gate.check_minter("vectors-x", make_minter(tmp_path, source), corpora)
+    assert len(problems) == 1 and "os.symlink refused" in problems[0], problems
+
+
+def test_a_link_left_in_the_output_is_refused(tmp_path: Path) -> None:
+    out = tmp_path / "out"
+    out.mkdir()
+    (out / "real.json").write_bytes(b"{}")
+    (out / "linked.json").symlink_to(out / "real.json")
+    assert gate.written_files(out) == ({"real.json": b"{}"}, ["linked.json"])
+
+
+def test_a_relative_path_is_refused(tmp_path: Path) -> None:
+    corpora = make_corpus(tmp_path)
+    source = "open('../../corpora/vectors-x/MANIFEST.json').read()\n" + MINTER
+    problems = gate.check_minter("vectors-x", make_minter(tmp_path, source), corpora)
+    assert len(problems) == 1 and "relative path refused" in problems[0], problems
+
+
+def test_the_minter_sees_an_empty_environment(tmp_path: Path) -> None:
+    corpora = make_corpus(tmp_path)
+    # Only what the interpreter sets for itself (PEP 538 locale coercion) may appear.
+    source = "import os\nassert set(os.environ) <= {'LC_CTYPE'}, sorted(os.environ)\n" + MINTER
+    assert gate.check_minter("vectors-x", make_minter(tmp_path, source), corpora) == []
+
+
+def test_a_minter_that_is_a_link_is_refused(tmp_path: Path) -> None:
+    corpora = make_corpus(tmp_path)
+    real = make_minter(tmp_path)
+    link = real.parent / "vectors-link.py"
+    link.symlink_to(real)
+    problems = gate.check_minter("vectors-link", link, corpora)
+    assert problems == [
+        "vectors-link: vectors-link.py is a link; a minter and its helpers are files"
+    ]
+
+
+PASTED = """
+def build(rows):
+    \"\"\"Doc strings and names do not hide a paste.\"\"\"
+    out = []
+    for row in rows:
+        if row:
+            out.append(row * 2)
+    return out
+"""
+
+
+def test_a_function_pasted_from_the_first_generator_is_refused(tmp_path: Path) -> None:
+    corpora = make_corpus(tmp_path)
+    (corpora / "vectors-x" / "gen_vectors.py").write_text(PASTED)
+    renamed = PASTED.replace("build", "make").replace("rows", "items").replace("row", "item")
+    source = renamed.replace("Doc strings and names do not hide a paste.", "Renamed.") + MINTER
+    problems = gate.check_minter("vectors-x", make_minter(tmp_path, source), corpora)
+    assert problems == [
+        "vectors-x: shares code with the first generator: "
+        "vectors-x.py make() has the body of gen_vectors.py build()"
+    ]
+
+
 def test_census_counts_the_corpora_with_a_minter(tmp_path: Path) -> None:
     corpora = make_corpus(tmp_path)
     assert gate.census(corpora, ["vectors-x"]) == (1, 2, ["vectors-y"])
