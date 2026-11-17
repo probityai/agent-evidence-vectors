@@ -1,0 +1,18 @@
+{
+ "case": "proto-empty",
+ "published": [
+  "mcp"
+ ],
+ "rrset": [
+  {
+   "owner": "_chat._agents.example.com",
+   "params": {
+    "alpn": "mcp",
+    "port": 443,
+    "proto": ""
+   },
+   "priority": 1,
+   "target": "chat.example.com"
+  }
+ ]
+}
