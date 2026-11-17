@@ -6,10 +6,12 @@ of agent-evidence-vocabulary, with the consumer's key bindings (``{producer: {pu
 suite}}``) and its revocation snapshot (``{producer: {state}}``). Records are grouped by (decision
 record id, instruction id) and each group gets one of five states, in this order of rules: a shared
 identity anywhere in the set (``indeterminate``), an execution no control covers
-(``not_evaluated``), a missing control, execution or cited decision (``missing``), an artifact that
-does not authenticate (``failure``), a binding the snapshot does not list as active
-(``not_evaluated``), then every authorized digest against every executed digest (``satisfied`` or
-``failure``).
+(``not_evaluated``), a missing issuer-side control, execution or cited decision (``missing``: a
+receiver-side control alone records what the executor's side received, never what was allowed), an
+artifact that does not authenticate (``failure``), a binding the snapshot does not list as active
+(``not_evaluated``), an issuer-side control signed by a key that signs an execution in the group
+(``failure``: the executor authorized itself), then every authorized digest against every executed
+digest (``satisfied`` or ``failure``).
 
 The set's answer is ``failure`` when any group fails, else the first of ``indeterminate``,
 ``not_evaluated`` and ``missing`` any group holds, else ``satisfied``. A set the profile cannot
@@ -253,6 +255,16 @@ def _authenticated(record: dict, bindings: dict) -> bool:
         return False
 
 
+def _self_authorized(controls: list[dict], executions: list[dict], bindings: dict) -> bool:
+    """An issuer-side control signed by a key that signs an execution, under any producer name."""
+    executing = {bindings[e["producer"]]["public_key_hex"] for e in executions}
+    return any(
+        bindings[c["producer"]]["public_key_hex"] in executing
+        for c in controls
+        if c["boundary_side"] == "issuer"
+    )
+
+
 def group_states(
     records: list[dict], bindings: dict, revocation: dict
 ) -> dict[tuple[str, str], str]:
@@ -273,7 +285,11 @@ def group_states(
             states[key] = "indeterminate"
         elif executions and not controls:
             states[key] = "not_evaluated"
-        elif not controls or not executions or key[0] not in decisions:
+        elif (
+            not any(c["boundary_side"] == "issuer" for c in controls)
+            or not executions
+            or key[0] not in decisions
+        ):
             states[key] = "missing"
         elif not all(_authenticated(r, bindings) for r in [decisions[key[0]], *members]):
             states[key] = "failure"
@@ -282,6 +298,8 @@ def group_states(
             for r in [decisions[key[0]], *members]
         ):
             states[key] = "not_evaluated"
+        elif _self_authorized(controls, executions, bindings):
+            states[key] = "failure"
         else:
             authorized = {c["authorized_action_digest"] for c in controls}
             executed = {e["executed_action_digest"] for e in executions}

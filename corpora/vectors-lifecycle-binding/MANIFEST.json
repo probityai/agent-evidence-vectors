@@ -1,9 +1,9 @@
 {
-  "corpusDigest": "7684f32cf12af5cd4732e5fbaf3b4e36deb7e2bcfda72d5e5bc60d452521c1db",
+  "corpusDigest": "066433e09f4fb757bdca7387bb8f5248bdbc80f2165bf790776c8fbc7974efdb",
   "counts": {
-    "failure": 16,
+    "failure": 18,
     "indeterminate": 3,
-    "missing": 2,
+    "missing": 3,
     "not_evaluated": 5,
     "refused": 7,
     "satisfied": 6
@@ -292,6 +292,48 @@
       },
       "id": "scope-v8-duplicate-identity-other-action",
       "path": "cases/scope-v8-duplicate-identity-other-action"
+    },
+    {
+      "edit": "V9: only the executor's receiver-side control; no issuer-side control authorized",
+      "expected": {
+        "decision": "missing",
+        "reason": "missing"
+      },
+      "expectedClass": "negative",
+      "family": "binding-scope",
+      "files": {
+        "record.json": "d56304cbed96bad802ad24241cedfb3a91a3816d9f270a3eaa21f5fbd60ff069"
+      },
+      "id": "scope-v9-receiver-only-control",
+      "path": "cases/scope-v9-receiver-only-control"
+    },
+    {
+      "edit": "V10: the executor writes and signs the issuer-side control for its own execution",
+      "expected": {
+        "decision": "failure",
+        "reason": "failure"
+      },
+      "expectedClass": "negative",
+      "family": "binding-scope",
+      "files": {
+        "record.json": "b595e138070330fbb6f3dd0a2c6d1f51acc4ab71adacd118a02810695062242b"
+      },
+      "id": "scope-v10-issuer-control-signed-by-executor",
+      "path": "cases/scope-v10-issuer-control-signed-by-executor"
+    },
+    {
+      "edit": "V11: the executor's key, bound again as governor-2, signs the issuer-side control",
+      "expected": {
+        "decision": "failure",
+        "reason": "failure"
+      },
+      "expectedClass": "negative",
+      "family": "binding-scope",
+      "files": {
+        "record.json": "f45fdeeab66e85ad2181e71d233b3d250de41bc0b51597f1ce1e60140a63af07"
+      },
+      "id": "scope-v11-executor-key-under-second-name",
+      "path": "cases/scope-v11-executor-key-under-second-name"
     },
     {
       "edit": "C0: control",

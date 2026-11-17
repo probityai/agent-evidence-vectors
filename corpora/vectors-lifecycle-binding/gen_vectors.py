@@ -1,10 +1,10 @@
 """Write the lifecycle-binding corpus from our own bytes.
 
 Keys come from seeds under the neutral label ``aev-lifecycle-binding-vectors/``; every record is
-written here. Four families: eleven lifecycle shapes, the binding-scope vectors V1 to V8 and C0, the
-tag-confusion family (domain separation, including a signature over a DSSE pre-authentication
-encoding replayed as a record signature), and JSON admissibility. Every case carries ``expected``
-(positive, negative or absent) and a ``does_not_establish`` sentence.
+written here. Four families: eleven lifecycle shapes, the binding-scope vectors V1 to V11 and
+C0, the tag-confusion family (domain separation, including a signature over a DSSE
+pre-authentication encoding replayed as a record signature), and JSON admissibility. Every case
+carries ``expected`` (positive, negative or absent) and a ``does_not_establish`` sentence.
 """
 
 from __future__ import annotations
@@ -45,6 +45,10 @@ BINDINGS = {
 }
 ACTIVE = {p: {"state": "active"} for p in PRODUCERS}
 REVOKED_EXECUTOR = {**ACTIVE, "executor": {"state": "revoked"}}
+#: Cases whose consumer binds one key under two producer names.
+CASE_BINDINGS = {
+    "scope-v11-executor-key-under-second-name": {**BINDINGS, "governor-2": BINDINGS["executor"]}
+}
 REVOKED_GOVERNOR = {**ACTIVE, "governor": {"state": "revoked"}}
 
 
@@ -110,19 +114,22 @@ def control(
     side: str = "issuer",
     instruction: str = "pause-1",
     decision_id: str = "d-1",
+    producer: str | None = None,
+    signer: str | None = None,
 ) -> dict:
     return seal(
         {
             "lifecycle_version": "v1",
             "artifact_type": "control",
             "record_id": rid,
-            "producer": "governor" if side == "issuer" else "executor",
+            "producer": producer or ("governor" if side == "issuer" else "executor"),
             "integrity": {},
             "decision_ref": {"record_id": decision_id},
             "instruction_id": instruction,
             "boundary_side": side,
             "authorized_action_digest": digest,
-        }
+        },
+        signer,
     )
 
 
@@ -386,6 +393,36 @@ def scope() -> list[Case]:
             "V8: two byte-identical executions share one id and report another action",
         ),
         (
+            "scope-v9-receiver-only-control",
+            "binding-scope",
+            "negative",
+            [d, cr, honest],
+            ACTIVE,
+            "missing",
+            "missing",
+            "V9: only the executor's receiver-side control; no issuer-side control authorized",
+        ),
+        (
+            "scope-v10-issuer-control-signed-by-executor",
+            "binding-scope",
+            "negative",
+            [d, control("c-issuer", producer="executor"), honest],
+            ACTIVE,
+            "failure",
+            "failure",
+            "V10: the executor writes and signs the issuer-side control for its own execution",
+        ),
+        (
+            "scope-v11-executor-key-under-second-name",
+            "binding-scope",
+            "negative",
+            [d, control("c-issuer", producer="governor-2", signer="executor"), honest],
+            {**ACTIVE, "governor-2": {"state": "active"}},
+            "failure",
+            "failure",
+            "V11: the executor's key, bound again as governor-2, signs the issuer-side control",
+        ),
+        (
             "scope-c0-honest",
             "binding-scope",
             "positive",
@@ -641,7 +678,7 @@ def generate(root: Path = ROOT) -> dict[str, Any]:
         directory = root / "cases" / name
         directory.mkdir(parents=True, exist_ok=True)
         record = {
-            "bindings": BINDINGS,
+            "bindings": CASE_BINDINGS.get(name, BINDINGS),
             "does_not_establish": DOES_NOT_ESTABLISH,
             "records_text": records if isinstance(records, str) else json.dumps(records),
             "revocation": revocation,

@@ -112,6 +112,21 @@ RULES = {
         "    shared = set()",
         "scope-v3-duplicate-execution-identity",
     ),
+    "issuer-side": (
+        '            not any(c["boundary_side"] == "issuer" for c in controls)\n',
+        "            not controls\n",
+        "scope-v9-receiver-only-control",
+    ),
+    "self-authorization": (
+        "        elif _self_authorized(controls, executions, bindings):",
+        "        elif False:",
+        "scope-v10-issuer-control-signed-by-executor",
+    ),
+    "self-authorization-by-key": (
+        'bindings[c["producer"]]["public_key_hex"] in executing',
+        'c["producer"] in {e["producer"] for e in executions}',
+        "scope-v11-executor-key-under-second-name",
+    ),
     "tag-registry": (
         '    if record.get("lifecycle_version") != "v1" or '
         'record.get("artifact_type") not in TYPES:',
