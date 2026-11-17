@@ -1794,6 +1794,8 @@ jobs:
         run: uv run --extra dev pytest corpora/vectors-receipt-chain-end/tests -q
       - name: identity-binding cases regenerate and force every check
         run: uv run --extra dev pytest corpora/vectors-identity-binding/tests -q
+      - name: key-directory observation cases regenerate and keep cache apart from evidence
+        run: uv run --extra dev pytest corpora/vectors-key-directory-observation/tests -q
       - name: authority-at-dispatch cases regenerate and force every check
         run: uv run --extra dev pytest corpora/vectors-authority-at-dispatch/tests -q
       - name: approval-binding cases regenerate and force every check
