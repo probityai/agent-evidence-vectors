@@ -565,6 +565,18 @@ standards = []
 shapes = ["coverage-gap", "self-report"]
 
 [[corpus]]
+id = "vectors-execution-billing-finality"
+path = "corpora/vectors-execution-billing-finality"
+wheel = true
+sdist = true
+title = "Execution billing finality"
+summary = "A spend ledger must keep execution outcome, billing finality and dispatch state apart: a success is not a final bill, an invoice is not an execution, and settled billing never reopens the same attempt's dispatch gate."
+record_class = "execution-evidence"
+domains = ["effects", "payments"]
+standards = []
+shapes = ["uncertainty", "replay", "self-report"]
+
+[[corpus]]
 id = "vectors-grade-floor"
 path = "corpora/vectors-grade-floor"
 wheel = true
@@ -707,6 +719,30 @@ record_class = "record"
 domains = ["model-governance"]
 standards = ["eu-ai-act"]
 shapes = ["coverage-gap", "uncertainty"]
+
+[[corpus]]
+id = "vectors-principal-binding"
+path = "corpora/vectors-principal-binding"
+wheel = true
+sdist = true
+title = "Agent-to-principal bindings"
+summary = "A verifier must recompute a binding of an agent to its principal and scope from its native record, UMA for Agents terms or an HCP grant, and refuse it when the agent, principal or scope changes or the record was edited after signing."
+record_class = "credential"
+domains = ["delegation", "identity", "authority"]
+standards = []
+shapes = ["missing-binding", "scope-overreach", "forged-signature"]
+
+[[corpus]]
+id = "vectors-print-witness"
+path = "corpora/vectors-print-witness"
+wheel = true
+sdist = true
+title = "Witnessed machine-job logs"
+summary = "A verifier must refuse a log signed by a machine-side witness that stops early, sits beside a job file the witness did not sign, or switches witness mid-job, even when every record verifies under a trusted key."
+record_class = "chain"
+domains = ["effects", "provenance"]
+standards = []
+shapes = ["broken-chain", "missing-binding", "tampering"]
 
 [[corpus]]
 id = "vectors-propagation-step"
