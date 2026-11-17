@@ -1,11 +1,11 @@
 {
   "aggregate": {
     "counts": {
-      "accept": 27,
-      "reject": 84
+      "accept": 28,
+      "reject": 87
     },
     "line": "verdict: every member behaves as MANIFEST.json declares",
-    "total": 111
+    "total": 115
   },
   "anchor": {
     "kind": "digest-list-line",
@@ -17,7 +17,7 @@
     "routine": "corpus_digest in corpora/vectors-catalog-trust-manifest/digest.py",
     "routine-file": "corpora/vectors-catalog-trust-manifest/digest.py",
     "serialization": "corpus-routine",
-    "sha256": "4837efe0f17a63263aefc41c6e4866b7366b28a78531234ad5113ce4694174da",
+    "sha256": "d5fb983e61a8ae732badf116a2183a8bdc52b95677a7cf89cdc475422a57bb4f",
     "verdicts": {
       "availability-failure": "inconclusive",
       "integrity-failure": "fail"
@@ -29,7 +29,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "bf6877916ba521d3d0a908fde23facc9671af2a3f84dc698afb4962d99ce8030"
+          "sha256": "e318d7d046805b3f211227ce96a5abf1d6a35566a340e60f9b302a5e073e610a"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [],
@@ -38,21 +38,21 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "bf6877916ba521d3d0a908fde23facc9671af2a3f84dc698afb4962d99ce8030"
+          "sha256": "e318d7d046805b3f211227ce96a5abf1d6a35566a340e60f9b302a5e073e610a"
         },
         "swapped-in": "1572b2b2d7a82a467cf5b326e36571448848217a6729101c98104cd6691ae9de",
         "test": "swap-and-re-pin"
       },
       "path": "corpora/vectors-catalog-trust-manifest/CASES.json",
       "serialization": "bytes",
-      "sha256": "6f7438e9163cc0e6a7aab8bb59b871ad63ccaa4f071c5d36df8388eba6e51454"
+      "sha256": "b546ddb2265889421a735e33acea82a96cdf1ae4e86fc838e247f80c2a6d29aa"
     },
     {
       "consumed": "unconsumed",
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "bf6877916ba521d3d0a908fde23facc9671af2a3f84dc698afb4962d99ce8030"
+          "sha256": "e318d7d046805b3f211227ce96a5abf1d6a35566a340e60f9b302a5e073e610a"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [],
@@ -61,21 +61,21 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "bf6877916ba521d3d0a908fde23facc9671af2a3f84dc698afb4962d99ce8030"
+          "sha256": "e318d7d046805b3f211227ce96a5abf1d6a35566a340e60f9b302a5e073e610a"
         },
         "swapped-in": "8799748abe139a6a626debc80dea1f0d6147fee8e0d08cd2e9c2c1b4907e5a7b",
         "test": "swap-and-re-pin"
       },
       "path": "corpora/vectors-catalog-trust-manifest/README.md",
       "serialization": "bytes",
-      "sha256": "cd33eb74a03deb9932c0a43c53b5bbf065d0373f3245ac2d29519a3dc284b9f3"
+      "sha256": "e3e2ad9f99c7678ffcf6d7b2677f9ce891b40ed06ce4c409896b2426f87add0c"
     },
     {
       "consumed": "unconsumed",
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "bf6877916ba521d3d0a908fde23facc9671af2a3f84dc698afb4962d99ce8030"
+          "sha256": "e318d7d046805b3f211227ce96a5abf1d6a35566a340e60f9b302a5e073e610a"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [],
@@ -84,7 +84,7 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "bf6877916ba521d3d0a908fde23facc9671af2a3f84dc698afb4962d99ce8030"
+          "sha256": "e318d7d046805b3f211227ce96a5abf1d6a35566a340e60f9b302a5e073e610a"
         },
         "swapped-in": "4b2bda6ae0c4b0f0c5f05bc5fbffd9c85a6b7c422c132492e0fcf5ff97a05021",
         "test": "swap-and-re-pin"
@@ -98,7 +98,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "bf6877916ba521d3d0a908fde23facc9671af2a3f84dc698afb4962d99ce8030"
+          "sha256": "e318d7d046805b3f211227ce96a5abf1d6a35566a340e60f9b302a5e073e610a"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [],
@@ -107,21 +107,21 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "bf6877916ba521d3d0a908fde23facc9671af2a3f84dc698afb4962d99ce8030"
+          "sha256": "e318d7d046805b3f211227ce96a5abf1d6a35566a340e60f9b302a5e073e610a"
         },
         "swapped-in": "dc3185f0e25be86fce53894e69cfaf0d9960978b54c6b4c3208a9f723af0d8aa",
         "test": "swap-and-re-pin"
       },
       "path": "corpora/vectors-catalog-trust-manifest/gen_vectors.py",
       "serialization": "bytes",
-      "sha256": "de1c94b27acfa41c6d3639f37b7465ba7303e8ba22c46b50928071923a56b444"
+      "sha256": "83d71768cb608134980c576984daa4591a4e51f3c8dd6d708b5c97ed8114df0a"
     },
     {
       "consumed": "unconsumed",
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "bf6877916ba521d3d0a908fde23facc9671af2a3f84dc698afb4962d99ce8030"
+          "sha256": "e318d7d046805b3f211227ce96a5abf1d6a35566a340e60f9b302a5e073e610a"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [],
@@ -130,7 +130,7 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "bf6877916ba521d3d0a908fde23facc9671af2a3f84dc698afb4962d99ce8030"
+          "sha256": "e318d7d046805b3f211227ce96a5abf1d6a35566a340e60f9b302a5e073e610a"
         },
         "swapped-in": "2b4bd413d1bac8ed6cd8c3b255f3785859e2f0326be4b176275a8994d7656794",
         "test": "swap-and-re-pin"
@@ -144,7 +144,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "bf6877916ba521d3d0a908fde23facc9671af2a3f84dc698afb4962d99ce8030"
+          "sha256": "e318d7d046805b3f211227ce96a5abf1d6a35566a340e60f9b302a5e073e610a"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [],
@@ -153,7 +153,7 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "bf6877916ba521d3d0a908fde23facc9671af2a3f84dc698afb4962d99ce8030"
+          "sha256": "e318d7d046805b3f211227ce96a5abf1d6a35566a340e60f9b302a5e073e610a"
         },
         "swapped-in": "8a52b4720db0c4ed2848e7a945f3df33a68e1ada05acbf474c6907f30e9a9dcc",
         "test": "swap-and-re-pin"
@@ -175,7 +175,7 @@
     "root": "corpora/vectors-catalog-trust-manifest"
   },
   "byte-identity": {
-    "pins": 455,
+    "pins": 471,
     "serialization": "bytes"
   },
   "canonicalization": {
@@ -212,7 +212,7 @@
         "go.mod"
       ],
       "serialization": "sha256-listing-v1",
-      "sha256": "3f526814667e2e128187b145e70865b8d0849bc5f9c99109521947ceb8b07869"
+      "sha256": "6f8722c9cc0d9f6407e1d48ff84a738ec5a6631145f4edc8ac3b25a925dc7a07"
     },
     "runtime": {
       "name": "go",
@@ -1107,6 +1107,38 @@
       "state": "pass"
     },
     {
+      "check": "reject-aic-url-and-data",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "reject-aic-neither-url-nor-data",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "reject-issued-one-second-in-future",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "accept-checked-at-the-issued-instant",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
       "check": "reject-url-other-port",
       "native": {
         "reasons": [],
@@ -1117,7 +1149,7 @@
   ],
   "corpus-digest": {
     "serialization": "sha256-listing-v1",
-    "sha256": "d11eec1e67f8a281d5d1edc0fec321e172bfbd128255e5bb3b4c45c43b04a72b"
+    "sha256": "018b2849d4367c9f0620142628119d8bafb871dafc632621703474ba5aa47570"
   },
   "exit-code": 0,
   "exit-rule": "zero-iff-every-check-passes",
@@ -1237,10 +1269,14 @@
       "accept-issued-on-a-leap-second-with-offset",
       "accept-url-origin-case-and-default-port",
       "reject-url-userinfo",
+      "reject-aic-url-and-data",
+      "reject-aic-neither-url-nor-data",
+      "reject-issued-one-second-in-future",
+      "accept-checked-at-the-issued-instant",
       "reject-url-other-port"
     ],
     "path": "corpora/vectors-catalog-trust-manifest/MANIFEST.json",
-    "sha256": "e00c4b9f7fe295e162d643cc0a6fc29814be6fd16484bc0e7c1f8899b7228af7"
+    "sha256": "ed74879e7d9589031946764fd2aeb978ea25133456a30e68a844dbc74496d52e"
   },
   "members": [
     {
@@ -3600,6 +3636,90 @@
     {
       "files": [
         {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-aic-url-and-data/artifact.json",
+          "sha256": "5346c3b356f1b2db025b97d464d73a62442ca39ad1480549e23daff147f35ef1"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-aic-url-and-data/catalog.json",
+          "sha256": "eda80a1c3a7642fcdb7d3074008beba4a2b57d8e70a13817d6d57065ac9fe758"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-aic-url-and-data/context.json",
+          "sha256": "1c46a20b6b1fa27b14ff5896143f4d22d9f8085bb7998ac90145133a8b88c1c7"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-aic-url-and-data/did-documents.json",
+          "sha256": "8b49c5d7a3dad753d337a8879ad50ea41947883460bf47e3bf3353f41a28c3fe"
+        }
+      ],
+      "id": "reject-aic-url-and-data"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-aic-neither-url-nor-data/artifact.json",
+          "sha256": "5346c3b356f1b2db025b97d464d73a62442ca39ad1480549e23daff147f35ef1"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-aic-neither-url-nor-data/catalog.json",
+          "sha256": "3cd65afd2724e570196aca7d4f3b9b47bee7e75b3aebc4628a33fc82d8073d05"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-aic-neither-url-nor-data/context.json",
+          "sha256": "1c46a20b6b1fa27b14ff5896143f4d22d9f8085bb7998ac90145133a8b88c1c7"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-aic-neither-url-nor-data/did-documents.json",
+          "sha256": "8b49c5d7a3dad753d337a8879ad50ea41947883460bf47e3bf3353f41a28c3fe"
+        }
+      ],
+      "id": "reject-aic-neither-url-nor-data"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-issued-one-second-in-future/artifact.json",
+          "sha256": "5346c3b356f1b2db025b97d464d73a62442ca39ad1480549e23daff147f35ef1"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-issued-one-second-in-future/catalog.json",
+          "sha256": "fe7aaee6d11350c4c54fef665c8ea41bee65f5c56066ff7210b2082cb848262b"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-issued-one-second-in-future/context.json",
+          "sha256": "3672c2928267bac1aba4105e3e663ea5a9e61924b100926da1ea96a986d9f159"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-issued-one-second-in-future/did-documents.json",
+          "sha256": "8b49c5d7a3dad753d337a8879ad50ea41947883460bf47e3bf3353f41a28c3fe"
+        }
+      ],
+      "id": "reject-issued-one-second-in-future"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/accept-checked-at-the-issued-instant/artifact.json",
+          "sha256": "5346c3b356f1b2db025b97d464d73a62442ca39ad1480549e23daff147f35ef1"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/accept-checked-at-the-issued-instant/catalog.json",
+          "sha256": "fe7aaee6d11350c4c54fef665c8ea41bee65f5c56066ff7210b2082cb848262b"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/accept-checked-at-the-issued-instant/context.json",
+          "sha256": "316e8e873c480bfa8b2931d2c9506c52f8431c7bf448bdd3edda4a53dd619e4e"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/accept-checked-at-the-issued-instant/did-documents.json",
+          "sha256": "8b49c5d7a3dad753d337a8879ad50ea41947883460bf47e3bf3353f41a28c3fe"
+        }
+      ],
+      "id": "accept-checked-at-the-issued-instant"
+    },
+    {
+      "files": [
+        {
           "path": "corpora/vectors-catalog-trust-manifest/cases/reject-url-other-port/artifact.json",
           "sha256": "5346c3b356f1b2db025b97d464d73a62442ca39ad1480549e23daff147f35ef1"
         },
@@ -3635,7 +3755,7 @@
       "reference": {
         "path": "release/intake/native/vectors-catalog-trust-manifest.json",
         "serialization": "bytes",
-        "sha256": "bf6877916ba521d3d0a908fde23facc9671af2a3f84dc698afb4962d99ce8030"
+        "sha256": "e318d7d046805b3f211227ce96a5abf1d6a35566a340e60f9b302a5e073e610a"
       }
     },
     {
@@ -3644,7 +3764,7 @@
       "reference": {
         "path": "release/intake/native/vectors-catalog-trust-manifest.txt",
         "serialization": "bytes",
-        "sha256": "2c6c4e72ba4b34227fa63aa75cb53f7d24fa44eba0383b6dd991ee884dc35825"
+        "sha256": "770dafe2cdf4b31fe85c17b97753f8ecbdfa0131f38e1709478434055c9a1e6c"
       }
     },
     {
@@ -4327,6 +4447,30 @@
       "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"reject\",\"reason\":\"url_origin_unbound\"}}"
     },
     {
+      "check": "reject-aic-url-and-data",
+      "inputs": [
+        "member:reject-aic-url-and-data",
+        "check:reject-aic-url-and-data"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"reject\",\"reason\":\"entry_delivery_not_one\"}}"
+    },
+    {
+      "check": "reject-aic-neither-url-nor-data",
+      "inputs": [
+        "member:reject-aic-neither-url-nor-data",
+        "check:reject-aic-neither-url-nor-data"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"reject\",\"reason\":\"entry_delivery_not_one\"}}"
+    },
+    {
+      "check": "reject-issued-one-second-in-future",
+      "inputs": [
+        "member:reject-issued-one-second-in-future",
+        "check:reject-issued-one-second-in-future"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"reject\",\"reason\":\"issued_in_future\"}}"
+    },
+    {
       "check": "reject-url-other-port",
       "inputs": [
         "member:reject-url-other-port",
@@ -4342,11 +4486,11 @@
     "runs": [
       {
         "process": "run-1",
-        "sha256": "bf6877916ba521d3d0a908fde23facc9671af2a3f84dc698afb4962d99ce8030"
+        "sha256": "e318d7d046805b3f211227ce96a5abf1d6a35566a340e60f9b302a5e073e610a"
       },
       {
         "process": "run-2",
-        "sha256": "bf6877916ba521d3d0a908fde23facc9671af2a3f84dc698afb4962d99ce8030"
+        "sha256": "e318d7d046805b3f211227ce96a5abf1d6a35566a340e60f9b302a5e073e610a"
       }
     ],
     "seed": null,
@@ -4360,7 +4504,7 @@
       "action-occurred-or-authority"
     ],
     "establishes": [
-      "aee-verify, at the source listing named here, judges each of the 111 pinned members of catalog-trust-manifest/v1 as its manifest declares"
+      "aee-verify, at the source listing named here, judges each of the 115 pinned members of catalog-trust-manifest/v1 as its manifest declares"
     ],
     "leaves-open": [
       "whether an implementation written from the specification, run by someone other than an author, reaches the same verdicts",
@@ -4371,7 +4515,7 @@
   "selector": {
     "expression": "*",
     "language": "id-glob",
-    "matched": 111,
+    "matched": 115,
     "require": "at-least-one",
     "selected": [
       "accept-draft-es256",
@@ -4484,6 +4628,10 @@
       "accept-issued-on-a-leap-second-with-offset",
       "accept-url-origin-case-and-default-port",
       "reject-url-userinfo",
+      "reject-aic-url-and-data",
+      "reject-aic-neither-url-nor-data",
+      "reject-issued-one-second-in-future",
+      "accept-checked-at-the-issued-instant",
       "reject-url-other-port"
     ]
   },
