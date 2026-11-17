@@ -25,8 +25,10 @@ Formats:
             The quantifier read there becomes the case's `quantifier`.
   junit     expectations as `table` (expected `pass` or `fail`); output a JUnit XML report,
             each testcase id `<classname>.<name>`; failure or error is fail, skipped is not run.
-  tap       expectations as `table`; output TAP 13 `ok` / `not ok` lines, id the description;
-            a `# SKIP` or `# TODO` directive is not run.
+  tap       expectations as `table`; output TAP 13 test points, id the description: `ok` /
+            `not ok` lines starting in the first column, so an indented line (a YAML
+            diagnostic block, a TAP 14 subtest) is never read as a result; the directive
+            starts at the first `#` not escaped as `\\#`, and `# SKIP` or `# TODO` is not run.
 """
 
 from __future__ import annotations
@@ -112,13 +114,30 @@ def _junit(text: str) -> dict[str, str]:
     return observed
 
 
+def _tap_split(rest: str) -> tuple[str, str]:
+    """A test point's description and directive: the directive starts at the first `#`
+    that `\\` does not escape, and `\\#` and `\\\\` read as `#` and `\\` (TAP 13)."""
+    description: list[str] = []
+    chars = iter(rest)
+    for char in chars:
+        if char == "\\":
+            following = next(chars, "")
+            description.append(following if following in ("#", "\\") else char + following)
+        elif char == "#":
+            return "".join(description), "".join(chars)
+        else:
+            description.append(char)
+    return "".join(description), ""
+
+
 def _tap(text: str) -> dict[str, str]:
     observed: dict[str, str] = {}
     for raw in text.splitlines():
-        match = _TAP.match(raw.strip())
+        # A test point starts in the first column; a YAML block or a subtest is indented.
+        match = _TAP.match(raw.rstrip())
         if match is None:
             continue
-        description, _, directive = match["rest"].partition("#")
+        description, directive = _tap_split(match["rest"])
         if directive.strip().upper().startswith(("SKIP", "TODO")):
             _record(observed, description.strip(), "not_run")
         else:

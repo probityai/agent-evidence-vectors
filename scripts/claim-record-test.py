@@ -527,6 +527,30 @@ def test_a_later_line_never_turns_a_failure_into_a_pass(fmt: str, output: str,
         from_expectations(fmt, expected, output, name="dup", revision="1")
 
 
+def test_a_tap_line_inside_a_yaml_block_is_not_a_result() -> None:
+    # Test 2 never ran; the only "ok 2" is text inside test 1's diagnostic block.
+    output = ("TAP version 13\n1..2\nnot ok 1 - rejects forged\n  ---\n  log: |\n"
+              "    ok 2 - accepts valid\n  ...\n")
+    _, results, _ = from_expectations("tap", "rejects forged|pass\naccepts valid|pass\n",
+                                      output, name="yaml", revision="1")
+    assert results == {"passed": [], "failed": ["rejects forged"]}
+
+
+def test_a_tap_subtest_line_is_not_a_top_level_result() -> None:
+    output = ("TAP version 14\n1..1\n# Subtest: group\n    ok 1 - inner\n    1..1\n"
+              "not ok 1 - group\n")
+    _, results, _ = from_expectations("tap", "inner|pass\ngroup|pass\n", output,
+                                      name="sub", revision="1")
+    assert results == {"passed": [], "failed": ["group"]}
+
+
+def test_an_escaped_tap_hash_stays_in_the_description() -> None:
+    output = "ok 1 - issue \\#42 # SKIP offline\nnot ok 2 - path a\\\\b\n"
+    _, results, _ = from_expectations("tap", "issue #42|pass\npath a\\b|pass\n", output,
+                                      name="esc", revision="1")
+    assert results == {"passed": [], "failed": ["path a\\b"]}
+
+
 def test_a_repeated_identical_line_is_one_observation() -> None:
     _, results, _ = from_expectations("tap", "c1|pass\n", "ok 1 - c1\nok 2 - c1\n",
                                       name="dup", revision="1")

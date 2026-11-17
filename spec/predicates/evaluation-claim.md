@@ -207,6 +207,9 @@ passes when the observed outcome equals the expected one; a case the output does
 is not run; an output line with no expectation row, or a Tamarin line before any `== `
 variant header, is printed as a warning and kept out of the record; an id the output reports
 twice with different outcomes is refused, so a later line never turns a failure into a pass.
+A TAP test point is an `ok` or `not ok` line starting in the first column: an indented line,
+such as one inside a YAML diagnostic block or a TAP 14 subtest, is never read as a result,
+so text a crashed test printed cannot report a test that never ran.
 With `--witness-lemma`, each claim over every trace (an `all-traces` property expected
 `verified`, an `exists-trace` property expected `falsified`) names the lemma of that name in
 its own variant as its witness, and one whose witness shows no trace, or that has no witness,
