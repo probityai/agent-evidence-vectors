@@ -46,11 +46,94 @@ fn reject_cases_carry_no_canonical_bytes() {
     let vectors = jcsvectors::reject().unwrap();
     assert!(!vectors.is_empty(), "no reject vectors");
     for v in &vectors {
+        // The empty input is itself a refusal case, so the input may be empty.
+        assert!(v.canonical.is_none(), "{}/{}", v.corpus, v.id);
+    }
+}
+
+fn hex(text: &str) -> Vec<u8> {
+    (0..text.len())
+        .step_by(2)
+        .map(|i| u8::from_str_radix(&text[i..i + 2], 16).unwrap())
+        .collect()
+}
+
+fn byte_cases() -> serde_json::Value {
+    let raw = jcsvectors::files()
+        .find(|(p, _)| *p == "jcs-byte-vectors/cases.json")
+        .unwrap()
+        .1;
+    serde_json::from_slice(raw).unwrap()
+}
+
+/// Every refusal case of `jcs-byte-vectors` reaches `reject()` with its exact
+/// input bytes. Version 0.1.0 returned none of the 23, so a canonicalizer that
+/// accepted an escaped duplicate name, invalid UTF-8 or trailing content passed
+/// every test the crate offered.
+#[test]
+fn reject_carries_every_refusal_case() {
+    let reject = jcsvectors::reject().unwrap();
+    let cases = byte_cases();
+    let refusals = cases["refusalCases"].as_array().unwrap();
+    assert!(!refusals.is_empty());
+    for case in refusals {
+        let id = case["id"].as_str().unwrap();
+        let want = match (case["input"].as_str(), case["inputHex"].as_str()) {
+            (Some(text), None) => text.as_bytes().to_vec(),
+            (None, Some(h)) => hex(h),
+            _ => panic!("{id}: needs exactly one of input and inputHex"),
+        };
+        let got = reject
+            .iter()
+            .find(|v| v.corpus == jcsvectors::BYTE_CORPUS && v.id == id)
+            .unwrap_or_else(|| panic!("{id}: refusal case missing from reject()"));
+        assert_eq!(got.input, want, "{id}: input bytes differ");
+    }
+}
+
+/// The inputs a lenient canonicalizer accepted while refusing every case of
+/// version 0.1.0's `reject()`: it compared member names before unescaping,
+/// decoded invalid UTF-8 with replacement characters, stopped after the first
+/// value and printed overflowing numbers.
+#[test]
+fn lenient_canonicalizer_counter_examples_are_reject_cases() {
+    let ids: BTreeSet<_> = jcsvectors::reject()
+        .unwrap()
+        .into_iter()
+        .map(|v| v.id)
+        .collect();
+    for id in [
+        "refuse-duplicate-member-escaped-spelling",
+        "refuse-unicode-invalid-utf8-byte",
+        "refuse-unicode-surrogate-encoded-in-utf8",
+        "refuse-trailing-second-value",
+        "refuse-trailing-garbage",
+        "refuse-non-finite-overflow-positive",
+        "refuse-non-finite-overflow-negative",
+        "refuse-non-finite-overflow-large-mantissa",
+    ] {
+        assert!(ids.contains(id), "{id} is not in reject()");
+    }
+}
+
+/// Every top-level family of `cases.json` is one this crate reads or one it
+/// names here with the reason it does not. A family added to the corpus must
+/// fail this test until the crate exposes it, rather than be dropped silently.
+#[test]
+fn every_byte_corpus_family_is_read() {
+    let read = [
+        "format",
+        "canonicalCases",
+        "rejectCases",
+        "driftCases",
+        "depthCases",
+        "refusalCases",
+    ];
+    let cases = byte_cases();
+    for key in cases.as_object().unwrap().keys() {
         assert!(
-            v.canonical.is_none() && !v.input.is_empty(),
-            "{}/{}",
-            v.corpus,
-            v.id
+            read.contains(&key.as_str()),
+            "cases.json family {key} is not read by this crate"
         );
     }
 }

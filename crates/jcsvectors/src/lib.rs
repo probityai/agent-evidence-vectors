@@ -6,8 +6,10 @@
 //! <https://github.com/probityai/agent-evidence-vectors>: `vectors-a2a-jcs-v01`
 //! (one file per vector, listed with its SHA-256 in `MANIFEST.json`) and
 //! `jcs-byte-vectors` (`cases.json`). Every function checks each file it reads
-//! against those digests before it returns anything, so a vector that changed
-//! in transit is an error, never a silently different test.
+//! against the SHA-256 recorded for it when the crate was generated, the
+//! manifest and `cases.json` included, and each a2a vector against its manifest
+//! digest too, before it returns anything. A file that changed after generation
+//! is an error, never a silently different test.
 //!
 //! ```
 //! # fn canonicalize(input: &[u8]) -> Result<Vec<u8>, ()> { Err(()) }
@@ -144,8 +146,10 @@ pub fn canonical() -> Result<Vec<Vector>, Error> {
     Ok(load()?.0)
 }
 
-/// Every case whose input a canonicalizer must refuse: duplicate members, lone
-/// surrogates and other input with no RFC 8785 form.
+/// Every case whose input a canonicalizer must refuse: duplicate members (also
+/// spelled with an escape, or nested), lone surrogates, invalid UTF-8, numbers
+/// with no finite IEEE 754 value, trailing content, malformed JSON and other
+/// input with no RFC 8785 form. Some inputs are not UTF-8, so compare bytes.
 pub fn reject() -> Result<Vec<Vector>, Error> {
     Ok(load()?.1)
 }
@@ -187,7 +191,7 @@ pub fn depth_admitted() -> Result<Vec<Vector>, Error> {
 /// publish them under: `vectors-a2a-jcs-v01/MANIFEST.json`,
 /// `vectors-a2a-jcs-v01/<group>/<id>.json` and `jcs-byte-vectors/cases.json`.
 pub fn files() -> impl Iterator<Item = (&'static str, &'static [u8])> {
-    files::FILES.iter().copied()
+    files::FILES.iter().map(|(path, _, bytes)| (*path, *bytes))
 }
 
 #[derive(Deserialize)]
@@ -239,6 +243,7 @@ struct ByteCases {
     reject_cases: Vec<RejectCase>,
     drift_cases: Vec<DriftCase>,
     depth_cases: Vec<DepthCase>,
+    refusal_cases: Vec<RefusalCase>,
 }
 
 #[derive(Deserialize)]
@@ -281,6 +286,19 @@ struct DepthCase {
     canonical_hex: Option<String>,
     #[serde(default)]
     sha256: Option<String>,
+}
+
+/// Input that is not one valid RFC 8785 input at all, which no profile excuses
+/// a canonicalizer for printing. `input_hex` carries input that is not UTF-8.
+#[derive(Deserialize)]
+#[serde(rename_all = "camelCase")]
+struct RefusalCase {
+    id: String,
+    expect: String,
+    #[serde(default)]
+    input: Option<String>,
+    #[serde(default)]
+    input_hex: Option<String>,
 }
 
 type Split = (Vec<Vector>, Vec<Vector>);
@@ -376,22 +394,61 @@ fn load_bytes() -> Result<Split, Error> {
     }
     // A case with no jcsError is refused only by an application profile that
     // admits safe integers alone, not by RFC 8785, so it is left out.
-    let reject = cases
+    let mut reject: Vec<Vector> = cases
         .reject_cases
         .into_iter()
         .filter(|c| c.jcs_error.as_deref().is_some_and(|e| !e.is_empty()))
         .map(|c| byte_vector(c.id, c.input, None))
         .collect();
+    for c in cases.refusal_cases {
+        reject.push(refusal_vector(c)?);
+    }
     Ok((accept, reject))
+}
+
+fn refusal_vector(c: RefusalCase) -> Result<Vector, Error> {
+    let malformed = |reason: &str| Error::Malformed {
+        name: format!("{BYTE_CORPUS} case {}", c.id),
+        reason: reason.to_owned(),
+    };
+    if c.expect != "reject" {
+        return Err(malformed(&format!(
+            "a refusal case expects {:?}, not reject",
+            c.expect
+        )));
+    }
+    let input = match (&c.input, &c.input_hex) {
+        (Some(text), None) => text.as_bytes().to_vec(),
+        (None, Some(hex_text)) => {
+            decode_hex(hex_text).ok_or_else(|| malformed("inputHex is not hex"))?
+        }
+        _ => return Err(malformed("needs exactly one of input and inputHex")),
+    };
+    Ok(Vector {
+        id: c.id,
+        corpus: BYTE_CORPUS,
+        clause: String::new(),
+        input,
+        canonical: None,
+    })
 }
 
 fn depth_cases() -> Result<Split, Error> {
     let cases = byte_cases()?;
     let (mut reject, mut accept) = (Vec::new(), Vec::new());
     for c in cases.depth_cases {
-        if c.expect == "reject" {
-            reject.push(byte_vector(c.id, c.input, None));
-            continue;
+        match c.expect.as_str() {
+            "reject" => {
+                reject.push(byte_vector(c.id, c.input, None));
+                continue;
+            }
+            "accept" => {}
+            other => {
+                return Err(Error::Malformed {
+                    name: format!("{BYTE_CORPUS} case {}", c.id),
+                    reason: format!("unknown expect {other:?}"),
+                })
+            }
         }
         let canonical = canonical_bytes(
             &c.id,
@@ -426,11 +483,12 @@ fn canonical_bytes(id: &str, hex_text: &str, sha256: &str) -> Result<Vec<u8>, Er
 }
 
 fn file(name: &str) -> Result<&'static [u8], Error> {
-    files::FILES
+    let (_, want, bytes) = files::FILES
         .iter()
-        .find(|(path, _)| *path == name)
-        .map(|(_, bytes)| *bytes)
-        .ok_or_else(|| Error::Missing(name.to_owned()))
+        .find(|(path, _, _)| *path == name)
+        .ok_or_else(|| Error::Missing(name.to_owned()))?;
+    check_digest(name, bytes, want)?;
+    Ok(*bytes)
 }
 
 fn read_json<T: DeserializeOwned>(name: &str) -> Result<T, Error> {
@@ -484,7 +542,33 @@ fn decode_hex(text: &str) -> Option<Vec<u8>> {
 
 #[cfg(test)]
 mod tests {
-    use super::{check_digest, decode_hex, encode_hex};
+    use super::{check_digest, decode_hex, encode_hex, refusal_vector, RefusalCase};
+
+    fn refusal(expect: &str, input: Option<&str>, input_hex: Option<&str>) -> RefusalCase {
+        RefusalCase {
+            id: "r".to_owned(),
+            expect: expect.to_owned(),
+            input: input.map(str::to_owned),
+            input_hex: input_hex.map(str::to_owned),
+        }
+    }
+
+    #[test]
+    fn refusal_case_shape_is_enforced() {
+        assert!(refusal_vector(refusal("reject", Some("[1,]"), Some("00"))).is_err());
+        assert!(refusal_vector(refusal("reject", None, None)).is_err());
+        assert!(refusal_vector(refusal("accept", Some("[1,]"), None)).is_err());
+        assert!(refusal_vector(refusal("reject", None, Some("zz"))).is_err());
+        let v = refusal_vector(refusal("reject", None, Some("5b22ff225d")));
+        assert_eq!(v.map(|v| v.input), Ok(vec![0x5b, 0x22, 0xff, 0x22, 0x5d]));
+    }
+
+    #[test]
+    fn every_embedded_file_hashes_to_its_recorded_digest() {
+        for (name, want, bytes) in super::files::FILES {
+            assert!(check_digest(name, bytes, want).is_ok(), "{name}");
+        }
+    }
 
     #[test]
     fn digest_mismatch_is_refused() {

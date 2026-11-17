@@ -29,7 +29,7 @@ fn my_canonicalizer_matches_rfc8785() {
 | Function | Cases | A canonicalizer must |
 |---|---|---|
 | `canonical()` | every accept case, with the exact output bytes | print exactly `canonical` |
-| `reject()` | duplicate members, lone surrogates, other input with no RFC 8785 form | refuse the input |
+| `reject()` | duplicate members (also escaped or nested), lone surrogates, invalid UTF-8, non-finite numbers, trailing content, malformed JSON: input with no RFC 8785 form; some inputs are not UTF-8 | refuse the input |
 | `drifts()` | bytes a real printer presents as canonical that are not (HTML escapes, non-ASCII escapes, number format) | not treat `presented` as canonical |
 | `too_deep()`, `depth_admitted()` | nesting one level past, and exactly at, a cap of 128 | refuse, or accept and print, under that cap |
 | `files()` | the raw embedded files at their corpus paths | (for your own reader) |
