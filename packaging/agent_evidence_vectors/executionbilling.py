@@ -219,7 +219,7 @@ def _boundary_dropped(record: Record) -> bool:
 
 
 def _reopen_changed(record: Record) -> bool:
-    return record["reopened"] != record["observed"] or record["endReopened"] != record["end"]
+    return bool(record["reopened"] != record["observed"] or record["endReopened"] != record["end"])
 
 
 def _outcome_unobserved(record: Record) -> bool:
