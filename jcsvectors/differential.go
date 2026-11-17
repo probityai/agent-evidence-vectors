@@ -1,9 +1,6 @@
 package jcsvectors
 
-import (
-	"fmt"
-	"iter"
-)
+import "fmt"
 
 // Differential is one byte string that two JSON readers in common use read
 // apart: one refuses it and the other decodes it, or both decode it to
@@ -51,12 +48,15 @@ func (d Differential) Accepted() bool { return d.Error == "" }
 // alike, are controls and are left out. A family added to the corpus's
 // refusal cases is yielded with no change here.
 //
+// The iterator has the type of iter.Seq[Differential], written out so the
+// module still builds with Go 1.21; on Go 1.23 or later, range over it:
+//
 //	cases, err := jcsvectors.ParserDifferential()
 //	for d := range cases {
 //		_, err := strictDecode(d.Input)
 //		// err must be non-nil exactly when d.BoundedError != ""
 //	}
-func ParserDifferential() (iter.Seq[Differential], error) {
+func ParserDifferential() (func(yield func(Differential) bool), error) {
 	cases, err := differentials()
 	if err != nil {
 		return nil, err

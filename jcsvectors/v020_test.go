@@ -58,7 +58,7 @@ func TestEveryVectorCarriesItsFeatures(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	for _, v := range slices.Concat(accept, reject, deep) {
+	for _, v := range append(append(accept, reject...), deep...) {
 		if !slices.IsSorted(v.Features) || len(slices.Compact(slices.Clone(v.Features))) != len(v.Features) {
 			t.Errorf("%s/%s: features %v are not sorted and unique", v.Corpus, v.ID, v.Features)
 		}
@@ -171,9 +171,10 @@ func TestParserDifferential(t *testing.T) {
 		t.Fatal(err)
 	}
 	var all []Differential
-	for d := range cases {
+	cases(func(d Differential) bool {
 		all = append(all, d)
-	}
+		return true
+	})
 	if len(all) == 0 {
 		t.Fatal("no parser-differential cases")
 	}
@@ -223,12 +224,12 @@ func TestParserDifferential(t *testing.T) {
 	if lenient == 0 || lenient == len(all) {
 		t.Errorf("encoding/json decoded %d of %d differentials; the set does not discriminate", lenient, len(all))
 	}
-	// Breaking out of the loop stops the iterator.
+	// A yield that returns false stops the iterator, as a break does.
 	n := 0
-	for range cases {
+	cases(func(Differential) bool {
 		n++
-		break
-	}
+		return false
+	})
 	if n != 1 {
 		t.Errorf("the iterator ran %d times after a break", n)
 	}
@@ -297,9 +298,10 @@ func summary(t *testing.T) []summaryRow {
 	if err != nil {
 		t.Fatal(err)
 	}
-	for d := range cases {
+	cases(func(d Differential) bool {
 		row("differential", byteCorpus, d.ID, d.Input, d.Canonical, d.Features, d.Error, d.BoundedError)
-	}
+		return true
+	})
 	sort.SliceStable(rows, func(i, j int) bool {
 		a, b := rows[i], rows[j]
 		if a.Kind != b.Kind {

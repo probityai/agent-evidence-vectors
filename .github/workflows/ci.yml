@@ -3524,7 +3524,7 @@ jobs:
       fail-fast: false
       matrix:
         # The module's go directive, and the toolchain the rest of the repository builds with.
-        go: ['1.24', '1.26']
+        go: ['1.21', '1.26']
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
         with:
