@@ -236,12 +236,19 @@ def _locations(value: object) -> list[str]:
 
 
 def catalog_files(document: str, artifacts: list[str]) -> list[str]:
-    """Each artifact as `<uri>=<path>`: given so, or matched by file name to one URI in the catalog."""
+    """Each artifact as `<uri>=<path>`: given so, or matched by file name to one URI in the catalog.
+
+    A `<uri>=<path>` whose URI the catalog does not list is refused: its bytes would be held and
+    never compared with any pin, and the run would read as checked.
+    """
     locations = sorted(set(_locations(json.loads(Path(document).read_text(encoding="utf-8")))))
     files = []
     for artifact in artifacts:
         head, _, tail = artifact.partition("=")
         if tail and "://" in head:
+            if head not in locations:
+                raise SetupError(f"{artifact}: {document} lists no URI {head!r}, so these bytes "
+                                 "would be compared with no pin")
             files.append(artifact)
             continue
         name = Path(artifact).name
@@ -253,10 +260,75 @@ def catalog_files(document: str, artifacts: list[str]) -> list[str]:
     return files
 
 
+#: The two pins of a catalog over bytes the caller vendors, by the code the rule set notes when
+#: those bytes were not passed.
+BYTE_PIN_CODES = ("entry-bytes-not-evaluated", "attestation-pin-not-evaluated")
+
+
+def byte_pins(document: str) -> list[str]:
+    """The JSON path of every byte pin in a catalog: an entry `digest`, an attestation `digest`.
+
+    The same walk as the catalog-attestations rule set (entries, nested `data.entries`, an ARD
+    `trustManifest` or AI Catalog `trustManifests`, their `attestations`), so each path is the
+    `at` of the note the rule set writes when that pin's bytes were not passed.
+    """
+    parsed = json.loads(Path(document).read_text(encoding="utf-8"))
+    pins: list[str] = []
+
+    def walk(catalog: object, prefix: str) -> None:
+        entries = catalog.get("entries") if isinstance(catalog, dict) else None
+        for index, entry in enumerate(entries if isinstance(entries, list) else []):
+            if not isinstance(entry, dict):
+                continue
+            path = f"{prefix}/entries/{index}"
+            if "digest" in entry:
+                pins.append(f"{path}/digest")
+            manifests = [(f"{path}/trustManifest", entry.get("trustManifest"))]
+            many = entry.get("trustManifests")
+            manifests += [(f"{path}/trustManifests/{i}", m) for i, m in enumerate(many if isinstance(many, list) else [])]
+            for mpath, manifest in manifests:
+                items = manifest.get("attestations") if isinstance(manifest, dict) else None
+                for a, item in enumerate(items if isinstance(items, list) else []):
+                    if isinstance(item, dict) and "digest" in item:
+                        pins.append(f"{mpath}/attestations/{a}/digest")
+            data = entry.get("data")
+            if isinstance(data, dict) and isinstance(data.get("entries"), list):
+                walk(data, f"{path}/data")
+
+    walk(parsed, "")
+    return pins
+
+
 def check_catalog_digest(document: str, artifacts: list[str], severity: str) -> list[Row]:
-    """A catalog document held to the catalog-attestations rule set over the vendored bytes."""
+    """A catalog document held to the catalog-attestations rule set over the vendored bytes.
+
+    A pin whose bytes were not passed is reported rather than refused, because digest mode checks
+    what it holds. So the row says how many byte pins it held, and a catalog where it held none (no
+    pin at all, or none whose bytes were passed or inline) is refused: a digest check that
+    compared no digest is never an admission.
+    """
     warn = DIGEST_UNPASSED + (DIGEST_SEVERITY_CODES if severity == "warn" else [])
-    return check_admit("catalog-attestations", [document], catalog_files(document, artifacts), None, warn)
+    rows = check_admit("catalog-attestations", [document], catalog_files(document, artifacts), None, warn)
+    pins = byte_pins(document)
+    for row in rows:
+        unevaluated = {_at(reason) for reason in row.reasons
+                       if reason.startswith("warning ") and _code(reason) in BYTE_PIN_CODES}
+        evaluated = len([pin for pin in pins if pin not in unevaluated])
+        line = f"digest mode compared {evaluated} of {len(pins)} byte pins with the bytes passed"
+        if evaluated == 0:
+            row.admitted = False
+            row.reasons.append(f"digest_nothing_compared at /: {line}; pass the bytes the catalog pins")
+        else:
+            row.reasons.append(f"note digest_pins_compared at /: {line}")
+    return rows
+
+
+def _code(reason: str) -> str:
+    return reason.removeprefix("warning ").split(" at ", 1)[0]
+
+
+def _at(reason: str) -> str:
+    return reason.removeprefix("warning ").split(" at ", 1)[1].split(": ", 1)[0]
 
 
 def check_coverage(document: str, required: str) -> list[Row]:

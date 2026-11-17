@@ -478,7 +478,7 @@ def test_digest_refuses_the_transplanted_attestation_of_break_case_09() -> None:
     assert run.catalog_entries(document)
     (row,) = run.check_catalog_digest(document, [scan], "fail")
     assert not row.admitted
-    refused = [r.split(" at ")[0] for r in row.reasons if not r.startswith("warning ")]
+    refused = [r.split(" at ")[0] for r in row.reasons if not r.startswith(("warning ", "note "))]
     assert refused == ["entry_digest_missing_for_url", "attestation_unsigned"]
     (warned,) = run.check_catalog_digest(document, [scan], "warn")
     assert warned.admitted, warned.reasons
@@ -509,3 +509,44 @@ def test_digest_names_an_artifact_no_catalog_uri_ends_in(tmp_path: Path) -> None
 def test_digest_keeps_a_statement_on_the_pinned_checker(tmp_path: Path) -> None:
     statement = _write(tmp_path / "statement.json", {"_type": "https://in-toto.io/Statement/v1", "subject": []})
     assert not run.catalog_entries(statement)
+
+
+# --- digest mode on a catalog: a check that compared nothing is not an admission ----------
+
+
+def test_digest_refuses_bytes_passed_for_a_uri_the_catalog_does_not_list(tmp_path: Path) -> None:
+    # An explicit <uri>=<path> was held and never compared with any pin, so every pin read as
+    # "not evaluated", a warning in digest mode, and the catalog was admitted having compared nothing.
+    stray = _write(tmp_path / "stray.json", {"x": 1})
+    args = ["digest", "--python", sys.executable, "--document", str(RULE_EXAMPLES / "control.catalog.json"),
+            "--artifact", f"https://nowhere.example/stray.json={stray}"]
+    assert run.main(args) == 2
+
+
+def test_digest_refuses_a_catalog_whose_pins_it_never_compared(tmp_path: Path) -> None:
+    document = str(RULE_EXAMPLES / "control.catalog.json")
+    (row,) = run.check_catalog_digest(document, [], "fail")
+    assert not row.admitted
+    assert any(r.startswith("digest_nothing_compared") and "0 of 2" in r for r in row.reasons), row.reasons
+
+
+def test_digest_refuses_a_catalog_with_no_pin(tmp_path: Path) -> None:
+    empty = _write(tmp_path / "empty.catalog.json", {"entries": []})
+    (row,) = run.check_catalog_digest(str(empty), [], "warn")
+    assert not row.admitted, row.reasons
+
+
+def test_digest_counts_the_pins_it_compared() -> None:
+    artifacts = [str(RULE_EXAMPLES / "invoice-reader.json")]
+    (row,) = run.check_catalog_digest(str(RULE_EXAMPLES / "control.catalog.json"), artifacts, "fail")
+    assert row.admitted, row.reasons
+    assert "note digest_pins_compared at /: digest mode compared 1 of 2 byte pins" in " ".join(row.reasons)
+
+
+def test_the_byte_pin_walk_matches_the_rule_set() -> None:
+    # Every pin byte_pins names is a path the rule set notes as not evaluated when no byte is
+    # passed, and the other way round: the walk in run.py cannot drift from the rule set's own.
+    for example in sorted(RULE_EXAMPLES.glob("*.catalog.json")):
+        (row,) = run.check_admit("catalog-attestations", [str(example)], [], None, run.DIGEST_UNPASSED)
+        noted = {run._at(r) for r in row.reasons if r.startswith("warning ") and run._code(r) in run.BYTE_PIN_CODES}
+        assert noted == set(run.byte_pins(str(example))), example.name
