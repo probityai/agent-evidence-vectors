@@ -621,7 +621,7 @@ jobs:
 
   # Publishes the exact tarball the qualification job tested, with npm
   # provenance, and attests it as pkg:npm/@probityai/dsse@<version>. Ported from
-  # probityai/dsse npm-release.yml and the provenance job of its npm.yml.
+  # probityai-archive/dsse npm-release.yml and the provenance job of its npm.yml.
   publish-dsse-npm:
     needs: [resolve, qualify-dsse-npm]
     if: needs.resolve.outputs.registry != 'none' && (needs.resolve.outputs.prefix == 'dsse-npm')
@@ -694,7 +694,7 @@ jobs:
 
   # Publishes the exact tarball the qualification job tested, with npm
   # provenance, and attests it as pkg:npm/jcs-admit@<version>. Ported from
-  # probityai/jcs-admit npm-release.yml and the provenance job of its npm.yml.
+  # probityai-archive/jcs-admit npm-release.yml and the provenance job of its npm.yml.
   publish-jcs-admit-npm:
     needs: [resolve, qualify-jcs-admit-npm]
     if: needs.resolve.outputs.registry != 'none' && (needs.resolve.outputs.prefix == 'jcs-admit-npm')
