@@ -40,7 +40,6 @@ CASES = [
     (jcs.admit, b'{"a":1,"a":2}', {}, "DuplicateMember", {"name": "a", "offset": 7}),
     (jcs.admit, b'"\\ud800"', {}, "StringNotScalar", None),
     (jcs.admit_ijson, b"9007199254740993", {}, "UnsafeInteger", {"token": "9007199254740993"}),
-    (jcs.admit_ijson, b"12345678901234567.5", {}, "UnsafeInteger", {"token": "12345678901234567.5"}),
     (jcs.admit_with, b"1.5", {"integers_only": True}, "NonIntegerNumber", {"token": "1.5"}),
     (jcs.admit, b"-1e400", {}, "NonFiniteNumber", {"token": "-1e400"}),
     (jcs.admit, b"[" * 129 + b"]" * 129, {}, "TooDeep", {"limit": 128, "offset": 128}),
@@ -59,6 +58,25 @@ def test_every_refusal_carries_the_native_variant_and_fields(fn, data, kw, varia
         assert set(err.fields) == {"offset", "reason"}
         assert isinstance(err.fields["offset"], int)
     assert str(err) == err.args[0]
+
+
+def bound_release(name: str) -> tuple[int, ...]:
+    """The version of the published crate `name` this extension links, as integers."""
+    return tuple(int(part) for part in bound_crate(name).version.split("."))
+
+
+def test_a_fraction_rounding_past_2_53_follows_the_bound_release():
+    # jcs-admit 0.1.4 refuses this token under I-JSON (its CHANGELOG, 0.1.4, Fixed). The
+    # releases before it admit the token and emit the unsafe integer 12345678901234568. The
+    # extension links one published release, so the expectation is that release's: asserting
+    # the 0.1.4 refusal against an older pin fails every run until the pin moves, and the pin
+    # moving to 0.1.4 turns this into the refusal check with no edit here.
+    token = b"12345678901234567.5"
+    if bound_release("jcs-admit") >= (0, 1, 4):
+        err = refusal(jcs.admit_ijson, token)
+        assert (err.variant, err.fields) == ("UnsafeInteger", {"token": token.decode()})
+    else:
+        assert jcs.admit_ijson(token) == b"12345678901234568"
 
 
 def test_the_message_is_the_crates_display_text():
