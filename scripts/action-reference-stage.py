@@ -23,6 +23,13 @@ identifier of the verifier that checked sits inside the bytes the consumer's own
 pipeline uploads. It does not change the candidate's `result` output: the
 candidate verdict and the reference count are two facts, and each is reported.
 
+The stage also runs under `python -S` with nothing installed. Without the
+reference verifier importable it routes no member and says so: N is 0, M is
+still every member, and `reference.verifier.id` reads `unavailable`. That is
+the path the conformance mode takes (its cases are the consumer's own, with no
+route of ours into them), and the path any run takes when the reference
+install did not happen; it is never a quiet pass.
+
 Variables, all required but the last two:
 
     REPORT                the report JSON the replay wrote
@@ -209,6 +216,33 @@ def full_release(checked: int, total: int) -> bool:
     return total > 0 and checked == total
 
 
+UNAVAILABLE_ID = "unavailable"
+
+
+def reference_missing() -> str | None:
+    """Why the reference verifier cannot be imported here, or None when it can."""
+    try:
+        import agent_evidence_verify  # noqa: F401  # pyright: ignore[reportMissingImports]
+    except ImportError as exc:
+        return (
+            f"the reference verifier is not importable in this interpreter ({exc}), "
+            "so no member was routed"
+        )
+    return None
+
+
+def member_count(corpus_dir: Path, report_path: Path) -> int:
+    """M without the reference verifier: the manifest's members, else the report's vectors."""
+    manifest = corpus_dir / "MANIFEST.json"
+    if manifest.is_file():
+        entries = json.loads(manifest.read_text(encoding="utf-8")).get("vectors", [])
+        if isinstance(entries, list) and entries:
+            return len(entries)
+    if report_path.is_file():
+        return int(json.loads(report_path.read_text(encoding="utf-8"))["totals"]["vectors"])
+    return 0
+
+
 def reference_id() -> str:
     from agent_evidence_verify.core import (  # pyright: ignore[reportMissingImports]
         REFERENCE_VERIFIER_ID,
@@ -222,11 +256,14 @@ def main() -> int:
     corpus_dir = Path(required("CORPUS_DIR"))
     summary_path = required("GITHUB_STEP_SUMMARY")
     output_path = required("GITHUB_OUTPUT")
-    verifier_id = reference_id()
+    missing = reference_missing()
+    verifier_id = UNAVAILABLE_ID if missing else reference_id()
 
     notes: list[str] = []
     manifest = corpus_dir / "MANIFEST.json"
-    if manifest.is_file():
+    if missing:
+        checked, total, notes = 0, member_count(corpus_dir, report_path), [missing]
+    elif manifest.is_file():
         document = json.loads(manifest.read_text(encoding="utf-8"))
         entries = document.get("vectors", [])
         if document.get("predicateType") == AEE_PREDICATE:
