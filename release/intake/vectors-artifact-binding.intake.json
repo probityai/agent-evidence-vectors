@@ -9,7 +9,7 @@
     "total": 8
   },
   "anchor": {
-    "kind": "signed-digest-list",
+    "kind": "digest-list-line",
     "manifest": "vectors-artifact-binding/MANIFEST.json",
     "reference": {
       "path": "release/CORPUS-DIGESTS.txt",
@@ -19,13 +19,6 @@
     "routine-file": "corpora/vectors-artifact-binding/digest.py",
     "serialization": "corpus-routine",
     "sha256": "e26e5a50267f4f09052f3349388f703d0a332a41cf325a4d248e21414070cbef",
-    "signature": {
-      "key": "release/cosign.pub",
-      "key-sha256": "15fccb1635dd1d9333146cb389f26fa3c3b9213aeed1da945ea1f51a2dc1be84",
-      "path": "release/CORPUS-DIGESTS.txt.sig",
-      "scheme": "ed25519",
-      "serialization": "bytes"
-    },
     "verdicts": {
       "availability-failure": "inconclusive",
       "integrity-failure": "fail"
@@ -146,29 +139,6 @@
       "path": "corpora/vectors-artifact-binding/gen_vectors.py",
       "serialization": "bytes",
       "sha256": "4c8e6137ea3fc1d227d5fe728d4c94b6a08f3fbc02a7c719a045ddc5cb04b04a"
-    },
-    {
-      "consumed": "unconsumed",
-      "evidence": {
-        "baseline": {
-          "exit-code": 0,
-          "sha256": "a253571d3ba9c97d60fac1d5815ef3af61fa10e1b29b78a658a506d7f635fbab"
-        },
-        "corpus-digest": "unchanged",
-        "pins-moved": [],
-        "refused-by": [
-          "W3C-I-002"
-        ],
-        "swapped": {
-          "exit-code": 0,
-          "sha256": "a253571d3ba9c97d60fac1d5815ef3af61fa10e1b29b78a658a506d7f635fbab"
-        },
-        "swapped-in": "0cbc74b042b0576f6f681abe1c9ea4a3371b73ec8d376f17d9c47a95e005357e",
-        "test": "swap-and-re-pin"
-      },
-      "path": "corpora/vectors-artifact-binding/public.key",
-      "serialization": "bytes",
-      "sha256": "4ebbe859de728e527bf2c053d3d7dabc7745b6c0c95cdf9dd7952317c3000b1f"
     }
   ],
   "boundary": {
@@ -220,7 +190,7 @@
         "go.mod"
       ],
       "serialization": "sha256-listing-v1",
-      "sha256": "85142513ff8f8d4f9be113fc78371a52335d7cadb77f2cbc3872f7bb8ae9e893"
+      "sha256": "3f526814667e2e128187b145e70865b8d0849bc5f9c99109521947ceb8b07869"
     },
     "runtime": {
       "name": "go",
@@ -301,7 +271,7 @@
   ],
   "corpus-digest": {
     "serialization": "sha256-listing-v1",
-    "sha256": "439c1675f038c3bdd2b0e206813e74f99ff5cb39120cb2de1ba970d1660c2ccb"
+    "sha256": "de8ef51d379ed32abfba866c13f111c04401f22efab740920f3e6d29d671c55a"
   },
   "exit-code": 0,
   "exit-rule": "zero-iff-every-check-passes",
@@ -915,7 +885,8 @@
       "aee-verify, at the source listing named here, judges each of the 8 pinned members of artifact-binding-conformance as its manifest declares"
     ],
     "leaves-open": [
-      "whether an implementation written from the specification, run by someone other than an author, reaches the same verdicts"
+      "whether an implementation written from the specification, run by someone other than an author, reaches the same verdicts",
+      "whether release/CORPUS-DIGESTS.txt is a list a release signed: the signature beside it does not verify over these bytes, so the anchor is a located line, not a verified one"
     ]
   },
   "selector": {
