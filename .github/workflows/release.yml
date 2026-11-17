@@ -40,6 +40,8 @@ name: release
 #   jcs-admit-npm-v             npm        crates/jcs-admit/npm (the tarball crate-jcs-admit-npm.yml qualified)
 #   jcsvectors-v                crates.io  crates/jcsvectors (the first version went up by token: a
 #                                          trusted publisher can be added only to a crate that exists)
+#   jcsvectors-npm-v            npm        crates/jcsvectors/npm (the tarball qualify-jcsvectors-npm tested;
+#                                          the first version goes up by token, as the crate's did)
 #   agent-evidence-vocabulary-v PyPI       the vocabulary distribution
 #   agent-evidence-vocabulary-python-v PyPI  the same distribution, when the data tag exists already
 #   agent-evidence-admission-v  PyPI       the admission distribution
@@ -686,6 +688,107 @@ jobs:
         env:
           QUALIFIED_TARBALL: ${{ steps.artifact.outputs.tarball }}
         run: npm publish "$QUALIFIED_TARBALL" --access public --provenance --ignore-scripts
+
+  # Tests the npm twin of the jcsvectors module on the tagged commit (node:test and the
+  # case-by-case comparison with the Go module) and packs the tarball the publish job
+  # uploads, so the job holding the id-token runs no test code.
+  qualify-jcsvectors-npm:
+    needs: resolve
+    if: needs.resolve.outputs.registry != 'none' && (needs.resolve.outputs.prefix == 'jcsvectors-npm')
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    permissions:
+      contents: read
+    outputs:
+      sha256: ${{ steps.pack.outputs.sha256 }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: 24.19.0
+          package-manager-cache: false
+      - uses: actions/setup-go@b7ad1dad31e06c5925ef5d2fc7ad053ef454303e # v7.0.0
+        with:
+          go-version: '1.26'
+          cache: false
+      - name: node:test
+        working-directory: crates/jcsvectors/npm
+        run: npm test
+      - name: the Go module and the npm package agree on every case
+        env:
+          GOWORK: 'off'
+        run: |
+          (cd jcsvectors && JCSVECTORS_SUMMARY="$RUNNER_TEMP/go-summary.json" go test -count=1 -run TestWriteSummary .)
+          node crates/jcsvectors/npm/test/cross.mjs "$RUNNER_TEMP/go-summary.json"
+      - name: pack the tarball
+        id: pack
+        working-directory: crates/jcsvectors/npm
+        run: |
+          mkdir -p "$RUNNER_TEMP/jcsvectors-npm"
+          npm pack --pack-destination "$RUNNER_TEMP/jcsvectors-npm"
+          tarball=$(ls "$RUNNER_TEMP"/jcsvectors-npm/jcsvectors-*.tgz)
+          echo "sha256=$(sha256sum "$tarball" | cut -d' ' -f1)" >> "$GITHUB_OUTPUT"
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7
+        with:
+          name: jcsvectors-npm-${{ github.run_id }}-${{ github.run_attempt }}
+          if-no-files-found: error
+          retention-days: 90
+          path: ${{ runner.temp }}/jcsvectors-npm
+
+  # Publishes the exact tarball qualify-jcsvectors-npm tested, with npm provenance,
+  # and attests it as pkg:npm/jcsvectors@<version>.
+  publish-jcsvectors-npm:
+    needs: [resolve, qualify-jcsvectors-npm]
+    if: needs.resolve.outputs.registry != 'none' && (needs.resolve.outputs.prefix == 'jcsvectors-npm')
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    environment:
+      name: npm
+      url: https://www.npmjs.com/package/jcsvectors
+    permissions:
+      contents: read
+      id-token: write
+      attestations: write
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
+        with:
+          name: jcsvectors-npm-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/jcsvectors-npm
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: 24.19.0
+          package-manager-cache: false
+          registry-url: https://registry.npmjs.org
+      - name: verify the tested tarball and bind its subject
+        id: artifact
+        env:
+          WANT_SHA256: ${{ needs.qualify-jcsvectors-npm.outputs.sha256 }}
+        run: |
+          tarball=$(ls "$RUNNER_TEMP"/jcsvectors-npm/jcsvectors-*.tgz)
+          test "$(sha256sum "$tarball" | cut -d' ' -f1)" = "$WANT_SHA256"
+          name=$(node -p 'require("./crates/jcsvectors/npm/package.json").name')
+          version=$(node -p 'require("./crates/jcsvectors/npm/package.json").version')
+          test "$name" = jcsvectors
+          test "$(basename "$tarball")" = "jcsvectors-$version.tgz"
+          {
+            echo "tarball=$tarball"
+            echo "subject=pkg:npm/$name@$version"
+            echo "digest=sha512:$(sha512sum "$tarball" | cut -d' ' -f1)"
+          } >> "$GITHUB_OUTPUT"
+      - uses: actions/attest@1e69f48acb82d1966a394da916b4c1698aa569d6 # v4.1.0
+        id: attest
+        with:
+          subject-name: ${{ steps.artifact.outputs.subject }}
+          subject-digest: ${{ steps.artifact.outputs.digest }}
+      - name: publish the tested bytes with npm trusted publishing
+        env:
+          TARBALL: ${{ steps.artifact.outputs.tarball }}
+        run: npm publish "$TARBALL" --access public --provenance --ignore-scripts
 
   qualify-jcs-admit-npm:
     needs: resolve
