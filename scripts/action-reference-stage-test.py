@@ -363,6 +363,25 @@ def case_an_audit_record_expectation_comes_from_the_corpus(work: Path) -> None:
     assert (checked, total) == (0, 1) and notes, notes
 
 
+def case_an_audit_record_set_judged_short_is_not_checked(work: Path) -> None:
+    """A check that judged fewer records than a set member holds does not agree with it, even
+    when every record it did judge and the joint result match."""
+    stage = load_stage()
+    root = REPO_ROOT / "corpora" / AUDIT_RECORD
+    manifest = json.loads((root / "MANIFEST.json").read_text())
+    member = next(
+        e for e in manifest["vectors"]
+        if "set" in e["expected"] and e["expected"]["set"]["codes"] != ["set-unreadable"]
+    )
+    held = stage.audit_record_set_size(member, root)
+    assert held >= 2, (member["draftId"], held)
+    declared = member["expected"]["set"]
+    found = {"records": [], "set": {"verdict": declared["verdict"], "codes": declared["codes"],
+                                    "missing": declared.get("missing", [])}}
+    problems = stage.audit_record_problems(member, found, held)
+    assert any(f"0 records judged of the {held}" in p for p in problems), problems
+
+
 def _mutation_goes_red(work: Path, anchor: str, replacement: str, reason: str) -> None:
     if os.environ.get("AEV_ACTION_UNDER_TEST"):
         return
@@ -419,6 +438,7 @@ CASES: list[Callable[[Path], None]] = [
     case_the_expectation_comes_from_the_corpus,
     case_the_audit_record_corpus_reads_m_of_m_once_the_claim_exists,
     case_an_audit_record_expectation_comes_from_the_corpus,
+    case_an_audit_record_set_judged_short_is_not_checked,
     case_a_skippable_stage_goes_red,
     case_an_unhashed_reference_goes_red,
 ]

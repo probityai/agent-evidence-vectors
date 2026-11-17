@@ -225,8 +225,21 @@ def _audit_record_fields(expected: dict[str, Any], found: dict[str, Any]) -> lis
     return problems
 
 
-def audit_record_problems(entry: dict[str, Any], found: dict[str, Any]) -> list[str]:
-    """How the reference check departs from what the corpus declares for a member."""
+def audit_record_set_size(entry: dict[str, Any], root: Path) -> int:
+    """How many records a set member's file holds, read off the file and never off the check,
+    so a verifier that judged fewer records than the set holds cannot agree by omission."""
+    try:
+        records = json.loads((root / entry["file"]).read_text(encoding="utf-8")).get("records")
+    except (OSError, ValueError, AttributeError):
+        return 0
+    return len(records) if isinstance(records, list) else 0
+
+
+def audit_record_problems(
+    entry: dict[str, Any], found: dict[str, Any], held: int | None = None
+) -> list[str]:
+    """How the reference check departs from what the corpus declares for a member. ``held`` is
+    the number of records a set member's file holds; every one of them must be judged."""
     expected, label = entry["expected"], str(entry.get("draftId", entry.get("id")))
     if entry.get("kind") == "indeterminate":
         allowed = sorted({r["verdict"] for r in entry.get("readings") or []})
@@ -236,7 +249,10 @@ def audit_record_problems(entry: dict[str, Any], found: dict[str, Any]) -> list[
     if "set" in expected:
         declared, joint = expected["set"], found.get("set") or {}
         problems = []
-        for index, record in enumerate(found.get("records") or []):
+        judged = found.get("records") or []
+        if held is not None and declared["codes"] != ["set-unreadable"] and len(judged) != held:
+            problems.append(f"{len(judged)} records judged of the {held} the set holds")
+        for index, record in enumerate(judged):
             problems += [f"record {index + 1} {p}" for p in _audit_record_fields(expected, record)]
         if (joint.get("verdict"), joint.get("codes")) != (declared["verdict"], declared["codes"]):
             problems.append(f"set {joint.get('verdict')} {joint.get('codes')}")
@@ -259,7 +275,8 @@ def audit_record_tally(entries: list[dict[str, Any]], root: Path) -> tuple[int, 
     checked, notes = 0, []
     for entry in entries:
         try:
-            problems = audit_record_problems(entry, audit_record_decide(entry, root))
+            held = audit_record_set_size(entry, root) if "set" in entry["expected"] else None
+            problems = audit_record_problems(entry, audit_record_decide(entry, root), held)
         except Exception as exc:  # noqa: BLE001 -- one member's failure must not hide the rest
             notes.append(f"{entry.get('id')}: the reference verifier could not run: {exc!r}")
             continue
