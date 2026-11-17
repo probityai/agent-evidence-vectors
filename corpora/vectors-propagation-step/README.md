@@ -28,7 +28,8 @@ Eight checks in order: `contract_id_missing`, `contract_id_unknown`,
 message's), `chain_not_connected`, `edge_after_effect`, `propagation_without_edge` (a
 common-cause exposure with no edge attributed as propagation), and
 `common_cause_unsupported` (a common cause with no source both agents read before the
-effect). The controls show propagation through a two-link chain, a common cause through
+effect). An attribution that passes all eight is `allow`, reason `attribution_supported`.
+The controls show propagation through a two-link chain, a common cause through
 a shared source, and a hop left `not_established` when both explanations hold. Counts
 are in `MANIFEST.json`.
 

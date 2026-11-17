@@ -1691,6 +1691,30 @@ jobs:
         run: uv run python scripts/regenerability-gate.py
       - name: the regenerability gate counts only tracked files as committed
         run: uv run python scripts/regenerability-gate-test.py
+      # One implementation agreeing with itself is what the step above proves. A second
+      # generator, run alone with no route to this repository, re-mints each corpus it
+      # covers from the published case table; the census line counts the rest.
+      - name: a second generator sharing no code re-mints its corpus byte for byte
+        run: |
+          set -euo pipefail
+          uv run --extra dev pytest -q scripts/independent-producibility-test.py
+          python3 scripts/independent-producibility.py --list-missing
+      # The mutation checks below switch one rule off at a time. The lattice keeps every
+      # set of rules (every subset up to twelve, seeded chains above) and fails when keeping
+      # more rules un-refuses a case or when a subset refuses what the full reader admits.
+      - name: the gate corpora's rules only add, and no subset refuses an accepted case
+        run: |
+          set -euo pipefail
+          uv run --extra dev pytest -q scripts/ablation-lattice-test.py
+          uv run python scripts/ablation-lattice.py --json "$RUNNER_TEMP/ablation-lattice.json"
+      # A reason, rule or condition a corpus expects and no published text defines is a
+      # rule a second implementer can only copy from our reader. Owed definitions sit in
+      # spec/predicates/TRACE-PENDING.toml, which only shrinks.
+      - name: every reason, rule and condition a corpus expects is named in its specification
+        run: |
+          set -euo pipefail
+          uv run --extra dev pytest -q scripts/rule-trace-lint-test.py
+          python3 scripts/rule-trace-lint.py
       # The v0.1 report reader's rules that no corpus member can pin: a tree
       # shape outside the closed set is refused rather than hashed as another
       # shape, and each registered shape is hashed by the construction its name
