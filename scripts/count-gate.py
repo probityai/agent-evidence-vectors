@@ -1533,6 +1533,14 @@ _DRAFT_1105_SPANS = (
 )
 
 FROZEN: tuple[Frozen, ...] = (
+    Frozen(
+        'scripts/archived-repos.toml',
+        'the issue numbers that stayed in the archived agent-evidence repository',
+        'untransferred_issues = [30, 31, 32, 35]',
+        'Issue numbers of a repository that is archived and cannot change: closed issues '
+        'stayed behind when the open ones moved here under new numbers. They name records, '
+        'not counts of the live corpus, and one met the suiteRevision by coincidence.',
+    ),
     *(
         Frozen(_DRAFT_1105, f'the 5 November draft check, span {i}', span, _DRAFT_1105_REASON)
         for i, span in enumerate(_DRAFT_1105_SPANS, 1)

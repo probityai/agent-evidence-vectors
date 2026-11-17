@@ -74,10 +74,13 @@ print(json.dumps({"checked": checked, "total": total, "notes": notes[:5]}))
 """
 TAG_PATHS = (
     "scripts/action-reference-stage.py",
-    "corpora/vectors-done-receipt",
-    "packaging/agent_evidence_vectors",
+    "vectors-done-receipt",
     "action-reference-requirements.txt",
+    "packaging",
 )
+# Corpus directories live under corpora/ in a tag cut after the move and at the
+# repository root in an older one. Each is read from where its tag keeps it.
+CORPUS_HOMES = ("corpora", "")
 
 
 class ReadFailed(Exception):
@@ -177,6 +180,23 @@ def check_corpus_released(
     ), tag
 
 
+def tag_has(tag: str, path: str) -> bool:
+    """Whether `path` exists in `tag`'s tree."""
+    found = subprocess.run(
+        ["git", "-C", str(ROOT), "cat-file", "-e", f"{tag}:{path}"], capture_output=True
+    )
+    return found.returncode == 0
+
+
+def locate_in_tag(tag: str, name: str) -> str:
+    """The path of corpus directory `name` in `tag`, or `name` when no home holds it."""
+    for home in CORPUS_HOMES:
+        candidate = f"{home}/{name}" if home else name
+        if tag_has(tag, candidate):
+            return candidate
+    return name
+
+
 def extract_tag(tag: str, paths: list[str], dest: Path) -> None:
     """Write the named paths of `tag` under dest, fetching the tag if it is absent."""
     have = subprocess.run(
@@ -256,12 +276,11 @@ def check_verifier_released(
 
 
 def tag_tally(tag: str, corpus: str) -> dict[str, Any]:
-    """Tally `corpus` (a name under corpora/) as the tag ships it."""
-    path = f"corpora/{corpus}"
     with tempfile.TemporaryDirectory() as tmp:
         tree = Path(tmp)
-        extract_tag(tag, [path, *TAG_PATHS], tree)
-        return run_tally(tree, path)
+        where = locate_in_tag(tag, corpus)
+        extract_tag(tag, [where, *(locate_in_tag(tag, path) for path in TAG_PATHS)], tree)
+        return run_tally(tree, where)
 
 
 def outside_run(

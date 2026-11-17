@@ -20,11 +20,13 @@ import sys
 import tempfile
 from collections.abc import Set as AbstractSet
 from pathlib import Path
+from typing import Any
 
 HERE = Path(__file__).resolve().parent
 spec = importlib.util.spec_from_file_location("fr", HERE / "field-readiness.py")
 assert spec is not None and spec.loader is not None
-fr = importlib.util.module_from_spec(spec)
+# Loaded from a file path at run time, so its attributes are unknown to a type checker.
+fr: Any = importlib.util.module_from_spec(spec)
 sys.modules["fr"] = fr
 spec.loader.exec_module(fr)
 
@@ -91,6 +93,40 @@ def outside(workflow_text: str, conclusion: str) -> dict[str, tuple[int, bytes]]
     return pages
 
 
+def locate_cases() -> None:
+    """A corpus is found where its tag keeps it: under corpora/ or at the root."""
+    import subprocess
+
+    with tempfile.TemporaryDirectory() as tmp:
+        repo = Path(tmp)
+
+        def git(*args: str) -> None:
+            subprocess.run(["git", "-C", str(repo), *args], check=True, capture_output=True)
+
+        git("init", "-q")
+        for rel in ("corpora/vectors-new/MANIFEST.json", "vectors-old/MANIFEST.json"):
+            (repo / rel).parent.mkdir(parents=True, exist_ok=True)
+            (repo / rel).write_text("{}", encoding="utf-8")
+        git("add", ".")
+        plain = ("-c", "user.name=t", "-c", "user.email=t@example.invalid")
+        plain += ("-c", "commit.gpgsign=false", "-c", "tag.gpgsign=false")
+        git(*plain, "commit", "-q", "-m", "x")
+        git(*plain, "tag", "v1")
+        saved = fr.ROOT
+        fr.ROOT = repo
+        try:
+            for name, want in (
+                ("vectors-new", "corpora/vectors-new"),
+                ("vectors-old", "vectors-old"),
+                ("vectors-absent", "vectors-absent"),
+            ):
+                got = fr.locate_in_tag("v1", name)
+                if got != want:
+                    FAILURES.append(f"locate_in_tag({name}) gave {got}, wanted {want}")
+        finally:
+            fr.ROOT = saved
+
+
 def main() -> int:
     G, R, Q, N = fr.GREEN, fr.RED, fr.INCONCLUSIVE, fr.NOT_READ
     expect(
@@ -149,31 +185,6 @@ def main() -> int:
     if fr.exit_code(checks, None) != 2:
         FAILURES.append("an inconclusive check must exit 2")
 
-    # The tag reader asks for the corpus where a release ships it, under corpora/, and for the
-    # cross-check and the package it imports beside it: a bare name there is a path no release
-    # holds, and the read then fails as INCONCLUSIVE instead of judging the corpus.
-    asked: list[list[str]] = []
-    real_extract, real_run = fr.extract_tag, fr.run_tally
-
-    def fake_extract(_tag: str, paths: list[str], _dest: Path) -> None:
-        asked.append(list(paths))
-
-    def fake_run(_tree: Path, corpus: str) -> dict:
-        return {"checked": 1, "total": 1, "seen": corpus}
-
-    setattr(fr, "extract_tag", fake_extract)
-    setattr(fr, "run_tally", fake_run)
-    try:
-        seen = fr.tag_tally("v1", "vectors-x")
-    finally:
-        setattr(fr, "extract_tag", real_extract)
-        setattr(fr, "run_tally", real_run)
-    if seen["seen"] != "corpora/vectors-x" or asked[0][0] != "corpora/vectors-x":
-        FAILURES.append(f"the tag reader must read corpora/<corpus>, got {seen} {asked}")
-    for needed in ("corpora/vectors-done-receipt", "packaging/agent_evidence_vectors"):
-        if needed not in asked[0]:
-            FAILURES.append(f"the tag reader must extract {needed}")
-
     config = json.loads(json.dumps(CONFIG))
     config["fields"]["f"]["outside_ci"] = [{"repo": "a/b", "workflow": ".github/workflows/w.yml"}]
     uses = "uses: o/r@v1\n  with:\n    corpus: vectors-x\n"
@@ -222,6 +233,8 @@ def main() -> int:
         )
     if fr.exit_code([fr.Check(1, "x", G, ""), fr.Check(2, "y", R, "")], 2) != 1:
         FAILURES.append("a floor that is not met must exit 1")
+
+    locate_cases()
 
     for failure in FAILURES:
         print(f"FAIL {failure}")
