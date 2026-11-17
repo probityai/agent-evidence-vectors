@@ -7,7 +7,8 @@ switched off. It reads the corpus the report names, hands every member that the
 reference verifier (agent-evidence-verify) can judge to the same comparison the
 repository's cross-check uses (`corpora/vectors-done-receipt/crosscheck_probity_verify.py`),
 or, for the Adversarial Execution Evidence corpus (`vectors`, the default), to the
-reference verifier's `adversarial_execution_evidence/v1` claim type, and prints
+reference verifier's `adversarial_execution_evidence/v1` claim type, or, for the
+agent audit record corpus, to its `agent_audit_record/v1` claim type, and prints
 one line:
 
     reference-checked conformance N of M
@@ -180,6 +181,88 @@ def aee_tally(entries: list[dict[str, Any]], root: Path) -> tuple[int, int, list
     return len(agreed), len(entries), notes
 
 
+# The agent audit record corpus (`vectors-agent-audit-record`). Every member, a
+# statement, a retained record or a set, is judged through the reference
+# verifier's agent_audit_record/v1 claim type under the corpus manifest as the
+# trust document, and is counted in N only when the check carries every field the
+# member declares. A reference verifier without that claim type reads 0 of M.
+AUDIT_RECORD_PREDICATES = (
+    "https://probityai.github.io/agent-evidence-vectors/predicate/v1/agent-audit-record",
+)
+AUDIT_RECORD_CLAIM = "agent_audit_record/v1"
+
+
+def audit_record_decide(entry: dict[str, Any], root: Path) -> dict[str, Any]:
+    """The reference verifier's check for one audit record member, from its bytes only."""
+    from agent_evidence_verify import adjudicate  # pyright: ignore[reportMissingImports]
+
+    artifacts = {}
+    for name, rel in (("record", entry["file"]), ("trust", "MANIFEST.json")):
+        data = (root / rel).read_bytes()
+        artifacts[name] = {"path": rel, "length": len(data),
+                           "sha256": hashlib.sha256(data).hexdigest()}
+    assessment: dict[str, Any] = {"claim_type": AUDIT_RECORD_CLAIM, "record": "record",
+                                  "trust": "trust"}
+    if "predicateType" in entry:
+        assessment["predicate_type"] = entry["predicateType"]
+    case = {"schema_version": "probity-case/v1", "case_id": entry["id"], "artifacts": artifacts}
+    policy = {"schema_version": "probity-policy/v1", "assessments": {entry["id"]: assessment}}
+    return dict(adjudicate(case, policy, root)["checks"][0])
+
+
+def _audit_record_fields(expected: dict[str, Any], found: dict[str, Any]) -> list[str]:
+    problems = []
+    if (found.get("verdict"), found.get("codes")) != (expected["verdict"], expected["codes"]):
+        problems.append(f"verdict {found.get('verdict')} {found.get('codes')}")
+    if expected["verdict"] == "valid" and found.get("derivedTier") != expected.get("derivedTier"):
+        problems.append(f"derivedTier {found.get('derivedTier')}")
+    return problems
+
+
+def audit_record_problems(entry: dict[str, Any], found: dict[str, Any]) -> list[str]:
+    """How the reference check departs from what the corpus declares for a member."""
+    expected, label = entry["expected"], str(entry.get("draftId", entry.get("id")))
+    if entry.get("kind") == "indeterminate":
+        allowed = sorted({r["verdict"] for r in entry.get("readings") or []})
+        if found.get("verdict") in allowed:
+            return []
+        return [f"{label}: verdict {found.get('verdict')}, outside the readings {allowed}"]
+    if "set" in expected:
+        declared, joint = expected["set"], found.get("set") or {}
+        problems = []
+        for index, record in enumerate(found.get("records") or []):
+            problems += [f"record {index + 1} {p}" for p in _audit_record_fields(expected, record)]
+        if (joint.get("verdict"), joint.get("codes")) != (declared["verdict"], declared["codes"]):
+            problems.append(f"set {joint.get('verdict')} {joint.get('codes')}")
+        if joint.get("missing") != declared.get("missing", []):
+            problems.append(f"missing {joint.get('missing')}")
+        limits = [r.get("withinLimit") for r in found.get("records") or []]
+        if "withinLimit" in declared and limits != declared["withinLimit"]:
+            problems.append(f"withinLimit {limits}")
+        return [f"{label}: {p}" for p in problems]
+    problems = _audit_record_fields(expected, found)
+    if "dating" in expected and found.get("dating") != expected["dating"]:
+        problems.append(f"dating {found.get('dating')}")
+    if entry.get("kind") == "accept" and found.get("withinLimit") != expected.get("withinLimit"):
+        problems.append(f"withinLimit {found.get('withinLimit')}")
+    return [f"{label}: {p}" for p in problems]
+
+
+def audit_record_tally(entries: list[dict[str, Any]], root: Path) -> tuple[int, int, list[str]]:
+    """N, M and the disagreements over the audit record corpus, each member judged on its own."""
+    checked, notes = 0, []
+    for entry in entries:
+        try:
+            problems = audit_record_problems(entry, audit_record_decide(entry, root))
+        except Exception as exc:  # noqa: BLE001 -- one member's failure must not hide the rest
+            notes.append(f"{entry.get('id')}: the reference verifier could not run: {exc!r}")
+            continue
+        notes.extend(problems)
+        if not problems:
+            checked += 1
+    return checked, len(entries), notes
+
+
 def tally(
     entries: list[dict[str, Any]], root: Path, crosscheck: Any
 ) -> tuple[int, int, list[str]]:
@@ -217,6 +300,25 @@ def reference_id() -> str:
     return str(REFERENCE_VERIFIER_ID)
 
 
+def route(corpus_dir: Path, report_path: Path) -> tuple[int, int, list[str]]:
+    """N, M and the disagreements, by the route the corpus manifest's predicate type names."""
+    manifest = corpus_dir / "MANIFEST.json"
+    if not manifest.is_file():
+        # No manifest to walk: the corpus is judged by a reader this stage has no
+        # route into. The member count still comes from the report, and N is zero.
+        total = 0
+        if report_path.is_file():
+            total = json.loads(report_path.read_text(encoding="utf-8"))["totals"]["vectors"]
+        return 0, total, [f"{corpus_dir} holds no MANIFEST.json, so no member was routed."]
+    document = json.loads(manifest.read_text(encoding="utf-8"))
+    entries = document.get("vectors", [])
+    if document.get("predicateType") == AEE_PREDICATE:
+        return aee_tally(entries, corpus_dir)
+    if document.get("predicateType") in AUDIT_RECORD_PREDICATES:
+        return audit_record_tally(entries, corpus_dir)
+    return tally(entries, corpus_dir, load_crosscheck())
+
+
 def main() -> int:
     report_path = Path(required("REPORT"))
     corpus_dir = Path(required("CORPUS_DIR"))
@@ -224,23 +326,7 @@ def main() -> int:
     output_path = required("GITHUB_OUTPUT")
     verifier_id = reference_id()
 
-    notes: list[str] = []
-    manifest = corpus_dir / "MANIFEST.json"
-    if manifest.is_file():
-        document = json.loads(manifest.read_text(encoding="utf-8"))
-        entries = document.get("vectors", [])
-        if document.get("predicateType") == AEE_PREDICATE:
-            checked, total, notes = aee_tally(entries, corpus_dir)
-        else:
-            checked, total, notes = tally(entries, corpus_dir, load_crosscheck())
-    else:
-        # No manifest to walk: the corpus is judged by a reader this stage has no
-        # route into. The member count still comes from the report, and N is zero.
-        checked = 0
-        total = 0
-        if report_path.is_file():
-            total = json.loads(report_path.read_text(encoding="utf-8"))["totals"]["vectors"]
-        notes.append(f"{corpus_dir} holds no MANIFEST.json, so no member was routed.")
+    checked, total, notes = route(corpus_dir, report_path)
 
     full = full_release(checked, total)
     text = line(checked, total)
