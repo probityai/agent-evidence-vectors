@@ -43,6 +43,8 @@ The check of each paper draft against these rows is in
 [`draft-checks/`](draft-checks/): one file per draft, with every number the draft
 states, the value the rerun gives, and the text to paste where they differ.
 
+[`CHECKS.md`](CHECKS.md) lists, row by row, what is compared, what is excluded and why, and who maintains the check.
+
 ## What the harness checks
 
 - A commit is fetched by its full SHA and the checkout's `HEAD` is compared
