@@ -76,13 +76,10 @@ tagged commit, so the files uploaded are the ones that workflow built, then runs
 - every file's own metadata carries the right name and version.
 
 Then the `publish` job uploads the files. It runs in the GitHub environment `pypi`
- and uploads through PyPI trusted
-publishing, so no token exists anywhere.
-
-One-time setup before the first tag: `jcs-admit` does not exist on PyPI yet, so its
-trusted publisher is a pending publisher on the account's publishing page (project
-`jcs-admit`, the owner, repository, workflow file and environment `pypi` of the
-repository that tags the release), and the first upload creates the project.
+and uploads through PyPI trusted publishing. The project is on PyPI from version 0.1.1.
+When trusted publishing refuses an upload, a maintainer uploads the same files the
+workflow built with a project token, then checks each file's SHA-256 on PyPI against
+the workflow's built files before calling the release published.
 
 The distribution name is `jcs-admit` and the import package is `jcs_admit`. The name
 `probityai` belongs to the `probity` command-line distribution, so the two install

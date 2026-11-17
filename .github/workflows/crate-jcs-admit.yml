@@ -52,6 +52,10 @@ jobs:
         env:
           RUSTDOCFLAGS: -D warnings
       - run: cargo test --locked
+      - name: the mutation sweep's anchor check builds nothing and names a moved anchor
+        run: python3 tools/mutation_sweep_test.py
+      - name: every mutation-sweep anchor still applies to the sources
+        run: python3 tools/mutation_sweep.py --check-anchors
 
   msrv:
     runs-on: ubuntu-latest
