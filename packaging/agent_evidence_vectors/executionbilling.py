@@ -75,6 +75,7 @@ import json
 import shlex
 import subprocess
 from collections.abc import Callable, Iterator
+from itertools import pairwise
 from pathlib import Path
 from typing import Any
 
@@ -272,8 +273,7 @@ def _replay_refinalized(record: Record) -> bool:
 
 def _transitions(record: Record) -> Iterator[tuple[State, State]]:
     """Each pair of consecutive states, in the order the run produced them."""
-    ordered = list(states(record))
-    return zip(ordered, ordered[1:])
+    return pairwise(states(record))
 
 
 def _known_decreased(record: Record) -> bool:
