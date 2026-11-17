@@ -99,10 +99,116 @@ CASES = [
         "https://raw.githubusercontent.com/probityai/jcs-admit/main/a.zip",
         True,
     ),
+    # The archive organisation named directly: a pinned fetch passes, anything else is the
+    # same frozen copy the old name reaches and is refused.
     (
-        "the archive organisation",
+        "the archive organisation with no pin",
         "README.md",
         "https://github.com/probityai-archive/agent-evidence-vocabulary",
+        True,
+    ),
+    (
+        "an install from the archive with no pin",
+        "README.md",
+        "pip install git+https://github.com/probityai-archive/jcs-admit",
+        True,
+    ),
+    (
+        "a file on a branch of the archive",
+        "README.md",
+        "[x](https://github.com/probityai-archive/dsse/blob/main/README.md)",
+        True,
+    ),
+    ("an Action from the archive on a tag", "ci.yml", "uses: probityai-archive/dsse@v1", True),
+    (
+        "an Action from the archive at a commit",
+        "ci.yml",
+        f"uses: probityai-archive/dsse@{SHA}",
+        False,
+    ),
+    (
+        "an install from the archive at a commit",
+        "README.md",
+        f"pip install 'x @ git+https://github.com/probityai-archive/jcs-admit.git@{SHA}'",
+        False,
+    ),
+    (
+        "a clone of the archive checked out at a commit on the next line",
+        "README.md",
+        (
+            "git clone https://github.com/probityai-archive/agent-evidence-atlas.git a\n"
+            f"git -C a checkout --detach {SHA}"
+        ),
+        False,
+    ),
+    (
+        "a workflow checkout of the archive with its ref below",
+        "ci.yml",
+        f"  with:\n    repository: probityai-archive/jcs-admit\n    path: j\n    ref: {SHA}",
+        False,
+    ),
+    (
+        "a clone of the archive whose commit is too far below to belong to it",
+        "README.md",
+        "git clone https://github.com/probityai-archive/dsse.git d\n\n\n\n" + f"x {SHA}",
+        True,
+    ),
+    (
+        "a tarball of the archive at a commit",
+        "README.md",
+        f"https://codeload.github.com/probityai-archive/agent-evidence-observer/tar.gz/{SHA}",
+        False,
+    ),
+    (
+        "the archive named in prose",
+        "ci.yml",
+        "# the jobs probityai-archive/dsse ran before its import",
+        False,
+    ),
+    (
+        "a pull request in the archive",
+        "README.md",
+        "[PR](https://github.com/probityai-archive/agent-evidence-vocabulary/pull/2)",
+        False,
+    ),
+    # GitHub ignores letter case in owner and repository names.
+    ("an owner in capitals", "README.md", "https://github.com/ProbityAI/dsse", True),
+    (
+        "a repository name in capitals",
+        "README.md",
+        "git clone https://github.com/probityai/JCS-Admit",
+        True,
+    ),
+    (
+        "Approval-Gate in lower case",
+        "README.md",
+        "https://github.com/probityai/approval-gate",
+        True,
+    ),
+    ("the archive in capitals", "README.md", "https://github.com/ProbityAI-Archive/dsse", True),
+    (
+        "the vectors repository in capitals",
+        "README.md",
+        "https://github.com/ProbityAI/Agent-Evidence-Vectors",
+        False,
+    ),
+    # A record URL that walks back onto a branch is no record.
+    (
+        "a pull request URL that walks back to main",
+        "README.md",
+        f"{OLD}/pull/3/../../blob/main/README.md",
+        True,
+    ),
+    (
+        "a commit URL that walks back to a tree",
+        "README.md",
+        f"{OLD}/commit/abcdef1/../../tree/main",
+        True,
+    ),
+    (
+        "a CI run beside a relative path",
+        "README.md",
+        f"[run]({OLD}/actions/runs/1) and ../docs",
         False,
     ),
     ("an old handle", "README.md", "https://github.com/astrogilda/agent-evidence-vocabulary", True),
@@ -116,6 +222,10 @@ CASES = [
     ),
     ("a predicate type URI inside backticks", "doc.md", f"`{PREDICATE}`", False),
     ("a predicate type URI as a link target", "README.md", f"[the predicate]({PREDICATE})", True),
+    ("a predicate type URI as a reference definition", "README.md", f"[p]: {PREDICATE}", True),
+    ("a predicate type URI as an HTML href", "doc.html", f'<a href="{PREDICATE}">p</a>', True),
+    ("a predicate type URI as an autolink", "README.md", f"<{PREDICATE}>", True),
+    ("a predicate type URI in angle brackets as a link", "README.md", f"[p](<{PREDICATE}>)", True),
     (
         "a predicate type URI beside a repository link",
         "README.md",
@@ -164,19 +274,41 @@ def run_case(line: str, name: str) -> list[str]:
         return list(gate.findings(root, {"CHANGELOG.md"}, REPOS))
 
 
+def colon_path_cases() -> list[str]:
+    """A path holding a colon is read whole, so its allowlist entry applies to it."""
+    failures = []
+    with tempfile.TemporaryDirectory() as tmp:
+        root = Path(tmp)
+        subprocess.run(["git", "init", "-q", str(root)], check=True)
+        name = "notes:2026.md"
+        (root / name).write_text(f"see {OLD}\n", encoding="utf-8")
+        subprocess.run(["git", "-C", str(root), "add", name], check=True)
+        if not gate.findings(root, set(), REPOS):
+            failures.append("a live link in a path holding a colon was not refused")
+        if hits := gate.findings(root, {name}, REPOS):
+            failures.append(f"an allowlisted path holding a colon was refused: {hits}")
+    return failures
+
+
 def fake_github(
     *,
     extra: tuple[str, ...] = (),
     redirected: str = "",
     missing_home: str = "",
     unarchived: str = "",
+    in_place: tuple[str, ...] = (),
 ):
     """A fetch that answers as GitHub would, with one thing wrong when asked."""
     archive = [{"name": r.name} for r in REPOS] + [{"name": n} for n in extra]
+    org = [{"name": "agent-evidence-vectors", "archived": False}] + [
+        {"name": n, "archived": True} for n in in_place
+    ]
 
     def fetch(url: str) -> object:
         if "/orgs/probityai-archive/repos" in url:
             return archive if "page=1" in url else []
+        if "/orgs/probityai/repos" in url:
+            return org if "page=1" in url else []
         for repo in REPOS:
             if url == f"{gate.API}/repos/probityai/{repo.name}":
                 if redirected == repo.name:
@@ -206,6 +338,7 @@ def live_cases() -> list[str]:
         ("a redirect that ended", {"redirected": "dsse"}, "resolves to"),
         ("a home that is gone", {"missing_home": "ratchet"}, "HTTP 404"),
         ("a repository that is not archived", {"unarchived": "jcs-admit"}, "is not archived"),
+        ("a repository archived in place", {"in_place": ("old-tool",)}, "archived in place"),
     ]:
         problems = gate.live_problems(REPOS, fake_github(**kwargs))
         if not any(needle in p for p in problems):
@@ -245,12 +378,13 @@ def main() -> int:
         pass
     if not gate.is_allowed("pages/vocab/v1/x/index.html", {"pages/vocab/**"}):
         failures.append("a dir/** pattern did not match a file under it")
+    failures += colon_path_cases()
     failures += live_cases() + list_cases()
     for failure in failures:
         print(failure, file=sys.stderr)
     if failures:
         return 1
-    print(f"archived-repo-gate: {len(CASES) + 2 + 5 + 3} cases hold")
+    print(f"archived-repo-gate: {len(CASES) + 2 + 2 + 6 + 3} cases hold")
     return 0
 
 

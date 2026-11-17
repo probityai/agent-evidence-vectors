@@ -10,7 +10,8 @@ only through GitHub's 301. A reader who follows a link, an install line, an Acti
 or a clone command to one lands on a frozen copy, so every live reference points at the
 repository's `home` instead. The gate reads every tracked text file and fails on a
 reference to an archived name (the name not followed by a hyphen, so agent-evidence-vectors
-and the other agent-evidence-* names never match) unless one of these holds:
+and the other agent-evidence-* names never match; owner and name in any letter case, because
+GitHub resolves github.com/ProbityAI/DSSE to the same archive) unless one of these holds:
 
 - the text is an identifier and not a link. A predicate type URI under
   github.com/probityai/agent-evidence-vocabulary/blob/main/docs/predicates/ is inside
@@ -18,20 +19,30 @@ and the other agent-evidence-* names never match) unless one of these holds:
   redirect keeps working); an npm scope such as @probityai/dsse and an MCP registry
   namespace such as io.github.probityai/agent-evidence-admission name a package, not a
   repository; so does a container image path under ghcr.io. A predicate URI written as
-  the target of a Markdown link is still a link and is refused: a reader who clicks it
-  lands on the archive.
+  the target of a link (a Markdown link or reference definition, an HTML href, an
+  autolink in angle brackets) is still a link and is refused: a reader who clicks it lands
+  on the archive.
 - the text names something that exists only in the archived repository: a CI run, a pull
   request, a commit, a file at a full commit id, or an issue that was not transferred
   (see untransferred_issues in the list). Those are records of what happened there, and
-  repointing them would name something the new home does not hold;
+  repointing them would name something the new home does not hold. A record URL followed
+  by `/..` is not a record: a browser resolves it to a path on a branch;
+- the text names probityai-archive itself and pins a full commit id, on its line or on one
+  of the three lines after it (a clone followed by `git checkout <commit>`, a workflow
+  `repository:` followed by `ref: <commit>`). Naming the archive is how a pinned fetch of a
+  commit that exists only there is written. A github.com, codeload or raw URL to the archive,
+  or a `uses:` or `repository:` naming it, with no pinned commit sends a reader to the frozen
+  copy as surely as the old name does, so it is refused. The archive named in prose with no
+  URL ("the jobs probityai-archive/dsse ran before its import") is history and passes;
 - the file is listed in scripts/archived-repo-allowlist.txt with its reason: history
   sentences, records whose bytes are pinned by a digest, and checks that watch an
   archived repository on purpose.
 
 Exit 0 when every reference is accounted for; 1 naming each one that is not; 2 when the
 gate did not run. With --live it also asks GitHub whether the list is whole and true:
-every repository in probityai-archive has a row, every row still redirects to the
-archive, and every home exists. A network failure there exits 2, never 0.
+every repository in probityai-archive has a row, no probityai repository is archived in
+place, every row still redirects to the archive, and every home exists. A network failure
+there exits 2, never 0.
 """
 
 from __future__ import annotations
@@ -53,10 +64,19 @@ ALLOWLIST = ROOT / "scripts" / "archived-repo-allowlist.txt"
 REPOS = ROOT / "scripts" / "archived-repos.toml"
 ARCHIVE_ORG = "probityai-archive"
 API = "https://api.github.com"
+OWNER = r"(?:probityai|astrogilda)"
+# Lines after a reference to the archive that may hold its pinned commit.
+PIN_WINDOW = 3
+_FULL_SHA = re.compile(r"(?<![0-9a-f])[0-9a-f]{40}(?![0-9a-f])")
+# A record URL is no record when a `..` segment after it walks back onto a branch.
+_NO_TRAVERSAL = r"(?![^\s)\]\"'>]*/\.\.(?:[/\s)\]\"'>]|$))"
 
 # A predicate type URI names a predicate inside signed statements; it is never rewritten.
 PREDICATE_URI = r"https://github\.com/probityai/agent-evidence-vocabulary/blob/main/docs/predicates/[a-z0-9-]+\.md"
-_PREDICATE_AS_LINK = re.compile(r"\]\(\s*" + PREDICATE_URI)
+# The predicate URI as the target of a link: `](URI`, `[label]: URI`, href="URI", `<URI>`.
+_PREDICATE_AS_LINK = re.compile(
+    r"(?:\]\(\s*<?|^\s*\[[^\]]+\]:\s*<?|href\s*=\s*[\"']?|<)" + PREDICATE_URI
+)
 _PREDICATE_BARE = re.compile(PREDICATE_URI)
 # A container image path names a package in the registry, not a repository on github.com.
 _IMAGE_PATH = re.compile(r"ghcr\.io/(?:probityai|astrogilda)/[A-Za-z0-9._-]+")
@@ -88,29 +108,40 @@ def _names(repos: list[Archived]) -> str:
 
 def reference_pattern(repos: list[Archived]) -> re.Pattern[str]:
     """A reference to an archived name as a repository: not an npm scope, not a dotted namespace."""
-    return re.compile(rf"(?<![@\w.-])(?:probityai|astrogilda)/(?:{_names(repos)})(?![A-Za-z0-9_-])")
+    return re.compile(rf"(?<![@\w.-]){OWNER}/(?:{_names(repos)})(?![A-Za-z0-9_-])", re.IGNORECASE)
+
+
+def archive_pattern(repos: list[Archived]) -> re.Pattern[str]:
+    """The archive organisation named as something to follow: a URL, an Action or a checkout."""
+    return re.compile(
+        r"(?:(?:github\.com[/:]|codeload\.github\.com/|raw\.githubusercontent\.com/)"
+        rf"|(?:uses|repository)\s*:\s*[\"']?){ARCHIVE_ORG}/(?:{_names(repos)})(?![A-Za-z0-9_-])",
+        re.IGNORECASE,
+    )
 
 
 def records_pattern(repos: list[Archived]) -> re.Pattern[str]:
     """Text that names something existing only in an archived repository."""
     names = _names(repos)
-    owner = r"(?:probityai|astrogilda)"
+    owner = rf"(?:{OWNER}|{ARCHIVE_ORG})"
     parts = [
         (
             rf"github\.com/{owner}/(?:{names})/(?:actions/runs/[0-9]+|pull/[0-9]+"
-            r"|commit/[0-9a-f]{7,40}|(?:blob|tree|raw)/[0-9a-f]{40}(?![0-9a-f]))"
+            r"|commit/[0-9a-f]{7,40}(?![0-9a-f])|(?:blob|tree|raw)/[0-9a-f]{40}(?![0-9a-f]))"
+            + _NO_TRAVERSAL
         ),
-        rf"raw\.githubusercontent\.com/{owner}/(?:{names})/[0-9a-f]{{40}}(?![0-9a-f])",
+        rf"raw\.githubusercontent\.com/{owner}/(?:{names})/[0-9a-f]{{40}}(?![0-9a-f])"
+        + _NO_TRAVERSAL,
     ]
     for repo in repos:
         if repo.untransferred_issues:
             issues = "|".join(str(n) for n in repo.untransferred_issues)
             name = re.escape(repo.name)
             parts.append(
-                rf"github\.com/(?:probityai|astrogilda)/{name}/issues/(?:{issues})(?![0-9])"
+                rf"github\.com/{owner}/{name}/issues/(?:{issues})(?![0-9])" + _NO_TRAVERSAL
             )
-            parts.append(rf"(?:probityai|astrogilda)/{name}#(?:{issues})(?![0-9])")
-    return re.compile("|".join(parts))
+            parts.append(rf"{owner}/{name}#(?:{issues})(?![0-9])")
+    return re.compile("|".join(parts), re.IGNORECASE)
 
 
 def allowed_paths(text: str) -> set[str]:
@@ -132,20 +163,35 @@ def is_allowed(path: str, patterns: set[str]) -> bool:
     return any(path == p or (p.endswith("/**") and path.startswith(p[:-2])) for p in patterns)
 
 
-def live_references(text: str, repos: list[Archived]) -> bool:
-    """True when `text` still names an archived repository as something a reader can follow."""
+def live_references(text: str, repos: list[Archived], after: str = "") -> bool:
+    """True when `text` still names an archived repository as something a reader can follow.
+
+    `after` is the text of the lines that follow `text` in its file; a pinned commit there
+    makes a reference to the archive organisation a pinned fetch.
+    """
     if _PREDICATE_AS_LINK.search(text):
         return True
     left = _IMAGE_PATH.sub("", _PREDICATE_BARE.sub("", text))
     left = records_pattern(repos).sub("", left)
-    return reference_pattern(repos).search(left) is not None
+    if reference_pattern(repos).search(left):
+        return True
+    if archive_pattern(repos).search(left):
+        return _FULL_SHA.search(left) is None and _FULL_SHA.search(after) is None
+    return False
+
+
+def _following(lines: list[str], number: int) -> str:
+    """The PIN_WINDOW lines after line `number` (1-based) of a file read into `lines`."""
+    return "\n".join(lines[number : number + PIN_WINDOW])
 
 
 def findings(root: Path, patterns: set[str], repos: list[Archived]) -> list[str]:
     """Every unaccounted reference under `root`, as `path:line: text`."""
-    prefilter = rf"(probityai|astrogilda)/({_names(repos)})"
+    prefilter = rf"(probityai|astrogilda|{ARCHIVE_ORG})/({_names(repos)})"
+    # -z separates path, line number and text with NUL, so a path holding a colon or a
+    # character git would quote is read as it is; -i because GitHub ignores case.
     out = subprocess.run(
-        ["git", "-C", str(root), "grep", "-n", "-I", "-E", prefilter],
+        ["git", "-C", str(root), "grep", "-z", "-n", "-I", "-i", "-E", prefilter],
         capture_output=True,
         text=True,
         check=False,
@@ -153,12 +199,15 @@ def findings(root: Path, patterns: set[str], repos: list[Archived]) -> list[str]
     if out.returncode not in (0, 1):
         raise RuntimeError(f"git grep failed: {out.stderr.strip()}")
     hits = []
+    files: dict[str, list[str]] = {}
     for line in out.stdout.splitlines():
-        path, _, rest = line.partition(":")
-        number, _, text = rest.partition(":")
+        path, _, rest = line.partition("\0")
+        number, _, text = rest.partition("\0")
         if is_allowed(path, patterns):
             continue
-        if live_references(text, repos):
+        if path not in files:
+            files[path] = (root / path).read_text(encoding="utf-8", errors="replace").splitlines()
+        if live_references(text, repos, _following(files[path], int(number))):
             hits.append(f"{path}:{number}: {text.strip()[:160]}")
     return hits
 
@@ -176,18 +225,23 @@ def github_fetch(url: str) -> object:
         return json.load(response)
 
 
-def archive_org_names(fetch: Fetch) -> set[str]:
-    """Every repository name in the archive organisation, following pages."""
-    names: set[str] = set()
+def org_repos(fetch: Fetch, org: str) -> list[dict[str, object]]:
+    """Every repository record of `org`, following pages."""
+    records: list[dict[str, object]] = []
     page = 1
     while True:
-        batch = fetch(f"{API}/orgs/{ARCHIVE_ORG}/repos?per_page=100&type=all&page={page}")
+        batch = fetch(f"{API}/orgs/{org}/repos?per_page=100&type=all&page={page}")
         if not isinstance(batch, list):
-            raise TypeError(f"unexpected reply listing {ARCHIVE_ORG}: {batch!r}")
-        names.update(str(r["name"]) for r in batch)
+            raise TypeError(f"unexpected reply listing {org}: {batch!r}")
+        records.extend(r for r in batch if isinstance(r, dict))
         if len(batch) < 100:
-            return names
+            return records
         page += 1
+
+
+def archive_org_names(fetch: Fetch) -> set[str]:
+    """Every repository name in the archive organisation."""
+    return {str(r["name"]) for r in org_repos(fetch, ARCHIVE_ORG)}
 
 
 def live_problems(repos: list[Archived], fetch: Fetch) -> list[str]:
@@ -198,6 +252,14 @@ def live_problems(repos: list[Archived], fetch: Fetch) -> list[str]:
         problems.append(
             f"{ARCHIVE_ORG}/{name} is archived but has no row in scripts/archived-repos.toml"
         )
+    # A repository archived where it stands keeps its probityai URL, so no row can describe
+    # it and no redirect watch covers it: archiving here means a transfer to the archive.
+    for record in org_repos(fetch, "probityai"):
+        if record.get("archived"):
+            problems.append(
+                f"probityai/{record.get('name')} is archived in place; transfer it to "
+                f"{ARCHIVE_ORG} and give it a row in scripts/archived-repos.toml"
+            )
     for repo in repos:
         record = fetch(f"{API}/repos/probityai/{repo.name}")
         if not isinstance(record, dict):
