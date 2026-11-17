@@ -167,7 +167,7 @@ def _run_resolve(args: argparse.Namespace) -> int:
 
 def _pairs(items: list[str], what: str, last: bool = False) -> list[tuple[str, str]]:
     """NAME=VALUE pairs. With ``last``, split at the last ``=``: a URI's query carries ``=``
-    (``https://h/x?v=1=path``), a file path rarely does."""
+    (``https://x.example/a?v=1=path``), a file path rarely does."""
     out = []
     for item in items:
         name, sep, value = item.rpartition("=") if last else item.partition("=")
