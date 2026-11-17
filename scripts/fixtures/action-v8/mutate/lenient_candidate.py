@@ -1,4 +1,4 @@
-"""Fixture candidate that accepts every file: the mutation stage must fail it and name the survivors."""
+"""Fixture candidate that accepts every file: the mutation stage must fail it."""
 
 import sys
 

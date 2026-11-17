@@ -48,7 +48,7 @@ import shlex
 import subprocess
 import sys
 import tempfile
-from collections.abc import Iterator
+from collections.abc import Callable, Iterator
 from pathlib import Path
 from typing import Any
 
@@ -154,6 +154,7 @@ def structural_edits(target: Any) -> Iterator[tuple[str, Path_, Any]]:
 
 
 DROP = object()
+SKIP = "skip: "
 
 
 def apply_edit(target: Any, path: Path_, value: Any) -> Any:
@@ -228,62 +229,104 @@ def reseal(document: Any, seed: bytes, changed: Path_) -> None:
 # ---------------------------------------------------------------- mutants
 
 
-def mutants(raw: bytes, mode: str, seed: bytes | None) -> Iterator[tuple[str, bytes | str]]:
-    """(description, mutant bytes) for one member; a str in place of bytes is a refusal."""
+#: A mutant is built only when the sample picks it: the full set of an AEE
+#: corpus in bytes mode is over half a million documents.
+Build = Callable[[], bytes]
+
+
+def _flip(document: Any, path: Path_, payload: bytes, index: int) -> Build:
+    def build() -> bytes:
+        flipped = bytearray(payload)
+        flipped[index // 8] ^= 1 << (index % 8)
+        mutant = copy.deepcopy(document)
+        get_at(mutant, path)["payload"] = base64.b64encode(bytes(flipped)).decode()
+        return json.dumps(mutant).encode()
+
+    return build
+
+
+def bytes_mutants(document: Any, paths: list[Path_]) -> Iterator[tuple[str, Build]]:
+    """Every bit of every DSSE payload, flipped; never re-signed."""
+    for path in paths:
+        payload = base64.b64decode(get_at(document, path)["payload"])
+        for index in range(len(payload) * 8):
+            yield (
+                f"{'/'.join(map(str, path))} payload bit {index}",
+                _flip(document, path, payload, index),
+            )
+
+
+def _resigned(
+    document: Any, path: Path_, inner: Any, edit: tuple[Path_, Any], seed: bytes
+) -> Build:
+    def build() -> bytes:
+        mutant = copy.deepcopy(document)
+        body = json.dumps(apply_edit(inner, *edit), separators=(",", ":")).encode()
+        get_at(mutant, path)["payload"] = base64.b64encode(body).decode()
+        reseal(mutant, seed, path)
+        return json.dumps(mutant).encode()
+
+    return build
+
+
+def _edited(document: Any, target_path: Path_, edit: tuple[Path_, Any]) -> Build:
+    def build() -> bytes:
+        if not target_path:
+            return json.dumps(apply_edit(document, *edit)).encode()
+        mutant = copy.deepcopy(document)
+        set_at(mutant, target_path, apply_edit(get_at(document, target_path), *edit))
+        return json.dumps(mutant).encode()
+
+    return build
+
+
+def structural_mutants(
+    document: Any, paths: list[Path_], seed: bytes
+) -> Iterator[tuple[str, Build]]:
+    """Each signed payload's edits, re-signed; then the statement's own edits."""
+    for path in paths:
+        try:
+            inner = json.loads(base64.b64decode(get_at(document, path)["payload"]))
+        except ValueError:
+            continue
+        for name, sub, value in structural_edits(inner):
+            label = f"{'/'.join(map(str, path))}: {name}"
+            yield label, _resigned(document, path, inner, (sub, value), seed)
+    has_predicate = isinstance(document, dict) and isinstance(document.get("predicate"), dict)
+    target_path: Path_ = ["predicate"] if has_predicate else []
+    inside = {tuple(p[len(target_path) :]) for p in paths}
+    for name, sub, value in structural_edits(get_at(document, target_path)):
+        if any(s and tuple(sub[: len(s)]) == s for s in inside):
+            continue  # an edit inside an envelope is made, and re-signed, above
+        label = f"{'/'.join(map(str, target_path + sub))}: {name}"
+        yield label, _edited(document, target_path, (sub, value))
+
+
+def mutants(raw: bytes, mode: str, seed: bytes | None) -> Iterator[tuple[str, Build | str]]:
+    """(description, builder) for one member; a str in place of a builder is a refusal."""
     try:
         document = json.loads(raw)
     except ValueError:
-        document = None
-    paths = list(envelopes(document)) if document is not None else []
-    if mode == "bytes":
-        if not paths:
-            for index in range(len(raw) * 8):
-                flipped = bytearray(raw)
-                flipped[index // 8] ^= 1 << (index % 8)
-                yield f"file bit {index}", bytes(flipped)
-            return
-        for path in paths:
-            env = get_at(document, path)
-            payload = base64.b64decode(env["payload"])
-            for index in range(len(payload) * 8):
-                flipped = bytearray(payload)
-                flipped[index // 8] ^= 1 << (index % 8)
-                mutant = copy.deepcopy(document)
-                get_at(mutant, path)["payload"] = base64.b64encode(bytes(flipped)).decode()
-                yield f"{'/'.join(map(str, path))} payload bit {index}", json.dumps(mutant).encode()
-        return
-    if document is None:
         yield "member", "the member is not JSON, so it has no structure to mutate"
         return
-    if paths:
-        if seed is None:
-            yield "member", "the corpus publishes no key recipe, so a structural mutant cannot be re-signed"
-            return
-        for path in paths:
-            env = get_at(document, path)
-            try:
-                inner = json.loads(base64.b64decode(env["payload"]))
-            except ValueError:
-                continue
-            for name, sub, value in structural_edits(inner):
-                mutant = copy.deepcopy(document)
-                get_at(mutant, path)["payload"] = base64.b64encode(
-                    json.dumps(apply_edit(inner, sub, value), separators=(",", ":")).encode()
-                ).decode()
-                reseal(mutant, seed, path)
-                yield f"{'/'.join(map(str, path))}: {name}", json.dumps(mutant).encode()
-    target_path: Path_ = ["predicate"] if isinstance(document, dict) and isinstance(document.get("predicate"), dict) else []
-    target = get_at(document, target_path)
-    skip = {tuple(p[len(target_path):]) for p in paths}
-    for name, sub, value in structural_edits(target):
-        if any(tuple(sub[: len(s)]) == s for s in skip if s):
-            continue
-        mutant = copy.deepcopy(document)
-        if target_path:
-            set_at(mutant, target_path, apply_edit(target, sub, value))
-        else:
-            mutant = apply_edit(target, sub, value)
-        yield f"{'/'.join(map(str, target_path + sub))}: {name}", json.dumps(mutant).encode()
+    paths = list(envelopes(document))
+    if mode == "bytes" and not paths:
+        # Bytes mode flips what a signature covers. A member with no DSSE
+        # envelope has no signed bytes, and a flipped bit in an unsigned field
+        # says nothing about the verifier; structural mode reads it.
+        yield (
+            "member",
+            SKIP + "it carries no DSSE envelope, so bytes mode has no signed payload to flip",
+        )
+    elif mode == "bytes":
+        yield from bytes_mutants(document, paths)
+    elif paths and seed is None:
+        yield (
+            "member",
+            "the corpus publishes no key recipe, so a structural mutant cannot be re-signed",
+        )
+    else:
+        yield from structural_mutants(document, paths, seed or b"")
 
 
 def sample(total: int, limit: int) -> set[int]:
@@ -325,77 +368,109 @@ def reference_route(manifest: dict[str, Any]) -> tuple[Any, str] | None:
 def candidate(verifier: list[str], path: Path) -> str:
     try:
         done = subprocess.run(  # noqa: S603 -- the consumer's verifier, as in the replay
-            [*verifier, str(path)], capture_output=True, text=True, timeout=TIMEOUT_S, check=False,
+            [*verifier, str(path)],
+            capture_output=True,
+            text=True,
+            timeout=TIMEOUT_S,
+            check=False,
             env={k: v for k, v in os.environ.items() if k != "AEE_SUBSTRATE_KEYS"},
         )
     except (OSError, subprocess.TimeoutExpired) as exc:
         return f"notrun ({exc})"
-    return "valid" if done.returncode == 0 else "invalid" if done.returncode == 1 else f"errored (exit {done.returncode})"
+    return (
+        "valid"
+        if done.returncode == 0
+        else "invalid"
+        if done.returncode == 1
+        else f"errored (exit {done.returncode})"
+    )
+
+
+def plan(
+    members: list[dict[str, Any]], corpus_dir: Path, mode: str, seed: bytes | None
+) -> tuple[list[tuple[dict[str, Any], str, Build]], list[str], list[str]]:
+    """Every mutant of every member, unbuilt; and the members refused or skipped."""
+    planned: list[tuple[dict[str, Any], str, Build]] = []
+    refusals: list[str] = []
+    skipped: list[str] = []
+    for member in members:
+        raw = (corpus_dir / member["path"]).read_bytes()
+        for name, build in mutants(raw, mode, seed):
+            if isinstance(build, str):
+                (skipped if build.startswith(SKIP) else refusals).append(
+                    f"{member['id']}: {build.removeprefix(SKIP)}"
+                )
+                break
+            planned.append((member, name, build))
+    return planned, refusals, skipped
+
+
+def compare(mine: str, theirs: str | None, label: str, tally: dict[str, Any]) -> None:
+    """File one mutant's two verdicts under checked, survivor, disagreement or unjudged."""
+    if theirs is None:
+        tally["unjudged"].append(label)
+    elif mine != theirs:
+        tally["disagreements"].append(f"{label}: verifier under test {mine}, reference {theirs}")
+    elif mine == "invalid":
+        tally["agreed"] += 1
+        tally["checked"] += 1
+    else:
+        tally["agreed"] += 1
+        tally["survivors"].append(f"{label}: both verifiers say {mine}")
 
 
 def run(mode: str, verifier: list[str], corpus_dir: Path, limit: int) -> dict[str, Any]:
     manifest = action_checks.manifest_of(corpus_dir) or {}
-    members = [m for m in action_checks.listed_members(manifest)
-               if str(m["entry"].get("kind") or m["entry"].get("disposition")) in action_checks.ACCEPT_KINDS]
-    seed = key_seed(manifest)
+    members = [
+        m
+        for m in action_checks.listed_members(manifest)
+        if str(m["entry"].get("kind") or m["entry"].get("disposition"))
+        in action_checks.ACCEPT_KINDS
+    ]
     route = reference_route(manifest)
-    refusals: list[str] = []
-    planned: list[tuple[dict[str, Any], str, bytes]] = []
-    for member in members:
-        raw = (corpus_dir / member["path"]).read_bytes()
-        for name, body in mutants(raw, mode, seed):
-            if isinstance(body, str):
-                refusals.append(f"{member['id']}: {body}")
-                break
-            planned.append((member, name, body))
+    planned, refusals, skipped = plan(members, corpus_dir, mode, key_seed(manifest))
     chosen = sample(len(planned), limit)
-    survivors: list[str] = []
-    disagreements: list[str] = []
-    unjudged: list[str] = []
-    checked = agreed = 0
+    tally: dict[str, Any] = {
+        "checked": 0,
+        "agreed": 0,
+        "survivors": [],
+        "disagreements": [],
+        "unjudged": [],
+    }
     with tempfile.TemporaryDirectory(prefix="aev-mutants-") as tmp:
         root = Path(tmp)
-        for index, (member, name, body) in enumerate(planned):
-            if index not in chosen:
-                continue
+        for index in sorted(chosen):
+            member, name, build = planned[index]
             path = root / f"{member['id']}-m{index:06d}.json"
-            path.write_bytes(body)
-            label = f"{member['id']} #{index} ({name})"
-            mine = candidate(verifier, path)
+            path.write_bytes(build())
             theirs = None
             if route is not None:
                 try:
                     theirs = route[0]({"id": member["id"], "file": path.name}, root)
                 except Exception as exc:  # noqa: BLE001 -- one mutant must not hide the rest
                     theirs = f"errored ({exc!r})"
-            if theirs is None:
-                unjudged.append(label)
-                continue
-            if mine == theirs:
-                agreed += 1
-                if mine == "invalid":
-                    checked += 1
-                else:
-                    survivors.append(f"{label}: both verifiers say {mine}")
-            else:
-                disagreements.append(f"{label}: verifier under test {mine}, reference {theirs}")
+            compare(candidate(verifier, path), theirs, f"{member['id']} #{index} ({name})", tally)
+            path.unlink()
+    notes = [] if route else ["no reference route into this corpus, so no mutant was compared"]
+    if skipped:
+        notes.append(
+            f"{len(skipped)} of {len(members)} accept members have nothing to mutate in {mode} mode"
+        )
+        notes.extend(skipped[:MAX_ROWS])
     judged = len(chosen)
-    notes = []
-    if route is None:
-        notes.append("no reference route into this corpus, so no mutant was compared")
     return {
         "mode": mode,
-        "checked": checked,
+        "checked": tally["checked"],
         "total": judged,
         "generated": len(planned),
         "sampled": judged < len(planned),
-        "agreement": agreed,
-        "survivors": survivors,
-        "disagreements": disagreements,
+        "agreement": tally["agreed"],
+        "survivors": tally["survivors"],
+        "disagreements": tally["disagreements"],
         "refusals": refusals,
         "notes": notes,
         "referenceVerifierId": route[1] if route else None,
-        "pass": bool(judged) and checked == judged and not refusals,
+        "pass": bool(judged) and tally["checked"] == judged and not refusals,
     }
 
 
@@ -410,31 +485,52 @@ def main() -> int:
     if mode not in ("structural", "bytes"):
         sys.exit(f"action-mutate-stage: mutate must be none, structural or bytes, not {mode!r}")
     if not verifier:
-        result: dict[str, Any] = {"mode": mode, "checked": 0, "total": 0, "generated": 0, "sampled": False,
-                                  "agreement": 0, "survivors": [], "disagreements": [], "refusals": [],
-                                  "notes": ["mutate needs the `verifier` input"], "referenceVerifierId": None,
-                                  "pass": False}
+        result: dict[str, Any] = {
+            "mode": mode,
+            "checked": 0,
+            "total": 0,
+            "generated": 0,
+            "sampled": False,
+            "agreement": 0,
+            "survivors": [],
+            "disagreements": [],
+            "refusals": [],
+            "notes": ["mutate needs the `verifier` input"],
+            "referenceVerifierId": None,
+            "pass": False,
+        }
     else:
         result = run(mode, verifier, corpus_dir, limit)
     line = f"mutation-checked {result['checked']} of {result['total']}"
     print(line)
-    for item in result["refusals"] + result["notes"] + result["survivors"] + result["disagreements"]:
+    for item in (
+        result["refusals"] + result["notes"] + result["survivors"] + result["disagreements"]
+    ):
         print(item)
     if report_path.is_file():
         report = json.loads(report_path.read_text(encoding="utf-8"))
         report["mutation"] = {k: v for k, v in result.items() if k != "referenceVerifierId"}
         if result["referenceVerifierId"]:
-            report.setdefault("reference", {}).setdefault("verifier", {"id": result["referenceVerifierId"]})
+            report.setdefault("reference", {}).setdefault(
+                "verifier", {"id": result["referenceVerifierId"]}
+            )
         report_path.write_text(json.dumps(report, indent=2) + "\n", encoding="utf-8")
     rows = [f"## agent-evidence-vectors: {line} ({mode})\n\n"]
     if result["sampled"]:
-        rows.append(f"A deterministic sample of {result['total']} of {result['generated']} mutants was judged.\n\n")
+        rows.append(
+            f"A deterministic sample of {result['total']} of {result['generated']} "
+            "mutants was judged.\n\n"
+        )
     rows.append(
         f"Both rejected {result['checked']}; the verdicts agree on {result['agreement']}; "
         f"{len(result['survivors'])} survived both; {len(result['disagreements'])} disagree.\n\n"
     )
-    for title, items in (("refused", result["refusals"]), ("note", result["notes"]),
-                         ("survivor", result["survivors"]), ("disagreement", result["disagreements"])):
+    for title, items in (
+        ("refused", result["refusals"]),
+        ("note", result["notes"]),
+        ("survivor", result["survivors"]),
+        ("disagreement", result["disagreements"]),
+    ):
         if items:
             rows.append(f"| {title} |\n| --- |\n")
             rows.extend(f"| {item[:300]} |\n" for item in items[:MAX_ROWS])
