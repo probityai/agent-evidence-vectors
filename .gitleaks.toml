@@ -148,3 +148,16 @@ condition = "AND"
 paths = ['''^(corpora/)?vectors-badge-vc-verify/cases/[^/]+/case\.json$''']
 regexTarget = "match"
 regexes = ['''eyJ[A-Za-z0-9_-]+\.[A-Za-z0-9_-]+\.[A-Za-z0-9_-]*''']
+
+[[allowlists]]
+description = "Test signatures and key material in a dns-aid-sig case, from public test labels"
+# Each sig is a compact JWS over a fictional example.com SVCB record, signed with a
+# P-256 key whose scalar is the SHA-256 of a public label (gen_vectors.py), so the
+# key and every signature are public by construction. AND: only a dns-aid-sig case
+# file, and only a compact JWS or a 43-character base64url value in the x, y or
+# jwks_fingerprint member.
+targetRules = ["jwt", "generic-api-key"]
+condition = "AND"
+paths = ['''^(corpora/)?vectors-dns-aid-sig-v01/cases/[^/]+\.json$''']
+regexTarget = "match"
+regexes = ['''eyJ[A-Za-z0-9_-]+\.[A-Za-z0-9_-]*\.[A-Za-z0-9_-]*''', '''"(x|y|jwks_fingerprint)"\s*:\s*"[A-Za-z0-9_-]{43}"''']
