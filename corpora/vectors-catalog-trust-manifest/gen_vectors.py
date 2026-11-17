@@ -64,6 +64,9 @@ def _del(path: list[Any]) -> dict[str, Any]:
 TM = ["entries", 0, "trustManifest"]
 M0 = ["entries", 0, "trustManifests", 0]
 VM0 = [PUB, "verificationMethod", 0]
+# Edits that turn the travel card into the billing card, the artifact the second entry names.
+BILLING = [_set(["description"], "The billing agent."), _set(["name"], "billing agent"),
+           _set(["url"], "https://publisher.example/agents/billing")]
 # The publisher's ES256 x coordinate with a leading zero octet: the same integer in 33
 # bytes, which RFC 7518 section 6.2.1.2 forbids (the coordinate is exactly 32 octets).
 X_33_OCTETS = "AKwdeINUoV16NYPAMLEebdQI0FEvn-gu3ALp12AsIKSM"
@@ -262,8 +265,6 @@ def _round_four() -> list[dict[str, Any]]:
     dsse = [{"kind": "dsse", "predicate": CARD_RECEIPT + "?view=>>>", "subject": "artifact"}]
     files = {"attestationFiles": ["attestation-0.dsse.json"]}
     leap = [_set(M0 + ["signature", "issuedAt"], "2016-12-31T23:59:60Z")]
-    billing = [_set(["description"], "The billing agent."), _set(["name"], "billing agent"),
-               _set(["url"], "https://publisher.example/agents/billing")]
     return [
         _case("reject-draft-inline-data-swapped", "inline data changed after signing; the "
               "digest is of the RFC 8785 bytes of data, so it no longer matches (AI Catalog "
@@ -296,13 +297,13 @@ def _round_four() -> list[dict[str, Any]]:
               NO, "json_invalid", "ard", D, [_sign(D)], raw=_deep(64)),
         _case("accept-context-entry-integral-number", "control: the context names entry 1.0, "
               "the integer 1 (JSON does not tell 1.0 from 1)", OK, PASS, "ard", D,
-              [_sign(D, entry=1)], secondEntry=True, artifact=billing, context={"entry": 1.0}),
+              [_sign(D, entry=1)], secondEntry=True, artifact=BILLING, context={"entry": 1.0}),
         _case("reject-context-entry-negative", "the context names entry -1, which selects "
               "nothing (an index is a non-negative integer)", NO, "signature_missing", "ard", D,
               [_sign(D)], context={"entry": -1}),
         _case("reject-context-entry-boolean", "the context names entry true, which is not a "
               "number", NO, "signature_missing", "ard", D, [_sign(D, entry=1)],
-              secondEntry=True, artifact=billing, context={"entry": True}),
+              secondEntry=True, artifact=BILLING, context={"entry": True}),
         _case("reject-issued-second-60-not-leap", "issuedAt 2026-11-01T00:00:60Z: no leap "
               "second falls there, so it names no instant (RFC 3339 section 5.7)",
               NO, "timestamp_invalid", "aic", AIC, [_sign(AIC)],
@@ -449,8 +450,9 @@ TABLE: list[dict[str, Any]] = [
           NO, "alg_key_mismatch", "ard", D,
           [_sign(D, "publisher-ed", header={"alg": "ES256"})]),
     _case("reject-number-not-interoperable", "the record carries 9007199254740993; the "
-          "signature covers 9007199254740991", NO, "number_not_interoperable", "ard", D,
-          [_sign(D)], before=[_set(TM + ["x-count"], 9007199254740991)],
+          "signature covers 9007199254740992, the double a parser reads it as",
+          NO, "number_not_interoperable", "ard", D,
+          [_sign(D)], before=[_set(TM + ["x-count"], 9007199254740992)],
           after=[_set(TM + ["x-count"], 9007199254740993)]),
     _case("reject-lone-surrogate", "a member value that is a lone surrogate has no UTF-8 form",
           NO, "no_canonical_form", "ard", D, [_sign(D)],
@@ -466,8 +468,9 @@ TABLE: list[dict[str, Any]] = [
           NO, "subject_entry_mismatch", "aic", AIC, [_sign(AIC)],
           before=[_del(M0 + ["subject", "version"])]),
     _case("reject-manifest-moved-to-other-release", "a valid manifest moved to an entry with "
-          "the same identifier and another digest", NO, "subject_entry_mismatch", "ard", D,
-          [_sign(D)], secondEntry=True,
+          "the same identifier and another digest, whose artifact it names is served",
+          NO, "subject_entry_mismatch", "ard", D, [_sign(D)], secondEntry=True,
+          artifactAfter=BILLING,
           after=[{"op": "copy", "from": TM, "path": ["entries", 1, "trustManifest"]},
                  _set(["entries", 1, "identifier"], IDENTIFIER)],
           context={"entry": 1}),
@@ -679,8 +682,10 @@ def jws_for(catalog: dict[str, Any], spec: dict[str, Any]) -> str:
         else:
             header[name] = value
     protected = b64u(json.dumps(header, separators=(",", ":"), sort_keys=True).encode())
+    # The signer writes every integer a double holds exactly, as the independent generator
+    # does; refusing a value past 2**53 - 1 is the verifier's rule (profile check 19).
     body = reader.canonical(reader.payload(spec["construction"], catalog, spec["entry"],
-                                           spec["manifest"]))
+                                           spec["manifest"]), limit=2**53)
     encoded = body if header.get("b64") is False else b64u(body).encode()
     signature = raw_sign(spec["key"], protected.encode() + b"." + encoded)
     if spec["form"] == "attached":
