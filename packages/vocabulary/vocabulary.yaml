@@ -3557,17 +3557,22 @@ evaluation_claim:
       identifier is this term's own URI,
       https://w3id.org/agent-evidence/vocab/v1/conformance_extension, written
       inside the signed card, so the statement is covered by the card's
-      signature: removing it invalidates the card. Its parameters name the
-      corpus and its pinned version, and the verifier and its pinned version.
-      The statement is a claim by the card's signer that a third party checks
-      by running the named verifier on the named corpus; it is never a claim
-      that the agent behaves well.
+      signature: removing it invalidates the card. Its params object carries
+      exactly four members, each a non-empty string: corpus (the corpus
+      package name), corpus_version, verifier (the verifier package name) and
+      verifier_version. A version is one exact release (digits and dots, an
+      optional pre-release tag), never a range. The card lists the extension
+      once. The statement is a claim by the card's signer that a third party
+      checks by running the named verifier on the named corpus; it is never a
+      claim that the agent behaves well.
     check: >
       A verifier reads the extension only inside a card whose signature
-      verifies, refuses a parameter that does not pin a version, runs the
-      named verifier on the named corpus revision when asked, and reports the
-      card's claim as contradicted when that run does not reach the corpus's
-      expected verdicts.
+      verifies under a key the card's own DID is authorised to use, refuses
+      params with a missing or extra member, an empty value, a version range
+      or a second listing of the extension, runs the named verifier on the
+      named corpus revision when asked, and reports the card's claim as
+      contradicted when that run does not reach the corpus's expected
+      verdicts.
     source_path: "capabilities.extensions[] of a signed agent card, uri equal to this term's URI"
     issuers_in_production: []
     promotion_trigger: "An independently maintained agent that is not ours lists this extension in a signed card and files a crosswalk with evidence: emitted."

@@ -19,7 +19,7 @@ Name the rule that turns a record's inputs into its verdict, the outcomes of re-
 | `anchor_early_allowance` | the early bound on a record's external time anchor | an anchor earlier than issuance minus the allowance is refused; never borrowed from the late bound |
 | `block_time_allowance` | the seconds added to one bound for the uncertainty of an anchor's clock | applied only to the bound it is declared for |
 | `clock_skew_tolerance` | how far a record's issuance time may lie in the verifier's future | the future bound is the skew alone, never the maximum age |
-| `conformance_extension` | an extension URI in a signed agent card naming the corpus and verifier its records are judged by | read only inside a card whose signature verifies; parameters pin versions |
+| `conformance_extension` | an extension URI in a signed agent card naming the corpus and verifier its records are judged by | read only inside a card whose signature verifies under its own DID's key; `params` is exactly `corpus`, `corpus_version`, `verifier`, `verifier_version`, versions exact |
 
 ## The values
 
