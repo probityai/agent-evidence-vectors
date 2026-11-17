@@ -2982,9 +2982,11 @@ jobs:
     permissions:
       contents: read
 
-  # Runs the three event-absence cases through the checker Mikhail Sergeev published
-  # in Witnessability/witnessability-research, at a pinned commit. run.py checks
-  # every checker file against its own pin before it executes anything.
+  # Runs both checkers on the same pinned inputs and fails when either side flips
+  # (interop/event-absence-c1-sergeev/compare.py): the standalone checker Mikhail
+  # Sergeev published in Witnessability/witnessability-research and event_absence/v2
+  # in probity-verify. The checker commit and the hash of each of its modules live in
+  # CHECKER-PIN.json, so a pin update is a change to that one file and to no workflow.
   event_absence_c1_checker:
     runs-on: ubuntu-latest
     timeout-minutes: 10
@@ -2992,17 +2994,20 @@ jobs:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           persist-credentials: false
+      - uses: astral-sh/setup-uv@v7
+      - name: Read the checker pin
+        id: pin
+        run: python3 -c "import json; print('commit=' + json.load(open('interop/event-absence-c1-sergeev/CHECKER-PIN.json'))['commit'])" >> "$GITHUB_OUTPUT"
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           repository: Witnessability/witnessability-research
-          ref: 719b243b6c8b1bcd4429cab6347bb3e77ead6a5e
+          ref: ${{ steps.pin.outputs.commit }}
           path: witnessability-research
           persist-credentials: false
-      - uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0 # v7.1.0
-        with:
-          python-version: '3.13'
-      - name: Run the three absence cases through the published checker
-        run: python witnessability-research/interop/event-absence-c1-checker/run.py --out "$RUNNER_TEMP/c1"
+      - name: A flip on either side fails the comparison
+        run: python3 interop/event-absence-c1-sergeev/compare_test.py
+      - name: Run both checkers on the shared inputs and compare
+        run: uv run --no-project --python 3.13 --with probity-verify==0.2.2 python interop/event-absence-c1-sergeev/compare.py --checker-root witnessability-research
     needs:
       - changes
     if: ${{ fromJSON(needs.changes.outputs.run)['event_absence_c1_checker'] }}
