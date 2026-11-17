@@ -149,6 +149,26 @@ def _signatures(card: dict[str, Any]) -> None:
                            "signature": "QFdkNLNszlGj3z3u0YQGt_T9LixY3qtdQpZmsTdDHDe3fX"}]
 
 
+def _nested_and_reserved(card: dict[str, Any]) -> None:
+    """The card's JWS signatures beside two members that only look excluded: a
+    ``signatures`` member inside an extension's parameters, and a top-level
+    ``additionalSignatures`` member, which some catalog formats reserve and A2A does not."""
+    _signatures(card)
+    card["capabilities"]["extensions"] = [{
+        "params": {"signatures": [{"notary": "https://notary.example.org", "sig": "bm90YXJ5"}]},
+        "uri": "https://example.com/ext/notary/v1"}]
+    card["additionalSignatures"] = [{"protected": "eyJhbGciOiJFZERTQSJ9", "signature": "c2Vjb25k"}]
+
+
+def _without_every(name: str, value: Any) -> Any:
+    """``value`` with every member called ``name`` removed, at any depth."""
+    if isinstance(value, dict):
+        return {k: _without_every(name, v) for k, v in value.items() if k != name}
+    if isinstance(value, list):
+        return [_without_every(name, item) for item in value]
+    return value
+
+
 def _rfc8785_edges(card: dict[str, Any]) -> None:
     """A non-ASCII name, a small number and keys whose UTF-16 and code point
     orders differ: the three places A2A issue 2122 found SDKs disagree."""
@@ -230,6 +250,7 @@ def _predicate(change: Callable[[dict[str, Any]], None]) -> dict[str, Any]:
 def accepted() -> list[Case]:
     defaults, extension = card_with(_defaults), card_with(_extension)
     signed, edges, vendor = card_with(_signatures), card_with(_rfc8785_edges), card_with(_vendor)
+    layered = card_with(_nested_and_reserved)
     other = sha(b"some other receipt statement")
     thumbs = sorted([thumbprint(AGENT), thumbprint(OTHER)])
     return [
@@ -248,6 +269,10 @@ def accepted() -> list[Case]:
              statement=receipt(extension)),
         case("accept-unknown-member-kept", "control: a member A2A does not define is hashed "
              "as served", card=vendor, statement=receipt(vendor)),
+        case("accept-exclusion-top-level-only", "control: only the top-level signatures member "
+             "is excluded; a signatures member inside an extension and a top-level "
+             "additionalSignatures member are hashed as served", card=layered,
+             statement=receipt(layered)),
         case("accept-agent-key-thumbprints", "control: the receipt names the RFC 7638 "
              "thumbprints of the keys the agent signed with during the run",
              statement=receipt(agentKeyThumbprints=thumbs)),
@@ -327,7 +352,7 @@ def _card_cases() -> list[Case]:
     big = card_with(lambda c: c["capabilities"].update(extensions=[
         {"params": {"limit": 2**53}, "uri": "https://example.com/ext/limit/v1"}]))
     defaults, signed = card_with(_defaults), card_with(_signatures)
-    edges = card_with(_rfc8785_edges)
+    edges, layered = card_with(_rfc8785_edges), card_with(_nested_and_reserved)
     added = card_with(lambda c: c["skills"].append(
         {"description": "Pay for a held booking.", "id": "pay", "name": "Pay",
          "tags": ["payment"]}))
@@ -350,6 +375,16 @@ def _card_cases() -> list[Case]:
              reason="card_digest_mismatch"),
         case("digest-signatures-included", "the digest covers the card's signatures member",
              card=signed, statement=receipt(signed, digest=sha(a2ajcs.canonicalize(signed))),
+             reason="card_digest_mismatch"),
+        case("digest-signatures-removed-recursively", "the digest removes every member named "
+             "signatures, the extension's included, where only the top-level one is excluded",
+             card=layered, statement=receipt(layered, digest=sha(a2ajcs.canonicalize(
+                 _without_every("signatures", layered)))), reason="card_digest_mismatch"),
+        case("digest-additional-signatures-excluded", "the digest also leaves out the top-level "
+             "additionalSignatures member, an exclusion A2A does not make",
+             card=layered, statement=receipt(layered, digest=sha(a2ajcs.canonicalize(
+                 {k: v for k, v in layered.items()
+                  if k not in ("signatures", "additionalSignatures")}))),
              reason="card_digest_mismatch"),
         case("digest-not-rfc8785", "the digest is over sorted-key JSON with ASCII escapes and "
              "the number written 1e-06, which is not RFC 8785", card=edges,
