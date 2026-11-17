@@ -159,7 +159,9 @@ def load_claim_context(path: str) -> dict[str, Any] | None:
         return None
     base = Path(path).resolve().parent
     if not isinstance(block, dict) or not isinstance(block.get("rule"), str):
-        raise ValueError("`evaluationClaim` is an object whose `rule` names the acceptance rule file")
+        raise ValueError(
+            "`evaluationClaim` is an object whose `rule` names the acceptance rule file"
+        )
     lists = {}
     for key in ("caseSets", "profiles"):
         value = block.get(key, [])
@@ -185,8 +187,10 @@ def claim_reader(context: dict[str, Any]) -> tuple[Reader, dict[str, Any]]:
 
     rule = read_file(context["rule"])
     case_sets = index_by_digest(check_case_set(read_file(p)) for p in context["caseSets"])
-    profiles = {**packaged_profiles(),
-                **index_by_digest(check_profile(read_file(p)) for p in context["profiles"])}
+    profiles = {
+        **packaged_profiles(),
+        **index_by_digest(check_profile(read_file(p)) for p in context["profiles"]),
+    }
 
     def read(raw: bytes) -> list[str]:
         outcome = verify(parse_strict(raw), rule, profiles, case_sets)
@@ -199,8 +203,10 @@ def claim_reader(context: dict[str, Any]) -> tuple[Reader, dict[str, Any]]:
         return lines
 
     binding = {
-        "rule": {"path": context["rule"],
-                 "sha256": hashlib.sha256(Path(context["rule"]).read_bytes()).hexdigest()},
+        "rule": {
+            "path": context["rule"],
+            "sha256": hashlib.sha256(Path(context["rule"]).read_bytes()).hexdigest(),
+        },
         "caseSets": sorted(case_sets),
         "profiles": sorted(profiles),
     }

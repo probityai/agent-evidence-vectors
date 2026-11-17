@@ -51,7 +51,9 @@ FEATURES = frozenset(
 
 _NUMBER = re.compile(r"-?(?:0|[1-9][0-9]*)(?:\.[0-9]+)?(?:[eE][+-]?[0-9]+)?")
 _STRING = re.compile(r'"(?:[^"\\]|\\.)*"', re.DOTALL)
-_NON_ASCII_ESCAPE = re.compile(r"\\u(?:00[89a-fA-F][0-9a-fA-F]|0[1-9a-fA-F][0-9a-fA-F]{2}|[1-9a-fA-F][0-9a-fA-F]{3})")
+_NON_ASCII_ESCAPE = re.compile(
+    r"\\u(?:00[89a-fA-F][0-9a-fA-F]|0[1-9a-fA-F][0-9a-fA-F]{2}|[1-9a-fA-F][0-9a-fA-F]{3})"
+)
 _SURROGATE = re.compile(r"\\u[dD][89abAB][0-9a-fA-F]{2}|\\u[dD][c-fC-F][0-9a-fA-F]{2}")
 
 
@@ -116,8 +118,15 @@ def count_cases(
     """
     manifest = manifest_of(corpus_dir)
     if manifest is None:
-        return {"manifest": False, "listed": 0, "present": 0, "missingOnDisk": [],
-                "missingFromReport": [], "reportGap": 0, "os": os.name}
+        return {
+            "manifest": False,
+            "listed": 0,
+            "present": 0,
+            "missingOnDisk": [],
+            "missingFromReport": [],
+            "reportGap": 0,
+            "os": os.name,
+        }
     members = listed_members(manifest)
     disk = files_on_disk(corpus_dir)
     missing_disk = sorted(m["path"] for m in members if m["path"] not in disk)
@@ -200,34 +209,19 @@ def features_of(raw: bytes, declared: Iterable[str] | None = None) -> set[str]:
 
 
 def _member_text(text: str, name: str) -> str:
-    """The JSON text of one top-level member, sliced from the file as written."""
+    """The JSON text of one top-level member, sliced from the file as written.
+
+    ``raw_decode`` finds where the value ends; the slice keeps every token as
+    the file spells it, which the parsed value would not.
+    """
     match = re.search(r'"' + re.escape(name) + r'"\s*:\s*', text)
     if match is None:
         return text
-    start = match.end()
-    depth, i, in_str = 0, start, False
-    while i < len(text):
-        ch = text[i]
-        if in_str:
-            if ch == "\\":
-                i += 2
-                continue
-            if ch == '"':
-                in_str = False
-        elif ch == '"':
-            in_str = True
-        elif ch in "[{":
-            depth += 1
-        elif ch in "]}":
-            if depth == 0:
-                return text[start:i]
-            depth -= 1
-            if depth == 0:
-                return text[start : i + 1]
-        elif ch == "," and depth == 0:
-            return text[start:i]
-        i += 1
-    return text[start:]
+    try:
+        _value, end = json.JSONDecoder().raw_decode(text, match.end())
+    except ValueError:
+        return text[match.end() :]
+    return text[match.end() : end]
 
 
 def load_profile(spec: str) -> dict[str, Any]:
@@ -241,15 +235,18 @@ def load_profile(spec: str) -> dict[str, Any]:
         document = json.loads(Path(spec).read_text(encoding="utf-8"))
         if not isinstance(document, dict):
             raise ValueError(f"profile file {spec} is not a JSON object")
-        excludes = frozenset(str(f) for f in document.get("excludes", []))
-        unknown = excludes - FEATURES
-        if unknown:
-            raise ValueError(f"profile file {spec} names unknown features {sorted(unknown)}")
-        return {"name": str(document.get("name", spec)), "excludes": excludes,
-                "ids": frozenset(str(i) for i in document.get("outOfProfile", []))}
+        named = frozenset(str(f) for f in document.get("excludes", []))
+        if named - FEATURES:
+            raise ValueError(
+                f"profile file {spec} names unknown features {sorted(named - FEATURES)}"
+            )
+        return {
+            "name": str(document.get("name", spec)),
+            "excludes": named,
+            "ids": frozenset(str(i) for i in document.get("outOfProfile", [])),
+        }
     names = [n.strip() for n in spec.split(",") if n.strip()]
-    unknown = [n for n in names if n not in PROFILES]
-    if unknown or not names:
+    if not names or any(n not in PROFILES for n in names):
         raise ValueError(
             f"profile {spec!r} is neither a file nor built-in names; the built-in "
             f"profiles are {', '.join(sorted(PROFILES))}"
@@ -290,7 +287,10 @@ def split_by_profile(
     is out of profile. A row whose member's features could not be read is kept
     IN profile, so an unreadable member can never hide a failure.
     """
-    counts = {"in": {"vectors": 0, "pass": 0, "fail": 0}, "out": {"vectors": 0, "pass": 0, "fail": 0}}
+    counts = {
+        "in": {"vectors": 0, "pass": 0, "fail": 0},
+        "out": {"vectors": 0, "pass": 0, "fail": 0},
+    }
     out_ids: list[str] = []
     in_failures: list[str] = []
     for row in report.get("vectors") or []:
@@ -305,9 +305,14 @@ def split_by_profile(
             out_ids.append(row_id)
         elif not passed:
             in_failures.append(row_id)
-    return {"profile": profile["name"], "excludes": sorted(profile["excludes"]),
-            "inProfile": counts["in"], "outOfProfile": counts["out"],
-            "outOfProfileIds": out_ids, "inProfileFailures": in_failures}
+    return {
+        "profile": profile["name"],
+        "excludes": sorted(profile["excludes"]),
+        "inProfile": counts["in"],
+        "outOfProfile": counts["out"],
+        "outOfProfileIds": out_ids,
+        "inProfileFailures": in_failures,
+    }
 
 
 # ---------------------------------------------------------------- null controls
@@ -332,17 +337,14 @@ def controls(
     more members than its share, and neither passes them all.
     """
     accept, reject, total = kind_shares(kinds)
-    findings = []
-    if accept_passed is not None and total and (accept_passed > accept or accept_passed == total):
-        findings.append(
-            f"always-accept passes {accept_passed} of {total}, more than the {accept} members that must be accepted"
-            if accept_passed > accept else f"always-accept passes all {total}"
+    findings = [
+        finding
+        for finding in (
+            _control_finding("accept", accept_passed, accept, total),
+            _control_finding("reject", reject_passed, reject, total),
         )
-    if reject_passed is not None and total and (reject_passed > reject or reject_passed == total):
-        findings.append(
-            f"always-reject passes {reject_passed} of {total}, more than the {reject} members that must be rejected"
-            if reject_passed > reject else f"always-reject passes all {total}"
-        )
+        if finding
+    ]
     scored = accept_passed is not None and reject_passed is not None
     return {
         "total": total,
@@ -355,8 +357,23 @@ def controls(
     }
 
 
+def _control_finding(mode: str, passed: int | None, share: int, total: int) -> str | None:
+    """Why one control shows the corpus does not discriminate, or None."""
+    if passed is None or not total:
+        return None
+    if passed > share:
+        return (
+            f"always-{mode} passes {passed} of {total}, more than the {share} "
+            f"members that must be {mode}ed"
+        )
+    if passed == total:
+        return f"always-{mode} passes all {total}"
+    return None
+
+
 def controls_line(result: dict[str, Any]) -> str:
     """One summary line for the controls."""
+
     def cell(value: int | None) -> str:
         return "not scored" if value is None else f"{value} of {result['total']}"
 

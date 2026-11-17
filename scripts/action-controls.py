@@ -45,7 +45,9 @@ def control_command(mode: str) -> str:
     return shlex.join([sys.executable, "-S", str(CONTROL), mode])
 
 
-def run_control(harness: list[str], corpus_args: list[str], mode: str, out: Path) -> dict[str, object]:
+def run_control(
+    harness: list[str], corpus_args: list[str], mode: str, out: Path
+) -> dict[str, object]:
     report = out / f"always-{mode}.json"
     report.unlink(missing_ok=True)
     command = [*harness, *corpus_args, "--verifier", control_command(mode), "--report", str(report)]

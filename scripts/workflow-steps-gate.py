@@ -375,15 +375,17 @@ def own_action(inputs: dict[str, Any]) -> Local:
     if expected:
         # Conformance mode installs nothing and runs one standard-library script.
         report = str(inputs.get("report-path", "") or "agent-evidence-vectors-report.json")
+        argv = [
+            "--expected", expected,
+            "--cases", str(inputs.get("cases", "") or "."),
+            "--verifier", verifier,
+            "--fail-on-no-vectors", str(inputs.get("fail-on-no-vectors", "") or "true"),
+            "--fail-on-missing-case", str(inputs.get("fail-on-missing-case", "") or "true"),
+        ]  # fmt: skip
         return Local(
             ': "${RUNNER_TEMP:?RUNNER_TEMP is required}"\n'
-            f'python3 -S scripts/action-conformance.py --expected {shlex.quote(expected)}'
-            f' --cases {shlex.quote(str(inputs.get("cases", "") or "."))}'
-            f' --verifier {shlex.quote(verifier)}'
-            f' --report "$RUNNER_TEMP"/{shlex.quote(pathlib.Path(report).name)}'
-            f' --fail-on-no-vectors {shlex.quote(str(inputs.get("fail-on-no-vectors", "") or "true"))}'
-            f' --fail-on-missing-case {shlex.quote(str(inputs.get("fail-on-missing-case", "") or "true"))}'
-            " --github\n",
+            f"python3 -S scripts/action-conformance.py {shlex.join(argv)}"
+            f' --report "$RUNNER_TEMP"/{shlex.quote(pathlib.Path(report).name)} --github\n',
             "",
         )
     corpus = str(inputs.get("corpus", "") or "vectors")
@@ -393,8 +395,16 @@ def own_action(inputs: dict[str, Any]) -> Local:
     report_name = pathlib.Path(report).name
     # The directory the summary counts cases in, resolved the way the action's
     # replay step resolves it.
-    resolve = "import sys; sys.path.insert(0, 'packaging'); from run_vectors import corpus_dir; print(corpus_dir(sys.argv[1]))"
-    corpus_dir = shlex.quote(vectors) if vectors else f'"$(python3 -c {shlex.quote(resolve)} {shlex.quote(corpus)})"'
+    resolve = (
+        "import sys; sys.path.insert(0, 'packaging'); "
+        "from run_vectors import corpus_dir; print(corpus_dir(sys.argv[1]))"
+    )
+    corpus_args = shlex.quote(json.dumps(source.split(" ", 1)[:1] + [vectors or corpus]))
+    corpus_dir = (
+        shlex.quote(vectors)
+        if vectors
+        else f'"$(python3 -c {shlex.quote(resolve)} {shlex.quote(corpus)})"'
+    )
     # The replay's status is captured rather than allowed to abort the block:
     # the action writes its summary and its outputs for a failing run too, and
     # the mirror has to reach the same place. The status is re-raised at the end
@@ -412,7 +422,7 @@ def own_action(inputs: dict[str, Any]) -> Local:
         f"corpus_dir={corpus_dir}\n"
         # The null controls, through the same harness file the replay used.
         'controls="$RUNNER_TEMP"/agent-evidence-vectors-controls\n'
-        f"CONTROLS_DIR=\"$controls\" CORPUS_ARGS={shlex.quote(json.dumps(source.split(' ', 1)[:1] + [vectors or corpus]))} "
+        f'CONTROLS_DIR="$controls" CORPUS_ARGS={corpus_args} '
         "HARNESS='python3 packaging/run_vectors.py' python3 scripts/action-controls.py\n"
         f'REPORT="$report_path" STATUS="$status" CORPUS={shlex.quote(vectors or corpus)} '
         f'CORPUS_DIR="$corpus_dir" CONTROLS_DIR="$controls" {flags} \\\n'

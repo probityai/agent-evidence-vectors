@@ -44,12 +44,16 @@ import action_checks  # noqa: E402
 Case = Callable[[Path], None]
 
 
-def run(argv: list[str], env: dict[str, str] | None = None, cwd: Path | None = None) -> subprocess.CompletedProcess[str]:
+def run(
+    argv: list[str], env: dict[str, str] | None = None, cwd: Path | None = None
+) -> subprocess.CompletedProcess[str]:
     return subprocess.run(argv, capture_output=True, text=True, check=False, env=env, cwd=cwd)  # noqa: S603
 
 
 def outputs(path: Path) -> dict[str, str]:
-    return dict(line.split("=", 1) for line in path.read_text(encoding="utf-8").splitlines() if "=" in line)
+    return dict(
+        line.split("=", 1) for line in path.read_text(encoding="utf-8").splitlines() if "=" in line
+    )
 
 
 def action() -> dict[str, Any]:
@@ -68,8 +72,15 @@ def step(name: str) -> dict[str, Any]:
 
 def case_inputs_exist_with_strict_defaults(work: Path) -> None:
     inputs = action()["inputs"]
-    for name, default in (("profile", ""), ("fail-on-no-vectors", "true"), ("fail-on-missing-case", "true"),
-                          ("expected-verdicts", ""), ("cases", "."), ("mutate", "none"), ("mutate-limit", "2000")):
+    for name, default in (
+        ("profile", ""),
+        ("fail-on-no-vectors", "true"),
+        ("fail-on-missing-case", "true"),
+        ("expected-verdicts", ""),
+        ("cases", "."),
+        ("mutate", "none"),
+        ("mutate-limit", "2000"),
+    ):
         assert name in inputs, f"input {name} missing"
         assert inputs[name]["default"] == default, f"{name} default {inputs[name]['default']!r}"
     assert "evaluation-claim" in inputs["record-class"]["description"]
@@ -77,7 +88,9 @@ def case_inputs_exist_with_strict_defaults(work: Path) -> None:
 
 def case_conformance_mode_installs_nothing(work: Path) -> None:
     for name in ("Set up Python", "Install the suite"):
-        assert "inputs.expected-verdicts == ''" in step(name)["if"], f"{name} runs in conformance mode"
+        assert "inputs.expected-verdicts == ''" in step(name)["if"], (
+            f"{name} runs in conformance mode"
+        )
     body = step("Run the verifier over the listed cases")["run"]
     assert '"$py" -S ' in body, "the conformance mode does not run under python -S"
     assert "-S" in step("Report the reference stage for the listed cases")["run"]
@@ -87,7 +100,13 @@ def case_the_summary_decides_the_replay_job(work: Path) -> None:
     gate = step("Fail the job when the replay did, or the verifier did not run")["if"]
     assert "steps.summary.outputs.result != 'pass'" in gate and "'no-verdict'" in gate
     summary_env = step("Write the job summary")["env"]
-    for key in ("CORPUS_DIR", "PROFILE", "FAIL_ON_NO_VECTORS", "FAIL_ON_MISSING_CASE", "CONTROLS_DIR"):
+    for key in (
+        "CORPUS_DIR",
+        "PROFILE",
+        "FAIL_ON_NO_VECTORS",
+        "FAIL_ON_MISSING_CASE",
+        "CONTROLS_DIR",
+    ):
         assert key in summary_env, f"the summary step is not handed {key}"
     names = [s.get("name") for s in action()["runs"]["steps"]]
     assert names.index("Score the null controls") < names.index("Write the job summary")
@@ -103,14 +122,18 @@ def case_a2a_float_inputs_are_out_of_integer_only(work: Path) -> None:
     assert len(floats) == 11, f"{len(floats)} float inputs: {floats}"
     split = action_checks.split_by_profile(
         {"vectors": [{"id": k, "status": "FAIL" if k in floats else "PASS"} for k in features]},
-        features, action_checks.load_profile("integer-only"))
+        features,
+        action_checks.load_profile("integer-only"),
+    )
     assert split["outOfProfile"] == {"vectors": 11, "pass": 0, "fail": 11}, split["outOfProfile"]
     assert split["inProfile"]["fail"] == 0 and not split["inProfileFailures"]
 
 
 def case_a_profile_file_names_features_and_ids(work: Path) -> None:
     path = work / "profile.json"
-    path.write_text(json.dumps({"name": "mine", "excludes": ["unsafe-integer"], "outOfProfile": ["A2-001"]}))
+    path.write_text(
+        json.dumps({"name": "mine", "excludes": ["unsafe-integer"], "outOfProfile": ["A2-001"]})
+    )
     profile = action_checks.load_profile(str(path))
     assert profile["ids"] == {"A2-001"} and profile["excludes"] == {"unsafe-integer"}
     path.write_text(json.dumps({"excludes": ["no-such-feature"]}))
@@ -129,18 +152,35 @@ def case_counts_name_a_missing_case(work: Path) -> None:
     counted = action_checks.count_cases(corpus)
     assert counted["missingOnDisk"] == [first["path"]], counted
     assert counted["present"] == counted["listed"] - 1
-    report = {"vectors": [{"id": m["id"]} for m in action_checks.listed_members(action_checks.manifest_of(A2A) or {})[1:]]}
+    report = {
+        "vectors": [
+            {"id": m["id"]}
+            for m in action_checks.listed_members(action_checks.manifest_of(A2A) or {})[1:]
+        ]
+    }
     assert action_checks.count_cases(A2A, report)["missingFromReport"] == [first["id"]]
 
 
 def _a2a_report(failing: set[str]) -> dict[str, Any]:
     ids = sorted(action_checks.member_features(A2A))
-    rows = [{"id": i, "kind": "MUST-ACCEPT", "status": "FAIL" if i in failing else "PASS"} for i in ids]
+    rows = [
+        {"id": i, "kind": "MUST-ACCEPT", "status": "FAIL" if i in failing else "PASS"} for i in ids
+    ]
     passed = len(rows) - len(failing)
-    return {"rail": "external", "target": "card-signing-input", "vectors": rows,
-            "verifier": {"vectorsExecuted": len(rows)},
-            "totals": {"vectors": len(rows), "pass": passed, "fail": len(failing), "conform": passed,
-                       "reasonParityMismatch": 0, "suiteRefusals": 0}}
+    return {
+        "rail": "external",
+        "target": "card-signing-input",
+        "vectors": rows,
+        "verifier": {"vectorsExecuted": len(rows)},
+        "totals": {
+            "vectors": len(rows),
+            "pass": passed,
+            "fail": len(failing),
+            "conform": passed,
+            "reasonParityMismatch": 0,
+            "suiteRefusals": 0,
+        },
+    }
 
 
 def summarize(work: Path, report: dict[str, Any], status: str, **env: str) -> dict[str, str]:
@@ -148,9 +188,18 @@ def summarize(work: Path, report: dict[str, Any], status: str, **env: str) -> di
     report_path.write_text(json.dumps(report))
     out = work / "out"
     out.write_text("")
-    done = run([sys.executable, str(SCRIPTS / "action-summary.py")],
-               {**os.environ, "REPORT": str(report_path), "STATUS": status, "CORPUS_DIR": str(A2A),
-                "GITHUB_STEP_SUMMARY": str(work / "summary.md"), "GITHUB_OUTPUT": str(out), **env})
+    done = run(
+        [sys.executable, str(SCRIPTS / "action-summary.py")],
+        {
+            **os.environ,
+            "REPORT": str(report_path),
+            "STATUS": status,
+            "CORPUS_DIR": str(A2A),
+            "GITHUB_STEP_SUMMARY": str(work / "summary.md"),
+            "GITHUB_OUTPUT": str(out),
+            **env,
+        },
+    )
     assert done.returncode == 0, done.stderr
     return outputs(out)
 
@@ -159,10 +208,13 @@ def case_profile_excuses_only_out_of_profile_failures(work: Path) -> None:
     floats = {k for k, v in action_checks.member_features(A2A).items() if "non-integer-number" in v}
     got = summarize(work, _a2a_report(floats), "1", PROFILE="integer-only")
     assert got["result"] == "pass" and got["out-of-profile"] == "11", got
-    assert summarize(work, _a2a_report(floats), "1")["result"] == "fail", "no profile, float failures passed"
+    assert summarize(work, _a2a_report(floats), "1")["result"] == "fail", (
+        "no profile, float failures passed"
+    )
     inside = floats | {"A2-001"}
-    assert summarize(work, _a2a_report(inside), "1", PROFILE="integer-only")["result"] == "fail", \
+    assert summarize(work, _a2a_report(inside), "1", PROFILE="integer-only")["result"] == "fail", (
         "an in-profile failure was excused"
+    )
 
 
 def case_no_vectors_and_missing_cases(work: Path) -> None:
@@ -180,8 +232,12 @@ def case_no_vectors_and_missing_cases(work: Path) -> None:
 
 
 def case_controls_are_scored_and_judged(work: Path) -> None:
-    accept = run([sys.executable, "-S", str(SCRIPTS / "action-control-verifier.py"), "accept", "x.json"])
-    reject = run([sys.executable, "-S", str(SCRIPTS / "action-control-verifier.py"), "reject", "x.json"])
+    accept = run(
+        [sys.executable, "-S", str(SCRIPTS / "action-control-verifier.py"), "accept", "x.json"]
+    )
+    reject = run(
+        [sys.executable, "-S", str(SCRIPTS / "action-control-verifier.py"), "reject", "x.json"]
+    )
     assert (accept.returncode, reject.returncode) == (0, 1)
     assert action_checks.controls(["accept", "reject"], 1, 1)["discriminates"] is True
     lax = action_checks.controls(["accept", "reject"], 2, 1)
@@ -198,12 +254,27 @@ def case_controls_are_scored_and_judged(work: Path) -> None:
 # ---------------------------------------------------------------- conformance mode and -S
 
 
-def conformance(work: Path, expected: str, verifier: str, *extra: str) -> tuple[int, dict[str, Any]]:
+def conformance(
+    work: Path, expected: str, verifier: str, *extra: str
+) -> tuple[int, dict[str, Any]]:
     fixture = FIXTURES / "conformance"
     report = work / "conf.json"
-    done = run([sys.executable, "-S", str(SCRIPTS / "action-conformance.py"), "--expected",
-                str(fixture / expected), "--cases", str(fixture / "cases"), "--verifier",
-                f"{sys.executable} -S {fixture / verifier}", "--report", str(report), *extra])
+    done = run(
+        [
+            sys.executable,
+            "-S",
+            str(SCRIPTS / "action-conformance.py"),
+            "--expected",
+            str(fixture / expected),
+            "--cases",
+            str(fixture / "cases"),
+            "--verifier",
+            f"{sys.executable} -S {fixture / verifier}",
+            "--report",
+            str(report),
+            *extra,
+        ]
+    )
     return done.returncode, json.loads(report.read_text()) if report.is_file() else {}
 
 
@@ -212,10 +283,14 @@ def case_conformance_mode_holds_each_case(work: Path) -> None:
     assert code == 0 and report["totals"]["pass"] == 4, report.get("totals")
     code, report = conformance(work, "verify-expected.txt", "lenient-verifier.py")
     assert code == 1 and {r["id"] for r in report["vectors"] if r["status"] == "FAIL"} == {
-        "invalid/flag-false.json", "invalid/not-json.json"}
+        "invalid/flag-false.json",
+        "invalid/not-json.json",
+    }
     code, report = conformance(work, "verify-expected-missing.txt", "verifier.py")
     assert code == 1 and report["missing"] == ["invalid/removed-case.json"]
-    code, _ = conformance(work, "verify-expected-missing.txt", "verifier.py", "--fail-on-missing-case", "false")
+    code, _ = conformance(
+        work, "verify-expected-missing.txt", "verifier.py", "--fail-on-missing-case", "false"
+    )
     assert code == 0
 
 
@@ -224,8 +299,19 @@ def case_conformance_mode_found_nothing(work: Path) -> None:
     expected.write_text("")
     empty = work / "empty"
     empty.mkdir()
-    base = [sys.executable, "-S", str(SCRIPTS / "action-conformance.py"), "--expected", str(expected),
-            "--cases", str(empty), "--verifier", "true", "--report", str(work / "r.json")]
+    base = [
+        sys.executable,
+        "-S",
+        str(SCRIPTS / "action-conformance.py"),
+        "--expected",
+        str(expected),
+        "--cases",
+        str(empty),
+        "--verifier",
+        "true",
+        "--report",
+        str(work / "r.json"),
+    ]
     assert run(base).returncode == 1
     assert run([*base, "--fail-on-no-vectors", "false"]).returncode == 2
 
@@ -235,10 +321,16 @@ def case_reference_stage_runs_under_dash_s(work: Path) -> None:
     report.write_text(json.dumps({"totals": {"vectors": 4}}))
     out = work / "out"
     out.write_text("")
-    done = run([sys.executable, "-S", str(SCRIPTS / "action-reference-stage.py")],
-               {"PATH": os.environ.get("PATH", ""), "REPORT": str(report),
-                "CORPUS_DIR": str(FIXTURES / "conformance" / "cases"),
-                "GITHUB_STEP_SUMMARY": str(work / "s.md"), "GITHUB_OUTPUT": str(out)})
+    done = run(
+        [sys.executable, "-S", str(SCRIPTS / "action-reference-stage.py")],
+        {
+            "PATH": os.environ.get("PATH", ""),
+            "REPORT": str(report),
+            "CORPUS_DIR": str(FIXTURES / "conformance" / "cases"),
+            "GITHUB_STEP_SUMMARY": str(work / "s.md"),
+            "GITHUB_OUTPUT": str(out),
+        },
+    )
     assert done.returncode == 0, done.stderr
     got = outputs(out)
     assert got["reference-checked"] == "0" and got["reference-total"] == "4", got
@@ -251,8 +343,15 @@ def case_reference_stage_runs_under_dash_s(work: Path) -> None:
 
 def produced(work: Path, record: str, pins: bool = True) -> tuple[int, dict[str, Any]]:
     receipt = work / "receipt.json"
-    argv = [sys.executable, "-m", "agent_evidence_vectors.producer", "evaluation-claim",
-            str(FIXTURES / "claim" / record), "--receipt", str(receipt)]
+    argv = [
+        sys.executable,
+        "-m",
+        "agent_evidence_vectors.producer",
+        "evaluation-claim",
+        str(FIXTURES / "claim" / record),
+        "--receipt",
+        str(receipt),
+    ]
     if pins:
         argv += ["--pins", str(FIXTURES / "claim" / "pins.json")]
     done = run(argv, {**os.environ, "PYTHONPATH": str(ROOT / "packaging")})
@@ -275,16 +374,26 @@ def case_evaluation_claim_is_judged_under_the_pinned_rule(work: Path) -> None:
 # ---------------------------------------------------------------- mutation stage
 
 
-def mutate(work: Path, corpus: str, candidate: str, mode: str, limit: str = "40",
-           stage: Path | None = None) -> dict[str, str]:
+def mutate(
+    work: Path, corpus: str, candidate: str, mode: str, limit: str = "40", stage: Path | None = None
+) -> dict[str, str]:
     report = work / "r.json"
     report.write_text(json.dumps({"totals": {"vectors": 1}}))
     out = work / "out"
     out.write_text("")
-    done = run([sys.executable, str(stage or SCRIPTS / "action-mutate-stage.py")],
-               {**os.environ, "MUTATE": mode, "MUTATE_LIMIT": limit, "VERIFIER": candidate,
-                "REPORT": str(report), "CORPUS_DIR": str(FIXTURES / "mutate" / corpus),
-                "GITHUB_STEP_SUMMARY": str(work / "s.md"), "GITHUB_OUTPUT": str(out)})
+    done = run(
+        [sys.executable, str(stage or SCRIPTS / "action-mutate-stage.py")],
+        {
+            **os.environ,
+            "MUTATE": mode,
+            "MUTATE_LIMIT": limit,
+            "VERIFIER": candidate,
+            "REPORT": str(report),
+            "CORPUS_DIR": str(FIXTURES / "mutate" / corpus),
+            "GITHUB_STEP_SUMMARY": str(work / "s.md"),
+            "GITHUB_OUTPUT": str(out),
+        },
+    )
     assert done.returncode == 0, done.stderr
     return outputs(out)
 
@@ -294,10 +403,23 @@ def candidate(name: str, *args: str) -> str:
 
 
 def case_mutants_both_reject_and_agree(work: Path) -> None:
-    for mode in ("bytes", "structural"):
-        got = mutate(work, "aee", candidate("reference_candidate.py"), mode)
-        assert got["mutation-result"] == "pass", (mode, got, (work / "s.md").read_text())
-        assert got["mutation-checked"] == got["mutation-total"] != "0", got
+    got = mutate(work, "aee", candidate("reference_candidate.py"), "bytes")
+    assert got["mutation-result"] == "pass", (got, (work / "s.md").read_text())
+    assert got["mutation-checked"] == got["mutation-total"] != "0", got
+    # Structural mutants are re-signed, so some may change only a field no rule
+    # binds: both verifiers then accept it and it is a named survivor. What the
+    # stage must show is that the two verifiers never disagree.
+    got = mutate(work, "aee", candidate("reference_candidate.py"), "structural")
+    assert got["mutation-agreement"] == got["mutation-total"] != "0", got
+    survivors = int(got["mutation-survivors"])
+    assert got["mutation-result"] == ("pass" if survivors == 0 else "fail"), got
+    assert int(got["mutation-checked"]) + survivors == int(got["mutation-total"]), got
+
+
+def case_bytes_mode_skips_a_member_with_nothing_signed(work: Path) -> None:
+    got = mutate(work, "plain", candidate("lenient_candidate.py"), "bytes")
+    assert got["mutation-total"] == "0" and got["mutation-result"] == "fail", got
+    assert "no DSSE envelope" in (work / "s.md").read_text()
 
 
 def case_a_lenient_candidate_fails_and_names_survivors(work: Path) -> None:
@@ -317,7 +439,10 @@ def case_no_reference_route_reads_zero_of_m(work: Path) -> None:
     assert got["mutation-checked"] == "0" and got["mutation-total"] != "0", got
     assert got["mutation-result"] == "fail"
     report = json.loads((work / "r.json").read_text())
-    assert report["mutation"]["checked"] == 0 and "no reference route" in report["mutation"]["notes"][0]
+    assert (
+        report["mutation"]["checked"] == 0
+        and "no reference route" in report["mutation"]["notes"][0]
+    )
 
 
 # ---------------------------------------------------------------- the guards go red
@@ -335,33 +460,64 @@ def _copy_with(work: Path, script: str, anchor: str, replacement: str) -> Path:
 
 
 def case_a_survivor_tolerant_stage_goes_red(work: Path) -> None:
-    mutant = _copy_with(work, "action-mutate-stage.py",
-                        '"pass": bool(judged) and checked == judged and not refusals,',
-                        '"pass": True,')
+    mutant = _copy_with(
+        work,
+        "action-mutate-stage.py",
+        '"pass": bool(judged) and tally["checked"] == judged and not refusals,',
+        '"pass": True,',
+    )
     got = mutate(work, "aee", candidate("lenient_candidate.py"), "bytes", stage=mutant)
     assert got["mutation-result"] == "pass", "the copy without the guard still failed"
 
 
 def case_a_profile_that_excuses_everything_goes_red(work: Path) -> None:
-    mutant = _copy_with(work, "action-summary.py",
-                        'gates["profileExcusesFailures"] = bool(suite_ok and inside["fail"] == 0 and inside["vectors"])',
-                        'gates["profileExcusesFailures"] = True')
+    mutant = _copy_with(
+        work,
+        "action-summary.py",
+        'gates.profile_excuses = clean and inside["fail"] == 0',
+        "gates.profile_excuses = True",
+    )
     report = work / "report.json"
     report.write_text(json.dumps(_a2a_report({"A2-001"})))
     out = work / "out"
     out.write_text("")
-    run([sys.executable, str(mutant)],
-        {**os.environ, "REPORT": str(report), "STATUS": "1", "CORPUS_DIR": str(A2A), "PROFILE": "integer-only",
-         "GITHUB_STEP_SUMMARY": str(work / "s.md"), "GITHUB_OUTPUT": str(out)})
-    assert outputs(out).get("result") == "pass", "the copy that excuses in-profile failures still failed"
+    run(
+        [sys.executable, str(mutant)],
+        {
+            **os.environ,
+            "REPORT": str(report),
+            "STATUS": "1",
+            "CORPUS_DIR": str(A2A),
+            "PROFILE": "integer-only",
+            "GITHUB_STEP_SUMMARY": str(work / "s.md"),
+            "GITHUB_OUTPUT": str(out),
+        },
+    )
+    assert outputs(out).get("result") == "pass", (
+        "the copy that excuses in-profile failures still failed"
+    )
 
 
 def case_a_missing_case_tolerant_count_goes_red(work: Path) -> None:
-    mutant = _copy_with(work, "action-conformance.py", "if missing and fail_on_missing:", "if False:")
+    mutant = _copy_with(
+        work, "action-conformance.py", "if missing and fail_on_missing:", "if False:"
+    )
     fixture = FIXTURES / "conformance"
-    done = run([sys.executable, "-S", str(mutant), "--expected", str(fixture / "verify-expected-missing.txt"),
-                "--cases", str(fixture / "cases"), "--verifier", f"{sys.executable} -S {fixture / 'verifier.py'}",
-                "--report", str(work / "r.json")])
+    done = run(
+        [
+            sys.executable,
+            "-S",
+            str(mutant),
+            "--expected",
+            str(fixture / "verify-expected-missing.txt"),
+            "--cases",
+            str(fixture / "cases"),
+            "--verifier",
+            f"{sys.executable} -S {fixture / 'verifier.py'}",
+            "--report",
+            str(work / "r.json"),
+        ]
+    )
     assert done.returncode == 0, "the copy without the missing-case guard still failed"
 
 
@@ -380,6 +536,7 @@ CASES: list[Case] = [
     case_reference_stage_runs_under_dash_s,
     case_evaluation_claim_is_judged_under_the_pinned_rule,
     case_mutants_both_reject_and_agree,
+    case_bytes_mode_skips_a_member_with_nothing_signed,
     case_a_lenient_candidate_fails_and_names_survivors,
     case_one_disagreement_fails,
     case_no_reference_route_reads_zero_of_m,

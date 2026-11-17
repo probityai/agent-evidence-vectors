@@ -28,8 +28,10 @@ import sys
 
 def main(argv: list[str]) -> int:
     if len(argv) < 2 or argv[0] not in ("accept", "reject"):
-        print("usage: action-control-verifier.py accept|reject <vector-file> | <target> <input>",
-              file=sys.stderr)
+        print(
+            "usage: action-control-verifier.py accept|reject <vector-file> | <target> <input>",
+            file=sys.stderr,
+        )
         return 2
     mode, rest = argv[0], argv[1:]
     if len(rest) == 2:

@@ -14,7 +14,9 @@ import sys
 from agent_evidence_vectors import a2ajcs
 
 STRING = re.compile(r'"(?:[^"\\]|\\.)*"', re.DOTALL)
-FRACTION = re.compile(r"(?<![0-9A-Za-z_.])-?(?:0|[1-9][0-9]*)(?:\.[0-9]+(?:[eE][+-]?[0-9]+)?|[eE][+-]?[0-9]+)")
+FRACTION = re.compile(
+    r"(?<![0-9A-Za-z_.])-?(?:0|[1-9][0-9]*)(?:\.[0-9]+(?:[eE][+-]?[0-9]+)?|[eE][+-]?[0-9]+)"
+)
 
 with open(sys.argv[2], encoding="utf-8", errors="surrogatepass") as handle:
     text = handle.read()

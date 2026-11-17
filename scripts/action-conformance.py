@@ -74,60 +74,81 @@ def ask(verifier: list[str], case: Path) -> tuple[str, str]:
     return verdict, f"exit {done.returncode}"
 
 
+def judge(verifier: list[str], root: Path, case: str, want: str) -> dict[str, Any]:
+    """One listed case, asked of the verifier and compared with its expected verdict."""
+    got, how = ask(verifier, root / case)
+    status = "PASS" if got == want else "FAIL"
+    reasons = [] if status == "PASS" else [f"expected {want}, got {got} ({how})"]
+    return {"id": case, "kind": want, "observed": got, "status": status, "reasons": reasons}
+
+
+def _own_path(expected_path: str, root: Path) -> set[str]:
+    """The expected file's own path under the cases root, when it sits there."""
+    try:
+        return {PurePosixPath(*Path(os.path.relpath(expected_path, root)).parts).as_posix()}
+    except ValueError:  # another drive on Windows
+        return set()
+
+
 def run(
-    expected_path: str, cases_root: str, verifier: list[str], fail_on_missing: bool, fail_on_none: bool
+    expected_path: str,
+    cases_root: str,
+    verifier: list[str],
+    fail_on_missing: bool,
+    fail_on_none: bool,
 ) -> dict[str, Any]:
     expected = action_checks.read_expected(expected_path)
     root = Path(cases_root)
     on_disk = action_checks.files_on_disk(root) if root.is_dir() else set()
-    expected_rel = None
-    try:
-        expected_rel = PurePosixPath(*Path(os.path.relpath(expected_path, root)).parts).as_posix()
-    except ValueError:
-        expected_rel = None
-    rows: list[dict[str, Any]] = []
-    executed = 0
     missing = sorted(c for c in expected if c not in on_disk)
-    for case, want in sorted(expected.items()):
-        if case in missing:
-            continue
-        got, how = ask(verifier, root / case)
-        if got != "notrun":
-            executed += 1
-        status = "PASS" if got == want else "FAIL"
-        rows.append({"id": case, "kind": want, "observed": got, "status": status,
-                     "reasons": [] if status == "PASS" else [f"expected {want}, got {got} ({how})"]})
-    unlisted = sorted(on_disk - set(expected) - ({expected_rel} if expected_rel else set()))
+    rows = [
+        judge(verifier, root, case, want)
+        for case, want in sorted(expected.items())
+        if case not in missing
+    ]
+    executed = sum(1 for r in rows if r["observed"] != "notrun")
+    unlisted = sorted(on_disk - set(expected) - _own_path(expected_path, root))
     kinds = list(expected.values())
     valid = sum(1 for k in kinds if k == "valid")
     control = action_checks.controls(kinds, valid, len(kinds) - valid)
     passed = sum(1 for r in rows if r["status"] == "PASS")
-    blocking = []
-    if not rows and fail_on_none:
-        blocking.append("no case found")
-    if missing and fail_on_missing:
-        blocking.append("missing cases")
-    if passed != len(rows):
-        blocking.append("verdict mismatches")
-    if executed != len(rows):
-        blocking.append("cases the verifier did not answer")
-    if blocking:
-        result = "fail"
-    elif not rows:
-        result = "no-verdict"  # nothing found and the caller chose not to fail on that
-    else:
-        result = "pass"
+    blocking = [
+        reason
+        for reason, broken in (
+            ("no case found", not rows and fail_on_none),
+            ("missing cases", bool(missing) and fail_on_missing),
+            ("verdict mismatches", passed != len(rows)),
+            ("cases the verifier did not answer", executed != len(rows)),
+        )
+        if broken
+    ]
+    # An empty run the caller chose not to fail on is no verdict, never a pass.
+    result = "fail" if blocking else "no-verdict" if not rows else "pass"
     return {
         "mode": "conformance",
         "rail": "external",
-        "expected": {"path": expected_path,
-                     "sha256": hashlib.sha256(Path(expected_path).read_bytes()).hexdigest()},
+        "expected": {
+            "path": expected_path,
+            "sha256": hashlib.sha256(Path(expected_path).read_bytes()).hexdigest(),
+        },
         "casesRoot": cases_root,
         "os": os.name,
-        "verifier": {"command": shlex.join(verifier), "vectorsExecuted": executed, "vectors": len(rows)},
-        "totals": {"vectors": len(rows), "listed": len(expected), "pass": passed,
-                   "fail": len(rows) - passed, "conform": passed, "missing": len(missing),
-                   "notRun": len(rows) - executed, "unlisted": len(unlisted), "suiteRefusals": 0},
+        "verifier": {
+            "command": shlex.join(verifier),
+            "vectorsExecuted": executed,
+            "vectors": len(rows),
+        },
+        "totals": {
+            "vectors": len(rows),
+            "listed": len(expected),
+            "pass": passed,
+            "fail": len(rows) - passed,
+            "conform": passed,
+            "missing": len(missing),
+            "notRun": len(rows) - executed,
+            "unlisted": len(unlisted),
+            "suiteRefusals": 0,
+        },
         "missing": missing,
         "unlisted": unlisted,
         "controls": control,
@@ -141,7 +162,8 @@ def summary_markdown(report: dict[str, Any]) -> str:
     t = report["totals"]
     lines = [
         f"## agent-evidence-vectors conformance mode: {report['result']}\n\n",
-        f"Expected verdicts `{report['expected']['path']}` (sha256 `{report['expected']['sha256']}`), "
+        f"Expected verdicts `{report['expected']['path']}` "
+        f"(sha256 `{report['expected']['sha256']}`), "
         f"cases under `{report['casesRoot']}`, verifier `{report['verifier']['command']}`.\n\n",
         f"Cases counted on this runner (os.name `{report['os']}`): {t['vectors']} of {t['listed']} "
         f"listed are on disk; the verifier answered {report['verifier']['vectorsExecuted']} and "
@@ -163,7 +185,9 @@ def summary_markdown(report: dict[str, Any]) -> str:
         )
         lines.append("\n")
     if report["unlisted"]:
-        lines.append(f"{len(report['unlisted'])} files under the cases root are not in the expected file.\n")
+        lines.append(
+            f"{len(report['unlisted'])} files under the cases root are not in the expected file.\n"
+        )
     return "".join(lines)
 
 
@@ -201,8 +225,13 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--github", action="store_true", help="write step outputs and summary")
     args = parser.parse_args(argv)
     try:
-        report = run(args.expected, args.cases, shlex.split(args.verifier, posix=os.name != "nt"),
-                     _flag(args.fail_on_missing_case), _flag(args.fail_on_no_vectors))
+        report = run(
+            args.expected,
+            args.cases,
+            shlex.split(args.verifier, posix=os.name != "nt"),
+            _flag(args.fail_on_missing_case),
+            _flag(args.fail_on_no_vectors),
+        )
     except (OSError, ValueError) as exc:
         print(f"no verdict: {exc}", file=sys.stderr)
         if args.github and os.environ.get("GITHUB_OUTPUT"):
@@ -216,8 +245,10 @@ def main(argv: list[str] | None = None) -> int:
     for case in report["missing"]:
         print(f"MISSING {case}: listed in {args.expected} and not under {args.cases}")
     t = report["totals"]
-    print(f"conformance {t['pass']} of {t['listed']} listed cases match; {t['missing']} missing; "
-          f"result {report['result']}")
+    print(
+        f"conformance {t['pass']} of {t['listed']} listed cases match; {t['missing']} missing; "
+        f"result {report['result']}"
+    )
     print(action_checks.controls_line(report["controls"]))
     if args.github:
         write_github(report, args.report)

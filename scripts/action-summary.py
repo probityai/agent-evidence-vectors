@@ -124,11 +124,11 @@ def main() -> int:
     # The profile split and the controls go into the uploaded report too, so a
     # scoreboard reading the artifact sees the same counts as the summary.
     Path(report_path).write_text(json.dumps(report, indent=2) + "\n", encoding="utf-8")
-    profile_ok = gates.get("profileExcusesFailures", False) and status == "1"
+    profile_ok = gates["profileExcusesFailures"] and status == "1"
     result = "pass" if (status == "0" or profile_ok) and refusal is None else "fail"
-    if gates.get("blocking"):
+    if gates["blocking"]:
         result = "fail"
-    if gates.get("noVectors") and not _flag("FAIL_ON_NO_VECTORS"):
+    if gates["noVectors"] and not _flag("FAIL_ON_NO_VECTORS"):
         result = "no-verdict"
     executed = (report.get("verifier") or {}).get("vectorsExecuted")
     outputs.append(f"vectors={totals['vectors']}\n")
@@ -190,75 +190,100 @@ def _count_line(counted: dict[str, Any]) -> str:
     )
 
 
+class _Gates:
+    """What the case count, the profile and the controls found: rows, outputs, verdict inputs."""
+
+    def __init__(self) -> None:
+        self.rows: list[str] = []
+        self.outputs: list[str] = []
+        self.blocking: list[str] = []
+        self.no_vectors = False
+        self.profile_excuses = False
+
+
 def _gates(report: dict[str, Any], corpus_dir: str) -> tuple[dict[str, Any], list[str], list[str]]:
     """The case count, the missing cases, the profile split and the null controls.
 
     Returns what decides the result, the summary rows and the step outputs.
     """
-    gates: dict[str, Any] = {}
-    rows: list[str] = []
-    outputs: list[str] = []
-    blocking: list[str] = []
-    vectors = report["totals"].get("vectors", 0)
-    counted = action_checks.count_cases(corpus_dir, report) if corpus_dir else None
-    if counted is not None:
-        rows.append(_count_line(counted) + "\n\n")
-        outputs.append(f"vectors-found={counted['present']}\n")
-        if counted["manifest"] and counted["listed"] and counted["present"] == 0:
-            gates["noVectors"] = True
-        missing = counted["missingOnDisk"] + counted["missingFromReport"]
-        outputs.append(f"missing-cases={len(counted['missingOnDisk']) + counted['reportGap']}\n")
-        if missing or counted["reportGap"]:
-            rows.append(
-                f"**Missing cases:** {len(counted['missingOnDisk'])} listed and not on disk, "
-                f"{counted['reportGap']} listed and not scored by the replay.\n\n"
-            )
-            rows.extend(f"- `{name}`\n" for name in missing[:MAX_ROWS])
-            rows.append("\n")
-            if _flag("FAIL_ON_MISSING_CASE"):
-                blocking.append("missing cases")
-    if not vectors:
-        gates["noVectors"] = True
+    gates = _Gates()
+    if corpus_dir:
+        _count_gate(gates, action_checks.count_cases(corpus_dir, report))
+    if not report["totals"].get("vectors", 0):
+        gates.no_vectors = True
         if _flag("FAIL_ON_NO_VECTORS"):
-            blocking.append("no vectors")
-    profile_spec = os.environ.get("PROFILE", "").strip()
-    if profile_spec:
-        try:
-            profile = action_checks.load_profile(profile_spec)
-            split = action_checks.split_by_profile(
-                report, action_checks.member_features(corpus_dir) if corpus_dir else {}, profile
-            )
-        except (OSError, ValueError) as exc:
-            rows.append(f"**Profile `{profile_spec}` could not be read:** {exc}\n\n")
-            blocking.append("unreadable profile")
-            split = None
-        if split is not None:
-            inside, outside = split["inProfile"], split["outOfProfile"]
-            rows.append(
-                f"Profile `{split['profile']}` (out of profile: {', '.join(split['excludes']) or 'named ids'}): "
-                f"in profile {inside['pass']} of {inside['vectors']} pass; "
-                f"out of profile {outside['pass']} of {outside['vectors']} pass, counted on their own "
-                "and not failing the job.\n\n"
-            )
-            outputs.append(f"in-profile={inside['vectors']}\nin-profile-pass={inside['pass']}\n")
-            outputs.append(f"out-of-profile={outside['vectors']}\nout-of-profile-pass={outside['pass']}\n")
-            suite_ok = not report["totals"].get("suiteRefusals")
-            gates["profileExcusesFailures"] = bool(suite_ok and inside["fail"] == 0 and inside["vectors"])
-            report["profile"] = split
+            gates.blocking.append("no vectors")
+    if os.environ.get("PROFILE", "").strip():
+        _profile_gate(gates, report, corpus_dir, os.environ["PROFILE"].strip())
+    _control_gate(gates, report)
+    if gates.blocking:
+        gates.rows.append(f"**Failed by:** {', '.join(gates.blocking)}.\n\n")
+    decided = {
+        "blocking": gates.blocking,
+        "noVectors": gates.no_vectors,
+        "profileExcusesFailures": gates.profile_excuses,
+    }
+    return decided, gates.rows, gates.outputs
+
+
+def _count_gate(gates: _Gates, counted: dict[str, Any]) -> None:
+    gates.rows.append(_count_line(counted) + "\n\n")
+    gates.outputs.append(f"vectors-found={counted['present']}\n")
+    if counted["manifest"] and counted["listed"] and counted["present"] == 0:
+        gates.no_vectors = True
+    missing = counted["missingOnDisk"] + counted["missingFromReport"]
+    gates.outputs.append(f"missing-cases={len(counted['missingOnDisk']) + counted['reportGap']}\n")
+    if not (missing or counted["reportGap"]):
+        return
+    gates.rows.append(
+        f"**Missing cases:** {len(counted['missingOnDisk'])} listed and not on disk, "
+        f"{counted['reportGap']} listed and not scored by the replay.\n\n"
+    )
+    gates.rows.extend(f"- `{name}`\n" for name in missing[:MAX_ROWS])
+    gates.rows.append("\n")
+    if _flag("FAIL_ON_MISSING_CASE"):
+        gates.blocking.append("missing cases")
+
+
+def _profile_gate(gates: _Gates, report: dict[str, Any], corpus_dir: str, spec: str) -> None:
+    try:
+        profile = action_checks.load_profile(spec)
+        features = action_checks.member_features(corpus_dir) if corpus_dir else {}
+    except (OSError, ValueError) as exc:
+        gates.rows.append(f"**Profile `{spec}` could not be read:** {exc}\n\n")
+        gates.blocking.append("unreadable profile")
+        return
+    split = action_checks.split_by_profile(report, features, profile)
+    inside, outside = split["inProfile"], split["outOfProfile"]
+    excluded = ", ".join(split["excludes"]) or "named ids"
+    gates.rows.append(
+        f"Profile `{split['profile']}` (out of profile: {excluded}): "
+        f"in profile {inside['pass']} of {inside['vectors']} pass; "
+        f"out of profile {outside['pass']} of {outside['vectors']} pass, counted on their own "
+        "and not failing the job.\n\n"
+    )
+    gates.outputs.append(f"in-profile={inside['vectors']}\nin-profile-pass={inside['pass']}\n")
+    gates.outputs.append(
+        f"out-of-profile={outside['vectors']}\nout-of-profile-pass={outside['pass']}\n"
+    )
+    # Failures excused only when every in-profile member passed and the suite refused nothing.
+    clean = not report["totals"].get("suiteRefusals") and bool(inside["vectors"])
+    gates.profile_excuses = clean and inside["fail"] == 0
+    report["profile"] = split
+
+
+def _control_gate(gates: _Gates, report: dict[str, Any]) -> None:
     kinds = [str(row.get("kind")) for row in report.get("vectors") or []]
     accept_passed, reject_passed = _control_scores()
     control = action_checks.controls(kinds, accept_passed, reject_passed)
-    rows.append(action_checks.controls_line(control) + "\n\n")
-    outputs.append(
+    gates.rows.append(action_checks.controls_line(control) + "\n\n")
+    verdict = control["discriminates"]
+    gates.outputs.append(
         f"control-always-accept={'' if accept_passed is None else accept_passed}\n"
         f"control-always-reject={'' if reject_passed is None else reject_passed}\n"
-        f"discriminates={'' if control['discriminates'] is None else str(control['discriminates']).lower()}\n"
+        f"discriminates={'' if verdict is None else str(verdict).lower()}\n"
     )
     report["controls"] = control
-    gates["blocking"] = blocking
-    if blocking:
-        rows.append(f"**Failed by:** {', '.join(blocking)}.\n\n")
-    return gates, rows, outputs
 
 
 def _control_scores() -> tuple[int | None, int | None]:
