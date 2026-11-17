@@ -1832,6 +1832,8 @@ jobs:
         run: uv run --extra dev pytest corpora/vectors-delegator-right/tests -q
       - name: badge-vc-verify cases regenerate and force every check
         run: uv run --extra dev pytest corpora/vectors-badge-vc-verify/tests -q
+      - name: catalog-trust-manifest cases regenerate, re-mint from a second generator and force every check
+        run: uv run --extra dev --extra generators pytest corpora/vectors-catalog-trust-manifest/tests -q
       - name: completion-confirmation cases regenerate and force every check
         run: uv run --extra dev pytest corpora/vectors-completion-confirmation/tests -q
       - name: chunked-export cases regenerate and force every check
@@ -2505,6 +2507,7 @@ jobs:
         run: >-
           python -m mypy --strict agent_evidence_vectors/claim_record/reader.py
           agent_evidence_vectors/claim_record/run.py agent_evidence_vectors/claim_record/ops.py
+          agent_evidence_vectors/claim_record/expectations.py
       - name: Retain the checkout run
         working-directory: packaging
         run: >-
@@ -3020,7 +3023,11 @@ jobs:
       - uses: astral-sh/setup-uv@37802adc94f370d6bfd71619e3f0bf239e1f3b78 # v7
       - name: every check state is reached by its own case
         run: python3 scripts/field-readiness-test.py
+      # The live read measures the field (outside workflows, adopter records), which no
+      # change in this repository can move, so it reports on its own schedule and on a
+      # manual run; a pull request runs the test of every check state above.
       - name: restart field, live
+        if: ${{ github.event_name == 'schedule' || github.event_name == 'workflow_dispatch' }}
         env:
           GH_TOKEN: ${{ github.token }}
         run: python3 scripts/field-readiness.py restart
