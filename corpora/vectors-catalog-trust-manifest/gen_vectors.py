@@ -325,6 +325,19 @@ def _round_four() -> list[dict[str, Any]]:
               NO, "url_origin_unbound", "ard", D, [_sign(D)],
               before=[_set(["entries", 0, "url"],
                            "https://publisher.example@cdn.other.example/agent-card.json")]),
+        _case("reject-aic-url-and-data", "an AI Catalog entry carrying both url and data; a "
+              "Catalog Entry MUST contain exactly one", NO, "entry_delivery_not_one", "aic", AIC,
+              [_sign(AIC)], before=[_set(["entries", 0, "data"], {"name": "travel agent"})]),
+        _case("reject-aic-neither-url-nor-data", "an AI Catalog entry with neither url nor data, "
+              "whose digest still names artifact.json", NO, "entry_delivery_not_one", "aic", AIC,
+              [_sign(AIC)], before=[_del(["entries", 0, "url"])]),
+        _case("reject-issued-one-second-in-future", "checked one second before issuedAt; "
+              "the profile applies no clock-skew tolerance, so the verdict names the instant",
+              NO, "issued_in_future", "aic", AIC, [_sign(AIC)],
+              context={"at": "2026-10-31T23:59:59Z"}),
+        _case("accept-checked-at-the-issued-instant", "control: checked at issuedAt itself, "
+              "written with another offset", OK, PASS, "aic", AIC, [_sign(AIC)],
+              context={"at": "2026-10-31T19:00:00-05:00"}),
         _case("reject-url-other-port", "a url on the publisher host at port 8443, another origin",
               NO, "url_origin_unbound", "ard", D, [_sign(D)],
               before=[_set(["entries", 0, "url"],

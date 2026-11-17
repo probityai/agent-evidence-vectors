@@ -47,7 +47,7 @@ The first check that fails decides the reason. `construction_unknown`, `role_unk
 22. `signer_not_contributor` (AI Catalog).
 23. `subject_missing`.
 24. `subject_entry_mismatch`: identifier and type are strings on the entry and equal on the subject, digest equal, and version absent on both or equal on both.
-25. `entry_delivery_not_one`: draft constructions; the entry carries both `url` and `data`, or neither (draft section 3.1 requires exactly one).
+25. `entry_delivery_not_one`: the entry carries both `url` and `data`, or neither (draft section 3.1 and the AI Catalog Catalog Entry each require exactly one).
 26. `entry_digest_missing_for_url`: an entry referenced by `url` (or any AI Catalog entry) with no `digest` (draft 3.5.2 item 1).
 27. `artifact_digest_mismatch`: the entry's `digest` is not the SHA-256 of the artifact. For an entry with `url` the artifact is the bytes retrieved (the case's `artifact.json`); for an entry with `data` it is the UTF-8 RFC 8785 bytes of `data` (AI Catalog `digest`: "For `data`, hash the UTF-8 JCS-canonicalized JSON value"; the draft's digest is "of the target artifact referenced by url (or inline data)"). Inline data is not signed under `ard-draft-bu-00`, so the digest is what binds it.
 28. `url_origin_unbound`: draft constructions, an entry with a `url`; its origin is not `https://<publisher>` and the artifact there does not declare the entry identifier (draft 6.2). The origin is RFC 6454's: the scheme and host compare case-insensitively and port 443 is the same origin as no port. A `url` with userinfo has no origin to bind (RFC 9110 section 4.2.4: a recipient treats https userinfo as an error), nor does a host with a percent-escape or an IP literal. An entry delivered as inline `data` has no origin to bind.
@@ -56,7 +56,7 @@ The first check that fails decides the reason. `construction_unknown`, `role_unk
 31. `attestation_transplanted` (its subject is another artifact).
 32. `publisher_not_signer` (AI Catalog exact rule: the signer is exactly `did:web:<publisher>`) or `publisher_authorization_absent` (draft rule: the identity must match or be authorized by the publisher, and no authorization record is given offline). Judged only in the `publisher` role.
 33. `timestamp_invalid`: the check time, `issuedAt` or `expiresAt` is not an RFC 3339 date-time naming a real instant, the AI Catalog Signature object has no `issuedAt`, or `expiresAt` is not later than `issuedAt`. Times are compared as instants, so fractional seconds and numeric offsets are read, not refused. A second of `60` names a real instant only at 23:59:60 UTC on a day the IERS leap-second list (`leap-seconds.list`, expiring 28 June 2027) ends with a leap second, the last being 2016-12-31; it is read as the instant of the next second.
-34. `issued_in_future`.
+34. `issued_in_future`: the check time is before `issuedAt`. The check time is the context's `at`, an input, and no clock-skew tolerance is applied (the AI Catalog leaves one to local policy); a consumer that allows one moves `at`, so the verdict names the instant it judged.
 35. `manifest_expired` (rejected at or after `expiresAt`).
 
 A pass is `signature_covers_release` for an entry and `snapshot_signature_valid` for a catalog snapshot.

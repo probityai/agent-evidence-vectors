@@ -1,6 +1,6 @@
 # vectors-catalog-trust-manifest
 
-Suite `catalog-trust-manifest/v1`: 111 cases (27 accept, 84 reject) for a verifier of signed ARD and AI Catalog objects. The profile is [profiles/catalog-trust-manifest.md](../../profiles/catalog-trust-manifest.md).
+Suite `catalog-trust-manifest/v1`: 115 cases (28 accept, 87 reject) for a verifier of signed ARD and AI Catalog objects. The profile is [profiles/catalog-trust-manifest.md](../../profiles/catalog-trust-manifest.md).
 
 Each case directory holds `catalog.json` (the bytes as published), `did-documents.json` (what an offline did:web resolver returned, keyed by DID), `artifact.json` (the bytes an entry with `url` names; an entry with inline `data` is digested over the RFC 8785 bytes of `data` instead), any vendored attestation document, and `context.json` (construction, entry and manifest index, role, check time, attestation file names; the profile says how each is read).
 
@@ -144,4 +144,8 @@ Test keys only: each is derived from the SHA-256 of a public label in `gen_vecto
 | `accept-issued-on-a-leap-second-with-offset` | accept | `signature_covers_release` | control: the same leap second written as 18:59:60-05:00 |
 | `accept-url-origin-case-and-default-port` | accept | `signature_covers_release` | control: HTTPS://PUBLISHER.example:443 is the origin https://publisher.example (RFC 6454 section 4) |
 | `reject-url-userinfo` | reject | `url_origin_unbound` | a url with userinfo before the publisher host; a recipient treats https userinfo as an error (RFC 9110 section 4.2.4) |
+| `reject-aic-url-and-data` | reject | `entry_delivery_not_one` | an AI Catalog entry carrying both url and data; a Catalog Entry MUST contain exactly one |
+| `reject-aic-neither-url-nor-data` | reject | `entry_delivery_not_one` | an AI Catalog entry with neither url nor data, whose digest still names artifact.json |
+| `reject-issued-one-second-in-future` | reject | `issued_in_future` | checked one second before issuedAt; the profile applies no clock-skew tolerance, so the verdict names the instant |
+| `accept-checked-at-the-issued-instant` | accept | `signature_covers_release` | control: checked at issuedAt itself, written with another offset |
 | `reject-url-other-port` | reject | `url_origin_unbound` | a url on the publisher host at port 8443, another origin |

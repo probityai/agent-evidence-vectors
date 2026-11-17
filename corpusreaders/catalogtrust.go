@@ -1255,8 +1255,8 @@ func (c *ctCase) subject() string {
 func (c *ctCase) artifactDigest() string {
 	entryDigest, hasDigest := c.entry.get("digest")
 	_, hasURL := c.entry.get("url")
-	if _, hasData := c.entry.get("data"); c.ardShaped() && hasURL == hasData {
-		return "entry_delivery_not_one" // draft 3.1: exactly one of url and data
+	if _, hasData := c.entry.get("data"); hasURL == hasData {
+		return "entry_delivery_not_one" // draft 3.1, AI Catalog entry: exactly one of url and data
 	}
 	if !hasDigest && (hasURL || c.construction == ctAIC) {
 		return "entry_digest_missing_for_url"

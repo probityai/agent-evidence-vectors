@@ -5717,6 +5717,179 @@
           "path": [
             "entries",
             0,
+            "data"
+          ],
+          "value": {
+            "name": "travel agent"
+          }
+        }
+      ],
+      "context": {
+        "at": "2026-11-16T00:00:00Z",
+        "attestationFiles": [],
+        "construction": "ai-catalog-2026-11",
+        "entry": 0,
+        "manifest": 0,
+        "role": "publisher"
+      },
+      "contextAfter": [],
+      "dids": [],
+      "edit": "an AI Catalog entry carrying both url and data; a Catalog Entry MUST contain exactly one",
+      "expected": {
+        "decision": "reject",
+        "reason": "entry_delivery_not_one"
+      },
+      "id": "reject-aic-url-and-data",
+      "raw": [],
+      "secondEntry": false,
+      "shape": "aic",
+      "sign": [
+        {
+          "construction": "ai-catalog-2026-11",
+          "entry": 0,
+          "form": "detached",
+          "header": {},
+          "key": "publisher",
+          "manifest": 0
+        }
+      ]
+    },
+    {
+      "after": [],
+      "artifact": [],
+      "artifactAfter": [],
+      "assessor": false,
+      "attestationAfter": [],
+      "attestations": [],
+      "before": [
+        {
+          "op": "del",
+          "path": [
+            "entries",
+            0,
+            "url"
+          ]
+        }
+      ],
+      "context": {
+        "at": "2026-11-16T00:00:00Z",
+        "attestationFiles": [],
+        "construction": "ai-catalog-2026-11",
+        "entry": 0,
+        "manifest": 0,
+        "role": "publisher"
+      },
+      "contextAfter": [],
+      "dids": [],
+      "edit": "an AI Catalog entry with neither url nor data, whose digest still names artifact.json",
+      "expected": {
+        "decision": "reject",
+        "reason": "entry_delivery_not_one"
+      },
+      "id": "reject-aic-neither-url-nor-data",
+      "raw": [],
+      "secondEntry": false,
+      "shape": "aic",
+      "sign": [
+        {
+          "construction": "ai-catalog-2026-11",
+          "entry": 0,
+          "form": "detached",
+          "header": {},
+          "key": "publisher",
+          "manifest": 0
+        }
+      ]
+    },
+    {
+      "after": [],
+      "artifact": [],
+      "artifactAfter": [],
+      "assessor": false,
+      "attestationAfter": [],
+      "attestations": [],
+      "before": [],
+      "context": {
+        "at": "2026-10-31T23:59:59Z",
+        "attestationFiles": [],
+        "construction": "ai-catalog-2026-11",
+        "entry": 0,
+        "manifest": 0,
+        "role": "publisher"
+      },
+      "contextAfter": [],
+      "dids": [],
+      "edit": "checked one second before issuedAt; the profile applies no clock-skew tolerance, so the verdict names the instant",
+      "expected": {
+        "decision": "reject",
+        "reason": "issued_in_future"
+      },
+      "id": "reject-issued-one-second-in-future",
+      "raw": [],
+      "secondEntry": false,
+      "shape": "aic",
+      "sign": [
+        {
+          "construction": "ai-catalog-2026-11",
+          "entry": 0,
+          "form": "detached",
+          "header": {},
+          "key": "publisher",
+          "manifest": 0
+        }
+      ]
+    },
+    {
+      "after": [],
+      "artifact": [],
+      "artifactAfter": [],
+      "assessor": false,
+      "attestationAfter": [],
+      "attestations": [],
+      "before": [],
+      "context": {
+        "at": "2026-10-31T19:00:00-05:00",
+        "attestationFiles": [],
+        "construction": "ai-catalog-2026-11",
+        "entry": 0,
+        "manifest": 0,
+        "role": "publisher"
+      },
+      "contextAfter": [],
+      "dids": [],
+      "edit": "control: checked at issuedAt itself, written with another offset",
+      "expected": {
+        "decision": "accept",
+        "reason": "signature_covers_release"
+      },
+      "id": "accept-checked-at-the-issued-instant",
+      "raw": [],
+      "secondEntry": false,
+      "shape": "aic",
+      "sign": [
+        {
+          "construction": "ai-catalog-2026-11",
+          "entry": 0,
+          "form": "detached",
+          "header": {},
+          "key": "publisher",
+          "manifest": 0
+        }
+      ]
+    },
+    {
+      "after": [],
+      "artifact": [],
+      "artifactAfter": [],
+      "assessor": false,
+      "attestationAfter": [],
+      "attestations": [],
+      "before": [
+        {
+          "op": "set",
+          "path": [
+            "entries",
+            0,
             "url"
           ],
           "value": "https://publisher.example:8443/agents/travel/agent-card.json"

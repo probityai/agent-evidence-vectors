@@ -22,8 +22,8 @@ func TestCatalogTrustCorpusIsClean(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	if len(result.Members) < 111 {
-		t.Fatalf("judged %d members, the corpus holds at least 111", len(result.Members))
+	if len(result.Members) < 115 {
+		t.Fatalf("judged %d members, the corpus holds at least 115", len(result.Members))
 	}
 	for _, m := range result.Members {
 		for _, f := range m.Findings {

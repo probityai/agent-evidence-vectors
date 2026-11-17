@@ -1,8 +1,8 @@
 {
-  "corpusDigest": "4837efe0f17a63263aefc41c6e4866b7366b28a78531234ad5113ce4694174da",
+  "corpusDigest": "d5fb983e61a8ae732badf116a2183a8bdc52b95677a7cf89cdc475422a57bb4f",
   "counts": {
-    "accept": 27,
-    "reject": 84
+    "accept": 28,
+    "reject": 87
   },
   "suite": "catalog-trust-manifest/v1",
   "vectors": [
@@ -1666,6 +1666,66 @@
       },
       "id": "reject-url-userinfo",
       "path": "cases/reject-url-userinfo"
+    },
+    {
+      "edit": "an AI Catalog entry carrying both url and data; a Catalog Entry MUST contain exactly one",
+      "expected": {
+        "decision": "reject",
+        "reason": "entry_delivery_not_one"
+      },
+      "files": {
+        "artifact.json": "5346c3b356f1b2db025b97d464d73a62442ca39ad1480549e23daff147f35ef1",
+        "catalog.json": "eda80a1c3a7642fcdb7d3074008beba4a2b57d8e70a13817d6d57065ac9fe758",
+        "context.json": "1c46a20b6b1fa27b14ff5896143f4d22d9f8085bb7998ac90145133a8b88c1c7",
+        "did-documents.json": "8b49c5d7a3dad753d337a8879ad50ea41947883460bf47e3bf3353f41a28c3fe"
+      },
+      "id": "reject-aic-url-and-data",
+      "path": "cases/reject-aic-url-and-data"
+    },
+    {
+      "edit": "an AI Catalog entry with neither url nor data, whose digest still names artifact.json",
+      "expected": {
+        "decision": "reject",
+        "reason": "entry_delivery_not_one"
+      },
+      "files": {
+        "artifact.json": "5346c3b356f1b2db025b97d464d73a62442ca39ad1480549e23daff147f35ef1",
+        "catalog.json": "3cd65afd2724e570196aca7d4f3b9b47bee7e75b3aebc4628a33fc82d8073d05",
+        "context.json": "1c46a20b6b1fa27b14ff5896143f4d22d9f8085bb7998ac90145133a8b88c1c7",
+        "did-documents.json": "8b49c5d7a3dad753d337a8879ad50ea41947883460bf47e3bf3353f41a28c3fe"
+      },
+      "id": "reject-aic-neither-url-nor-data",
+      "path": "cases/reject-aic-neither-url-nor-data"
+    },
+    {
+      "edit": "checked one second before issuedAt; the profile applies no clock-skew tolerance, so the verdict names the instant",
+      "expected": {
+        "decision": "reject",
+        "reason": "issued_in_future"
+      },
+      "files": {
+        "artifact.json": "5346c3b356f1b2db025b97d464d73a62442ca39ad1480549e23daff147f35ef1",
+        "catalog.json": "fe7aaee6d11350c4c54fef665c8ea41bee65f5c56066ff7210b2082cb848262b",
+        "context.json": "3672c2928267bac1aba4105e3e663ea5a9e61924b100926da1ea96a986d9f159",
+        "did-documents.json": "8b49c5d7a3dad753d337a8879ad50ea41947883460bf47e3bf3353f41a28c3fe"
+      },
+      "id": "reject-issued-one-second-in-future",
+      "path": "cases/reject-issued-one-second-in-future"
+    },
+    {
+      "edit": "control: checked at issuedAt itself, written with another offset",
+      "expected": {
+        "decision": "accept",
+        "reason": "signature_covers_release"
+      },
+      "files": {
+        "artifact.json": "5346c3b356f1b2db025b97d464d73a62442ca39ad1480549e23daff147f35ef1",
+        "catalog.json": "fe7aaee6d11350c4c54fef665c8ea41bee65f5c56066ff7210b2082cb848262b",
+        "context.json": "316e8e873c480bfa8b2931d2c9506c52f8431c7bf448bdd3edda4a53dd619e4e",
+        "did-documents.json": "8b49c5d7a3dad753d337a8879ad50ea41947883460bf47e3bf3353f41a28c3fe"
+      },
+      "id": "accept-checked-at-the-issued-instant",
+      "path": "cases/accept-checked-at-the-issued-instant"
     },
     {
       "edit": "a url on the publisher host at port 8443, another origin",

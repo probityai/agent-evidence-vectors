@@ -916,8 +916,8 @@ class _Read:
 
     def artifact(self) -> None:
         entry = self.entry
-        # Draft 3.1: an entry carries exactly one of url and data.
-        if self.construction in ARD_SHAPED and ("url" in entry) == ("data" in entry):
+        # Draft 3.1 and the AI Catalog Catalog Entry: exactly one of url and data.
+        if ("url" in entry) == ("data" in entry):
             self.fail("entry_delivery_not_one")
         if "digest" not in entry and ("url" in entry or self.construction == AIC):
             self.fail("entry_digest_missing_for_url")
