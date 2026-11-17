@@ -72,6 +72,7 @@ SPECIFICATION = {
             "other key in the set is ignored (RFC 7517 section 5)"
         ),
         "iatSkewSeconds": 300,
+        "window": "exp after iat; a window whose exp is at or before its iat is refused",
         "crit": "a crit header is refused (RFC 7515 section 4.1.11): this profile defines no extension",
         "base64url": "the strict alphabet without padding, and the canonical encoding only",
         "protocol": (
@@ -80,8 +81,8 @@ SPECIFICATION = {
             "with its alpn"
         ),
         "jwksHost": (
-            "https://dns-aid.<zone> or https://<zone>, with an optional port, path and query and "
-            "no userinfo, backslash or fragment"
+            "https://dns-aid.<zone> or https://<zone>, with an optional port from 0 to 65535, path "
+            "and query and no userinfo, backslash, percent-encoded host or fragment"
         ),
     },
     "sources": [
@@ -117,6 +118,7 @@ CODES: dict[str, str] = {
     "payload-duplicate-member": "contradicted",
     "payload-integer-required": "contradicted",
     "payload-not-i-json": "contradicted",
+    "validity-window-inverted": "contradicted",
     "expired": "contradicted",
     "endpoint-mismatch": "contradicted",
     "svcb1-digest-mismatch": "contradicted",
@@ -512,6 +514,17 @@ MEMBERS: tuple[tuple[str, Build, list[str], str], ...] = (
      "the record carries an empty proto, which names no protocol, so the signed alpn a2a does not match"),
     ("target-absent-both-sides", _no_target, ["endpoint-mismatch"],
      "neither the payload nor the record names a target: an endpoint that names no host binds nothing"),
+    ("validity-window-inverted",
+     lambda: member(RECORD, compact("owner", cjson(payload(RECORD, iat=NOW + 120, exp=NOW + 60)))),
+     ["validity-window-inverted"],
+     "iat is two minutes after the check time (inside the skew) and exp one minute after it: an empty window"),
+    ("jwks-url-port-out-of-range",
+     lambda: member(RECORD_NO_REALM, compact("owner", cjson(payload(RECORD_NO_REALM))),
+                    url="https://dns-aid.example.com:99999/.well-known/dns-aid-jwks.json"),
+     ["jwks-host-not-zone"], "the JWKS URL names port 99999, which no client can connect to"),
+    ("svcb1-covers-ipv4hint", lambda: member(with_record(RECORD, params={"ipv4hint": "192.0.2.66"}), _good()),
+     ["svcb1-digest-mismatch"],
+     "a served ipv4hint the signer never saw: every present param enters the digest, not only the DNS-AID ones"),
     ("member-duplicate-target", lambda: member(RECORD, _good()), ["jws-malformed"],
      "the member file names the record's target twice; a first-wins reader serves evil.example.net"),
 )

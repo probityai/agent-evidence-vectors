@@ -36,7 +36,7 @@ SAFE_INTEGER = 2**53 - 1
 #: The only JWKS URL shape read here: https, a host of LDH labels, an optional port, an
 #: RFC 3986 path and query, and nothing else (no userinfo, no backslash, no fragment).
 #: A WHATWG parser reads "https://evil\\@host/" as host evil, a RFC 3986 one as host.
-JWKS_URL = re.compile(r"\Ahttps://([A-Za-z0-9.-]+)(?::[0-9]{1,5})?(?:/[A-Za-z0-9._~!$&'()*+,;=:@%/-]*)?"
+JWKS_URL = re.compile(r"\Ahttps://([A-Za-z0-9.-]+)(?::([0-9]{1,5}))?(?:/[A-Za-z0-9._~!$&'()*+,;=:@%/-]*)?"
                       r"(?:\?[A-Za-z0-9._~!$&'()*+,;=:@%/?-]*)?\Z")
 REGISTERED_HEADERS = {"alg", "jku", "jwk", "kid", "x5u", "x5c", "x5t", "x5t#S256", "typ", "cty", "crit"}
 DECISION = {
@@ -196,7 +196,7 @@ def check_authority(case: dict[str, Any], record: dict[str, Any]) -> None:
     url = case.get("jwks_url")
     if url is not None:
         shape = JWKS_URL.match(url) if isinstance(url, str) else None
-        host = norm(shape.group(1)) if shape else None
+        host = norm(shape.group(1)) if shape and int(shape.group(2) or 443) <= 65535 else None
         if host not in (f"dns-aid.{norm(zone)}", norm(zone)):
             raise Finding("jwks-host-not-zone", f"JWKS URL {url!r} is not https on dns-aid.{zone} or {zone} "
                           "with no userinfo, backslash or fragment")
@@ -243,6 +243,8 @@ def judge(case: dict[str, Any]) -> tuple[str, str]:
                           f"{field} is not a JSON integer within I-JSON's exact range ({body.get(field)!r})")
     if not 0 <= body["port"] <= 65535:
         raise Finding("payload-integer-required", f"port {body['port']} is not a 16-bit port (RFC 9460 7.2)")
+    if body["exp"] <= body["iat"]:
+        raise Finding("validity-window-inverted", "exp is at or before iat: the window is empty")
     if body["exp"] <= now:
         raise Finding("expired", "expired at the check time")
     protocol = record["proto"] if "proto" in record else record.get("alpn")

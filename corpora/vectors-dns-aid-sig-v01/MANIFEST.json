@@ -1,8 +1,8 @@
 {
- "corpusDigest": "4745d36792c3e5b40eb6949ce1a70611c345f18e3a5bdc6990c3abe524fad6b6",
+ "corpusDigest": "909ca6ba00b4b37ac8d2dd9ff66014ee85f32b0367576bbc1c754fc607cc19e7",
  "counts": {
   "accept": 6,
-  "reject": 47
+  "reject": 50
  },
  "specification": {
   "profile": {
@@ -10,11 +10,12 @@
    "crit": "a crit header is refused (RFC 7515 section 4.1.11): this profile defines no extension",
    "iatSkewSeconds": 300,
    "integers": "port, iat and exp are JSON integers from -(2^53-1) to 2^53-1 (RFC 7493 section 2.2); 443.0 is not 443; port is 0 to 65535",
-   "jwksHost": "https://dns-aid.<zone> or https://<zone>, with an optional port, path and query and no userinfo, backslash or fragment",
+   "jwksHost": "https://dns-aid.<zone> or https://<zone>, with an optional port from 0 to 65535, path and query and no userinfo, backslash, percent-encoded host or fragment",
    "keys": "a JWK verifies only when it is EC P-256 with 32-octet coordinates, its use is sig or absent, its key_ops name verify or are absent, and its alg is ES256 or absent; any other key in the set is ignored (RFC 7517 section 5)",
    "names": "fqdn, target and zone compare by ASCII case only (RFC 4343) with one optional root dot",
    "payload": "I-JSON (RFC 7493): a duplicate member name, a NaN or Infinity literal, and a surrogate or noncharacter code point in a name or string are refused; the member file itself is I-JSON too",
-   "protocol": "the payload's fqdn, target and alpn are strings; its alpn is compared with the record's proto when that member is present (an empty proto names nothing), else with its alpn"
+   "protocol": "the payload's fqdn, target and alpn are strings; its alpn is compared with the record's proto when that member is present (an empty proto names nothing), else with its alpn",
+   "window": "exp after iat; a window whose exp is at or before its iat is refused"
   },
   "scope": "The `sig` binding of a DNS-AID SVCB record: a compact JWS (RFC 7515, ES256 with a raw 64-byte signature) whose payload names the endpoint (fqdn, target, port, agent protocol), an issue and an expiry time, and optionally the `svcb1` digest of the record's SvcParams. The digest is SHA-256 over the ASCII prefix `svcb1:` followed by the canonical JSON of the non-null params (keys sorted, no whitespace). A reader reaches agrees only when the signature verifies, the endpoint and digest match the served record, the record is unexpired and issued no later than five minutes after the check time, and a key authority the consumer holds (today a pin of the key-set fingerprint) ties the key set to the owner of the zone. All fixtures are synthetic.",
   "sources": [
@@ -748,6 +749,48 @@
    "id": "target-absent-both-sides",
    "kind": "reject",
    "sha256": "a9012b979ce780a87903ed20e202b6199c7c3895af2eb0e09223caa6a56359dc"
+  },
+  {
+   "description": "iat is two minutes after the check time (inside the skew) and exp one minute after it: an empty window",
+   "expected": {
+    "codes": [
+     "validity-window-inverted"
+    ],
+    "decision": "contradicted",
+    "verdict": "invalid"
+   },
+   "file": "cases/validity-window-inverted.json",
+   "id": "validity-window-inverted",
+   "kind": "reject",
+   "sha256": "4db97614fc51aafa85a6d6378c744c17d487320e42f609ff155378934d8cb72e"
+  },
+  {
+   "description": "the JWKS URL names port 99999, which no client can connect to",
+   "expected": {
+    "codes": [
+     "jwks-host-not-zone"
+    ],
+    "decision": "contradicted",
+    "verdict": "invalid"
+   },
+   "file": "cases/jwks-url-port-out-of-range.json",
+   "id": "jwks-url-port-out-of-range",
+   "kind": "reject",
+   "sha256": "1bee8dfdabf55c8970b088b642aa906454a53ea5be6cd3126045404df5d2cc61"
+  },
+  {
+   "description": "a served ipv4hint the signer never saw: every present param enters the digest, not only the DNS-AID ones",
+   "expected": {
+    "codes": [
+     "svcb1-digest-mismatch"
+    ],
+    "decision": "contradicted",
+    "verdict": "invalid"
+   },
+   "file": "cases/svcb1-covers-ipv4hint.json",
+   "id": "svcb1-covers-ipv4hint",
+   "kind": "reject",
+   "sha256": "9ffac075f9055d90e4977776c67bfefac627484fb36e387fce9f3e0035433bdb"
   },
   {
    "description": "the member file names the record's target twice; a first-wins reader serves evil.example.net",
