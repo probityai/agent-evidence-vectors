@@ -1707,6 +1707,14 @@ jobs:
           set -euo pipefail
           uv run --extra dev pytest -q scripts/ablation-lattice-test.py
           uv run python scripts/ablation-lattice.py --json "$RUNNER_TEMP/ablation-lattice.json"
+      # A reason, rule or condition a corpus expects and no published text defines is a
+      # rule a second implementer can only copy from our reader. Owed definitions sit in
+      # spec/predicates/TRACE-PENDING.toml, which only shrinks.
+      - name: every reason, rule and condition a corpus expects is named in its specification
+        run: |
+          set -euo pipefail
+          uv run --extra dev pytest -q scripts/rule-trace-lint-test.py
+          python3 scripts/rule-trace-lint.py
       # The v0.1 report reader's rules that no corpus member can pin: a tree
       # shape outside the closed set is refused rather than hashed as another
       # shape, and each registered shape is hashed by the construction its name
