@@ -1,8 +1,11 @@
 package corpusreaders
 
 import (
+	"bytes"
 	"encoding/json"
 	"fmt"
+	"os"
+	"path/filepath"
 	"sort"
 	"strings"
 )
@@ -21,7 +24,12 @@ func init() {
 // names and names its own case, each declared answer fits its kind (an accept is
 // valid with no codes, a reject is invalid with exactly the codes it lists), the
 // sig corpus maps agrees to valid and contradicted or cannot-tell to invalid,
-// and the counts and corpus digest agree with the tree.
+// and the counts and corpus digest agree with the tree. It also refuses a
+// manifest that names a key twice, exactly or in another letter case: Go's
+// decoder matches field names without regard to case and keeps the last, while
+// the Python reader reads the exact name, so a manifest carrying "expected" and
+// "Expected" would show each reader a different answer. A file under cases/ that
+// the manifest does not list, and a declared code listed twice, are findings too.
 type dnsAidCorpus struct {
 	suite     string
 	decisions bool
@@ -54,6 +62,10 @@ func (d dnsAidCorpus) Judge(dir string, raw []byte) (*Result, error) {
 		return nil, fmt.Errorf("%s/MANIFEST.json does not parse: %w", dir, err)
 	}
 	result := &Result{}
+	if key := dnsAidRepeatedKey(raw); key != "" {
+		result.Findings = append(result.Findings,
+			fmt.Sprintf("MANIFEST.json names %q twice in one object (exactly or in another letter case)", key))
+	}
 	seen := map[string]bool{}
 	measured := map[string]int{}
 	for _, e := range m.Vectors {
@@ -83,7 +95,80 @@ func (d dnsAidCorpus) Judge(dir string, raw []byte) (*Result, error) {
 	if bad := countsDisagree(m.Counts, measured); bad != "" {
 		result.Findings = append(result.Findings, bad)
 	}
+	if extra := dnsAidUnlisted(dir, files); extra != "" {
+		result.Findings = append(result.Findings, extra)
+	}
 	return result, nil
+}
+
+// dnsAidUnlisted names every file under cases/ the manifest does not list: a
+// harness that runs the directory would judge a member nobody declared an answer for.
+func dnsAidUnlisted(dir string, files []string) string {
+	entries, err := os.ReadDir(filepath.Join(dir, "cases"))
+	if err != nil {
+		return "cases/ cannot be read: " + err.Error()
+	}
+	listed := map[string]bool{}
+	for _, f := range files {
+		listed[f] = true
+	}
+	var extra []string
+	for _, e := range entries {
+		if !listed["cases/"+e.Name()] {
+			extra = append(extra, e.Name())
+		}
+	}
+	if len(extra) == 0 {
+		return ""
+	}
+	sort.Strings(extra)
+	return fmt.Sprintf("cases/ holds files the manifest does not list: %v", extra)
+}
+
+// dnsAidRepeatedKey returns the first object key that appears twice in one
+// object of raw, compared exactly and with letter case folded, or "".
+func dnsAidRepeatedKey(raw []byte) string {
+	dec := json.NewDecoder(bytes.NewReader(raw))
+	var walk func() (string, error)
+	walk = func() (string, error) {
+		token, err := dec.Token()
+		if err != nil {
+			return "", err
+		}
+		delim, ok := token.(json.Delim)
+		if !ok {
+			return "", nil
+		}
+		if delim == '[' {
+			for dec.More() {
+				if key, err := walk(); key != "" || err != nil {
+					return key, err
+				}
+			}
+			_, err = dec.Token()
+			return "", err
+		}
+		seen := map[string]bool{}
+		for dec.More() {
+			token, err := dec.Token()
+			if err != nil {
+				return "", err
+			}
+			name, _ := token.(string)
+			folded := strings.ToLower(name)
+			if seen[folded] {
+				return name, nil
+			}
+			seen[folded] = true
+			if key, err := walk(); key != "" || err != nil {
+				return key, err
+			}
+		}
+		_, err = dec.Token()
+		return "", err
+	}
+	key, _ := walk()
+	return key
 }
 
 func (d dnsAidCorpus) judgeMember(dir string, e dnsAidEntry, out *Member) {
@@ -96,6 +181,12 @@ func (d dnsAidCorpus) judgeMember(dir string, e dnsAidEntry, out *Member) {
 	}
 	if !sort.StringsAreSorted(e.Expected.Codes) {
 		out.Findings = append(out.Findings, "the declared codes are not sorted")
+	}
+	for i := 1; i < len(e.Expected.Codes); i++ {
+		if e.Expected.Codes[i] == e.Expected.Codes[i-1] {
+			out.Findings = append(out.Findings, "the declared codes list "+e.Expected.Codes[i]+" twice: codes are a set")
+			break
+		}
 	}
 	if d.decisions {
 		want := map[string]bool{"agrees": e.Kind == "accept", "contradicted": e.Kind == "reject", "cannot-tell": e.Kind == "reject"}
