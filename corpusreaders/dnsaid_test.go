@@ -14,7 +14,7 @@ import (
 	"github.com/probityai/agent-evidence-vectors/corpusreaders"
 )
 
-var dnsAidDirs = map[string]int{"vectors-dns-aid-sig-v01": 56, "vectors-dns-aid-rrset-v01": 17}
+var dnsAidDirs = map[string]int{"vectors-dns-aid-sig-v01": 58, "vectors-dns-aid-rrset-v01": 17}
 
 func TestDNSAIDCorporaAreClean(t *testing.T) {
 	for dir, members := range dnsAidDirs {

@@ -115,3 +115,9 @@ def test_a_lenient_reading_is_caught(name: str, monkeypatch: pytest.MonkeyPatch)
 
         monkeypatch.setattr(reader, "ub64", lax)
         assert reader.report(case)["decision"] == "agrees"
+
+
+def test_the_root_is_no_publishing_zone() -> None:
+    assert not reader.within("a.example.com..", ".")
+    assert not reader.within("a.example.com", "")
+    assert reader.within("A.Example.COM.", "example.com")

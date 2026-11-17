@@ -318,6 +318,8 @@ def table() -> dict[str, dict[str, Any]]:
         "jwks-url-port-out-of-range": case(REC2, jws("owner", compact(body(REC2))),
                                            url="https://dns-aid.example.com:99999/.well-known/dns-aid-jwks.json"),
         "svcb1-covers-ipv4hint": case(served(REC, params={"ipv4hint": "192.0.2.66"}), good),
+        "header-b64-false": case(REC, raw_header('{"alg":"ES256","b64":false,"kid":"k1","typ":"JWT"}')),
+        "signature-high-s": case(REC, f"{h}.{p}.{enc(dec(s)[:32] + (N - int.from_bytes(dec(s)[32:], 'big')).to_bytes(32, 'big'))}"),
         "member-duplicate-target": case(REC, good),
     }
 

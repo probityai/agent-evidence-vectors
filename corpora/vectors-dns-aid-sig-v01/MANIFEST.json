@@ -1,11 +1,12 @@
 {
- "corpusDigest": "909ca6ba00b4b37ac8d2dd9ff66014ee85f32b0367576bbc1c754fc607cc19e7",
+ "corpusDigest": "a0f5edc3478507a4150cfeca66daeadd276b38aafdac347ae541a2ad66e817e0",
  "counts": {
-  "accept": 6,
-  "reject": 50
+  "accept": 7,
+  "reject": 51
  },
  "specification": {
   "profile": {
+   "b64": "a b64 header is refused, with or without crit (RFC 7797): the payload is always base64url",
    "base64url": "the strict alphabet without padding, and the canonical encoding only",
    "crit": "a crit header is refused (RFC 7515 section 4.1.11): this profile defines no extension",
    "iatSkewSeconds": 300,
@@ -15,6 +16,7 @@
    "names": "fqdn, target and zone compare by ASCII case only (RFC 4343) with one optional root dot",
    "payload": "I-JSON (RFC 7493): a duplicate member name, a NaN or Infinity literal, and a surrogate or noncharacter code point in a name or string are refused; the member file itself is I-JSON too",
    "protocol": "the payload's fqdn, target and alpn are strings; its alpn is compared with the record's proto when that member is present (an empty proto names nothing), else with its alpn",
+   "signature": "r and s as 32 octets each; a high-s signature verifies (RFC 7518 does not require low s)",
    "window": "exp after iat; a window whose exp is at or before its iat is refused"
   },
   "scope": "The `sig` binding of a DNS-AID SVCB record: a compact JWS (RFC 7515, ES256 with a raw 64-byte signature) whose payload names the endpoint (fqdn, target, port, agent protocol), an issue and an expiry time, and optionally the `svcb1` digest of the record's SvcParams. The digest is SHA-256 over the ASCII prefix `svcb1:` followed by the canonical JSON of the non-null params (keys sorted, no whitespace). A reader reaches agrees only when the signature verifies, the endpoint and digest match the served record, the record is unexpired and issued no later than five minutes after the check time, and a key authority the consumer holds (today a pin of the key-set fingerprint) ties the key set to the owner of the zone. All fixtures are synthetic.",
@@ -791,6 +793,32 @@
    "id": "svcb1-covers-ipv4hint",
    "kind": "reject",
    "sha256": "9ffac075f9055d90e4977776c67bfefac627484fb36e387fce9f3e0035433bdb"
+  },
+  {
+   "description": "b64 false without crit: an RFC 7797 reader signs the raw payload, a base64url reader the encoded one",
+   "expected": {
+    "codes": [
+     "jws-malformed"
+    ],
+    "decision": "contradicted",
+    "verdict": "invalid"
+   },
+   "file": "cases/header-b64-false.json",
+   "id": "header-b64-false",
+   "kind": "reject",
+   "sha256": "3939df0d1d8d642d6235f407126077fac4c2b7dd0824d6ac2403b799c8fa8ab2"
+  },
+  {
+   "description": "control: s replaced by n - s, the other valid ECDSA signature; ES256 does not require low s",
+   "expected": {
+    "codes": [],
+    "decision": "agrees",
+    "verdict": "valid"
+   },
+   "file": "cases/signature-high-s.json",
+   "id": "signature-high-s",
+   "kind": "accept",
+   "sha256": "dda55458b8ed71262727bcd5ab7f9fbe82a6eee32819d8c8545cedb2e5b105b8"
   },
   {
    "description": "the member file names the record's target twice; a first-wins reader serves evil.example.net",
