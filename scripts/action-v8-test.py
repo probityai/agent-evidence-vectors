@@ -474,7 +474,7 @@ def case_a_profile_that_excuses_everything_goes_red(work: Path) -> None:
     mutant = _copy_with(
         work,
         "action-summary.py",
-        'gates.profile_excuses = clean and inside["fail"] == 0',
+        "gates.profile_excuses = _profile_excuses(report, inside, outside)",
         "gates.profile_excuses = True",
     )
     report = work / "report.json"
@@ -521,6 +521,253 @@ def case_a_missing_case_tolerant_count_goes_red(work: Path) -> None:
     assert done.returncode == 0, "the copy without the missing-case guard still failed"
 
 
+# ---------------------------------------------------------------- broken by the adversary pass
+#
+# Each case below is an input that turned a red run green (or green-looking)
+# before the fix next to it. The case states what the input did.
+
+
+def _load(script: str) -> Any:
+    import importlib.util
+
+    spec = importlib.util.spec_from_file_location(script.replace("-", "_"), SCRIPTS / script)
+    assert spec is not None and spec.loader is not None
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    return module
+
+
+def case_profile_features_come_from_tokens_not_spellings(work: Path) -> None:
+    # An escaped backslash before `u00e9` is six ASCII characters; it read as a
+    # non-ASCII escape and moved the member out of `ascii-only`.
+    assert action_checks.features_of(b'{"input": {"s": "\\\\u00e9"}}') == set()
+    assert action_checks.features_of(b'{"input": {"s": "\\u00e9"}}') == {"non-ascii"}
+    # A nested `"input": 1.5` before an integer top-level input moved the member
+    # out of `integer-only`.
+    assert action_checks.features_of(b'{"meta": {"input": 1.5}, "input": {"n": 1}}') == set()
+    # NaN and Infinity are not JSON numbers; a member carrying one needs no
+    # float support to be rejected, so it stays in `integer-only`.
+    assert action_checks.features_of(b'{"input_raw": "{\\"n\\": NaN}"}') == set()
+    assert action_checks.features_of(b'{"input": [-0, 9007199254740993]}') == {
+        "negative-zero",
+        "unsafe-integer",
+    }
+    unparsed = action_checks.features_of(b'{"input_raw": "{\\"s\\": \\"\\\\\\\\u00e9\\", 1.5"}')
+    assert unparsed == {"non-integer-number"}, unparsed
+
+
+def case_an_id_two_members_share_carries_no_feature(work: Path) -> None:
+    corpus = work / "c"
+    corpus.mkdir()
+    (corpus / "a.json").write_text(json.dumps({"id": "A", "input": {"x": 1.5}}))
+    # Member B's file says its id is "A": a float in member A must not excuse it.
+    (corpus / "b.json").write_text(json.dumps({"id": "A", "input": {"x": 1}}))
+    (corpus / "MANIFEST.json").write_text(
+        json.dumps({"vectors": [{"id": "A", "path": "a.json"}, {"id": "B", "path": "b.json"}]})
+    )
+    features = action_checks.member_features(corpus)
+    assert features["A"] == set() and features["B"] == set(), features
+
+
+def case_a_profile_never_excuses_an_exit_it_does_not_explain(work: Path) -> None:
+    # Every row passes and the harness still exited 1: the profile explains
+    # nothing, and before the fix the run read `pass`.
+    got = summarize(work, _a2a_report(set()), "1", PROFILE="integer-only")
+    assert got["result"] == "fail", got
+    floats = {k for k, v in action_checks.member_features(A2A).items() if "non-integer-number" in v}
+    report = _a2a_report(floats)
+    report["totals"]["fail"] += 1  # a failure the rows do not show
+    assert summarize(work, report, "1", PROFILE="integer-only")["result"] == "fail"
+    report = _a2a_report(floats)
+    report["totals"]["vectors"] += 1  # a vector the report counts and does not list
+    assert summarize(work, report, "1", PROFILE="integer-only")["result"] == "fail"
+
+
+def case_a_disk_count_never_turns_a_scored_report_into_no_verdict(work: Path) -> None:
+    # The corpus directory lists every member and holds none of them, while the
+    # report scored them all and one failed. With both flags false the run read
+    # `no-verdict`, which the action does not fail.
+    corpus = work / "listed-only"
+    corpus.mkdir()
+    shutil.copy(A2A / "MANIFEST.json", corpus / "MANIFEST.json")
+    got = summarize(
+        work,
+        _a2a_report({"A2-001"}),
+        "1",
+        CORPUS_DIR=str(corpus),
+        FAIL_ON_NO_VECTORS="false",
+        FAIL_ON_MISSING_CASE="false",
+    )
+    assert got["result"] == "fail", got
+
+
+def case_a_corpus_directory_that_did_not_resolve_is_not_a_clean_count(work: Path) -> None:
+    # The replay step writes an empty corpus-dir when it cannot resolve one; the
+    # missing-case check was then skipped and the run passed.
+    got = summarize(work, _a2a_report(set()), "0", CORPUS_DIR="")
+    assert got["result"] == "fail", got
+    assert "Cases were not counted" in (work / "summary.md").read_text()
+    got = summarize(work, _a2a_report(set()), "0", CORPUS_DIR="", FAIL_ON_MISSING_CASE="false")
+    assert got["result"] == "pass", got
+
+
+def case_no_report_over_a_directory_with_files_is_not_an_empty_corpus(work: Path) -> None:
+    cases = work / "cases"
+    cases.mkdir()
+    (cases / "one.json").write_text("{}")
+    out = work / "out"
+    out.write_text("")
+    done = run(
+        [sys.executable, str(SCRIPTS / "action-summary.py")],
+        {
+            **os.environ,
+            "REPORT": str(work / "never-written.json"),
+            "STATUS": "2",
+            "CORPUS_DIR": str(cases),
+            "FAIL_ON_NO_VECTORS": "false",
+            "GITHUB_STEP_SUMMARY": str(work / "s.md"),
+            "GITHUB_OUTPUT": str(out),
+        },
+    )
+    assert done.returncode == 0, done.stderr
+    assert outputs(out)["result"] == "fail", outputs(out)
+
+
+def _conform(
+    work: Path, expected: Path, verifier: str, cases: Path, cwd: Path | None = None
+) -> tuple[int, dict[str, str]]:
+    out = work / "out"
+    out.write_text("")
+    done = run(
+        [
+            sys.executable,
+            "-S",
+            str(SCRIPTS / "action-conformance.py"),
+            "--expected",
+            str(expected),
+            "--cases",
+            str(cases),
+            "--verifier",
+            verifier,
+            "--report",
+            str(work / "conf.json"),
+            "--github",
+        ],
+        {**os.environ, "GITHUB_OUTPUT": str(out), "GITHUB_STEP_SUMMARY": str(work / "s.md")},
+        cwd,
+    )
+    return done.returncode, outputs(out)
+
+
+def case_a_conformance_check_that_cannot_start_fails(work: Path) -> None:
+    fixture = FIXTURES / "conformance"
+    good = f"{sys.executable} -S {fixture / 'verifier.py'}"
+    # A misspelt expected-verdicts path wrote result=no-verdict, which the
+    # action's last step lets through: a green job that checked nothing.
+    code, got = _conform(work, work / "no-such-file.txt", good, fixture / "cases")
+    assert code == 3 and got["result"] == "fail", (code, got)
+    # A JSON expected file listing one case twice kept the last verdict silently.
+    twice = work / "twice.json"
+    twice.write_text('{"valid/minimal.json": "invalid", "valid/minimal.json": "valid"}')
+    code, got = _conform(work, twice, good, fixture / "cases")
+    assert code == 3 and got["result"] == "fail", (code, got)
+    # An empty verifier ran each case file as the program.
+    code, got = _conform(work, fixture / "verify-expected.txt", "", fixture / "cases")
+    assert code == 3 and got["result"] == "fail", (code, got)
+
+
+def case_conformance_paths_keep_hashes_and_never_read_as_options(work: Path) -> None:
+    cases = work / "cases"
+    cases.mkdir()
+    (cases / "#12.json").write_text("{}")
+    (cases / "-v.json").write_text("{}")
+    expected = work / "expected.txt"
+    expected.write_text("#12.json valid  # a comment after whitespace\n-v.json valid\n")
+    assert action_checks.read_expected(expected) == {"#12.json": "valid", "-v.json": "valid"}
+    seen = work / "seen.txt"
+    echo = work / "echo.py"
+    echo.write_text(f"import sys\nopen({str(seen)!r}, 'a').write(sys.argv[1] + '\\n')\n")
+    # Run from inside the cases directory, so the case path is the bare name.
+    code, got = _conform(work, expected, f"{sys.executable} -S {echo}", Path("."), cases)
+    assert code == 0 and got["result"] == "pass", (code, got)
+    args = seen.read_text().split()
+    assert "./-v.json" in args and "-v.json" not in args, args
+
+
+def case_a_windows_command_line_loses_its_quotes(work: Path) -> None:
+    words = action_checks.split_command('"C:\\Program Files\\v.exe" --json', windows=True)
+    assert words == ["C:\\Program Files\\v.exe", "--json"], words
+    assert action_checks.split_command("./v --json", windows=False) == ["./v", "--json"]
+    try:
+        action_checks.split_command("   ", windows=False)
+    except ValueError:
+        return
+    raise AssertionError("an empty verifier command was accepted")
+
+
+def case_a_move_that_changes_nothing_is_no_mutant(work: Path) -> None:
+    stage = _load("action-mutate-stage.py")
+    assert "to 2^53" not in dict(stage.nudged(2**53)), stage.nudged(2**53)
+    assert "plus one" not in dict(stage.nudged(1e300)), stage.nudged(1e300)
+    assert all(new != value for value in (0, 2**64 - 1, "x", True) for _, new in stage.nudged(value))
+    for hostile in ("../../escape", "a/b", "..", ""):
+        name = stage.file_name(hostile, "m000001")
+        assert "/" not in name and not name.startswith("."), name
+
+
+def case_an_always_reject_verifier_fails_the_mutation_stage(work: Path) -> None:
+    # Every mutant must be rejected, so a verifier that rejects everything read
+    # `mutation-checked 40 of 40` and passed. Its control (the unmutated member,
+    # rebuilt the way the mutants are) is rejected too, and that fails the stage.
+    reject = f"{sys.executable} -S -c 'import sys; sys.exit(1)'"
+    got = mutate(work, "aee", reject, "bytes")
+    assert got["mutation-result"] == "fail" and got["mutation-checked"] == "0", got
+    assert "the unmutated member" in (work / "s.md").read_text()
+
+
+def case_a_wrong_resign_key_is_caught_by_the_control(work: Path) -> None:
+    # A corpus whose key recipe the stage reads wrongly re-signs every mutant
+    # with a key no verifier trusts: each is rejected for its signature, never
+    # for its edit, and was counted as checked.
+    corpus = FIXTURES / "mutate" / "aee-wrong-key"
+    got = mutate(work, "aee-wrong-key", candidate("reference_candidate.py"), "structural", "400")
+    report = json.loads((work / "r.json").read_text())["mutation"]
+    assert got["mutation-result"] == "fail", got
+    assert report["controls"]["failed"] >= 1, report["controls"]
+    assert "re-signed unchanged" in " ".join(report["refusals"]), report["refusals"]
+    assert corpus.is_dir()
+
+
+def case_a_control_tolerant_stage_goes_red(work: Path) -> None:
+    mutant = _copy_with(work, "action-mutate-stage.py", "if control[key]:", "if False:")
+    reject = f"{sys.executable} -S -c 'import sys; sys.exit(1)'"
+    got = mutate(work, "aee", reject, "bytes", stage=mutant)
+    assert got["mutation-checked"] == got["mutation-total"] != "0", (
+        "the copy without the control check still refused the always-reject verifier"
+    )
+
+
+def case_a_profile_excuse_without_its_cause_goes_red(work: Path) -> None:
+    mutant = _copy_with(work, "action-summary.py", 'and outside["fail"] > 0', "")
+    report = work / "report.json"
+    report.write_text(json.dumps(_a2a_report(set())))
+    out = work / "out"
+    out.write_text("")
+    run(
+        [sys.executable, str(mutant)],
+        {
+            **os.environ,
+            "REPORT": str(report),
+            "STATUS": "1",
+            "CORPUS_DIR": str(A2A),
+            "PROFILE": "integer-only",
+            "GITHUB_STEP_SUMMARY": str(work / "s.md"),
+            "GITHUB_OUTPUT": str(out),
+        },
+    )
+    assert outputs(out).get("result") == "pass", "the copy without the cause check still failed"
+
+
 CASES: list[Case] = [
     case_inputs_exist_with_strict_defaults,
     case_conformance_mode_installs_nothing,
@@ -543,6 +790,20 @@ CASES: list[Case] = [
     case_a_survivor_tolerant_stage_goes_red,
     case_a_profile_that_excuses_everything_goes_red,
     case_a_missing_case_tolerant_count_goes_red,
+    case_profile_features_come_from_tokens_not_spellings,
+    case_an_id_two_members_share_carries_no_feature,
+    case_a_profile_never_excuses_an_exit_it_does_not_explain,
+    case_a_disk_count_never_turns_a_scored_report_into_no_verdict,
+    case_a_corpus_directory_that_did_not_resolve_is_not_a_clean_count,
+    case_no_report_over_a_directory_with_files_is_not_an_empty_corpus,
+    case_a_conformance_check_that_cannot_start_fails,
+    case_conformance_paths_keep_hashes_and_never_read_as_options,
+    case_a_windows_command_line_loses_its_quotes,
+    case_a_move_that_changes_nothing_is_no_mutant,
+    case_an_always_reject_verifier_fails_the_mutation_stage,
+    case_a_wrong_resign_key_is_caught_by_the_control,
+    case_a_control_tolerant_stage_goes_red,
+    case_a_profile_excuse_without_its_cause_goes_red,
 ]
 
 
