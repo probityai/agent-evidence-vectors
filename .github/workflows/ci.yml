@@ -3591,6 +3591,56 @@ jobs:
     permissions:
       contents: read
 
+  # The same vector files as an npm package (crates/jcsvectors/npm): node:test on each supported
+  # Node, then the cross-language check, which compares every case (identifier, input and output
+  # digests, features, codes) with what the Go module reads from the same files.
+  jcsvectors_npm:
+    name: jcsvectors (Node ${{ matrix.node }})
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    strategy:
+      fail-fast: false
+      matrix:
+        node: ['22', '24', '26']
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: ${{ matrix.node }}
+      - uses: actions/setup-go@b7ad1dad31e06c5925ef5d2fc7ad053ef454303e # v7.0.0
+        with:
+          go-version: '1.26'
+          cache: false
+      - name: node:test
+        working-directory: crates/jcsvectors/npm
+        run: npm test
+      - name: The Go module and the npm package agree on every case
+        env:
+          GOWORK: 'off'
+        run: |
+          (cd jcsvectors && JCSVECTORS_SUMMARY="$RUNNER_TEMP/go-summary.json" go test -count=1 -run TestWriteSummary .)
+          node crates/jcsvectors/npm/test/cross.mjs "$RUNNER_TEMP/go-summary.json"
+      - name: The package npm publish would upload holds every file the package reads
+        working-directory: crates/jcsvectors/npm
+        run: |
+          npm pack --dry-run --json > "$RUNNER_TEMP/pack.json"
+          node --input-type=module -e '
+            import { readFileSync } from "node:fs";
+            import { fileDigests } from "./digests.mjs";
+            const files = new Set(JSON.parse(readFileSync(process.argv[1], "utf8"))[0].files.map((f) => f.path));
+            const need = ["index.mjs", "index.d.ts", "lib.mjs", "digests.mjs", "README.md", "package.json", ...fileDigests.map(([n]) => "data/" + n)];
+            const missing = need.filter((n) => !files.has(n));
+            if (missing.length) { console.error("missing from the package:", missing); process.exit(1); }
+            if ([...files].some((n) => n.startsWith("test/"))) { console.error("tests are in the package"); process.exit(1); }
+          ' "$RUNNER_TEMP/pack.json"
+    needs:
+      - changes
+    if: ${{ fromJSON(needs.changes.outputs.run)['jcsvectors'] }}
+    permissions:
+      contents: read
+
   # from jep-core07-reader.yml:
   #  A newer push to the same pull request or branch supersedes the older run.
   #  Main and tags never cancel: each main push keeps its own group by sha.
@@ -4841,6 +4891,7 @@ jobs:
       - identity_scan
       - invocation_axes
       - jcsvectors
+      - jcsvectors_npm
       - jcsvectors_rust
       - jep_core07_reader
       - nist_ai_300_1
