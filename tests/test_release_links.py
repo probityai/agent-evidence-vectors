@@ -279,3 +279,35 @@ def test_a_ref_only_lookup_asks_the_contents_api_at_the_root(monkeypatch) -> Non
         "https://api.github.com/repos/probityai/x/contents?ref=release%2F1.0",
         "https://api.github.com/repos/probityai/x/contents/crates/dsse?ref=main",
     ]
+
+
+# A link github.com answers 404 for passed unread when it was neither /tree nor /blob: the
+# measured case is a documentation link that drops `/tree/main` and a release page for a tag
+# that was never pushed. Both now fail; the routes github.com does serve still pass.
+@pytest.mark.parametrize(
+    "link",
+    [
+        "https://github.com/probityai/agent-evidence-vectors/crates/jcs-admit",
+        "https://github.com/probityai/agent-evidence-vectors/docs/NPM.md",
+        "https://github.com/probityai/agent-evidence-vectors/releases/tag/jcs-admit-v9.9.9",
+    ],
+)
+def test_a_link_github_serves_no_page_for_is_refused(tmp_path: Path, link: str) -> None:
+    manifest = cargo(tmp_path, "https://github.com/probityai/agent-evidence-vectors", link)
+    problems = release_links.check_manifest(manifest, repo_lookup, ref_lookup)
+    assert len(problems) == 1 and link in problems[0], problems
+
+
+@pytest.mark.parametrize(
+    "link",
+    [
+        "https://github.com/probityai/agent-evidence-vectors/issues",
+        "https://github.com/probityai/agent-evidence-vectors/security/policy",
+        "https://github.com/probityai/agent-evidence-vectors/releases",
+        "https://github.com/probityai/agent-evidence-vectors/releases/tag/jcs-admit-v0.1.3",
+        "https://github.com/probityai/agent-evidence-vectors/",
+    ],
+)
+def test_a_route_github_serves_passes(tmp_path: Path, link: str) -> None:
+    manifest = cargo(tmp_path, "https://github.com/probityai/agent-evidence-vectors", link)
+    assert release_links.check_manifest(manifest, repo_lookup, ref_lookup) == []

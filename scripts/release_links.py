@@ -77,6 +77,20 @@ def ref_candidates(spec: str) -> list[tuple[str, str]]:
     return [("/".join(segments[:k]), "/".join(segments[k:])) for k in range(1, len(segments) + 1)]
 
 
+# The first path segment of every repository page github.com serves. Any other segment under
+# owner/repo is a 404 (`/crates/jcs-admit` without `/tree/<ref>` is the measured case), so a link
+# whose first segment is not here is refused rather than passed unread. A release tag page is
+# read like a ref, because `/releases/tag/<tag>` for a tag never pushed is a 404 as well.
+_REPO_ROUTES = frozenset(
+    {
+        "actions", "activity", "blob", "branches", "commit", "commits", "compare", "contributors",
+        "deployments", "discussions", "forks", "graphs", "issues", "labels", "milestones",
+        "network", "packages", "projects", "pull", "pulls", "pulse", "raw", "releases", "security",
+        "stargazers", "tags", "tree", "watchers", "wiki",
+    }
+)
+_RELEASE_TAG = re.compile(r"/releases/tag/(?P<tag>[^/\s]+)/?\Z")
+
 RepoLookup = Callable[[str, str], "dict | None"]
 PathLookup = Callable[[str, str, str], bool]
 
@@ -174,12 +188,19 @@ def check_url(
         problems.append(f"{field}: {url} redirects to {current}, so the link names a retired name")
     if problems:
         return problems
-    tree = _TREE.match(match["rest"] or "")
+    rest = match["rest"] or ""
+    first = rest.strip("/").split("/", 1)[0]
+    if first and first not in _REPO_ROUTES:
+        return [f"{field}: {url} names {rest}, a path github.com serves no repository page for"]
+    tree = _TREE.match(rest)
     if tree and not any(path_lookup(current, ref, p) for ref, p in ref_candidates(tree["spec"])):
         return [
             f"{field}: {url} names {tree['spec']}, and {current} has no branch or tag with that"
             " path under it"
         ]
+    release = _RELEASE_TAG.match(rest)
+    if release and not path_lookup(current, urllib.parse.unquote(release["tag"]), ""):
+        return [f"{field}: {url} names the release tag {release['tag']}, which {current} lacks"]
     return []
 
 
