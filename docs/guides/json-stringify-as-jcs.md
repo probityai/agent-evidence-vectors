@@ -6,9 +6,9 @@ for ordinary records, so the bug stays hidden until a signed record carries one
 of the inputs below. Then two verifiers compute different bytes for the same
 record, or one of them signs bytes that RFC 8785 says cannot be produced at all.
 
-We measured three hand-rolled JavaScript canonicalizers built this way. All 3 of
-3 accepted a lone surrogate, and all 3 of 3 accepted a duplicate member name and
-invalid UTF-8 instead of refusing them. The cause is the same in each: the
+We measured three hand-rolled JavaScript canonicalizers built this way. Every
+one of them accepted a lone surrogate, a duplicate member name and invalid UTF-8
+instead of refusing them. The cause is the same in each: the
 refusals RFC 8785 requires happen at the parse and decode layer, and
 `JSON.parse` followed by `JSON.stringify` has no step where a refusal can occur.
 
