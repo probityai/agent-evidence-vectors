@@ -166,6 +166,8 @@ only-include = [
     "corpora/vectors-delegator-right",
     "corpora/vectors-dependency-selection",
     "corpora/vectors-dispatch-fence",
+    "corpora/vectors-dns-aid-rrset-v01",
+    "corpora/vectors-dns-aid-sig-v01",
     "corpora/vectors-done-contract",
     "corpora/vectors-done-probes",
     "corpora/vectors-done-receipt",
@@ -236,6 +238,8 @@ exclude = [
     "corpora/vectors-delegator-right/**/*.py",
     "corpora/vectors-dependency-selection/**/*.py",
     "corpora/vectors-dispatch-fence/**/*.py",
+    "corpora/vectors-dns-aid-rrset-v01/**/*.py",
+    "corpora/vectors-dns-aid-sig-v01/**/*.py",
     "corpora/vectors-done-contract/**/*.py",
     "corpora/vectors-done-probes/**/*.py",
     "corpora/vectors-done-receipt/**/*.py",
@@ -305,6 +309,8 @@ exclude = [
 "corpora/vectors-delegator-right" = "agent_evidence_vectors/corpora/vectors-delegator-right"
 "corpora/vectors-dependency-selection" = "agent_evidence_vectors/corpora/vectors-dependency-selection"
 "corpora/vectors-dispatch-fence" = "agent_evidence_vectors/corpora/vectors-dispatch-fence"
+"corpora/vectors-dns-aid-rrset-v01" = "agent_evidence_vectors/corpora/vectors-dns-aid-rrset-v01"
+"corpora/vectors-dns-aid-sig-v01" = "agent_evidence_vectors/corpora/vectors-dns-aid-sig-v01"
 "corpora/vectors-done-contract" = "agent_evidence_vectors/corpora/vectors-done-contract"
 "corpora/vectors-done-probes" = "agent_evidence_vectors/corpora/vectors-done-probes"
 "corpora/vectors-done-receipt" = "agent_evidence_vectors/corpora/vectors-done-receipt"
@@ -449,6 +455,8 @@ only-include = [
     "corpora/vectors-delegator-right",
     "corpora/vectors-dependency-selection",
     "corpora/vectors-dispatch-fence",
+    "corpora/vectors-dns-aid-rrset-v01",
+    "corpora/vectors-dns-aid-sig-v01",
     "corpora/vectors-done-contract",
     "corpora/vectors-done-probes",
     "corpora/vectors-done-receipt",

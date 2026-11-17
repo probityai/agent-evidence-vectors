@@ -1828,6 +1828,10 @@ jobs:
         run: uv run --extra dev pytest corpora/vectors-credential-release/tests -q
       - name: converted-argument-binding cases regenerate and force every check
         run: uv run --extra dev pytest corpora/vectors-converted-argument-binding/tests -q
+      - name: dns-aid sig cases regenerate, two independent generators agree and each lenient reading is caught
+        run: uv run --extra dev pytest corpora/vectors-dns-aid-sig-v01/tests -q
+      - name: dns-aid rrset cases regenerate and both drafts' example RRsets pass the oracle
+        run: uv run --extra dev pytest corpora/vectors-dns-aid-rrset-v01/tests -q
       - name: delegator-right cases regenerate and force every check
         run: uv run --extra dev pytest corpora/vectors-delegator-right/tests -q
       - name: badge-vc-verify cases regenerate and force every check

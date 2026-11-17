@@ -147,6 +147,8 @@ GENERATORS = (
     "corpora/vectors-authority-at-dispatch/gen_vectors.py",
     "corpora/vectors-approval-binding/gen_vectors.py",
     "corpora/vectors-dispatch-fence/gen_vectors.py",
+    "corpora/vectors-dns-aid-sig-v01/gen_vectors.py",
+    "corpora/vectors-dns-aid-rrset-v01/gen_vectors.py",
     "corpora/vectors-refund-connected/gen_vectors.py",
     "corpora/vectors-aggregate-accounting/gen_vectors.py",
     "corpora/vectors-uncertain-effect/gen_vectors.py",
@@ -347,6 +349,12 @@ OWNED = (
     ("corpora/vectors-approval-binding/cases", "**/payload.bin"),
     ("corpora/vectors-dispatch-fence", "MANIFEST.json"),
     ("corpora/vectors-dispatch-fence/cases", "**/record.json"),
+    ("corpora/vectors-dns-aid-sig-v01", "MANIFEST.json"),
+    ("corpora/vectors-dns-aid-sig-v01", "INDEX.md"),
+    ("corpora/vectors-dns-aid-sig-v01/cases", "*.json"),
+    ("corpora/vectors-dns-aid-rrset-v01", "MANIFEST.json"),
+    ("corpora/vectors-dns-aid-rrset-v01", "INDEX.md"),
+    ("corpora/vectors-dns-aid-rrset-v01/cases", "*.json"),
     ("corpora/vectors-refund-connected", "MANIFEST.json"),
     # The input_aps contract fixtures: the check order, the retained cases with
     # their frozen instants, and one case directory and expected.json per fixture.

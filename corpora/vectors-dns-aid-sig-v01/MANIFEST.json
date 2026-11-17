@@ -1,0 +1,489 @@
+{
+ "corpusDigest": "b85cffefc7f2aa9e37cf47b9422f3337198298558510c6425e23d1d4bb8ffd6b",
+ "counts": {
+  "accept": 3,
+  "reject": 30
+ },
+ "specification": {
+  "profile": {
+   "base64url": "the strict alphabet without padding, and the canonical encoding only",
+   "crit": "a crit header is refused (RFC 7515 section 4.1.11): this profile defines no extension",
+   "iatSkewSeconds": 300,
+   "integers": "port, iat and exp are JSON integers; 443.0 is not 443",
+   "jwksHost": "dns-aid.<zone> or the zone apex, over https",
+   "payload": "I-JSON (RFC 7493): a duplicate member name is refused",
+   "protocol": "the payload alpn is compared with the record's proto when present, else its alpn"
+  },
+  "scope": "The `sig` binding of a DNS-AID SVCB record: a compact JWS (RFC 7515, ES256 with a raw 64-byte signature) whose payload names the endpoint (fqdn, target, port, agent protocol), an issue and an expiry time, and optionally the `svcb1` digest of the record's SvcParams. The digest is SHA-256 over the ASCII prefix `svcb1:` followed by the canonical JSON of the non-null params (keys sorted, no whitespace). A reader reaches agrees only when the signature verifies, the endpoint and digest match the served record, the record is unexpired and issued no later than five minutes after the check time, and a key authority the consumer holds (today a pin of the key-set fingerprint) ties the key set to the owner of the zone. All fixtures are synthetic.",
+  "sources": [
+   "RFC 7515 JSON Web Signature, sections 2, 4.1.11 and 7.1",
+   "RFC 7518 JSON Web Algorithms, section 3.4 (ES256)",
+   "RFC 7493 The I-JSON Message Format",
+   "RFC 9460 Service Binding and Parameter Specification via the DNS (SVCB)",
+   "RFC 4648 section 3.5 (canonical encoding)",
+   "RFC 6979 Deterministic Usage of DSA and ECDSA (fixture signing)",
+   "IETF draft on DNS-based agent discovery, section 3.1.1 (record shape)"
+  ],
+  "status": "proposal of this repository, not a vendored upstream text",
+  "verifierContract": "verifier <case file>: the last stdout line is one JSON object with `verdict` (valid or invalid), `codes` (the reason codes, a set) and optionally `decision` (agrees, contradicted or cannot-tell); exit 0 for valid, 1 for invalid."
+ },
+ "suite": "dns-aid-sig-binding/v1",
+ "vectors": [
+  {
+   "description": "ES256 valid, unexpired, endpoint and svcb1 digest match, key set pinned for the zone",
+   "expected": {
+    "codes": [],
+    "decision": "agrees",
+    "verdict": "valid"
+   },
+   "file": "cases/full-coverage-valid.json",
+   "id": "full-coverage-valid",
+   "kind": "accept",
+   "sha256": "d29a1987308ae5e305dff0a0736a1f1f5770cd63ea315b400af14f170d3c87fd"
+  },
+  {
+   "description": "valid, but the payload carries no svcb digest: cap, cap-sha256, policy and realm are not attested",
+   "expected": {
+    "codes": [
+     "svcb-claim-absent"
+    ],
+    "decision": "cannot-tell",
+    "verdict": "invalid"
+   },
+   "file": "cases/endpoint-only.json",
+   "id": "endpoint-only",
+   "kind": "reject",
+   "sha256": "151dd43663bf68c733b9d5ecce2e6f245f90ee143d61d10f874120d2b73fb410"
+  },
+  {
+   "description": "served cap-sha256 differs from the signed svcb1 digest",
+   "expected": {
+    "codes": [
+     "svcb1-digest-mismatch"
+    ],
+    "decision": "contradicted",
+    "verdict": "invalid"
+   },
+   "file": "cases/param-tamper-cap-sha256.json",
+   "id": "param-tamper-cap-sha256",
+   "kind": "reject",
+   "sha256": "1f42508b8705a8c10d732cef416b39c436d268ba0bdb0377d5bb2f7bffcf80d9"
+  },
+  {
+   "description": "served target differs from the signed target",
+   "expected": {
+    "codes": [
+     "endpoint-mismatch"
+    ],
+    "decision": "contradicted",
+    "verdict": "invalid"
+   },
+   "file": "cases/endpoint-tamper-target.json",
+   "id": "endpoint-tamper-target",
+   "kind": "reject",
+   "sha256": "df26d0e0b2e6ce5bb051d718111ea8a5cca49e390231485d05ab0ebf7bdf0c36"
+  },
+  {
+   "description": "exp is before the check time",
+   "expected": {
+    "codes": [
+     "expired"
+    ],
+    "decision": "contradicted",
+    "verdict": "invalid"
+   },
+   "file": "cases/expired.json",
+   "id": "expired",
+   "kind": "reject",
+   "sha256": "51504f429fbac498ca4e0d0bc28176bf9a1b99a968fa1e2a926e12ce6da0a4aa"
+  },
+  {
+   "description": "signed by a key the published and pinned key set does not hold",
+   "expected": {
+    "codes": [
+     "signature-invalid"
+    ],
+    "decision": "contradicted",
+    "verdict": "invalid"
+   },
+   "file": "cases/wrong-key.json",
+   "id": "wrong-key",
+   "kind": "reject",
+   "sha256": "cc3d48f8b64acb60b5293c9c9ed1ecc0ccd52b28f1ac4a8f124677e07090c904"
+  },
+  {
+   "description": "alg none with an empty signature: only ES256 is allowed",
+   "expected": {
+    "codes": [
+     "alg-not-es256"
+    ],
+    "decision": "contradicted",
+    "verdict": "invalid"
+   },
+   "file": "cases/alg-none.json",
+   "id": "alg-none",
+   "kind": "reject",
+   "sha256": "79adbb40f6fc8753683444feee3fbb3324837330ed1755969d70b781c6447f0c"
+  },
+  {
+   "description": "one signature bit flipped",
+   "expected": {
+    "codes": [
+     "signature-invalid"
+    ],
+    "decision": "contradicted",
+    "verdict": "invalid"
+   },
+   "file": "cases/sig-bitflip.json",
+   "id": "sig-bitflip",
+   "kind": "reject",
+   "sha256": "fd8e746fd86ab1d9e7fbf4e12b45afae5f4131d52161ac3191c2196511355fc1"
+  },
+  {
+   "description": "signed {cap: u, realm: t}; served cap 'u\\nrealm=t' with no realm must not bind",
+   "expected": {
+    "codes": [
+     "svcb1-digest-mismatch"
+    ],
+    "decision": "contradicted",
+    "verdict": "invalid"
+   },
+   "file": "cases/svcb1-field-boundary.json",
+   "id": "svcb1-field-boundary",
+   "kind": "reject",
+   "sha256": "d4b2a6eb671347b5e351fd5e3b3aa070da7448f395e2b80bbc719604f5cea496"
+  },
+  {
+   "description": "the signed payload names fqdn twice; a first-wins and a last-wins parser bind different names",
+   "expected": {
+    "codes": [
+     "payload-duplicate-member"
+    ],
+    "decision": "contradicted",
+    "verdict": "invalid"
+   },
+   "file": "cases/dup-member-fqdn.json",
+   "id": "dup-member-fqdn",
+   "kind": "reject",
+   "sha256": "23d239cbae38ccc9a7b67d5e4933074f7828e3f67ec4e2b4d2c4f9e6c1d526bc"
+  },
+  {
+   "description": "port is 443.0, which is not the JSON integer 443",
+   "expected": {
+    "codes": [
+     "payload-integer-required"
+    ],
+    "decision": "contradicted",
+    "verdict": "invalid"
+   },
+   "file": "cases/port-float.json",
+   "id": "port-float",
+   "kind": "reject",
+   "sha256": "7ddf700147f0971a296045c8d6a98986a9722fb5e51c06d6e96a97aa4aca5ad2"
+  },
+  {
+   "description": "issued a day after the check time, beyond the 300 second skew: not yet attested",
+   "expected": {
+    "codes": [
+     "iat-in-future"
+    ],
+    "decision": "cannot-tell",
+    "verdict": "invalid"
+   },
+   "file": "cases/iat-future.json",
+   "id": "iat-future",
+   "kind": "reject",
+   "sha256": "eab749dfc3994f0a232391db304989e9575a928f926afce03c08ae34ee36db23"
+  },
+  {
+   "description": "a self-consistent triple under a key nothing ties to the zone owner: the key set travels with the evidence",
+   "expected": {
+    "codes": [
+     "key-authority-absent"
+    ],
+    "decision": "cannot-tell",
+    "verdict": "invalid"
+   },
+   "file": "cases/foreign-key-no-provenance.json",
+   "id": "foreign-key-no-provenance",
+   "kind": "reject",
+   "sha256": "e1a3edbbc4de85a2be54776501b4ebf3787b286954c148be935113564c1e1c3d"
+  },
+  {
+   "description": "the key set was fetched from a host that is neither dns-aid.<zone> nor the zone",
+   "expected": {
+    "codes": [
+     "jwks-host-not-zone"
+    ],
+    "decision": "contradicted",
+    "verdict": "invalid"
+   },
+   "file": "cases/foreign-key-wrong-host.json",
+   "id": "foreign-key-wrong-host",
+   "kind": "reject",
+   "sha256": "bced1ccbdb8f14697db727fd05979ea7bd3191cf3034f11ff4eb2c98736d954b"
+  },
+  {
+   "description": "the supplied key set's fingerprint differs from the consumer's pin for the zone",
+   "expected": {
+    "codes": [
+     "key-set-not-pinned"
+    ],
+    "decision": "contradicted",
+    "verdict": "invalid"
+   },
+   "file": "cases/foreign-key-pinned-owner.json",
+   "id": "foreign-key-pinned-owner",
+   "kind": "reject",
+   "sha256": "2d1ee912f7ea4e5f36778a631b7d2f0c9c8ff0e84a55955ea21cc350ae3c42d6"
+  },
+  {
+   "description": "control: owner key, derived host, pin matches, full svcb1 coverage",
+   "expected": {
+    "codes": [],
+    "decision": "agrees",
+    "verdict": "valid"
+   },
+   "file": "cases/owner-key-pinned-control.json",
+   "id": "owner-key-pinned-control",
+   "kind": "accept",
+   "sha256": "d3cca092f26c5511b9d41809a4fba14720fe17ab2d4717841400126ef82a7c8f"
+  },
+  {
+   "description": "crit names an extension the reader does not understand (RFC 7515 section 4.1.11 MUST)",
+   "expected": {
+    "codes": [
+     "crit-refused"
+    ],
+    "decision": "contradicted",
+    "verdict": "invalid"
+   },
+   "file": "cases/crit-unknown-extension.json",
+   "id": "crit-unknown-extension",
+   "kind": "reject",
+   "sha256": "8a2f0c60848d274bf5f8653eb84d240eb5a29cd9978223e678adc59b673ae57b"
+  },
+  {
+   "description": "crit is an empty list, which RFC 7515 section 4.1.11 forbids",
+   "expected": {
+    "codes": [
+     "crit-refused"
+    ],
+    "decision": "contradicted",
+    "verdict": "invalid"
+   },
+   "file": "cases/crit-empty-list.json",
+   "id": "crit-empty-list",
+   "kind": "reject",
+   "sha256": "c552278620cec6a90038063402f84f2bafba3c9a9216e334b0ad431ee82fbeb3"
+  },
+  {
+   "description": "crit names alg, a header parameter the JWS specification defines, which RFC 7515 forbids",
+   "expected": {
+    "codes": [
+     "crit-refused"
+    ],
+    "decision": "contradicted",
+    "verdict": "invalid"
+   },
+   "file": "cases/crit-names-registered-header.json",
+   "id": "crit-names-registered-header",
+   "kind": "reject",
+   "sha256": "58b2e26345dadd8845e3b70b964cd5268f51e1f957b7489222a99596e0d451e9"
+  },
+  {
+   "description": "record in the newer draft shape: alpn carries the transports, proto the agent protocol the payload names",
+   "expected": {
+    "codes": [],
+    "decision": "agrees",
+    "verdict": "valid"
+   },
+   "file": "cases/proto-field-agent-protocol.json",
+   "id": "proto-field-agent-protocol",
+   "kind": "accept",
+   "sha256": "0220a6a1d80749975c519ee44a703af625ea71d1a61d58f3dae2e0ca596360f6"
+  },
+  {
+   "description": "the header segment is not decodable base64url: contradicted, never a crash",
+   "expected": {
+    "codes": [
+     "jws-malformed"
+    ],
+    "decision": "contradicted",
+    "verdict": "invalid"
+   },
+   "file": "cases/malformed-header-base64url.json",
+   "id": "malformed-header-base64url",
+   "kind": "reject",
+   "sha256": "67f97cbd945acecc29c50470eee43181ee067df5027ba534dfdcc866d7e493ce"
+  },
+  {
+   "description": "realm was never set and is served as an empty string: an empty value is a value",
+   "expected": {
+    "codes": [
+     "svcb1-digest-mismatch"
+    ],
+    "decision": "contradicted",
+    "verdict": "invalid"
+   },
+   "file": "cases/realm-empty-injected.json",
+   "id": "realm-empty-injected",
+   "kind": "reject",
+   "sha256": "66cc69303cfeb642addda8a64736f5fd932456add872a41481a1df5cb244f504"
+  },
+  {
+   "description": "realm was never set and is served with a value the digest does not cover",
+   "expected": {
+    "codes": [
+     "svcb1-digest-mismatch"
+    ],
+    "decision": "contradicted",
+    "verdict": "invalid"
+   },
+   "file": "cases/realm-value-injected.json",
+   "id": "realm-value-injected",
+   "kind": "reject",
+   "sha256": "8478e7eebd54f8dc5c5b22f6913de5e45c99a30659151a447fe90e350db5d8bd"
+  },
+  {
+   "description": "a second unset param served as an empty string: the rule is per param, not specific to realm",
+   "expected": {
+    "codes": [
+     "svcb1-digest-mismatch"
+    ],
+    "decision": "contradicted",
+    "verdict": "invalid"
+   },
+   "file": "cases/bap-empty-injected.json",
+   "id": "bap-empty-injected",
+   "kind": "reject",
+   "sha256": "3f3584f524d6c51980a0d7b98aa8e408786cfbda8fd949e2b80f2cbc34e55328"
+  },
+  {
+   "description": "the signed digest omits the svcb1: prefix; a digest of the bare JSON must not bind",
+   "expected": {
+    "codes": [
+     "svcb1-digest-mismatch"
+    ],
+    "decision": "contradicted",
+    "verdict": "invalid"
+   },
+   "file": "cases/svcb1-without-domain-prefix.json",
+   "id": "svcb1-without-domain-prefix",
+   "kind": "reject",
+   "sha256": "1b8523d9f3719d5ec4ac399afa40ec1aba697b95a08e599424dc9aabfe11928c"
+  },
+  {
+   "description": "signed cap 'u\\nrealm=t' with no realm; served {cap: u, realm: t} must not bind",
+   "expected": {
+    "codes": [
+     "svcb1-digest-mismatch"
+    ],
+    "decision": "contradicted",
+    "verdict": "invalid"
+   },
+   "file": "cases/svcb1-newline-in-signed-value.json",
+   "id": "svcb1-newline-in-signed-value",
+   "kind": "reject",
+   "sha256": "3c785e8d9e4da4f5ce16f5012c5faf3a1df6d4ed3de2dd3817f1f9e77890b898"
+  },
+  {
+   "description": "the header names alg twice; a first-wins parser reads none, a last-wins one ES256",
+   "expected": {
+    "codes": [
+     "header-duplicate-member"
+    ],
+    "decision": "contradicted",
+    "verdict": "invalid"
+   },
+   "file": "cases/header-duplicate-alg.json",
+   "id": "header-duplicate-alg",
+   "kind": "reject",
+   "sha256": "2bc4040f2710c8735dab071cfd6b9593a6118641c62517162932a6471f7bd4c9"
+  },
+  {
+   "description": "an ES256 signature one byte short of 64",
+   "expected": {
+    "codes": [
+     "signature-length"
+    ],
+    "decision": "contradicted",
+    "verdict": "invalid"
+   },
+   "file": "cases/signature-truncated.json",
+   "id": "signature-truncated",
+   "kind": "reject",
+   "sha256": "dcc2e6412ae3f53dbe1b97a650af9f0d4e67afe192b82ddae0cded61efb66d78"
+  },
+  {
+   "description": "the key set holds only an RSA key, so nothing can check an ES256 signature: not read as a failure of the record",
+   "expected": {
+    "codes": [
+     "key-unusable"
+    ],
+    "decision": "cannot-tell",
+    "verdict": "invalid"
+   },
+   "file": "cases/key-set-without-ec-key.json",
+   "id": "key-set-without-ec-key",
+   "kind": "reject",
+   "sha256": "caf8bc0911d7f86344b99fbfb3cd9d703c620b0723b58946860b54847b3a0cbb"
+  },
+  {
+   "description": "the signed payload is a JSON array, not an object",
+   "expected": {
+    "codes": [
+     "payload-not-object"
+    ],
+    "decision": "contradicted",
+    "verdict": "invalid"
+   },
+   "file": "cases/payload-array.json",
+   "id": "payload-array",
+   "kind": "reject",
+   "sha256": "db3f48aad1ad87e92f464b018fc10877a7eb0fed4bca60308aa36b747d644fee"
+  },
+  {
+   "description": "the served record names no publishing zone, so no key authority can be looked up for it",
+   "expected": {
+    "codes": [
+     "zone-absent"
+    ],
+    "decision": "cannot-tell",
+    "verdict": "invalid"
+   },
+   "file": "cases/record-without-zone.json",
+   "id": "record-without-zone",
+   "kind": "reject",
+   "sha256": "eed7cb2ee2cb1a98de434db9a4120afe7dd04421c54ada58d3c563c61693136c"
+  },
+  {
+   "description": "the key authority is a DNSSEC chain, which this profile's pin reader does not read",
+   "expected": {
+    "codes": [
+     "key-authority-kind-unread"
+    ],
+    "decision": "cannot-tell",
+    "verdict": "invalid"
+   },
+   "file": "cases/key-authority-dnssec-chain.json",
+   "id": "key-authority-dnssec-chain",
+   "kind": "reject",
+   "sha256": "113f7c7698517c5b48a0e26a33214e629fcf2fad57a876c2968d6cf73e7e3ed5"
+  },
+  {
+   "description": "the signature verifies once decoded, but its text sets unused low bits: the encoding is not canonical",
+   "expected": {
+    "codes": [
+     "base64url-non-canonical"
+    ],
+    "decision": "contradicted",
+    "verdict": "invalid"
+   },
+   "file": "cases/signature-base64url-non-canonical.json",
+   "id": "signature-base64url-non-canonical",
+   "kind": "reject",
+   "sha256": "e8a5d4151300ae8a5509eca5d6fc934c9d8ec23e29b4eac0ea27de297051e36c"
+  }
+ ]
+}
