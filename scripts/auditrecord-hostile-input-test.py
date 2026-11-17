@@ -127,6 +127,10 @@ class ProfileTests(unittest.TestCase):
             report = auditrecord.verify(json.dumps(envelope_of(text.encode())).encode(), POLICY)
             self.assertEqual((report.verdict, report.codes), ("malformed", ["not-parseable"]))
 
+    def test_nan_and_infinity_are_not_json(self) -> None:
+        for text in (b'{"a":NaN}', b'{"a":Infinity}', b'{"a":[-Infinity]}'):
+            self.assertEqual(code(auditrecord.parse_statement, text), "not-parseable", text)
+
     def test_a_surrogate_pair_is_one_scalar_and_reads(self) -> None:
         self.assertEqual(
             auditrecord.parse_statement(b'{"a":"\\ud83d\\ude00"}'), {"a": "\U0001f600"}

@@ -485,6 +485,11 @@ def _refuse_float(text: str) -> float:
     raise Malformed("value-not-representable")
 
 
+def _refuse_constant(text: str) -> float:
+    """NaN, Infinity and -Infinity, which Python's json reads and RFC 8259 does not define."""
+    raise Malformed("not-parseable")
+
+
 def _depth(node: Any) -> int:
     """Container nesting, counting the top-level value as one. It walks with its own
     stack, so no depth the JSON parser admits can exhaust the interpreter's."""
@@ -532,6 +537,7 @@ def parse_statement(payload: bytes) -> Any:
             object_pairs_hook=_no_duplicates,
             parse_int=_safe_int,
             parse_float=_refuse_float,
+            parse_constant=_refuse_constant,
         )
     except Malformed:
         raise

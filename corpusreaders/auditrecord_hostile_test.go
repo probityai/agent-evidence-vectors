@@ -51,6 +51,8 @@ func TestAuditRecordProfileRefusalsBeforeAnySignature(t *testing.T) {
 		`{"\udc00":1}`:                             "not-parseable",
 		`{"n":99999999999999999}`:                  "unsafe-integer",
 		`{"n":1` + strings.Repeat("0", 4300) + `}`: "unsafe-integer",
+		`{"a":NaN}`:                                "not-parseable",
+		`{"a":[-Infinity]}`:                        "not-parseable",
 		`{"n":9007199254740992}`:                   "unsafe-integer",
 	}
 	for _, depth := range []int{129, 1000, 5000, 50000} {
