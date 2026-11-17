@@ -258,6 +258,18 @@ bundle it ran, and the verdict as the runtime returned it. A consumer replays th
 context and policy itself, and a record whose digests or verdict the replay does not
 reproduce is refused.
 
+### `predicate/v1/key-set-inclusion`
+
+- Document: `spec/predicates/key-set-inclusion.md`
+- Reference reader: the `kt-inclusion` key authority of agent-evidence-verify (probityai/probity),
+  which `dns_aid_sig/v1` requires before it agrees
+- Corpus: `corpora/vectors-dns-aid-sig-v01/`, landed in the same merge train as this entry
+- Profile that reads it: `profile/dns-aid-sig-binding/v1` (`spec/profiles/dns-aid-sig-binding/v1.md`)
+
+The predicate says every key of one key set was logged, bound to one subject, in a transparency
+log whose tree head the consumer pins: the evidence that entitles a key to speak for a DNS-AID zone
+when the record, its signature and the JWKS are judged offline.
+
 ## Registered here
 
 ### `predicate/v1/kernel-substrate`
