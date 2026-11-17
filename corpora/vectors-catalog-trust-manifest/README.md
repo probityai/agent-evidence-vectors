@@ -76,13 +76,13 @@ Test keys only: each is derived from the SHA-256 of a public label in `gen_vecto
 | `reject-kid-not-in-did-document` | reject | `kid_not_in_did_document` | the kid fragment names no verification method |
 | `reject-key-not-assertion-method` | reject | `key_not_assertion_method` | the key is listed under verificationMethod but not under assertionMethod |
 | `reject-alg-key-mismatch` | reject | `alg_key_mismatch` | an ES256 header over a signature from the Ed25519 key |
-| `reject-number-not-interoperable` | reject | `number_not_interoperable` | the record carries 9007199254740993; the signature covers 9007199254740991 |
+| `reject-number-not-interoperable` | reject | `number_not_interoperable` | the record carries 9007199254740993; the signature covers 9007199254740992, the double a parser reads it as |
 | `reject-lone-surrogate` | reject | `no_canonical_form` | a member value that is a lone surrogate has no UTF-8 form |
 | `reject-signature-invalid` | reject | `signature_invalid` | issuedAt changed after signing |
 | `reject-aic-signer-not-contributor` | reject | `signer_not_contributor` | the manifest names one contributor and is signed by another |
 | `reject-subject-missing` | reject | `subject_missing` | a signed trust manifest with no subject |
 | `reject-subject-version-absent` | reject | `subject_entry_mismatch` | the entry has a version and the subject does not |
-| `reject-manifest-moved-to-other-release` | reject | `subject_entry_mismatch` | a valid manifest moved to an entry with the same identifier and another digest |
+| `reject-manifest-moved-to-other-release` | reject | `subject_entry_mismatch` | a valid manifest moved to an entry with the same identifier and another digest, whose artifact it names is served |
 | `reject-entry-digest-missing-for-url` | reject | `entry_digest_missing_for_url` | an entry referenced by url with no digest, and a subject with no digest |
 | `reject-artifact-digest-mismatch` | reject | `artifact_digest_mismatch` | the artifact bytes differ from entry.digest |
 | `reject-url-origin-unbound` | reject | `url_origin_unbound` | url on another origin, and the artifact there does not declare the entry identifier (draft 6.2) |

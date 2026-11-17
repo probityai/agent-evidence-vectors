@@ -93,6 +93,69 @@ def test_each_rejected_case_passes_every_earlier_check(name: str) -> None:
     assert reader.verify(SUITE, directory, later)["decision"] == "accept"
 
 
+# Rejected cases that the reference reader still rejects with only their own check off,
+# because that check is a precondition of a later one. Each reason says why the case still
+# separates a verifier that lacks the rule. Every other rejected case must turn into an
+# accept when only its own check is off: otherwise a verifier without the rule passes it.
+STILL_REJECTED_WITHOUT_ITS_CHECK = {
+    "reject-alg-none": "no key verifies alg none, so the next check is alg_key_mismatch",
+    "reject-alg-key-mismatch": "an ES256 verification with an Ed25519 key cannot succeed",
+    "reject-attestation-file-not-one-segment": "a file named by a path is never read",
+    "reject-duplicate-identifier": "the reader keeps the last member; a first-wins parser "
+                                   "reads the signed identifier and accepts",
+    "reject-entry-digest-missing-for-url": "with no digest the artifact matches nothing",
+    "reject-expires-not-after-issued": "expiresAt before issuedAt is before the check time",
+    "reject-kid-not-in-did-document": "the kid names no key, so nothing can verify",
+    "reject-kid-not-under-identity": "the reader looks the kid up in the identity's "
+                                     "document; a verifier that resolves the kid's own DID "
+                                     "finds other.example's key there and accepts",
+    "reject-lone-surrogate": "a lone surrogate has no UTF-8 form, so no signature covers it",
+    "reject-number-not-interoperable": "the reader's writer refuses the same number; "
+                                       "test_a_double_parser_accepts_the_number_case shows "
+                                       "a verifier without the rule accepts",
+    "reject-subject-missing": "with no subject there is nothing to match the entry against",
+}
+
+
+@pytest.mark.parametrize("name", sorted(n for n, r in REJECTED.items() if r in reader.CHECKS))
+def test_each_rejected_case_turns_on_its_own_check(name: str) -> None:
+    observed = reader.verify(SUITE, ROOT / "cases" / name, frozenset({REJECTED[name]}))
+    if name in STILL_REJECTED_WITHOUT_ITS_CHECK:
+        assert observed["decision"] == "reject", "remove it from the list"
+    else:
+        assert observed["decision"] == "accept", (
+            f"{name} is still {observed} with {REJECTED[name]} off, so a verifier without "
+            "that rule rejects it for another reason and the case tests nothing")
+
+
+def test_a_double_parser_accepts_the_number_case() -> None:
+    """A verifier that reads JSON numbers as doubles reads 2**53 + 1 as 2**53, writes its
+    RFC 8785 form, and finds the signature valid: only the range rule refuses the record."""
+    case = ROOT / "cases" / "reject-number-not-interoperable"
+    data = (case / "catalog.json").read_bytes()
+    assert b"9007199254740993" in data
+    catalog = json.loads(data, parse_int=float)
+    documents = json.loads((case / "did-documents.json").read_bytes())
+    jws = catalog["entries"][0]["trustManifest"]["signature"]
+    protected, _, signature = jws.split(".")
+    kid = json.loads(reader.b64url_decode(protected))["kid"]
+    methods, _ = reader._methods(documents[kid.split("#")[0]])
+    alg, key = reader._public_key(reader._selected(methods, kid)[-1])
+    body = reader.canonical(reader.payload(reader.DRAFT, catalog, 0, 0), limit=2**53)
+    assert b"9007199254740992" in body
+    message = protected.encode() + b"." + reader.b64url(body).encode()
+    assert reader.verify_signature(alg, key, message, reader.b64url_decode(signature))
+    assert reader.verify(SUITE, case) == {"decision": "reject",
+                                          "reason": "number_not_interoperable"}
+
+
+def test_a_moved_manifest_is_refused_only_by_the_subject_check() -> None:
+    case = ROOT / "cases" / "reject-manifest-moved-to-other-release"
+    entry = json.loads((case / "catalog.json").read_bytes())["entries"][1]
+    served = "sha256:" + hashlib.sha256((case / "artifact.json").read_bytes()).hexdigest()
+    assert served == entry["digest"] != entry["trustManifest"]["subject"]["digest"]
+
+
 def test_contradict_groups_judge_identical_bytes_four_ways() -> None:
     for signed_as in ("draft", "whole-entry"):
         group = sorted(p for p in (ROOT / "cases").iterdir()
