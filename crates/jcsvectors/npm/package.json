@@ -1,0 +1,49 @@
+{
+  "name": "jcsvectors",
+  "version": "0.2.0",
+  "description": "RFC 8785 (JSON Canonicalization Scheme) test vectors with SHA-256 self-checks: accept cases with exact bytes, refusals, parser differentials, printer drift and depth cases",
+  "type": "module",
+  "license": "MIT OR Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/probityai/agent-evidence-vectors.git",
+    "directory": "crates/jcsvectors/npm"
+  },
+  "homepage": "https://github.com/probityai/agent-evidence-vectors/tree/main/crates/jcsvectors/npm#readme",
+  "engines": {
+    "node": ">=22"
+  },
+  "types": "./index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./index.d.ts",
+      "default": "./index.mjs"
+    }
+  },
+  "files": [
+    "index.mjs",
+    "index.d.ts",
+    "lib.mjs",
+    "digests.mjs",
+    "data",
+    "README.md",
+    "CHANGELOG.md",
+    "LICENSE-APACHE",
+    "LICENSE-MIT"
+  ],
+  "publishConfig": {
+    "access": "public",
+    "provenance": true
+  },
+  "scripts": {
+    "test": "node --test test/*.test.mjs"
+  },
+  "keywords": [
+    "jcs",
+    "rfc8785",
+    "canonicalization",
+    "json",
+    "test-vectors",
+    "conformance"
+  ]
+}
