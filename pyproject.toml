@@ -170,6 +170,7 @@ only-include = [
     "corpora/vectors-done-probes",
     "corpora/vectors-done-receipt",
     "corpora/vectors-evidence-state",
+    "corpora/vectors-execution-billing-finality",
     "corpora/vectors-grade-floor",
     "corpora/vectors-grader-isolation",
     "corpora/vectors-identity-binding",
@@ -240,6 +241,7 @@ exclude = [
     "corpora/vectors-done-probes/**/*.py",
     "corpora/vectors-done-receipt/**/*.py",
     "corpora/vectors-evidence-state/**/*.py",
+    "corpora/vectors-execution-billing-finality/**/*.py",
     "corpora/vectors-grade-floor/**/*.py",
     "corpora/vectors-grader-isolation/**/*.py",
     "corpora/vectors-identity-binding/**/*.py",
@@ -309,6 +311,7 @@ exclude = [
 "corpora/vectors-done-probes" = "agent_evidence_vectors/corpora/vectors-done-probes"
 "corpora/vectors-done-receipt" = "agent_evidence_vectors/corpora/vectors-done-receipt"
 "corpora/vectors-evidence-state" = "agent_evidence_vectors/corpora/vectors-evidence-state"
+"corpora/vectors-execution-billing-finality" = "agent_evidence_vectors/corpora/vectors-execution-billing-finality"
 "corpora/vectors-grade-floor" = "agent_evidence_vectors/corpora/vectors-grade-floor"
 "corpora/vectors-grader-isolation" = "agent_evidence_vectors/corpora/vectors-grader-isolation"
 "corpora/vectors-identity-binding" = "agent_evidence_vectors/corpora/vectors-identity-binding"
@@ -453,6 +456,7 @@ only-include = [
     "corpora/vectors-done-probes",
     "corpora/vectors-done-receipt",
     "corpora/vectors-evidence-state",
+    "corpora/vectors-execution-billing-finality",
     "corpora/vectors-grade-floor",
     "corpora/vectors-grader-isolation",
     "corpora/vectors-identity-binding",
@@ -669,6 +673,10 @@ target-version = "py313"
 # The repository tools of the imported parts are linted by ruff-parts.toml in
 # parts.yml; both configs on one file would give it two contradictory verdicts.
 extend-exclude = [
+  # Third-party source copied byte for byte and pinned by its git blob: the P04
+  # spend ledger the execution-billing-finality mutants are spliced into. An
+  # edit would break the pin, so it is not ours to lint.
+  "corpora/vectors-execution-billing-finality/tests/p04/exposure_ledger.py",
   "scripts/workspace.py",
   "scripts/build_predicate_pages.py",
   "scripts/build_vocabulary_pages.py",

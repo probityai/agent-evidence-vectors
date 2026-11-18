@@ -172,6 +172,21 @@ Records are from draft-li-rttp-iqa-addressing-02 sections 6.1, 7.2, 8.1 and 8.2.
   A later revision that keeps the set and the order is a new confirmation; any change to either is a new URI.
 - Example: `corpora/vectors-refusal-reason-priority/cases/conformant-expiry-over-revocation/record.json`.
 
+### `predicate/v1/execution-billing-finality`
+
+- Document: `corpora/vectors-execution-billing-finality/README.md`
+- Corpus: `corpora/vectors-execution-billing-finality/`, suite `execution-billing-finality/v1`
+- Rails: `corpusreaders/executionbilling.go`, `packaging/agent_evidence_vectors/executionbilling.py`
+  and the runtime contract in `packaging/agent_evidence_vectors/executionbilling_runtime.py`
+
+The predicate carries one runtime's observation of one scenario against its spend ledger:
+the attempt's execution outcome, billing finality and dispatch state after the reservation,
+every step, a reopen in a fresh process and every probe. A success is not a final bill, an
+invoice is not an execution, settled billing never reopens the same attempt's dispatch
+gate, and the dispatch state is a required output that leaves RESERVED once billing
+settles. Scenarios are from the P04 execution and billing candidate (agent-evidence-lab at
+8db9989), with X1 and the dispatch-guard mutants from a non-author run of it.
+
 ### `predicate/v1/evaluation-claim`
 
 - Document: `spec/predicates/evaluation-claim.md`
