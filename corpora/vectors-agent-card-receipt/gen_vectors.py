@@ -269,6 +269,12 @@ def accepted() -> list[Case]:
              statement=receipt(extension)),
         case("accept-unknown-member-kept", "control: a member A2A does not define is hashed "
              "as served", card=vendor, statement=receipt(vendor)),
+        ("accept-signatures-name-escaped", "control: the card writes its signatures member's "
+         "name with a JSON escape, signatur\\u0065s; the exclusion applies to the parsed "
+         "member, so a verifier that strips the literal text keeps it and fails",
+         {"card.json": enc(signed).replace(b'"signatures"', b'"signatur\\u0065s"', 1),
+          "context.json": enc(context()), "revocations.json": enc(revocation_list([])),
+          "statement.json": enc(receipt(signed))}, reader.ACCEPT, "receipt_current"),
         case("accept-exclusion-top-level-only", "control: only the top-level signatures member "
              "is excluded; a signatures member inside an extension and a top-level "
              "additionalSignatures member are hashed as served", card=layered,
@@ -353,6 +359,8 @@ def _card_cases() -> list[Case]:
         {"params": {"limit": 2**53}, "uri": "https://example.com/ext/limit/v1"}]))
     defaults, signed = card_with(_defaults), card_with(_signatures)
     edges, layered = card_with(_rfc8785_edges), card_with(_nested_and_reserved)
+    lone = card_with(lambda c: c.update(name=c["name"] + " \ud800"))
+    replaced = card_with(lambda c: c.update(name=c["name"] + " \ufffd"))
     added = card_with(lambda c: c["skills"].append(
         {"description": "Pay for a held booking.", "id": "pay", "name": "Pay",
          "tags": ["payment"]}))
@@ -366,6 +374,10 @@ def _card_cases() -> list[Case]:
     return [
         raw_card("card-duplicate-member", "the card repeats name", dup),
         raw_card("card-not-an-object", "the card is a JSON array", b"[]\n"),
+        case("card-lone-surrogate", "the card's name ends in an unpaired surrogate escape, "
+             "which I-JSON forbids; the receipt digest is over the card with U+FFFD in its "
+             "place, which a parser that substitutes instead of refusing would accept",
+             card=lone, statement=receipt(replaced), reason="card_malformed"),
         case("card-integer-outside-i-json", "an extension parameter is 2 to the 53rd, "
              "outside the I-JSON range RFC 8785 requires", card=big,
              statement=receipt(), reason="card_malformed"),
