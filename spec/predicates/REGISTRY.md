@@ -407,6 +407,54 @@ reproduce is refused.
 - Predicate body: A statement about freeze atomicity of an isolation substrate: that co-resident microVMs were brought to a hypervisor-enforced quiescent state with bounded, measured timing, and no in-flight inter-VM segment escaped the freeze.
 - Status: current. The URI will not move, because a record carries it inside the bytes its producer signed.
 
+### `predicate/v1/tool-call-record`
+
+- Predicate body: One tool call as an authority admitted and ran it: the permit, the arguments' digest and the outcome, carrying the approval-binding and uncertain-effect contracts this repository defines, each judged by its published reader.
+- Document: the `probity-records` package, [`records.py`](https://github.com/probityai/probity/blob/main/packages/probity-records/src/probity_records/records.py), which emits and verifies it.
+- Status: current. The URI will not move, because a record carries it inside the bytes its producer signed.
+
+### `predicate/v1/tool-call-journal-checkpoint`
+
+- Predicate body: A signed statement of a hash-chained journal's line count and the SHA-256 of its last line, so a party who pins it detects a truncated or rewritten journal.
+- Document: the `probity-records` package, [`journal.py`](https://github.com/probityai/probity/blob/main/packages/probity-records/src/probity_records/journal.py), which emits and verifies it.
+- Status: current. The URI will not move, because a record carries it inside the bytes its producer signed.
+
+### `predicate/v1/export-seal`
+
+- Predicate body: A seal over one governance platform export: a dated census with denominators (records by type and stage, audit-field coverage, duplicate and missing ids) and a per-record digest list, with the export's bytes as the subject.
+- Document: the `probity-records` package, [`exports.py`](https://github.com/probityai/probity/blob/main/packages/probity-records/src/probity_records/exports.py), which emits and verifies it.
+- Status: current. The URI will not move, because a record carries it inside the bytes its producer signed.
+
+### `predicate/v1/approval-quorum`
+
+- Predicate body: M-of-N signed approver votes bound to one request hash under a named quorum policy, recorded so an outsider re-counts them offline.
+- Document: the `probity-records` package, [`quorum.py`](https://github.com/probityai/probity/blob/main/packages/probity-records/src/probity_records/quorum.py), which emits and verifies it.
+- Status: current. The URI will not move, because a record carries it inside the bytes its producer signed.
+
+### `predicate/v1/capability-grant`
+
+- Predicate body: A signed, task-scoped grant naming the tools its holder may call and a closed-world constraint on every argument; a delegated child must narrow its parent on every axis.
+- Document: the `probity-records` package, [`grants.py`](https://github.com/probityai/probity/blob/main/packages/probity-records/src/probity_records/grants.py), which emits and verifies it.
+- Status: current. The URI will not move, because a record carries it inside the bytes its producer signed.
+
+### `predicate/v1/governance-exception`
+
+- Predicate body: A bounded exception to standing policy with an owner, a rationale, a closed-world scope, a window and the quorum that approved it; the permit and the tool-call record carry its digest.
+- Document: the `probity-records` package, [`governance.py`](https://github.com/probityai/probity/blob/main/packages/probity-records/src/probity_records/governance.py), which emits and verifies it.
+- Status: current. The URI will not move, because a record carries it inside the bytes its producer signed.
+
+### `predicate/v1/governance-step`
+
+- Predicate body: One step of a governance workflow (intake, risk routing, approval, attestation, sign-off) written as a journal statement.
+- Document: the `probity-records` package, [`governance.py`](https://github.com/probityai/probity/blob/main/packages/probity-records/src/probity_records/governance.py), which emits and verifies it.
+- Status: current. The URI will not move, because a record carries it inside the bytes its producer signed.
+
+### `predicate/v1/revocation-list`
+
+- Predicate body: A signed, append-only revocation list for keys, permits and grants, chained by sequence number and the digest of the prior list, with root rotation by a named successor.
+- Document: the `probity-records` package, [`revocation.py`](https://github.com/probityai/probity/blob/main/packages/probity-records/src/probity_records/revocation.py), which emits and verifies it.
+- Status: current. The URI will not move, because a record carries it inside the bytes its producer signed.
+
 The entries in this section are registrations, not specifications. Their field
 definitions are normative where they are published, which is not here, and no
 count, field list or wire form on this page may be read as authoritative for
