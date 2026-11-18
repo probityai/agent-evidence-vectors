@@ -45,7 +45,15 @@ def test_independent_rules_pass_and_name_the_sole_rule() -> None:
     result = run_lattice(
         "t", RULES, verify, cases(("needs-a", ("rejected", "needs-a")), ("good", ACCEPT))
     )
-    assert result.failures() == []
+    # b and c decide no case here, so only the coverage check fails.
+    assert (
+        result.failures()
+        == result.untested
+        == [
+            "t: rule b decides no case (in no minimal kept set, necessary for none)",
+            "t: rule c decides no case (in no minimal kept set, necessary for none)",
+        ]
+    )
     assert result.mode == "exhaustive"
     data = result.to_json()
     case = next(c for c in data["cases"] if c["id"] == "needs-a")
@@ -72,7 +80,7 @@ def test_an_exemption_is_named_and_held_on() -> None:
     result = run_lattice("t", RULES, verify, cases(("informational", ACCEPT)))
     assert result.exemptions == {"c": ["informational"]}
     assert result.rules == ["a", "b"]
-    assert result.failures() == []
+    assert result.failures() == result.untested and len(result.untested) == 2
 
 
 def test_a_rule_that_cancels_another_fails_monotonicity() -> None:
@@ -100,7 +108,11 @@ def test_order_dependence_is_reported_without_failing() -> None:
     assert case["movesAlone"] == []
     assert case["minimalSufficientKeptSets"] == [["a", "b"]]
     assert case["interactions"]
-    assert result.failures() == []
+    assert (
+        result.failures()
+        == result.untested
+        == ["t: rule c decides no case (in no minimal kept set, necessary for none)"]
+    )
 
 
 def test_a_wrong_full_answer_fails() -> None:
@@ -134,7 +146,7 @@ def test_chains_are_seeded_and_find_the_same_lattice() -> None:
     )
     assert first.mode == "chains:4:seed:7"
     assert first.to_json() == second.to_json()
-    assert first.failures() == []
+    assert first.failures() == first.untested and len(first.untested) == 2
     assert first.to_json()["cases"][0]["minimalSufficientKeptSets"] == [["a"]]
 
 
@@ -144,6 +156,46 @@ def test_chains_catch_a_cancelling_rule() -> None:
         "t", RULES, verify, cases(("cancelled", ("rejected", "cancelled"))), exhaustive=1, chains=32
     )
     assert result.nonmonotone
+
+
+def test_a_rule_no_case_exercises_fails() -> None:
+    # The break: a RULES entry the reader never consults (here "c") passed, reported only.
+    verify = reader({"needs-a": lambda kept: "a" in kept, "needs-b": lambda kept: "b" in kept})
+    result = run_lattice(
+        "t",
+        RULES,
+        verify,
+        cases(("needs-a", ("rejected", "needs-a")), ("needs-b", ("rejected", "needs-b"))),
+    )
+    assert result.untested == [
+        "t: rule c decides no case (in no minimal kept set, necessary for none)"
+    ]
+    assert result.failures() == result.untested
+
+
+def test_a_rule_that_decides_only_jointly_is_exercised() -> None:
+    verify = reader({"joint": lambda kept: {"a", "b"} <= kept, "c": lambda kept: "c" in kept})
+    result = run_lattice(
+        "t", RULES, verify, cases(("joint", ("rejected", "joint")), ("c", ("rejected", "c")))
+    )
+    assert result.untested == []
+
+
+def test_chains_check_every_pair_edge() -> None:
+    # The break: with 20 rules, a rule that cancels another only when exactly those two ran
+    # sits on 2 of 380 ordered starts, so 16 seeded chains missed it and the run passed.
+    rules = [f"r{n:02d}" for n in range(20)]
+
+    def verify(path: Path, skip: frozenset[str]) -> tuple[str, str]:
+        kept = frozenset(rules) - skip
+        moved = "r00" in kept and kept != frozenset({"r00", "r01"})
+        return ("rejected", "early-return") if moved else ACCEPT
+
+    result = run_lattice(
+        "t", rules, verify, cases(("early-return", ("rejected", "early-return"))), chains=16
+    )
+    assert result.mode == "chains:16:seed:0"
+    assert "t/early-return: kept ['r00'] moves it, adding r01 does not" in result.nonmonotone
 
 
 def test_every_gate_corpus_names_a_reader_with_a_set_skip() -> None:
