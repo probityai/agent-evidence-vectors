@@ -71,7 +71,7 @@ def test_every_case_matches_its_expected_answer(case: dict[str, Any]) -> None:
 
 def test_case_ids_are_unique_and_every_variant_is_present() -> None:
     ids = [case["id"] for case in CASES]
-    assert len(ids) == len(set(ids)) == 21
+    assert len(ids) == len(set(ids)) == 25
     assert {case["variant"] for case in CASES} == {
         B.CONTROL,
         B.V1,
@@ -150,6 +150,37 @@ class TestClosingAbsence:
         assert got["resolved"] == C
         if statements[0]["statement"]["schema"] != reader.LEDGER:
             assert got["booking_committed"] == C
+
+
+class TestMissingObservation:
+    """A missing reconciliation file or liquidity provider reply asserts nothing.
+
+    Each named case differs from a settled one only by the statement that never arrived, so
+    adding that one statement back must flip the answer the missing one left open.
+    """
+
+    def _statements(self, case_id: str) -> list[dict[str, Any]]:
+        return copy.deepcopy(BY_ID[case_id]["statements"])
+
+    def test_a_missing_file_leaves_the_deal_open_and_an_empty_file_closes_it(self) -> None:
+        held = self._statements("v1_reconciliation_file_missing_capacity_held")
+        assert _judge(held)["resolved"] == N
+        assert _judge([*held, B.bs(_closing_absence())])["resolved"] == E
+
+    def test_a_release_on_a_missing_file_is_backed_only_once_the_file_arrives(self) -> None:
+        released = self._statements("v1_reconciliation_file_missing_read_as_empty_released")
+        assert _judge(released)["release_backed"] == C
+        assert _judge([*released, B.bs(_closing_absence())])["release_backed"] == E
+
+    def test_liquidity_provider_silence_is_not_a_fill(self) -> None:
+        silent = self._statements("v2_lp_timeout_read_as_filled_left_open")
+        assert _judge(silent)["resolved"] == N
+        assert _judge([*silent, B.lps(B.lp("filled"))])["resolved"] == E
+
+    def test_a_timeout_cancelled_once_resolves_without_any_liquidity_provider_result(self) -> None:
+        statements = self._statements("v2_lp_timeout_cancel_confirmed_once")
+        assert all(e["statement"]["schema"] != reader.LP_RESULT for e in statements)
+        assert _judge(statements)["resolved"] == E
 
 
 def test_lost_reply_stays_unresolved_after_a_booked_record_with_no_compensation() -> None:
