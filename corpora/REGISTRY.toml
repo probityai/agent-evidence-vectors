@@ -697,6 +697,18 @@ standards = ["eu-ai-act"]
 shapes = ["coverage-gap", "uncertainty"]
 
 [[corpus]]
+id = "vectors-principal-binding"
+path = "corpora/vectors-principal-binding"
+wheel = true
+sdist = true
+title = "Agent-to-principal bindings"
+summary = "A verifier must recompute a binding of an agent to its principal and scope from its native record, UMA for Agents terms or an HCP grant, and refuse it when the agent, principal or scope changes or the record was edited after signing."
+record_class = "credential"
+domains = ["delegation", "identity", "authority"]
+standards = []
+shapes = ["missing-binding", "scope-overreach", "forged-signature"]
+
+[[corpus]]
 id = "vectors-propagation-step"
 path = "corpora/vectors-propagation-step"
 wheel = true
