@@ -1790,6 +1790,8 @@ jobs:
         run: uv run --extra dev pytest corpora/vectors-open-weight-art53/tests -q
       - name: anchored-chain cases regenerate and force every check
         run: uv run --extra dev pytest corpora/vectors-anchored-chain/tests -q
+      - name: print-witness cases regenerate and force every check
+        run: uv run --extra dev pytest corpora/vectors-print-witness/tests -q
       - name: receipt-chain-end cases regenerate and force every check
         run: uv run --extra dev pytest corpora/vectors-receipt-chain-end/tests -q
       - name: identity-binding cases regenerate and force every check

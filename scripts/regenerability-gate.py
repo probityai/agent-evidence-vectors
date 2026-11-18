@@ -138,6 +138,7 @@ GENERATORS = (
     # sets in the same run, and its lifted members are re-signed from a public
     # key recipe rather than copied, so the generator is the only place their
     # bytes come from.
+    "corpora/vectors-print-witness/gen_vectors.py",
     "corpora/vectors-receipt-signature/gen_vectors.py",
     "corpora/vectors-source-coverage/gen_vectors.py",
     "corpora/vectors-open-weight-art53/gen_vectors.py",
@@ -292,6 +293,7 @@ OWNED = (
     ("corpora/vectors-receipt-signature", "INDEX.md"),
     ("corpora/vectors-source-coverage", "MANIFEST.json"),
     ("corpora/vectors-anchored-chain", "MANIFEST.json"),
+    ("corpora/vectors-print-witness", "MANIFEST.json"),
     ("corpora/vectors-trace-anchor", "MANIFEST.json"),
     ("corpora/vectors-grade-floor", "MANIFEST.json"),
     ("corpora/vectors-grade-floor", "INDEX.md"),
@@ -330,6 +332,9 @@ OWNED = (
     ("corpora/vectors-anchored-chain/cases", "**/case.json"),
     ("corpora/vectors-anchored-chain/cases", "**/store.jsonl"),
     ("corpora/vectors-anchored-chain/cases", "**/anchor.json"),
+    ("corpora/vectors-print-witness/cases", "**/case.json"),
+    ("corpora/vectors-print-witness/cases", "**/log.jsonl"),
+    ("corpora/vectors-print-witness/cases", "**/job.gcode"),
     ("corpora/vectors-receipt-chain-end", "MANIFEST.json"),
     ("corpora/vectors-receipt-chain-end/cases", "**/case.json"),
     ("corpora/vectors-receipt-chain-end/cases", "**/chain.jsonl"),
