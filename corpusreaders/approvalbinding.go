@@ -20,26 +20,35 @@ func init() { register(approvalBinding{}) }
 //  2. contractId is the approval-binding contract: contract_id_unknown;
 //  3. the use's approvalId is the identifier of the approval being checked:
 //     approval_not_cited;
-//  4. no other presented approval shares the identifier with different
+//  4. the approval is one the server issued, its identifier being in
+//     issuedApprovalIds: approval_not_issued;
+//  5. no other presented approval shares the identifier with different
 //     content: approval_id_ambiguous;
-//  5. the identifier was not consumed already: approval_replayed;
-//  6. no replacement accepted at or before the use has taken the approval's
+//  6. no other presented approval completes the same requestId under another
+//     identifier: approval_request_completed_twice;
+//  7. the approval's outcome is approved or approved-with-corrections:
+//     approval_not_granted;
+//  8. the record's enforcement is enforce: approval_not_enforced;
+//  9. the identifier was not consumed already: approval_replayed;
+//  10. no replacement accepted at or before the use has taken the approval's
 //     place: approval_superseded;
-//  7. a use that claims authorityForm renewed has a transition into this
+//  11. a use that claims authorityForm renewed has a transition into this
 //     approval accepted at or before the use: renewal_transition_missing;
-//  8. that transition resolves exactly one presented predecessor, cites its
+//  12. that transition resolves exactly one presented predecessor, cites its
 //     recorded decision, the successor's decision is distinct, and the bounds
 //     are equal: renewal_binding_invalid;
-//  9. the approval's keyId is the approver's trusted key: key_not_bound;
-//  10. the use's principal is the approval's principal: principal_mismatch;
-//  11. the use's event and phase are the approved ones: event_phase_mismatch;
-//  12. the used tool, target and bytes are the approved ones: payload_mismatch;
-//  13. usedAt is inside the approval's validity window:
+//  13. the approval's keyId is the approver's trusted key or a key listed for
+//     the approver in retiredKeys: key_not_bound;
+//  14. a retired key signed the approval before its retiredAt: key_retired;
+//  15. the use's principal is the approval's principal: principal_mismatch;
+//  16. the use's event and phase are the approved ones: event_phase_mismatch;
+//  17. the used tool, target and bytes are the approved ones: payload_mismatch;
+//  18. usedAt is inside the approval's validity window:
 //     approval_outside_validity;
-//  14. the effect the use names is not CONSUMED or UNCERTAIN_CLOSE:
+//  19. the effect the use names is not CONSUMED or UNCERTAIN_CLOSE:
 //     effect_already_closed;
-//  15. the policy release lookup answered: comparison_unavailable;
-//  16. the release was served at the decision time, allowing the grace period:
+//  20. the policy release lookup answered: comparison_unavailable;
+//  21. the release was served at the decision time, allowing the grace period:
 //     release_not_served_at_decision.
 type approvalBinding struct{}
 
@@ -56,16 +65,22 @@ type abVector struct {
 }
 
 type abRecord struct {
-	ContractID   *string           `json:"contractId"`
-	DecisionTime string            `json:"decisionTime"`
-	Approval     map[string]any    `json:"approval"`
-	Presented    []map[string]any  `json:"presentedApprovals"`
-	Consumed     []string          `json:"consumedApprovalIds"`
-	TrustedKeys  map[string]string `json:"trustedKeys"`
-	Use          map[string]string `json:"use"`
-	Transitions  []abTransition    `json:"transitions"`
-	Effects      map[string]string `json:"effectRegistry"`
-	Release      struct {
+	ContractID   *string          `json:"contractId"`
+	DecisionTime string           `json:"decisionTime"`
+	Approval     map[string]any   `json:"approval"`
+	Presented    []map[string]any `json:"presentedApprovals"`
+	Consumed     []string         `json:"consumedApprovalIds"`
+	Issued       []string         `json:"issuedApprovalIds"`
+	Enforcement  string           `json:"enforcement"`
+	RetiredKeys  map[string][]struct {
+		KeyID     string `json:"keyId"`
+		RetiredAt string `json:"retiredAt"`
+	} `json:"retiredKeys"`
+	TrustedKeys map[string]string `json:"trustedKeys"`
+	Use         map[string]string `json:"use"`
+	Transitions []abTransition    `json:"transitions"`
+	Effects     map[string]string `json:"effectRegistry"`
+	Release     struct {
 		FirstServedAt string  `json:"firstServedAt"`
 		LastServedAt  string  `json:"lastServedAt"`
 		GraceSeconds  float64 `json:"graceSeconds"`
@@ -207,6 +222,23 @@ func abRenewalInvalid(r abRecord, clock *atdClock) bool {
 	return abRenewed(r) && len(into) > 0 && !slices.ContainsFunc(into, func(t abTransition) bool { return abBinds(r, t) })
 }
 
+func abCompletedTwice(r abRecord) bool {
+	return slices.ContainsFunc(r.Presented, func(other map[string]any) bool {
+		return other["requestId"] == r.Approval["requestId"] && other["approvalId"] != r.Approval["approvalId"]
+	})
+}
+
+// abRetiredAt is the retirement instant of the approval's key when the approver
+// listed it as retired, and whether it was listed.
+func abRetiredAt(r abRecord) (string, bool) {
+	for _, entry := range r.RetiredKeys[abField(r, "approver")] {
+		if entry.KeyID == abField(r, "keyId") {
+			return entry.RetiredAt, true
+		}
+	}
+	return "", false
+}
+
 func abEffectClosed(r abRecord) bool {
 	key, named := r.Use["effectKey"]
 	state := r.Effects[key]
@@ -221,6 +253,12 @@ func abDecide(r abRecord, matches bool) (scDecision, error) {
 	first, last := clock.at(r.Release.FirstServedAt), clock.at(r.Release.LastServedAt)
 	grace := time.Duration(r.Release.GraceSeconds) * time.Second
 	key, known := r.TrustedKeys[abField(r, "approver")]
+	retiredAt, retired := abRetiredAt(r)
+	retiredInstant := issued
+	if retired {
+		retiredInstant = clock.at(retiredAt)
+	}
+	outcome := abField(r, "outcome")
 	checks := []struct {
 		reason string
 		fails  bool
@@ -228,12 +266,17 @@ func abDecide(r abRecord, matches bool) (scDecision, error) {
 		{"contract_id_missing", r.ContractID == nil},
 		{"contract_id_unknown", r.ContractID != nil && *r.ContractID != abContractID},
 		{"approval_not_cited", r.Use["approvalId"] != abField(r, "approvalId")},
+		{"approval_not_issued", !slices.Contains(r.Issued, abField(r, "approvalId"))},
 		{"approval_id_ambiguous", abAmbiguous(r)},
+		{"approval_request_completed_twice", abCompletedTwice(r)},
+		{"approval_not_granted", outcome != "approved" && outcome != "approved-with-corrections"},
+		{"approval_not_enforced", r.Enforcement != "enforce"},
 		{"approval_replayed", slices.Contains(r.Consumed, abField(r, "approvalId"))},
 		{"approval_superseded", abSuperseded(r, &clock)},
 		{"renewal_transition_missing", abRenewed(r) && len(abAcceptedInto(r, &clock)) == 0},
 		{"renewal_binding_invalid", abRenewalInvalid(r, &clock)},
-		{"key_not_bound", !known || key != abField(r, "keyId")},
+		{"key_not_bound", (!known || key != abField(r, "keyId")) && !retired},
+		{"key_retired", retired && !issued.Before(retiredInstant)},
 		{"principal_mismatch", r.Use["principal"] != abField(r, "principal")},
 		{"event_phase_mismatch", r.Use["event"] != abField(r, "event") || r.Use["phase"] != abField(r, "phase")},
 		{"payload_mismatch", !matches},

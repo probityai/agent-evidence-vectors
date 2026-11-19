@@ -22,6 +22,8 @@ from pathlib import Path
 from typing import Any
 from xml.etree import ElementTree
 
+from .evidence_semantics import link_error
+
 FETCH_TIMEOUT_SECONDS = 60
 
 #: Algorithm spellings seen in TEA, CycloneDX and in-toto, mapped to hashlib names.
@@ -148,8 +150,11 @@ def read_source(source: str) -> bytes:
     """Read a local path, or fetch an https URL. Plain http is refused: the digest is the point."""
     if source.startswith("https://"):
         request = urllib.request.Request(source, headers={"User-Agent": "agent-evidence-admission"})
-        with urllib.request.urlopen(request, timeout=FETCH_TIMEOUT_SECONDS) as response:
-            return bytes(response.read())
+        try:
+            with urllib.request.urlopen(request, timeout=FETCH_TIMEOUT_SECONDS) as response:
+                return bytes(response.read())
+        except Exception as error:  # expired, forged, unknown, refused and unreachable are one answer
+            raise link_error(source) from error
     if source.startswith("http://"):
         raise ValueError(f"refusing {source}: fetch the document over https")
     return Path(source).read_bytes()

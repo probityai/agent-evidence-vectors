@@ -9,7 +9,7 @@ accepted with the refusal removed.
 
 17 mutations, 17 caught. Three test gaps are closed in `tests/refusal_boundaries.rs`.
 
-Reproduce it with `tools/mutation_sweep.py`, which ships in the package.
+Reproduce it with `tools/mutation_sweep.py`, which ships in the package. `python3 tools/mutation_sweep.py --check-anchors` checks, without building or editing anything, that every row's anchor occurs once in its source file and that its test target and test-name filter exist; the crate workflow runs it on every change, and `tools/mutation_sweep_test.py` holds that mode to building nothing.
 
 | id | kind | refusal | edit lands in | verdict | what the break produced |
 |---|---|---|---|---|---|

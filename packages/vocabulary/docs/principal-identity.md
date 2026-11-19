@@ -36,3 +36,5 @@ registry.identity_provider("https://example.okta.com", declared="auth0").outcome
 ## Pinning the issuer key
 
 The admission package's `agent_evidence_admission.issuer_pin` module is a client that enforces `pinned_before_first_call`: it takes the pins before any call, refuses a mixed or conflicting configuration when it is built, refuses a key whose thumbprint differs, and refuses on a failed fetch without falling back.
+
+The evidence event each Auth0 agent feature produces, and the members it fills, is mapped in [auth0-agent-features.md](auth0-agent-features.md).

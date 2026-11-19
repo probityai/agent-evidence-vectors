@@ -20,6 +20,30 @@ file.
 
 [![Checked with Probity](https://img.shields.io/badge/checked-with_Probity-blue?style=flat-square&logo=data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAMAAABEpIrGAAAAkFBMVEX8%2B%2Bzr5NPgyrfKyLnSq5Wzo4tWltqRkZI2kPU1kvk1j%2FMwkPgzjfI2jO80jO40jO3MdWOZc1SLblN1aFxxXFJzVDY2i%2B40i%2B00i%2Bw0i%2Bs0ius1iOZAapwugNYtdbUqaq0qV4tkRzJXOB47Oz43JRkjNEYiHBwlFxIfFxMcEg0XEQ0WEAwXDAUWCAEOCQcJAgCa503RAAAB3klEQVR42rWT2ZacIBCGceHYoN240SK2Crig4vL%2BbxfszJyZTmaSm6S4rI9a%2FwK3vxj41wDj5E9AwS%2Foxjn7DmARqgVHCBHyJcBxJeZtEG2Nv4hAGEPXYVumddvWAbFfgJJECDfDukxa63ldmw%2FiCTCEK%2BteFzNbQI%2BbQPwzwKJGjNO2LMacxNqK1wgcNfO2mqfbHMs8NEkeXT8AjurRTKfbMlqOa5vFyc8cZclu4PSvWptlPlOMeb4PsQu78MoYQWFIwKUet0nPZl%2FMki1H3x%2FKd1PVhhdkS2tDgM7m9bR3XX8EXtYde59SSVVXNx2NMwuIbbGl74HUu%2BcFXrArSpXqlVSpGz8sUG%2FjoCej1RHA6ZAgl1SmUvVUQjduEGDIdt0MxuwjCHYNAZSwT1IbhaZ%2BFt7BrUAXbguxnx3gZ9AJVJLal0hKaYv4OShGbu249Z4F4jhQ1PcpTUYLDBF5WxZB9dBB14O%2Bm6eu48QQpjBXIizf113iS9sF0LYxZMD1PODbVvtznu96sGOrWyFEiwQEwHNcC8gaF58UxfG1qiqMqzx2AACJ0i0qXyRXEIwjwnD1SBOYdKJ%2B7vxF1eRUaxGF9ePRVgiX3xxOccdhiK5v6v%2Fysgp2Z%2BR%2F3ebv9gP5RU8tSdZhDwAAAABJRU5ErkJggg%3D%3D)](https://github.com/probityai/probity)
 
+## Which text each member tests
+
+Every member is **published** or **proposed**. A published member carries
+`draftRevision`, always a revision the IETF has published (the manifest lists
+them under `publishedRevisions`, with the SHA-256 of each text): for a row, the
+first revision whose Appendix B prints it; for a member carrying
+`draftSection`, the revision whose section states its rule. A proposed member
+carries `proposed`, naming the revision its rule is proposed for and the
+proposed text under [`docs/proposals/`](../../docs/proposals/), and no
+`draftRevision`, because no published revision states the rule it tests.
+`textCounts` gives the split: 157 published and 68 proposed at this commit.
+
+Score a verifier written from the published text on the published members. On
+a proposed member such a verifier may differ and has not failed: under -03,
+`consumption` carries no `supersedes`, `asset`, `payee` or `settled`, and a
+record carries no `principal` or `dataSubject` member, so a strict reading of
+-03 refuses the records the proposals accept and accepts the ones they refuse.
+A verifier that implements the proposed text is scored on every member. The
+generator derives each label from the published texts vendored under
+[`spec-vendored/`](spec-vendored/) and refuses a member that is published and
+proposed at once, a label naming a section the revision does not carry, and a
+proposed member whose text is missing. When -04 is published, its proposed
+members move to `draftRevision` -04 in one regeneration.
+
 ## Which revision this tests
 
 | Release | Draft revision the corpus tests | Members |
