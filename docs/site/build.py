@@ -559,7 +559,7 @@ def canonical_route(path: Path) -> str | None:
         An HTML route, the predicate prefix, or the registered extensionless
         predicate or contract URI. A directory alias returns ``None``.
     """
-    if path.parts[0] in ("contract", "evaluator"):
+    if path.parts[0] in ("contract", "evaluator", "profile"):
         return None if path.name == "index.html" else path.with_suffix("").as_posix()
     if path.parts[0] != "predicate":
         return path.as_posix()
@@ -634,31 +634,38 @@ def contract_pages(tag: str, routes: Mapping[Path, Path] | None = None) -> dict[
 
 
 EVALUATOR_DIR = REPO_ROOT / "spec" / "evaluators"
+PROFILE_DIR = REPO_ROOT / "spec" / "profiles"
+#: Each versioned document family this host serves at ``<route>/<name>/<version>``.
+VERSIONED_DOCUMENTS = ((EVALUATOR_DIR, "evaluator", "Evaluator"), (PROFILE_DIR, "profile", "Profile"))
 
 
 def evaluator_documents() -> list[tuple[Path, Path, Path]]:
-    """Every evaluator document as (source, sibling route, directory route).
+    """Every evaluator and profile document as (source, sibling route, directory route).
 
-    ``spec/evaluators/<name>/<version>.md`` is served at ``evaluator/<name>/<version>``: the
-    sibling ``<version>.html`` answers the extensionless identifier and ``<version>/index.html``
-    the trailing-slash form, as the predicate and contract pages do.
+    ``spec/evaluators/<name>/<version>.md`` is served at ``evaluator/<name>/<version>`` and
+    ``spec/profiles/<name>/<version>.md`` at ``profile/<name>/<version>``: the sibling
+    ``<version>.html`` answers the extensionless identifier and ``<version>/index.html`` the
+    trailing-slash form, as the predicate and contract pages do. A verdict names the profile it
+    applied by that identifier, so the identifier must resolve.
     """
     found = []
-    for source in sorted(EVALUATOR_DIR.glob("*/v*.md")):
-        base = Path("evaluator") / source.parent.name / source.stem
-        found.append((source, base.with_suffix(".html"), base / "index.html"))
+    for directory, route, _ in VERSIONED_DOCUMENTS:
+        for source in sorted(directory.glob("*/v*.md")):
+            base = Path(route) / source.parent.name / source.stem
+            found.append((source, base.with_suffix(".html"), base / "index.html"))
     return found
 
 
 def evaluator_pages(tag: str, routes: Mapping[Path, Path] | None = None) -> dict[Path, str]:
-    """One page per published evaluator identifier, served at its exact URL."""
+    """One page per published evaluator or profile identifier, served at its exact URL."""
     selected = published_routes() if routes is None else routes
+    titles = {route: title for _, route, title in VERSIONED_DOCUMENTS}
     pages: dict[Path, str] = {}
     for source, sibling, directory in evaluator_documents():
         name = f"{source.parent.name}/{source.stem}"
         for relative in (sibling, directory):
             body = render_markdown(source, relative, selected)
-            pages[relative] = page(f"Evaluator {name}", body, tag, relative)
+            pages[relative] = page(f"{titles[relative.parts[0]]} {name}", body, tag, relative)
     return pages
 
 
