@@ -254,7 +254,7 @@ def sweep(logs):
 
 
 def main(argv):
-    parser = argparse.ArgumentParser(description=__doc__.splitlines()[0])
+    parser = argparse.ArgumentParser(description=__doc__.splitlines()[0] if __doc__ else None)
     parser.add_argument("--check-anchors", action="store_true",
                         help="check that every row would apply; build and edit nothing")
     parser.add_argument("log_dir", nargs="?", type=pathlib.Path,

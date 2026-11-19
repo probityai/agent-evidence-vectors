@@ -44,6 +44,8 @@ def _release_links():
     spec = importlib.util.spec_from_file_location(
         "release_links", Path(__file__).with_name("release_links.py")
     )
+    if spec is None or spec.loader is None:
+        raise ImportError("scripts/release_links.py cannot be loaded as a module")
     module = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(module)
     return module
