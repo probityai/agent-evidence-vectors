@@ -73,10 +73,13 @@ def _scoring_cases(entries: list[dict]) -> list[str]:
         normative, parity = auditrecord.contract_findings(entry, answer)
         if normative or not any("set codes" in p for p in parity):
             out.append(f"{draft_id}: set codes scored ({normative}) or not reported ({parity})")
-        answer["set"]["verdict"] = "valid" if expected["set"]["verdict"] == "malformed" else "malformed"
+        flipped = "valid" if expected["set"]["verdict"] == "malformed" else "malformed"
+        answer["set"]["verdict"] = flipped
         if not auditrecord.contract_findings(entry, answer)[0]:
             out.append(f"{draft_id}: a wrong set verdict was not scored")
-    dated = next(e for e in entries if "dating" in e["expected"] and e["expected"]["dating"]["codes"])
+    dated = next(
+        e for e in entries if "dating" in e["expected"] and e["expected"]["dating"]["codes"]
+    )
     answer = {"verdict": dated["expected"]["verdict"], "codes": [],
               "derivedTier": dated["expected"].get("derivedTier", ""),
               "dating": {**dated["expected"]["dating"], "codes": ["another-name"]}}
@@ -101,11 +104,15 @@ def main() -> int:
 
         status, out = harness(f"{sys.executable} {READER}", report)
         if status != 0:
-            failures.append(f"reference reader through the contract exited {status}:\n{out[-2000:]}")
+            failures.append(
+                f"reference reader through the contract exited {status}:\n{out[-2000:]}"
+            )
         else:
             totals = json.loads(report.read_text(encoding="utf-8"))["totals"]
             if totals["conform"] != len(entries) or totals["fail"] != 0:
-                failures.append(f"reference reader totals {totals}, expected {len(entries)} conforming")
+                failures.append(
+                    f"reference reader totals {totals}, expected {len(entries)} conforming"
+                )
 
         stem = Path(str(accept["file"])).name
         flip = Path(tmp) / "flip.py"
@@ -117,7 +124,9 @@ def main() -> int:
         )
         status, out = harness(f"{sys.executable} {flip}", report)
         if status != 1 or str(accept["draftId"]) not in out:
-            failures.append(f"a flipped verdict on {accept['draftId']} was not caught (exit {status})")
+            failures.append(
+                f"a flipped verdict on {accept['draftId']} was not caught (exit {status})"
+            )
 
         inverted = Path(tmp) / "exit.py"
         inverted.write_text(
@@ -128,14 +137,19 @@ def main() -> int:
         )
         status, out = harness(f"{sys.executable} {inverted}", report)
         if status != 1 or out.count("disagrees with verdict") != len(entries):
-            failures.append(f"an inverted exit status was not caught on every member (exit {status})")
+            failures.append(
+                f"an inverted exit status was not caught on every member (exit {status})"
+            )
 
     failures.extend(_scoring_cases(entries))
     for failure in failures:
         print(f"FAIL {failure}")
     if failures:
         return 1
-    print(f"ok: the contract scores {len(entries)} members, and catches a flipped verdict and a wrong exit status")
+    print(
+        f"ok: the contract scores {len(entries)} members, and catches a flipped verdict "
+        "and a wrong exit status"
+    )
     return 0
 
 

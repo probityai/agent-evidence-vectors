@@ -27,6 +27,7 @@ import importlib.util
 import json
 import sys
 from pathlib import Path
+from typing import Any
 
 REPO = Path(__file__).resolve().parent.parent
 CORPUS = REPO / "corpora" / "vectors-agent-audit-record"
@@ -54,10 +55,10 @@ DIFFERED = (
 )
 
 
-def main() -> int:
-    failures: list[str] = []
-    gen = _gen()
-    rows = {rev: gen.appendix_b_rows(gen._published_text(rev)) for rev, _ in gen.PUBLISHED_REVISIONS}
+def _check_appendix_rows(gen: Any, failures: list[str]) -> None:
+    rows = {
+        rev: gen.appendix_b_rows(gen._published_text(rev)) for rev, _ in gen.PUBLISHED_REVISIONS
+    }
     if "CS9" not in rows["01"] or "CS10" in rows["01"]:
         failures.append("revision 01's Appendix B should print CS9 and no CS10")
     if "CS17" not in rows["02"] or "CS18" in rows["03"]:
@@ -65,7 +66,8 @@ def main() -> int:
     if len(rows["00"]) != 99:
         failures.append(f"revision 00's Appendix B prints 99 rows, read {len(rows['00'])}")
 
-    manifest = json.loads((CORPUS / "MANIFEST.json").read_text(encoding="utf-8"))
+
+def _check_committed_manifest(manifest: dict[str, Any], failures: list[str]) -> None:
     by_id = {e["draftId"]: e for e in manifest["vectors"]}
     if len(DIFFERED) != 39:
         failures.append("the differing list should hold 38 members and CS32")
@@ -74,11 +76,15 @@ def main() -> int:
             failures.append(f"{draft_id} tests unpublished text and is not proposed")
     if by_id["CS10"].get("draftRevision") != "draft-gilda-audit-agent-audit-record-02":
         failures.append("CS10 is first printed by revision 02")
-    if auditrecord._text_findings(manifest):
-        failures.append(f"the committed manifest has text findings: {auditrecord._text_findings(manifest)}")
+    findings = auditrecord._text_findings(manifest)
+    if findings:
+        failures.append(f"the committed manifest has text findings: {findings}")
 
+
+def _check_harness_refusals(manifest: dict[str, Any], failures: list[str]) -> None:
+    unpublished = "draft-gilda-audit-agent-audit-record-04"
     bad = copy.deepcopy(manifest)
-    bad["vectors"][0]["draftRevision"] = "draft-gilda-audit-agent-audit-record-04"
+    bad["vectors"][0]["draftRevision"] = unpublished
     if not any("not a published revision" in f for f in auditrecord._text_findings(bad)):
         failures.append("the harness accepted an unpublished draftRevision")
     bad = copy.deepcopy(manifest)
@@ -86,10 +92,12 @@ def main() -> int:
     if not any("textCounts" in f for f in auditrecord._text_findings(bad)):
         failures.append("the harness accepted textCounts that disagree with the members")
     bad = copy.deepcopy(manifest)
-    bad["vectors"][0]["proposed"] = {"revision": "draft-gilda-audit-agent-audit-record-04", "text": "x"}
+    bad["vectors"][0]["proposed"] = {"revision": unpublished, "text": "x"}
     if not any("exactly one" in f for f in auditrecord._text_findings(bad)):
         failures.append("the harness accepted a member both published and proposed")
 
+
+def _check_generator_refusals(gen: Any, failures: list[str]) -> None:
     gen.define()
     gen.text_fields(gen.MEMBERS)
     gen.SECTION_REVISION["CS18"] = "03"
@@ -104,10 +112,21 @@ def main() -> int:
     del gen.PROPOSED["X4"]
     try:
         gen.text_fields(gen.MEMBERS)
-        failures.append("the generator accepted X1 with no text, or X4 under a Section 4.8 -03 lacks")
+        failures.append(
+            "the generator accepted X1 with no text, or X4 under a Section 4.8 -03 lacks"
+        )
     except SystemExit:
         pass
 
+
+def main() -> int:
+    failures: list[str] = []
+    gen = _gen()
+    manifest = json.loads((CORPUS / "MANIFEST.json").read_text(encoding="utf-8"))
+    _check_appendix_rows(gen, failures)
+    _check_committed_manifest(manifest, failures)
+    _check_harness_refusals(manifest, failures)
+    _check_generator_refusals(gen, failures)
     for failure in failures:
         print(f"FAIL: {failure}")
     print(f"audit-record text tiers: {len(failures)} failure(s)")
