@@ -73,6 +73,7 @@ PUBLISHED_REVISIONS: tuple[tuple[str, str], ...] = (
     ("01", "6bcd5b2ae49fe7ee53972db0f3b349c46a1870771d29105b884323e1f94235e4"),
     ("02", "40ac8c0a26633827d403cad3402fabf8cbd637aa3e5bc03055d25b641e5c8a7e"),
     ("03", "c5d0b74686b62b5d1fd954b2dae0cf02b402c87a06efa6fc82abf8fa847ed786"),
+    ("04", "5592994311a3db303405eacebcb203f589b7aa083d81bcdb291a3a78d4adbde6"),
 )
 #: The latest published revision: the published members together test it.
 DRAFT = f"{DRAFT_NAME}-{PUBLISHED_REVISIONS[-1][0]}"
@@ -81,7 +82,7 @@ PREDICATE_DOCUMENT = (
 )
 #: The next revision, not yet published. A member whose rule only proposed text
 #: states is labelled with it under ``proposed``, never under draftRevision.
-PROPOSED_REVISION = f"{DRAFT_NAME}-04"
+PROPOSED_REVISION = f"{DRAFT_NAME}-{int(PUBLISHED_REVISIONS[-1][0]) + 1:02d}"
 #: The revision every earlier release of this corpus tested. Its records carry
 #: no evaluation.inputs, so each is malformed under DRAFT (EV13).
 PREVIOUS_DRAFT = "draft-gilda-wimse-agent-audit-record-02"
@@ -5080,8 +5081,8 @@ def has_section(lines: list[str], section: str) -> bool:
     return any(pattern.match(line) for line in lines)
 
 
-#: Members no published Appendix B prints whose rule a published section
-#: states: the revision whose section the member's draftSection names.
+#: Members whose rule a published section states before any Appendix B prints
+#: the row: the revision whose section the member's draftSection names.
 SECTION_REVISION: dict[str, str] = {
     **{d: "00" for d in ("FR13b", "FR16", "FR17a", "FR17b", "FR17c", "FR18", "EV14")},
     "PS1b": "03",
@@ -5095,18 +5096,12 @@ def _ids(prefix: str, first: int, last: int) -> list[str]:
 
 
 PROPOSALS = "docs/proposals"
-#: Members whose rule only proposed text states, each with that text.
-PROPOSED: dict[str, str] = {
-    **{d: f"{PROPOSALS}/audit-record-04-consumption-ledger.md" for d in _ids("CS", 18, 40)},
-    **{d: f"{PROPOSALS}/audit-record-04-consumption-rows.md" for d in _ids("CS", 41, 54)},
-    **{d: f"{PROPOSALS}/audit-record-04-principal-standing.md" for d in _ids("PS", 3, 5)},
-    **{d: f"{PROPOSALS}/audit-record-04-principal.md" for d in _ids("PR", 1, 11)},
-    **{d: f"{PROPOSALS}/audit-record-04-data-subject.md" for d in _ids("DS", 1, 10)},
-    **{
-        d: f"{PROPOSALS}/audit-record-04-reject-paths.md"
-        for d in ("X1", "X4", "X5", "X6", "X7", "X17", "X18")
-    },
-}
+#: Members whose rule only proposed text states, each with that text. Empty
+#: since revision 04 was published: its Appendix B prints all 68 members that
+#: were proposed for it (CS18 to CS54, PS3 to PS5, PR1 to PR11, DS1 to DS10,
+#: and X1, X4, X5, X6, X7, X17, X18), and the pages under docs/proposals/ are
+#: the record of the text before it was published.
+PROPOSED: dict[str, str] = {}
 
 
 def text_fields(entries: list[Member]) -> dict[str, dict[str, Any]]:
@@ -5127,6 +5122,16 @@ def text_fields(entries: list[Member]) -> dict[str, dict[str, Any]]:
         printed = first_printed.get(draft_id)
         section_rev = SECTION_REVISION.get(draft_id)
         proposal = PROPOSED.get(draft_id)
+        if printed is not None and section_rev is not None:
+            # A section member that a later Appendix B also prints keeps the
+            # revision whose section first stated its rule. An entry that names
+            # a revision no earlier than the first one printing the row is stale.
+            if int(section_rev) >= int(printed):
+                raise SystemExit(
+                    f"{draft_id}: -{printed} prints the row, so its section entry "
+                    f"-{section_rev} names no earlier text; remove the entry"
+                )
+            printed = None
         if sum(x is not None for x in (printed, section_rev, proposal)) != 1:
             raise SystemExit(
                 f"{draft_id}: a member is printed by a published Appendix B, states a rule of "
