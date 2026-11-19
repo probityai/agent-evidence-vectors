@@ -457,6 +457,18 @@ standards = []
 shapes = ["uncertainty", "malformed-input", "self-report"]
 
 [[corpus]]
+id = "vectors-decision-record"
+path = "corpora/vectors-decision-record"
+wheel = true
+sdist = true
+title = "Decision records: action binding"
+summary = "A verifier must report each action-binding check on its own and refuse self-approval, one request taking effect twice and a removed signature."
+record_class = "record"
+domains = ["approval", "authority"]
+standards = []
+shapes = ["missing-binding", "replay", "forged-signature"]
+
+[[corpus]]
 id = "vectors-delegation-lifecycle"
 path = "corpora/vectors-delegation-lifecycle"
 wheel = true
