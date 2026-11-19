@@ -62,7 +62,7 @@ jobs:
           REF: ${{ github.ref }}
           FULL_CRON: '13 4 * * *'
           FILTERS: '{"a2a_s3_retain": {"crons": [], "ignore": [], "paths": ["interop/a2a-s3-retain-2026-10-01/**", ".github/workflows/a2a-s3-retain.yml"], "pr": true, "push": true, "range": false}, "a2a_s4_dual_name": {"crons": [], "ignore": [], "paths": ["interop/a2a-s4-dual-name-2026-10-02/**", "interop/a2a-s3-retain-2026-10-01/**", ".github/workflows/a2a-s4-dual-name.yml"], "pr": true, "push": true, "range": false}, "aae_verdict_binding": {"crons": [], "ignore": [], "paths": ["interop/aae-verdict-binding-v1/**", "corpora/vectors-observed-effect/check_vectors.py", "corpora/vectors-observed-effect/gen_vectors.py", ".github/workflows/aae-verdict-binding.yml", "uv.lock"], "pr": true, "push": true, "range": false}, "acs_outage": {"crons": [], "ignore": [], "paths": ["packaging/agent_evidence_vectors/acs_outage/**", "scripts/acs-outage-build.py", "scripts/acs-outage-test.py", ".github/workflows/acs-outage.yml"], "pr": true, "push": true, "range": false}, "action_tuple_framed": {"crons": [],
-            "ignore": [], "paths": ["interop/action-tuple-framed-v1/**", ".github/workflows/action-tuple-framed.yml"], "pr": true, "push": true, "range": false}, "agentavow_signed_map": {"crons": [], "ignore": [], "paths": ["interop/agentavow-signed-map-v1/**", "interop/agentavow-live-mcp/**", "packaging/run_vectors.py", ".github/workflows/agentavow-signed-map.yml"], "pr": true, "push": true, "range": false}, "agentid_action_ref_v2": {"crons": [], "ignore": [], "paths": ["interop/agentid-action-ref-v2/**", ".github/workflows/agentid-action-ref-v2.yml", "uv.lock"], "pr": true, "push": true, "range": false}, "agentid_offline": {"crons": [], "ignore": [], "paths": ["interop/agentid-offline/**", ".github/workflows/agentid-offline.yml", "uv.lock"], "pr": true, "push": true, "range": false}, "agmi_anchored_chain": {"crons": ["23 7 * * 3"], "ignore": [], "paths": ["corpora/vectors-anchored-chain/**", "packaging/**", "pyproject.toml", "interop/agmi-anchored-chain/**", ".github/workflows/agmi-anchored-chain.yml"],
+            "ignore": [], "paths": ["interop/action-tuple-framed-v1/**", ".github/workflows/action-tuple-framed.yml"], "pr": true, "push": true, "range": false}, "adjudication_d1": {"crons": [], "ignore": [], "paths": ["interop/adjudication-disagreement-d1/**"], "pr": true, "push": true, "range": false}, "agentavow_signed_map": {"crons": [], "ignore": [], "paths": ["interop/agentavow-signed-map-v1/**", "interop/agentavow-live-mcp/**", "packaging/run_vectors.py", ".github/workflows/agentavow-signed-map.yml"], "pr": true, "push": true, "range": false}, "agentid_action_ref_v2": {"crons": [], "ignore": [], "paths": ["interop/agentid-action-ref-v2/**", ".github/workflows/agentid-action-ref-v2.yml", "uv.lock"], "pr": true, "push": true, "range": false}, "agentid_offline": {"crons": [], "ignore": [], "paths": ["interop/agentid-offline/**", ".github/workflows/agentid-offline.yml", "uv.lock"], "pr": true, "push": true, "range": false}, "agmi_anchored_chain": {"crons": ["23 7 * * 3"], "ignore": [], "paths": ["corpora/vectors-anchored-chain/**", "packaging/**", "pyproject.toml", "interop/agmi-anchored-chain/**", ".github/workflows/agmi-anchored-chain.yml"],
             "pr": true, "push": true, "range": false}, "airgap_bundle": {"crons": [], "ignore": [], "paths": ["release/airgap/**", "docs/guides/airgap-enclave.md", "scripts/airgap-bundle.py", "scripts/airgap-bundle-test.py", ".github/workflows/airgap-bundle.yml"], "pr": true, "push": true, "range": false}, "aps_jcs": {"crons": [], "ignore": [], "paths": ["interop/aps-jcs/**", ".github/workflows/aps-jcs.yml"], "pr": true, "push": true, "range": false}, "building_effect": {"crons": [], "ignore": [], "paths": ["packaging/agent_evidence_vectors/building_effect/**", "scripts/building-effect-build.py", "scripts/building-effect-test.py", ".github/workflows/building-effect.yml"], "pr": true, "push": true, "range": false}, "ccs_draft10_reader": {"crons": [], "ignore": [], "paths": ["interop/ccs-draft10-reader/**", ".github/workflows/ccs-draft10-reader.yml"], "pr": true, "push": true, "range": false}, "ci": {"crons": [], "ignore": [], "paths": [], "pr": true, "push": true, "range": false}, "claim_record":
             {"crons": [], "ignore": [], "paths": ["packaging/agent_evidence_vectors/claim_record/**", "packaging/run_vectors.py", "spec/predicates/evaluation-claim.md", "scripts/claim-record-build.py", "scripts/claim-record-test.py", ".github/workflows/claim-record.yml"], "pr": true, "push": true, "range": false}, "codeql": {"crons": ["41 6 * * 3"], "ignore": ["**/*.md", "LICENSE", "DCO"], "paths": [], "pr": true, "push": true, "range": false}, "commit_message_lint": {"crons": [], "ignore": [], "paths": [], "pr": true, "push": true, "range": true}, "crosswalk": {"crons": ["40 5 * * 1"], "ignore": [], "paths": [], "pr": true, "push": true, "range": false}, "e2_reproduction": {"crons": [], "ignore": [], "paths": ["interop/aps-priorseal-e2-2026-09-30/**", ".github/workflows/e2-reproduction.yml"], "pr": true, "push": true, "range": false}, "eval_result": {"crons": [], "ignore": [], "paths": ["packaging/agent_evidence_vectors/eval_result/**", "packaging/run_vectors.py", "scripts/eval-result-build.py",
             "scripts/eval-result-test.py", ".github/workflows/eval-result.yml"], "pr": true, "push": true, "range": false}, "event_absence_c1": {"crons": [], "ignore": [], "paths": ["interop/event-absence-c1-sergeev/**", ".github/workflows/event-absence-c1.yml"], "pr": true, "push": true, "range": false}, "field_readiness": {"crons": ["30 6 * * *"], "ignore": [], "paths": ["scripts/field-readiness.py", "scripts/field-readiness-test.py", "release/field-readiness.toml", ".github/workflows/field-readiness.yml"], "pr": true, "push": false, "range": false}, "gemara_method_link": {"crons": [], "ignore": [], "paths": ["interop/gemara-method-link/**", ".github/workflows/gemara-method-link.yml", "pyproject.toml", "uv.lock"], "pr": true, "push": true, "range": false}, "governance": {"crons": [], "ignore": [], "paths": [], "pr": true, "push": true, "range": false}, "govops_capability_id": {"crons": [], "ignore": [], "paths": ["interop/govops-capability-id/**", ".github/workflows/govops-capability-id.yml"],
@@ -2979,6 +2979,39 @@ jobs:
     permissions:
       contents: read
 
+  # Runs the D1 and L1 adjudication cases (interop/adjudication-disagreement-d1/)
+  # through event_absence/v2 and through the standalone finite checker from
+  # Witnessability/witnessability-research at the commit in CHECKER-PIN.json, and
+  # fails when an input differs from its generator or either method's answer moves.
+  adjudication_d1:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: astral-sh/setup-uv@v7
+      - name: Read the checker pin
+        id: pin
+        run: python3 -c "import json; print('commit=' + json.load(open('interop/adjudication-disagreement-d1/CHECKER-PIN.json'))['commit'])" >> "$GITHUB_OUTPUT"
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          repository: Witnessability/witnessability-research
+          ref: ${{ steps.pin.outputs.commit }}
+          path: witnessability-research
+          persist-credentials: false
+      - name: Every input matches its generator
+        run: python3 interop/adjudication-disagreement-d1/gen.py --check
+      - name: Run the cases through event_absence/v2
+        run: uv run --no-project --python 3.13 --with agent-evidence-verify==0.5.1 python interop/adjudication-disagreement-d1/run.py
+      - name: Run the cases through the pinned checker
+        run: uv run --no-project --python 3.13 python interop/adjudication-disagreement-d1/run_checker.py --checker-root witnessability-research
+    needs:
+      - changes
+    if: ${{ fromJSON(needs.changes.outputs.run)['adjudication_d1'] }}
+    permissions:
+      contents: read
+
   # from event-absence-c1.yml:
   #  A newer push to the same pull request or branch supersedes the older run.
   #  Main and tags never cancel: each main push keeps its own group by sha.
@@ -4753,6 +4786,7 @@ jobs:
       - aae_verdict_binding
       - acs_outage
       - action_tuple_framed
+      - adjudication_d1
       - agentavow_signed_map
       - agentid_action_ref_v2
       - agentid_offline
