@@ -439,6 +439,22 @@
           "v0.18.0",
           "v0.18.1"
         ],
+        "readers": {
+          "v0.17.4": [
+            "go",
+            "python"
+          ],
+          "v0.18.0": [
+            "go",
+            "python",
+            "rust"
+          ],
+          "v0.18.1": [
+            "go",
+            "python",
+            "rust"
+          ]
+        },
         "rust": "1.96.0"
       },
       "expect": {
@@ -464,7 +480,7 @@
           }
         }
       },
-      "limits": "Runs the Python, Go and Rust reference readers of this repository at each tag over the corpus as shipped and over a probe copy that makes each reader print its own verdict for every member, and compares the verdicts on the members that cite W3C-R-016. The Rust reader does not exist at v0.17.4 (readers/w3c-report-rs came in v0.18.0), so it is not run there."
+      "limits": "Runs the reference readers rows.json names for each tag (pins \"readers\": Python and Go at v0.17.4; Python, Go and Rust at v0.18.0 and v0.18.1) over the corpus as shipped and over a probe copy that makes each reader print its own verdict for every member, and compares the verdicts on the members that cite W3C-R-016. The row is green only when the readers present at a tag are exactly the named set and every one of them built and ran. A reader that does not exist at a tag is recorded as absent (readers/w3c-report-rs came in v0.18.0); a failed build is recorded as build_failed and fails the row."
     },
     "R10": {
       "result": "Integer -0: the Python reader writes 0 and the Go reader -0 at v0.17.4; both write 0 from v0.18.0",
