@@ -33,7 +33,9 @@ CORE = {
 
 def make(name, core_change=None, context_change=None, record_change=None):
     c=copy.deepcopy(CORE)
-    if core_change: c.update(core_change)
+    if core_change:
+        c.update(core_change)
+        for k in [k for k, v in c.items() if v == '__REMOVE__']: c.pop(k)
     ctx={
       'evaluation_time':'2026-11-17T12:00:00Z',
       'prior_registered_swarms':['synthetic-swarm-occupied'],
@@ -93,7 +95,18 @@ CASES=[
  ('tampered-committed-digest',None,None,{'registry_receipt.body.record_digest':'sha256:'+'0'*64},False,'durable_receipt_binding_mismatch','receipt must bind exact claimed payload'),
  ('forged-registry-receipt',None,None,{'registry_receipt.signature':b64(b'\x00'*64)},False,'durable_receipt_signature_invalid','registry authority must sign receipt'),
  ('missing-registry-receipt',None,None,{'registry_receipt':None},False,'malformed_or_missing_evidence','asserted durable status alone not sufficient'),
+ ('agent-id-null', {'agent_id':None},None,None,False,'malformed_or_missing_evidence','a null agent_id is never in the prior list and matches a null receipt id'),
+ ('swarm-id-null', {'swarm_id':None},None,None,False,'malformed_or_missing_evidence','a null swarm_id is never in the prior list and matches a null receipt id'),
+ ('parent-marker-absent', {'parent_agent_id':'__REMOVE__'},None,None,False,'malformed_or_missing_evidence','an absent parent marker is not read as top level'),
+ ('duplicate-consent-scope', None,None,None,False,'evidence_bytes_not_strict_json','record bytes carry consent_scope twice, the unsigned value first'),
 ]
+
+# Byte-level edits applied after serialisation, for cases a parsed dict cannot
+# express. The signed value stays last, so a decoder that keeps the last of
+# two equal member names reads exactly the positive control.
+RAW_EDITS={
+ 'duplicate-consent-scope':('"consent_scope": "registration"','"consent_scope": "telemetry",\n    "consent_scope": "registration"'),
+}
 
 def materialize():
     manifest={'suite':'synthetic-agent-registration-classification/v1','status':'candidate-not-accepted-upstream',
@@ -106,6 +119,10 @@ def materialize():
         for fn,obj in [('record.json',record),('context.json',context)]:
             path=f'cases/{name}/{fn}'
             contents=js(obj)
+            if fn=='record.json' and name in RAW_EDITS:
+                old,new=RAW_EDITS[name]
+                assert contents.count(old.encode())==1,name
+                contents=contents.replace(old.encode(),new.encode())
             outputs[path]=contents
         manifest['vectors'].append({'id':name,'path':'cases/'+name,'expected':{'registration_credit':expected,'reason':reason},
             'difference_from_positive_control':note,

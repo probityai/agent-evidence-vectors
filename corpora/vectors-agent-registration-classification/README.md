@@ -27,3 +27,18 @@ Upstream integration would require adapting this candidate's directory/registry 
 ### Fail-closed correction (November 17, 2026)
 
 A follow-up self-audit found that the original candidate admitted challenge records with omitted, null or textual `consumed` state. Those now explicitly refuse as `challenge_state_unverified`; generated negative cases and adversarial controls pin this behavior. This corrected corpus **supersedes** the original digest `be36e10d04a39f24809e75c83870ca1649a7288170a2407cd6fda8ee11dac085` referenced in the initial issue comment. The cited error and its correction remain public; neither corpus has received independent review.
+
+### Strict decoding and required member types (proposed, November 19, 2026)
+
+Proposed by piiiico after a non-author run of the published archive in #352. The reader now:
+
+- decodes `record.json` and `context.json` strictly before classifying: UTF-8, no member name twice in one object, no `NaN` or `Infinity`. Bytes that fail refuse as `evidence_bytes_not_strict_json`. The signature covers the canonical form of the parsed `core`, so a member carried twice never reaches it; a decoder that keeps the last value reads `duplicate-consent-scope` as the positive control.
+- requires every member it branches on to be present with its type, and refuses otherwise as `malformed_or_missing_evidence`. `agent_id`, `swarm_id` and `challenge_nonce` are non-empty strings; `parent_agent_id` is present and is `null` or a non-empty string. `consumed` keeps its own three checks.
+
+Four cases are added (24 in total), and `check_vectors.py` confirms each is credited by a reader without the rule it pins. The first 20 case files are byte-identical to the v1.1 archive; the corpus digest changes because the set grew.
+
+Still open, and not decided by this change:
+
+1. Whether an absent `parent_agent_id` may mean "top level". This change refuses it, the same rule as an absent `consumed`.
+2. Whether one agent key may register under a new `agent_id` and a new `swarm_id`. The context lists prior IDs only, so the reader cannot see key reuse; answering it needs a context member such as a list of prior registered keys.
+3. Whether the local canonical form should become RFC 8785, and so whether the corpus claims anything about JCS.

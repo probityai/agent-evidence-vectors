@@ -3,7 +3,8 @@
 from __future__ import annotations
 import copy,hashlib,json
 from pathlib import Path
-from contract import classify,canonical
+import contract
+from contract import classify,classify_bytes,canonical
 ROOT=Path(__file__).resolve().parent
 manifest=json.loads((ROOT/'MANIFEST.json').read_text())
 
@@ -39,9 +40,7 @@ for entry in manifest['vectors']:
     path=ROOT/entry['path']
     for fn,h in entry['files'].items():
         assert hashlib.sha256((path/fn).read_bytes()).hexdigest()==h,entry['id']+fn
-    record=json.loads((path/'record.json').read_text())
-    context=json.loads((path/'context.json').read_text())
-    result=classify(record,context)
+    result=classify_bytes((path/'record.json').read_bytes(),(path/'context.json').read_bytes())
     expected=entry['expected']
     assert result == (expected['registration_credit'],expected['reason']),(entry['id'],result,expected)
 # Tests that a checker which accepts everything or believes a boolean consent alone is insufficient.
@@ -58,4 +57,18 @@ mutantctx=copy.deepcopy(ctx);mutantctx['issued_challenge'].pop('consumed')
 assert classify(positive,mutantctx)[0] is False
 mutantctx=copy.deepcopy(ctx);mutantctx['issued_challenge']['consumed']=None
 assert classify(positive,mutantctx)[0] is False
-print('CLASSIFICATION_PASS '+str(len(manifest['vectors']))+' generated cases; 5 adversarial reader controls; 2 manifest-integrity probes')
+# Forcing: each case below must be credited by a reader without the rule it
+# pins, so the case fails that reader instead of passing either way.
+def lenient(case):
+    return classify(json.loads((ROOT/'cases'/case/'record.json').read_text()),
+                    json.loads((ROOT/'cases'/case/'context.json').read_text()))
+forced=0
+assert lenient('duplicate-consent-scope') == (True,'registration_evidence_sufficient_for_fixture'); forced+=1
+strict_types=contract.required_types_hold
+contract.required_types_hold=lambda record,context: True
+try:
+    for case in ('agent-id-null','swarm-id-null','parent-marker-absent'):
+        assert lenient(case)[0] is True,(case,lenient(case)); forced+=1
+finally:
+    contract.required_types_hold=strict_types
+print('CLASSIFICATION_PASS '+str(len(manifest['vectors']))+' generated cases; 5 adversarial reader controls; 2 manifest-integrity probes; '+str(forced)+' cases forcing a rule')

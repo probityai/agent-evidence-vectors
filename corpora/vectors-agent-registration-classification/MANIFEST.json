@@ -1,7 +1,7 @@
 {
-  "corpusDigest": "dd08fe7b6f97dc2a30b37cddd5e4d059be06683fbf4680538df59d22a1f0f0fc",
+  "corpusDigest": "81e499ef59b0ad8b82679b59045ad5bc819696630ac53b419303f1f69dbb28af",
   "counts": {
-    "no_registration_credit": 19,
+    "no_registration_credit": 23,
     "registration_credit": 1
   },
   "normativeScope": "BuddyLists policy proposal; MCP has no general agent registration rule",
@@ -267,6 +267,58 @@
       },
       "id": "missing-registry-receipt",
       "path": "cases/missing-registry-receipt"
+    },
+    {
+      "difference_from_positive_control": "a null agent_id is never in the prior list and matches a null receipt id",
+      "expected": {
+        "reason": "malformed_or_missing_evidence",
+        "registration_credit": false
+      },
+      "files": {
+        "context.json": "ca4e981ff2c3b741bac2238e1473ce4f92f5cded0677cd0cdc20126eae5d6755",
+        "record.json": "94291073cd3c4948fbfb4ed867bea43e7041b9ab4bf052663b1d1aabf2d6086f"
+      },
+      "id": "agent-id-null",
+      "path": "cases/agent-id-null"
+    },
+    {
+      "difference_from_positive_control": "a null swarm_id is never in the prior list and matches a null receipt id",
+      "expected": {
+        "reason": "malformed_or_missing_evidence",
+        "registration_credit": false
+      },
+      "files": {
+        "context.json": "e6b4bbabf0f8b5da654827998b5a45f091e26c4ffa8acb6b51e315932eb6ed30",
+        "record.json": "9fe59a3ec0faa655cb97b00c1fc5a789824618ddfc321ea649de34e83c1cc606"
+      },
+      "id": "swarm-id-null",
+      "path": "cases/swarm-id-null"
+    },
+    {
+      "difference_from_positive_control": "an absent parent marker is not read as top level",
+      "expected": {
+        "reason": "malformed_or_missing_evidence",
+        "registration_credit": false
+      },
+      "files": {
+        "context.json": "70febd618cee77ace82dbc78c1b4248d36c868f20fd1cd28c59dfd820d7b8341",
+        "record.json": "d87bbf19d31afb58885fc57e2e2f4f66d3006e2cb2fb6b8bf4bb1dca00c87ff2"
+      },
+      "id": "parent-marker-absent",
+      "path": "cases/parent-marker-absent"
+    },
+    {
+      "difference_from_positive_control": "record bytes carry consent_scope twice, the unsigned value first",
+      "expected": {
+        "reason": "evidence_bytes_not_strict_json",
+        "registration_credit": false
+      },
+      "files": {
+        "context.json": "70febd618cee77ace82dbc78c1b4248d36c868f20fd1cd28c59dfd820d7b8341",
+        "record.json": "7a8f6fae5e518ddf65c5c50440ae3d0de8ce6ff47cab2ed5d5e49e8c3b820831"
+      },
+      "id": "duplicate-consent-scope",
+      "path": "cases/duplicate-consent-scope"
     }
   ]
 }

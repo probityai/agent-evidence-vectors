@@ -40,12 +40,106 @@ def parse_time(value: str) -> datetime:
     return d.astimezone(timezone.utc)
 
 
+class StrictDecodeError(ValueError):
+    """The bytes are not one strict JSON document."""
+
+
+def _no_duplicates(pairs: list[tuple[str, Any]]) -> dict:
+    keys = [k for k, _ in pairs]
+    if len(keys) != len(set(keys)):
+        raise StrictDecodeError('duplicate object member')
+    return dict(pairs)
+
+
+def _no_constants(name: str) -> Any:
+    raise StrictDecodeError('non-finite number ' + name)
+
+
+def decode(data: bytes) -> Any:
+    """Strict decoding: UTF-8, no duplicate member names, no NaN or Infinity.
+
+    `json.loads` keeps the last of two equal member names, so a record whose
+    bytes carry a member twice can be read as the signed value while the bytes
+    say something else. The signature covers `canonical(core)` after parsing
+    and never sees the duplicate, so the refusal has to happen here.
+    """
+    try:
+        text = data.decode('utf-8')
+    except UnicodeDecodeError as exc:
+        raise StrictDecodeError('not UTF-8') from exc
+    return json.loads(text, object_pairs_hook=_no_duplicates, parse_constant=_no_constants)
+
+
+def classify_bytes(record_bytes: bytes, context_bytes: bytes) -> tuple[bool, str]:
+    """Classify a case from its file bytes, decoding both strictly first."""
+    try:
+        record, context = decode(record_bytes), decode(context_bytes)
+    except ValueError:
+        return False, 'evidence_bytes_not_strict_json'
+    return classify(record, context)
+
+
+def _id(value: Any) -> bool:
+    return isinstance(value, str) and value != ''
+
+
+# Required members and their types. A member listed here must be present:
+# an absent member is not read as its default, the same rule the `consumed`
+# correction applies to the challenge state. `consumed` itself stays with
+# its own explicit checks so its three refusal cases keep their reason.
+_CORE_TYPES = {
+    'event_type': lambda v: isinstance(v, str),
+    'intake_state': lambda v: isinstance(v, str),
+    'agent_id': _id,
+    'swarm_id': _id,
+    'parent_agent_id': lambda v: v is None or _id(v),
+    'consent': lambda v: isinstance(v, bool),
+    'consent_scope': lambda v: isinstance(v, str),
+    'challenge_nonce': _id,
+}
+_CHALLENGE_TYPES = {
+    'agent_id': _id,
+    'swarm_id': _id,
+    'challenge_nonce': _id,
+    'agent_public_key': lambda v: isinstance(v, str),
+    'issued_at': lambda v: isinstance(v, str),
+    'expires_at': lambda v: isinstance(v, str),
+}
+
+
+def _members_typed(obj: Any, spec: dict) -> bool:
+    return isinstance(obj, dict) and all(k in obj and ok(obj[k]) for k, ok in spec.items())
+
+
+def _ids(value: Any) -> bool:
+    return isinstance(value, list) and all(_id(v) for v in value)
+
+
+def required_types_hold(record: Any, context: Any) -> bool:
+    """True when every member the reader branches on is present with its type."""
+    if not (isinstance(record, dict) and isinstance(context, dict)):
+        return False
+    receipt = record.get('registry_receipt')
+    return (_members_typed(record.get('core'), _CORE_TYPES)
+            and isinstance(record.get('agent_public_key'), str)
+            and isinstance(record.get('agent_signature'), str)
+            and isinstance(receipt, dict) and isinstance(receipt.get('body'), dict)
+            and isinstance(receipt.get('signature'), str)
+            and isinstance(context.get('evaluation_time'), str)
+            and _ids(context.get('prior_registered_swarms'))
+            and _ids(context.get('prior_registered_agents'))
+            and isinstance(context.get('trusted_registry_public_key'), str)
+            and _members_typed(context.get('issued_challenge'), _CHALLENGE_TYPES))
+
+
 def classify(record: dict, context: dict) -> tuple[bool, str]:
     """Return registration credit and the first explicit reason.
 
     Fail closed: an unknown or malformed record must not earn registration.
     This function deliberately grants no activation or independence credit.
     """
+    if not required_types_hold(record, context):
+        return False, 'malformed_or_missing_evidence'
     try:
         core = record['core']
         if core.get('event_type') != 'registration':

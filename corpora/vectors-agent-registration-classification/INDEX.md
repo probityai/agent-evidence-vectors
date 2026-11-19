@@ -22,3 +22,7 @@
 | tampered-committed-digest | false | durable_receipt_binding_mismatch |
 | forged-registry-receipt | false | durable_receipt_signature_invalid |
 | missing-registry-receipt | false | malformed_or_missing_evidence |
+| agent-id-null | false | malformed_or_missing_evidence |
+| swarm-id-null | false | malformed_or_missing_evidence |
+| parent-marker-absent | false | malformed_or_missing_evidence |
+| duplicate-consent-scope | false | evidence_bytes_not_strict_json |
