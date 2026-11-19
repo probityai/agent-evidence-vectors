@@ -1,0 +1,272 @@
+{
+  "corpusDigest": "dd08fe7b6f97dc2a30b37cddd5e4d059be06683fbf4680538df59d22a1f0f0fc",
+  "counts": {
+    "no_registration_credit": 19,
+    "registration_credit": 1
+  },
+  "normativeScope": "BuddyLists policy proposal; MCP has no general agent registration rule",
+  "status": "candidate-not-accepted-upstream",
+  "suite": "synthetic-agent-registration-classification/v1",
+  "vectors": [
+    {
+      "difference_from_positive_control": "positive control",
+      "expected": {
+        "reason": "registration_evidence_sufficient_for_fixture",
+        "registration_credit": true
+      },
+      "files": {
+        "context.json": "70febd618cee77ace82dbc78c1b4248d36c868f20fd1cd28c59dfd820d7b8341",
+        "record.json": "bd23ec80d0f8b6c60f9d5b83ad7fe02531fc4da45693dd04743abc5e65202d68"
+      },
+      "id": "valid-new-registration",
+      "path": "cases/valid-new-registration"
+    },
+    {
+      "difference_from_positive_control": "MCP tools/list is not a registration",
+      "expected": {
+        "reason": "not_registration_event",
+        "registration_credit": false
+      },
+      "files": {
+        "context.json": "70febd618cee77ace82dbc78c1b4248d36c868f20fd1cd28c59dfd820d7b8341",
+        "record.json": "b84074456821995083214e7880bda2197df79c03a29fb2da46fcccbf03b1380b"
+      },
+      "id": "anonymous-mcp-discovery",
+      "path": "cases/anonymous-mcp-discovery"
+    },
+    {
+      "difference_from_positive_control": "signed report is not registration",
+      "expected": {
+        "reason": "not_registration_event",
+        "registration_credit": false
+      },
+      "files": {
+        "context.json": "70febd618cee77ace82dbc78c1b4248d36c868f20fd1cd28c59dfd820d7b8341",
+        "record.json": "24510a1108e3ffd3e7068890b79538ee552d0fbd533cd8f80f9d7d44bc552c18"
+      },
+      "id": "signed-report-not-registration",
+      "path": "cases/signed-report-not-registration"
+    },
+    {
+      "difference_from_positive_control": "quarantined record is not admission",
+      "expected": {
+        "reason": "not_durably_committed",
+        "registration_credit": false
+      },
+      "files": {
+        "context.json": "70febd618cee77ace82dbc78c1b4248d36c868f20fd1cd28c59dfd820d7b8341",
+        "record.json": "42be9b4fb378513fa9561bf1a0b4d357841b32d1dcc679b5b1dc23f59b5540b6"
+      },
+      "id": "quarantined-report",
+      "path": "cases/quarantined-report"
+    },
+    {
+      "difference_from_positive_control": "single semantic-field change",
+      "expected": {
+        "reason": "consent_not_affirmative",
+        "registration_credit": false
+      },
+      "files": {
+        "context.json": "70febd618cee77ace82dbc78c1b4248d36c868f20fd1cd28c59dfd820d7b8341",
+        "record.json": "fdbe9d808b8bb945318025fcafe77946e0d78200f3668b00d80b23322b43a8f2"
+      },
+      "id": "consent-revoked",
+      "path": "cases/consent-revoked"
+    },
+    {
+      "difference_from_positive_control": "consent to a different purpose",
+      "expected": {
+        "reason": "consent_scope_mismatch",
+        "registration_credit": false
+      },
+      "files": {
+        "context.json": "70febd618cee77ace82dbc78c1b4248d36c868f20fd1cd28c59dfd820d7b8341",
+        "record.json": "8d6868ac89f9560aef4f82cb2d9039faf8cba9690bda9db7f3c21d8ee119f060"
+      },
+      "id": "wrong-consent-purpose",
+      "path": "cases/wrong-consent-purpose"
+    },
+    {
+      "difference_from_positive_control": "one agent swarm cannot register each child",
+      "expected": {
+        "reason": "ephemeral_or_child_agent",
+        "registration_credit": false
+      },
+      "files": {
+        "context.json": "70febd618cee77ace82dbc78c1b4248d36c868f20fd1cd28c59dfd820d7b8341",
+        "record.json": "fb9076f08af576c2bb0e9826756c889eb5c7f6ad7977fbfb88dc102fa44010bf"
+      },
+      "id": "child-agent",
+      "path": "cases/child-agent"
+    },
+    {
+      "difference_from_positive_control": "known existing swarm",
+      "expected": {
+        "reason": "swarm_already_registered",
+        "registration_credit": false
+      },
+      "files": {
+        "context.json": "749ec0a915511856c530ba322483eb2af086079398a4655bf614c1762088cba8",
+        "record.json": "b12d2dafdea070a98011fcb15606b397b414a7c5111c5d14eb5592310856b4f2"
+      },
+      "id": "duplicate-swarm",
+      "path": "cases/duplicate-swarm"
+    },
+    {
+      "difference_from_positive_control": "known existing agent",
+      "expected": {
+        "reason": "agent_already_registered",
+        "registration_credit": false
+      },
+      "files": {
+        "context.json": "98102b82d1f64a3f5ead936bf769a3252d8f8ba258eeb5734f95c5a33ed1b95c",
+        "record.json": "8091245cc69ec89e500cdd6d4a3f39e6414d6415125df4455ea9e1160260e828"
+      },
+      "id": "duplicate-agent",
+      "path": "cases/duplicate-agent"
+    },
+    {
+      "difference_from_positive_control": "fresh signature cannot replace issuer challenge",
+      "expected": {
+        "reason": "challenge_binding_mismatch",
+        "registration_credit": false
+      },
+      "files": {
+        "context.json": "70febd618cee77ace82dbc78c1b4248d36c868f20fd1cd28c59dfd820d7b8341",
+        "record.json": "280ad7ad6df24692316da5737d4c007e523b28f0c184eb3dda884904ab55d59a"
+      },
+      "id": "nonce-not-issued",
+      "path": "cases/nonce-not-issued"
+    },
+    {
+      "difference_from_positive_control": "expired issued challenge",
+      "expected": {
+        "reason": "challenge_expired_or_not_yet_issued",
+        "registration_credit": false
+      },
+      "files": {
+        "context.json": "538d57dd598582819d0ae731aeb7102beb88a67fb3a2f96844116931ab83b9a0",
+        "record.json": "bd23ec80d0f8b6c60f9d5b83ad7fe02531fc4da45693dd04743abc5e65202d68"
+      },
+      "id": "challenge-expired",
+      "path": "cases/challenge-expired"
+    },
+    {
+      "difference_from_positive_control": "one-time challenge must not replay",
+      "expected": {
+        "reason": "challenge_replayed",
+        "registration_credit": false
+      },
+      "files": {
+        "context.json": "83881e85c3406069988b3147a6b4c804459929e9322fb397077defd9e0bc838e",
+        "record.json": "bd23ec80d0f8b6c60f9d5b83ad7fe02531fc4da45693dd04743abc5e65202d68"
+      },
+      "id": "challenge-replayed",
+      "path": "cases/challenge-replayed"
+    },
+    {
+      "difference_from_positive_control": "an absent consumption flag is not evidence of non-use",
+      "expected": {
+        "reason": "challenge_state_unverified",
+        "registration_credit": false
+      },
+      "files": {
+        "context.json": "27f4a7c009caf64960d2561e49b00907fdc977b90e8b56fc2b5e543c3de0f0df",
+        "record.json": "bd23ec80d0f8b6c60f9d5b83ad7fe02531fc4da45693dd04743abc5e65202d68"
+      },
+      "id": "challenge-state-missing",
+      "path": "cases/challenge-state-missing"
+    },
+    {
+      "difference_from_positive_control": "unknown consumption state cannot earn credit",
+      "expected": {
+        "reason": "challenge_state_unverified",
+        "registration_credit": false
+      },
+      "files": {
+        "context.json": "b23b9e418a1fc57cfcf72930dbca930a54056f871103e39cf0b2d0c63718ca5b",
+        "record.json": "bd23ec80d0f8b6c60f9d5b83ad7fe02531fc4da45693dd04743abc5e65202d68"
+      },
+      "id": "challenge-state-null",
+      "path": "cases/challenge-state-null"
+    },
+    {
+      "difference_from_positive_control": "textual claim cannot replace an explicit unused state",
+      "expected": {
+        "reason": "challenge_state_unverified",
+        "registration_credit": false
+      },
+      "files": {
+        "context.json": "0c1e1bca4049a2e1266b595877a4624448f942f53900848a3a38819659f5a726",
+        "record.json": "bd23ec80d0f8b6c60f9d5b83ad7fe02531fc4da45693dd04743abc5e65202d68"
+      },
+      "id": "challenge-state-text",
+      "path": "cases/challenge-state-text"
+    },
+    {
+      "difference_from_positive_control": "challenge binds agent key",
+      "expected": {
+        "reason": "challenge_key_mismatch",
+        "registration_credit": false
+      },
+      "files": {
+        "context.json": "150db4c66053010f939080c6980122acfbf8def9046bfa14b1fe2be2b53efd13",
+        "record.json": "bd23ec80d0f8b6c60f9d5b83ad7fe02531fc4da45693dd04743abc5e65202d68"
+      },
+      "id": "wrong-challenge-key",
+      "path": "cases/wrong-challenge-key"
+    },
+    {
+      "difference_from_positive_control": "no agent signing key possession",
+      "expected": {
+        "reason": "agent_proof_invalid",
+        "registration_credit": false
+      },
+      "files": {
+        "context.json": "70febd618cee77ace82dbc78c1b4248d36c868f20fd1cd28c59dfd820d7b8341",
+        "record.json": "24957ba376476341a315caf14f4cef34691c0b48691b456d2f332ae4089fe7d5"
+      },
+      "id": "forged-agent-signature",
+      "path": "cases/forged-agent-signature"
+    },
+    {
+      "difference_from_positive_control": "receipt must bind exact claimed payload",
+      "expected": {
+        "reason": "durable_receipt_binding_mismatch",
+        "registration_credit": false
+      },
+      "files": {
+        "context.json": "70febd618cee77ace82dbc78c1b4248d36c868f20fd1cd28c59dfd820d7b8341",
+        "record.json": "6f9e938bf606d9f16457ba4019da5ac1cd0f277bca75dbd29462d13d589bcaf7"
+      },
+      "id": "tampered-committed-digest",
+      "path": "cases/tampered-committed-digest"
+    },
+    {
+      "difference_from_positive_control": "registry authority must sign receipt",
+      "expected": {
+        "reason": "durable_receipt_signature_invalid",
+        "registration_credit": false
+      },
+      "files": {
+        "context.json": "70febd618cee77ace82dbc78c1b4248d36c868f20fd1cd28c59dfd820d7b8341",
+        "record.json": "6b33deaff7f6ee3dc36007915c190679aae7386ce05d783d50c10300979afafa"
+      },
+      "id": "forged-registry-receipt",
+      "path": "cases/forged-registry-receipt"
+    },
+    {
+      "difference_from_positive_control": "asserted durable status alone not sufficient",
+      "expected": {
+        "reason": "malformed_or_missing_evidence",
+        "registration_credit": false
+      },
+      "files": {
+        "context.json": "70febd618cee77ace82dbc78c1b4248d36c868f20fd1cd28c59dfd820d7b8341",
+        "record.json": "6bbb6927e483b8a13831dd36260957bcf6ce0316a2d3967ae726a5cabaa5d443"
+      },
+      "id": "missing-registry-receipt",
+      "path": "cases/missing-registry-receipt"
+    }
+  ]
+}

@@ -1,0 +1,19 @@
+{
+  "evaluation_time": "2026-11-17T12:00:00Z",
+  "issued_challenge": {
+    "agent_id": "synthetic-agent-a",
+    "agent_public_key": "IYEQR7FTB2gdRwnPckuAvL1iSJWLnjfjvQwYZd4qKJE=",
+    "challenge_nonce": "synthetic-issued-nonce-7",
+    "consumed": false,
+    "expires_at": "2026-11-17T13:00:00Z",
+    "issued_at": "2026-11-17T11:00:00Z",
+    "swarm_id": "synthetic-swarm-occupied"
+  },
+  "prior_registered_agents": [
+    "synthetic-agent-occupied"
+  ],
+  "prior_registered_swarms": [
+    "synthetic-swarm-occupied"
+  ],
+  "trusted_registry_public_key": "5tRrTBWF7/+HjGP7D9tGa46JBipCCx69bzM9opqcn3I="
+}
