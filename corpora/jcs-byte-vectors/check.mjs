@@ -60,7 +60,7 @@ function canonical(value) {
 function runVerifier(entry, expected) {
   if (!command) return;
   const result = spawnSync(command[0], command.slice(1), {
-    input: Buffer.from(entry.input, "utf8"),
+    input: entry.inputHex !== undefined ? Buffer.from(entry.inputHex, "hex") : Buffer.from(entry.input, "utf8"),
     maxBuffer: 1024 * 1024,
   });
   if (result.error) throw result.error;
@@ -114,6 +114,16 @@ for (const entry of cases.driftCases) {
   runVerifier({ id: entry.id, input: entry.presented }, pinned);
 }
 
+// Refusal cases: not one valid JCS input at all. No profile excuses a verifier
+// that prints bytes for them.
+for (const entry of cases.refusalCases) {
+  if ((entry.input === undefined) === (entry.inputHex === undefined)) {
+    throw new Error(`${entry.id}: needs exactly one of input and inputHex`);
+  }
+  if (entry.expect !== "reject") throw new Error(`${entry.id}: a refusal case must expect reject`);
+  runVerifier(entry, null);
+}
+
 // Depth cases: the cap of 128 nested containers is this corpus's admission
 // profile, not RFC 8785, so a verifier is held to it under --profile bounded.
 for (const entry of cases.depthCases) {
@@ -129,4 +139,4 @@ for (const entry of cases.depthCases) {
   }
 }
 
-console.log(`${cases.canonicalCases.length} JCS byte vectors, ${cases.driftCases.length} drift vectors and ${cases.depthCases.length} depth vectors checked${command ? ` against ${command[0]} (${profile})` : ""}`);
+console.log(`${cases.canonicalCases.length} JCS byte vectors, ${cases.driftCases.length} drift vectors, ${cases.refusalCases.length} refusal vectors and ${cases.depthCases.length} depth vectors checked${command ? ` against ${command[0]} (${profile})` : ""}`);

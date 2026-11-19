@@ -18,7 +18,7 @@ Add it as a pinned dependency of a new project:
 
 ```bash
 cargo new dsse-demo && cd dsse-demo
-cargo add dsse@=0.1.6
+cargo add dsse@=0.1.7
 ```
 
 Then put this in `src/main.rs` to sign an envelope and verify it:
@@ -58,7 +58,7 @@ ed25519 feature and implement the `Signer` and `Verifier` traits.
 
 ## Status
 
-Version 0.1.6 on [crates.io](https://crates.io/crates/dsse). The rules come from DSSE's
+Version 0.1.7 on [crates.io](https://crates.io/crates/dsse). The rules come from DSSE's
 specification text at version 1.0.2, and the tests load cross-language fixtures built by the
 DSSE reference Go implementation, recorded in PROVENANCE.md.
 
@@ -70,12 +70,20 @@ Version 0.1.3 adds optional error serialization. The npm package described in
 | page | read it for |
 | --- | --- |
 | <a name="what-a-signature-covers"></a><a name="verify-then-read"></a><a name="bring-your-own-signatures"></a><a name="tests"></a><a name="provenance"></a>[Design and evidence](https://github.com/probityai/agent-evidence-vectors/blob/main/crates/dsse/docs/DESIGN.md) | the pre-authentication encoding, why verification returns the payload, each refusal and its reason, and the tests |
-| [Version 0.1.6 API reference](https://docs.rs/dsse/0.1.6/dsse/) | every type, trait and error in the installed release |
+| [Version 0.1.7 API reference](https://docs.rs/dsse/0.1.7/dsse/) | every type, trait and error in the installed release |
 | [Agent guide](llms.txt) | installation, API entry points and runnable comparisons |
 | [Sigstore JS consumer](https://github.com/probityai/agent-evidence-vectors/blob/main/crates/dsse/docs/SIGSTORE-JS-THRESHOLD.md) | runnable offline threshold checks under consumer-selected keys |
 | [JavaScript and browser verification](https://github.com/probityai/agent-evidence-vectors/blob/main/crates/dsse/docs/NPM.md) | raw-byte Ed25519 verification, checked payloads and package identity |
 | [Provenance](https://github.com/probityai/agent-evidence-vectors/blob/main/crates/dsse/PROVENANCE.md) | the specification text and commit each rule was read from |
 | [Contributing](https://github.com/probityai/agent-evidence-vectors/blob/main/crates/dsse/CONTRIBUTING.md) and [changelog](https://github.com/probityai/agent-evidence-vectors/blob/main/crates/dsse/CHANGELOG.md) | how to propose a change, and what each release changed |
+
+## Verify the release
+
+Releases come from the release workflow through crates.io trusted publishing. The version record names the workflow run:
+
+```sh
+curl -s https://crates.io/api/v1/crates/dsse/<version> -A verify | python3 -c "import json,sys; print(json.load(sys.stdin)['version']['trustpub_data'])"
+```
 
 ## License
 
