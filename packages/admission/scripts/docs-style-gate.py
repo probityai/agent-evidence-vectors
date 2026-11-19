@@ -441,7 +441,7 @@ def selftest() -> int:
     # The published organization and package names are not authorship marks.
     # Match the identity scanner's website rule instead of refusing its bare
     # organization word inside a source contract or an installed namespace.
-    for published in ("Probity", "probityai/agent-evidence-observer",
+    for published in ("Probity", "probityai/agent-evidence-vectors",
                       "probity_policy_vocabulary_reader", "probity_policy_vocabulary_reader/cli.py"):
         if marks_in(published):
             cannot("the mark table refused a published organization or package name")

@@ -10,6 +10,12 @@ A lost reply stays unresolved by default; only a counted booking_system record b
 reference, or a reconciliation_close absent record, settles it. The agent system's own
 ledger never establishes what the booking system holds.
 
+A missing observation is not an empty one. A reconciliation cycle file that never arrives
+leaves no reconciliation_close record, so the deal stays open exactly as after the lost
+reply; a liquidity provider reply that times out leaves no lp_result, so silence is never
+read as a fill. A timeout on the liquidity provider side is compensated like a rejection:
+one confirmed cancel resolves it.
+
 ## Claims
 
 | Axis | ESTABLISHED means | It does not mean |
@@ -93,14 +99,17 @@ corpus.
 - Variant 1, the booking reply is lost: `v1_lost_ack_found_by_search_cancelled_once`,
   `v1_late_booking_held_until_reconciliation_cancelled_once`,
   `v1_search_absent_reconciliation_closes_never_booked`,
+  `v1_reconciliation_file_missing_capacity_held`,
+  `v1_reconciliation_file_missing_read_as_empty_released`,
   `v1_late_booking_released_at_search_not_found`,
   `v1_lost_ack_released_on_timeout_no_evidence`, `v1_resend_same_reference_rejected`,
   `v1_resend_new_reference_duplicate_booking`,
   `v1_unresolved_deal_dropped_from_limit_copy` and `v1_cancel_claimed_by_agent_only`.
-- Variant 2, the liquidity provider rejects after the booking exists:
-  `v2_lp_reject_cancel_confirmed_once`, `v2_lp_reject_cancel_error_held_for_operations`,
-  `v2_lp_reject_cancel_retried_two_events` and
-  `v2_lp_reject_cancel_unconfirmed_released_anyway`.
+- Variant 2, the liquidity provider rejects after the booking exists, or its reply times
+  out: `v2_lp_reject_cancel_confirmed_once`, `v2_lp_reject_cancel_error_held_for_operations`,
+  `v2_lp_reject_cancel_retried_two_events`,
+  `v2_lp_reject_cancel_unconfirmed_released_anyway`, `v2_lp_timeout_cancel_confirmed_once`
+  and `v2_lp_timeout_read_as_filled_left_open`.
 - Variant 3, operations reverse the booking: `v3_ops_reversed_first_agent_skips_cancel`,
   `v3_ops_reversed_then_agent_cancel_accepted_two_events` and
   `v3_agent_cancel_rejected_already_cancelled`.
