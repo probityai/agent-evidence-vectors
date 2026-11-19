@@ -2699,7 +2699,8 @@ def _text_findings(manifest: dict[str, Any]) -> list[str]:
             out.append(f"{label}: proposed names a published revision or no proposed text")
         measured[text_status(entry)] += 1
     if manifest.get("textCounts") != measured:
-        out.append(f"textCounts declare {manifest.get('textCounts')} and the members are {measured}")
+        declared_counts = manifest.get("textCounts")
+        out.append(f"textCounts declare {declared_counts} and the members are {measured}")
     return out
 
 
@@ -2782,7 +2783,8 @@ def _entry_for_file(manifest: dict[str, Any], directory: str, path: str) -> dict
     target = os.path.realpath(path)
     for entry in manifest.get("vectors") or []:
         if os.path.realpath(os.path.join(directory, str(entry.get("file", "")))) == target:
-            return entry
+            found: dict[str, Any] = entry
+            return found
     return None
 
 
@@ -2861,9 +2863,12 @@ def _dating_mismatch(declared: dict[str, Any], got: Any) -> tuple[list[str], lis
     normative: list[str] = []
     for name in ("entry", "datedAt", "receipt"):
         if declared.get(name) != got.get(name):
-            normative.append(f"dating {name}: expected {declared.get(name)!r}, got {got.get(name)!r}")
-    want_root = declared.get("delegationRoot") or {}
-    got_root = got.get("delegationRoot") if isinstance(got.get("delegationRoot"), dict) else {}
+            normative.append(
+                f"dating {name}: expected {declared.get(name)!r}, got {got.get(name)!r}"
+            )
+    want_root: dict[str, Any] = declared.get("delegationRoot") or {}
+    root_answer = got.get("delegationRoot")
+    got_root: dict[str, Any] = root_answer if isinstance(root_answer, dict) else {}
     for name in ("result", "algorithm"):
         if name in want_root and want_root[name] != got_root.get(name):
             normative.append(
@@ -2878,7 +2883,9 @@ def _set_mismatch(declared: dict[str, Any], got: Any) -> tuple[list[str], list[s
         return ["the answer carries no set object"], []
     normative: list[str] = []
     if declared.get("verdict") != got.get("verdict"):
-        normative.append(f"set verdict: expected {declared.get('verdict')!r}, got {got.get('verdict')!r}")
+        normative.append(
+            f"set verdict: expected {declared.get('verdict')!r}, got {got.get('verdict')!r}"
+        )
     for name in ("missing", "withinLimit"):
         if name in declared and declared[name] != got.get(name):
             normative.append(f"set {name}: expected {declared[name]}, got {got.get(name)}")
@@ -2957,6 +2964,8 @@ def run_external(root: str, verifier: list[str], report_path: str, rail_note: st
     failures = [f"corpus: {finding}" for finding in _corpus_findings(root, manifest)]
     rows: list[dict[str, Any]] = []
     notes: list[str] = []
+    normative: list[str]
+    parity: list[str]
     answered = parity_mismatch = proposed_differ = 0
     for entry in entries:
         label = f"{entry.get('draftId')} {entry.get('id')}"
