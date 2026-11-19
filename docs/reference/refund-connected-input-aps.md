@@ -25,7 +25,8 @@ Those are other layers.
 
 ## Inputs
 
-Paths are relative to `source/<run>/cases/<case>/` inside the corpus.
+Every path below is relative to `source/<run>/cases/<case>/` inside the corpus. Step 0
+covers these eleven files and no others.
 
 | File | Role |
 | --- | --- |
@@ -35,23 +36,53 @@ Paths are relative to `source/<run>/cases/<case>/` inside the corpus.
 | `inputs/aps-payload.json` | the arguments about to be sent |
 | `inputs/decision-evidence.json` | the four decision components the approval summarises |
 | `trust/aps-consumption.json` | the consumption trust snapshot the receipts are verified against |
-| `inputs/pic-proposal.json` | only in that the caller takes the claim and the attested arguments from it (below) |
+| `inputs/pic-proposal.json` | only in that the caller takes the claim, the attested arguments and the cited attestation's expiry from it (below) |
 | `inputs/pic-verification.json` | only as the fallback source of the consumption instant (below) |
 | `trust/handoff-issuance.json`, `trust/handoff-evaluation.json`, `trust/pic-keys.json` | not read by this layer, but their absence is an input-failure (below) |
 
 Four values are supplied by the caller, because they come from the layers before this
-one and this layer must not re-decide them:
+one and this layer must not re-decide them. Three of the four are members of the case's
+own `inputs/pic-proposal.json`; only `consumed_at` has no home in the case directory.
 
-| Value | Where the caller gets it |
+| Value | Read from |
 | --- | --- |
-| `claim` | parse `claims[0].text` of `inputs/pic-proposal.json`; an object whose members are exactly `approval_ref` and `decision_id` |
+| `claim` | `claims[0].text` of `inputs/pic-proposal.json`, parsed as JSON — an object whose members are exactly `approval_ref` and `decision_id` |
 | `pic_args` | `action.args` of `inputs/pic-proposal.json` — the arguments the PIC attestation covers |
 | `attestation_expires_at` | `expires_at` of the parsed `evidence[0].payload` of `inputs/pic-proposal.json` (that member is a JSON string, so parse it first) |
-| `consumed_at` | the `committed_at` of the admission record in `admission/state.json` whose `approval_ref` equals `claim.approval_ref`, with `Z` replaced by `.000Z`; when no such record exists, `evaluated_at` from `inputs/pic-verification.json` |
+| `consumed_at` | not in the case: from the run's admission state, or from the fallback below |
+
+Those three are exactly what the
+[`input_pic` contract](refund-connected-input-pic.md#what-the-layer-hands-to-the-next-one)
+hands to this layer when it is `ESTABLISHED`. A chained caller passes them through and
+must not re-derive them. A caller that reads them straight from the proposal without
+running `input_pic` sees the same bytes but holds no verdict on their shape: `input_pic`
+is the layer that checks that shape, and this contract does not.
+
+### The consumption instant
+
+`consumed_at` is supplied, never derived here, and never reported as a finding. The
+corpus freezes one instant per case by this rule:
+
+- if `source/<run>/admission/state.json` holds, under `decisions`, a record whose key's
+  last line is the claim's `decision_id` and whose `approval_ref` equals the claim's
+  `approval_ref`, the instant is that record's `committed_at` with `.000` inserted before
+  the `Z` (the corpus writes `committed_at` to the second);
+- otherwise the instant is `evaluated_at` of `inputs/pic-verification.json`.
+
+That file is run-level: one `admission/state.json` per run, shared by every case in it,
+and outside `cases/`. It is not one of the eleven inputs, and this layer never opens it —
+a caller that cannot find it, or finds that it is not a JSON object, has no record and
+takes the fallback.
+[`input-aps/retained.json`](../../corpora/vectors-refund-connected/input-aps/retained.json)
+carries the frozen instant for every retained case this layer decides, and which of the
+two rules produced it.
 
 If the caller has no verdict for the layer that produces these values, it may still
 run this layer, but it must then say so: a reference to a claim it did not itself
-establish is not the same evidence.
+establish is not the same evidence. A one-layer verifier cannot retrieve the previous
+layer's verdict on its own; the chained caller assigns `NOT_REACHED` from the verdict it
+already holds, and the corpus records that verdict per vector in `MANIFEST.json` under
+`expected.steps`.
 
 ## Canonical forms
 
@@ -63,7 +94,11 @@ establish is not the same evidence.
 | `tag_ref(tag, v)` | `sha_hex(tag as ASCII + 0x00 + JCS(v))`, with **no** `sha256:` prefix |
 | strict parse | UTF-8; duplicate member names refused; floats refused; `NaN`/`Infinity` refused |
 | typed equality | same type and same value; `true` is not `1`; object member order is irrelevant; list order is significant |
-| timestamp compare | the corpus writes `YYYY-MM-DDTHH:MM:SSZ` and `...SS.mmmZ`; comparisons are byte comparisons after the caller normalises to the precision the step names |
+| exact UTC milliseconds | `YYYY-MM-DDTHH:MM:SS.mmmZ`, fixed width: `consumed_at`, the approval's `issued_at` and `valid_until`, a key's `not_before`, `not_after` and `revoked_at` |
+| second | `YYYY-MM-DDTHH:MM:SSZ`: `attestation_expires_at`, and a record's `committed_at` |
+| timestamp compare | string comparison of the fixed-width forms, after a second-precision value is normalised by inserting `.000` before the `Z`. Steps 13, 14 and 15 compare milliseconds with milliseconds; step 25 normalises `attestation_expires_at` and then compares |
+| `printable ASCII id` | a non-empty string whose every character is in `0x20`..`0x7E` |
+| payment id in `target` | the substring between the exact prefix `https://payments.operator.example/v1/payments/` and the exact suffix `/refunds`; no further structure is imposed, so a target carrying an extra path segment yields a value no `payment_id` can equal |
 | Ed25519 | verify the signature bytes over `message` with the 32-byte key in the trust snapshot |
 
 Domain separators, verbatim:
@@ -95,12 +130,13 @@ The refund target is `https://payments.operator.example/v1/payments/<payment_id>
 
 ## Procedure
 
-Steps run in this order and the first failing one decides the layer. `REFUSED:<code>`
-is the only verdict kind this layer produces.
+Steps run in this order and the first failing one decides the layer. Every failure is
+`REFUSED:<code>` except step 0a, which is `NOT_ESTABLISHED:input-files-missing`.
 
 | # | Condition | Code |
 | --- | --- | --- |
-| 0 | every retained case file is present; every one strict-parses | `NOT_ESTABLISHED:input-files-missing` / `REFUSED:STRICT_PARSE` |
+| 0a | all eleven case files listed under Inputs are present | `NOT_ESTABLISHED:input-files-missing` |
+| 0b | every one of the eleven strict-parses | `REFUSED:STRICT_PARSE` |
 | 1 | the trust snapshot is an object with exactly `schema`, `profile`, `scope`, `keys`; schema `hs-aps-consumption-trust/0.1`; profile `aps-receipt-v1`; scope exactly `["payments:refund"]`; `keys` a non-empty list, and every key has exactly `signer`, `key_id`, `role`, `public_key`, `not_before`, `not_after`, `revoked_at` with `public_key` 64 lowercase hex characters | `TRUST_SELECTION` |
 | 2 | `intent.issuer` and `intent.subject_agent` both the worker | `INTENT_IDENTITY` |
 | 3 | the intent receipt is well-formed and verifies, with revocation checked at issuance | `INTENT_NOT_VALID` |
@@ -115,7 +151,7 @@ is the only verdict kind this layer produces.
 | 12 | `approval.result.constraints == []` | `DECISION_CONSTRAINTS` |
 | 13 | `approval.issued_at <= consumed_at`, compared as strings | `APPROVAL_AFTER_CONSUMPTION` |
 | 14 | `consumed_at < approval.result.valid_until`, compared as strings | `DECISION_EXPIRED_AT_CONSUMPTION` |
-| 15 | for every approval signature, its key's `revoked_at` is null or later than `consumed_at` | `APPROVAL_SIGNER_REVOKED_AT_CONSUMPTION` |
+| 15 | for every approval signature, its key's `revoked_at` is null, or strictly later than `consumed_at` | `APPROVAL_SIGNER_REVOKED_AT_CONSUMPTION` |
 | 16 | `action.profile == "aps-action-ref-v2"`, `action_type == "refund"`, `scope_required == ["payments:refund"]`, `agent_id` the worker | `ACTION_INPUT` |
 | 17 | `action.target` starts with the payments prefix and ends with `/refunds` | `TARGET` |
 | 18 | `sha_hex(action-ref form over the action document) == approval.action_ref` | `ACTION_REF` |
@@ -130,14 +166,27 @@ is the only verdict kind this layer produces.
 
 If every step holds the layer is `ESTABLISHED`.
 
-Step 1 through step 26 are all `REFUSED`. The layer has no `CONTRADICTED` codes: every
-failure it can see is a decision not to permit, or a document that cannot be read. When
-a caller does not run the layer at all — because an earlier layer refused or did not
-establish the case — the verdict is `NOT_REACHED`, and the caller assigns it, not this
-layer.
+Three verdict kinds, and no fourth:
 
-Reading a case file that exists but does not strict-parse is `STRICT_PARSE`; a file the
-corpus says should be there and is not is `input-files-missing`.
+- `ESTABLISHED` — every step held;
+- `REFUSED:<code>` — steps 1 through 26;
+- `NOT_ESTABLISHED:input-files-missing` — step 0a. This one is not a refusal: the layer
+  never got to decide anything, because a file it expects is not there.
+
+The layer has no `CONTRADICTED` codes: every failure it can see is a decision not to
+permit, or a document that cannot be read. `NOT_REACHED` is not one of its verdicts
+either — when a caller does not run the layer at all, because an earlier layer refused or
+did not establish the case, the caller assigns that word.
+
+Missing outranks unparsable: 0a runs before 0b, so a case with one file absent and
+another that does not parse is `input-files-missing`, not `STRICT_PARSE`.
+
+The same order as data, with the finer check ids the corpus uses (`0a`, `0b`, `2a`,
+`2b`, `3a`–`3l`, `4a`–`4c`, `5a`–`5c`, `7a`–`7d`), is in
+[`input-aps/check-order.json`](../../corpora/vectors-refund-connected/input-aps/check-order.json).
+[`corpora/vectors-refund-connected/INPUT-CONTRACT.md`](../../corpora/vectors-refund-connected/INPUT-CONTRACT.md)
+states this layer for a reader built from the corpus, keeps this numbering, and carries
+ten fixtures built from `r2` `j01`, each naming the check it reaches.
 
 ## Coverage in the corpus
 
@@ -153,21 +202,30 @@ Every other code in the procedure is unexercised by these bytes. That is a prope
 the corpus, not of the contract: an implementation that returns `ESTABLISHED` for the
 three established cases and the two named refusals above is consistent with every
 vector, and an implementation that returns a different code for one of them is not.
+Most codes stay unexercised by these twelve vectors; the fixtures under
+`input-aps/cases/` are where a reader meets the rest.
 
 ## Running an independent verifier
 
 The contract is deliberately routable at one case: give the implementation a case
-directory and the four caller-supplied values, and read one verdict back.
+directory and the consumption instant, and read one verdict back.
 
 ```
-<cmd> source/<run>/cases/<case> --consumed-at <instant> --pic-proposal source/<run>/cases/<case>/inputs/pic-proposal.json --json
+<cmd> source/<run>/cases/<case> --consumed-at <instant> [--pic-proposal <path>] --json
 ```
 
-The last nonempty stdout line is one JSON object on one line, `{"verdict": "ESTABLISHED"}`
-or `{"verdict": "REFUSED:<code>"}`, and the exit status is `0` for `ESTABLISHED` and
-nonzero for a refusal. A one-shot run is not a conformance claim; pin the corpus at a
-release or a commit and say which run and which case each verdict came from, as
-`docs/VERIFIERS.md` asks.
+`--consumed-at` is the frozen instant from `input-aps/retained.json` for a retained case,
+or from a fixture's `expected.json` — the one value the case directory cannot supply, and
+the only required argument. `--pic-proposal` points at the proposal the other three values
+are read from; it defaults to `cases/<case>/inputs/pic-proposal.json`, so a case directory
+needs no second argument, and a caller holding the proposal outside the case directory
+passes it here.
+
+The last nonempty stdout line is one JSON object on one line, `{"verdict": "ESTABLISHED"}`,
+`{"verdict": "NOT_ESTABLISHED:input-files-missing"}` or `{"verdict": "REFUSED:<code>"}`, and
+the exit status is `0` for `ESTABLISHED` and nonzero for anything else. A one-shot run is
+not a conformance claim; pin the corpus at a release or a commit and say which run and
+which case each verdict came from, as `docs/VERIFIERS.md` asks.
 
 ## Worked example: `r2` / `n1b-aps-payload`
 

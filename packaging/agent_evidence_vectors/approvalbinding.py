@@ -310,25 +310,24 @@ def _first_failure(record: dict[str, Any], used: bytes, skip: frozenset[str]) ->
     return None
 
 
-def verify_record(record: dict[str, Any], used: bytes) -> dict[str, str]:
-    """The reference reader's decision and reason for one record held in memory.
+def verify_record(
+    record: dict[str, Any], used: bytes, skip: frozenset[str] = frozenset(),
+) -> dict[str, str]:
+    """The reference reader's decision and reason for a record and its used payload bytes.
 
-    ``record`` is the parsed record and ``used`` the bytes of the use's payload
-    (the file ``record["use"]["payloadFile"]`` names in a case directory). This is
-    the entry point for a caller that builds the record itself.
+    This is ``verify`` without the file system: a caller that already holds the
+    record and the payload in memory gets the same answer without writing either
+    to disk.
     """
-    failure = _first_failure(record, used, frozenset())
+    failure = _first_failure(record, used, skip)
     if failure is not None:
         return {"decision": DENY, "reason": failure}
     return {"decision": ALLOW, "reason": "bound"}
 
 
 def verify(record_path: Path, skip: frozenset[str] = frozenset()) -> dict[str, str]:
-    """The reference reader's decision and reason for one record file."""
-    failure = _first_failure(*_load(record_path), skip)
-    if failure is not None:
-        return {"decision": DENY, "reason": failure}
-    return {"decision": ALLOW, "reason": "bound"}
+    """The reference reader's decision and reason for one record."""
+    return verify_record(*_load(record_path), skip)
 
 
 def _fixture_error(directory: Path, entry: dict[str, Any]) -> str | None:

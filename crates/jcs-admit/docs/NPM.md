@@ -5,7 +5,7 @@ It builds one WebAssembly artifact from the Rust parser and canonicalizer. The
 JavaScript layer loads that artifact and represents native refusals as errors.
 It does not parse JSON, canonicalize values or translate refusal reasons.
 
-The npm package is `jcs-admit` version `0.1.0`. Its release tag is `jcs-admit-npm-v0.1.0`,
+The npm package is `jcs-admit` version `0.1.1`. Its release tag is `jcs-admit-npm-v0.1.1`,
 separate from the native crate's version `0.1.3`. The existing Rust `v0.1.1`
 release and its pinned consumer examples remain unchanged. Registry metadata,
 artifact hashes and provenance identify a published package; a source tag alone

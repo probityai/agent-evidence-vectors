@@ -75,6 +75,27 @@ and no call in a lease scenario carried a missing or superseded fencing token.
 | `late-commit-after-missed-lookup` | commits late, after a lookup that is not final | one effect, committed |
 | `definite-no-effect` | refuses with a definite no-effect answer | none and not run, or one and committed |
 | `lease-lost-after-lost-reply` | commits, loses the reply, moves the lease | one effect, committed or unknown |
+| `crash-mid-step-checkpoint-kept` | commits a held call after the worker is killed; the step restarts with its checkpoint and task | one effect, committed or unknown |
+| `crash-mid-step-checkpoint-lost` | the same, the checkpoint is wiped and the task is new; deduplicates by key | one effect, committed or unknown |
+| `redelivery-new-task-id` | commits, loses the reply; the engine redelivers under a new task; deduplicates by key | one effect, committed or unknown |
+| `rewind-replay-after-confirmed` | commits and confirms; the run is rewound with no history and the step replays; does not deduplicate | one effect, committed |
+| `duplicate-human-completion` | commits slowly; two deliveries of one completion run together; does not deduplicate | one effect, committed or unknown |
+| `key-forgotten-by-owner-then-replay` | confirms, then forgets the key; a replay finds a lookup that is not final | one effect, committed or unknown |
+
+### Restart scenarios
+
+A scenario with a `restart` block runs the adapter more than once, as an engine does after a
+crash, a redelivery, a rewind or a double delivery. `AEV_RUN` is 1 for the first delivery,
+`AEV_TASK_ID` names the delivery (the same in every run only when the scenario says
+`"taskId": "same"`), and `AEV_STATE_DIR` is a directory the runtime's checkpoint may use, emptied
+between runs when the scenario says `"state": "wiped"`. Mode `crash` kills the first run once the
+owner has its call (the owner still commits a held call), `rerun` lets it finish, and `concurrent`
+starts two deliveries together, both with `AEV_RUN=1`. The operation's key is the same in every
+run, so a key derived from the task identifier is the fault `redelivery-new-task-id` tests. An
+owner can hold a call while it commits (`commit_hold`, `commit_slow`) and can forget its keys after
+a number of calls, after which it answers lookups for them as not final. The reference adapter's
+`--policy task-keyed` fails these scenarios, `--policy blind` fails all of them, and the default
+policy passes them with a claim file in `AEV_STATE_DIR` and a lookup before any send in a rerun.
 
 ## What a record holds
 
@@ -88,8 +109,11 @@ in-toto Statement. The other fields:
 - `effectOwner`: `id`, `deduplicatesByKey` and `keyRetentionSeconds` (null for no
   limit).
 - `attempts`: each dispatch, with `attempt`, `idempotencyKey`, `argsDigest`,
-  `dispatchedAt`, `reply` (`confirmed`, `no_effect`, `timeout` or
-  `connection_lost`) and, where workers hold leases, `worker` and `fencingToken`.
+  `dispatchedAt`, `reply` (`confirmed`, `no_effect`, `timeout`, `connection_lost` or
+  `worker_crashed`), where workers hold leases `worker` and `fencingToken`, and, when
+  something other than the first dispatch or a plain retry set the attempt off, `trigger`
+  (`kind` is `redelivery`, `replay` or `completion`; `id` is the engine's identifier for the
+  delivery, the history reset or the completion signal).
 - `leases` (optional): `worker`, `fencingToken`, `acquiredAt` and `expiresAt`.
 - `reconciliations`: the owner's answers, each `at`, `idempotencyKey`, `result`
   (`present` or `absent`) and `final`.
@@ -101,7 +125,7 @@ in-toto Statement. The other fields:
   permits a resend nor settles the outcome. Only the owner's answers do.
 - `reported.outcome`: what the runtime reported.
 
-A `timeout` or `connection_lost` reply leaves the attempt's outcome unknown. The
+A `timeout`, `connection_lost` or `worker_crashed` reply leaves the attempt's outcome unknown. The
 outcome the owner's answers settle is `committed` when an attempt was confirmed or a
 reconciliation found the effect; `not_run` when no attempt is unknown, or a final
 reconciliation after the last unknown attempt found it absent; and `unknown`
@@ -117,18 +141,30 @@ A verifier names the first check that fails.
    (`operation_identity_missing`).
 4. No attempt reuses the operation's key with other arguments
    (`idempotency_key_args_changed`).
-5. Every attempt was dispatched inside a lease its worker held, before a lease with a
+5. Every attempt that a redelivery, a replay or a completion triggered carries the
+   operation's own key and never one derived from the delivery or task identifier
+   (`idempotency_key_follows_trigger`).
+6. Every attempt was dispatched inside a lease its worker held, before a lease with a
    higher fencing token was granted (`dispatch_beyond_lease`).
-6. No attempt follows an unknown one unless the owner deduplicates by that same key
+7. No attempt follows an unknown one unless the owner deduplicates by that same key
    inside its retention window, or a final reconciliation in between found the
    effect absent (`retry_after_unknown`).
-7. The owner's ledger holds at most one effect (`duplicate_effect`).
-8. A reservation for an operation whose outcome is unknown is still charged, also
+8. The owner's ledger holds no more effects than the trail has attempts that could have
+   produced one (`owner_effect_unaccounted`): an attempt lost with a checkpoint or deleted
+   with a history leaves an effect the trail cannot account for.
+9. The owner's ledger holds at most one effect (`duplicate_effect`).
+10. A reservation for an operation whose outcome is unknown is still charged, also
    after it expired (`unknown_released`).
-9. The runtime did not report an unknown outcome as committed or not run
+11. The runtime did not report an unknown outcome as committed or not run
    (`outcome_settled_without_authority`).
-10. The runtime reported the outcome the owner's answers settle
+12. The runtime reported the outcome the owner's answers settle
     (`outcome_disagrees_with_authority`).
+13. When the record carries a `stop`, no authority check made at or after the revocation was
+    accepted (`authority_used_after_revocation`).
+14. An effect the owner committed wholly after the stop was acknowledged is not reported as a
+    quiescent stop (`effect_after_stop_reported_quiescent`).
+15. An effect whose commit interval contains the acknowledgement is reported as not established
+    (`stop_straddle_reported_settled`).
 
 A record that passes every check is `allow` with reason `effect_held`. Each denied
 case is built so the check it names is the first that fails, and the allowed cases

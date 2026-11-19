@@ -147,11 +147,13 @@ def case_stage_is_wired_after_the_replay_and_before_the_upload(work: Path) -> No
     assert names.index(CHECK_STEP) < names.index("Upload the report")
 
 
-# The stage is verifier-mode only: the mode selector `check` is the one input that
-# may gate it, because admission mode builds no corpus report. No other input may.
+# The stage is verifier-mode only: the mode selectors `check` and `records` are the
+# only inputs that may gate it, because admission mode and producer mode build no
+# corpus report. No other input may.
 ALLOWED_STAGE_CONDITIONS = (
     "${{ !cancelled() }}",
     "${{ inputs.check == '' && !cancelled() }}",
+    "${{ inputs.check == '' && inputs.records == '' && !cancelled() }}",
 )
 
 
@@ -347,8 +349,10 @@ def case_a_skippable_stage_goes_red(work: Path) -> None:
     head = "    - name: Check against the reference verifier\n      id: reference\n      if: "
     _mutation_goes_red(
         work,
-        head + "${{ inputs.check == '' && !cancelled() }}",
-        head + "${{ inputs.check == '' && inputs.verifier != '' && !cancelled() }}",
+        head + "${{ inputs.check == '' && inputs.records == '' && !cancelled() }}",
+        head
+        + "${{ inputs.check == '' && inputs.records == '' "
+        + "&& inputs.verifier != '' && !cancelled() }}",
         "so it can be skipped",
     )
 

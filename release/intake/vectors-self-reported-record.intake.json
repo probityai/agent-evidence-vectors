@@ -8,7 +8,7 @@
     "total": 11
   },
   "anchor": {
-    "kind": "digest-list-line",
+    "kind": "signed-digest-list",
     "manifest": "vectors-self-reported-record/MANIFEST.json",
     "reference": {
       "path": "release/CORPUS-DIGESTS.txt",
@@ -18,6 +18,13 @@
     "routine-file": "corpora/vectors-self-reported-record/digest.py",
     "serialization": "corpus-routine",
     "sha256": "75393685568336f1ca2a5b1836f42d7e498b4927930234e7cc11d8f4aa81a064",
+    "signature": {
+      "key": "release/cosign.pub",
+      "key-sha256": "15fccb1635dd1d9333146cb389f26fa3c3b9213aeed1da945ea1f51a2dc1be84",
+      "path": "release/CORPUS-DIGESTS.txt.sig",
+      "scheme": "ed25519",
+      "serialization": "bytes"
+    },
     "verdicts": {
       "availability-failure": "inconclusive",
       "integrity-failure": "fail"
@@ -68,7 +75,7 @@
       },
       "path": "corpora/vectors-self-reported-record/README.md",
       "serialization": "bytes",
-      "sha256": "0f080f2b32d7a465ab8e49eac9d1c77f552b21ea17c89fa5ab20abde4715b31b"
+      "sha256": "30a9164933451ea81c7cc80b3376b9b4dc6485392c54d8023e987b7ccec90cbc"
     },
     {
       "consumed": "unconsumed",
@@ -235,7 +242,7 @@
         "go.mod"
       ],
       "serialization": "sha256-listing-v1",
-      "sha256": "f7e37fc1dc004b7e73055b211397d0f75c0cc96f5cf471c426984f0ac3cd7f9a"
+      "sha256": "85142513ff8f8d4f9be113fc78371a52335d7cadb77f2cbc3872f7bb8ae9e893"
     },
     "runtime": {
       "name": "go",
@@ -340,7 +347,7 @@
   ],
   "corpus-digest": {
     "serialization": "sha256-listing-v1",
-    "sha256": "9f9ecafff94c7eaf8b68667bfeb866afe7c7811ceaef93f36611ab5dec1bcb93"
+    "sha256": "4e2f097801cb73eea4de8ce62e5d3ffa31dfb629a7c6d022e4e3a3b5d240f7da"
   },
   "exit-code": 0,
   "exit-rule": "zero-iff-every-check-passes",
@@ -587,7 +594,6 @@
     ],
     "leaves-open": [
       "whether an implementation written from the specification, run by someone other than an author, reaches the same verdicts",
-      "whether release/CORPUS-DIGESTS.txt is a list a release signed: the signature beside it does not verify over these bytes, so the anchor is a located line, not a verified one",
       "whether a re-run by someone other than an author on these exact bytes agrees; none is on the record for them"
     ]
   },

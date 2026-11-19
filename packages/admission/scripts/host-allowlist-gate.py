@@ -44,6 +44,9 @@ ALLOWED_HOSTS = frozenset(
     {
         # the predicate and its home
         "in-toto.io",
+        # identity-provider issuer hosts the issuer-pin tests derive the provider from
+        "example.okta.com",
+        "login.microsoftonline.com",
         "github.com",
         # the host the done receipt predicate type is minted on
         "probityai.github.io",
@@ -88,6 +91,8 @@ ALLOWED_HOSTS = frozenset(
         "docs.github.com",
         # the registry server.json schema namespace the generated registry files carry
         "static.modelcontextprotocol.io",
+        # the PyPI integrity API the Python README's release check reads provenance from
+        "pypi.org",
     }
 )
 

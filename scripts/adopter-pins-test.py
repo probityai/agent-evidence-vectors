@@ -16,6 +16,7 @@ the names and paths those pinned jobs read, measured from their own files:
   P5  the release digest list's line format, which an adopter parses:
       <digest> <id>/MANIFEST.json <suite> vectors=<n> ...
   P6  the files attached to each release under the names an adopter downloads
+      # curl-retry: exempt prose in a docstring, not a fetch
       from releases/download/<tag>/
   P7  the Go module path, the `go install` path cmd/aee-verify, and the Go
       packages aee and observedeffect

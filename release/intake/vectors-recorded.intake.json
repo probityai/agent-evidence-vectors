@@ -1,14 +1,14 @@
 {
   "aggregate": {
     "counts": {
-      "recorded": 4,
+      "recorded": 5,
       "synthetic": 16
     },
     "line": "verdict: every member behaves as MANIFEST.json declares",
-    "total": 20
+    "total": 21
   },
   "anchor": {
-    "kind": "digest-list-line",
+    "kind": "signed-digest-list",
     "manifest": "vectors-recorded/MANIFEST.json",
     "reference": {
       "path": "release/CORPUS-DIGESTS.txt",
@@ -17,7 +17,14 @@
     "routine": "corpus_digest in corpora/vectors-recorded/gen_vectors.py",
     "routine-file": "corpora/vectors-recorded/gen_vectors.py",
     "serialization": "corpus-routine",
-    "sha256": "55bf18e34d014ac0e0fd355effe06d3712d577072b47c125ca14e1fd33e9cbb9",
+    "sha256": "efdd313730a1dc3d49f60e4dc559ca5e204d0f6cbefd3459c3271085c15650f5",
+    "signature": {
+      "key": "release/cosign.pub",
+      "key-sha256": "15fccb1635dd1d9333146cb389f26fa3c3b9213aeed1da945ea1f51a2dc1be84",
+      "path": "release/CORPUS-DIGESTS.txt.sig",
+      "scheme": "ed25519",
+      "serialization": "bytes"
+    },
     "verdicts": {
       "availability-failure": "inconclusive",
       "integrity-failure": "fail"
@@ -29,7 +36,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "af4dbec39f3fd701ff2900cea3ab193f1addf3963f44aa5e8a4e074ea3c72d7d"
+          "sha256": "023da7be93f493e5cc06a5cda27905df3244c5377acb81eda51599596fb66938"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [],
@@ -38,21 +45,21 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "af4dbec39f3fd701ff2900cea3ab193f1addf3963f44aa5e8a4e074ea3c72d7d"
+          "sha256": "023da7be93f493e5cc06a5cda27905df3244c5377acb81eda51599596fb66938"
         },
         "swapped-in": "37e2ec7db38777ae34f262727c1ffb37ecc46607d72bcf54072b6e0eb56b4ac0",
         "test": "swap-and-re-pin"
       },
       "path": "corpora/vectors-recorded/INDEX.md",
       "serialization": "bytes",
-      "sha256": "9c305763ab3be24593737018db48722acd1aa99a326166174c3e6a0b647ce00f"
+      "sha256": "478516f1bc1f9f46c17c75b1a05c913d322a19121606c84f5ebb00bc4d1fb692"
     },
     {
       "consumed": "unconsumed",
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "af4dbec39f3fd701ff2900cea3ab193f1addf3963f44aa5e8a4e074ea3c72d7d"
+          "sha256": "023da7be93f493e5cc06a5cda27905df3244c5377acb81eda51599596fb66938"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [],
@@ -61,21 +68,21 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "af4dbec39f3fd701ff2900cea3ab193f1addf3963f44aa5e8a4e074ea3c72d7d"
+          "sha256": "023da7be93f493e5cc06a5cda27905df3244c5377acb81eda51599596fb66938"
         },
         "swapped-in": "4019b3d5c2643dc4d52965fba83c0550411ae3f040bed8338b4bf3875230b0e8",
         "test": "swap-and-re-pin"
       },
       "path": "corpora/vectors-recorded/README.md",
       "serialization": "bytes",
-      "sha256": "54835008eff2ad356879c41ebcb7866d6dd68d68bec280a2d92066e2a7f57a1b"
+      "sha256": "936ef799b28e650ffc6c1bd5af232e6a7ffc15852c507b51967399ff59ede5d8"
     },
     {
       "consumed": "unconsumed",
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "af4dbec39f3fd701ff2900cea3ab193f1addf3963f44aa5e8a4e074ea3c72d7d"
+          "sha256": "023da7be93f493e5cc06a5cda27905df3244c5377acb81eda51599596fb66938"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [],
@@ -84,7 +91,7 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "af4dbec39f3fd701ff2900cea3ab193f1addf3963f44aa5e8a4e074ea3c72d7d"
+          "sha256": "023da7be93f493e5cc06a5cda27905df3244c5377acb81eda51599596fb66938"
         },
         "swapped-in": "e926dcaa6d5695d43c76ee1146bc5b2e0acf8f041582a13d07cf123c24951e42",
         "test": "swap-and-re-pin"
@@ -178,6 +185,11 @@
         "suffix": ""
       },
       {
+        "dir": "sets/horizon-furui-day-2026-11-03",
+        "recursive": true,
+        "suffix": ""
+      },
+      {
         "dir": "sets/hs51-giskard09-acks",
         "recursive": true,
         "suffix": ""
@@ -201,7 +213,7 @@
     "root": "corpora/vectors-recorded"
   },
   "byte-identity": {
-    "pins": 149,
+    "pins": 156,
     "serialization": "bytes"
   },
   "canonicalization": {
@@ -238,7 +250,7 @@
         "go.mod"
       ],
       "serialization": "sha256-listing-v1",
-      "sha256": "f7e37fc1dc004b7e73055b211397d0f75c0cc96f5cf471c426984f0ac3cd7f9a"
+      "sha256": "85142513ff8f8d4f9be113fc78371a52335d7cadb77f2cbc3872f7bb8ae9e893"
     },
     "runtime": {
       "name": "go",
@@ -252,6 +264,14 @@
     ]
   },
   "checks": [
+    {
+      "check": "v4a572101bd5b373a",
+      "native": {
+        "reasons": [],
+        "verdict": "recorded"
+      },
+      "state": "pass"
+    },
     {
       "check": "vffe71a23d73cb508",
       "native": {
@@ -415,7 +435,7 @@
   ],
   "corpus-digest": {
     "serialization": "sha256-listing-v1",
-    "sha256": "65b273f4f654a016136849434cd055b68533cc33f93f9e7d0596db6925776b2f"
+    "sha256": "f59eda782c01cbdb6fd00f33585590a597087a31a8fb1f2bf9775f9b6bbb3dd0"
   },
   "exit-code": 0,
   "exit-rule": "zero-iff-every-check-passes",
@@ -425,6 +445,7 @@
   "manifest": {
     "closed": true,
     "ids": [
+      "v4a572101bd5b373a",
       "vffe71a23d73cb508",
       "vf2da54b4b4840bb9",
       "va39e75242339c787",
@@ -447,9 +468,42 @@
       "v71d56db94fd4657c"
     ],
     "path": "corpora/vectors-recorded/MANIFEST.json",
-    "sha256": "1ca25d6967445c366dad74137b6916a7cc1cda0103105ca70fd61e59f182713d"
+    "sha256": "fd42660e1dc1da0b4335c6ce46d0ca1251b4207e59885490d9da62efa44e251b"
   },
   "members": [
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-recorded/sets/horizon-furui-day-2026-11-03/LICENSE",
+          "sha256": "fb64e419d1d94dfa6afc2927c35bbe577627701cd9fae4ca139483d5e2bec72d"
+        },
+        {
+          "path": "corpora/vectors-recorded/sets/horizon-furui-day-2026-11-03/SOURCE.json",
+          "sha256": "0acd5b934e82e009ab75690e7cdc98ab7817236d77601d76ab8d7a7e539c685c"
+        },
+        {
+          "path": "corpora/vectors-recorded/sets/horizon-furui-day-2026-11-03/bytes/README.md",
+          "sha256": "842f77e9a250d10b0be41db58f241adfa8366bd96b051655dea21b4e318b519f"
+        },
+        {
+          "path": "corpora/vectors-recorded/sets/horizon-furui-day-2026-11-03/bytes/SHA256SUMS",
+          "sha256": "1365ea75e1f61c33814289c7d7a039340946f8705ba51b9896d7023111b1ce78"
+        },
+        {
+          "path": "corpora/vectors-recorded/sets/horizon-furui-day-2026-11-03/bytes/keys.json",
+          "sha256": "76c830ddc86480e61e0dd7815b58df22c637c0efb2bf1f7f4f5738466a90f1b1"
+        },
+        {
+          "path": "corpora/vectors-recorded/sets/horizon-furui-day-2026-11-03/bytes/leaf-0.json",
+          "sha256": "e662a273ba8d4ce62073776970a18f07ae5f4570dd226a6418ab60266736b7e9"
+        },
+        {
+          "path": "corpora/vectors-recorded/sets/horizon-furui-day-2026-11-03/bytes/leaf-1.json",
+          "sha256": "25635d668c1e309b93db59471364b9a4ec6d38129be7cf65463d4d2cc404999f"
+        }
+      ],
+      "id": "v4a572101bd5b373a"
+    },
     {
       "files": [
         {
@@ -1163,7 +1217,7 @@
       "reference": {
         "path": "release/intake/native/vectors-recorded.json",
         "serialization": "bytes",
-        "sha256": "af4dbec39f3fd701ff2900cea3ab193f1addf3963f44aa5e8a4e074ea3c72d7d"
+        "sha256": "023da7be93f493e5cc06a5cda27905df3244c5377acb81eda51599596fb66938"
       }
     },
     {
@@ -1172,7 +1226,7 @@
       "reference": {
         "path": "release/intake/native/vectors-recorded.txt",
         "serialization": "bytes",
-        "sha256": "a8a93f494e326b31b3c0689b30fd635067bea476923628d5bc3831c2cb4a7c5e"
+        "sha256": "7d35e65f7ed1192262066df8529744f00cae70c1dd766f9651753665ae3cfc34"
       }
     },
     {
@@ -1197,11 +1251,11 @@
     "runs": [
       {
         "process": "run-1",
-        "sha256": "af4dbec39f3fd701ff2900cea3ab193f1addf3963f44aa5e8a4e074ea3c72d7d"
+        "sha256": "023da7be93f493e5cc06a5cda27905df3244c5377acb81eda51599596fb66938"
       },
       {
         "process": "run-2",
-        "sha256": "af4dbec39f3fd701ff2900cea3ab193f1addf3963f44aa5e8a4e074ea3c72d7d"
+        "sha256": "023da7be93f493e5cc06a5cda27905df3244c5377acb81eda51599596fb66938"
       }
     ],
     "seed": null,
@@ -1215,20 +1269,20 @@
       "action-occurred-or-authority"
     ],
     "establishes": [
-      "aee-verify, at the source listing named here, judges each of the 20 pinned members of recorded-set-conformance/v1 as its manifest declares"
+      "aee-verify, at the source listing named here, judges each of the 21 pinned members of recorded-set-conformance/v1 as its manifest declares"
     ],
     "leaves-open": [
       "whether an implementation written from the specification, run by someone other than an author, reaches the same verdicts",
-      "whether release/CORPUS-DIGESTS.txt is a list a release signed: the signature beside it does not verify over these bytes, so the anchor is a located line, not a verified one",
       "whether a re-run by someone other than an author on these exact bytes agrees; none is on the record for them"
     ]
   },
   "selector": {
     "expression": "*",
     "language": "id-glob",
-    "matched": 20,
+    "matched": 21,
     "require": "at-least-one",
     "selected": [
+      "v4a572101bd5b373a",
       "vffe71a23d73cb508",
       "vf2da54b4b4840bb9",
       "va39e75242339c787",

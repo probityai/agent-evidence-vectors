@@ -299,6 +299,11 @@ def row_r2(w: Path, log: Path, row: dict[str, Any]) -> tuple[bool, dict[str, Any
     return detail["ok"], detail
 
 
+def r3_records(out: Path) -> Path:
+    """The directory holding R3's record set: the emitter writes ``out/records/`` or the records themselves."""
+    return out / "records" if (out / "records").is_dir() else out
+
+
 def row_r3(w: Path, log: Path, row: dict[str, Any]) -> tuple[bool, dict[str, Any]]:
     p = row["pins"]
     src = fetch_commit(p["repository"], p["commit"], w / "src", log)
@@ -312,7 +317,7 @@ def row_r3(w: Path, log: Path, row: dict[str, Any]) -> tuple[bool, dict[str, Any
     must(run([str(py), str(emitter), "--artifact",
               "papers/dependable-multiroot-agent-evidence/artifact", "--out", str(out),
               "--runner", "Anton Sokolov (Tyche Institute)"], src, log), "emit_w3c_v01.py")
-    records = out / "records" if (out / "records").is_dir() else out
+    records = r3_records(out)
     detail = compare_trees(posted, tree_digests(records), row["may_differ"],
                            row.get("outside_record_set"))
     detail["SHA256SUMS"] = expect_files(records, row["expect"])
@@ -323,8 +328,7 @@ def row_r3_v01(w: Path, log: Path, row: dict[str, Any]) -> tuple[bool, dict[str,
     """Run the posted converter over the records the R3 rerun wrote, and compare."""
     p = row["pins"]
     out3 = w.parent / "R3" / "out"
-    # The same rule row_r3 applies: the emitter writes records/ or the records themselves.
-    records = out3 / "records" if (out3 / "records").is_dir() else out3
+    records = r3_records(out3)
     if not (records / "SHA256SUMS").is_file():
         raise Refused("R3-v01 reads the R3 rerun's records: run R3 first")
     data = attachment(p["converter"], w.parent / "_attachments")
