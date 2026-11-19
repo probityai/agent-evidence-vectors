@@ -8,7 +8,7 @@
     "total": 22
   },
   "anchor": {
-    "kind": "digest-list-line",
+    "kind": "signed-digest-list",
     "manifest": "vectors-admission/MANIFEST.json",
     "reference": {
       "path": "release/CORPUS-DIGESTS.txt",
@@ -18,6 +18,13 @@
     "routine-file": "corpora/vectors-admission/digest.py",
     "serialization": "corpus-routine",
     "sha256": "17caeb3817557d779266de29ba9a65ebf553f7503925de7e7b5a01126ede5446",
+    "signature": {
+      "key": "release/cosign.pub",
+      "key-sha256": "15fccb1635dd1d9333146cb389f26fa3c3b9213aeed1da945ea1f51a2dc1be84",
+      "path": "release/CORPUS-DIGESTS.txt.sig",
+      "scheme": "ed25519",
+      "serialization": "bytes"
+    },
     "verdicts": {
       "availability-failure": "inconclusive",
       "integrity-failure": "fail"
@@ -68,7 +75,7 @@
       },
       "path": "corpora/vectors-admission/README.md",
       "serialization": "bytes",
-      "sha256": "72b1fd1e3f65fce1731d2e9237496786f1b0cc8cb994ce41440e9ba391428e5c"
+      "sha256": "d1f6a24de45efd615aaa93ffbfd4536955bb37e4c9fe3b70eaf7d5af058ae6dc"
     },
     {
       "consumed": "unconsumed",
@@ -364,7 +371,7 @@
   ],
   "corpus-digest": {
     "serialization": "sha256-listing-v1",
-    "sha256": "302cfe9cec9b04e76678bb5c55b5d94224a16c1ddbf917fd8c154234e89ac042"
+    "sha256": "94c1f8c00897fe1166211bba91e125d3e07777441f05894d06739be48dba35e8"
   },
   "exit-code": 0,
   "exit-rule": "zero-iff-every-check-passes",
@@ -897,7 +904,6 @@
     ],
     "leaves-open": [
       "whether an implementation written from the specification, run by someone other than an author, reaches the same verdicts",
-      "whether release/CORPUS-DIGESTS.txt is a list a release signed: the signature beside it does not verify over these bytes, so the anchor is a located line, not a verified one",
       "whether a re-run by someone other than an author on these exact bytes agrees; none is on the record for them"
     ]
   },

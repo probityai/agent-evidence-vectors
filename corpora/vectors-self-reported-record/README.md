@@ -85,7 +85,7 @@ five attacks do not touch.
 ## Where the closed vocabularies come from
 
 Five members of each record are values of terms registered in
-[`agent-evidence-vocabulary`](https://github.com/probityai/agent-evidence-vocabulary):
+[`agent-evidence-vocabulary`](https://github.com/probityai/agent-evidence-vectors/tree/main/packages/vocabulary):
 `origin_kind`, `attestation_tier`, `observation_vantage`,
 `observation_directness` and `field_evidence_partition`. The registry is the
 definition and the contract is a consumer of it.
@@ -241,6 +241,6 @@ this size.
 
 `release/CORPUS-DIGESTS.txt` now carries a line for this corpus. Its detached
 signature and timestamps cover the previous contents and are therefore stale by
-exactly this change; re-signing is the release lane's, not this one's.
+exactly this change; they are re-signed at the next release.
 
 [RFC 8032]: https://www.rfc-editor.org/rfc/rfc8032

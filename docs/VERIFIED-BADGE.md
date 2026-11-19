@@ -41,13 +41,40 @@ The gate re-checks the recorded claims. Verifying the receipt signature, the tra
 
 A withdrawn grant stays in the ledger with the date and the reason, and its badge comes off.
 
+## The workflow
+
+[conformance.yml](../.github/workflows/conformance.yml) is the reusable conformance workflow. It runs three jobs:
+
+- `pin` reads the workflow's own commit from its OIDC token and runs nothing else.
+- `execute` runs the candidate with `contents: read` only, so no OIDC token and no secret reaches it. Every call the harness makes to the candidate goes through a recording shim, which keeps each call's arguments (a file argument by its SHA-256), exit status and output in `transcript.json`. That transcript is the only thing the job hands on.
+- `sign` runs no candidate code. It checks out this repository at the commit its own OIDC token names, never at an input. It fetches the transcript by the numeric artifact id, requires that artifact to belong to this run and the downloaded archive to match the digest GitHub recorded for it, and replays the transcript through the harness over the pinned corpus. A member the transcript does not answer fails. [conformance_receipt.py](../scripts/conformance_receipt.py) `sign-check` then recomputes the verdict and refuses to sign unless every pinned member was answered and conformed. Only then does `cosign sign-blob` request a certificate, whose identity is `conformance.yml` at that commit.
+
+The receipt (`receipt.json` with `receipt.sigstore.json`) is published as the `aev-conformance-receipt` artifact. `conformance_receipt.py verify` is the badge verifier: it checks the signature, the certificate identity against the allowlist in [badge-grants.json](badge-grants.json), and every run claim in the certificate against the receipt.
+
+[conformance-receipt-test.py](../scripts/conformance-receipt-test.py) blocks every release. It requires the signer or the verifier to refuse nine attempts: a substituted artifact, an altered case set, results injected from the execution job, a signature from any other workflow, a wrong repository or commit, a zero-count report, a stale-run replay, an unpinned profile and a wrong ref (a tag pin, a branch that is not the default, a forbidden event or a self-hosted runner). It also requires a genuine run to pass.
+
+The two runtime corpora (`vectors-uncertain-effect`, `vectors-decision-client-failure-modes`) are not eligible: their evidence is the state of a counting endpoint, which a transcript cannot carry.
+
 ## Where it stands
 
-The reusable conformance workflow is not released yet, so no workflow SHA is on the allowlist and the ledger holds no grants. [Used by](USED-BY.md) lists projects whose own CI runs or pins a corpus. That is use, not the badge, and no project holds it today.
+The workflow ships in this release. No workflow SHA is on the allowlist until a maintainer adds the released commit, and the ledger holds no grants. [Used by](USED-BY.md) lists projects whose own CI runs or pins a corpus. That is use, not the badge.
 
 ## Get it
 
-Run the [GitHub Action](../action.yml) or the released package in your CI, and keep the passing run public. When the reusable workflow ships, switch your CI to it and open a pull request that adds your entry to [badge-grants.json](badge-grants.json) with the run that produced your receipt.
+Call the workflow from your CI, pinned by full commit SHA, on `push` to your default branch, `schedule` or `workflow_dispatch`:
+
+```yaml
+jobs:
+  conformance:
+    permissions: { contents: read, actions: read, id-token: write }
+    uses: probityai/agent-evidence-vectors/.github/workflows/conformance.yml@<full commit SHA>
+    with:
+      corpus: vectors-a2a-jcs-v01
+      verifier: ./bin/my-verifier
+      setup: make build   # optional
+```
+
+Keep the run public, then open a pull request that adds your entry to [badge-grants.json](badge-grants.json) with the run that produced your receipt.
 
 ## Paste it
 

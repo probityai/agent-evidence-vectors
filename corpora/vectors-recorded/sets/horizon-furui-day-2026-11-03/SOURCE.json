@@ -1,0 +1,12 @@
+{
+  "bindings": [],
+  "commit": "none: served by the publisher's runner, captured 2026-11-10T17:06Z",
+  "contributor": "Toshikatsu Oga (HORIZON SHIELD, The HORIZONs Co., Ltd., GitHub ogasurfproject-jpg)",
+  "licence": "MIT, copyright notice in LICENSE beside bytes/",
+  "path": "furui/day/2026-11-03/leaf/0 and leaf/1, with .well-known/furui-check-keys.json",
+  "publishedDigests": {},
+  "publishedIn": "https://furui.horizonshield.dev/furui/day/2026-11-03/leaf/0",
+  "repository": "https://github.com/ogasurfproject-jpg/horizon-shield",
+  "scope": "The check says the retained bytes match the digests listed here. The two leaf envelopes of the FURUI day record of 2026-11-03 (n 2, root e5f2c113384eebfaae94e438c5bba359b848fbdb0c2f0644cdbcce6f4906c313) are the runner's responses, kept byte for byte, with the runner key file. Recomputing leaf_sha256 from each envelope and the root from the two leaves shows leaf 0 is in the signed root. It does not show the check recorded in leaf 0 was right, and it does not check the runner-1 Ed25519 signature or the Bitcoin anchor of ledger entry 250. The runner kept these leaves until 2026-11-10.",
+  "sumsSha256": "1365ea75e1f61c33814289c7d7a039340946f8705ba51b9896d7023111b1ce78"
+}

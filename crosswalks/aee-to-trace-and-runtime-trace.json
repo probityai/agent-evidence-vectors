@@ -12,7 +12,7 @@
     "reference_verifier": "cmd/aee-verify",
     "vector_corpora_root": "vectors/",
     "upstream_review": "https://github.com/in-toto/attestation/pull/570",
-    "vocabulary_repository": "https://github.com/probityai/agent-evidence-vocabulary",
+    "vocabulary_repository": "https://github.com/probityai/agent-evidence-vectors/tree/main/packages/vocabulary",
     "conformance_suite": {
       "derived_by": "python3 -c \"import json,re,pathlib; m=json.loads(pathlib.Path('vectors/MANIFEST.json').read_text()); r=re.search(r'^## suiteRevision ([0-9]+)\\b', pathlib.Path('vectors/CHANGES.md').read_text(), re.M).group(1); print(r, len(m['vectors']), m['counts'])\"",
       "note": "Deliberately not snapshotted here. The suite total moves every revision, and scripts/count-gate.py already holds the one sentence in this repository that states it, in crosswalks/aee-to-ave.md. A second copy would be a second thing to go stale."
