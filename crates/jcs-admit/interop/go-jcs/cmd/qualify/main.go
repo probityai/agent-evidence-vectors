@@ -10,7 +10,7 @@ import (
 	"io"
 	"os"
 
-	gojcs "github.com/probityai/jcs-admit/interop/go-jcs"
+	gojcs "jcsadmit.invalid/go-jcs"
 )
 
 func run() error {

@@ -3,6 +3,10 @@
 Predicate type URI:
 `https://github.com/probityai/agent-evidence-vocabulary/blob/main/docs/predicates/agent-change-admission-v1.md`
 
+The URI is the predicate's name inside signed statements and never changes. It
+resolves through GitHub's redirect to a frozen copy of this page in the archived
+vocabulary repository; this file is the maintained copy.
+
 Status: proposed. The terms it carries are in the `change_admission` section of
 [vocabulary.yaml](https://github.com/probityai/agent-evidence-vectors/blob/main/packages/vocabulary/vocabulary.yaml),
 and every one of them starts proposed under the registry's promotion rule.

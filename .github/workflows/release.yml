@@ -501,6 +501,9 @@ jobs:
       - id: target
         env:
           TAG: ${{ github.event.release.tag_name }}
+          # release-target checks every repository link in the manifest
+          # against the GitHub API; anonymous reads share 60 an hour per runner.
+          GH_TOKEN: ${{ github.token }}
         run: |
           set -euo pipefail
           git merge-base --is-ancestor "$GITHUB_SHA" origin/main
@@ -589,7 +592,7 @@ jobs:
 
   # Publishes the exact tarball the qualification job tested, with npm
   # provenance, and attests it as pkg:npm/@probityai/dsse@<version>. Ported from
-  # probityai/dsse npm-release.yml and the provenance job of its npm.yml.
+  # probityai-archive/dsse npm-release.yml and the provenance job of its npm.yml.
   publish-dsse-npm:
     needs: [resolve, qualify-dsse-npm]
     if: needs.resolve.outputs.registry != 'none' && (needs.resolve.outputs.prefix == 'dsse-npm')
@@ -662,7 +665,7 @@ jobs:
 
   # Publishes the exact tarball the qualification job tested, with npm
   # provenance, and attests it as pkg:npm/jcs-admit@<version>. Ported from
-  # probityai/jcs-admit npm-release.yml and the provenance job of its npm.yml.
+  # probityai-archive/jcs-admit npm-release.yml and the provenance job of its npm.yml.
   publish-jcs-admit-npm:
     needs: [resolve, qualify-jcs-admit-npm]
     if: needs.resolve.outputs.registry != 'none' && (needs.resolve.outputs.prefix == 'jcs-admit-npm')
