@@ -46,6 +46,18 @@ for entry in manifest['vectors']:
 # Tests that a checker which accepts everything or believes a boolean consent alone is insufficient.
 positive=json.loads((ROOT/'cases/valid-new-registration/record.json').read_text())
 ctx=json.loads((ROOT/'cases/valid-new-registration/context.json').read_text())
+# Absent and explicit members must canonicalize to different bytes. The
+# signed cases already pin a None-dropping encoder (the positive core carries
+# parent_agent_id null), but nothing signed carries consent false or an empty
+# agent_id, so an encoder dropping those passed every check above.
+differentials=0
+for key, explicit in [('consent', False), ('parent_agent_id', None), ('agent_id', '')]:
+    absent = copy.deepcopy(positive['core'])
+    absent.pop(key)
+    present = copy.deepcopy(absent)
+    present[key] = explicit
+    assert canonical(absent) != canonical(present), key
+    differentials+=1
 assert classify(positive,ctx)[0] is True
 mutant=copy.deepcopy(positive);mutant['core']['consent']=False
 assert classify(mutant,ctx)[0] is False
@@ -71,4 +83,4 @@ try:
         assert lenient(case)[0] is True,(case,lenient(case)); forced+=1
 finally:
     contract.required_types_hold=strict_types
-print('CLASSIFICATION_PASS '+str(len(manifest['vectors']))+' generated cases; 5 adversarial reader controls; 2 manifest-integrity probes; '+str(forced)+' cases forcing a rule')
+print('CLASSIFICATION_PASS '+str(len(manifest['vectors']))+' generated cases; 5 adversarial reader controls; 2 manifest-integrity probes; '+str(forced)+' cases forcing a rule; '+str(differentials)+' absent-vs-explicit canonical differentials')
