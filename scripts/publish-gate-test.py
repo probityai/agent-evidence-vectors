@@ -37,12 +37,13 @@ WORKFLOWS = ROOT / ".github" / "workflows"
 ENV = "public-release"
 TOKEN_JOB = ("release.yml", "publish")
 PUBLISH_IF = "${{ github.event_name != 'release' && startsWith(github.ref, 'refs/tags/v') }}"
-PUBLISH_MARKERS = re.compile(
+REGISTRY_MARKERS = re.compile(
     r"pypi-publish|gh-action-pypi|twine upload|uv publish|hatch publish|poetry publish"
     r"|maturin publish|upload\.pypi\.org|cargo publish|npm publish|HF_TOKEN|hf upload"
     r"|huggingface_hub|HfApi|upload_folder|publish-hf-dataset\.py upload"
-    r"|gh release (create|upload)|deploy-pages|id-token:\s*write"
+    r"|gh release (create|upload)|deploy-pages"
 )
+PUBLISH_MARKERS = re.compile(f"{REGISTRY_MARKERS.pattern}|id-token:\\s*write")
 DYNAMIC_SECRET = re.compile(
     r"secrets\s*\[|toJSON\(\s*secrets|fromJSON\(\s*secrets|secrets:\s*inherit"
 )
@@ -54,6 +55,14 @@ NAMED_SECRET = re.compile(r"secrets\.([A-Za-z_][A-Za-z0-9_]*)")
 UNIT_ENVIRONMENTS = {"crates-io", "npm", "pypi"}
 OIDC_WORKFLOWS = {"pages.yml"}
 EXACT_EXEMPT = {("pages.yml", "deploy"): "github-pages", ("scorecard.yml", "analysis"): None}
+# conformance.yml is the reusable receipt workflow behind docs/VERIFIED-BADGE.md. Its `pin`
+# and `sign` jobs hold `id-token: write` to read the run's identity from their own OIDC
+# token and, in `sign`, to ask for a signing certificate; the receipt goes to an artifact of
+# the run, never to a registry or the dataset. Each may hold the OIDC grant and nothing
+# else this gate watches: no environment, no named secret, no registry or dataset upload.
+# The `execute` job runs the candidate and is not listed, so a grant on it is refused.
+OIDC_SIGNING_JOBS = {("conformance.yml", "pin"), ("conformance.yml", "sign")}
+CALLABLE_ONLY = {"conformance.yml"}
 # ci.yml is the one workflow that tests every pull request, so it carries the test
 # triggers only: a release, tag or deployment trigger would let it publish.
 TEST_TRIGGERS = {"pull_request", "push", "merge_group", "schedule", "workflow_dispatch"}
@@ -88,6 +97,16 @@ def dump(obj: Any) -> str:
     return yaml.safe_dump(obj)
 
 
+def exempt_problem(key: tuple[str, str], env: str | None, body: str) -> str | None:
+    """Why an exempt job no longer has the shape that earned the exemption, else None."""
+    if key in EXACT_EXEMPT:
+        if env != EXACT_EXEMPT[key] or NAMED_SECRET.search(body):
+            return "left its exempt shape"
+    elif env is not None or NAMED_SECRET.search(body) or REGISTRY_MARKERS.search(body):
+        return "left its OIDC-signing shape"
+    return None
+
+
 def job_problems(name: str, doc: dict[str, Any], job_id: str, job: dict[str, Any]) -> list[str]:
     where = f"{name}: job {job_id}"
     env = env_name(job)
@@ -98,10 +117,12 @@ def job_problems(name: str, doc: dict[str, Any], job_id: str, job: dict[str, Any
     if env == ENV and (name, job_id) != TOKEN_JOB:
         problems.append(f"{where} uses {ENV}; only {TOKEN_JOB[0]}:{TOKEN_JOB[1]} may")
     publishes = bool(PUBLISH_MARKERS.search(dump(job)))
-    if (name, job_id) in EXACT_EXEMPT:
-        if env != EXACT_EXEMPT[(name, job_id)] or NAMED_SECRET.search(dump(job)):
-            problems.append(f"{where} left its exempt shape")
-    elif publishes and (name, job_id) != TOKEN_JOB:
+    key = (name, job_id)
+    if key in EXACT_EXEMPT or key in OIDC_SIGNING_JOBS:
+        reason = exempt_problem(key, env, dump(job))
+        if reason:
+            problems.append(f"{where} {reason}")
+    elif publishes and key != TOKEN_JOB:
         if name == "release.yml" and env in UNIT_ENVIRONMENTS:
             if "HF_TOKEN" in text or "id-token" not in text:
                 problems.append(f"{where} is not a plain registry publish")
@@ -169,6 +190,8 @@ def check_all(directory: Path) -> list[str]:
             problems.append(f"{name}: names HF_TOKEN")
         if "id-token" in dump(doc.get("permissions")) and name not in OIDC_WORKFLOWS:
             problems.append(f"{name}: workflow-level id-token")
+        if name in CALLABLE_ONLY and set(triggers(doc)) != {"workflow_call"}:
+            problems.append(f"{name}: a trigger other than workflow_call")
         for job_id, job in (doc.get("jobs") or {}).items():
             if isinstance(job, dict):
                 problems += job_problems(name, doc, job_id, job)
