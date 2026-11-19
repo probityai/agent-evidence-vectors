@@ -12,9 +12,9 @@ checked against the hashes in that file before it runs, and the module set must
 match exactly.
 
 Comparison: the checker's status, verdict and compatible histories for a case
-must equal its pinned expectation (source/checker/EXPECTED.json), event_absence/v2 must return its pinned
-decision (EXPECTED.json), and the checker verdict must map to the same decision
-through PAIRING.json. A change on either side that flips a verdict fails the
+must equal its pinned expectation (source/checker/EXPECTED.json), event_absence/v2
+must return its pinned decision (EXPECTED.json), and the checker verdict must map
+to the same decision through PAIRING.json. A change on either side that flips a verdict fails the
 run, and the failure line says which side moved.
 """
 
@@ -69,7 +69,8 @@ def check_engine(root: str) -> list[str]:
 
 def checker_expectations() -> dict:
     """The checker's pinned verdict and compatible histories per case, from his EXPECTED.json."""
-    return {c["id"]: c["checker_expected"] for c in _load("source", "checker", "EXPECTED.json")["cases"]}
+    cases = _load("source", "checker", "EXPECTED.json")["cases"]
+    return {c["id"]: c["checker_expected"] for c in cases}
 
 
 def run_checker(root: str, case: str) -> dict:
@@ -89,7 +90,9 @@ def run_checker(root: str, case: str) -> dict:
     return json.loads(done.stdout)
 
 
-def compare(cases, checker_out, probity_out, checker_expected, probity_expected, mapping) -> list[str]:
+def compare(
+    cases, checker_out, probity_out, checker_expected, probity_expected, mapping
+) -> list[str]:
     """Pure comparison; returns one line per disagreement."""
     bad = []
     for case in cases:
@@ -106,7 +109,10 @@ def compare(cases, checker_out, probity_out, checker_expected, probity_expected,
             bad.append(f"{case}: checker side moved: status {got_c.get('status')!r}, {have_c}, "
                        f"pinned {want_c['verdict']!r} {want_c['compatible_histories']}")
         if got_p != probity_expected[case][SCOPE]:
-            bad.append(f"{case}: event_absence/v2 side moved: expected {probity_expected[case][SCOPE]}, got {got_p}")
+            bad.append(
+                f"{case}: event_absence/v2 side moved: "
+                f"expected {probity_expected[case][SCOPE]}, got {got_p}"
+            )
         verdict = got_c.get("result", {}).get("verdict")
         if mapping.get(verdict) != got_p["decision"]:
             bad.append(f"{case}: the two sides disagree: checker {verdict!r} maps to "

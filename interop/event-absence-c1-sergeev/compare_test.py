@@ -14,7 +14,13 @@ import compare  # noqa: E402
 HERE = os.path.dirname(os.path.abspath(__file__))
 CASES = ["C1-01-covered-empty", "C1-02-event-with-gap", "C1-03-empty-with-gap"]
 MAP = json.load(open(os.path.join(HERE, "PAIRING.json")))["verdict_to_decision"]
-C_EXP = {c: {"status": "ok", "result": {"verdict": e["verdict"], "compatible_histories": e["compatible_histories"]}} for c, e in compare.checker_expectations().items()}
+C_EXP = {
+    c: {
+        "status": "ok",
+        "result": {"verdict": e["verdict"], "compatible_histories": e["compatible_histories"]},
+    }
+    for c, e in compare.checker_expectations().items()
+}
 C_WANT = compare.checker_expectations()
 P_EXP = json.load(open(os.path.join(HERE, "EXPECTED.json")))["cases"]
 P_PEER = {c: P_EXP[c]["PEER"] for c in CASES}
