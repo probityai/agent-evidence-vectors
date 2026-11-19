@@ -7,8 +7,36 @@ follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## 0.1.4
 
+### Fixed
+
+- `admit_ijson` refused an integer token at or above 2^53 but admitted a fraction whose nearest
+  double is at or above 2^53, such as `12345678901234567.5`, and emitted the unsafe integer
+  `12345678901234568`, which it then refused as input and `is_canonical_with` reported as not
+  canonical. It now refuses that token with `UnsafeInteger`. `9007199254740991.4`, which rounds
+  into the safe range, is still admitted. RFC 8785 as written (`admit`) is unchanged.
+- The `StringNotScalar` message read "JSON string is not a sequence of Unicode scalar values"
+  for every string refusal, including a Unicode noncharacter and a raw control character,
+  which are scalar values. It now reads "JSON string literal refused at byte N: <reason>", and
+  the noncharacter reason says it is a scalar value the I-JSON profile refuses. The variant and
+  its fields are unchanged.
+- A noncharacter written raw inside a longer run of text was reported at the start of the run.
+  The offset is now the noncharacter's own first byte, as it already was for an escape.
+- Ill-formed UTF-8 inside a longer run of text had the same fault: `{"k":"ab\xff"}` was reported
+  at byte 6, the start of the run, where the Go rail reports the bad byte. The offset is now the
+  first byte of the ill-formed sequence (byte 8), and the `offset` field's documentation names
+  the byte each refusal in the variant points at.
+- Under `admit_ijson`, a noncharacter followed by ill-formed UTF-8 in the same run of text was
+  reported as the later UTF-8 fault, because the run was checked for UTF-8 as a whole before it
+  was searched for noncharacters. The first fault in reading order is now the one reported, as
+  it already was across runs and on the Go rail. Both documents were refused before and are
+  refused now; only the reason and offset changed.
+
 ### Changed
 
+- The `repository` and `homepage` fields now point at
+  https://github.com/probityai/agent-evidence-vectors, where the crate is developed, so the
+  crates.io page links to the live repository. Earlier releases named a repository that is
+  now archived.
 - The `serde_json_canonicalizer` floor is now `0.4.1`, up from `0.3.2`. The new release makes
   the delegate's own serializer refuse a duplicate object key reaching its object assembly
   directly, instead of silently keeping the first one (its `pipe` and `Value` entry points are
