@@ -297,6 +297,33 @@ def _cases() -> list[dict[str, Any]]:
             _expect(N, N, N, E, N, E, E),
         ),
         (
+            "v1_reconciliation_file_missing_capacity_held",
+            V1,
+            "resolved",
+            "The reply is lost and the agent times out. The search by reference finds nothing,"
+            " and the reconciliation cycle's file never arrives, so no record of a reconciliation"
+            " close exists. A missing file asserts nothing in either direction: the agent keeps"
+            " holding capacity and the deal stays open for operations.",
+            [
+                bs(record("absent", minute=1)),
+                ag(ledger(timed_out=True, released=False, copy_used=LIVE)),
+            ],
+            _expect(N, N, N, N, N, N, N),
+        ),
+        (
+            "v1_reconciliation_file_missing_read_as_empty_released",
+            V1,
+            "release_backed",
+            "The search by reference finds nothing and the reconciliation cycle's file never"
+            " arrives. The agent reads the missing file as an empty one and releases capacity."
+            " No record of a reconciliation close exists, so nothing backs the release.",
+            [
+                bs(record("absent", minute=1)),
+                ag(ledger(timed_out=True, released=True, copy_used=GONE)),
+            ],
+            _expect(N, N, N, C, N, N, N),
+        ),
+        (
             "v1_late_booking_released_at_search_not_found",
             V1,
             "release_backed",
@@ -444,6 +471,40 @@ def _cases() -> list[dict[str, Any]]:
                 ag(ledger(timed_out=False, released=True, copy_used=GONE)),
             ],
             _expect(E, N, N, C, E, C, N),
+        ),
+        (
+            "v2_lp_timeout_cancel_confirmed_once",
+            V2,
+            "all",
+            "The booking is acknowledged and the liquidity provider's reply times out, so no"
+            " liquidity provider result exists. The timeout is handled like a rejection: the"
+            " agent cancels once, the booking system confirms one cancel event, and capacity is"
+            " released afterwards. The copy of the limit matches.",
+            [
+                bs(ack()),
+                bs(record("booked", minute=1)),
+                bs(reply("confirmed", "EV-1")),
+                bs(record("cancelled", events=(ev1_agent,), minute=3)),
+                bs(usage(GONE)),
+                ag(ledger(timed_out=False, released=True, copy_used=GONE, claims=True)),
+            ],
+            _expect(E, E, E, E, E, E, E),
+        ),
+        (
+            "v2_lp_timeout_read_as_filled_left_open",
+            V2,
+            "resolved",
+            "The booking is acknowledged and the liquidity provider's reply times out. The agent"
+            " reads the silence as a fill and does nothing: no cancel, capacity held. With no"
+            " liquidity provider result the booking is not in the state the trade intends, so it"
+            " stays open for operations.",
+            [
+                bs(ack()),
+                bs(record("booked")),
+                bs(usage(LIVE)),
+                ag(ledger(timed_out=False, released=False, copy_used=LIVE)),
+            ],
+            _expect(E, N, N, N, E, E, N),
         ),
         (
             "v3_ops_reversed_first_agent_skips_cancel",
