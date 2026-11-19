@@ -1,6 +1,6 @@
 {
   "source": "vocabulary.yaml",
-  "source_sha256": "bd2607ba1d0b4e34d3c869c8c7984cdefbcb90a15112dfd4515ccca54ee3e612",
+  "source_sha256": "0241fae4b3be439b2a0ad1a8481282bc9610ddfb23708757babd443f29e4d2a9",
   "term_uri_base": "https://w3id.org/agent-evidence/vocab/v1/",
   "terms": {
     "acceptance_observed": {
@@ -52,6 +52,14 @@
         "authority"
       ]
     },
+    "anchor_early_allowance": {
+      "criticality": "critical",
+      "definition": "The number of seconds by which a record's external time anchor may precede the record's issuance time: the early bound on the anchor. It is an integer between 0 and 2^53-1. An anchor commits to bytes that already exist, so an anchor earlier than issuance means the issuance time was written later than the record existed, which makes the record read fresher than it is, unless the anchor's clock runs behind. A block header time may be set earlier than the moment its block was made, so this allowance covers that clock error and nothing else. It is the early bound's own allowance: block_time_allowance widens the late bound only, and neither value widens the other bound.",
+      "section": "evaluation_claim",
+      "uri": "https://w3id.org/agent-evidence/vocab/v1/anchor_early_allowance",
+      "value_definitions": {},
+      "values": null
+    },
     "anchor_time_rule": {
       "criticality": "critical",
       "definition": "The rule by which a commitment_anchor's ceiling is derived, and the required companion of commitment_anchor: anchored, header_time_plus_tolerance means ceiling = anchor_time + anchor_time_tolerance_s (right where the clock states its own accuracy, as an RFC 3161 TSA does; for Bitcoin only a convention, since nothing caps how far a header time may lag). later_median means ceiling = the median time of the 11 blocks after the anchor block, on the stated assumption that a majority of those timestamps are honest. height means the outcome is ordered by the same chain, and precedence holds only if the anchor height is strictly below the outcome height, with no time compared. Absent means header_time_plus_tolerance, for records written before the field existed. A rule whose inputs are missing establishes nothing.",
@@ -62,6 +70,30 @@
         "header_time_plus_tolerance",
         "later_median",
         "height"
+      ]
+    },
+    "anchor_within": {
+      "criticality": "critical",
+      "definition": "The number of seconds after a record's issuance time within which its external time anchor must fall: the late bound on the anchor. It is an integer between 0 and 2^53-1. The anchor's own uncertainty is added to this bound by block_time_allowance where the anchor's clock lags its commitment; the bound is checked with equality allowed, so an anchor exactly at issuance plus anchor_within plus the allowance is in time.",
+      "section": "evaluation_claim",
+      "uri": "https://w3id.org/agent-evidence/vocab/v1/anchor_within",
+      "value_definitions": {},
+      "values": null
+    },
+    "asserted_verdict": {
+      "criticality": "critical",
+      "definition": "The outcome of checking a verdict a record asserts about its own inputs. A signature over an asserted verdict proves who asserted it, never that it is right: the key that is entitled to sign can sign a verdict its own inputs refute. So an asserted verdict is read only through re-derivation, and a verifier that trusts the asserted field accepts every such record.",
+      "section": "evaluation_claim",
+      "uri": "https://w3id.org/agent-evidence/vocab/v1/asserted_verdict",
+      "value_definitions": {
+        "asserted_verdict_contradicted": "The re-derived verdict differs from the asserted one. The record is refused, whoever signed it.",
+        "evaluator_unknown": "The record names no evaluator, or one the verifier does not hold. The asserted verdict is reported and nothing is decided.",
+        "rederived_agrees": "The verifier re-derived the verdict from the recorded inputs under the named evaluator and got the verdict the record asserts."
+      },
+      "values": [
+        "rederived_agrees",
+        "asserted_verdict_contradicted",
+        "evaluator_unknown"
       ]
     },
     "assessment_availability": {
@@ -134,6 +166,50 @@
         "empty_tree"
       ]
     },
+    "block_time_allowance": {
+      "criticality": "critical",
+      "definition": "The seconds added to a time bound to cover the uncertainty of the clock behind an anchor, stated per bound. A block-chain header time trails the commitment it carries by confirmation latency and may be set loosely by the miner, so a bound compared against it needs an allowance; a bound compared against a clock that states its own accuracy does not. The allowance belongs to the bound it widens and is never shared: this term widens the late anchor bound, anchor_early_allowance is the early anchor bound's own, and neither widens the future bound on issuance.",
+      "section": "evaluation_claim",
+      "uri": "https://w3id.org/agent-evidence/vocab/v1/block_time_allowance",
+      "value_definitions": {},
+      "values": null
+    },
+    "canonicalization": {
+      "criticality": "critical",
+      "definition": "The rule that turns a record, or the object a digest names, into the bytes that are hashed or signed. A digest or signature without a declared canonicalization cannot be recomputed by a second party: two correct implementations that guess differently get different bytes and one of them reports a forgery that is not there. The two safe-integer profiles are different rules, not two spellings of one: jcs_safe_integer_v1 allows fractions and judges the parsed double, jcs_integer_only_v1 refuses any fraction or exponent. A verifier never substitutes one for the other, never reads plain rfc8785 as either, and never reads a refusal by a declared profile as a failure of the record under rfc8785.",
+      "section": "record_binding",
+      "uri": "https://w3id.org/agent-evidence/vocab/v1/canonicalization",
+      "value_definitions": {
+        "cbor_deterministic": "The deterministic encoding of RFC 8949 section 4.2.1: preferred serialization, definite lengths and map keys sorted by their encoded bytes.",
+        "jcs_integer_only_v1": "RFC 8785 restricted to integer numbers: every number token is an integer of magnitude below 2^53, written without a fraction or an exponent, and never -0 (RFC 8785 writes it as 0, a rewrite this profile refuses). Any other number token puts the object outside this profile, which is a refusal by declared profile and not a canonicalization failure. Duplicate member names, lone surrogates and invalid UTF-8 are refused before parsing.",
+        "jcs_safe_integer_v1": "RFC 8785, plus one refusal applied to the parsed double: a number token whose nearest double is an integer of magnitude 2^53 or more is refused, whether the token was written as an integer, with a fraction or with an exponent. Fractions below that magnitude are allowed. Duplicate member names, lone surrogates and invalid UTF-8 are refused before parsing.",
+        "raw": "No canonicalization: the digest or signature covers the exact bytes as transmitted or stored, and a verifier must hold those exact bytes.",
+        "rfc8785": "The JSON Canonicalization Scheme of RFC 8785, applied to the parsed value. Numbers are serialized from their IEEE 754 double, so two number tokens with the same nearest double give the same bytes."
+      },
+      "values": [
+        "rfc8785",
+        "jcs_safe_integer_v1",
+        "jcs_integer_only_v1",
+        "cbor_deterministic",
+        "raw"
+      ]
+    },
+    "check_outcome": {
+      "criticality": "critical",
+      "definition": "The outcome of one check inside a verification that runs its checks in a fixed order and stops at the first failure. Every check after the first failure is not_evaluated, never pass: a report that lists later checks as passing claims they held when they never ran. A report lists every check of the profile, in order, with its outcome.",
+      "section": "evaluation_claim",
+      "uri": "https://w3id.org/agent-evidence/vocab/v1/check_outcome",
+      "value_definitions": {
+        "fail": "The check ran and its condition did not hold.",
+        "not_evaluated": "The check did not run: an earlier check in the profile's order failed, or its inputs were absent.",
+        "pass": "The check ran and its condition held."
+      },
+      "values": [
+        "pass",
+        "fail",
+        "not_evaluated"
+      ]
+    },
     "claim_subject": {
       "criticality": "critical",
       "definition": "The class of subject a claim is about. A claim at one class is never evidence at another: a result about a tool's definition says nothing about an agent that called it, and a result about an agent's run says nothing about the organization that operates it. A consumer MUST NOT satisfy a requirement stated at one class with a claim carrying another, and a claim with no declared class MUST be treated as not satisfying any class-specific requirement.",
@@ -158,6 +234,14 @@
       "value_definitions": {},
       "values": null
     },
+    "clock_skew_tolerance": {
+      "criticality": "critical",
+      "definition": "The seconds by which a record's issuance time may lie in the verifier's future. Freshness is asymmetric: the past bound is the record's maximum age plus the uncertainty allowed for its clock, and the future bound is the skew tolerance alone, never the maximum age. A symmetric check of the absolute age against the maximum age admits a record issued up to the maximum age in the future, which is a record that cannot exist yet.",
+      "section": "evaluation_claim",
+      "uri": "https://w3id.org/agent-evidence/vocab/v1/clock_skew_tolerance",
+      "value_definitions": {},
+      "values": null
+    },
     "commitment_anchor": {
       "criticality": "critical",
       "definition": "Whether the latest possible time a record existed (its CEILING) is PROVEN by an external anchor over a digest that recomputes from the record, or merely ASSERTED by the issuer. The mirror of issuance_time_basis: that term proves a floor on signing time, this one proves a ceiling on existence. A ceiling is proven only under the anchor_time_rule the record states, because the same proof yields different ceilings under different rules (a Bitcoin anchor under header_time_plus_tolerance and under later_median). anchored therefore requires anchor_time_rule; a record that is anchored without one is read under the rule's stated default and a verifier SHOULD report which rule a verdict used. The anchored digest MUST recompute from the record under a named deterministic procedure, or the record has no anchor for this term. asserted MUST NOT be read as a ceiling at all. A proven ceiling establishes that the bytes existed no later than that time, and nothing about who made them or whether their content is true.",
@@ -168,6 +252,14 @@
         "anchored",
         "asserted"
       ]
+    },
+    "conformance_extension": {
+      "criticality": "informational",
+      "definition": "An identifier an agent card or capability document lists among its declared extensions to state that the records its agent emits are judged by a named corpus revision under a named verifier. The identifier is this term's own URI, https://w3id.org/agent-evidence/vocab/v1/conformance_extension, written inside the signed card, so the statement is covered by the card's signature: removing it invalidates the card. Its params object carries exactly four members, each a non-empty string: corpus (the corpus package name), corpus_version, verifier (the verifier package name) and verifier_version. A version is one exact release in one spelling: a normalized PEP 440 public version (0.7.0, 1.0rc1, 0.7.0.post1, 2.0.dev3) or a SemVer 2.0.0 version without build metadata (1.0.0-rc.1). Leading zeros, spellings PEP 440 normalizes away (1.0-rc1, 1.0.0alpha), an epoch, a local label, build metadata and any range, operator or wildcard are refused. The card lists the extension once. The statement is a claim by the card's signer that a third party checks by running the named verifier on the named corpus; it is never a claim that the agent behaves well.",
+      "section": "evaluation_claim",
+      "uri": "https://w3id.org/agent-evidence/vocab/v1/conformance_extension",
+      "value_definitions": {},
+      "values": null
     },
     "containment_posture": {
       "criticality": "critical",
@@ -223,6 +315,20 @@
       "uri": "https://w3id.org/agent-evidence/vocab/v1/correlation_handle",
       "value_definitions": {},
       "values": null
+    },
+    "coverage_boundary": {
+      "criticality": "critical",
+      "definition": "The stated extent of what a digest or a record stream covers: which event kinds, which trajectory, which copy of an object. Without it an absence cannot be judged: a missing event may be an omission or may never have been in scope, and a digest may bind a copy of the object that no consumer reads. The boundary includes which copy is covered: a digest over one file while the consumer reads another binds nothing the consumer uses.",
+      "section": "record_binding",
+      "uri": "https://w3id.org/agent-evidence/vocab/v1/coverage_boundary",
+      "value_definitions": {
+        "declared": "The record names which events or objects the stream or digest is meant to cover, so an absent one inside the boundary is an omission and one outside it is not.",
+        "undeclared": "The record does not name what it is meant to cover."
+      },
+      "values": [
+        "declared",
+        "undeclared"
+      ]
     },
     "coverage_denominator": {
       "criticality": "critical",
@@ -362,6 +468,30 @@
         "CACHED"
       ]
     },
+    "evaluator": {
+      "criticality": "critical",
+      "definition": "The URI of a published, versioned evaluation function that turns a record's recorded inputs into its verdict. The function is normative and complete: it names its inputs, its output values and the order in which it checks, so two implementations given the same inputs return the same verdict and the same first failing dimension. A version is never edited after publication; a change is a new version under a new URI. The first registered evaluator is https://probityai.github.io/agent-evidence-vectors/evaluator/payment-scope/v1, which judges a payment against the scope a principal granted.",
+      "section": "evaluation_claim",
+      "uri": "https://w3id.org/agent-evidence/vocab/v1/evaluator",
+      "value_definitions": {},
+      "values": null
+    },
+    "evidence_attribution": {
+      "criticality": "critical",
+      "definition": "Which parties a record binds. Two signatures bind two parties to one record. They do not prove the record true, and they do not prove the two parties independent: one operator can hold both keys, and two parties can agree on a false statement. A co-signature that is present and does not verify is not a weaker co-signature; it makes the record unattributed evidence, because the record claims a binding it does not have. A signature under a key that may not speak for its party binds no party either, so the value is decided with key authority: a forger who signs as the agent under a key of his own makes the record unattributed evidence, not co-signed.",
+      "section": "evaluation_claim",
+      "uri": "https://w3id.org/agent-evidence/vocab/v1/evidence_attribution",
+      "value_definitions": {
+        "co_signed": "Two parties with distinct keys signed the same record bytes, both signatures verify, and key authority lets each key speak for its own party.",
+        "single_signed": "One party signed the record, the signature verifies, and key authority lets the key speak for that party.",
+        "unattributed_evidence": "The record carries no verifying signature, a co-signature member that is present does not verify, or key authority refuses a signing key for its party; the evidence is attributed to no party."
+      },
+      "values": [
+        "co_signed",
+        "single_signed",
+        "unattributed_evidence"
+      ]
+    },
     "evidence_origin_class": {
       "criticality": "critical",
       "definition": "Which kind of act produced an evidence item: a document was read, a database or IT system was queried, a person was asked, or a test was performed. The four classes are exhaustive for this registry and closed: an absent, non-string or unregistered value makes the enclosing statement malformed. This says nothing about who produced the item, which origin_kind answers, and nothing about the vantage the item was obtained at, which observation_vantage answers. A verifier MUST NOT read test as a substrate-vantage claim: a test performed by the observed party on itself is a test, and its vantage is artifact. A claim assembled from more than one class SHOULD carry the class per item. A single class declared over a mixed set is a statement about the set's weakest member, in the same composition rule observation_vantage uses.",
@@ -428,6 +558,22 @@
         "produced",
         "errored",
         "empty_reply"
+      ]
+    },
+    "hash_alg": {
+      "criticality": "critical",
+      "definition": "The hash function a digest was computed with. It is named next to the digest and never inferred from the digest's length, because two functions of one length cannot be told apart by length, and a verifier that guesses accepts whichever reading verifies.",
+      "section": "record_binding",
+      "uri": "https://w3id.org/agent-evidence/vocab/v1/hash_alg",
+      "value_definitions": {
+        "sha_256": "SHA-256 of FIPS 180-4, carried as 64 lowercase hex characters.",
+        "sha_384": "SHA-384 of FIPS 180-4, carried as 96 lowercase hex characters.",
+        "sha_512": "SHA-512 of FIPS 180-4, carried as 128 lowercase hex characters."
+      },
+      "values": [
+        "sha_256",
+        "sha_384",
+        "sha_512"
       ]
     },
     "identity_provider": {
@@ -516,6 +662,64 @@
         "unpinned"
       ]
     },
+    "key_authority": {
+      "criticality": "critical",
+      "definition": "What proves that the key a signature verifies under is entitled to speak for the record. A signature proves only that some key signed some bytes. A key carried inside the record, or fetched over a channel the attacker controls, proves nothing about who signed: a forger signs with their own key and ships it alongside. A verdict that the record agrees with its signer needs one of the first three values; none tops out at cannot tell, however well the signature verifies.",
+      "section": "record_binding",
+      "uri": "https://w3id.org/agent-evidence/vocab/v1/key_authority",
+      "value_definitions": {
+        "dnssec_chain": "The key is published in DNS and the verifier validated the DNSSEC chain from a trust anchor it holds to the record that carries the key.",
+        "kt_inclusion": "The key is in a key-transparency log and the verifier checked an inclusion proof against a log head signed by a key it holds.",
+        "none": "The key came only from the record itself or from an unauthenticated fetch.",
+        "pin": "The verifier holds the signer's public key, or its thumbprint, from a source outside the record and the record's own transport."
+      },
+      "values": [
+        "pin",
+        "dnssec_chain",
+        "kt_inclusion",
+        "none"
+      ]
+    },
+    "key_history": {
+      "criticality": "critical",
+      "definition": "The standing of a signing key as of the time a record was issued, read from a key history the verifier holds (authorization start, rotation end, revocation with its effective time and reason). It separates a key rotated out after issuance, which leaves the record valid, from a key that was never authorized at issuance, which makes it a forgery. Without that separation a pre-rotation record and a forgery look the same, and a verifier either refuses every old record or accepts every forged one.",
+      "section": "record_binding",
+      "uri": "https://w3id.org/agent-evidence/vocab/v1/key_history",
+      "value_definitions": {
+        "key_current": "The signing key was authorized when the record was issued, an authorization window that holds the issuance time is still open, and the history records no revocation of the key.",
+        "key_not_authorized_at_issue": "The signing key is known to the history, but its authorization began after the record's issuance time or ended before it by rotation. The record is refused.",
+        "key_revoked": "The signing key was revoked at or before the record's issuance time, or revoked afterwards for compromise with an effective time at or before issuance. The record is refused.",
+        "key_rotated_out": "The signing key was authorized when the record was issued, and every window that held the issuance time has since ended, by an ordinary rotation or by a revocation whose effective time is after issuance. The record stays valid.",
+        "key_unknown": "The verifier holds no history that names the signing key. Nothing is decided: the result is indeterminate, never refused as forged and never accepted."
+      },
+      "values": [
+        "key_current",
+        "key_rotated_out",
+        "key_not_authorized_at_issue",
+        "key_revoked",
+        "key_unknown"
+      ]
+    },
+    "lifecycle_binding": {
+      "criticality": "critical",
+      "definition": "Whether the authenticated execution report names the action the authenticated control authorized, for one decision and one instruction. Records are grouped by (decision, instruction). Every authorizing record in the group, from the issuing and the receiving side, is compared with every execution record in the group; a match on one pair proves nothing about the others. Each digest is computed by the convention declared for its pointer (raw or a named canonicalization), the signature suite is the one the verifier-accepted key binding names (the wire algorithm member is informative only), the key binding is resolved from the record's producer, and a revocation snapshot is required. Hash and signature pre-images are domain-separated: each is a tag naming the format version, the artifact type and whether it is a hash or a signature input, a line feed, then the canonical bytes, and the tags come from a closed registry, so an unregistered tag fails closed and one signature can never be replayed as another artifact type or as a hash. The registry is exactly six ASCII tags of the form agent-evidence/lifecycle-binding/v1/TYPE/PURPOSE, TYPE one of decision, control or execution and PURPOSE one of hash or signature; the pre-image is the tag bytes, one byte 0x0A, then the canonical bytes, with nothing between them and nothing after. A v2 format is a new set of tags, never a respelling of these. Absent evidence is never satisfied. The claim is about records: it never says that the executed bytes themselves were observed.",
+      "section": "evaluation_claim",
+      "uri": "https://w3id.org/agent-evidence/vocab/v1/lifecycle_binding",
+      "value_definitions": {
+        "failure": "The authorized and executed digests differ among admitted, authenticated, unique, actively bound artifacts, an authorizing record disagrees with another authorizing record in the group, or an artifact in the group, or the decision it cites, does not authenticate (its signature fails, or its key is not the one its producer's binding names).",
+        "indeterminate": "Two artifacts in the group share one identity; no winner is chosen and nothing is compared.",
+        "missing": "The group lacks an authorizing record, an execution record, or the decision record it cites.",
+        "not_evaluated": "An artifact needed for the comparison, or the decision it cites, is signed under a key binding that is not active in the supplied revocation snapshot, or the execution cites an instruction no authorization in the supplied set covers.",
+        "satisfied": "Every artifact in the group is admitted, authenticated under an active key binding and unique by identity, and every authorized action digest equals every executed action digest."
+      },
+      "values": [
+        "satisfied",
+        "failure",
+        "missing",
+        "not_evaluated",
+        "indeterminate"
+      ]
+    },
     "material_change_trigger": {
       "criticality": "critical",
       "definition": "The named event that ends a standing claim's validity and obliges a re-assessment: a material change in the circumstances a claim was made about. A record carrying this term states which circumstances were assumed stable, so a later change in one of them is an event a third party can detect by comparison and not a disclosure the observed party is trusted to volunteer. A verifier MUST treat a claim carrying no such statement as making no commitment about its own continued validity, and MUST NOT read the absence as a claim of stability. The trigger is a property of the claim and never a policy threshold: it names what would invalidate the claim, and a consumer's own re-check interval sits on top of it.",
@@ -567,6 +771,14 @@
       "definition": "The exec events an independent observer recorded for a command, with the process's exit status when the observer saw it end, and the order of every file mutation around it. It is what a claim is checked against, and it is usable only from an observation that is independent of the observed party, sees exec and every mutation type, and has complete coverage.",
       "section": "done_verification",
       "uri": "https://w3id.org/agent-evidence/vocab/v1/observed_tool_output",
+      "value_definitions": {},
+      "values": null
+    },
+    "on_behalf_of": {
+      "criticality": "critical",
+      "definition": "The party an agent acted for in the recorded action: a user, an organisation or another agent, named by an identifier the relying party can resolve. It is distinct from the acting entity and from the party that authorized the action, and a record that names only the acting entity cannot answer whose instruction was carried out. The value is a claim inside the signed record, attributed to its signer, and never proof that the named party consented.",
+      "section": "evaluation_claim",
+      "uri": "https://w3id.org/agent-evidence/vocab/v1/on_behalf_of",
       "value_definitions": {},
       "values": null
     },
@@ -883,6 +1095,14 @@
         "not_established"
       ]
     },
+    "sequence_number": {
+      "criticality": "critical",
+      "definition": "The position of a record in its producer's stream for one trajectory, a non-negative integer that starts at 0 and rises by exactly 1 with each record. Together with the link to the previous record's digest (the rule of receipt_chain_link, applied to any stream of records) it lets a verifier tell a dropped, repeated or reordered record from a complete stream. The sequence number alone proves nothing: it is inside the producer's reach, and only the digest link and a head held outside the producer's reach make a gap visible.",
+      "section": "record_binding",
+      "uri": "https://w3id.org/agent-evidence/vocab/v1/sequence_number",
+      "value_definitions": {},
+      "values": null
+    },
     "set_sufficiency": {
       "criticality": "critical",
       "definition": "Whether the evidence SET a claim rests on was relevant and sufficient to reach the claim, held as a separate axis from whether any individual ITEM in it was reliable. A set of items each independently verified can still be too thin to decide, and a single unreliable item can sit inside a set that is otherwise ample. Collapsing the two axes into one pass or fail makes both unsayable. The value is REQUIRED and fail-closed. Absent, non-string or unregistered makes the enclosing statement malformed, and absence is never read as sufficient. A verifier MUST NOT derive this value from item-level verification results, and MUST NOT read sufficient as a statement about any item. insufficient is a result and not an error: it says the assessment ran and the set did not reach the claim. not_assessed says the axis was never examined, and a consumer MUST treat those two as different.",
@@ -893,6 +1113,62 @@
         "sufficient",
         "insufficient",
         "not_assessed"
+      ]
+    },
+    "signature_coverage": {
+      "criticality": "critical",
+      "definition": "How much of a record a verifying signature actually covers. A valid signature that covers part of a record is a true statement about that part and no statement about the rest, and reporting it as plain verified is a false statement about what was proven: whoever chooses which genuine signature to replay chooses one that leaves the members they want to change uncovered. A key that could not be fetched leaves the question unanswered, which is cannot tell and never none.",
+      "section": "record_binding",
+      "uri": "https://w3id.org/agent-evidence/vocab/v1/signature_coverage",
+      "value_definitions": {
+        "endpoint_only": "The signature verifies and covers only the endpoint members (name, target, port, protocol); the other members a consumer acts on are not attested.",
+        "full": "The signature verifies and covers every member of the record a consumer acts on.",
+        "none": "No signature covers the record, or the signature that is present does not verify."
+      },
+      "values": [
+        "full",
+        "endpoint_only",
+        "none"
+      ]
+    },
+    "signer_distinctness": {
+      "criticality": "critical",
+      "definition": "Whether the signers a record counts toward a required number are distinct, both as keys and as authorities. A threshold of signatures is worth what the number of independent authorities behind it is worth: two identifiers for one key, the issuer counted as its own cosigner, or a threshold met by keys of one authority each meet the count and none of them meets the purpose; a count that is simply short is a fifth failure. Applies to agent capability credentials, threshold-signed receipts and any record that requires more than one signer.",
+      "section": "evaluation_claim",
+      "uri": "https://w3id.org/agent-evidence/vocab/v1/signer_distinctness",
+      "value_definitions": {
+        "below_threshold": "Fewer distinct keys sign than the record requires, with no key counted twice: the count is not met at all.",
+        "distinct": "Every signature the record requires verifies, under a different key, and the keys resolve to different authorities.",
+        "key_named_not_signing": "The record names a key as a signer, and no signature in it verifies under that key, including a signer named under an identifier another named signer already uses, whose one signature cannot verify under two keys.",
+        "one_authority_threshold": "A threshold of signers is met by keys that all resolve to one authority.",
+        "one_key_two_ids": "One key is listed under two key identifiers and counted twice toward a required number of signers.",
+        "own_key_as_cosigner": "The issuer's own key is listed among the signers counted toward the required number. The issuer never counts toward that number, so a record that needs the issuer and one other party states a required count of 1."
+      },
+      "values": [
+        "distinct",
+        "key_named_not_signing",
+        "one_key_two_ids",
+        "own_key_as_cosigner",
+        "one_authority_threshold",
+        "below_threshold"
+      ]
+    },
+    "signing_construction": {
+      "criticality": "critical",
+      "definition": "Which bytes a signature over an agent catalog object is computed on. One object family is signed three different ways in normative text and in the field, and a record valid under one construction is invalid or not applicable under the others. The construction is therefore a named, closed parameter of every signature verdict over such an object: a verdict that names no construction cannot be reproduced, and a verifier that tries each construction until one verifies accepts whatever an attacker can make verify under any of them.",
+      "section": "record_binding",
+      "uri": "https://w3id.org/agent-evidence/vocab/v1/signing_construction",
+      "value_definitions": {
+        "ai_catalog_2026_11": "The AI Catalog specification with ADR-0027 and ADR-0028, pinned at Agent-Card/ai-catalog commit e2b425f9e7678a5e6497c5fcff4826d906a4a605: the RFC 8785 canonical form of the trust manifest minus the immediate signature.jws and additionalSignatures members, removed non-recursively, with protected typ ai-catalog-trust-manifest+jws. The same input was defined before ADR-0028 (commit 4a341fae92ba79bebac9cbd927c4c3acbeb534c8, specification line 937) for a string signature.",
+        "ai_catalog_snapshot": "ADR-0028, section on signing catalog snapshots, at the same pinned commit: the RFC 8785 canonical form of the whole catalog minus the immediate root signature.jws and additionalSignatures members, removed non-recursively, with protected typ ai-catalog+jws. Nested Trust Manifests and their signatures stay in the signed bytes.",
+        "ard_draft_bu_00": "draft-bu-dawn-ard-discovery-00 section 3.5: the RFC 8785 canonical form of the trustManifest object minus its signature member, signed as a detached JWS string.",
+        "field_whole_entry": "Measured practice in published catalogs, defined by no normative document: the RFC 8785 canonical form of the whole catalog entry minus trustManifest.signature."
+      },
+      "values": [
+        "ard_draft_bu_00",
+        "ai_catalog_2026_11",
+        "ai_catalog_snapshot",
+        "field_whole_entry"
       ]
     },
     "stop_decision": {
@@ -949,6 +1225,22 @@
         "enforced"
       ]
     },
+    "trajectory_head": {
+      "criticality": "critical",
+      "definition": "What fixes the end of a record stream. A digest chain proves its middle and its start, and says nothing about records cut from the end: the producer, or anyone holding its storage, can truncate the tail and every remaining record still verifies. Only a head signed by a key outside the producer's reach turns \"these records verify\" into \"these are all the records up to this point\". producer_signed fixes the end against a third party who edits storage, never against the producer itself. The head names the stream it closes: a head over a digest and a count alone can be presented as the end of another stream by the same producer, so one stream's head would close a second, truncated one. The signed bytes are the stream identity, the last digest and the count under a signing domain that names the head, so a head signature is never valid as a record signature or the reverse. Exactly: the ASCII bytes agent-evidence/record-binding/v1/trajectory-head, one byte 0x0A, the stream identity, 0x0A, the last digest, 0x0A, then the count in decimal ASCII digits with no sign and no leading zero, with nothing after it. The identity and the digest are the exact strings the head carries, UTF-8 encoded with no normalization; neither may be empty or contain 0x0A, and the count is an integer in 0 to 2^53-1.",
+      "section": "record_binding",
+      "uri": "https://w3id.org/agent-evidence/vocab/v1/trajectory_head",
+      "value_definitions": {
+        "absent": "No signed statement of the stream identity, the last record and the count exists.",
+        "producer_signed": "The stream identity, the digest of the last record and the count are signed only by the producer's own key.",
+        "witnessed": "The stream identity, the digest of the last record and the record count are signed by a witness key whose public half the consumer pinned and the producer does not hold."
+      },
+      "values": [
+        "witnessed",
+        "producer_signed",
+        "absent"
+      ]
+    },
     "trust_root_commitment": {
       "criticality": "critical",
       "definition": "Whether the record names, by digest, the set of issuers the decision point was trusting when it decided. The chain embedded in a record shows which root issued the authority, and not that the decision point had any business trusting that root. The digest is over the canonical bytes of the sorted root set.",
@@ -979,6 +1271,38 @@
         "disagrees",
         "unreachable",
         "not_checked"
+      ]
+    },
+    "vacuity_witness": {
+      "criticality": "critical",
+      "definition": "Whether a property reported as holding on all traces was ever exercised. An all-traces property holds trivially over a model with no honest trace, and a case set that counts such a result as a pass reports coverage it does not have. The witness is a separate, declared check that the guarded state is reachable; a pass whose witness is falsified is a vacuous pass, a code of its own, and the case is recorded as not run.",
+      "section": "evaluation_claim",
+      "uri": "https://w3id.org/agent-evidence/vocab/v1/vacuity_witness",
+      "value_definitions": {
+        "no_witness": "No witness was declared or run for the property.",
+        "vacuous_pass": "The property was reported as holding, and the witness for its precondition is falsified: no honest execution reaches the guarded state, so the property holds because nothing happens. The pass is refused.",
+        "witnessed": "A witness run shows the condition the property guards is reachable: at least one honest execution of the checked model or system reaches the state the property is about."
+      },
+      "values": [
+        "witnessed",
+        "vacuous_pass",
+        "no_witness"
+      ]
+    },
+    "verification_decision": {
+      "criticality": "critical",
+      "definition": "The verifier's decision on one record, with a third outcome beside accept and reject. A two-valued decision forces an undecidable record into one of the two: read as accepted it lets an unknown key through, read as rejected it reports a forgery that is not there. indeterminate is a decision in its own right, carried in the verifier's exit status (0 accepted, 1 rejected, 2 indeterminate) and in its report, and never counted as a pass.",
+      "section": "evaluation_claim",
+      "uri": "https://w3id.org/agent-evidence/vocab/v1/verification_decision",
+      "value_definitions": {
+        "accepted": "Every check the profile requires ran and passed.",
+        "indeterminate": "No check failed, and at least one required check could not be decided from what the verifier holds (an unknown evaluator, an unknown key, an unreachable source).",
+        "rejected": "At least one check ran and failed."
+      },
+      "values": [
+        "accepted",
+        "rejected",
+        "indeterminate"
       ]
     },
     "witness_scope": {

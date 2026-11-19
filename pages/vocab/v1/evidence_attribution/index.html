@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>evidence_attribution: Agent Evidence vocabulary</title>
+<meta name="description" content="The evidence_attribution term of the Agent Evidence vocabulary.">
+<link rel="canonical" href="https://w3id.org/agent-evidence/vocab/v1/evidence_attribution">
+<script type="application/ld+json">
+{
+ "@context": {
+  "owl": "http://www.w3.org/2002/07/owl#",
+  "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+  "skos": "http://www.w3.org/2004/02/skos/core#"
+ },
+ "@graph": [
+  {
+   "@id": "https://w3id.org/agent-evidence/vocab/v1/evidence_attribution",
+   "@type": "skos:Concept",
+   "skos:definition": "Which parties a record binds. Two signatures bind two parties to one record. They do not prove the record true, and they do not prove the two parties independent: one operator can hold both keys, and two parties can agree on a false statement. A co-signature that is present and does not verify is not a weaker co-signature; it makes the record unattributed evidence, because the record claims a binding it does not have. A signature under a key that may not speak for its party binds no party either, so the value is decided with key authority: a forger who signs as the agent under a key of his own makes the record unattributed evidence, not co-signed.",
+   "skos:inScheme": {
+    "@id": "https://w3id.org/agent-evidence/vocab/v1/"
+   },
+   "skos:notation": "evidence_attribution",
+   "skos:prefLabel": "evidence_attribution",
+   "skos:topConceptOf": {
+    "@id": "https://w3id.org/agent-evidence/vocab/v1/"
+   }
+  },
+  {
+   "@id": "https://w3id.org/agent-evidence/vocab/v1/evidence_attribution#co_signed",
+   "@type": "skos:Concept",
+   "rdfs:isDefinedBy": {
+    "@id": "https://w3id.org/agent-evidence/vocab/v1/evidence_attribution"
+   },
+   "skos:definition": "Two parties with distinct keys signed the same record bytes, both signatures verify, and key authority lets each key speak for its own party.",
+   "skos:inScheme": {
+    "@id": "https://w3id.org/agent-evidence/vocab/v1/"
+   },
+   "skos:notation": "co_signed"
+  },
+  {
+   "@id": "https://w3id.org/agent-evidence/vocab/v1/evidence_attribution#single_signed",
+   "@type": "skos:Concept",
+   "rdfs:isDefinedBy": {
+    "@id": "https://w3id.org/agent-evidence/vocab/v1/evidence_attribution"
+   },
+   "skos:definition": "One party signed the record, the signature verifies, and key authority lets the key speak for that party.",
+   "skos:inScheme": {
+    "@id": "https://w3id.org/agent-evidence/vocab/v1/"
+   },
+   "skos:notation": "single_signed"
+  },
+  {
+   "@id": "https://w3id.org/agent-evidence/vocab/v1/evidence_attribution#unattributed_evidence",
+   "@type": "skos:Concept",
+   "rdfs:isDefinedBy": {
+    "@id": "https://w3id.org/agent-evidence/vocab/v1/evidence_attribution"
+   },
+   "skos:definition": "The record carries no verifying signature, a co-signature member that is present does not verify, or key authority refuses a signing key for its party; the evidence is attributed to no party.",
+   "skos:inScheme": {
+    "@id": "https://w3id.org/agent-evidence/vocab/v1/"
+   },
+   "skos:notation": "unattributed_evidence"
+  }
+ ]
+}
+</script>
+<style>
+:root{color-scheme:light dark;--page:#f6f8fb;--surface:#fff;--ink:#14202e;--body:#33404f;--link:#1f4fd1;--rule:#cfd8e3;font-family:system-ui,sans-serif;color:var(--ink);background:var(--page)}
+@media (prefers-color-scheme:dark){:root{--page:#10151b;--surface:#18202a;--ink:#e8edf3;--body:#c3ccd6;--link:#8fb0ff;--rule:#2c3846}}
+*{box-sizing:border-box}body{margin:0;font:400 1rem/1.6 system-ui,sans-serif;background:var(--page)}
+.shell{max-width:52rem;margin-inline:auto;padding-inline:16px}
+header,footer{padding-block:1.25rem}header a{font-weight:700;color:var(--ink);text-decoration:none}
+footer{border-top:1px solid var(--rule);color:var(--body);font-size:.9375rem;margin-top:3rem}
+a{color:var(--link)}p,li,td{color:var(--body)}h1{line-height:1.2}
+code,pre{font-family:ui-monospace,Consolas,monospace;font-size:.875em}code{overflow-wrap:anywhere}
+pre{background:var(--surface);border:1px solid var(--rule);border-radius:6px;padding:1rem;overflow-x:auto}
+blockquote{margin:1rem 0;padding:.25rem 1rem;border-left:4px solid var(--rule);background:var(--surface)}
+table{border-collapse:collapse;display:block;overflow-x:auto}
+th,td{border:1px solid var(--rule);padding:.4rem .6rem;text-align:left;vertical-align:top}
+</style>
+</head>
+<body>
+<header class="shell"><a href="https://github.com/probityai/agent-evidence-vectors">Agent Evidence</a></header>
+<main class="shell">
+<h1><code>evidence_attribution</code></h1>
+<p>Term URI: <a href="https://w3id.org/agent-evidence/vocab/v1/evidence_attribution">https://w3id.org/agent-evidence/vocab/v1/evidence_attribution</a></p>
+<p>Section: <code>evaluation_claim</code>. Criticality: <code>critical</code>.</p>
+<p>Which parties a record binds. Two signatures bind two parties to one record. They do not prove the record true, and they do not prove the two parties independent: one operator can hold both keys, and two parties can agree on a false statement. A co-signature that is present and does not verify is not a weaker co-signature; it makes the record unattributed evidence, because the record claims a binding it does not have. A signature under a key that may not speak for its party binds no party either, so the value is decided with key authority: a forger who signs as the agent under a key of his own makes the record unattributed evidence, not co-signed.</p>
+<h2>Registered values</h2>
+<ul>
+<li id="co_signed"><code>https://w3id.org/agent-evidence/vocab/v1/evidence_attribution#co_signed</code>: Two parties with distinct keys signed the same record bytes, both signatures verify, and key authority lets each key speak for its own party.</li>
+<li id="single_signed"><code>https://w3id.org/agent-evidence/vocab/v1/evidence_attribution#single_signed</code>: One party signed the record, the signature verifies, and key authority lets the key speak for that party.</li>
+<li id="unattributed_evidence"><code>https://w3id.org/agent-evidence/vocab/v1/evidence_attribution#unattributed_evidence</code>: The record carries no verifying signature, a co-signature member that is present does not verify, or key authority refuses a signing key for its party; the evidence is attributed to no party.</li>
+</ul>
+</main>
+<footer><div class="shell">Generated from <a href="https://github.com/probityai/agent-evidence-vectors/blob/main/packages/vocabulary/vocabulary.yaml">vocabulary.yaml</a>. This page describes the current registry. A record is read against the registry its registryDigest names, named on <a href="https://probityai.github.io/agent-evidence/vocab/v1/">the term listing</a>. The term URI does not change once a signed record carries it.</div></footer>
+</body>
+</html>
