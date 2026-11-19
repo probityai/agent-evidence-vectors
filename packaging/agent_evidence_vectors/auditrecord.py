@@ -2844,51 +2844,62 @@ def answer_member(path: str) -> dict[str, Any]:
     return out
 
 
-def _dating_mismatch(declared: dict[str, Any], got: Any) -> str | None:
+def _codes_note(where: str, declared: Any, got: Any) -> list[str]:
+    """A note when a code array differs from the declared one, compared as sets.
+
+    The draft defines verdicts and results, not codes, so a code difference is
+    reported and never scored, in ``set`` and ``dating`` as in the record.
+    """
+    if not isinstance(got, list) or set(declared or []) != set(got):
+        return [f"{where} codes: expected {declared or []}, got {got}"]
+    return []
+
+
+def _dating_mismatch(declared: dict[str, Any], got: Any) -> tuple[list[str], list[str]]:
     if not isinstance(got, dict):
-        return "the answer carries no dating object"
+        return ["the answer carries no dating object"], []
+    normative: list[str] = []
     for name in ("entry", "datedAt", "receipt"):
         if declared.get(name) != got.get(name):
-            return f"dating {name}: expected {declared.get(name)!r}, got {got.get(name)!r}"
-    got_codes = got.get("codes")
-    if not isinstance(got_codes, list) or set(declared.get("codes") or []) != set(got_codes):
-        return f"dating codes: expected {declared.get('codes')}, got {got.get('codes')}"
+            normative.append(f"dating {name}: expected {declared.get(name)!r}, got {got.get(name)!r}")
     want_root = declared.get("delegationRoot") or {}
     got_root = got.get("delegationRoot") if isinstance(got.get("delegationRoot"), dict) else {}
     for name in ("result", "algorithm"):
         if name in want_root and want_root[name] != got_root.get(name):
-            return (f"dating delegationRoot.{name}: expected {want_root[name]!r}, "
-                    f"got {got_root.get(name)!r}")
-    return None
+            normative.append(
+                f"dating delegationRoot.{name}: expected {want_root[name]!r}, "
+                f"got {got_root.get(name)!r}"
+            )
+    return normative, _codes_note("dating", declared.get("codes"), got.get("codes"))
 
 
-def _set_mismatch(declared: dict[str, Any], got: Any) -> str | None:
+def _set_mismatch(declared: dict[str, Any], got: Any) -> tuple[list[str], list[str]]:
     if not isinstance(got, dict):
-        return "the answer carries no set object"
+        return ["the answer carries no set object"], []
+    normative: list[str] = []
     if declared.get("verdict") != got.get("verdict"):
-        return f"set verdict: expected {declared.get('verdict')!r}, got {got.get('verdict')!r}"
-    got_codes = got.get("codes")
-    if not isinstance(got_codes, list) or set(declared.get("codes") or []) != set(got_codes):
-        return f"set codes: expected {declared.get('codes')}, got {got.get('codes')}"
+        normative.append(f"set verdict: expected {declared.get('verdict')!r}, got {got.get('verdict')!r}")
     for name in ("missing", "withinLimit"):
         if name in declared and declared[name] != got.get(name):
-            return f"set {name}: expected {declared[name]}, got {got.get(name)}"
-    return None
+            normative.append(f"set {name}: expected {declared[name]}, got {got.get(name)}")
+    return normative, _codes_note("set", declared.get("codes"), got.get("codes"))
 
 
 def contract_findings(entry: dict[str, Any], answer: dict[str, Any]) -> tuple[list[str], list[str]]:
     """Score one answer against one manifest entry.
 
     Returns the normative findings (verdict, tier, withinLimit, the set result
-    and the dating result) and the reason-parity findings (no emitted code
-    among the codes the entry declares), kept apart as the AEE contract keeps
-    them. Only the normative findings make a member fail: the draft defines
-    verdicts, not codes, so the codes are compared and reported, never scored.
+    and the dating result) and the reason-parity findings (the record's codes,
+    and the code arrays inside ``set`` and ``dating``), kept apart as the AEE
+    contract keeps them. Only the normative findings make a member fail: the
+    draft defines verdicts and results, not codes, so every code array is
+    compared and reported, never scored.
     """
     expected = entry.get("expected") or {}
     verdict = answer.get("verdict")
     codes = answer.get("codes")
     normative: list[str] = []
+    parity: list[str] = []
     if verdict not in conforming_verdicts(entry):
         normative.append(f"expected {sorted(conforming_verdicts(entry))}, got {verdict!r}")
     if not isinstance(codes, list) or not all(isinstance(c, str) for c in codes):
@@ -2898,16 +2909,17 @@ def contract_findings(entry: dict[str, Any], answer: dict[str, Any]) -> tuple[li
     if verdict == "valid" and "derivedTier" in expected and expected["derivedTier"] != tier:
         normative.append(f"derivedTier: expected {expected['derivedTier']!r}, got {tier!r}")
     if "set" in expected:
-        found = _set_mismatch(expected["set"], answer.get("set"))
-        normative.extend([found] if found else [])
+        found, notes = _set_mismatch(expected["set"], answer.get("set"))
+        normative.extend(found)
+        parity.extend(notes)
     elif "dating" in expected:
-        found = _dating_mismatch(expected["dating"], answer.get("dating"))
-        normative.extend([found] if found else [])
+        found, notes = _dating_mismatch(expected["dating"], answer.get("dating"))
+        normative.extend(found)
+        parity.extend(notes)
     elif "withinLimit" in expected and expected["withinLimit"] != answer.get("withinLimit"):
         normative.append(
             f"withinLimit: expected {expected['withinLimit']}, got {answer.get('withinLimit')}"
         )
-    parity: list[str] = []
     declared = set(expected.get("codes") or [])
     if declared and not declared & set(codes):
         parity.append(f"no emitted code {codes} is among the declared codes {sorted(declared)}")
@@ -2945,7 +2957,7 @@ def run_external(root: str, verifier: list[str], report_path: str, rail_note: st
     failures = [f"corpus: {finding}" for finding in _corpus_findings(root, manifest)]
     rows: list[dict[str, Any]] = []
     notes: list[str] = []
-    answered = parity_mismatch = 0
+    answered = parity_mismatch = proposed_differ = 0
     for entry in entries:
         label = f"{entry.get('draftId')} {entry.get('id')}"
         path = os.path.join(root, str(entry.get("file", "")))
@@ -2961,12 +2973,21 @@ def run_external(root: str, verifier: list[str], report_path: str, rail_note: st
         else:
             normative, parity = contract_findings(entry, answer)
         parity_mismatch += int(bool(parity))
-        findings = own + normative
+        text = text_status(entry)
+        # A proposed member tests a rule no published revision states, so a
+        # verifier that differs on it has not failed: its difference is a note.
+        # The corpus's own claims (aggregation) bind whatever the text.
+        scored = normative if text == "published" else []
+        findings = own + scored
         failures.extend(f"{label}: {finding}" for finding in findings)
         notes.extend(f"{label}: {finding}" for finding in parity)
+        if text == "proposed":
+            proposed_differ += int(bool(normative))
+            notes.extend(f"{label} (proposed text, not scored): {finding}" for finding in normative)
         rows.append({"id": entry.get("id"), "draftId": entry.get("draftId"),
-                     "kind": entry.get("kind"),
-                     "conformance": "conform" if not (own or normative) else "fail",
+                     "kind": entry.get("kind"), "text": text,
+                     "conformance": "conform" if not (own or normative) else (
+                         "fail" if findings else "differs-from-proposed"),
                      "conformanceReasons": own + normative, "reasonParityFindings": parity,
                      "status": "pass" if not findings else "fail"})
     for failure in failures:
@@ -2984,7 +3005,12 @@ def run_external(root: str, verifier: list[str], report_path: str, rail_note: st
         "suite": SUITE, "contract": CONTRACT_ID, "rail": "external",
         "verifier": {"command": verifier, "vectorsExecuted": answered, "note": rail_note},
         "corpusDigest": manifest.get("corpusDigest"),
-        "totals": {"vectors": total, "conform": total - failed, "fail": failed,
+        "totals": {"vectors": total,
+                   "conform": sum(1 for row in rows if row["conformance"] == "conform"),
+                   "fail": failed,
+                   "published": sum(1 for row in rows if row["text"] == "published"),
+                   "proposed": sum(1 for row in rows if row["text"] == "proposed"),
+                   "proposedDiffer": proposed_differ,
                    "reasonParityMismatch": parity_mismatch, "suiteRefusals": 0},
         "rows": rows,
         "failures": failures,

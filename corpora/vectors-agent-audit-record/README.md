@@ -154,12 +154,16 @@ The contract, identifier
   `entry`, `codes`, `datedAt` and `receipt` (absent where the entry has none),
   and `delegationRoot.result`, plus `delegationRoot.algorithm` where declared.
 - **Scoring.** The verdict must be one of `conforming_verdicts(entry)`. The tier,
-  `withinLimit`, `set` and `dating` must equal what the entry declares. Code
-  arrays inside `set` and `dating` compare as sets. The record's own `codes`
-  are compared with `expected.codes` and reported under `reasonParityNotes`.
-  They are not scored, because the draft defines verdicts and not codes. Each
-  member's `aggregation` block and the corpus-level claims (counts, digests)
-  are checked by the harness whatever verifier runs.
+  `withinLimit`, the `set` verdict, `missing` and `withinLimit`, and the
+  `dating` entry, `datedAt`, `receipt` and `delegationRoot` must equal what the
+  entry declares. No code array is scored: the record's `codes`, and the code
+  arrays inside `set` and `dating` (compared as sets), are reported under
+  `reasonParityNotes`, because the draft defines verdicts and results and not
+  codes. Only published members are scored. On a proposed member (see "Which
+  text each member tests") a difference is a note, the row reads
+  `differs-from-proposed`, and `totals.proposedDiffer` counts it. Each member's
+  `aggregation` block and the corpus-level claims (counts, digests, text
+  labels) are checked by the harness whatever verifier runs.
 
 The reference reader answers under the same contract, so it can stand in for
 your verifier when you wire the job:

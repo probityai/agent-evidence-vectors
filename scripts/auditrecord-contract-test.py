@@ -55,6 +55,39 @@ def harness(verifier: str, report: Path) -> tuple[int, str]:
     return done.returncode, done.stdout + done.stderr
 
 
+def _scoring_cases(entries: list[dict]) -> list[str]:
+    """Codes inside set and dating are reported, never scored, and a proposed
+    member never fails a verifier. CS7, CS8, CS17, SQ5, X17 and X18 once failed
+    an outside verifier whose set verdicts matched on set codes alone."""
+    sys.path.insert(0, str(ROOT / "packaging"))
+    from agent_evidence_vectors import auditrecord
+
+    out: list[str] = []
+    by_id = {e["draftId"]: e for e in entries}
+    for draft_id in ("CS7", "CS8", "CS17", "SQ5"):
+        entry = by_id[draft_id]
+        expected = entry["expected"]
+        answer = {"verdict": expected["verdict"], "codes": [],
+                  "derivedTier": expected.get("derivedTier", ""),
+                  "set": {**expected["set"], "codes": ["another-name"]}}
+        normative, parity = auditrecord.contract_findings(entry, answer)
+        if normative or not any("set codes" in p for p in parity):
+            out.append(f"{draft_id}: set codes scored ({normative}) or not reported ({parity})")
+        answer["set"]["verdict"] = "valid" if expected["set"]["verdict"] == "malformed" else "malformed"
+        if not auditrecord.contract_findings(entry, answer)[0]:
+            out.append(f"{draft_id}: a wrong set verdict was not scored")
+    dated = next(e for e in entries if "dating" in e["expected"] and e["expected"]["dating"]["codes"])
+    answer = {"verdict": dated["expected"]["verdict"], "codes": [],
+              "derivedTier": dated["expected"].get("derivedTier", ""),
+              "dating": {**dated["expected"]["dating"], "codes": ["another-name"]}}
+    normative, parity = auditrecord.contract_findings(dated, answer)
+    if normative or not parity:
+        out.append(f"{dated['draftId']}: dating codes scored ({normative}) or not reported")
+    if auditrecord.text_status(by_id["CS18"]) != "proposed":
+        out.append("CS18 should be proposed")
+    return out
+
+
 def main() -> int:
     manifest = json.loads((CORPUS / "MANIFEST.json").read_text(encoding="utf-8"))
     entries = manifest["vectors"]
@@ -97,6 +130,7 @@ def main() -> int:
         if status != 1 or out.count("disagrees with verdict") != len(entries):
             failures.append(f"an inverted exit status was not caught on every member (exit {status})")
 
+    failures.extend(_scoring_cases(entries))
     for failure in failures:
         print(f"FAIL {failure}")
     if failures:
