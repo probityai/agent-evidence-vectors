@@ -29,11 +29,15 @@ func init() { register(lifecycleBinding{}) }
 //     integrity block and digests (record_shape);
 //  2. per (decision, instruction) group: a shared record identity anywhere in the
 //     set is indeterminate; an execution no control covers is not_evaluated; a
-//     missing control, execution or cited decision is missing; an artifact that
+//     missing issuer-side control, execution or cited decision is missing (a
+//     receiver-side control alone records what the executor's side received,
+//     never what was allowed); an artifact that
 //     does not authenticate (hash over the domain-tagged RFC 8785 bytes, then an
 //     Ed25519 signature over the tagged {current, suite} object) is a failure; a
 //     producer the revocation snapshot does not list as active is not_evaluated;
-//     then every authorized digest is compared with every executed digest;
+//     an issuer-side control signed by a key that signs an execution in the group
+//     is a failure, under any producer name; then every authorized digest is
+//     compared with every executed digest;
 //  3. the set's answer is failure when any group fails, else the first of
 //     indeterminate, not_evaluated and missing, else satisfied. A set with no
 //     group is missing, or empty_denominator when it holds no record.
@@ -320,6 +324,21 @@ func lbFromHex(text string) ([]byte, error) {
 	}, text))
 }
 
+// lbSelfAuthorized reports an issuer-side control signed by a key that signs an
+// execution in the group, whatever producer name each is bound under.
+func lbSelfAuthorized(controls, executions []lbRecord, bindings map[string]lbBinding) bool {
+	executing := map[string]bool{}
+	for _, e := range executions {
+		executing[bindings[e.producer].PublicKeyHex] = true
+	}
+	for _, control := range controls {
+		if control.side == "issuer" && executing[bindings[control.producer].PublicKeyHex] {
+			return true
+		}
+	}
+	return false
+}
+
 type lbGroupKey struct{ decision, instruction string }
 
 // lbGroupStates gives each (decision, instruction) group one state, in the
@@ -350,11 +369,13 @@ func lbGroupStates(records []lbRecord, c lbCase) map[string]bool {
 func lbGroupState(key lbGroupKey, members []lbRecord, decisions map[string]lbRecord,
 	counts map[string]int, c lbCase) string {
 	var controls, executions []lbRecord
+	issuerSide := false
 	shared := counts[key.decision] > 1
 	for _, m := range members {
 		shared = shared || counts[m.id] > 1
 		if m.kind == "control" {
 			controls = append(controls, m)
+			issuerSide = issuerSide || m.side == "issuer"
 		} else {
 			executions = append(executions, m)
 		}
@@ -365,7 +386,7 @@ func lbGroupState(key lbGroupKey, members []lbRecord, decisions map[string]lbRec
 		return "indeterminate"
 	case len(executions) > 0 && len(controls) == 0:
 		return "not_evaluated"
-	case len(controls) == 0 || len(executions) == 0 || !cited:
+	case !issuerSide || len(executions) == 0 || !cited:
 		return "missing"
 	}
 	checked := append([]lbRecord{decision}, members...)
@@ -378,6 +399,9 @@ func lbGroupState(key lbGroupKey, members []lbRecord, decisions map[string]lbRec
 		if c.Revocation[r.producer].State != "active" {
 			return "not_evaluated"
 		}
+	}
+	if lbSelfAuthorized(controls, executions, c.Bindings) {
+		return "failure"
 	}
 	authorized, executed := map[string]bool{}, map[string]bool{}
 	for _, control := range controls {
