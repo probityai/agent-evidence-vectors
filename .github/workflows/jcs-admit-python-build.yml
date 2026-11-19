@@ -3,7 +3,7 @@ name: jcs-admit-python-build
 # Builds the jcs-admit Python binding in crates/jcs-admit/python: one abi3
 # wheel per platform (manylinux 2_28 and musllinux 1_2 on x86_64 and aarch64,
 # macOS on both, Windows x64), seven in all, plus the source distribution. The
-# matrix is the one probityai/jcs-admit used before its import. release.yml
+# matrix is the one probityai-archive/jcs-admit used before its import. release.yml
 # calls this on a jcs-admit-py-v<version> release, checks the eight files with
 # scripts/check-jcs-admit-python-release.py and publishes them. Nothing here
 # publishes.

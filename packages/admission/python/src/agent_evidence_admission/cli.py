@@ -13,6 +13,10 @@ client enforces natively; exit 0 when every server was rendered for every client
 a client could not express a server exactly (the other files are still written), 2 when the admit
 list could not be read or is invalid, or the files could not be written.
 
+``agent-evidence-admission resolve-verdicts <answers>``: print the strictest verdict among the answers
+several policies gave one action (``docs/VERDICT-PRECEDENCE.md``); exit 0 when one was resolved, 2 when
+the answers are empty, unregistered or could not be read, so no decision is ever read as ``allow``.
+
 ``agent-evidence-admission conformance run|replay|verify``: sign, replay and check conformance
 result records; see ``conformance_cli``.
 """
@@ -35,6 +39,7 @@ from .digest_check import check as digest_check
 from .digest_check import parse_document, read_source
 from .generate import CLIENTS, generate, parse_admit_list
 from .generate import format_report as format_generate_report
+from .verdict_precedence import resolve
 
 
 def _parser() -> argparse.ArgumentParser:
@@ -65,6 +70,12 @@ def _parser() -> argparse.ArgumentParser:
     gen.add_argument("--out", required=True, help="directory to write the generated files into")
     gen.add_argument("--client", action="append", choices=CLIENTS, help="a client to generate for; repeat it; default every client")
     gen.add_argument("--json", action="store_true", help="print the report as JSON")
+    verdicts = commands.add_parser(
+        "resolve-verdicts",
+        help="resolve the verdicts several policies gave one action: strictest wins (allow < constrain < require_approval < block < halt)",
+    )
+    verdicts.add_argument("answers", help="path or https URL of a JSON list of {policy, verdict[, constraint]} answers")
+    verdicts.add_argument("--json", action="store_true", help="print the resolution as JSON")
     conformance_cli.add_parsers(commands)
     return parser
 
@@ -119,10 +130,25 @@ def _run_generate(args: argparse.Namespace) -> int:
     return 0 if result.ok else 1
 
 
+def _run_resolve(args: argparse.Namespace) -> int:
+    try:
+        document = json.loads(read_source(args.answers))
+        resolution = resolve(document["answers"] if isinstance(document, dict) and "answers" in document else document)
+    except (OSError, ValueError) as error:
+        print(f"ERROR could not resolve: {error}", file=sys.stderr)
+        return 2
+    if args.json:
+        print(json.dumps(resolution.as_dict(), indent=2))
+    else:
+        print(f"{resolution.verdict.upper()} decided by {', '.join(resolution.policies)}")
+    return 0
+
+
 _COMMANDS = {
     "digest-check": _run_digest,
     "coverage-check": _run_coverage,
     "generate": _run_generate,
+    "resolve-verdicts": _run_resolve,
     "conformance": conformance_cli.run,
 }
 

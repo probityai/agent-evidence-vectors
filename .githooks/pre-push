@@ -530,7 +530,10 @@ if [ "$venue" = leak ]; then
 			echo "pre-push: ABORT -- scripts/secret-scan.sh or .gitleaks.toml is missing from $local_sha; refusing to pass a push whose secret scan is absent." >&2
 			exit 1
 		fi
-		bash "$scan_dir/secret-scan.sh" --repo "$src_root" --config "$scan_dir/gitleaks.toml" \
+		# The scan fetches gitleaks through fetch-tool.py, which sits beside it. A
+		# revision that still downloads with curl carries no such file.
+		git -C "$src_root" show "$local_sha:scripts/fetch-tool.py" > "$scan_dir/fetch-tool.py" 2>/dev/null || rm -f "$scan_dir/fetch-tool.py"
+		AEV_PYTHON="$source_python" bash "$scan_dir/secret-scan.sh" --repo "$src_root" --config "$scan_dir/gitleaks.toml" \
 			--range "$base..$local_sha" && secret_status=0 || secret_status=$?
 		case "$secret_status" in
 		0) ;;
