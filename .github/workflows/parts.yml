@@ -72,6 +72,10 @@ jobs:
         run: |
           python3 scripts/readme-lint-test.py
           python3 scripts/readme-lint.py README.md
+      - name: every README and docs page is written for an outside reader
+        run: |
+          python3 scripts/public-voice-lint-test.py
+          python3 scripts/public-voice-lint.py
       - name: the Cargo workspace root reads
         run: cargo metadata --format-version 1 --no-deps > /dev/null
       # A merge to main writes "<pull request title> (#N)" as the merge commit's

@@ -34,6 +34,7 @@ TERM_SECTIONS = (
     "incident_response",
     "multi_agent_run",
     "principal_identity",
+    "decision_receipt",
 )
 CRITICALITY = ("critical", "informational")
 

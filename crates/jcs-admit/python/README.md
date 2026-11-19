@@ -37,3 +37,12 @@ the Rust variant and fields. Each crate's documentation is the reference for wha
 it refuses and why: <https://docs.rs/jcs-admit/0.1.2> and <https://docs.rs/dsse/0.1.6>.
 
 Licensed under MIT or Apache-2.0, at your option.
+
+## Verify the release
+
+Every file of a release carries a PEP 740 attestation naming the GitHub workflow that built it. Check one file:
+
+```sh
+pip install pypi-attestations
+pypi-attestations verify pypi --repository https://github.com/probityai/agent-evidence-vectors pypi:<file name>
+```
