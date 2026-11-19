@@ -559,7 +559,7 @@ def canonical_route(path: Path) -> str | None:
         An HTML route, the predicate prefix, or the registered extensionless
         predicate or contract URI. A directory alias returns ``None``.
     """
-    if path.parts[0] == "contract":
+    if path.parts[0] in ("contract", "evaluator"):
         return None if path.name == "index.html" else path.with_suffix("").as_posix()
     if path.parts[0] != "predicate":
         return path.as_posix()
@@ -633,6 +633,35 @@ def contract_pages(tag: str, routes: Mapping[Path, Path] | None = None) -> dict[
     return pages
 
 
+EVALUATOR_DIR = REPO_ROOT / "spec" / "evaluators"
+
+
+def evaluator_documents() -> list[tuple[Path, Path, Path]]:
+    """Every evaluator document as (source, sibling route, directory route).
+
+    ``spec/evaluators/<name>/<version>.md`` is served at ``evaluator/<name>/<version>``: the
+    sibling ``<version>.html`` answers the extensionless identifier and ``<version>/index.html``
+    the trailing-slash form, as the predicate and contract pages do.
+    """
+    found = []
+    for source in sorted(EVALUATOR_DIR.glob("*/v*.md")):
+        base = Path("evaluator") / source.parent.name / source.stem
+        found.append((source, base.with_suffix(".html"), base / "index.html"))
+    return found
+
+
+def evaluator_pages(tag: str, routes: Mapping[Path, Path] | None = None) -> dict[Path, str]:
+    """One page per published evaluator identifier, served at its exact URL."""
+    selected = published_routes() if routes is None else routes
+    pages: dict[Path, str] = {}
+    for source, sibling, directory in evaluator_documents():
+        name = f"{source.parent.name}/{source.stem}"
+        for relative in (sibling, directory):
+            body = render_markdown(source, relative, selected)
+            pages[relative] = page(f"Evaluator {name}", body, tag, relative)
+    return pages
+
+
 def page_sources(routes: Mapping[Path, Path]) -> dict[Path, tuple[Path, ...]]:
     """The tracked files each published page is rendered from, keyed by output route.
 
@@ -661,6 +690,9 @@ def page_sources(routes: Mapping[Path, Path]) -> dict[Path, tuple[Path, ...]]:
     for _, name, directory in contract_ids():
         for relative in contract_routes(name):
             sources[relative] = (directory / MANIFEST_NAME, contract_source(directory))
+    for source, sibling, directory in evaluator_documents():
+        sources[sibling] = (source,)
+        sources[directory] = (source,)
     return sources
 
 
@@ -774,6 +806,7 @@ def main(argv: list[str]) -> int:
     pages.update(markdown_pages(tag, routes))
     pages.update(predicate_pages(tag, routes))
     pages.update(contract_pages(tag, routes))
+    pages.update(evaluator_pages(tag, routes))
     for relative, rendered in pages.items():
         target = out / relative
         target.parent.mkdir(parents=True, exist_ok=True)
