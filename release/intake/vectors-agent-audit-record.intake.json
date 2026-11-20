@@ -18,7 +18,7 @@
     "routine": "corpus_digest in corpora/vectors-agent-audit-record/digest.py",
     "routine-file": "corpora/vectors-agent-audit-record/digest.py",
     "serialization": "corpus-routine",
-    "sha256": "51c4317c6adb80c07386b892c51eaff2e9c8ffeb469de9f74bd992d1a1cbe56e",
+    "sha256": "bb94f0aba314bcc901872a8fe81f2f00266bf631572d3c66601e679e08697621",
     "verdicts": {
       "availability-failure": "inconclusive",
       "integrity-failure": "fail"
@@ -30,7 +30,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "8a85250219a47d52729bd8c7d94d711c7415e444aeee3a139cee9d5ffe051c89"
+          "sha256": "90c44f1127698721630d36d1c495b95c865d26389456176f52b8dda855757c22"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [],
@@ -39,7 +39,7 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "8a85250219a47d52729bd8c7d94d711c7415e444aeee3a139cee9d5ffe051c89"
+          "sha256": "90c44f1127698721630d36d1c495b95c865d26389456176f52b8dda855757c22"
         },
         "swapped-in": "ee181acd3e75eb3326e9bec186fa701544b5537e7885e83a0848f67633c15711",
         "test": "swap-and-re-pin"
@@ -53,7 +53,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "8a85250219a47d52729bd8c7d94d711c7415e444aeee3a139cee9d5ffe051c89"
+          "sha256": "90c44f1127698721630d36d1c495b95c865d26389456176f52b8dda855757c22"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [],
@@ -62,21 +62,21 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "8a85250219a47d52729bd8c7d94d711c7415e444aeee3a139cee9d5ffe051c89"
+          "sha256": "90c44f1127698721630d36d1c495b95c865d26389456176f52b8dda855757c22"
         },
         "swapped-in": "856976b53e0398f58f0d56270e38fc677791247c6cf34ca44b7397ff6e0743bb",
         "test": "swap-and-re-pin"
       },
       "path": "corpora/vectors-agent-audit-record/INDEX.md",
       "serialization": "bytes",
-      "sha256": "d5372735f42a48845bb0c295c657e8e30d74b54d25fce6e272dfc95f9d071b16"
+      "sha256": "983238133b2f3a7a108d918a0739d45d50cca5833ac1e42554f1ccae752bef55"
     },
     {
       "consumed": "unconsumed",
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "8a85250219a47d52729bd8c7d94d711c7415e444aeee3a139cee9d5ffe051c89"
+          "sha256": "90c44f1127698721630d36d1c495b95c865d26389456176f52b8dda855757c22"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [],
@@ -85,7 +85,7 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "8a85250219a47d52729bd8c7d94d711c7415e444aeee3a139cee9d5ffe051c89"
+          "sha256": "90c44f1127698721630d36d1c495b95c865d26389456176f52b8dda855757c22"
         },
         "swapped-in": "db98115b37430d8465de3a1b1c9f85a9e832ab9e15b8a375f741c4d656a94aad",
         "test": "swap-and-re-pin"
@@ -99,7 +99,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "8a85250219a47d52729bd8c7d94d711c7415e444aeee3a139cee9d5ffe051c89"
+          "sha256": "90c44f1127698721630d36d1c495b95c865d26389456176f52b8dda855757c22"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [],
@@ -108,7 +108,7 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "8a85250219a47d52729bd8c7d94d711c7415e444aeee3a139cee9d5ffe051c89"
+          "sha256": "90c44f1127698721630d36d1c495b95c865d26389456176f52b8dda855757c22"
         },
         "swapped-in": "79c713ca368ba656c7e7fe9bff5dd1187332160832ebc9661dd4783cf27d4dbe",
         "test": "swap-and-re-pin"
@@ -122,7 +122,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "8a85250219a47d52729bd8c7d94d711c7415e444aeee3a139cee9d5ffe051c89"
+          "sha256": "90c44f1127698721630d36d1c495b95c865d26389456176f52b8dda855757c22"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [],
@@ -131,7 +131,7 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "8a85250219a47d52729bd8c7d94d711c7415e444aeee3a139cee9d5ffe051c89"
+          "sha256": "90c44f1127698721630d36d1c495b95c865d26389456176f52b8dda855757c22"
         },
         "swapped-in": "efa2ac7ca3307bb740e22713a643c48d64b8bb70a995c1dc3d1a03d106a50750",
         "test": "swap-and-re-pin"
@@ -145,7 +145,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "8a85250219a47d52729bd8c7d94d711c7415e444aeee3a139cee9d5ffe051c89"
+          "sha256": "90c44f1127698721630d36d1c495b95c865d26389456176f52b8dda855757c22"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [],
@@ -154,7 +154,7 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "8a85250219a47d52729bd8c7d94d711c7415e444aeee3a139cee9d5ffe051c89"
+          "sha256": "90c44f1127698721630d36d1c495b95c865d26389456176f52b8dda855757c22"
         },
         "swapped-in": "02e98b2bda5352b1bd4bf5ec9b050d20374c51bb0b4b2db841b09dd5206744a1",
         "test": "swap-and-re-pin"
@@ -168,7 +168,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "8a85250219a47d52729bd8c7d94d711c7415e444aeee3a139cee9d5ffe051c89"
+          "sha256": "90c44f1127698721630d36d1c495b95c865d26389456176f52b8dda855757c22"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [],
@@ -177,7 +177,7 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "8a85250219a47d52729bd8c7d94d711c7415e444aeee3a139cee9d5ffe051c89"
+          "sha256": "90c44f1127698721630d36d1c495b95c865d26389456176f52b8dda855757c22"
         },
         "swapped-in": "0ca0695c55320091581b928ccb82146043df4c2ba864fa1432e0d4cfa03d69f2",
         "test": "swap-and-re-pin"
@@ -191,7 +191,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "8a85250219a47d52729bd8c7d94d711c7415e444aeee3a139cee9d5ffe051c89"
+          "sha256": "90c44f1127698721630d36d1c495b95c865d26389456176f52b8dda855757c22"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [],
@@ -200,14 +200,14 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "8a85250219a47d52729bd8c7d94d711c7415e444aeee3a139cee9d5ffe051c89"
+          "sha256": "90c44f1127698721630d36d1c495b95c865d26389456176f52b8dda855757c22"
         },
         "swapped-in": "f20fa7e2324807333e826c8023127fdaefd7823918e04cc37fbd1c693ee13480",
         "test": "swap-and-re-pin"
       },
       "path": "corpora/vectors-agent-audit-record/gen_vectors.py",
       "serialization": "bytes",
-      "sha256": "0da7ceda569b683b80931ee7e0ee184c96f26c6acba78dd37482a6820638bae1"
+      "sha256": "27a3c72711eeb24d8a5f0793a3a612472fdd1f33fc2be32caf1e7865d68dea24"
     }
   ],
   "boundary": {
@@ -1740,22 +1740,6 @@
       "state": "pass"
     },
     {
-      "check": "vee8be250abf867cd",
-      "native": {
-        "reasons": [],
-        "verdict": "accept"
-      },
-      "state": "pass"
-    },
-    {
-      "check": "v4ea76bfc8b989622",
-      "native": {
-        "reasons": [],
-        "verdict": "accept"
-      },
-      "state": "pass"
-    },
-    {
       "check": "v36eedf95c00a5d64",
       "native": {
         "reasons": [],
@@ -1781,6 +1765,22 @@
     },
     {
       "check": "vdbd0cbfedd24a8f7",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v36a6408036bd15f4",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v23e66be3a23024bb",
       "native": {
         "reasons": [],
         "verdict": "accept"
@@ -2166,7 +2166,7 @@
   ],
   "corpus-digest": {
     "serialization": "sha256-listing-v1",
-    "sha256": "b12cb7a28f275858f404fddb1fe2c4be2951a5625e1fde99d463a7971d3229cd"
+    "sha256": "1881cc9d5b2d2284ccb11e84a9695da93fd53a73199daa0664de9e792690feb1"
   },
   "exit-code": 0,
   "exit-rule": "zero-iff-every-check-passes",
@@ -2358,12 +2358,12 @@
       "v3bcc3efbad13217b",
       "vd41f53ed499a1780",
       "va737fb3f9f927f4b",
-      "vee8be250abf867cd",
-      "v4ea76bfc8b989622",
       "v36eedf95c00a5d64",
       "v57a8d487026919d7",
       "v552ab4762cf4b682",
       "vdbd0cbfedd24a8f7",
+      "v36a6408036bd15f4",
+      "v23e66be3a23024bb",
       "v17091ccb23254ec6",
       "ve2802a038120dd2c",
       "vd96413ec87814d0b",
@@ -2413,7 +2413,7 @@
       "v425531073d0c4bd6"
     ],
     "path": "corpora/vectors-agent-audit-record/MANIFEST.json",
-    "sha256": "2058d6be870be9dba386199ca9dfaca58b668b98d78dd707d3ba61d550dd8e38"
+    "sha256": "0489da7165e6847cab47cc02ef49932bee303437458545b479c5779a666b7072"
   },
   "members": [
     {
@@ -4057,24 +4057,6 @@
     {
       "files": [
         {
-          "path": "corpora/vectors-agent-audit-record/retained/vee8be250abf867cd.json",
-          "sha256": "ee8be250abf867cd978dda0f3a1f1443842b9cbe5daa0aa4858a77a183a6c618"
-        }
-      ],
-      "id": "vee8be250abf867cd"
-    },
-    {
-      "files": [
-        {
-          "path": "corpora/vectors-agent-audit-record/retained/v4ea76bfc8b989622.json",
-          "sha256": "4ea76bfc8b989622f86f407acf5def24faf102ef6064990639283beeaae67fff"
-        }
-      ],
-      "id": "v4ea76bfc8b989622"
-    },
-    {
-      "files": [
-        {
           "path": "corpora/vectors-agent-audit-record/retained/v36eedf95c00a5d64.json",
           "sha256": "36eedf95c00a5d64570655d589e82af4196b19345b815dde55cfc98037224609"
         }
@@ -4107,6 +4089,24 @@
         }
       ],
       "id": "vdbd0cbfedd24a8f7"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-agent-audit-record/retained/v36a6408036bd15f4.json",
+          "sha256": "36a6408036bd15f4ee3cdb7f7acc82b434467a6853c81d6ca636d6dd8e71d7e5"
+        }
+      ],
+      "id": "v36a6408036bd15f4"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-agent-audit-record/retained/v23e66be3a23024bb.json",
+          "sha256": "23e66be3a23024bb2b9f619ccbb158a6b7b0da581619050827fe7b4b399ce350"
+        }
+      ],
+      "id": "v23e66be3a23024bb"
     },
     {
       "files": [
@@ -4566,7 +4566,7 @@
       "reference": {
         "path": "release/intake/native/vectors-agent-audit-record.json",
         "serialization": "bytes",
-        "sha256": "8a85250219a47d52729bd8c7d94d711c7415e444aeee3a139cee9d5ffe051c89"
+        "sha256": "90c44f1127698721630d36d1c495b95c865d26389456176f52b8dda855757c22"
       }
     },
     {
@@ -5625,11 +5625,11 @@
     "runs": [
       {
         "process": "run-1",
-        "sha256": "8a85250219a47d52729bd8c7d94d711c7415e444aeee3a139cee9d5ffe051c89"
+        "sha256": "90c44f1127698721630d36d1c495b95c865d26389456176f52b8dda855757c22"
       },
       {
         "process": "run-2",
-        "sha256": "8a85250219a47d52729bd8c7d94d711c7415e444aeee3a139cee9d5ffe051c89"
+        "sha256": "90c44f1127698721630d36d1c495b95c865d26389456176f52b8dda855757c22"
       }
     ],
     "seed": null,
@@ -5839,12 +5839,12 @@
       "v3bcc3efbad13217b",
       "vd41f53ed499a1780",
       "va737fb3f9f927f4b",
-      "vee8be250abf867cd",
-      "v4ea76bfc8b989622",
       "v36eedf95c00a5d64",
       "v57a8d487026919d7",
       "v552ab4762cf4b682",
       "vdbd0cbfedd24a8f7",
+      "v36a6408036bd15f4",
+      "v23e66be3a23024bb",
       "v17091ccb23254ec6",
       "ve2802a038120dd2c",
       "vd96413ec87814d0b",
