@@ -1,7 +1,7 @@
 {
   "verifier": "https://probityai.github.io/probity/verifiers/agent-evidence-verify",
   "checked": 734,
-  "total": 3077,
+  "total": 3163,
   "corpora": [
     {
       "id": "vectors",
@@ -250,6 +250,12 @@
       "disagreements": 0
     },
     {
+      "id": "vectors-lifecycle-binding",
+      "checked": 0,
+      "total": 42,
+      "disagreements": 0
+    },
+    {
       "id": "vectors-mcp-authz",
       "checked": 0,
       "total": 11,
@@ -334,6 +340,12 @@
       "disagreements": 0
     },
     {
+      "id": "vectors-rsa-digestinfo",
+      "checked": 0,
+      "total": 8,
+      "disagreements": 0
+    },
+    {
       "id": "vectors-scitt-cose",
       "checked": 0,
       "total": 27,
@@ -361,6 +373,12 @@
       "id": "vectors-spoofed-tool-output",
       "checked": 47,
       "total": 47,
+      "disagreements": 0
+    },
+    {
+      "id": "vectors-telemetry-evidence",
+      "checked": 0,
+      "total": 36,
       "disagreements": 0
     },
     {
