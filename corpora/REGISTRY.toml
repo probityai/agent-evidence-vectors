@@ -899,3 +899,15 @@ record_class = "report"
 domains = ["grading", "provenance"]
 standards = ["w3c", "ietf-draft", "rfc8785"]
 shapes = ["malformed-input", "wrong-grade"]
+
+[[corpus]]
+id = "vectors-x402-evidence-join"
+path = "corpora/vectors-x402-evidence-join"
+wheel = true
+sdist = true
+title = "x402 offer-to-settlement join"
+summary = "A verifier must accept an x402 payment only when the seller key, signed offer, payment, settlement, ledger and delivery join, and say indeterminate when evidence is absent."
+record_class = "record"
+domains = ["payments", "provenance"]
+standards = ["x402"]
+shapes = ["missing-binding", "tampering", "uncertainty"]
