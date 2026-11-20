@@ -860,6 +860,38 @@ def w3c_selection_claims() -> tuple[Claim, ...]:
     )
 
 
+NIST_AI_300_1_DIR = "interop/nist-ai-300-1"
+
+
+def nist_member_claims() -> tuple[Claim, ...]:
+    """The NIST AI 300-1 member total its README states twice, from its manifest.
+
+    check_vectors.py --counts derives the figure, but nothing held the README's
+    two copies of it to the manifest. Both went unreported until the audit record
+    corpus total walked onto the same integer (235), so they are claims here and
+    fail the day the manifest's member list moves.
+    """
+    manifest = json.loads(source(f"{NIST_AI_300_1_DIR}/MANIFEST.json").read_text(encoding="utf-8"))
+    members = str(len(manifest["members"]))
+    readme = f"{NIST_AI_300_1_DIR}/README.md"
+    return (
+        Claim(
+            readme,
+            "the members the checker reads",
+            "157 rows by both extractions; ",
+            " members over",
+            members,
+        ),
+        Claim(
+            readme,
+            "the test documents in members/",
+            "[INDEX.md](INDEX.md) | ",
+            " test documents",
+            members,
+        ),
+    )
+
+
 def claims(src: Sources) -> tuple[Claim, ...]:
     """Every live count this repository publishes, and what the sources say it is.
 
@@ -868,10 +900,16 @@ def claims(src: Sources) -> tuple[Claim, ...]:
     for it are generated from the registration instead of being typed out a
     fourth time.
     """
-    return declared_claims(src) + reply_claims(src) + w3c_selection_claims() + tuple(
-        claim
-        for directory, total, accept, reject in src.extra
-        for claim in claims_for_corpus(directory, total, accept, reject)
+    return (
+        declared_claims(src)
+        + reply_claims(src)
+        + w3c_selection_claims()
+        + nist_member_claims()
+        + tuple(
+            claim
+            for directory, total, accept, reject in src.extra
+            for claim in claims_for_corpus(directory, total, accept, reject)
+        )
     )
 
 
