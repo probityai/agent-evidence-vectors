@@ -1829,6 +1829,12 @@ jobs:
         run: uv run --extra dev pytest corpora/vectors-responsibility-escalation/tests -q
       - name: htx-cases cases regenerate, force every check and differ from their control by one field
         run: uv run --extra dev pytest corpora/vectors-htx-cases/tests -q
+      - name: telemetry-evidence cases regenerate, agree with the reader, and refuse a reader without pins, coverage or order
+        run: uv run --extra dev pytest corpora/vectors-telemetry-evidence/tests -q
+      - name: lifecycle-binding cases regenerate, agree with the reader, and refuse a first-pair or ungrouped reading
+        run: uv run --extra dev pytest corpora/vectors-lifecycle-binding/tests -q
+      - name: rsa-digestinfo cases regenerate and refuse every block that only ends in the digest
+        run: uv run --extra dev pytest corpora/vectors-rsa-digestinfo/tests -q
       - name: agent-card-receipt cases regenerate and force every check
         run: uv run --extra dev pytest corpora/vectors-agent-card-receipt/tests -q
       - name: credential-release cases regenerate and force every check

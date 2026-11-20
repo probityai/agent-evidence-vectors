@@ -635,6 +635,16 @@ record_class = "record"
 domains = ["authority", "provenance"]
 standards = ["w3c"]
 shapes = ["stale-authority", "replay", "coverage-gap"]
+id = "vectors-lifecycle-binding"
+path = "corpora/vectors-lifecycle-binding"
+wheel = true
+sdist = true
+title = "Lifecycle binding"
+summary = "Records are grouped by decision and instruction; a shared identity is never resolved by order, revocation and domain-separated pre-images are required, and absent evidence is never a match."
+record_class = "record"
+domains = ["authority", "approval", "effects"]
+standards = ["rfc8785"]
+shapes = ["missing-binding", "stale-authority", "forged-signature"]
 
 [[corpus]]
 id = "vectors-mcp-authz"
@@ -817,6 +827,18 @@ standards = ["in-toto"]
 shapes = ["missing-binding", "malformed-input", "stale-authority"]
 
 [[corpus]]
+id = "vectors-rsa-digestinfo"
+path = "corpora/vectors-rsa-digestinfo"
+wheel = true
+sdist = true
+title = "RSA DigestInfo, whole block"
+summary = "An RSA PKCS#1 v1.5 SHA-256 verifier must compare the whole recovered block: bytes before the digest, after a DigestInfo prefix, a SHA-512 OID or a short padding string are refused."
+record_class = "receipt"
+domains = ["provenance"]
+standards = []
+shapes = ["forged-signature", "malformed-input"]
+
+[[corpus]]
 id = "vectors-scitt-cose"
 path = "corpora/vectors-scitt-cose"
 wheel = true
@@ -875,6 +897,18 @@ record_class = "execution-evidence"
 domains = ["effects", "completion", "grading"]
 standards = []
 shapes = ["self-report", "tampering"]
+
+[[corpus]]
+id = "vectors-telemetry-evidence"
+path = "corpora/vectors-telemetry-evidence"
+wheel = true
+sdist = true
+title = "Telemetry evidence: digests and event logs"
+summary = "Each digest binds the copy the consumer reads, N of N, under a declared canonical form; a repeated member, a self-carried key and 0 of 0 are refused, and so is each of six log edits."
+record_class = "chain"
+domains = ["provenance", "transparency", "canonicalization"]
+standards = ["rfc8785"]
+shapes = ["missing-binding", "tampering", "coverage-gap"]
 
 [[corpus]]
 id = "vectors-test-tampering"
