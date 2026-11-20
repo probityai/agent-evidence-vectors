@@ -85,7 +85,7 @@ func TestVerdictLinesMatchEveryManifest(t *testing.T) {
 			}
 		}
 	}
-	if len(lines) != total || total != 288+37+40 {
+	if len(lines) != total || total != 288+45+54 {
 		t.Fatalf("%d lines for %d members", len(lines), total)
 	}
 }
