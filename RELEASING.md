@@ -37,7 +37,7 @@ is specific rather than a gesture at semver:
 - **A case is added, changed or removed, or a corpus contract changes.** A rail
   that passed the corpus at the previous tag may fail at this one through no
   change of its own, and a consumer pins one release exactly, so its Dependabot
-  bump of a patch must not turn it red (ruling P-48 step 2). Whether a new case
+  bump of a patch must not turn it red. Whether a new case
   happens to be one every conforming rail already handles cannot be checked by
   a machine, so every case change is treated as one that can. Until v0.38.0 this
   line allowed a new case in a patch, and v0.37.1 shipped four trade-booking
