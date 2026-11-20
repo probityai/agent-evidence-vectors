@@ -386,6 +386,9 @@ func srrDecode(raw []byte) (any, error) {
 	if !utf8.Valid(raw) {
 		return nil, fmt.Errorf("the member is not valid UTF-8")
 	}
+	if err := refuseRepeatedMembers(raw); err != nil {
+		return nil, err
+	}
 	dec := json.NewDecoder(bytes.NewReader(raw))
 	dec.UseNumber()
 	var value any

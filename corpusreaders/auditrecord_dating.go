@@ -702,6 +702,9 @@ func arDate(envelope any, entryRaw any, issuedAt, rootDigest string, heads []arT
 // arUnwrapRetained returns the envelope bytes and the parsed bundle of a
 // retained member's file.
 func arUnwrapRetained(raw []byte) ([]byte, map[string]any, error) {
+	if err := refuseRepeatedMembers(raw); err != nil {
+		return nil, nil, err
+	}
 	decoder := json.NewDecoder(bytes.NewReader(raw))
 	decoder.UseNumber()
 	var bundle map[string]any

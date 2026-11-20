@@ -279,6 +279,9 @@ func intakeSourceListing(root string, paths []string) (string, bool) {
 // intakeDecodeStrict parses one JSON value and refuses trailing data, as
 // Python's json.loads does.
 func intakeDecodeStrict(raw []byte) (any, error) {
+	if err := refuseRepeatedMembers(raw); err != nil {
+		return nil, err
+	}
 	dec := json.NewDecoder(bytes.NewReader(raw))
 	dec.UseNumber()
 	var value any

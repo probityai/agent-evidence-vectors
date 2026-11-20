@@ -206,6 +206,9 @@ type rceVal struct {
 }
 
 func rceParse(raw []byte) (*rceVal, error) {
+	if err := refuseRepeatedMembers(raw); err != nil {
+		return nil, err
+	}
 	dec := json.NewDecoder(bytes.NewReader(raw))
 	dec.UseNumber()
 	v, err := rceDecode(dec)

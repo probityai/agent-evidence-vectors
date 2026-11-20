@@ -78,6 +78,9 @@ func recordedPointer(subject []byte, pointer string) (int64, bool) {
 	if !strings.HasPrefix(pointer, "/") {
 		return 0, false
 	}
+	if refuseRepeatedMembers(subject) != nil {
+		return 0, false
+	}
 	decoder := json.NewDecoder(bytes.NewReader(subject))
 	decoder.UseNumber()
 	var doc any

@@ -215,6 +215,9 @@ func cdVerify(envelope map[string]any, key []byte) ([]byte, bool) {
 
 // cdStatement parses the signed payload and checks the Statement and predicate shape.
 func cdStatement(payload []byte, predicateType string) (map[string]any, map[string]any, bool) {
+	if refuseRepeatedMembers(payload) != nil {
+		return nil, nil, false
+	}
 	dec := json.NewDecoder(bytes.NewReader(payload))
 	dec.UseNumber()
 	var statement map[string]any

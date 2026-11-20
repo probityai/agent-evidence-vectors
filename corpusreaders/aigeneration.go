@@ -499,6 +499,9 @@ func newAGSubject(dir string, v agVector, body, trailer []byte) (*agSubject, str
 }
 
 func agDecode(raw []byte) (any, error) {
+	if err := refuseRepeatedMembers(raw); err != nil {
+		return nil, err
+	}
 	dec := json.NewDecoder(bytes.NewReader(raw))
 	dec.UseNumber()
 	var value any
