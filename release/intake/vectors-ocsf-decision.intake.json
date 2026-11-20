@@ -1,11 +1,11 @@
 {
   "aggregate": {
     "counts": {
-      "accept": 6,
-      "reject": 22
+      "accept": 7,
+      "reject": 26
     },
     "line": "verdict: every member behaves as MANIFEST.json declares",
-    "total": 28
+    "total": 33
   },
   "anchor": {
     "kind": "digest-list-line",
@@ -17,7 +17,7 @@
     "routine": "corpus_digest in corpora/vectors-ocsf-decision/digest.py",
     "routine-file": "corpora/vectors-ocsf-decision/digest.py",
     "serialization": "corpus-routine",
-    "sha256": "07cb41d6794f598d286df28222beb96b1ea3bbee894f96b85ee432e2e67b0031",
+    "sha256": "f0ceef28cc6129acdc0028e3a02139d1604f89d0a2a1b13f1d198ae654b0bfcb",
     "verdicts": {
       "availability-failure": "inconclusive",
       "integrity-failure": "fail"
@@ -29,7 +29,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "2faf6500266abf3493f8824063a18e85566b3cf760b88cd51a3dd11b55291604"
+          "sha256": "c3887d8525824b28756b9902624e885969a180e61979bf07aa97989fc94edb7d"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [],
@@ -38,21 +38,21 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "2faf6500266abf3493f8824063a18e85566b3cf760b88cd51a3dd11b55291604"
+          "sha256": "c3887d8525824b28756b9902624e885969a180e61979bf07aa97989fc94edb7d"
         },
         "swapped-in": "dea99bde4d88bbee54ed053d8e15dd031cf55f13db4110842ad0bd3d8573258b",
         "test": "swap-and-re-pin"
       },
       "path": "corpora/vectors-ocsf-decision/INDEX.md",
       "serialization": "bytes",
-      "sha256": "0e5e3e6a2b5b480979b198555ae3aaed57e7ac4a49561466c96bb192492d1cbd"
+      "sha256": "86ec4bae4b6041bc17c5c68955e23d5c6dbca0f37f8852595dfab7b689262561"
     },
     {
       "consumed": "unconsumed",
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "2faf6500266abf3493f8824063a18e85566b3cf760b88cd51a3dd11b55291604"
+          "sha256": "c3887d8525824b28756b9902624e885969a180e61979bf07aa97989fc94edb7d"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [],
@@ -61,7 +61,7 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "2faf6500266abf3493f8824063a18e85566b3cf760b88cd51a3dd11b55291604"
+          "sha256": "c3887d8525824b28756b9902624e885969a180e61979bf07aa97989fc94edb7d"
         },
         "swapped-in": "654a1419eebfb93ac129334bc6781b1bf1939cdf1e2be3a2fc9585113fcde595",
         "test": "swap-and-re-pin"
@@ -75,7 +75,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "2faf6500266abf3493f8824063a18e85566b3cf760b88cd51a3dd11b55291604"
+          "sha256": "c3887d8525824b28756b9902624e885969a180e61979bf07aa97989fc94edb7d"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [],
@@ -84,7 +84,7 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "2faf6500266abf3493f8824063a18e85566b3cf760b88cd51a3dd11b55291604"
+          "sha256": "c3887d8525824b28756b9902624e885969a180e61979bf07aa97989fc94edb7d"
         },
         "swapped-in": "181f9120832172ca626edf50738cf24e9c2e94a1e8676c0f5184e050f545126a",
         "test": "swap-and-re-pin"
@@ -98,7 +98,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "2faf6500266abf3493f8824063a18e85566b3cf760b88cd51a3dd11b55291604"
+          "sha256": "c3887d8525824b28756b9902624e885969a180e61979bf07aa97989fc94edb7d"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [],
@@ -107,7 +107,7 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "2faf6500266abf3493f8824063a18e85566b3cf760b88cd51a3dd11b55291604"
+          "sha256": "c3887d8525824b28756b9902624e885969a180e61979bf07aa97989fc94edb7d"
         },
         "swapped-in": "c11c01ad9f50f14ca6824a82a9cef772c5cef8aba4a2f5b2c3f22edf2e9f20cc",
         "test": "swap-and-re-pin"
@@ -121,7 +121,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "2faf6500266abf3493f8824063a18e85566b3cf760b88cd51a3dd11b55291604"
+          "sha256": "c3887d8525824b28756b9902624e885969a180e61979bf07aa97989fc94edb7d"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [],
@@ -130,21 +130,21 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "2faf6500266abf3493f8824063a18e85566b3cf760b88cd51a3dd11b55291604"
+          "sha256": "c3887d8525824b28756b9902624e885969a180e61979bf07aa97989fc94edb7d"
         },
         "swapped-in": "f3c692cebb4181d85e9c9062f5625dfc3be195eb72310e7493507f1cb234a384",
         "test": "swap-and-re-pin"
       },
       "path": "corpora/vectors-ocsf-decision/gen_vectors.py",
       "serialization": "bytes",
-      "sha256": "1977a3a6878f0c6c61e5b015066c893299bfc91a23dac510e61856fe109fcda6"
+      "sha256": "880e85347a05caafb3f1f8cde4a84954b2dd261e84b403e5f84121cc4b7997c0"
     },
     {
       "consumed": "consumed",
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "2faf6500266abf3493f8824063a18e85566b3cf760b88cd51a3dd11b55291604"
+          "sha256": "c3887d8525824b28756b9902624e885969a180e61979bf07aa97989fc94edb7d"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [
@@ -153,7 +153,7 @@
         ],
         "swapped": {
           "exit-code": 1,
-          "sha256": "e7726f8af20b643f87d61f0f5118f903bc4dfdb80877a5fd383ef3be0d6bf31c"
+          "sha256": "6e807f6bec23e9b38b8394e9f38a048b6b5d43b3e2cae13c507691726dbf515b"
         },
         "swapped-in": "fa8b9ac3bcaeb59d1235653b5bc494a00f5a341ce7e422c5e4143184f6b0cbe0",
         "test": "swap-and-re-pin"
@@ -167,7 +167,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "2faf6500266abf3493f8824063a18e85566b3cf760b88cd51a3dd11b55291604"
+          "sha256": "c3887d8525824b28756b9902624e885969a180e61979bf07aa97989fc94edb7d"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [
@@ -176,7 +176,7 @@
         ],
         "swapped": {
           "exit-code": 1,
-          "sha256": "27ed5f1e380710bd42e3380453fc63bcc2d4478040c3d511de74193b6e71e613"
+          "sha256": "7e116200f765098f16caf3be50a55a3a5a77f4f9402ac12a5c8f07d2d78f3c8c"
         },
         "swapped-in": "b6c9ab4738f729253ad7befccb116a3b720015a61f5210d3e27436ff0aeec494",
         "test": "swap-and-re-pin"
@@ -190,7 +190,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "2faf6500266abf3493f8824063a18e85566b3cf760b88cd51a3dd11b55291604"
+          "sha256": "c3887d8525824b28756b9902624e885969a180e61979bf07aa97989fc94edb7d"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [
@@ -199,7 +199,7 @@
         ],
         "swapped": {
           "exit-code": 1,
-          "sha256": "5cb51346b5ff83100b4e33c6e281fca772b796b49c64e84df767ffab3defef00"
+          "sha256": "1b84a8d4b8bd640ee9d0b26babb202e99fd04fe65e8e77e91a8fc05ae7a1bf5d"
         },
         "swapped-in": "5a7d2deb5177efd8198be09c477233607fa44021ae5d81f352616cd7de0c27e4",
         "test": "swap-and-re-pin"
@@ -213,13 +213,13 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "2faf6500266abf3493f8824063a18e85566b3cf760b88cd51a3dd11b55291604"
+          "sha256": "c3887d8525824b28756b9902624e885969a180e61979bf07aa97989fc94edb7d"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [],
         "swapped": {
           "exit-code": 1,
-          "sha256": "31ede8c339d4cdf57d6bfe564f34f0718f86543c5459ac7d23ca9c78ea721839"
+          "sha256": "c6f6cb9f5bd87d1b2660fbde55555a44be27430842d8d9474000b995c7398ae3"
         },
         "swapped-in": "9cfa73292cf953ea41e3315d8f2297f4fae1f3ebf57c6abfd3e8c0e6840eb92e",
         "test": "swap-and-re-pin"
@@ -241,7 +241,7 @@
     "root": "corpora/vectors-ocsf-decision"
   },
   "byte-identity": {
-    "pins": 28,
+    "pins": 33,
     "serialization": "bytes"
   },
   "canonicalization": {
@@ -278,7 +278,7 @@
         "go.mod"
       ],
       "serialization": "sha256-listing-v1",
-      "sha256": "2754d2306950cd0b62921c2eaf6153bbbee6b1fdde87585bd4d28ec076220038"
+      "sha256": "87f2fcffacefc162b9c249a8130b1ae9bd25fc56a98ddd97afa5bffe8462364b"
     },
     "runtime": {
       "name": "go",
@@ -350,6 +350,30 @@
     },
     {
       "check": "baseline-resigned-under-retired-key",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "baseline-time-epoch-ms-in-window",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "baseline-time-epoch-ms-before-key-window",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "baseline-time-epoch-ms-after-retired-window",
       "native": {
         "reasons": [],
         "verdict": "reject"
@@ -453,6 +477,22 @@
       "state": "pass"
     },
     {
+      "check": "baseline-ruling-member-is-a-list",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "baseline-ruling-member-is-an-object",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
       "check": "baseline-suppressed-deny-unflagged",
       "native": {
         "reasons": [],
@@ -519,7 +559,7 @@
   ],
   "corpus-digest": {
     "serialization": "sha256-listing-v1",
-    "sha256": "d88329dc38799e292167fd29affd8e410fa445ee6792ad79604c648a9e219e42"
+    "sha256": "5fff3297d7fcde04bd0dc92386939284068d04d5735849c579d1cb03e212d79b"
   },
   "exit-code": 0,
   "exit-rule": "zero-iff-every-check-passes",
@@ -537,6 +577,9 @@
       "baseline-key-id-swapped",
       "baseline-key-id-unknown",
       "baseline-resigned-under-retired-key",
+      "baseline-time-epoch-ms-in-window",
+      "baseline-time-epoch-ms-before-key-window",
+      "baseline-time-epoch-ms-after-retired-window",
       "baseline-key-of-another-authority",
       "baseline-policy-lists-key-twice",
       "baseline-tail-dropped-with-head",
@@ -549,6 +592,8 @@
       "baseline-stream-gap",
       "baseline-emission-disorder",
       "baseline-ruling-reads-two-ways",
+      "baseline-ruling-member-is-a-list",
+      "baseline-ruling-member-is-an-object",
       "baseline-suppressed-deny-unflagged",
       "strict-chain-complete",
       "strict-published-pair-with-head",
@@ -559,7 +604,7 @@
       "strict-opening-not-supplied"
     ],
     "path": "corpora/vectors-ocsf-decision/MANIFEST.json",
-    "sha256": "6626e87902d43476a4544e9be9d8ff54919f55b57809d041cbfc00ecc4e57fd6"
+    "sha256": "116b659db4f72627c14af7843e0e5cbf3f3366efae7ebcab819da22a952361e5"
   },
   "members": [
     {
@@ -633,6 +678,33 @@
         }
       ],
       "id": "baseline-resigned-under-retired-key"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-ocsf-decision/members/baseline-time-epoch-ms-in-window.json",
+          "sha256": "3da3cb8cba8f1f2f52d08eb973291109691af199820f17121cc74fb160cff194"
+        }
+      ],
+      "id": "baseline-time-epoch-ms-in-window"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-ocsf-decision/members/baseline-time-epoch-ms-before-key-window.json",
+          "sha256": "a6a49d8868f9c691e04c3eb6a3fbb1b25e7fe4f5a3875ef231e67cdb648d7ff0"
+        }
+      ],
+      "id": "baseline-time-epoch-ms-before-key-window"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-ocsf-decision/members/baseline-time-epoch-ms-after-retired-window.json",
+          "sha256": "48a5b26853530c72b50965d360731650f9b51a05fcb981f9b546d5fd24c3605b"
+        }
+      ],
+      "id": "baseline-time-epoch-ms-after-retired-window"
     },
     {
       "files": [
@@ -745,6 +817,24 @@
     {
       "files": [
         {
+          "path": "corpora/vectors-ocsf-decision/members/baseline-ruling-member-is-a-list.json",
+          "sha256": "3d98192f737c81a3dbc6645b6aa3a4d22d927808fb8baa27612a052c812e448f"
+        }
+      ],
+      "id": "baseline-ruling-member-is-a-list"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-ocsf-decision/members/baseline-ruling-member-is-an-object.json",
+          "sha256": "40db68018f78c5b1606bb8b8b7054c2ce63d8c72da3d2a93452e130fac43e72f"
+        }
+      ],
+      "id": "baseline-ruling-member-is-an-object"
+    },
+    {
+      "files": [
+        {
           "path": "corpora/vectors-ocsf-decision/members/baseline-suppressed-deny-unflagged.json",
           "sha256": "17c4a3acb08f1e583c56cc83fd1952f67ae995baca6d259cc589cfa9b9db050e"
         }
@@ -831,7 +921,7 @@
       "reference": {
         "path": "release/intake/native/vectors-ocsf-decision.json",
         "serialization": "bytes",
-        "sha256": "2faf6500266abf3493f8824063a18e85566b3cf760b88cd51a3dd11b55291604"
+        "sha256": "c3887d8525824b28756b9902624e885969a180e61979bf07aa97989fc94edb7d"
       }
     },
     {
@@ -840,7 +930,7 @@
       "reference": {
         "path": "release/intake/native/vectors-ocsf-decision.txt",
         "serialization": "bytes",
-        "sha256": "7c4b101730df46eec430d26d43373d4f0976901565dcd9ad3b1eec81749b7673"
+        "sha256": "abb304d85912013feec26813944be9775f5d329b8c77bd0910735cc1beeb172e"
       }
     },
     {
@@ -895,6 +985,22 @@
       "inputs": [
         "member:baseline-resigned-under-retired-key",
         "check:baseline-resigned-under-retired-key"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"code\":\"key_binding:failed\",\"dimensions\":{\"signature\":\"verified\"},\"verdict\":\"reject\"}}"
+    },
+    {
+      "check": "baseline-time-epoch-ms-before-key-window",
+      "inputs": [
+        "member:baseline-time-epoch-ms-before-key-window",
+        "check:baseline-time-epoch-ms-before-key-window"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"code\":\"key_binding:failed\",\"dimensions\":{\"signature\":\"verified\"},\"verdict\":\"reject\"}}"
+    },
+    {
+      "check": "baseline-time-epoch-ms-after-retired-window",
+      "inputs": [
+        "member:baseline-time-epoch-ms-after-retired-window",
+        "check:baseline-time-epoch-ms-after-retired-window"
       ],
       "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"code\":\"key_binding:failed\",\"dimensions\":{\"signature\":\"verified\"},\"verdict\":\"reject\"}}"
     },
@@ -987,6 +1093,22 @@
       "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"code\":\"decision_consistency:failed\",\"dimensions\":{},\"verdict\":\"reject\"}}"
     },
     {
+      "check": "baseline-ruling-member-is-a-list",
+      "inputs": [
+        "member:baseline-ruling-member-is-a-list",
+        "check:baseline-ruling-member-is-a-list"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"code\":\"decision_consistency:failed\",\"dimensions\":{},\"verdict\":\"reject\"}}"
+    },
+    {
+      "check": "baseline-ruling-member-is-an-object",
+      "inputs": [
+        "member:baseline-ruling-member-is-an-object",
+        "check:baseline-ruling-member-is-an-object"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"code\":\"decision_consistency:failed\",\"dimensions\":{},\"verdict\":\"reject\"}}"
+    },
+    {
       "check": "baseline-suppressed-deny-unflagged",
       "inputs": [
         "member:baseline-suppressed-deny-unflagged",
@@ -1042,11 +1164,11 @@
     "runs": [
       {
         "process": "run-1",
-        "sha256": "2faf6500266abf3493f8824063a18e85566b3cf760b88cd51a3dd11b55291604"
+        "sha256": "c3887d8525824b28756b9902624e885969a180e61979bf07aa97989fc94edb7d"
       },
       {
         "process": "run-2",
-        "sha256": "2faf6500266abf3493f8824063a18e85566b3cf760b88cd51a3dd11b55291604"
+        "sha256": "c3887d8525824b28756b9902624e885969a180e61979bf07aa97989fc94edb7d"
       }
     ],
     "seed": null,
@@ -1060,7 +1182,7 @@
       "action-occurred-or-authority"
     ],
     "establishes": [
-      "aee-verify, at the source listing named here, judges each of the 28 pinned members of ocsf-decision/v1 as its manifest declares"
+      "aee-verify, at the source listing named here, judges each of the 33 pinned members of ocsf-decision/v1 as its manifest declares"
     ],
     "leaves-open": [
       "whether an implementation written from the specification, run by someone other than an author, reaches the same verdicts",
@@ -1071,7 +1193,7 @@
   "selector": {
     "expression": "*",
     "language": "id-glob",
-    "matched": 28,
+    "matched": 33,
     "require": "at-least-one",
     "selected": [
       "baseline-published-signed-pair",
@@ -1082,6 +1204,9 @@
       "baseline-key-id-swapped",
       "baseline-key-id-unknown",
       "baseline-resigned-under-retired-key",
+      "baseline-time-epoch-ms-in-window",
+      "baseline-time-epoch-ms-before-key-window",
+      "baseline-time-epoch-ms-after-retired-window",
       "baseline-key-of-another-authority",
       "baseline-policy-lists-key-twice",
       "baseline-tail-dropped-with-head",
@@ -1094,6 +1219,8 @@
       "baseline-stream-gap",
       "baseline-emission-disorder",
       "baseline-ruling-reads-two-ways",
+      "baseline-ruling-member-is-a-list",
+      "baseline-ruling-member-is-an-object",
       "baseline-suppressed-deny-unflagged",
       "strict-chain-complete",
       "strict-published-pair-with-head",
