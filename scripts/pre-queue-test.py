@@ -25,7 +25,7 @@ import yaml
 ROOT = Path(__file__).resolve().parent.parent
 spec = importlib.util.spec_from_file_location("pre_queue", ROOT / "scripts" / "pre-queue.py")
 assert spec is not None and spec.loader is not None
-pre_queue = importlib.util.module_from_spec(spec)
+pre_queue: Any = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(pre_queue)
 
 FAILURES: list[str] = []
