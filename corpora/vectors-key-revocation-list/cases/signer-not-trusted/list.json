@@ -1,0 +1,22 @@
+{
+  "list": {
+    "issuedAt": "2026-11-20T08:00:00Z",
+    "issuer": "https://issuer.example/keys",
+    "keysCovered": [
+      "5418ea987c663e55e5467f932009a4a941d865b28326e15982d885da043a690e",
+      "a4066536c6a1476c27bb6f5b8b7ab419046c4d5eb94eb9c5e3965c91cf7f1033"
+    ],
+    "nextUpdate": "2026-11-20T20:00:00Z",
+    "revoked": [
+      {
+        "effectiveFrom": "2026-11-20T07:00:00Z",
+        "thumbprint": "5418ea987c663e55e5467f932009a4a941d865b28326e15982d885da043a690e"
+      }
+    ]
+  },
+  "sig": "qqB6UZsKdV34rLF6be1RCbf5FbpaQ0CruN2Ot8Eqj9yhdaQaDvuq6o8OLHRatGxaxCF3yQBkbKQChPoR09tpDQ==",
+  "signer": {
+    "key": "65d90af9e6e592bec8e183052210f3d9d5990e33b5182ace89531de65149b13e",
+    "thumbprint": "a95e03ea3381afcf75b07ffcc9c6f12842afdc8bc3aabcab0dd3c60d50c7d3f1"
+  }
+}
