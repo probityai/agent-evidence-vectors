@@ -40,3 +40,41 @@ def test_a_verdict_digest_moves_with_any_member_verdict() -> None:
     assert r9.verdict_digest(base) == r9.verdict_digest(dict(reversed(list(base.items()))))
     assert r9.verdict_digest(base) != r9.verdict_digest({**base, "vb": []})
     assert r9.verdict_digest(base) != r9.verdict_digest({**base, "vb": None})
+
+
+PYTHON_RAN = {"version": "agent-evidence-vectors==0.17.4"}
+GO_RAN = {"argv": ["aee-verify"], "version": "go1.24"}
+RUST_ABSENT = {"absent": "readers/w3c-report-rs does not exist at v0.17.4"}
+
+
+def test_coverage_passes_when_the_named_readers_are_exactly_the_ones_that_ran() -> None:
+    covered = r9.coverage(["go", "python"], {"python": PYTHON_RAN, "go": GO_RAN, "rust": RUST_ABSENT})
+    assert covered["ok"]
+    assert covered["ran"] == ["go", "python"] and covered["absent"] == ["rust"]
+
+
+def test_a_failed_build_fails_coverage_instead_of_leaving_the_reader_out() -> None:
+    covered = r9.coverage(["go", "python"],
+                          {"python": PYTHON_RAN, "go": {"build_failed": "go build exited 1"},
+                           "rust": RUST_ABSENT})
+    assert not covered["ok"]
+    assert covered["build_failed"] == ["go"] and covered["ran"] == ["python"]
+
+
+def test_a_named_reader_absent_at_the_tag_fails_coverage() -> None:
+    covered = r9.coverage(["go", "python", "rust"], {"python": PYTHON_RAN, "go": GO_RAN, "rust": RUST_ABSENT})
+    assert not covered["ok"]
+
+
+def test_a_reader_present_but_not_named_fails_coverage() -> None:
+    covered = r9.coverage(["go", "python"], {"python": PYTHON_RAN, "go": GO_RAN,
+                                             "rust": {"argv": ["w3c-report-rs"], "version": "rustc 1.96.0"}})
+    assert not covered["ok"]
+
+
+def test_rows_json_names_the_readers_for_every_release_r9_checks() -> None:
+    row = r9.rerun.ROWS["rows"]["R9"]
+    readers = row["pins"]["readers"]
+    assert sorted(readers) == sorted(row["expect"]) == sorted(row["pins"]["tags"])
+    assert readers["v0.17.4"] == ["go", "python"]
+    assert all(readers[tag] == ["go", "python", "rust"] for tag in ("v0.18.0", "v0.18.1"))

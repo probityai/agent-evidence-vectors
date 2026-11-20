@@ -51,15 +51,16 @@
 //!    in-toto profile made normative). Without a cap a crafted document
 //!    overflows the stack, which no caller can catch and which happens before any
 //!    signature is checked.
-//! 3. **A string whose bytes are not Unicode scalar values**
-//!    ([`Error::StringNotScalar`]): an unpaired surrogate escape, a surrogate
-//!    written directly in UTF-8, an overlong form, a raw control character.
-//!    Checked before any decode, because a decoder that substitutes U+FFFD
-//!    leaves `"\ud800"`, `"\udc00"` and a literal U+FFFD canonicalizing to
-//!    identical bytes.
+//! 3. **A malformed string literal** ([`Error::StringNotScalar`]): bytes that are
+//!    not Unicode scalar values (an unpaired surrogate escape, a surrogate
+//!    written directly in UTF-8, an overlong form), and a raw control character,
+//!    which JSON forbids unescaped. Checked before any decode, because a decoder
+//!    that substitutes U+FFFD leaves `"\ud800"`, `"\udc00"` and a literal
+//!    U+FFFD canonicalizing to identical bytes.
 //! 4. **A number with no finite double** ([`Error::NonFiniteNumber`]), and under
-//!    the opt-in RFC 7493 profile ([`admit_ijson`]) an integer at or above 2^53
-//!    ([`Error::UnsafeInteger`]) or a Unicode noncharacter.
+//!    the opt-in RFC 7493 profile ([`admit_ijson`]) an integer of magnitude at or
+//!    above 2^53, or a fraction whose nearest double is one
+//!    ([`Error::UnsafeInteger`]), or a Unicode noncharacter.
 //! 5. **An input past a size cap** ([`Error::TooLarge`]). A depth cap bounds the
 //!    stack; a size cap bounds the heap.
 //!
@@ -205,6 +206,22 @@ impl Options {
     }
 
     /// Refuse an integer outside the range where an IEEE-754 double is exact.
+    ///
+    /// The range is magnitude below 2^53, and a fraction is held to it through its
+    /// nearest double: `12345678901234567.5` canonicalizes to the integer
+    /// `12345678901234568`, so it is refused with that integer, while
+    /// `9007199254740991.4` rounds into the range and is admitted.
+    ///
+    /// ```
+    /// use jcs_admit::{admit_with, Error, Options};
+    /// let opts = Options::rfc8785().safe_integers(true);
+    /// for token in ["9007199254740992", "-9007199254740992", "12345678901234567.5"] {
+    ///     assert_eq!(admit_with(token.as_bytes(), &opts),
+    ///         Err(Error::UnsafeInteger { token: token.to_owned() }));
+    /// }
+    /// assert_eq!(admit_with(b"9007199254740991.4", &opts),
+    ///     Ok(b"9007199254740991".to_vec()));
+    /// ```
     #[must_use]
     pub const fn safe_integers(mut self, refuse: bool) -> Self {
         self.safe_integers = refuse;
@@ -276,9 +293,10 @@ impl Options {
 /// # Errors
 ///
 /// Returns [`Error`] when the input is not one valid JSON value, repeats an
-/// object member, carries a string that is not a sequence of Unicode scalar
-/// values, nests past [`DEFAULT_MAX_DEPTH`], exceeds [`DEFAULT_MAX_BYTES`], or
-/// carries a number with no finite double.
+/// object member, carries a malformed string literal (bytes that are not
+/// Unicode scalar values, or a raw control character), nests past
+/// [`DEFAULT_MAX_DEPTH`], exceeds [`DEFAULT_MAX_BYTES`], or carries a number
+/// with no finite double.
 pub fn admit(input: &[u8]) -> Result<Vec<u8>, Error> {
     admit_with(input, &Options::rfc8785())
 }
@@ -287,8 +305,9 @@ pub fn admit(input: &[u8]) -> Result<Vec<u8>, Error> {
 ///
 /// # Errors
 ///
-/// As [`admit`], and additionally for an integer at or above 2^53 or a Unicode
-/// noncharacter in a string literal.
+/// As [`admit`], and additionally for an integer of magnitude at or above 2^53, a
+/// fraction whose nearest double is such an integer, or a Unicode noncharacter in
+/// a string literal.
 pub fn admit_ijson(input: &[u8]) -> Result<Vec<u8>, Error> {
     admit_with(input, &Options::ijson())
 }
