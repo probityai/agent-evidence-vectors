@@ -870,7 +870,7 @@ func arEnvelopePayload(envelope []byte) ([]byte, error) {
 	if err := json.Unmarshal(envelope, &parsed); err != nil {
 		return nil, err
 	}
-	return base64.StdEncoding.DecodeString(parsed.Payload)
+	return decodeCanonical(base64.StdEncoding, parsed.Payload)
 }
 
 // arEnvelopePredicate reads the predicate of an envelope already judged valid.

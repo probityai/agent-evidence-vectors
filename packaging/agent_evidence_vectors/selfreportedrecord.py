@@ -35,7 +35,6 @@ refused rather than spelled, as the Go encoder refuses it.
 
 from __future__ import annotations
 
-import base64
 import binascii
 import hashlib
 import importlib
@@ -46,6 +45,8 @@ import sys
 from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any
+
+from . import strictb64
 
 SUITE = "self-reported-record-conformance"
 
@@ -298,7 +299,7 @@ def ed25519_ok(public_hex: str, payload: bytes, signature_b64: str) -> bool:
         return False
     public = bytes.fromhex(public_hex)
     try:
-        signature = base64.b64decode(signature_b64, validate=True)
+        signature = strictb64.std(signature_b64)
     except (ValueError, binascii.Error):
         return False
     if len(public) != 32 or len(signature) != 64:

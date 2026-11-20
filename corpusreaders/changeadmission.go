@@ -136,7 +136,7 @@ func caB64(value any) ([]byte, bool) {
 	if !ok || strings.ContainsAny(s, "\r\n") {
 		return nil, false
 	}
-	out, err := base64.StdEncoding.DecodeString(s)
+	out, err := decodeCanonical(base64.StdEncoding, s)
 	return out, err == nil
 }
 
@@ -251,7 +251,7 @@ func caSignature(payloadType string, body []byte, sigs []caSig, trusted map[stri
 			continue
 		}
 		named = true
-		key, err := base64.StdEncoding.DecodeString(encoded)
+		key, err := decodeCanonical(base64.StdEncoding, encoded)
 		if err == nil && len(key) == ed25519.PublicKeySize && ed25519.Verify(key, message, s.sig) {
 			return nil
 		}

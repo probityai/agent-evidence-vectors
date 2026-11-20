@@ -67,7 +67,6 @@ when no verdict was reached.
 from __future__ import annotations
 
 import argparse
-import base64
 import binascii
 import hashlib
 import importlib
@@ -79,6 +78,8 @@ import sys
 from functools import lru_cache
 from pathlib import Path
 from typing import Any
+
+from . import strictb64
 
 SUITE = "agentic-process-evidence/v0.1"
 SUPPORTED, CONTRADICTED, NOT_ESTABLISHED, NO_VERDICT = (
@@ -171,7 +172,7 @@ def _b64(value: Any) -> bytes:
     if not isinstance(value, str):
         raise Refusal(NO_VERDICT, "malformed_envelope")
     try:
-        return base64.b64decode(value, validate=True)
+        return strictb64.std(value)
     except (binascii.Error, ValueError) as exc:
         raise Refusal(NO_VERDICT, "malformed_envelope") from exc
 
@@ -374,7 +375,7 @@ def _statement(payload: Any, policy: dict[str, Any], skip: frozenset[str]) -> No
 def judge(envelope: bytes, policy: dict[str, Any],
           skip: frozenset[str] = frozenset()) -> dict[str, str]:
     """The reference reader's decision for one signed process evidence statement."""
-    trusted = {str(k): base64.b64decode(v) for k, v in policy["trusted_keys"].items()}
+    trusted = {str(k): strictb64.std(v) for k, v in policy["trusted_keys"].items()}
     try:
         payload_type, body, sigs = parse_envelope(envelope)
         if payload_type != policy["payload_type"] and "payload_type" not in skip:

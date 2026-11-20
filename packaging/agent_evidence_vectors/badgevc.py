@@ -67,6 +67,8 @@ from datetime import datetime
 from pathlib import Path
 from typing import Any
 
+from . import strictb64
+
 SUITE = "badge-vc-verify/v1"
 CONTRACT_ID = "https://probityai.github.io/agent-evidence-vectors/contract/badge-vc-verify/v1"
 ALLOW, DENY = "allow", "deny"
@@ -129,7 +131,7 @@ def b64url_decode(text: str) -> bytes:
     """Strict unpadded base64url: refuses other alphabets and non-canonical text."""
     if not _B64URL.fullmatch(text) or len(text) % 4 == 1:
         raise Malformed("not base64url")
-    data = base64.urlsafe_b64decode(text + "=" * (-len(text) % 4))
+    data = strictb64.url(text)
     if base64.urlsafe_b64encode(data).decode().rstrip("=") != text:
         raise Malformed("not canonical base64url")
     return data

@@ -211,7 +211,7 @@ func adCheck(envelope, arguments []byte, m *adManifest, disabled string) error {
 	var err error
 	if disabled == "signature" {
 		text, _ := env["payload"].(string)
-		payload, err = base64.StdEncoding.DecodeString(text)
+		payload, err = decodeCanonical(base64.StdEncoding, text)
 	} else {
 		payload, err = adSignature(env, m)
 	}
@@ -249,7 +249,7 @@ func adSignature(env map[string]any, m *adManifest) ([]byte, error) {
 		return nil, invalid
 	}
 	text, _ := env["payload"].(string)
-	payload, err := base64.StdEncoding.Strict().DecodeString(text)
+	payload, err := decodeCanonical(base64.StdEncoding, text)
 	if err != nil {
 		return nil, invalid
 	}
@@ -259,7 +259,7 @@ func adSignature(env map[string]any, m *adManifest) ([]byte, error) {
 	}
 	entry, _ := sigs[0].(map[string]any)
 	sigText, _ := entry["sig"].(string)
-	sig, err := base64.StdEncoding.Strict().DecodeString(sigText)
+	sig, err := decodeCanonical(base64.StdEncoding, sigText)
 	key, keyErr := hex.DecodeString(m.Keys.Producer.PublicKey)
 	if err != nil || keyErr != nil || len(key) != ed25519.PublicKeySize {
 		return nil, invalid

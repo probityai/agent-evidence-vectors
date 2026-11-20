@@ -48,6 +48,8 @@ from datetime import UTC, datetime, timedelta
 from pathlib import Path
 from typing import Any
 
+from . import strictb64
+
 SUITE = "refund-connected/v1"
 CONTRACT_REVISION = "review-2026-10-23"
 STEPS = ("input_pic", "input_aps", "admission", "signature_trust", "execution", "observed_effect")
@@ -546,7 +548,7 @@ def check_pic(case: Case) -> None:
         pub_hex = pub_hex.get("public_key")
     _need(isinstance(pub_hex, str) and bool(_HEX64.match(pub_hex)), _refuse, "PIC_KEY")
     try:
-        sig = base64.b64decode(str(entry.get("signature", "")), validate=True)
+        sig = strictb64.std(str(entry.get("signature", "")))
     except (binascii.Error, ValueError):
         raise _refuse("PIC_SIGNATURE") from None
     _need(
@@ -989,7 +991,7 @@ def verify_envelope(
     except ValueError:
         raise _contra("timestamp-format") from None
     try:
-        sig = base64.b64decode(str(env["signature"]), validate=True)
+        sig = strictb64.std(str(env["signature"]))
     except (binascii.Error, ValueError):
         raise _contra("signature-encoding") from None
     _need(

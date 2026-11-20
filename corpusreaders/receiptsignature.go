@@ -748,7 +748,7 @@ func rsPublicKey(key rsJWK) (ed25519.PublicKey, string) {
 	if key.Kty != "OKP" || key.Crv != "Ed25519" {
 		return nil, "unsupported_key"
 	}
-	raw, err := base64.RawURLEncoding.DecodeString(key.X)
+	raw, err := decodeCanonical(base64.RawURLEncoding, key.X)
 	if err != nil || len(raw) != ed25519.PublicKeySize {
 		return nil, "bad_key"
 	}

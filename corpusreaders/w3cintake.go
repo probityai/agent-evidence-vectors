@@ -1152,7 +1152,7 @@ func intakeBase64(text []byte) ([]byte, bool) {
 			return nil, false
 		}
 	}
-	out, err := base64.StdEncoding.DecodeString(string(text))
+	out, err := decodeCanonical(base64.StdEncoding, string(text))
 	return out, err == nil
 }
 

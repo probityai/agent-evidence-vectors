@@ -201,8 +201,8 @@ func cdVerify(envelope map[string]any, key []byte) ([]byte, bool) {
 	if !pOK || !sOK {
 		return nil, false
 	}
-	payload, pErr := base64.StdEncoding.Strict().DecodeString(payloadText)
-	sig, sErr := base64.StdEncoding.Strict().DecodeString(sigText)
+	payload, pErr := decodeCanonical(base64.StdEncoding, payloadText)
+	sig, sErr := decodeCanonical(base64.StdEncoding, sigText)
 	if pErr != nil || sErr != nil {
 		return nil, false
 	}

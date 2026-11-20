@@ -144,7 +144,7 @@ func ibLoad(caseDir string) (*ibCase, error) {
 	if len(c.env.Signatures) == 0 {
 		return nil, fmt.Errorf("the envelope carries no signature")
 	}
-	payload, err := base64.StdEncoding.DecodeString(c.env.Payload)
+	payload, err := decodeCanonical(base64.StdEncoding, c.env.Payload)
 	if err != nil {
 		return nil, fmt.Errorf("the payload is not base64: %w", err)
 	}
@@ -272,7 +272,7 @@ func (c *ibCase) signatureVerifies() bool {
 			key = ibPublicKey(method)
 		}
 	}
-	sig, err := base64.StdEncoding.DecodeString(c.env.Signatures[0].Sig)
+	sig, err := decodeCanonical(base64.StdEncoding, c.env.Signatures[0].Sig)
 	if key == nil || err != nil {
 		return false
 	}
@@ -339,7 +339,7 @@ func ibPublicKey(method map[string]any) ed25519.PublicKey {
 	}
 	jwk, _ := method["publicKeyJwk"].(map[string]any)
 	x, _ := jwk["x"].(string)
-	raw, err := base64.RawURLEncoding.DecodeString(x)
+	raw, err := decodeCanonical(base64.RawURLEncoding, x)
 	if jwk["kty"] != "OKP" || jwk["crv"] != "Ed25519" || err != nil || len(raw) != ed25519.PublicKeySize {
 		return nil
 	}

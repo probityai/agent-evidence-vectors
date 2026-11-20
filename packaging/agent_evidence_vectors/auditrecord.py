@@ -75,6 +75,8 @@ from collections.abc import Callable
 from dataclasses import dataclass, field
 from typing import Any
 
+from . import strictb64
+
 if __package__ in (None, ""):
     sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
@@ -1538,7 +1540,7 @@ def rule_names() -> list[str]:
 def _envelope_payload(raw: bytes) -> tuple[dict[str, Any], bytes]:
     try:
         envelope = json.loads(raw, object_pairs_hook=_no_duplicates)
-        payload = base64.b64decode(envelope["payload"], validate=True)
+        payload = strictb64.std(envelope["payload"])
     except Malformed:
         raise
     except Exception as exc:
@@ -1559,7 +1561,7 @@ def _signature_holds(envelope: dict[str, Any], canonical: bytes, policy: Policy)
     message = pae(PAYLOAD_TYPE, canonical)
     for entry in signatures if isinstance(signatures, list) else []:
         try:
-            sig = base64.b64decode(entry["sig"], validate=True)
+            sig = strictb64.std(entry["sig"])
         except Exception:
             continue
         if len(key) == 32 and _ed25519_verify(key, message, sig):
@@ -1688,6 +1690,10 @@ class _Reader:
             byte = self.take(1)[0]
             value |= (byte & 0x7F) << shift
             if not byte & 0x80:
+                # A last byte of zero after a continuation byte is a second
+                # spelling of the same value; only the minimal one is read.
+                if byte == 0 and shift:
+                    raise ValueError("non-minimal varuint")
                 return value
             shift += 7
             if shift > 56:
@@ -1749,14 +1755,35 @@ def _ots_timestamp(
     """One OpenTimestamps timestamp: items, each but the last preceded by 0xff."""
     if depth > OTS_MAX_DEPTH:
         raise ValueError("timestamp too deep")
+    seen: set[bytes] = set()
     while True:
         tag = reader.take(1)[0]
         more = tag == 0xFF
         if more:
             tag = reader.take(1)[0]
+        start = reader.at
         _ots_item(reader, tag, message, out, depth)
+        # A repeated operation or attestation at one node is a second branch
+        # some readers keep and others drop, so it is refused, never chosen.
+        key = bytes([tag]) + _ots_item_key(reader.data, start, tag)
+        if key in seen:
+            raise ValueError("repeated operation or attestation in a timestamp node")
+        seen.add(key)
         if not more:
             return
+
+
+def _ots_item_key(data: bytes, start: int, tag: int) -> bytes:
+    """What names an item at its node: an attestation's kind and payload, an
+    append or prepend's argument, nothing for SHA-256."""
+    if tag == OTS_SHA256:
+        return b""
+    item = _Reader(data)
+    item.at = start
+    if tag == 0x00:
+        kind = item.take(8)
+        return kind + item.varbytes()
+    return item.varbytes()
 
 
 def _ots_item(
@@ -1827,7 +1854,7 @@ def anchor_time(
     an rfc3161 anchor dates nothing."""
     kind = anchor.get("kind")
     try:
-        proof = base64.b64decode(anchor["proof"], validate=True)
+        proof = strictb64.std(anchor["proof"])
         if kind == "opentimestamps":
             return _ots_moment(proof, envelope_digest, trust)
         if kind != "transparency-log":
@@ -1953,7 +1980,7 @@ def _dating_delegation_root(r: _Retained) -> None:
     if not elements:
         return
     try:
-        material = base64.b64decode(elements[0]["value"], validate=True)
+        material = strictb64.std(elements[0]["value"])
     except (KeyError, TypeError, ValueError) as exc:
         raise Malformed("entry-delegation-root-unreadable") from exc
     if hashlib.sha256(material).hexdigest() != r.root_digest:

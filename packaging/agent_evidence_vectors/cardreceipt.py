@@ -61,7 +61,6 @@ one JSON object carrying ``decision`` and ``reason``, and exits 0 for
 from __future__ import annotations
 
 import argparse
-import base64
 import hashlib
 import importlib
 import json
@@ -75,6 +74,8 @@ from pathlib import Path
 from typing import Any
 
 from agent_evidence_vectors import a2ajcs
+
+from . import strictb64
 
 RECEIPT_SUITE = "agent-card-receipt/v1"
 RELEASE_SUITE = "credential-release/v1"
@@ -349,7 +350,7 @@ def _credential_fields(predicate: Any) -> bool:
 def _b64(text: Any) -> bytes:
     _require(isinstance(text, str), "base64 text")
     try:
-        return base64.b64decode(str(text), validate=True)
+        return strictb64.std(str(text))
     except ValueError as exc:
         raise Malformed("base64") from exc
 
