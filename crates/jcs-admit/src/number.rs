@@ -15,6 +15,19 @@ use crate::{Error, Options};
 /// has no exact IEEE-754 double.
 const MAX_SAFE_DIGITS: &str = "9007199254740992";
 
+/// `2^53` as a double. Exact, being a power of two; every double at or above it
+/// is an integer.
+const TWO_POW_53: f64 = 9_007_199_254_740_992.0;
+
+/// Whether a token's nearest double is at or above 2^53 in magnitude (or is not
+/// finite). Rust's `f64` parse rounds correctly, ties to even, as Python's
+/// `float()` and ECMAScript's `Number` do, so all three pick the same double.
+fn rounds_past_safe_range(token: &str) -> bool {
+    token
+        .parse::<f64>()
+        .map_or(true, |v| !v.is_finite() || v.abs() >= TWO_POW_53)
+}
+
 /// A JSON number token decomposed into an exact `digits * 10^exp10`, with
 /// `digits` carrying no leading and no trailing zero.
 ///
@@ -144,6 +157,16 @@ pub(crate) fn check(token: &str, opts: &Options) -> Result<(), Error> {
             });
         }
         if opts.wants_safe_integers() && d.is_integer() && d.is_unsafe_magnitude() {
+            return Err(Error::UnsafeInteger {
+                token: token.to_owned(),
+            });
+        }
+        // The Go rail this crate ports runs the safe-integer rule together with
+        // integers-only, so there a fraction was refused before the range was
+        // asked. With integers-only off, a fraction whose nearest double reaches
+        // 2^53 (`12345678901234567.5` -> 12345678901234568) must be refused here,
+        // or the profile emits an integer it then refuses on re-admission.
+        if opts.wants_safe_integers() && !d.is_integer() && rounds_past_safe_range(token) {
             return Err(Error::UnsafeInteger {
                 token: token.to_owned(),
             });

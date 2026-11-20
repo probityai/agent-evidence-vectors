@@ -14,6 +14,7 @@ library only, because CI runs it before anything is installed.
 
 from __future__ import annotations
 
+import importlib.util
 import json
 import re
 import subprocess
@@ -89,7 +90,30 @@ def _version(unit: dict[str, str], root: Path) -> str:
     raise SystemExit(f"unit {unit['prefix']!r} names an unknown registry {unit['registry']!r}")
 
 
-def release_target(tag: str, root: Path = ROOT) -> dict[str, str]:
+_MANIFEST = {"crates.io": "Cargo.toml", "pypi": "pyproject.toml", "npm": "package.json"}
+
+
+def _release_links():
+    """Load scripts/release_links.py from beside this file; the tests load this file by path."""
+    spec = importlib.util.spec_from_file_location("release_links", Path(__file__).with_name("release_links.py"))
+    if spec is None or spec.loader is None:
+        raise ImportError("scripts/release_links.py cannot be loaded as a module")
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    return module
+
+
+def _refuse_unusable_links(unit: dict[str, str], root: Path) -> None:
+    """Stop the release when the unit's manifest links to an archive, a redirect, a private repository or nothing."""
+    name = _MANIFEST.get(unit["registry"])
+    if name is None:
+        return
+    problems = _release_links().check_manifest(root / unit["directory"] / name)
+    if problems:
+        raise SystemExit("the registry page would link to nowhere useful:\n" + "\n".join(problems))
+
+
+def release_target(tag: str, root: Path = ROOT, check_links: bool = False) -> dict[str, str]:
     """Resolve a release tag ``<prefix>-v<version>`` to the unit it publishes.
 
     A bare ``v<version>`` tag is the corpus release; it names no unit of release.toml and
@@ -115,6 +139,8 @@ def release_target(tag: str, root: Path = ROOT) -> dict[str, str]:
         raise SystemExit(
             f"release tag {tag!r} does not match {unit['directory']} version {version}"
         )
+    if check_links:
+        _refuse_unusable_links(unit, root)
     return {**unit, "version": version}
 
 
@@ -131,7 +157,7 @@ def main(argv: list[str]) -> int:
         print(json.dumps(changed(diff), sort_keys=True))
         return 0
     if len(argv) == 2 and argv[0] == "release-target":
-        print(json.dumps(release_target(argv[1]), sort_keys=True))
+        print(json.dumps(release_target(argv[1], check_links=True), sort_keys=True))
         return 0
     print(__doc__, file=sys.stderr)
     return 2

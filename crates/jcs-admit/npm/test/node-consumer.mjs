@@ -1,5 +1,7 @@
 import * as api from "jcs-admit";
 import { readFile } from "node:fs/promises";
+import { createRequire } from "node:module";
+import { pathToFileURL } from "node:url";
 import { runInNewContext } from "node:vm";
 import { checkCase, checkInputContract, same } from "./check.mjs";
 
@@ -15,4 +17,12 @@ for (let index = 0; index < data.expected.length; index += 1) {
   const item = data.cases[expected.caseIndex];
   counts[checkCase(api, item, expected)] += 1;
 }
-console.log(JSON.stringify({ runtime: process.version, counts, inputContract: true, crossRealm: true, installedPackage: import.meta.resolve("jcs-admit") }));
+console.log(JSON.stringify({ runtime: process.version, counts, inputContract: true, crossRealm: true, installedPackage: installedEntry() }));
+
+// The file the "node" export condition resolves to from this consumer.
+// import.meta.resolve is unflagged only from Node 20.6, and the package's
+// minimum is 20.0, so the resolution goes through createRequire, which
+// applies the same "node" condition to the same exports map.
+function installedEntry() {
+  return pathToFileURL(createRequire(import.meta.url).resolve("jcs-admit")).href;
+}

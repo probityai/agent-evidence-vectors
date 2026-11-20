@@ -15,7 +15,7 @@ Install the checker in its own environment, then check a synthetic in-toto state
 
 ```sh
 uv venv admission-env
-uv pip install --python admission-env/bin/python agent-evidence-admission==0.2.0
+uv pip install --python admission-env/bin/python agent-evidence-admission==0.2.1
 printf 'abc' > artifact.txt
 cat > statement.json <<'JSON'
 {
@@ -43,7 +43,7 @@ See the [package guide](https://github.com/probityai/agent-evidence-vectors/blob
 For Kubernetes, pin the policies to a release tag and evaluate the sample statement with OPA:
 
 ```bash
-git clone --depth 1 --branch agent-evidence-admission-v0.2.0 https://github.com/probityai/agent-evidence-vectors
+git clone --depth 1 --branch agent-evidence-admission-v0.2.1 https://github.com/probityai/agent-evidence-vectors
 cd agent-evidence-vectors/packages/admission
 opa eval -f raw -d rego/execution_evidence.rego \
   -I 'count(data.sigstore.errors)' < samples/adversarial-execution-evidence.pass.statement.json
@@ -69,7 +69,7 @@ It prints `true`. `opa test --timeout 120s rego/` runs the oracle's own test sui
 
 ## Status
 
-The Python digest checker is version 0.2.0.
+The Python digest checker is version 0.2.1.
 The policies follow the in-toto Adversarial Execution Evidence predicate v0.7, proposed in
 [in-toto/attestation#570](https://github.com/in-toto/attestation/pull/570). The profile registry
 measures them against the [agent-evidence-vectors](https://github.com/probityai/agent-evidence-vectors) corpus

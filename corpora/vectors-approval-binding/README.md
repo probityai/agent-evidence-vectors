@@ -33,6 +33,12 @@ from any project.
 | A failed lookup is not a match | `release-lookup-unavailable` | the same pull request |
 | Renewal by replacement | `approval-renewed-same-bounds`, `approval-reused-after-renewal`, `approval-renewal-transition-not-accepted`, `approval-renewal-decision-not-distinct`, `approval-renewal-predecessor-decision-not-cited`, `approval-renewal-bounds-differ`, `approval-renewal-accepted-after-use`, `approval-renewal-predecessor-ambiguous` | the approval-renewal thread in [aaif/wg-observability-and-traceability#66](https://github.com/aaif/wg-observability-and-traceability/issues/66): the cases were asked for by `narko4u` and the sequence comes from `AAkhtanin` |
 | A new grant does not reopen a closed effect | `approval-renewal-reopens-consumed-effect`, `approval-renewal-reopens-uncertain-effect` | the same thread |
+| Server-held approval state | `approval-not-issued-by-server` | the client-held approval pattern: a server that accepts an approval object the client sends back, rather than reading its own register |
+| One request, one completion | `approval-request-completed-twice` | a request answered twice, an approve and a deny, under two identifiers |
+| Approval with corrections | `approval-corrections-not-applied` | the reviewer edits the arguments; the grant covers the corrected bytes only |
+| A deny is a deny in observe mode | `approval-denied-observe-mode` | monitor and observe modes that log a deny and run the call |
+| Observe mode never gates | `approval-gathered-in-observe-mode` | an approval collected while the gate only logs |
+| Key rotation | `approval-issued-under-rotated-key` | an approval signed under a key after its rotation |
 
 The controls (`allow-*`) keep a verifier from denying everything: another
 approval under a different identifier, the same approval presented twice with
@@ -40,52 +46,65 @@ identical content, a use one second before expiry, a release first served at
 the decision instant, a release last served exactly the grace period
 before it, a replacement B that cites its predecessor's decision
 (`approval-renewed-same-bounds`), and the predecessor presented before the
-replacement was accepted (`allow-predecessor-before-replacement`).
+replacement was accepted (`allow-predecessor-before-replacement`), an
+approval with corrections used with the corrected bytes
+(`allow-approved-with-corrections`), and an approval issued under a key one
+minute before the approver rotated it out (`allow-key-rotated-after-issue`).
 
 ## The checks, in order
 
 A verifier names the first check that fails.
 
-1. The record carries `contractId` (`contract_id_missing`).
-2. `contractId` is
-   `https://probityai.github.io/agent-evidence-vectors/contract/approval-binding/v1`
-   (`contract_id_unknown`).
-3. The use's `approvalId` is the approval's `approvalId`
-   (`approval_not_cited`). A use that names another approval, or none, is not
-   judged against the approval presented, in a renewal or not.
-4. No other entry in `presentedApprovals` has the approval's `approvalId` and
-   differs from the approval in any member (`approval_id_ambiguous`). Entries
-   are compared as parsed JSON values over the whole object, including members
-   the contract does not otherwise read, so a duplicate whose only difference
-   is an extra annotation member is ambiguous. The same approval presented
-   twice, with equal values, is not ambiguous.
-5. `approvalId` is not in `consumedApprovalIds` (`approval_replayed`).
-6. No replacement accepted at or before `usedAt` has taken the approval's
-   place (`approval_superseded`).
-7. A use that claims `authorityForm: renewed` has a transition accepted at or
-   before `usedAt` whose successor is the approval
-   (`renewal_transition_missing`). A transition accepted after the use does
-   not establish the renewal.
-8. That transition binds the successor to its predecessor
-   (`renewal_binding_invalid`). The presented records under the predecessor's
-   identifier must agree, so two that differ refuse whatever their order.
-9. `trustedKeys[approver]` is the approval's `keyId` (`key_not_bound`).
-10. The use's `principal` is the approval's `principal` (`principal_mismatch`).
-    A matching `clientId` does not stand in for the user.
-11. The use's `event` and `phase` are the approved ones
-    (`event_phase_mismatch`).
-12. The used `tool`, `target` and payload bytes are the approved ones
-    (`payload_mismatch`).
-13. `usedAt` is at or after `issuedAt` and before `expiresAt`
-    (`approval_outside_validity`).
-14. The effect named by the use's `effectKey` is not `CONSUMED` or
-    `UNCERTAIN_CLOSE` in `effectRegistry` (`effect_already_closed`).
-15. `policyRelease.lookup` is `ok` (`comparison_unavailable`).
-16. The release's `firstServedAt` is at or before `decisionTime`, and its
-    `lastServedAt` plus `graceSeconds` is at or after it
+1. the record carries `contractId` (`contract_id_missing`);
+2. `contractId` is the approval-binding contract (`contract_id_unknown`);
+3. the use's `approvalId` is the identifier of the approval being checked; a
+   use that names another approval, or none, is not judged against this one
+   (`approval_not_cited`);
+4. the approval is one the server issued: its identifier is in
+   `issuedApprovalIds`, the register the server holds. An approval the client
+   built and presented, however well formed, is not one (`approval_not_issued`);
+5. no other presented approval shares the approval's identifier and differs
+   from it in any member, compared as parsed JSON values over the whole object,
+   including members no check reads; the same approval presented twice, with
+   equal values, is not ambiguous (`approval_id_ambiguous`);
+6. no other presented approval completes the same `requestId` under another
+   identifier: one request is answered once
+   (`approval_request_completed_twice`);
+7. the approval's `outcome` is a grant, `approved` or
+   `approved-with-corrections`; a denied request is not a grant, whatever
+   happened to the call (`approval_not_granted`). An approval with
+   corrections binds the corrected bytes in `payloadSha256`; the bytes first
+   requested, in `requestedPayloadSha256`, are not approved (check 17);
+8. the record's `enforcement` is `enforce`; an approval gathered in an
+   observe or monitor mode never gated the call (`approval_not_enforced`);
+9. the identifier is not among the consumed ones (`approval_replayed`);
+10. no replacement accepted at or before the use has taken the approval's place
+    (`approval_superseded`);
+11. a use that claims `authorityForm: renewed` has a transition accepted at or
+    before the use naming this approval as successor; a transition accepted
+    later does not establish the renewal (`renewal_transition_missing`);
+12. that transition binds the successor to exactly one predecessor
+    (`renewal_binding_invalid`);
+13. the approval's `keyId` is the trusted key of its approver, or a key listed
+    for that approver in `retiredKeys` (`key_not_bound`);
+14. a key listed in `retiredKeys` signed the approval before its
+    `retiredAt`; an approval issued under a rotated-out key at or after the
+    rotation is refused (`key_retired`);
+15. the use's principal is the approval's principal; a shared `clientId` does
+    not stand in for the user (`principal_mismatch`);
+16. the use's event and phase are the approved ones (`event_phase_mismatch`);
+17. the used tool, target and payload bytes are the approved ones
+    (`payload_mismatch`);
+18. `usedAt` is at or after `issuedAt` and before `expiresAt`
+    (`approval_outside_validity`);
+19. the effect the use names is not closed (`effect_already_closed`);
+20. the policy release lookup answered (`comparison_unavailable`); an
+    unanswered lookup is never read as a match;
+21. the release was served at the decision time: first served at or before it,
+    and last served at or after it minus the grace period
     (`release_not_served_at_decision`).
 
-A record that passes every check is `allow` with reason `bound`.
+A record that passes all of them is `allow` with reason `bound`.
 
 `comparison_unavailable` is a deny rather than an indeterminate outcome. The
 record states that the lookup failed, so the contract is not silent about the
