@@ -251,11 +251,21 @@ fn a_fraction_that_rounds_past_the_bound_is_refused() {
         // RFC 8785 as written still admits and rounds it.
         assert!(admit(token.as_bytes()).is_ok(), "{token}");
     }
-    // Rounds down into the safe range: admitted, and the output is safe.
+    // Rounds down into the safe range, so the safe-integer rule alone admits it
+    // and writes a safe integer. The profile still refuses it: the token carries
+    // a fraction its double drops (RFC 7493 section 2.2).
     assert_eq!(
-        admit_ijson(b"9007199254740991.4").unwrap(),
+        jcs_admit::admit_with(
+            b"9007199254740991.4",
+            &Options::rfc8785().safe_integers(true)
+        )
+        .unwrap(),
         b"9007199254740991"
     );
+    assert!(matches!(
+        admit_ijson(b"9007199254740991.4"),
+        Err(Error::InexactNumber { .. })
+    ));
 }
 
 /// Whatever the profile admits, it admits again unchanged, and reports canonical.

@@ -42,6 +42,12 @@ struct Decomposed {
 }
 
 impl Decomposed {
+    /// Whether two decompositions name one number. Zero has no digits and any
+    /// exponent, so `0.0` and `0e0` are one value.
+    fn same_value(&self, other: &Self) -> bool {
+        self.digits == other.digits && (self.digits.is_empty() || self.exp10 == other.exp10)
+    }
+
     /// Whether the value is an integer, zero included.
     fn is_integer(&self) -> bool {
         self.digits.is_empty() || self.exp10 >= 0
@@ -132,6 +138,20 @@ fn decompose(token: &str) -> Decomposed {
     Decomposed { digits, exp10 }
 }
 
+/// Whether a token's value is the value of the double it reads as.
+///
+/// The double's shortest round-trip form (Rust's `{:e}`, the same digits as
+/// ECMAScript `Number::toString` and Python `repr`) is decomposed exactly, as
+/// the token is, and the two are compared as numbers: `1.10` and `0.1` hold,
+/// `3.141592653589793238` and `1e-400` do not. A token with no finite double
+/// is left to the finiteness refusal, which names it more precisely.
+fn is_exact(token: &str) -> bool {
+    match token.parse::<f64>() {
+        Ok(v) if v.is_finite() => decompose(token).same_value(&decompose(&format!("{v:e}"))),
+        _ => true,
+    }
+}
+
 /// Apply the number half of admission to one token.
 ///
 /// # Why the profile is consulted before finiteness
@@ -171,6 +191,11 @@ pub(crate) fn check(token: &str, opts: &Options) -> Result<(), Error> {
                 token: token.to_owned(),
             });
         }
+    }
+    if opts.wants_exact_numbers() && !is_exact(token) {
+        return Err(Error::InexactNumber {
+            token: token.to_owned(),
+        });
     }
     // Decided here rather than left to the delegate. `serde_json_canonicalizer`
     // does refuse a non-finite double, as an untyped `io::Error` reading "NaN
