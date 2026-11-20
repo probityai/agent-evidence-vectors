@@ -25,6 +25,8 @@ STATUS_FN = re.compile(r"\b(always|failure|cancelled)\s*\(")
 # Workflows that must run on every pull request, with the reason.
 EXEMPT = {
     "dco.yml": "posts the required dco/sign-off commit status, which a skipped job never posts",
+    "pr-title.yml": "lints the title the queue squashes into the subject; skipped, a bad title "
+    "fails every merge group behind it",
 }
 
 
