@@ -55,3 +55,5 @@ stored = client.epochs                                       # {issuer: 3}, kept
 ```
 
 `rotate` returns a new client and leaves the old one unchanged. It refuses a set at a lower epoch (`pin-downgrade`) and a different set at the same epoch (`pin-conflict`), so a set can only shrink with an epoch bump; the same set at the same epoch is a harmless repeat. A client that restarts passes the stored `epochs` back as `seen_epochs`, and a configuration below an epoch already reached, or declared unpinned after the issuer was pinned, is refused as `pin-downgrade`. The accept and reject cases are in the admission package's `conformance/issuer-pin-vectors.json`, written by `conformance/gen_issuer_pin_vectors.py` and replayed by its tests.
+
+The evidence event each Auth0 agent feature produces, and the members it fills, is mapped in [auth0-agent-features.md](auth0-agent-features.md).

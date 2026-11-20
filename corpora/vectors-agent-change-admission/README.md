@@ -2,7 +2,7 @@
 
 Cases for `agent-change-admission/v1`: signed decisions about whether a proposed
 change to an AI agent's harness was admitted, under the
-[agent-change-admission predicate, version 1](https://github.com/probityai/agent-evidence-vocabulary/blob/main/docs/predicates/agent-change-admission-v1.md).
+[agent-change-admission predicate, version 1](https://github.com/probityai/agent-evidence-vectors/blob/main/packages/vocabulary/docs/predicates/agent-change-admission-v1.md).
 A harness change is a new system prompt, procedure, tool-call guard or tool
 allowlist. The decision names the parent and candidate harness, the frozen
 evaluator, the recorded-trace corpus each new guard was replayed over, the
