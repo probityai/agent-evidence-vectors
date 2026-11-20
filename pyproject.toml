@@ -188,6 +188,7 @@ only-include = [
     "corpora/vectors-recorded",
     "corpora/vectors-refund-connected",
     "corpora/vectors-refusal-reason-priority",
+    "corpora/vectors-responsibility-escalation",
     "corpora/vectors-restart-records",
     "corpora/vectors-scitt-cose",
     "corpora/vectors-self-reported-record",
@@ -258,6 +259,7 @@ exclude = [
     "corpora/vectors-recorded/**/*.py",
     "corpora/vectors-refund-connected/**/*.py",
     "corpora/vectors-refusal-reason-priority/**/*.py",
+    "corpora/vectors-responsibility-escalation/**/*.py",
     "corpora/vectors-restart-records/**/*.py",
     "corpora/vectors-scitt-cose/**/*.py",
     "corpora/vectors-self-reported-record/**/*.py",
@@ -327,6 +329,7 @@ exclude = [
 "corpora/vectors-recorded" = "agent_evidence_vectors/corpora/vectors-recorded"
 "corpora/vectors-refund-connected" = "agent_evidence_vectors/corpora/vectors-refund-connected"
 "corpora/vectors-refusal-reason-priority" = "agent_evidence_vectors/corpora/vectors-refusal-reason-priority"
+"corpora/vectors-responsibility-escalation" = "agent_evidence_vectors/corpora/vectors-responsibility-escalation"
 "corpora/vectors-restart-records" = "agent_evidence_vectors/corpora/vectors-restart-records"
 "corpora/vectors-scitt-cose" = "agent_evidence_vectors/corpora/vectors-scitt-cose"
 "corpora/vectors-self-reported-record" = "agent_evidence_vectors/corpora/vectors-self-reported-record"
@@ -471,6 +474,7 @@ only-include = [
     "corpora/vectors-recorded",
     "corpora/vectors-refund-connected",
     "corpora/vectors-refusal-reason-priority",
+    "corpora/vectors-responsibility-escalation",
     "corpora/vectors-restart-records",
     "corpora/vectors-scitt-cose",
     "corpora/vectors-self-reported-record",
