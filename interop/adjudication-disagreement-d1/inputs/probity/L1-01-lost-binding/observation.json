@@ -1,0 +1,20 @@
+{
+  "schema_version": "probity-observation/v1",
+  "claim_id": "d1-absence",
+  "invocation_id": "d1-call-1",
+  "producer": "observer-d1",
+  "scope": {
+    "id": "d1-window",
+    "start": "2026-11-19T09:00:00Z",
+    "end": "2026-11-19T09:01:00Z"
+  },
+  "coverage": "complete",
+  "vantage": "independent",
+  "events": [
+    {
+      "id": "e1",
+      "type": "write",
+      "time": "2026-11-19T09:00:10Z"
+    }
+  ]
+}
