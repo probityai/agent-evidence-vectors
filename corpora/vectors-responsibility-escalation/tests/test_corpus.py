@@ -180,6 +180,7 @@ def test_authority_read_at_the_referral_instant_names_that_instant_when_clean() 
 def test_authority_narrowed_at_the_referral_instant_is_not_established() -> None:
     record = copy.deepcopy(CASES["h06-authority-narrowed-before-acknowledgement"][1])
     record["authority"]["versions"][1]["effectiveFrom"] = "2026-03-02T10:02:00Z"
+    record["authority"]["resolution"]["returned"] = "v2"
     assert reader.judge(record) == {
         "decision": "not_established",
         "reason": "authority_not_held_at_read_instant",
