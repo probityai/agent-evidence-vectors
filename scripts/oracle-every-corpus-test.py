@@ -69,6 +69,7 @@ RUNS_A_VERIFIER = (
     "vectors-grade-floor",
     "vectors-connector-scope",
     "vectors-agent-payment-mandate",
+    "vectors-x402-evidence-join",
     "vectors-identity-binding",
     "vectors-receipt-chain-end",
     "vectors-receipt-signature",
