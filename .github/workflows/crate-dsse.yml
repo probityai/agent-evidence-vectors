@@ -2,7 +2,7 @@ name: crate-dsse
 
 # Every check of crates/dsse, run from the crate directory. ci.yml calls this
 # when a change touches crates/dsse or a shared file. The jobs are the ones
-# probityai/dsse ran before its import (test.yml, rust.yml, policy.yml,
+# probityai-archive/dsse ran before its import (test.yml, rust.yml, policy.yml,
 # readme.yml, npm.yml, sigstore-js-threshold.yml). The npm qualification is its
 # own reusable workflow, crate-dsse-npm.yml, because release.yml runs it too.
 #

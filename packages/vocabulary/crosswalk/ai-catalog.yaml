@@ -1,0 +1,36 @@
+system: AI Catalog
+system_url: https://github.com/Agent-Card/ai-catalog
+crosswalk_version: "0.1.0"
+vocabulary_version_targeted: "0.10.0"
+
+maintainer:
+  github: probityai
+  third_party_authored: true
+
+summary_of_system: >
+  A specification for publishing catalogs of agents and their entries, with Trust Manifests signed as
+  JWS. Its signing input changed between revisions: before ADR-0028 a string signature over the Trust
+  Manifest minus its signature member (commit 4a341fae92ba79bebac9cbd927c4c3acbeb534c8, specification
+  line 937); after it, an object signature over the Trust Manifest minus signature.jws and
+  additionalSignatures, plus a whole-catalog snapshot signature (commit
+  e2b425f9e7678a5e6497c5fcff4826d906a4a605). This filing maps those procedures; it is written from
+  outside the project and promotes nothing.
+
+record_binding:
+  signing_construction:
+    match: exact
+    evidence: asserted
+    source_path: https://github.com/Agent-Card/ai-catalog/blob/e2b425f9e7678a5e6497c5fcff4826d906a4a605/adr/0028-independent-trust-manifests-and-whole-object-signatures.md
+    notes: "The Trust Manifest object signature is ai_catalog_2026_11 and the catalog snapshot signature is ai_catalog_snapshot, each at the pinned commit. The pre-ADR-0028 string signature signs the same input as ard_draft_bu_00."
+  canonicalization:
+    match: exact
+    evidence: asserted
+    source_path: https://github.com/Agent-Card/ai-catalog/blob/4a341fae92ba79bebac9cbd927c4c3acbeb534c8/specification/ai-catalog.md#L937
+    notes: "Every signing input is canonicalized with RFC 8785 (rfc8785)."
+  key_authority:
+    match: partial
+    evidence: asserted
+    source_path: https://github.com/Agent-Card/ai-catalog/blob/e2b425f9e7678a5e6497c5fcff4826d906a4a605/adr/0027-did-web-entry-signature-profile.md
+    notes: "The did:web signer profile resolves the key from a DID document at the publisher's exact root did:web, and only a verification method authorized for assertion may sign."
+    divergences:
+      - "A did:web document is fetched over HTTPS, so its authority is the web PKI of the host, which is neither a pin, a DNSSEC chain nor a transparency-log inclusion; a verifier maps it to pin only when it holds the document or the key from outside the fetch."

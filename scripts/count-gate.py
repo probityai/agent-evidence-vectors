@@ -1533,6 +1533,14 @@ _DRAFT_1105_SPANS = (
 )
 
 FROZEN: tuple[Frozen, ...] = (
+    Frozen(
+        'scripts/archived-repos.toml',
+        'the issue numbers that stayed in the archived agent-evidence repository',
+        'untransferred_issues = [30, 31, 32, 35]',
+        'Issue numbers of a repository that is archived and cannot change: closed issues '
+        'stayed behind when the open ones moved here under new numbers. They name records, '
+        'not counts of the live corpus, and one met the suiteRevision by coincidence.',
+    ),
     *(
         Frozen(_DRAFT_1105, f'the 5 November draft check, span {i}', span, _DRAFT_1105_REASON)
         for i, span in enumerate(_DRAFT_1105_SPANS, 1)
@@ -1545,6 +1553,15 @@ FROZEN: tuple[Frozen, ...] = (
         'comparison printed on the v0.17.4 manifest when it was posted to '
         'public-agent-conformance (0039, 0188, Nov/0002). The appendix workflow reruns '
         'the row and fails on any change, so the figure is checked there, not here.',
+    ),
+    Frozen(
+        'interop/w3c-v01-appendix/README.md',
+        'the R8-compare-169 figures posted to the W3C list',
+        '94 of 98; 25, 2, 44 of 71 over all 169 members (Nov/0004)',
+        'A past result, not a count of the live corpus: the row records what the R8 '
+        'comparison printed over all 169 members of the v0.17.4 manifest when it was posted '
+        'to public-agent-conformance (Nov/0004). The appendix workflow reruns the row and '
+        'fails on any change, so the figure is checked there, not here.',
     ),
     Frozen(
         'DISPOSITIONS.md',

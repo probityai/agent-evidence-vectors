@@ -40,6 +40,10 @@ SUMMARY = REPO_ROOT / "scripts" / "action-summary.py"
 HARNESS = Path(os.environ.get("AEV_HARNESS_UNDER_TEST", REPO_ROOT / "packaging" / "run_vectors.py"))
 
 MUTATION_ANCHOR = '        "corpus": corpus_provenance(suite_dir),\n'
+STAMP_ANCHOR = (
+    "    stamp_report(_report_path(args), os.path.abspath(args.vectors), report_before)\n"
+)
+HEADER_SCHEMA = REPO_ROOT / "spec" / "schemas" / "verifier-result-v1.schema.json"
 
 
 def signed_lines() -> dict[str, str]:
@@ -164,6 +168,9 @@ def case_summary_shows_provenance(work: Path) -> None:
     digest = report["corpus"]["corpusDigest"]
     assert digest in text, "the job summary does not show the corpus digest"
     assert "none (source checkout)" in text, "the job summary does not say the run had no release"
+    assert "Verifier result: package `agent-evidence-vectors`" in text, (
+        "the job summary does not show the verifier-result header"
+    )
 
 
 def case_mutation_goes_red(work: Path) -> None:
@@ -187,6 +194,90 @@ def case_mutation_goes_red(work: Path) -> None:
     )
 
 
+def check_header(report: dict[str, Any], manifest_rel: str) -> dict[str, Any]:
+    """The verifierResult header holds the schema and the signed digest."""
+    header = report.get("verifierResult")
+    assert isinstance(header, dict), f"report has no verifierResult: keys {sorted(report)}"
+    schema = json.loads(HEADER_SCHEMA.read_text(encoding="utf-8"))
+    assert sorted(header) == sorted(schema["required"]), f"header keys {sorted(header)}"
+    for key, rule in schema["properties"].items():
+        if "const" in rule:
+            assert header[key] == rule["const"], f"{key} {header[key]!r}"
+        if "enum" in rule:
+            assert header[key] in rule["enum"], f"{key} {header[key]!r}"
+    assert header["version"], "a checkout run recorded no package version"
+    want = signed_lines()[manifest_rel]
+    assert header["corpusDigest"] == want, f"input digest {header['corpusDigest']} != {want}"
+    return header
+
+
+def case_every_runner_writes_the_header(work: Path) -> None:
+    report = run_report(work)
+    header = check_header(report, "vectors/MANIFEST.json")
+    assert header["corpusRevisionKind"] == "git-commit", header
+    sibling = work / "sibling.json"
+    proc = subprocess.run(
+        [sys.executable, str(HARNESS), "--corpus", "vectors-approval-binding",
+         "--report", str(sibling)],
+        capture_output=True, text=True, check=False,
+    )
+    assert proc.returncode == 0 and sibling.exists(), f"sibling run exited {proc.returncode}"
+    loaded = json.loads(sibling.read_text(encoding="utf-8"))
+    check_header(loaded, "vectors-approval-binding/MANIFEST.json")
+    assert loaded.get("corpusDigest") == loaded["verifierResult"]["corpusDigest"]
+
+
+def case_revision_follows_the_layout(work: Path) -> None:
+    module = load_harness()
+    shipped = str(REPO_ROOT / "vectors")
+    real_installed, real_root = module.installed_layout, module.corpora_root
+    os.environ.pop(module.PACKAGE_REVISION_ENV, None)
+    try:
+        # The wheel keeps the corpora beside the module; stand the checkout in.
+        module.__dict__["installed_layout"] = lambda: True
+        module.__dict__["corpora_root"] = lambda: str(REPO_ROOT)
+        got = module.corpus_revision(shipped, "9.9.9")
+        assert got == ("v9.9.9", "release-tag"), got
+        os.environ[module.PACKAGE_REVISION_ENV] = "0123abcd"
+        got = module.corpus_revision(shipped, "9.9.9")
+        assert got == ("0123abcd", "action-ref"), got
+        # A consumer's own directory is never given this package's revision.
+        outside = work / "theirs"
+        outside.mkdir()
+        got = module.corpus_revision(str(outside), "9.9.9")
+        assert got == (None, "unknown"), got
+    finally:
+        os.environ.pop(module.PACKAGE_REVISION_ENV, None)
+        module.__dict__["installed_layout"] = real_installed
+        module.__dict__["corpora_root"] = real_root
+
+
+def case_stale_report_is_not_stamped(work: Path) -> None:
+    module = load_harness()
+    stale = work / "report.json"
+    stale.write_text('{"left": "by an earlier run"}\n', encoding="utf-8")
+    before = module._report_stat(str(stale))
+    assert module.stamp_report(str(stale), str(REPO_ROOT / "vectors"), before) is False
+    assert "verifierResult" not in json.loads(stale.read_text(encoding="utf-8"))
+
+
+def case_header_mutation_goes_red(work: Path) -> None:
+    """Without the stamp call in main, this file must fail."""
+    if os.environ.get("AEV_HARNESS_UNDER_TEST"):
+        return
+    text = HARNESS.read_text(encoding="utf-8")
+    assert STAMP_ANCHOR in text, "stamp anchor moved; update this test"
+    copy_dir = work / "packaging"
+    shutil.copytree(REPO_ROOT / "packaging", copy_dir, ignore=shutil.ignore_patterns("__pycache__"))
+    (copy_dir / "run_vectors.py").write_text(text.replace(STAMP_ANCHOR, ""), encoding="utf-8")
+    proc = subprocess.run(
+        [sys.executable, __file__],
+        env={**os.environ, "AEV_HARNESS_UNDER_TEST": str(copy_dir / "run_vectors.py")},
+        capture_output=True, text=True, check=False,
+    )
+    assert proc.returncode != 0, "this test stayed green against a harness that writes no header"
+
+
 CASES: list[Callable[[Path], None]] = [
     case_report_names_signed_digest,
     case_every_signed_corpus_matches,
@@ -194,6 +285,10 @@ CASES: list[Callable[[Path], None]] = [
     case_unreadable_manifest_is_null_not_invented,
     case_summary_shows_provenance,
     case_mutation_goes_red,
+    case_every_runner_writes_the_header,
+    case_revision_follows_the_layout,
+    case_stale_report_is_not_stamped,
+    case_header_mutation_goes_red,
 ]
 
 
