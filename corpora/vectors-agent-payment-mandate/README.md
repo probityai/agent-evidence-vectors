@@ -18,7 +18,7 @@ pip install agent-evidence-vectors
 python vectors-agent-payment-mandate/check_vectors.py
 ```
 
-The command prints `answered N of N cases`. To judge the cases with your own verifier, name it: `check_vectors.py --verifier "/path/to/verifier"`. It is run as `<verifier> <case-dir>/case.json --json`, prints one JSON object with `decision` and `reason`, and exits 0 for `accepted` and 1 for `rejected`.
+The command prints `answered N of N cases`. To judge the cases with your own verifier, name it: `check_vectors.py --verifier "/path/to/verifier"`. It is run as `<verifier> <case-dir>/case.json --json --policy <corpus>/policy.json`, prints one JSON object with `decision` and `reason`, and exits 0 for `accepted` and 1 for `rejected`.
 
 ## Cases
 
@@ -57,4 +57,4 @@ Pin the exact version; conformant means passing that version's cases.
 
 ## What it does not test
 
-It does not vendor or quote any of the three schemes' texts, names no upstream field, and does not say who bears the loss in a dispute. `profile.json` maps each scheme's concept to the receipt-side field checked. It proves a charge stayed inside what a user authorised; it does not prove the user meant it.
+It does not vendor or quote any of the three schemes' texts, names no upstream field, and does not say who bears the loss in a dispute. `profile.json` maps each scheme's concept to the receipt-side field checked. It proves a charge stayed inside terms that a pinned issuer key signed, and that a pinned settlement witness, not the agent or the merchant, signed the receipt binding that charge to those terms. The keys come from the relying party's policy (`policy.json` for these synthetic keys); a key or policy the record carries for itself is never read. It does not prove the user meant it, and it does not distribute or revoke keys.

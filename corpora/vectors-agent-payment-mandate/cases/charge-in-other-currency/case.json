@@ -18,7 +18,7 @@
     "signature": {
       "alg": "ed25519",
       "key_id": "issuer-key-1",
-      "value_sha256": "1a339e793445d5a0572a705eb9fd3372daac3e97938227d2723bf4a6ab45a5f5"
+      "value": "b9b3f79d31ec360fc19a2cfe6f87d6d902933adc4791d6b974e5662d37053236d93df4e8980cf80cfde8b9ef69cb4d81b9fd0bd4dfa0725c31144eef696ba403"
     },
     "terms": {
       "currency": "EUR",
@@ -42,7 +42,12 @@
   "receipt": {
     "execution_digest": "68662196f2704631177d358f479215b33002b7a4ad9ae3d57b1eee34d20b1058",
     "mandate_digest": "a32a498c0e180da17237f4ae35055050ba48e13f6476aac81c3d0e10c385376b",
-    "receipt_id": "rcpt-0001"
+    "receipt_id": "rcpt-0001",
+    "signature": {
+      "alg": "ed25519",
+      "key_id": "witness-key-1",
+      "value": "1d40c1311550235c825f8996935be61633af840b9b42fbfa4ec5e8c3e69a83681907ed84ee70804b5ea8d43a415ba3cae11b967c1f65016a78285053cb9c270a"
+    }
   },
   "schema": "agent-payment-mandate-record/v1",
   "scheme": "mastercard-verifiable-intent-credential"
