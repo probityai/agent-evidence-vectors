@@ -476,7 +476,7 @@ type agSubject struct {
 
 func newAGSubject(dir string, v agVector, body, trailer []byte) (*agSubject, string) {
 	s := &agSubject{artifacts: map[string][]byte{}, trailer: trailer}
-	if err := strictUnmarshal(body, &s.env); err != nil {
+	if err := agUnmarshalEnvelope(body, &s.env); err != nil {
 		return nil, "the member is not an attestation envelope: " + err.Error()
 	}
 	value, err := agDecode(s.env.Statement)
@@ -498,10 +498,41 @@ func newAGSubject(dir string, v agVector, body, trailer []byte) (*agSubject, str
 	return s, ""
 }
 
-func agDecode(raw []byte) (any, error) {
-	if err := refuseRepeatedMembers(raw); err != nil {
-		return nil, err
+// agUnmarshalEnvelope reads the envelope and refuses a repeated member in it, except
+// inside the statement. A statement that repeats a member is the case the corpus
+// declares as invalid with the code duplicate-member (ofg-c-21), and valueDomain names
+// it; refusing it here would replace that named verdict with an unparsed envelope.
+func agUnmarshalEnvelope(body []byte, env *agEnvelope) error {
+	dec := json.NewDecoder(bytes.NewReader(body))
+	dec.UseNumber()
+	if tok, err := dec.Token(); err != nil || tok != json.Delim('{') {
+		return json.Unmarshal(body, env)
 	}
+	seen := map[string]bool{}
+	for dec.More() {
+		key, err := dec.Token()
+		if err != nil {
+			return err
+		}
+		name, _ := key.(string)
+		if seen[name] {
+			return fmt.Errorf("%w %q", errRepeatedMember, name)
+		}
+		seen[name] = true
+		if name == "statement" {
+			var skip json.RawMessage
+			err = dec.Decode(&skip)
+		} else {
+			err = walkUnique(dec)
+		}
+		if err != nil {
+			return err
+		}
+	}
+	return json.Unmarshal(body, env)
+}
+
+func agDecode(raw []byte) (any, error) {
 	dec := json.NewDecoder(bytes.NewReader(raw))
 	dec.UseNumber()
 	var value any
