@@ -196,7 +196,15 @@ def _signature_valid(record: Record) -> bool:
     return bool(_rail().ed25519_verify(key, payload, signature))
 
 
-def _payload_value(record: Record) -> object:
+def _payload_value(record: Record, *, repeat_check_off: bool = False) -> object:
+    """The signed payload as one value; a repeated member is refused at parse time.
+
+    ``repeat_check_off`` models a reader without the ``payload_repeated_member`` check, so
+    the corpus's own tests can show that check changes a verdict: that reader keeps the last
+    member, as ``json`` does. A verifier never sets it, and it leaves ``strictjson`` as it was.
+    """
+    if repeat_check_off:
+        return json.loads(_payload(record))
     return strictjson.loads(_payload(record))
 
 
@@ -208,13 +216,13 @@ def _repeated_member(record: Record) -> bool:
     return False
 
 
-def _reading_differs(record: Record) -> bool:
+def _reading_differs(record: Record, *, repeat_check_off: bool = False) -> bool:
     reading = flatten(record["source"])
     if not isinstance(reading, dict):
         return True
     excluded = set(record["envelope"]["excluded"])
     covered = {key: item for key, item in reading.items() if key not in excluded}
-    return not _same(covered, _payload_value(record))
+    return not _same(covered, _payload_value(record, repeat_check_off=repeat_check_off))
 
 
 def _reads_unsigned(record: Record) -> bool:
@@ -238,16 +246,17 @@ def _first_failure(record: Record, skip: frozenset[str]) -> str | None:
     ``skip`` switches named checks off so the corpus's own tests can prove each
     check is forced by some member; a verifier never sets it.
     """
+    off = "payload_repeated_member" in skip
     failures: dict[str, Callable[[], bool]] = {
         "contract_id_missing": lambda: "contractId" not in record,
         "contract_id_unknown": lambda: record.get("contractId", CONTRACT_ID) != CONTRACT_ID,
         "signature_invalid": lambda: not _signature_valid(record),
         "payload_repeated_member": lambda: _repeated_member(record),
         "number_not_interoperable": lambda: (
-            _has_inexact_integer(_payload_value(record))
+            _has_inexact_integer(_payload_value(record, repeat_check_off=off))
             or _has_inexact_integer(record["source"])),
         "source_repeated_key": lambda: repeats(record["source"]),
-        "reading_differs_from_signed": lambda: _reading_differs(record),
+        "reading_differs_from_signed": lambda: _reading_differs(record, repeat_check_off=off),
         "consumer_reads_unsigned": lambda: _reads_unsigned(record),
     }
     for name in CHECKS:
