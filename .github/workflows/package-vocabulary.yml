@@ -2,7 +2,7 @@ name: package-vocabulary
 
 # Every check of packages/vocabulary, run from the package directory. ci.yml
 # calls this when a change touches packages/vocabulary or a shared file. The
-# jobs are the ones probityai/agent-evidence-vocabulary ran before its import:
+# jobs are the ones probityai-archive/agent-evidence-vocabulary ran before its import:
 # validate.yml, python-distribution.yml (its build and qualification; the
 # release itself is release.yml, unit agent-evidence-vocabulary), readme.yml,
 # commit-message-lint.yml and identity-scan.yml. Its weekly history audit and
@@ -142,6 +142,25 @@ jobs:
           # the vector manifest is its generator's output, and registry.py
           # derives from every case the value or refusal the case states. Offline.
           python3 scripts/test_decision_receipt.py
+
+      - name: Hold the registry, the validator and the guide to record_binding
+        run: |
+          # Each record_binding term starts proposed with no issuer and carries
+          # the check a verifier applies, every registered value is accepted and
+          # an unregistered one refused, the guide names every term and value,
+          # and registry.py gives the expected value or refusal for every number
+          # token, sequence and key-history case. Offline.
+          python3 scripts/test_record_binding.py
+
+      - name: Hold the registry, the validator and the guide to evaluation_claim
+        run: |
+          # Each evaluation_claim term starts proposed with no issuer, the guide
+          # names every term and value, and the reference derivations (the
+          # payment-scope/v1 evaluator, re-derivation, the three-valued decision,
+          # check order, vacuity, signer distinctness, lifecycle binding with
+          # three rule-deletion mutants, and the time bounds) agree with every
+          # case. Offline.
+          python3 scripts/test_evaluation_claim.py
 
       - name: Hold the validator to reading every file in crosswalk/
         run: |
