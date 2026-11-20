@@ -1791,6 +1791,8 @@ jobs:
         run: uv run --extra dev pytest corpora/vectors-open-weight-art53/tests -q
       - name: anchored-chain cases regenerate and force every check
         run: uv run --extra dev pytest corpora/vectors-anchored-chain/tests -q
+      - name: key-revocation-list cases regenerate, force every rule and refuse a reader that trusts the list
+        run: uv run --extra dev pytest corpora/vectors-key-revocation-list/tests -q
       - name: receipt-chain-end cases regenerate and force every check
         run: uv run --extra dev pytest corpora/vectors-receipt-chain-end/tests -q
       - name: identity-binding cases regenerate and force every check
