@@ -86,6 +86,23 @@ PROFILES = {
 }
 
 
+#: A formal model's proof run: every case states the outcome the model is meant to reach
+#: and the quantifier of its property, and a property expected to hold over all traces
+#: names a witness case that shows a trace reaches its premise, so a vacuous proof is
+#: not read as a pass.
+PROFILES["formal-model"] = {
+    **PROFILES["conformance"],
+    "id": "formal-model/v1",
+    "description": (
+        "A formal model's proof run against a pinned case set. Each case carries its expected "
+        "outcome and its quantifier; a property expected to hold over all traces names a "
+        "witness case whose expected outcome exhibits a trace."
+    ),
+    "case_members": ["expect", "quantifier"],
+    "witness_required": {"quantifier": "all-traces", "expect": "verified"},
+}
+
+
 def _profile_ref(name: str) -> dict[str, str]:
     return {"id": PROFILES[name]["id"], "digest": digest_of(PROFILES[name])}
 
@@ -99,6 +116,16 @@ def _case_set(name: str, revision: str, cases: list[tuple[str, str]]) -> dict[st
         "name": name,
         "revision": revision,
         "cases": [{"id": cid, "requirement": req} for cid, req in cases],
+    }
+
+
+def _case_set_expect(name: str, revision: str, cases: list[tuple[str, str, str]]) -> dict[str, Any]:
+    """A case set whose cases carry the expected outcome, so its digest binds the expectation."""
+    return {
+        "schema": CASE_SET_SCHEMA,
+        "name": name,
+        "revision": revision,
+        "cases": [{"id": cid, "requirement": req, "expect": exp} for cid, req, exp in cases],
     }
 
 
@@ -126,7 +153,86 @@ REDUCED = _case_set(
     "sample-conformance-reduced", "2", [("c1", "required"), ("c2", "required"), ("c4", "optional")]
 )
 EMPTY = _case_set("empty-suite", "1", [])
-CASE_SETS = {"sample-r1": R1, "sample-r2": R2, "sample-reduced": REDUCED, "empty": EMPTY}
+#: An expectation table as a case set: e1 must verify, e2 must be falsified (an attack the
+#: model is meant to find). REWRITTEN flips e1 the way a green-keeping edit would.
+EXPECT = _case_set_expect(
+    "sample-expectations", "1", [("e1", "required", "verified"), ("e2", "required", "falsified")]
+)
+EXPECT_REWRITTEN = _case_set_expect(
+    "sample-expectations", "1", [("e1", "required", "falsified"), ("e2", "required", "falsified")]
+)
+
+
+def _formal(name: str, cases: list[tuple[str, str, str, Any]],
+            optional: tuple[str, ...] = ()) -> dict[str, Any]:
+    """A formal-model case set: (id, quantifier, expect, witness)."""
+    out = []
+    for cid, quantifier, expect, witness in cases:
+        requirement = "optional" if cid in optional else "required"
+        case = {"id": cid, "requirement": requirement, "expect": expect, "quantifier": quantifier}
+        if witness is not None:
+            case["witness"] = witness
+        out.append(case)
+    return {"schema": CASE_SET_SCHEMA, "name": name, "revision": "1", "cases": out}
+
+
+#: w2 is an attack the model is meant to rule out, so p2's witness can never show a trace.
+FORMAL = _formal(
+    "sample-formal-model",
+    [
+        ("w1", "exists-trace", "verified", None),
+        ("p1", "all-traces", "verified", "w1"),
+        ("w2", "exists-trace", "falsified", "w1"),
+        ("p2", "all-traces", "verified", "w2"),
+    ],
+)
+FORMAL_DROPPED = _formal(
+    "sample-formal-model-witness-dropped",
+    [
+        ("w1", "exists-trace", "verified", None),
+        ("p1", "all-traces", "verified", None),
+        ("w2", "exists-trace", "falsified", "w1"),
+        ("p2", "all-traces", "verified", "w2"),
+    ],
+)
+#: The witness is the ablation sibling in which the same property is falsified: its
+#: counterexample is a trace that reaches the premise.
+FORMAL_SIBLING = _formal(
+    "sample-formal-model-sibling",
+    [
+        ("s1", "all-traces", "falsified", None),
+        ("p3", "all-traces", "verified", "s1"),
+    ],
+)
+#: The witness is optional, so a producer can exclude it and still report p1 passed.
+FORMAL_OPTIONAL_WITNESS = _formal(
+    "sample-formal-model-optional-witness",
+    [("w1", "exists-trace", "verified", None), ("p1", "all-traces", "verified", "w1")],
+    optional=("w1",),
+)
+#: q1 says no trace reaches the attack, which a model where nothing runs also satisfies.
+FORMAL_UNWITNESSED = _formal(
+    "sample-formal-model-unwitnessed-negative",
+    [("w1", "exists-trace", "verified", None), ("q1", "exists-trace", "falsified", None)],
+)
+FORMAL_WITNESS_LIST = _formal(
+    "sample-formal-model-witness-not-an-id",
+    [("w1", "exists-trace", "verified", None), ("p1", "all-traces", "verified", ["w1"])],
+)
+CASE_SETS = {
+    "sample-formal": FORMAL,
+    "sample-formal-optional-witness": FORMAL_OPTIONAL_WITNESS,
+    "sample-formal-unwitnessed": FORMAL_UNWITNESSED,
+    "sample-formal-witness-list": FORMAL_WITNESS_LIST,
+    "sample-formal-dropped": FORMAL_DROPPED,
+    "sample-formal-sibling": FORMAL_SIBLING,
+    "sample-r1": R1,
+    "sample-r2": R2,
+    "sample-reduced": REDUCED,
+    "empty": EMPTY,
+    "sample-expect": EXPECT,
+    "sample-expect-rewritten": EXPECT_REWRITTEN,
+}
 
 
 def _cs_ref(case_set: dict[str, Any], name: str | None = None) -> dict[str, str]:
@@ -166,6 +272,22 @@ RULES = {
     ),
     "execution": _rule("sample-execution-substrate", "execution", [R2], ["substrate"]),
     "empty-suite": _rule("empty-suite-substrate", "conformance", [EMPTY], ["substrate"]),
+    "conformance-expect": _rule(
+        "sample-expectations-substrate", "conformance", [EXPECT], ["substrate"]
+    ),
+    "formal-model": _rule(
+        "sample-formal-model-substrate",
+        "formal-model",
+        [
+            FORMAL,
+            FORMAL_DROPPED,
+            FORMAL_SIBLING,
+            FORMAL_OPTIONAL_WITNESS,
+            FORMAL_UNWITNESSED,
+            FORMAL_WITNESS_LIST,
+        ],
+        ["substrate"],
+    ),
     "unshipped-profile": {
         "schema": RULE_SCHEMA,
         "id": "sample-conformance-strict",
@@ -249,8 +371,23 @@ def _statement(record: dict[str, Any], subject_digest: str) -> dict[str, Any]:
 
 
 BASE_STMT = _statement(BASE_CONF, IMPLEMENTATION["digest"])
-BASES = {"conformance": BASE_CONF, "execution": BASE_EXEC, "statement": BASE_STMT}
-BASE_RULE = {"conformance": "conformance", "execution": "execution", "statement": "conformance"}
+BASE_EXPECT = _record("conformance", "pass", _coords(EXPECT, ["e1", "e2"]))
+BASE_FORMAL = _record("formal-model", "incomplete", _coords(FORMAL, ["w1", "p1", "w2"]))
+BASE_FORMAL["coordinates"]["population"]["not_run"] = ["p2"]
+BASES = {
+    "conformance": BASE_CONF,
+    "execution": BASE_EXEC,
+    "statement": BASE_STMT,
+    "expect": BASE_EXPECT,
+    "formal": BASE_FORMAL,
+}
+BASE_RULE = {
+    "conformance": "conformance",
+    "execution": "execution",
+    "statement": "conformance",
+    "expect": "conformance-expect",
+    "formal": "formal-model",
+}
 
 A = "ADMITTED"
 R = "REFUSED"
@@ -300,6 +437,33 @@ def _positives() -> list[dict[str, Any]]:
             "Every applicable case ran and passed.",
             "conformance",
             BASE_CONF,
+            "pass",
+        ),
+        _pos(
+            "expectation-table-bound",
+            "applicability",
+            "Each case carries its expected outcome, so the pinned case-set digest binds the "
+            "expectation table.",
+            "conformance-expect",
+            copy.deepcopy(BASE_EXPECT),
+            "pass",
+        ),
+        _pos(
+            "formal-model-vacuous-case-not-run",
+            "population",
+            "A property whose witness can never show a trace is reported not run, and the "
+            "verdict is incomplete.",
+            "formal-model",
+            copy.deepcopy(BASE_FORMAL),
+            "incomplete",
+        ),
+        _pos(
+            "secrecy-lemma-witnessed-by-sibling-variant",
+            "population",
+            "The witness is the ablation sibling in which the same property is falsified, so a "
+            "trace reaches the premise.",
+            "formal-model",
+            _record("formal-model", "pass", _coords(FORMAL_SIBLING, ["s1", "p3"])),
             "pass",
         ),
         _pos(
@@ -648,6 +812,94 @@ def _negatives() -> list[dict[str, Any]]:
         ),
         # CASE_SET_NOT_ACCEPTED, CASE_SET_UNRESOLVED
         _neg(
+            "vacuous-pass-read-as-pass",
+            "population",
+            "A property is reported passed while its witness is an attack the model is meant to "
+            "rule out, so no trace reaches its premise and the proof holds vacuously.",
+            "formal",
+            [
+                _set(pop + ("passed",), ["w1", "p1", "w2", "p2"]),
+                _set(pop + ("not_run",), []),
+                _set(("verdict",), "pass"),
+            ],
+            "VACUOUS_PASS",
+        ),
+        _neg(
+            "witness-excluded-read-as-pass",
+            "population",
+            "The witness is an optional case the producer excluded, so it never ran, and the "
+            "property it witnesses is reported passed.",
+            "formal",
+            [
+                _set(app + ("case_set",), _cs_ref(FORMAL_OPTIONAL_WITNESS)),
+                _set(byt + ("case_set",), _cs_ref(FORMAL_OPTIONAL_WITNESS)),
+                _set(app + ("applicable",), ["p1"]),
+                _set(app + ("excluded",), [{"id": "w1", "reason": "optional_feature_not_claimed"}]),
+                _set(pop + ("coverage_denominator",), 1),
+                _set(pop + ("passed",), ["p1"]),
+                _set(pop + ("not_run",), []),
+                _set(("verdict",), "pass"),
+            ],
+            "VACUOUS_PASS",
+        ),
+        _neg(
+            "exists-trace-falsified-unwitnessed",
+            "population",
+            "An exists-trace property expected falsified says no trace reaches the attack, a "
+            "claim over every trace; it names no witness, so a model in which nothing runs "
+            "passes it.",
+            "formal",
+            [
+                _set(app + ("case_set",), _cs_ref(FORMAL_UNWITNESSED)),
+                _set(byt + ("case_set",), _cs_ref(FORMAL_UNWITNESSED)),
+                _set(app + ("applicable",), ["w1", "q1"]),
+                _set(pop + ("coverage_denominator",), 2),
+                _set(pop + ("passed",), ["w1", "q1"]),
+                _set(pop + ("not_run",), []),
+                _set(("verdict",), "pass"),
+            ],
+            "VACUOUS_PASS",
+        ),
+        _neg(
+            "witness-not-a-case-id",
+            "applicability",
+            "A case names its witness as a list rather than one case id of the same set.",
+            "formal",
+            [
+                _set(app + ("case_set",), _cs_ref(FORMAL_WITNESS_LIST)),
+                _set(byt + ("case_set",), _cs_ref(FORMAL_WITNESS_LIST)),
+                _set(app + ("applicable",), ["w1", "p1"]),
+                _set(pop + ("coverage_denominator",), 2),
+                _set(pop + ("passed",), ["w1", "p1"]),
+                _set(pop + ("not_run",), []),
+                _set(("verdict",), "pass"),
+            ],
+            "CASE_SET_INCOMPLETE",
+        ),
+        _neg(
+            "witness-dropped-from-case-set",
+            "applicability",
+            "The case set omits the witness of a property expected to hold over all traces.",
+            "formal",
+            [
+                _set(app + ("case_set",), _cs_ref(FORMAL_DROPPED)),
+                _set(byt + ("case_set",), _cs_ref(FORMAL_DROPPED)),
+            ],
+            "CASE_SET_INCOMPLETE",
+        ),
+        _neg(
+            "expectation-table-rewritten",
+            "applicability",
+            "The ids are unchanged, but one expected outcome was flipped so that a regression "
+            "reads as a pass.",
+            "expect",
+            [
+                _set(app + ("case_set",), _cs_ref(EXPECT_REWRITTEN)),
+                _set(byt + ("case_set",), _cs_ref(EXPECT_REWRITTEN)),
+            ],
+            "CASE_SET_NOT_ACCEPTED",
+        ),
+        _neg(
             "producer-reduced-case-set",
             "applicability",
             "The producer binds its own reduced case set, which drops a required case.",
@@ -950,6 +1202,8 @@ def build() -> dict[str, bytes]:
             "execution": BASE_EXEC,
             "statement": BASE_STMT,
             "empty-suite": EMPTY_INCOMPLETE,
+            "expect": BASE_EXPECT,
+            "formal": BASE_FORMAL,
         },
         "cases": cases,
     }

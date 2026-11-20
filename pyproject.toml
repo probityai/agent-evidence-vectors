@@ -112,7 +112,7 @@ crosscheck = ["agent-evidence-verify==0.5.0; python_full_version >= '3.12'"]
 # tests under tests/). The packages under packages/ are standalone projects built
 # by directory (`uv build packages/<name>`); none of them has a runtime dependency. Their ruff run
 # reads ruff-parts.toml, not the rules below, which the corpora and the rail keep.
-dev = ["packaging==26.3", "pytest==9.2.0", "ruff==0.17.3"]
+dev = ["packaging==26.3", "pytest==9.2.0", "ruff==0.17.5"]
 
 # What the wheel carries, and where. The rail is a single stdlib-only module
 # kept at packaging/run_vectors.py, where every gate in scripts/ imports it by
@@ -156,6 +156,7 @@ only-include = [
     "corpora/vectors-authority-at-dispatch",
     "corpora/vectors-badge-vc-verify",
     "corpora/vectors-budget-lineage",
+    "corpora/vectors-catalog-trust-manifest",
     "corpora/vectors-chunked-export",
     "corpora/vectors-completion-confirmation",
     "corpora/vectors-connector-scope",
@@ -167,10 +168,13 @@ only-include = [
     "corpora/vectors-delegator-right",
     "corpora/vectors-dependency-selection",
     "corpora/vectors-dispatch-fence",
+    "corpora/vectors-dns-aid-rrset-v01",
+    "corpora/vectors-dns-aid-sig-v01",
     "corpora/vectors-done-contract",
     "corpora/vectors-done-probes",
     "corpora/vectors-done-receipt",
     "corpora/vectors-evidence-state",
+    "corpora/vectors-execution-billing-finality",
     "corpora/vectors-grade-floor",
     "corpora/vectors-grader-isolation",
     "corpora/vectors-htx-cases",
@@ -187,6 +191,8 @@ only-include = [
     "corpora/vectors-monitor-coverage",
     "corpora/vectors-observed-effect",
     "corpora/vectors-open-weight-art53",
+    "corpora/vectors-principal-binding",
+    "corpora/vectors-print-witness",
     "corpora/vectors-propagation-step",
     "corpora/vectors-receipt-chain-end",
     "corpora/vectors-receipt-signature",
@@ -235,6 +241,7 @@ exclude = [
     "corpora/vectors-authority-at-dispatch/**/*.py",
     "corpora/vectors-badge-vc-verify/**/*.py",
     "corpora/vectors-budget-lineage/**/*.py",
+    "corpora/vectors-catalog-trust-manifest/**/*.py",
     "corpora/vectors-chunked-export/**/*.py",
     "corpora/vectors-completion-confirmation/**/*.py",
     "corpora/vectors-connector-scope/**/*.py",
@@ -246,10 +253,13 @@ exclude = [
     "corpora/vectors-delegator-right/**/*.py",
     "corpora/vectors-dependency-selection/**/*.py",
     "corpora/vectors-dispatch-fence/**/*.py",
+    "corpora/vectors-dns-aid-rrset-v01/**/*.py",
+    "corpora/vectors-dns-aid-sig-v01/**/*.py",
     "corpora/vectors-done-contract/**/*.py",
     "corpora/vectors-done-probes/**/*.py",
     "corpora/vectors-done-receipt/**/*.py",
     "corpora/vectors-evidence-state/**/*.py",
+    "corpora/vectors-execution-billing-finality/**/*.py",
     "corpora/vectors-grade-floor/**/*.py",
     "corpora/vectors-grader-isolation/**/*.py",
     "corpora/vectors-htx-cases/**/*.py",
@@ -266,6 +276,8 @@ exclude = [
     "corpora/vectors-monitor-coverage/**/*.py",
     "corpora/vectors-observed-effect/**/*.py",
     "corpora/vectors-open-weight-art53/**/*.py",
+    "corpora/vectors-principal-binding/**/*.py",
+    "corpora/vectors-print-witness/**/*.py",
     "corpora/vectors-propagation-step/**/*.py",
     "corpora/vectors-receipt-chain-end/**/*.py",
     "corpora/vectors-receipt-signature/**/*.py",
@@ -313,6 +325,7 @@ exclude = [
 "corpora/vectors-authority-at-dispatch" = "agent_evidence_vectors/corpora/vectors-authority-at-dispatch"
 "corpora/vectors-badge-vc-verify" = "agent_evidence_vectors/corpora/vectors-badge-vc-verify"
 "corpora/vectors-budget-lineage" = "agent_evidence_vectors/corpora/vectors-budget-lineage"
+"corpora/vectors-catalog-trust-manifest" = "agent_evidence_vectors/corpora/vectors-catalog-trust-manifest"
 "corpora/vectors-chunked-export" = "agent_evidence_vectors/corpora/vectors-chunked-export"
 "corpora/vectors-completion-confirmation" = "agent_evidence_vectors/corpora/vectors-completion-confirmation"
 "corpora/vectors-connector-scope" = "agent_evidence_vectors/corpora/vectors-connector-scope"
@@ -324,10 +337,13 @@ exclude = [
 "corpora/vectors-delegator-right" = "agent_evidence_vectors/corpora/vectors-delegator-right"
 "corpora/vectors-dependency-selection" = "agent_evidence_vectors/corpora/vectors-dependency-selection"
 "corpora/vectors-dispatch-fence" = "agent_evidence_vectors/corpora/vectors-dispatch-fence"
+"corpora/vectors-dns-aid-rrset-v01" = "agent_evidence_vectors/corpora/vectors-dns-aid-rrset-v01"
+"corpora/vectors-dns-aid-sig-v01" = "agent_evidence_vectors/corpora/vectors-dns-aid-sig-v01"
 "corpora/vectors-done-contract" = "agent_evidence_vectors/corpora/vectors-done-contract"
 "corpora/vectors-done-probes" = "agent_evidence_vectors/corpora/vectors-done-probes"
 "corpora/vectors-done-receipt" = "agent_evidence_vectors/corpora/vectors-done-receipt"
 "corpora/vectors-evidence-state" = "agent_evidence_vectors/corpora/vectors-evidence-state"
+"corpora/vectors-execution-billing-finality" = "agent_evidence_vectors/corpora/vectors-execution-billing-finality"
 "corpora/vectors-grade-floor" = "agent_evidence_vectors/corpora/vectors-grade-floor"
 "corpora/vectors-grader-isolation" = "agent_evidence_vectors/corpora/vectors-grader-isolation"
 "corpora/vectors-htx-cases" = "agent_evidence_vectors/corpora/vectors-htx-cases"
@@ -344,6 +360,8 @@ exclude = [
 "corpora/vectors-monitor-coverage" = "agent_evidence_vectors/corpora/vectors-monitor-coverage"
 "corpora/vectors-observed-effect" = "agent_evidence_vectors/corpora/vectors-observed-effect"
 "corpora/vectors-open-weight-art53" = "agent_evidence_vectors/corpora/vectors-open-weight-art53"
+"corpora/vectors-principal-binding" = "agent_evidence_vectors/corpora/vectors-principal-binding"
+"corpora/vectors-print-witness" = "agent_evidence_vectors/corpora/vectors-print-witness"
 "corpora/vectors-propagation-step" = "agent_evidence_vectors/corpora/vectors-propagation-step"
 "corpora/vectors-receipt-chain-end" = "agent_evidence_vectors/corpora/vectors-receipt-chain-end"
 "corpora/vectors-receipt-signature" = "agent_evidence_vectors/corpora/vectors-receipt-signature"
@@ -466,6 +484,7 @@ only-include = [
     "corpora/vectors-authority-at-dispatch",
     "corpora/vectors-badge-vc-verify",
     "corpora/vectors-budget-lineage",
+    "corpora/vectors-catalog-trust-manifest",
     "corpora/vectors-chunked-export",
     "corpora/vectors-completion-confirmation",
     "corpora/vectors-connector-scope",
@@ -477,10 +496,13 @@ only-include = [
     "corpora/vectors-delegator-right",
     "corpora/vectors-dependency-selection",
     "corpora/vectors-dispatch-fence",
+    "corpora/vectors-dns-aid-rrset-v01",
+    "corpora/vectors-dns-aid-sig-v01",
     "corpora/vectors-done-contract",
     "corpora/vectors-done-probes",
     "corpora/vectors-done-receipt",
     "corpora/vectors-evidence-state",
+    "corpora/vectors-execution-billing-finality",
     "corpora/vectors-grade-floor",
     "corpora/vectors-grader-isolation",
     "corpora/vectors-htx-cases",
@@ -497,6 +519,8 @@ only-include = [
     "corpora/vectors-monitor-coverage",
     "corpora/vectors-observed-effect",
     "corpora/vectors-open-weight-art53",
+    "corpora/vectors-principal-binding",
+    "corpora/vectors-print-witness",
     "corpora/vectors-propagation-step",
     "corpora/vectors-receipt-chain-end",
     "corpora/vectors-receipt-signature",
@@ -563,7 +587,7 @@ artifact-binding = ["cryptography>=43"]
 # pymupdf is pinned exactly because interop/nist-ai-300-1 binds digests to the text
 # it extracts from the NIST AI 300-1 PDF; another release may extract other text.
 dev = ["cryptography>=43", "pycose>=1.1,<2", "cbor2>=5.6,<6", "markdown>=3.9",
-       "packaging>=25", "hypothesis==6.170.12", "pycryptodome==4.2.0", "jsonschema==4.26.0", "rfc8785==0.1.4",
+       "packaging>=25", "hypothesis==6.170.15", "pycryptodome==4.4.0", "jsonschema==4.26.0", "rfc8785==0.1.4",
        "mypy>=1.11", "pyright>=1.1.400", "pytest>=8", "pytest-cov>=5",
        "pyyaml>=6", "ruff>=0.6", "types-Markdown>=3.9", "types-PyYAML>=6",
        "numpy>=2.1", "mcp==2.3.0", "pymupdf==1.26.7", "types-jsonschema==4.26.0.20261006"]
@@ -705,6 +729,10 @@ target-version = "py313"
 # The repository tools of the imported parts are linted by ruff-parts.toml in
 # parts.yml; both configs on one file would give it two contradictory verdicts.
 extend-exclude = [
+  # Third-party source copied byte for byte and pinned by its git blob: the P04
+  # spend ledger the execution-billing-finality mutants are spliced into. An
+  # edit would break the pin, so it is not ours to lint.
+  "corpora/vectors-execution-billing-finality/tests/p04/exposure_ledger.py",
   "scripts/workspace.py",
   "scripts/build_predicate_pages.py",
   "scripts/build_vocabulary_pages.py",

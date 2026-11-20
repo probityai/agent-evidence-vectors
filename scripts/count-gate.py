@@ -3389,6 +3389,14 @@ MASKS = tuple(
         # collided with the suiteRevision and a reject count while claiming
         # nothing about either.
         r"\b[Rr]ules?\s+\d{1,3}\b",
+        # An ordered-list marker that numbers a named check, `29. `name``, is the
+        # check's position in an ordered list and counts nothing. It surfaced when
+        # the catalog-trust-manifest profile listed its checks in order and three
+        # positions equalled a corpus total and the suiteRevision. The marker must
+        # start the line and be followed by a backticked lower-case name, so a
+        # hard-wrapped sentence that happens to begin with a count and a full stop
+        # is still read.
+        r"(?m)^\d{1,3}\.(?=[ \t]+`[a-z][a-z0-9_]*`)",
         # A line reference, `Lines 417 to 429` or `line 80`, names a place in a
         # file and counts nothing. A pin of that shape collided with the unforced
         # count when the forcing baseline moved from 404 to 417 rules.

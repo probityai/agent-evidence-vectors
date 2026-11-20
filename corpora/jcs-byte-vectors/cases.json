@@ -512,5 +512,553 @@
       "error": "duplicate-member",
       "input": "{\"o\":{\"k\":1,\"k\":1}}"
     }
+  ],
+  "noncharacterCases": [
+    {
+      "id": "noncharacter-ufdd0-value-raw",
+      "family": "noncharacter",
+      "codePoint": "U+FDD0",
+      "position": "value",
+      "spelling": "raw",
+      "input": "[\"\ufdd0\"]",
+      "canonicalHex": "5b22efb790225d",
+      "sha256": "1d2cdc6190b30e368ce1eafaf8edc5dc96a802b2bdc720e536c285a87ffd8e0f",
+      "boundedError": "invalid-unicode"
+    },
+    {
+      "id": "noncharacter-ufdd0-value-escaped",
+      "family": "noncharacter",
+      "codePoint": "U+FDD0",
+      "position": "value",
+      "spelling": "escaped",
+      "input": "[\"\\ufdd0\"]",
+      "canonicalHex": "5b22efb790225d",
+      "sha256": "1d2cdc6190b30e368ce1eafaf8edc5dc96a802b2bdc720e536c285a87ffd8e0f",
+      "boundedError": "invalid-unicode"
+    },
+    {
+      "id": "noncharacter-ufdd0-member-name-raw",
+      "family": "noncharacter",
+      "codePoint": "U+FDD0",
+      "position": "member-name",
+      "spelling": "raw",
+      "input": "{\"\ufdd0\":1}",
+      "canonicalHex": "7b22efb790223a317d",
+      "sha256": "6cbbc1225641b7f60e74b68aaa072fe51d9baedc9c24f26961f937b2ad62ce81",
+      "boundedError": "invalid-unicode"
+    },
+    {
+      "id": "noncharacter-ufdd0-member-name-escaped",
+      "family": "noncharacter",
+      "codePoint": "U+FDD0",
+      "position": "member-name",
+      "spelling": "escaped",
+      "input": "{\"\\ufdd0\":1}",
+      "canonicalHex": "7b22efb790223a317d",
+      "sha256": "6cbbc1225641b7f60e74b68aaa072fe51d9baedc9c24f26961f937b2ad62ce81",
+      "boundedError": "invalid-unicode"
+    },
+    {
+      "id": "noncharacter-ufdef-value-raw",
+      "family": "noncharacter",
+      "codePoint": "U+FDEF",
+      "position": "value",
+      "spelling": "raw",
+      "input": "[\"\ufdef\"]",
+      "canonicalHex": "5b22efb7af225d",
+      "sha256": "ae5802ccca0c3b494108f10a75de94194a1f3bb10b0a4bcf7c9e71235e20e514",
+      "boundedError": "invalid-unicode"
+    },
+    {
+      "id": "noncharacter-ufdef-value-escaped",
+      "family": "noncharacter",
+      "codePoint": "U+FDEF",
+      "position": "value",
+      "spelling": "escaped",
+      "input": "[\"\\ufdef\"]",
+      "canonicalHex": "5b22efb7af225d",
+      "sha256": "ae5802ccca0c3b494108f10a75de94194a1f3bb10b0a4bcf7c9e71235e20e514",
+      "boundedError": "invalid-unicode"
+    },
+    {
+      "id": "noncharacter-ufdef-member-name-raw",
+      "family": "noncharacter",
+      "codePoint": "U+FDEF",
+      "position": "member-name",
+      "spelling": "raw",
+      "input": "{\"\ufdef\":1}",
+      "canonicalHex": "7b22efb7af223a317d",
+      "sha256": "8594952a76aa3eb247fc92b1b30c537009ff6989be90987a198368c1035c9e05",
+      "boundedError": "invalid-unicode"
+    },
+    {
+      "id": "noncharacter-ufdef-member-name-escaped",
+      "family": "noncharacter",
+      "codePoint": "U+FDEF",
+      "position": "member-name",
+      "spelling": "escaped",
+      "input": "{\"\\ufdef\":1}",
+      "canonicalHex": "7b22efb7af223a317d",
+      "sha256": "8594952a76aa3eb247fc92b1b30c537009ff6989be90987a198368c1035c9e05",
+      "boundedError": "invalid-unicode"
+    },
+    {
+      "id": "noncharacter-ufffe-value-raw",
+      "family": "noncharacter",
+      "codePoint": "U+FFFE",
+      "position": "value",
+      "spelling": "raw",
+      "input": "[\"\ufffe\"]",
+      "canonicalHex": "5b22efbfbe225d",
+      "sha256": "b09d4bb41d9b6c09f70b24a925845a6a609d2a8bf48ba1b833830046070b3fc3",
+      "boundedError": "invalid-unicode"
+    },
+    {
+      "id": "noncharacter-ufffe-value-escaped",
+      "family": "noncharacter",
+      "codePoint": "U+FFFE",
+      "position": "value",
+      "spelling": "escaped",
+      "input": "[\"\\ufffe\"]",
+      "canonicalHex": "5b22efbfbe225d",
+      "sha256": "b09d4bb41d9b6c09f70b24a925845a6a609d2a8bf48ba1b833830046070b3fc3",
+      "boundedError": "invalid-unicode"
+    },
+    {
+      "id": "noncharacter-ufffe-member-name-raw",
+      "family": "noncharacter",
+      "codePoint": "U+FFFE",
+      "position": "member-name",
+      "spelling": "raw",
+      "input": "{\"\ufffe\":1}",
+      "canonicalHex": "7b22efbfbe223a317d",
+      "sha256": "8a1e927ebf1056796735e5438d07272510ad00af6cd67f0376188de46759b80c",
+      "boundedError": "invalid-unicode"
+    },
+    {
+      "id": "noncharacter-ufffe-member-name-escaped",
+      "family": "noncharacter",
+      "codePoint": "U+FFFE",
+      "position": "member-name",
+      "spelling": "escaped",
+      "input": "{\"\\ufffe\":1}",
+      "canonicalHex": "7b22efbfbe223a317d",
+      "sha256": "8a1e927ebf1056796735e5438d07272510ad00af6cd67f0376188de46759b80c",
+      "boundedError": "invalid-unicode"
+    },
+    {
+      "id": "noncharacter-uffff-value-raw",
+      "family": "noncharacter",
+      "codePoint": "U+FFFF",
+      "position": "value",
+      "spelling": "raw",
+      "input": "[\"\uffff\"]",
+      "canonicalHex": "5b22efbfbf225d",
+      "sha256": "f71019c976f92080edc1802b707f306ce74360ba5b21481c3ce5f39631ab5f74",
+      "boundedError": "invalid-unicode"
+    },
+    {
+      "id": "noncharacter-uffff-value-escaped",
+      "family": "noncharacter",
+      "codePoint": "U+FFFF",
+      "position": "value",
+      "spelling": "escaped",
+      "input": "[\"\\uffff\"]",
+      "canonicalHex": "5b22efbfbf225d",
+      "sha256": "f71019c976f92080edc1802b707f306ce74360ba5b21481c3ce5f39631ab5f74",
+      "boundedError": "invalid-unicode"
+    },
+    {
+      "id": "noncharacter-uffff-member-name-raw",
+      "family": "noncharacter",
+      "codePoint": "U+FFFF",
+      "position": "member-name",
+      "spelling": "raw",
+      "input": "{\"\uffff\":1}",
+      "canonicalHex": "7b22efbfbf223a317d",
+      "sha256": "100ae8189f40a0e500c71a6db32e2d3a4d9d6d1f1e600203a32f416be0dc851e",
+      "boundedError": "invalid-unicode"
+    },
+    {
+      "id": "noncharacter-uffff-member-name-escaped",
+      "family": "noncharacter",
+      "codePoint": "U+FFFF",
+      "position": "member-name",
+      "spelling": "escaped",
+      "input": "{\"\\uffff\":1}",
+      "canonicalHex": "7b22efbfbf223a317d",
+      "sha256": "100ae8189f40a0e500c71a6db32e2d3a4d9d6d1f1e600203a32f416be0dc851e",
+      "boundedError": "invalid-unicode"
+    },
+    {
+      "id": "noncharacter-u1fffe-value-raw",
+      "family": "noncharacter",
+      "codePoint": "U+1FFFE",
+      "position": "value",
+      "spelling": "raw",
+      "input": "[\"\ud83f\udffe\"]",
+      "canonicalHex": "5b22f09fbfbe225d",
+      "sha256": "a58eb81794fb3683f56caf4acca214bf6058ca8216b5de42ad0e490a2846ee10",
+      "boundedError": "invalid-unicode"
+    },
+    {
+      "id": "noncharacter-u1fffe-value-escaped",
+      "family": "noncharacter",
+      "codePoint": "U+1FFFE",
+      "position": "value",
+      "spelling": "escaped",
+      "input": "[\"\\ud83f\\udffe\"]",
+      "canonicalHex": "5b22f09fbfbe225d",
+      "sha256": "a58eb81794fb3683f56caf4acca214bf6058ca8216b5de42ad0e490a2846ee10",
+      "boundedError": "invalid-unicode"
+    },
+    {
+      "id": "noncharacter-u1fffe-member-name-raw",
+      "family": "noncharacter",
+      "codePoint": "U+1FFFE",
+      "position": "member-name",
+      "spelling": "raw",
+      "input": "{\"\ud83f\udffe\":1}",
+      "canonicalHex": "7b22f09fbfbe223a317d",
+      "sha256": "01619c983521ff6f37e0114a9a7502bd605b25a7fca026927e8ba1835ed36545",
+      "boundedError": "invalid-unicode"
+    },
+    {
+      "id": "noncharacter-u1fffe-member-name-escaped",
+      "family": "noncharacter",
+      "codePoint": "U+1FFFE",
+      "position": "member-name",
+      "spelling": "escaped",
+      "input": "{\"\\ud83f\\udffe\":1}",
+      "canonicalHex": "7b22f09fbfbe223a317d",
+      "sha256": "01619c983521ff6f37e0114a9a7502bd605b25a7fca026927e8ba1835ed36545",
+      "boundedError": "invalid-unicode"
+    },
+    {
+      "id": "noncharacter-u10ffff-value-raw",
+      "family": "noncharacter",
+      "codePoint": "U+10FFFF",
+      "position": "value",
+      "spelling": "raw",
+      "input": "[\"\udbff\udfff\"]",
+      "canonicalHex": "5b22f48fbfbf225d",
+      "sha256": "ae205bae31537db2df3b058d4847c3e8c184b0e5a5e93dcc11de6202a7bc1c3f",
+      "boundedError": "invalid-unicode"
+    },
+    {
+      "id": "noncharacter-u10ffff-value-escaped",
+      "family": "noncharacter",
+      "codePoint": "U+10FFFF",
+      "position": "value",
+      "spelling": "escaped",
+      "input": "[\"\\udbff\\udfff\"]",
+      "canonicalHex": "5b22f48fbfbf225d",
+      "sha256": "ae205bae31537db2df3b058d4847c3e8c184b0e5a5e93dcc11de6202a7bc1c3f",
+      "boundedError": "invalid-unicode"
+    },
+    {
+      "id": "noncharacter-u10ffff-member-name-raw",
+      "family": "noncharacter",
+      "codePoint": "U+10FFFF",
+      "position": "member-name",
+      "spelling": "raw",
+      "input": "{\"\udbff\udfff\":1}",
+      "canonicalHex": "7b22f48fbfbf223a317d",
+      "sha256": "dc5fbc2a31d6374ad2ad5938a39c28215d06a96434d3d55cde09ef06bbcfd9c8",
+      "boundedError": "invalid-unicode"
+    },
+    {
+      "id": "noncharacter-u10ffff-member-name-escaped",
+      "family": "noncharacter",
+      "codePoint": "U+10FFFF",
+      "position": "member-name",
+      "spelling": "escaped",
+      "input": "{\"\\udbff\\udfff\":1}",
+      "canonicalHex": "7b22f48fbfbf223a317d",
+      "sha256": "dc5fbc2a31d6374ad2ad5938a39c28215d06a96434d3d55cde09ef06bbcfd9c8",
+      "boundedError": "invalid-unicode"
+    },
+    {
+      "id": "noncharacter-neighbour-ufdcf-value-raw",
+      "family": "noncharacter-neighbour",
+      "codePoint": "U+FDCF",
+      "position": "value",
+      "spelling": "raw",
+      "input": "[\"\ufdcf\"]",
+      "canonicalHex": "5b22efb78f225d",
+      "sha256": "f3d0d0e7fd6114e72820366c4660735a00afb647bf7f2ee64e879d65a3897eb6"
+    },
+    {
+      "id": "noncharacter-neighbour-ufdcf-value-escaped",
+      "family": "noncharacter-neighbour",
+      "codePoint": "U+FDCF",
+      "position": "value",
+      "spelling": "escaped",
+      "input": "[\"\\ufdcf\"]",
+      "canonicalHex": "5b22efb78f225d",
+      "sha256": "f3d0d0e7fd6114e72820366c4660735a00afb647bf7f2ee64e879d65a3897eb6"
+    },
+    {
+      "id": "noncharacter-neighbour-ufdcf-member-name-raw",
+      "family": "noncharacter-neighbour",
+      "codePoint": "U+FDCF",
+      "position": "member-name",
+      "spelling": "raw",
+      "input": "{\"\ufdcf\":1}",
+      "canonicalHex": "7b22efb78f223a317d",
+      "sha256": "f298152d0890b1bb1bad4ced77c9ed2825287e748a8882f1bc9def6fc1246600"
+    },
+    {
+      "id": "noncharacter-neighbour-ufdcf-member-name-escaped",
+      "family": "noncharacter-neighbour",
+      "codePoint": "U+FDCF",
+      "position": "member-name",
+      "spelling": "escaped",
+      "input": "{\"\\ufdcf\":1}",
+      "canonicalHex": "7b22efb78f223a317d",
+      "sha256": "f298152d0890b1bb1bad4ced77c9ed2825287e748a8882f1bc9def6fc1246600"
+    },
+    {
+      "id": "noncharacter-neighbour-ufdf0-value-raw",
+      "family": "noncharacter-neighbour",
+      "codePoint": "U+FDF0",
+      "position": "value",
+      "spelling": "raw",
+      "input": "[\"\ufdf0\"]",
+      "canonicalHex": "5b22efb7b0225d",
+      "sha256": "48a7831050a3cb624f418ad617285338a45a7330ed822505bf280372621a2be6"
+    },
+    {
+      "id": "noncharacter-neighbour-ufdf0-value-escaped",
+      "family": "noncharacter-neighbour",
+      "codePoint": "U+FDF0",
+      "position": "value",
+      "spelling": "escaped",
+      "input": "[\"\\ufdf0\"]",
+      "canonicalHex": "5b22efb7b0225d",
+      "sha256": "48a7831050a3cb624f418ad617285338a45a7330ed822505bf280372621a2be6"
+    },
+    {
+      "id": "noncharacter-neighbour-ufdf0-member-name-raw",
+      "family": "noncharacter-neighbour",
+      "codePoint": "U+FDF0",
+      "position": "member-name",
+      "spelling": "raw",
+      "input": "{\"\ufdf0\":1}",
+      "canonicalHex": "7b22efb7b0223a317d",
+      "sha256": "334b53288ccdd322822d2dfa94b252062a531cfa502eb850695c7bd90c1fe095"
+    },
+    {
+      "id": "noncharacter-neighbour-ufdf0-member-name-escaped",
+      "family": "noncharacter-neighbour",
+      "codePoint": "U+FDF0",
+      "position": "member-name",
+      "spelling": "escaped",
+      "input": "{\"\\ufdf0\":1}",
+      "canonicalHex": "7b22efb7b0223a317d",
+      "sha256": "334b53288ccdd322822d2dfa94b252062a531cfa502eb850695c7bd90c1fe095"
+    },
+    {
+      "id": "noncharacter-neighbour-ufffd-value-raw",
+      "family": "noncharacter-neighbour",
+      "codePoint": "U+FFFD",
+      "position": "value",
+      "spelling": "raw",
+      "input": "[\"\ufffd\"]",
+      "canonicalHex": "5b22efbfbd225d",
+      "sha256": "c1c3f1aa8521f9f91120eb3b242b280df4c90d4f2aa3bfda44904c2fbcf287cf"
+    },
+    {
+      "id": "noncharacter-neighbour-ufffd-value-escaped",
+      "family": "noncharacter-neighbour",
+      "codePoint": "U+FFFD",
+      "position": "value",
+      "spelling": "escaped",
+      "input": "[\"\\ufffd\"]",
+      "canonicalHex": "5b22efbfbd225d",
+      "sha256": "c1c3f1aa8521f9f91120eb3b242b280df4c90d4f2aa3bfda44904c2fbcf287cf"
+    },
+    {
+      "id": "noncharacter-neighbour-ufffd-member-name-raw",
+      "family": "noncharacter-neighbour",
+      "codePoint": "U+FFFD",
+      "position": "member-name",
+      "spelling": "raw",
+      "input": "{\"\ufffd\":1}",
+      "canonicalHex": "7b22efbfbd223a317d",
+      "sha256": "526085d95c318d0bff4ee6370e3ff0157b443771be9718dd99e14026c3bc5148"
+    },
+    {
+      "id": "noncharacter-neighbour-ufffd-member-name-escaped",
+      "family": "noncharacter-neighbour",
+      "codePoint": "U+FFFD",
+      "position": "member-name",
+      "spelling": "escaped",
+      "input": "{\"\\ufffd\":1}",
+      "canonicalHex": "7b22efbfbd223a317d",
+      "sha256": "526085d95c318d0bff4ee6370e3ff0157b443771be9718dd99e14026c3bc5148"
+    },
+    {
+      "id": "noncharacter-neighbour-u1fffd-value-raw",
+      "family": "noncharacter-neighbour",
+      "codePoint": "U+1FFFD",
+      "position": "value",
+      "spelling": "raw",
+      "input": "[\"\ud83f\udffd\"]",
+      "canonicalHex": "5b22f09fbfbd225d",
+      "sha256": "06ab4f4c3be0da304409af6e3aba8db0a5489ea99e69512328b9320d598a1bee"
+    },
+    {
+      "id": "noncharacter-neighbour-u1fffd-value-escaped",
+      "family": "noncharacter-neighbour",
+      "codePoint": "U+1FFFD",
+      "position": "value",
+      "spelling": "escaped",
+      "input": "[\"\\ud83f\\udffd\"]",
+      "canonicalHex": "5b22f09fbfbd225d",
+      "sha256": "06ab4f4c3be0da304409af6e3aba8db0a5489ea99e69512328b9320d598a1bee"
+    },
+    {
+      "id": "noncharacter-neighbour-u1fffd-member-name-raw",
+      "family": "noncharacter-neighbour",
+      "codePoint": "U+1FFFD",
+      "position": "member-name",
+      "spelling": "raw",
+      "input": "{\"\ud83f\udffd\":1}",
+      "canonicalHex": "7b22f09fbfbd223a317d",
+      "sha256": "2280548737f00e5f7d3ea1fd3b84cd9ea64bfd8dc5de3759e416e0d308d4b205"
+    },
+    {
+      "id": "noncharacter-neighbour-u1fffd-member-name-escaped",
+      "family": "noncharacter-neighbour",
+      "codePoint": "U+1FFFD",
+      "position": "member-name",
+      "spelling": "escaped",
+      "input": "{\"\\ud83f\\udffd\":1}",
+      "canonicalHex": "7b22f09fbfbd223a317d",
+      "sha256": "2280548737f00e5f7d3ea1fd3b84cd9ea64bfd8dc5de3759e416e0d308d4b205"
+    },
+    {
+      "id": "noncharacter-neighbour-u10fffd-value-raw",
+      "family": "noncharacter-neighbour",
+      "codePoint": "U+10FFFD",
+      "position": "value",
+      "spelling": "raw",
+      "input": "[\"\udbff\udffd\"]",
+      "canonicalHex": "5b22f48fbfbd225d",
+      "sha256": "57f35481a269337f60c56a4a192c61639959c5a00baa69da4c33f64299ca2462"
+    },
+    {
+      "id": "noncharacter-neighbour-u10fffd-value-escaped",
+      "family": "noncharacter-neighbour",
+      "codePoint": "U+10FFFD",
+      "position": "value",
+      "spelling": "escaped",
+      "input": "[\"\\udbff\\udffd\"]",
+      "canonicalHex": "5b22f48fbfbd225d",
+      "sha256": "57f35481a269337f60c56a4a192c61639959c5a00baa69da4c33f64299ca2462"
+    },
+    {
+      "id": "noncharacter-neighbour-u10fffd-member-name-raw",
+      "family": "noncharacter-neighbour",
+      "codePoint": "U+10FFFD",
+      "position": "member-name",
+      "spelling": "raw",
+      "input": "{\"\udbff\udffd\":1}",
+      "canonicalHex": "7b22f48fbfbd223a317d",
+      "sha256": "371de921263e69c212799c12758407974d9c96f7ec6d627a68bd46c27e4a3ac9"
+    },
+    {
+      "id": "noncharacter-neighbour-u10fffd-member-name-escaped",
+      "family": "noncharacter-neighbour",
+      "codePoint": "U+10FFFD",
+      "position": "member-name",
+      "spelling": "escaped",
+      "input": "{\"\\udbff\\udffd\":1}",
+      "canonicalHex": "7b22f48fbfbd223a317d",
+      "sha256": "371de921263e69c212799c12758407974d9c96f7ec6d627a68bd46c27e4a3ac9"
+    }
+  ],
+  "preimageCases": [
+    {
+      "id": "preimage-scalar-ascii",
+      "profile": "scalar-text",
+      "value": "\"approve\"",
+      "preimageHex": "617070726f7665",
+      "sha256": "74e21680eac7385ca408cb01878465fd693b37e58eb0c0c32663a2d8f15d8136",
+      "statedWrongPreimageHex": "22617070726f766522",
+      "statedWrongSha256": "6ef4cbc4f3f0a1af3187e96c208a6b7737cfa1cdfe40d84822a94d8d5eea0ac3",
+      "statedWrongReading": "json-form"
+    },
+    {
+      "id": "preimage-scalar-non-ascii",
+      "profile": "scalar-text",
+      "value": "\"caf\\u00e9\"",
+      "preimageHex": "636166c3a9",
+      "sha256": "850f7dc43910ff890f8879c0ed26fe697c93a067ad93a7d50f466a7028a9bf4e",
+      "statedWrongPreimageHex": "22636166c3a922",
+      "statedWrongSha256": "28380feb8724d669bc8d4cf5b5a5bb1adbdc61b81ebd06f3fabc567b4f3b0fc5",
+      "statedWrongReading": "json-form"
+    },
+    {
+      "id": "preimage-scalar-newline",
+      "profile": "scalar-text",
+      "value": "\"a\\nb\"",
+      "preimageHex": "610a62",
+      "sha256": "7e18f737311b2dc3b2f269dd78396b0351f14fb66efa879f768cb23181883c78",
+      "statedWrongPreimageHex": "22615c6e6222",
+      "statedWrongSha256": "8cb67f89f9ff0e25bb064da96907151d8e0eb7a5c0d4cde1b72ad1c9a30c065e",
+      "statedWrongReading": "json-form"
+    },
+    {
+      "id": "preimage-scalar-empty",
+      "profile": "scalar-text",
+      "value": "\"\"",
+      "preimageHex": "",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "statedWrongPreimageHex": "2222",
+      "statedWrongSha256": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+      "statedWrongReading": "json-form",
+      "collidesWith": "preimage-absent"
+    },
+    {
+      "id": "preimage-structured-reordered",
+      "profile": "structured-json",
+      "value": "{\"b\":2,\"a\":1}",
+      "preimageHex": "7b2261223a312c2262223a327d",
+      "sha256": "43258cff783fe7036d8a43033f830adfc60ec037382473548ac742b888292777",
+      "statedWrongPreimageHex": "7b2262223a322c2261223a317d",
+      "statedWrongSha256": "3fb75453225c732a76b7899ea2096dda1455189c89817239732182f73fe5a09f",
+      "statedWrongReading": "as-written"
+    },
+    {
+      "id": "preimage-structured-escaped",
+      "profile": "structured-json",
+      "value": "[\"caf\\u00e9\"]",
+      "preimageHex": "5b22636166c3a9225d",
+      "sha256": "da4f2d52419ca8d3a959c110f3704e6cec7c7d109c39d1096c07e2ce3b94fbe0",
+      "statedWrongPreimageHex": "5b226361665c7530306539225d",
+      "statedWrongSha256": "d9957358c680f7382fdf2e65ede7171846b650ebea7953d521837c3b16eed288",
+      "statedWrongReading": "as-written"
+    },
+    {
+      "id": "preimage-structured-null",
+      "profile": "structured-json",
+      "value": "null",
+      "preimageHex": "6e756c6c",
+      "sha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+      "statedWrongPreimageHex": "",
+      "statedWrongSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "statedWrongReading": "null-as-absent"
+    },
+    {
+      "id": "preimage-absent",
+      "profile": "absent",
+      "preimageHex": "",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "statedWrongPreimageHex": "6e756c6c",
+      "statedWrongSha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+      "statedWrongReading": "json-null"
+    }
   ]
 }

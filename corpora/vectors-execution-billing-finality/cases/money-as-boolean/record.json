@@ -1,0 +1,187 @@
+{
+  "contractId": "https://probityai.github.io/agent-evidence-vectors/predicate/v1/execution-billing-finality",
+  "end": {
+    "availableMicroUsd": 0,
+    "billingFinality": "FINAL",
+    "dispatchState": "POSSIBLE",
+    "executionOutcome": "UNKNOWN",
+    "frozen": false,
+    "heldMicroUsd": 0,
+    "knownSpendMicroUsd": 1,
+    "unbounded": false
+  },
+  "endReopened": {
+    "availableMicroUsd": 0,
+    "billingFinality": "FINAL",
+    "dispatchState": "POSSIBLE",
+    "executionOutcome": "UNKNOWN",
+    "frozen": false,
+    "heldMicroUsd": 0,
+    "knownSpendMicroUsd": 1,
+    "unbounded": false
+  },
+  "externalEffect": "NOT_EVALUATED",
+  "initial": {
+    "availableMicroUsd": 1,
+    "billingFinality": "UNKNOWN",
+    "dispatchState": "RESERVED",
+    "executionOutcome": "UNKNOWN",
+    "frozen": false,
+    "heldMicroUsd": 2,
+    "knownSpendMicroUsd": 0,
+    "unbounded": false
+  },
+  "mustNotClaim": [
+    "external_effect_established",
+    "invoice_authenticity",
+    "production_durability",
+    "upstream_acceptance"
+  ],
+  "observed": {
+    "availableMicroUsd": 2,
+    "billingFinality": "FINAL",
+    "dispatchState": "POSSIBLE",
+    "executionOutcome": "UNKNOWN",
+    "frozen": false,
+    "heldMicroUsd": 0,
+    "knownSpendMicroUsd": true,
+    "unbounded": false
+  },
+  "probes": [
+    {
+      "exception": null,
+      "return": {
+        "dispatchAllowed": false,
+        "newEvent": true,
+        "newlyFinalized": false,
+        "stateChanged": false
+      },
+      "state": {
+        "availableMicroUsd": 2,
+        "billingFinality": "FINAL",
+        "dispatchState": "POSSIBLE",
+        "executionOutcome": "UNKNOWN",
+        "frozen": false,
+        "heldMicroUsd": 0,
+        "knownSpendMicroUsd": 1,
+        "unbounded": false
+      }
+    },
+    {
+      "exception": null,
+      "return": {
+        "dispatchAllowed": false,
+        "newlyReserved": true
+      },
+      "state": {
+        "availableMicroUsd": 0,
+        "billingFinality": "FINAL",
+        "dispatchState": "POSSIBLE",
+        "executionOutcome": "UNKNOWN",
+        "frozen": false,
+        "heldMicroUsd": 0,
+        "knownSpendMicroUsd": 1,
+        "unbounded": false
+      }
+    }
+  ],
+  "reopened": {
+    "availableMicroUsd": 2,
+    "billingFinality": "FINAL",
+    "dispatchState": "POSSIBLE",
+    "executionOutcome": "UNKNOWN",
+    "frozen": false,
+    "heldMicroUsd": 0,
+    "knownSpendMicroUsd": 1,
+    "unbounded": false
+  },
+  "scenario": {
+    "budget": 3,
+    "id": "F04",
+    "probes": [
+      {
+        "cmd": "dispatch",
+        "event": "second-dispatch"
+      },
+      {
+        "amount": 2,
+        "attempt": "B",
+        "cmd": "reserve"
+      }
+    ],
+    "steps": [
+      {
+        "cmd": "dispatch"
+      },
+      {
+        "bounded": true,
+        "cmd": "unknown"
+      },
+      {
+        "amount": 1,
+        "cmd": "invoice",
+        "event": "invoice-1"
+      }
+    ]
+  },
+  "sourceSha256": "c321eab3e1adfa2169164f63238597f1a1c2a7868d339540a3da574f09c82d0f",
+  "steps": [
+    {
+      "exception": null,
+      "return": {
+        "dispatchAllowed": true,
+        "newEvent": true,
+        "newlyFinalized": false,
+        "stateChanged": true
+      },
+      "state": {
+        "availableMicroUsd": 1,
+        "billingFinality": "UNKNOWN",
+        "dispatchState": "POSSIBLE",
+        "executionOutcome": "UNKNOWN",
+        "frozen": false,
+        "heldMicroUsd": 2,
+        "knownSpendMicroUsd": 0,
+        "unbounded": false
+      }
+    },
+    {
+      "exception": null,
+      "return": {
+        "dispatchAllowed": false,
+        "newEvent": true,
+        "newlyFinalized": false,
+        "stateChanged": false
+      },
+      "state": {
+        "availableMicroUsd": 1,
+        "billingFinality": "UNKNOWN",
+        "dispatchState": "POSSIBLE",
+        "executionOutcome": "UNKNOWN",
+        "frozen": false,
+        "heldMicroUsd": 2,
+        "knownSpendMicroUsd": 0,
+        "unbounded": false
+      }
+    },
+    {
+      "exception": null,
+      "return": {
+        "dispatchAllowed": false,
+        "newEvent": true,
+        "newlyFinalized": true,
+        "stateChanged": true
+      },
+      "state": {
+        "availableMicroUsd": 2,
+        "billingFinality": "FINAL",
+        "dispatchState": "POSSIBLE",
+        "executionOutcome": "UNKNOWN",
+        "frozen": false,
+        "heldMicroUsd": 0,
+        "knownSpendMicroUsd": 1,
+        "unbounded": false
+      }
+    }
+  ]
+}

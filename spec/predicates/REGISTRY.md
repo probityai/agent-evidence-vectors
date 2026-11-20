@@ -206,6 +206,20 @@ restate the matrix on the W3C public-agent-identity list, October 2026 (messages
 - Envelope: a bare JSON record (`contractId`, `recordId`, `decision`, `authority`, `escalation`, `evaluatedAt`), not an in-toto Statement.
 - Field semantics: defined here, as a proposal; the outcome tokens `established`, `partial`, `unresolved` and `not_established` are not an agreed text of any group.
 - Example: `corpora/vectors-responsibility-escalation/cases/h09-clean-path-closed-on-time/record.json`.
+### `predicate/v1/execution-billing-finality`
+
+- Document: `corpora/vectors-execution-billing-finality/README.md`
+- Corpus: `corpora/vectors-execution-billing-finality/`, suite `execution-billing-finality/v1`
+- Rails: `corpusreaders/executionbilling.go`, `packaging/agent_evidence_vectors/executionbilling.py`
+  and the runtime contract in `packaging/agent_evidence_vectors/executionbilling_runtime.py`
+
+The predicate carries one runtime's observation of one scenario against its spend ledger:
+the attempt's execution outcome, billing finality and dispatch state after the reservation,
+every step, a reopen in a fresh process and every probe. A success is not a final bill, an
+invoice is not an execution, settled billing never reopens the same attempt's dispatch
+gate, and the dispatch state is a required output that leaves RESERVED once billing
+settles. Scenarios are from the P04 execution and billing candidate (agent-evidence-lab at
+8db9989), with X1 and the dispatch-guard mutants from a non-author run of it.
 
 ### `predicate/v1/evaluation-claim`
 

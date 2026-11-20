@@ -19,6 +19,14 @@ the answers are empty, unregistered or could not be read, so no decision is ever
 
 ``agent-evidence-admission conformance run|replay|verify``: sign, replay and check conformance
 result records; see ``conformance_cli``.
+
+``agent-evidence-admission admit <rule-set> <document>``: run a rule set on a record before any
+verifier judges it; exit 0 admitted, 1 refused, 2 when the document, an option file or a passed
+file could not be read. ``rule-sets`` lists the rule sets and their checks.
+
+``agent-evidence-admission ablate <manifest>``: drop each check of a rule set in turn over a
+vectors manifest; exit 0 when the full set reaches every stated verdict and every check is needed
+by at least one case, 1 otherwise, 2 when the manifest could not be read.
 """
 
 from __future__ import annotations
@@ -28,7 +36,7 @@ import json
 import sys
 from pathlib import Path
 
-from . import __version__, conformance_cli
+from . import __version__, conformance_cli, rules
 from .coverage_check import (
     check,
     detect_format,
@@ -76,6 +84,19 @@ def _parser() -> argparse.ArgumentParser:
     )
     verdicts.add_argument("answers", help="path or https URL of a JSON list of {policy, verdict[, constraint]} answers")
     verdicts.add_argument("--json", action="store_true", help="print the resolution as JSON")
+    admit = commands.add_parser("admit", help="run a rule set on a record before any verifier judges it")
+    admit.add_argument("rule_set", help="the rule set; `rule-sets` lists them")
+    admit.add_argument("document", help="path or https URL of the record")
+    admit.add_argument("--options", help="path of a JSON object of rule-set options")
+    admit.add_argument("--option", action="append", default=[], metavar="NAME=JSON", help="one option; repeat it")
+    admit.add_argument("--file", action="append", default=[], metavar="URI=PATH", help="bytes the record names by URI; repeat it")
+    admit.add_argument("--warn", action="append", default=[], metavar="CODE", help="report this refusal code as a warning; repeat it")
+    admit.add_argument("--json", action="store_true", help="print the verdict as JSON")
+    commands.add_parser("rule-sets", help="list the rule sets and their checks")
+    ablation = commands.add_parser("ablate", help="drop each check of a rule set in turn over a vectors manifest")
+    ablation.add_argument("manifest", help="path of a vectors manifest (python/vectors/rules/*/manifest.json)")
+    ablation.add_argument("--exhaustive", action="store_true", help="also list the minimal sets of checks that reach every verdict")
+    ablation.add_argument("--json", action="store_true", help="print the result as JSON")
     conformance_cli.add_parsers(commands)
     return parser
 
@@ -144,7 +165,84 @@ def _run_resolve(args: argparse.Namespace) -> int:
     return 0
 
 
+def _pairs(items: list[str], what: str, last: bool = False) -> list[tuple[str, str]]:
+    """NAME=VALUE pairs. With ``last``, split at the last ``=``: a URI's query carries ``=``
+    (``https://x.example/a?v=1=path``), a file path rarely does."""
+    out = []
+    for item in items:
+        name, sep, value = item.rpartition("=") if last else item.partition("=")
+        if not sep or not name:
+            raise ValueError(f"{what} {item!r} is not NAME=VALUE")
+        out.append((name, value))
+    return out
+
+
+def _read_options(args: argparse.Namespace) -> dict[str, object]:
+    options = json.loads(read_source(args.options)) if args.options else {}
+    if not isinstance(options, dict):
+        raise TypeError("--options is not a JSON object")
+    for name, value in _pairs(args.option, "--option"):
+        options[name] = json.loads(value)
+    return options
+
+
+def _run_admit(args: argparse.Namespace) -> int:
+    try:
+        rule_set = rules.get(args.rule_set)
+        raw = read_source(args.document)
+        options = _read_options(args)
+        files = {uri: read_source(path) for uri, path in _pairs(args.file, "--file", last=True)}
+        verdict = rules.run(rule_set, raw, options, files, warn=args.warn)
+    except (OSError, TypeError, ValueError) as error:
+        print(f"ERROR could not read: {error}", file=sys.stderr)
+        return 2
+    if args.json:
+        print(json.dumps(verdict.as_dict(), indent=2))
+    else:
+        for refusal in verdict.refusals:
+            print(f"REFUSE {refusal.code} at {refusal.at or '/'}: {refusal.detail}")
+        for warning in verdict.warnings:
+            print(f"WARN {warning.code} at {warning.at or '/'}: {warning.detail}")
+        if verdict.admitted:
+            print(f"ADMIT {args.document} under {rule_set.name}")
+    return 0 if verdict.admitted else 1
+
+
+def _run_rule_sets(args: argparse.Namespace) -> int:
+    for rule_set in rules.all_rule_sets():
+        print(f"{rule_set.name}: {rule_set.summary}")
+        print(f"  parse ({rule_set.profile}): {', '.join(rule_set.parse_checks)}")
+        for rule_check in rule_set.checks:
+            print(f"  {rule_check.name}: {rule_check.summary}")
+        for name, text in rule_set.option_help.items():
+            print(f"  option {name}: {text}")
+    return 0
+
+
+def _run_ablate(args: argparse.Namespace) -> int:
+    try:
+        rule_set, cases = rules.load_cases(args.manifest)
+    except (OSError, ValueError, KeyError) as error:
+        print(f"ERROR could not read: {error}", file=sys.stderr)
+        return 2
+    result = rules.ablate(rule_set, cases, exhaustive=args.exhaustive)
+    if args.json:
+        print(json.dumps(result.as_dict(), indent=2))
+    else:
+        print(f"{rule_set.name}: {result.cases} cases, sufficient: {'yes' if result.sufficient else 'no'}, monotone: {'yes' if result.monotone else 'no'}")
+        for case in result.failing_with_all:
+            print(f"  FAILS WITH EVERY CHECK ON: {case}")
+        for name, ids in result.necessary.items():
+            print(f"  {name}: {'needed by ' + ', '.join(ids) if ids else 'UNEXERCISED'}")
+        for chosen in result.minimal_sets or ():
+            print(f"  minimal set: {', '.join(chosen)}")
+    return 0 if result.sufficient and not result.unexercised and result.monotone else 1
+
+
 _COMMANDS = {
+    "admit": _run_admit,
+    "rule-sets": _run_rule_sets,
+    "ablate": _run_ablate,
     "digest-check": _run_digest,
     "coverage-check": _run_coverage,
     "generate": _run_generate,

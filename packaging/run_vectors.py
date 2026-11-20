@@ -139,6 +139,7 @@ from agent_evidence_vectors import (
     authoritydispatch,
     badgevc,
     cardreceipt,
+    catalogtrust,
     changeadmission,
     chunkedexport,
     completionconfirmation,
@@ -152,6 +153,7 @@ from agent_evidence_vectors import (
     donerun,
     evidencecell,
     evidencestate,
+    executionbilling,
     gradefloor,
     htxcases,
     identitybinding,
@@ -163,6 +165,8 @@ from agent_evidence_vectors import (
     observedeffect,
     openweight,
     paymentmandate,
+    principalbinding,
+    printwitness,
     propagationstep,
     receiptchainend,
     receiptsignature,
@@ -3917,6 +3921,8 @@ def _run_non_reference_suite(
         sourcecoverage.SUITE,
         anchoredchain.SUITE,
         keyrevocation.SUITE,
+        principalbinding.SUITE,
+        printwitness.SUITE,
         openweight.SUITE,
         receiptchainend.SUITE,
         identitybinding.SUITE,
@@ -3941,7 +3947,9 @@ def _run_non_reference_suite(
         telemetryevidence.SUITE,
         lifecyclebinding.SUITE,
         rsadigestinfo.SUITE,
+        executionbilling.SUITE,
         *cardreceipt.SUITES,
+        catalogtrust.SUITE,
         convertedargs.SUITE,
         delegatorright.SUITE,
         badgevc.SUITE,
@@ -3976,6 +3984,8 @@ def _run_non_reference_suite(
     full_reader = {
         anchoredchain.SUITE: anchoredchain.run,
         keyrevocation.SUITE: keyrevocation.run,
+        principalbinding.SUITE: principalbinding.run,
+        printwitness.SUITE: printwitness.run,
         openweight.SUITE: openweight.run,
         receiptchainend.SUITE: receiptchainend.run,
         identitybinding.SUITE: identitybinding.run,
@@ -4000,7 +4010,9 @@ def _run_non_reference_suite(
         telemetryevidence.SUITE: telemetryevidence.run,
         lifecyclebinding.SUITE: lifecyclebinding.run,
         rsadigestinfo.SUITE: rsadigestinfo.run,
+        executionbilling.SUITE: executionbilling.run,
         **{suite: cardreceipt.runner(suite) for suite in cardreceipt.SUITES},
+        catalogtrust.SUITE: catalogtrust.runner(catalogtrust.SUITE),
         convertedargs.SUITE: convertedargs.run,
         delegatorright.SUITE: delegatorright.run,
         badgevc.SUITE: badgevc.run,
@@ -5665,12 +5677,15 @@ def runtime_main(argv: list[str]) -> int:
     from agent_evidence_vectors import (
         decisionclient,
         decisionclient_runtime,
+        executionbilling,
+        executionbilling_runtime,
         uncertaineffect_runtime,
     )
 
     runners = {
         uncertaineffect.SUITE: uncertaineffect_runtime.run_runtime,
         decisionclient.SUITE: decisionclient_runtime.run_runtime,
+        executionbilling.SUITE: executionbilling_runtime.run_runtime,
     }
     parser = argparse.ArgumentParser(
         prog="agent-evidence-vectors runtime",

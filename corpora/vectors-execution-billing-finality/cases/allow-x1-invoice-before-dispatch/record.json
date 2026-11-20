@@ -1,0 +1,168 @@
+{
+  "contractId": "https://probityai.github.io/agent-evidence-vectors/predicate/v1/execution-billing-finality",
+  "end": {
+    "availableMicroUsd": 2,
+    "billingFinality": "FINAL",
+    "dispatchState": "POSSIBLE",
+    "executionOutcome": "UNKNOWN",
+    "frozen": false,
+    "heldMicroUsd": 0,
+    "knownSpendMicroUsd": 1,
+    "unbounded": false
+  },
+  "endReopened": {
+    "availableMicroUsd": 2,
+    "billingFinality": "FINAL",
+    "dispatchState": "POSSIBLE",
+    "executionOutcome": "UNKNOWN",
+    "frozen": false,
+    "heldMicroUsd": 0,
+    "knownSpendMicroUsd": 1,
+    "unbounded": false
+  },
+  "externalEffect": "NOT_EVALUATED",
+  "initial": {
+    "availableMicroUsd": 1,
+    "billingFinality": "UNKNOWN",
+    "dispatchState": "RESERVED",
+    "executionOutcome": "UNKNOWN",
+    "frozen": false,
+    "heldMicroUsd": 2,
+    "knownSpendMicroUsd": 0,
+    "unbounded": false
+  },
+  "mustNotClaim": [
+    "external_effect_established",
+    "invoice_authenticity",
+    "production_durability",
+    "upstream_acceptance"
+  ],
+  "observed": {
+    "availableMicroUsd": 2,
+    "billingFinality": "FINAL",
+    "dispatchState": "POSSIBLE",
+    "executionOutcome": "UNKNOWN",
+    "frozen": false,
+    "heldMicroUsd": 0,
+    "knownSpendMicroUsd": 1,
+    "unbounded": false
+  },
+  "probes": [
+    {
+      "exception": null,
+      "return": {
+        "dispatchAllowed": false,
+        "newEvent": true,
+        "newlyFinalized": false,
+        "stateChanged": false
+      },
+      "state": {
+        "availableMicroUsd": 2,
+        "billingFinality": "FINAL",
+        "dispatchState": "POSSIBLE",
+        "executionOutcome": "UNKNOWN",
+        "frozen": false,
+        "heldMicroUsd": 0,
+        "knownSpendMicroUsd": 1,
+        "unbounded": false
+      }
+    },
+    {
+      "exception": null,
+      "return": {
+        "dispatchAllowed": false,
+        "newEvent": false,
+        "newlyFinalized": false,
+        "stateChanged": false
+      },
+      "state": {
+        "availableMicroUsd": 2,
+        "billingFinality": "FINAL",
+        "dispatchState": "POSSIBLE",
+        "executionOutcome": "UNKNOWN",
+        "frozen": false,
+        "heldMicroUsd": 0,
+        "knownSpendMicroUsd": 1,
+        "unbounded": false
+      }
+    },
+    {
+      "exception": null,
+      "return": {
+        "dispatchAllowed": false,
+        "newEvent": true,
+        "newlyFinalized": false,
+        "stateChanged": false
+      },
+      "state": {
+        "availableMicroUsd": 2,
+        "billingFinality": "FINAL",
+        "dispatchState": "POSSIBLE",
+        "executionOutcome": "UNKNOWN",
+        "frozen": false,
+        "heldMicroUsd": 0,
+        "knownSpendMicroUsd": 1,
+        "unbounded": false
+      }
+    }
+  ],
+  "reopened": {
+    "availableMicroUsd": 2,
+    "billingFinality": "FINAL",
+    "dispatchState": "POSSIBLE",
+    "executionOutcome": "UNKNOWN",
+    "frozen": false,
+    "heldMicroUsd": 0,
+    "knownSpendMicroUsd": 1,
+    "unbounded": false
+  },
+  "scenario": {
+    "budget": 3,
+    "id": "X1",
+    "probes": [
+      {
+        "cmd": "dispatch",
+        "event": "late-dispatch"
+      },
+      {
+        "amount": 1,
+        "cmd": "invoice",
+        "event": "invoice-1"
+      },
+      {
+        "amount": 1,
+        "cmd": "cost",
+        "event": "cost-after-invoice"
+      }
+    ],
+    "steps": [
+      {
+        "amount": 1,
+        "cmd": "invoice",
+        "event": "invoice-1"
+      }
+    ]
+  },
+  "sourceSha256": "c321eab3e1adfa2169164f63238597f1a1c2a7868d339540a3da574f09c82d0f",
+  "steps": [
+    {
+      "exception": null,
+      "return": {
+        "dispatchAllowed": false,
+        "newEvent": true,
+        "newlyFinalized": true,
+        "stateChanged": true
+      },
+      "state": {
+        "availableMicroUsd": 2,
+        "billingFinality": "FINAL",
+        "dispatchState": "POSSIBLE",
+        "executionOutcome": "UNKNOWN",
+        "frozen": false,
+        "heldMicroUsd": 0,
+        "knownSpendMicroUsd": 1,
+        "unbounded": false
+      }
+    }
+  ]
+}

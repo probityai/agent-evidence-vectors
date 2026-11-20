@@ -1,0 +1,17 @@
+{
+ "case": "after-delete-sibling-kept",
+ "published": [
+  "a2a"
+ ],
+ "rrset": [
+  {
+   "owner": "_chat._agents.example.com",
+   "params": {
+    "alpn": "a2a",
+    "port": 443
+   },
+   "priority": 1,
+   "target": "chat.example.com"
+  }
+ ]
+}
