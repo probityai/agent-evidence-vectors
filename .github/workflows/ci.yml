@@ -1993,6 +1993,8 @@ jobs:
         run: uv run --extra generators python scripts/write-chain-replay-test.py
       - name: each revision-01 dating rule is pinned by its own retained member
         run: uv run --extra generators python scripts/audit-record-dating-rows-test.py
+      - name: each audit-record member names the published or proposed text it tests
+        run: uv run --extra generators python scripts/audit-record-text-tier-test.py
       # The same rule over every corpus, including one added after this step was
       # written: a member whose readings allow more than one verdict pins none.
       - name: no corpus pins a verdict on an open member
