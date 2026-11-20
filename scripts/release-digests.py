@@ -212,6 +212,9 @@ RECOMPUTERS: dict[str, Callable[[Path, dict[str, Any]], str]] = {
     "vectors-self-reported-record": _recompute_from_generator,
     "vectors-a2a-jcs-v01": _recompute_from_generator,
     "vectors-w3c-intake": _recompute_from_generator,
+    "vectors-lifecycle-binding": _recompute_from_generator,
+    "vectors-telemetry-evidence": _recompute_from_generator,
+    "vectors-rsa-digestinfo": _recompute_from_generator,
 }
 
 

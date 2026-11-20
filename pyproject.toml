@@ -175,6 +175,7 @@ only-include = [
     "corpora/vectors-identity-binding",
     "corpora/vectors-ietf-agent-record-drafts",
     "corpora/vectors-incident-evidence-cell",
+    "corpora/vectors-lifecycle-binding",
     "corpora/vectors-mcp-authz",
     "corpora/vectors-mcp-owasp",
     "corpora/vectors-mcp-record-contract",
@@ -189,11 +190,13 @@ only-include = [
     "corpora/vectors-refund-connected",
     "corpora/vectors-refusal-reason-priority",
     "corpora/vectors-restart-records",
+    "corpora/vectors-rsa-digestinfo",
     "corpora/vectors-scitt-cose",
     "corpora/vectors-self-reported-record",
     "corpora/vectors-signature-coverage",
     "corpora/vectors-source-coverage",
     "corpora/vectors-spoofed-tool-output",
+    "corpora/vectors-telemetry-evidence",
     "corpora/vectors-test-tampering",
     "corpora/vectors-trace-anchor",
     "corpora/vectors-uncertain-effect",
@@ -245,6 +248,7 @@ exclude = [
     "corpora/vectors-identity-binding/**/*.py",
     "corpora/vectors-ietf-agent-record-drafts/**/*.py",
     "corpora/vectors-incident-evidence-cell/**/*.py",
+    "corpora/vectors-lifecycle-binding/**/*.py",
     "corpora/vectors-mcp-authz/**/*.py",
     "corpora/vectors-mcp-owasp/**/*.py",
     "corpora/vectors-mcp-record-contract/**/*.py",
@@ -259,11 +263,13 @@ exclude = [
     "corpora/vectors-refund-connected/**/*.py",
     "corpora/vectors-refusal-reason-priority/**/*.py",
     "corpora/vectors-restart-records/**/*.py",
+    "corpora/vectors-rsa-digestinfo/**/*.py",
     "corpora/vectors-scitt-cose/**/*.py",
     "corpora/vectors-self-reported-record/**/*.py",
     "corpora/vectors-signature-coverage/**/*.py",
     "corpora/vectors-source-coverage/**/*.py",
     "corpora/vectors-spoofed-tool-output/**/*.py",
+    "corpora/vectors-telemetry-evidence/**/*.py",
     "corpora/vectors-test-tampering/**/*.py",
     "corpora/vectors-trace-anchor/**/*.py",
     "corpora/vectors-uncertain-effect/**/*.py",
@@ -314,6 +320,7 @@ exclude = [
 "corpora/vectors-identity-binding" = "agent_evidence_vectors/corpora/vectors-identity-binding"
 "corpora/vectors-ietf-agent-record-drafts" = "agent_evidence_vectors/corpora/vectors-ietf-agent-record-drafts"
 "corpora/vectors-incident-evidence-cell" = "agent_evidence_vectors/corpora/vectors-incident-evidence-cell"
+"corpora/vectors-lifecycle-binding" = "agent_evidence_vectors/corpora/vectors-lifecycle-binding"
 "corpora/vectors-mcp-authz" = "agent_evidence_vectors/corpora/vectors-mcp-authz"
 "corpora/vectors-mcp-owasp" = "agent_evidence_vectors/corpora/vectors-mcp-owasp"
 "corpora/vectors-mcp-record-contract" = "agent_evidence_vectors/corpora/vectors-mcp-record-contract"
@@ -328,11 +335,13 @@ exclude = [
 "corpora/vectors-refund-connected" = "agent_evidence_vectors/corpora/vectors-refund-connected"
 "corpora/vectors-refusal-reason-priority" = "agent_evidence_vectors/corpora/vectors-refusal-reason-priority"
 "corpora/vectors-restart-records" = "agent_evidence_vectors/corpora/vectors-restart-records"
+"corpora/vectors-rsa-digestinfo" = "agent_evidence_vectors/corpora/vectors-rsa-digestinfo"
 "corpora/vectors-scitt-cose" = "agent_evidence_vectors/corpora/vectors-scitt-cose"
 "corpora/vectors-self-reported-record" = "agent_evidence_vectors/corpora/vectors-self-reported-record"
 "corpora/vectors-signature-coverage" = "agent_evidence_vectors/corpora/vectors-signature-coverage"
 "corpora/vectors-source-coverage" = "agent_evidence_vectors/corpora/vectors-source-coverage"
 "corpora/vectors-spoofed-tool-output" = "agent_evidence_vectors/corpora/vectors-spoofed-tool-output"
+"corpora/vectors-telemetry-evidence" = "agent_evidence_vectors/corpora/vectors-telemetry-evidence"
 "corpora/vectors-test-tampering" = "agent_evidence_vectors/corpora/vectors-test-tampering"
 "corpora/vectors-trace-anchor" = "agent_evidence_vectors/corpora/vectors-trace-anchor"
 "corpora/vectors-uncertain-effect" = "agent_evidence_vectors/corpora/vectors-uncertain-effect"
@@ -458,6 +467,7 @@ only-include = [
     "corpora/vectors-identity-binding",
     "corpora/vectors-ietf-agent-record-drafts",
     "corpora/vectors-incident-evidence-cell",
+    "corpora/vectors-lifecycle-binding",
     "corpora/vectors-mcp-authz",
     "corpora/vectors-mcp-owasp",
     "corpora/vectors-mcp-record-contract",
@@ -472,11 +482,13 @@ only-include = [
     "corpora/vectors-refund-connected",
     "corpora/vectors-refusal-reason-priority",
     "corpora/vectors-restart-records",
+    "corpora/vectors-rsa-digestinfo",
     "corpora/vectors-scitt-cose",
     "corpora/vectors-self-reported-record",
     "corpora/vectors-signature-coverage",
     "corpora/vectors-source-coverage",
     "corpora/vectors-spoofed-tool-output",
+    "corpora/vectors-telemetry-evidence",
     "corpora/vectors-test-tampering",
     "corpora/vectors-trace-anchor",
     "corpora/vectors-uncertain-effect",

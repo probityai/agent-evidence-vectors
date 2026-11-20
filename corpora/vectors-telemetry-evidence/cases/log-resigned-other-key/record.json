@@ -1,0 +1,13 @@
+{
+  "claim": "event-log",
+  "coverage": {
+    "first_seq": 1,
+    "session": "s1"
+  },
+  "events_text": "{\"seq\": 1, \"prev\": \"e920318285f4d83d288edf500bcbb47cbd9740cda131d91ee6ffb53d643f3d31\", \"session\": \"s1\", \"name\": \"step-1\", \"status\": \"ok\"}\n{\"seq\": 2, \"prev\": \"fa9aa63901f410bf31904396795aad1111cec1dcd1b9c6cd2ffb67e58f10277d\", \"session\": \"s1\", \"name\": \"step-2\", \"status\": \"ok\"}\n{\"seq\": 3, \"prev\": \"faf9dd6418d3c8d417b8d3c01df5a64f816cc585991940c6fea96a2ef7a7213a\", \"session\": \"s1\", \"name\": \"step-3\", \"status\": \"ok\"}\n{\"seq\": 4, \"prev\": \"300490646d72ee8639d3932358d1759831a21e016e454e2cb1ce4c43b3826c80\", \"session\": \"s1\", \"name\": \"step-4\", \"status\": \"ok\"}\n{\"seq\": 5, \"prev\": \"578b560a8781ca6c1724cca10bfa57245ca68239a0a2f43edbd258ae4e6b2ab5\", \"session\": \"s1\", \"name\": \"step-x\", \"status\": \"ok\"}\n{\"seq\": 6, \"prev\": \"739cf31fa230a6193ca482d987bdfbad7d25389b3011da3ba69b66d5476bac5e\", \"session\": \"s1\", \"name\": \"step-6\", \"status\": \"ok\"}\n",
+  "first_prev": "e920318285f4d83d288edf500bcbb47cbd9740cda131d91ee6ffb53d643f3d31",
+  "head_text": "{\"format\": \"probity-witness-ledger-head-v0\", \"count\": 6, \"head\": \"73070ee40539748a4abe1cf079832676d8c80fa0399b40debf976bac0942d244\", \"keyid\": \"75666f381243955e6cf9a48fabec69fecbb2ad068c54bf8f9896142d3861609e\", \"signature\": \"4kOM+eFVFRHCmDVJXOdxg/yPs3rDH/bwNuPt1dlCd+BL33AtzDXPKai+I/cP3nzdK/reAOTUuXj1yfHbW5PhCQ==\"}",
+  "pinned_key_sha256": [
+    "f3dbac406d68189e1fe719fe28799e7eaa0d42460567df080f039fe0ca8429ba"
+  ]
+}
