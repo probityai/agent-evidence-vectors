@@ -150,10 +150,14 @@ def seal_commitment(pred: dict[str, Any]) -> None:
 # ---------------------------------------------------------------------------
 # Evaluation inputs (Section 5.4 of draft-gilda-audit-agent-audit-record-00).
 # Every entry carries input, lastResult and maxAge, and every age is measured
-# from lastResult to decision.reportedAt, 2026-09-19T11:04:02Z in every member
-# except FR17a; the skew tolerance is 300 seconds. The accept members carry the
-# inputs the draft's own example prints: a policy read at 10:00:00 under a
-# day's maximum and a standing value read at 11:00:00 under an hour's.
+# from lastResult to the reference time: decision.evaluatedAt where the record
+# carries it (FR19 to FR25, revision 04) and decision.reportedAt otherwise,
+# 2026-09-19T11:04:02Z in every member except FR17a. An input is fresh while its
+# age is less than maxAge, so an age equal to maxAge is stale (revision 04;
+# revision 00 to 03 called it fresh). The skew tolerance is 300 seconds. The
+# accept members carry the inputs the draft's own example prints: a policy read
+# at 10:00:00 under a day's maximum and a standing value read at 11:00:00 under
+# an hour's.
 # ---------------------------------------------------------------------------
 
 NEVER_HELD = "none"
@@ -1521,6 +1525,7 @@ def define() -> None:
         member(draft_id, slug, parent, row, build, "malformed", [code])
 
     define_freshness()
+    define_evaluated_at()
     define_retained()
     define_revision_01()
     define_consumption()
@@ -1558,13 +1563,6 @@ def define_freshness() -> None:
             _with_inputs("A1", "FR1", fresh),
         ),
         (
-            "FR2",
-            "fr2-age-equal-to-max-age-is-fresh",
-            "FR1 with standing-source's age at decision.reportedAt exactly equal to its "
-            "maxAge, 3600 seconds, so the input is fresh",
-            _with_inputs("A1", "FR2", second_hop_inputs("2026-09-19T10:04:02Z")),
-        ),
-        (
             "FR3",
             "fr3-forwarded-standing-one-second-stale",
             "A10 written by the second of two hops, the forwarded standing-source one second "
@@ -1581,6 +1579,24 @@ def define_freshness() -> None:
     ]
     for draft_id, slug, row, build in accepts:
         member(draft_id, slug, None, row, build, "valid", tier="authoritative")
+
+    # FR2 keeps the bytes it shipped with as an accept member through v0.26.0 and
+    # later, and revision 04 moves the boundary under it: an age equal to maxAge
+    # is stale, so evaluated beside it is malformed.
+    member(
+        "FR2",
+        "fr2-age-equal-to-max-age-is-stale",
+        "FR1",
+        "evaluated beside an input whose age at decision.reportedAt is exactly its maxAge, "
+        "3600 seconds, so the input is stale",
+        mutate(
+            "FR1",
+            _entry_change(STANDING_ENTRY, lambda e: e.update(lastResult="2026-09-19T10:04:02Z")),
+        ),
+        "malformed",
+        ["evaluation-inconsistent"],
+        revision=REVISION_04,
+    )
 
     rejects: list[tuple[str, str, str, str, Callable[[], Built], str]] = [
         (
@@ -1725,7 +1741,7 @@ def define_freshness() -> None:
         "fr18-last-result-inside-skew-tolerance",
         None,
         "FR1 with key-source's lastResult 300 seconds after decision.reportedAt, exactly the "
-        "skew tolerance: not malformed, and an age below zero is at most maxAge, so fresh",
+        "skew tolerance: not malformed, and an age below zero is less than maxAge, so fresh",
         _with_inputs(
             "A1",
             "FR18",
@@ -1773,6 +1789,154 @@ def define_freshness() -> None:
         "malformed",
         ["evaluation-inconsistent"],
         section="5.4",
+    )
+
+
+# ---------------------------------------------------------------------------
+# The time a decision was taken (revision 04, rows FR19 to FR24, and FR25).
+#
+# decision.evaluatedAt is optional: the time the decision point evaluated its
+# inputs and took the decision. Where the record carries it, every entry's age
+# and the skew of every lastResult are measured to it; otherwise to
+# decision.reportedAt. An evaluatedAt later than reportedAt by more than the
+# skew tolerance is malformed. Each member below is wrong for exactly one reader:
+#
+# * FR19 to FR21: a reader that measures to reportedAt and ignores evaluatedAt.
+#   FR19 decided 1800 seconds before it reported, with standing-source 2042
+#   seconds old then and 3842 seconds old at reportedAt; FR20 is FR19 recorded as
+#   not-evaluated naming it, which the set derived at reportedAt would match.
+# * FR21 and FR22: the boundary at evaluatedAt, one second inside maxAge (fresh)
+#   and exactly at it (stale).
+# * FR23 and FR24: evaluatedAt 301 seconds after reportedAt (malformed) and 300
+#   seconds after (valid). Both are built on FR1, whose entries are fresh at
+#   either time, so only the evaluatedAt sentence refuses FR23. Built on FR19, as
+#   the draft's row first named, standing-source would also be stale at the later
+#   time and FR23 would be malformed under a reader that has no evaluatedAt rule.
+# * FR25, a sentence no Appendix B row isolates: policy-source produced 301
+#   seconds after evaluatedAt and before reportedAt, so only a reader measuring
+#   the skew to the reference time refuses it.
+# ---------------------------------------------------------------------------
+
+#: FR19's decision.evaluatedAt, 1800 seconds before the reportedAt of A1.
+EVALUATED_EARLY = "2026-09-19T10:34:02Z"
+
+
+def _evaluated_at(stamp: str) -> Callable[[dict[str, Any]], None]:
+    return _set("decision.evaluatedAt", stamp)
+
+
+def _standing_at(parent: str, name: str, last_result: str) -> Callable[[], Built]:
+    """``parent`` with standing-source's lastResult moved, kept as an accept."""
+
+    def build() -> Built:
+        pred = from_pred(parent)
+        for item in pred["evaluation"]["inputs"]:
+            if item["input"] == "standing-source":
+                item["lastResult"] = last_result
+        return accept(name, pred)
+
+    return build
+
+
+def build_fr19() -> Built:
+    pred = from_pred("A1")
+    pred["decision"]["evaluatedAt"] = EVALUATED_EARLY
+    pred["evaluation"]["inputs"] = [
+        entry("policy-source", "2026-09-19T10:00:00Z", DAY),
+        entry("standing-source", "2026-09-19T10:00:00Z", HOUR),
+    ]
+    return accept("FR19", pred)
+
+
+def build_fr24() -> Built:
+    pred = from_pred("FR1")
+    pred["decision"]["evaluatedAt"] = "2026-09-19T11:09:02Z"
+    return accept("FR24", pred)
+
+
+def _fr20(pred: dict[str, Any]) -> None:
+    pred["evaluation"]["status"] = "not-evaluated"
+    pred["evaluation"]["unavailableInput"] = ["standing-source"]
+
+
+def _fr25(pred: dict[str, Any]) -> None:
+    pred["evaluation"]["inputs"][0]["lastResult"] = "2026-09-19T10:39:03Z"
+
+
+def define_evaluated_at() -> None:
+    accepts: list[tuple[str, str, str, Callable[[], Built]]] = [
+        (
+            "FR19",
+            "fr19-evaluated-at-fresh-at-evaluation-stale-at-report",
+            "A1 with decision.evaluatedAt 1800 seconds before decision.reportedAt and "
+            "standing-source fresh at decision.evaluatedAt (2042 seconds under 3600) but older "
+            "than its maxAge at decision.reportedAt (3842 seconds), under evaluated",
+            build_fr19,
+        ),
+        (
+            "FR21",
+            "fr21-evaluated-at-one-second-inside-max-age",
+            "FR19 with standing-source one second younger than its maxAge at "
+            "decision.evaluatedAt (3599 seconds under 3600)",
+            _standing_at("FR19", "FR21", "2026-09-19T09:34:03Z"),
+        ),
+        (
+            "FR24",
+            "fr24-evaluated-at-at-skew-tolerance-after-report",
+            "FR1 with decision.evaluatedAt 300 seconds after decision.reportedAt, exactly the "
+            "skew tolerance",
+            build_fr24,
+        ),
+    ]
+    for draft_id, slug, row, build in accepts:
+        member(
+            draft_id, slug, None, row, build, "valid", tier="authoritative", revision=REVISION_04
+        )
+    rejects: list[tuple[str, str, str, str, Callable[[], Built], str]] = [
+        (
+            "FR20",
+            "fr20-not-evaluated-naming-input-fresh-at-evaluated-at",
+            "FR19",
+            "not-evaluated naming standing-source, which is fresh at decision.evaluatedAt: the "
+            "set derived at decision.reportedAt would match it",
+            mutate("FR19", _fr20),
+            "evaluation-inconsistent",
+        ),
+        (
+            "FR22",
+            "fr22-evaluated-at-age-equal-to-max-age",
+            "FR21",
+            "standing-source exactly its maxAge old at decision.evaluatedAt (3600 seconds under "
+            "3600), under evaluated",
+            mutate(
+                "FR21",
+                lambda p: p["evaluation"]["inputs"][1].update(lastResult="2026-09-19T09:34:02Z"),
+            ),
+            "evaluation-inconsistent",
+        ),
+        (
+            "FR23",
+            "fr23-evaluated-at-past-skew-tolerance-after-report",
+            "FR1",
+            "decision.evaluatedAt 301 seconds after decision.reportedAt, more than the skew "
+            "tolerance, every entry fresh at either time",
+            mutate("FR1", _evaluated_at("2026-09-19T11:09:03Z")),
+            "evaluation-result-after-decision",
+        ),
+    ]
+    for draft_id, slug, parent, row, build, code in rejects:
+        member(draft_id, slug, parent, row, build, "malformed", [code], revision=REVISION_04)
+    member(
+        "FR25",
+        "fr25-last-result-past-skew-tolerance-after-evaluated-at",
+        "FR19",
+        "policy-source's lastResult 301 seconds after decision.evaluatedAt and before "
+        "decision.reportedAt: the skew is measured to the reference time",
+        mutate("FR19", _fr25),
+        "malformed",
+        ["evaluation-result-after-decision"],
+        section="5.4",
+        revision=REVISION_04,
     )
 
 
@@ -3442,7 +3606,7 @@ def define_audit_next() -> None:
 
 # ---------------------------------------------------------------------------
 # Principal standing under the v2 URI (revision 03, rows PS1 and PS2), and the
-# open boundary beside them (PS1b). Contributed by Wes Jackson in
+# boundary beside them (PS1b). Contributed by Wes Jackson in
 # probityai/agent-evidence-vectors#412, built as written there; the boundary
 # case is Girish Konda's.
 #
@@ -3451,10 +3615,11 @@ def define_audit_next() -> None:
 # under the v2 URI. PS1 is A10 under that URI: issuer standing fresh, principal
 # standing unavailable, recorded not-evaluated. PS2 is the same record under the
 # v1 URI, where the value is outside the set. PS1b puts principal standing
-# exactly at maxAge, where draft-jackson-wimse-evaluation-05 Section 3 forbids
-# using the input ("at or past its horizon") and Section 5.4 of revision 03
-# calls it fresh ("an age equal to maxAge is fresh"). No record satisfies both,
-# so the member is open until the two drafts carry one boundary.
+# exactly at maxAge. draft-jackson-wimse-evaluation-05 Section 3 forbids using
+# the input ("at or past its horizon") and Section 5.4 of revision 03 called it
+# fresh ("an age equal to maxAge is fresh"), so the member was open between the
+# two drafts until revision 04 adopted the first boundary: an input exactly
+# maxAge old is stale, and PS1b, not-evaluated naming it, is valid.
 # ---------------------------------------------------------------------------
 
 #: The principal-standing value of PS1b: exactly 3600 seconds before reportedAt.
@@ -3477,26 +3642,6 @@ def build_ps1(principal_last_result: str = STALE, predicate_type: str = PREDICAT
     return {"payload": canonical_bytes(stmt)}
 
 
-TWO_READINGS_PS1B = [
-    {
-        "verdict": "valid",
-        "rationale": "draft-jackson-wimse-evaluation-05 Section 3: a verifier must not use "
-        "an input at or past its horizon, its as-of time plus the pinned maximum age, so at "
-        "an age equal to maxAge the input is unavailable and not-evaluated naming it is the "
-        "record required. The reading if this draft adopts that boundary (an input is fresh "
-        "when its age is less than maxAge, and FR2 becomes malformed)",
-    },
-    {
-        "verdict": "malformed",
-        "rationale": "Section 5.4 of draft-gilda-audit-agent-audit-record-03 as filed: an "
-        "age equal to maxAge is fresh (FR2), so the derived unavailable set is empty and a "
-        "not-evaluated record naming the input fails the recompute of Section 4.6. The "
-        "reading if draft-jackson-wimse-evaluation adopts this draft's boundary (past its "
-        "horizon, in place of at or past)",
-    },
-]
-
-
 # ---------------------------------------------------------------------------
 # Principal standing from a published commitment (rows PS3 to PS5, written for
 # revision 04), from probityai/agent-evidence-vectors#402.
@@ -3511,7 +3656,7 @@ TWO_READINGS_PS1B = [
 # * PS3: no commitment held from the publisher. lastResult is none, so the
 #   input was never established and the record is not-evaluated naming
 #   principal-standing-source. A commitment held past its maximum age is PS1,
-#   and one exactly at it is PS1b, which stays open between the two drafts.
+#   and one exactly at it is PS1b, stale since revision 04.
 # * PS4: the commitment is current and the proof against it shows the
 #   principal's standing withdrawn. Every input was established, so the record
 #   is evaluated, and the decision is deny.
@@ -3621,13 +3766,13 @@ def define_principal_standing() -> None:
         "ps1b-principal-standing-age-equal-to-max-age",
         "PS1",
         "principal-standing-source exactly at maxAge (age 3600 under 3600) and not "
-        "answering, still not-evaluated naming it: open between "
-        "draft-jackson-wimse-evaluation-05 Section 3 and this section",
+        "answering, not-evaluated naming it: an input exactly maxAge old is stale, the "
+        "boundary of draft-jackson-wimse-evaluation-05 Section 3 that revision 04 adopts",
         lambda: build_ps1(AT_HORIZON),
-        None,
-        ["evaluation-inconsistent"],
-        readings=TWO_READINGS_PS1B,
+        "valid",
+        tier="authoritative",
         section="5.4",
+        revision=REVISION_04,
         predicate_type=PREDICATE_TYPE_V2,
     )
     define_principal_standing_commitment()
@@ -5037,6 +5182,7 @@ ORDER = (
     "R1 R2 R3 R4 R5 R6 R7 R8 R9 "
     "FR13b FR16 FR17a FR17b FR17c FR18 EV14 "
     "TI6 V4 V5 FR14 FR15 "
+    "FR19 FR20 FR21 FR22 FR23 FR24 FR25 "
     "CS1 CS2 CS3 CS4 CS5 CS6 CS7 CS8 CS9 CS10 CS11 CS12 CS13 CS14 CS15 CS16 CS17 "
     "CS18 CS19 CS20 CS21 CS22 CS23 CS24 CS25 "
     "CS26 CS27 CS28 CS29 CS30 CS31 CS32 CS33 CS34 CS35 CS36 CS37 CS38 CS39 CS40 "

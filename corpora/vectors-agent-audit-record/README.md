@@ -24,6 +24,7 @@ file.
 
 | Release | Draft revision the corpus tests | Members |
 | --- | --- | --- |
+| The next release | `draft-gilda-audit-agent-audit-record-03`, and rows of `-04` | as below, with `FR2` moved to malformed and `PS1b` settled as valid by the freshness boundary of -04, and rows `FR19` to `FR24` and the Section 5.4 member `FR25` written for -04 ([proposed text](../../docs/proposals/audit-record-04-evaluated-at.md)) |
 | The release after v0.28.0 | `draft-gilda-audit-agent-audit-record-03`, and rows of `-04` | every member the v0.28.0 row lists, rows `IS1`, `IS2`, `PS1` and `PS2` of -03 and the open member `PS1b` beside them, and rows `CS41` to `CS54` written for -04 |
 | v0.28.0 | `draft-gilda-audit-agent-audit-record-02` | the 99 Appendix B rows of -00, 7 Section 5.4 members, 22 rows of -01 and 13 rows of -02 |
 | v0.27.0 | `draft-gilda-audit-agent-audit-record-00`, and 22 rows of `-01` | the 99 Appendix B rows, 7 Section 5.4 members and 22 rows of -01 |
@@ -68,9 +69,6 @@ carries one (`PS1`, `PS1b` and `PS3` to `PS5` carry the `v2` URI), then score ea
 
 - an accept or reject member conforms when your verdict equals
   `expected.verdict`;
-- the indeterminate member `PS1b` is open between two drafts (below): your
-  verifier conforms on it with `valid` or `malformed`, and the reference reader
-  takes `malformed`;
 - the indeterminate member `N2` is a row the draft leaves open. It carries no
   `expected.verdict`, and your verifier conforms on it when its verdict is any
   one listed under `readings`: `valid` or `indeterminate`. The reference reader
@@ -180,18 +178,35 @@ would be caught.
 
 Every evaluation carries
 `inputs`, one entry per input the decision depended on, each with `input`,
-`lastResult` and `maxAge`. An entry's age runs from `lastResult` to
-`decision.reportedAt`, never to `issuedAt`; an age equal to `maxAge` is fresh;
-`lastResult` of `none` is never established; and a `lastResult` more than the
-300-second skew tolerance after `reportedAt` is malformed. The unavailable
+`lastResult` and `maxAge`. An entry's age runs from `lastResult` to the
+reference time, never to `issuedAt`: `decision.evaluatedAt` when the record
+carries it, the time the decision was taken, and `decision.reportedAt`
+otherwise. An input is fresh while its age is less than `maxAge`, so an age
+equal to `maxAge` is stale; `lastResult` of `none` is never established; a
+`lastResult` more than the 300-second skew tolerance after the reference time
+is malformed; and so is a `decision.evaluatedAt` more than the same tolerance
+after `decision.reportedAt`. The unavailable
 inputs are derived from the entries: under `evaluated` they must be none, and
 under `not-evaluated` `unavailableInput` must name exactly them. Every member
 carries entries that agree with it, so a record shaped for revision 02, with no
 `inputs`, is refused (`EV13`).
 
-- `FR1` to `FR13` are Appendix B rows. `FR2` sits on the boundary
-  and on the reference time at once: its age is exactly `maxAge` at
-  `reportedAt` and nine seconds past it at `issuedAt`.
+- `FR1` to `FR13` are Appendix B rows. `FR2` sits on the boundary: its age is
+  exactly `maxAge` at `reportedAt`. Through revision 03 that age was fresh and
+  `FR2` was valid; revision 04 moves the boundary, and the same bytes are now
+  malformed (`evaluation-inconsistent`), a verdict change on a shipped member.
+- `FR19` to `FR24` are rows written for revision 04 ([proposed
+  text](../../docs/proposals/audit-record-04-evaluated-at.md)). `FR19` decided
+  half an hour before it reported, with `standing-source` fresh when it decided
+  and stale when it reported, and is valid; `FR20` records that input as
+  unavailable, which only the set derived at `reportedAt` would match, and is
+  malformed. `FR21` and `FR22` put the boundary at `evaluatedAt`: one second
+  inside `maxAge` is fresh, exactly at it is stale. `FR23` carries an
+  `evaluatedAt` one second past the skew tolerance after `reportedAt` and
+  `FR24` one exactly at it. `FR25`, a Section 5.4 member no row isolates,
+  carries a `lastResult` past the tolerance after `evaluatedAt` and before
+  `reportedAt`, so only a verifier measuring the skew to the reference time
+  refuses it.
 - `FR13b` and `EV14` isolate two sentences the rows reach only through a later
   check: a negative `maxAge` stales its entry, so `FR13` is refused by the
   derived set as well, and `FR13b` names that entry so only the sign refuses it;
@@ -428,20 +443,18 @@ generator reproduces his bytes and file identifiers.
   at its `maxAge` and the source not answering. -05 Section 3 forbids using an
   input "at or past its horizon", so the record it requires is this one,
   `not-evaluated`. Section 5.4 of -03 as filed says "an age equal to maxAge is
-  fresh" (`FR2`), so the derived unavailable set is empty and the record fails
-  the recompute of Section 4.6. No record satisfies both texts, so the member is
-  indeterminate with two readings, `valid` and `malformed`, until the two drafts
-  carry one boundary: either -03 adopts -05's (fresh when the age is less than
-  `maxAge`, so `FR2` becomes malformed and `FR8` moves to "equal to"), or -05
-  adopts -03's ("past its horizon" in place of "at or past"). The reference
-  reader keeps -03's boundary and takes `malformed` (`evaluation-inconsistent`).
-  The two drafts also measure at different instants: -05 judges the horizon at
-  the evaluation instant and -03 measures age at `decision.reportedAt`; both
-  members assume the decision point reports when it evaluates.
+  fresh" (`FR2`), so the derived unavailable set was empty and the record
+  failed the recompute of Section 4.6. Through the release after v0.28.0 the
+  member was indeterminate with those two readings. Revision 04 adopts -05's
+  boundary: an input is fresh while its age is less than `maxAge`, so `PS1b` is
+  valid and `FR2` is malformed. Revision 04 also measures at the evaluation
+  instant as -05 does, `decision.evaluatedAt` where the record carries it
+  (`FR19` to `FR25`, above).
 
 `check_vectors.py` holds both sides: a reader that applies the extended set
 under the `v1` URI as well fails exactly `PS2`, and a reader that accepts the
-`v2` URI with the `v1` set fails exactly `PS1` and `PS3` to `PS5` (below).
+`v2` URI with the `v1` set fails exactly `PS1`, `PS1b` and `PS3` to `PS5`
+(below).
 
 ## Principal standing from a published commitment: `PS3` to `PS5`
 
@@ -457,8 +470,8 @@ built on `PS1` and judged under the `v2` URI.
 - `PS3`: no commitment held. `lastResult` is `none`, so the input was never
   established, and the record is `not-evaluated` naming
   `principal-standing-source`: a transient refusal, not a deny. A commitment
-  held past its maximum age is `PS1`, and one exactly at it is `PS1b`, which
-  stays open between the two drafts (above).
+  held past its maximum age is `PS1`, and one exactly at it is `PS1b`, stale
+  since revision 04 (above).
 - `PS4`: the commitment is current and the proof against it shows the standing
   withdrawn. Every entry is fresh, the record is `evaluated`, and the decision
   is `deny`.
