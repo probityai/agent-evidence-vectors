@@ -211,7 +211,16 @@ git push origin <branch>
 #    the release branch:
 #    `merge-freeze set probityai/agent-evidence-vectors --reason "vX.Y.Z"`,
 #    then `merge-freeze allow probityai/agent-evidence-vectors <n>`.
-gh pr merge <n> --merge
+#    The pull request never goes through main's merge queue. The queue squashes
+#    (the main-protection ruleset's merge_method), which is the failure above.
+#    Its pull-request tier also selects no job for paths under release/, so the
+#    pull request alone proves nothing. Run the full tier on the exact head,
+#    require that run green, then merge as a repository admin, whom the ruleset
+#    lets bypass the queue, with a merge commit and a subject of at most 72
+#    characters.
+gh workflow run ci.yml -R probityai/agent-evidence-vectors --ref <branch>
+gh pr merge <n> -R probityai/agent-evidence-vectors --merge --admin \
+  --subject "chore(release): cut vX.Y.Z (#<n>)"
 
 # 9. Push the tag, alone, once the merge is on main. The tagged commit must be
 #    reachable from origin/main.
