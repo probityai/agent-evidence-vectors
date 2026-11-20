@@ -34,7 +34,62 @@ OWNER = "probityai"
 _GITHUB = re.compile(
     r"https?://(?:www\.)?github\.com/(?P<owner>[^/\s#?]+)/(?P<repo>[^/\s#?]+)(?P<rest>/[^\s#?]*)?"
 )
-_PATH = re.compile(r"/(?:tree|blob)/(?P<ref>[^/]+)/(?P<path>.+?)/?\Z")
+# Every other spelling a registry renders as a link to a GitHub repository: the git+, git://,
+# ssh:// and scp-like forms npm, pip and cargo accept, npm's github: shorthand, and the host in
+# any case. Each is rewritten to the https form _GITHUB reads, so a link to an archived or
+# renamed repository cannot pass by being spelled another way.
+_GITHUB_PREFIX = re.compile(
+    r"\A(?:git\+)?(?:(?:https?|git|ssh)://(?:[^@/\s]+@)?(?:www\.)?github\.com/"
+    r"|git@github\.com:|github:)",
+    re.IGNORECASE,
+)
+# npm's bare owner/repo shorthand for a GitHub repository, valid only in package.json's
+# repository field.
+_NPM_SHORTHAND = re.compile(r"\A[\w.-]+/[\w.-]+\Z")
+
+
+def github_match(url: str) -> re.Match[str] | None:
+    """The owner, repository and path of a GitHub link in any spelling, or None for another host."""
+    url = url.strip()
+    prefix = _GITHUB_PREFIX.match(url)
+    if prefix is None:
+        return None
+    return _GITHUB.match("https://github.com/" + url[prefix.end() :])
+
+
+def npm_repository_url(value: object) -> str:
+    """The URL an npm manifest's repository field names, with the owner/repo shorthand expanded."""
+    url = value.get("url", "") if isinstance(value, dict) else value
+    if not isinstance(url, str):
+        return ""
+    return "github:" + url if _NPM_SHORTHAND.match(url) else url
+
+
+# A tree or blob link names a ref and then, optionally, a path. A ref may itself hold a slash
+# (release/1.0), so the split is not known from the URL; GitHub takes whichever split names a
+# ref that exists, and so does ref_candidates.
+_TREE = re.compile(r"/(?:tree|blob)/(?P<spec>[^\s]+?)/?\Z")
+
+
+def ref_candidates(spec: str) -> list[tuple[str, str]]:
+    """Every (ref, path) split of a tree or blob link's ref-and-path text, shortest ref first."""
+    segments = [urllib.parse.unquote(s) for s in spec.split("/")]
+    return [("/".join(segments[:k]), "/".join(segments[k:])) for k in range(1, len(segments) + 1)]
+
+
+# The first path segment of every repository page github.com serves. Any other segment under
+# owner/repo is a 404 (`/crates/jcs-admit` without `/tree/<ref>` is the measured case), so a link
+# whose first segment is not here is refused rather than passed unread. A release tag page is
+# read like a ref, because `/releases/tag/<tag>` for a tag never pushed is a 404 as well.
+_REPO_ROUTES = frozenset(
+    {
+        "actions", "activity", "blob", "branches", "commit", "commits", "compare", "contributors",
+        "deployments", "discussions", "forks", "graphs", "issues", "labels", "milestones",
+        "network", "packages", "projects", "pull", "pulls", "pulse", "raw", "releases", "security",
+        "stargazers", "tags", "tree", "watchers", "wiki",
+    }
+)
+_RELEASE_TAG = re.compile(r"/releases/tag/(?P<tag>[^/\s]+)/?\Z")
 
 RepoLookup = Callable[[str, str], "dict | None"]
 PathLookup = Callable[[str, str, str], bool]
@@ -69,10 +124,15 @@ def github_repo(owner: str, repo: str) -> dict | None:
 
 
 def github_path_exists(full_name: str, ref: str, path: str) -> bool:
-    """Whether `path` exists on `ref` of the repository, read through the contents API."""
-    quoted = urllib.parse.quote(path)
+    """Whether `path` exists on `ref` of the repository, read through the contents API.
+
+    An empty `path` asks whether the ref exists at all: the contents API answers 404 for a ref
+    the repository does not have.
+    """
+    quoted = "/" + urllib.parse.quote(path) if path else ""
     status, _ = _json_get(
-        f"https://api.github.com/repos/{full_name}/contents/{quoted}?ref={urllib.parse.quote(ref)}"
+        f"https://api.github.com/repos/{full_name}/contents{quoted}"
+        f"?ref={urllib.parse.quote(ref, safe='')}"
     )
     return status == 200
 
@@ -93,13 +153,7 @@ def manifest_urls(manifest: Path) -> list[tuple[str, str]]:
         return [(f"urls.{key}", value) for key, value in urls.items() if isinstance(value, str)]
     if name == "package.json":
         data = json.loads(manifest.read_text())
-        repository = data.get("repository")
-        found = [
-            (
-                "repository",
-                repository.get("url", "") if isinstance(repository, dict) else repository or "",
-            )
-        ]
+        found = [("repository", npm_repository_url(data.get("repository")))]
         found.append(("homepage", data.get("homepage") or ""))
         bugs = data.get("bugs")
         found.append(("bugs", bugs.get("url", "") if isinstance(bugs, dict) else bugs or ""))
@@ -109,7 +163,7 @@ def manifest_urls(manifest: Path) -> list[tuple[str, str]]:
 
 def _github_links(urls: list[tuple[str, str]]) -> Iterator[tuple[str, str, re.Match[str]]]:
     for field, url in urls:
-        match = _GITHUB.match(url)
+        match = github_match(url)
         if match:
             yield field, url, match
 
@@ -134,9 +188,19 @@ def check_url(
         problems.append(f"{field}: {url} redirects to {current}, so the link names a retired name")
     if problems:
         return problems
-    path = _PATH.match(match["rest"] or "")
-    if path and not path_lookup(current, path["ref"], path["path"]):
-        return [f"{field}: {url} names {path['path']} on {path['ref']}, which does not exist there"]
+    rest = match["rest"] or ""
+    first = rest.strip("/").split("/", 1)[0]
+    if first and first not in _REPO_ROUTES:
+        return [f"{field}: {url} names {rest}, a path github.com serves no repository page for"]
+    tree = _TREE.match(rest)
+    if tree and not any(path_lookup(current, ref, p) for ref, p in ref_candidates(tree["spec"])):
+        return [
+            f"{field}: {url} names {tree['spec']}, and {current} has no branch or tag with that"
+            " path under it"
+        ]
+    release = _RELEASE_TAG.match(rest)
+    if release and not path_lookup(current, urllib.parse.unquote(release["tag"]), ""):
+        return [f"{field}: {url} names the release tag {release['tag']}, which {current} lacks"]
     return []
 
 

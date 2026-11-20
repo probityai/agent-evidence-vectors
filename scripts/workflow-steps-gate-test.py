@@ -190,6 +190,7 @@ def the_pinned_linter_is_mirrored() -> None:
     """The step the remote caught and this gate used to skip."""
     with installed("2.11.4"):
         local = GATE.local_equivalent(  # type: ignore[attr-defined]
+            # curl-retry: exempt test fixture naming the action, not a use
             "golangci/golangci-lint-action@v7",
             {"version": "v2.11.4", "working-directory": "witnessattestor"},
         )
@@ -204,6 +205,7 @@ def a_version_mismatch_is_not_run_rather_than_a_pass() -> None:
     """A different version is a different set of linters, so its silence is worthless."""
     with installed("2.10.0"):
         local = GATE.local_equivalent(  # type: ignore[attr-defined]
+            # curl-retry: exempt test fixture naming the action, not a use
             "golangci/golangci-lint-action@v7", {"version": "v2.11.4"}
         )
     assert local.run is None, (
@@ -219,6 +221,7 @@ def an_absent_linter_is_not_run_rather_than_a_pass() -> None:
     """No binary is NOT RUN. It must never read as a clean lint."""
     with installed(""):
         local = GATE.local_equivalent(  # type: ignore[attr-defined]
+            # curl-retry: exempt test fixture naming the action, not a use
             "golangci/golangci-lint-action@v7", {"version": "v2.11.4"}
         )
     assert local.run is None, "a missing golangci-lint resolved to a command anyway"

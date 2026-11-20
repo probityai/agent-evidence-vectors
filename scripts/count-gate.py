@@ -798,22 +798,6 @@ REPLY_SITES: tuple[tuple[str, str, str, str, str], ...] = (
      "It stays silent about the ", " that already disagree", "disagree"),
     ("docs/proposals/catalog-pr-body.md", "pr body: the verifier's member count",
      "exits 0 over ", " members, 12 accept", "total"),
-    ("docs/proposals/packets/catalog-pr.md", "pr draft: the verifier's member count",
-     "prints `members: ", "`, `accept", "total"),
-    ("docs/proposals/packets/catalog-pr.md", "pr draft: the recording's member count",
-     "anchors-verify-v0.10.json`, ", " members, 27 true", "total"),
-    ("docs/proposals/packets/catalog-pr.md", "pr draft: agreeing members",
-     "Today 27 of the ", " members agree with anchors-verify-v0.10.", "total"),
-    ("docs/proposals/packets/catalog-pr.md", "pr draft: the gate that would be red",
-     "A gate demanding ", " would go red", "total"),
-    ("docs/proposals/packets/catalog-pr.md", "pr draft: members that disagree",
-     "It stays silent about the ", " that already disagree", "disagree"),
-    ("docs/proposals/packets/catalog-pr.md", "pr draft: the verifier's member count in prose",
-     "exits 0 over ", " members, 12 accept", "total"),
-    ("docs/proposals/packets/catalog-pr.md", "pr draft: the agreement ratio",
-     "|\n| ", " members agree with `anchors-verify-v0.10`", "ratio"),
-    ("docs/proposals/packets/catalog-1.md", "reply draft: corpus total",
-     "27 of its ", " members agree with v0.10.", "total"),
 )
 
 
@@ -938,7 +922,34 @@ def declared_claims(src: Sources) -> tuple[Claim, ...]:
         f"{src.total} vectors ({src.accept} accept, {src.reject} reject, "
         f"{src.indeterminate} indeterminate)"
     )
+    audit = json.loads(source("corpora/vectors-agent-audit-record/MANIFEST.json").read_text())
+    published = str(audit["textCounts"]["published"])
     return (
+        # The audit-record corpus splits its members by the text each tests:
+        # textCounts.published are rules a published revision states. The figure
+        # equals the corpus total while nothing is proposed, so each sentence that
+        # states it is claimed against the manifest field it restates.
+        Claim(
+            "corpora/vectors-agent-audit-record/INDEX.md",
+            "the audit-record published-text count the index states",
+            "are indeterminate. ",
+            " members test rules a published revision states",
+            published,
+        ),
+        Claim(
+            "corpora/vectors-agent-audit-record/README.md",
+            "the audit-record published-text count the README states",
+            "split: ",
+            " published and ",
+            published,
+        ),
+        Claim(
+            "corpora/vectors-agent-audit-record/README.md",
+            "the audit-record members the current release tests",
+            "| all ",
+            " members: every member the row below lists",
+            published,
+        ),
         Claim(
             "interop/gemara-method-link/README.md",
             "the Gemara profile case count",
@@ -1549,6 +1560,14 @@ _DRAFT_1105_SPANS = (
 )
 
 FROZEN: tuple[Frozen, ...] = (
+    Frozen(
+        'scripts/archived-repos.toml',
+        'the issue numbers that stayed in the archived agent-evidence repository',
+        'untransferred_issues = [30, 31, 32, 35]',
+        'Issue numbers of a repository that is archived and cannot change: closed issues '
+        'stayed behind when the open ones moved here under new numbers. They name records, '
+        'not counts of the live corpus, and one met the suiteRevision by coincidence.',
+    ),
     *(
         Frozen(_DRAFT_1105, f'the 5 November draft check, span {i}', span, _DRAFT_1105_REASON)
         for i, span in enumerate(_DRAFT_1105_SPANS, 1)
@@ -1561,6 +1580,15 @@ FROZEN: tuple[Frozen, ...] = (
         'comparison printed on the v0.17.4 manifest when it was posted to '
         'public-agent-conformance (0039, 0188, Nov/0002). The appendix workflow reruns '
         'the row and fails on any change, so the figure is checked there, not here.',
+    ),
+    Frozen(
+        'interop/w3c-v01-appendix/README.md',
+        'the R8-compare-169 figures posted to the W3C list',
+        '94 of 98; 25, 2, 44 of 71 over all 169 members (Nov/0004)',
+        'A past result, not a count of the live corpus: the row records what the R8 '
+        'comparison printed over all 169 members of the v0.17.4 manifest when it was posted '
+        'to public-agent-conformance (Nov/0004). The appendix workflow reruns the row and '
+        'fails on any change, so the figure is checked there, not here.',
     ),
     Frozen(
         'DISPOSITIONS.md',
@@ -1737,6 +1765,28 @@ FROZEN: tuple[Frozen, ...] = (
         " coincidence: the number of a comment in another project's thread.",
     ),
     Frozen(
+        'docs/proposals/audit-record-04-consumption-ledger.md',
+        'the date revision 03 of the audit-record draft was published',
+        '-03 was published on 29 October 2026 without it',
+        'An integer that counts something other than this corpus and equals one of its figures by'
+        ' coincidence: the day of the month an IETF draft revision was published.',
+    ),
+    *(
+        Frozen(
+            'scripts/audit-record-text-tier-test.py',
+            f'the members an outside revision-03 verifier differed on, {where}',
+            span,
+            'A past result, not a count of the live corpus: the members on which one outside'
+            ' verifier written from revision 03 differed from the manifest. The test pins the'
+            ' list itself, so the figure records that run and must not track the corpus.',
+        )
+        for where, span in (
+            ('docstring', 'differed from the manifest on 38'),
+            ('docstring list', 'a published revision: the 38'),
+            ('failure message', 'the differing list should hold 38 members and CS32'),
+        )
+    ),
+    Frozen(
         'crosswalks/aee-to-trace-and-runtime-trace.md',
         'the date of an IETF draft, header',
         '`draft-marques-asqav-compliance-receipts-08`, dated 31 August 2026 and expiring',
@@ -1822,13 +1872,6 @@ FROZEN: tuple[Frozen, ...] = (
     ),
     Frozen(
         'docs/proposals/catalog-1-body.md',
-        'a witness prefix byte length in a quoted verifier error',
-        'witness prefix byte length 164 does not equal',
-        'An integer that counts something other than this corpus and equals one of its figures by'
-        ' coincidence: a byte length in a verifier error message quoted verbatim.',
-    ),
-    Frozen(
-        'docs/proposals/packets/catalog-1.md',
         'a witness prefix byte length in a quoted verifier error',
         'witness prefix byte length 164 does not equal',
         'An integer that counts something other than this corpus and equals one of its figures by'
@@ -3300,6 +3343,15 @@ MASKS = tuple(
         # cell or a docstring. It surfaced when the audit-record corpus total reached
         # the number of the upstream issue that the ACS-Core wire probes cite.
         r"\bissues?\s+\d+\b",
+        # The same identifier in the other spellings a corpus uses: `Issue 32's`,
+        # a file name such as `issue-32-comment-6639119175.md`, and a constant
+        # such as `ISSUE32_COMMENTS` or `PR273_MERGE_COMMIT`. It surfaced when the
+        # suiteRevision reached the number of the upstream issue that the ACS-Core
+        # section 6.4 family cites; masking the spellings is the argument the
+        # `issue 184` mask above gives against freezing each site.
+        r"\b[Ii]ssues?[-\s]?\d+",
+        r"\bISSUE\d+",
+        r"\bPR\d+",
         # And `pull request 273`, the same identifier for a pull request. It
         # surfaced when the ACS-Core corpus cited an upstream pull request whose
         # number equals the W3C report corpus total.

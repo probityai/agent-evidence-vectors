@@ -1,0 +1,1253 @@
+{
+  "cases": [
+    {
+      "expect": {
+        "refused": false,
+        "value": "committed"
+      },
+      "id": "request_commitment-carried",
+      "input": {
+        "decision": {
+          "requestHash": "2d711642b726b04401627ca9fbac32f5c8530fb1903cc4db02258717921a4881"
+        }
+      },
+      "polarity": "positive",
+      "term": "request_commitment"
+    },
+    {
+      "expect": {
+        "refused": false,
+        "value": "uncanonicalizable"
+      },
+      "id": "request_commitment-omitted",
+      "input": {
+        "decision": {}
+      },
+      "polarity": "positive",
+      "term": "request_commitment"
+    },
+    {
+      "expect": {
+        "reason": "requestHash-zero-filled",
+        "refused": true,
+        "value": null
+      },
+      "id": "request_commitment-zero-filled",
+      "input": {
+        "decision": {
+          "requestHash": "0000000000000000000000000000000000000000000000000000000000000000"
+        }
+      },
+      "polarity": "negative",
+      "term": "request_commitment"
+    },
+    {
+      "expect": {
+        "reason": "requestHash-not-a-sha256",
+        "refused": true,
+        "value": null
+      },
+      "id": "request_commitment-null",
+      "input": {
+        "decision": {
+          "requestHash": null
+        }
+      },
+      "polarity": "negative",
+      "term": "request_commitment"
+    },
+    {
+      "expect": {
+        "reason": "requestHash-not-a-sha256",
+        "refused": true,
+        "value": null
+      },
+      "id": "request_commitment-empty-string",
+      "input": {
+        "decision": {
+          "requestHash": ""
+        }
+      },
+      "polarity": "negative",
+      "term": "request_commitment"
+    },
+    {
+      "expect": {
+        "refused": false,
+        "value": "committed"
+      },
+      "id": "request_commitment-matches-held-bytes",
+      "input": {
+        "bytes": "x",
+        "decision": {
+          "requestHash": "2d711642b726b04401627ca9fbac32f5c8530fb1903cc4db02258717921a4881"
+        }
+      },
+      "polarity": "positive",
+      "term": "request_commitment"
+    },
+    {
+      "expect": {
+        "reason": "requestHash-differs-from-the-bytes",
+        "refused": true,
+        "value": null
+      },
+      "id": "request_commitment-differs-from-held-bytes",
+      "input": {
+        "bytes": "y",
+        "decision": {
+          "requestHash": "2d711642b726b04401627ca9fbac32f5c8530fb1903cc4db02258717921a4881"
+        }
+      },
+      "polarity": "negative",
+      "term": "request_commitment"
+    },
+    {
+      "expect": {
+        "refused": false,
+        "value": "committed"
+      },
+      "id": "policy_commitment-carried",
+      "input": {
+        "decision": {
+          "policyDefinitionHash": "2d711642b726b04401627ca9fbac32f5c8530fb1903cc4db02258717921a4881"
+        }
+      },
+      "polarity": "positive",
+      "term": "policy_commitment"
+    },
+    {
+      "expect": {
+        "refused": false,
+        "value": "not_committed"
+      },
+      "id": "policy_commitment-omitted",
+      "input": {
+        "decision": {}
+      },
+      "polarity": "positive",
+      "term": "policy_commitment"
+    },
+    {
+      "expect": {
+        "reason": "policyDefinitionHash-zero-filled",
+        "refused": true,
+        "value": null
+      },
+      "id": "policy_commitment-zero-filled",
+      "input": {
+        "decision": {
+          "policyDefinitionHash": "0000000000000000000000000000000000000000000000000000000000000000"
+        }
+      },
+      "polarity": "negative",
+      "term": "policy_commitment"
+    },
+    {
+      "expect": {
+        "reason": "policyDefinitionHash-not-a-sha256",
+        "refused": true,
+        "value": null
+      },
+      "id": "policy_commitment-null",
+      "input": {
+        "decision": {
+          "policyDefinitionHash": null
+        }
+      },
+      "polarity": "negative",
+      "term": "policy_commitment"
+    },
+    {
+      "expect": {
+        "reason": "policyDefinitionHash-not-a-sha256",
+        "refused": true,
+        "value": null
+      },
+      "id": "policy_commitment-empty-string",
+      "input": {
+        "decision": {
+          "policyDefinitionHash": ""
+        }
+      },
+      "polarity": "negative",
+      "term": "policy_commitment"
+    },
+    {
+      "expect": {
+        "refused": false,
+        "value": "committed"
+      },
+      "id": "policy_commitment-matches-held-bytes",
+      "input": {
+        "bytes": "x",
+        "decision": {
+          "policyDefinitionHash": "2d711642b726b04401627ca9fbac32f5c8530fb1903cc4db02258717921a4881"
+        }
+      },
+      "polarity": "positive",
+      "term": "policy_commitment"
+    },
+    {
+      "expect": {
+        "reason": "policyDefinitionHash-differs-from-the-bytes",
+        "refused": true,
+        "value": null
+      },
+      "id": "policy_commitment-differs-from-held-bytes",
+      "input": {
+        "bytes": "y",
+        "decision": {
+          "policyDefinitionHash": "2d711642b726b04401627ca9fbac32f5c8530fb1903cc4db02258717921a4881"
+        }
+      },
+      "polarity": "negative",
+      "term": "policy_commitment"
+    },
+    {
+      "expect": {
+        "refused": false,
+        "value": "committed"
+      },
+      "id": "trust_root_commitment-carried",
+      "input": {
+        "decision": {
+          "trustedRootsHash": "2d711642b726b04401627ca9fbac32f5c8530fb1903cc4db02258717921a4881"
+        }
+      },
+      "polarity": "positive",
+      "term": "trust_root_commitment"
+    },
+    {
+      "expect": {
+        "refused": false,
+        "value": "not_committed"
+      },
+      "id": "trust_root_commitment-omitted",
+      "input": {
+        "decision": {}
+      },
+      "polarity": "positive",
+      "term": "trust_root_commitment"
+    },
+    {
+      "expect": {
+        "reason": "trustedRootsHash-zero-filled",
+        "refused": true,
+        "value": null
+      },
+      "id": "trust_root_commitment-zero-filled",
+      "input": {
+        "decision": {
+          "trustedRootsHash": "0000000000000000000000000000000000000000000000000000000000000000"
+        }
+      },
+      "polarity": "negative",
+      "term": "trust_root_commitment"
+    },
+    {
+      "expect": {
+        "reason": "trustedRootsHash-not-a-sha256",
+        "refused": true,
+        "value": null
+      },
+      "id": "trust_root_commitment-null",
+      "input": {
+        "decision": {
+          "trustedRootsHash": null
+        }
+      },
+      "polarity": "negative",
+      "term": "trust_root_commitment"
+    },
+    {
+      "expect": {
+        "reason": "trustedRootsHash-not-a-sha256",
+        "refused": true,
+        "value": null
+      },
+      "id": "trust_root_commitment-empty-string",
+      "input": {
+        "decision": {
+          "trustedRootsHash": ""
+        }
+      },
+      "polarity": "negative",
+      "term": "trust_root_commitment"
+    },
+    {
+      "expect": {
+        "refused": false,
+        "value": "committed"
+      },
+      "id": "trust_root_commitment-matches-held-bytes",
+      "input": {
+        "bytes": "x",
+        "decision": {
+          "trustedRootsHash": "2d711642b726b04401627ca9fbac32f5c8530fb1903cc4db02258717921a4881"
+        }
+      },
+      "polarity": "positive",
+      "term": "trust_root_commitment"
+    },
+    {
+      "expect": {
+        "reason": "trustedRootsHash-differs-from-the-bytes",
+        "refused": true,
+        "value": null
+      },
+      "id": "trust_root_commitment-differs-from-held-bytes",
+      "input": {
+        "bytes": "y",
+        "decision": {
+          "trustedRootsHash": "2d711642b726b04401627ca9fbac32f5c8530fb1903cc4db02258717921a4881"
+        }
+      },
+      "polarity": "negative",
+      "term": "trust_root_commitment"
+    },
+    {
+      "expect": {
+        "refused": false,
+        "value": "versioned_list"
+      },
+      "id": "revocation-versioned",
+      "input": {
+        "decision": {
+          "revocationListHash": "acac86c0e609ca906f632b0e2dacccb2b77d22b0621f20ebece1a4835b93f6f0",
+          "revocationListVersion": 7
+        }
+      },
+      "polarity": "positive",
+      "term": "revocation_list_in_force"
+    },
+    {
+      "expect": {
+        "refused": false,
+        "value": "unversioned_list"
+      },
+      "id": "revocation-unversioned",
+      "input": {
+        "decision": {
+          "revocationListHash": "acac86c0e609ca906f632b0e2dacccb2b77d22b0621f20ebece1a4835b93f6f0"
+        }
+      },
+      "polarity": "positive",
+      "term": "revocation_list_in_force"
+    },
+    {
+      "expect": {
+        "refused": false,
+        "value": "no_list_loaded"
+      },
+      "id": "revocation-no-list-loaded",
+      "input": {
+        "decision": {}
+      },
+      "polarity": "positive",
+      "term": "revocation_list_in_force"
+    },
+    {
+      "expect": {
+        "refused": false,
+        "value": "versioned_list"
+      },
+      "id": "revocation-empty-list-is-not-absent",
+      "input": {
+        "bytes": "[]",
+        "decision": {
+          "revocationListHash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+          "revocationListVersion": 1
+        }
+      },
+      "polarity": "positive",
+      "term": "revocation_list_in_force"
+    },
+    {
+      "expect": {
+        "reason": "version-without-digest",
+        "refused": true,
+        "value": null
+      },
+      "id": "revocation-version-without-digest",
+      "input": {
+        "decision": {
+          "revocationListVersion": 3
+        }
+      },
+      "polarity": "negative",
+      "term": "revocation_list_in_force"
+    },
+    {
+      "expect": {
+        "reason": "revocationListHash-zero-filled",
+        "refused": true,
+        "value": null
+      },
+      "id": "revocation-zero-filled-digest",
+      "input": {
+        "decision": {
+          "revocationListHash": "0000000000000000000000000000000000000000000000000000000000000000"
+        }
+      },
+      "polarity": "negative",
+      "term": "revocation_list_in_force"
+    },
+    {
+      "expect": {
+        "reason": "revocationListHash-not-a-sha256",
+        "refused": true,
+        "value": null
+      },
+      "id": "revocation-null-digest",
+      "input": {
+        "decision": {
+          "revocationListHash": null
+        }
+      },
+      "polarity": "negative",
+      "term": "revocation_list_in_force"
+    },
+    {
+      "expect": {
+        "reason": "revocationListVersion-not-a-count",
+        "refused": true,
+        "value": null
+      },
+      "id": "revocation-null-version",
+      "input": {
+        "decision": {
+          "revocationListHash": "acac86c0e609ca906f632b0e2dacccb2b77d22b0621f20ebece1a4835b93f6f0",
+          "revocationListVersion": null
+        }
+      },
+      "polarity": "negative",
+      "term": "revocation_list_in_force"
+    },
+    {
+      "expect": {
+        "reason": "revocationListHash-differs-from-the-bytes",
+        "refused": true,
+        "value": null
+      },
+      "id": "revocation-list-differs-from-published",
+      "input": {
+        "bytes": "other",
+        "decision": {
+          "revocationListHash": "acac86c0e609ca906f632b0e2dacccb2b77d22b0621f20ebece1a4835b93f6f0"
+        }
+      },
+      "polarity": "negative",
+      "term": "revocation_list_in_force"
+    },
+    {
+      "expect": {
+        "refused": false,
+        "value": "first"
+      },
+      "id": "chain-intact-with-head-anchor",
+      "input": {
+        "anchor": {
+          "count": 4,
+          "lastDigest": "873c5cae27b2e95a52defe3ec24cf0293281edd9198d1b514996e206a2c74895"
+        },
+        "records": [
+          {
+            "decision": {
+              "action": "tool:t0",
+              "requestHash": "f162b493dd9bf56e431f6d9db5dcd9dd2af4e4442f711d454b30f50745621c00",
+              "verdict": "allow"
+            }
+          },
+          {
+            "decision": {
+              "action": "tool:t1",
+              "previousReceiptHash": "94ed2a165e424754de26050bfeaf61f24940c1ce9488c93f9cfb7f00a8bcbb03",
+              "requestHash": "c84a09757ebaad3dbdc07d455da0b62427fff0f874c83fd5d961f5d4503523a1",
+              "verdict": "allow"
+            }
+          },
+          {
+            "decision": {
+              "action": "tool:t2",
+              "previousReceiptHash": "480e99c6a5bcd4ff91408211eed639772f9d632848cf319586920ae2e9b63f3f",
+              "requestHash": "0e3cc730d9c08262b256b2ba943e34c5460dbf5747cc864f0cf8065ad068605c",
+              "verdict": "allow"
+            }
+          },
+          {
+            "decision": {
+              "action": "tool:t3",
+              "previousReceiptHash": "60d97a6fac8d60632d253b921dff86d575058c0cb474e88dbbe13e2b908abca4",
+              "requestHash": "d2be038545ec6e30cb7e7d9088b3d68f4d0823529fb8b129a396a625c767273d",
+              "verdict": "allow"
+            }
+          }
+        ]
+      },
+      "polarity": "positive",
+      "term": "receipt_chain_link"
+    },
+    {
+      "expect": {
+        "refused": false,
+        "value": "first"
+      },
+      "id": "chain-intact-no-anchor-end-not-established",
+      "input": {
+        "records": [
+          {
+            "decision": {
+              "action": "tool:t0",
+              "requestHash": "f162b493dd9bf56e431f6d9db5dcd9dd2af4e4442f711d454b30f50745621c00",
+              "verdict": "allow"
+            }
+          },
+          {
+            "decision": {
+              "action": "tool:t1",
+              "previousReceiptHash": "94ed2a165e424754de26050bfeaf61f24940c1ce9488c93f9cfb7f00a8bcbb03",
+              "requestHash": "c84a09757ebaad3dbdc07d455da0b62427fff0f874c83fd5d961f5d4503523a1",
+              "verdict": "allow"
+            }
+          },
+          {
+            "decision": {
+              "action": "tool:t2",
+              "previousReceiptHash": "480e99c6a5bcd4ff91408211eed639772f9d632848cf319586920ae2e9b63f3f",
+              "requestHash": "0e3cc730d9c08262b256b2ba943e34c5460dbf5747cc864f0cf8065ad068605c",
+              "verdict": "allow"
+            }
+          },
+          {
+            "decision": {
+              "action": "tool:t3",
+              "previousReceiptHash": "60d97a6fac8d60632d253b921dff86d575058c0cb474e88dbbe13e2b908abca4",
+              "requestHash": "d2be038545ec6e30cb7e7d9088b3d68f4d0823529fb8b129a396a625c767273d",
+              "verdict": "allow"
+            }
+          }
+        ]
+      },
+      "polarity": "positive",
+      "term": "receipt_chain_link"
+    },
+    {
+      "expect": {
+        "refused": false,
+        "value": "linked"
+      },
+      "id": "chain-starts-mid-chain",
+      "input": {
+        "records": [
+          {
+            "decision": {
+              "action": "tool:t1",
+              "previousReceiptHash": "94ed2a165e424754de26050bfeaf61f24940c1ce9488c93f9cfb7f00a8bcbb03",
+              "requestHash": "c84a09757ebaad3dbdc07d455da0b62427fff0f874c83fd5d961f5d4503523a1",
+              "verdict": "allow"
+            }
+          },
+          {
+            "decision": {
+              "action": "tool:t2",
+              "previousReceiptHash": "480e99c6a5bcd4ff91408211eed639772f9d632848cf319586920ae2e9b63f3f",
+              "requestHash": "0e3cc730d9c08262b256b2ba943e34c5460dbf5747cc864f0cf8065ad068605c",
+              "verdict": "allow"
+            }
+          },
+          {
+            "decision": {
+              "action": "tool:t3",
+              "previousReceiptHash": "60d97a6fac8d60632d253b921dff86d575058c0cb474e88dbbe13e2b908abca4",
+              "requestHash": "d2be038545ec6e30cb7e7d9088b3d68f4d0823529fb8b129a396a625c767273d",
+              "verdict": "allow"
+            }
+          }
+        ]
+      },
+      "polarity": "positive",
+      "term": "receipt_chain_link"
+    },
+    {
+      "expect": {
+        "refused": false,
+        "value": "unchained"
+      },
+      "id": "chain-reset-reads-unchained",
+      "input": {
+        "records": [
+          {
+            "decision": {
+              "action": "tool:t0",
+              "requestHash": "f162b493dd9bf56e431f6d9db5dcd9dd2af4e4442f711d454b30f50745621c00",
+              "verdict": "allow"
+            }
+          },
+          {
+            "decision": {
+              "action": "tool:t1",
+              "previousReceiptHash": "94ed2a165e424754de26050bfeaf61f24940c1ce9488c93f9cfb7f00a8bcbb03",
+              "requestHash": "c84a09757ebaad3dbdc07d455da0b62427fff0f874c83fd5d961f5d4503523a1",
+              "verdict": "allow"
+            }
+          },
+          {
+            "decision": {
+              "action": "tool:t7",
+              "requestHash": "8946c481f1bfd9ad161fcf0cae6f6a190f713e914ab1c67323a970851567fbd3",
+              "verdict": "allow"
+            }
+          }
+        ]
+      },
+      "polarity": "positive",
+      "term": "receipt_chain_link"
+    },
+    {
+      "expect": {
+        "reason": "duplicate-record",
+        "refused": true,
+        "value": null
+      },
+      "id": "chain-duplicate-record",
+      "input": {
+        "records": [
+          {
+            "decision": {
+              "action": "tool:t0",
+              "requestHash": "f162b493dd9bf56e431f6d9db5dcd9dd2af4e4442f711d454b30f50745621c00",
+              "verdict": "allow"
+            }
+          },
+          {
+            "decision": {
+              "action": "tool:t1",
+              "previousReceiptHash": "94ed2a165e424754de26050bfeaf61f24940c1ce9488c93f9cfb7f00a8bcbb03",
+              "requestHash": "c84a09757ebaad3dbdc07d455da0b62427fff0f874c83fd5d961f5d4503523a1",
+              "verdict": "allow"
+            }
+          },
+          {
+            "decision": {
+              "action": "tool:t2",
+              "previousReceiptHash": "480e99c6a5bcd4ff91408211eed639772f9d632848cf319586920ae2e9b63f3f",
+              "requestHash": "0e3cc730d9c08262b256b2ba943e34c5460dbf5747cc864f0cf8065ad068605c",
+              "verdict": "allow"
+            }
+          },
+          {
+            "decision": {
+              "action": "tool:t3",
+              "previousReceiptHash": "60d97a6fac8d60632d253b921dff86d575058c0cb474e88dbbe13e2b908abca4",
+              "requestHash": "d2be038545ec6e30cb7e7d9088b3d68f4d0823529fb8b129a396a625c767273d",
+              "verdict": "allow"
+            }
+          },
+          {
+            "decision": {
+              "action": "tool:t3",
+              "previousReceiptHash": "60d97a6fac8d60632d253b921dff86d575058c0cb474e88dbbe13e2b908abca4",
+              "requestHash": "d2be038545ec6e30cb7e7d9088b3d68f4d0823529fb8b129a396a625c767273d",
+              "verdict": "allow"
+            }
+          }
+        ]
+      },
+      "polarity": "negative",
+      "term": "receipt_chain_link"
+    },
+    {
+      "expect": {
+        "reason": "chain-order",
+        "refused": true,
+        "value": null
+      },
+      "id": "chain-reordered",
+      "input": {
+        "records": [
+          {
+            "decision": {
+              "action": "tool:t0",
+              "requestHash": "f162b493dd9bf56e431f6d9db5dcd9dd2af4e4442f711d454b30f50745621c00",
+              "verdict": "allow"
+            }
+          },
+          {
+            "decision": {
+              "action": "tool:t2",
+              "previousReceiptHash": "480e99c6a5bcd4ff91408211eed639772f9d632848cf319586920ae2e9b63f3f",
+              "requestHash": "0e3cc730d9c08262b256b2ba943e34c5460dbf5747cc864f0cf8065ad068605c",
+              "verdict": "allow"
+            }
+          },
+          {
+            "decision": {
+              "action": "tool:t1",
+              "previousReceiptHash": "94ed2a165e424754de26050bfeaf61f24940c1ce9488c93f9cfb7f00a8bcbb03",
+              "requestHash": "c84a09757ebaad3dbdc07d455da0b62427fff0f874c83fd5d961f5d4503523a1",
+              "verdict": "allow"
+            }
+          },
+          {
+            "decision": {
+              "action": "tool:t3",
+              "previousReceiptHash": "60d97a6fac8d60632d253b921dff86d575058c0cb474e88dbbe13e2b908abca4",
+              "requestHash": "d2be038545ec6e30cb7e7d9088b3d68f4d0823529fb8b129a396a625c767273d",
+              "verdict": "allow"
+            }
+          }
+        ]
+      },
+      "polarity": "negative",
+      "term": "receipt_chain_link"
+    },
+    {
+      "expect": {
+        "reason": "chain-link-broken",
+        "refused": true,
+        "value": null
+      },
+      "id": "chain-middle-dropped",
+      "input": {
+        "records": [
+          {
+            "decision": {
+              "action": "tool:t0",
+              "requestHash": "f162b493dd9bf56e431f6d9db5dcd9dd2af4e4442f711d454b30f50745621c00",
+              "verdict": "allow"
+            }
+          },
+          {
+            "decision": {
+              "action": "tool:t2",
+              "previousReceiptHash": "480e99c6a5bcd4ff91408211eed639772f9d632848cf319586920ae2e9b63f3f",
+              "requestHash": "0e3cc730d9c08262b256b2ba943e34c5460dbf5747cc864f0cf8065ad068605c",
+              "verdict": "allow"
+            }
+          },
+          {
+            "decision": {
+              "action": "tool:t3",
+              "previousReceiptHash": "60d97a6fac8d60632d253b921dff86d575058c0cb474e88dbbe13e2b908abca4",
+              "requestHash": "d2be038545ec6e30cb7e7d9088b3d68f4d0823529fb8b129a396a625c767273d",
+              "verdict": "allow"
+            }
+          }
+        ]
+      },
+      "polarity": "negative",
+      "term": "receipt_chain_link"
+    },
+    {
+      "expect": {
+        "reason": "fork",
+        "refused": true,
+        "value": null
+      },
+      "id": "chain-fork",
+      "input": {
+        "records": [
+          {
+            "decision": {
+              "action": "tool:t0",
+              "requestHash": "f162b493dd9bf56e431f6d9db5dcd9dd2af4e4442f711d454b30f50745621c00",
+              "verdict": "allow"
+            }
+          },
+          {
+            "decision": {
+              "action": "tool:t1",
+              "previousReceiptHash": "94ed2a165e424754de26050bfeaf61f24940c1ce9488c93f9cfb7f00a8bcbb03",
+              "requestHash": "c84a09757ebaad3dbdc07d455da0b62427fff0f874c83fd5d961f5d4503523a1",
+              "verdict": "allow"
+            }
+          },
+          {
+            "decision": {
+              "action": "tool:t2",
+              "previousReceiptHash": "480e99c6a5bcd4ff91408211eed639772f9d632848cf319586920ae2e9b63f3f",
+              "requestHash": "0e3cc730d9c08262b256b2ba943e34c5460dbf5747cc864f0cf8065ad068605c",
+              "verdict": "allow"
+            }
+          },
+          {
+            "decision": {
+              "action": "tool:t9",
+              "previousReceiptHash": "480e99c6a5bcd4ff91408211eed639772f9d632848cf319586920ae2e9b63f3f",
+              "requestHash": "d90635bd56c9fac102a44d7e48e8c8326da5c4c2512bc5e0efb1826670769c80",
+              "verdict": "allow"
+            }
+          }
+        ]
+      },
+      "polarity": "negative",
+      "term": "receipt_chain_link"
+    },
+    {
+      "expect": {
+        "reason": "head-anchor-mismatch",
+        "refused": true,
+        "value": null
+      },
+      "id": "chain-tail-cut-against-anchor",
+      "input": {
+        "anchor": {
+          "count": 4,
+          "lastDigest": "873c5cae27b2e95a52defe3ec24cf0293281edd9198d1b514996e206a2c74895"
+        },
+        "records": [
+          {
+            "decision": {
+              "action": "tool:t0",
+              "requestHash": "f162b493dd9bf56e431f6d9db5dcd9dd2af4e4442f711d454b30f50745621c00",
+              "verdict": "allow"
+            }
+          },
+          {
+            "decision": {
+              "action": "tool:t1",
+              "previousReceiptHash": "94ed2a165e424754de26050bfeaf61f24940c1ce9488c93f9cfb7f00a8bcbb03",
+              "requestHash": "c84a09757ebaad3dbdc07d455da0b62427fff0f874c83fd5d961f5d4503523a1",
+              "verdict": "allow"
+            }
+          },
+          {
+            "decision": {
+              "action": "tool:t2",
+              "previousReceiptHash": "480e99c6a5bcd4ff91408211eed639772f9d632848cf319586920ae2e9b63f3f",
+              "requestHash": "0e3cc730d9c08262b256b2ba943e34c5460dbf5747cc864f0cf8065ad068605c",
+              "verdict": "allow"
+            }
+          }
+        ]
+      },
+      "polarity": "negative",
+      "term": "receipt_chain_link"
+    },
+    {
+      "expect": {
+        "reason": "no-decision",
+        "refused": true,
+        "value": null
+      },
+      "id": "chain-empty-stream",
+      "input": {
+        "records": []
+      },
+      "polarity": "negative",
+      "term": "receipt_chain_link"
+    },
+    {
+      "expect": {
+        "reason": "previousReceiptHash-zero-filled",
+        "refused": true,
+        "value": null
+      },
+      "id": "chain-zero-filled-link",
+      "input": {
+        "records": [
+          {
+            "decision": {
+              "action": "tool:t0",
+              "requestHash": "f162b493dd9bf56e431f6d9db5dcd9dd2af4e4442f711d454b30f50745621c00",
+              "verdict": "allow"
+            }
+          },
+          {
+            "decision": {
+              "action": "tool:t1",
+              "previousReceiptHash": "0000000000000000000000000000000000000000000000000000000000000000",
+              "requestHash": "c84a09757ebaad3dbdc07d455da0b62427fff0f874c83fd5d961f5d4503523a1",
+              "verdict": "allow"
+            }
+          }
+        ]
+      },
+      "polarity": "negative",
+      "term": "receipt_chain_link"
+    },
+    {
+      "expect": {
+        "refused": false,
+        "value": "bound"
+      },
+      "id": "possession-allow-bound",
+      "input": {
+        "decision": {
+          "possessionSignature": "abababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababab",
+          "verdict": "allow"
+        }
+      },
+      "polarity": "positive",
+      "term": "possession_proof"
+    },
+    {
+      "expect": {
+        "refused": false,
+        "value": "absent"
+      },
+      "id": "possession-refusal-without-proof",
+      "input": {
+        "decision": {
+          "verdict": "block"
+        }
+      },
+      "polarity": "positive",
+      "term": "possession_proof"
+    },
+    {
+      "expect": {
+        "reason": "allow-without-possession-proof",
+        "refused": true,
+        "value": null
+      },
+      "id": "possession-allow-without-proof",
+      "input": {
+        "decision": {
+          "verdict": "allow"
+        }
+      },
+      "polarity": "negative",
+      "term": "possession_proof"
+    },
+    {
+      "expect": {
+        "reason": "possessionSignature-malformed",
+        "refused": true,
+        "value": null
+      },
+      "id": "possession-zero-signature",
+      "input": {
+        "decision": {
+          "possessionSignature": "00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+          "verdict": "allow"
+        }
+      },
+      "polarity": "negative",
+      "term": "possession_proof"
+    },
+    {
+      "expect": {
+        "reason": "possessionSignature-malformed",
+        "refused": true,
+        "value": null
+      },
+      "id": "possession-short-signature",
+      "input": {
+        "decision": {
+          "possessionSignature": "abababababababababab",
+          "verdict": "allow"
+        }
+      },
+      "polarity": "negative",
+      "term": "possession_proof"
+    },
+    {
+      "expect": {
+        "reason": "possession-proof-replayed",
+        "refused": true,
+        "value": null
+      },
+      "id": "possession-replayed",
+      "input": {
+        "decision": {
+          "possessionSignature": "abababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababab",
+          "verdict": "allow"
+        },
+        "seen": [
+          "abababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababab"
+        ]
+      },
+      "polarity": "negative",
+      "term": "possession_proof"
+    },
+    {
+      "expect": {
+        "refused": false,
+        "value": "constraint-violation"
+      },
+      "id": "code-refusal-canonical",
+      "input": {
+        "decision": {
+          "code": "constraint-violation",
+          "verdict": "block"
+        }
+      },
+      "polarity": "positive",
+      "term": "decision_code"
+    },
+    {
+      "expect": {
+        "refused": false,
+        "value": "none"
+      },
+      "id": "code-allow-carries-none",
+      "input": {
+        "decision": {
+          "verdict": "allow"
+        }
+      },
+      "polarity": "positive",
+      "term": "decision_code"
+    },
+    {
+      "expect": {
+        "reason": "code-on-allow",
+        "refused": true,
+        "value": null
+      },
+      "id": "code-allow-with-code",
+      "input": {
+        "decision": {
+          "code": "constraint-violation",
+          "verdict": "allow"
+        }
+      },
+      "polarity": "negative",
+      "term": "decision_code"
+    },
+    {
+      "expect": {
+        "reason": "refusal-without-code",
+        "refused": true,
+        "value": null
+      },
+      "id": "code-refusal-without-code",
+      "input": {
+        "decision": {
+          "verdict": "halt"
+        }
+      },
+      "polarity": "negative",
+      "term": "decision_code"
+    },
+    {
+      "expect": {
+        "reason": "code-not-canonical",
+        "refused": true,
+        "value": null
+      },
+      "id": "code-free-text",
+      "input": {
+        "decision": {
+          "code": "Denied: path /etc/passwd",
+          "verdict": "block"
+        }
+      },
+      "polarity": "negative",
+      "term": "decision_code"
+    },
+    {
+      "expect": {
+        "reason": "code-not-canonical",
+        "refused": true,
+        "value": null
+      },
+      "id": "code-too-long",
+      "input": {
+        "decision": {
+          "code": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "verdict": "block"
+        }
+      },
+      "polarity": "negative",
+      "term": "decision_code"
+    },
+    {
+      "expect": {
+        "reason": "code-not-in-the-list",
+        "refused": true,
+        "value": null
+      },
+      "id": "code-outside-held-list",
+      "input": {
+        "decision": {
+          "code": "made-up",
+          "verdict": "block"
+        },
+        "known": [
+          "constraint-violation"
+        ]
+      },
+      "polarity": "negative",
+      "term": "decision_code"
+    },
+    {
+      "expect": {
+        "refused": false,
+        "value": "agrees"
+      },
+      "id": "upstream-agrees",
+      "input": {
+        "fetched": {
+          "extra": 1,
+          "model": "model-a",
+          "status": "completed"
+        },
+        "upstream": {
+          "fact": {
+            "model": "model-a",
+            "status": "completed"
+          },
+          "generationId": "gen-0001",
+          "provider": "model-router",
+          "recheckUrl": "https://provider.example/generation?id=gen-0001"
+        }
+      },
+      "polarity": "positive",
+      "term": "upstream_receipt"
+    },
+    {
+      "expect": {
+        "refused": false,
+        "value": "disagrees"
+      },
+      "id": "upstream-disagrees-on-model",
+      "input": {
+        "fetched": {
+          "model": "model-b",
+          "status": "completed"
+        },
+        "upstream": {
+          "fact": {
+            "model": "model-a",
+            "status": "completed"
+          },
+          "generationId": "gen-0001",
+          "provider": "model-router",
+          "recheckUrl": "https://provider.example/generation?id=gen-0001"
+        }
+      },
+      "polarity": "negative",
+      "term": "upstream_receipt"
+    },
+    {
+      "expect": {
+        "refused": false,
+        "value": "disagrees"
+      },
+      "id": "upstream-disagrees-field-missing",
+      "input": {
+        "fetched": {
+          "status": "completed"
+        },
+        "upstream": {
+          "fact": {
+            "model": "model-a",
+            "status": "completed"
+          },
+          "generationId": "gen-0001",
+          "provider": "model-router",
+          "recheckUrl": "https://provider.example/generation?id=gen-0001"
+        }
+      },
+      "polarity": "negative",
+      "term": "upstream_receipt"
+    },
+    {
+      "expect": {
+        "refused": false,
+        "value": "unreachable"
+      },
+      "id": "upstream-unreachable-no-record",
+      "input": {
+        "fetched": null,
+        "upstream": {
+          "fact": {
+            "model": "model-a",
+            "status": "completed"
+          },
+          "generationId": "gen-0001",
+          "provider": "model-router",
+          "recheckUrl": "https://provider.example/generation?id=gen-0001"
+        }
+      },
+      "polarity": "negative",
+      "term": "upstream_receipt"
+    },
+    {
+      "expect": {
+        "refused": false,
+        "value": "not_checked"
+      },
+      "id": "upstream-not-checked",
+      "input": {
+        "checked": false,
+        "fetched": null,
+        "upstream": {
+          "fact": {
+            "model": "model-a",
+            "status": "completed"
+          },
+          "generationId": "gen-0001",
+          "provider": "model-router",
+          "recheckUrl": "https://provider.example/generation?id=gen-0001"
+        }
+      },
+      "polarity": "negative",
+      "term": "upstream_receipt"
+    },
+    {
+      "expect": {
+        "reason": "recheckUrl-not-https",
+        "refused": true,
+        "value": null
+      },
+      "id": "upstream-recheck-url-not-https",
+      "input": {
+        "upstream": {
+          "fact": {
+            "model": "model-a",
+            "status": "completed"
+          },
+          "generationId": "gen-0001",
+          "provider": "model-router",
+          "recheckUrl": "http://provider.example/g"
+        }
+      },
+      "polarity": "negative",
+      "term": "upstream_receipt"
+    },
+    {
+      "expect": {
+        "reason": "generationId-missing",
+        "refused": true,
+        "value": null
+      },
+      "id": "upstream-generation-id-empty",
+      "input": {
+        "upstream": {
+          "fact": {
+            "model": "model-a",
+            "status": "completed"
+          },
+          "generationId": "",
+          "provider": "model-router",
+          "recheckUrl": "https://provider.example/generation?id=gen-0001"
+        }
+      },
+      "polarity": "negative",
+      "term": "upstream_receipt"
+    },
+    {
+      "expect": {
+        "reason": "fact-missing",
+        "refused": true,
+        "value": null
+      },
+      "id": "upstream-fact-missing",
+      "input": {
+        "upstream": {
+          "generationId": "gen-0001",
+          "provider": "model-router",
+          "recheckUrl": "https://provider.example/generation?id=gen-0001"
+        }
+      },
+      "polarity": "negative",
+      "term": "upstream_receipt"
+    }
+  ],
+  "suite": "decision-receipt",
+  "version": 1
+}

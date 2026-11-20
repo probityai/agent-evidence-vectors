@@ -113,6 +113,16 @@ def main() -> int:
         f"corpus digest `{provenance.get('corpusDigest') or 'not declared'}`, "
         f"manifest sha256 `{provenance.get('manifestSha256') or 'unread'}`.\n\n"
     )
+    header = report.get("verifierResult")
+    if isinstance(header, dict):
+        summary.append(
+            f"Verifier result: package `{header.get('package')}` "
+            f"`{header.get('version') or 'unknown'}` ({header.get('versionSource')}), "
+            f"corpus `{header.get('corpus')}`, "
+            f"input digest `{header.get('corpusDigest') or 'not declared'}`, "
+            f"corpus revision `{header.get('corpusRevision') or 'unknown'}` "
+            f"({header.get('corpusRevisionKind')}).\n\n"
+        )
     if refusal is not None:
         summary.append(f"**The verifier under test did NOT answer this run:** {refusal}\n\n")
     elif executed is not None:

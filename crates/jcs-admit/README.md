@@ -47,8 +47,8 @@ fn main() -> Result<(), Error> {
 It refuses a repeated object member, compared on the decoded name; nesting past a depth cap, 128
 by default, the value the in-toto attestation specification sets; a string whose bytes aren't
 Unicode scalar values, such as an unpaired surrogate or an overlong form; a number with no finite
-double, and under the opt-in I-JSON profile an integer at or above 2^53; and an input past a size
-cap. Each refusal is a named error variant with structured fault details, such as a byte offset
+double, and under the opt-in I-JSON profile an integer at or above 2^53, a fraction whose
+nearest double is at or above 2^53, and a Unicode noncharacter; and an input past a size cap. Each refusal is a named error variant with structured fault details, such as a byte offset
 or offending token. Number formatting is delegated to
 [serde_json_canonicalizer](https://crates.io/crates/serde_json_canonicalizer).
 
@@ -60,24 +60,34 @@ load vectors produced by the Go implementation in
 and every refusal is mutation-tested.
 
 Version 0.1.2 adds optional error serialization and the shared byte-cap
-check. The npm package has its own version and release, and is not yet on the npm registry.
-The Python wheel is built and tested from `python/` and is not yet on PyPI.
+check. The same core ships as a Python wheel on [PyPI](https://pypi.org/project/jcs-admit/)
+(built from `python/`) and as an [npm package](https://www.npmjs.com/package/jcs-admit) for
+Node 20 or newer and browsers (built from `npm/`). Each has its own version and release.
 
 ## Documentation
 
 | page | read it for |
 | --- | --- |
 | [JavaScript and WebAssembly](https://github.com/probityai/agent-evidence-vectors/blob/main/crates/jcs-admit/docs/NPM.md) | raw-byte Node and browser API, packed consumer checks and release verification |
-| [Python](https://github.com/probityai/agent-evidence-vectors/blob/main/crates/jcs-admit/docs/PYTHON.md) | the `probityai` wheel's bytes-in, bytes-out API, its refusal contract and the corpora it is tested on |
+| [Python](https://github.com/probityai/agent-evidence-vectors/blob/main/crates/jcs-admit/docs/PYTHON.md) | the `jcs-admit` wheel's bytes-in, bytes-out API, its refusal contract and the corpora it is tested on |
 | <a name="what-a-serializer-cannot-check"></a><a name="what-the-delegate-does-with-a-hostile-document"></a><a name="what-it-delegates"></a><a name="evidence"></a>[Design and evidence](https://github.com/probityai/agent-evidence-vectors/blob/main/crates/jcs-admit/docs/DESIGN.md) | why a serializer can't make these checks, what the delegate does with a hostile document, and the test evidence |
 | [APS canonical-byte comparison](https://github.com/probityai/agent-evidence-vectors/blob/main/crates/jcs-admit/interop/aps-canonical-bytes/README.md) | pinned 8-case and 10-case byte results and how to reproduce them |
 | [Python byte-profile comparison](https://github.com/probityai/agent-evidence-vectors/blob/main/crates/jcs-admit/interop/rfc8785-py/README.md) | independent byte cases, native raw-input refusals and a source-pinned Python consumer |
 | [Go raw-admission adapter](https://github.com/probityai/agent-evidence-vectors/blob/main/crates/jcs-admit/interop/go-jcs/README.md) | pinned Go bytes, original input admission and explicit root/profile boundaries |
+| [Use it as a test oracle](https://github.com/probityai/agent-evidence-vectors/blob/main/crates/jcs-admit/docs/ORACLE.md) | a differential test against your own canonicalizer, and what this crate does with each parser-differential class |
 | [Version 0.1.4 API reference](https://docs.rs/jcs-admit/0.1.4/jcs_admit/) | every function, option and error variant in the installed release |
 | [Agent guide](llms.txt) | raw-input admission, profile selection and runnable comparisons |
 | [Comparison with other RFC 8785 crates](https://github.com/probityai/agent-evidence-vectors/blob/main/crates/jcs-admit/docs/INCUMBENT-MEASUREMENT.md) | how seven RFC 8785 crates on crates.io handle hostile input |
 | [Mutation sweep](https://github.com/probityai/agent-evidence-vectors/blob/main/crates/jcs-admit/docs/MUTATION-SWEEP.md) | how each refusal was shown to be tested |
 | [Contributing](https://github.com/probityai/agent-evidence-vectors/blob/main/crates/jcs-admit/CONTRIBUTING.md) and [changelog](https://github.com/probityai/agent-evidence-vectors/blob/main/crates/jcs-admit/CHANGELOG.md) | how to propose a change, and what each release changed |
+
+## Verify the release
+
+Releases come from the release workflow through crates.io trusted publishing. The version record names the workflow run:
+
+```sh
+curl -s https://crates.io/api/v1/crates/jcs-admit/<version> -A verify | python3 -c "import json,sys; print(json.load(sys.stdin)['version']['trustpub_data'])"
+```
 
 ## License
 

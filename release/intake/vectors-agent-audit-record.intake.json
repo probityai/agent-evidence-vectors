@@ -69,7 +69,7 @@
       },
       "path": "corpora/vectors-agent-audit-record/INDEX.md",
       "serialization": "bytes",
-      "sha256": "85a6773bffa45d447fab10b59e6f41b2a49a4c5fc69497d4201a330bd6521071"
+      "sha256": "52125a12bfb51a02dcb412b1b8f53919577acd3f67b73799436d259b9c593747"
     },
     {
       "consumed": "unconsumed",
@@ -92,7 +92,7 @@
       },
       "path": "corpora/vectors-agent-audit-record/README.md",
       "serialization": "bytes",
-      "sha256": "506281eaca11585b5cc56bcb455734baf1f4a7accd38ce68fd46223c1f3ff582"
+      "sha256": "7cc5458663b1ff8bfbd2d69b6ca8f7d5a6d3ca4349dd4c567f0d385d5d12fd42"
     },
     {
       "consumed": "unconsumed",
@@ -207,7 +207,137 @@
       },
       "path": "corpora/vectors-agent-audit-record/gen_vectors.py",
       "serialization": "bytes",
-      "sha256": "578bd09427bb382ecb574b443774d3f2fea86f6f2a2be22139667768175cc959"
+      "sha256": "b7cc7bd3fb450a3383d55bf5eb1c28ceee8a7033e59fe5d9e1a04d97078fb3f3"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "3b10b36c85df2bb805bdc0199b7bf658af528377571893356c9c8d753bc6e93b"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [
+          "corpora/vectors-agent-audit-record/MANIFEST.json",
+          "corpora/vectors-agent-audit-record/gen_vectors.py"
+        ],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "3b10b36c85df2bb805bdc0199b7bf658af528377571893356c9c8d753bc6e93b"
+        },
+        "swapped-in": "c4d0aa56f99d02e791145d423a67f8f0b64370f3f82d01fa1ad9c7a73f7cab11",
+        "test": "swap-and-re-pin"
+      },
+      "path": "corpora/vectors-agent-audit-record/spec-vendored/draft-gilda-audit-agent-audit-record-00.txt",
+      "serialization": "bytes",
+      "sha256": "81420b90935257227212b238c3c956e51829af1d2326b4a111db00083a0967a6"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "3b10b36c85df2bb805bdc0199b7bf658af528377571893356c9c8d753bc6e93b"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [
+          "corpora/vectors-agent-audit-record/MANIFEST.json",
+          "corpora/vectors-agent-audit-record/gen_vectors.py"
+        ],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "3b10b36c85df2bb805bdc0199b7bf658af528377571893356c9c8d753bc6e93b"
+        },
+        "swapped-in": "1f1e29b5fc3425dcae2e5e82a5e92ba897adf224fa065ba062073bb1a2c1c2c2",
+        "test": "swap-and-re-pin"
+      },
+      "path": "corpora/vectors-agent-audit-record/spec-vendored/draft-gilda-audit-agent-audit-record-01.txt",
+      "serialization": "bytes",
+      "sha256": "6bcd5b2ae49fe7ee53972db0f3b349c46a1870771d29105b884323e1f94235e4"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "3b10b36c85df2bb805bdc0199b7bf658af528377571893356c9c8d753bc6e93b"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [
+          "corpora/vectors-agent-audit-record/MANIFEST.json",
+          "corpora/vectors-agent-audit-record/gen_vectors.py"
+        ],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "3b10b36c85df2bb805bdc0199b7bf658af528377571893356c9c8d753bc6e93b"
+        },
+        "swapped-in": "a17b1fb7ebb4cade033531b291626dab252132b559f11ed30ecd1642126c5ad4",
+        "test": "swap-and-re-pin"
+      },
+      "path": "corpora/vectors-agent-audit-record/spec-vendored/draft-gilda-audit-agent-audit-record-02.txt",
+      "serialization": "bytes",
+      "sha256": "40ac8c0a26633827d403cad3402fabf8cbd637aa3e5bc03055d25b641e5c8a7e"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "3b10b36c85df2bb805bdc0199b7bf658af528377571893356c9c8d753bc6e93b"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [
+          "corpora/vectors-agent-audit-record/MANIFEST.json",
+          "corpora/vectors-agent-audit-record/gen_vectors.py"
+        ],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "3b10b36c85df2bb805bdc0199b7bf658af528377571893356c9c8d753bc6e93b"
+        },
+        "swapped-in": "670fa27d90ab0c23d86176678868a24115f131d7f18be1e151afa520f4c91a10",
+        "test": "swap-and-re-pin"
+      },
+      "path": "corpora/vectors-agent-audit-record/spec-vendored/draft-gilda-audit-agent-audit-record-03.txt",
+      "serialization": "bytes",
+      "sha256": "c5d0b74686b62b5d1fd954b2dae0cf02b402c87a06efa6fc82abf8fa847ed786"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "3b10b36c85df2bb805bdc0199b7bf658af528377571893356c9c8d753bc6e93b"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [
+          "corpora/vectors-agent-audit-record/MANIFEST.json",
+          "corpora/vectors-agent-audit-record/gen_vectors.py"
+        ],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "3b10b36c85df2bb805bdc0199b7bf658af528377571893356c9c8d753bc6e93b"
+        },
+        "swapped-in": "7007caeb57a2bf199db28a05cc8629c862374458eddbb9181b1b0e93e669c95b",
+        "test": "swap-and-re-pin"
+      },
+      "path": "corpora/vectors-agent-audit-record/spec-vendored/draft-gilda-audit-agent-audit-record-04.txt",
+      "serialization": "bytes",
+      "sha256": "5592994311a3db303405eacebcb203f589b7aa083d81bcdb291a3a78d4adbde6"
     }
   ],
   "boundary": {
@@ -269,7 +399,7 @@
         "go.mod"
       ],
       "serialization": "sha256-listing-v1",
-      "sha256": "85142513ff8f8d4f9be113fc78371a52335d7cadb77f2cbc3872f7bb8ae9e893"
+      "sha256": "c57a0f6eece93aa926028960303d3ca8431ac829c02706a428c66f4806e6b0b1"
     },
     "runtime": {
       "name": "go",
@@ -2086,7 +2216,7 @@
   ],
   "corpus-digest": {
     "serialization": "sha256-listing-v1",
-    "sha256": "cc035d519d45b44ea04fa55a09e26024b3c95dc82fb1ca83b62efff1e1bc8a17"
+    "sha256": "b9b867351c49f03c32470ba5ac91cad8b743127f59d7f55460c6ca1a947713f2"
   },
   "exit-code": 0,
   "exit-rule": "zero-iff-every-check-passes",
@@ -2323,7 +2453,7 @@
       "v425531073d0c4bd6"
     ],
     "path": "corpora/vectors-agent-audit-record/MANIFEST.json",
-    "sha256": "362175b54c95ae06181dfa953cca23003c7bd4ce699a73effb9fe6884e37c828"
+    "sha256": "8ce34d210e6456730eb7e45cb13989277cbc17ff9532e1f26185ff5364fde09d"
   },
   "members": [
     {

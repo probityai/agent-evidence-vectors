@@ -44,11 +44,23 @@ ASSERTED_APPROVAL: dict[str, Any] = {
 }
 
 
+# An approval with corrections: the reviewer edited the requested arguments, so
+# the grant binds the corrected bytes and the bytes first requested stay
+# unapproved.
+CORRECTED = b'{"path":"workspace/selection.json","bytes":"{\\"pick\\":3}"}\n'
+WITH_CORRECTIONS = {"outcome": "approved-with-corrections",
+                    "payloadSha256": hashlib.sha256(CORRECTED).hexdigest(),
+                    "requestedPayloadSha256": hashlib.sha256(APPROVED).hexdigest()}
+# A key rotation: reviewer-1 moved from the April key to the October key at
+# 11:50. An approval issued before the rotation under the April key stays good.
+ROTATED = [{"keyId": "reviewer-1-key-2026-04", "retiredAt": "2026-10-21T11:50:00Z"}]
+
+
 # A renewal: B replaces A over equal bounds. The bounds are equal, the recorded
 # decisions are not, and the transition cites the predecessor's decision.
 A = {"decisionId": "dec-0001"}
-B = {"approvalId": "appr-0002", "decisionId": "dec-0002", "issuedAt": "2026-10-21T11:58:00Z",
-     "expiresAt": "2026-10-21T12:08:00Z"}
+B = {"approvalId": "appr-0002", "requestId": "req-0002", "decisionId": "dec-0002",
+     "issuedAt": "2026-10-21T11:58:00Z", "expiresAt": "2026-10-21T12:08:00Z"}
 EFFECT = "effect-0001"
 
 
@@ -104,7 +116,8 @@ def approval(**changes: Any) -> dict[str, Any]:
         "approvalId": "appr-0001", "approver": "human:reviewer-1", "clientId": "client-ide-7",
         "event": "tools/call", "expiresAt": "2026-10-21T12:05:00Z",
         "issuedAt": "2026-10-21T11:55:00Z", "keyId": "reviewer-1-key-2026-10",
-        "payloadSha256": _sha(APPROVED), "phase": "pre-execution", "principal": "user:alice",
+        "outcome": "approved", "payloadSha256": _sha(APPROVED), "phase": "pre-execution",
+        "principal": "user:alice", "requestId": "req-0001",
         "target": "workspace/selection.json", "tool": "file.save",
     }
     body.update(changes)
@@ -117,13 +130,18 @@ def record(*, presented: list[dict[str, Any]] | None = None,
            contract: str | None = reader.CONTRACT_ID,
            approved: dict[str, Any] | None = None,
            transitions: list[dict[str, Any]] | None = None,
-           effects: dict[str, str] | None = None) -> dict[str, Any]:
+           effects: dict[str, str] | None = None,
+           issued: list[str] | None = None, enforcement: str = "enforce",
+           retired: list[dict[str, str]] | None = None) -> dict[str, Any]:
     """One record; every argument is a departure from the conformant record."""
     the_approval = approval(**(approved or {}))
     body: dict[str, Any] = {
         "approval": the_approval,
         "consumedApprovalIds": consumed or ["appr-0000"],
         "decisionTime": DECISION,
+        "enforcement": enforcement,
+        "issuedApprovalIds": issued if issued is not None else [
+            "appr-0000", "appr-0001", "appr-0002"],
         "policyRelease": {"firstServedAt": "2026-10-21T09:00:00Z", "graceSeconds": 300,
                           "lastServedAt": "2026-10-21T12:30:00Z", "lookup": "ok",
                           "releaseId": "policy-release-41", **(release or {})},
@@ -140,6 +158,8 @@ def record(*, presented: list[dict[str, Any]] | None = None,
         body["transitions"] = transitions
     if effects is not None:
         body["effectRegistry"] = effects
+    if retired is not None:
+        body["retiredKeys"] = {"human:reviewer-1": retired}
     return body
 
 
@@ -153,7 +173,8 @@ def cases() -> list[Case]:
         ("allow-bound", record(), APPROVED, "allow", "bound",
          "control: every binding holds"),
         ("allow-other-approval-distinct-id",
-         record(presented=[approval(), approval(approvalId="appr-0002", principal="user:bob")]),
+         record(presented=[approval(), approval(approvalId="appr-0002", requestId="req-0002",
+                                                principal="user:bob")]),
          APPROVED, "allow", "bound",
          "control: another approval is presented under a different identifier"),
         ("allow-same-approval-presented-twice", record(presented=[approval(), approval()]),
@@ -167,6 +188,44 @@ def cases() -> list[Case]:
         ("allow-release-within-grace",
          record(release={"lastServedAt": "2026-10-21T11:55:00Z"}), APPROVED, "allow", "bound",
          "control: the release was last served exactly the grace period before the decision"),
+        ("allow-approved-with-corrections", record(approved=WITH_CORRECTIONS), CORRECTED,
+         "allow", "bound",
+         "control: the reviewer approved with corrections and the use carries the corrected "
+         "bytes"),
+        ("approval-corrections-not-applied", record(approved=WITH_CORRECTIONS), APPROVED,
+         "deny", "payload_mismatch",
+         "the reviewer approved with corrections and the use carries the bytes first "
+         "requested, which the approval does not cover"),
+        ("approval-not-issued-by-server", record(issued=["appr-0000"]), APPROVED, "deny",
+         "approval_not_issued",
+         "the approval is well formed and names the approver's trusted key, but the "
+         "server's register holds no such approval: the client built and presented it"),
+        ("approval-request-completed-twice",
+         record(presented=[approval(), approval(approvalId="appr-0002",
+                                                outcome="denied")]),
+         APPROVED, "deny", "approval_request_completed_twice",
+         "one approval request was completed twice, an approve and a deny under two "
+         "identifiers, and the approve is presented"),
+        ("approval-denied-observe-mode",
+         record(approved={"outcome": "denied"}, enforcement="observe"), APPROVED, "deny",
+         "approval_not_granted",
+         "the reviewer denied the call, the gate ran in observe mode, and the call ran; "
+         "a recorded deny is never a grant"),
+        ("approval-gathered-in-observe-mode", record(enforcement="observe"), APPROVED, "deny",
+         "approval_not_enforced",
+         "the approval is granted and bound, but the gate ran in observe mode, so it "
+         "never decided whether the call ran"),
+        ("allow-key-rotated-after-issue",
+         record(key="reviewer-1-key-2026-10", retired=[{
+             "keyId": "reviewer-1-key-2026-04", "retiredAt": "2026-10-21T11:56:00Z"}],
+             approved={"keyId": "reviewer-1-key-2026-04"}), APPROVED, "allow", "bound",
+         "control: the approval was issued under the April key one minute before the "
+         "approver rotated to the October key"),
+        ("approval-issued-under-rotated-key",
+         record(retired=ROTATED, approved={"keyId": "reviewer-1-key-2026-04"}),
+         APPROVED, "deny", "key_retired",
+         "the approval was issued under the approver's April key five minutes after that "
+         "key was rotated out"),
         ("approval-id-reused-different-content",
          record(presented=[approval(), approval(principal="user:bob", tool="file.delete")]),
          APPROVED, "deny", "approval_id_ambiguous",
