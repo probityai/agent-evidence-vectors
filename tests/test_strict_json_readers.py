@@ -27,8 +27,8 @@ import pytest
 
 REPO = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(REPO / "packaging"))
-import run_vectors  # noqa: E402
-from agent_evidence_vectors import strictjson  # noqa: E402
+import run_vectors
+from agent_evidence_vectors import strictjson
 
 # Readers whose ``verify(path)`` judges one member file of a corpus with a manifest of
 # ``{"id", "path", "files", "expected"}`` entries. The other readers are covered below by
@@ -53,6 +53,15 @@ def _accepting(module: ModuleType) -> set[str]:
     return ACCEPTING
 
 
+def _answer(module: ModuleType, path: Path) -> dict:
+    """What the reader says of one file, or nothing when this file is not the kind it reads."""
+    try:
+        answer = module.verify(path)
+    except Exception:  # noqa: BLE001 -- not the file this reader is handed
+        return {}
+    return answer if isinstance(answer, dict) else {}
+
+
 def _accepted_member(module: ModuleType) -> tuple[Path, str]:
     """The first accepted member's directory and the file the reader is handed."""
     manifest = json.loads((Path(module.ROOT) / "MANIFEST.json").read_text(encoding="utf-8"))
@@ -64,10 +73,7 @@ def _accepted_member(module: ModuleType) -> tuple[Path, str]:
         for name in sorted(entry.get("files") or {}):
             if not name.endswith(".json"):
                 continue
-            try:
-                answer = module.verify(directory / name)
-            except Exception:  # noqa: BLE001 -- not the file this reader is handed
-                continue
+            answer = _answer(module, directory / name)
             if {key: answer.get(key) for key in entry["expected"]} == entry["expected"]:
                 return directory, name
     raise AssertionError(f"{module.__name__}: no accepted member found")

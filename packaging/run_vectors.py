@@ -4933,7 +4933,7 @@ def verifier_result_header(suite_dir: str) -> dict[str, Any]:
     """Package, version, input digest and corpus revision of one run."""
     try:
         with open(os.path.join(suite_dir, "MANIFEST.json"), "rb") as handle:
-            manifest = json.loads(handle.read())
+            manifest = strictjson.loads(handle.read())
     except (OSError, ValueError):
         manifest = None
     if not isinstance(manifest, dict):
@@ -4975,7 +4975,7 @@ def stamp_report(path: str, suite_dir: str, before: tuple[int, int] | None) -> b
         return False
     try:
         with open(path, encoding="utf-8") as handle:
-            report = json.load(handle)
+            report = strictjson.load(handle)
     except (OSError, ValueError):
         return False
     if not isinstance(report, dict):
