@@ -78,6 +78,7 @@ RUNS_A_VERIFIER = (
     "vectors-agent-payment-mandate",
     "vectors-x402-evidence-join",
     "vectors-identity-binding",
+    "vectors-key-directory-observation",
     "vectors-receipt-chain-end",
     "vectors-receipt-signature",
     "vectors-scitt-cose",
