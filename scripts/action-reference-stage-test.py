@@ -357,7 +357,7 @@ def case_an_audit_record_expectation_comes_from_the_corpus(work: Path) -> None:
     stage = load_stage()
     root = REPO_ROOT / "corpora" / AUDIT_RECORD
     manifest = json.loads((root / "MANIFEST.json").read_text())
-    member = json.loads(json.dumps(next(e for e in manifest["vectors"] if e["draftId"] == "R18")))
+    member = json.loads(json.dumps(next(e for e in manifest["vectors"] if e["draftId"] == "R24")))
     member["expected"]["dating"]["codes"] = ["entry-received-after-anchor"]
     checked, total, notes = stage.audit_record_tally([member], root)
     assert (checked, total) == (0, 1) and notes, notes

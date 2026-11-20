@@ -23,16 +23,16 @@
         "height": 880015
       },
       {
-        "header": "000000201e92dd233765f3f8d5699b6fb5ae9dc47c7796092cd825f10b12bf4ab0d9f7798adbad4faa563d2a182ac4cdaf39ff415179ebde0e22a80dc16570f436405e3f8a89ae6affff001d996d0d00",
+        "header": "0000002038b27326fe605b8d12706331b51d09b93db46cfde0482aa4718dac24426b09e12e4ee7b01e2dacf91f26f890e3e0899aea212e41570058cdf48c8a436b8db9201e50ae6affff001d816d0d00",
+        "height": 880001
+      },
+      {
+        "header": "000000201e92dd233765f3f8d5699b6fb5ae9dc47c7796092cd825f10b12bf4ab0d9f779810cf9b4f05d9630f7a4f7e49b2b403a5c936fb7c246c82e9b6b7012e11f8c918a89ae6affff001d996d0d00",
         "height": 880025
       },
       {
-        "header": "000000200dfc1c266381e0e5d0a99aaf9e96f052f05a3ff5756e7cb4653805ee9aea5127dc12be16c7dfb49fa18027d3de0bba11d1b315042055e23576c08ba7932f2c508b89ae6affff001d9a6d0d00",
+        "header": "000000200dfc1c266381e0e5d0a99aaf9e96f052f05a3ff5756e7cb4653805ee9aea512727f318972f89b91b311d37cf645303395d61b2e188557b4bcf87d73494f3a7aa8b89ae6affff001d9a6d0d00",
         "height": 880026
-      },
-      {
-        "header": "0000002038b27326fe605b8d12706331b51d09b93db46cfde0482aa4718dac24426b09e12e4ee7b01e2dacf91f26f890e3e0899aea212e41570058cdf48c8a436b8db9201e50ae6affff001d816d0d00",
-        "height": 880001
       }
     ],
     "note": "The tree heads of the test transparency log every R member's anchors are in, as a verifier holds them by a means other than a signature: a checkpoint it already witnessed. A transparency-log anchor validates as a hash commitment when its proof, an RFC 9162 TransItem of type inclusion_proof_v2 over the leaf SHA-256(0x00 || envelopeDigest), recomputes to one of these for its logId and treeSize; its time is that head's timestamp.",
@@ -93,7 +93,7 @@
       }
     ]
   },
-  "corpusDigest": "51c4317c6adb80c07386b892c51eaff2e9c8ffeb469de9f74bd992d1a1cbe56e",
+  "corpusDigest": "bb94f0aba314bcc901872a8fe81f2f00266bf631572d3c66601e679e08697621",
   "counts": {
     "accept": 105,
     "indeterminate": 2,
@@ -3346,59 +3346,6 @@
       "slug": "r16-opentimestamps-through-own-tree"
     },
     {
-      "draftId": "R17",
-      "draftRevision": "draft-gilda-audit-agent-audit-record-01",
-      "draftSection": "4.7.1",
-      "expected": {
-        "codes": [],
-        "dating": {
-          "codes": [],
-          "datedAt": "2026-09-19T11:04:20Z",
-          "delegationRoot": {
-            "result": "not-established"
-          },
-          "entry": "well-formed",
-          "receipt": "asserted-consistent"
-        },
-        "derivedTier": "authoritative",
-        "verdict": "valid"
-      },
-      "file": "retained/vee8be250abf867cd.json",
-      "id": "vee8be250abf867cd",
-      "kind": "accept",
-      "parent": "ve38383b5fa8cfbe2",
-      "parentDraftId": "R10",
-      "row": "the retaining party's opentimestamps block time exactly anchorWithin plus 7200 seconds after receivedAt: the allowance an opentimestamps time takes applies to the late bound too, so the entry is well-formed",
-      "slug": "r17-opentimestamps-late-bound-exact"
-    },
-    {
-      "draftId": "R18",
-      "draftRevision": "draft-gilda-audit-agent-audit-record-01",
-      "draftSection": "4.7.1",
-      "expected": {
-        "codes": [],
-        "dating": {
-          "codes": [
-            "entry-anchor-late"
-          ],
-          "datedAt": "2026-09-19T11:04:20Z",
-          "delegationRoot": {
-            "result": "not-established"
-          },
-          "entry": "malformed"
-        },
-        "derivedTier": "authoritative",
-        "verdict": "valid"
-      },
-      "file": "retained/v4ea76bfc8b989622.json",
-      "id": "v4ea76bfc8b989622",
-      "kind": "accept",
-      "parent": "vee8be250abf867cd",
-      "parentDraftId": "R17",
-      "row": "the block time one second later than R17's, past anchorWithin plus the 7200 seconds",
-      "slug": "r18-opentimestamps-late-bound-one-second-past"
-    },
-    {
       "draftId": "R19",
       "draftSection": "4.7.1",
       "expected": {
@@ -3497,6 +3444,59 @@
       "parentDraftId": "R10",
       "row": "the block header time earlier than receivedAt by exactly 7200 seconds: well-formed, the pair of R11",
       "slug": "r22-opentimestamps-header-exactly-7200-early"
+    },
+    {
+      "draftId": "R23",
+      "draftRevision": "draft-gilda-audit-agent-audit-record-01",
+      "draftSection": "4.7.1",
+      "expected": {
+        "codes": [],
+        "dating": {
+          "codes": [],
+          "datedAt": "2026-09-19T11:04:20Z",
+          "delegationRoot": {
+            "result": "not-established"
+          },
+          "entry": "well-formed",
+          "receipt": "asserted-consistent"
+        },
+        "derivedTier": "authoritative",
+        "verdict": "valid"
+      },
+      "file": "retained/v36a6408036bd15f4.json",
+      "id": "v36a6408036bd15f4",
+      "kind": "accept",
+      "parent": "ve38383b5fa8cfbe2",
+      "parentDraftId": "R10",
+      "row": "the retaining party's opentimestamps block time exactly anchorWithin plus 7200 seconds after receivedAt: the allowance an opentimestamps time takes applies to the late bound too, so the entry is well-formed",
+      "slug": "r23-opentimestamps-late-bound-exact"
+    },
+    {
+      "draftId": "R24",
+      "draftRevision": "draft-gilda-audit-agent-audit-record-01",
+      "draftSection": "4.7.1",
+      "expected": {
+        "codes": [],
+        "dating": {
+          "codes": [
+            "entry-anchor-late"
+          ],
+          "datedAt": "2026-09-19T11:04:20Z",
+          "delegationRoot": {
+            "result": "not-established"
+          },
+          "entry": "malformed"
+        },
+        "derivedTier": "authoritative",
+        "verdict": "valid"
+      },
+      "file": "retained/v23e66be3a23024bb.json",
+      "id": "v23e66be3a23024bb",
+      "kind": "accept",
+      "parent": "v36a6408036bd15f4",
+      "parentDraftId": "R23",
+      "row": "the block time one second later than R23's, past anchorWithin plus the 7200 seconds",
+      "slug": "r24-opentimestamps-late-bound-one-second-past"
     },
     {
       "draftId": "IS1",

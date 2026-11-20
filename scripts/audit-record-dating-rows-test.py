@@ -4,7 +4,7 @@
 Rows R10 to R16 of draft-gilda-audit-agent-audit-record-01 add the
 opentimestamps anchor (its proof checked against block headers the manifest
 pins, its time compared with a 7200-second tolerance) and the delegation-root
-result. R17 and R18 pin that tolerance on the late (anchorWithin) bound, and
+result. R23 and R24 pin that tolerance on the late (anchorWithin) bound, and
 R19 to R22 sit exactly on the bounds R3, R6, R7 and R11 are one second past:
 with every tolerance one second shorter each on-bound member turns malformed
 under its pair's code, and with every tolerance one second longer each
@@ -42,8 +42,8 @@ CASES = (
     ("R13", "entry-delegation-root"),
     ("R15", "entry-delegation-root"),
     ("R16", "anchor-validation"),
-    ("R17", "opentimestamps-tolerance"),
-    ("R18", "entry-anchor-late"),
+    ("R23", "opentimestamps-tolerance"),
+    ("R24", "entry-anchor-late"),
     ("R22", "opentimestamps-tolerance"),
 )
 
@@ -54,7 +54,7 @@ BOUND_PAIRS = (
     ("R20", "R6", "entry-received-before-issued"),
     ("R21", "R7", "entry-anchor-late"),
     ("R22", "R11", "entry-received-after-anchor"),
-    ("R17", "R18", "entry-anchor-late"),
+    ("R23", "R24", "entry-anchor-late"),
 )
 
 
@@ -92,7 +92,7 @@ def main() -> int:
 
     restored("R11", "R10", "anchors", 1)
     restored("R15", "R13", "validationData")
-    restored("R18", "R17", "anchors", 1)
+    restored("R24", "R23", "anchors", 1)
 
     failures.extend(bound_pair_failures(raw, want, date))
     for line in failures:

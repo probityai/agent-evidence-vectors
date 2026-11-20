@@ -4576,14 +4576,14 @@ def _received_at(stamp: str) -> Callable[[dict[str, Any], bytes], None]:
     return _set_entry("receivedAt", stamp)
 
 
-def _r17(entry_: dict[str, Any], logged: bytes) -> None:
+def _r23(entry_: dict[str, Any], logged: bytes) -> None:
     """The block time exactly anchorWithin plus 7200 seconds after receivedAt."""
-    entry_["anchors"][1] = ots_anchor("r17", logged, 880025, "2026-09-19T13:09:30Z")
+    entry_["anchors"][1] = ots_anchor("r23", logged, 880025, "2026-09-19T13:09:30Z")
 
 
-def _r18(entry_: dict[str, Any], logged: bytes) -> None:
-    """R17's block time one second later."""
-    entry_["anchors"][1] = ots_anchor("r18", logged, 880026, "2026-09-19T13:09:31Z")
+def _r24(entry_: dict[str, Any], logged: bytes) -> None:
+    """R23's block time one second later."""
+    entry_["anchors"][1] = ots_anchor("r24", logged, 880026, "2026-09-19T13:09:31Z")
 
 
 def _r21(entry_: dict[str, Any], logged: bytes) -> None:
@@ -5120,29 +5120,29 @@ def define_retained() -> None:
         )
     # Each dating bound gets its own pair: the instant exactly on the bound is
     # well-formed and one second past it is malformed. R3, R6, R7 and R11 hold
-    # the second of each pair; R19 to R22 hold the first, and R17 and R18 are the
+    # the second of each pair; R19 to R22 hold the first, and R23 and R24 are the
     # pair for the late bound under the 7200 seconds an opentimestamps time
     # allows, so a reader that applies that allowance to receivedAt alone, or
     # cuts the late bound back to the skew tolerance, is caught.
     asserted = "asserted-consistent"
     bounds: list[tuple[str, str, str, str, Callable[[], Built], dict[str, Any], str | None]] = [
         (
-            "R17",
-            "r17-opentimestamps-late-bound-exact",
+            "R23",
+            "r23-opentimestamps-late-bound-exact",
             "R10",
             "the retaining party's opentimestamps block time exactly anchorWithin plus 7200 "
             "seconds after receivedAt: the allowance an opentimestamps time takes applies to the "
             "late bound too, so the entry is well-formed",
-            retained("R17", _r17, "R10"),
+            retained("R23", _r23, "R10"),
             dating(dated_at="2026-09-19T11:04:20Z", receipt=asserted),
             REVISION_01,
         ),
         (
-            "R18",
-            "r18-opentimestamps-late-bound-one-second-past",
-            "R17",
-            "the block time one second later than R17's, past anchorWithin plus the 7200 seconds",
-            retained("R18", _r18, "R17"),
+            "R24",
+            "r24-opentimestamps-late-bound-one-second-past",
+            "R23",
+            "the block time one second later than R23's, past anchorWithin plus the 7200 seconds",
+            retained("R24", _r24, "R23"),
             dating(dated_at="2026-09-19T11:04:20Z", entry_="malformed", code="entry-anchor-late"),
             REVISION_01,
         ),
@@ -5218,7 +5218,7 @@ ORDER = (
     "CS26 CS27 CS28 CS29 CS30 CS31 CS32 CS33 CS34 CS35 CS36 CS37 CS38 CS39 CS40 "
     "CS41 CS42 CS43 CS44 CS45 CS46 CS47 CS48 CS49 CS50 CS51 CS52 CS53 CS54 "
     "A21 SQ1 SQ2 SQ3 SQ4 SQ5 "
-    "R10 R11 R12 R13 R14 R15 R16 R17 R18 R19 R20 R21 R22 "
+    "R10 R11 R12 R13 R14 R15 R16 R19 R20 R21 R22 R23 R24 "
     "IS1 IS2 PS1 PS2 PS1b PS3 PS4 PS5 "
     "PR1 PR2 PR3 PR4 PR5 PR6 PR7 PR8 PR9 PR10 PR11 "
     "DS1 DS2 DS3 DS4 DS5 DS6 DS7 DS8 DS9 DS10 "
