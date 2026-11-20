@@ -1,7 +1,7 @@
 {
   "verifier": "https://probityai.github.io/probity/verifiers/agent-evidence-verify",
   "checked": 734,
-  "total": 3077,
+  "total": 3090,
   "corpora": [
     {
       "id": "vectors",
@@ -247,6 +247,12 @@
       "id": "vectors-incident-evidence-cell",
       "checked": 0,
       "total": 31,
+      "disagreements": 0
+    },
+    {
+      "id": "vectors-key-directory-observation",
+      "checked": 0,
+      "total": 13,
       "disagreements": 0
     },
     {
