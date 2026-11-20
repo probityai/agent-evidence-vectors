@@ -96,9 +96,16 @@ def _varuint(value: int) -> bytes:
 
 
 def _header(merkle_root: bytes, time: int) -> dict[str, Any]:
-    header = ((0x20000000).to_bytes(4, "little") + bytes(32) + merkle_root
-              + time.to_bytes(4, "little") + (0x1D00FFFF).to_bytes(4, "little") + bytes(4))
-    return {"height": HEIGHT, "header": header.hex(), "id": reader.block_id(header)}
+    """A regtest header over ``merkle_root``, its nonce the first that meets the
+    regtest target, so the held header carries its own proof of work."""
+    body = ((0x20000000).to_bytes(4, "little") + bytes(32) + merkle_root
+            + time.to_bytes(4, "little") + (0x207FFFFF).to_bytes(4, "little"))
+    nonce = 0
+    while not reader.meets_own_work(body + nonce.to_bytes(4, "little"), "regtest"):
+        nonce += 1
+    header = body + nonce.to_bytes(4, "little")
+    return {"height": HEIGHT, "network": "regtest", "header": header.hex(),
+            "id": reader.block_id(header)}
 
 
 def _anchored(stated: int, seen: int, nonce: bytes, pending: bool = False
