@@ -91,7 +91,7 @@
       },
       "path": "corpora/vectors-restart-records/check_vectors.py",
       "serialization": "bytes",
-      "sha256": "8ca8586de5766dbe99257ece5cb10115d76da0ce74232af9af78d596cc911c2c"
+      "sha256": "ed4d4b05c591c5c67cef2e4cd9dacc339d693fd376d0fbd1615040f3cc4a910d"
     },
     {
       "consumed": "unconsumed",
@@ -212,7 +212,7 @@
         "go.mod"
       ],
       "serialization": "sha256-listing-v1",
-      "sha256": "c57a0f6eece93aa926028960303d3ca8431ac829c02706a428c66f4806e6b0b1"
+      "sha256": "9427eda36f4f5247758bae02715a67e75a51897088511ebe6ab16a82e6dbf1cb"
     },
     "runtime": {
       "name": "go",
@@ -685,7 +685,7 @@
   ],
   "corpus-digest": {
     "serialization": "sha256-listing-v1",
-    "sha256": "4533acf76118ea01a7035f54c2e79021ca979e6c3a2376d31024873ef2e02b78"
+    "sha256": "ca11e977a6e18a15d27fc37402f972a4a3d0a3e4a70047ed18a45368c15f6975"
   },
   "exit-code": 0,
   "exit-rule": "zero-iff-every-check-passes",
