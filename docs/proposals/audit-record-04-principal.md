@@ -50,23 +50,23 @@ Add to Section 5, after `delegation`:
 > * `tenant`, OPTIONAL, the issuer's tenant or organization identifier.
 > * `identityProvider`, OPTIONAL, who operates the issuer: one of `okta`, `entra`, `auth0`,
 >   `keycloak`, `self_issued` and `other`, the values of the `identity_provider` term of the
->   agent-evidence vocabulary (vector `PR20` refuses any other value). A verifier derives the
+>   agent-evidence vocabulary (vector `PR25` refuses any other value). A verifier derives the
 >   provider from `issuer`: `self_issued` for `https://self-issued.me` and
 >   `https://self-issued.me/v2`; `okta` for a host ending in `.okta.com`, `.oktapreview.com`,
 >   `.okta-emea.com` or `.okta-gov.com`; `entra` for `login.microsoftonline.com`,
 >   `login.microsoftonline.us`, `login.chinacloudapi.cn`, `sts.windows.net` or a host ending in
 >   `.ciamlogin.com`; `auth0` for a host ending in `.auth0.com`; `keycloak` for a path of
 >   `/realms/<realm>` or `/auth/realms/<realm>`; otherwise `other`. Where the derivation names a
->   provider, `identityProvider` MUST equal it (vectors `PR12`, `PR13`, `PR16`), and `other` does
->   not replace a named provider (vector `PR22`). Where it gives `other`, the issuer is a custom
->   domain and the declared value is accepted as declared, not derived (vectors `PR14`, `PR15`).
+>   provider, `identityProvider` MUST equal it (vectors `PR17`, `PR18`, `PR21`), and `other` does
+>   not replace a named provider (vector `PR27`). Where it gives `other`, the issuer is a custom
+>   domain and the declared value is accepted as declared, not derived (vectors `PR19`, `PR20`).
 >   A principal whose provider is `self_issued` is vouched for by nobody but the party that runs
 >   the issuer; a verifier MUST NOT report it as vouched for by a third party.
 > * `pinnedThumbprint`, OPTIONAL, the RFC 7638 SHA-256 thumbprint of the issuer key the client
 >   held in its configuration before its first call to the issuer, base64url without padding
->   (vector `PR19` refuses another shape). Present, it records `pinned_before_first_call` of the
->   vocabulary's `issuer_key_pinning` term and MUST equal `keyThumbprint` (vectors `PR17`,
->   `PR18`, `PR21`); absent, the record says the client did not pin. A client whose pin did not
+>   (vector `PR24` refuses another shape). Present, it records `pinned_before_first_call` of the
+>   vocabulary's `issuer_key_pinning` term and MUST equal `keyThumbprint` (vectors `PR22`,
+>   `PR23`, `PR26`); absent, the record says the client did not pin. A client whose pin did not
 >   hold refused the key and did not fall back to an unpinned fetch, so a record never carries a
 >   pin that differs from the key it names.
 
@@ -78,8 +78,8 @@ Add after the delegation check, in this order:
 > agrees with the delegation (`PR8`), that `tokenDigest` equals `agent.credentialDigest` (`PR6`),
 > that the token was valid at `decision.reportedAt` (`PR10`, `PR5`), that `key.kid` equals `kid`
 > (`PR9`), that `keyThumbprint` recomputes from `key` (`PR4`), that a declared `identityProvider`
-> agrees with the provider `issuer` names (`PR13`, `PR16`, `PR22`), and that a `pinnedThumbprint`
-> equals `keyThumbprint` (`PR18`). A record failing any of these is malformed.
+> agrees with the provider `issuer` names (`PR18`, `PR21`, `PR27`), and that a `pinnedThumbprint`
+> equals `keyThumbprint` (`PR23`). A record failing any of these is malformed.
 
 The reference reader's codes for these refusals are `principal-member-missing`,
 `principal-member-unknown`, `principal-malformed`, `principal-subject-mismatch`,
@@ -97,5 +97,5 @@ key it used), or that the subject is who the issuer says it is.
 
 ## 5. Appendix B rows
 
-Add rows `PR1` to `PR22` as `MANIFEST.json` of `vectors-agent-audit-record` states them (`row`
+Add rows `PR1` to `PR27` as `MANIFEST.json` of `vectors-agent-audit-record` states them (`row`
 and `expected`).

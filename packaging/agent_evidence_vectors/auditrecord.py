@@ -1273,7 +1273,7 @@ def _rule_principal(state: _State) -> None:
     decision point established, bound to the agent's credential by its digest
     and to the issuer's key by its RFC 7638 thumbprint (PR1 to PR11); a declared
     identity provider agrees with the one its issuer names, and a pinned
-    thumbprint equals the key's (PR12 to PR22)."""
+    thumbprint equals the key's (PR17 to PR27)."""
     pred = state.predicate
     if "principal" not in pred:
         return

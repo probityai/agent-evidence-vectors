@@ -3879,8 +3879,8 @@ def define_principal() -> None:
 
 
 # ---------------------------------------------------------------------------
-# Who runs the issuer, and whether its key was pinned (revision 04, rows PR12
-# to PR22).
+# Who runs the issuer, and whether its key was pinned (revision 04, rows PR17
+# to PR27).
 #
 # Two optional members of `principal`, with values from the vocabulary's
 # `principal_identity` terms. `identityProvider` names who operates the issuer:
@@ -3889,7 +3889,7 @@ def define_principal() -> None:
 # declared value is accepted as declared. `pinnedThumbprint` is the RFC 7638
 # thumbprint the client pinned for the issuer before its first call: it must
 # equal `keyThumbprint` (`principal-pin-mismatch`), and its absence means the
-# client did not pin. PR12, PR14, PR15, PR17 and PR21 are accepted; each reject
+# client did not pin. PR17, PR19, PR20, PR22 and PR26 are accepted; each reject
 # member changes one value of an accepted member and reaches one refusal.
 # ---------------------------------------------------------------------------
 
@@ -3907,35 +3907,35 @@ def _principal_members(**changes: Any) -> Callable[[dict[str, Any]], None]:
 def define_principal_provider_and_pin() -> None:
     accepted = [
         (
-            "PR12",
+            "PR17",
             "pr12-principal-provider-derived",
             "PR1 from an Okta org issuer, identityProvider okta: the declared value agrees with "
             "the provider the issuer's host names",
             _principal_members(issuer=OKTA_ISSUER, identityProvider="okta"),
         ),
         (
-            "PR14",
+            "PR19",
             "pr14-principal-provider-declared-custom-domain",
             "PR1, whose issuer is a custom domain no host or path rule names, with identityProvider "
             "okta: accepted as declared, not derived",
             _principal_members(identityProvider="okta"),
         ),
         (
-            "PR15",
+            "PR20",
             "pr15-principal-provider-self-issued",
             "PR1 with identityProvider self_issued: the deploying party runs the issuer, so no "
             "third party vouches for the principal",
             _principal_members(identityProvider="self_issued"),
         ),
         (
-            "PR17",
+            "PR22",
             "pr17-principal-key-pinned",
             "PR1 with pinnedThumbprint equal to keyThumbprint: the client pinned the issuer's key "
             "before its first call",
             _principal_members(pinnedThumbprint=jwk_thumbprint(_p256_jwk())),
         ),
         (
-            "PR21",
+            "PR26",
             "pr21-principal-entra-pinned",
             "PR1 from a Microsoft Entra issuer with identityProvider entra and the key pinned: both "
             "members present",
@@ -3959,53 +3959,53 @@ def define_principal_provider_and_pin() -> None:
         )
     rejects: list[tuple[str, str, str, str, Callable[[dict[str, Any]], None], str]] = [
         (
-            "PR13",
+            "PR18",
             "pr13-principal-provider-contradicts-issuer",
-            "PR12",
-            "PR12 declaring identityProvider auth0 for an issuer whose host names Okta",
+            "PR17",
+            "PR17 declaring identityProvider auth0 for an issuer whose host names Okta",
             _principal_edit("identityProvider", "auth0"),
             "principal-provider-mismatch",
         ),
         (
-            "PR16",
+            "PR21",
             "pr16-principal-self-issued-declared-third-party",
-            "PR15",
-            "PR15 from the OpenID self-issued issuer declaring identityProvider okta: a "
+            "PR20",
+            "PR20 from the OpenID self-issued issuer declaring identityProvider okta: a "
             "self-issued principal cannot be presented as vouched for by a third party",
             _principal_edits(issuer=SELF_ISSUED_ISSUER, identityProvider="okta"),
             "principal-provider-mismatch",
         ),
         (
-            "PR18",
+            "PR23",
             "pr18-principal-pin-mismatch",
-            "PR17",
-            "PR17 whose pinnedThumbprint is the thumbprint of the issuer's Ed25519 key while key is "
+            "PR22",
+            "PR22 whose pinnedThumbprint is the thumbprint of the issuer's Ed25519 key while key is "
             "its P-256 key: the pin does not hold",
             _principal_edit("pinnedThumbprint", jwk_thumbprint(_ed25519_jwk())),
             "principal-pin-mismatch",
         ),
         (
-            "PR19",
+            "PR24",
             "pr19-principal-pin-malformed",
-            "PR17",
-            "PR17 whose pinnedThumbprint carries base64 padding: not an RFC 7638 thumbprint in "
+            "PR22",
+            "PR22 whose pinnedThumbprint carries base64 padding: not an RFC 7638 thumbprint in "
             "base64url without padding",
             _principal_edit("pinnedThumbprint", jwk_thumbprint(_p256_jwk()) + "="),
             "principal-malformed",
         ),
         (
-            "PR20",
+            "PR25",
             "pr20-principal-provider-unregistered",
-            "PR14",
-            "PR14 with identityProvider google, a value the closed set does not name",
+            "PR19",
+            "PR19 with identityProvider google, a value the closed set does not name",
             _principal_edit("identityProvider", "google"),
             "principal-malformed",
         ),
         (
-            "PR22",
+            "PR27",
             "pr22-principal-provider-other-hides-derived",
-            "PR12",
-            "PR12 from a Keycloak realm issuer declaring identityProvider other: other cannot "
+            "PR17",
+            "PR17 from a Keycloak realm issuer declaring identityProvider other: other cannot "
             "replace the provider the issuer's path names",
             _principal_edits(issuer=KEYCLOAK_ISSUER, identityProvider="other"),
             "principal-provider-mismatch",
@@ -5198,7 +5198,7 @@ ORDER = (
     "A21 SQ1 SQ2 SQ3 SQ4 SQ5 "
     "R10 R11 R12 R13 R14 R15 R16 "
     "IS1 IS2 PS1 PS2 PS1b PS3 PS4 PS5 "
-    "PR1 PR2 PR3 PR4 PR5 PR6 PR7 PR8 PR9 PR10 PR11 PR12 PR13 PR14 PR15 PR16 PR17 PR18 PR19 PR20 PR21 PR22 "
+    "PR1 PR2 PR3 PR4 PR5 PR6 PR7 PR8 PR9 PR10 PR11 PR17 PR18 PR19 PR20 PR21 PR22 PR23 PR24 PR25 PR26 PR27 "
     "DS1 DS2 DS3 DS4 DS5 DS6 DS7 DS8 DS9 DS10 "
     "X1 X2 X3 X4 X5 X6 X7 X8 X9 X10 X11 X12 X13 X14 X15 X16 X17 X18"
 ).split()
