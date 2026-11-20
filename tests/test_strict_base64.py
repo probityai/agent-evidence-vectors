@@ -20,7 +20,7 @@ import pytest
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "packaging"))
-from agent_evidence_vectors import signaturecoverage, strictb64
+from agent_evidence_vectors import signaturecoverage, strictb64  # noqa: E402
 
 ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/"
 CASE = ROOT / "corpora" / "vectors-signature-coverage" / "cases" / "allow-one-entry-for-the-key"
