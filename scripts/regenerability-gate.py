@@ -138,15 +138,19 @@ GENERATORS = (
     # sets in the same run, and its lifted members are re-signed from a public
     # key recipe rather than copied, so the generator is the only place their
     # bytes come from.
+    "corpora/vectors-print-witness/gen_vectors.py",
     "corpora/vectors-receipt-signature/gen_vectors.py",
     "corpora/vectors-source-coverage/gen_vectors.py",
     "corpora/vectors-open-weight-art53/gen_vectors.py",
     "corpora/vectors-anchored-chain/gen_vectors.py",
+    "corpora/vectors-principal-binding/gen_vectors.py",
     "corpora/vectors-receipt-chain-end/gen_vectors.py",
     "corpora/vectors-identity-binding/gen_vectors.py",
     "corpora/vectors-authority-at-dispatch/gen_vectors.py",
     "corpora/vectors-approval-binding/gen_vectors.py",
     "corpora/vectors-dispatch-fence/gen_vectors.py",
+    "corpora/vectors-dns-aid-sig-v01/gen_vectors.py",
+    "corpora/vectors-dns-aid-rrset-v01/gen_vectors.py",
     "corpora/vectors-refund-connected/gen_vectors.py",
     "corpora/vectors-aggregate-accounting/gen_vectors.py",
     "corpora/vectors-uncertain-effect/gen_vectors.py",
@@ -158,11 +162,13 @@ GENERATORS = (
     "corpora/vectors-containment-journal/gen_vectors.py",
     "corpora/vectors-decision-client-failure-modes/gen_vectors.py",
     "corpora/vectors-refusal-reason-priority/gen_vectors.py",
+    "corpora/vectors-execution-billing-finality/gen_vectors.py",
     "corpora/vectors-agent-card-receipt/gen_vectors.py",
     "corpora/vectors-credential-release/gen_vectors.py",
     "corpora/vectors-converted-argument-binding/gen_vectors.py",
     "corpora/vectors-delegator-right/gen_vectors.py",
     "corpora/vectors-badge-vc-verify/gen_vectors.py",
+    "corpora/vectors-catalog-trust-manifest/gen_vectors.py",
     "corpora/vectors-completion-confirmation/gen_vectors.py",
     "corpora/vectors-chunked-export/gen_vectors.py",
     "corpora/vectors-done-contract/gen_vectors.py",
@@ -292,6 +298,8 @@ OWNED = (
     ("corpora/vectors-receipt-signature", "INDEX.md"),
     ("corpora/vectors-source-coverage", "MANIFEST.json"),
     ("corpora/vectors-anchored-chain", "MANIFEST.json"),
+    ("corpora/vectors-principal-binding", "MANIFEST.json"),
+    ("corpora/vectors-print-witness", "MANIFEST.json"),
     ("corpora/vectors-trace-anchor", "MANIFEST.json"),
     ("corpora/vectors-grade-floor", "MANIFEST.json"),
     ("corpora/vectors-grade-floor", "INDEX.md"),
@@ -330,6 +338,12 @@ OWNED = (
     ("corpora/vectors-anchored-chain/cases", "**/case.json"),
     ("corpora/vectors-anchored-chain/cases", "**/store.jsonl"),
     ("corpora/vectors-anchored-chain/cases", "**/anchor.json"),
+    ("corpora/vectors-principal-binding/cases", "**/case.json"),
+    ("corpora/vectors-principal-binding/cases", "**/binding.json"),
+    ("corpora/vectors-principal-binding/cases", "**/binding.jws"),
+    ("corpora/vectors-print-witness/cases", "**/case.json"),
+    ("corpora/vectors-print-witness/cases", "**/log.jsonl"),
+    ("corpora/vectors-print-witness/cases", "**/job.gcode"),
     ("corpora/vectors-receipt-chain-end", "MANIFEST.json"),
     ("corpora/vectors-receipt-chain-end/cases", "**/case.json"),
     ("corpora/vectors-receipt-chain-end/cases", "**/chain.jsonl"),
@@ -347,6 +361,12 @@ OWNED = (
     ("corpora/vectors-approval-binding/cases", "**/payload.bin"),
     ("corpora/vectors-dispatch-fence", "MANIFEST.json"),
     ("corpora/vectors-dispatch-fence/cases", "**/record.json"),
+    ("corpora/vectors-dns-aid-sig-v01", "MANIFEST.json"),
+    ("corpora/vectors-dns-aid-sig-v01", "INDEX.md"),
+    ("corpora/vectors-dns-aid-sig-v01/cases", "*.json"),
+    ("corpora/vectors-dns-aid-rrset-v01", "MANIFEST.json"),
+    ("corpora/vectors-dns-aid-rrset-v01", "INDEX.md"),
+    ("corpora/vectors-dns-aid-rrset-v01/cases", "*.json"),
     ("corpora/vectors-refund-connected", "MANIFEST.json"),
     # The input_aps contract fixtures: the check order, the retained cases with
     # their frozen instants, and one case directory and expected.json per fixture.
@@ -373,6 +393,8 @@ OWNED = (
     ("corpora/vectors-decision-client-failure-modes/cases", "**/record.json"),
     ("corpora/vectors-refusal-reason-priority", "MANIFEST.json"),
     ("corpora/vectors-refusal-reason-priority/cases", "**/record.json"),
+    ("corpora/vectors-execution-billing-finality", "MANIFEST.json"),
+    ("corpora/vectors-execution-billing-finality/cases", "**/record.json"),
     ("corpora/vectors-agent-card-receipt", "MANIFEST.json"),
     ("corpora/vectors-credential-release", "MANIFEST.json"),
     ("corpora/vectors-agent-card-receipt/cases", "**/card.json"),
@@ -394,6 +416,9 @@ OWNED = (
     ("corpora/vectors-delegator-right/cases", "**/record.json"),
     ("corpora/vectors-badge-vc-verify", "MANIFEST.json"),
     ("corpora/vectors-badge-vc-verify/cases", "**/case.json"),
+    ("corpora/vectors-catalog-trust-manifest", "MANIFEST.json"),
+    ("corpora/vectors-catalog-trust-manifest", "CASES.json"),
+    ("corpora/vectors-catalog-trust-manifest/cases", "**/*.json"),
     ("corpora/vectors-completion-confirmation", "MANIFEST.json"),
     ("corpora/vectors-completion-confirmation/cases", "**/record.json"),
     ("corpora/vectors-chunked-export", "MANIFEST.json"),
@@ -443,9 +468,19 @@ OWNED = (
     ("corpora/vectors-ietf-agent-record-drafts/cases", "v*.json"),
     ("corpora/vectors-ietf-agent-record-drafts", "MANIFEST.json"),
     ("corpora/vectors-ietf-agent-record-drafts", "INDEX.md"),
-    # The Go module embeds copies, because go:embed cannot reach corpora/.
+    # The Go module embeds copies, because go:embed cannot reach corpora/, and
+    # the Rust crate and the npm package do too, because each published package
+    # holds only its own directory. Each also carries the digest table of what
+    # it embeds.
     ("jcsvectors/vectors-a2a-jcs-v01", "**/*.json"),
     ("jcsvectors/jcs-byte-vectors", "*.json"),
+    ("jcsvectors", "digests.go"),
+    ("crates/jcsvectors/data/vectors-a2a-jcs-v01", "**/*.json"),
+    ("crates/jcsvectors/data/jcs-byte-vectors", "*.json"),
+    ("crates/jcsvectors/src", "files.rs"),
+    ("crates/jcsvectors/npm/data/vectors-a2a-jcs-v01", "**/*.json"),
+    ("crates/jcsvectors/npm/data/jcs-byte-vectors", "*.json"),
+    ("crates/jcsvectors/npm", "digests.mjs"),
 )
 
 # Deliberately NOT owned above, for the two reasons the header already gives.

@@ -1,4 +1,4 @@
-"""The corpus allowlist covers the card-receipt and credential-release fixtures and nothing wider.
+"""The corpus allowlist covers the receipt, release and binding fixtures and nothing wider.
 
 Each case writes a scratch repository carrying the repository's .gitleaks.toml, commits one file,
 and runs scripts/secret-scan.sh over it. The fixture shapes must scan clean; the same field with
@@ -8,6 +8,7 @@ a realistic secret, or the fixture shape in another place, must still fail.
 from __future__ import annotations
 
 import base64
+import json
 import os
 import shutil
 import subprocess
@@ -60,6 +61,13 @@ def _scan(tmp_path: Path, relpath: str, text: str) -> int:
 
 CTX = "corpora/vectors-agent-card-receipt/cases/accept-x/context.json"
 STMT = "corpora/vectors-credential-release/cases/credential-carries-secret/statement.json"
+JWS_PATH = "corpora/vectors-principal-binding/cases/uma-bound/binding.jws"
+# The committed agreement: a JWS whose header names the published agent test key.
+AGREEMENT = (ROOT / JWS_PATH).read_text()
+DNS_AID = "corpora/vectors-dns-aid-sig-v01/cases/full-coverage-valid.json"
+_DNS_AID_CASE = json.loads((ROOT / DNS_AID).read_text(encoding="utf-8"))
+DNS_AID_SIG = _DNS_AID_CASE["sig"]
+DNS_AID_X = _DNS_AID_CASE["jwks"]["keys"][0]["x"]
 
 
 @pytest.mark.parametrize(
@@ -73,6 +81,8 @@ STMT = "corpora/vectors-credential-release/cases/credential-carries-secret/state
         ),
         ("corpora/vectors-credential-release/gen_vectors.py",
          f'cred = dict(token="{EMPTY_JWT}")\n'),
+        (JWS_PATH, AGREEMENT),
+        (DNS_AID, f'{{\n "jwks": {{"keys": [{{"x": "{DNS_AID_X}"}}]}},\n "sig": "{DNS_AID_SIG}"\n}}\n'),
     ],
 )
 def test_the_fixture_shapes_scan_clean(tmp_path: Path, relpath: str, text: str) -> None:
@@ -86,7 +96,10 @@ def test_the_fixture_shapes_scan_clean(tmp_path: Path, relpath: str, text: str) 
         ("src/config.json", f'{{\n  "issuerKey": "{PUBLIC_KEY}"\n}}\n'),
         (STMT, f'{{\n  "credential": {{\n    "token": "{REAL_JWT}"\n  }}\n}}\n'),
         ("src/client.py", f'cred = dict(token="{EMPTY_JWT}")\n'),
+        ("src/record.json", f'{{\n "sig": "{DNS_AID_SIG}"\n}}\n'),
         ("src/client.py", 'api_key = "%s"\n' % ("ghp_" + "a1B2c3D4e5F6g7H8i9J0" * 2)),
+        (JWS_PATH, REAL_JWT + "\n"),
+        ("src/agreement.jws", AGREEMENT),
     ],
 )
 def test_a_realistic_secret_or_a_misplaced_fixture_still_fails(
