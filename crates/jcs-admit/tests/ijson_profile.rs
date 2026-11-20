@@ -195,20 +195,20 @@ fn an_exponent_beyond_i64_is_a_number_verdict_not_a_syntax_error() {
         );
     }
 
-    // A magnitude that far BELOW 1 underflows to zero, which ECMAScript writes
-    // as "0", and the profile accepts it exactly as RFC 8785 does.
+    // A nonzero magnitude that far BELOW 1 underflows to zero in a double,
+    // which does not hold the token, so the profile refuses it as inexact.
     for token in [
         "1e-99999999999999999999",
         "1e-9223372036854775809",
         "123e-9223372036854775807",
     ] {
-        assert_eq!(
+        assert!(
+            matches!(
+                admit_ijson(token.as_bytes()),
+                Err(Error::InexactNumber { .. })
+            ),
+            "{token}: want InexactNumber, got {:?}",
             admit_ijson(token.as_bytes())
-                .as_deref()
-                .map(String::from_utf8_lossy)
-                .as_deref(),
-            Ok("0"),
-            "{token}"
         );
     }
 
