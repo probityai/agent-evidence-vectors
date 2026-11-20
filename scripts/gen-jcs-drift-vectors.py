@@ -14,7 +14,11 @@ nothing derives them from the code under test. The checkers hold the bytes to
 three oracles: the ECMAScript oracle in ``check.mjs``, the Python reference in
 ``packaging/agent_evidence_vectors/a2ajcs.py`` and the ``jcs-admit`` crate. The
 expected answer for every member is the same: the presented bytes are not
-canonical, and canonicalizing them gives ``canonicalHex``.
+canonical, and canonicalizing them gives ``canonicalHex``. One member records a
+second outcome: ``reference: "refuse"`` with ``referenceError`` marks a value no
+double holds exactly (an integer past 2^53), which the Python reference refuses
+instead of canonicalizing. ``canonicalHex`` is then the bytes an implementation
+that rounds prints, so the drift stays recorded beside the refusal.
 
 Depth cases (``depthCases``): arrays and objects nested 129, 256, 512 and 1024
 levels, which an admission gate with the 128-level cap refuses, and the same
@@ -52,6 +56,14 @@ PYTHON = "python-json-default"
 BIG = "arbitrary-precision-printer"
 VERBATIM = "go-json-number-or-int64"
 HAND = "hand-written"
+
+# Members whose Python reference refuses the value instead of printing the pinned
+# bytes: id -> refusal class. The pinned bytes stay the canonical form an
+# implementation that rounds to the nearest double prints, so the drift stays
+# recorded; the reference refuses because a number no double holds exactly
+# (RFC 7493 section 2.2) has two readings, and signing bytes for one of them
+# would sign the other.
+REFERENCE_REFUSES = {"number-integer-beyond-double": "inexact-number"}
 
 # id, family, source, input JSON text, presented bytes, correct canonical text.
 # Every canonical text below was checked against ECMAScript's JSON.stringify
@@ -208,19 +220,21 @@ def drift_cases() -> list[dict[str, str]]:
     out = []
     for case_id, family, source, text, presented, canonical in DRIFT:
         pinned = canonical.encode("utf-8")
-        out.append(
-            {
-                "id": f"drift-{case_id}",
-                "family": family,
-                "source": source,
-                "input": text,
-                "presented": presented,
-                "canonicalHex": pinned.hex(),
-                "sha256": hashlib.sha256(pinned).hexdigest(),
-                "expect": "reject-as-canonical",
-                "error": "not-canonical",
-            }
-        )
+        member = {
+            "id": f"drift-{case_id}",
+            "family": family,
+            "source": source,
+            "input": text,
+            "presented": presented,
+            "canonicalHex": pinned.hex(),
+            "sha256": hashlib.sha256(pinned).hexdigest(),
+            "expect": "reject-as-canonical",
+            "error": "not-canonical",
+        }
+        if case_id in REFERENCE_REFUSES:
+            member["reference"] = "refuse"
+            member["referenceError"] = REFERENCE_REFUSES[case_id]
+        out.append(member)
     return out
 
 
