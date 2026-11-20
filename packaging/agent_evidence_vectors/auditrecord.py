@@ -83,6 +83,19 @@ STATEMENT_TYPE = "https://in-toto.io/Statement/v1"
 PAYLOAD_TYPE = "application/vnd.in-toto+json"
 IJSON_LIMIT = 2**53
 MAX_DEPTH = 128
+#: 2^53 is 9007199254740992, sixteen digits: an integer written with more is
+#: outside the I-JSON range whatever its digits, and Python's int() refuses to
+#: read one past 4300 digits, which must not turn unsafe-integer into not-parseable.
+SAFE_INTEGER_DIGITS = 16
+#: One half of a UTF-16 surrogate pair, which a JSON \\u escape can name but UTF-8 cannot carry.
+LONE_SURROGATE = re.compile("[\ud800-\udfff]")
+#: An RFC 3339 date-time (Section 5.6): the separator and the Z either case, seconds
+#: required, a fraction of any length, a numeric offset with its colon.
+RFC3339 = re.compile(
+    r"(\d{4})-(\d{2})-(\d{2})[Tt](\d{2}):(\d{2}):(\d{2})(?:\.(\d+))?"
+    r"(?:([Zz])|([+-])(\d{2}):(\d{2}))",
+    re.ASCII,
+)
 GLOB_METACHARACTERS = frozenset("*?[]{}")
 UNATTRIBUTED = "unattributed"
 
@@ -268,6 +281,8 @@ CONSUMPTION_CHECKS = frozenset(
 NEVER_HELD = "none"
 #: The tolerance for every comparison between times two parties wrote.
 SKEW_TOLERANCE = datetime.timedelta(seconds=300)
+#: The unit the late bound is compared in, in integers, so anchorWithin is exact at any size.
+MICROSECOND = datetime.timedelta(microseconds=1)
 #: The only members an evaluation object may carry (EV12).
 EVALUATION_MEMBERS = frozenset({"status", "inputs", "unavailableInput"})
 #: The only members an oversight object may carry.
@@ -413,7 +428,7 @@ def _encode(node: Any) -> str:
     if node is False:
         return "false"
     if isinstance(node, str):
-        return json.dumps(node, ensure_ascii=False, separators=(",", ":"))
+        return _encode_string(node)
     if isinstance(node, int):
         if abs(node) >= IJSON_LIMIT:
             raise Malformed("unsafe-integer")
@@ -421,9 +436,23 @@ def _encode(node: Any) -> str:
     if isinstance(node, list):
         return "[" + ",".join(_encode(item) for item in node) + "]"
     if isinstance(node, dict):
-        members = sorted(node.items(), key=lambda kv: kv[0].encode("utf-16-be"))
-        return "{" + ",".join(f"{_encode(k)}:{_encode(v)}" for k, v in members) + "}"
+        return _encode_object(node)
     raise Malformed("value-not-representable")
+
+
+def _encode_string(text: str) -> str:
+    """A string, which RFC 8785 cannot write when it holds half of a surrogate pair."""
+    if LONE_SURROGATE.search(text):
+        raise Malformed("value-not-representable")
+    return json.dumps(text, ensure_ascii=False, separators=(",", ":"))
+
+
+def _encode_object(node: dict[str, Any]) -> str:
+    """An object, its members in UTF-16 code-unit order of their names."""
+    if any(LONE_SURROGATE.search(name) for name in node):
+        raise Malformed("value-not-representable")
+    members = sorted(node.items(), key=lambda kv: kv[0].encode("utf-16-be"))
+    return "{" + ",".join(f"{_encode_string(k)}:{_encode(v)}" for k, v in members) + "}"
 
 
 def canonical_bytes(node: Any) -> bytes:
@@ -444,6 +473,8 @@ def _no_duplicates(pairs: list[tuple[str, Any]]) -> dict[str, Any]:
 
 
 def _safe_int(text: str) -> int:
+    if len(text.lstrip("-")) > SAFE_INTEGER_DIGITS:
+        raise Malformed("unsafe-integer")
     value = int(text)
     if abs(value) >= IJSON_LIMIT:
         raise Malformed("unsafe-integer")
@@ -454,13 +485,43 @@ def _refuse_float(text: str) -> float:
     raise Malformed("value-not-representable")
 
 
+def _refuse_constant(text: str) -> float:
+    """NaN, Infinity and -Infinity, which Python's json reads and RFC 8259 does not define."""
+    raise Malformed("not-parseable")
+
+
 def _depth(node: Any) -> int:
-    """Container nesting, counting the top-level value as one."""
-    if isinstance(node, dict):
-        return 1 + max((_depth(v) for v in node.values()), default=0)
-    if isinstance(node, list):
-        return 1 + max((_depth(v) for v in node), default=0)
-    return 0
+    """Container nesting, counting the top-level value as one. It walks with its own
+    stack, so no depth the JSON parser admits can exhaust the interpreter's."""
+    deepest, stack = 0, [(node, 1)]
+    while stack:
+        item, level = stack.pop()
+        if isinstance(item, dict | list):
+            deepest = max(deepest, level)
+            stack.extend((child, level + 1) for child in _children(item))
+    return deepest
+
+
+def _children(node: dict[str, Any] | list[Any]) -> list[Any]:
+    return list(node.values()) if isinstance(node, dict) else node
+
+
+def _lone_surrogate(node: Any) -> bool:
+    """Whether a member name or string anywhere in the value holds half of a surrogate
+    pair: a \\u escape the JSON text may carry, but no UTF-8 text, and so no RFC 8785
+    serialization, can (RFC 7493 Section 2.1)."""
+    stack = [node]
+    while stack:
+        item = stack.pop()
+        if isinstance(item, str) and LONE_SURROGATE.search(item):
+            return True
+        if isinstance(item, dict):
+            if any(LONE_SURROGATE.search(name) for name in item):
+                return True
+            stack.extend(item.values())
+        elif isinstance(item, list):
+            stack.extend(item)
+    return False
 
 
 def parse_statement(payload: bytes) -> Any:
@@ -476,13 +537,18 @@ def parse_statement(payload: bytes) -> Any:
             object_pairs_hook=_no_duplicates,
             parse_int=_safe_int,
             parse_float=_refuse_float,
+            parse_constant=_refuse_constant,
         )
     except Malformed:
         raise
-    except (ValueError, RecursionError) as exc:
+    except RecursionError as exc:
+        raise Malformed("nesting-too-deep") from exc
+    except ValueError as exc:
         raise Malformed("not-parseable") from exc
     if _depth(value) > MAX_DEPTH:
         raise Malformed("nesting-too-deep")
+    if _lone_surrogate(value):
+        raise Malformed("not-parseable")
     return value
 
 
@@ -499,15 +565,43 @@ def _at(pred: dict[str, Any], dotted: str) -> Any:
 
 
 def _instant(value: Any) -> datetime.datetime:
-    if not isinstance(value, str):
+    """An RFC 3339 date-time (Section 5.6) as an aware datetime, its fraction read to
+    the microsecond. Anything else is timestamp-malformed, including the ISO 8601 forms
+    fromisoformat also reads: a week date, the basic format, a comma fraction, an offset
+    without its colon or without its minutes, a space for the T."""
+    match = RFC3339.fullmatch(value) if isinstance(value, str) else None
+    if match is None:
         raise Malformed("timestamp-malformed")
+    year, month, day, hour, minute, second = (int(part) for part in match.groups()[:6])
+    fraction, zulu, sign, offset_hours, offset_minutes = match.groups()[6:]
     try:
-        parsed = datetime.datetime.fromisoformat(value.replace("Z", "+00:00"))
-    except ValueError as exc:
+        zone = datetime.timezone(
+            datetime.timedelta(0) if zulu else _offset(sign, int(offset_hours), int(offset_minutes))
+        )
+        micro = int((fraction or "0")[:6].ljust(6, "0"))
+        parsed = datetime.datetime(year, month, day, hour, minute, min(second, 59), micro, zone)
+        return _leap_second(parsed) if second == 60 else parsed
+    except (ValueError, OverflowError) as exc:
         raise Malformed("timestamp-malformed") from exc
-    if parsed.tzinfo is None:
-        raise Malformed("timestamp-malformed")
-    return parsed
+
+
+def _offset(sign: str, hours: int, minutes: int) -> datetime.timedelta:
+    """A numeric offset; RFC 3339 bounds its hours at 23 and its minutes at 59."""
+    if hours > 23 or minutes > 59:
+        raise ValueError("offset out of range")
+    span = datetime.timedelta(hours=hours, minutes=minutes)
+    return span if sign == "+" else -span
+
+
+def _leap_second(at_59: datetime.datetime) -> datetime.datetime:
+    """A seconds value of 60 is a leap second, which RFC 3339 Sections 5.6 and 5.7 admit only
+    at 23:59 UTC on the last day of a month. It reads as the instant one second after
+    23:59:59, the next day's midnight, so it orders after every earlier second."""
+    utc = at_59.astimezone(datetime.UTC)
+    last_day = (utc + datetime.timedelta(days=1)).day == 1
+    if (utc.hour, utc.minute, utc.second) != (23, 59, 59) or not last_day:
+        raise ValueError("a leap second outside 23:59:60 UTC on a month's last day")
+    return at_59 + datetime.timedelta(seconds=1)
 
 
 def _under(path: str, scope: str) -> bool:
@@ -676,11 +770,17 @@ def _rule_closed_vocabularies(state: _State) -> None:
     pred = state.predicate
     for dotted, allowed in VOCABULARIES.items():
         for value in _vocabulary_values(pred, dotted):
-            if value not in allowed:
+            if not _one_of(value, allowed):
                 raise Malformed("value-outside-vocabulary")
     for value in pred["fieldEvidence"].values():
-        if value not in FIELD_EVIDENCE_VALUES:
+        if not _one_of(value, FIELD_EVIDENCE_VALUES):
             raise Malformed("value-outside-vocabulary")
+
+
+def _one_of(value: Any, allowed: frozenset[str]) -> bool:
+    """A closed set holds strings only, so an object or an array is outside it, never a value
+    that cannot be hashed."""
+    return isinstance(value, str) and value in allowed
 
 
 def _entry_unavailable(entry: dict[str, Any], reported_at: datetime.datetime) -> bool:
@@ -1594,7 +1694,7 @@ def verify(raw: bytes, policy: Policy, *, disabled: str | None = None) -> Report
     except Malformed as exc:
         return Report("malformed", [exc.code], state.derived_tier)
     except (KeyError, TypeError, AttributeError, IndexError) as exc:
-        return Report("malformed", [f"unhandled-shape:{exc.__class__.__name__}"])
+        return Report("malformed", ["unhandled-shape"])
     return Report("valid", [], state.derived_tier)
 
 
@@ -1854,7 +1954,7 @@ def _retention_shape(entry: Any) -> None:
     ):
         raise Malformed("entry-shape-malformed")
     within = entry.get("anchorWithin")
-    if isinstance(within, bool) or not isinstance(within, int) or within < 0:
+    if isinstance(within, bool) or not isinstance(within, int) or not 0 <= within < IJSON_LIMIT:
         raise Malformed("entry-shape-malformed")
     anchors = entry.get("anchors")
     if not isinstance(anchors, list):
@@ -1908,7 +2008,7 @@ def _dating_retainer_anchor(r: _Retained) -> None:
 
 def _dating_received_before_issued(r: _Retained) -> None:
     """receivedAt no earlier than issuedAt by more than the skew tolerance (R6)."""
-    if r.received_at is not None and r.received_at < r.issued_at - SKEW_TOLERANCE:
+    if r.received_at is not None and r.issued_at - r.received_at > SKEW_TOLERANCE:
         raise Malformed("entry-received-before-issued")
 
 
@@ -1916,7 +2016,7 @@ def _dating_received_after_anchor(r: _Retained) -> None:
     """receivedAt no later than the retention time by more than the skew tolerance (R3)."""
     if r.received_at is None or r.retention_time is None:
         return
-    if r.received_at > r.retention_time + r.tolerance():
+    if r.received_at - r.retention_time > r.tolerance():
         raise Malformed("entry-received-after-anchor")
 
 
@@ -1926,8 +2026,8 @@ def _dating_anchor_late(r: _Retained) -> None:
     if r.retention_time is None:
         return
     start = r.received_at if r.received_at is not None else r.issued_at
-    limit = datetime.timedelta(seconds=r.entry["anchorWithin"]) + r.tolerance()
-    if r.retention_time > start + limit:
+    late = (r.retention_time - start) // MICROSECOND
+    if late > r.entry["anchorWithin"] * 1_000_000 + r.tolerance() // MICROSECOND:
         raise Malformed("entry-anchor-late")
 
 
@@ -2090,8 +2190,10 @@ def verify_retained(
     """Judge a retained record: the envelope's verdict, and the dating result."""
     try:
         bundle = json.loads(raw, object_pairs_hook=_no_duplicates)
+        if _depth(bundle) > MAX_DEPTH:
+            raise ValueError("a retained record nested past the profile's bound")
         envelope, entry = bundle["envelope"], bundle["retention"]
-    except (Malformed, ValueError, KeyError, TypeError):
+    except (Malformed, ValueError, KeyError, TypeError, RecursionError):
         unreadable = ["retained-unreadable"]
         return Report("malformed", unreadable), Dating("malformed", unreadable)
     report = verify(json.dumps(envelope).encode(), policy, disabled=disabled)
