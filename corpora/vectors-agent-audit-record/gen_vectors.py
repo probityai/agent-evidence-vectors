@@ -36,6 +36,7 @@ import datetime
 import hashlib
 import json
 import os
+import re
 import sys
 from collections.abc import Callable
 from typing import Any
@@ -62,8 +63,26 @@ PREDICATE_TYPE = (
 PREDICATE_TYPE_V2 = (
     "https://probityai.github.io/agent-evidence-vectors/predicate/v2/agent-audit-record"
 )
-PREDICATE_DOCUMENT = "https://datatracker.ietf.org/doc/draft-gilda-audit-agent-audit-record/00/"
-DRAFT = "draft-gilda-audit-agent-audit-record-00"
+DRAFT_NAME = "draft-gilda-audit-agent-audit-record"
+#: Every revision of the draft the IETF has published, oldest first, with the
+#: SHA-256 of its text as https://www.ietf.org/archive/id/ serves it. The texts
+#: are vendored under spec-vendored/ and read below: the revision a member is
+#: labelled with is derived from them, never typed beside the member.
+PUBLISHED_REVISIONS: tuple[tuple[str, str], ...] = (
+    ("00", "81420b90935257227212b238c3c956e51829af1d2326b4a111db00083a0967a6"),
+    ("01", "6bcd5b2ae49fe7ee53972db0f3b349c46a1870771d29105b884323e1f94235e4"),
+    ("02", "40ac8c0a26633827d403cad3402fabf8cbd637aa3e5bc03055d25b641e5c8a7e"),
+    ("03", "c5d0b74686b62b5d1fd954b2dae0cf02b402c87a06efa6fc82abf8fa847ed786"),
+    ("04", "5592994311a3db303405eacebcb203f589b7aa083d81bcdb291a3a78d4adbde6"),
+)
+#: The latest published revision: the published members together test it.
+DRAFT = f"{DRAFT_NAME}-{PUBLISHED_REVISIONS[-1][0]}"
+PREDICATE_DOCUMENT = (
+    f"https://datatracker.ietf.org/doc/{DRAFT_NAME}/{PUBLISHED_REVISIONS[-1][0]}/"
+)
+#: The next revision, not yet published. A member whose rule only proposed text
+#: states is labelled with it under ``proposed``, never under draftRevision.
+PROPOSED_REVISION = f"{DRAFT_NAME}-{int(PUBLISHED_REVISIONS[-1][0]) + 1:02d}"
 #: The revision every earlier release of this corpus tested. Its records carry
 #: no evaluation.inputs, so each is malformed under DRAFT (EV13).
 PREVIOUS_DRAFT = "draft-gilda-wimse-agent-audit-record-02"
@@ -352,7 +371,6 @@ def member(
     readings: list[dict[str, str]] | None = None,
     section: str | None = None,
     dating: dict[str, Any] | None = None,
-    revision: str | None = None,
     aggregation: dict[str, Any] | None = None,
     within: bool | None = None,
     joint: dict[str, Any] | None = None,
@@ -381,7 +399,6 @@ def member(
             "readings": readings,
             "section": section,
             "dating": dating,
-            "revision": revision,
             "aggregation": aggregation,
             "within": within,
             "joint": joint,
@@ -1779,8 +1796,9 @@ def define_freshness() -> None:
 # ---------------------------------------------------------------------------
 # Rows of revision 01 (draft-gilda-audit-agent-audit-record-01, Appendix B).
 #
-# Each member here carries draftRevision and the row identifier revision 01
-# prints. The corpus otherwise tests -00, so a reader conforming only to -00
+# Each member here carries the row identifier revision 01 prints, and
+# draftRevision -01 because -01 is the first Appendix B that prints it (derived
+# by text_fields from the vendored texts). A reader conforming only to -00
 # fails TI6, V4 and V5, and that is the change revision 01 makes:
 #
 # * Section 5.4: where a decision depended on several values of one input, the
@@ -1799,9 +1817,6 @@ def define_freshness() -> None:
 #   same review, point 4, and probityai/agent-evidence-vectors#250.
 # ---------------------------------------------------------------------------
 
-REVISION_01 = "draft-gilda-audit-agent-audit-record-01"
-REVISION_03 = "draft-gilda-audit-agent-audit-record-03"
-REVISION_04 = "draft-gilda-audit-agent-audit-record-04"
 
 #: The two values of standing-source a deny judging two delegation paths
 #: depended on, as the producer held them, and decision.reportedAt of A2.
@@ -1856,7 +1871,6 @@ def define_revision_01() -> None:
         mutate("A1", _coverage(False, [GAP_OUTSIDE])),
         "malformed",
         ["tier-overclaim-coverage"],
-        revision=REVISION_01,
     )
     member(
         "V4",
@@ -1867,7 +1881,6 @@ def define_revision_01() -> None:
         mutate("A1", _coverage(True, [GAP_INSIDE])),
         "malformed",
         ["coverage-inconsistent"],
-        revision=REVISION_01,
     )
     member(
         "V5",
@@ -1877,7 +1890,6 @@ def define_revision_01() -> None:
         mutate("A5", _coverage(True, [GAP_INSIDE])),
         "malformed",
         ["coverage-inconsistent"],
-        revision=REVISION_01,
     )
     member(
         "FR14",
@@ -1889,7 +1901,6 @@ def define_revision_01() -> None:
         build_fr14,
         "valid",
         tier="authoritative",
-        revision=REVISION_01,
         aggregation={
             "input": "standing-source",
             "reportedAt": FR14_REPORTED_AT,
@@ -1905,7 +1916,6 @@ def define_revision_01() -> None:
         mutate("FR14", _fr15),
         "malformed",
         ["evaluation-inconsistent"],
-        revision=REVISION_01,
     )
 
 
@@ -2415,7 +2425,6 @@ def define_consumption() -> None:
             verdict,
             codes,
             tier="authoritative" if verdict == "valid" else None,
-            revision=REVISION_01,
             within=within,
         )
     sets = [
@@ -2447,7 +2456,6 @@ def define_consumption() -> None:
             cs_set(draft_id, second),
             "valid",
             tier="authoritative",
-            revision=REVISION_01,
             joint={"verdict": "malformed", "codes": [code], "withinLimit": [True, True]},
         )
     member(
@@ -2460,7 +2468,6 @@ def define_consumption() -> None:
         _release_pair("CS8"),
         "valid",
         tier="authoritative",
-        revision=REVISION_01,
         joint={
             "verdict": "malformed",
             "codes": ["consumption-set-release-unshown"],
@@ -2545,7 +2552,6 @@ def define_consumption() -> None:
             _ledger_set(draft_id, records),
             "valid",
             tier="authoritative",
-            revision=REVISION_01,
             joint={
                 "verdict": verdict,
                 "codes": [joint_code] if joint_code else [],
@@ -2911,7 +2917,6 @@ def define_consumption_carryover() -> None:
                 _ledger_set(draft_id, records),
                 "valid",
                 tier="authoritative",
-                revision=REVISION_01,
                 joint={
                     "verdict": verdict,
                     "codes": [joint_code] if joint_code else [],
@@ -2930,7 +2935,6 @@ def define_consumption_carryover() -> None:
             verdict,
             codes,
             tier="authoritative" if verdict == "valid" else None,
-            revision=REVISION_01,
             within=within,
         )
     add_sets(sets[8:])
@@ -3224,7 +3228,6 @@ def define_settlement() -> None:
             codes,
             tier="authoritative" if verdict == "valid" else None,
             section="5.9",
-            revision=REVISION_04,
             within=within,
         )
     sets = [
@@ -3259,7 +3262,6 @@ def define_settlement() -> None:
             "valid",
             tier="authoritative",
             section="5.9",
-            revision=REVISION_04,
             joint={
                 "verdict": verdict,
                 "codes": [joint_code] if joint_code else [],
@@ -3298,7 +3300,6 @@ def define_settlement() -> None:
             "valid",
             tier="authoritative",
             section="5.9",
-            revision=REVISION_04,
             joint={
                 "verdict": verdict,
                 "codes": [joint_code] if joint_code else [],
@@ -3360,7 +3361,6 @@ def define_audit_next() -> None:
         mutate("A1", _set("agent.authentication", "api-key")),
         "valid",
         tier="authoritative",
-        revision=REVISION_01,
     )
     member(
         "SQ1",
@@ -3370,7 +3370,6 @@ def define_audit_next() -> None:
         derived("SQ1", "A1", _sequence(1)),
         "valid",
         tier="authoritative",
-        revision=REVISION_01,
     )
     member(
         "SQ2",
@@ -3380,7 +3379,6 @@ def define_audit_next() -> None:
         mutate("SQ1", _sequence(1, count=3)),
         "malformed",
         ["sequence-malformed"],
-        revision=REVISION_01,
     )
     member(
         "SQ3",
@@ -3390,7 +3388,6 @@ def define_audit_next() -> None:
         mutate("SQ1", _sequence(0)),
         "malformed",
         ["sequence-malformed"],
-        revision=REVISION_01,
     )
     member(
         "SQ4",
@@ -3401,7 +3398,6 @@ def define_audit_next() -> None:
         sequence_set([3]),
         "valid",
         tier="authoritative",
-        revision=REVISION_01,
         joint={"verdict": "valid", "codes": [], "missing": [{"boundary": SERIES, "seq": 2}]},
     )
     member(
@@ -3413,7 +3409,6 @@ def define_audit_next() -> None:
         sequence_set([1]),
         "valid",
         tier="authoritative",
-        revision=REVISION_01,
         joint={"verdict": "malformed", "codes": ["sequence-duplicate"]},
     )
     member(
@@ -3424,7 +3419,6 @@ def define_audit_next() -> None:
         mutate("A1", _set("issuedAt", "2026-09-19T11:04:05Z")),
         "malformed",
         ["issued-before-sealed"],
-        revision=REVISION_03,
     )
     member(
         "IS2",
@@ -3435,7 +3429,6 @@ def define_audit_next() -> None:
         mutate("A1", _set("issuedAt", "2026-09-18T11:04:06Z")),
         "malformed",
         ["issued-before-sealed"],
-        revision=REVISION_03,
     )
     define_principal_standing()
 
@@ -3563,7 +3556,6 @@ def define_principal_standing_commitment() -> None:
         build_ps3,
         "valid",
         tier="authoritative",
-        revision=REVISION_04,
         predicate_type=PREDICATE_TYPE_V2,
     )
     member(
@@ -3575,7 +3567,6 @@ def define_principal_standing_commitment() -> None:
         build_principal_standing_denied,
         "valid",
         tier="authoritative",
-        revision=REVISION_04,
         predicate_type=PREDICATE_TYPE_V2,
     )
     member(
@@ -3588,7 +3579,6 @@ def define_principal_standing_commitment() -> None:
         lambda: build_principal_standing_denied("proof-not-established"),
         "valid",
         tier="authoritative",
-        revision=REVISION_04,
         predicate_type=PREDICATE_TYPE_V2,
     )
 
@@ -3603,7 +3593,6 @@ def define_principal_standing() -> None:
         build_ps1,
         "valid",
         tier="authoritative",
-        revision=REVISION_03,
         predicate_type=PREDICATE_TYPE_V2,
     )
     member(
@@ -3614,7 +3603,6 @@ def define_principal_standing() -> None:
         lambda: build_ps1(predicate_type=PREDICATE_TYPE),
         "malformed",
         ["value-outside-vocabulary"],
-        revision=REVISION_03,
     )
     member(
         "PS1b",
@@ -3774,7 +3762,6 @@ def define_principal() -> None:
         derived("PR1", "A1", _with_principal(principal_of(_p256_jwk()))),
         "valid",
         tier="authoritative",
-        revision=REVISION_04,
     )
     member(
         "PR2",
@@ -3785,7 +3772,6 @@ def define_principal() -> None:
         derived("PR2", "A1", _system_principal),
         "valid",
         tier="authoritative",
-        revision=REVISION_04,
     )
     member(
         "PR3",
@@ -3802,7 +3788,6 @@ def define_principal() -> None:
         ),
         "valid",
         tier="authoritative",
-        revision=REVISION_04,
     )
     rejects: list[tuple[str, str, str, Callable[[dict[str, Any]], None], str]] = [
         (
@@ -3873,7 +3858,6 @@ def define_principal() -> None:
             mutate("PR1", change),
             "malformed",
             [code],
-            revision=REVISION_04,
         )
 
 
@@ -3966,7 +3950,6 @@ def define_data_subject() -> None:
         derived("DS1", "A1", _with_data_subject(data_subject_of())),
         "valid",
         tier="authoritative",
-        revision=REVISION_04,
     )
     member(
         "DS2",
@@ -3977,7 +3960,6 @@ def define_data_subject() -> None:
         derived("DS2", "A1", _delegate_data_subject),
         "valid",
         tier="authoritative",
-        revision=REVISION_04,
     )
     member(
         "DS3",
@@ -3988,7 +3970,6 @@ def define_data_subject() -> None:
         derived("DS3", "A1", _system_data_subject),
         "valid",
         tier="authoritative",
-        revision=REVISION_04,
     )
     rejects: list[tuple[str, str, str, str, Callable[[dict[str, Any]], None], str]] = [
         (
@@ -4059,7 +4040,6 @@ def define_data_subject() -> None:
             mutate(parent, change),
             "malformed",
             [code],
-            revision=REVISION_04,
         )
 
 
@@ -5022,7 +5002,6 @@ def define_retained() -> None:
             "valid",
             tier="authoritative",
             dating=expected_dating,
-            revision=REVISION_01,
         )
 
 
@@ -5048,6 +5027,145 @@ ORDER = (
     "DS1 DS2 DS3 DS4 DS5 DS6 DS7 DS8 DS9 DS10 "
     "X1 X2 X3 X4 X5 X6 X7 X8 X9 X10 X11 X12 X13 X14 X15 X16 X17 X18"
 ).split()
+
+
+# ---------------------------------------------------------------------------
+# Which text each member tests.
+#
+# A member is published or proposed, never both. A published member tests a
+# rule a published revision states, and carries draftRevision: for a row an
+# Appendix B prints, the first published revision that prints it, read from
+# the vendored texts; for a member no Appendix B prints, the published revision
+# whose section (draftSection) states its rule, held in SECTION_REVISION and
+# checked against that revision's table of contents. A proposed member tests a
+# rule only text proposed for the next revision states. It carries proposed,
+# naming that revision and the proposed text in this repository, and no
+# draftRevision, because no published revision supports its verdict: a
+# verifier written from the published text is not scored on it.
+# ---------------------------------------------------------------------------
+
+REPO_ROOT = os.path.dirname(os.path.dirname(HERE))
+VENDORED = os.path.join(HERE, "spec-vendored")
+
+
+def _published_text(rev: str) -> list[str]:
+    path = os.path.join(VENDORED, f"{DRAFT_NAME}-{rev}.txt")
+    with open(path, "rb") as fh:
+        raw = fh.read()
+    want = dict(PUBLISHED_REVISIONS)[rev]
+    if hashlib.sha256(raw).hexdigest() != want:
+        raise SystemExit(f"{path}: not the published text (sha256 differs from {want})")
+    return raw.decode("utf-8").splitlines()
+
+
+def appendix_b_rows(lines: list[str]) -> list[str]:
+    """The row identifiers one revision's Appendix B prints, in its order."""
+    heading = re.compile(r"^Appendix B\.\s+Conformance vectors\s*$")
+    starts = [i for i, line in enumerate(lines) if heading.match(line)]
+    if not starts:
+        raise SystemExit("a published revision carries no Appendix B heading")
+    rows: list[str] = []
+    for line in lines[starts[-1] + 1 :]:
+        if re.match(r"^(Appendix [C-Z]\.|Author's Address)", line):
+            break
+        found = re.match(r"^\s*\|([A-Z]{1,3}[0-9]+[a-z]?)\s*\|", line)
+        if found and found.group(1) not in rows:
+            rows.append(found.group(1))
+    if not rows:
+        raise SystemExit("a published Appendix B yielded no row identifier")
+    return rows
+
+
+def has_section(lines: list[str], section: str) -> bool:
+    """Whether a revision's text carries the numbered section heading."""
+    pattern = re.compile(r"^" + re.escape(section) + r"\.\s+\S")
+    return any(pattern.match(line) for line in lines)
+
+
+#: Members whose rule a published section states before any Appendix B prints
+#: the row: the revision whose section the member's draftSection names.
+SECTION_REVISION: dict[str, str] = {
+    **{d: "00" for d in ("FR13b", "FR16", "FR17a", "FR17b", "FR17c", "FR18", "EV14")},
+    "PS1b": "03",
+    **{d: "03" for d in ("X2", "X3", "X8", "X9", "X10", "X11", "X12", "X13", "X14")},
+    **{d: "03" for d in ("X15", "X16")},
+}
+
+
+def _ids(prefix: str, first: int, last: int) -> list[str]:
+    return [f"{prefix}{n}" for n in range(first, last + 1)]
+
+
+PROPOSALS = "docs/proposals"
+#: Members whose rule only proposed text states, each with that text. Empty
+#: since revision 04 was published: its Appendix B prints all 68 members that
+#: were proposed for it (CS18 to CS54, PS3 to PS5, PR1 to PR11, DS1 to DS10,
+#: and X1, X4, X5, X6, X7, X17, X18), and the pages under docs/proposals/ are
+#: the record of the text before it was published.
+PROPOSED: dict[str, str] = {}
+
+
+def _first_printed(texts: dict[str, list[str]]) -> dict[str, str]:
+    """The first published revision whose Appendix B prints each row."""
+    first_printed: dict[str, str] = {}
+    for rev, _ in PUBLISHED_REVISIONS:
+        for row in appendix_b_rows(texts[rev]):
+            first_printed.setdefault(row, rev)
+    return first_printed
+
+
+def _text_field(
+    entry: Member, printed: str | None, texts: dict[str, list[str]]
+) -> dict[str, Any]:
+    """draftRevision or proposed for one member, given the revision first printing it."""
+    draft_id = entry["draftId"]
+    section_rev = SECTION_REVISION.get(draft_id)
+    proposal = PROPOSED.get(draft_id)
+    if printed is not None and section_rev is not None:
+        # A section member that a later Appendix B also prints keeps the
+        # revision whose section first stated its rule. An entry that names
+        # a revision no earlier than the first one printing the row is stale.
+        if int(section_rev) >= int(printed):
+            raise SystemExit(
+                f"{draft_id}: -{printed} prints the row, so its section entry "
+                f"-{section_rev} names no earlier text; remove the entry"
+            )
+        printed = None
+    if sum(x is not None for x in (printed, section_rev, proposal)) != 1:
+        raise SystemExit(
+            f"{draft_id}: a member is printed by a published Appendix B, states a rule of "
+            f"a published section, or is proposed, exactly one of the three (printed "
+            f"{printed}, section revision {section_rev}, proposal {proposal})"
+        )
+    if printed is not None:
+        return {"draftRevision": f"{DRAFT_NAME}-{printed}"}
+    if section_rev is not None:
+        section = entry["section"]
+        if section is None or not has_section(texts[section_rev], section):
+            raise SystemExit(
+                f"{draft_id}: -{section_rev} carries no Section {section}, so it cannot "
+                "state the member's rule"
+            )
+        return {"draftRevision": f"{DRAFT_NAME}-{section_rev}"}
+    assert proposal is not None
+    if not os.path.isfile(os.path.join(REPO_ROOT, proposal)):
+        raise SystemExit(f"{draft_id}: the proposed text {proposal} does not exist")
+    return {"proposed": {"revision": PROPOSED_REVISION, "text": proposal}}
+
+
+def text_fields(entries: list[Member]) -> dict[str, dict[str, Any]]:
+    """draftRevision or proposed for every member, checked against the texts."""
+    texts = {rev: _published_text(rev) for rev, _ in PUBLISHED_REVISIONS}
+    first_printed = _first_printed(texts)
+    known = {entry["draftId"] for entry in entries}
+    for table in (SECTION_REVISION, PROPOSED):
+        stray = sorted(set(table) - known)
+        if stray:
+            raise SystemExit(f"text table names members the corpus does not carry: {stray}")
+    return {
+        entry["draftId"]: _text_field(entry, first_printed.get(entry["draftId"]), texts)
+        for entry in entries
+    }
 
 
 def expected_of(entry: Member) -> dict[str, Any]:
@@ -5080,8 +5198,6 @@ def optional_fields(entry: Member, ids: dict[str, str]) -> dict[str, Any]:
         out["readings"] = entry["readings"]
     if entry["section"] is not None:
         out["draftSection"] = entry["section"]
-    if entry["revision"] is not None:
-        out["draftRevision"] = entry["revision"]
     if entry["aggregation"] is not None:
         out["aggregation"] = entry["aggregation"]
     if entry["predicateType"] is not None:
@@ -5130,6 +5246,7 @@ def emit() -> None:
     os.makedirs(os.path.join(HERE, "sets"), exist_ok=True)
     vectors: list[dict[str, Any]] = []
     keep: set[str] = set()
+    texts = text_fields(MEMBERS)
     for entry, raw, ident in built:
         folder = member_folder(entry)
         rel = f"{folder}/{ident}.json"
@@ -5146,6 +5263,7 @@ def emit() -> None:
             "expected": expected_of(entry),
         }
         out.update(optional_fields(entry, ids))
+        out.update(texts[entry["draftId"]])
         vectors.append(out)
 
     for folder in ("statements", "retained", "sets"):
@@ -5156,6 +5274,10 @@ def emit() -> None:
     counts: dict[str, int] = {}
     for v in vectors:
         counts[v["kind"]] = counts.get(v["kind"], 0) + 1
+    text_counts = {
+        "published": sum(1 for v in vectors if "draftRevision" in v),
+        "proposed": sum(1 for v in vectors if "proposed" in v),
+    }
     manifest: dict[str, Any] = {
         "suite": SUITE,
         "draft": DRAFT,
@@ -5197,15 +5319,31 @@ def emit() -> None:
             ),
         },
         "counts": counts,
+        "textCounts": text_counts,
+        "publishedRevisions": [
+            {
+                "revision": f"{DRAFT_NAME}-{rev}",
+                "text": f"https://www.ietf.org/archive/id/{DRAFT_NAME}-{rev}.txt",
+                "sha256": sha,
+            }
+            for rev, sha in PUBLISHED_REVISIONS
+        ],
         "note": (
             "One member per row of Appendix B of the draft, in the row's order; "
             "draftId is the row's identifier and parentDraftId its from column. The "
             "members after the last row carry draftSection: each tests a rule of that "
             "section that Appendix B carries no row for, and continues the identifier "
-            "series of the rows beside it. A member carrying draftRevision is a row of "
-            "that later revision's Appendix B, under the identifier it prints, and tests a "
-            "rule that revision changes, so a reader conforming only to the draft named "
-            "above may fail it. A member carrying aggregation lists the values of one "
+            "series of the rows beside it. Every member is published or proposed. A "
+            "published member carries draftRevision, a revision listed under "
+            "publishedRevisions: for a row, the first one whose Appendix B prints it; "
+            "for a member carrying draftSection, the one whose section states its rule. "
+            "A verifier written from the published text is scored on the published "
+            "members. A proposed member carries proposed, naming the revision its rule is "
+            "proposed for and the proposed text in the corpus's repository, and no "
+            "draftRevision: no published revision states its rule, so it scores only a "
+            "verifier that implements that proposed text, and a verifier of the published "
+            "text that differs on it has not failed. "
+            "A member carrying aggregation lists the values of one "
             "input the decision depended on, as the producer held them: a producer's "
             "aggregation over those values must yield the entry the record carries. "
             "A member carrying predicateType is judged by a verifier configured to "
@@ -5255,6 +5393,11 @@ def write_index(manifest: dict[str, Any]) -> None:
         "",
         f"{counts.get('indeterminate', 0)} member(s) are indeterminate.",
         "",
+        f"{manifest['textCounts']['published']} members test rules a published revision "
+        f"states and {manifest['textCounts']['proposed']} test rules only text proposed for "
+        f"`{PROPOSED_REVISION}` states. A verifier written from the published text is scored "
+        "on the published members alone.",
+        "",
         f"This corpus is {len(vectors)} vectors, of which {counts['accept']} a "
         f"conformant verifier must not fail closed on and {counts['reject']} it "
         "must reject. Releases up to and including v0.25.0 tested "
@@ -5282,7 +5425,11 @@ def write_index(manifest: dict[str, Any]) -> None:
                 verdict += f", the set {joint['verdict']}"
             for point in joint.get("missing", []):
                 verdict += f", seq {point['seq']} issued and not received"
-        source = f"Section {v['draftSection']}" if "draftSection" in v else "Appendix B"
+        where = f"Section {v['draftSection']}" if "draftSection" in v else "Appendix B"
+        if "proposed" in v:
+            source = f"{where} of proposed -{v['proposed']['revision'][-2:]}"
+        else:
+            source = f"{where} of -{v['draftRevision'][-2:]}"
         lines.append(
             f"| `{v['draftId']}` | {source} | {parent} | {verdict} | "
             f"[`{v['id']}`]({v['file']}) | {v['row']} |"
