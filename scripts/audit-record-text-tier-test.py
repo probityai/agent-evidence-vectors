@@ -63,7 +63,10 @@ REV04 = "draft-gilda-audit-agent-audit-record-04"
 
 
 def _check_rows(gen, failures: list[str]) -> None:
-    rows = {rev: gen.appendix_b_rows(gen._published_text(rev)) for rev, _ in gen.PUBLISHED_REVISIONS}
+    rows = {
+        rev: gen.appendix_b_rows(gen._published_text(rev))
+        for rev, _ in gen.PUBLISHED_REVISIONS
+    }
     if "CS9" not in rows["01"] or "CS10" in rows["01"]:
         failures.append("revision 01's Appendix B should print CS9 and no CS10")
     if "CS17" not in rows["02"] or "CS18" in rows["03"]:
@@ -86,7 +89,13 @@ def _check_labels(manifest: dict, failures: list[str]) -> None:
         failures.append(f"68 members test rules -04 first states, read {len(labelled04)}")
     for draft_id in ("X2", "X3", "X8", "X16"):
         if by_id[draft_id].get("draftRevision") != "draft-gilda-audit-agent-audit-record-03":
-            failures.append(f"{draft_id}'s rule is stated by a section of -03, which -04 only prints")
+            failures.append(
+                f"{draft_id}'s rule is stated by a section of -03, which -04 only prints"
+            )
+    _check_manifest_header(manifest, by_id, failures)
+
+
+def _check_manifest_header(manifest: dict, by_id: dict, failures: list[str]) -> None:
     if by_id["CS10"].get("draftRevision") != "draft-gilda-audit-agent-audit-record-02":
         failures.append("CS10 is first printed by revision 02")
     counts = manifest.get("textCounts")
@@ -118,7 +127,9 @@ def _check_harness(manifest: dict, failures: list[str]) -> None:
     bad["vectors"][0]["proposed"] = {"revision": REV04, "text": "x"}
     findings = auditrecord._text_findings(bad)
     if not any("proposed names a published revision" in f for f in findings):
-        failures.append("the harness accepted a member proposed for revision 04, which is published")
+        failures.append(
+            "the harness accepted a member proposed for revision 04, which is published"
+        )
 
 
 def _check_generator(gen, failures: list[str]) -> None:
