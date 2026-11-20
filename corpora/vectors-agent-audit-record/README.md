@@ -24,7 +24,8 @@ file.
 
 | Release | Draft revision the corpus tests | Members |
 | --- | --- | --- |
-| The release after v0.28.0 | `draft-gilda-audit-agent-audit-record-03`, and rows of `-04` | every member the v0.28.0 row lists, rows `IS1`, `IS2`, `PS1` and `PS2` of -03 and the open member `PS1b` beside them, and rows `CS41` to `CS54` written for -04 |
+| The release after v0.37.0 (minor) | `draft-gilda-audit-agent-audit-record-03`, and rows of `-04` | the v0.37.0 members, with two changes to the zero-settlement hold of an x402 `upto` permit: `CS54` is now dated one second after the permit's deadline and keeps the verdict valid, so its identifier changed, and `CS55`, a record dated at the deadline, takes the file `CS54` had and is now malformed (`consumption-set-release-unshown`). A reader that ends the hold at the deadline passed v0.37.0 and fails `CS55`; one that ends it only after the deadline passes both. |
+| The release after v0.28.0 | `draft-gilda-audit-agent-audit-record-03`, and rows of `-04` | every member the v0.28.0 row lists, rows `IS1`, `IS2`, `PS1` and `PS2` of -03 and the open member `PS1b` beside them, and rows `CS41` to `CS55` written for -04 |
 | v0.28.0 | `draft-gilda-audit-agent-audit-record-02` | the 99 Appendix B rows of -00, 7 Section 5.4 members, 22 rows of -01 and 13 rows of -02 |
 | v0.27.0 | `draft-gilda-audit-agent-audit-record-00`, and 22 rows of `-01` | the 99 Appendix B rows, 7 Section 5.4 members and 22 rows of -01 |
 | v0.26.0 to v0.26.2 | `draft-gilda-audit-agent-audit-record-00`, and five rows of `-01` | the 99 Appendix B rows, 7 Section 5.4 members and 5 rows of -01 |
@@ -256,7 +257,7 @@ by SHA-256 in [`REVISION-01-PIN.json`](REVISION-01-PIN.json).
 coverage clause fails exactly `TI6`, `V4` and `V5`, and restoring independent
 minima in `aggregate_values` fails `FR14`'s aggregation check.
 
-## Consumption state and the operation key: `CS1` to `CS54`
+## Consumption state and the operation key: `CS1` to `CS55`
 
 A cumulative limit, such as a delegated spending limit, makes a permit correct
 only if what is already consumed, plus what is held for earlier permits that
@@ -380,10 +381,15 @@ in [#213](https://github.com/probityai/agent-evidence-vectors/issues/213).
   (vendrell46's zero-settlement case on #307). The record keeps the operation key
   in `held`, with its amount and a `deadline` written as the record writes
   instants; without one it is `consumption-value-invalid` (`CS52`). The hold ends
-  only when a later record of the ledger is dated at or after that `deadline`
-  (`CS54`) or a record of the operation shows `occurred`: a later record dated
-  before it that no longer holds the key is `consumption-set-release-unshown`,
-  even though the zero settlement's own record shows `none` (`CS53`). This is
+  only when a later record of the ledger is dated after that `deadline`
+  (`CS54`, one second after it) or a record of the operation shows `occurred`: a
+  later record dated before it, or at it, that no longer holds the key is
+  `consumption-set-release-unshown`, even though the zero settlement's own record
+  shows `none` (`CS53`, `CS55`). Permit2 reverts a settlement only when
+  `block.timestamp` is greater than the permit's deadline, so a block stamped at
+  the deadline can still settle it, and a record dated at the deadline does not
+  show the permit dead (vendrell46, #307). `reportedAt` is the writer's clock,
+  not the chain's, so after the deadline is a floor and not proof. This is
   the EVM scheme only; SVM `upto` runs on payment channels.
 
 `check_vectors.py` drops each sentence of the rule and each set check in turn and
@@ -396,10 +402,10 @@ fails `CS33`, letting `none` not end a claim fails `CS28`, and matching an asset
 by its id alone fails `CS39`, dropping each payee and settled check fails `CS42`,
 `CS44`, `CS45` and `CS46`, `CS47` and `CS49` in turn, counting the held
 amount rather than the settled one fails `CS48` and `CS54`, refusing an empty transaction at
-an amount of 0 fails `CS50`, `CS53` and `CS54`, accepting one at any other amount
+an amount of 0 fails `CS50`, `CS53`, `CS54` and `CS55`, accepting one at any other amount
 fails `CS51`, not requiring the deadline fails `CS52`, dropping the hold's set
-check fails `CS53` alone, and ending the hold only after the deadline, not at it,
-fails `CS54`. The Go rail in `corpora/` runs
+check fails `CS53` and `CS55`, and ending the hold at the deadline, not only after
+it, fails `CS55` alone. The Go rail in `corpora/` runs
 the same sweep.
 
 ## Principal standing and the v2 URI: `PS1`, `PS2` and `PS1b`

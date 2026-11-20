@@ -75,9 +75,9 @@
       }
     ]
   },
-  "corpusDigest": "4e23b2657679aab1484add84ef82e6e5c2a8d681a8d93e4fe11981206efb767f",
+  "corpusDigest": "af2b1749f88578da953c3fc3d5bbad3c0bb050b41dd393923cb54e0e0ac4fba1",
   "counts": {
-    "accept": 98,
+    "accept": 99,
     "indeterminate": 2,
     "reject": 125
   },
@@ -2968,11 +2968,36 @@
         },
         "verdict": "valid"
       },
+      "file": "sets/vbabb444e3476770c.json",
+      "id": "vbabb444e3476770c",
+      "kind": "accept",
+      "row": "CS53 where the later record is dated one second after the permit's deadline: each record valid, the set valid",
+      "slug": "cs54-set-zero-settlement-released-after-the-deadline"
+    },
+    {
+      "draftId": "CS55",
+      "draftRevision": "draft-gilda-audit-agent-audit-record-04",
+      "draftSection": "5.9",
+      "expected": {
+        "codes": [],
+        "derivedTier": "authoritative",
+        "set": {
+          "codes": [
+            "consumption-set-release-unshown"
+          ],
+          "verdict": "malformed",
+          "withinLimit": [
+            true,
+            true
+          ]
+        },
+        "verdict": "valid"
+      },
       "file": "sets/v2f0df6d2793c22c8.json",
       "id": "v2f0df6d2793c22c8",
       "kind": "accept",
-      "row": "CS53 where the later record is dated at the permit's deadline: each record valid, the set valid",
-      "slug": "cs54-set-zero-settlement-released-at-the-deadline"
+      "row": "CS53 where the later record is dated at the permit's deadline, the last second Permit2 accepts the permit in: each record valid, the set malformed because a block stamped at the deadline can still settle it",
+      "slug": "cs55-set-zero-settlement-released-at-the-deadline"
     },
     {
       "draftId": "A21",

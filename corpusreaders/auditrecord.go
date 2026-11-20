@@ -140,7 +140,7 @@ var (
 	arConsumptionOptional = []string{"supersedes", "asset", "payee", "settled"}
 	// arHeldOptional are the members a held entry may carry beside them: the
 	// payee digest of that permit's payment (CS41, CS42) and its deadline, an
-	// instant, which a zero settlement keeps (CS50 to CS54).
+	// instant, which a zero settlement keeps (CS50 to CS55).
 	arHeldOptional = []string{"payee", "deadline"}
 	// arSettledMembers are the members of settled, each required: the amount,
 	// asset and payee a paid call settled on, where they were read, and the
@@ -179,9 +179,10 @@ var arConsumptionChecks = map[string]bool{
 }
 
 // arDeadlineInclusive says whether a record dated exactly at a zero
-// settlement's deadline ends its hold (CS54): the hold ends at or after it. A
-// test sets it false.
-var arDeadlineInclusive = true
+// settlement's deadline ends its hold (CS55): it does not, because Permit2
+// reverts only when block.timestamp is greater than the deadline, so the hold
+// ends strictly after it. A test sets it true.
+var arDeadlineInclusive = false
 
 // arSettledReadingHeld reads the held amount, not the settled one, as what a
 // later record of the ledger counts for a call that carries settled. A test
