@@ -61,12 +61,12 @@ from dataclasses import dataclass, field
 from decimal import Decimal
 from typing import Any
 
-from . import strictb64, strictjson
-
 if __package__ in (None, ""):
     # Run as a script from a checkout: make the package importable by name, and
     # put the rail's directory on the path so the Ed25519 borrowed below resolves.
     sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
+from agent_evidence_vectors import strictb64, strictjson  # noqa: E402
 
 SUITE = "observed-effect-conformance"
 STATEMENT_TYPE = "https://in-toto.io/Statement/v1"

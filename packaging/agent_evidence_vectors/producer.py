@@ -44,12 +44,10 @@ from pathlib import Path
 from types import ModuleType
 from typing import Any
 
-from . import strictjson
-
 if __package__ in (None, ""):
     sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from agent_evidence_vectors import w3creport  # noqa: E402
+from agent_evidence_vectors import strictjson, w3creport  # noqa: E402
 
 RECEIPT_FORMAT = "agent-evidence-vectors/producer-receipt/v1"
 PASS, FAIL, NO_VERDICT = 0, 1, 2

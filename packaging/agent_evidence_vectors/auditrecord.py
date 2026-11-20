@@ -75,10 +75,10 @@ from collections.abc import Callable
 from dataclasses import dataclass, field
 from typing import Any
 
-from . import strictb64, strictjson
-
 if __package__ in (None, ""):
     sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
+from agent_evidence_vectors import strictb64, strictjson  # noqa: E402
 
 SUITE = "agent-audit-record-conformance"
 STATEMENT_TYPE = "https://in-toto.io/Statement/v1"
