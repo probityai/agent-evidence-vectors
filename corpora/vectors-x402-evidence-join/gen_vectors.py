@@ -68,13 +68,17 @@ PROFILE = {
         "field names follow the v2 specification."
     ),
     "map": {
-        "seller identity anchor (base domain of the resource URL)": "seller.domain, offer.resource.url",
+        "seller identity anchor (base domain of the resource URL)": (
+            "seller.domain, offer.resource.url"
+        ),
         "keys the seller domain vouches for": "seller.key_ids",
         "S2 offer (PaymentRequirements accepted by the buyer)": "offer.accepted",
         "S2 offer digest and signature": "offer.digest, offer.signature",
         "S3 payment construction (exact scheme authorization)": "payment.authorization",
         "S3 payment bound to the offer": "payment.offer_digest",
-        "buyer identity anchor (payer address)": "payment.authorization.from, settlement.facilitator.payer",
+        "buyer identity anchor (payer address)": (
+            "payment.authorization.from, settlement.facilitator.payer"
+        ),
         "S5 facilitator SettlementResponse": "settlement.facilitator",
         "S5 ledger transfer read by a party other than the payer": "settlement.ledger",
         "S6 delivered result": "delivery.body, delivery.body_sha256",
@@ -83,9 +87,16 @@ PROFILE = {
     },
     "verdicts": {
         "accepted": "verified: every join in the record recomputes",
-        "rejected": "contradicted: the evidence present fails the join, and the reason names the clause",
-        "indeterminate": "the evidence needed to establish the join is absent, and the reason names what is missing",
-        "fulfilment.evaluated false": "not evaluated: visible in the record and does not block acceptance",
+        "rejected": (
+            "contradicted: the evidence present fails the join, and the reason names the clause"
+        ),
+        "indeterminate": (
+            "the evidence needed to establish the join is absent, "
+            "and the reason names what is missing"
+        ),
+        "fulfilment.evaluated false": (
+            "not evaluated: visible in the record and does not block acceptance"
+        ),
     },
 }
 
