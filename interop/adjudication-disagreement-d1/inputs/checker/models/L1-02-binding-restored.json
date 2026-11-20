@@ -1,0 +1,48 @@
+{
+  "schema_version": "wresearch-checker-input-1",
+  "semantics_version": "finite-joint-identity-1",
+  "model": {
+    "name": "L1-02-binding-restored",
+    "claim": "The write agent-d1 executed for invocation d1-call-1 in d1-window, after permission for write A, was write A (premise: exactly one write followed the permission).",
+    "binding": "identity",
+    "histories": [
+      "EA",
+      "EB"
+    ],
+    "truth": {
+      "EA": true,
+      "EB": false
+    },
+    "domains": [
+      "permission",
+      "result"
+    ],
+    "alphabets": [
+      [
+        "perm_A"
+      ],
+      [
+        "result_unbound",
+        "result_A",
+        "result_B"
+      ]
+    ],
+    "joint": {
+      "EA": [
+        [
+          "perm_A",
+          "result_A"
+        ]
+      ],
+      "EB": [
+        [
+          "perm_A",
+          "result_B"
+        ]
+      ]
+    },
+    "faults": [
+      []
+    ]
+  }
+}
