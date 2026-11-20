@@ -1,8 +1,8 @@
 # Principal identity terms
 
-Name who stands behind the issuer of a token an agent's call ran under, and whether the client pinned that issuer's key, so a party that does not trust the gateway can check both. The [README](../README.md) is the short version of the repository; this page covers the `principal_identity` section, added in 0.10.0.
+Name who stands behind the issuer of a token an agent's call ran under, whether the client pinned that issuer's key, and which party published the key set a verifier trusts, so a party that does not trust the gateway can check each. The [README](../README.md) is the short version of the repository; this page covers the `principal_identity` section, added in 0.10.0; `key_publisher` joins it as a third term.
 
-The agent-audit-record predicate records the principal a decision point established from a token it validated: the issuer, subject, client, audience, key and its RFC 7638 thumbprint. Its `principal.source` names the kind of token (`jwt-access-token`, `id-token`, `jwt-assertion`) and keeps meaning that. The issuer URL already says which identity provider runs the issuer, so these terms name the provider from that URL, and `source` gains no provider values. Both terms are `proposed`, list no issuer, carry `criticality: critical`, a `review_by` date and a `check`, and neither is canonical.
+The agent-audit-record predicate records the principal a decision point established from a token it validated: the issuer, subject, client, audience, key and its RFC 7638 thumbprint. Its `principal.source` names the kind of token (`jwt-access-token`, `id-token`, `jwt-assertion`) and keeps meaning that. The issuer URL already says which identity provider runs the issuer, so these terms name the provider from that URL, and `source` gains no provider values. All three terms are `proposed`, list no issuer, carry `criticality: critical`, a `review_by` date and a `check`, and none is canonical.
 
 ## The terms
 
@@ -10,6 +10,7 @@ The agent-audit-record predicate records the principal a decision point establis
 |---|---|---|
 | `identity_provider` | the identity provider that operates the issuer of a validated principal | derived from `principal.issuer` by host and path; a declared value that contradicts a derived provider is refused; a custom domain accepts a declared value, reported as declared; a non-https issuer is malformed; `self_issued` is never read as third-party vouching |
 | `issuer_key_pinning` | whether the client pinned the issuer key by RFC 7638 thumbprint before its first call | pinned only when the configured thumbprint equals the thumbprint recomputed from `principal.key`; a mixed or conflicting configuration is refused; a mismatch or failed fetch never falls back to unpinned |
+| `key_publisher` | which party publishes the key set a verifier trusts: the agent's own origin, or an issuer or network the verifier chose first | derived from where the key set was fetched; a declared value that differs from the derived one is refused; an origin the verifier cannot classify is malformed; a relying party that needs an independent publisher refuses `agent_origin` |
 
 ## The values
 
@@ -17,6 +18,7 @@ The agent-audit-record predicate records the principal a decision point establis
 |---|---|
 | `identity_provider` | `okta`, `entra`, `auth0`, `keycloak`, `self_issued`, `other` |
 | `issuer_key_pinning` | `pinned_before_first_call`, `unpinned` |
+| `key_publisher` | `agent_origin`, `verifier_chosen_issuer` |
 
 ## Deriving the provider
 

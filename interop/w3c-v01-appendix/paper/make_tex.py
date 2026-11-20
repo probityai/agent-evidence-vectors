@@ -41,6 +41,8 @@ def tex(text: str) -> str:
 
 
 def short(value: Any) -> str:
+    if isinstance(value, dict):
+        return "; ".join(f"{k}: {short(v)}" for k, v in value.items())
     if isinstance(value, list):
         return ", ".join(short(v) for v in value)
     text = str(value)

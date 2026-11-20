@@ -960,7 +960,34 @@ def declared_claims(src: Sources) -> tuple[Claim, ...]:
         f"{src.total} vectors ({src.accept} accept, {src.reject} reject, "
         f"{src.indeterminate} indeterminate)"
     )
+    audit = json.loads(source("corpora/vectors-agent-audit-record/MANIFEST.json").read_text())
+    published = str(audit["textCounts"]["published"])
     return (
+        # The audit-record corpus splits its members by the text each tests:
+        # textCounts.published are rules a published revision states. The figure
+        # equals the corpus total while nothing is proposed, so each sentence that
+        # states it is claimed against the manifest field it restates.
+        Claim(
+            "corpora/vectors-agent-audit-record/INDEX.md",
+            "the audit-record published-text count the index states",
+            "are indeterminate. ",
+            " members test rules a published revision states",
+            published,
+        ),
+        Claim(
+            "corpora/vectors-agent-audit-record/README.md",
+            "the audit-record published-text count the README states",
+            "split: ",
+            " published and ",
+            published,
+        ),
+        Claim(
+            "corpora/vectors-agent-audit-record/README.md",
+            "the audit-record members the current release tests",
+            "| all ",
+            " members: every member the row below lists",
+            published,
+        ),
         Claim(
             "interop/gemara-method-link/README.md",
             "the Gemara profile case count",
@@ -1593,6 +1620,15 @@ FROZEN: tuple[Frozen, ...] = (
         'the row and fails on any change, so the figure is checked there, not here.',
     ),
     Frozen(
+        'interop/w3c-v01-appendix/README.md',
+        'the R8-compare-169 figures posted to the W3C list',
+        '94 of 98; 25, 2, 44 of 71 over all 169 members (Nov/0004)',
+        'A past result, not a count of the live corpus: the row records what the R8 '
+        'comparison printed over all 169 members of the v0.17.4 manifest when it was posted '
+        'to public-agent-conformance (Nov/0004). The appendix workflow reruns the row and '
+        'fails on any change, so the figure is checked there, not here.',
+    ),
+    Frozen(
         'DISPOSITIONS.md',
         'the JSON nesting depth bound made normative at 128',
         'The bound was made normative at 128 with its counting',
@@ -1765,6 +1801,28 @@ FROZEN: tuple[Frozen, ...] = (
         'aeoess (comment 31): "The fixtures',
         "An integer that counts something other than this corpus and equals one of its figures by"
         " coincidence: the number of a comment in another project's thread.",
+    ),
+    Frozen(
+        'docs/proposals/audit-record-04-consumption-ledger.md',
+        'the date revision 03 of the audit-record draft was published',
+        '-03 was published on 29 October 2026 without it',
+        'An integer that counts something other than this corpus and equals one of its figures by'
+        ' coincidence: the day of the month an IETF draft revision was published.',
+    ),
+    *(
+        Frozen(
+            'scripts/audit-record-text-tier-test.py',
+            f'the members an outside revision-03 verifier differed on, {where}',
+            span,
+            'A past result, not a count of the live corpus: the members on which one outside'
+            ' verifier written from revision 03 differed from the manifest. The test pins the'
+            ' list itself, so the figure records that run and must not track the corpus.',
+        )
+        for where, span in (
+            ('docstring', 'differed from the manifest on 38'),
+            ('docstring list', 'a published revision: the 38'),
+            ('failure message', 'the differing list should hold 38 members and CS32'),
+        )
     ),
     Frozen(
         'crosswalks/aee-to-trace-and-runtime-trace.md',

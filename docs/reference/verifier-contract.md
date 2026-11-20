@@ -22,6 +22,10 @@ The command may include flags, such as `aee-verify -validity-only --json`. Prese
 
 The shipped CLI once pretty-printed its JSON; on its first harness run it scored 0 of 186. The [external-rail gate](../../scripts/external-rail-gate.py) now runs that pairing in CI. One-line JSON is required even when other stdout lines contain diagnostics.
 
+## The verifier-result header
+
+Every report the command line and the Action write carries a `verifierResult` object, whichever suite runner wrote the rest of the report. It holds the four fields a verifier result needs before anyone relies on it: `package` and `version` (the release that judged the run; `versionSource` says whether it was an installed wheel or a checkout), `corpusDigest` (the input digest, the value the corpus manifest declares and one line of the signed `release/CORPUS-DIGESTS.txt` carries) and `corpusRevision` (the revision the corpus bytes came from). `corpusRevisionKind` says how the revision was established: `action-ref` is the ref the Action was used at (a tag, or the commit for `uses: ...@<sha>`), `release-tag` is the installed wheel's signed tag, `git-commit` is the commit of the checkout or of the directory named with `--vectors`, and `unknown` means none could be read, which is reported rather than guessed. The shape is [spec/schemas/verifier-result-v1.schema.json](../../spec/schemas/verifier-result-v1.schema.json), and `scripts/report-provenance-test.py` holds the reference rail and a sibling runner to it.
+
 ## Comparison rules
 
 [packaging/run_vectors.py](../../packaging/run_vectors.py) reports two separate comparisons.

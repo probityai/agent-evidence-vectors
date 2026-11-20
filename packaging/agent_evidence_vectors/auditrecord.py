@@ -2663,8 +2663,47 @@ def corpus_digest(manifest: dict[str, Any], root: str) -> str:
     return digest.hexdigest()
 
 
-def _corpus_findings(directory: str, manifest: dict[str, Any]) -> list[str]:
+def text_status(entry: dict[str, Any]) -> str:
+    """``published`` or ``proposed``: which text one manifest entry tests.
+
+    A published member carries ``draftRevision``, a revision the IETF has
+    published, and scores every verifier. A proposed member carries
+    ``proposed`` and tests a rule only text proposed for the next revision
+    states, so it scores only a verifier that implements that text: a verifier
+    written from the published text that differs on it has not failed.
+    """
+    return "proposed" if "proposed" in entry else "published"
+
+
+def _text_findings(manifest: dict[str, Any]) -> list[str]:
+    """Each member names exactly one text, and the counts match the members."""
     out: list[str] = []
+    published = {str(r.get("revision")) for r in manifest.get("publishedRevisions") or []}
+    measured = {"published": 0, "proposed": 0}
+    for entry in manifest.get("vectors") or []:
+        label = entry.get("draftId")
+        revision = entry.get("draftRevision")
+        proposed = entry.get("proposed")
+        if (revision is None) == (proposed is None):
+            out.append(f"{label}: a member carries draftRevision or proposed, exactly one")
+            continue
+        if revision is not None and revision not in published:
+            out.append(f"{label}: draftRevision {revision} is not a published revision")
+        if proposed is not None and (
+            not isinstance(proposed, dict)
+            or str(proposed.get("revision")) in published
+            or not proposed.get("text")
+        ):
+            out.append(f"{label}: proposed names a published revision or no proposed text")
+        measured[text_status(entry)] += 1
+    if manifest.get("textCounts") != measured:
+        declared = manifest.get("textCounts")
+        out.append(f"textCounts declare {declared} and the members are {measured}")
+    return out
+
+
+def _corpus_findings(directory: str, manifest: dict[str, Any]) -> list[str]:
+    out: list[str] = _text_findings(manifest)
     entries: list[dict[str, Any]] = manifest.get("vectors") or []
     by_id = {str(e.get("id")): e for e in entries}
     measured: dict[str, int] = {}
