@@ -172,6 +172,7 @@ from agent_evidence_vectors import (
     uncertaineffect,
     w3cintake,
     w3creport,
+    x402join,
 )
 
 AEE_PREDICATE_TYPE = "https://in-toto.io/attestation/adversarial-execution-evidence/v0.7"
@@ -3936,6 +3937,7 @@ def _run_non_reference_suite(
         gradefloor.SUITE,
         connectorscope.SUITE,
         paymentmandate.SUITE,
+        x402join.SUITE,
         recorded.SUITE,
         changeadmission.SUITE,
         agenticprocess.SUITE,
@@ -3985,6 +3987,7 @@ def _run_non_reference_suite(
         gradefloor.SUITE: gradefloor.run,
         connectorscope.SUITE: connectorscope.run,
         paymentmandate.SUITE: paymentmandate.run,
+        x402join.SUITE: x402join.run,
         recorded.SUITE: recorded.run,
         changeadmission.SUITE: changeadmission.run,
         agenticprocess.SUITE: agenticprocess.run,
