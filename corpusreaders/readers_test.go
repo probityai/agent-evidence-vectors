@@ -75,6 +75,9 @@ var corpusCases = []corpusCase{
 	// A member of the recorded-set corpus is a directory of a publisher's
 	// bytes; its digest list is the file whose flipped byte must be named.
 	{dir: "vectors-recorded", memberFileKey: "file"},
+	// A member of the decision-record corpus is one attachment, the decision
+	// record beside it and what the relying party holds, in one file.
+	{dir: "vectors-decision-record", memberFileKey: "path"},
 }
 
 // corpusPath is where a corpus sits in this repository: under corpora/<id>/,
