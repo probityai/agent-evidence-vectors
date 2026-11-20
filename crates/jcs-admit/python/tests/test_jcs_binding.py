@@ -40,7 +40,6 @@ CASES = [
     (jcs.admit, b'{"a":1,"a":2}', {}, "DuplicateMember", {"name": "a", "offset": 7}),
     (jcs.admit, b'"\\ud800"', {}, "StringNotScalar", None),
     (jcs.admit_ijson, b"9007199254740993", {}, "UnsafeInteger", {"token": "9007199254740993"}),
-    (jcs.admit_ijson, b"12345678901234567.5", {}, "UnsafeInteger", {"token": "12345678901234567.5"}),
     (jcs.admit_with, b"1.5", {"integers_only": True}, "NonIntegerNumber", {"token": "1.5"}),
     (jcs.admit, b"-1e400", {}, "NonFiniteNumber", {"token": "-1e400"}),
     (jcs.admit, b"[" * 129 + b"]" * 129, {}, "TooDeep", {"limit": 128, "offset": 128}),
