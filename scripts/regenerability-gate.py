@@ -173,6 +173,7 @@ GENERATORS = (
     "corpora/vectors-done-probes/gen_vectors.py",
     "corpora/vectors-trace-anchor/gen_vectors.py",
     "corpora/vectors-grade-floor/gen_vectors.py",
+    "corpora/vectors-ocsf-decision/gen_vectors.py",
     "corpora/vectors-connector-scope/gen_vectors.py",
     "corpora/vectors-mcp-authz/gen_vectors.py",
     "corpora/vectors-agent-payment-mandate/gen_vectors.py",
@@ -264,7 +265,6 @@ OWNED = (
     # The OCSF decision-record corpus. Members are the format's published sample records,
     # a chain this generator emits over them with a published test key, and the ways a
     # stream breaks; it builds its own manifest and index.
-    "corpora/vectors-ocsf-decision/gen_vectors.py",
     ("corpora/vectors-ocsf-decision/members", "*.json"),
     ("corpora/vectors-ocsf-decision", "MANIFEST.json"),
     ("corpora/vectors-ocsf-decision", "INDEX.md"),
