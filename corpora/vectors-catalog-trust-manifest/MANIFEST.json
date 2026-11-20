@@ -1,0 +1,915 @@
+{
+  "corpusDigest": "cbd055a11f72b92720e684cf6b981d30c36ac24e4b23b4a4c0afbb0524e48089",
+  "counts": {
+    "accept": 15,
+    "reject": 45
+  },
+  "suite": "catalog-trust-manifest/v1",
+  "vectors": [
+    {
+      "edit": "control: ARD draft trust manifest, ES256, publisher DID",
+      "expected": {
+        "decision": "accept",
+        "reason": "signature_covers_release"
+      },
+      "files": {
+        "artifact.json": "5346c3b356f1b2db025b97d464d73a62442ca39ad1480549e23daff147f35ef1",
+        "catalog.json": "2133928a4dde8ea9c151197b8603a6f3f30f6e0394b4369ca5121c755571b100",
+        "context.json": "06cb286f62c546c49571afedf5d9d0246cf61df15b74e60c79b973d0096b4920",
+        "did-documents.json": "8b49c5d7a3dad753d337a8879ad50ea41947883460bf47e3bf3353f41a28c3fe"
+      },
+      "id": "accept-draft-es256",
+      "path": "cases/accept-draft-es256"
+    },
+    {
+      "edit": "control: the draft names ES256 as mandatory to implement, not as the only algorithm, so EdDSA is accepted under it",
+      "expected": {
+        "decision": "accept",
+        "reason": "signature_covers_release"
+      },
+      "files": {
+        "artifact.json": "5346c3b356f1b2db025b97d464d73a62442ca39ad1480549e23daff147f35ef1",
+        "catalog.json": "c1c42f1e17db9c8f57814f270ae590332b9c2af09eee83e70a5edec78b7d650a",
+        "context.json": "06cb286f62c546c49571afedf5d9d0246cf61df15b74e60c79b973d0096b4920",
+        "did-documents.json": "8b49c5d7a3dad753d337a8879ad50ea41947883460bf47e3bf3353f41a28c3fe"
+      },
+      "id": "accept-draft-eddsa",
+      "path": "cases/accept-draft-eddsa"
+    },
+    {
+      "edit": "control: RFC 7797 unencoded payload declared critical; the draft does not forbid it",
+      "expected": {
+        "decision": "accept",
+        "reason": "signature_covers_release"
+      },
+      "files": {
+        "artifact.json": "5346c3b356f1b2db025b97d464d73a62442ca39ad1480549e23daff147f35ef1",
+        "catalog.json": "145d523684ce1a12ca34931ba9e168ae86c038611cfc8a5dfdf832eaf2122440",
+        "context.json": "06cb286f62c546c49571afedf5d9d0246cf61df15b74e60c79b973d0096b4920",
+        "did-documents.json": "8b49c5d7a3dad753d337a8879ad50ea41947883460bf47e3bf3353f41a28c3fe"
+      },
+      "id": "accept-draft-b64-false-with-crit",
+      "path": "cases/accept-draft-b64-false-with-crit"
+    },
+    {
+      "edit": "control: member names that sort differently by UTF-16 code unit and by code point; RFC 8785 orders by UTF-16",
+      "expected": {
+        "decision": "accept",
+        "reason": "signature_covers_release"
+      },
+      "files": {
+        "artifact.json": "5346c3b356f1b2db025b97d464d73a62442ca39ad1480549e23daff147f35ef1",
+        "catalog.json": "7cf1f31859d7519f500b0d6728e3842332f5eb2ce6df67b4ef7d6cfb0757c0f8",
+        "context.json": "06cb286f62c546c49571afedf5d9d0246cf61df15b74e60c79b973d0096b4920",
+        "did-documents.json": "8b49c5d7a3dad753d337a8879ad50ea41947883460bf47e3bf3353f41a28c3fe"
+      },
+      "id": "accept-draft-utf16-member-order",
+      "path": "cases/accept-draft-utf16-member-order"
+    },
+    {
+      "edit": "control: the whole-entry input measured in the field (entry minus trustManifest.signature)",
+      "expected": {
+        "decision": "accept",
+        "reason": "signature_covers_release"
+      },
+      "files": {
+        "artifact.json": "5346c3b356f1b2db025b97d464d73a62442ca39ad1480549e23daff147f35ef1",
+        "catalog.json": "9ace4267326e0bb45a1c9ef744e61e94c943751a0d48fbcca0f2c4f04ee7564c",
+        "context.json": "722e7857e4c55ada6d4717f44a9423abe2446da361a08488ab3e049e4f14ce6d",
+        "did-documents.json": "8b49c5d7a3dad753d337a8879ad50ea41947883460bf47e3bf3353f41a28c3fe"
+      },
+      "id": "accept-field-whole-entry",
+      "path": "cases/accept-field-whole-entry"
+    },
+    {
+      "edit": "control: url on another origin, and the artifact fetched from it declares the entry identifier (draft 6.2)",
+      "expected": {
+        "decision": "accept",
+        "reason": "signature_covers_release"
+      },
+      "files": {
+        "artifact.json": "52d6ec2eddafaf83b89f01e56c89f686b55909b5f3d8f93a97183cbc05a806f7",
+        "catalog.json": "8476f173a9bfd53b95e3f12f171f5ea5610d37d1eb5c36999e1f2d25e7502fed",
+        "context.json": "06cb286f62c546c49571afedf5d9d0246cf61df15b74e60c79b973d0096b4920",
+        "did-documents.json": "8b49c5d7a3dad753d337a8879ad50ea41947883460bf47e3bf3353f41a28c3fe"
+      },
+      "id": "accept-cross-origin-url-bound",
+      "path": "cases/accept-cross-origin-url-bound"
+    },
+    {
+      "edit": "control: two attestations, each a DSSE in-toto statement whose subject digest equals entry.digest, typed by the agent-card-receipt and observed-effect predicate URIs",
+      "expected": {
+        "decision": "accept",
+        "reason": "signature_covers_release"
+      },
+      "files": {
+        "artifact.json": "5346c3b356f1b2db025b97d464d73a62442ca39ad1480549e23daff147f35ef1",
+        "attestation-0.dsse.json": "ae9aadf1bbaf4491202a108830a17024a1a45d94db8977db1f66a49f5e60467b",
+        "attestation-1.dsse.json": "4e3ea99bb1b3eb1f437d4c74a17005b1ed36a234aaecb5b26877d67abadd431d",
+        "catalog.json": "de7bfeed28e778a36486eed1f798505611604079f371f16f57621ffed569db51",
+        "context.json": "dde17bcbc97673275e01d305377e1ad0763b726b877fa0d8b0923b2b7aad8b3f",
+        "did-documents.json": "8b49c5d7a3dad753d337a8879ad50ea41947883460bf47e3bf3353f41a28c3fe"
+      },
+      "id": "accept-attestations-dsse-bound",
+      "path": "cases/accept-attestations-dsse-bound"
+    },
+    {
+      "edit": "control: AI Catalog trust manifest under the did:web Signer and Publisher Profiles",
+      "expected": {
+        "decision": "accept",
+        "reason": "signature_covers_release"
+      },
+      "files": {
+        "artifact.json": "5346c3b356f1b2db025b97d464d73a62442ca39ad1480549e23daff147f35ef1",
+        "catalog.json": "fe7aaee6d11350c4c54fef665c8ea41bee65f5c56066ff7210b2082cb848262b",
+        "context.json": "1c46a20b6b1fa27b14ff5896143f4d22d9f8085bb7998ac90145133a8b88c1c7",
+        "did-documents.json": "8b49c5d7a3dad753d337a8879ad50ea41947883460bf47e3bf3353f41a28c3fe"
+      },
+      "id": "accept-aic-publisher",
+      "path": "cases/accept-aic-publisher"
+    },
+    {
+      "edit": "control: an assessor manifest beside the publisher's, judged in the contributor role",
+      "expected": {
+        "decision": "accept",
+        "reason": "signature_covers_release"
+      },
+      "files": {
+        "artifact.json": "5346c3b356f1b2db025b97d464d73a62442ca39ad1480549e23daff147f35ef1",
+        "catalog.json": "7f013a155bf4ccd3859be19e29a2ab4a555d9e11e3a62da729476788521106b3",
+        "context.json": "5ff46e50637a5b545a01adbad959b32734c94cc0973a973cdd7cc5ff99e9a101",
+        "did-documents.json": "8b49c5d7a3dad753d337a8879ad50ea41947883460bf47e3bf3353f41a28c3fe"
+      },
+      "id": "accept-aic-assessor-as-contributor",
+      "path": "cases/accept-aic-assessor-as-contributor"
+    },
+    {
+      "edit": "control: the same catalog, the publisher's manifest in the publisher role",
+      "expected": {
+        "decision": "accept",
+        "reason": "signature_covers_release"
+      },
+      "files": {
+        "artifact.json": "5346c3b356f1b2db025b97d464d73a62442ca39ad1480549e23daff147f35ef1",
+        "catalog.json": "7f013a155bf4ccd3859be19e29a2ab4a555d9e11e3a62da729476788521106b3",
+        "context.json": "1c46a20b6b1fa27b14ff5896143f4d22d9f8085bb7998ac90145133a8b88c1c7",
+        "did-documents.json": "8b49c5d7a3dad753d337a8879ad50ea41947883460bf47e3bf3353f41a28c3fe"
+      },
+      "id": "accept-aic-publisher-beside-assessor",
+      "path": "cases/accept-aic-publisher-beside-assessor"
+    },
+    {
+      "edit": "control: members named signature and additionalSignatures below the manifest stay in the payload (exclusions are not recursive)",
+      "expected": {
+        "decision": "accept",
+        "reason": "signature_covers_release"
+      },
+      "files": {
+        "artifact.json": "5346c3b356f1b2db025b97d464d73a62442ca39ad1480549e23daff147f35ef1",
+        "catalog.json": "d4da8c184b68ef70451748a72c3f4a168e69b0ba763118fc4d95f81fed4c5f9f",
+        "context.json": "1c46a20b6b1fa27b14ff5896143f4d22d9f8085bb7998ac90145133a8b88c1c7",
+        "did-documents.json": "8b49c5d7a3dad753d337a8879ad50ea41947883460bf47e3bf3353f41a28c3fe"
+      },
+      "id": "accept-aic-nested-signature-kept",
+      "path": "cases/accept-aic-nested-signature-kept"
+    },
+    {
+      "edit": "control: the reserved immediate additionalSignatures member added after signing is outside the payload",
+      "expected": {
+        "decision": "accept",
+        "reason": "signature_covers_release"
+      },
+      "files": {
+        "artifact.json": "5346c3b356f1b2db025b97d464d73a62442ca39ad1480549e23daff147f35ef1",
+        "catalog.json": "2930ad63080f613d842386e5694d3d51cddd8253080d4ec40ae8998fc4f042fb",
+        "context.json": "1c46a20b6b1fa27b14ff5896143f4d22d9f8085bb7998ac90145133a8b88c1c7",
+        "did-documents.json": "8b49c5d7a3dad753d337a8879ad50ea41947883460bf47e3bf3353f41a28c3fe"
+      },
+      "id": "accept-aic-additional-signatures-ignored",
+      "path": "cases/accept-aic-additional-signatures-ignored"
+    },
+    {
+      "edit": "control: a whole-catalog snapshot signature over a catalog carrying a signed manifest",
+      "expected": {
+        "decision": "accept",
+        "reason": "snapshot_signature_valid"
+      },
+      "files": {
+        "artifact.json": "5346c3b356f1b2db025b97d464d73a62442ca39ad1480549e23daff147f35ef1",
+        "catalog.json": "417c1a733069338444dc2b37ed789a18c2358e902545e799f7fa48a938775683",
+        "context.json": "b9fc6b826c846eb6da969911bab34829a867bac1b7fb3275f5061e45025f437c",
+        "did-documents.json": "8b49c5d7a3dad753d337a8879ad50ea41947883460bf47e3bf3353f41a28c3fe"
+      },
+      "id": "accept-snapshot",
+      "path": "cases/accept-snapshot"
+    },
+    {
+      "edit": "one catalog signed over the draft input, judged under ard-draft-bu-00; the four contradict cases of this group carry byte-identical catalogs",
+      "expected": {
+        "decision": "accept",
+        "reason": "signature_covers_release"
+      },
+      "files": {
+        "artifact.json": "5346c3b356f1b2db025b97d464d73a62442ca39ad1480549e23daff147f35ef1",
+        "catalog.json": "2133928a4dde8ea9c151197b8603a6f3f30f6e0394b4369ca5121c755571b100",
+        "context.json": "06cb286f62c546c49571afedf5d9d0246cf61df15b74e60c79b973d0096b4920",
+        "did-documents.json": "8b49c5d7a3dad753d337a8879ad50ea41947883460bf47e3bf3353f41a28c3fe"
+      },
+      "id": "contradict-draft-signed-under-ard-draft-bu-00",
+      "path": "cases/contradict-draft-signed-under-ard-draft-bu-00"
+    },
+    {
+      "edit": "one catalog signed over the draft input, judged under field-whole-entry; the four contradict cases of this group carry byte-identical catalogs",
+      "expected": {
+        "decision": "reject",
+        "reason": "signature_invalid"
+      },
+      "files": {
+        "artifact.json": "5346c3b356f1b2db025b97d464d73a62442ca39ad1480549e23daff147f35ef1",
+        "catalog.json": "2133928a4dde8ea9c151197b8603a6f3f30f6e0394b4369ca5121c755571b100",
+        "context.json": "722e7857e4c55ada6d4717f44a9423abe2446da361a08488ab3e049e4f14ce6d",
+        "did-documents.json": "8b49c5d7a3dad753d337a8879ad50ea41947883460bf47e3bf3353f41a28c3fe"
+      },
+      "id": "contradict-draft-signed-under-field-whole-entry",
+      "path": "cases/contradict-draft-signed-under-field-whole-entry"
+    },
+    {
+      "edit": "one catalog signed over the draft input, judged under ai-catalog-2026-11; the four contradict cases of this group carry byte-identical catalogs",
+      "expected": {
+        "decision": "reject",
+        "reason": "signature_missing"
+      },
+      "files": {
+        "artifact.json": "5346c3b356f1b2db025b97d464d73a62442ca39ad1480549e23daff147f35ef1",
+        "catalog.json": "2133928a4dde8ea9c151197b8603a6f3f30f6e0394b4369ca5121c755571b100",
+        "context.json": "1c46a20b6b1fa27b14ff5896143f4d22d9f8085bb7998ac90145133a8b88c1c7",
+        "did-documents.json": "8b49c5d7a3dad753d337a8879ad50ea41947883460bf47e3bf3353f41a28c3fe"
+      },
+      "id": "contradict-draft-signed-under-ai-catalog-2026-11",
+      "path": "cases/contradict-draft-signed-under-ai-catalog-2026-11"
+    },
+    {
+      "edit": "one catalog signed over the draft input, judged under ai-catalog-snapshot; the four contradict cases of this group carry byte-identical catalogs",
+      "expected": {
+        "decision": "reject",
+        "reason": "signature_missing"
+      },
+      "files": {
+        "artifact.json": "5346c3b356f1b2db025b97d464d73a62442ca39ad1480549e23daff147f35ef1",
+        "catalog.json": "2133928a4dde8ea9c151197b8603a6f3f30f6e0394b4369ca5121c755571b100",
+        "context.json": "b9fc6b826c846eb6da969911bab34829a867bac1b7fb3275f5061e45025f437c",
+        "did-documents.json": "8b49c5d7a3dad753d337a8879ad50ea41947883460bf47e3bf3353f41a28c3fe"
+      },
+      "id": "contradict-draft-signed-under-ai-catalog-snapshot",
+      "path": "cases/contradict-draft-signed-under-ai-catalog-snapshot"
+    },
+    {
+      "edit": "one catalog signed over the whole-entry input, judged under ard-draft-bu-00; the four contradict cases of this group carry byte-identical catalogs",
+      "expected": {
+        "decision": "reject",
+        "reason": "signature_invalid"
+      },
+      "files": {
+        "artifact.json": "5346c3b356f1b2db025b97d464d73a62442ca39ad1480549e23daff147f35ef1",
+        "catalog.json": "9ace4267326e0bb45a1c9ef744e61e94c943751a0d48fbcca0f2c4f04ee7564c",
+        "context.json": "06cb286f62c546c49571afedf5d9d0246cf61df15b74e60c79b973d0096b4920",
+        "did-documents.json": "8b49c5d7a3dad753d337a8879ad50ea41947883460bf47e3bf3353f41a28c3fe"
+      },
+      "id": "contradict-whole-entry-signed-under-ard-draft-bu-00",
+      "path": "cases/contradict-whole-entry-signed-under-ard-draft-bu-00"
+    },
+    {
+      "edit": "one catalog signed over the whole-entry input, judged under field-whole-entry; the four contradict cases of this group carry byte-identical catalogs",
+      "expected": {
+        "decision": "accept",
+        "reason": "signature_covers_release"
+      },
+      "files": {
+        "artifact.json": "5346c3b356f1b2db025b97d464d73a62442ca39ad1480549e23daff147f35ef1",
+        "catalog.json": "9ace4267326e0bb45a1c9ef744e61e94c943751a0d48fbcca0f2c4f04ee7564c",
+        "context.json": "722e7857e4c55ada6d4717f44a9423abe2446da361a08488ab3e049e4f14ce6d",
+        "did-documents.json": "8b49c5d7a3dad753d337a8879ad50ea41947883460bf47e3bf3353f41a28c3fe"
+      },
+      "id": "contradict-whole-entry-signed-under-field-whole-entry",
+      "path": "cases/contradict-whole-entry-signed-under-field-whole-entry"
+    },
+    {
+      "edit": "one catalog signed over the whole-entry input, judged under ai-catalog-2026-11; the four contradict cases of this group carry byte-identical catalogs",
+      "expected": {
+        "decision": "reject",
+        "reason": "signature_missing"
+      },
+      "files": {
+        "artifact.json": "5346c3b356f1b2db025b97d464d73a62442ca39ad1480549e23daff147f35ef1",
+        "catalog.json": "9ace4267326e0bb45a1c9ef744e61e94c943751a0d48fbcca0f2c4f04ee7564c",
+        "context.json": "1c46a20b6b1fa27b14ff5896143f4d22d9f8085bb7998ac90145133a8b88c1c7",
+        "did-documents.json": "8b49c5d7a3dad753d337a8879ad50ea41947883460bf47e3bf3353f41a28c3fe"
+      },
+      "id": "contradict-whole-entry-signed-under-ai-catalog-2026-11",
+      "path": "cases/contradict-whole-entry-signed-under-ai-catalog-2026-11"
+    },
+    {
+      "edit": "one catalog signed over the whole-entry input, judged under ai-catalog-snapshot; the four contradict cases of this group carry byte-identical catalogs",
+      "expected": {
+        "decision": "reject",
+        "reason": "signature_missing"
+      },
+      "files": {
+        "artifact.json": "5346c3b356f1b2db025b97d464d73a62442ca39ad1480549e23daff147f35ef1",
+        "catalog.json": "9ace4267326e0bb45a1c9ef744e61e94c943751a0d48fbcca0f2c4f04ee7564c",
+        "context.json": "b9fc6b826c846eb6da969911bab34829a867bac1b7fb3275f5061e45025f437c",
+        "did-documents.json": "8b49c5d7a3dad753d337a8879ad50ea41947883460bf47e3bf3353f41a28c3fe"
+      },
+      "id": "contradict-whole-entry-signed-under-ai-catalog-snapshot",
+      "path": "cases/contradict-whole-entry-signed-under-ai-catalog-snapshot"
+    },
+    {
+      "edit": "the context names a construction outside the closed term",
+      "expected": {
+        "decision": "reject",
+        "reason": "construction_unknown"
+      },
+      "files": {
+        "artifact.json": "5346c3b356f1b2db025b97d464d73a62442ca39ad1480549e23daff147f35ef1",
+        "catalog.json": "2133928a4dde8ea9c151197b8603a6f3f30f6e0394b4369ca5121c755571b100",
+        "context.json": "5fd64c5fefeed0cd8bbd3ef7c2d54e2323fd9fa78add6b710caf4bf3a691832b",
+        "did-documents.json": "8b49c5d7a3dad753d337a8879ad50ea41947883460bf47e3bf3353f41a28c3fe"
+      },
+      "id": "reject-construction-unknown",
+      "path": "cases/reject-construction-unknown"
+    },
+    {
+      "edit": "a second identifier member in the entry; a last-wins parser reads another publisher",
+      "expected": {
+        "decision": "reject",
+        "reason": "duplicate_member"
+      },
+      "files": {
+        "artifact.json": "5346c3b356f1b2db025b97d464d73a62442ca39ad1480549e23daff147f35ef1",
+        "catalog.json": "cdacfffc137e3d09fbf12fd360b8b837a0f443a3a645c84346f056d1b76f8761",
+        "context.json": "06cb286f62c546c49571afedf5d9d0246cf61df15b74e60c79b973d0096b4920",
+        "did-documents.json": "8b49c5d7a3dad753d337a8879ad50ea41947883460bf47e3bf3353f41a28c3fe"
+      },
+      "id": "reject-duplicate-identifier",
+      "path": "cases/reject-duplicate-identifier"
+    },
+    {
+      "edit": "a trust manifest with no signature",
+      "expected": {
+        "decision": "reject",
+        "reason": "signature_missing"
+      },
+      "files": {
+        "artifact.json": "5346c3b356f1b2db025b97d464d73a62442ca39ad1480549e23daff147f35ef1",
+        "catalog.json": "bc83eeb6ad1001a5a89a299ee48174fd8f991681313bd2736f0cae3c4dc66045",
+        "context.json": "06cb286f62c546c49571afedf5d9d0246cf61df15b74e60c79b973d0096b4920",
+        "did-documents.json": "8b49c5d7a3dad753d337a8879ad50ea41947883460bf47e3bf3353f41a28c3fe"
+      },
+      "id": "reject-unsigned",
+      "path": "cases/reject-unsigned"
+    },
+    {
+      "edit": "the stored JWS carries its payload segment",
+      "expected": {
+        "decision": "reject",
+        "reason": "jws_malformed"
+      },
+      "files": {
+        "artifact.json": "5346c3b356f1b2db025b97d464d73a62442ca39ad1480549e23daff147f35ef1",
+        "catalog.json": "6d3378686faab46e7850b8526360efae783d972e98253a21abf390331176f359",
+        "context.json": "06cb286f62c546c49571afedf5d9d0246cf61df15b74e60c79b973d0096b4920",
+        "did-documents.json": "8b49c5d7a3dad753d337a8879ad50ea41947883460bf47e3bf3353f41a28c3fe"
+      },
+      "id": "reject-jws-attached-payload",
+      "path": "cases/reject-jws-attached-payload"
+    },
+    {
+      "edit": "the signature segment is padded base64url",
+      "expected": {
+        "decision": "reject",
+        "reason": "jws_malformed"
+      },
+      "files": {
+        "artifact.json": "5346c3b356f1b2db025b97d464d73a62442ca39ad1480549e23daff147f35ef1",
+        "catalog.json": "0a585b489edcbc5763d772597104b1fe9287c26eca9f1a46909b24810c43a534",
+        "context.json": "06cb286f62c546c49571afedf5d9d0246cf61df15b74e60c79b973d0096b4920",
+        "did-documents.json": "8b49c5d7a3dad753d337a8879ad50ea41947883460bf47e3bf3353f41a28c3fe"
+      },
+      "id": "reject-jws-padded-base64url",
+      "path": "cases/reject-jws-padded-base64url"
+    },
+    {
+      "edit": "an AI Catalog manifest signature without typ",
+      "expected": {
+        "decision": "reject",
+        "reason": "typ_missing_or_mismatched"
+      },
+      "files": {
+        "artifact.json": "5346c3b356f1b2db025b97d464d73a62442ca39ad1480549e23daff147f35ef1",
+        "catalog.json": "1dd48e2f9781d10e97c010f868273232a41a51c76c3600cc1582b48fb3a859f9",
+        "context.json": "1c46a20b6b1fa27b14ff5896143f4d22d9f8085bb7998ac90145133a8b88c1c7",
+        "did-documents.json": "8b49c5d7a3dad753d337a8879ad50ea41947883460bf47e3bf3353f41a28c3fe"
+      },
+      "id": "reject-aic-typ-missing",
+      "path": "cases/reject-aic-typ-missing"
+    },
+    {
+      "edit": "a manifest-typed signature presented as the catalog snapshot signature",
+      "expected": {
+        "decision": "reject",
+        "reason": "typ_missing_or_mismatched"
+      },
+      "files": {
+        "artifact.json": "5346c3b356f1b2db025b97d464d73a62442ca39ad1480549e23daff147f35ef1",
+        "catalog.json": "df4cfbce4a8fa18b556e83f02e7c8d1377748381c017b367d6fef90c991f882a",
+        "context.json": "b9fc6b826c846eb6da969911bab34829a867bac1b7fb3275f5061e45025f437c",
+        "did-documents.json": "8b49c5d7a3dad753d337a8879ad50ea41947883460bf47e3bf3353f41a28c3fe"
+      },
+      "id": "reject-snapshot-typ-of-manifest",
+      "path": "cases/reject-snapshot-typ-of-manifest"
+    },
+    {
+      "edit": "alg none",
+      "expected": {
+        "decision": "reject",
+        "reason": "alg_not_allowed_for_profile"
+      },
+      "files": {
+        "artifact.json": "5346c3b356f1b2db025b97d464d73a62442ca39ad1480549e23daff147f35ef1",
+        "catalog.json": "0117ebb2ae70f1c09401e9c7efdfb4c7133decaa7587fa645d55136ff4faf00d",
+        "context.json": "06cb286f62c546c49571afedf5d9d0246cf61df15b74e60c79b973d0096b4920",
+        "did-documents.json": "8b49c5d7a3dad753d337a8879ad50ea41947883460bf47e3bf3353f41a28c3fe"
+      },
+      "id": "reject-alg-none",
+      "path": "cases/reject-alg-none"
+    },
+    {
+      "edit": "EdDSA under the AI Catalog did:web Signer Profile, which allows ES256 only",
+      "expected": {
+        "decision": "reject",
+        "reason": "alg_not_allowed_for_profile"
+      },
+      "files": {
+        "artifact.json": "5346c3b356f1b2db025b97d464d73a62442ca39ad1480549e23daff147f35ef1",
+        "catalog.json": "8aa024a8b3db2685edca0672af65fce534e0c7327eb33b62822793d56e849d71",
+        "context.json": "1c46a20b6b1fa27b14ff5896143f4d22d9f8085bb7998ac90145133a8b88c1c7",
+        "did-documents.json": "8b49c5d7a3dad753d337a8879ad50ea41947883460bf47e3bf3353f41a28c3fe"
+      },
+      "id": "reject-aic-eddsa",
+      "path": "cases/reject-aic-eddsa"
+    },
+    {
+      "edit": "the protected header names a key source (jku)",
+      "expected": {
+        "decision": "reject",
+        "reason": "key_source_in_header"
+      },
+      "files": {
+        "artifact.json": "5346c3b356f1b2db025b97d464d73a62442ca39ad1480549e23daff147f35ef1",
+        "catalog.json": "e72fd7f75ddaf52c3fa054d761acb51aaea1a46a1a79cc3e35e3f4f1b55b27cb",
+        "context.json": "1c46a20b6b1fa27b14ff5896143f4d22d9f8085bb7998ac90145133a8b88c1c7",
+        "did-documents.json": "8b49c5d7a3dad753d337a8879ad50ea41947883460bf47e3bf3353f41a28c3fe"
+      },
+      "id": "reject-key-source-jku",
+      "path": "cases/reject-key-source-jku"
+    },
+    {
+      "edit": "the protected header names a key source (jwk)",
+      "expected": {
+        "decision": "reject",
+        "reason": "key_source_in_header"
+      },
+      "files": {
+        "artifact.json": "5346c3b356f1b2db025b97d464d73a62442ca39ad1480549e23daff147f35ef1",
+        "catalog.json": "2c941df6ea39b87a4e1400392fe13bb2c6ce73a6702c9ea24b519f0d41e7c96c",
+        "context.json": "1c46a20b6b1fa27b14ff5896143f4d22d9f8085bb7998ac90145133a8b88c1c7",
+        "did-documents.json": "8b49c5d7a3dad753d337a8879ad50ea41947883460bf47e3bf3353f41a28c3fe"
+      },
+      "id": "reject-key-source-jwk",
+      "path": "cases/reject-key-source-jwk"
+    },
+    {
+      "edit": "the protected header names a key source (x5u)",
+      "expected": {
+        "decision": "reject",
+        "reason": "key_source_in_header"
+      },
+      "files": {
+        "artifact.json": "5346c3b356f1b2db025b97d464d73a62442ca39ad1480549e23daff147f35ef1",
+        "catalog.json": "fd4b0903b6451bf1d399b590ef8459c079dbf5e42c1b74bcfd6081f44571b39b",
+        "context.json": "1c46a20b6b1fa27b14ff5896143f4d22d9f8085bb7998ac90145133a8b88c1c7",
+        "did-documents.json": "8b49c5d7a3dad753d337a8879ad50ea41947883460bf47e3bf3353f41a28c3fe"
+      },
+      "id": "reject-key-source-x5u",
+      "path": "cases/reject-key-source-x5u"
+    },
+    {
+      "edit": "the protected header names a key source (x5c)",
+      "expected": {
+        "decision": "reject",
+        "reason": "key_source_in_header"
+      },
+      "files": {
+        "artifact.json": "5346c3b356f1b2db025b97d464d73a62442ca39ad1480549e23daff147f35ef1",
+        "catalog.json": "36917c37c6b9442eb869adc293c2c60b58178bfa52b172507d3faf09c083dbbb",
+        "context.json": "1c46a20b6b1fa27b14ff5896143f4d22d9f8085bb7998ac90145133a8b88c1c7",
+        "did-documents.json": "8b49c5d7a3dad753d337a8879ad50ea41947883460bf47e3bf3353f41a28c3fe"
+      },
+      "id": "reject-key-source-x5c",
+      "path": "cases/reject-key-source-x5c"
+    },
+    {
+      "edit": "b64 in an AI Catalog protected header, even declared critical",
+      "expected": {
+        "decision": "reject",
+        "reason": "b64_forbidden_for_profile"
+      },
+      "files": {
+        "artifact.json": "5346c3b356f1b2db025b97d464d73a62442ca39ad1480549e23daff147f35ef1",
+        "catalog.json": "d5060f0769d19c482c5d203279dddc8941595e7643cf8f00aa3c302440c91c56",
+        "context.json": "1c46a20b6b1fa27b14ff5896143f4d22d9f8085bb7998ac90145133a8b88c1c7",
+        "did-documents.json": "8b49c5d7a3dad753d337a8879ad50ea41947883460bf47e3bf3353f41a28c3fe"
+      },
+      "id": "reject-aic-b64",
+      "path": "cases/reject-aic-b64"
+    },
+    {
+      "edit": "crit names a parameter the verifier does not implement",
+      "expected": {
+        "decision": "reject",
+        "reason": "jws_crit_unsupported"
+      },
+      "files": {
+        "artifact.json": "5346c3b356f1b2db025b97d464d73a62442ca39ad1480549e23daff147f35ef1",
+        "catalog.json": "9debf9a3628a5cd7a26e97afd3227e0118bf2b5565878e7ca4f80f50d607e020",
+        "context.json": "06cb286f62c546c49571afedf5d9d0246cf61df15b74e60c79b973d0096b4920",
+        "did-documents.json": "8b49c5d7a3dad753d337a8879ad50ea41947883460bf47e3bf3353f41a28c3fe"
+      },
+      "id": "reject-crit-unknown",
+      "path": "cases/reject-crit-unknown"
+    },
+    {
+      "edit": "b64 false without crit (RFC 7797 section 6): a verifier that ignores b64 checks other bytes",
+      "expected": {
+        "decision": "reject",
+        "reason": "b64_without_crit"
+      },
+      "files": {
+        "artifact.json": "5346c3b356f1b2db025b97d464d73a62442ca39ad1480549e23daff147f35ef1",
+        "catalog.json": "05fcfa287dd625428e282a8b5b34c758b0cff94f74007a49cc88a72f03900a59",
+        "context.json": "06cb286f62c546c49571afedf5d9d0246cf61df15b74e60c79b973d0096b4920",
+        "did-documents.json": "8b49c5d7a3dad753d337a8879ad50ea41947883460bf47e3bf3353f41a28c3fe"
+      },
+      "id": "reject-b64-without-crit",
+      "path": "cases/reject-b64-without-crit"
+    },
+    {
+      "edit": "the kid names another DID than the manifest identity",
+      "expected": {
+        "decision": "reject",
+        "reason": "kid_not_under_identity"
+      },
+      "files": {
+        "artifact.json": "5346c3b356f1b2db025b97d464d73a62442ca39ad1480549e23daff147f35ef1",
+        "catalog.json": "38839e465737f7b3a1d95ded1325edff2d7df475cff2c69a49c4038b9fbf002b",
+        "context.json": "06cb286f62c546c49571afedf5d9d0246cf61df15b74e60c79b973d0096b4920",
+        "did-documents.json": "8b49c5d7a3dad753d337a8879ad50ea41947883460bf47e3bf3353f41a28c3fe"
+      },
+      "id": "reject-kid-not-under-identity",
+      "path": "cases/reject-kid-not-under-identity"
+    },
+    {
+      "edit": "the document served for the identity carries another id",
+      "expected": {
+        "decision": "reject",
+        "reason": "did_document_not_identity"
+      },
+      "files": {
+        "artifact.json": "5346c3b356f1b2db025b97d464d73a62442ca39ad1480549e23daff147f35ef1",
+        "catalog.json": "2133928a4dde8ea9c151197b8603a6f3f30f6e0394b4369ca5121c755571b100",
+        "context.json": "06cb286f62c546c49571afedf5d9d0246cf61df15b74e60c79b973d0096b4920",
+        "did-documents.json": "2f20fb08c52f3f88d3f6fa9ecbdb77e33aca3d687b883e0317ddf457d47cf6ea"
+      },
+      "id": "reject-did-document-not-identity",
+      "path": "cases/reject-did-document-not-identity"
+    },
+    {
+      "edit": "the kid fragment names no verification method",
+      "expected": {
+        "decision": "reject",
+        "reason": "kid_not_in_did_document"
+      },
+      "files": {
+        "artifact.json": "5346c3b356f1b2db025b97d464d73a62442ca39ad1480549e23daff147f35ef1",
+        "catalog.json": "e2cd8e0e9dc5e0f2d627c6843d8f3a4898444c5fc8f5fe5e1be5b151558e183a",
+        "context.json": "06cb286f62c546c49571afedf5d9d0246cf61df15b74e60c79b973d0096b4920",
+        "did-documents.json": "8b49c5d7a3dad753d337a8879ad50ea41947883460bf47e3bf3353f41a28c3fe"
+      },
+      "id": "reject-kid-not-in-did-document",
+      "path": "cases/reject-kid-not-in-did-document"
+    },
+    {
+      "edit": "the key is listed under verificationMethod but not under assertionMethod",
+      "expected": {
+        "decision": "reject",
+        "reason": "key_not_assertion_method"
+      },
+      "files": {
+        "artifact.json": "5346c3b356f1b2db025b97d464d73a62442ca39ad1480549e23daff147f35ef1",
+        "catalog.json": "fe7aaee6d11350c4c54fef665c8ea41bee65f5c56066ff7210b2082cb848262b",
+        "context.json": "1c46a20b6b1fa27b14ff5896143f4d22d9f8085bb7998ac90145133a8b88c1c7",
+        "did-documents.json": "2555bf94127afba6c6a257f4a490b175cef5e5734e6e8b50b7a554891a8b4b23"
+      },
+      "id": "reject-key-not-assertion-method",
+      "path": "cases/reject-key-not-assertion-method"
+    },
+    {
+      "edit": "an ES256 header over a signature from the Ed25519 key",
+      "expected": {
+        "decision": "reject",
+        "reason": "alg_key_mismatch"
+      },
+      "files": {
+        "artifact.json": "5346c3b356f1b2db025b97d464d73a62442ca39ad1480549e23daff147f35ef1",
+        "catalog.json": "3f12fa134cf5c8783cd34dbb3b5f4ba4d3b2ec192078c2345dec8ef78b55d1d6",
+        "context.json": "06cb286f62c546c49571afedf5d9d0246cf61df15b74e60c79b973d0096b4920",
+        "did-documents.json": "8b49c5d7a3dad753d337a8879ad50ea41947883460bf47e3bf3353f41a28c3fe"
+      },
+      "id": "reject-alg-key-mismatch",
+      "path": "cases/reject-alg-key-mismatch"
+    },
+    {
+      "edit": "the record carries 9007199254740993; the signature covers 9007199254740991",
+      "expected": {
+        "decision": "reject",
+        "reason": "number_not_interoperable"
+      },
+      "files": {
+        "artifact.json": "5346c3b356f1b2db025b97d464d73a62442ca39ad1480549e23daff147f35ef1",
+        "catalog.json": "1deea784299cce0ae096db9d49666c361a887eb877d0959aeb641238e52a4909",
+        "context.json": "06cb286f62c546c49571afedf5d9d0246cf61df15b74e60c79b973d0096b4920",
+        "did-documents.json": "8b49c5d7a3dad753d337a8879ad50ea41947883460bf47e3bf3353f41a28c3fe"
+      },
+      "id": "reject-number-not-interoperable",
+      "path": "cases/reject-number-not-interoperable"
+    },
+    {
+      "edit": "a member value that is a lone surrogate has no UTF-8 form",
+      "expected": {
+        "decision": "reject",
+        "reason": "no_canonical_form"
+      },
+      "files": {
+        "artifact.json": "5346c3b356f1b2db025b97d464d73a62442ca39ad1480549e23daff147f35ef1",
+        "catalog.json": "00b66f1b41b101593b679aca75911f30fd74a99c527877f72ef4454ba080cbfc",
+        "context.json": "06cb286f62c546c49571afedf5d9d0246cf61df15b74e60c79b973d0096b4920",
+        "did-documents.json": "8b49c5d7a3dad753d337a8879ad50ea41947883460bf47e3bf3353f41a28c3fe"
+      },
+      "id": "reject-lone-surrogate",
+      "path": "cases/reject-lone-surrogate"
+    },
+    {
+      "edit": "issuedAt changed after signing",
+      "expected": {
+        "decision": "reject",
+        "reason": "signature_invalid"
+      },
+      "files": {
+        "artifact.json": "5346c3b356f1b2db025b97d464d73a62442ca39ad1480549e23daff147f35ef1",
+        "catalog.json": "06f5e161296286e75637800433ea8130a604c5d10376e6936b5b0bbd9fca9689",
+        "context.json": "06cb286f62c546c49571afedf5d9d0246cf61df15b74e60c79b973d0096b4920",
+        "did-documents.json": "8b49c5d7a3dad753d337a8879ad50ea41947883460bf47e3bf3353f41a28c3fe"
+      },
+      "id": "reject-signature-invalid",
+      "path": "cases/reject-signature-invalid"
+    },
+    {
+      "edit": "the manifest names one contributor and is signed by another",
+      "expected": {
+        "decision": "reject",
+        "reason": "signer_not_contributor"
+      },
+      "files": {
+        "artifact.json": "5346c3b356f1b2db025b97d464d73a62442ca39ad1480549e23daff147f35ef1",
+        "catalog.json": "7e4f1c64b2d3814d64a9938a28df5d1ae4f321e262c9f7b0d2ab1c570ff8c1df",
+        "context.json": "1c46a20b6b1fa27b14ff5896143f4d22d9f8085bb7998ac90145133a8b88c1c7",
+        "did-documents.json": "8b49c5d7a3dad753d337a8879ad50ea41947883460bf47e3bf3353f41a28c3fe"
+      },
+      "id": "reject-aic-signer-not-contributor",
+      "path": "cases/reject-aic-signer-not-contributor"
+    },
+    {
+      "edit": "a signed trust manifest with no subject",
+      "expected": {
+        "decision": "reject",
+        "reason": "subject_missing"
+      },
+      "files": {
+        "artifact.json": "5346c3b356f1b2db025b97d464d73a62442ca39ad1480549e23daff147f35ef1",
+        "catalog.json": "6edfe16a4d5c35c5331622cd17c8285efb3066429dbe828e62ce3587b4e1f389",
+        "context.json": "06cb286f62c546c49571afedf5d9d0246cf61df15b74e60c79b973d0096b4920",
+        "did-documents.json": "8b49c5d7a3dad753d337a8879ad50ea41947883460bf47e3bf3353f41a28c3fe"
+      },
+      "id": "reject-subject-missing",
+      "path": "cases/reject-subject-missing"
+    },
+    {
+      "edit": "the entry has a version and the subject does not",
+      "expected": {
+        "decision": "reject",
+        "reason": "subject_entry_mismatch"
+      },
+      "files": {
+        "artifact.json": "5346c3b356f1b2db025b97d464d73a62442ca39ad1480549e23daff147f35ef1",
+        "catalog.json": "23da19fd755bd705b81eafd60476c5c9af0d6463f2db8a36162811ae6123e1db",
+        "context.json": "1c46a20b6b1fa27b14ff5896143f4d22d9f8085bb7998ac90145133a8b88c1c7",
+        "did-documents.json": "8b49c5d7a3dad753d337a8879ad50ea41947883460bf47e3bf3353f41a28c3fe"
+      },
+      "id": "reject-subject-version-absent",
+      "path": "cases/reject-subject-version-absent"
+    },
+    {
+      "edit": "a valid manifest moved to an entry with the same identifier and another digest",
+      "expected": {
+        "decision": "reject",
+        "reason": "subject_entry_mismatch"
+      },
+      "files": {
+        "artifact.json": "5346c3b356f1b2db025b97d464d73a62442ca39ad1480549e23daff147f35ef1",
+        "catalog.json": "cfd358970cfc88079c428dcf1e2f6c5acd1172fbc00f286cb0d2d8ea8681ecc3",
+        "context.json": "d547e8a3f28877d3f60e903b6041e6a396716e3c98b96b83a03dccba02730e82",
+        "did-documents.json": "8b49c5d7a3dad753d337a8879ad50ea41947883460bf47e3bf3353f41a28c3fe"
+      },
+      "id": "reject-manifest-moved-to-other-release",
+      "path": "cases/reject-manifest-moved-to-other-release"
+    },
+    {
+      "edit": "an entry referenced by url with no digest, and a subject with no digest",
+      "expected": {
+        "decision": "reject",
+        "reason": "entry_digest_missing_for_url"
+      },
+      "files": {
+        "artifact.json": "5346c3b356f1b2db025b97d464d73a62442ca39ad1480549e23daff147f35ef1",
+        "catalog.json": "704c694cc5e4b9b0354a2bf1182a49b76f6c46bd4f0154ff889109e08b43ee79",
+        "context.json": "06cb286f62c546c49571afedf5d9d0246cf61df15b74e60c79b973d0096b4920",
+        "did-documents.json": "8b49c5d7a3dad753d337a8879ad50ea41947883460bf47e3bf3353f41a28c3fe"
+      },
+      "id": "reject-entry-digest-missing-for-url",
+      "path": "cases/reject-entry-digest-missing-for-url"
+    },
+    {
+      "edit": "the artifact bytes differ from entry.digest",
+      "expected": {
+        "decision": "reject",
+        "reason": "artifact_digest_mismatch"
+      },
+      "files": {
+        "artifact.json": "c7317b80be4237d101087dc00a7cdda4fc26456cfe79e6e84ab8863a327787e0",
+        "catalog.json": "fe7aaee6d11350c4c54fef665c8ea41bee65f5c56066ff7210b2082cb848262b",
+        "context.json": "1c46a20b6b1fa27b14ff5896143f4d22d9f8085bb7998ac90145133a8b88c1c7",
+        "did-documents.json": "8b49c5d7a3dad753d337a8879ad50ea41947883460bf47e3bf3353f41a28c3fe"
+      },
+      "id": "reject-artifact-digest-mismatch",
+      "path": "cases/reject-artifact-digest-mismatch"
+    },
+    {
+      "edit": "url on another origin, and the artifact there does not declare the entry identifier (draft 6.2)",
+      "expected": {
+        "decision": "reject",
+        "reason": "url_origin_unbound"
+      },
+      "files": {
+        "artifact.json": "5346c3b356f1b2db025b97d464d73a62442ca39ad1480549e23daff147f35ef1",
+        "catalog.json": "324ea60f34e92ee0cf2842c84e5704a956e140605675db8eabfbe4539008fe10",
+        "context.json": "06cb286f62c546c49571afedf5d9d0246cf61df15b74e60c79b973d0096b4920",
+        "did-documents.json": "8b49c5d7a3dad753d337a8879ad50ea41947883460bf47e3bf3353f41a28c3fe"
+      },
+      "id": "reject-url-origin-unbound",
+      "path": "cases/reject-url-origin-unbound"
+    },
+    {
+      "edit": "the vendored attestation differs from its signed digest",
+      "expected": {
+        "decision": "reject",
+        "reason": "attestation_digest_mismatch"
+      },
+      "files": {
+        "artifact.json": "5346c3b356f1b2db025b97d464d73a62442ca39ad1480549e23daff147f35ef1",
+        "attestation-0.dsse.json": "10448575c90aa340c3e5ff2a79fcf22e9b936825f6898714a9a333f099ed2687",
+        "catalog.json": "a3d6de10bd87e5d812bd88a05d77d10579d75545698fbb367b4ea11239f71954",
+        "context.json": "9a12352d99580fa7aef85f1f9a5a58029692f2b013b905be2989e473cc7f60d5",
+        "did-documents.json": "8b49c5d7a3dad753d337a8879ad50ea41947883460bf47e3bf3353f41a28c3fe"
+      },
+      "id": "reject-attestation-digest-mismatch",
+      "path": "cases/reject-attestation-digest-mismatch"
+    },
+    {
+      "edit": "an unsigned scan result: neither a signature over the artifact nor a signed subject (draft 3.5.2 item 1)",
+      "expected": {
+        "decision": "reject",
+        "reason": "attestation_unsigned"
+      },
+      "files": {
+        "artifact.json": "5346c3b356f1b2db025b97d464d73a62442ca39ad1480549e23daff147f35ef1",
+        "attestation-0.sarif.json": "2f218390ae01a24d2af95f9b3801f069a2a16ddc8cab08cfe37daef28b8b1942",
+        "catalog.json": "c153f6b7884be0b8f0ceb984c91758b61f5655e42f71b81b80e639bb626c2e67",
+        "context.json": "b102ea048c14d3ef8d8e207275a926b71dc7f079df0739da8b5196710bc1dc14",
+        "did-documents.json": "8b49c5d7a3dad753d337a8879ad50ea41947883460bf47e3bf3353f41a28c3fe"
+      },
+      "id": "reject-attestation-unsigned",
+      "path": "cases/reject-attestation-unsigned"
+    },
+    {
+      "edit": "a signed statement whose subject is another artifact",
+      "expected": {
+        "decision": "reject",
+        "reason": "attestation_transplanted"
+      },
+      "files": {
+        "artifact.json": "5346c3b356f1b2db025b97d464d73a62442ca39ad1480549e23daff147f35ef1",
+        "attestation-0.dsse.json": "691b1211f270ac24a19aaab7a1149a364482f40477d5f3b3625949a635b4fb07",
+        "catalog.json": "a64c82e4bcdcf9605e3b7266c5a3330ad7e9e57a53e1ca279fdc661e416cbb83",
+        "context.json": "9a12352d99580fa7aef85f1f9a5a58029692f2b013b905be2989e473cc7f60d5",
+        "did-documents.json": "8b49c5d7a3dad753d337a8879ad50ea41947883460bf47e3bf3353f41a28c3fe"
+      },
+      "id": "reject-attestation-transplanted",
+      "path": "cases/reject-attestation-transplanted"
+    },
+    {
+      "edit": "a www. subdomain signer under the AI Catalog exact-match publisher rule",
+      "expected": {
+        "decision": "reject",
+        "reason": "publisher_not_signer"
+      },
+      "files": {
+        "artifact.json": "5346c3b356f1b2db025b97d464d73a62442ca39ad1480549e23daff147f35ef1",
+        "catalog.json": "304dd6ca012dacc6bef90daf697cff712b6e3d262fe7ef35933f3b8f2f562fe4",
+        "context.json": "1c46a20b6b1fa27b14ff5896143f4d22d9f8085bb7998ac90145133a8b88c1c7",
+        "did-documents.json": "8b49c5d7a3dad753d337a8879ad50ea41947883460bf47e3bf3353f41a28c3fe"
+      },
+      "id": "reject-aic-www-signer",
+      "path": "cases/reject-aic-www-signer"
+    },
+    {
+      "edit": "a www. subdomain signer under the draft rule, with no authorization record offline",
+      "expected": {
+        "decision": "reject",
+        "reason": "publisher_authorization_absent"
+      },
+      "files": {
+        "artifact.json": "5346c3b356f1b2db025b97d464d73a62442ca39ad1480549e23daff147f35ef1",
+        "catalog.json": "ad3b3e638ff6dcf1b6f7a42dbc9a872ef593203e000f6519685f65b592621a35",
+        "context.json": "06cb286f62c546c49571afedf5d9d0246cf61df15b74e60c79b973d0096b4920",
+        "did-documents.json": "8b49c5d7a3dad753d337a8879ad50ea41947883460bf47e3bf3353f41a28c3fe"
+      },
+      "id": "reject-draft-www-signer",
+      "path": "cases/reject-draft-www-signer"
+    },
+    {
+      "edit": "a valid assessor manifest judged in the publisher role",
+      "expected": {
+        "decision": "reject",
+        "reason": "publisher_not_signer"
+      },
+      "files": {
+        "artifact.json": "5346c3b356f1b2db025b97d464d73a62442ca39ad1480549e23daff147f35ef1",
+        "catalog.json": "7f013a155bf4ccd3859be19e29a2ab4a555d9e11e3a62da729476788521106b3",
+        "context.json": "9734762ac87edc2ce7bf63b7793051e31ef2f12f3651494fc60259518ab2954f",
+        "did-documents.json": "8b49c5d7a3dad753d337a8879ad50ea41947883460bf47e3bf3353f41a28c3fe"
+      },
+      "id": "reject-assessor-presented-as-publisher",
+      "path": "cases/reject-assessor-presented-as-publisher"
+    },
+    {
+      "edit": "checked before issuedAt",
+      "expected": {
+        "decision": "reject",
+        "reason": "issued_in_future"
+      },
+      "files": {
+        "artifact.json": "5346c3b356f1b2db025b97d464d73a62442ca39ad1480549e23daff147f35ef1",
+        "catalog.json": "fe7aaee6d11350c4c54fef665c8ea41bee65f5c56066ff7210b2082cb848262b",
+        "context.json": "6e0c06681a91aabf0180c709090c31c08ee4c3da9d85af35b81294fc96072ef4",
+        "did-documents.json": "8b49c5d7a3dad753d337a8879ad50ea41947883460bf47e3bf3353f41a28c3fe"
+      },
+      "id": "reject-issued-in-future",
+      "path": "cases/reject-issued-in-future"
+    },
+    {
+      "edit": "checked at expiresAt",
+      "expected": {
+        "decision": "reject",
+        "reason": "manifest_expired"
+      },
+      "files": {
+        "artifact.json": "5346c3b356f1b2db025b97d464d73a62442ca39ad1480549e23daff147f35ef1",
+        "catalog.json": "2133928a4dde8ea9c151197b8603a6f3f30f6e0394b4369ca5121c755571b100",
+        "context.json": "a122d2482c20af797c011f649c1c45b61a4eb28b7d85897faabf86eb21ec662e",
+        "did-documents.json": "8b49c5d7a3dad753d337a8879ad50ea41947883460bf47e3bf3353f41a28c3fe"
+      },
+      "id": "reject-manifest-expired",
+      "path": "cases/reject-manifest-expired"
+    }
+  ]
+}

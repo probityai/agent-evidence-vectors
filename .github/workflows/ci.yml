@@ -1833,6 +1833,8 @@ jobs:
         run: uv run --extra dev pytest corpora/vectors-delegator-right/tests -q
       - name: badge-vc-verify cases regenerate and force every check
         run: uv run --extra dev pytest corpora/vectors-badge-vc-verify/tests -q
+      - name: catalog-trust-manifest cases regenerate, re-mint from a second generator and force every check
+        run: uv run --extra dev --extra generators pytest corpora/vectors-catalog-trust-manifest/tests -q
       - name: completion-confirmation cases regenerate and force every check
         run: uv run --extra dev pytest corpora/vectors-completion-confirmation/tests -q
       - name: chunked-export cases regenerate and force every check

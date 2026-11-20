@@ -148,3 +148,15 @@ condition = "AND"
 paths = ['''^(corpora/)?vectors-badge-vc-verify/cases/[^/]+/case\.json$''']
 regexTarget = "match"
 regexes = ['''eyJ[A-Za-z0-9_-]+\.[A-Za-z0-9_-]+\.[A-Za-z0-9_-]*''']
+
+[[allowlists]]
+# vectors-catalog-trust-manifest carries one detached JWS stored WITH its payload
+# segment (case reject-jws-attached-payload), so it has the three-segment shape of
+# a JWT. It is signed by a test key whose scalar is the SHA-256 of a public label in
+# gen_vectors.py. AND: only the trust manifest signature member of that one case.
+description = "the attached-payload JWS fixture of vectors-catalog-trust-manifest (public test key)"
+targetRules = ["jwt"]
+condition = "AND"
+paths = ['''^corpora/vectors-catalog-trust-manifest/cases/reject-jws-attached-payload/catalog\.json$''']
+regexTarget = "match"
+regexes = ['''eyJ[A-Za-z0-9_-]+\.[A-Za-z0-9_-]+\.[A-Za-z0-9_-]*''']
