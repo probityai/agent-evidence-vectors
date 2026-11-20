@@ -23,6 +23,13 @@ identifier of the verifier that checked sits inside the bytes the consumer's own
 pipeline uploads. It does not change the candidate's `result` output: the
 candidate verdict and the reference count are two facts, and each is reported.
 
+The stage also runs under `python -S` with nothing installed. Without the
+reference verifier importable it routes no member and says so: N is 0, M is
+still every member, and `reference.verifier.id` reads `unavailable`. That is
+the path the conformance mode takes (its cases are the consumer's own, with no
+route of ours into them), and the path any run takes when the reference
+install did not happen; it is never a quiet pass.
+
 Variables, all required but the last two:
 
     REPORT                the report JSON the replay wrote
@@ -106,12 +113,27 @@ def aee_decide(entry: dict[str, Any], root: Path, keys: list[str]) -> dict[str, 
     from agent_evidence_verify import adjudicate  # pyright: ignore[reportMissingImports]
 
     data = (root / entry["file"]).read_bytes()
-    case = {"schema_version": "probity-case/v1", "case_id": entry["id"],
-            "artifacts": {"statement": {"path": entry["file"], "length": len(data),
-                                        "sha256": hashlib.sha256(data).hexdigest()}}}
-    policy = {"schema_version": "probity-policy/v1",
-              "assessments": {entry["id"]: {"claim_type": AEE_CLAIM, "statement": "statement",
-                                            "substrate_observation_keys": keys}}}
+    case = {
+        "schema_version": "probity-case/v1",
+        "case_id": entry["id"],
+        "artifacts": {
+            "statement": {
+                "path": entry["file"],
+                "length": len(data),
+                "sha256": hashlib.sha256(data).hexdigest(),
+            }
+        },
+    }
+    policy = {
+        "schema_version": "probity-policy/v1",
+        "assessments": {
+            entry["id"]: {
+                "claim_type": AEE_CLAIM,
+                "statement": "statement",
+                "substrate_observation_keys": keys,
+            }
+        },
+    }
     return dict(adjudicate(case, policy, root)["checks"][0])
 
 
@@ -147,8 +169,10 @@ def aee_family_notes(
     notes = []
     for family, members in families.items():
         readings = members[0]["expected"].get("readings", {})
-        if not any(all(m["expected"]["readings"].get(r) == primary[m["id"]] for m in members)
-                   for r in readings):
+        if not any(
+            all(m["expected"]["readings"].get(r) == primary[m["id"]] for m in members)
+            for r in readings
+        ):
             notes.append(f"family {family}: no declared reading explains every member")
             agreed -= {m["id"] for m in members}
     return notes
@@ -180,9 +204,7 @@ def aee_tally(entries: list[dict[str, Any]], root: Path) -> tuple[int, int, list
     return len(agreed), len(entries), notes
 
 
-def tally(
-    entries: list[dict[str, Any]], root: Path, crosscheck: Any
-) -> tuple[int, int, list[str]]:
+def tally(entries: list[dict[str, Any]], root: Path, crosscheck: Any) -> tuple[int, int, list[str]]:
     """N, M and the disagreements, over every member of a done-corpus manifest."""
     checked, notes = 0, []
     for entry in entries:
@@ -209,6 +231,33 @@ def full_release(checked: int, total: int) -> bool:
     return total > 0 and checked == total
 
 
+UNAVAILABLE_ID = "unavailable"
+
+
+def reference_missing() -> str | None:
+    """Why the reference verifier cannot be imported here, or None when it can."""
+    try:
+        import agent_evidence_verify  # noqa: F401  # pyright: ignore[reportMissingImports]
+    except ImportError as exc:
+        return (
+            f"the reference verifier is not importable in this interpreter ({exc}), "
+            "so no member was routed"
+        )
+    return None
+
+
+def member_count(corpus_dir: Path, report_path: Path) -> int:
+    """M without the reference verifier: the manifest's members, else the report's vectors."""
+    manifest = corpus_dir / "MANIFEST.json"
+    if manifest.is_file():
+        entries = json.loads(manifest.read_text(encoding="utf-8")).get("vectors", [])
+        if isinstance(entries, list) and entries:
+            return len(entries)
+    if report_path.is_file():
+        return int(json.loads(report_path.read_text(encoding="utf-8"))["totals"]["vectors"])
+    return 0
+
+
 def reference_id() -> str:
     from agent_evidence_verify.core import (  # pyright: ignore[reportMissingImports]
         REFERENCE_VERIFIER_ID,
@@ -217,30 +266,35 @@ def reference_id() -> str:
     return str(REFERENCE_VERIFIER_ID)
 
 
-def main() -> int:
-    report_path = Path(required("REPORT"))
-    corpus_dir = Path(required("CORPUS_DIR"))
-    summary_path = required("GITHUB_STEP_SUMMARY")
-    output_path = required("GITHUB_OUTPUT")
-    verifier_id = reference_id()
-
-    notes: list[str] = []
+def routed_counts(corpus_dir: Path, report_path: Path) -> tuple[int, int, list[str]]:
+    """N, M and the disagreements, through whichever route the corpus has."""
     manifest = corpus_dir / "MANIFEST.json"
     if manifest.is_file():
         document = json.loads(manifest.read_text(encoding="utf-8"))
         entries = document.get("vectors", [])
         if document.get("predicateType") == AEE_PREDICATE:
-            checked, total, notes = aee_tally(entries, corpus_dir)
-        else:
-            checked, total, notes = tally(entries, corpus_dir, load_crosscheck())
+            return aee_tally(entries, corpus_dir)
+        return tally(entries, corpus_dir, load_crosscheck())
+    # No manifest to walk: the corpus is judged by a reader this stage has no
+    # route into. The member count still comes from the report, and N is zero.
+    total = 0
+    if report_path.is_file():
+        total = json.loads(report_path.read_text(encoding="utf-8"))["totals"]["vectors"]
+    return 0, total, [f"{corpus_dir} holds no MANIFEST.json, so no member was routed."]
+
+
+def main() -> int:
+    report_path = Path(required("REPORT"))
+    corpus_dir = Path(required("CORPUS_DIR"))
+    summary_path = required("GITHUB_STEP_SUMMARY")
+    output_path = required("GITHUB_OUTPUT")
+    missing = reference_missing()
+    verifier_id = UNAVAILABLE_ID if missing else reference_id()
+
+    if missing:
+        checked, total, notes = 0, member_count(corpus_dir, report_path), [missing]
     else:
-        # No manifest to walk: the corpus is judged by a reader this stage has no
-        # route into. The member count still comes from the report, and N is zero.
-        checked = 0
-        total = 0
-        if report_path.is_file():
-            total = json.loads(report_path.read_text(encoding="utf-8"))["totals"]["vectors"]
-        notes.append(f"{corpus_dir} holds no MANIFEST.json, so no member was routed.")
+        checked, total, notes = routed_counts(corpus_dir, report_path)
 
     full = full_release(checked, total)
     text = line(checked, total)

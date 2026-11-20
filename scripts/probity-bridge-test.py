@@ -21,6 +21,7 @@ from __future__ import annotations
 import importlib.util
 import json
 import os
+import shutil
 import subprocess
 import sys
 import tempfile
@@ -55,8 +56,14 @@ BADGE_HTML = (
 REPORT = {
     "rail": "external",
     "railNote": "synthetic",
-    "totals": {"vectors": 3, "pass": 3, "fail": 0, "conform": 3,
-               "reasonParityMismatch": 0, "suiteRefusals": 0},
+    "totals": {
+        "vectors": 3,
+        "pass": 3,
+        "fail": 0,
+        "conform": 3,
+        "reasonParityMismatch": 0,
+        "suiteRefusals": 0,
+    },
     "vectors": [],
     "verifier": {"command": "x", "vectorsExecuted": 3},
 }
@@ -71,8 +78,14 @@ def run_summary(script: Path, status: str, work: Path, with_report: bool = True)
     summary.write_text("", encoding="utf-8")
     outputs = work / "outputs.txt"
     outputs.write_text("", encoding="utf-8")
-    env = dict(os.environ, REPORT=str(report), STATUS=status, CORPUS="vectors",
-               GITHUB_STEP_SUMMARY=str(summary), GITHUB_OUTPUT=str(outputs))
+    env = dict(
+        os.environ,
+        REPORT=str(report),
+        STATUS=status,
+        CORPUS="vectors",
+        GITHUB_STEP_SUMMARY=str(summary),
+        GITHUB_OUTPUT=str(outputs),
+    )
     subprocess.run([sys.executable, str(script)], env=env, check=True, capture_output=True)
     return summary.read_text(encoding="utf-8")
 
@@ -112,11 +125,13 @@ def readme_errors() -> list[str]:
 
 def mutation_errors(work: Path) -> list[str]:
     source = SUMMARY.read_text(encoding="utf-8")
-    anchor = 'summary.append(f"{BRIDGE if result == \'pass\' else OFFLINE}\\n\\n")'
+    anchor = "summary.append(f\"{BRIDGE if result == 'pass' else OFFLINE}\\n\\n\")"
     if source.count(anchor) != 1:
         return ["mutation: the bridge append is not present exactly once; it would prove nothing"]
     mutant = work / "action-summary-mutant.py"
     mutant.write_text(source.replace(anchor, "pass"), encoding="utf-8")
+    # The summary imports its sibling action_checks.py from its own directory.
+    shutil.copy(HERE / "action_checks.py", work / "action_checks.py")
     if not summary_errors(mutant, work):
         return ["mutation: the summary check stayed GREEN with the bridge line removed"]
     return []
@@ -134,8 +149,10 @@ def main() -> int:
         for err in errors:
             print(f"  - {err}", file=sys.stderr)
         return 1
-    print("OK: the Action summary and every spec README carry the Probity bridge line, "
-          "and removing it from the summary turns this test red.")
+    print(
+        "OK: the Action summary and every spec README carry the Probity bridge line, "
+        "and removing it from the summary turns this test red."
+    )
     return 0
 
 

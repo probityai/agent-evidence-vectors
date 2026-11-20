@@ -364,11 +364,50 @@ def own_action(inputs: dict[str, Any]) -> Local:
     verifier = str(inputs.get("verifier", "")).strip()
     if not verifier:
         return Local(None, "the action was used without a verifier input")
+    if str(inputs.get("mutate", "") or "none") != "none":
+        return Local(None, "the mutation stage runs in the action's pinned reference-verifier venv")
+    flags = (
+        f"PROFILE={shlex.quote(str(inputs.get('profile', '') or ''))} "
+        f"FAIL_ON_NO_VECTORS={shlex.quote(str(inputs.get('fail-on-no-vectors', '') or 'true'))} "
+        f"FAIL_ON_MISSING_CASE={shlex.quote(str(inputs.get('fail-on-missing-case', '') or 'true'))}"
+    )
+    expected = str(inputs.get("expected-verdicts", "") or "")
+    if expected:
+        # Conformance mode installs nothing and runs one standard-library script.
+        report = str(inputs.get("report-path", "") or "agent-evidence-vectors-report.json")
+        argv = [
+            "--expected", expected,
+            "--cases", str(inputs.get("cases", "") or "."),
+            "--verifier", verifier,
+            "--fail-on-no-vectors", str(inputs.get("fail-on-no-vectors", "") or "true"),
+            "--fail-on-missing-case", str(inputs.get("fail-on-missing-case", "") or "true"),
+        ]  # fmt: skip
+        return Local(
+            ': "${RUNNER_TEMP:?RUNNER_TEMP is required}"\n'
+            f"python3 -S scripts/action-conformance.py {shlex.join(argv)}"
+            f' --report "$RUNNER_TEMP"/{shlex.quote(pathlib.Path(report).name)} --github\n',
+            "",
+        )
     corpus = str(inputs.get("corpus", "") or "vectors")
     vectors = str(inputs.get("vectors", "") or "")
     source = f"--vectors {shlex.quote(vectors)}" if vectors else f"--corpus {shlex.quote(corpus)}"
     report = str(inputs.get("report-path", "") or "agent-evidence-vectors-report.json")
     report_name = pathlib.Path(report).name
+    # The directory the summary counts cases in, resolved the way the action's
+    # replay step resolves it.
+    # Read from corpora/REGISTRY.toml rather than by importing the harness: a
+    # workflow under test may stand a stub in for packaging/run_vectors.py.
+    resolve = (
+        "import pathlib, sys, tomllib; r = pathlib.Path('corpora/REGISTRY.toml'); "
+        "rows = tomllib.loads(r.read_text()).get('corpus', []) if r.is_file() else []; "
+        "print({x['id']: x['path'] for x in rows}.get(sys.argv[1], 'corpora/' + sys.argv[1]))"
+    )
+    corpus_args = shlex.quote(json.dumps(source.split(" ", 1)[:1] + [vectors or corpus]))
+    corpus_dir = (
+        shlex.quote(vectors)
+        if vectors
+        else f'"$(python3 -c {shlex.quote(resolve)} {shlex.quote(corpus)})"'
+    )
     # The replay's status is captured rather than allowed to abort the block:
     # the action writes its summary and its outputs for a failing run too, and
     # the mirror has to reach the same place. The status is re-raised at the end
@@ -383,12 +422,17 @@ def own_action(inputs: dict[str, Any]) -> Local:
         f" --verifier {shlex.quote(verifier)}"
         ' --report "$report_path" || status=$?\n'
         'echo "report=$report_path" >> "$GITHUB_OUTPUT"\n'
-        f'REPORT="$report_path" STATUS="$status" CORPUS={shlex.quote(vectors or corpus)} \\\n'
+        f"corpus_dir={corpus_dir}\n"
+        # The null controls, through the same harness file the replay used.
+        'controls="$RUNNER_TEMP"/agent-evidence-vectors-controls\n'
+        f'CONTROLS_DIR="$controls" CORPUS_ARGS={corpus_args} '
+        "HARNESS='python3 packaging/run_vectors.py' python3 scripts/action-controls.py\n"
+        f'REPORT="$report_path" STATUS="$status" CORPUS={shlex.quote(vectors or corpus)} '
+        f'CORPUS_DIR="$corpus_dir" CONTROLS_DIR="$controls" {flags} \\\n'
         "  python3 scripts/action-summary.py\n"
-        # The action's last step fails the job on the exit status OR on a
-        # summary verdict other than pass, so the mirror does both.
-        'if [ "$status" != 0 ]; then exit "$status"; fi\n'
-        'grep -qx "result=pass" "$GITHUB_OUTPUT" || exit 1\n',
+        # The action's last step fails the job on a summary verdict other than
+        # pass or no-verdict; the summary already reads the exit status.
+        'grep -qx -e "result=pass" -e "result=no-verdict" "$GITHUB_OUTPUT" || exit 1\n',
         "",
     )
 
