@@ -14,26 +14,50 @@ from cryptography.hazmat.primitives.asymmetric.ed25519 import Ed25519PrivateKey
 from cryptography.hazmat.primitives.serialization import Encoding, PublicFormat
 
 NEUTRAL = {
-    "schema_version": "cbor-receipt-profile/v1", "profile_id": "neutral-cbor-receipt/1",
-    "line_member": None, "signature_context_hex": b"receipt-chain-neutral-v1".hex(),
+    "schema_version": "cbor-receipt-profile/v1",
+    "profile_id": "neutral-cbor-receipt/1",
+    "line_member": None,
+    "signature_context_hex": b"receipt-chain-neutral-v1".hex(),
     "outer": {"version": "v", "payload": "p", "signer_key": "k", "signature": "s"},
-    "key_form": "raw", "allow_outcome": "allow",
-    "fields": {"version": 0, "prev_hash": 1, "outcome": 2, "request_hash": 3, "proof": 4,
-               "revocation_hash": 5},
+    "key_form": "raw",
+    "allow_outcome": "allow",
+    "fields": {
+        "version": 0,
+        "prev_hash": 1,
+        "outcome": 2,
+        "request_hash": 3,
+        "proof": 4,
+        "revocation_hash": 5,
+    },
 }
 WRAPPED = {
-    "schema_version": "cbor-receipt-profile/v1", "profile_id": "neutral-wrapped-receipt/1",
-    "line_member": "receipt", "signature_context_hex": "00ff7a",
-    "outer": {"version": "receipt_version", "payload": "payload", "signer_key": "signer_key",
-              "signature": "signature"},
-    "key_form": "pair", "allow_outcome": "permit",
-    "fields": {"version": 7, "prev_hash": 11, "outcome": 3, "request_hash": 4, "proof": 5,
-               "effect": 9},
+    "schema_version": "cbor-receipt-profile/v1",
+    "profile_id": "neutral-wrapped-receipt/1",
+    "line_member": "receipt",
+    "signature_context_hex": "00ff7a",
+    "outer": {
+        "version": "receipt_version",
+        "payload": "payload",
+        "signer_key": "signer_key",
+        "signature": "signature",
+    },
+    "key_form": "pair",
+    "allow_outcome": "permit",
+    "fields": {
+        "version": 7,
+        "prev_hash": 11,
+        "outcome": 3,
+        "request_hash": 4,
+        "proof": 5,
+        "effect": 9,
+    },
 }
 
 
 def seed_key(label: str) -> Ed25519PrivateKey:
-    return Ed25519PrivateKey.from_private_bytes(hashlib.sha256(b"test-key|" + label.encode()).digest())
+    return Ed25519PrivateKey.from_private_bytes(
+        hashlib.sha256(b"test-key|" + label.encode()).digest()
+    )
 
 
 def public_hex(key: Ed25519PrivateKey) -> str:
@@ -66,9 +90,17 @@ def encode(value: Any) -> bytes:
     return _head(5, len(value)) + b"".join(encode(k) + encode(v) for k, v in value.items())
 
 
-def receipt(profile: dict, key: Ed25519PrivateKey, prev: bytes | None, *, outcome: str | None = None,
-            request: str = "r0", proof: bytes | None = None, extra: dict | None = None,
-            version: int = 1) -> bytes:
+def receipt(
+    profile: dict,
+    key: Ed25519PrivateKey,
+    prev: bytes | None,
+    *,
+    outcome: str | None = None,
+    request: str = "r0",
+    proof: bytes | None = None,
+    extra: dict | None = None,
+    version: int = 1,
+) -> bytes:
     """One signed receipt as raw bytes."""
     f = profile["fields"]
     body: dict[int, Any] = {f["version"]: version, f["prev_hash"]: prev}
@@ -78,22 +110,33 @@ def receipt(profile: dict, key: Ed25519PrivateKey, prev: bytes | None, *, outcom
     if "request_hash" in f:
         body[f["request_hash"]] = hashlib.sha256(request.encode()).digest()
     if "proof" in f:
-        body[f["proof"]] = proof if proof is not None else hashlib.sha256(b"proof|" + request.encode()).digest()
+        body[f["proof"]] = (
+            proof if proof is not None else hashlib.sha256(b"proof|" + request.encode()).digest()
+        )
     if "revocation_hash" in f:
         body[f["revocation_hash"]] = hashlib.sha256(b"srl").digest()
     for role, value in (extra or {}).items():
         body[f[role]] = value
     payload = encode(body)
-    signature = key.sign(bytes.fromhex(profile["signature_context_hex"]) + bytes([version]) + payload)
+    signature = key.sign(
+        bytes.fromhex(profile["signature_context_hex"]) + bytes([version]) + payload
+    )
     pub = key.public_key().public_bytes(Encoding.Raw, PublicFormat.Raw)
     wrap = (lambda b: [1, b]) if profile["key_form"] == "pair" else (lambda b: b)
     names = profile["outer"]
-    return encode({names["version"]: version, names["payload"]: payload,
-                   names["signer_key"]: wrap(pub), names["signature"]: wrap(signature)})
+    return encode(
+        {
+            names["version"]: version,
+            names["payload"]: payload,
+            names["signer_key"]: wrap(pub),
+            names["signature"]: wrap(signature),
+        }
+    )
 
 
-def chain(profile: dict, key: Ed25519PrivateKey, count: int, first_prev: bytes | None = None,
-          **kw: Any) -> list[bytes]:
+def chain(
+    profile: dict, key: Ed25519PrivateKey, count: int, first_prev: bytes | None = None, **kw: Any
+) -> list[bytes]:
     """``count`` receipts, each linked to the SHA-256 of the one before it."""
     out: list[bytes] = []
     prev = first_prev

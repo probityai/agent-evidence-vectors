@@ -63,11 +63,16 @@ class TestCborReceiptChainCorpus:
             generator.generate(tmp_path)
             committed = {
                 p.relative_to(ROOT): p.read_bytes()
-                for p in [ROOT / "MANIFEST.json", ROOT / "profile.json", *(ROOT / "cases").rglob("*")]
+                for p in [
+                    ROOT / "MANIFEST.json",
+                    ROOT / "profile.json",
+                    *(ROOT / "cases").rglob("*"),
+                ]
                 if p.is_file()
             }
-            regenerated = {p.relative_to(tmp_path): p.read_bytes()
-                           for p in tmp_path.rglob("*") if p.is_file()}
+            regenerated = {
+                p.relative_to(tmp_path): p.read_bytes() for p in tmp_path.rglob("*") if p.is_file()
+            }
             assert regenerated == committed
 
         def test_reference_reader_agrees_with_every_case(self) -> None:
@@ -100,21 +105,35 @@ class TestCborReceiptChainCorpus:
 
         def test_signature_only_verifier_is_refused(self, tmp_path: Path) -> None:
             _, errors = cborreceiptchain.check(_stub(tmp_path, cborreceiptchain.CHECKS[2:]))
-            assert {"embedded-key-unpinned", "duplicate-line", "reissued-authorization",
-                    "receipts-swapped", "cut-tail-anchored"} <= _failed(errors)
+            assert {
+                "embedded-key-unpinned",
+                "duplicate-line",
+                "reissued-authorization",
+                "receipts-swapped",
+                "cut-tail-anchored",
+            } <= _failed(errors)
 
         def test_verifier_that_rejects_everything_fails_the_controls(self, tmp_path: Path) -> None:
             script = tmp_path / "reject.py"
-            script.write_text('import json, sys\nprint(json.dumps({"decision": "contradicted", '
-                              '"reason": "signature"}))\nsys.exit(1)\n', encoding="ascii")
+            script.write_text(
+                'import json, sys\nprint(json.dumps({"decision": "contradicted", '
+                '"reason": "signature"}))\nsys.exit(1)\n',
+                encoding="ascii",
+            )
             _, errors = cborreceiptchain.check(f"{sys.executable} {script}")
-            assert {"control-intact-anchored", "control-first-prev-pinned",
-                    "control-denied-request-repeats"} <= _failed(errors)
+            assert {
+                "control-intact-anchored",
+                "control-first-prev-pinned",
+                "control-denied-request-repeats",
+            } <= _failed(errors)
 
         def test_verifier_that_accepts_everything_fails_every_refusal(self, tmp_path: Path) -> None:
             script = tmp_path / "accept.py"
-            script.write_text('import json, sys\nprint(json.dumps({"decision": "supported", '
-                              '"reason": "receipt_chain_holds"}))\nsys.exit(0)\n', encoding="ascii")
+            script.write_text(
+                'import json, sys\nprint(json.dumps({"decision": "supported", '
+                '"reason": "receipt_chain_holds"}))\nsys.exit(0)\n',
+                encoding="ascii",
+            )
             _, errors = cborreceiptchain.check(f"{sys.executable} {script}")
             assert len(_failed(errors)) == 15
 
@@ -135,7 +154,9 @@ class TestCborReceiptChainCorpus:
             shutil.copytree(ROOT, copied, ignore=shutil.ignore_patterns("tests", "__pycache__"))
             profile = json.loads((copied / "profile.json").read_text())
             profile["allow_outcome"] = "permit"
-            (copied / "profile.json").write_text(json.dumps(profile, sort_keys=True, indent=2) + "\n")
+            (copied / "profile.json").write_text(
+                json.dumps(profile, sort_keys=True, indent=2) + "\n"
+            )
             answered, errors = cborreceiptchain.check(root=copied)
             assert answered == 0
             assert errors == ["profile digest mismatch"]
@@ -150,8 +171,13 @@ class TestCborReceiptChainCorpus:
             (tmp_path / "profile.json").write_text(json.dumps(rb.WRAPPED))
             (tmp_path / "chain.jsonl").write_bytes(rb.stream(rb.WRAPPED, receipts))
             head = cborreceiptchain.hashlib.sha256(receipts[-1]).hexdigest()
-            case = {"chain": "chain.jsonl", "profile": "profile.json",
-                    "signer_keys": [rb.public_hex(key)], "head": head, "count": len(receipts)}
+            case = {
+                "chain": "chain.jsonl",
+                "profile": "profile.json",
+                "signer_keys": [rb.public_hex(key)],
+                "head": head,
+                "count": len(receipts),
+            }
             (tmp_path / "case.json").write_text(json.dumps(case))
             return tmp_path / "case.json"
 

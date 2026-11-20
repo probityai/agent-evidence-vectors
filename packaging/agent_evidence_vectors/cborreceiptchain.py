@@ -1,11 +1,11 @@
 """Judge a stream of signed CBOR receipts as one whole, ordered chain.
 
 A class of authorization systems writes one signed receipt per decision as a CBOR map and links each
-receipt to the one before it by the SHA-256 of its bytes. Every receipt can verify while the stream is
-not the one that was written: a receipt repeated, an authorization recorded twice, two receipts swapped,
-the tail cut, a gap hidden by a restart, a record re-signed under a key the consumer never trusted. The
-format is a pinned profile (``profile.json``) and every trust input comes from the consumer's case,
-never from the stream.
+receipt to the one before it by the SHA-256 of its bytes. Every receipt can verify while the stream
+is not the one that was written: a receipt repeated, an authorization recorded twice, two receipts
+swapped, the tail cut, a gap hidden by a restart, a record re-signed under a key the consumer never
+trusted. The format is a pinned profile (``profile.json``) and every trust input comes from the
+consumer's case, never from the stream.
 
 The reader checks in a fixed order and names the first check that fails (decision ``contradicted``):
 
@@ -14,17 +14,19 @@ The reader checks in a fixed order and names the first check that fails (decisio
 3. ``signer_pinned``: every signing key is one the consumer pinned;
 4. ``no_duplicate_receipt``: no receipt appears twice;
 5. ``single_use``: no signed request proof is allowed by two receipts;
-6. ``chain_order``: each receipt names the one before it, and the first names the pinned predecessor;
-7. ``head_anchor``: the last receipt and the count match the head the consumer kept outside the stream.
+6. ``chain_order``: each receipt names the one before it, and the first names the pinned
+   predecessor;
+7. ``head_anchor``: the last receipt and the count match the head the consumer kept outside the
+   stream.
 
-A stream that passes all seven is ``supported`` (``receipt_chain_holds``) unless the bytes cannot show
-completeness, in which case it is ``not_established``: ``chain_reset`` (a receipt names no predecessor
-after the first), ``head_not_anchored`` (no head pinned) or ``effect_not_recorded`` (an effect was
-required and the format carries none).
+A stream that passes all seven is ``supported`` (``receipt_chain_holds``) unless the bytes cannot
+show completeness, in which case it is ``not_established``: ``chain_reset`` (a receipt names no
+predecessor after the first), ``head_not_anchored`` (no head pinned) or ``effect_not_recorded`` (an
+effect was required and the format carries none).
 
 The external-verifier contract: ``<verifier> <case-dir>/case.json --json`` prints one JSON object
-carrying ``decision`` and ``reason``, and exits 0 for ``supported``, 1 for ``contradicted`` and 3 for
-``not_established``.
+carrying ``decision`` and ``reason``, and exits 0 for ``supported``, 1 for ``contradicted`` and 3
+for ``not_established``.
 """
 
 from __future__ import annotations
@@ -56,8 +58,11 @@ CHECKS = (
     "head_anchor",
 )
 _HERE = Path(__file__).resolve().parent
-ROOT = (_HERE / "corpora" / "vectors-cbor-receipt-chain" if
-        (_HERE / "corpora").exists() else _HERE.parents[1] / "corpora" / "vectors-cbor-receipt-chain")
+ROOT = (
+    _HERE / "corpora" / "vectors-cbor-receipt-chain"
+    if (_HERE / "corpora").exists()
+    else _HERE.parents[1] / "corpora" / "vectors-cbor-receipt-chain"
+)
 OUTER = ("version", "payload", "signer_key", "signature")
 
 
@@ -68,10 +73,10 @@ class Malformed(ValueError):
 def _take(buf: bytes, pos: int, n: int) -> tuple[bytes, int]:
     if n < 0 or pos + n > len(buf):
         raise Malformed("truncated")
-    return buf[pos:pos + n], pos + n
+    return buf[pos : pos + n], pos + n
 
 
-def _item(buf: bytes, pos: int, depth: int, budget: list[int]) -> tuple[Any, int]:
+def _item(buf: bytes, pos: int, depth: int, budget: list[int]) -> tuple[Any, int]:  # noqa: C901
     budget[0] -= 1
     if depth > 16 or budget[0] < 0:
         raise Malformed("too deep or too large")
@@ -170,14 +175,24 @@ def parse(line: str, profile: dict[str, Any]) -> dict[str, Any]:
     prev = body.get(fields["prev_hash"])
     if prev is not None and (not isinstance(prev, bytes) or len(prev) != 32):
         raise Malformed("predecessor hash is not 32 bytes")
-    return {"signer": key.hex(), "digest": hashlib.sha256(raw).hexdigest(),
-            "prev": None if prev is None else prev.hex(),
-            **{role: body.get(num) for role, num in fields.items()
-               if role not in ("version", "prev_hash")}}
+    return {
+        "signer": key.hex(),
+        "digest": hashlib.sha256(raw).hexdigest(),
+        "prev": None if prev is None else prev.hex(),
+        **{
+            role: body.get(num)
+            for role, num in fields.items()
+            if role not in ("version", "prev_hash")
+        },
+    }
 
 
-def judge_stream(lines: list[str], case: dict[str, Any], profile: dict[str, Any],
-                 skip: frozenset[str] = frozenset()) -> dict[str, str]:
+def judge_stream(  # noqa: C901
+    lines: list[str],
+    case: dict[str, Any],
+    profile: dict[str, Any],
+    skip: frozenset[str] = frozenset(),
+) -> dict[str, str]:
     """The reference decision and reason for one stream against the consumer's inputs."""
 
     def fail(check: str) -> dict[str, str]:
@@ -219,8 +234,11 @@ def judge_stream(lines: list[str], case: dict[str, Any], profile: dict[str, Any]
         elif i > 0 and p["prev"] != digests[i - 1]:
             return fail("chain_order")
     head = case.get("head")
-    if "head_anchor" not in skip and head is not None and (
-            digests[-1] != head or len(parsed) != case["count"]):
+    if (
+        "head_anchor" not in skip
+        and head is not None
+        and (digests[-1] != head or len(parsed) != case["count"])
+    ):
         return fail("head_anchor")
     if resets:
         return {"decision": NOT_ESTABLISHED, "reason": "chain_reset"}
@@ -235,16 +253,23 @@ def verify(case_path: Path, skip: frozenset[str] = frozenset()) -> dict[str, str
     """The reference reader's decision for one case file."""
     case = json.loads(case_path.read_text(encoding="utf-8"))
     profile = json.loads((case_path.parent / case["profile"]).read_text(encoding="utf-8"))
-    lines = [x.strip() for x in (case_path.parent / case["chain"]).read_text("ascii").splitlines()
-             if x.strip()]
+    lines = [
+        x.strip()
+        for x in (case_path.parent / case["chain"]).read_text("ascii").splitlines()
+        if x.strip()
+    ]
     return judge_stream(lines, case, profile, skip)
 
 
 def external_answer(command: list[str], path: Path) -> tuple[bool, dict[str, Any] | str]:
-    """Run one external verifier on one case and read its decision, which its exit code must repeat."""
+    """Run one external verifier on one case and read its decision.
+
+    The verifier's exit code must repeat the decision it prints.
+    """
     try:
-        result = subprocess.run([*command, str(path), "--json"], capture_output=True,
-                                text=True, timeout=90, check=False)
+        result = subprocess.run(
+            [*command, str(path), "--json"], capture_output=True, text=True, timeout=90, check=False
+        )
     except (OSError, subprocess.TimeoutExpired) as exc:
         return False, f"verifier did not run: {exc}"
     try:
@@ -257,12 +282,15 @@ def external_answer(command: list[str], path: Path) -> tuple[bool, dict[str, Any
     return True, observed
 
 
-def check(verifier: str | list[str] | None = None, root: Path = ROOT,
-          skip: frozenset[str] = frozenset()) -> tuple[int, list[str]]:
+def check(
+    verifier: str | list[str] | None = None, root: Path = ROOT, skip: frozenset[str] = frozenset()
+) -> tuple[int, list[str]]:
     """Check every case through the named verifier or the reference reader."""
     try:
         entries, manifest_error = _validated_entries(root, SUITE)
-        pinned = json.loads((root / "MANIFEST.json").read_text(encoding="utf-8"))["profile"]["sha256"]
+        pinned = json.loads((root / "MANIFEST.json").read_text(encoding="utf-8"))["profile"][
+            "sha256"
+        ]
         profile_ok = hashlib.sha256((root / "profile.json").read_bytes()).hexdigest() == pinned
     except (OSError, ValueError, KeyError, TypeError) as exc:
         return 0, [f"invalid corpus: {exc}"]
