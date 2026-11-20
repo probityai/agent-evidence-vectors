@@ -122,8 +122,9 @@ fn a_token_with_no_finite_double_is_refused() {
 }
 
 /// A 1,000-digit integer is past every double; a 1,000-digit fraction rounds to
-/// zero and is admitted as `0` under both profiles. Bounding a token's length
-/// is a separate rule, not one RFC 8785 or RFC 7493 states.
+/// zero, which RFC 8785 admits as `0` and the I-JSON profile refuses as inexact
+/// (its double does not hold the token). Bounding a token's length is a
+/// separate rule, not one RFC 8785 or RFC 7493 states.
 #[test]
 fn a_thousand_digit_token_is_refused_or_rounded_by_value() {
     let integer = format!("1{}", "0".repeat(999));
@@ -140,7 +141,10 @@ fn a_thousand_digit_token_is_refused_or_rounded_by_value() {
     let fraction = format!("0.{}1", "0".repeat(997));
     assert_eq!(fraction.len(), 1000);
     assert_eq!(canonical(fraction.as_bytes()), "0");
-    assert_eq!(admit_ijson(fraction.as_bytes()).unwrap(), b"0");
+    assert!(matches!(
+        admit_ijson(fraction.as_bytes()),
+        Err(Error::InexactNumber { .. })
+    ));
 }
 
 /// Negative zero serializes as `0` (ECMAScript `Number::toString`), so a record
