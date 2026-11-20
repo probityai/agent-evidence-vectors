@@ -1,8 +1,11 @@
 # What the weekly rerun checks, row by row
 
-Every row below reruns from its pins with `python rerun.py <row>` on Linux x86_64, Linux arm64 and macOS arm64, on each
-change to this directory and weekly. Nothing is adjusted to make a value match. A row whose check does not hold is a
-red job, with the posted and observed values in its result file.
+Every row below is checked from its pins with `python rerun.py <row>` on Linux x86_64, Linux arm64 and macOS arm64, on
+each change to this directory and weekly. Most rows rerun a posted program or compare what pinned programs print. Two
+rerun nothing: R4-nonascii only reads the reports committed at its pinned commit, and R15, for which no command was
+posted, only reads the file served at its pinned URL, so its result file says recorded rather than reproduced. Nothing
+is adjusted to make a value match. A row whose check does not hold is a red job, with the posted and observed values
+in its result file.
 
 A green row means that every condition in its "Decides green" cell held on that run, and nothing more. It is not a
 statement that the run reproduced every output byte for byte. Where a row lets whole files differ, decides on counts,
@@ -10,8 +13,11 @@ exit statuses, printed lines or verdicts, or records a value without deciding on
 also not a reading of whether a historical run happened as reported: the check compares what the pins produce today
 with what was posted.
 
-The older input and checker pins in each row stay as posted; the check does not repeat history, it tells us when a
-newer release or a moved pin changes what the row says.
+Each row runs the pins it posted and no others, and the older pins stay as posted. A green weekly rerun therefore says
+nothing about a release newer than a row's pins: a newer release is checked only once rows.json names it as a pin of
+its own, as R9, R10 and R14 name each release they cover. What a rerun of fixed pins can show is a change underneath
+them, such as a toolchain, a platform or a served file that no longer gives the posted value. Every commit pin is a
+full SHA and a checkout whose HEAD differs from it is refused, so a moved tag cannot change what a row runs.
 
 | Row | Kind | Decides green | Recorded, not deciding | Allowed to differ, and why |
 |---|---|---|---|---|
@@ -29,7 +35,7 @@ newer release or a moved pin changes what the row says.
 | R8 | rerun | the posted reader, run over the corpus at its tag, writes verdicts.tsv and not-selected.tsv with the posted SHA-256 | the number of corpus members | none |
 | R8-compare | comparison | the posted verdicts.tsv has its posted SHA-256; the families outside the selection equal the posted list; judged, selected, numbered, agree, differs and unnumbered equal the posted figures | a second run with only w3c-f-29 excluded, as in 0188 | none |
 | R8-compare-169 | comparison | the posted verdicts.tsv has its posted SHA-256; with no family excluded, judged, numbered, agree and the unnumbered split equal the posted figures | the other figures r8_compare.py prints | none |
-| R9 | comparison | at each release: corpusDigest recomputes to the posted value and equals the manifest's; the selection counts equal the posted ones; the reference reader exits 0 on the corpus; the readers present at the tag are exactly the readers rows.json names for it (Python and Go at v0.17.4; Python, Go and Rust at v0.18.0 and v0.18.1), every one built and ran, each passes the corpus and fails the probe with no disagreement on the W3C-R-016 members, and all give the same verdicts on those members | each reader's version and its per-member disagreements | none; a reader absent at a tag is recorded as absent, and a failed build fails the row |
+| R9 | comparison | at each release: corpusDigest recomputes to the posted value and equals the manifest's; the selection counts equal the posted ones; the reference reader exits 0 on the corpus; the readers present at the tag are exactly the readers rows.json names for it (Python and Go at v0.17.4; Python, Go and Rust at v0.18.0 and v0.18.1), every one built and ran, each passes the corpus and fails the probe, its verdict on every W3C-R-016 member equals the manifest's (the result file lists each member where it does not, and any one fails the row), and all give the same verdicts on those members | each reader's version, its verdict digest, and its counts of members that agree with the manifest and that reject under W3C-R-016 | none; a reader absent at a tag is recorded as absent, and a failed build fails the row |
 | R10 | comparison | at each release, the Python and Go readers exit 0 and print the posted bytes for -0; at v0.17.4, the count of -0 number tokens in the corpus equals the posted one | the files the tokens are in | none |
 | Item-7.3-10 | rerun | at the pinned commit, json.load raises TypeError on the posted number of members; the reader's own loader rejects and accepts the posted numbers, under the posted rows, and every member gets its manifest verdict | each member's printed lines | none |
 | R11 | rerun | the posted reader, run over the posted selection, prints output with the posted SHA-256 | the number of members | none |
