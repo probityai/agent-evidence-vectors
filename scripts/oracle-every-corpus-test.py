@@ -63,6 +63,7 @@ RUNS_A_VERIFIER = (
     "vectors-decision-client-failure-modes",
     "vectors-refusal-reason-priority",
     "vectors-responsibility-escalation",
+    "vectors-htx-cases",
     "vectors-agent-card-receipt",
     "vectors-credential-release",
     "vectors-chunked-export",

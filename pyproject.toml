@@ -172,6 +172,7 @@ only-include = [
     "corpora/vectors-evidence-state",
     "corpora/vectors-grade-floor",
     "corpora/vectors-grader-isolation",
+    "corpora/vectors-htx-cases",
     "corpora/vectors-identity-binding",
     "corpora/vectors-ietf-agent-record-drafts",
     "corpora/vectors-incident-evidence-cell",
@@ -245,6 +246,7 @@ exclude = [
     "corpora/vectors-evidence-state/**/*.py",
     "corpora/vectors-grade-floor/**/*.py",
     "corpora/vectors-grader-isolation/**/*.py",
+    "corpora/vectors-htx-cases/**/*.py",
     "corpora/vectors-identity-binding/**/*.py",
     "corpora/vectors-ietf-agent-record-drafts/**/*.py",
     "corpora/vectors-incident-evidence-cell/**/*.py",
@@ -317,6 +319,7 @@ exclude = [
 "corpora/vectors-evidence-state" = "agent_evidence_vectors/corpora/vectors-evidence-state"
 "corpora/vectors-grade-floor" = "agent_evidence_vectors/corpora/vectors-grade-floor"
 "corpora/vectors-grader-isolation" = "agent_evidence_vectors/corpora/vectors-grader-isolation"
+"corpora/vectors-htx-cases" = "agent_evidence_vectors/corpora/vectors-htx-cases"
 "corpora/vectors-identity-binding" = "agent_evidence_vectors/corpora/vectors-identity-binding"
 "corpora/vectors-ietf-agent-record-drafts" = "agent_evidence_vectors/corpora/vectors-ietf-agent-record-drafts"
 "corpora/vectors-incident-evidence-cell" = "agent_evidence_vectors/corpora/vectors-incident-evidence-cell"
@@ -464,6 +467,7 @@ only-include = [
     "corpora/vectors-evidence-state",
     "corpora/vectors-grade-floor",
     "corpora/vectors-grader-isolation",
+    "corpora/vectors-htx-cases",
     "corpora/vectors-identity-binding",
     "corpora/vectors-ietf-agent-record-drafts",
     "corpora/vectors-incident-evidence-cell",
