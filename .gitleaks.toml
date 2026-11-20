@@ -148,3 +148,17 @@ condition = "AND"
 paths = ['''^(corpora/)?vectors-badge-vc-verify/cases/[^/]+/case\.json$''']
 regexTarget = "match"
 regexes = ['''eyJ[A-Za-z0-9_-]+\.[A-Za-z0-9_-]+\.[A-Za-z0-9_-]*''']
+
+[[allowlists]]
+description = "Base64 Ed25519 public keys naming the assessor in a capability-requirement case"
+# The suite's requirement names the held-out assessor by public key (assessorKey). The
+# signing seeds are SHA-256 of public labels (gen_vectors.py), so the keys are public by
+# construction. AND: only a capability-requirement case file, and only the two published
+# test keys (the assessor and the other key a case swaps in). A base64 shape cannot tell a
+# public key from a secret, so the values are pinned: any other assessorKey value is still
+# reported.
+targetRules = ["generic-api-key"]
+condition = "AND"
+paths = ['''^(corpora/)?vectors-capability-requirement/cases/[^/]+/record\.json$''']
+regexTarget = "match"
+regexes = ['''assessorKey"\s*:\s*"(xCAlDc\+XkJ6JNf3j8F80rmvh8MwS3WQSV9YyXmyTcWE|7CkOHtB4Qly2Q/YX/OkMPba7HJwNRcVwmNmTr3A/6Hk)="''']
