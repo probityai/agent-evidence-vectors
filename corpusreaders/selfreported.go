@@ -601,7 +601,7 @@ func srrEd25519OK(publicHex string, payload []byte, signatureB64 string) bool {
 	if strings.ContainsAny(signatureB64, "\r\n") {
 		return false
 	}
-	signature, err := base64.StdEncoding.DecodeString(signatureB64)
+	signature, err := decodeCanonical(base64.StdEncoding, signatureB64)
 	if err != nil || len(signature) != ed25519.SignatureSize {
 		return false
 	}

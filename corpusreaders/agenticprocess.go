@@ -205,7 +205,7 @@ func apSignature(payloadType string, body []byte, sigs []caSig, trusted map[stri
 			continue
 		}
 		named = true
-		key, err := base64.StdEncoding.DecodeString(encoded)
+		key, err := decodeCanonical(base64.StdEncoding, encoded)
 		if err == nil && len(key) == ed25519.PublicKeySize && ed25519.Verify(key, message, s.sig) {
 			return nil
 		}

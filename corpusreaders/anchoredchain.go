@@ -214,7 +214,7 @@ func acSigned(body json.RawMessage, sig string, key []byte) bool {
 	if len(body) == 0 || len(key) != ed25519.PublicKeySize {
 		return false
 	}
-	raw, err := base64.StdEncoding.DecodeString(sig)
+	raw, err := decodeCanonical(base64.StdEncoding, sig)
 	if err != nil {
 		return false
 	}

@@ -817,7 +817,7 @@ func agVerify(sig agSignature, message []byte) string {
 	if !ok {
 		return "keyid-not-ed25519-did-key"
 	}
-	raw, err := base64.StdEncoding.DecodeString(sig.Sig)
+	raw, err := decodeCanonical(base64.StdEncoding, sig.Sig)
 	if err != nil || len(raw) != ed25519.SignatureSize || !ed25519.Verify(public, message, raw) {
 		return "signature-invalid"
 	}

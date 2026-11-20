@@ -287,7 +287,7 @@ func blobIsNamed(dir string, m observedEffectManifest, digest string) bool {
 		if json.Unmarshal(body, &envelope) != nil {
 			continue
 		}
-		payload, err := base64.StdEncoding.DecodeString(envelope.Payload)
+		payload, err := decodeCanonical(base64.StdEncoding, envelope.Payload)
 		if err != nil {
 			continue
 		}

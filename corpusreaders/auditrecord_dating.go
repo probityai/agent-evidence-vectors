@@ -382,7 +382,7 @@ func arInclusionRoot(leaf []byte, leafIndex, treeSize uint64, path [][]byte) []b
 // opentimestamps anchor its block height with ots set; "" when it does not validate.
 func arAnchorTime(anchor map[string]any, digest []byte, heads []arTreeHead) (string, uint64, bool) {
 	text, _ := anchor["proof"].(string)
-	proof, err := base64.StdEncoding.DecodeString(text)
+	proof, err := decodeCanonical(base64.StdEncoding, text)
 	if err != nil {
 		return "", 0, false
 	}
@@ -473,7 +473,7 @@ func arDelegationRoot(r *arRetained) error {
 		return nil
 	}
 	text, _ := elements[0]["value"].(string)
-	material, err := base64.StdEncoding.DecodeString(text)
+	material, err := decodeCanonical(base64.StdEncoding, text)
 	if err != nil {
 		return arRefuse("entry-delegation-root-unreadable")
 	}
@@ -735,7 +735,7 @@ func arVerifyRetained(raw []byte, predicateType, observerKey string, heads []arT
 	if json.Unmarshal(envelope, &parsed) != nil {
 		return report, arDating{Entry: "malformed", Codes: []string{"entry-record-unreadable"}, DelegationRoot: arNotEstablished}
 	}
-	payload, err := base64.StdEncoding.DecodeString(parsed.Payload)
+	payload, err := decodeCanonical(base64.StdEncoding, parsed.Payload)
 	if err != nil {
 		return report, arDating{Entry: "malformed", Codes: []string{"entry-record-unreadable"}, DelegationRoot: arNotEstablished}
 	}

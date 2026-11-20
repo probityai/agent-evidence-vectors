@@ -133,13 +133,13 @@ func sigCovJudgeMember(caseDir string, v sigCovVector) []string {
 }
 
 func sigCovBytes(r sigCovRecord) (payload, key, signature []byte, err error) {
-	if payload, err = base64.StdEncoding.DecodeString(r.Envelope.Payload); err != nil {
+	if payload, err = decodeCanonical(base64.StdEncoding, r.Envelope.Payload); err != nil {
 		return nil, nil, nil, fmt.Errorf("record.json payload is not base64: %w", err)
 	}
-	if key, err = base64.StdEncoding.DecodeString(r.Envelope.PublicKey); err != nil {
+	if key, err = decodeCanonical(base64.StdEncoding, r.Envelope.PublicKey); err != nil {
 		return nil, nil, nil, fmt.Errorf("record.json public key is not base64: %w", err)
 	}
-	if signature, err = base64.StdEncoding.DecodeString(r.Envelope.Signature); err != nil {
+	if signature, err = decodeCanonical(base64.StdEncoding, r.Envelope.Signature); err != nil {
 		return nil, nil, nil, fmt.Errorf("record.json signature is not base64: %w", err)
 	}
 	return payload, key, signature, nil

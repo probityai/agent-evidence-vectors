@@ -250,7 +250,7 @@ func (s *dlState) parse(caseDir, name string) (*dlRecord, bool) {
 }
 
 func dlPublicKey(k dlKey) (ed25519.PublicKey, bool) {
-	raw, err := base64.StdEncoding.DecodeString(k.PublicKey)
+	raw, err := decodeCanonical(base64.StdEncoding, k.PublicKey)
 	if err != nil || len(raw) != ed25519.PublicKeySize || sha(raw) != k.KeyID {
 		return nil, false
 	}

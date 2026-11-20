@@ -448,7 +448,7 @@ func arVerify(raw []byte, predicateType, observerKey, disabled string) arReport 
 		envelope.PayloadType != arPayloadType {
 		return arReport{verdict: "malformed", code: "envelope-unreadable"}
 	}
-	payload, err := base64.StdEncoding.DecodeString(envelope.Payload)
+	payload, err := decodeCanonical(base64.StdEncoding, envelope.Payload)
 	if err != nil {
 		return arReport{verdict: "malformed", code: "envelope-unreadable"}
 	}
@@ -495,7 +495,7 @@ func arSignatureHolds(signatures []struct {
 	}
 	message := aee.PAE(arPayloadType, canonical)
 	for _, entry := range signatures {
-		sig, err := base64.StdEncoding.DecodeString(entry.Sig)
+		sig, err := decodeCanonical(base64.StdEncoding, entry.Sig)
 		if err == nil && ed25519.Verify(ed25519.PublicKey(key), message, sig) {
 			return true
 		}

@@ -166,7 +166,7 @@ func crB64(value any) ([]byte, bool) {
 	if !ok || strings.ContainsAny(text, "\r\n") {
 		return nil, false
 	}
-	out, err := base64.StdEncoding.DecodeString(text)
+	out, err := decodeCanonical(base64.StdEncoding, text)
 	return out, err == nil
 }
 

@@ -560,7 +560,7 @@ func checkBindingRepo(v anchorVector, stream []byte, out *Member) {
 }
 
 func checkDefaultBranch(v anchorVector, witness *anchorWitness, out *Member) {
-	branch, err := base64.StdEncoding.DecodeString(witness.DefaultBranch.BytesBase64)
+	branch, err := decodeCanonical(base64.StdEncoding, witness.DefaultBranch.BytesBase64)
 	if err != nil {
 		out.Findings = append(out.Findings, "the default-branch bytes do not decode: "+err.Error())
 		return
