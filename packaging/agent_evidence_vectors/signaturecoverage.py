@@ -52,7 +52,6 @@ or gives the two different signature inputs. The external-signer contract:
 from __future__ import annotations
 
 import argparse
-import base64
 import hashlib
 import json
 import shlex
@@ -71,6 +70,7 @@ from agent_evidence_vectors.monitorcoverage import (
     cli,
     run_corpus,
 )
+
 from . import strictb64
 
 SUITE = "signature-coverage/v1"
