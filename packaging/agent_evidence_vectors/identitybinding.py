@@ -51,6 +51,7 @@ from dataclasses import dataclass
 from datetime import datetime
 from pathlib import Path
 from typing import Any
+from . import strictb64
 
 SUITE = "agent-did-identity-binding/v1"
 VERIFIED, REJECTED = "verified", "rejected"
@@ -152,7 +153,7 @@ def public_key(method: dict[str, Any]) -> bytes | None:
     jwk = method.get("publicKeyJwk")
     if isinstance(jwk, dict) and jwk.get("kty") == "OKP" and jwk.get("crv") == "Ed25519":
         try:
-            raw = base64.urlsafe_b64decode(str(jwk.get("x", "")) + "==")
+            raw = strictb64.url(str(jwk.get("x", "")))
         except ValueError:
             return None
         return raw if len(raw) == 32 else None
@@ -218,7 +219,7 @@ class _Case:
 
 def subject_of(envelope: dict[str, Any]) -> str:
     """The subject DID a DSSE envelope's payload names."""
-    record = json.loads(base64.b64decode(envelope["payload"]))
+    record = json.loads(strictb64.std(envelope["payload"]))
     return str(record["subject"]["id"])
 
 
@@ -226,7 +227,7 @@ def _load(case_path: Path) -> _Case:
     case = json.loads(case_path.read_text(encoding="utf-8"))
     base = case_path.parent
     envelope = json.loads((base / case["envelope"]).read_text(encoding="utf-8"))
-    record = json.loads(base64.b64decode(envelope["payload"]))
+    record = json.loads(strictb64.std(envelope["payload"]))
     keyid = str(envelope["signatures"][0]["keyid"])
     signer = keyid.split("#", 1)[0]
     name = case.get("resolutions", {}).get(signer)
@@ -279,8 +280,8 @@ def signature_verifies(c: _Case) -> bool:
     if key is None:
         return False
     try:
-        sig = base64.b64decode(str(c.envelope["signatures"][0]["sig"]), validate=True)
-        payload = base64.b64decode(str(c.envelope["payload"]), validate=True)
+        sig = strictb64.std(str(c.envelope["signatures"][0]["sig"]))
+        payload = strictb64.std(str(c.envelope["payload"]))
     except ValueError:
         return False
     rail = _rail()

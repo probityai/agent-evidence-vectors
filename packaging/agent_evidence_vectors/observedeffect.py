@@ -61,6 +61,7 @@ from collections.abc import Callable
 from dataclasses import dataclass, field
 from decimal import Decimal
 from typing import Any
+from . import strictb64
 
 if __package__ in (None, ""):
     # Run as a script from a checkout: make the package importable by name, and
@@ -1213,7 +1214,7 @@ def verify(raw: bytes, policy: Policy, *, disabled: str | None = None) -> Report
         envelope = json.loads(
             raw, object_pairs_hook=_no_duplicates, parse_constant=_no_constant
         )
-        payload = base64.b64decode(envelope["payload"], validate=True)
+        payload = strictb64.std(envelope["payload"])
         statement = json.loads(
             payload,
             object_pairs_hook=_no_duplicates,
@@ -1262,7 +1263,7 @@ def _apply_rules(state: _State, disabled: str | None) -> Report | None:
 def _verify_envelope(envelope: dict[str, Any], payload: bytes, state: _State) -> Report:
     """The last gate, after every carried-bytes rule held."""
     try:
-        signature = base64.b64decode(envelope["signatures"][0]["sig"], validate=True)
+        signature = strictb64.std(envelope["signatures"][0]["sig"])
         public_key = bytes.fromhex(state.policy.observer_public_key)
     except Exception:
         return Report("malformed", ["envelope-signature-unreadable"], state.derived_tier)
@@ -1501,7 +1502,7 @@ def _blob_is_named(directory: str, manifest: dict[str, Any], digest: str) -> boo
         try:
             with open(os.path.join(directory, str(entry.get("file", ""))), "rb") as handle:
                 envelope = json.load(handle)
-            payload = base64.b64decode(envelope["payload"], validate=True)
+            payload = strictb64.std(envelope["payload"])
         except Exception:
             continue
         if digest.encode("ascii") in payload:

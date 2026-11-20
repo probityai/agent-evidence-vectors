@@ -73,6 +73,7 @@ from dataclasses import dataclass, field
 from functools import lru_cache
 from pathlib import Path
 from typing import Any
+from . import strictb64
 
 SUITE = "delegation-lifecycle/v1"
 ACCEPT, REJECT, NO_VERDICT = "accept", "reject", "no_verdict"
@@ -170,7 +171,7 @@ def _b64(value: Any) -> bytes | None:
     if not isinstance(value, str):
         return None
     try:
-        return base64.b64decode(value, validate=True)
+        return strictb64.std(value)
     except (binascii.Error, ValueError):
         return None
 

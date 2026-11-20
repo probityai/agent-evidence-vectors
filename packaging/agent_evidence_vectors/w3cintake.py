@@ -122,6 +122,7 @@ import json
 import os
 import sys
 from typing import Any, TypeGuard
+from . import strictb64
 
 SUITE = "w3c-intake-v2-conformance"
 FORMAT = "public-agent-conformance/intake-record/v2"
@@ -405,7 +406,7 @@ def ed25519_public_key(pem: bytes) -> bytes | None:
 
 def _base64(text: bytes) -> bytes | None:
     try:
-        return base64.b64decode(text, validate=True)
+        return strictb64.std(text)
     except (binascii.Error, ValueError):
         return None
 

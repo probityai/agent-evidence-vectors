@@ -74,6 +74,7 @@ import sys
 from collections.abc import Callable
 from dataclasses import dataclass, field
 from typing import Any
+from . import strictb64
 
 if __package__ in (None, ""):
     sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
@@ -1538,7 +1539,7 @@ def rule_names() -> list[str]:
 def _envelope_payload(raw: bytes) -> tuple[dict[str, Any], bytes]:
     try:
         envelope = json.loads(raw, object_pairs_hook=_no_duplicates)
-        payload = base64.b64decode(envelope["payload"], validate=True)
+        payload = strictb64.std(envelope["payload"])
     except Malformed:
         raise
     except Exception as exc:
@@ -1559,7 +1560,7 @@ def _signature_holds(envelope: dict[str, Any], canonical: bytes, policy: Policy)
     message = pae(PAYLOAD_TYPE, canonical)
     for entry in signatures if isinstance(signatures, list) else []:
         try:
-            sig = base64.b64decode(entry["sig"], validate=True)
+            sig = strictb64.std(entry["sig"])
         except Exception:
             continue
         if len(key) == 32 and _ed25519_verify(key, message, sig):
@@ -1852,7 +1853,7 @@ def anchor_time(
     an rfc3161 anchor dates nothing."""
     kind = anchor.get("kind")
     try:
-        proof = base64.b64decode(anchor["proof"], validate=True)
+        proof = strictb64.std(anchor["proof"])
         if kind == "opentimestamps":
             return _ots_moment(proof, envelope_digest, trust)
         if kind != "transparency-log":
@@ -1978,7 +1979,7 @@ def _dating_delegation_root(r: _Retained) -> None:
     if not elements:
         return
     try:
-        material = base64.b64decode(elements[0]["value"], validate=True)
+        material = strictb64.std(elements[0]["value"])
     except (KeyError, TypeError, ValueError) as exc:
         raise Malformed("entry-delegation-root-unreadable") from exc
     if hashlib.sha256(material).hexdigest() != r.root_digest:

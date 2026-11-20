@@ -71,6 +71,7 @@ from agent_evidence_vectors.monitorcoverage import (
     cli,
     run_corpus,
 )
+from . import strictb64
 
 SUITE = "signature-coverage/v1"
 CONTRACT_ID = "https://probityai.github.io/agent-evidence-vectors/predicate/v1/signature-coverage"
@@ -181,14 +182,18 @@ def _same(left: Any, right: Any) -> bool:
 
 
 def _payload(record: Record) -> bytes:
-    return base64.b64decode(record["envelope"]["payload"], validate=True)
+    return strictb64.std(record["envelope"]["payload"])
 
 
 def _signature_valid(record: Record) -> bool:
     envelope = record["envelope"]
-    key = base64.b64decode(envelope["publicKey"], validate=True)
-    signature = base64.b64decode(envelope["signature"], validate=True)
-    return bool(_rail().ed25519_verify(key, _payload(record), signature))
+    try:
+        key = strictb64.std(envelope["publicKey"])
+        signature = strictb64.std(envelope["signature"])
+        payload = _payload(record)
+    except (ValueError, TypeError):
+        return False  # not one canonical base64 spelling: no signature to check
+    return bool(_rail().ed25519_verify(key, payload, signature))
 
 
 def _payload_value(record: Record) -> object:
@@ -310,7 +315,7 @@ def _external_signer(command: list[str]) -> Callable[[object], bytes | None]:
         answer = json.loads(result.stdout)
         if answer.get("refused") is True:
             return None
-        return base64.b64decode(answer["signatureInput"], validate=True)
+        return strictb64.std(answer["signatureInput"])
     return sign
 
 

@@ -48,6 +48,7 @@ import sys
 from collections.abc import Callable
 from pathlib import Path
 from typing import Any
+from . import strictb64
 
 SUITE = "anchored-record-chain/v1"
 VERIFIED, REJECTED = "verified", "rejected"
@@ -100,7 +101,7 @@ def _signed(envelope: Any, body_key: str, key: bytes) -> bool:
     if not isinstance(envelope, dict) or not isinstance(envelope.get(body_key), dict):
         return False
     try:
-        sig = base64.b64decode(str(envelope.get("sig", "")), validate=True)
+        sig = strictb64.std(str(envelope.get("sig", "")))
     except ValueError:
         return False
     rail = _rail()

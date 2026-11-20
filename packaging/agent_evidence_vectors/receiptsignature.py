@@ -39,6 +39,7 @@ from collections.abc import Callable
 from datetime import datetime
 from itertools import pairwise
 from typing import Any
+from . import strictb64
 
 SUITE = "receipt-signature-conformance"
 KEYS_ENV = "AEV_RECEIPT_JWKS"
@@ -175,7 +176,7 @@ def _public_key(key: dict[str, Any]) -> bytes | None:
     if not isinstance(x, str):
         return None
     try:
-        raw = base64.urlsafe_b64decode(x + "=" * (-len(x) % 4))
+        raw = strictb64.url(x)
     except ValueError:
         return None
     return raw if len(raw) == 32 else None
