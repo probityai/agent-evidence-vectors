@@ -4,6 +4,15 @@ A record of every notable change to this Rust crate. Its format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and its version numbers
 follow [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## 0.1.7
+
+### Changed
+
+Package metadata only. The `repository` and `homepage` fields now point at
+https://github.com/probityai/agent-evidence-vectors, where the crate is developed, so
+the crates.io page links to the live repository. No code, test vector, refusal or
+public API changed.
+
 ## 0.1.6
 
 ### Changed

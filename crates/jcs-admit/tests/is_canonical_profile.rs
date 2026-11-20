@@ -3,8 +3,8 @@
 //! `is_canonical` answered for RFC 8785 as written, with no way to ask under a
 //! profile. Measured before the fix: a document carrying U+FFFF canonicalizes
 //! under the default profile, `is_canonical` on those bytes returns `true`, and
-//! `canonicalize_ijson` on the SAME bytes returns
-//! `StringNotScalar: Unicode noncharacter in string`. A verifier that admits a
+//! `canonicalize_ijson` on the SAME bytes returns `StringNotScalar` for the
+//! noncharacter. A verifier that admits a
 //! document with the gate and then verifies it under the profile has admitted
 //! bytes its own profile refuses -- one document, two answers, from one crate.
 

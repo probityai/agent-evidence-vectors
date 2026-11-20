@@ -1,0 +1,170 @@
+{
+  "files": {
+    "inputs/checker/checker-policy.json": {
+      "length": 83,
+      "sha256": "c66ce3c733d0eb1360fef95faf869fb3b07affbdcd56d648cac0bf3a3ef43b71"
+    },
+    "inputs/checker/expected-pins/D1-01-binding-uncertain.json": {
+      "length": 402,
+      "sha256": "299ca88bbba87c7d12c21932050983f3b019af58f6cf591c7c0f292c9c3a287d"
+    },
+    "inputs/checker/expected-pins/D1-02-shared-failure-domain.json": {
+      "length": 402,
+      "sha256": "0c7fe6fa359ac22f1406c6194b5e4900eab22e5d68f4fe681c694dc39fde341e"
+    },
+    "inputs/checker/expected-pins/D1-03-separate-failure-domains.json": {
+      "length": 402,
+      "sha256": "450d0e7580d9894466798dbfb6dd630acef06a71e803044f2590e799a6689d7c"
+    },
+    "inputs/checker/expected-pins/L1-01-lost-binding.json": {
+      "length": 402,
+      "sha256": "0cf371b3ff7bc4d75aa129aefee5fc1fd9bfe73a567e28cf8c4176fa14328f1e"
+    },
+    "inputs/checker/expected-pins/L1-02-binding-restored.json": {
+      "length": 402,
+      "sha256": "99b5ea43fc5c9d5797f0ca00ba3a0806c9cc41086434661a5767804997364869"
+    },
+    "inputs/checker/models/D1-01-binding-uncertain.json": {
+      "length": 811,
+      "sha256": "232c09c69ff908296a643caf4e40834edd9ac124bc2325a496b14d0ae13d28d2"
+    },
+    "inputs/checker/models/D1-02-shared-failure-domain.json": {
+      "length": 979,
+      "sha256": "e88dbd0863c7d226ed474c70c2e47be4b71737a869aa1f4286ce132ac604cd89"
+    },
+    "inputs/checker/models/D1-03-separate-failure-domains.json": {
+      "length": 922,
+      "sha256": "654882f3d3868ded12de1b21a5c883c49287c2ec2c3803fb18187cc8b6083b56"
+    },
+    "inputs/checker/models/L1-01-lost-binding.json": {
+      "length": 899,
+      "sha256": "625ffd064951568a2943f8a26b4267e5677ce10a435f4142d3b446d388ba7d8e"
+    },
+    "inputs/checker/models/L1-02-binding-restored.json": {
+      "length": 891,
+      "sha256": "a1c17a013f357b4b1dae65f593819b0bf61156c881594d1e4574f759b272939b"
+    },
+    "inputs/checker/records/D1-01-binding-uncertain.json": {
+      "length": 22,
+      "sha256": "c5159af79f107c9afa8d7f3b1fed24ce543d386902ca7e5658542d9b4b07c334"
+    },
+    "inputs/checker/records/D1-02-shared-failure-domain.json": {
+      "length": 41,
+      "sha256": "977167646a91d88924c7835b8a53df5767cb859ffafae21b15ba42b2a40a48ed"
+    },
+    "inputs/checker/records/D1-03-separate-failure-domains.json": {
+      "length": 41,
+      "sha256": "977167646a91d88924c7835b8a53df5767cb859ffafae21b15ba42b2a40a48ed"
+    },
+    "inputs/checker/records/L1-01-lost-binding.json": {
+      "length": 35,
+      "sha256": "a6dfb8b680232738bfb511a07c226dff2eec87453a19fe8b1a1bd594dbf13dc6"
+    },
+    "inputs/checker/records/L1-02-binding-restored.json": {
+      "length": 29,
+      "sha256": "bab8fd646b1659c1517624f617d2685d7b96310fe528fe56b581fad360ed06ac"
+    },
+    "inputs/probity/D1-01-binding-uncertain/capability.json": {
+      "length": 183,
+      "sha256": "440ecc06a7ebb5c3a9ca6f756cf7455f7b24d225b4cc1d52a8570c24fcfc831d"
+    },
+    "inputs/probity/D1-01-binding-uncertain/case.json": {
+      "length": 420,
+      "sha256": "96dfd14a9e5a3eda555f5bc8f6457fc69e7ec493fec7decd54d95f70f8d3d40a"
+    },
+    "inputs/probity/D1-01-binding-uncertain/observation.json": {
+      "length": 413,
+      "sha256": "da8d69183901e41b315fc29bb121e61b1ea9d5c6cc99509d96c0bcca7e5e29b8"
+    },
+    "inputs/probity/D1-01-binding-uncertain/policy.json": {
+      "length": 1098,
+      "sha256": "76d06c78b81bec25863718b4ccf1220f5b21ed3428e20e96087c033376b79edd"
+    },
+    "inputs/probity/D1-02-shared-failure-domain/capability.json": {
+      "length": 185,
+      "sha256": "d4c13cff8525044e7392b44c33232c4f20a5fae26218a7c565676a9045ca4533"
+    },
+    "inputs/probity/D1-02-shared-failure-domain/case.json": {
+      "length": 590,
+      "sha256": "3fd0a957596d984ddf486e5f749ecf553fad83b369b2d83db2435c7c10f0d6a4"
+    },
+    "inputs/probity/D1-02-shared-failure-domain/observation-b.json": {
+      "length": 322,
+      "sha256": "8c5aad9a428ebe4695dfc2014d60191e963cd6334a927fc744e8356ab8152006"
+    },
+    "inputs/probity/D1-02-shared-failure-domain/observation.json": {
+      "length": 322,
+      "sha256": "6fc078f7c745d94f05ade03eb9c6b72f64e60476d9d098ad4cb31ad228bfb179"
+    },
+    "inputs/probity/D1-02-shared-failure-domain/policy.json": {
+      "length": 1411,
+      "sha256": "f66cfc5fc9974389ec9487503993054c7fb4e59e5ddc60d97d375b1c5a9bcc3c"
+    },
+    "inputs/probity/D1-03-separate-failure-domains/capability.json": {
+      "length": 185,
+      "sha256": "d4c13cff8525044e7392b44c33232c4f20a5fae26218a7c565676a9045ca4533"
+    },
+    "inputs/probity/D1-03-separate-failure-domains/case.json": {
+      "length": 590,
+      "sha256": "3fd0a957596d984ddf486e5f749ecf553fad83b369b2d83db2435c7c10f0d6a4"
+    },
+    "inputs/probity/D1-03-separate-failure-domains/observation-b.json": {
+      "length": 322,
+      "sha256": "8c5aad9a428ebe4695dfc2014d60191e963cd6334a927fc744e8356ab8152006"
+    },
+    "inputs/probity/D1-03-separate-failure-domains/observation.json": {
+      "length": 322,
+      "sha256": "6fc078f7c745d94f05ade03eb9c6b72f64e60476d9d098ad4cb31ad228bfb179"
+    },
+    "inputs/probity/D1-03-separate-failure-domains/policy.json": {
+      "length": 1407,
+      "sha256": "dff0853734af850e549fa248cb6f9845fd02883ec3a596412f2002f83818bcf7"
+    },
+    "inputs/probity/L1-01-lost-binding/capability.json": {
+      "length": 183,
+      "sha256": "440ecc06a7ebb5c3a9ca6f756cf7455f7b24d225b4cc1d52a8570c24fcfc831d"
+    },
+    "inputs/probity/L1-01-lost-binding/case.json": {
+      "length": 583,
+      "sha256": "281ed7b412baac99b15ab4985a35dd5498161f9e8f56d269773480c8a4050ac2"
+    },
+    "inputs/probity/L1-01-lost-binding/observation.json": {
+      "length": 413,
+      "sha256": "da8d69183901e41b315fc29bb121e61b1ea9d5c6cc99509d96c0bcca7e5e29b8"
+    },
+    "inputs/probity/L1-01-lost-binding/permission.json": {
+      "length": 99,
+      "sha256": "1f2d113a687674a545f8690482d873decb0e72602e19cd31789f47c4f97ed235"
+    },
+    "inputs/probity/L1-01-lost-binding/policy.json": {
+      "length": 1085,
+      "sha256": "7c4fb4d72196dfdd23c5d25286abd717103dbbdf602ac770771aac32c924153e"
+    },
+    "inputs/probity/L1-02-binding-restored/capability.json": {
+      "length": 200,
+      "sha256": "ff28b95b2fc0e45c30622fa96670827b75271b064fc66e3407b428608011927e"
+    },
+    "inputs/probity/L1-02-binding-restored/case.json": {
+      "length": 583,
+      "sha256": "69aaa6149f3b6b205c8740b1932ef43d54a667a102f2a150b23039aee846a4f5"
+    },
+    "inputs/probity/L1-02-binding-restored/observation.json": {
+      "length": 415,
+      "sha256": "c4aca1bb9124f96e4e9c5819eb5eae9796009ed7efa7fb4ed0ba2e8274f6f9e4"
+    },
+    "inputs/probity/L1-02-binding-restored/permission.json": {
+      "length": 99,
+      "sha256": "1f2d113a687674a545f8690482d873decb0e72602e19cd31789f47c4f97ed235"
+    },
+    "inputs/probity/L1-02-binding-restored/policy.json": {
+      "length": 1053,
+      "sha256": "068d5367c831f6face5b60c4a0ce3f198de8e13dccb77d92ea18cc1d9948120a"
+    }
+  },
+  "source": "interop/adjudication-disagreement-d1/gen.py",
+  "verifier": "agent-evidence-verify==0.5.1",
+  "checker": {
+    "repository": "Witnessability/witnessability-research",
+    "commit": "719b243b6c8b1bcd4429cab6347bb3e77ead6a5e"
+  }
+}

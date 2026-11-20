@@ -4869,6 +4869,132 @@ def corpus_provenance(suite_dir: str) -> dict[str, Any]:
     }
 
 
+# The four fields a verifier result needs before anyone can rely on it: which
+# package and version judged it, which bytes it judged (the manifest's declared
+# corpus digest, which one line of the signed release/CORPUS-DIGESTS.txt
+# carries), and which revision of the corpus those bytes came from. Every
+# report the command line writes carries them under one key, whichever suite
+# runner wrote the rest, so a reader never has to know which runner it was.
+RESULT_HEADER_KEY = "verifierResult"
+# The header's shape is spec/schemas/verifier-result-v1.schema.json.
+RESULT_HEADER_SCHEMA = "agent-evidence-vectors/verifier-result/v1"
+# Set by action.yml to the ref the action was used at (a tag or a commit), so a
+# run of `uses: ...@<sha>` records that commit rather than the version's tag.
+PACKAGE_REVISION_ENV = "AEV_PACKAGE_REVISION"
+
+
+def _checkout_version() -> str | None:
+    """The [project] version of the checkout this module sits in, or None."""
+    here = os.path.dirname(os.path.abspath(__file__))
+    try:
+        with open(os.path.join(here, "..", "pyproject.toml"), "rb") as handle:
+            version = tomllib.load(handle).get("project", {}).get("version")
+    except (OSError, tomllib.TOMLDecodeError):
+        return None
+    return version if isinstance(version, str) else None
+
+
+def _git_commit(directory: str) -> str | None:
+    """HEAD of the git work tree holding ``directory``, or None outside one."""
+    try:
+        proc = subprocess.run(
+            ["git", "-C", directory, "rev-parse", "--verify", "HEAD^{commit}"],
+            capture_output=True,
+            text=True,
+            check=False,
+        )
+    except OSError:
+        return None
+    commit = proc.stdout.strip()
+    if proc.returncode != 0 or not re.fullmatch(r"[0-9a-f]{40,64}", commit):
+        return None
+    return commit
+
+
+def _within(path: str, root: str) -> bool:
+    path, root = os.path.realpath(path), os.path.realpath(root)
+    return os.path.commonpath([path, root]) == root
+
+
+def corpus_revision(suite_dir: str, version: str | None) -> tuple[str | None, str]:
+    """The revision the corpus bytes came from, and how it was established.
+
+    A corpus this package ships is at the ref the action was used at when the
+    action says so, else at the release tag of the installed wheel (tags are
+    signed and never move, RELEASING.md), else at the checkout's commit. A
+    directory named with --vectors outside the package is the consumer's own:
+    its git commit, or nothing, never this package's revision.
+    """
+    if _within(suite_dir, corpora_root()):
+        pinned = os.environ.get(PACKAGE_REVISION_ENV, "").strip()
+        if pinned:
+            return pinned, "action-ref"
+        if installed_layout():
+            return (f"v{version}", "release-tag") if version else (None, "unknown")
+    where = suite_dir if os.path.isdir(suite_dir) else os.path.dirname(suite_dir)
+    commit = _git_commit(where)
+    return (commit, "git-commit") if commit else (None, "unknown")
+
+
+def verifier_result_header(suite_dir: str) -> dict[str, Any]:
+    """Package, version, input digest and corpus revision of one run."""
+    try:
+        with open(os.path.join(suite_dir, "MANIFEST.json"), "rb") as handle:
+            manifest = json.loads(handle.read())
+    except (OSError, ValueError):
+        manifest = None
+    if not isinstance(manifest, dict):
+        manifest = {}
+    declared, suite = manifest.get("corpusDigest"), manifest.get("suite")
+    installed = installed_layout()
+    version = _installed_release() if installed else _checkout_version()
+    revision, revision_kind = corpus_revision(suite_dir, version)
+    name = suite if isinstance(suite, str) else os.path.basename(os.path.normpath(suite_dir))
+    return {
+        "schema": RESULT_HEADER_SCHEMA,
+        "package": DISTRIBUTION_NAME,
+        "version": version,
+        "versionSource": "installed" if installed else "checkout",
+        "corpus": name,
+        "corpusDigest": declared if isinstance(declared, str) else None,
+        "corpusRevision": revision,
+        "corpusRevisionKind": revision_kind,
+    }
+
+
+def _report_stat(path: str) -> tuple[int, int] | None:
+    try:
+        st = os.stat(path)
+    except OSError:
+        return None
+    return st.st_mtime_ns, st.st_size
+
+
+def stamp_report(path: str, suite_dir: str, before: tuple[int, int] | None) -> bool:
+    """Add the verifier-result header to the report this run wrote at ``path``.
+
+    A file left at the path by an earlier run is not this run's report, so a
+    run that wrote nothing (its stat is unchanged) is never stamped. The
+    report keeps its key order, sorted or not, so only the header is new.
+    """
+    after = _report_stat(path)
+    if after is None or after == before:
+        return False
+    try:
+        with open(path, encoding="utf-8") as handle:
+            report = json.load(handle)
+    except (OSError, ValueError):
+        return False
+    if not isinstance(report, dict):
+        return False
+    was_sorted = list(report) == sorted(report)
+    report[RESULT_HEADER_KEY] = verifier_result_header(suite_dir)
+    with open(path, "w", encoding="utf-8") as handle:
+        json.dump(report, handle, indent=2, sort_keys=was_sorted)
+        handle.write("\n")
+    return True
+
+
 def _report_path(args: argparse.Namespace) -> str:
     """Where the report goes: --report, else beside this file."""
     return str(args.report) if args.report else os.path.join(
@@ -5548,7 +5674,10 @@ def runtime_main(argv: list[str]) -> int:
             file=sys.stderr,
         )
         return 2
-    return runner(args.runtime, args.report, Path(root))
+    report_before = _report_stat(args.report)
+    status = runner(args.runtime, args.report, Path(root))
+    stamp_report(args.report, os.path.abspath(root), report_before)
+    return status
 
 
 def _read_manifest_suite(root: str) -> str | None:
@@ -5649,7 +5778,9 @@ def rail_main() -> int:
         # where a relying party's CI looks for it.
         args.report = "conformance-report.json"
     args.report_written = None
+    report_before = _report_stat(_report_path(args))
     status = run_suite(args)
+    stamp_report(_report_path(args), os.path.abspath(args.vectors), report_before)
     if args.emit_w3c_report is not None:
         if args.report_written is None:
             # Reading whatever report sits at the path would emit a v0.1 report
