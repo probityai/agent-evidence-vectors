@@ -201,10 +201,13 @@ def _payload_value(record: Record, *, repeat_check_off: bool = False) -> object:
 
     ``repeat_check_off`` models a reader without the ``payload_repeated_member`` check, so
     the corpus's own tests can show that check changes a verdict: that reader keeps the last
-    member, as ``json`` does. A verifier never sets it, and it leaves ``strictjson`` as it was.
+    member, as ``json`` does, and still refuses ``NaN`` and ``Infinity``. A verifier never sets
+    it, and it leaves ``strictjson`` as it was.
     """
     if repeat_check_off:
-        return json.loads(_payload(record))
+        return json.loads(
+            _payload(record), object_pairs_hook=dict, parse_constant=strictjson.refuse_constant
+        )
     return strictjson.loads(_payload(record))
 
 
