@@ -15,7 +15,7 @@ relying party should not.
 | `members/` | one JSON object per member: `attachment` (the exact text), `record`, `trust_policy`, `relying_party`, `profile` |
 | [`INDEX.md`](INDEX.md) | every member, its profile, verdict and code |
 
-## Three groups of members
+## Four groups of members
 
 - **`baseline-*`**: one member per published binding case of the format, with the case's own
   expected value for every binding dimension. Read under the `baseline` profile: a dimension that
@@ -33,8 +33,17 @@ relying party should not.
   approving, a grant under another charter, an identity source that fails or does not know the
   approver, an approval the independent clock places after the action ran, a relying party that
   holds no identity source, authority source, clock, latest-attachment record or trust policy, and a
-  key later revoked as compromised that signs a time before the revocation. The `baseline-sig-*`
-  group adds a key superseded, expired or listed in another role than the one that sealed.
+  key later revoked as compromised or superseded that signs a time before the retirement, and an
+  identity source that reads the approver as verified without naming the source it rests on (so
+  neither the identity nor the approver's grant is confirmed). The `baseline-sig-*` group adds a key
+  superseded, expired, revoked as compromised or listed in another role before the stated sealing
+  time; a key superseded after it, which is `unavailable` without an independent timestamp and
+  `verified` with one earlier than the retirement; and the seal's signature in a second base64 text
+  of the same bytes, which is not read.
+- **`baseline-time-*`**: the published signed attachment beside a relying party's reading of a
+  timestamp token over its seal. A timestamp bounds the issuer's times from above only: an issuer
+  time after it fails, one within a day before it is verified, one seven months before it stays
+  `not_checked`, and a timestamp over other bytes is `unavailable`.
 
 The member's `code` is the first dimension that refused and its status, such as
 `action_binding:failed` or `single_effect_per_request:not_checked`.

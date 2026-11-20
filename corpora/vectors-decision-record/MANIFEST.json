@@ -26,8 +26,8 @@
   "keyRecipe": "sha256(\"agent-evidence-vectors decision-record test key corpus-seal-1\")",
   "keyNote": "PUBLISHED TEST KEY, derived from a fixed seed in gen_vectors.py. It signs the strict members; the baseline members carry the format's own published test signatures.",
   "counts": {
-    "accept": 38,
-    "reject": 123
+    "accept": 43,
+    "reject": 129
   },
   "vectors": [
     {
@@ -2886,6 +2886,123 @@
       "shows": "a key the policy lists for a person, presented as the organisation's seal"
     },
     {
+      "id": "baseline-sig-key-superseded-after-stated-sealing",
+      "path": "members/baseline-sig-key-superseded-after-stated-sealing.json",
+      "profile": "baseline",
+      "expected": {
+        "verdict": "accept",
+        "code": null,
+        "dimensions": {
+          "issuer_signature": "unavailable"
+        }
+      },
+      "shows": "a key superseded after the stated sealing time, with no independent timestamp: whoever holds a retired key can state any earlier time, so the key's state when it signed is not established"
+    },
+    {
+      "id": "baseline-sig-key-superseded-stamp-before-retirement",
+      "path": "members/baseline-sig-key-superseded-stamp-before-retirement.json",
+      "profile": "baseline",
+      "expected": {
+        "verdict": "accept",
+        "code": null,
+        "dimensions": {
+          "issuer_signature": "verified"
+        }
+      },
+      "shows": "the same superseded key, with an independent timestamp over the seal earlier than the retirement"
+    },
+    {
+      "id": "baseline-sig-key-compromised-signed-after-revocation",
+      "path": "members/baseline-sig-key-compromised-signed-after-revocation.json",
+      "profile": "baseline",
+      "expected": {
+        "verdict": "reject",
+        "code": "issuer_signature:failed",
+        "dimensions": {
+          "issuer_signature": "failed"
+        }
+      },
+      "shows": "a key revoked as compromised before the stated sealing time"
+    },
+    {
+      "id": "baseline-sig-seal-second-spelling-low-bit",
+      "path": "members/baseline-sig-seal-second-spelling-low-bit.json",
+      "profile": "baseline",
+      "expected": {
+        "verdict": "reject",
+        "code": "structural_validity:failed",
+        "dimensions": {
+          "structural_validity": "failed"
+        }
+      },
+      "shows": "the seal's signature in another base64 text of the same 64 bytes (the lowest unused bit of the last character set): the signature verifies, the attachment digest differs"
+    },
+    {
+      "id": "baseline-sig-seal-second-spelling-high-bit",
+      "path": "members/baseline-sig-seal-second-spelling-high-bit.json",
+      "profile": "baseline",
+      "expected": {
+        "verdict": "reject",
+        "code": "structural_validity:failed",
+        "dimensions": {
+          "structural_validity": "failed"
+        }
+      },
+      "shows": "the seal's signature with the highest unused bit of the last character set, another of its sixteen texts"
+    },
+    {
+      "id": "baseline-time-stamp-shows-seal",
+      "path": "members/baseline-time-stamp-shows-seal.json",
+      "profile": "baseline",
+      "expected": {
+        "verdict": "accept",
+        "code": null,
+        "dimensions": {
+          "time_assurance": "verified"
+        }
+      },
+      "shows": "an independent timestamp over the seal half an hour after the stated sealing time"
+    },
+    {
+      "id": "baseline-time-stated-long-before-stamp",
+      "path": "members/baseline-time-stated-long-before-stamp.json",
+      "profile": "baseline",
+      "expected": {
+        "verdict": "accept",
+        "code": null,
+        "dimensions": {
+          "time_assurance": "not_checked"
+        }
+      },
+      "shows": "the seal stated seven months before the independent timestamp that covers it: the timestamp shows the bytes existed no later than its time, never when they were made"
+    },
+    {
+      "id": "baseline-time-stated-after-stamp",
+      "path": "members/baseline-time-stated-after-stamp.json",
+      "profile": "baseline",
+      "expected": {
+        "verdict": "reject",
+        "code": "time_assurance:failed",
+        "dimensions": {
+          "time_assurance": "failed"
+        }
+      },
+      "shows": "the issuer dates the seal after an independent timestamp shows the bytes existed"
+    },
+    {
+      "id": "baseline-time-stamp-over-other-bytes",
+      "path": "members/baseline-time-stamp-over-other-bytes.json",
+      "profile": "baseline",
+      "expected": {
+        "verdict": "accept",
+        "code": null,
+        "dimensions": {
+          "time_assurance": "unavailable"
+        }
+      },
+      "shows": "a timestamp over bytes that are neither the attachment nor its seal covers nothing here"
+    },
+    {
       "id": "baseline-sig-member-named-twice",
       "path": "members/baseline-sig-member-named-twice.json",
       "profile": "baseline",
@@ -3206,11 +3323,44 @@
         "dimensions": {
           "strict": {
             "signature_required": "failed"
-          }
+          },
+          "issuer_signature": "unavailable"
         }
       },
       "shows": "a key later revoked as compromised signs a time before the revocation; only an independent timestamp can say when it signed, and none is read"
+    },
+    {
+      "id": "strict-seal-key-superseded-backdated",
+      "path": "members/strict-seal-key-superseded-backdated.json",
+      "profile": "strict",
+      "expected": {
+        "verdict": "reject",
+        "code": "signature_required:failed",
+        "dimensions": {
+          "strict": {
+            "signature_required": "failed"
+          },
+          "issuer_signature": "unavailable"
+        }
+      },
+      "shows": "a key later superseded signs a time before its retirement with no independent timestamp; whoever holds a retired key can state any earlier time"
+    },
+    {
+      "id": "strict-identity-verified-without-source",
+      "path": "members/strict-identity-verified-without-source.json",
+      "profile": "strict",
+      "expected": {
+        "verdict": "reject",
+        "code": "identity_independent:failed",
+        "dimensions": {
+          "strict": {
+            "identity_independent": "failed",
+            "authority_independent": "failed"
+          }
+        }
+      },
+      "shows": "the identity source reads the approver as verified and names no source the binding rests on, so neither the identity nor the approver's grant is confirmed"
     }
   ],
-  "corpusDigest": "057c3b2d0cbb6053aee2a3407434231098d74ebcd09d96675174bf895493b6d1"
+  "corpusDigest": "5b713e0ea91af73d1f36c1889e0f7d544fbe4920fd9a5ba8c6478c86b80be1c9"
 }

@@ -2,14 +2,17 @@
 
 Reads ``source/cases.json`` and ``source/vectors.json``, the published test data of the
 action-binding format (``dps-action-binding`` 0.3.0), after checking them against the digests in
-``source/SOURCE.json``. Writes three groups of members:
+``source/SOURCE.json``. Writes four groups of members:
 
 * ``baseline-*``: one member per published binding case, the case's attachment with its patch
   applied, written as the published cases write documents (JSON with no whitespace, UTF-8). The
   member's expected dimensions are the case's own expected values; its verdict is ``reject`` when
   one of them failed and ``accept`` otherwise.
 * ``baseline-sig-*``: the published signed attachments under the published trust policy, and the
-  ways a seal or a document fails.
+  ways a seal or a document fails, including a retired key's stated time and a second base64 text
+  of the seal's signature.
+* ``baseline-time-*``: the published signed attachment beside a relying party's reading of a
+  timestamp token over its seal, which bounds the issuer's times from above only.
 * ``strict-*``: attachments signed with this corpus's own test key, read with every source a
   relying party holds, where exactly one strict check refuses. Each is one case the format's text
   accepts and a relying party should not: an approval by the drafting role or the executor, one
@@ -92,6 +95,22 @@ def apply_patch(doc: Any, patch: list[dict]) -> Any:
     return doc
 
 
+def respelled(text: str, low: int) -> str:
+    """``text`` with the seal's value written in another base64 text of the same bytes.
+
+    A padded 64-byte value ends in ``==``: the last character before it carries two bits of the
+    signature and four bits no byte uses. ``low`` sets some of those four bits.
+    """
+    alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/"
+    doc = json.loads(text)
+    value = doc["issuer_signature"]["value_b64"]
+    last = len(value) - 3
+    other = value[:last] + alphabet[alphabet.index(value[last]) | low] + value[last + 1:]
+    if other == value or base64.b64decode(other) != base64.b64decode(value):
+        raise SystemExit("the respelled seal value is not another text of the same bytes")
+    return text.replace(f'"value_b64":"{value}"', f'"value_b64":"{other}"')
+
+
 def first_failed(dimensions: dict[str, str]) -> str | None:
     for name in ("structural_validity", *BINDING, "issuer_signature"):
         if dimensions.get(name) == "failed":
@@ -128,6 +147,14 @@ def signature_members(cases: dict, vectors: dict) -> list[dict]:
         next(k for k in changed["keys"] if k["key_ref"] == "org-seal-1").update(changes)
         return changed
 
+    a0_doc = vectors["attachments"]["A0"]
+    seal_sha256 = hashlib.sha256(base64.b64decode(a0_doc["issuer_signature"]["value_b64"])).hexdigest()
+
+    def stamp(existed_no_later_than: str, subject: str = seal_sha256) -> dict:
+        """A relying party's reading of a timestamp token over A0's seal (sealed 10:00)."""
+        return {"independent_timestamp": {"source_ref": "tsa-example-1", "subject_sha256": subject,
+                                          "existed_no_later_than": existed_no_later_than}}
+
     rows = [
         ("baseline-sig-a0-stated-time", a0, policy, "verified", None,
          "the published signed attachment, its seal checked on the stated time under the published policy"),
@@ -146,14 +173,51 @@ def signature_members(cases: dict, vectors: dict) -> list[dict]:
          "failed", "issuer_signature:failed", "a key whose validity in the policy ended before the stated sealing time"),
         ("baseline-sig-key-in-another-role", a0, with_key(role="person"),
          "failed", "issuer_signature:failed", "a key the policy lists for a person, presented as the organisation's seal"),
+        ("baseline-sig-key-superseded-after-stated-sealing", a0,
+         with_key(revoked_at="2026-10-01T12:00:00Z", revocation_reason="superseded"), "unavailable", None,
+         "a key superseded after the stated sealing time, with no independent timestamp: whoever holds a retired "
+         "key can state any earlier time, so the key's state when it signed is not established"),
+        ("baseline-sig-key-superseded-stamp-before-retirement", a0,
+         with_key(revoked_at="2026-10-01T12:00:00Z", revocation_reason="superseded"), "verified", None,
+         "the same superseded key, with an independent timestamp over the seal earlier than the retirement",
+         stamp("2026-10-01T10:30:00Z")),
+        ("baseline-sig-key-compromised-signed-after-revocation", a0,
+         with_key(revoked_at="2026-10-01T09:00:00Z", revocation_reason="compromised"), "failed",
+         "issuer_signature:failed", "a key revoked as compromised before the stated sealing time"),
+        ("baseline-sig-seal-second-spelling-low-bit", respelled(a0, 1), policy, None,
+         "structural_validity:failed", "the seal's signature in another base64 text of the same 64 bytes (the "
+         "lowest unused bit of the last character set): the signature verifies, the attachment digest differs"),
+        ("baseline-sig-seal-second-spelling-high-bit", respelled(a0, 8), policy, None,
+         "structural_validity:failed", "the seal's signature with the highest unused bit of the last character "
+         "set, another of its sixteen texts"),
+        ("baseline-time-stamp-shows-seal", a0, policy, ("time_assurance", "verified"), None,
+         "an independent timestamp over the seal half an hour after the stated sealing time", stamp(
+             "2026-10-01T10:30:00Z")),
+        ("baseline-time-stated-long-before-stamp", a0, policy, ("time_assurance", "not_checked"), None,
+         "the seal stated seven months before the independent timestamp that covers it: the timestamp shows the "
+         "bytes existed no later than its time, never when they were made", stamp("2027-05-02T10:30:00Z")),
+        ("baseline-time-stated-after-stamp", a0, policy, ("time_assurance", "failed"), "time_assurance:failed",
+         "the issuer dates the seal after an independent timestamp shows the bytes existed",
+         stamp("2026-10-01T09:30:00Z")),
+        ("baseline-time-stamp-over-other-bytes", a0, policy, ("time_assurance", "unavailable"), None,
+         "a timestamp over bytes that are neither the attachment nor its seal covers nothing here",
+         stamp("2026-10-01T10:30:00Z", hashlib.sha256(b"other bytes").hexdigest())),
     ]
     out = []
-    for slug, text, pol, status, code, shows in rows:
+    for slug, text, pol, status, code, shows, *party in rows:
         record = None if slug == "baseline-sig-b0" else cases["records"]["R0"]
         member = {"attachment": text, "record": record, "trust_policy": pol, "profile": "baseline"}
+        if party:
+            member["relying_party"] = party[0]
+        if status is None:
+            dims = {"structural_validity": "failed"}
+        elif isinstance(status, tuple):
+            dims = {status[0]: status[1]}
+        else:
+            dims = {"issuer_signature": status}
         out.append({"slug": slug, "member": member, "source_case": None,
                     "expected": {"verdict": "reject" if code else "accept", "code": code,
-                                 "dimensions": {"issuer_signature": status}}, "shows": shows})
+                                 "dimensions": dims}, "shows": shows})
     dup = vectors["texts"]["dup_decision_id"]["attachment_text"]
     out.append({"slug": "baseline-sig-member-named-twice",
                 "member": {"attachment": dup, "record": None, "trust_policy": policy, "profile": "baseline"},
@@ -285,6 +349,12 @@ def _strict_rows(cases: dict, vectors: dict) -> list[tuple]:
         ("strict-seal-key-compromised-backdated", [], [], ("key-compromised", None), "signature_required",
          "failed", "a key later revoked as compromised signs a time before the revocation; only an independent "
                    "timestamp can say when it signed, and none is read"),
+        ("strict-seal-key-superseded-backdated", [], [], ("key-superseded", None), "signature_required",
+         "failed", "a key later superseded signs a time before its retirement with no independent timestamp; "
+                   "whoever holds a retired key can state any earlier time"),
+        ("strict-identity-verified-without-source", [], [], ("identity-unsourced", "owner-example-1"),
+         "identity_independent", "failed", "the identity source reads the approver as verified and names no "
+         "source the binding rests on, so neither the identity nor the approver's grant is confirmed"),
     ]
 
 
@@ -312,6 +382,10 @@ def strict_members(cases: dict, vectors: dict) -> list[dict]:
             del party[change[1]]
         elif change and change[0] == "key-compromised":
             policy["keys"][0].update({"revoked_at": "2026-10-01T12:00:00Z", "revocation_reason": "compromised"})
+        elif change and change[0] == "key-superseded":
+            policy["keys"][0].update({"revoked_at": "2026-10-01T12:00:00Z", "revocation_reason": "superseded"})
+        elif change and change[0] == "identity-unsourced":
+            party["identities"][change[1]] = {"status": "verified"}
         elif change and change[0] == "grants":
             party["authority_grants"] = [g for g in party["authority_grants"]
                                          if g["actor_ref"] == "owner-example-1"]
@@ -325,6 +399,10 @@ def strict_members(cases: dict, vectors: dict) -> list[dict]:
             del member["trust_policy"]
         code = None if dimension is None else f"{dimension}:{status}"
         dims = {"strict": {dimension: status}} if dimension else {"strict": {}}
+        if change and change[0] == "identity-unsourced":
+            dims["strict"]["authority_independent"] = "failed"
+        elif change and change[0] in ("key-compromised", "key-superseded"):
+            dims["issuer_signature"] = "unavailable"
         out.append({"slug": slug, "member": member, "source_case": None,
                     "expected": {"verdict": "reject" if code else "accept", "code": code, "dimensions": dims},
                     "shows": shows})
