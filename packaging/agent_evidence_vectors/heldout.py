@@ -39,7 +39,11 @@ import threading
 from collections.abc import Iterator
 from typing import Any
 
-from . import strictjson
+if __package__ in (None, ""):
+    # The controls run this file by path as a child process: make the package importable.
+    sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
+from agent_evidence_vectors import strictjson  # noqa: E402
 
 RUN_SCHEMA = "agent-evidence-vectors/heldout-run/v1"
 SEALED_SCHEMA = "agent-evidence-vectors/heldout-sealed/v1"
