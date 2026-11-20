@@ -1,7 +1,7 @@
 package corpusreaders_test
 
 // The OCSF decision reader judges the corpus on its own, in Go, from the
-// published rule. These tests hold it to the manifest's declaration for all 28
+// published rule. These tests hold it to the manifest's declaration for all 33
 // members, and each negative control changes ONE thing in a copy and requires a
 // finding that names the member (or the corpus-level check) it concerns.
 
@@ -70,15 +70,15 @@ func ocsfRequire(t *testing.T, findings []string, fragments ...string) {
 	t.Fatalf("no finding carries %q; findings: %q", fragments, findings)
 }
 
-// All 28 members read to the verdict, the code and every dimension status the
+// All 33 members read to the verdict, the code and every dimension status the
 // manifest declares, with no corpus-level finding.
 func TestOCSFDecisionCommittedCorpusIsClean(t *testing.T) {
 	result, err := corpusreaders.Judge(corpusPath(ocsfDir))
 	if err != nil {
 		t.Fatalf("judge: %v", err)
 	}
-	if len(result.Members) != 28 {
-		t.Fatalf("judged %d members, want 28", len(result.Members))
+	if len(result.Members) != 33 {
+		t.Fatalf("judged %d members, want 33", len(result.Members))
 	}
 	if !result.OK() {
 		for _, m := range result.Members {
@@ -91,8 +91,8 @@ func TestOCSFDecisionCommittedCorpusIsClean(t *testing.T) {
 		}
 	}
 	counts := result.CountsByVerdict()
-	if counts["accept"] != 6 || counts["reject"] != 22 {
-		t.Fatalf("counts by verdict are %v, want 6 accept and 22 reject", counts)
+	if counts["accept"] != 7 || counts["reject"] != 26 {
+		t.Fatalf("counts by verdict are %v, want 7 accept and 26 reject", counts)
 	}
 }
 
@@ -190,7 +190,7 @@ func TestOCSFDecisionCorpusLevelChecks(t *testing.T) {
 	t.Run("counts that disagree with the members", func(t *testing.T) {
 		dir := ocsfStage(t)
 		ocsfEdit(t, filepath.Join(dir, corpusreaders.ManifestName), func(s string) string {
-			return strings.Replace(s, `"accept": 6`, `"accept": 7`, 1)
+			return strings.Replace(s, `"accept": 7`, `"accept": 8`, 1)
 		})
 		ocsfRequire(t, ocsfFindings(t, dir), "counts disagree")
 	})

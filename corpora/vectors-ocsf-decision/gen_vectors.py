@@ -10,7 +10,8 @@ digests in ``source/SOURCE.json``. Writes members of two profiles:
   a swapped or unknown key id, a record re-signed under a retired key or a key of another authority,
   a dropped tail with an independent head, a deleted record, changed content, a fingerprint recomputed
   without a new signature, a fork, a substituted uid, a stream gap, ``emission_seq`` disorder, a ruling
-  that reads two ways, a suppressed deny no flag reports, and a policy that lists one key twice. One
+  that reads two ways, a ruling member that is a list or an object, a time written as a millisecond
+  integer inside and outside a key's window, a suppressed deny no flag reports, and a policy that lists one key twice. One
   member keeps a dropped tail with no head, which the format cannot show: it reads ``not_checked``.
 * ``strict-*``: what a relying party should also require: a complete signed chain with an independent
   head, and refusals for two live keys of one authority, no head, an unsigned chain rewritten end to
@@ -30,6 +31,7 @@ import copy
 import hashlib
 import json
 import re
+from datetime import datetime
 from pathlib import Path
 from typing import Any
 
@@ -156,6 +158,19 @@ def jwk(signer: ec.EllipticCurvePrivateKey, kid: str, authority: str = AUTHORITY
             **window}
 
 
+def epoch_ms(stamp: str) -> int:
+    """OCSF's ``time``: milliseconds since 1970-01-01T00:00:00Z (schema.ocsf.io, timestamp_t)."""
+    return round(datetime.fromisoformat(stamp).timestamp() * 1000)
+
+
+def in_epoch_ms(bodies: list[dict], stamp: str | None = None) -> list[dict]:
+    """The same records with ``time`` written as OCSF's integer, optionally moved to ``stamp``."""
+    out = copy.deepcopy(bodies)
+    for body in out:
+        body["time"] = epoch_ms(stamp or body["time"])
+    return out
+
+
 def head(record: dict) -> dict:
     return {"chain_uid": record["attestation_list"][0]["chain_uid"], "uid": record["metadata"]["uid"],
             "fingerprint": record["attestation_list"][0]["fingerprint"]["value"]}
@@ -228,6 +243,18 @@ def members() -> list[dict]:
     add("baseline-resigned-under-retired-key", retired, {"code": "key_binding:failed", "signature": "verified"},
         "the last record re-signed under the retired key, its key id naming that key; the key's window "
         "ended before the record's time")
+    ms_chain = emit(in_epoch_ms(decisions))
+    add("baseline-time-epoch-ms-in-window", ms_chain, {"fingerprint": "verified", "signature": "verified",
+        "key_binding": "verified", "tail": "verified"},
+        "the same signed chain with time as OCSF's millisecond integer, 2026-08-21: inside the current "
+        "key's window, which opened 2026-01-01", heads=[head(ms_chain[-1])])
+    add("baseline-time-epoch-ms-before-key-window", emit(in_epoch_ms(decisions, "2025-06-01T00:00:00+00:00")),
+        {"code": "key_binding:failed", "signature": "verified"},
+        "time as a millisecond integer for 2025-06-01, before the current key's window opened")
+    add("baseline-time-epoch-ms-after-retired-window", emit(in_epoch_ms(decisions), RETIRED, "corpus-key-0"),
+        {"code": "key_binding:failed", "signature": "verified"},
+        "time as a millisecond integer for 2026-08-21, signed under the retired key whose window ended "
+        "2025-12-31")
     add("baseline-key-of-another-authority", chain, {"code": "key_binding:failed"},
         "the only key that verifies belongs to another authority than the signed authority_uid",
         trust={"keys": [jwk(CORPUS, "corpus-key-1", "org-someone-else")]})
@@ -271,6 +298,14 @@ def members() -> list[dict]:
     twoway[2]["disposition"] = "Allowed"
     add("baseline-ruling-reads-two-ways", twoway, {"code": "decision_consistency:failed"},
         "disposition says Allowed while disposition_id, action and the verdict say a deny", trust=None)
+    listed = copy.deepcopy(decisions)
+    listed[2]["action_id"] = [2]
+    add("baseline-ruling-member-is-a-list", listed, {"code": "decision_consistency:failed"},
+        "action_id is a list holding 2: no ruling reads it, and a reader must refuse it by name", trust=None)
+    objected = copy.deepcopy(decisions)
+    objected[2]["disposition"] = {"id": 2}
+    add("baseline-ruling-member-is-an-object", objected, {"code": "decision_consistency:failed"},
+        "disposition is an object: no ruling reads it, and a reader must refuse it by name", trust=None)
     unflagged = copy.deepcopy(decisions)
     del unflagged[3]["unmapped"]["aid.decision"]["deny_ignored"]
     add("baseline-suppressed-deny-unflagged", unflagged, {"code": "decision_consistency:failed"},

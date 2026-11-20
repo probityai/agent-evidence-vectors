@@ -31,8 +31,8 @@
   "keyRecipe": "P-256 scalar sha256(\"agent-evidence-vectors ocsf-decision test key corpus-key-1\"); retired key sha256(\"agent-evidence-vectors ocsf-decision test key corpus-key-0\")",
   "keyNote": "PUBLISHED TEST KEYS, derived from fixed seeds in gen_vectors.py. The published pair is signed with the format's own demo key, the scalar of 32 bytes 0x42.",
   "counts": {
-    "accept": 6,
-    "reject": 22
+    "accept": 7,
+    "reject": 26
   },
   "vectors": [
     {
@@ -147,6 +147,48 @@
         }
       },
       "shows": "the last record re-signed under the retired key, its key id naming that key; the key's window ended before the record's time"
+    },
+    {
+      "id": "baseline-time-epoch-ms-in-window",
+      "path": "members/baseline-time-epoch-ms-in-window.json",
+      "profile": "baseline",
+      "expected": {
+        "verdict": "accept",
+        "code": null,
+        "dimensions": {
+          "fingerprint": "verified",
+          "signature": "verified",
+          "key_binding": "verified",
+          "tail": "verified"
+        }
+      },
+      "shows": "the same signed chain with time as OCSF's millisecond integer, 2026-08-21: inside the current key's window, which opened 2026-01-01"
+    },
+    {
+      "id": "baseline-time-epoch-ms-before-key-window",
+      "path": "members/baseline-time-epoch-ms-before-key-window.json",
+      "profile": "baseline",
+      "expected": {
+        "verdict": "reject",
+        "code": "key_binding:failed",
+        "dimensions": {
+          "signature": "verified"
+        }
+      },
+      "shows": "time as a millisecond integer for 2025-06-01, before the current key's window opened"
+    },
+    {
+      "id": "baseline-time-epoch-ms-after-retired-window",
+      "path": "members/baseline-time-epoch-ms-after-retired-window.json",
+      "profile": "baseline",
+      "expected": {
+        "verdict": "reject",
+        "code": "key_binding:failed",
+        "dimensions": {
+          "signature": "verified"
+        }
+      },
+      "shows": "time as a millisecond integer for 2026-08-21, signed under the retired key whose window ended 2025-12-31"
     },
     {
       "id": "baseline-key-of-another-authority",
@@ -292,6 +334,28 @@
       "shows": "disposition says Allowed while disposition_id, action and the verdict say a deny"
     },
     {
+      "id": "baseline-ruling-member-is-a-list",
+      "path": "members/baseline-ruling-member-is-a-list.json",
+      "profile": "baseline",
+      "expected": {
+        "verdict": "reject",
+        "code": "decision_consistency:failed",
+        "dimensions": {}
+      },
+      "shows": "action_id is a list holding 2: no ruling reads it, and a reader must refuse it by name"
+    },
+    {
+      "id": "baseline-ruling-member-is-an-object",
+      "path": "members/baseline-ruling-member-is-an-object.json",
+      "profile": "baseline",
+      "expected": {
+        "verdict": "reject",
+        "code": "decision_consistency:failed",
+        "dimensions": {}
+      },
+      "shows": "disposition is an object: no ruling reads it, and a reader must refuse it by name"
+    },
+    {
       "id": "baseline-suppressed-deny-unflagged",
       "path": "members/baseline-suppressed-deny-unflagged.json",
       "profile": "baseline",
@@ -388,5 +452,5 @@
       "shows": "the chain's first two records not supplied"
     }
   ],
-  "corpusDigest": "07cb41d6794f598d286df28222beb96b1ea3bbee894f96b85ee432e2e67b0031"
+  "corpusDigest": "f0ceef28cc6129acdc0028e3a02139d1604f89d0a2a1b13f1d198ae654b0bfcb"
 }

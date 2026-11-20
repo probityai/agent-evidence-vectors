@@ -243,11 +243,18 @@ func ocsfSHA(data []byte) string {
 	return hex.EncodeToString(sum[:])
 }
 
+// ocsfUnixEpochSeconds moves OCSF's milliseconds since 1970-01-01T00:00:00Z onto
+// the axis ocsfInstantOf reads an RFC 3339 time on, which counts seconds from
+// 0001-01-01. Without it a millisecond time sits 62135596800 seconds before every
+// key window written as RFC 3339.
+var ocsfUnixEpochSeconds = new(big.Rat).SetInt64(int64(ocsfOrdinal(1970, 1, 1)) * 86400)
+
 // ocsfTime is the record's time: an RFC 3339 string as emitted, or OCSF's
 // millisecond integer.
 func ocsfTime(v any) ocsfInstant {
 	if ocsfIsInt(v) {
-		return ocsfInstant{text: ocsfInt(v).String(), secs: new(big.Rat).SetFrac(ocsfInt(v), big.NewInt(1000))}
+		secs := new(big.Rat).SetFrac(ocsfInt(v), big.NewInt(1000))
+		return ocsfInstant{text: ocsfInt(v).String(), secs: secs.Add(secs, ocsfUnixEpochSeconds)}
 	}
 	return ocsfInstantOf(v)
 }
