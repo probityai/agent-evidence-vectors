@@ -1,0 +1,392 @@
+{
+  "suite": "ocsf-decision/v1",
+  "format": {
+    "class_uid": 6003,
+    "rule": "AID-EMIT-1 record_integrity",
+    "payload_type": "application/vnd.ocsf.event+json"
+  },
+  "source": {
+    "repository": "https://github.com/praxis-proxy/policy",
+    "commit": "82ff511b1b512d2421e3d3a179416b061197c462",
+    "path": "reference/plugins/ocsf-audit",
+    "files": {
+      "SAMPLE-OUTPUT-DECISIONS.md": {
+        "sha256": "4b81b36188cfe4bdc5bf6a460f8e3b57175de0261ab868c0230bf1d274b17c5d",
+        "length": 11311
+      },
+      "SAMPLE-OUTPUT-PROVENANCE.md": {
+        "sha256": "d8a3cfd0ae8124b35b2d68046ea3debfcb621806b6d2f3029db5ba934d248d65",
+        "length": 11527
+      },
+      "SAMPLE-OUTPUT.md": {
+        "sha256": "233e81bf9d8af3c4e04559db0bdd555edb935bc6a9d9521726e799e00e247881",
+        "length": 9437
+      }
+    }
+  },
+  "profiles": {
+    "baseline": "refuses a record or stream dimension that failed; not_checked and unavailable stay as reported",
+    "strict": "also requires every record signed, the key named by the signed bytes and the relying party's key set, an anchored tail, the opening supplied and interoperable numbers"
+  },
+  "keyRecipe": "P-256 scalar sha256(\"agent-evidence-vectors ocsf-decision test key corpus-key-1\"); retired key sha256(\"agent-evidence-vectors ocsf-decision test key corpus-key-0\")",
+  "keyNote": "PUBLISHED TEST KEYS, derived from fixed seeds in gen_vectors.py. The published pair is signed with the format's own demo key, the scalar of 32 bytes 0x42.",
+  "counts": {
+    "accept": 6,
+    "reject": 22
+  },
+  "vectors": [
+    {
+      "id": "baseline-published-signed-pair",
+      "path": "members/baseline-published-signed-pair.json",
+      "profile": "baseline",
+      "expected": {
+        "verdict": "accept",
+        "code": null,
+        "dimensions": {
+          "fingerprint": "verified",
+          "signature": "verified",
+          "key_binding": "verified",
+          "chain_links": "verified",
+          "tail": "not_checked"
+        }
+      },
+      "shows": "the two published signed records, under the published demo key"
+    },
+    {
+      "id": "baseline-published-decisions-unchained",
+      "path": "members/baseline-published-decisions-unchained.json",
+      "profile": "baseline",
+      "expected": {
+        "verdict": "accept",
+        "code": null,
+        "dimensions": {
+          "fingerprint": "unavailable",
+          "signature": "unavailable",
+          "stream_sequence": "verified",
+          "decision_consistency": "verified"
+        }
+      },
+      "shows": "the nine published decision records: unchained and unsigned, one dense stream from stream_seq 41"
+    },
+    {
+      "id": "baseline-published-duplicate-member-rides-seal",
+      "path": "members/baseline-published-duplicate-member-rides-seal.json",
+      "profile": "baseline",
+      "expected": {
+        "verdict": "reject",
+        "code": "structural_validity:failed",
+        "dimensions": {
+          "structural_validity": "failed"
+        }
+      },
+      "shows": "an earlier disposition Blocked injected into the published signed record; a last-wins reader recomputes the sealed fingerprint and the signature verifies, a first-wins reader sees Blocked"
+    },
+    {
+      "id": "baseline-published-duplicate-member-escaped",
+      "path": "members/baseline-published-duplicate-member-escaped.json",
+      "profile": "baseline",
+      "expected": {
+        "verdict": "reject",
+        "code": "structural_validity:failed",
+        "dimensions": {
+          "structural_validity": "failed"
+        }
+      },
+      "shows": "the same injection with the member name spelled \\u0061ction"
+    },
+    {
+      "id": "baseline-chain-as-emitted",
+      "path": "members/baseline-chain-as-emitted.json",
+      "profile": "baseline",
+      "expected": {
+        "verdict": "accept",
+        "code": null,
+        "dimensions": {
+          "fingerprint": "verified",
+          "signature": "verified",
+          "key_binding": "verified",
+          "tail": "verified"
+        }
+      },
+      "shows": "a signed chain over the published decision records, with the head the relying party holds"
+    },
+    {
+      "id": "baseline-key-id-swapped",
+      "path": "members/baseline-key-id-swapped.json",
+      "profile": "baseline",
+      "expected": {
+        "verdict": "reject",
+        "code": "key_binding:failed",
+        "dimensions": {
+          "signature": "verified",
+          "key_binding": "failed"
+        }
+      },
+      "shows": "the unsigned key id names the retired key; the current key verified"
+    },
+    {
+      "id": "baseline-key-id-unknown",
+      "path": "members/baseline-key-id-unknown.json",
+      "profile": "baseline",
+      "expected": {
+        "verdict": "reject",
+        "code": "key_binding:failed",
+        "dimensions": {}
+      },
+      "shows": "the unsigned key id names a key the relying party does not hold"
+    },
+    {
+      "id": "baseline-resigned-under-retired-key",
+      "path": "members/baseline-resigned-under-retired-key.json",
+      "profile": "baseline",
+      "expected": {
+        "verdict": "reject",
+        "code": "key_binding:failed",
+        "dimensions": {
+          "signature": "verified"
+        }
+      },
+      "shows": "the last record re-signed under the retired key, its key id naming that key; the key's window ended before the record's time"
+    },
+    {
+      "id": "baseline-key-of-another-authority",
+      "path": "members/baseline-key-of-another-authority.json",
+      "profile": "baseline",
+      "expected": {
+        "verdict": "reject",
+        "code": "key_binding:failed",
+        "dimensions": {}
+      },
+      "shows": "the only key that verifies belongs to another authority than the signed authority_uid"
+    },
+    {
+      "id": "baseline-policy-lists-key-twice",
+      "path": "members/baseline-policy-lists-key-twice.json",
+      "profile": "baseline",
+      "expected": {
+        "verdict": "reject",
+        "code": "trust_policy:failed",
+        "dimensions": {
+          "signature": "not_checked"
+        }
+      },
+      "shows": "a relying-party policy listing one public key under two key ids"
+    },
+    {
+      "id": "baseline-tail-dropped-with-head",
+      "path": "members/baseline-tail-dropped-with-head.json",
+      "profile": "baseline",
+      "expected": {
+        "verdict": "reject",
+        "code": "tail:failed",
+        "dimensions": {
+          "tail": "failed"
+        }
+      },
+      "shows": "the last three records deleted; the relying party holds the head independently"
+    },
+    {
+      "id": "baseline-tail-dropped-no-head",
+      "path": "members/baseline-tail-dropped-no-head.json",
+      "profile": "baseline",
+      "expected": {
+        "verdict": "accept",
+        "code": null,
+        "dimensions": {
+          "tail": "not_checked",
+          "chain_links": "verified"
+        }
+      },
+      "shows": "the last three records deleted with no independent head: the format cannot show it, so the tail reads not_checked and never verified"
+    },
+    {
+      "id": "baseline-record-deleted",
+      "path": "members/baseline-record-deleted.json",
+      "profile": "baseline",
+      "expected": {
+        "verdict": "reject",
+        "code": "chain_gaps:failed",
+        "dimensions": {
+          "stream_sequence": "failed"
+        }
+      },
+      "shows": "one record deleted from the middle of the chain"
+    },
+    {
+      "id": "baseline-content-changed",
+      "path": "members/baseline-content-changed.json",
+      "profile": "baseline",
+      "expected": {
+        "verdict": "reject",
+        "code": "fingerprint:failed",
+        "dimensions": {}
+      },
+      "shows": "a denying step's reason changed after sealing"
+    },
+    {
+      "id": "baseline-refingerprinted-not-resigned",
+      "path": "members/baseline-refingerprinted-not-resigned.json",
+      "profile": "baseline",
+      "expected": {
+        "verdict": "reject",
+        "code": "signature:failed",
+        "dimensions": {
+          "fingerprint": "verified"
+        }
+      },
+      "shows": "the changed record with its fingerprint recomputed and the old signature kept"
+    },
+    {
+      "id": "baseline-chain-fork",
+      "path": "members/baseline-chain-fork.json",
+      "profile": "baseline",
+      "expected": {
+        "verdict": "reject",
+        "code": "chain_links:failed",
+        "dimensions": {}
+      },
+      "shows": "a second signed record naming the same predecessor"
+    },
+    {
+      "id": "baseline-uid-substituted",
+      "path": "members/baseline-uid-substituted.json",
+      "profile": "baseline",
+      "expected": {
+        "verdict": "reject",
+        "code": "record_uniqueness:failed",
+        "dimensions": {}
+      },
+      "shows": "two signed records claim one uid with different content"
+    },
+    {
+      "id": "baseline-stream-gap",
+      "path": "members/baseline-stream-gap.json",
+      "profile": "baseline",
+      "expected": {
+        "verdict": "reject",
+        "code": "stream_sequence:failed",
+        "dimensions": {}
+      },
+      "shows": "stream_seq 43 missing between records that are supplied"
+    },
+    {
+      "id": "baseline-emission-disorder",
+      "path": "members/baseline-emission-disorder.json",
+      "profile": "baseline",
+      "expected": {
+        "verdict": "reject",
+        "code": "stream_sequence:failed",
+        "dimensions": {}
+      },
+      "shows": "emission_seq goes back while stream_seq advances"
+    },
+    {
+      "id": "baseline-ruling-reads-two-ways",
+      "path": "members/baseline-ruling-reads-two-ways.json",
+      "profile": "baseline",
+      "expected": {
+        "verdict": "reject",
+        "code": "decision_consistency:failed",
+        "dimensions": {}
+      },
+      "shows": "disposition says Allowed while disposition_id, action and the verdict say a deny"
+    },
+    {
+      "id": "baseline-suppressed-deny-unflagged",
+      "path": "members/baseline-suppressed-deny-unflagged.json",
+      "profile": "baseline",
+      "expected": {
+        "verdict": "reject",
+        "code": "decision_consistency:failed",
+        "dimensions": {}
+      },
+      "shows": "a deny_ignored step with no flat deny_ignored flag, so the SIEM query for suppressed denies misses it"
+    },
+    {
+      "id": "strict-chain-complete",
+      "path": "members/strict-chain-complete.json",
+      "profile": "strict",
+      "expected": {
+        "verdict": "accept",
+        "code": null,
+        "dimensions": {
+          "strict": {
+            "signature_required": "verified",
+            "key_named_by_signed_bytes": "verified",
+            "tail_anchored": "verified",
+            "opening_supplied": "verified",
+            "numbers_interoperable": "verified"
+          }
+        }
+      },
+      "shows": "a signed chain from its genesis and stream_seq 0, one key of the authority, with an independent head"
+    },
+    {
+      "id": "strict-published-pair-with-head",
+      "path": "members/strict-published-pair-with-head.json",
+      "profile": "strict",
+      "expected": {
+        "verdict": "accept",
+        "code": null,
+        "dimensions": {}
+      },
+      "shows": "the published signed pair with an independent head"
+    },
+    {
+      "id": "strict-two-live-keys",
+      "path": "members/strict-two-live-keys.json",
+      "profile": "strict",
+      "expected": {
+        "verdict": "reject",
+        "code": "key_named_by_signed_bytes:unavailable",
+        "dimensions": {}
+      },
+      "shows": "two keys of the authority valid at the records' time: which one signed rests on the unsigned key id"
+    },
+    {
+      "id": "strict-no-head",
+      "path": "members/strict-no-head.json",
+      "profile": "strict",
+      "expected": {
+        "verdict": "reject",
+        "code": "tail_anchored:not_checked",
+        "dimensions": {}
+      },
+      "shows": "a complete signed chain with no independent head"
+    },
+    {
+      "id": "strict-unsigned-chain-rewritten",
+      "path": "members/strict-unsigned-chain-rewritten.json",
+      "profile": "strict",
+      "expected": {
+        "verdict": "reject",
+        "code": "signature_required:unavailable",
+        "dimensions": {}
+      },
+      "shows": "an unsigned chain with a deny rewritten to an allow and every fingerprint recomputed: baseline accepts it, as the format's default signing: none allows"
+    },
+    {
+      "id": "strict-epoch-a-double-cannot-hold",
+      "path": "members/strict-epoch-a-double-cannot-hold.json",
+      "profile": "strict",
+      "expected": {
+        "verdict": "reject",
+        "code": "numbers_interoperable:failed",
+        "dimensions": {}
+      },
+      "shows": "a nanosecond epoch past 2**53 that no double holds: a double-based verifier recomputes another fingerprint"
+    },
+    {
+      "id": "strict-opening-not-supplied",
+      "path": "members/strict-opening-not-supplied.json",
+      "profile": "strict",
+      "expected": {
+        "verdict": "reject",
+        "code": "opening_supplied:unavailable",
+        "dimensions": {}
+      },
+      "shows": "the chain's first two records not supplied"
+    }
+  ],
+  "corpusDigest": "07cb41d6794f598d286df28222beb96b1ea3bbee894f96b85ee432e2e67b0031"
+}
