@@ -81,7 +81,7 @@
     "indeterminate": 2,
     "reject": 125
   },
-  "draft": "draft-gilda-audit-agent-audit-record-00",
+  "draft": "draft-gilda-audit-agent-audit-record-04",
   "emptyTree": {
     "sha1": "4b825dc642cb6eb9a060e54bf8d69288fbee4904",
     "sha256": "6ef19b41225c5369f1c104d45d8d85efa9b057b53b14b4b9b939dd74decc5321"
@@ -97,15 +97,47 @@
       "publicKey": "60b9ca613738a46a9350086999c93389e65c342482bbf65c6589d43116de5e7a"
     }
   },
-  "note": "One member per row of Appendix B of the draft, in the row's order; draftId is the row's identifier and parentDraftId its from column. The members after the last row carry draftSection: each tests a rule of that section that Appendix B carries no row for, and continues the identifier series of the rows beside it. A member carrying draftRevision is a row of that later revision's Appendix B, under the identifier it prints, and tests a rule that revision changes, so a reader conforming only to the draft named above may fail it. A member carrying aggregation lists the values of one input the decision depended on, as the producer held them: a producer's aggregation over those values must yield the entry the record carries. A member carrying predicateType is judged by a verifier configured to accept that predicate type URI in place of the one above. R1 to R9 are retained records: the file carries the envelope beside its retention entry, expected.verdict is the envelope's verdict, and expected.dating is the result of the dating check of Section 4.7.1, reported beside it and never folded into it. An accept or reject member is scored on expected.verdict. An indeterminate member is a row the draft leaves open: it carries no expected.verdict, and a verifier conforms on it by reaching any verdict its readings list. expected.codes are the reference reader's names for its first refusal, published so two implementations can compare where they stopped; the draft does not define them.",
+  "note": "One member per row of Appendix B of the draft, in the row's order; draftId is the row's identifier and parentDraftId its from column. The members after the last row carry draftSection: each tests a rule of that section that Appendix B carries no row for, and continues the identifier series of the rows beside it. Every member is published or proposed. A published member carries draftRevision, a revision listed under publishedRevisions: for a row, the first one whose Appendix B prints it; for a member carrying draftSection, the one whose section states its rule. A verifier written from the published text is scored on the published members. A proposed member carries proposed, naming the revision its rule is proposed for and the proposed text in the corpus's repository, and no draftRevision: no published revision states its rule, so it scores only a verifier that implements that proposed text, and a verifier of the published text that differs on it has not failed. A member carrying aggregation lists the values of one input the decision depended on, as the producer held them: a producer's aggregation over those values must yield the entry the record carries. A member carrying predicateType is judged by a verifier configured to accept that predicate type URI in place of the one above. R1 to R9 are retained records: the file carries the envelope beside its retention entry, expected.verdict is the envelope's verdict, and expected.dating is the result of the dating check of Section 4.7.1, reported beside it and never folded into it. An accept or reject member is scored on expected.verdict. An indeterminate member is a row the draft leaves open: it carries no expected.verdict, and a verifier conforms on it by reaching any verdict its readings list. expected.codes are the reference reader's names for its first refusal, published so two implementations can compare where they stopped; the draft does not define them.",
   "payloadType": "application/vnd.in-toto+json",
-  "predicateDocument": "https://datatracker.ietf.org/doc/draft-gilda-audit-agent-audit-record/00/",
+  "predicateDocument": "https://datatracker.ietf.org/doc/draft-gilda-audit-agent-audit-record/04/",
   "predicateType": "https://probityai.github.io/agent-evidence-vectors/predicate/v1/agent-audit-record",
+  "publishedRevisions": [
+    {
+      "revision": "draft-gilda-audit-agent-audit-record-00",
+      "sha256": "81420b90935257227212b238c3c956e51829af1d2326b4a111db00083a0967a6",
+      "text": "https://www.ietf.org/archive/id/draft-gilda-audit-agent-audit-record-00.txt"
+    },
+    {
+      "revision": "draft-gilda-audit-agent-audit-record-01",
+      "sha256": "6bcd5b2ae49fe7ee53972db0f3b349c46a1870771d29105b884323e1f94235e4",
+      "text": "https://www.ietf.org/archive/id/draft-gilda-audit-agent-audit-record-01.txt"
+    },
+    {
+      "revision": "draft-gilda-audit-agent-audit-record-02",
+      "sha256": "40ac8c0a26633827d403cad3402fabf8cbd637aa3e5bc03055d25b641e5c8a7e",
+      "text": "https://www.ietf.org/archive/id/draft-gilda-audit-agent-audit-record-02.txt"
+    },
+    {
+      "revision": "draft-gilda-audit-agent-audit-record-03",
+      "sha256": "c5d0b74686b62b5d1fd954b2dae0cf02b402c87a06efa6fc82abf8fa847ed786",
+      "text": "https://www.ietf.org/archive/id/draft-gilda-audit-agent-audit-record-03.txt"
+    },
+    {
+      "revision": "draft-gilda-audit-agent-audit-record-04",
+      "sha256": "5592994311a3db303405eacebcb203f589b7aa083d81bcdb291a3a78d4adbde6",
+      "text": "https://www.ietf.org/archive/id/draft-gilda-audit-agent-audit-record-04.txt"
+    }
+  ],
   "skewTolerance": 300,
   "suite": "agent-audit-record-conformance",
+  "textCounts": {
+    "proposed": 0,
+    "published": 225
+  },
   "vectors": [
     {
       "draftId": "A1",
+      "draftRevision": "draft-gilda-audit-agent-audit-record-00",
       "expected": {
         "codes": [],
         "derivedTier": "authoritative",
@@ -119,6 +151,7 @@
     },
     {
       "draftId": "A2",
+      "draftRevision": "draft-gilda-audit-agent-audit-record-00",
       "expected": {
         "codes": [],
         "derivedTier": "authoritative",
@@ -132,6 +165,7 @@
     },
     {
       "draftId": "A3",
+      "draftRevision": "draft-gilda-audit-agent-audit-record-00",
       "expected": {
         "codes": [],
         "derivedTier": "authoritative",
@@ -145,6 +179,7 @@
     },
     {
       "draftId": "A4",
+      "draftRevision": "draft-gilda-audit-agent-audit-record-00",
       "expected": {
         "codes": [],
         "derivedTier": "authoritative",
@@ -158,6 +193,7 @@
     },
     {
       "draftId": "A5",
+      "draftRevision": "draft-gilda-audit-agent-audit-record-00",
       "expected": {
         "codes": [],
         "derivedTier": "voluntary",
@@ -171,6 +207,7 @@
     },
     {
       "draftId": "A6",
+      "draftRevision": "draft-gilda-audit-agent-audit-record-00",
       "expected": {
         "codes": [],
         "derivedTier": "voluntary",
@@ -184,6 +221,7 @@
     },
     {
       "draftId": "A7",
+      "draftRevision": "draft-gilda-audit-agent-audit-record-00",
       "expected": {
         "codes": [],
         "derivedTier": "authoritative",
@@ -197,6 +235,7 @@
     },
     {
       "draftId": "A8",
+      "draftRevision": "draft-gilda-audit-agent-audit-record-00",
       "expected": {
         "codes": [],
         "derivedTier": "authoritative",
@@ -210,6 +249,7 @@
     },
     {
       "draftId": "A9",
+      "draftRevision": "draft-gilda-audit-agent-audit-record-00",
       "expected": {
         "codes": [],
         "derivedTier": "authoritative",
@@ -223,6 +263,7 @@
     },
     {
       "draftId": "A10",
+      "draftRevision": "draft-gilda-audit-agent-audit-record-00",
       "expected": {
         "codes": [],
         "derivedTier": "authoritative",
@@ -236,6 +277,7 @@
     },
     {
       "draftId": "A11",
+      "draftRevision": "draft-gilda-audit-agent-audit-record-00",
       "expected": {
         "codes": [],
         "derivedTier": "authoritative",
@@ -249,6 +291,7 @@
     },
     {
       "draftId": "A12",
+      "draftRevision": "draft-gilda-audit-agent-audit-record-00",
       "expected": {
         "codes": [],
         "derivedTier": "authoritative",
@@ -262,6 +305,7 @@
     },
     {
       "draftId": "A13",
+      "draftRevision": "draft-gilda-audit-agent-audit-record-00",
       "expected": {
         "codes": [],
         "derivedTier": "authoritative",
@@ -275,6 +319,7 @@
     },
     {
       "draftId": "A14",
+      "draftRevision": "draft-gilda-audit-agent-audit-record-00",
       "expected": {
         "codes": [],
         "derivedTier": "authoritative",
@@ -288,6 +333,7 @@
     },
     {
       "draftId": "A15",
+      "draftRevision": "draft-gilda-audit-agent-audit-record-00",
       "expected": {
         "codes": [],
         "derivedTier": "authoritative",
@@ -301,6 +347,7 @@
     },
     {
       "draftId": "A16",
+      "draftRevision": "draft-gilda-audit-agent-audit-record-00",
       "expected": {
         "codes": [],
         "derivedTier": "authoritative",
@@ -314,6 +361,7 @@
     },
     {
       "draftId": "A17",
+      "draftRevision": "draft-gilda-audit-agent-audit-record-00",
       "expected": {
         "codes": [],
         "derivedTier": "authoritative",
@@ -327,6 +375,7 @@
     },
     {
       "draftId": "A18",
+      "draftRevision": "draft-gilda-audit-agent-audit-record-00",
       "expected": {
         "codes": [],
         "derivedTier": "authoritative",
@@ -340,6 +389,7 @@
     },
     {
       "draftId": "A19",
+      "draftRevision": "draft-gilda-audit-agent-audit-record-00",
       "expected": {
         "codes": [],
         "derivedTier": "authoritative",
@@ -353,6 +403,7 @@
     },
     {
       "draftId": "A20",
+      "draftRevision": "draft-gilda-audit-agent-audit-record-00",
       "expected": {
         "codes": [],
         "derivedTier": "authoritative",
@@ -366,6 +417,7 @@
     },
     {
       "draftId": "F1",
+      "draftRevision": "draft-gilda-audit-agent-audit-record-00",
       "expected": {
         "codes": [
           "member-missing"
@@ -382,6 +434,7 @@
     },
     {
       "draftId": "F2",
+      "draftRevision": "draft-gilda-audit-agent-audit-record-00",
       "expected": {
         "codes": [
           "delegation-subject-inconsistent"
@@ -398,6 +451,7 @@
     },
     {
       "draftId": "F3",
+      "draftRevision": "draft-gilda-audit-agent-audit-record-00",
       "expected": {
         "codes": [
           "arguments-digest-missing"
@@ -414,6 +468,7 @@
     },
     {
       "draftId": "F3b",
+      "draftRevision": "draft-gilda-audit-agent-audit-record-00",
       "expected": {
         "codes": [
           "arguments-digest-forbidden"
@@ -430,6 +485,7 @@
     },
     {
       "draftId": "F3c",
+      "draftRevision": "draft-gilda-audit-agent-audit-record-00",
       "expected": {
         "codes": [
           "arguments-digest-forbidden"
@@ -446,6 +502,7 @@
     },
     {
       "draftId": "F4",
+      "draftRevision": "draft-gilda-audit-agent-audit-record-00",
       "expected": {
         "codes": [
           "request-digest-mismatch"
@@ -462,6 +519,7 @@
     },
     {
       "draftId": "F5",
+      "draftRevision": "draft-gilda-audit-agent-audit-record-00",
       "expected": {
         "codes": [
           "external-anchor-inconsistent"
@@ -478,6 +536,7 @@
     },
     {
       "draftId": "F6",
+      "draftRevision": "draft-gilda-audit-agent-audit-record-00",
       "expected": {
         "codes": [
           "posture-agreement-underivable"
@@ -494,6 +553,7 @@
     },
     {
       "draftId": "F7",
+      "draftRevision": "draft-gilda-audit-agent-audit-record-00",
       "expected": {
         "codes": [
           "remediation-order"
@@ -510,6 +570,7 @@
     },
     {
       "draftId": "T1",
+      "draftRevision": "draft-gilda-audit-agent-audit-record-00",
       "expected": {
         "codes": [
           "effect-observed-underivable"
@@ -526,6 +587,7 @@
     },
     {
       "draftId": "T2",
+      "draftRevision": "draft-gilda-audit-agent-audit-record-00",
       "expected": {
         "codes": [
           "signature-invalid"
@@ -542,6 +604,7 @@
     },
     {
       "draftId": "T3",
+      "draftRevision": "draft-gilda-audit-agent-audit-record-00",
       "expected": {
         "codes": [
           "duplicate-member"
@@ -558,6 +621,7 @@
     },
     {
       "draftId": "T4",
+      "draftRevision": "draft-gilda-audit-agent-audit-record-00",
       "expected": {
         "codes": [
           "nesting-too-deep"
@@ -574,6 +638,7 @@
     },
     {
       "draftId": "T5",
+      "draftRevision": "draft-gilda-audit-agent-audit-record-00",
       "expected": {
         "codes": [
           "unsafe-integer"
@@ -590,6 +655,7 @@
     },
     {
       "draftId": "D1",
+      "draftRevision": "draft-gilda-audit-agent-audit-record-00",
       "expected": {
         "codes": [
           "agreement-underivable"
@@ -606,6 +672,7 @@
     },
     {
       "draftId": "D2",
+      "draftRevision": "draft-gilda-audit-agent-audit-record-00",
       "expected": {
         "codes": [
           "agreement-reserved-value"
@@ -622,6 +689,7 @@
     },
     {
       "draftId": "D3",
+      "draftRevision": "draft-gilda-audit-agent-audit-record-00",
       "expected": {
         "codes": [
           "agreement-underivable"
@@ -638,6 +706,7 @@
     },
     {
       "draftId": "S1",
+      "draftRevision": "draft-gilda-audit-agent-audit-record-00",
       "expected": {
         "codes": [
           "subject-interval-mismatch"
@@ -654,6 +723,7 @@
     },
     {
       "draftId": "S2",
+      "draftRevision": "draft-gilda-audit-agent-audit-record-00",
       "expected": {
         "codes": [
           "subject-after-root-mismatch"
@@ -670,6 +740,7 @@
     },
     {
       "draftId": "I1r",
+      "draftRevision": "draft-gilda-audit-agent-audit-record-00",
       "expected": {
         "codes": [
           "subject-interval-mismatch"
@@ -686,6 +757,7 @@
     },
     {
       "draftId": "TI1",
+      "draftRevision": "draft-gilda-audit-agent-audit-record-00",
       "expected": {
         "codes": [
           "tier-overclaim-vantage"
@@ -702,6 +774,7 @@
     },
     {
       "draftId": "TI2",
+      "draftRevision": "draft-gilda-audit-agent-audit-record-00",
       "expected": {
         "codes": [
           "tier-overclaim-commitment"
@@ -718,6 +791,7 @@
     },
     {
       "draftId": "TI3",
+      "draftRevision": "draft-gilda-audit-agent-audit-record-00",
       "expected": {
         "codes": [
           "tier-overclaim-scope"
@@ -734,6 +808,7 @@
     },
     {
       "draftId": "TI4",
+      "draftRevision": "draft-gilda-audit-agent-audit-record-00",
       "expected": {
         "codes": [
           "tier-overclaim-coverage"
@@ -750,6 +825,7 @@
     },
     {
       "draftId": "TI5",
+      "draftRevision": "draft-gilda-audit-agent-audit-record-00",
       "expected": {
         "codes": [
           "tier-overclaim-binding"
@@ -766,6 +842,7 @@
     },
     {
       "draftId": "C1",
+      "draftRevision": "draft-gilda-audit-agent-audit-record-00",
       "expected": {
         "codes": [
           "commitment-key-is-agent-signer"
@@ -782,6 +859,7 @@
     },
     {
       "draftId": "C2",
+      "draftRevision": "draft-gilda-audit-agent-audit-record-00",
       "expected": {
         "codes": [
           "commitment-order"
@@ -798,6 +876,7 @@
     },
     {
       "draftId": "C3",
+      "draftRevision": "draft-gilda-audit-agent-audit-record-00",
       "expected": {
         "codes": [
           "commitment-digest-mismatch"
@@ -814,6 +893,7 @@
     },
     {
       "draftId": "E1",
+      "draftRevision": "draft-gilda-audit-agent-audit-record-00",
       "expected": {
         "codes": [
           "effect-observed-underivable"
@@ -830,6 +910,7 @@
     },
     {
       "draftId": "E2",
+      "draftRevision": "draft-gilda-audit-agent-audit-record-00",
       "expected": {
         "codes": [
           "write-chain-broken"
@@ -846,6 +927,7 @@
     },
     {
       "draftId": "E3",
+      "draftRevision": "draft-gilda-audit-agent-audit-record-00",
       "expected": {
         "codes": [
           "empty-tree-constant-mismatch"
@@ -862,6 +944,7 @@
     },
     {
       "draftId": "E4",
+      "draftRevision": "draft-gilda-audit-agent-audit-record-00",
       "expected": {
         "codes": [
           "write-chain-broken"
@@ -878,6 +961,7 @@
     },
     {
       "draftId": "E5",
+      "draftRevision": "draft-gilda-audit-agent-audit-record-00",
       "expected": {
         "codes": [
           "write-chain-broken"
@@ -894,6 +978,7 @@
     },
     {
       "draftId": "E6",
+      "draftRevision": "draft-gilda-audit-agent-audit-record-00",
       "expected": {
         "codes": [
           "write-chain-broken"
@@ -910,6 +995,7 @@
     },
     {
       "draftId": "V1",
+      "draftRevision": "draft-gilda-audit-agent-audit-record-00",
       "expected": {
         "codes": [
           "value-outside-vocabulary"
@@ -926,6 +1012,7 @@
     },
     {
       "draftId": "V2",
+      "draftRevision": "draft-gilda-audit-agent-audit-record-00",
       "expected": {
         "codes": [
           "path-scope-glob"
@@ -942,6 +1029,7 @@
     },
     {
       "draftId": "V3",
+      "draftRevision": "draft-gilda-audit-agent-audit-record-00",
       "expected": {
         "codes": [
           "write-scope-mismatch"
@@ -958,6 +1046,7 @@
     },
     {
       "draftId": "FE1",
+      "draftRevision": "draft-gilda-audit-agent-audit-record-00",
       "expected": {
         "codes": [
           "field-evidence-keys"
@@ -974,6 +1063,7 @@
     },
     {
       "draftId": "FE2",
+      "draftRevision": "draft-gilda-audit-agent-audit-record-00",
       "expected": {
         "codes": [
           "field-evidence-self-substrate"
@@ -990,6 +1080,7 @@
     },
     {
       "draftId": "FR1",
+      "draftRevision": "draft-gilda-audit-agent-audit-record-00",
       "expected": {
         "codes": [],
         "derivedTier": "authoritative",
@@ -1003,6 +1094,7 @@
     },
     {
       "draftId": "FR2",
+      "draftRevision": "draft-gilda-audit-agent-audit-record-00",
       "expected": {
         "codes": [],
         "derivedTier": "authoritative",
@@ -1016,6 +1108,7 @@
     },
     {
       "draftId": "FR3",
+      "draftRevision": "draft-gilda-audit-agent-audit-record-00",
       "expected": {
         "codes": [],
         "derivedTier": "authoritative",
@@ -1029,6 +1122,7 @@
     },
     {
       "draftId": "FR4",
+      "draftRevision": "draft-gilda-audit-agent-audit-record-00",
       "expected": {
         "codes": [],
         "derivedTier": "authoritative",
@@ -1042,6 +1136,7 @@
     },
     {
       "draftId": "FR5",
+      "draftRevision": "draft-gilda-audit-agent-audit-record-00",
       "expected": {
         "codes": [
           "member-missing"
@@ -1058,6 +1153,7 @@
     },
     {
       "draftId": "FR6",
+      "draftRevision": "draft-gilda-audit-agent-audit-record-00",
       "expected": {
         "codes": [
           "member-missing"
@@ -1074,6 +1170,7 @@
     },
     {
       "draftId": "FR7",
+      "draftRevision": "draft-gilda-audit-agent-audit-record-00",
       "expected": {
         "codes": [
           "evaluation-inconsistent"
@@ -1090,6 +1187,7 @@
     },
     {
       "draftId": "FR8",
+      "draftRevision": "draft-gilda-audit-agent-audit-record-00",
       "expected": {
         "codes": [
           "evaluation-inconsistent"
@@ -1106,6 +1204,7 @@
     },
     {
       "draftId": "FR9",
+      "draftRevision": "draft-gilda-audit-agent-audit-record-00",
       "expected": {
         "codes": [
           "evaluation-result-after-decision"
@@ -1122,6 +1221,7 @@
     },
     {
       "draftId": "FR10",
+      "draftRevision": "draft-gilda-audit-agent-audit-record-00",
       "expected": {
         "codes": [
           "evaluation-input-repeated"
@@ -1138,6 +1238,7 @@
     },
     {
       "draftId": "FR11",
+      "draftRevision": "draft-gilda-audit-agent-audit-record-00",
       "expected": {
         "codes": [
           "evaluation-entry-malformed"
@@ -1154,6 +1255,7 @@
     },
     {
       "draftId": "FR12",
+      "draftRevision": "draft-gilda-audit-agent-audit-record-00",
       "expected": {
         "codes": [
           "value-outside-vocabulary"
@@ -1170,6 +1272,7 @@
     },
     {
       "draftId": "FR13",
+      "draftRevision": "draft-gilda-audit-agent-audit-record-00",
       "expected": {
         "codes": [
           "evaluation-entry-malformed"
@@ -1186,6 +1289,7 @@
     },
     {
       "draftId": "EV1",
+      "draftRevision": "draft-gilda-audit-agent-audit-record-00",
       "expected": {
         "codes": [
           "evaluation-inconsistent"
@@ -1202,6 +1306,7 @@
     },
     {
       "draftId": "EV2",
+      "draftRevision": "draft-gilda-audit-agent-audit-record-00",
       "expected": {
         "codes": [
           "evaluation-inconsistent"
@@ -1218,6 +1323,7 @@
     },
     {
       "draftId": "EV3",
+      "draftRevision": "draft-gilda-audit-agent-audit-record-00",
       "expected": {
         "codes": [
           "member-missing"
@@ -1234,6 +1340,7 @@
     },
     {
       "draftId": "EV4",
+      "draftRevision": "draft-gilda-audit-agent-audit-record-00",
       "expected": {
         "codes": [
           "value-outside-vocabulary"
@@ -1250,6 +1357,7 @@
     },
     {
       "draftId": "EV5",
+      "draftRevision": "draft-gilda-audit-agent-audit-record-00",
       "expected": {
         "codes": [
           "evaluation-inconsistent"
@@ -1266,6 +1374,7 @@
     },
     {
       "draftId": "EV6",
+      "draftRevision": "draft-gilda-audit-agent-audit-record-00",
       "expected": {
         "codes": [
           "evaluation-inconsistent"
@@ -1282,6 +1391,7 @@
     },
     {
       "draftId": "EV7",
+      "draftRevision": "draft-gilda-audit-agent-audit-record-00",
       "expected": {
         "codes": [
           "evaluation-inconsistent"
@@ -1298,6 +1408,7 @@
     },
     {
       "draftId": "EV8",
+      "draftRevision": "draft-gilda-audit-agent-audit-record-00",
       "expected": {
         "codes": [
           "evaluation-inconsistent"
@@ -1314,6 +1425,7 @@
     },
     {
       "draftId": "EV9",
+      "draftRevision": "draft-gilda-audit-agent-audit-record-00",
       "expected": {
         "codes": [
           "evaluation-inconsistent"
@@ -1330,6 +1442,7 @@
     },
     {
       "draftId": "EV10",
+      "draftRevision": "draft-gilda-audit-agent-audit-record-00",
       "expected": {
         "codes": [
           "evaluation-inconsistent"
@@ -1346,6 +1459,7 @@
     },
     {
       "draftId": "EV11",
+      "draftRevision": "draft-gilda-audit-agent-audit-record-00",
       "expected": {
         "codes": [
           "value-outside-vocabulary"
@@ -1362,6 +1476,7 @@
     },
     {
       "draftId": "EV12",
+      "draftRevision": "draft-gilda-audit-agent-audit-record-00",
       "expected": {
         "codes": [
           "evaluation-malformed"
@@ -1378,6 +1493,7 @@
     },
     {
       "draftId": "EV13",
+      "draftRevision": "draft-gilda-audit-agent-audit-record-00",
       "expected": {
         "codes": [
           "member-missing"
@@ -1394,6 +1510,7 @@
     },
     {
       "draftId": "OV1",
+      "draftRevision": "draft-gilda-audit-agent-audit-record-00",
       "expected": {
         "codes": [
           "value-outside-vocabulary"
@@ -1410,6 +1527,7 @@
     },
     {
       "draftId": "OV2",
+      "draftRevision": "draft-gilda-audit-agent-audit-record-00",
       "expected": {
         "codes": [
           "oversight-malformed"
@@ -1426,6 +1544,7 @@
     },
     {
       "draftId": "OV3",
+      "draftRevision": "draft-gilda-audit-agent-audit-record-00",
       "expected": {
         "codes": [
           "member-missing"
@@ -1442,6 +1561,7 @@
     },
     {
       "draftId": "N1",
+      "draftRevision": "draft-gilda-audit-agent-audit-record-00",
       "expected": {
         "codes": [],
         "derivedTier": "authoritative",
@@ -1457,6 +1577,7 @@
     },
     {
       "draftId": "N2",
+      "draftRevision": "draft-gilda-audit-agent-audit-record-00",
       "expected": {
         "codes": []
       },
@@ -1480,6 +1601,7 @@
     },
     {
       "draftId": "R1",
+      "draftRevision": "draft-gilda-audit-agent-audit-record-00",
       "expected": {
         "codes": [],
         "dating": {
@@ -1501,6 +1623,7 @@
     },
     {
       "draftId": "R2",
+      "draftRevision": "draft-gilda-audit-agent-audit-record-00",
       "expected": {
         "codes": [],
         "dating": {
@@ -1523,6 +1646,7 @@
     },
     {
       "draftId": "R3",
+      "draftRevision": "draft-gilda-audit-agent-audit-record-00",
       "expected": {
         "codes": [],
         "dating": {
@@ -1548,6 +1672,7 @@
     },
     {
       "draftId": "R4",
+      "draftRevision": "draft-gilda-audit-agent-audit-record-00",
       "expected": {
         "codes": [],
         "dating": {
@@ -1573,6 +1698,7 @@
     },
     {
       "draftId": "R5",
+      "draftRevision": "draft-gilda-audit-agent-audit-record-00",
       "expected": {
         "codes": [],
         "dating": {
@@ -1595,6 +1721,7 @@
     },
     {
       "draftId": "R6",
+      "draftRevision": "draft-gilda-audit-agent-audit-record-00",
       "expected": {
         "codes": [],
         "dating": {
@@ -1620,6 +1747,7 @@
     },
     {
       "draftId": "R7",
+      "draftRevision": "draft-gilda-audit-agent-audit-record-00",
       "expected": {
         "codes": [],
         "dating": {
@@ -1645,6 +1773,7 @@
     },
     {
       "draftId": "R8",
+      "draftRevision": "draft-gilda-audit-agent-audit-record-00",
       "expected": {
         "codes": [],
         "dating": {
@@ -1667,6 +1796,7 @@
     },
     {
       "draftId": "R9",
+      "draftRevision": "draft-gilda-audit-agent-audit-record-00",
       "expected": {
         "codes": [],
         "dating": {
@@ -1692,6 +1822,7 @@
     },
     {
       "draftId": "FR13b",
+      "draftRevision": "draft-gilda-audit-agent-audit-record-00",
       "draftSection": "5.4",
       "expected": {
         "codes": [
@@ -1709,6 +1840,7 @@
     },
     {
       "draftId": "FR16",
+      "draftRevision": "draft-gilda-audit-agent-audit-record-00",
       "draftSection": "5.4",
       "expected": {
         "codes": [
@@ -1726,6 +1858,7 @@
     },
     {
       "draftId": "FR17a",
+      "draftRevision": "draft-gilda-audit-agent-audit-record-00",
       "draftSection": "5.4",
       "expected": {
         "codes": [],
@@ -1740,6 +1873,7 @@
     },
     {
       "draftId": "FR17b",
+      "draftRevision": "draft-gilda-audit-agent-audit-record-00",
       "draftSection": "5.4",
       "expected": {
         "codes": [],
@@ -1754,6 +1888,7 @@
     },
     {
       "draftId": "FR17c",
+      "draftRevision": "draft-gilda-audit-agent-audit-record-00",
       "draftSection": "5.4",
       "expected": {
         "codes": [
@@ -1771,6 +1906,7 @@
     },
     {
       "draftId": "FR18",
+      "draftRevision": "draft-gilda-audit-agent-audit-record-00",
       "draftSection": "5.4",
       "expected": {
         "codes": [],
@@ -1785,6 +1921,7 @@
     },
     {
       "draftId": "EV14",
+      "draftRevision": "draft-gilda-audit-agent-audit-record-00",
       "draftSection": "5.4",
       "expected": {
         "codes": [
@@ -2065,7 +2202,7 @@
     },
     {
       "draftId": "CS10",
-      "draftRevision": "draft-gilda-audit-agent-audit-record-01",
+      "draftRevision": "draft-gilda-audit-agent-audit-record-02",
       "expected": {
         "codes": [
           "consumption-key-reused"
@@ -2082,7 +2219,7 @@
     },
     {
       "draftId": "CS11",
-      "draftRevision": "draft-gilda-audit-agent-audit-record-01",
+      "draftRevision": "draft-gilda-audit-agent-audit-record-02",
       "expected": {
         "codes": [],
         "derivedTier": "authoritative",
@@ -2099,7 +2236,7 @@
     },
     {
       "draftId": "CS12",
-      "draftRevision": "draft-gilda-audit-agent-audit-record-01",
+      "draftRevision": "draft-gilda-audit-agent-audit-record-02",
       "expected": {
         "codes": [],
         "derivedTier": "authoritative",
@@ -2116,7 +2253,7 @@
     },
     {
       "draftId": "CS13",
-      "draftRevision": "draft-gilda-audit-agent-audit-record-01",
+      "draftRevision": "draft-gilda-audit-agent-audit-record-02",
       "expected": {
         "codes": [
           "consumption-held-key-repeated"
@@ -2133,7 +2270,7 @@
     },
     {
       "draftId": "CS14",
-      "draftRevision": "draft-gilda-audit-agent-audit-record-01",
+      "draftRevision": "draft-gilda-audit-agent-audit-record-02",
       "expected": {
         "codes": [
           "member-missing"
@@ -2150,7 +2287,7 @@
     },
     {
       "draftId": "CS15",
-      "draftRevision": "draft-gilda-audit-agent-audit-record-01",
+      "draftRevision": "draft-gilda-audit-agent-audit-record-02",
       "expected": {
         "codes": [],
         "derivedTier": "authoritative",
@@ -2167,7 +2304,7 @@
     },
     {
       "draftId": "CS16",
-      "draftRevision": "draft-gilda-audit-agent-audit-record-01",
+      "draftRevision": "draft-gilda-audit-agent-audit-record-02",
       "expected": {
         "codes": [],
         "derivedTier": "authoritative",
@@ -2184,7 +2321,7 @@
     },
     {
       "draftId": "CS17",
-      "draftRevision": "draft-gilda-audit-agent-audit-record-01",
+      "draftRevision": "draft-gilda-audit-agent-audit-record-02",
       "expected": {
         "codes": [],
         "derivedTier": "authoritative",
@@ -2210,7 +2347,7 @@
     },
     {
       "draftId": "CS18",
-      "draftRevision": "draft-gilda-audit-agent-audit-record-01",
+      "draftRevision": "draft-gilda-audit-agent-audit-record-04",
       "expected": {
         "codes": [],
         "derivedTier": "authoritative",
@@ -2232,7 +2369,7 @@
     },
     {
       "draftId": "CS19",
-      "draftRevision": "draft-gilda-audit-agent-audit-record-01",
+      "draftRevision": "draft-gilda-audit-agent-audit-record-04",
       "expected": {
         "codes": [],
         "derivedTier": "authoritative",
@@ -2254,7 +2391,7 @@
     },
     {
       "draftId": "CS20",
-      "draftRevision": "draft-gilda-audit-agent-audit-record-01",
+      "draftRevision": "draft-gilda-audit-agent-audit-record-04",
       "expected": {
         "codes": [],
         "derivedTier": "authoritative",
@@ -2278,7 +2415,7 @@
     },
     {
       "draftId": "CS21",
-      "draftRevision": "draft-gilda-audit-agent-audit-record-01",
+      "draftRevision": "draft-gilda-audit-agent-audit-record-04",
       "expected": {
         "codes": [],
         "derivedTier": "authoritative",
@@ -2302,7 +2439,7 @@
     },
     {
       "draftId": "CS22",
-      "draftRevision": "draft-gilda-audit-agent-audit-record-01",
+      "draftRevision": "draft-gilda-audit-agent-audit-record-04",
       "expected": {
         "codes": [],
         "derivedTier": "authoritative",
@@ -2325,7 +2462,7 @@
     },
     {
       "draftId": "CS23",
-      "draftRevision": "draft-gilda-audit-agent-audit-record-01",
+      "draftRevision": "draft-gilda-audit-agent-audit-record-04",
       "expected": {
         "codes": [
           "consumption-supersedes-self"
@@ -2342,7 +2479,7 @@
     },
     {
       "draftId": "CS24",
-      "draftRevision": "draft-gilda-audit-agent-audit-record-01",
+      "draftRevision": "draft-gilda-audit-agent-audit-record-04",
       "expected": {
         "codes": [
           "consumption-value-invalid"
@@ -2359,7 +2496,7 @@
     },
     {
       "draftId": "CS25",
-      "draftRevision": "draft-gilda-audit-agent-audit-record-01",
+      "draftRevision": "draft-gilda-audit-agent-audit-record-04",
       "expected": {
         "codes": [],
         "derivedTier": "authoritative",
@@ -2381,7 +2518,7 @@
     },
     {
       "draftId": "CS26",
-      "draftRevision": "draft-gilda-audit-agent-audit-record-01",
+      "draftRevision": "draft-gilda-audit-agent-audit-record-04",
       "expected": {
         "codes": [],
         "derivedTier": "authoritative",
@@ -2403,7 +2540,7 @@
     },
     {
       "draftId": "CS27",
-      "draftRevision": "draft-gilda-audit-agent-audit-record-01",
+      "draftRevision": "draft-gilda-audit-agent-audit-record-04",
       "expected": {
         "codes": [],
         "derivedTier": "authoritative",
@@ -2425,7 +2562,7 @@
     },
     {
       "draftId": "CS28",
-      "draftRevision": "draft-gilda-audit-agent-audit-record-01",
+      "draftRevision": "draft-gilda-audit-agent-audit-record-04",
       "expected": {
         "codes": [],
         "derivedTier": "authoritative",
@@ -2448,7 +2585,7 @@
     },
     {
       "draftId": "CS29",
-      "draftRevision": "draft-gilda-audit-agent-audit-record-01",
+      "draftRevision": "draft-gilda-audit-agent-audit-record-04",
       "expected": {
         "codes": [],
         "derivedTier": "authoritative",
@@ -2471,7 +2608,7 @@
     },
     {
       "draftId": "CS30",
-      "draftRevision": "draft-gilda-audit-agent-audit-record-01",
+      "draftRevision": "draft-gilda-audit-agent-audit-record-04",
       "expected": {
         "codes": [],
         "derivedTier": "authoritative",
@@ -2496,7 +2633,7 @@
     },
     {
       "draftId": "CS31",
-      "draftRevision": "draft-gilda-audit-agent-audit-record-01",
+      "draftRevision": "draft-gilda-audit-agent-audit-record-04",
       "expected": {
         "codes": [],
         "derivedTier": "authoritative",
@@ -2520,7 +2657,7 @@
     },
     {
       "draftId": "CS32",
-      "draftRevision": "draft-gilda-audit-agent-audit-record-01",
+      "draftRevision": "draft-gilda-audit-agent-audit-record-04",
       "expected": {
         "codes": [],
         "derivedTier": "authoritative",
@@ -2544,7 +2681,7 @@
     },
     {
       "draftId": "CS33",
-      "draftRevision": "draft-gilda-audit-agent-audit-record-01",
+      "draftRevision": "draft-gilda-audit-agent-audit-record-04",
       "expected": {
         "codes": [],
         "derivedTier": "authoritative",
@@ -2566,7 +2703,7 @@
     },
     {
       "draftId": "CS34",
-      "draftRevision": "draft-gilda-audit-agent-audit-record-01",
+      "draftRevision": "draft-gilda-audit-agent-audit-record-04",
       "expected": {
         "codes": [],
         "derivedTier": "authoritative",
@@ -2583,7 +2720,7 @@
     },
     {
       "draftId": "CS35",
-      "draftRevision": "draft-gilda-audit-agent-audit-record-01",
+      "draftRevision": "draft-gilda-audit-agent-audit-record-04",
       "expected": {
         "codes": [
           "consumption-value-invalid"
@@ -2600,7 +2737,7 @@
     },
     {
       "draftId": "CS36",
-      "draftRevision": "draft-gilda-audit-agent-audit-record-01",
+      "draftRevision": "draft-gilda-audit-agent-audit-record-04",
       "expected": {
         "codes": [
           "consumption-value-invalid"
@@ -2617,7 +2754,7 @@
     },
     {
       "draftId": "CS37",
-      "draftRevision": "draft-gilda-audit-agent-audit-record-01",
+      "draftRevision": "draft-gilda-audit-agent-audit-record-04",
       "expected": {
         "codes": [
           "consumption-unit-ambiguous"
@@ -2634,7 +2771,7 @@
     },
     {
       "draftId": "CS38",
-      "draftRevision": "draft-gilda-audit-agent-audit-record-01",
+      "draftRevision": "draft-gilda-audit-agent-audit-record-04",
       "expected": {
         "codes": [],
         "derivedTier": "authoritative",
@@ -2658,7 +2795,7 @@
     },
     {
       "draftId": "CS39",
-      "draftRevision": "draft-gilda-audit-agent-audit-record-01",
+      "draftRevision": "draft-gilda-audit-agent-audit-record-04",
       "expected": {
         "codes": [],
         "derivedTier": "authoritative",
@@ -2682,7 +2819,7 @@
     },
     {
       "draftId": "CS40",
-      "draftRevision": "draft-gilda-audit-agent-audit-record-01",
+      "draftRevision": "draft-gilda-audit-agent-audit-record-04",
       "expected": {
         "codes": [],
         "derivedTier": "authoritative",
@@ -3330,6 +3467,7 @@
     },
     {
       "draftId": "PS1b",
+      "draftRevision": "draft-gilda-audit-agent-audit-record-03",
       "draftSection": "5.4",
       "expected": {
         "codes": [
@@ -3759,6 +3897,7 @@
     },
     {
       "draftId": "X1",
+      "draftRevision": "draft-gilda-audit-agent-audit-record-04",
       "draftSection": "4.1.1",
       "expected": {
         "codes": [
@@ -3776,6 +3915,7 @@
     },
     {
       "draftId": "X2",
+      "draftRevision": "draft-gilda-audit-agent-audit-record-03",
       "draftSection": "4.6",
       "expected": {
         "codes": [
@@ -3793,6 +3933,7 @@
     },
     {
       "draftId": "X3",
+      "draftRevision": "draft-gilda-audit-agent-audit-record-03",
       "draftSection": "4.3",
       "expected": {
         "codes": [
@@ -3810,6 +3951,7 @@
     },
     {
       "draftId": "X4",
+      "draftRevision": "draft-gilda-audit-agent-audit-record-04",
       "draftSection": "4.8",
       "expected": {
         "codes": [
@@ -3827,6 +3969,7 @@
     },
     {
       "draftId": "X5",
+      "draftRevision": "draft-gilda-audit-agent-audit-record-04",
       "draftSection": "4.8",
       "expected": {
         "codes": [
@@ -3844,6 +3987,7 @@
     },
     {
       "draftId": "X6",
+      "draftRevision": "draft-gilda-audit-agent-audit-record-04",
       "draftSection": "5.9",
       "expected": {
         "codes": [
@@ -3861,6 +4005,7 @@
     },
     {
       "draftId": "X7",
+      "draftRevision": "draft-gilda-audit-agent-audit-record-04",
       "draftSection": "5.9",
       "expected": {
         "codes": [
@@ -3878,6 +4023,7 @@
     },
     {
       "draftId": "X8",
+      "draftRevision": "draft-gilda-audit-agent-audit-record-03",
       "draftSection": "4.2",
       "expected": {
         "codes": [
@@ -3895,6 +4041,7 @@
     },
     {
       "draftId": "X9",
+      "draftRevision": "draft-gilda-audit-agent-audit-record-03",
       "draftSection": "4.4",
       "expected": {
         "codes": [
@@ -3912,6 +4059,7 @@
     },
     {
       "draftId": "X10",
+      "draftRevision": "draft-gilda-audit-agent-audit-record-03",
       "draftSection": "4.6",
       "expected": {
         "codes": [
@@ -3929,6 +4077,7 @@
     },
     {
       "draftId": "X11",
+      "draftRevision": "draft-gilda-audit-agent-audit-record-03",
       "draftSection": "4.7",
       "expected": {
         "codes": [],
@@ -3954,6 +4103,7 @@
     },
     {
       "draftId": "X12",
+      "draftRevision": "draft-gilda-audit-agent-audit-record-03",
       "draftSection": "4.7",
       "expected": {
         "codes": [],
@@ -3980,6 +4130,7 @@
     },
     {
       "draftId": "X13",
+      "draftRevision": "draft-gilda-audit-agent-audit-record-03",
       "draftSection": "4.7",
       "expected": {
         "codes": [],
@@ -4006,6 +4157,7 @@
     },
     {
       "draftId": "X14",
+      "draftRevision": "draft-gilda-audit-agent-audit-record-03",
       "draftSection": "4.7",
       "expected": {
         "codes": [],
@@ -4032,6 +4184,7 @@
     },
     {
       "draftId": "X15",
+      "draftRevision": "draft-gilda-audit-agent-audit-record-03",
       "draftSection": "4.6",
       "expected": {
         "codes": [
@@ -4058,6 +4211,7 @@
     },
     {
       "draftId": "X16",
+      "draftRevision": "draft-gilda-audit-agent-audit-record-03",
       "draftSection": "4.7",
       "expected": {
         "codes": [
@@ -4084,6 +4238,7 @@
     },
     {
       "draftId": "X17",
+      "draftRevision": "draft-gilda-audit-agent-audit-record-04",
       "draftSection": "4.9",
       "expected": {
         "codes": [],
@@ -4105,6 +4260,7 @@
     },
     {
       "draftId": "X18",
+      "draftRevision": "draft-gilda-audit-agent-audit-record-04",
       "draftSection": "4.9",
       "expected": {
         "codes": [
