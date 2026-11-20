@@ -261,6 +261,13 @@ OWNED = (
     ("corpora/vectors-observed-effect/statements", "v*.json"),
     ("corpora/vectors-observed-effect", "MANIFEST.json"),
     ("corpora/vectors-observed-effect", "INDEX.md"),
+    # The OCSF decision-record corpus. Members are the format's published sample records,
+    # a chain this generator emits over them with a published test key, and the ways a
+    # stream breaks; it builds its own manifest and index.
+    "corpora/vectors-ocsf-decision/gen_vectors.py",
+    ("corpora/vectors-ocsf-decision/members", "*.json"),
+    ("corpora/vectors-ocsf-decision", "MANIFEST.json"),
+    ("corpora/vectors-ocsf-decision", "INDEX.md"),
     ("examples/mcp-receipts/chain", "*.json"),
     ("examples/mcp-receipts/fanout", "*.json"),
     ("examples/mcp-receipts", "authority.json"),
