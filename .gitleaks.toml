@@ -148,3 +148,16 @@ condition = "AND"
 paths = ['''^(corpora/)?vectors-badge-vc-verify/cases/[^/]+/case\.json$''']
 regexTarget = "match"
 regexes = ['''eyJ[A-Za-z0-9_-]+\.[A-Za-z0-9_-]+\.[A-Za-z0-9_-]*''']
+
+[[allowlists]]
+description = "Published demo provenance keys in the ocsf-audit sample output"
+# SAMPLE-OUTPUT-PROVENANCE.md is the upstream sink's published sample, copied
+# unchanged and pinned by SHA-256. Its two `provenance_key` lines carry the
+# base64 of the plain labels "AiIdentity-demo-provenance-key-2026-10-01-a" and
+# "-b", published so a reader can recompute the sample digests. AND: only this
+# file and only a line naming provenance_key; every other line is still scanned.
+targetRules = ["generic-api-key"]
+condition = "AND"
+paths = ['''(^|/)corpora/vectors-ocsf-decision/source/SAMPLE-OUTPUT-PROVENANCE\.md$''']
+regexTarget = "line"
+regexes = ['''// verify: provenance_key(_rotated)? += QWlJZGVudGl0eS1kZW1vLXByb3ZlbmFuY2Uta2V5LTIwMjYtMTAtMDEt(YQ|Yg)==$''']
