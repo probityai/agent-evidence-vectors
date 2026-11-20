@@ -1805,6 +1805,8 @@ jobs:
         run: uv run --extra dev pytest corpora/vectors-refund-connected/tests -q
       - name: aggregate-accounting cases regenerate and force every check
         run: uv run --extra dev pytest corpora/vectors-aggregate-accounting/tests -q
+      - name: budget-lineage cases regenerate, force every check and refuse a checker that reads one flow's budget
+        run: uv run --extra dev pytest corpora/vectors-budget-lineage/tests -q
       - name: uncertain-effect cases regenerate, force every check and fail a blind retry
         run: uv run --extra dev pytest corpora/vectors-uncertain-effect/tests -q
       - name: monitor-coverage cases regenerate, force every check and refuse an inert defence
