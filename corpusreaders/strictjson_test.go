@@ -16,6 +16,8 @@ import (
 	"crypto/sha256"
 	"encoding/hex"
 	"encoding/json"
+	"io"
+	"io/fs"
 	"os"
 	"path/filepath"
 	"regexp"
@@ -57,15 +59,14 @@ func hexSum(b []byte) string {
 func memberFiles(t *testing.T, corpus, id string) []string {
 	t.Helper()
 	var out []string
-	err := filepath.Walk(corpus, func(path string, info os.FileInfo, err error) error {
-		if err != nil || info.IsDir() || !strings.HasSuffix(path, ".json") {
+	err := fs.WalkDir(os.DirFS(corpus), ".", func(rel string, d fs.DirEntry, err error) error {
+		if err != nil || d.IsDir() || !strings.HasSuffix(rel, ".json") {
 			return err
 		}
-		rel, _ := filepath.Rel(corpus, path)
-		parts := strings.Split(filepath.ToSlash(rel), "/")
+		parts := strings.Split(rel, "/")
 		for i, part := range parts {
 			if part == id || (i == len(parts)-1 && strings.TrimSuffix(part, ".json") == id) {
-				out = append(out, path)
+				out = append(out, filepath.Join(corpus, filepath.FromSlash(rel)))
 				break
 			}
 		}
@@ -78,18 +79,47 @@ func memberFiles(t *testing.T, corpus, id string) []string {
 	return out
 }
 
-// repin replaces every mention of an old digest in the corpus's text files.
-func repin(t *testing.T, corpus string, old, new string) {
+// repin replaces every mention of an old digest in the corpus's text files. It
+// reads and writes through one os.Root, so no path can leave the corpus.
+func repin(t *testing.T, corpus string, old, repl string) {
 	t.Helper()
-	err := filepath.Walk(corpus, func(path string, info os.FileInfo, err error) error {
-		if err != nil || info.IsDir() || info.Size() > 8<<20 {
+	root, err := os.OpenRoot(corpus)
+	if err != nil {
+		t.Fatal(err)
+	}
+	defer func() {
+		if err := root.Close(); err != nil {
+			t.Error(err)
+		}
+	}()
+	err = fs.WalkDir(root.FS(), ".", func(rel string, d fs.DirEntry, err error) error {
+		if err != nil || d.IsDir() {
 			return err
 		}
-		body, err := os.ReadFile(path) // #nosec G304,G122 -- a staged copy of a committed corpus
+		info, err := d.Info()
+		if err != nil || info.Size() > 8<<20 {
+			return err
+		}
+		in, err := root.Open(rel)
+		if err != nil {
+			return err
+		}
+		body, err := io.ReadAll(in)
+		if cerr := in.Close(); err == nil {
+			err = cerr
+		}
 		if err != nil || !strings.Contains(string(body), old) {
 			return err
 		}
-		return os.WriteFile(path, []byte(strings.ReplaceAll(string(body), old, new)), 0o600)
+		out, err := root.OpenFile(rel, os.O_WRONLY|os.O_TRUNC, 0o600)
+		if err != nil {
+			return err
+		}
+		_, err = out.Write([]byte(strings.ReplaceAll(string(body), old, repl)))
+		if cerr := out.Close(); err == nil {
+			err = cerr
+		}
+		return err
 	})
 	if err != nil {
 		t.Fatal(err)
