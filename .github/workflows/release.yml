@@ -121,6 +121,21 @@ jobs:
           fi
           echo "ok: ${GITHUB_REF_NAME} (${tagged_sha}) is an ancestor of origin/main (${main_sha})"
 
+      # Ruling P-48 step 2: a release whose cases changed is a minor or major
+      # release, never a patch, because a consumer pins one release exactly and
+      # its Dependabot bump of a patch must not turn a passing verifier red. The
+      # diff is read from every corpus manifest at the previous vX.Y.Z tag and at
+      # this one (scripts/changed-cases.py), and it refuses before the
+      # public-release approval is asked for. v0.37.1 added four cases as a patch.
+      - name: a patch release changes no case
+        run: |
+          set -euo pipefail
+          if [ "${GITHUB_REF_TYPE:-}" != "tag" ]; then
+            echo "no release tag in this run; the patch-release case check did not run"
+            exit 0
+          fi
+          python3 scripts/changed-cases.py semver --version "${GITHUB_REF_NAME#v}" --to "${GITHUB_SHA:?}"
+
       - name: sync toolchain
         run: uv sync --extra dev
 
@@ -447,7 +462,14 @@ jobs:
               if [ "$t" != "$GITHUB_REF_NAME" ] && [ "$(printf '%s\n%s\n' "$t" "$GITHUB_REF_NAME" | sort -V | head -n1)" = "$t" ]; then echo "$t"; break; fi
             done)"
             args=(--verify-tag --title "$GITHUB_REF_NAME" --generate-notes)
-            if [ -n "$prev" ]; then args+=(--notes-start-tag "$prev"); fi
+            if [ -n "$prev" ]; then
+              args+=(--notes-start-tag "$prev")
+              # The cases each corpus added, changed and removed since the
+              # previous tag (ruling P-48 step 3), above GitHub's list of pull
+              # requests, so a pinning consumer reads them in its bump PR.
+              python3 scripts/changed-cases.py notes --from "$prev" --to "$GITHUB_REF_NAME" > "$RUNNER_TEMP/changed-cases.md"
+              args+=(--notes-file "$RUNNER_TEMP/changed-cases.md")
+            fi
             assets=()
             for f in release/CORPUS-DIGESTS.txt release/CORPUS-DIGESTS.txt.sig release/CORPUS-DIGESTS.txt.sig.ots release/CORPUS-DIGESTS.txt.sig.tsr; do
               if [ -f "$f" ]; then assets+=("$f"); fi
@@ -505,6 +527,9 @@ jobs:
       - id: target
         env:
           TAG: ${{ github.event.release.tag_name }}
+          # release-target checks every repository link in the manifest
+          # against the GitHub API; anonymous reads share 60 an hour per runner.
+          GH_TOKEN: ${{ github.token }}
         run: |
           set -euo pipefail
           git merge-base --is-ancestor "$GITHUB_SHA" origin/main

@@ -34,10 +34,16 @@ is specific rather than a gesture at semver:
 - **A corpus member is removed, or its identifier changes.** Identifiers are
   digests of member bytes, so regenerating a member renames it. A citation naming
   the old identifier stops resolving.
-- **A verdict changes on a member that already shipped.** A rail that passed the
-  corpus at the previous tag may fail at this one through no change of its own.
-  Adding a member that a conforming rail already handles correctly is NOT
-  breaking; adding one that a conforming rail fails is.
+- **A case is added, changed or removed, or a corpus contract changes.** A rail
+  that passed the corpus at the previous tag may fail at this one through no
+  change of its own, and a consumer pins one release exactly, so its Dependabot
+  bump of a patch must not turn it red. Whether a new case
+  happens to be one every conforming rail already handles cannot be checked by
+  a machine, so every case change is treated as one that can. Until v0.38.0 this
+  line allowed a new case in a patch, and v0.37.1 shipped four trade-booking
+  cases that way. `scripts/changed-cases.py semver --version X.Y.Z` reads every
+  corpus manifest at the previous tag and at HEAD and refuses a patch version
+  whose cases changed; release.yml runs it on the tag before the approval.
 - **The manifest schema changes** in a way that an existing reader cannot parse:
   a renamed or removed field, a field whose type changes. Adding a field a reader
   may ignore is not breaking.
@@ -45,8 +51,8 @@ is specific rather than a gesture at semver:
   moving it re-signs the corpus and renames every member; it is the second case
   above with a larger radius.
 
-A new corpus, a new gate, a new rule that no existing member reaches, and any
-documentation change are all patch-level.
+A new corpus adds cases, so it is minor-level too. A new gate, a new rule that no
+existing member reaches, and any documentation change are patch-level.
 
 ### Where the version is written
 
@@ -147,6 +153,10 @@ scripts/release-timestamps.sh stamp
 #     VIRTUAL_ENV left over from another project so uv does not reuse it.
 env -u VIRTUAL_ENV uv run --locked --python 3.13 --extra generators python scripts/gen-intake-records.py
 
+# 3c. Hold the version to the cases. A patch version whose cases changed is
+#     refused (exit 1) with the minor version to use instead.
+python3 scripts/changed-cases.py semver --version X.Y.Z
+
 # 4. Commit the release artifacts together with the version bump. They are one
 #    unit: a digest list without its signature, a signature without its stamps,
 #    or records that still call the signed list unsigned, is a half-published
@@ -211,7 +221,10 @@ git push origin refs/tags/vX.Y.Z:refs/tags/vX.Y.Z
 
 # 10. Watch the release run. verify checks the tag is on main first and prints
 #    the tag, its commit and origin/main when it is not. The publish job then
-#    waits for the public-release environment's approval. Read back the merged
+#    waits for the public-release environment's approval. It writes the cases
+#    each corpus added, changed and removed since the previous tag into the
+#    release body, above GitHub's list of pull requests
+#    (`scripts/changed-cases.py notes`). Read back the merged
 #    source tree, main checks and actual package publication (PyPI and the
 #    Hugging Face dataset) before reporting the release as delivered.
 

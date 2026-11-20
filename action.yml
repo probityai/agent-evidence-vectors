@@ -262,6 +262,17 @@ runs:
         python -m pip install --quiet --disable-pip-version-check \
           --no-index --no-deps "$build"/dist/agent_evidence_vectors-*.whl
         agent-evidence-vectors --list-corpora
+        # The corpus revision every report records (verifierResult.corpusRevision):
+        # the tag input when one was named, else the ref this action was used at,
+        # which is the commit itself for `uses: ...@<sha>`, else the commit of a
+        # local checkout (`uses: ./`).
+        revision="${TAG:-$ACTION_REF}"
+        if [ -z "$revision" ]; then
+          revision="$(git -C "$ACTION_PATH" rev-parse --verify 'HEAD^{commit}' 2>/dev/null || true)"
+        fi
+        if [ -n "$revision" ]; then
+          echo "AEV_PACKAGE_REVISION=$revision" >> "$GITHUB_ENV"
+        fi
         echo "::endgroup::"
 
     - name: Replay the corpus
