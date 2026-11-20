@@ -2439,6 +2439,40 @@ principal_identity:
       downgraded configurations refused, lets a reader tell a client that
       would have caught a swapped issuer key from one that would not.
 
+  key_publisher:
+    status: proposed
+    criticality: critical
+    review_by: "2027-05-21"
+    values: [agent_origin, verifier_chosen_issuer]
+    value_definitions:
+      agent_origin: "The key set the verifier used was published by the agent's own origin: the agent, or the party that deployed it, serves the keys that vouch for its signatures, and the verifier reached them through the origin the agent named."
+      verifier_chosen_issuer: "The key set the verifier used was published by an issuer or network the verifier chose before it saw the agent's record, and the agent's own origin had no part in serving it."
+    definition: >
+      Which party publishes the key set a verifier trusts for a signed
+      payment instruction or credential: the agent's own origin, or an issuer
+      or network the verifier selected independently. It is read beside
+      issuer_key_pinning, and the two together answer which origin vouches for
+      the key and whether the verifier pinned it somewhere else first. A key
+      set the agent's origin serves proves only that the origin holds the key,
+      so a verifier that requires an independent publisher refuses agent_origin.
+      Closed and fail-closed.
+    check: >
+      A verifier derives the value from where it fetched the key set: the same
+      origin the agent presented, or a registry, issuer or network it was
+      configured with before the record arrived. A record whose declared value
+      differs from the derived one is refused, never reconciled. A key set
+      fetched from an origin the verifier cannot classify is malformed. A
+      relying party that requires an independent publisher refuses agent_origin.
+    source_path: "predicate.principal.keyPublisher (declared); derived from the origin the key set was fetched from"
+    issuers_in_production: []
+    promotion_trigger: "An independently maintained payment or agent gateway that is not us records which party published the key set it trusted in a signed record and files a crosswalk with evidence: emitted."
+    why_this_registry: >
+      A rail that resolves keys from whatever the agent points at trusts the
+      agent's claim about itself, while one that resolves them from an issuer
+      or network it chose has a second party vouching. Naming the two states
+      lets a dispute reader tell which kind of key lookup stood behind a
+      mandate without trusting each vendor's label.
+
 # decision_receipt: the fields a signed record of one allow-or-refuse decision
 # carries so that a party who does not trust the decision point can check what
 # it decided over, in what world and as one of how many. Every term here is a

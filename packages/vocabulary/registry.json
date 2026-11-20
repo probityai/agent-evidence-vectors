@@ -1,6 +1,6 @@
 {
   "source": "vocabulary.yaml",
-  "source_sha256": "0241fae4b3be439b2a0ad1a8481282bc9610ddfb23708757babd443f29e4d2a9",
+  "source_sha256": "03901e42d814b2064f9034af6a521a0047d63d6ce52c0c403f301150a487dc4e",
   "term_uri_base": "https://w3id.org/agent-evidence/vocab/v1/",
   "terms": {
     "acceptance_observed": {
@@ -698,6 +698,20 @@
         "key_not_authorized_at_issue",
         "key_revoked",
         "key_unknown"
+      ]
+    },
+    "key_publisher": {
+      "criticality": "critical",
+      "definition": "Which party publishes the key set a verifier trusts for a signed payment instruction or credential: the agent's own origin, or an issuer or network the verifier selected independently. It is read beside issuer_key_pinning, and the two together answer which origin vouches for the key and whether the verifier pinned it somewhere else first. A key set the agent's origin serves proves only that the origin holds the key, so a verifier that requires an independent publisher refuses agent_origin. Closed and fail-closed.",
+      "section": "principal_identity",
+      "uri": "https://w3id.org/agent-evidence/vocab/v1/key_publisher",
+      "value_definitions": {
+        "agent_origin": "The key set the verifier used was published by the agent's own origin: the agent, or the party that deployed it, serves the keys that vouch for its signatures, and the verifier reached them through the origin the agent named.",
+        "verifier_chosen_issuer": "The key set the verifier used was published by an issuer or network the verifier chose before it saw the agent's record, and the agent's own origin had no part in serving it."
+      },
+      "values": [
+        "agent_origin",
+        "verifier_chosen_issuer"
       ]
     },
     "lifecycle_binding": {
