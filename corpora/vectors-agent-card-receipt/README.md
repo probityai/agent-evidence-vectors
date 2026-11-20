@@ -21,6 +21,8 @@ A caller that holds the card can check all of it without asking the agent.
 | accept-rfc8785-edges | accept, `receipt_current` |
 | accept-receipt-extension-declared | accept, `receipt_current` |
 | accept-unknown-member-kept | accept, `receipt_current` |
+| accept-signatures-name-escaped | accept, `receipt_current` |
+| accept-exclusion-top-level-only | accept, `receipt_current` |
 | accept-agent-key-thumbprints | accept, `receipt_current` |
 | accept-result-degraded | accept, `receipt_current` |
 | accept-other-receipt-revoked | accept, `receipt_current` |
@@ -43,9 +45,12 @@ A caller that holds the card can check all of it without asking the agent.
 | validity-window-inverted | reject, `validity_window_inverted` |
 | card-duplicate-member | reject, `card_malformed` |
 | card-not-an-object | reject, `card_malformed` |
+| card-lone-surrogate | reject, `card_malformed` |
 | card-integer-outside-i-json | reject, `card_malformed` |
 | digest-defaults-pruned | reject, `card_digest_mismatch` |
 | digest-signatures-included | reject, `card_digest_mismatch` |
+| digest-signatures-removed-recursively | reject, `card_digest_mismatch` |
+| digest-additional-signatures-excluded | reject, `card_digest_mismatch` |
 | digest-not-rfc8785 | reject, `card_digest_mismatch` |
 | card-changed-after-receipt | reject, `card_digest_mismatch` |
 | receipt-not-yet-valid | reject, `receipt_not_yet_valid` |
@@ -84,9 +89,14 @@ A verifier names the first check that fails.
    (`subject_malformed`).
 5. The predicate has exactly its members, each well formed (`predicate_malformed`).
 6. `issuedAt` is before `validUntil` (`validity_window_inverted`).
-7. The card is an I-JSON object with an RFC 8785 form (`card_malformed`).
-8. The subject digest is the SHA-256 of that form without `signatures`
-   (`card_digest_mismatch`).
+7. The card is an I-JSON object with an RFC 8785 form (`card_malformed`). A string
+   holding an unpaired surrogate escape such as `\ud800` is not I-JSON: a verifier
+   refuses it and never replaces it with U+FFFD.
+8. The subject digest is the SHA-256 of that form without the top-level `signatures`
+   member and nothing else: a member named `signatures` inside an extension stays, and
+   so does a top-level `additionalSignatures` (`card_digest_mismatch`). The member is
+   found after parsing, so a name written with escapes (`signatur\u0065s`) is excluded
+   like the plain one.
 9. The check time is not before `issuedAt` (`receipt_not_yet_valid`) and is before
    `validUntil` (`receipt_expired`).
 10. A revocation list is present (`revocation_list_absent`), well formed
