@@ -75,6 +75,9 @@ var corpusCases = []corpusCase{
 	// A member of the recorded-set corpus is a directory of a publisher's
 	// bytes; its digest list is the file whose flipped byte must be named.
 	{dir: "vectors-recorded", memberFileKey: "file"},
+	// A member of the OCSF decision corpus is one JSON object in one file: the
+	// records' exact text, the relying party's key set and heads, and a profile.
+	{dir: "vectors-ocsf-decision", memberFileKey: "path"},
 }
 
 // corpusPath is where a corpus sits in this repository: under corpora/<id>/,
