@@ -17,16 +17,18 @@ import (
 
 const eiDir = "vectors-empty-interval-statement"
 
-func eiStageWithFile(t *testing.T, member, file, from string) string {
+func eiStageWithFiles(t *testing.T, member, from string, files ...string) string {
 	t.Helper()
 	copied := filepath.Join(t.TempDir(), eiDir)
 	copyTree(t, corpusPath(eiDir), copied)
-	body, err := os.ReadFile(filepath.Join(copied, "cases", from, file)) // #nosec G304 -- a test reading its own copy
-	if err != nil {
-		t.Fatal(err)
-	}
-	if err := os.WriteFile(filepath.Join(copied, "cases", member, file), body, 0o600); err != nil {
-		t.Fatal(err)
+	for _, file := range files {
+		body, err := os.ReadFile(filepath.Join(copied, "cases", from, file)) // #nosec G304 -- a test reading its own copy
+		if err != nil {
+			t.Fatal(err)
+		}
+		if err := os.WriteFile(filepath.Join(copied, "cases", member, file), body, 0o600); err != nil {
+			t.Fatal(err)
+		}
 	}
 	return copied
 }
@@ -51,11 +53,13 @@ func TestEmptyIntervalCommittedCorpusIsClean(t *testing.T) {
 
 func TestEmptyIntervalEachCheckMovesTheValue(t *testing.T) {
 	const clean = "interval-empty-not-recorded"
+	// A swapped ledger alone changes the head the checkpoint names, so a ledger that
+	// carries a revocation is swapped together with the statement signed over it.
 	cases := []struct {
 		member, file, from, want string
 	}{
-		{clean, "ledger.jsonl", "interval-holds-revocation", "derived recorded/statement_omits_recorded_event"},
-		{"interval-holds-revocation", "ledger.jsonl", clean, "derived not_recorded/no_revocation_in_covered_interval"},
+		{clean, "ledger.jsonl+statement.json", "statement-omits-recorded-event", "derived recorded/statement_omits_recorded_event"},
+		{"interval-holds-revocation", "ledger.jsonl+statement.json", clean, "derived not_recorded/no_revocation_in_covered_interval"},
 		{clean, "ledger.jsonl", "event-deleted-from-interval", "derived undetermined/chain_link_broken"},
 		{clean, "ledger.jsonl", "event-edited-in-place", "derived undetermined/ledger_event_invalid"},
 		{clean, "ledger.jsonl", "ledger-rolled-back-to-abandoned-branch", "derived undetermined/checkpoint_head_mismatch"},
@@ -70,7 +74,7 @@ func TestEmptyIntervalEachCheckMovesTheValue(t *testing.T) {
 	}
 	for _, tc := range cases {
 		t.Run(tc.member+" with the "+tc.file+" of "+tc.from, func(t *testing.T) {
-			dir := eiStageWithFile(t, tc.member, tc.file, tc.from)
+			dir := eiStageWithFiles(t, tc.member, tc.from, strings.Split(tc.file, "+")...)
 			got := scDerived(t, dir, tc.member)
 			if !strings.Contains(got, tc.want) {
 				t.Fatalf("want a finding containing %q, got %q", tc.want, got)
