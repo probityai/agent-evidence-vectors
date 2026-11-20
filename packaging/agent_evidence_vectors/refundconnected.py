@@ -48,7 +48,7 @@ from datetime import UTC, datetime, timedelta
 from pathlib import Path
 from typing import Any
 
-from . import strictb64
+from . import strictb64, strictjson
 
 SUITE = "refund-connected/v1"
 CONTRACT_REVISION = "review-2026-10-23"
@@ -1664,7 +1664,7 @@ def render(result: dict[str, Any]) -> str:
 def check(root: Path | None = None) -> tuple[int, list[str]]:
     """Judge each shipped case against the verdicts the manifest records for it."""
     base = root or ROOT
-    manifest = json.loads((base / "MANIFEST.json").read_text(encoding="utf-8"))
+    manifest = strictjson.loads((base / "MANIFEST.json").read_text(encoding="utf-8"))
     errors: list[str] = []
     answered = 0
     for vector in manifest["vectors"]:
@@ -1691,7 +1691,7 @@ def run(root: str, verifier: list[str] | None, report_path: str, rail_note: str)
         )
         return 2
     answered, errors = check(directory)
-    manifest = json.loads((directory / "MANIFEST.json").read_text(encoding="utf-8"))
+    manifest = strictjson.loads((directory / "MANIFEST.json").read_text(encoding="utf-8"))
     total = len(manifest["vectors"])
     for error in errors:
         print(error)
@@ -1733,7 +1733,7 @@ def main(argv: list[str] | None = None) -> int:
     answered, errors = check()
     for error in errors:
         print(error)
-    total = len(json.loads((ROOT / "MANIFEST.json").read_text(encoding="utf-8"))["vectors"])
+    total = len(strictjson.loads((ROOT / "MANIFEST.json").read_text(encoding="utf-8"))["vectors"])
     print(f"answered {answered} of {total} cases")
     return 1 if errors or answered != total else 0
 

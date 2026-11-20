@@ -75,7 +75,7 @@ from collections.abc import Callable
 from dataclasses import dataclass, field
 from typing import Any
 
-from . import strictb64
+from . import strictb64, strictjson
 
 if __package__ in (None, ""):
     sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
@@ -478,6 +478,7 @@ def parse_statement(payload: bytes) -> Any:
             object_pairs_hook=_no_duplicates,
             parse_int=_safe_int,
             parse_float=_refuse_float,
+            parse_constant=strictjson.refuse_constant,
         )
     except Malformed:
         raise
@@ -1539,7 +1540,9 @@ def rule_names() -> list[str]:
 
 def _envelope_payload(raw: bytes) -> tuple[dict[str, Any], bytes]:
     try:
-        envelope = json.loads(raw, object_pairs_hook=_no_duplicates)
+        envelope = json.loads(
+            raw, object_pairs_hook=_no_duplicates, parse_constant=strictjson.refuse_constant
+        )
         payload = strictb64.std(envelope["payload"])
     except Malformed:
         raise
@@ -1959,7 +1962,9 @@ def _dating_anchor_late(r: _Retained) -> None:
 
 
 def _jwk_algorithm(material: bytes) -> str:
-    keys = json.loads(material, object_pairs_hook=_no_duplicates)["keys"]
+    keys = json.loads(
+        material, object_pairs_hook=_no_duplicates, parse_constant=strictjson.refuse_constant
+    )["keys"]
     algorithms = {JWK_ALGORITHMS.get((k.get("kty"), k.get("crv"))) for k in keys}
     if len(algorithms) != 1 or None in algorithms:
         raise ValueError("no single algorithm")
@@ -2116,7 +2121,9 @@ def verify_retained(
 ) -> tuple[Report, Dating]:
     """Judge a retained record: the envelope's verdict, and the dating result."""
     try:
-        bundle = json.loads(raw, object_pairs_hook=_no_duplicates)
+        bundle = json.loads(
+            raw, object_pairs_hook=_no_duplicates, parse_constant=strictjson.refuse_constant
+        )
         envelope, entry = bundle["envelope"], bundle["retention"]
     except (Malformed, ValueError, KeyError, TypeError):
         unreadable = ["retained-unreadable"]
@@ -2529,7 +2536,7 @@ def _limit_findings(entry: dict[str, Any], raw: bytes) -> list[str]:
     label = f"{entry.get('draftId')} {entry.get('slug')}"
     expected = entry.get("expected") or {}
     try:
-        pred = json.loads(_envelope_payload(raw)[1])["predicate"]
+        pred = strictjson.loads(_envelope_payload(raw)[1])["predicate"]
         got = within_limit(pred)
     except (Malformed, KeyError, TypeError, ValueError):
         return [] if "withinLimit" not in expected else [f"{label}: withinLimit cannot be derived"]
@@ -2555,7 +2562,7 @@ def _set_findings(entry: dict[str, Any], raw: bytes, policy: Policy) -> list[str
     except (Malformed, ValueError, KeyError, TypeError):
         envelopes = []
     for env in envelopes:
-        limits.append(within_limit(json.loads(_envelope_payload(env)[1])["predicate"]))
+        limits.append(within_limit(strictjson.loads(_envelope_payload(env)[1])["predicate"]))
     if limits != declared.get("withinLimit", [None] * len(limits)):
         findings.append(
             f"{label}: expected withinLimit {declared.get('withinLimit')}, got {limits}"
@@ -2631,7 +2638,7 @@ def aggregation_findings(entry: dict[str, Any], raw: bytes) -> list[str]:
     label = f"{entry.get('draftId')} {entry.get('slug')}"
     try:
         _, payload = _envelope_payload(raw)
-        pred = json.loads(payload)["predicate"]
+        pred = strictjson.loads(payload)["predicate"]
         want = aggregate_values(block["values"])
     except (Malformed, KeyError, TypeError, ValueError) as exc:
         return [f"{label}: the aggregation block cannot be checked: {exc}"]
@@ -2719,7 +2726,7 @@ def _corpus_findings(directory: str, manifest: dict[str, Any]) -> list[str]:
 
 def judge(directory: str) -> Judged:
     with open(os.path.join(directory, "MANIFEST.json"), encoding="utf-8") as handle:
-        manifest = json.load(handle)
+        manifest = strictjson.load(handle)
     judged = Judged()
     entries: list[dict[str, Any]] = manifest.get("vectors") or []
     if not entries:

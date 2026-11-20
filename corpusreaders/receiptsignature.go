@@ -146,7 +146,7 @@ type rsJudging struct {
 
 func (r receiptSignature) Judge(dir string, raw []byte) (*Result, error) {
 	var manifest rsManifest
-	if err := json.Unmarshal(raw, &manifest); err != nil {
+	if err := strictUnmarshal(raw, &manifest); err != nil {
 		return nil, fmt.Errorf("%s/MANIFEST.json does not parse: %w", dir, err)
 	}
 	j := &rsJudging{dir: dir, manifest: manifest, result: &Result{}}
@@ -254,7 +254,7 @@ func (j *rsJudging) loadKeySet(ks rsKeySet, name string) map[string]rsJWK {
 	var set struct {
 		Keys []rsJWK `json:"keys"`
 	}
-	if err := json.Unmarshal(body, &set); err != nil {
+	if err := strictUnmarshal(body, &set); err != nil {
 		j.find("the %s key set %s does not parse: %v", name, ks.File, err)
 		return map[string]rsJWK{}
 	}
@@ -715,7 +715,7 @@ func rsResult(verdict, code string) rsOutcome {
 // a signature object carrying exactly alg, kid and sig.
 func rsParse(body []byte) (*rsEnvelope, *rsOutcome) {
 	var top map[string]json.RawMessage
-	if err := json.Unmarshal(body, &top); err != nil || len(top) != 2 || top["payload"] == nil || top["signature"] == nil {
+	if err := strictUnmarshalExcept(body, &top, "payload"); err != nil || len(top) != 2 || top["payload"] == nil || top["signature"] == nil {
 		out := rsResult(rsUndecidable, "not_envelope_shape")
 		return nil, &out
 	}
@@ -738,7 +738,7 @@ func rsParse(body []byte) (*rsEnvelope, *rsOutcome) {
 // kid and sig, each a non-empty string.
 func rsSignatureObject(raw json.RawMessage) (map[string]string, bool) {
 	var signature map[string]string
-	if err := json.Unmarshal(raw, &signature); err != nil || len(signature) != 3 {
+	if err := strictUnmarshal(raw, &signature); err != nil || len(signature) != 3 {
 		return nil, false
 	}
 	return signature, signature["alg"] != "" && signature["kid"] != "" && signature["sig"] != ""
@@ -812,7 +812,7 @@ func rsLinkSyntax(env *rsEnvelope) *rsOutcome {
 		return nil
 	}
 	var value string
-	if err := json.Unmarshal(raw, &value); err != nil || (!rsLinkForm.MatchString(value) && !rsBareLinkForm.MatchString(value)) {
+	if err := strictUnmarshal(raw, &value); err != nil || (!rsLinkForm.MatchString(value) && !rsBareLinkForm.MatchString(value)) {
 		out := rsResult(rsInvalid, "malformed_chain_link")
 		return &out
 	}
@@ -838,7 +838,7 @@ func rsRevocation(env *rsEnvelope, key rsJWK) rsOutcome {
 
 func rsInstant(raw json.RawMessage) (time.Time, bool) {
 	var value string
-	if err := json.Unmarshal(raw, &value); err != nil {
+	if err := strictUnmarshal(raw, &value); err != nil {
 		return time.Time{}, false
 	}
 	at, err := time.Parse(time.RFC3339, value)
@@ -869,7 +869,7 @@ func rsPayloadString(body []byte, member string) (string, bool) {
 		return "", false
 	}
 	var value string
-	return value, json.Unmarshal(env.fields[member], &value) == nil
+	return value, strictUnmarshal(env.fields[member], &value) == nil
 }
 
 // rsVerifyInContext is the receipt, then its chain position (Section 6.7), then,
@@ -916,7 +916,7 @@ func rsCommitmentTime(body []byte, keys map[string]rsJWK, ctx *rsReadContext) rs
 		return notApplicable
 	}
 	var c rsCommitment
-	if json.Unmarshal(env.payload, &c) != nil || c.Count == nil || c.TerminalHash == nil || *c.Count < 1 {
+	if strictUnmarshal(env.payload, &c) != nil || c.Count == nil || c.TerminalHash == nil || *c.Count < 1 {
 		return notApplicable
 	}
 	position := int64(len(ctx.chain) + 1)
@@ -941,7 +941,7 @@ func rsCommitmentTime(body []byte, keys map[string]rsJWK, ctx *rsReadContext) rs
 // by the receipt's issuer under the external key set.
 func rsSignedBy(env *rsEnvelope, keys map[string]rsJWK, issuer string) bool {
 	var claimed string
-	if json.Unmarshal(env.fields["issuer_id"], &claimed) != nil || claimed != issuer || env.kid != issuer {
+	if strictUnmarshal(env.fields["issuer_id"], &claimed) != nil || claimed != issuer || env.kid != issuer {
 		return false
 	}
 	pub, bad := rsPublicKey(keys[env.kid])
@@ -966,7 +966,7 @@ func rsPrecheck(env *rsEnvelope) *rsOutcome {
 		return &out
 	}
 	var issuer string
-	if err := json.Unmarshal(env.fields["issuer_id"], &issuer); err != nil || issuer != env.kid {
+	if err := strictUnmarshal(env.fields["issuer_id"], &issuer); err != nil || issuer != env.kid {
 		out := rsResult(rsInvalid, "issuer_kid_mismatch")
 		return &out
 	}

@@ -73,13 +73,13 @@ const acGenesis = "0000000000000000000000000000000000000000000000000000000000000
 
 func (anchoredChain) Judge(dir string, raw []byte) (*Result, error) {
 	var manifest scManifest
-	if err := json.Unmarshal(raw, &manifest); err != nil {
+	if err := strictUnmarshal(raw, &manifest); err != nil {
 		return nil, fmt.Errorf("%s/MANIFEST.json does not parse: %w", dir, err)
 	}
 	result := &Result{}
 	for _, entry := range manifest.Vectors {
 		var v acVector
-		if err := json.Unmarshal(entry, &v); err != nil {
+		if err := strictUnmarshal(entry, &v); err != nil {
 			result.Findings = append(result.Findings, fmt.Sprintf("a manifest row does not parse: %v", err))
 			continue
 		}
@@ -188,7 +188,7 @@ func acParseStore(store []byte) ([][]byte, []acEnvelope, error) {
 			continue
 		}
 		var env acEnvelope
-		if err := json.Unmarshal(line, &env); err != nil {
+		if err := strictUnmarshal(line, &env); err != nil {
 			return nil, nil, fmt.Errorf("a stored line does not parse: %w", err)
 		}
 		lines, envs = append(lines, line), append(envs, env)
@@ -202,12 +202,12 @@ func acFirstFailure(c acCase, lines [][]byte, envs []acEnvelope, anchor acEnvelo
 		return scDecision{"rejected", "signature_invalid"}
 	}
 	var body acAnchorBody
-	if !acSigned(anchor.Anchor, anchor.Sig, anchorKey) || json.Unmarshal(anchor.Anchor, &body) != nil {
+	if !acSigned(anchor.Anchor, anchor.Sig, anchorKey) || strictUnmarshal(anchor.Anchor, &body) != nil {
 		return scDecision{"rejected", "anchor_signature_invalid"}
 	}
 	records := make([]acRecord, len(envs))
 	for i, env := range envs {
-		if json.Unmarshal(env.Record, &records[i]) != nil || records[i].Chain != c.Chain {
+		if strictUnmarshal(env.Record, &records[i]) != nil || records[i].Chain != c.Chain {
 			return scDecision{"rejected", "record_from_other_chain"}
 		}
 	}

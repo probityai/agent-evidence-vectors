@@ -61,7 +61,7 @@ from dataclasses import dataclass, field
 from decimal import Decimal
 from typing import Any
 
-from . import strictb64
+from . import strictb64, strictjson
 
 if __package__ in (None, ""):
     # Run as a script from a checkout: make the package importable by name, and
@@ -1501,7 +1501,7 @@ def _blob_is_named(directory: str, manifest: dict[str, Any], digest: str) -> boo
     for entry in manifest.get("vectors", []):
         try:
             with open(os.path.join(directory, str(entry.get("file", ""))), "rb") as handle:
-                envelope = json.load(handle)
+                envelope = strictjson.load(handle)
             payload = strictb64.std(envelope["payload"])
         except Exception:
             continue
@@ -1594,7 +1594,7 @@ def corpus_digest(manifest: dict[str, Any], root: str) -> str:
 
 def judge(directory: str) -> Judged:
     with open(os.path.join(directory, "MANIFEST.json"), encoding="utf-8") as handle:
-        manifest = json.load(handle)
+        manifest = strictjson.load(handle)
     judged = Judged()
     policy, notes, findings = _policy(directory, manifest)
     judged.notes.extend(notes)

@@ -116,7 +116,7 @@ type srrExpected struct {
 
 func (s selfReportedRecord) Judge(dir string, raw []byte) (*Result, error) {
 	var manifest srrManifest
-	if err := json.Unmarshal(raw, &manifest); err != nil {
+	if err := strictUnmarshal(raw, &manifest); err != nil {
 		return nil, fmt.Errorf("%s/MANIFEST.json does not parse: %w", dir, err)
 	}
 	result := &Result{}
@@ -385,6 +385,9 @@ func srrSignatureSpelled(signature string) bool {
 func srrDecode(raw []byte) (any, error) {
 	if !utf8.Valid(raw) {
 		return nil, fmt.Errorf("the member is not valid UTF-8")
+	}
+	if err := refuseRepeatedMembers(raw); err != nil {
+		return nil, err
 	}
 	dec := json.NewDecoder(bytes.NewReader(raw))
 	dec.UseNumber()

@@ -77,13 +77,13 @@ type psRecord struct {
 
 func (propagationStep) Judge(dir string, raw []byte) (*Result, error) {
 	var manifest scManifest
-	if err := json.Unmarshal(raw, &manifest); err != nil {
+	if err := strictUnmarshal(raw, &manifest); err != nil {
 		return nil, fmt.Errorf("%s/MANIFEST.json does not parse: %w", dir, err)
 	}
 	result := &Result{}
 	for _, entry := range manifest.Vectors {
 		var v psVector
-		if err := json.Unmarshal(entry, &v); err != nil {
+		if err := strictUnmarshal(entry, &v); err != nil {
 			result.Findings = append(result.Findings, fmt.Sprintf("a manifest row does not parse: %v", err))
 			continue
 		}
@@ -131,7 +131,7 @@ func psAt(stamp string) time.Time { t, _ := time.Parse(time.RFC3339, stamp); ret
 
 func psDecide(r psRecord) scDecision {
 	var contract string
-	known := len(r.ContractID) > 0 && json.Unmarshal(r.ContractID, &contract) == nil && contract == psContractID
+	known := len(r.ContractID) > 0 && strictUnmarshal(r.ContractID, &contract) == nil && contract == psContractID
 	byID := map[string]psMessage{}
 	for _, m := range r.Messages {
 		byID[m.ID] = m

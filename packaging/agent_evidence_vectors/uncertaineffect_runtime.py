@@ -60,6 +60,8 @@ from typing import Any
 
 from agent_evidence_vectors import uncertaineffect as reader
 
+from . import strictjson
+
 ENV_OWNER = "AEV_EFFECT_OWNER"
 ENV_RUN, ENV_TASK, ENV_STATE = "AEV_RUN", "AEV_TASK_ID", "AEV_STATE_DIR"
 TIMEOUT_SECONDS = 60
@@ -200,7 +202,7 @@ def _post_reply(state: OwnerState, path: str, raw: bytes) -> tuple[int, dict[str
     if path != "/effects":
         return 404, {"error": "not found"}
     try:
-        body = json.loads(raw or b"{}")
+        body = strictjson.loads(raw or b"{}")
     except ValueError:
         return 400, {"error": "body is not JSON"}
     return _call(state, body if isinstance(body, dict) else {})
@@ -287,7 +289,7 @@ def judge(scenario: dict[str, Any], state: OwnerState, outcome: str | None) -> l
 def _reported_outcome(stdout: str) -> str | None:
     lines = [line for line in stdout.strip().splitlines() if line.strip()]
     try:
-        outcome = json.loads(lines[-1])["outcome"]
+        outcome = strictjson.loads(lines[-1])["outcome"]
     except (IndexError, ValueError, KeyError, TypeError):
         return None
     return outcome if outcome in reader.OUTCOMES else None
@@ -394,7 +396,7 @@ def drive(command: list[str], scenario: dict[str, Any]) -> tuple[bool, list[str]
 
 def check_runtime(runtime: str | list[str], root: Path = reader.ROOT) -> dict[str, Any]:
     """Drive the runtime through every scenario and return the report body."""
-    manifest = json.loads((root / "MANIFEST.json").read_text(encoding="utf-8"))
+    manifest = strictjson.loads((root / "MANIFEST.json").read_text(encoding="utf-8"))
     command = shlex.split(runtime) if isinstance(runtime, str) else runtime
     if not command:
         raise ValueError("runtime command is empty")

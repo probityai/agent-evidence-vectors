@@ -60,7 +60,7 @@ type cdVector struct {
 
 func (controlDecision) Judge(dir string, raw []byte) (*Result, error) {
 	var m cdManifest
-	if err := json.Unmarshal(raw, &m); err != nil {
+	if err := strictUnmarshal(raw, &m); err != nil {
 		return nil, fmt.Errorf("%s/MANIFEST.json does not parse: %w", dir, err)
 	}
 	key, err := hex.DecodeString(m.Keys.Producer.PublicKey)
@@ -215,6 +215,9 @@ func cdVerify(envelope map[string]any, key []byte) ([]byte, bool) {
 
 // cdStatement parses the signed payload and checks the Statement and predicate shape.
 func cdStatement(payload []byte, predicateType string) (map[string]any, map[string]any, bool) {
+	if refuseRepeatedMembers(payload) != nil {
+		return nil, nil, false
+	}
 	dec := json.NewDecoder(bytes.NewReader(payload))
 	dec.UseNumber()
 	var statement map[string]any

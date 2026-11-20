@@ -444,7 +444,7 @@ func arVerify(raw []byte, predicateType, observerKey, disabled string) arReport 
 			Sig string `json:"sig"`
 		} `json:"signatures"`
 	}
-	if err := aee.CheckIJSON(raw); err != nil || json.Unmarshal(raw, &envelope) != nil ||
+	if err := aee.CheckIJSON(raw); err != nil || strictUnmarshal(raw, &envelope) != nil ||
 		envelope.PayloadType != arPayloadType {
 		return arReport{verdict: "malformed", code: "envelope-unreadable"}
 	}
@@ -1195,7 +1195,7 @@ type arVector struct {
 
 func (auditRecord) Judge(dir string, raw []byte) (*Result, error) {
 	var manifest arManifest
-	if err := json.Unmarshal(raw, &manifest); err != nil {
+	if err := strictUnmarshal(raw, &manifest); err != nil {
 		return nil, fmt.Errorf("%s/MANIFEST.json does not parse: %w", dir, err)
 	}
 	result := &Result{}

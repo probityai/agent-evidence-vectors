@@ -31,6 +31,7 @@ from typing import Any
 
 from . import donechecks as checks
 from . import donerecords as rec
+from . import strictjson
 from .donerecords import RecordError
 
 CONTRACT_SUITE = "done-contract/v2"
@@ -148,7 +149,7 @@ def _fixture_error(directory: Path, entry: dict[str, Any]) -> str | None:
 
 
 def validated_entries(root: Path, suite: str) -> tuple[list[dict[str, Any]], str | None]:
-    manifest = json.loads((root / "MANIFEST.json").read_text(encoding="utf-8"))
+    manifest = strictjson.loads((root / "MANIFEST.json").read_text(encoding="utf-8"))
     entries = manifest["vectors"]
     if manifest.get("suite") != suite:
         return [], "unexpected suite"
@@ -218,7 +219,7 @@ def run(suite: str, root: str, verifier: list[str] | None, report_path: str,
     directory = Path(root)
     answered, errors = check(suite, directory)
     try:
-        manifest = json.loads((directory / "MANIFEST.json").read_text(encoding="utf-8"))
+        manifest = strictjson.loads((directory / "MANIFEST.json").read_text(encoding="utf-8"))
         total = len(manifest["vectors"])
     except (OSError, ValueError, KeyError, TypeError):
         manifest, total = {}, 0

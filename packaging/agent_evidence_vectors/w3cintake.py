@@ -122,7 +122,7 @@ import os
 import sys
 from typing import Any, TypeGuard
 
-from . import strictb64
+from . import strictb64, strictjson
 
 SUITE = "w3c-intake-v2-conformance"
 FORMAT = "public-agent-conformance/intake-record/v2"
@@ -831,7 +831,7 @@ def _native_on_disk(record: dict[str, Any], root: str, f: Findings) -> None:
     document: Any = None
     if body is not None:
         try:
-            document = json.loads(body)
+            document = strictjson.loads(body)
         except ValueError:
             document = None
     members = _field(document, "members")
@@ -1040,7 +1040,7 @@ def _anchor_on_disk(record: dict[str, Any], root: str, f: Findings) -> None:
     declared: Any = None
     if pinned is not None:
         try:
-            declared = json.loads(pinned).get("corpusDigest")
+            declared = strictjson.loads(pinned).get("corpusDigest")
         except (ValueError, AttributeError):
             declared = None
     if declared != want:
@@ -1496,7 +1496,7 @@ def _load_document(directory: str, entry: dict[str, Any], out: list[str]) -> Any
         out.append("the manifest names a vector file that does not exist")
         return None
     try:
-        document = json.loads(body)
+        document = strictjson.loads(body)
     except ValueError:
         # The parser's own message is not repeated: it differs between readers,
         # and the line the two rails print must be the same bytes.
@@ -1571,7 +1571,7 @@ def corpus_digest(manifest: dict[str, Any], root: str) -> str:
 def judge(directory: str, weaken: frozenset[str] = NO_WEAKENING) -> Judged:
     """Judge every member; ``weaken`` removes grounds, for the mutation test."""
     with open(os.path.join(directory, "MANIFEST.json"), encoding="utf-8") as handle:
-        manifest = json.load(handle)
+        manifest = strictjson.load(handle)
     judged = Judged()
     known: set[str] = set()
     for row in manifest.get("requirements", []):
@@ -1696,7 +1696,7 @@ def main(argv: list[str] | None = None) -> int:
         return 0 if judged.ok() else 1
     try:
         with open(args.record, "rb") as handle:
-            record = json.loads(handle.read())
+            record = strictjson.loads(handle.read())
     except (OSError, ValueError) as exc:
         print(f"w3cintake: {args.record} cannot be read as JSON: {exc}", file=sys.stderr)
         return 2

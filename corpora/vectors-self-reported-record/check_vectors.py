@@ -34,7 +34,6 @@ from __future__ import annotations
 import base64
 import binascii
 import hashlib
-import json
 import re
 import sys
 from pathlib import Path
@@ -44,6 +43,9 @@ from canonical import decode_strict, jcs
 from cryptography.exceptions import InvalidSignature
 from cryptography.hazmat.primitives.asymmetric.ed25519 import Ed25519PublicKey
 from digest import corpus_digest
+
+sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "packaging"))
+from agent_evidence_vectors import strictjson  # noqa: E402
 
 HERE = Path(__file__).resolve().parent
 REPO = HERE.parents[1]
@@ -491,7 +493,7 @@ def _digest_findings(manifest: dict[str, Any], bodies: dict[str, bytes]) -> list
 
 
 def main() -> int:
-    manifest = json.loads((HERE / "MANIFEST.json").read_text(encoding="utf-8"))
+    manifest = strictjson.loads((HERE / "MANIFEST.json").read_text(encoding="utf-8"))
     findings: list[str] = []
     bodies: dict[str, bytes] = {}
     for entry in manifest["vectors"]:

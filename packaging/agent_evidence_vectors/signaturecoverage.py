@@ -71,7 +71,7 @@ from agent_evidence_vectors.monitorcoverage import (
     run_corpus,
 )
 
-from . import strictb64
+from . import strictb64, strictjson
 
 SUITE = "signature-coverage/v1"
 CONTRACT_ID = "https://probityai.github.io/agent-evidence-vectors/predicate/v1/signature-coverage"
@@ -197,7 +197,7 @@ def _signature_valid(record: Record) -> bool:
 
 
 def _payload_value(record: Record) -> object:
-    return json.loads(_payload(record))
+    return strictjson.loads(_payload(record))
 
 
 def _repeated_member(record: Record) -> bool:
@@ -257,7 +257,7 @@ def _first_failure(record: Record, skip: frozenset[str]) -> str | None:
 
 
 def _load(record_path: Path) -> Record:
-    loaded: Record = json.loads(record_path.read_text(encoding="utf-8"))
+    loaded: Record = strictjson.loads(record_path.read_text(encoding="utf-8"))
     return loaded
 
 
@@ -285,10 +285,10 @@ def run(root: str, verifier: list[str] | None, report_path: str, rail_note: str)
 def signer_pairs(root: Path = ROOT) -> list[dict[str, Any]]:
     """The signer pairs, after their digest is checked against the manifest."""
     raw = (root / "signer-pairs.json").read_bytes()
-    manifest = json.loads((root / "MANIFEST.json").read_text(encoding="utf-8"))
+    manifest = strictjson.loads((root / "MANIFEST.json").read_text(encoding="utf-8"))
     if hashlib.sha256(raw).hexdigest() != manifest["signerPairsSha256"]:
         raise ValueError("signer-pairs.json does not match its manifest digest")
-    pairs: list[dict[str, Any]] = json.loads(raw)
+    pairs: list[dict[str, Any]] = strictjson.loads(raw)
     return pairs
 
 
@@ -312,7 +312,7 @@ def _external_signer(command: list[str]) -> Callable[[object], bytes | None]:
             path.write_text(json.dumps(source), encoding="utf-8")
             result = subprocess.run([*command, str(path), "--json"], capture_output=True,
                                     text=True, timeout=90, check=False)
-        answer = json.loads(result.stdout)
+        answer = strictjson.loads(result.stdout)
         if answer.get("refused") is True:
             return None
         return strictb64.std(answer["signatureInput"])
