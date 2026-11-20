@@ -1,0 +1,105 @@
+{
+  "note": "Expected outputs written from each method's published rules before either method ran on these inputs. run.py and run_checker.py compare runs with them.",
+  "verifier": "agent-evidence-verify==0.5.1",
+  "checker_commit": "719b243b6c8b1bcd4429cab6347bb3e77ead6a5e",
+  "cases": {
+    "D1-01-binding-uncertain": {
+      "shape": "uncertain binding",
+      "probity": {
+        "PEER": {
+          "decision": "contradicted",
+          "reason": "event_observed"
+        },
+        "EXTERNAL": {
+          "decision": "contradicted",
+          "reason": "event_observed"
+        }
+      },
+      "checker": {
+        "verdict": "UNRESOLVED",
+        "compatible_histories": [
+          "W10",
+          "X10"
+        ]
+      }
+    },
+    "D1-02-shared-failure-domain": {
+      "shape": "shared failure",
+      "probity": {
+        "PEER": {
+          "decision": "supported",
+          "reason": "absence_within_covered_scope"
+        },
+        "EXTERNAL": {
+          "decision": "not_established",
+          "reason": "witness_scope_below_required"
+        }
+      },
+      "checker": {
+        "verdict": "UNRESOLVED",
+        "compatible_histories": [
+          "N",
+          "W30"
+        ]
+      }
+    },
+    "D1-03-separate-failure-domains": {
+      "shape": "shared failure (control)",
+      "probity": {
+        "PEER": {
+          "decision": "supported",
+          "reason": "absence_within_covered_scope"
+        },
+        "EXTERNAL": {
+          "decision": "not_established",
+          "reason": "witness_scope_below_required"
+        }
+      },
+      "checker": {
+        "verdict": "TRUE",
+        "compatible_histories": [
+          "N"
+        ]
+      }
+    },
+    "L1-01-lost-binding": {
+      "shape": "lost binding",
+      "probity": {
+        "PEER": {
+          "decision": "not_established",
+          "reason": "field_visibility_unestablished"
+        },
+        "EXTERNAL": {
+          "decision": "not_established",
+          "reason": "field_visibility_unestablished"
+        }
+      },
+      "checker": {
+        "verdict": "UNRESOLVED",
+        "compatible_histories": [
+          "EA",
+          "EB"
+        ]
+      }
+    },
+    "L1-02-binding-restored": {
+      "shape": "lost binding (control)",
+      "probity": {
+        "PEER": {
+          "decision": "supported",
+          "reason": "absence_within_covered_scope"
+        },
+        "EXTERNAL": {
+          "decision": "not_established",
+          "reason": "witness_scope_below_required"
+        }
+      },
+      "checker": {
+        "verdict": "TRUE",
+        "compatible_histories": [
+          "EA"
+        ]
+      }
+    }
+  }
+}

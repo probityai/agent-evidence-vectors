@@ -32,3 +32,11 @@ def test_rows_that_let_whole_files_differ_name_those_files() -> None:
     for row_id, row in rows.items():
         for name in row.get("may_differ") or {}:
             assert f"{name} as a whole file" in by_row[row_id][4], (row_id, name)
+
+
+def test_the_opening_names_every_row_that_reruns_nothing() -> None:
+    opening = (HERE / "CHECKS.md").read_text(encoding="utf-8").split("\n| Row ", 1)[0]
+    others = [cells[0] for cells in table_rows() if cells[1] not in {"rerun", "comparison"}]
+    assert others
+    for row_id in others:
+        assert row_id in opening, row_id
