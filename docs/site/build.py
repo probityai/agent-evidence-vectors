@@ -633,9 +633,6 @@ def contract_pages(tag: str, routes: Mapping[Path, Path] | None = None) -> dict[
     return pages
 
 
-EVALUATOR_DIR = REPO_ROOT / "spec" / "evaluators"
-
-
 def evaluator_documents() -> list[tuple[Path, Path, Path]]:
     """Every evaluator document as (source, sibling route, directory route).
 
@@ -644,7 +641,7 @@ def evaluator_documents() -> list[tuple[Path, Path, Path]]:
     the trailing-slash form, as the predicate and contract pages do.
     """
     found = []
-    for source in sorted(EVALUATOR_DIR.glob("*/v*.md")):
+    for source in sorted((REPO_ROOT / "spec" / "evaluators").glob("*/v*.md")):
         base = Path("evaluator") / source.parent.name / source.stem
         found.append((source, base.with_suffix(".html"), base / "index.html"))
     return found
