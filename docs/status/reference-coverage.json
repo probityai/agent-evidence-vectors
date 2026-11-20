@@ -1,7 +1,7 @@
 {
   "verifier": "https://probityai.github.io/probity/verifiers/agent-evidence-verify",
   "checked": 734,
-  "total": 3077,
+  "total": 3089,
   "corpora": [
     {
       "id": "vectors",
@@ -229,6 +229,12 @@
       "id": "vectors-grader-isolation",
       "checked": 50,
       "total": 50,
+      "disagreements": 0
+    },
+    {
+      "id": "vectors-htx-cases",
+      "checked": 0,
+      "total": 12,
       "disagreements": 0
     },
     {
