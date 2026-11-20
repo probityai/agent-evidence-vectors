@@ -1,7 +1,7 @@
 # Proposed text for draft-gilda-audit-agent-audit-record-04: consumption across a replaced limit, and the exact asset
 
 Change text for the consumption section (Section 5.9). It was written against
--02 for -03, and -03 was published on 29 October 2026 without it, so it is
+-02 for -03, and -03 was published on 2026-10-29 without it, so it is
 proposed for -04; the corpus marks `CS18` to `CS40` `proposed` until a published
 revision carries it. Each paragraph names the members of `vectors-agent-audit-record` that test
 it. Sources: modelcontextprotocol/financial-services-interest-group#17

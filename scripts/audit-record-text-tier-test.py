@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Each agent-audit-record member names the text it tests, and the label is derived.
 
-An outside verifier written from revision 03 differed from the manifest on 38
+An outside verifier written from revision 03 differed from the manifest on a set of
 members. Every one tested a rule of unpublished text, while the manifest labelled
 15 of them revision 01 and 22 an unpublished revision 04. The labels were typed
 beside each member group. They are now derived from the published texts vendored
@@ -11,7 +11,7 @@ under the corpus, and a member whose rule no published text states is
 - the row identifiers read from each vendored Appendix B are the ones it prints
   (revision 01 prints CS1 to CS9 and no CS10, revision 02 adds CS10 to CS17);
 - the committed manifest labels every published member with a published revision
-  and carries every one of the 38 members and CS32 as proposed;
+  and carries every one of those members and CS32 as proposed;
 - the generator refuses a member that is published and proposed at once, and a
   section member whose revision has no such section;
 - the harness refuses a manifest that labels a member with an unpublished
@@ -70,7 +70,9 @@ def _check_appendix_rows(gen: Any, failures: list[str]) -> None:
 def _check_committed_manifest(manifest: dict[str, Any], failures: list[str]) -> None:
     by_id = {e["draftId"]: e for e in manifest["vectors"]}
     if len(DIFFERED) != 39:
-        failures.append("the differing list should hold 38 members and CS32")
+        failures.append(
+            "the differing list should hold every member the verifier differed on, and CS32"
+        )
     for draft_id in DIFFERED:
         if auditrecord.text_status(by_id[draft_id]) != "proposed":
             failures.append(f"{draft_id} tests unpublished text and is not proposed")
