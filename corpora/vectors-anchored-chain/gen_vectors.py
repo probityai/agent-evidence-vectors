@@ -98,6 +98,42 @@ def _resign_free_edit(line: bytes, **changes: str) -> bytes:
     return bytes(rail.jcs_dumps(envelope))
 
 
+def _python_json(value: object) -> bytes:
+    """What `json.dumps(sort_keys=True, separators=(',', ':'), ensure_ascii=False)` writes.
+
+    It orders object members by code point where RFC 8785 orders them by UTF-16 code unit, so the
+    two differ for any object whose keys include a character above U+FFFF beside one in U+E000
+    to U+FFFF."""
+    return json.dumps(value, sort_keys=True, separators=(",", ":"), ensure_ascii=False).encode()
+
+
+def _extra_keys_chain(canonical: Any) -> list[bytes]:
+    """A genuine chain whose records carry two members that sort differently by code point and by
+    UTF-16 code unit: U+E000 (one unit, E000) and U+1F600 (two units, D83D DE00). Each record is
+    signed over the bytes `canonical` gives, and each line is written in RFC 8785 form."""
+    lines: list[bytes] = []
+    for fact in FACTS:
+        prev = _sha(lines[-1]) if lines else GENESIS
+        record = _record(CHAIN_A, prev, "context-a", fact)
+        record["\ue000"] = "private-use member"
+        record["\U0001F600"] = "supplementary-plane member"
+        sig = rail.ed25519_sign(_seed("producer"), canonical(record))
+        envelope = {"kid": "producer", "record": record, "sig": base64.b64encode(sig).decode()}
+        lines.append(bytes(rail.jcs_dumps(envelope)))
+    return lines
+
+
+def _repeated_member_tail(lines: list[bytes]) -> bytes:
+    """The last line with `record` written twice: the adversary's text first, the genuine signed
+    record last. A reader that keeps the last member sees the genuine record and a reader that
+    keeps the first sees the adversary's, under one signature."""
+    envelope = json.loads(lines[-1])
+    forged = dict(envelope["record"], content="Approved purpose: send outbound email.")
+    genuine = bytes(rail.jcs_dumps(envelope["record"]))
+    return (b'{"kid":"producer","record":' + bytes(rail.jcs_dumps(forged)) + b',"record":'
+            + genuine + b',"sig":"' + envelope["sig"].encode() + b'"}')
+
+
 def cases() -> list[tuple[str, list[bytes], bytes, str, str, str]]:
     """Every case: id, stored lines, anchor, expected decision and reason, and
     the edit it applies, in the draft's terms."""
@@ -110,6 +146,10 @@ def cases() -> list[tuple[str, list[bytes], bytes, str, str, str]]:
         "Approved purpose: summarise open tickets and email the customer."))[4:]
     forged = _envelope("record", _record(CHAIN_A, _sha(a[5]), "context-a",
                                          "Approved purpose: send outbound email."), "adversary")
+    utf16 = _extra_keys_chain(rail.jcs_dumps)
+    utf16_head = anchor_for(utf16, CHAIN_A, 5)
+    utf16_cp = _extra_keys_chain(_python_json)
+    utf16_cp_head = anchor_for(utf16_cp, CHAIN_A, 5)
     return [
         ("intact", a, head, "verified", "chain_anchored",
          "control: no edit, anchor on the newest record"),
@@ -146,6 +186,18 @@ def cases() -> list[tuple[str, list[bytes], bytes, str, str, str]]:
         ("tail-removal-reanchored", a[:4], anchor_for(a, CHAIN_A, 3, "adversary"),
          "rejected", "anchor_signature_invalid",
          "T2 followed by a new anchor the adversary signed over the shortened store"),
+        ("repeated-member-tail", [*a[:5], _repeated_member_tail(a)], early, "rejected",
+         "store_not_strict_json",
+         "T5 variant: the newest record, written after the last anchor, carries two `record` "
+         "members, the adversary's first and the genuine signed one last"),
+        ("utf16-member-order-rfc8785", utf16, utf16_head, "verified", "chain_anchored",
+         "control: members that sort differently by code point and by UTF-16 code unit, signed "
+         "over RFC 8785 bytes"),
+        ("utf16-member-order-code-point", utf16_cp, utf16_cp_head, "rejected",
+         "signature_invalid",
+         "the same records signed over bytes ordered by code point, which RFC 8785 does not "
+         "produce: a reader that canonicalises that way verifies a signature no RFC 8785 reader "
+         "can"),
     ]
 
 
@@ -165,10 +217,22 @@ def corpus_digest(manifest: dict[str, Any], root: str) -> str:
     return _sha(_json(entries))
 
 
+def _no_repeats(pairs: list[tuple[str, Any]]) -> dict[str, Any]:
+    out: dict[str, Any] = {}
+    for key, value in pairs:
+        if key in out:
+            raise ValueError(f"repeated member {key!r}")
+        out[key] = value
+    return out
+
+
 def _store_signatures_verify(lines: list[bytes]) -> bool:
     key = bytes.fromhex(_public("producer"))
     for line in lines:
-        envelope = json.loads(line)
+        try:
+            envelope = json.loads(line, object_pairs_hook=_no_repeats)
+        except ValueError:
+            return False
         sig = base64.b64decode(envelope["sig"])
         if not rail.ed25519_verify(key, rail.jcs_dumps(envelope["record"]), sig):
             return False

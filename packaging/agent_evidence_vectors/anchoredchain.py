@@ -10,7 +10,10 @@ adversary who can edit the store needs no key to delete, reorder, replay or
 roll back records the system signed itself. Only the chain links and the anchor
 answer the second question.
 
-The reader checks in a fixed order and names the first check that fails:
+The reader checks in a fixed order and names the first check that fails. Before the first,
+every stored line and the anchor must parse with no repeated object member
+(``store_not_strict_json``): a line that a keep-the-last reader and a keep-the-first reader
+read two ways is a line no verifier may decide on.
 
 1. every stored record verifies under the producer key (``signature_invalid``);
 2. the anchor verifies under the anchor key, which the store does not hold
@@ -108,12 +111,41 @@ def _signed(envelope: Any, body_key: str, key: bytes) -> bool:
     return bool(rail.ed25519_verify(key, rail.jcs_dumps(envelope[body_key]), sig))
 
 
+class StoreNotStrictJson(ValueError):
+    """A stored line or the anchor repeats an object member, or is not JSON at all."""
+
+
+def _no_repeats(pairs: list[tuple[str, Any]]) -> dict[str, Any]:
+    out: dict[str, Any] = {}
+    for key, value in pairs:
+        if key in out:
+            raise StoreNotStrictJson(f"repeated member {key!r}")
+        out[key] = value
+    return out
+
+
+def _strict(raw: bytes | str) -> Any:
+    """Parse the way a stored line is read: a repeated member is refused, never resolved.
+
+    A reader that keeps the last of two members verifies the record it kept while a reader
+    that keeps the first reads the other one, and the producer's signature covers only one
+    of them. The line is the unit the chain links hash, so a line that two readers read
+    two ways is a line the verifier must not decide on.
+    """
+    try:
+        return json.loads(raw, object_pairs_hook=_no_repeats)
+    except StoreNotStrictJson:
+        raise
+    except ValueError as exc:
+        raise StoreNotStrictJson(str(exc)) from exc
+
+
 def _load(case_path: Path) -> tuple[dict[str, Any], list[bytes], dict[str, Any]]:
     """The consumer's trust inputs, the stored lines, and the anchor envelope."""
     case = json.loads(case_path.read_text(encoding="utf-8"))
     base = case_path.parent
     lines = [line for line in (base / case["store"]).read_bytes().split(b"\n") if line]
-    anchor = json.loads((base / case["anchor"]).read_text(encoding="utf-8"))
+    anchor = _strict((base / case["anchor"]).read_bytes())
     return case, lines, anchor
 
 
@@ -127,7 +159,7 @@ def _first_failure(
     prove that every check is forced by some member; a verifier never sets it.
     """
     producer = bytes.fromhex(case["keys"]["producer"])
-    envelopes = [json.loads(line) for line in lines]
+    envelopes = [_strict(line) for line in lines]
     failures: dict[str, Callable[[], bool]] = {
         "signature_invalid": lambda: not all(
             _signed(env, "record", producer) for env in envelopes),
@@ -152,8 +184,12 @@ def _first_failure(
 
 def verify(case_path: Path, skip: frozenset[str] = frozenset()) -> dict[str, str]:
     """The reference reader's decision and reason for one case."""
-    case, lines, anchor = _load(case_path)
-    failure = _first_failure(case, lines, anchor, skip)
+    try:
+        case, lines, anchor = _load(case_path)
+        failure = _first_failure(case, lines, anchor, skip)
+    except StoreNotStrictJson:
+        # Before every named check: the check order is defined over lines a reader can read once.
+        return {"decision": REJECTED, "reason": "store_not_strict_json"}
     if failure is not None:
         return {"decision": REJECTED, "reason": failure}
     after = len(lines) - 1 - int(anchor["anchor"]["index"])
@@ -165,7 +201,10 @@ def store_signatures_verify(case_path: Path) -> bool:
     """Whether every stored record verifies under the producer key."""
     case, lines, _ = _load(case_path)
     producer = bytes.fromhex(case["keys"]["producer"])
-    return all(_signed(json.loads(line), "record", producer) for line in lines)
+    try:
+        return all(_signed(_strict(line), "record", producer) for line in lines)
+    except StoreNotStrictJson:
+        return False
 
 
 def _fixture_error(directory: Path, entry: dict[str, Any]) -> str | None:

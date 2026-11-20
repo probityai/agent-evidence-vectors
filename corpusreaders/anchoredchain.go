@@ -141,9 +141,17 @@ func acDecide(caseDir string) (scDecision, bool, error) {
 	if err != nil {
 		return scDecision{}, false, fmt.Errorf("%s cannot be read: %w", c.Store, err)
 	}
+	anchorBytes, err := readIn(caseDir, c.Anchor)
+	if err != nil {
+		return scDecision{}, false, fmt.Errorf("%s cannot be read: %w", c.Anchor, err)
+	}
+	if !acStrict(anchorBytes) || !acStoreStrict(store) {
+		// Before every named check: the order is defined over lines a reader can read once.
+		return scDecision{"rejected", "store_not_strict_json"}, false, nil
+	}
 	var anchor acEnvelope
-	if err := scReadJSON(caseDir, c.Anchor, &anchor); err != nil {
-		return scDecision{}, false, err
+	if err := json.Unmarshal(anchorBytes, &anchor); err != nil {
+		return scDecision{}, false, fmt.Errorf("%s does not parse: %w", c.Anchor, err)
 	}
 	lines, envs, err := acParseStore(store)
 	if err != nil {
@@ -154,6 +162,22 @@ func acDecide(caseDir string) (scDecision, bool, error) {
 		clean = clean && acSigned(env.Record, env.Sig, producer)
 	}
 	return acFirstFailure(c, lines, envs, anchor, anchorKey, clean), clean, nil
+}
+
+// acStrict reports whether data is JSON with no repeated object member: a
+// repeated member is refused, never resolved, because a keep-the-last reader
+// and a keep-the-first reader would read two different records.
+func acStrict(data []byte) bool {
+	return bvNoDuplicates(json.NewDecoder(bytes.NewReader(data))) == nil
+}
+
+func acStoreStrict(store []byte) bool {
+	for _, line := range bytes.Split(store, []byte("\n")) {
+		if len(line) > 0 && !acStrict(line) {
+			return false
+		}
+	}
+	return true
 }
 
 func acParseStore(store []byte) ([][]byte, []acEnvelope, error) {
