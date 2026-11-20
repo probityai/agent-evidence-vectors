@@ -2699,8 +2699,8 @@ def _text_findings(manifest: dict[str, Any]) -> list[str]:
             out.append(f"{label}: proposed names a published revision or no proposed text")
         measured[text_status(entry)] += 1
     if manifest.get("textCounts") != measured:
-        declared_counts = manifest.get("textCounts")
-        out.append(f"textCounts declare {declared_counts} and the members are {measured}")
+        declared = manifest.get("textCounts")
+        out.append(f"textCounts declare {declared} and the members are {measured}")
     return out
 
 

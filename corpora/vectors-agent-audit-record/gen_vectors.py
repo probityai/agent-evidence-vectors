@@ -73,6 +73,7 @@ PUBLISHED_REVISIONS: tuple[tuple[str, str], ...] = (
     ("01", "6bcd5b2ae49fe7ee53972db0f3b349c46a1870771d29105b884323e1f94235e4"),
     ("02", "40ac8c0a26633827d403cad3402fabf8cbd637aa3e5bc03055d25b641e5c8a7e"),
     ("03", "c5d0b74686b62b5d1fd954b2dae0cf02b402c87a06efa6fc82abf8fa847ed786"),
+    ("04", "5592994311a3db303405eacebcb203f589b7aa083d81bcdb291a3a78d4adbde6"),
 )
 #: The latest published revision: the published members together test it.
 DRAFT = f"{DRAFT_NAME}-{PUBLISHED_REVISIONS[-1][0]}"
@@ -81,7 +82,7 @@ PREDICATE_DOCUMENT = (
 )
 #: The next revision, not yet published. A member whose rule only proposed text
 #: states is labelled with it under ``proposed``, never under draftRevision.
-PROPOSED_REVISION = f"{DRAFT_NAME}-04"
+PROPOSED_REVISION = f"{DRAFT_NAME}-{int(PUBLISHED_REVISIONS[-1][0]) + 1:02d}"
 #: The revision every earlier release of this corpus tested. Its records carry
 #: no evaluation.inputs, so each is malformed under DRAFT (EV13).
 PREVIOUS_DRAFT = "draft-gilda-wimse-agent-audit-record-02"
@@ -5081,8 +5082,8 @@ def has_section(lines: list[str], section: str) -> bool:
     return any(pattern.match(line) for line in lines)
 
 
-#: Members no published Appendix B prints whose rule a published section
-#: states: the revision whose section the member's draftSection names.
+#: Members whose rule a published section states before any Appendix B prints
+#: the row: the revision whose section the member's draftSection names.
 SECTION_REVISION: dict[str, str] = {
     **{d: "00" for d in ("FR13b", "FR16", "FR17a", "FR17b", "FR17c", "FR18", "EV14")},
     "PS1b": "03",
@@ -5096,43 +5097,40 @@ def _ids(prefix: str, first: int, last: int) -> list[str]:
 
 
 PROPOSALS = "docs/proposals"
-#: Members whose rule only proposed text states, each with that text.
-PROPOSED: dict[str, str] = {
-    **{d: f"{PROPOSALS}/audit-record-04-consumption-ledger.md" for d in _ids("CS", 18, 40)},
-    **{d: f"{PROPOSALS}/audit-record-04-consumption-rows.md" for d in _ids("CS", 41, 54)},
-    **{d: f"{PROPOSALS}/audit-record-04-principal-standing.md" for d in _ids("PS", 3, 5)},
-    **{d: f"{PROPOSALS}/audit-record-04-principal.md" for d in _ids("PR", 1, 11)},
-    **{d: f"{PROPOSALS}/audit-record-04-data-subject.md" for d in _ids("DS", 1, 10)},
-    **{
-        d: f"{PROPOSALS}/audit-record-04-reject-paths.md"
-        for d in ("X1", "X4", "X5", "X6", "X7", "X17", "X18")
-    },
-}
+#: Members whose rule only proposed text states, each with that text. Empty
+#: since revision 04 was published: its Appendix B prints all 68 members that
+#: were proposed for it (CS18 to CS54, PS3 to PS5, PR1 to PR11, DS1 to DS10,
+#: and X1, X4, X5, X6, X7, X17, X18), and the pages under docs/proposals/ are
+#: the record of the text before it was published.
+PROPOSED: dict[str, str] = {}
 
 
-def text_fields(entries: list[Member]) -> dict[str, dict[str, Any]]:
-    """draftRevision or proposed for every member, checked against the texts."""
-    texts = {rev: _published_text(rev) for rev, _ in PUBLISHED_REVISIONS}
+def _first_printed(texts: dict[str, list[str]]) -> dict[str, str]:
+    """The first published revision whose Appendix B prints each row."""
     first_printed: dict[str, str] = {}
     for rev, _ in PUBLISHED_REVISIONS:
         for row in appendix_b_rows(texts[rev]):
             first_printed.setdefault(row, rev)
-    known = {entry["draftId"] for entry in entries}
-    for table in (SECTION_REVISION, PROPOSED):
-        stray = sorted(set(table) - known)
-        if stray:
-            raise SystemExit(f"text table names members the corpus does not carry: {stray}")
-    return {entry["draftId"]: _text_field(entry, first_printed, texts) for entry in entries}
+    return first_printed
 
 
 def _text_field(
-    entry: Member, first_printed: dict[str, str], texts: dict[str, str]
+    entry: Member, printed: str | None, texts: dict[str, list[str]]
 ) -> dict[str, Any]:
-    """The text field of one member: printed, stated by a section, or proposed."""
+    """draftRevision or proposed for one member, given the revision first printing it."""
     draft_id = entry["draftId"]
-    printed = first_printed.get(draft_id)
     section_rev = SECTION_REVISION.get(draft_id)
     proposal = PROPOSED.get(draft_id)
+    if printed is not None and section_rev is not None:
+        # A section member that a later Appendix B also prints keeps the
+        # revision whose section first stated its rule. An entry that names
+        # a revision no earlier than the first one printing the row is stale.
+        if int(section_rev) >= int(printed):
+            raise SystemExit(
+                f"{draft_id}: -{printed} prints the row, so its section entry "
+                f"-{section_rev} names no earlier text; remove the entry"
+            )
+        printed = None
     if sum(x is not None for x in (printed, section_rev, proposal)) != 1:
         raise SystemExit(
             f"{draft_id}: a member is printed by a published Appendix B, states a rule of "
@@ -5153,6 +5151,21 @@ def _text_field(
     if not os.path.isfile(os.path.join(REPO_ROOT, proposal)):
         raise SystemExit(f"{draft_id}: the proposed text {proposal} does not exist")
     return {"proposed": {"revision": PROPOSED_REVISION, "text": proposal}}
+
+
+def text_fields(entries: list[Member]) -> dict[str, dict[str, Any]]:
+    """draftRevision or proposed for every member, checked against the texts."""
+    texts = {rev: _published_text(rev) for rev, _ in PUBLISHED_REVISIONS}
+    first_printed = _first_printed(texts)
+    known = {entry["draftId"] for entry in entries}
+    for table in (SECTION_REVISION, PROPOSED):
+        stray = sorted(set(table) - known)
+        if stray:
+            raise SystemExit(f"text table names members the corpus does not carry: {stray}")
+    return {
+        entry["draftId"]: _text_field(entry, first_printed.get(entry["draftId"]), texts)
+        for entry in entries
+    }
 
 
 def expected_of(entry: Member) -> dict[str, Any]:
@@ -5329,8 +5342,8 @@ def emit() -> None:
             "proposed for and the proposed text in the corpus's repository, and no "
             "draftRevision: no published revision states its rule, so it scores only a "
             "verifier that implements that proposed text, and a verifier of the published "
-            "text that differs on it has not failed. A member carrying aggregation lists the "
-            "values of one "
+            "text that differs on it has not failed. "
+            "A member carrying aggregation lists the values of one "
             "input the decision depended on, as the producer held them: a producer's "
             "aggregation over those values must yield the entry the record carries. "
             "A member carrying predicateType is judged by a verifier configured to "

@@ -69,7 +69,7 @@
       },
       "path": "corpora/vectors-agent-audit-record/INDEX.md",
       "serialization": "bytes",
-      "sha256": "c36fc7fbd46bf64673886816cb3260c12416fc3e882f0abdbc92ef10830e1a5c"
+      "sha256": "52125a12bfb51a02dcb412b1b8f53919577acd3f67b73799436d259b9c593747"
     },
     {
       "consumed": "unconsumed",
@@ -92,7 +92,7 @@
       },
       "path": "corpora/vectors-agent-audit-record/README.md",
       "serialization": "bytes",
-      "sha256": "de542405b4247a6640bb1e0cc98cf39321a0e1df4f104badf262dc02b43758e9"
+      "sha256": "7cc5458663b1ff8bfbd2d69b6ca8f7d5a6d3ca4349dd4c567f0d385d5d12fd42"
     },
     {
       "consumed": "unconsumed",
@@ -207,7 +207,7 @@
       },
       "path": "corpora/vectors-agent-audit-record/gen_vectors.py",
       "serialization": "bytes",
-      "sha256": "ede5230abab82f7d9b1fdfee936b8d668042c152cbeccfbde9ef9c1ab4345814"
+      "sha256": "b7cc7bd3fb450a3383d55bf5eb1c28ceee8a7033e59fe5d9e1a04d97078fb3f3"
     },
     {
       "consumed": "unconsumed",
@@ -312,6 +312,32 @@
       "path": "corpora/vectors-agent-audit-record/spec-vendored/draft-gilda-audit-agent-audit-record-03.txt",
       "serialization": "bytes",
       "sha256": "c5d0b74686b62b5d1fd954b2dae0cf02b402c87a06efa6fc82abf8fa847ed786"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "3b10b36c85df2bb805bdc0199b7bf658af528377571893356c9c8d753bc6e93b"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [
+          "corpora/vectors-agent-audit-record/MANIFEST.json",
+          "corpora/vectors-agent-audit-record/gen_vectors.py"
+        ],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "3b10b36c85df2bb805bdc0199b7bf658af528377571893356c9c8d753bc6e93b"
+        },
+        "swapped-in": "7007caeb57a2bf199db28a05cc8629c862374458eddbb9181b1b0e93e669c95b",
+        "test": "swap-and-re-pin"
+      },
+      "path": "corpora/vectors-agent-audit-record/spec-vendored/draft-gilda-audit-agent-audit-record-04.txt",
+      "serialization": "bytes",
+      "sha256": "5592994311a3db303405eacebcb203f589b7aa083d81bcdb291a3a78d4adbde6"
     }
   ],
   "boundary": {
@@ -2190,7 +2216,7 @@
   ],
   "corpus-digest": {
     "serialization": "sha256-listing-v1",
-    "sha256": "06678d800ffd1a399f217f80cd645421357d5e0d77564a6215103a53fecd83d5"
+    "sha256": "b9b867351c49f03c32470ba5ac91cad8b743127f59d7f55460c6ca1a947713f2"
   },
   "exit-code": 0,
   "exit-rule": "zero-iff-every-check-passes",
@@ -2427,7 +2453,7 @@
       "v425531073d0c4bd6"
     ],
     "path": "corpora/vectors-agent-audit-record/MANIFEST.json",
-    "sha256": "654545c74d5d133302d7f20f2e1c5c63ba839d9982678b489a5c9c0f16e365f3"
+    "sha256": "8ce34d210e6456730eb7e45cb13989277cbc17ff9532e1f26185ff5364fde09d"
   },
   "members": [
     {
