@@ -63,7 +63,9 @@ class TestPrincipalActionCorpus:
             for p in [ROOT / "MANIFEST.json", *(ROOT / "cases").rglob("*")]
             if p.is_file()
         }
-        regenerated = {p.relative_to(tmp_path): p.read_bytes() for p in tmp_path.rglob("*") if p.is_file()}
+        regenerated = {
+            p.relative_to(tmp_path): p.read_bytes() for p in tmp_path.rglob("*") if p.is_file()
+        }
         assert regenerated == committed
 
     def test_reference_reader_agrees_with_every_case(self) -> None:
@@ -96,11 +98,21 @@ class TestPrincipalActionCorpus:
         case = ROOT / "cases" / "strict-four-principals" / "case.json"
         producer, record, _ = principalaction._load(case)
         answer = principalaction._decide(producer, record, {}, frozenset())
-        assert answer == {"decision": "rejected", "reason": "principal_user:principal_issuer_untrusted"}
+        assert answer == {
+            "decision": "rejected",
+            "reason": "principal_user:principal_issuer_untrusted",
+        }
 
     def test_grades(self) -> None:
-        verified = {e["id"]: e["expected"] for e in _manifest()["vectors"] if e["expected"]["decision"] == "verified"}
+        verified = {
+            e["id"]: e["expected"]
+            for e in _manifest()["vectors"]
+            if e["expected"]["decision"] == "verified"
+        }
         assert verified["strict-four-principals"]["reason"] == "strict"
         assert verified["basic-four-principals-act-absent"] == {
-            "decision": "verified", "delegation": "act-absent", "reason": "basic"}
+            "decision": "verified",
+            "delegation": "act-absent",
+            "reason": "basic",
+        }
         assert verified["basic-user-agent-act-chain"]["reason"] == "basic"

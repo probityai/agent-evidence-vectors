@@ -1,4 +1,5 @@
-"""Judge principal-action records: an action bound to the principals an identity provider authenticated.
+"""Judge principal-action records: an action bound to the principals an identity provider
+authenticated.
 
 A gateway, tool server or decision point that validated signed tokens before an
 agent acted writes an in-toto Statement v1, serialised as RFC 8785 bytes and
@@ -117,7 +118,12 @@ _THUMBPRINT_SHAPE = re.compile(r"[A-Za-z0-9_-]{43}")
 _UTC = re.compile(r"\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(\.\d+)?Z")
 _OKTA = (".okta.com", ".oktapreview.com", ".okta-emea.com", ".okta-gov.com")
 _ENTRA_HOSTS = frozenset(
-    {"login.microsoftonline.com", "login.microsoftonline.us", "login.chinacloudapi.cn", "sts.windows.net"}
+    {
+        "login.microsoftonline.com",
+        "login.microsoftonline.us",
+        "login.chinacloudapi.cn",
+        "sts.windows.net",
+    }
 )
 _SELF_ISSUED = frozenset({"https://self-issued.me", "https://self-issued.me/v2"})
 _HERE = Path(__file__).resolve().parent
@@ -226,18 +232,23 @@ def _members_wellformed(p: dict[str, Any]) -> bool:
     if not all(_text(p[m]) for m in ("subject", "clientId", "kid", "keyThumbprint")):
         return False
     aud = p["audience"]
-    if not (isinstance(aud, list) and aud and all(_text(a) for a in aud) and len(set(aud)) == len(aud)):
+    if not (
+        isinstance(aud, list) and aud and all(_text(a) for a in aud) and len(set(aud)) == len(aud)
+    ):
         return False
     if p["source"] not in SOURCES or p["authMethod"] not in AUTH_METHODS:
         return False
-    if not all(isinstance(p[m], str) and _HEX64.fullmatch(p[m]) for m in ("tokenDigest", "jwksDigest")):
+    if not all(
+        isinstance(p[m], str) and _HEX64.fullmatch(p[m]) for m in ("tokenDigest", "jwksDigest")
+    ):
         return False
     if "tenant" in p and not _text(p["tenant"]):
         return False
     if "identityProvider" in p and p["identityProvider"] not in IDENTITY_PROVIDERS:
         return False
     if "pinnedThumbprint" in p and not (
-        isinstance(p["pinnedThumbprint"], str) and _THUMBPRINT_SHAPE.fullmatch(p["pinnedThumbprint"])
+        isinstance(p["pinnedThumbprint"], str)
+        and _THUMBPRINT_SHAPE.fullmatch(p["pinnedThumbprint"])
     ):
         return False
     return isinstance(issuer, str)
@@ -251,7 +262,9 @@ def _key_ok(key: Any) -> bool:
     return all(_text(key.get(m)) for m in THUMBPRINT_MEMBERS[key["kty"]])
 
 
-def check_principal(p: Any, at: datetime, pins: dict[str, list[str]], skip: frozenset[str]) -> str | None:
+def check_principal(  # noqa: C901
+    p: Any, at: datetime, pins: dict[str, list[str]], skip: frozenset[str]
+) -> str | None:
     """The first check one principal fails, or None."""
 
     def fails(code: str, failed: bool) -> bool:
@@ -265,7 +278,10 @@ def check_principal(p: Any, at: datetime, pins: dict[str, list[str]], skip: froz
     if fails("principal_member_unknown", bool(set(p) - set(MEMBERS) - set(OPTIONAL))):
         return "principal_member_unknown"
     issuer = p["issuer"]
-    if fails("principal_issuer_invalid", not (isinstance(issuer, str) and issuer.startswith("https://") and len(issuer) > 8)):
+    if fails(
+        "principal_issuer_invalid",
+        not (isinstance(issuer, str) and issuer.startswith("https://") and len(issuer) > 8),
+    ):
         return "principal_issuer_invalid"
     if fails("principal_malformed", not _members_wellformed(p)):
         return "principal_malformed"
@@ -281,7 +297,10 @@ def check_principal(p: Any, at: datetime, pins: dict[str, list[str]], skip: froz
         derived = derived_identity_provider(issuer)
         if fails("principal_provider_mismatch", derived != "other" and declared != derived):
             return "principal_provider_mismatch"
-    if fails("principal_pin_mismatch", "pinnedThumbprint" in p and p["pinnedThumbprint"] != p["keyThumbprint"]):
+    if fails(
+        "principal_pin_mismatch",
+        "pinnedThumbprint" in p and p["pinnedThumbprint"] != p["keyThumbprint"],
+    ):
         return "principal_pin_mismatch"
     try:
         issued, expires = _instant(p["issuedAt"]), _instant(p["expiresAt"])
@@ -361,7 +380,10 @@ class Record:
         action = self.predicate["action"]
         if set(action) != {"tool", "argumentsDigest", "at"} or not _text(action["tool"]):
             return False
-        if not (isinstance(action["argumentsDigest"], str) and _HEX64.fullmatch(action["argumentsDigest"])):
+        if not (
+            isinstance(action["argumentsDigest"], str)
+            and _HEX64.fullmatch(action["argumentsDigest"])
+        ):
             return False
         try:
             _instant(action["at"])
@@ -370,7 +392,9 @@ class Record:
         return True
 
 
-def _decide(producer: bytes, record: Record, pins: dict[str, list[str]], skip: frozenset[str]) -> dict[str, str]:
+def _decide(  # noqa: C901
+    producer: bytes, record: Record, pins: dict[str, list[str]], skip: frozenset[str]
+) -> dict[str, str]:
     def rejected(reason: str) -> dict[str, str]:
         return {"decision": REJECTED, "reason": reason}
 
@@ -423,7 +447,11 @@ def _decide(producer: bytes, record: Record, pins: dict[str, list[str]], skip: f
         return rejected("principal_approver_not_an_approval_signer")
     delegation = "act-chain" if "act" in user else "act-absent"
     strict = bool(chain) and all(r in block for r in ROLES)
-    return {"decision": VERIFIED, "reason": "strict" if strict else "basic", "delegation": delegation}
+    return {
+        "decision": VERIFIED,
+        "reason": "strict" if strict else "basic",
+        "delegation": delegation,
+    }
 
 
 def _load(case_path: Path) -> tuple[bytes, Record, dict[str, list[str]]]:
@@ -474,7 +502,11 @@ def _validated_entries(root: Path) -> tuple[list[dict[str, Any]], str | None]:
 def _external_answer(command: list[str], case_path: Path) -> tuple[bool, dict[str, Any] | str]:
     try:
         result = subprocess.run(
-            [*command, str(case_path), "--json"], capture_output=True, text=True, timeout=90, check=False
+            [*command, str(case_path), "--json"],
+            capture_output=True,
+            text=True,
+            timeout=90,
+            check=False,
         )
     except (OSError, subprocess.TimeoutExpired) as exc:
         return False, f"verifier did not run: {exc}"
@@ -549,10 +581,17 @@ def run(root: str, verifier: list[str] | None, report_path: str, rail_note: str)
         "rail": "own-reader" if verifier is None else "external",
         "verifier": {"command": verifier, "vectorsExecuted": answered, "note": rail_note},
         "corpusDigest": manifest["corpusDigest"],
-        "totals": {"vectors": total, "conform": total - len(errors), "fail": len(errors), "suiteRefusals": 0},
+        "totals": {
+            "vectors": total,
+            "conform": total - len(errors),
+            "fail": len(errors),
+            "suiteRefusals": 0,
+        },
         "failures": errors,
     }
-    Path(report_path).write_text(json.dumps(report, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+    Path(report_path).write_text(
+        json.dumps(report, indent=2, sort_keys=True) + "\n", encoding="utf-8"
+    )
     return 1 if errors or answered != total else 0
 
 
