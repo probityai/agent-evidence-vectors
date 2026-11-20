@@ -1,11 +1,11 @@
 {
   "aggregate": {
     "counts": {
-      "rejected": 11,
-      "verified": 3
+      "rejected": 13,
+      "verified": 4
     },
     "line": "verdict: every member behaves as MANIFEST.json declares",
-    "total": 14
+    "total": 17
   },
   "anchor": {
     "kind": "digest-list-line",
@@ -17,7 +17,7 @@
     "routine": "corpus_digest in corpora/vectors-anchored-chain/gen_vectors.py",
     "routine-file": "corpora/vectors-anchored-chain/gen_vectors.py",
     "serialization": "corpus-routine",
-    "sha256": "a92cf47c64f905ec6a57c4bf624c2667c075da4a76d58b4d251584831202dc86",
+    "sha256": "c57d98b8519339bf053e207de4acddb6802a33c8a224fb690ba8ecb9b155b6f9",
     "verdicts": {
       "availability-failure": "inconclusive",
       "integrity-failure": "fail"
@@ -29,7 +29,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "e036165d139d86f52e336e6dfeb5b4da00760e0a7bc1ddf5771bf2af1838987a"
+          "sha256": "92acfee0e4aa6668ba2808bf671f558c5e24654706a013e729ee10bda0998fbc"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [],
@@ -38,21 +38,21 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "e036165d139d86f52e336e6dfeb5b4da00760e0a7bc1ddf5771bf2af1838987a"
+          "sha256": "92acfee0e4aa6668ba2808bf671f558c5e24654706a013e729ee10bda0998fbc"
         },
         "swapped-in": "5c7bb61822cec551e159c1aa293c01965e52de771cdd3802fc747158f6e3d7ca",
         "test": "swap-and-re-pin"
       },
       "path": "corpora/vectors-anchored-chain/README.md",
       "serialization": "bytes",
-      "sha256": "af687fe7457c923125b27ce4940313e9fd32e6e0db6a023692071d296ebb622d"
+      "sha256": "d096c8f849e2e8a64d3ade6b84e7a20089e1035730f500277d316f7a1e83a1c4"
     },
     {
       "consumed": "unconsumed",
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "e036165d139d86f52e336e6dfeb5b4da00760e0a7bc1ddf5771bf2af1838987a"
+          "sha256": "92acfee0e4aa6668ba2808bf671f558c5e24654706a013e729ee10bda0998fbc"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [],
@@ -61,7 +61,7 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "e036165d139d86f52e336e6dfeb5b4da00760e0a7bc1ddf5771bf2af1838987a"
+          "sha256": "92acfee0e4aa6668ba2808bf671f558c5e24654706a013e729ee10bda0998fbc"
         },
         "swapped-in": "0b56de196e5356e87e501aa097c41bcfe996d3b0f806e51a5c1ee95a14154457",
         "test": "swap-and-re-pin"
@@ -75,7 +75,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "e036165d139d86f52e336e6dfeb5b4da00760e0a7bc1ddf5771bf2af1838987a"
+          "sha256": "92acfee0e4aa6668ba2808bf671f558c5e24654706a013e729ee10bda0998fbc"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [],
@@ -84,21 +84,21 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "e036165d139d86f52e336e6dfeb5b4da00760e0a7bc1ddf5771bf2af1838987a"
+          "sha256": "92acfee0e4aa6668ba2808bf671f558c5e24654706a013e729ee10bda0998fbc"
         },
         "swapped-in": "45d3308c31c5cdf10d0b600411eec3acbc2c30f1252535003592ecbbc8a7f93a",
         "test": "swap-and-re-pin"
       },
       "path": "corpora/vectors-anchored-chain/gen_vectors.py",
       "serialization": "bytes",
-      "sha256": "a5633bbee318c752815fe25b84533ba75c4a995b251094ee316d8156d4fa164e"
+      "sha256": "73aca036ea9f8508fd759ded059212f3fce5aa74f934bfd4ffd990c6309a9246"
     },
     {
       "consumed": "unconsumed",
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "e036165d139d86f52e336e6dfeb5b4da00760e0a7bc1ddf5771bf2af1838987a"
+          "sha256": "92acfee0e4aa6668ba2808bf671f558c5e24654706a013e729ee10bda0998fbc"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [],
@@ -107,14 +107,14 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "e036165d139d86f52e336e6dfeb5b4da00760e0a7bc1ddf5771bf2af1838987a"
+          "sha256": "92acfee0e4aa6668ba2808bf671f558c5e24654706a013e729ee10bda0998fbc"
         },
         "swapped-in": "fe95e18e208cc7412d011eea42a474a65084e3e8b2b9f95c73becc5f0c17d73d",
         "test": "swap-and-re-pin"
       },
       "path": "corpora/vectors-anchored-chain/tests/test_corpus.py",
       "serialization": "bytes",
-      "sha256": "82f019ec20a8607f84527ae32659308361b3bb0661aed51731595255ebc05189"
+      "sha256": "d323c96548957201d0d20ec01c6315c54f801c6813c656798a80b6de00177816"
     }
   ],
   "boundary": {
@@ -129,7 +129,7 @@
     "root": "corpora/vectors-anchored-chain"
   },
   "byte-identity": {
-    "pins": 42,
+    "pins": 51,
     "serialization": "bytes"
   },
   "canonicalization": {
@@ -166,7 +166,7 @@
         "go.mod"
       ],
       "serialization": "sha256-listing-v1",
-      "sha256": "6049d8b39781c2423fe9c26fb300b1c0ad2823d90550f77c3ce0670d79958ce0"
+      "sha256": "9411c7aa40113bd7f476c61c351e5d468a763d3b5c829f62566c6d80ff4b2c42"
     },
     "runtime": {
       "name": "go",
@@ -291,11 +291,35 @@
         "verdict": "rejected"
       },
       "state": "pass"
+    },
+    {
+      "check": "repeated-member-tail",
+      "native": {
+        "reasons": [],
+        "verdict": "rejected"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "utf16-member-order-rfc8785",
+      "native": {
+        "reasons": [],
+        "verdict": "verified"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "utf16-member-order-code-point",
+      "native": {
+        "reasons": [],
+        "verdict": "rejected"
+      },
+      "state": "pass"
     }
   ],
   "corpus-digest": {
     "serialization": "sha256-listing-v1",
-    "sha256": "f49fea21bb4cb9d16ffcb470f27c89f294549c50c0e1a7356ec43cbca903bcaf"
+    "sha256": "21462292a665289844d62a1423b5de01a6c08e35c3529ed091fdd8492e479cf9"
   },
   "exit-code": 0,
   "exit-rule": "zero-iff-every-check-passes",
@@ -318,10 +342,13 @@
       "t8-metadata-tamper",
       "t9-snapshot-rollback",
       "rollback-to-abandoned-branch",
-      "tail-removal-reanchored"
+      "tail-removal-reanchored",
+      "repeated-member-tail",
+      "utf16-member-order-rfc8785",
+      "utf16-member-order-code-point"
     ],
     "path": "corpora/vectors-anchored-chain/MANIFEST.json",
-    "sha256": "24946c6bb2ac02261237f79a133166ec9dbf6a30a4f1efbab65385d001e83c4b"
+    "sha256": "c25c0f64b153793e23cf390e075ae5f7c17ca35b8d764bed3622691db908c5f2"
   },
   "members": [
     {
@@ -561,6 +588,57 @@
         }
       ],
       "id": "tail-removal-reanchored"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-anchored-chain/cases/repeated-member-tail/anchor.json",
+          "sha256": "41e75c4c8636508e190913cc06a3743d5c6eb8035bbba1a339155d75f5f63bac"
+        },
+        {
+          "path": "corpora/vectors-anchored-chain/cases/repeated-member-tail/case.json",
+          "sha256": "e079edc395007d64e281a68e7bc2a3c00db6e03c077bdc109fe4fcb4d749ef65"
+        },
+        {
+          "path": "corpora/vectors-anchored-chain/cases/repeated-member-tail/store.jsonl",
+          "sha256": "8d6811fc14d2b05ffdc6bee67cba505430116e543e972e3cf7fba9876c25fdfa"
+        }
+      ],
+      "id": "repeated-member-tail"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-anchored-chain/cases/utf16-member-order-rfc8785/anchor.json",
+          "sha256": "7f65829961e8539c30cca51eeca9714bb09d58b9e9d5ba6453eb82550ee45aeb"
+        },
+        {
+          "path": "corpora/vectors-anchored-chain/cases/utf16-member-order-rfc8785/case.json",
+          "sha256": "e079edc395007d64e281a68e7bc2a3c00db6e03c077bdc109fe4fcb4d749ef65"
+        },
+        {
+          "path": "corpora/vectors-anchored-chain/cases/utf16-member-order-rfc8785/store.jsonl",
+          "sha256": "0dd91be9c9dabc7391b56adf3f073255fe008b41c7e41b936b1cb5743cbf2f97"
+        }
+      ],
+      "id": "utf16-member-order-rfc8785"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-anchored-chain/cases/utf16-member-order-code-point/anchor.json",
+          "sha256": "ffa6ae026bd19e70bb9ae326e944b867851374c7dac3bf56cf87e5893d3e0ca4"
+        },
+        {
+          "path": "corpora/vectors-anchored-chain/cases/utf16-member-order-code-point/case.json",
+          "sha256": "e079edc395007d64e281a68e7bc2a3c00db6e03c077bdc109fe4fcb4d749ef65"
+        },
+        {
+          "path": "corpora/vectors-anchored-chain/cases/utf16-member-order-code-point/store.jsonl",
+          "sha256": "eceb75cc56b5eed5db5be831c8c59ff09a444db188bd9b52b19f0daa4e2881fb"
+        }
+      ],
+      "id": "utf16-member-order-code-point"
     }
   ],
   "native": {
@@ -575,7 +653,7 @@
     {
       "basis": "its README: the reference source is read only to derive the rules, and no reference code is imported, executed or copied",
       "corpus-digest": "a92cf47c64f905ec6a57c4bf624c2667c075da4a76d58b4d251584831202dc86",
-      "covers-these-bytes": true,
+      "covers-these-bytes": false,
       "depth": "full rules",
       "list-message": "https://lists.w3.org/Archives/Public/public-agent-conformance/2026Oct/0041.html",
       "operator": "Guigui Wang, Correctover (not an author of this repository)",
@@ -597,7 +675,7 @@
       "reference": {
         "path": "release/intake/native/vectors-anchored-chain.json",
         "serialization": "bytes",
-        "sha256": "e036165d139d86f52e336e6dfeb5b4da00760e0a7bc1ddf5771bf2af1838987a"
+        "sha256": "92acfee0e4aa6668ba2808bf671f558c5e24654706a013e729ee10bda0998fbc"
       }
     },
     {
@@ -606,7 +684,7 @@
       "reference": {
         "path": "release/intake/native/vectors-anchored-chain.txt",
         "serialization": "bytes",
-        "sha256": "30960db7707f5fdc938e3a6ec727d7e49c9103c7cb0cb18d6835a9a87e2db9e2"
+        "sha256": "1c880dab803d407ad6e4d1c579f2ab088ba33c8f8bfddba55c57b48be07ed21a"
       }
     },
     {
@@ -711,6 +789,22 @@
         "check:tail-removal-reanchored"
       ],
       "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"rejected\",\"reason\":\"anchor_signature_invalid\"}}"
+    },
+    {
+      "check": "repeated-member-tail",
+      "inputs": [
+        "member:repeated-member-tail",
+        "check:repeated-member-tail"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"rejected\",\"reason\":\"store_not_strict_json\"}}"
+    },
+    {
+      "check": "utf16-member-order-code-point",
+      "inputs": [
+        "member:utf16-member-order-code-point",
+        "check:utf16-member-order-code-point"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"rejected\",\"reason\":\"signature_invalid\"}}"
     }
   ],
   "relaxed-controls": [],
@@ -720,11 +814,11 @@
     "runs": [
       {
         "process": "run-1",
-        "sha256": "e036165d139d86f52e336e6dfeb5b4da00760e0a7bc1ddf5771bf2af1838987a"
+        "sha256": "92acfee0e4aa6668ba2808bf671f558c5e24654706a013e729ee10bda0998fbc"
       },
       {
         "process": "run-2",
-        "sha256": "e036165d139d86f52e336e6dfeb5b4da00760e0a7bc1ddf5771bf2af1838987a"
+        "sha256": "92acfee0e4aa6668ba2808bf671f558c5e24654706a013e729ee10bda0998fbc"
       }
     ],
     "seed": null,
@@ -738,17 +832,18 @@
       "action-occurred-or-authority"
     ],
     "establishes": [
-      "aee-verify, at the source listing named here, judges each of the 14 pinned members of anchored-record-chain/v1 as its manifest declares"
+      "aee-verify, at the source listing named here, judges each of the 17 pinned members of anchored-record-chain/v1 as its manifest declares"
     ],
     "leaves-open": [
       "whether an implementation written from the specification, run by someone other than an author, reaches the same verdicts",
-      "whether release/CORPUS-DIGESTS.txt is a list a release signed: the signature beside it does not verify over these bytes, so the anchor is a located line, not a verified one"
+      "whether release/CORPUS-DIGESTS.txt is a list a release signed: the signature beside it does not verify over these bytes, so the anchor is a located line, not a verified one",
+      "whether a re-run by someone other than an author on these exact bytes agrees; none is on the record for them"
     ]
   },
   "selector": {
     "expression": "*",
     "language": "id-glob",
-    "matched": 14,
+    "matched": 17,
     "require": "at-least-one",
     "selected": [
       "intact",
@@ -764,7 +859,10 @@
       "t8-metadata-tamper",
       "t9-snapshot-rollback",
       "rollback-to-abandoned-branch",
-      "tail-removal-reanchored"
+      "tail-removal-reanchored",
+      "repeated-member-tail",
+      "utf16-member-order-rfc8785",
+      "utf16-member-order-code-point"
     ]
   },
   "specification-readers": [],
