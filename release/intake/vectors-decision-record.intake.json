@@ -1,0 +1,4047 @@
+{
+  "aggregate": {
+    "counts": {
+      "accept": 38,
+      "reject": 109
+    },
+    "line": "verdict: every member behaves as MANIFEST.json declares",
+    "total": 147
+  },
+  "anchor": {
+    "kind": "digest-list-line",
+    "manifest": "vectors-decision-record/MANIFEST.json",
+    "reference": {
+      "path": "release/CORPUS-DIGESTS.txt",
+      "uri": "https://github.com/probityai/agent-evidence-vectors/blob/main/release/CORPUS-DIGESTS.txt"
+    },
+    "routine": "corpus_digest in corpora/vectors-decision-record/digest.py",
+    "routine-file": "corpora/vectors-decision-record/digest.py",
+    "serialization": "corpus-routine",
+    "sha256": "dcd499eaffc2e4ad6f9aaab8f3012e485c7518eb042cb4fa730b393ec8bbf4e2",
+    "verdicts": {
+      "availability-failure": "inconclusive",
+      "integrity-failure": "fail"
+    }
+  },
+  "artifacts": [
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "b9bee747fabedc85abdb2d87d083f7457d5ed71c1980c6a060f20f2d4d5be927"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "b9bee747fabedc85abdb2d87d083f7457d5ed71c1980c6a060f20f2d4d5be927"
+        },
+        "swapped-in": "4a61f72a380363f55e0fb8b676d5f850ddf7954aef404c122cd40507a1655372",
+        "test": "swap-and-re-pin"
+      },
+      "path": "corpora/vectors-decision-record/INDEX.md",
+      "serialization": "bytes",
+      "sha256": "1ff6c70808fc68178411dabace23ddd080514bfa2ca8aea982005047a4c31589"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "b9bee747fabedc85abdb2d87d083f7457d5ed71c1980c6a060f20f2d4d5be927"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "b9bee747fabedc85abdb2d87d083f7457d5ed71c1980c6a060f20f2d4d5be927"
+        },
+        "swapped-in": "50415aadaca0630a60eb5cf5d7347d201602a409ded833bac0e843c44aa4bc7b",
+        "test": "swap-and-re-pin"
+      },
+      "path": "corpora/vectors-decision-record/README.md",
+      "serialization": "bytes",
+      "sha256": "e464d32d168cd85b57749bc4b60ed1591eeb4c99f66dc7a1e7cb13fef886703e"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "b9bee747fabedc85abdb2d87d083f7457d5ed71c1980c6a060f20f2d4d5be927"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "b9bee747fabedc85abdb2d87d083f7457d5ed71c1980c6a060f20f2d4d5be927"
+        },
+        "swapped-in": "1e8696ea7ca04df2c528a9c487c1dd0c7cdf3b90c4d397feb13488a4b6192268",
+        "test": "swap-and-re-pin"
+      },
+      "path": "corpora/vectors-decision-record/check_vectors.py",
+      "serialization": "bytes",
+      "sha256": "ea4a2198892677d57bfce559535a59b1d7939784949b41aabb57f48560463769"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "b9bee747fabedc85abdb2d87d083f7457d5ed71c1980c6a060f20f2d4d5be927"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "b9bee747fabedc85abdb2d87d083f7457d5ed71c1980c6a060f20f2d4d5be927"
+        },
+        "swapped-in": "3c5ff691a9c847ea3b663254871776b3aa3060ec55d83d3046fb67746821e869",
+        "test": "swap-and-re-pin"
+      },
+      "path": "corpora/vectors-decision-record/digest.py",
+      "serialization": "bytes",
+      "sha256": "87c1e313777285ddab611d587b79baafcc9b1dabf86a2751171df78cf950b87a"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "b9bee747fabedc85abdb2d87d083f7457d5ed71c1980c6a060f20f2d4d5be927"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "b9bee747fabedc85abdb2d87d083f7457d5ed71c1980c6a060f20f2d4d5be927"
+        },
+        "swapped-in": "931b1279c63d3138f59403757581efc4f5ecde35243f301e3d5dcc25c57c7bfa",
+        "test": "swap-and-re-pin"
+      },
+      "path": "corpora/vectors-decision-record/gen_vectors.py",
+      "serialization": "bytes",
+      "sha256": "d05df1c60604a7b03a6e99bdc0b03e185ecf6045e4e76e4ab2f13e5226b2456a"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "b9bee747fabedc85abdb2d87d083f7457d5ed71c1980c6a060f20f2d4d5be927"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "b9bee747fabedc85abdb2d87d083f7457d5ed71c1980c6a060f20f2d4d5be927"
+        },
+        "swapped-in": "88974a361c8092988d13752c15945067e127cef278e2a7d5d456383e7f5e2d80",
+        "test": "swap-and-re-pin"
+      },
+      "path": "corpora/vectors-decision-record/source/SOURCE.json",
+      "serialization": "bytes",
+      "sha256": "a10aa65d107d45774cb8bc53c1ba7486ed205f89584d4d4318a542bb92a66b18"
+    },
+    {
+      "consumed": "consumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "b9bee747fabedc85abdb2d87d083f7457d5ed71c1980c6a060f20f2d4d5be927"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [
+          "corpora/vectors-decision-record/MANIFEST.json",
+          "corpora/vectors-decision-record/source/SOURCE.json"
+        ],
+        "swapped": {
+          "exit-code": 1,
+          "sha256": "2be66c6c7b09f013599b81779842f9b9a4c2e319a7fb60bf2dd72a675bfb24fd"
+        },
+        "swapped-in": "a57228940fe1279b38cc3d59fce4b3107b99d375f19dfbc9476eb295b8a899d3",
+        "test": "swap-and-re-pin"
+      },
+      "path": "corpora/vectors-decision-record/source/cases.json",
+      "serialization": "bytes",
+      "sha256": "94b8ceb3920fe3c4e1ae0cccfbde1cf8a3baf615c182fbf99225dff8174f0274"
+    },
+    {
+      "consumed": "consumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "b9bee747fabedc85abdb2d87d083f7457d5ed71c1980c6a060f20f2d4d5be927"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [
+          "corpora/vectors-decision-record/MANIFEST.json",
+          "corpora/vectors-decision-record/source/SOURCE.json"
+        ],
+        "swapped": {
+          "exit-code": 1,
+          "sha256": "b4e80f3ebfa750b1d493efccb3651c38978e4baba7b28f02dbbf656969dd7389"
+        },
+        "swapped-in": "e811a73d870a90f4f987133b535031493aa331f37cd8703c0fd45e6f0b37df74",
+        "test": "swap-and-re-pin"
+      },
+      "path": "corpora/vectors-decision-record/source/vectors.json",
+      "serialization": "bytes",
+      "sha256": "cb7876b2a3056c23063da9ffee3650d28fc05613e24a02a8eaa28aa171f6aa6d"
+    }
+  ],
+  "boundary": {
+    "complete": true,
+    "member-locations": [
+      {
+        "dir": "members",
+        "recursive": false,
+        "suffix": ".json"
+      }
+    ],
+    "root": "corpora/vectors-decision-record"
+  },
+  "byte-identity": {
+    "pins": 147,
+    "serialization": "bytes"
+  },
+  "canonicalization": {
+    "encoding": "jcs-sha256"
+  },
+  "checker": {
+    "commands": [
+      "go build -o aee-verify ./cmd/aee-verify",
+      "aee-verify -json corpora/vectors-decision-record",
+      "aee-verify -json corpora/vectors-decision-record",
+      "aee-verify corpora/vectors-decision-record"
+    ],
+    "dependencies": [
+      {
+        "path": "go.mod",
+        "serialization": "bytes",
+        "sha256": "c9f5a67159789ead4e2879e86805505c6ba22150b04bef360e6b3333125fb1c2"
+      },
+      {
+        "path": "go.work",
+        "serialization": "bytes",
+        "sha256": "61a9b151174d1aca21dd4b851b7d9a88784c4e6674ba4550a01a36a22f165e47"
+      }
+    ],
+    "helpers": [],
+    "name": "aee-verify",
+    "relationship": "same-implementation",
+    "revision": {
+      "kind": "source-listing",
+      "paths": [
+        "aee",
+        "cmd/aee-verify",
+        "corpusreaders",
+        "go.mod"
+      ],
+      "serialization": "sha256-listing-v1",
+      "sha256": "d38c3cf21e8c32312f3b72cff15445f64183453060ffe8c853ef641c5471fe73"
+    },
+    "runtime": {
+      "name": "go",
+      "version": "1.26"
+    },
+    "shared-verification-code": [
+      "aee",
+      "cmd/aee-verify",
+      "corpusreaders",
+      "go.mod"
+    ]
+  },
+  "checks": [
+    {
+      "check": "baseline-l01",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "baseline-l02",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "baseline-l03",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "baseline-l04",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "baseline-l05",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "baseline-l06",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "baseline-l07",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "baseline-l08",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "baseline-l09",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "baseline-l10",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "baseline-l11",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "baseline-l12",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "baseline-l13",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "baseline-l14",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "baseline-l15",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "baseline-l16",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "baseline-l17",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "baseline-l18",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "baseline-l19",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "baseline-l20",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "baseline-l21",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "baseline-l22",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "baseline-l23",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "baseline-l24",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "baseline-l25",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "baseline-l26",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "baseline-l27",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "baseline-l28",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "baseline-l29",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "baseline-l30",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "baseline-l31",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "baseline-l32",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "baseline-l33",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "baseline-l34",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "baseline-l35",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "baseline-l36",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "baseline-l37",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "baseline-l38",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "baseline-l39",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "baseline-l40",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "baseline-l41",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "baseline-l42",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "baseline-l43",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "baseline-l44",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "baseline-l45",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "baseline-l46",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "baseline-l47",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "baseline-l48",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "baseline-l49",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "baseline-l50",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "baseline-l51",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "baseline-l52",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "baseline-l53",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "baseline-l54",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "baseline-l55",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "baseline-l56",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "baseline-l57",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "baseline-l58",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "baseline-l59",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "baseline-l60",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "baseline-l61",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "baseline-l62",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "baseline-l63",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "baseline-l64",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "baseline-l65",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "baseline-l66",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "baseline-l67",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "baseline-l68",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "baseline-l69",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "baseline-l70",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "baseline-l71",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "baseline-l72",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "baseline-l73",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "baseline-l74",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "baseline-l75",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "baseline-l76",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "baseline-l77",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "baseline-s01",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "baseline-s02",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "baseline-s03",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "baseline-s04",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "baseline-s05",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "baseline-s06",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "baseline-s07",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "baseline-s08",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "baseline-s09",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "baseline-s10",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "baseline-s11",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "baseline-s12",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "baseline-s13",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "baseline-s14",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "baseline-s15",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "baseline-s16",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "baseline-s17",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "baseline-s18",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "baseline-s19",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "baseline-s20",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "baseline-s21",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "baseline-s22",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "baseline-s23",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "baseline-s24",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "baseline-s25",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "baseline-s26",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "baseline-s27",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "baseline-s28",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "baseline-s29",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "baseline-s30",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "baseline-s31",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "baseline-s32",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "baseline-s33",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "baseline-s34",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "baseline-s35",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "baseline-s36",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "baseline-s37",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "baseline-s38",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "baseline-s39",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "baseline-s40",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "baseline-s41",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "baseline-s42",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "baseline-s43",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "baseline-s44",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "baseline-s45",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "baseline-s46",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "baseline-s47",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "baseline-s48",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "baseline-s49",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "baseline-s50",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "baseline-s51",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "baseline-s52",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "baseline-s53",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "baseline-s54",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "baseline-sig-a0-stated-time",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "baseline-sig-b0",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "baseline-sig-result-changed",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "baseline-sig-key-not-in-policy",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "baseline-sig-policy-lists-key-twice",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "baseline-sig-member-named-twice",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "strict-all-sources-confirm",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "strict-approved-by-drafting-role",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "strict-approved-by-executor",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "strict-one-request-succeeds-twice",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "strict-retry-after-indeterminate",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "strict-person-not-confirmed",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "strict-change-by-unnamed-service",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "strict-stages-backdated",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "strict-older-attachment",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "strict-signature-removed",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    }
+  ],
+  "corpus-digest": {
+    "serialization": "sha256-listing-v1",
+    "sha256": "eda81b84ace76ad00cfa0d12ae363f8b514651d249ed0c9e1b787b4d0ebe0edd"
+  },
+  "exit-code": 0,
+  "exit-rule": "zero-iff-every-check-passes",
+  "exposure": "visible",
+  "faults": [],
+  "format": "public-agent-conformance/intake-record/v2",
+  "manifest": {
+    "closed": true,
+    "ids": [
+      "baseline-l01",
+      "baseline-l02",
+      "baseline-l03",
+      "baseline-l04",
+      "baseline-l05",
+      "baseline-l06",
+      "baseline-l07",
+      "baseline-l08",
+      "baseline-l09",
+      "baseline-l10",
+      "baseline-l11",
+      "baseline-l12",
+      "baseline-l13",
+      "baseline-l14",
+      "baseline-l15",
+      "baseline-l16",
+      "baseline-l17",
+      "baseline-l18",
+      "baseline-l19",
+      "baseline-l20",
+      "baseline-l21",
+      "baseline-l22",
+      "baseline-l23",
+      "baseline-l24",
+      "baseline-l25",
+      "baseline-l26",
+      "baseline-l27",
+      "baseline-l28",
+      "baseline-l29",
+      "baseline-l30",
+      "baseline-l31",
+      "baseline-l32",
+      "baseline-l33",
+      "baseline-l34",
+      "baseline-l35",
+      "baseline-l36",
+      "baseline-l37",
+      "baseline-l38",
+      "baseline-l39",
+      "baseline-l40",
+      "baseline-l41",
+      "baseline-l42",
+      "baseline-l43",
+      "baseline-l44",
+      "baseline-l45",
+      "baseline-l46",
+      "baseline-l47",
+      "baseline-l48",
+      "baseline-l49",
+      "baseline-l50",
+      "baseline-l51",
+      "baseline-l52",
+      "baseline-l53",
+      "baseline-l54",
+      "baseline-l55",
+      "baseline-l56",
+      "baseline-l57",
+      "baseline-l58",
+      "baseline-l59",
+      "baseline-l60",
+      "baseline-l61",
+      "baseline-l62",
+      "baseline-l63",
+      "baseline-l64",
+      "baseline-l65",
+      "baseline-l66",
+      "baseline-l67",
+      "baseline-l68",
+      "baseline-l69",
+      "baseline-l70",
+      "baseline-l71",
+      "baseline-l72",
+      "baseline-l73",
+      "baseline-l74",
+      "baseline-l75",
+      "baseline-l76",
+      "baseline-l77",
+      "baseline-s01",
+      "baseline-s02",
+      "baseline-s03",
+      "baseline-s04",
+      "baseline-s05",
+      "baseline-s06",
+      "baseline-s07",
+      "baseline-s08",
+      "baseline-s09",
+      "baseline-s10",
+      "baseline-s11",
+      "baseline-s12",
+      "baseline-s13",
+      "baseline-s14",
+      "baseline-s15",
+      "baseline-s16",
+      "baseline-s17",
+      "baseline-s18",
+      "baseline-s19",
+      "baseline-s20",
+      "baseline-s21",
+      "baseline-s22",
+      "baseline-s23",
+      "baseline-s24",
+      "baseline-s25",
+      "baseline-s26",
+      "baseline-s27",
+      "baseline-s28",
+      "baseline-s29",
+      "baseline-s30",
+      "baseline-s31",
+      "baseline-s32",
+      "baseline-s33",
+      "baseline-s34",
+      "baseline-s35",
+      "baseline-s36",
+      "baseline-s37",
+      "baseline-s38",
+      "baseline-s39",
+      "baseline-s40",
+      "baseline-s41",
+      "baseline-s42",
+      "baseline-s43",
+      "baseline-s44",
+      "baseline-s45",
+      "baseline-s46",
+      "baseline-s47",
+      "baseline-s48",
+      "baseline-s49",
+      "baseline-s50",
+      "baseline-s51",
+      "baseline-s52",
+      "baseline-s53",
+      "baseline-s54",
+      "baseline-sig-a0-stated-time",
+      "baseline-sig-b0",
+      "baseline-sig-result-changed",
+      "baseline-sig-key-not-in-policy",
+      "baseline-sig-policy-lists-key-twice",
+      "baseline-sig-member-named-twice",
+      "strict-all-sources-confirm",
+      "strict-approved-by-drafting-role",
+      "strict-approved-by-executor",
+      "strict-one-request-succeeds-twice",
+      "strict-retry-after-indeterminate",
+      "strict-person-not-confirmed",
+      "strict-change-by-unnamed-service",
+      "strict-stages-backdated",
+      "strict-older-attachment",
+      "strict-signature-removed"
+    ],
+    "path": "corpora/vectors-decision-record/MANIFEST.json",
+    "sha256": "4d2c49315cbd3992284052b37e25fa9423cf6eca8b1122b855d9471487b70f8b"
+  },
+  "members": [
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-decision-record/members/baseline-l01.json",
+          "sha256": "32508c5b471a6b556f7aa19cdb95f6e2cf825224a98d08f85679d44acfaaecf5"
+        }
+      ],
+      "id": "baseline-l01"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-decision-record/members/baseline-l02.json",
+          "sha256": "286c4ebcf2b7961f0dbb52889d2157f39ff3a5ed01b0286fc76cf303b71f5c42"
+        }
+      ],
+      "id": "baseline-l02"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-decision-record/members/baseline-l03.json",
+          "sha256": "29b0f8889e7eb98953916c6b4094b4db8273cd0d23acc776c98db2b34ad60389"
+        }
+      ],
+      "id": "baseline-l03"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-decision-record/members/baseline-l04.json",
+          "sha256": "bd58561921447f69109fe3e2ae97cace197b40b4ba03bf6f4dcd2b414a5bcea1"
+        }
+      ],
+      "id": "baseline-l04"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-decision-record/members/baseline-l05.json",
+          "sha256": "a2906a35399633b2ee5397ac4c7c2e211ef1bdf6ff41ce6205d1a8dda988e0f9"
+        }
+      ],
+      "id": "baseline-l05"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-decision-record/members/baseline-l06.json",
+          "sha256": "bba999f3609b3fb656af1993a6cdf52aa222c70e65fe88be774438610860565b"
+        }
+      ],
+      "id": "baseline-l06"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-decision-record/members/baseline-l07.json",
+          "sha256": "f92a22f4680746060e285f54f8967f5a027d610c8bc33f8f36bcf61a47b658e3"
+        }
+      ],
+      "id": "baseline-l07"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-decision-record/members/baseline-l08.json",
+          "sha256": "deb7120c1adf9091cf53f5304868a6aac6fc9da10889317e1ec66db9992fd277"
+        }
+      ],
+      "id": "baseline-l08"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-decision-record/members/baseline-l09.json",
+          "sha256": "aa9aa0754e630658ac3cd45536dd797a008b0374ec2501d5819b33852b746b4c"
+        }
+      ],
+      "id": "baseline-l09"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-decision-record/members/baseline-l10.json",
+          "sha256": "d221d94423ba1824a8ea4b9a1c742e4a50787d2f5abe7d46cfef4828d876b69a"
+        }
+      ],
+      "id": "baseline-l10"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-decision-record/members/baseline-l11.json",
+          "sha256": "fc36ed277476ad2447fbd35bea6c03395a206b61a11dc6a8df563aca8b88dd4d"
+        }
+      ],
+      "id": "baseline-l11"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-decision-record/members/baseline-l12.json",
+          "sha256": "95d03f3f25d5ad9f1269706addd19b9a6d21b586edfca6f0c6107c98eb47665a"
+        }
+      ],
+      "id": "baseline-l12"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-decision-record/members/baseline-l13.json",
+          "sha256": "5025799790df23718cedf43006c38ea85a1404a5d9a83753da06cfaf3fb75f3d"
+        }
+      ],
+      "id": "baseline-l13"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-decision-record/members/baseline-l14.json",
+          "sha256": "df347561668b447f42716d247627910f3ae011b3ebb36c863a5d323783042da2"
+        }
+      ],
+      "id": "baseline-l14"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-decision-record/members/baseline-l15.json",
+          "sha256": "bd272b70acccf3aa06fdfd8717bade101c62901a9909422267c68e4780b089e7"
+        }
+      ],
+      "id": "baseline-l15"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-decision-record/members/baseline-l16.json",
+          "sha256": "fb4bd2ad18523df2ac878e684b67d111ff204e6dc5b2d40e4ed743d478e6b5ca"
+        }
+      ],
+      "id": "baseline-l16"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-decision-record/members/baseline-l17.json",
+          "sha256": "fa119542d948541b07cd6c1b36886b88497ae03ee0df449354a542d820a9979e"
+        }
+      ],
+      "id": "baseline-l17"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-decision-record/members/baseline-l18.json",
+          "sha256": "234793d17e5299c647d1a98a926d7b26eb38979092d0b2ab8f105dc3c2479c6f"
+        }
+      ],
+      "id": "baseline-l18"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-decision-record/members/baseline-l19.json",
+          "sha256": "b05aeecfaa367616b00c21c032298878fd3ed92f9f7954968f6c710ca55d7158"
+        }
+      ],
+      "id": "baseline-l19"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-decision-record/members/baseline-l20.json",
+          "sha256": "374c3a46c81dff73a0adcd59064d49b9b7c98bd3430cd07c002f61cb50d9a479"
+        }
+      ],
+      "id": "baseline-l20"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-decision-record/members/baseline-l21.json",
+          "sha256": "74296101dcb67ff0fbfb133a1a0fc8cc903d5c594f42447c4f075c6465022cd3"
+        }
+      ],
+      "id": "baseline-l21"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-decision-record/members/baseline-l22.json",
+          "sha256": "dd78d66035cf57b13e9463fd6c8d50964eb879f059d672ba4f3487101405fbf8"
+        }
+      ],
+      "id": "baseline-l22"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-decision-record/members/baseline-l23.json",
+          "sha256": "6118ddd34db3b697d0b074e688662b2c4b54729d1f37cc3afba22bbb84d9726e"
+        }
+      ],
+      "id": "baseline-l23"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-decision-record/members/baseline-l24.json",
+          "sha256": "c6c96b5a50989ac585e63e9ed0843d649e11f929aeca189b5650264583fca0d9"
+        }
+      ],
+      "id": "baseline-l24"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-decision-record/members/baseline-l25.json",
+          "sha256": "22e433c5b3f3608012a6a1ca3d40f5fc8e29baecb973caae4b3b6b9f0eea4a8d"
+        }
+      ],
+      "id": "baseline-l25"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-decision-record/members/baseline-l26.json",
+          "sha256": "6075f0c74b448916d3a9b6572e886f2a07584fca701182aea6e3c533f9f8db96"
+        }
+      ],
+      "id": "baseline-l26"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-decision-record/members/baseline-l27.json",
+          "sha256": "7f0e92e6b16695c80347116912d4aa06d819aca49f6537df5df5fbcb0681b15b"
+        }
+      ],
+      "id": "baseline-l27"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-decision-record/members/baseline-l28.json",
+          "sha256": "cfeb3b7194d1114b0006314626528284168ad112cf6115bca4c3205ee6ceba78"
+        }
+      ],
+      "id": "baseline-l28"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-decision-record/members/baseline-l29.json",
+          "sha256": "8bf43d650e11e7c95bad8d232c3905f968285368925927261ca7aeb11da3a19c"
+        }
+      ],
+      "id": "baseline-l29"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-decision-record/members/baseline-l30.json",
+          "sha256": "8fe740fc3da88430f3a66ab72f33787c231e3577800c0acbbc35e266d8f5304e"
+        }
+      ],
+      "id": "baseline-l30"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-decision-record/members/baseline-l31.json",
+          "sha256": "6122fd67106d255761f900b335a6b806ec478e6717238cb322dff3f22458087b"
+        }
+      ],
+      "id": "baseline-l31"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-decision-record/members/baseline-l32.json",
+          "sha256": "97b4403c5142c488269e8682c8aaf1ed782d035a6f59d6389f410932acfa3f44"
+        }
+      ],
+      "id": "baseline-l32"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-decision-record/members/baseline-l33.json",
+          "sha256": "39258a8c06fd5a5215d41578dde82d88a0a9b0e38b0c199699f656e8e937365a"
+        }
+      ],
+      "id": "baseline-l33"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-decision-record/members/baseline-l34.json",
+          "sha256": "46b09abb52641893c2e8d93eed2375959dceebbabd390e16b2e04af5601438b6"
+        }
+      ],
+      "id": "baseline-l34"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-decision-record/members/baseline-l35.json",
+          "sha256": "8a680893a255500238f6c5181fcfbea7a1bf7b847241fdf6cea7f7739007c5a5"
+        }
+      ],
+      "id": "baseline-l35"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-decision-record/members/baseline-l36.json",
+          "sha256": "c2ef5935eb226a283aa90bd57c971ccc16e967a98e31b087585f6ab8cd721e47"
+        }
+      ],
+      "id": "baseline-l36"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-decision-record/members/baseline-l37.json",
+          "sha256": "d0917daa3f389f03c83e2ce97193a8b6d78b577fd070a22ecbb2c42be46aac38"
+        }
+      ],
+      "id": "baseline-l37"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-decision-record/members/baseline-l38.json",
+          "sha256": "aea84d70327d095af1e2824d0eaeea392b20c2fda1e2987d9329288a3ec9d08e"
+        }
+      ],
+      "id": "baseline-l38"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-decision-record/members/baseline-l39.json",
+          "sha256": "92bc9c9b4e9b46ce3465393232b6ef258ab8acf70721082b1084dc306c4376f4"
+        }
+      ],
+      "id": "baseline-l39"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-decision-record/members/baseline-l40.json",
+          "sha256": "6463101c72f393e9a225e494105af3529f822fd240557b52427e668f411bba96"
+        }
+      ],
+      "id": "baseline-l40"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-decision-record/members/baseline-l41.json",
+          "sha256": "ce70699827c053d5718e2a625a24bbee60008432068431f966a8e1ecc69f3b96"
+        }
+      ],
+      "id": "baseline-l41"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-decision-record/members/baseline-l42.json",
+          "sha256": "5b1e3cb4398ff77f6d10629100b47c11a67acf0c5e4dd8863ecdded35170c35b"
+        }
+      ],
+      "id": "baseline-l42"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-decision-record/members/baseline-l43.json",
+          "sha256": "546e6500b5de075f320df6614cb0633ab033bdeb18224c7364cf08b6aeaa0b8d"
+        }
+      ],
+      "id": "baseline-l43"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-decision-record/members/baseline-l44.json",
+          "sha256": "9826f1eb89f470c5c24623694f82d98854ff5cae94235f268a8bead3a836882f"
+        }
+      ],
+      "id": "baseline-l44"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-decision-record/members/baseline-l45.json",
+          "sha256": "5036d8408db08c276e98ad8ffface42966c0dd081f82858235d3cb7e3235bdf3"
+        }
+      ],
+      "id": "baseline-l45"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-decision-record/members/baseline-l46.json",
+          "sha256": "b47f32cec423c38da6773920b81abcd4f1ed19eb7e659cf08bd74853ea480fed"
+        }
+      ],
+      "id": "baseline-l46"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-decision-record/members/baseline-l47.json",
+          "sha256": "748e1a39b6b7de1e8afb88c711ec8d8579cc0aa886bd2035018eaaca31717871"
+        }
+      ],
+      "id": "baseline-l47"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-decision-record/members/baseline-l48.json",
+          "sha256": "7d5ffc902a5d5ce40430a13b1379ed25616d51c5bf5dd328550d511c473da19f"
+        }
+      ],
+      "id": "baseline-l48"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-decision-record/members/baseline-l49.json",
+          "sha256": "7a0b581084581ef79ddba4a4bbbc7135bf60c20ccc9eb55f981c3b4a5081622e"
+        }
+      ],
+      "id": "baseline-l49"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-decision-record/members/baseline-l50.json",
+          "sha256": "4431d64ad3de1d8b87d873a08d7cb69d95b46f1f2c64762d26284f6d21d46501"
+        }
+      ],
+      "id": "baseline-l50"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-decision-record/members/baseline-l51.json",
+          "sha256": "2f3ba883abc0ffc154a77863c71902af84b712ab01e0f0816836d040505f690d"
+        }
+      ],
+      "id": "baseline-l51"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-decision-record/members/baseline-l52.json",
+          "sha256": "7592459bfbabc846709d485262e8d520c3d45e7dacc15d762722459f4dfbad76"
+        }
+      ],
+      "id": "baseline-l52"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-decision-record/members/baseline-l53.json",
+          "sha256": "5b477ce527afd8fc13cca46ecacfa978713bcfc65a9c95f09fb236470fbc91c6"
+        }
+      ],
+      "id": "baseline-l53"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-decision-record/members/baseline-l54.json",
+          "sha256": "7d8a04dadf2b44f4df65636c0dde092fbedab5bee2dec69cd9e43974228474a7"
+        }
+      ],
+      "id": "baseline-l54"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-decision-record/members/baseline-l55.json",
+          "sha256": "7ab28b06082f21e4feb650a8b05e7eb31ce80244f2b3f8e1eab0ce7eea53f57a"
+        }
+      ],
+      "id": "baseline-l55"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-decision-record/members/baseline-l56.json",
+          "sha256": "a6b1876e47a73d7e7681772f85e9d141c0ab1ddf3ec3ec8af669cf517a9bd7d2"
+        }
+      ],
+      "id": "baseline-l56"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-decision-record/members/baseline-l57.json",
+          "sha256": "2c8cbd9ab0b298930030c3a77a3371764cc419a3ab14c0c038e19ff172eccc8f"
+        }
+      ],
+      "id": "baseline-l57"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-decision-record/members/baseline-l58.json",
+          "sha256": "65eb2dc6fe2fc9d0017683a15240090992990e89a067f5a89409c1f635bc97d7"
+        }
+      ],
+      "id": "baseline-l58"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-decision-record/members/baseline-l59.json",
+          "sha256": "86069d729e0590721270ac5fc640acf81267d4de2417d13bb70309cab0dae51d"
+        }
+      ],
+      "id": "baseline-l59"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-decision-record/members/baseline-l60.json",
+          "sha256": "f43060af19dba436c78f48ee60d3a338dab910873d8b034d73bf25745f088f1f"
+        }
+      ],
+      "id": "baseline-l60"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-decision-record/members/baseline-l61.json",
+          "sha256": "03982e880a97e3eed78f8b0fbe7bb964afa37bb46da4e251c44fd230141e463d"
+        }
+      ],
+      "id": "baseline-l61"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-decision-record/members/baseline-l62.json",
+          "sha256": "8ed9a05e27a6ff8a480560fa30cb9ce261423b6838577789406d25453b47aa12"
+        }
+      ],
+      "id": "baseline-l62"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-decision-record/members/baseline-l63.json",
+          "sha256": "7b58dd3c3a4ceac5252bde0dddd6c752f909494a3313e95be248776bf02fc0a5"
+        }
+      ],
+      "id": "baseline-l63"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-decision-record/members/baseline-l64.json",
+          "sha256": "f4090c3c8905e917e089b3c6301aef2d86bb99dd7ce4ddd8c51b1826befe1924"
+        }
+      ],
+      "id": "baseline-l64"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-decision-record/members/baseline-l65.json",
+          "sha256": "8d0a5b196b71048fed2a764f571c7a93f3519e7d1ce98d07cd5fad7cfa21ff15"
+        }
+      ],
+      "id": "baseline-l65"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-decision-record/members/baseline-l66.json",
+          "sha256": "4667bafd6ec3a6848fad7e9fe247ef4236e5ddfd3848db0a1645295edc4d3bb6"
+        }
+      ],
+      "id": "baseline-l66"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-decision-record/members/baseline-l67.json",
+          "sha256": "fcf4812cb2bfe1ab36f2890404fb30f11812a987f056b196f144f2306c2f116d"
+        }
+      ],
+      "id": "baseline-l67"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-decision-record/members/baseline-l68.json",
+          "sha256": "3d9d9afb517b208b56044aa7010475a32097c02718a8e57acd92d7259b782d30"
+        }
+      ],
+      "id": "baseline-l68"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-decision-record/members/baseline-l69.json",
+          "sha256": "79a3d51d731f34d90d5e78b60d344a866c3df0c8b9da1029489f4fb646405f91"
+        }
+      ],
+      "id": "baseline-l69"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-decision-record/members/baseline-l70.json",
+          "sha256": "96aa8779582fee70e4d175356cc7468c8801d615d498eb76ac04534fb5381e43"
+        }
+      ],
+      "id": "baseline-l70"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-decision-record/members/baseline-l71.json",
+          "sha256": "c3dfeb807cf7a35d1c49c61f8433f3c9fc3e07d429fe2939b8c7f35f6ecc3f8d"
+        }
+      ],
+      "id": "baseline-l71"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-decision-record/members/baseline-l72.json",
+          "sha256": "fe3448bbfc299aa89eef1a4785908275eb1318fb7d2e968fb716dfd52453fc64"
+        }
+      ],
+      "id": "baseline-l72"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-decision-record/members/baseline-l73.json",
+          "sha256": "c251dc1461f435286916887520c8ccdb763f469bf3f54ce88a354840d2c60b8e"
+        }
+      ],
+      "id": "baseline-l73"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-decision-record/members/baseline-l74.json",
+          "sha256": "7eabdb668d405d000de951a5c4e19fe4b91abc320f1d44c21a3f77db2461189a"
+        }
+      ],
+      "id": "baseline-l74"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-decision-record/members/baseline-l75.json",
+          "sha256": "86cb67b5e2aee4d562decdbce2941aafd2990d06adc4d14db5ea409624a4574c"
+        }
+      ],
+      "id": "baseline-l75"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-decision-record/members/baseline-l76.json",
+          "sha256": "1fcabdbdab8cfed8d3dadd48cf94516a04131a6e683226493e059aadd2c0502c"
+        }
+      ],
+      "id": "baseline-l76"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-decision-record/members/baseline-l77.json",
+          "sha256": "020da3a8635e8324f8443b60f16e4c313afb71672fec8656d2c6866ed7eef962"
+        }
+      ],
+      "id": "baseline-l77"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-decision-record/members/baseline-s01.json",
+          "sha256": "1d4dbb1bce77f828ab40c979f316b52bca2f8ffd08f26f11c85498fbadca15af"
+        }
+      ],
+      "id": "baseline-s01"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-decision-record/members/baseline-s02.json",
+          "sha256": "ee9811a627e7e385fc4a3682009934edfccf74090ae83c63f4e9f5e993d0bf7e"
+        }
+      ],
+      "id": "baseline-s02"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-decision-record/members/baseline-s03.json",
+          "sha256": "2e8a5284ef40c6ec8d613c4d573512559b47d5eb755d1f4c9d34abdfd5820043"
+        }
+      ],
+      "id": "baseline-s03"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-decision-record/members/baseline-s04.json",
+          "sha256": "f4ed27b4deafdb2bc5cf517c17496a7c6a078ac638fa0723bc94f671d67be954"
+        }
+      ],
+      "id": "baseline-s04"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-decision-record/members/baseline-s05.json",
+          "sha256": "21d426f229780f07b2cfb9d59408fcddba1db5cb3bf11799121ad0b9db26d6f2"
+        }
+      ],
+      "id": "baseline-s05"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-decision-record/members/baseline-s06.json",
+          "sha256": "3c10507dc4e4bc3a2f6d749747b3ba3447b7c7d85ebb31dedfa0ca9c187bc898"
+        }
+      ],
+      "id": "baseline-s06"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-decision-record/members/baseline-s07.json",
+          "sha256": "0db6d102dfa16012db6c3e69473937dc746733c8d1e99b6cb06a7984060d0bdb"
+        }
+      ],
+      "id": "baseline-s07"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-decision-record/members/baseline-s08.json",
+          "sha256": "6d5b34c0b349bce714dd930f3512b33ce9bc23e40b11252d164484cb9288b3ae"
+        }
+      ],
+      "id": "baseline-s08"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-decision-record/members/baseline-s09.json",
+          "sha256": "e19f8bd65c8317dc5c9f63462933e364555e24e9512d434c8fac4b32d9d79245"
+        }
+      ],
+      "id": "baseline-s09"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-decision-record/members/baseline-s10.json",
+          "sha256": "9cc6153fb7b75f510e830a75715b61ef56891991c39790a4e6845f99f465a349"
+        }
+      ],
+      "id": "baseline-s10"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-decision-record/members/baseline-s11.json",
+          "sha256": "ef4640838652e0c443774b006818a681b2014cc77ec8c13a47778a1e40c4c452"
+        }
+      ],
+      "id": "baseline-s11"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-decision-record/members/baseline-s12.json",
+          "sha256": "b3e06e0454fb8feae11e425d4aaba4e4f6b253529b9751e787460d4aa7f011db"
+        }
+      ],
+      "id": "baseline-s12"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-decision-record/members/baseline-s13.json",
+          "sha256": "b3c0a3a40d87c2e060d5eba456882711e6ae28f17807b2ac007105c3ffc96d08"
+        }
+      ],
+      "id": "baseline-s13"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-decision-record/members/baseline-s14.json",
+          "sha256": "0e219f2c97994c04c864bc812cc60ac22faa55e4d234c19278789a63216bd899"
+        }
+      ],
+      "id": "baseline-s14"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-decision-record/members/baseline-s15.json",
+          "sha256": "ceba8e285a5d082c646c3b88d0932ade73e0d5930007042208e17ab45d517f40"
+        }
+      ],
+      "id": "baseline-s15"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-decision-record/members/baseline-s16.json",
+          "sha256": "a58a4b02b4e0380a0891a78eb788c7ea6c0bafcb0dfb3c1aad6450928243d3b3"
+        }
+      ],
+      "id": "baseline-s16"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-decision-record/members/baseline-s17.json",
+          "sha256": "f6ce24ad916e54f403792416371eec799c620c9a9a933222d72455f2de7426e1"
+        }
+      ],
+      "id": "baseline-s17"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-decision-record/members/baseline-s18.json",
+          "sha256": "557b059b5901c34b2788e994d3516ac591c26218c586419b76e32839f5cd3a4d"
+        }
+      ],
+      "id": "baseline-s18"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-decision-record/members/baseline-s19.json",
+          "sha256": "6b752e23a91fc05124b58a5ac07fff0633788abafbfff27893ba171fd5342cd6"
+        }
+      ],
+      "id": "baseline-s19"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-decision-record/members/baseline-s20.json",
+          "sha256": "57b5d51b9cf43a37d77e1f0d0d03d736b6bc145a3737c3774eff1f61d281418e"
+        }
+      ],
+      "id": "baseline-s20"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-decision-record/members/baseline-s21.json",
+          "sha256": "527d0123353909f2359c4cc1ad1ec8be12728859abb140b288a31e1c792084e1"
+        }
+      ],
+      "id": "baseline-s21"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-decision-record/members/baseline-s22.json",
+          "sha256": "5e07c19c1777f2f149c8db345c8085c3619e9650ac233d29398bb0226f576802"
+        }
+      ],
+      "id": "baseline-s22"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-decision-record/members/baseline-s23.json",
+          "sha256": "011eef09bec01f09f007be5702301767603e063de17cc1a62ce2fa1a998d184e"
+        }
+      ],
+      "id": "baseline-s23"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-decision-record/members/baseline-s24.json",
+          "sha256": "0c9195f2ba491dedd5437b114ab87ea8cab1c640490a05712b982b8d1d3f3b65"
+        }
+      ],
+      "id": "baseline-s24"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-decision-record/members/baseline-s25.json",
+          "sha256": "f37a932e8d00f44afa6defac4d9b90fd0ea70b4b837c1279109beb28e6bef16c"
+        }
+      ],
+      "id": "baseline-s25"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-decision-record/members/baseline-s26.json",
+          "sha256": "0307a8a4cbff39fc92a95298386b67beba4075555376dac046a3927409dd3e05"
+        }
+      ],
+      "id": "baseline-s26"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-decision-record/members/baseline-s27.json",
+          "sha256": "15625b2977414d8584b3b6f89cacafafe6ddbae64ae69fd506cfd94852409fbe"
+        }
+      ],
+      "id": "baseline-s27"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-decision-record/members/baseline-s28.json",
+          "sha256": "cb1ba09d43884203ae4bd72cbaca5aaf32a22ef7e29bb6e18e386eeb18aa6abd"
+        }
+      ],
+      "id": "baseline-s28"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-decision-record/members/baseline-s29.json",
+          "sha256": "07d59af36da74eb38f0984a6e57bd83bba3a4d258490609f847ea70c278c9c05"
+        }
+      ],
+      "id": "baseline-s29"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-decision-record/members/baseline-s30.json",
+          "sha256": "2ea14112e184b33f65f6689baf47eab098c6917288d546baa4e07e81758d9a12"
+        }
+      ],
+      "id": "baseline-s30"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-decision-record/members/baseline-s31.json",
+          "sha256": "e838b26c953c1687bd23dcdbf4fcae7b3a1cb35f3fc66bf2aa46156e3355bc40"
+        }
+      ],
+      "id": "baseline-s31"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-decision-record/members/baseline-s32.json",
+          "sha256": "7f3b95ab1cb61e942743a959646439bc97494def3ce79e0c84d7c5e5ae30eb1d"
+        }
+      ],
+      "id": "baseline-s32"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-decision-record/members/baseline-s33.json",
+          "sha256": "368a3edf323ff3b41b5e2eb00ba84d0ff01924ef93fe738716a3dd882508a13a"
+        }
+      ],
+      "id": "baseline-s33"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-decision-record/members/baseline-s34.json",
+          "sha256": "bfb51e520488c38b56f71475059caebaa026965d81b66534e205ef75f923063c"
+        }
+      ],
+      "id": "baseline-s34"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-decision-record/members/baseline-s35.json",
+          "sha256": "d29eb452bf83a4ef13b242d299ef5c5b4784b2683f4e791f5b16f8ffaa85e418"
+        }
+      ],
+      "id": "baseline-s35"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-decision-record/members/baseline-s36.json",
+          "sha256": "38adddf933bca9734c394c43abb5a398fb48570a47e2a39df9a1184b324afe2e"
+        }
+      ],
+      "id": "baseline-s36"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-decision-record/members/baseline-s37.json",
+          "sha256": "54e96786f51c06a3b5c8325b727b4c17006f866ccda3c0b11716b52fe7c9e083"
+        }
+      ],
+      "id": "baseline-s37"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-decision-record/members/baseline-s38.json",
+          "sha256": "62869d3074fca7949a97718ea03f71b12ba78c05a524672ccae76958e68e3678"
+        }
+      ],
+      "id": "baseline-s38"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-decision-record/members/baseline-s39.json",
+          "sha256": "27539ddffdaaf4c15f0876d981ec7dc55b03eaa40a334725b5a3eff36f28ae3b"
+        }
+      ],
+      "id": "baseline-s39"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-decision-record/members/baseline-s40.json",
+          "sha256": "b84267bfc2431f9174d16651e393d64be8edf43aabf31e875235b78ea141aecd"
+        }
+      ],
+      "id": "baseline-s40"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-decision-record/members/baseline-s41.json",
+          "sha256": "64aea8e1e344df6da724d152cb97ff4936633f8e98b59483d81d9ce96c8b088c"
+        }
+      ],
+      "id": "baseline-s41"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-decision-record/members/baseline-s42.json",
+          "sha256": "5ecad1dd6eb5586aba4395a04ac29032675c4026a70f15c08ffb5e7e6135a677"
+        }
+      ],
+      "id": "baseline-s42"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-decision-record/members/baseline-s43.json",
+          "sha256": "8e06d80e1476f6a9423483f0b85b82b093e46c94ee0b89175da7f87a8dac1410"
+        }
+      ],
+      "id": "baseline-s43"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-decision-record/members/baseline-s44.json",
+          "sha256": "ca8dbec3bbb597b05b8c624662faea7b1097be5875e789c5bd7547ebda1ca933"
+        }
+      ],
+      "id": "baseline-s44"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-decision-record/members/baseline-s45.json",
+          "sha256": "16ddbdb368bd79c75702f2b541aa84ff5d9e428ad7816c8dc9b715ff77166592"
+        }
+      ],
+      "id": "baseline-s45"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-decision-record/members/baseline-s46.json",
+          "sha256": "e370ddbfdc87d6495e5e50000048479fa1fe0f2845ff37b29b14916a579ea362"
+        }
+      ],
+      "id": "baseline-s46"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-decision-record/members/baseline-s47.json",
+          "sha256": "25312cd6be2527d2549c6ad5cdfba88c28425db901cbe3879f29cd4b62c42d3d"
+        }
+      ],
+      "id": "baseline-s47"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-decision-record/members/baseline-s48.json",
+          "sha256": "b8ff3409b6626f4a2d035e97f598c18123c65da3061f451b34766b42e9b5b3c1"
+        }
+      ],
+      "id": "baseline-s48"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-decision-record/members/baseline-s49.json",
+          "sha256": "952ba51155e99541b4f2e2181f115ce12804f0b746fc581508ec1de1ace5a32b"
+        }
+      ],
+      "id": "baseline-s49"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-decision-record/members/baseline-s50.json",
+          "sha256": "e959d6aff8bc5fa98811775e3268dfe01b0eeb65d684e9747b89b14b2b40db2b"
+        }
+      ],
+      "id": "baseline-s50"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-decision-record/members/baseline-s51.json",
+          "sha256": "56a6d5d959af5bdcc105d0d5c215287f5465512789e115d492abcba151f2cd1e"
+        }
+      ],
+      "id": "baseline-s51"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-decision-record/members/baseline-s52.json",
+          "sha256": "bd42bf40d2f8d17d0f3fbd8780c90bda5e8db668720e3273df7934e4b0b8e2a2"
+        }
+      ],
+      "id": "baseline-s52"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-decision-record/members/baseline-s53.json",
+          "sha256": "358d354a25f7cf7650c9defca931573797b6e723477f2c594acf05d532b81755"
+        }
+      ],
+      "id": "baseline-s53"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-decision-record/members/baseline-s54.json",
+          "sha256": "e6aebf06ac2bfc63ee462960aa506f9d5375400b2325af3a5f79ba390a5420eb"
+        }
+      ],
+      "id": "baseline-s54"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-decision-record/members/baseline-sig-a0-stated-time.json",
+          "sha256": "c38c55273bdafdaebf0e4dabfe47dbe1637382a7ee97590b3eada15255d04831"
+        }
+      ],
+      "id": "baseline-sig-a0-stated-time"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-decision-record/members/baseline-sig-b0.json",
+          "sha256": "a1bfa6ef42055584159e0639008b114639d3c56efc5cd4290ec936cc4ce0e8bd"
+        }
+      ],
+      "id": "baseline-sig-b0"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-decision-record/members/baseline-sig-result-changed.json",
+          "sha256": "5cffe1c66960783c613847e25189b47b154c676fbb58ae603569fb660a5bf90e"
+        }
+      ],
+      "id": "baseline-sig-result-changed"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-decision-record/members/baseline-sig-key-not-in-policy.json",
+          "sha256": "137188a568ab9142a51ce9ab9c326bd3770e03d77a6a1b9a9bbfe729a175b638"
+        }
+      ],
+      "id": "baseline-sig-key-not-in-policy"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-decision-record/members/baseline-sig-policy-lists-key-twice.json",
+          "sha256": "00d5bc478d0dd42b3cb6ea59ac5c703322b939131ab878bf5b801aff06ccbe49"
+        }
+      ],
+      "id": "baseline-sig-policy-lists-key-twice"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-decision-record/members/baseline-sig-member-named-twice.json",
+          "sha256": "e9a797ccb1e2e77ef946dd96603853b05da8811d359f2cb9d1545c32036076a9"
+        }
+      ],
+      "id": "baseline-sig-member-named-twice"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-decision-record/members/strict-all-sources-confirm.json",
+          "sha256": "80a379db043dfac922fb3e29ab9dbde1904634e5f9fd407effc0f5a69cd65836"
+        }
+      ],
+      "id": "strict-all-sources-confirm"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-decision-record/members/strict-approved-by-drafting-role.json",
+          "sha256": "2217ca5f9b9845d0f075a23cdb75f92a9a092237dd3b1a1ee1fc512e4496d0cd"
+        }
+      ],
+      "id": "strict-approved-by-drafting-role"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-decision-record/members/strict-approved-by-executor.json",
+          "sha256": "6207cc6fa80146969b71d6b2e85cd015881696679dd63716cbce5916fe3eca90"
+        }
+      ],
+      "id": "strict-approved-by-executor"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-decision-record/members/strict-one-request-succeeds-twice.json",
+          "sha256": "0e076eaf36a1c2440b1d07a40bf1b9c1770f97dac678e2138d19b06fb2bb8a37"
+        }
+      ],
+      "id": "strict-one-request-succeeds-twice"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-decision-record/members/strict-retry-after-indeterminate.json",
+          "sha256": "34e372658089b3f849e0e3d524d82aa0da399484f7690ea2f312ff6b1b3fe955"
+        }
+      ],
+      "id": "strict-retry-after-indeterminate"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-decision-record/members/strict-person-not-confirmed.json",
+          "sha256": "1588aa59e0fde4b6a514fe3fb124c595a80d6ad302683e0b1b837ce080c1bbb3"
+        }
+      ],
+      "id": "strict-person-not-confirmed"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-decision-record/members/strict-change-by-unnamed-service.json",
+          "sha256": "321d12528ad9d49f5035bdf5aa9674fba4ba5d0d02a532862f50ed493ee15c0e"
+        }
+      ],
+      "id": "strict-change-by-unnamed-service"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-decision-record/members/strict-stages-backdated.json",
+          "sha256": "695ee364f4ee9d39e426eb0b541c11217357473cbc2e542008046c6915acd167"
+        }
+      ],
+      "id": "strict-stages-backdated"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-decision-record/members/strict-older-attachment.json",
+          "sha256": "bb173ca8438e4050e06c969856302c6b93c5c31e1a28e5677bbdfedc880d6be9"
+        }
+      ],
+      "id": "strict-older-attachment"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-decision-record/members/strict-signature-removed.json",
+          "sha256": "33a17d4b598caba2ad0173c8761932d9dd59d1ce754bc52fa5d48098b1ee4a7e"
+        }
+      ],
+      "id": "strict-signature-removed"
+    }
+  ],
+  "native": {
+    "cases": "native-json",
+    "format": "corpus-result-json-v1",
+    "process-status": {
+      "exit-code": 0
+    },
+    "summary": "native-text"
+  },
+  "non-author-runs": [],
+  "observations": [
+    {
+      "carry": "referenced",
+      "id": "native-json",
+      "reference": {
+        "path": "release/intake/native/vectors-decision-record.json",
+        "serialization": "bytes",
+        "sha256": "b9bee747fabedc85abdb2d87d083f7457d5ed71c1980c6a060f20f2d4d5be927"
+      }
+    },
+    {
+      "carry": "referenced",
+      "id": "native-text",
+      "reference": {
+        "path": "release/intake/native/vectors-decision-record.txt",
+        "serialization": "bytes",
+        "sha256": "e50b3a605cf0947e179f71afa48d661baeb8798d81dd74b7bd3521a826c90516"
+      }
+    },
+    {
+      "carried": "",
+      "carry": "carried",
+      "id": "stderr"
+    }
+  ],
+  "pin-serialization": "bytes",
+  "refusal-verdicts": [
+    "contradicted",
+    "failed",
+    "must-reject",
+    "reject",
+    "rejected"
+  ],
+  "refusals": [
+    {
+      "check": "baseline-l11",
+      "inputs": [
+        "member:baseline-l11",
+        "check:baseline-l11"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"code\":\"action_binding:failed\",\"dimensions\":{\"action_binding\":\"failed\",\"authorisation_recheck\":\"verified\",\"observed_results\":\"verified\",\"rationale_provenance\":\"verified\",\"record_statements\":\"verified\",\"specification_digests\":\"verified\",\"specification_statements\":\"verified\",\"stage_order\":\"verified\"},\"verdict\":\"reject\"}}"
+    },
+    {
+      "check": "baseline-l12",
+      "inputs": [
+        "member:baseline-l12",
+        "check:baseline-l12"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"code\":\"action_binding:failed\",\"dimensions\":{\"action_binding\":\"failed\",\"authorisation_recheck\":\"verified\",\"observed_results\":\"verified\",\"rationale_provenance\":\"verified\",\"record_statements\":\"verified\",\"specification_digests\":\"verified\",\"specification_statements\":\"verified\",\"stage_order\":\"verified\"},\"verdict\":\"reject\"}}"
+    },
+    {
+      "check": "baseline-l13",
+      "inputs": [
+        "member:baseline-l13",
+        "check:baseline-l13"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"code\":\"action_binding:failed\",\"dimensions\":{\"action_binding\":\"failed\",\"authorisation_recheck\":\"verified\",\"observed_results\":\"verified\",\"rationale_provenance\":\"verified\",\"record_statements\":\"verified\",\"specification_digests\":\"verified\",\"specification_statements\":\"verified\",\"stage_order\":\"verified\"},\"verdict\":\"reject\"}}"
+    },
+    {
+      "check": "baseline-l14",
+      "inputs": [
+        "member:baseline-l14",
+        "check:baseline-l14"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"code\":\"action_binding:failed\",\"dimensions\":{\"action_binding\":\"failed\",\"authorisation_recheck\":\"verified\",\"observed_results\":\"verified\",\"rationale_provenance\":\"verified\",\"record_statements\":\"verified\",\"specification_digests\":\"verified\",\"specification_statements\":\"verified\",\"stage_order\":\"verified\"},\"verdict\":\"reject\"}}"
+    },
+    {
+      "check": "baseline-l15",
+      "inputs": [
+        "member:baseline-l15",
+        "check:baseline-l15"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"code\":\"specification_digests:failed\",\"dimensions\":{\"action_binding\":\"verified\",\"authorisation_recheck\":\"verified\",\"observed_results\":\"verified\",\"rationale_provenance\":\"verified\",\"record_statements\":\"verified\",\"specification_digests\":\"failed\",\"specification_statements\":\"verified\",\"stage_order\":\"verified\"},\"verdict\":\"reject\"}}"
+    },
+    {
+      "check": "baseline-l16",
+      "inputs": [
+        "member:baseline-l16",
+        "check:baseline-l16"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"code\":\"specification_statements:failed\",\"dimensions\":{\"action_binding\":\"verified\",\"authorisation_recheck\":\"verified\",\"observed_results\":\"verified\",\"rationale_provenance\":\"verified\",\"record_statements\":\"verified\",\"specification_digests\":\"verified\",\"specification_statements\":\"failed\",\"stage_order\":\"verified\"},\"verdict\":\"reject\"}}"
+    },
+    {
+      "check": "baseline-l17",
+      "inputs": [
+        "member:baseline-l17",
+        "check:baseline-l17"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"code\":\"stage_order:failed\",\"dimensions\":{\"action_binding\":\"verified\",\"authorisation_recheck\":\"verified\",\"observed_results\":\"verified\",\"rationale_provenance\":\"verified\",\"record_statements\":\"verified\",\"specification_digests\":\"verified\",\"specification_statements\":\"verified\",\"stage_order\":\"failed\"},\"verdict\":\"reject\"}}"
+    },
+    {
+      "check": "baseline-l18",
+      "inputs": [
+        "member:baseline-l18",
+        "check:baseline-l18"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"code\":\"stage_order:failed\",\"dimensions\":{\"action_binding\":\"verified\",\"authorisation_recheck\":\"verified\",\"observed_results\":\"verified\",\"rationale_provenance\":\"verified\",\"record_statements\":\"verified\",\"specification_digests\":\"verified\",\"specification_statements\":\"verified\",\"stage_order\":\"failed\"},\"verdict\":\"reject\"}}"
+    },
+    {
+      "check": "baseline-l19",
+      "inputs": [
+        "member:baseline-l19",
+        "check:baseline-l19"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"code\":\"action_binding:failed\",\"dimensions\":{\"action_binding\":\"failed\",\"authorisation_recheck\":\"verified\",\"observed_results\":\"verified\",\"rationale_provenance\":\"verified\",\"record_statements\":\"verified\",\"specification_digests\":\"verified\",\"specification_statements\":\"verified\",\"stage_order\":\"verified\"},\"verdict\":\"reject\"}}"
+    },
+    {
+      "check": "baseline-l20",
+      "inputs": [
+        "member:baseline-l20",
+        "check:baseline-l20"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"code\":\"action_binding:failed\",\"dimensions\":{\"action_binding\":\"failed\",\"authorisation_recheck\":\"verified\",\"observed_results\":\"verified\",\"rationale_provenance\":\"verified\",\"record_statements\":\"not_checked\",\"specification_digests\":\"verified\",\"specification_statements\":\"verified\",\"stage_order\":\"verified\"},\"verdict\":\"reject\"}}"
+    },
+    {
+      "check": "baseline-l21",
+      "inputs": [
+        "member:baseline-l21",
+        "check:baseline-l21"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"code\":\"record_statements:failed\",\"dimensions\":{\"action_binding\":\"verified\",\"authorisation_recheck\":\"not_checked\",\"observed_results\":\"not_checked\",\"rationale_provenance\":\"verified\",\"record_statements\":\"failed\",\"specification_digests\":\"verified\",\"specification_statements\":\"verified\",\"stage_order\":\"verified\"},\"verdict\":\"reject\"}}"
+    },
+    {
+      "check": "baseline-l22",
+      "inputs": [
+        "member:baseline-l22",
+        "check:baseline-l22"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"code\":\"action_binding:failed\",\"dimensions\":{\"action_binding\":\"failed\",\"authorisation_recheck\":\"not_checked\",\"observed_results\":\"not_checked\",\"rationale_provenance\":\"verified\",\"record_statements\":\"verified\",\"specification_digests\":\"verified\",\"specification_statements\":\"verified\",\"stage_order\":\"verified\"},\"verdict\":\"reject\"}}"
+    },
+    {
+      "check": "baseline-l23",
+      "inputs": [
+        "member:baseline-l23",
+        "check:baseline-l23"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"code\":\"authorisation_recheck:failed\",\"dimensions\":{\"action_binding\":\"verified\",\"authorisation_recheck\":\"failed\",\"observed_results\":\"verified\",\"rationale_provenance\":\"verified\",\"record_statements\":\"verified\",\"specification_digests\":\"verified\",\"specification_statements\":\"verified\",\"stage_order\":\"verified\"},\"verdict\":\"reject\"}}"
+    },
+    {
+      "check": "baseline-l24",
+      "inputs": [
+        "member:baseline-l24",
+        "check:baseline-l24"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"code\":\"authorisation_recheck:failed\",\"dimensions\":{\"action_binding\":\"verified\",\"authorisation_recheck\":\"failed\",\"observed_results\":\"verified\",\"rationale_provenance\":\"verified\",\"record_statements\":\"verified\",\"specification_digests\":\"verified\",\"specification_statements\":\"verified\",\"stage_order\":\"verified\"},\"verdict\":\"reject\"}}"
+    },
+    {
+      "check": "baseline-l25",
+      "inputs": [
+        "member:baseline-l25",
+        "check:baseline-l25"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"code\":\"authorisation_recheck:failed\",\"dimensions\":{\"action_binding\":\"verified\",\"authorisation_recheck\":\"failed\",\"observed_results\":\"verified\",\"rationale_provenance\":\"verified\",\"record_statements\":\"verified\",\"specification_digests\":\"verified\",\"specification_statements\":\"verified\",\"stage_order\":\"verified\"},\"verdict\":\"reject\"}}"
+    },
+    {
+      "check": "baseline-l26",
+      "inputs": [
+        "member:baseline-l26",
+        "check:baseline-l26"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"code\":\"stage_order:failed\",\"dimensions\":{\"action_binding\":\"verified\",\"authorisation_recheck\":\"failed\",\"observed_results\":\"verified\",\"rationale_provenance\":\"verified\",\"record_statements\":\"verified\",\"specification_digests\":\"verified\",\"specification_statements\":\"verified\",\"stage_order\":\"failed\"},\"verdict\":\"reject\"}}"
+    },
+    {
+      "check": "baseline-l27",
+      "inputs": [
+        "member:baseline-l27",
+        "check:baseline-l27"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"code\":\"authorisation_recheck:failed\",\"dimensions\":{\"action_binding\":\"verified\",\"authorisation_recheck\":\"failed\",\"observed_results\":\"verified\",\"rationale_provenance\":\"verified\",\"record_statements\":\"verified\",\"specification_digests\":\"verified\",\"specification_statements\":\"verified\",\"stage_order\":\"verified\"},\"verdict\":\"reject\"}}"
+    },
+    {
+      "check": "baseline-l28",
+      "inputs": [
+        "member:baseline-l28",
+        "check:baseline-l28"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"code\":\"observed_results:failed\",\"dimensions\":{\"action_binding\":\"verified\",\"authorisation_recheck\":\"verified\",\"observed_results\":\"failed\",\"rationale_provenance\":\"verified\",\"record_statements\":\"verified\",\"specification_digests\":\"verified\",\"specification_statements\":\"verified\",\"stage_order\":\"verified\"},\"verdict\":\"reject\"}}"
+    },
+    {
+      "check": "baseline-l29",
+      "inputs": [
+        "member:baseline-l29",
+        "check:baseline-l29"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"code\":\"observed_results:failed\",\"dimensions\":{\"action_binding\":\"verified\",\"authorisation_recheck\":\"verified\",\"observed_results\":\"failed\",\"rationale_provenance\":\"verified\",\"record_statements\":\"verified\",\"specification_digests\":\"verified\",\"specification_statements\":\"verified\",\"stage_order\":\"verified\"},\"verdict\":\"reject\"}}"
+    },
+    {
+      "check": "baseline-l30",
+      "inputs": [
+        "member:baseline-l30",
+        "check:baseline-l30"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"code\":\"action_binding:failed\",\"dimensions\":{\"action_binding\":\"failed\",\"authorisation_recheck\":\"verified\",\"observed_results\":\"verified\",\"rationale_provenance\":\"verified\",\"record_statements\":\"verified\",\"specification_digests\":\"verified\",\"specification_statements\":\"verified\",\"stage_order\":\"verified\"},\"verdict\":\"reject\"}}"
+    },
+    {
+      "check": "baseline-l31",
+      "inputs": [
+        "member:baseline-l31",
+        "check:baseline-l31"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"code\":\"action_binding:failed\",\"dimensions\":{\"action_binding\":\"failed\",\"authorisation_recheck\":\"verified\",\"observed_results\":\"verified\",\"rationale_provenance\":\"verified\",\"record_statements\":\"verified\",\"specification_digests\":\"verified\",\"specification_statements\":\"verified\",\"stage_order\":\"verified\"},\"verdict\":\"reject\"}}"
+    },
+    {
+      "check": "baseline-l33",
+      "inputs": [
+        "member:baseline-l33",
+        "check:baseline-l33"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"code\":\"rationale_provenance:failed\",\"dimensions\":{\"action_binding\":\"verified\",\"authorisation_recheck\":\"verified\",\"observed_results\":\"verified\",\"rationale_provenance\":\"failed\",\"record_statements\":\"verified\",\"specification_digests\":\"verified\",\"specification_statements\":\"verified\",\"stage_order\":\"verified\"},\"verdict\":\"reject\"}}"
+    },
+    {
+      "check": "baseline-l35",
+      "inputs": [
+        "member:baseline-l35",
+        "check:baseline-l35"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"code\":\"action_binding:failed\",\"dimensions\":{\"action_binding\":\"failed\",\"authorisation_recheck\":\"verified\",\"observed_results\":\"verified\",\"rationale_provenance\":\"verified\",\"record_statements\":\"verified\",\"specification_digests\":\"verified\",\"specification_statements\":\"verified\",\"stage_order\":\"verified\"},\"verdict\":\"reject\"}}"
+    },
+    {
+      "check": "baseline-l36",
+      "inputs": [
+        "member:baseline-l36",
+        "check:baseline-l36"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"code\":\"record_statements:failed\",\"dimensions\":{\"action_binding\":\"verified\",\"authorisation_recheck\":\"verified\",\"observed_results\":\"verified\",\"rationale_provenance\":\"verified\",\"record_statements\":\"failed\",\"specification_digests\":\"verified\",\"specification_statements\":\"verified\",\"stage_order\":\"verified\"},\"verdict\":\"reject\"}}"
+    },
+    {
+      "check": "baseline-l37",
+      "inputs": [
+        "member:baseline-l37",
+        "check:baseline-l37"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"code\":\"record_statements:failed\",\"dimensions\":{\"action_binding\":\"verified\",\"authorisation_recheck\":\"verified\",\"observed_results\":\"verified\",\"rationale_provenance\":\"verified\",\"record_statements\":\"failed\",\"specification_digests\":\"verified\",\"specification_statements\":\"verified\",\"stage_order\":\"verified\"},\"verdict\":\"reject\"}}"
+    },
+    {
+      "check": "baseline-l41",
+      "inputs": [
+        "member:baseline-l41",
+        "check:baseline-l41"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"code\":\"action_binding:failed\",\"dimensions\":{\"action_binding\":\"failed\",\"authorisation_recheck\":\"verified\",\"observed_results\":\"verified\",\"rationale_provenance\":\"verified\",\"record_statements\":\"verified\",\"specification_digests\":\"verified\",\"specification_statements\":\"verified\",\"stage_order\":\"verified\"},\"verdict\":\"reject\"}}"
+    },
+    {
+      "check": "baseline-l42",
+      "inputs": [
+        "member:baseline-l42",
+        "check:baseline-l42"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"code\":\"stage_order:failed\",\"dimensions\":{\"action_binding\":\"verified\",\"authorisation_recheck\":\"verified\",\"observed_results\":\"verified\",\"rationale_provenance\":\"verified\",\"record_statements\":\"verified\",\"specification_digests\":\"verified\",\"specification_statements\":\"verified\",\"stage_order\":\"failed\"},\"verdict\":\"reject\"}}"
+    },
+    {
+      "check": "baseline-l43",
+      "inputs": [
+        "member:baseline-l43",
+        "check:baseline-l43"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"code\":\"observed_results:failed\",\"dimensions\":{\"action_binding\":\"verified\",\"authorisation_recheck\":\"verified\",\"observed_results\":\"failed\",\"rationale_provenance\":\"verified\",\"record_statements\":\"verified\",\"specification_digests\":\"verified\",\"specification_statements\":\"verified\",\"stage_order\":\"verified\"},\"verdict\":\"reject\"}}"
+    },
+    {
+      "check": "baseline-l44",
+      "inputs": [
+        "member:baseline-l44",
+        "check:baseline-l44"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"code\":\"rationale_provenance:failed\",\"dimensions\":{\"action_binding\":\"verified\",\"authorisation_recheck\":\"verified\",\"observed_results\":\"verified\",\"rationale_provenance\":\"failed\",\"record_statements\":\"verified\",\"specification_digests\":\"verified\",\"specification_statements\":\"verified\",\"stage_order\":\"verified\"},\"verdict\":\"reject\"}}"
+    },
+    {
+      "check": "baseline-l45",
+      "inputs": [
+        "member:baseline-l45",
+        "check:baseline-l45"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"code\":\"specification_statements:failed\",\"dimensions\":{\"action_binding\":\"verified\",\"authorisation_recheck\":\"verified\",\"observed_results\":\"verified\",\"rationale_provenance\":\"verified\",\"record_statements\":\"verified\",\"specification_digests\":\"verified\",\"specification_statements\":\"failed\",\"stage_order\":\"verified\"},\"verdict\":\"reject\"}}"
+    },
+    {
+      "check": "baseline-l46",
+      "inputs": [
+        "member:baseline-l46",
+        "check:baseline-l46"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"code\":\"record_statements:failed\",\"dimensions\":{\"action_binding\":\"verified\",\"authorisation_recheck\":\"verified\",\"observed_results\":\"verified\",\"rationale_provenance\":\"verified\",\"record_statements\":\"failed\",\"specification_digests\":\"verified\",\"specification_statements\":\"verified\",\"stage_order\":\"verified\"},\"verdict\":\"reject\"}}"
+    },
+    {
+      "check": "baseline-l48",
+      "inputs": [
+        "member:baseline-l48",
+        "check:baseline-l48"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"code\":\"action_binding:failed\",\"dimensions\":{\"action_binding\":\"failed\",\"authorisation_recheck\":\"verified\",\"observed_results\":\"verified\",\"rationale_provenance\":\"verified\",\"record_statements\":\"not_checked\",\"specification_digests\":\"verified\",\"specification_statements\":\"verified\",\"stage_order\":\"verified\"},\"verdict\":\"reject\"}}"
+    },
+    {
+      "check": "baseline-l49",
+      "inputs": [
+        "member:baseline-l49",
+        "check:baseline-l49"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"code\":\"action_binding:failed\",\"dimensions\":{\"action_binding\":\"failed\",\"authorisation_recheck\":\"verified\",\"observed_results\":\"verified\",\"rationale_provenance\":\"verified\",\"record_statements\":\"verified\",\"specification_digests\":\"verified\",\"specification_statements\":\"verified\",\"stage_order\":\"verified\"},\"verdict\":\"reject\"}}"
+    },
+    {
+      "check": "baseline-l50",
+      "inputs": [
+        "member:baseline-l50",
+        "check:baseline-l50"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"code\":\"action_binding:failed\",\"dimensions\":{\"action_binding\":\"failed\",\"authorisation_recheck\":\"verified\",\"observed_results\":\"verified\",\"rationale_provenance\":\"verified\",\"record_statements\":\"verified\",\"specification_digests\":\"verified\",\"specification_statements\":\"verified\",\"stage_order\":\"verified\"},\"verdict\":\"reject\"}}"
+    },
+    {
+      "check": "baseline-l51",
+      "inputs": [
+        "member:baseline-l51",
+        "check:baseline-l51"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"code\":\"action_binding:failed\",\"dimensions\":{\"action_binding\":\"failed\",\"authorisation_recheck\":\"verified\",\"observed_results\":\"verified\",\"rationale_provenance\":\"verified\",\"record_statements\":\"verified\",\"specification_digests\":\"verified\",\"specification_statements\":\"verified\",\"stage_order\":\"verified\"},\"verdict\":\"reject\"}}"
+    },
+    {
+      "check": "baseline-l52",
+      "inputs": [
+        "member:baseline-l52",
+        "check:baseline-l52"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"code\":\"action_binding:failed\",\"dimensions\":{\"action_binding\":\"failed\",\"authorisation_recheck\":\"verified\",\"observed_results\":\"verified\",\"rationale_provenance\":\"verified\",\"record_statements\":\"verified\",\"specification_digests\":\"verified\",\"specification_statements\":\"verified\",\"stage_order\":\"verified\"},\"verdict\":\"reject\"}}"
+    },
+    {
+      "check": "baseline-l56",
+      "inputs": [
+        "member:baseline-l56",
+        "check:baseline-l56"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"code\":\"action_binding:failed\",\"dimensions\":{\"action_binding\":\"failed\",\"authorisation_recheck\":\"verified\",\"observed_results\":\"verified\",\"rationale_provenance\":\"verified\",\"record_statements\":\"verified\",\"specification_digests\":\"verified\",\"specification_statements\":\"verified\",\"stage_order\":\"verified\"},\"verdict\":\"reject\"}}"
+    },
+    {
+      "check": "baseline-l57",
+      "inputs": [
+        "member:baseline-l57",
+        "check:baseline-l57"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"code\":\"action_binding:failed\",\"dimensions\":{\"action_binding\":\"failed\",\"authorisation_recheck\":\"verified\",\"observed_results\":\"verified\",\"rationale_provenance\":\"verified\",\"record_statements\":\"verified\",\"specification_digests\":\"verified\",\"specification_statements\":\"verified\",\"stage_order\":\"verified\"},\"verdict\":\"reject\"}}"
+    },
+    {
+      "check": "baseline-l59",
+      "inputs": [
+        "member:baseline-l59",
+        "check:baseline-l59"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"code\":\"action_binding:failed\",\"dimensions\":{\"action_binding\":\"failed\",\"authorisation_recheck\":\"verified\",\"observed_results\":\"verified\",\"rationale_provenance\":\"verified\",\"record_statements\":\"verified\",\"specification_digests\":\"verified\",\"specification_statements\":\"verified\",\"stage_order\":\"verified\"},\"verdict\":\"reject\"}}"
+    },
+    {
+      "check": "baseline-l60",
+      "inputs": [
+        "member:baseline-l60",
+        "check:baseline-l60"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"code\":\"action_binding:failed\",\"dimensions\":{\"action_binding\":\"failed\",\"authorisation_recheck\":\"verified\",\"observed_results\":\"verified\",\"rationale_provenance\":\"verified\",\"record_statements\":\"verified\",\"specification_digests\":\"verified\",\"specification_statements\":\"verified\",\"stage_order\":\"verified\"},\"verdict\":\"reject\"}}"
+    },
+    {
+      "check": "baseline-l61",
+      "inputs": [
+        "member:baseline-l61",
+        "check:baseline-l61"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"code\":\"action_binding:failed\",\"dimensions\":{\"action_binding\":\"failed\",\"authorisation_recheck\":\"verified\",\"observed_results\":\"verified\",\"rationale_provenance\":\"verified\",\"record_statements\":\"verified\",\"specification_digests\":\"verified\",\"specification_statements\":\"verified\",\"stage_order\":\"verified\"},\"verdict\":\"reject\"}}"
+    },
+    {
+      "check": "baseline-l62",
+      "inputs": [
+        "member:baseline-l62",
+        "check:baseline-l62"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"code\":\"action_binding:failed\",\"dimensions\":{\"action_binding\":\"failed\",\"authorisation_recheck\":\"verified\",\"observed_results\":\"verified\",\"rationale_provenance\":\"verified\",\"record_statements\":\"verified\",\"specification_digests\":\"verified\",\"specification_statements\":\"verified\",\"stage_order\":\"verified\"},\"verdict\":\"reject\"}}"
+    },
+    {
+      "check": "baseline-l63",
+      "inputs": [
+        "member:baseline-l63",
+        "check:baseline-l63"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"code\":\"action_binding:failed\",\"dimensions\":{\"action_binding\":\"failed\",\"authorisation_recheck\":\"verified\",\"observed_results\":\"verified\",\"rationale_provenance\":\"verified\",\"record_statements\":\"verified\",\"specification_digests\":\"verified\",\"specification_statements\":\"verified\",\"stage_order\":\"verified\"},\"verdict\":\"reject\"}}"
+    },
+    {
+      "check": "baseline-l65",
+      "inputs": [
+        "member:baseline-l65",
+        "check:baseline-l65"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"code\":\"action_binding:failed\",\"dimensions\":{\"action_binding\":\"failed\",\"authorisation_recheck\":\"verified\",\"observed_results\":\"verified\",\"rationale_provenance\":\"verified\",\"record_statements\":\"verified\",\"specification_digests\":\"verified\",\"specification_statements\":\"verified\",\"stage_order\":\"verified\"},\"verdict\":\"reject\"}}"
+    },
+    {
+      "check": "baseline-l66",
+      "inputs": [
+        "member:baseline-l66",
+        "check:baseline-l66"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"code\":\"action_binding:failed\",\"dimensions\":{\"action_binding\":\"failed\",\"authorisation_recheck\":\"verified\",\"observed_results\":\"verified\",\"rationale_provenance\":\"verified\",\"record_statements\":\"verified\",\"specification_digests\":\"verified\",\"specification_statements\":\"verified\",\"stage_order\":\"verified\"},\"verdict\":\"reject\"}}"
+    },
+    {
+      "check": "baseline-l67",
+      "inputs": [
+        "member:baseline-l67",
+        "check:baseline-l67"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"code\":\"action_binding:failed\",\"dimensions\":{\"action_binding\":\"failed\",\"authorisation_recheck\":\"verified\",\"observed_results\":\"verified\",\"rationale_provenance\":\"verified\",\"record_statements\":\"verified\",\"specification_digests\":\"verified\",\"specification_statements\":\"verified\",\"stage_order\":\"verified\"},\"verdict\":\"reject\"}}"
+    },
+    {
+      "check": "baseline-l68",
+      "inputs": [
+        "member:baseline-l68",
+        "check:baseline-l68"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"code\":\"action_binding:failed\",\"dimensions\":{\"action_binding\":\"failed\",\"authorisation_recheck\":\"verified\",\"observed_results\":\"verified\",\"rationale_provenance\":\"verified\",\"record_statements\":\"verified\",\"specification_digests\":\"verified\",\"specification_statements\":\"verified\",\"stage_order\":\"verified\"},\"verdict\":\"reject\"}}"
+    },
+    {
+      "check": "baseline-l72",
+      "inputs": [
+        "member:baseline-l72",
+        "check:baseline-l72"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"code\":\"stage_order:failed\",\"dimensions\":{\"action_binding\":\"verified\",\"authorisation_recheck\":\"verified\",\"observed_results\":\"verified\",\"rationale_provenance\":\"verified\",\"record_statements\":\"verified\",\"specification_digests\":\"verified\",\"specification_statements\":\"verified\",\"stage_order\":\"failed\"},\"verdict\":\"reject\"}}"
+    },
+    {
+      "check": "baseline-l73",
+      "inputs": [
+        "member:baseline-l73",
+        "check:baseline-l73"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"code\":\"stage_order:failed\",\"dimensions\":{\"action_binding\":\"verified\",\"authorisation_recheck\":\"verified\",\"observed_results\":\"verified\",\"rationale_provenance\":\"verified\",\"record_statements\":\"verified\",\"specification_digests\":\"verified\",\"specification_statements\":\"verified\",\"stage_order\":\"failed\"},\"verdict\":\"reject\"}}"
+    },
+    {
+      "check": "baseline-l74",
+      "inputs": [
+        "member:baseline-l74",
+        "check:baseline-l74"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"code\":\"stage_order:failed\",\"dimensions\":{\"action_binding\":\"verified\",\"authorisation_recheck\":\"verified\",\"observed_results\":\"verified\",\"rationale_provenance\":\"verified\",\"record_statements\":\"verified\",\"specification_digests\":\"verified\",\"specification_statements\":\"verified\",\"stage_order\":\"failed\"},\"verdict\":\"reject\"}}"
+    },
+    {
+      "check": "baseline-l75",
+      "inputs": [
+        "member:baseline-l75",
+        "check:baseline-l75"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"code\":\"stage_order:failed\",\"dimensions\":{\"action_binding\":\"verified\",\"authorisation_recheck\":\"not_checked\",\"observed_results\":\"not_checked\",\"rationale_provenance\":\"verified\",\"record_statements\":\"verified\",\"specification_digests\":\"verified\",\"specification_statements\":\"verified\",\"stage_order\":\"failed\"},\"verdict\":\"reject\"}}"
+    },
+    {
+      "check": "baseline-l76",
+      "inputs": [
+        "member:baseline-l76",
+        "check:baseline-l76"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"code\":\"rationale_provenance:failed\",\"dimensions\":{\"action_binding\":\"verified\",\"authorisation_recheck\":\"verified\",\"observed_results\":\"verified\",\"rationale_provenance\":\"failed\",\"record_statements\":\"verified\",\"specification_digests\":\"verified\",\"specification_statements\":\"verified\",\"stage_order\":\"verified\"},\"verdict\":\"reject\"}}"
+    },
+    {
+      "check": "baseline-s02",
+      "inputs": [
+        "member:baseline-s02",
+        "check:baseline-s02"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"code\":\"action_binding:failed\",\"dimensions\":{\"action_binding\":\"failed\",\"authorisation_recheck\":\"verified\",\"observed_results\":\"verified\",\"rationale_provenance\":\"verified\",\"record_statements\":\"verified\",\"specification_digests\":\"verified\",\"specification_statements\":\"verified\",\"stage_order\":\"verified\"},\"verdict\":\"reject\"}}"
+    },
+    {
+      "check": "baseline-s03",
+      "inputs": [
+        "member:baseline-s03",
+        "check:baseline-s03"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"code\":\"action_binding:failed\",\"dimensions\":{\"action_binding\":\"failed\",\"authorisation_recheck\":\"verified\",\"observed_results\":\"verified\",\"rationale_provenance\":\"verified\",\"record_statements\":\"verified\",\"specification_digests\":\"verified\",\"specification_statements\":\"verified\",\"stage_order\":\"verified\"},\"verdict\":\"reject\"}}"
+    },
+    {
+      "check": "baseline-s04",
+      "inputs": [
+        "member:baseline-s04",
+        "check:baseline-s04"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"code\":\"action_binding:failed\",\"dimensions\":{\"action_binding\":\"failed\",\"authorisation_recheck\":\"verified\",\"observed_results\":\"verified\",\"rationale_provenance\":\"verified\",\"record_statements\":\"verified\",\"specification_digests\":\"verified\",\"specification_statements\":\"verified\",\"stage_order\":\"verified\"},\"verdict\":\"reject\"}}"
+    },
+    {
+      "check": "baseline-s05",
+      "inputs": [
+        "member:baseline-s05",
+        "check:baseline-s05"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"code\":\"action_binding:failed\",\"dimensions\":{\"action_binding\":\"failed\",\"authorisation_recheck\":\"verified\",\"observed_results\":\"verified\",\"rationale_provenance\":\"verified\",\"record_statements\":\"verified\",\"specification_digests\":\"verified\",\"specification_statements\":\"verified\",\"stage_order\":\"verified\"},\"verdict\":\"reject\"}}"
+    },
+    {
+      "check": "baseline-s06",
+      "inputs": [
+        "member:baseline-s06",
+        "check:baseline-s06"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"code\":\"action_binding:failed\",\"dimensions\":{\"action_binding\":\"failed\",\"authorisation_recheck\":\"verified\",\"observed_results\":\"verified\",\"rationale_provenance\":\"verified\",\"record_statements\":\"verified\",\"specification_digests\":\"verified\",\"specification_statements\":\"verified\",\"stage_order\":\"verified\"},\"verdict\":\"reject\"}}"
+    },
+    {
+      "check": "baseline-s07",
+      "inputs": [
+        "member:baseline-s07",
+        "check:baseline-s07"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"code\":\"action_binding:failed\",\"dimensions\":{\"action_binding\":\"failed\",\"authorisation_recheck\":\"verified\",\"observed_results\":\"verified\",\"rationale_provenance\":\"verified\",\"record_statements\":\"verified\",\"specification_digests\":\"verified\",\"specification_statements\":\"verified\",\"stage_order\":\"verified\"},\"verdict\":\"reject\"}}"
+    },
+    {
+      "check": "baseline-s08",
+      "inputs": [
+        "member:baseline-s08",
+        "check:baseline-s08"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"code\":\"action_binding:failed\",\"dimensions\":{\"action_binding\":\"failed\",\"authorisation_recheck\":\"verified\",\"observed_results\":\"verified\",\"rationale_provenance\":\"verified\",\"record_statements\":\"verified\",\"specification_digests\":\"verified\",\"specification_statements\":\"verified\",\"stage_order\":\"verified\"},\"verdict\":\"reject\"}}"
+    },
+    {
+      "check": "baseline-s09",
+      "inputs": [
+        "member:baseline-s09",
+        "check:baseline-s09"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"code\":\"action_binding:failed\",\"dimensions\":{\"action_binding\":\"failed\",\"authorisation_recheck\":\"verified\",\"observed_results\":\"verified\",\"rationale_provenance\":\"verified\",\"record_statements\":\"verified\",\"specification_digests\":\"verified\",\"specification_statements\":\"verified\",\"stage_order\":\"verified\"},\"verdict\":\"reject\"}}"
+    },
+    {
+      "check": "baseline-s10",
+      "inputs": [
+        "member:baseline-s10",
+        "check:baseline-s10"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"code\":\"action_binding:failed\",\"dimensions\":{\"action_binding\":\"failed\",\"authorisation_recheck\":\"verified\",\"observed_results\":\"verified\",\"rationale_provenance\":\"verified\",\"record_statements\":\"verified\",\"specification_digests\":\"verified\",\"specification_statements\":\"verified\",\"stage_order\":\"verified\"},\"verdict\":\"reject\"}}"
+    },
+    {
+      "check": "baseline-s11",
+      "inputs": [
+        "member:baseline-s11",
+        "check:baseline-s11"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"code\":\"action_binding:failed\",\"dimensions\":{\"action_binding\":\"failed\",\"authorisation_recheck\":\"verified\",\"observed_results\":\"verified\",\"rationale_provenance\":\"verified\",\"record_statements\":\"verified\",\"specification_digests\":\"verified\",\"specification_statements\":\"verified\",\"stage_order\":\"verified\"},\"verdict\":\"reject\"}}"
+    },
+    {
+      "check": "baseline-s12",
+      "inputs": [
+        "member:baseline-s12",
+        "check:baseline-s12"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"code\":\"action_binding:failed\",\"dimensions\":{\"action_binding\":\"failed\",\"authorisation_recheck\":\"verified\",\"observed_results\":\"verified\",\"rationale_provenance\":\"verified\",\"record_statements\":\"verified\",\"specification_digests\":\"verified\",\"specification_statements\":\"verified\",\"stage_order\":\"verified\"},\"verdict\":\"reject\"}}"
+    },
+    {
+      "check": "baseline-s15",
+      "inputs": [
+        "member:baseline-s15",
+        "check:baseline-s15"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"code\":\"action_binding:failed\",\"dimensions\":{\"action_binding\":\"failed\",\"authorisation_recheck\":\"verified\",\"observed_results\":\"verified\",\"rationale_provenance\":\"verified\",\"record_statements\":\"verified\",\"specification_digests\":\"verified\",\"specification_statements\":\"verified\",\"stage_order\":\"verified\"},\"verdict\":\"reject\"}}"
+    },
+    {
+      "check": "baseline-s16",
+      "inputs": [
+        "member:baseline-s16",
+        "check:baseline-s16"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"code\":\"action_binding:failed\",\"dimensions\":{\"action_binding\":\"failed\",\"authorisation_recheck\":\"verified\",\"observed_results\":\"verified\",\"rationale_provenance\":\"verified\",\"record_statements\":\"verified\",\"specification_digests\":\"verified\",\"specification_statements\":\"verified\",\"stage_order\":\"verified\"},\"verdict\":\"reject\"}}"
+    },
+    {
+      "check": "baseline-s17",
+      "inputs": [
+        "member:baseline-s17",
+        "check:baseline-s17"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"code\":\"action_binding:failed\",\"dimensions\":{\"action_binding\":\"failed\",\"authorisation_recheck\":\"verified\",\"observed_results\":\"verified\",\"rationale_provenance\":\"verified\",\"record_statements\":\"verified\",\"specification_digests\":\"verified\",\"specification_statements\":\"verified\",\"stage_order\":\"verified\"},\"verdict\":\"reject\"}}"
+    },
+    {
+      "check": "baseline-s18",
+      "inputs": [
+        "member:baseline-s18",
+        "check:baseline-s18"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"code\":\"action_binding:failed\",\"dimensions\":{\"action_binding\":\"failed\",\"authorisation_recheck\":\"verified\",\"observed_results\":\"verified\",\"rationale_provenance\":\"verified\",\"record_statements\":\"verified\",\"specification_digests\":\"verified\",\"specification_statements\":\"verified\",\"stage_order\":\"verified\"},\"verdict\":\"reject\"}}"
+    },
+    {
+      "check": "baseline-s19",
+      "inputs": [
+        "member:baseline-s19",
+        "check:baseline-s19"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"code\":\"action_binding:failed\",\"dimensions\":{\"action_binding\":\"failed\",\"authorisation_recheck\":\"verified\",\"observed_results\":\"verified\",\"rationale_provenance\":\"verified\",\"record_statements\":\"verified\",\"specification_digests\":\"verified\",\"specification_statements\":\"verified\",\"stage_order\":\"verified\"},\"verdict\":\"reject\"}}"
+    },
+    {
+      "check": "baseline-s20",
+      "inputs": [
+        "member:baseline-s20",
+        "check:baseline-s20"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"code\":\"action_binding:failed\",\"dimensions\":{\"action_binding\":\"failed\",\"authorisation_recheck\":\"verified\",\"observed_results\":\"verified\",\"rationale_provenance\":\"verified\",\"record_statements\":\"verified\",\"specification_digests\":\"verified\",\"specification_statements\":\"verified\",\"stage_order\":\"verified\"},\"verdict\":\"reject\"}}"
+    },
+    {
+      "check": "baseline-s21",
+      "inputs": [
+        "member:baseline-s21",
+        "check:baseline-s21"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"code\":\"action_binding:failed\",\"dimensions\":{\"action_binding\":\"failed\",\"authorisation_recheck\":\"verified\",\"observed_results\":\"verified\",\"rationale_provenance\":\"verified\",\"record_statements\":\"verified\",\"specification_digests\":\"verified\",\"specification_statements\":\"verified\",\"stage_order\":\"verified\"},\"verdict\":\"reject\"}}"
+    },
+    {
+      "check": "baseline-s22",
+      "inputs": [
+        "member:baseline-s22",
+        "check:baseline-s22"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"code\":\"action_binding:failed\",\"dimensions\":{\"action_binding\":\"failed\",\"authorisation_recheck\":\"verified\",\"observed_results\":\"verified\",\"rationale_provenance\":\"verified\",\"record_statements\":\"verified\",\"specification_digests\":\"verified\",\"specification_statements\":\"verified\",\"stage_order\":\"verified\"},\"verdict\":\"reject\"}}"
+    },
+    {
+      "check": "baseline-s24",
+      "inputs": [
+        "member:baseline-s24",
+        "check:baseline-s24"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"code\":\"action_binding:failed\",\"dimensions\":{\"action_binding\":\"failed\",\"authorisation_recheck\":\"verified\",\"observed_results\":\"verified\",\"rationale_provenance\":\"verified\",\"record_statements\":\"verified\",\"specification_digests\":\"verified\",\"specification_statements\":\"verified\",\"stage_order\":\"verified\"},\"verdict\":\"reject\"}}"
+    },
+    {
+      "check": "baseline-s25",
+      "inputs": [
+        "member:baseline-s25",
+        "check:baseline-s25"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"code\":\"action_binding:failed\",\"dimensions\":{\"action_binding\":\"failed\",\"authorisation_recheck\":\"verified\",\"observed_results\":\"verified\",\"rationale_provenance\":\"verified\",\"record_statements\":\"verified\",\"specification_digests\":\"verified\",\"specification_statements\":\"verified\",\"stage_order\":\"verified\"},\"verdict\":\"reject\"}}"
+    },
+    {
+      "check": "baseline-s26",
+      "inputs": [
+        "member:baseline-s26",
+        "check:baseline-s26"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"code\":\"action_binding:failed\",\"dimensions\":{\"action_binding\":\"failed\",\"authorisation_recheck\":\"verified\",\"observed_results\":\"verified\",\"rationale_provenance\":\"verified\",\"record_statements\":\"verified\",\"specification_digests\":\"verified\",\"specification_statements\":\"verified\",\"stage_order\":\"verified\"},\"verdict\":\"reject\"}}"
+    },
+    {
+      "check": "baseline-s27",
+      "inputs": [
+        "member:baseline-s27",
+        "check:baseline-s27"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"code\":\"record_statements:failed\",\"dimensions\":{\"action_binding\":\"failed\",\"authorisation_recheck\":\"verified\",\"observed_results\":\"verified\",\"rationale_provenance\":\"verified\",\"record_statements\":\"failed\",\"specification_digests\":\"verified\",\"specification_statements\":\"verified\",\"stage_order\":\"verified\"},\"verdict\":\"reject\"}}"
+    },
+    {
+      "check": "baseline-s28",
+      "inputs": [
+        "member:baseline-s28",
+        "check:baseline-s28"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"code\":\"record_statements:failed\",\"dimensions\":{\"action_binding\":\"failed\",\"authorisation_recheck\":\"verified\",\"observed_results\":\"verified\",\"rationale_provenance\":\"verified\",\"record_statements\":\"failed\",\"specification_digests\":\"verified\",\"specification_statements\":\"verified\",\"stage_order\":\"verified\"},\"verdict\":\"reject\"}}"
+    },
+    {
+      "check": "baseline-s29",
+      "inputs": [
+        "member:baseline-s29",
+        "check:baseline-s29"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"code\":\"action_binding:failed\",\"dimensions\":{\"action_binding\":\"failed\",\"authorisation_recheck\":\"verified\",\"observed_results\":\"verified\",\"rationale_provenance\":\"verified\",\"record_statements\":\"verified\",\"specification_digests\":\"verified\",\"specification_statements\":\"verified\",\"stage_order\":\"verified\"},\"verdict\":\"reject\"}}"
+    },
+    {
+      "check": "baseline-s30",
+      "inputs": [
+        "member:baseline-s30",
+        "check:baseline-s30"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"code\":\"action_binding:failed\",\"dimensions\":{\"action_binding\":\"failed\",\"authorisation_recheck\":\"verified\",\"observed_results\":\"verified\",\"rationale_provenance\":\"verified\",\"record_statements\":\"verified\",\"specification_digests\":\"verified\",\"specification_statements\":\"verified\",\"stage_order\":\"verified\"},\"verdict\":\"reject\"}}"
+    },
+    {
+      "check": "baseline-s31",
+      "inputs": [
+        "member:baseline-s31",
+        "check:baseline-s31"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"code\":\"action_binding:failed\",\"dimensions\":{\"action_binding\":\"failed\",\"authorisation_recheck\":\"failed\",\"observed_results\":\"verified\",\"rationale_provenance\":\"verified\",\"record_statements\":\"verified\",\"specification_digests\":\"verified\",\"specification_statements\":\"verified\",\"stage_order\":\"verified\"},\"verdict\":\"reject\"}}"
+    },
+    {
+      "check": "baseline-s33",
+      "inputs": [
+        "member:baseline-s33",
+        "check:baseline-s33"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"code\":\"action_binding:failed\",\"dimensions\":{\"action_binding\":\"failed\",\"authorisation_recheck\":\"verified\",\"observed_results\":\"verified\",\"rationale_provenance\":\"verified\",\"record_statements\":\"verified\",\"specification_digests\":\"verified\",\"specification_statements\":\"verified\",\"stage_order\":\"verified\"},\"verdict\":\"reject\"}}"
+    },
+    {
+      "check": "baseline-s34",
+      "inputs": [
+        "member:baseline-s34",
+        "check:baseline-s34"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"code\":\"action_binding:failed\",\"dimensions\":{\"action_binding\":\"failed\",\"authorisation_recheck\":\"failed\",\"observed_results\":\"verified\",\"rationale_provenance\":\"verified\",\"record_statements\":\"verified\",\"specification_digests\":\"verified\",\"specification_statements\":\"verified\",\"stage_order\":\"failed\"},\"verdict\":\"reject\"}}"
+    },
+    {
+      "check": "baseline-s35",
+      "inputs": [
+        "member:baseline-s35",
+        "check:baseline-s35"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"code\":\"record_statements:failed\",\"dimensions\":{\"action_binding\":\"verified\",\"authorisation_recheck\":\"verified\",\"observed_results\":\"verified\",\"rationale_provenance\":\"failed\",\"record_statements\":\"failed\",\"specification_digests\":\"verified\",\"specification_statements\":\"verified\",\"stage_order\":\"failed\"},\"verdict\":\"reject\"}}"
+    },
+    {
+      "check": "baseline-s36",
+      "inputs": [
+        "member:baseline-s36",
+        "check:baseline-s36"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"code\":\"action_binding:failed\",\"dimensions\":{\"action_binding\":\"failed\",\"authorisation_recheck\":\"verified\",\"observed_results\":\"verified\",\"rationale_provenance\":\"verified\",\"record_statements\":\"verified\",\"specification_digests\":\"verified\",\"specification_statements\":\"verified\",\"stage_order\":\"verified\"},\"verdict\":\"reject\"}}"
+    },
+    {
+      "check": "baseline-s40",
+      "inputs": [
+        "member:baseline-s40",
+        "check:baseline-s40"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"code\":\"action_binding:failed\",\"dimensions\":{\"action_binding\":\"failed\",\"authorisation_recheck\":\"verified\",\"observed_results\":\"verified\",\"rationale_provenance\":\"verified\",\"record_statements\":\"verified\",\"specification_digests\":\"verified\",\"specification_statements\":\"verified\",\"stage_order\":\"verified\"},\"verdict\":\"reject\"}}"
+    },
+    {
+      "check": "baseline-s41",
+      "inputs": [
+        "member:baseline-s41",
+        "check:baseline-s41"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"code\":\"action_binding:failed\",\"dimensions\":{\"action_binding\":\"failed\",\"authorisation_recheck\":\"verified\",\"observed_results\":\"verified\",\"rationale_provenance\":\"verified\",\"record_statements\":\"verified\",\"specification_digests\":\"verified\",\"specification_statements\":\"verified\",\"stage_order\":\"verified\"},\"verdict\":\"reject\"}}"
+    },
+    {
+      "check": "baseline-s43",
+      "inputs": [
+        "member:baseline-s43",
+        "check:baseline-s43"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"code\":\"action_binding:failed\",\"dimensions\":{\"action_binding\":\"failed\",\"authorisation_recheck\":\"verified\",\"observed_results\":\"verified\",\"rationale_provenance\":\"verified\",\"record_statements\":\"verified\",\"specification_digests\":\"verified\",\"specification_statements\":\"verified\",\"stage_order\":\"verified\"},\"verdict\":\"reject\"}}"
+    },
+    {
+      "check": "baseline-s44",
+      "inputs": [
+        "member:baseline-s44",
+        "check:baseline-s44"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"code\":\"rationale_provenance:failed\",\"dimensions\":{\"action_binding\":\"verified\",\"authorisation_recheck\":\"verified\",\"observed_results\":\"verified\",\"rationale_provenance\":\"failed\",\"record_statements\":\"verified\",\"specification_digests\":\"verified\",\"specification_statements\":\"verified\",\"stage_order\":\"verified\"},\"verdict\":\"reject\"}}"
+    },
+    {
+      "check": "baseline-s46",
+      "inputs": [
+        "member:baseline-s46",
+        "check:baseline-s46"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"code\":\"action_binding:failed\",\"dimensions\":{\"action_binding\":\"failed\",\"authorisation_recheck\":\"verified\",\"observed_results\":\"verified\",\"rationale_provenance\":\"verified\",\"record_statements\":\"verified\",\"specification_digests\":\"verified\",\"specification_statements\":\"verified\",\"stage_order\":\"verified\"},\"verdict\":\"reject\"}}"
+    },
+    {
+      "check": "baseline-s47",
+      "inputs": [
+        "member:baseline-s47",
+        "check:baseline-s47"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"code\":\"record_statements:failed\",\"dimensions\":{\"action_binding\":\"failed\",\"authorisation_recheck\":\"verified\",\"observed_results\":\"verified\",\"rationale_provenance\":\"verified\",\"record_statements\":\"failed\",\"specification_digests\":\"verified\",\"specification_statements\":\"verified\",\"stage_order\":\"verified\"},\"verdict\":\"reject\"}}"
+    },
+    {
+      "check": "baseline-s48",
+      "inputs": [
+        "member:baseline-s48",
+        "check:baseline-s48"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"code\":\"action_binding:failed\",\"dimensions\":{\"action_binding\":\"failed\",\"authorisation_recheck\":\"failed\",\"observed_results\":\"verified\",\"rationale_provenance\":\"verified\",\"record_statements\":\"verified\",\"specification_digests\":\"verified\",\"specification_statements\":\"verified\",\"stage_order\":\"verified\"},\"verdict\":\"reject\"}}"
+    },
+    {
+      "check": "baseline-s49",
+      "inputs": [
+        "member:baseline-s49",
+        "check:baseline-s49"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"code\":\"action_binding:failed\",\"dimensions\":{\"action_binding\":\"failed\",\"authorisation_recheck\":\"failed\",\"observed_results\":\"verified\",\"rationale_provenance\":\"verified\",\"record_statements\":\"verified\",\"specification_digests\":\"verified\",\"specification_statements\":\"verified\",\"stage_order\":\"verified\"},\"verdict\":\"reject\"}}"
+    },
+    {
+      "check": "baseline-s50",
+      "inputs": [
+        "member:baseline-s50",
+        "check:baseline-s50"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"code\":\"action_binding:failed\",\"dimensions\":{\"action_binding\":\"failed\",\"authorisation_recheck\":\"failed\",\"observed_results\":\"verified\",\"rationale_provenance\":\"verified\",\"record_statements\":\"verified\",\"specification_digests\":\"verified\",\"specification_statements\":\"verified\",\"stage_order\":\"verified\"},\"verdict\":\"reject\"}}"
+    },
+    {
+      "check": "baseline-s51",
+      "inputs": [
+        "member:baseline-s51",
+        "check:baseline-s51"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"code\":\"action_binding:failed\",\"dimensions\":{\"action_binding\":\"failed\",\"authorisation_recheck\":\"verified\",\"observed_results\":\"verified\",\"rationale_provenance\":\"verified\",\"record_statements\":\"verified\",\"specification_digests\":\"verified\",\"specification_statements\":\"verified\",\"stage_order\":\"verified\"},\"verdict\":\"reject\"}}"
+    },
+    {
+      "check": "baseline-s52",
+      "inputs": [
+        "member:baseline-s52",
+        "check:baseline-s52"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"code\":\"action_binding:failed\",\"dimensions\":{\"action_binding\":\"failed\",\"authorisation_recheck\":\"verified\",\"observed_results\":\"verified\",\"rationale_provenance\":\"verified\",\"record_statements\":\"verified\",\"specification_digests\":\"verified\",\"specification_statements\":\"verified\",\"stage_order\":\"verified\"},\"verdict\":\"reject\"}}"
+    },
+    {
+      "check": "baseline-s53",
+      "inputs": [
+        "member:baseline-s53",
+        "check:baseline-s53"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"code\":\"action_binding:failed\",\"dimensions\":{\"action_binding\":\"failed\",\"authorisation_recheck\":\"verified\",\"observed_results\":\"verified\",\"rationale_provenance\":\"verified\",\"record_statements\":\"verified\",\"specification_digests\":\"verified\",\"specification_statements\":\"verified\",\"stage_order\":\"failed\"},\"verdict\":\"reject\"}}"
+    },
+    {
+      "check": "baseline-s54",
+      "inputs": [
+        "member:baseline-s54",
+        "check:baseline-s54"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"code\":\"action_binding:failed\",\"dimensions\":{\"action_binding\":\"failed\",\"authorisation_recheck\":\"failed\",\"observed_results\":\"verified\",\"rationale_provenance\":\"failed\",\"record_statements\":\"verified\",\"specification_digests\":\"verified\",\"specification_statements\":\"verified\",\"stage_order\":\"failed\"},\"verdict\":\"reject\"}}"
+    },
+    {
+      "check": "baseline-sig-result-changed",
+      "inputs": [
+        "member:baseline-sig-result-changed",
+        "check:baseline-sig-result-changed"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"code\":\"issuer_signature:failed\",\"dimensions\":{\"issuer_signature\":\"failed\"},\"verdict\":\"reject\"}}"
+    },
+    {
+      "check": "baseline-sig-key-not-in-policy",
+      "inputs": [
+        "member:baseline-sig-key-not-in-policy",
+        "check:baseline-sig-key-not-in-policy"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"code\":\"issuer_signature:failed\",\"dimensions\":{\"issuer_signature\":\"failed\"},\"verdict\":\"reject\"}}"
+    },
+    {
+      "check": "baseline-sig-policy-lists-key-twice",
+      "inputs": [
+        "member:baseline-sig-policy-lists-key-twice",
+        "check:baseline-sig-policy-lists-key-twice"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"code\":\"issuer_signature:failed\",\"dimensions\":{\"issuer_signature\":\"failed\"},\"verdict\":\"reject\"}}"
+    },
+    {
+      "check": "baseline-sig-member-named-twice",
+      "inputs": [
+        "member:baseline-sig-member-named-twice",
+        "check:baseline-sig-member-named-twice"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"code\":\"structural_validity:failed\",\"dimensions\":{\"structural_validity\":\"failed\"},\"verdict\":\"reject\"}}"
+    },
+    {
+      "check": "strict-approved-by-drafting-role",
+      "inputs": [
+        "member:strict-approved-by-drafting-role",
+        "check:strict-approved-by-drafting-role"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"code\":\"approver_independence:failed\",\"dimensions\":{\"strict\":{\"approver_independence\":\"failed\"}},\"verdict\":\"reject\"}}"
+    },
+    {
+      "check": "strict-approved-by-executor",
+      "inputs": [
+        "member:strict-approved-by-executor",
+        "check:strict-approved-by-executor"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"code\":\"approver_independence:failed\",\"dimensions\":{\"strict\":{\"approver_independence\":\"failed\"}},\"verdict\":\"reject\"}}"
+    },
+    {
+      "check": "strict-one-request-succeeds-twice",
+      "inputs": [
+        "member:strict-one-request-succeeds-twice",
+        "check:strict-one-request-succeeds-twice"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"code\":\"single_effect_per_request:failed\",\"dimensions\":{\"strict\":{\"single_effect_per_request\":\"failed\"}},\"verdict\":\"reject\"}}"
+    },
+    {
+      "check": "strict-retry-after-indeterminate",
+      "inputs": [
+        "member:strict-retry-after-indeterminate",
+        "check:strict-retry-after-indeterminate"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"code\":\"single_effect_per_request:not_checked\",\"dimensions\":{\"strict\":{\"single_effect_per_request\":\"not_checked\"}},\"verdict\":\"reject\"}}"
+    },
+    {
+      "check": "strict-person-not-confirmed",
+      "inputs": [
+        "member:strict-person-not-confirmed",
+        "check:strict-person-not-confirmed"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"code\":\"identity_independent:failed\",\"dimensions\":{\"strict\":{\"identity_independent\":\"failed\"}},\"verdict\":\"reject\"}}"
+    },
+    {
+      "check": "strict-change-by-unnamed-service",
+      "inputs": [
+        "member:strict-change-by-unnamed-service",
+        "check:strict-change-by-unnamed-service"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"code\":\"authority_independent:failed\",\"dimensions\":{\"strict\":{\"authority_independent\":\"failed\"}},\"verdict\":\"reject\"}}"
+    },
+    {
+      "check": "strict-stages-backdated",
+      "inputs": [
+        "member:strict-stages-backdated",
+        "check:strict-stages-backdated"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"code\":\"time_independent:failed\",\"dimensions\":{\"strict\":{\"time_independent\":\"failed\"}},\"verdict\":\"reject\"}}"
+    },
+    {
+      "check": "strict-older-attachment",
+      "inputs": [
+        "member:strict-older-attachment",
+        "check:strict-older-attachment"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"code\":\"latest_attachment:failed\",\"dimensions\":{\"strict\":{\"latest_attachment\":\"failed\"}},\"verdict\":\"reject\"}}"
+    },
+    {
+      "check": "strict-signature-removed",
+      "inputs": [
+        "member:strict-signature-removed",
+        "check:strict-signature-removed"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"code\":\"signature_required:failed\",\"dimensions\":{\"strict\":{\"signature_required\":\"failed\"}},\"verdict\":\"reject\"}}"
+    }
+  ],
+  "relaxed-controls": [],
+  "replay-stability": {
+    "cause": null,
+    "ordering": "emission-order",
+    "runs": [
+      {
+        "process": "run-1",
+        "sha256": "b9bee747fabedc85abdb2d87d083f7457d5ed71c1980c6a060f20f2d4d5be927"
+      },
+      {
+        "process": "run-2",
+        "sha256": "b9bee747fabedc85abdb2d87d083f7457d5ed71c1980c6a060f20f2d4d5be927"
+      }
+    ],
+    "seed": null,
+    "state": "stable"
+  },
+  "scope": {
+    "does-not-claim": [
+      "whole-attack-surface",
+      "implementation-ranking",
+      "threats-outside-corpus",
+      "action-occurred-or-authority"
+    ],
+    "establishes": [
+      "aee-verify, at the source listing named here, judges each of the 147 pinned members of decision-record/v1 as its manifest declares"
+    ],
+    "leaves-open": [
+      "whether an implementation written from the specification, run by someone other than an author, reaches the same verdicts",
+      "whether release/CORPUS-DIGESTS.txt is a list a release signed: the signature beside it does not verify over these bytes, so the anchor is a located line, not a verified one",
+      "whether a re-run by someone other than an author on these exact bytes agrees; none is on the record for them"
+    ]
+  },
+  "selector": {
+    "expression": "*",
+    "language": "id-glob",
+    "matched": 147,
+    "require": "at-least-one",
+    "selected": [
+      "baseline-l01",
+      "baseline-l02",
+      "baseline-l03",
+      "baseline-l04",
+      "baseline-l05",
+      "baseline-l06",
+      "baseline-l07",
+      "baseline-l08",
+      "baseline-l09",
+      "baseline-l10",
+      "baseline-l11",
+      "baseline-l12",
+      "baseline-l13",
+      "baseline-l14",
+      "baseline-l15",
+      "baseline-l16",
+      "baseline-l17",
+      "baseline-l18",
+      "baseline-l19",
+      "baseline-l20",
+      "baseline-l21",
+      "baseline-l22",
+      "baseline-l23",
+      "baseline-l24",
+      "baseline-l25",
+      "baseline-l26",
+      "baseline-l27",
+      "baseline-l28",
+      "baseline-l29",
+      "baseline-l30",
+      "baseline-l31",
+      "baseline-l32",
+      "baseline-l33",
+      "baseline-l34",
+      "baseline-l35",
+      "baseline-l36",
+      "baseline-l37",
+      "baseline-l38",
+      "baseline-l39",
+      "baseline-l40",
+      "baseline-l41",
+      "baseline-l42",
+      "baseline-l43",
+      "baseline-l44",
+      "baseline-l45",
+      "baseline-l46",
+      "baseline-l47",
+      "baseline-l48",
+      "baseline-l49",
+      "baseline-l50",
+      "baseline-l51",
+      "baseline-l52",
+      "baseline-l53",
+      "baseline-l54",
+      "baseline-l55",
+      "baseline-l56",
+      "baseline-l57",
+      "baseline-l58",
+      "baseline-l59",
+      "baseline-l60",
+      "baseline-l61",
+      "baseline-l62",
+      "baseline-l63",
+      "baseline-l64",
+      "baseline-l65",
+      "baseline-l66",
+      "baseline-l67",
+      "baseline-l68",
+      "baseline-l69",
+      "baseline-l70",
+      "baseline-l71",
+      "baseline-l72",
+      "baseline-l73",
+      "baseline-l74",
+      "baseline-l75",
+      "baseline-l76",
+      "baseline-l77",
+      "baseline-s01",
+      "baseline-s02",
+      "baseline-s03",
+      "baseline-s04",
+      "baseline-s05",
+      "baseline-s06",
+      "baseline-s07",
+      "baseline-s08",
+      "baseline-s09",
+      "baseline-s10",
+      "baseline-s11",
+      "baseline-s12",
+      "baseline-s13",
+      "baseline-s14",
+      "baseline-s15",
+      "baseline-s16",
+      "baseline-s17",
+      "baseline-s18",
+      "baseline-s19",
+      "baseline-s20",
+      "baseline-s21",
+      "baseline-s22",
+      "baseline-s23",
+      "baseline-s24",
+      "baseline-s25",
+      "baseline-s26",
+      "baseline-s27",
+      "baseline-s28",
+      "baseline-s29",
+      "baseline-s30",
+      "baseline-s31",
+      "baseline-s32",
+      "baseline-s33",
+      "baseline-s34",
+      "baseline-s35",
+      "baseline-s36",
+      "baseline-s37",
+      "baseline-s38",
+      "baseline-s39",
+      "baseline-s40",
+      "baseline-s41",
+      "baseline-s42",
+      "baseline-s43",
+      "baseline-s44",
+      "baseline-s45",
+      "baseline-s46",
+      "baseline-s47",
+      "baseline-s48",
+      "baseline-s49",
+      "baseline-s50",
+      "baseline-s51",
+      "baseline-s52",
+      "baseline-s53",
+      "baseline-s54",
+      "baseline-sig-a0-stated-time",
+      "baseline-sig-b0",
+      "baseline-sig-result-changed",
+      "baseline-sig-key-not-in-policy",
+      "baseline-sig-policy-lists-key-twice",
+      "baseline-sig-member-named-twice",
+      "strict-all-sources-confirm",
+      "strict-approved-by-drafting-role",
+      "strict-approved-by-executor",
+      "strict-one-request-succeeds-twice",
+      "strict-retry-after-indeterminate",
+      "strict-person-not-confirmed",
+      "strict-change-by-unnamed-service",
+      "strict-stages-backdated",
+      "strict-older-attachment",
+      "strict-signature-removed"
+    ]
+  },
+  "specification-readers": [],
+  "state": "pass",
+  "suite": "decision-record/v1"
+}
