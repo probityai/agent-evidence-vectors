@@ -31,39 +31,43 @@ The reader checks in a fixed order and names the first check that fails:
    ``approved-with-corrections``; a denied request is not a grant, whatever
    happened to the call (``approval_not_granted``). An approval with
    corrections binds the corrected bytes in ``payloadSha256``; the bytes first
-   requested, in ``requestedPayloadSha256``, are not approved (check 17);
+   requested, in ``requestedPayloadSha256``, are not approved (check 18);
 8. the record's ``enforcement`` is ``enforce``; an approval gathered in an
    observe or monitor mode never gated the call (``approval_not_enforced``);
 9. the identifier is not among the consumed ones (``approval_replayed``);
-10. no replacement accepted at or before the use has taken the approval's place
+10. every transition naming the approval, as predecessor or successor, carries a
+    status the contract defines, ``proposed`` or ``accepted``; a status outside
+    them is refused rather than read as not accepted, which would let a
+    replaced approval through (``transition_status_unknown``);
+11. no replacement accepted at or before the use has taken the approval's place
     (``approval_superseded``);
-11. a use that claims ``authorityForm: renewed`` has a transition accepted at or
+12. a use that claims ``authorityForm: renewed`` has a transition accepted at or
     before the use naming this approval as successor; a transition accepted
     later does not establish the renewal (``renewal_transition_missing``);
-12. that transition binds the successor to exactly one predecessor
+13. that transition binds the successor to exactly one predecessor
     (``renewal_binding_invalid``);
-13. the approval's ``keyId`` is the trusted key of its approver, or a key listed
+14. the approval's ``keyId`` is the trusted key of its approver, or a key listed
     for that approver in ``retiredKeys`` (``key_not_bound``);
-14. a key listed in ``retiredKeys`` signed the approval before its
-    ``retiredAt``; an approval issued under a rotated-out key at or after the
-    rotation is refused (``key_retired``);
-15. the use's principal is the approval's principal; a shared ``clientId`` does
+15. a key listed in ``retiredKeys`` signed the approval before the earliest
+    ``retiredAt`` any entry naming it gives; an approval issued under a
+    rotated-out key at or after the rotation is refused (``key_retired``);
+16. the use's principal is the approval's principal; a shared ``clientId`` does
     not stand in for the user (``principal_mismatch``);
-16. the use's event and phase are the approved ones (``event_phase_mismatch``);
-17. the used tool, target and payload bytes are the approved ones
+17. the use's event and phase are the approved ones (``event_phase_mismatch``);
+18. the used tool, target and payload bytes are the approved ones
     (``payload_mismatch``);
-18. ``usedAt`` is at or after ``issuedAt`` and before ``expiresAt``
+19. ``usedAt`` is at or after ``issuedAt`` and before ``expiresAt``
     (``approval_outside_validity``);
-19. the effect the use names is not closed (``effect_already_closed``);
-20. the policy release lookup answered (``comparison_unavailable``); an
+20. the effect the use names is not closed (``effect_already_closed``);
+21. the policy release lookup answered (``comparison_unavailable``); an
     unanswered lookup is never read as a match;
-21. the release was served at the decision time: first served at or before it,
+22. the release was served at the decision time: first served at or before it,
     and last served at or after it minus the grace period
     (``release_not_served_at_decision``).
 
 A record that passes all of them is ``allow`` with reason ``bound``.
 
-Renewal by replacement is judged by checks 10, 11, 12 and 19. An approval B can
+Renewal by replacement is judged by checks 10 to 13 and 20. An approval B can
 replace an earlier approval A over equal bounds. Equal bounds, the same
 recorded decision and the same logical effect are three different identities,
 so the record carries each one apart:
@@ -79,10 +83,10 @@ so the record carries each one apart:
   effect's lifecycle state. ``CONSUMED`` and ``UNCERTAIN_CLOSE`` are closed, so
   a new grant does not reopen them.
 
-Check 10 refuses the predecessor because it was superseded, not because it
-expired or was consumed, and it needs no execution under the successor. Checks 10
-and 11 read a transition at the same instant: it counts from ``acceptedAt`` on,
-for the predecessor it replaces and for the successor it establishes. Check 12
+Check 11 refuses the predecessor because it was superseded, not because it
+expired or was consumed, and it needs no execution under the successor. Checks 11
+and 12 read a transition at the same instant: it counts from ``acceptedAt`` on,
+for the predecessor it replaces and for the successor it establishes. Check 13
 requires the presented records under the predecessor's identifier to agree, so
 the predecessor resolves to one approval whatever the order of the list, the
 transition to cite that predecessor's recorded decision, the successor's
@@ -115,6 +119,8 @@ SUITE = "approval-binding/v1"
 CONTRACT_ID = "https://probityai.github.io/agent-evidence-vectors/contract/approval-binding/v1"
 ALLOW, DENY = "allow", "deny"
 EXIT_FOR = {ALLOW: 0, DENY: 1}
+# The statuses a transition may carry; any other is refused, never read as not accepted.
+TRANSITION_STATUSES = ("proposed", "accepted")
 # The order is the contract: a reader names the first check that fails.
 CHECKS = (
     "contract_id_missing",
@@ -126,6 +132,7 @@ CHECKS = (
     "approval_not_granted",
     "approval_not_enforced",
     "approval_replayed",
+    "transition_status_unknown",
     "approval_superseded",
     "renewal_transition_missing",
     "renewal_binding_invalid",
@@ -175,25 +182,37 @@ def _completed_twice(record: dict[str, Any]) -> bool:
                for other in record.get("presentedApprovals", []))
 
 
-def _retired_entry(record: dict[str, Any]) -> dict[str, Any] | None:
+def _retired_at(record: dict[str, Any]) -> datetime | None:
+    """The earliest instant any ``retiredKeys`` entry retires the approval's key, or None.
+
+    Every entry naming the key is read, never only the first: a later entry that
+    retires the key earlier is not hidden behind an earlier one, the rule
+    ``registry.key_history`` applies to a key history.
+    """
     approval = record["approval"]
-    for entry in record.get("retiredKeys", {}).get(approval["approver"], []):
-        if entry["keyId"] == approval["keyId"]:
-            found: dict[str, Any] = entry
-            return found
-    return None
+    instants = [_when(entry["retiredAt"])
+                for entry in record.get("retiredKeys", {}).get(approval["approver"], [])
+                if entry["keyId"] == approval["keyId"]]
+    return min(instants) if instants else None
 
 
 def _key_unbound(record: dict[str, Any]) -> bool:
     approval = record["approval"]
     return (record["trustedKeys"].get(approval["approver"]) != approval["keyId"]
-            and _retired_entry(record) is None)
+            and _retired_at(record) is None)
 
 
 def _key_retired(record: dict[str, Any]) -> bool:
-    entry = _retired_entry(record)
-    return entry is not None and _when(record["approval"]["issuedAt"]) >= _when(
-        entry["retiredAt"])
+    retired = _retired_at(record)
+    return retired is not None and _when(record["approval"]["issuedAt"]) >= retired
+
+
+def _transition_status_unknown(record: dict[str, Any]) -> bool:
+    """Whether a transition naming the approval carries a status the contract does not define."""
+    approval_id = record["approval"]["approvalId"]
+    return any(t["status"] not in TRANSITION_STATUSES
+               and approval_id in (t["predecessorApprovalId"], t["successorApprovalId"])
+               for t in record.get("transitions", []))
 
 
 def _validity(record: dict[str, Any]) -> bool:
@@ -290,6 +309,7 @@ def _first_failure(record: dict[str, Any], used: bytes, skip: frozenset[str]) ->
         "approval_not_enforced": lambda: record.get("enforcement") != "enforce",
         "approval_replayed": lambda: approval["approvalId"] in record.get(
             "consumedApprovalIds", []),
+        "transition_status_unknown": lambda: _transition_status_unknown(record),
         "approval_superseded": lambda: _superseded(record),
         "renewal_transition_missing": lambda: _renewal_missing(record),
         "renewal_binding_invalid": lambda: _renewal_invalid(record),
