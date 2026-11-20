@@ -616,7 +616,7 @@ func moCheckCoverage(res *Result, kinds map[string]map[string]bool, threats map[
 
 func (mcpOWASP) Judge(dir string, manifest []byte) (*Result, error) {
 	var m moManifest
-	if err := json.Unmarshal(manifest, &m); err != nil {
+	if err := strictUnmarshal(manifest, &m); err != nil {
 		return nil, fmt.Errorf("MANIFEST.json does not parse: %w", err)
 	}
 	rawRegistry, err := readIn(dir, m.Registry)
@@ -624,7 +624,7 @@ func (mcpOWASP) Judge(dir string, manifest []byte) (*Result, error) {
 		return nil, fmt.Errorf("the registry %q cannot be read: %w", m.Registry, err)
 	}
 	var reg moRegistry
-	if err := json.Unmarshal(rawRegistry, &reg); err != nil {
+	if err := strictUnmarshal(rawRegistry, &reg); err != nil {
 		return nil, fmt.Errorf("the registry %q does not parse: %w", m.Registry, err)
 	}
 	res := &Result{}

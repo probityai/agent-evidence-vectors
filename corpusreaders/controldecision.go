@@ -60,7 +60,7 @@ type cdVector struct {
 
 func (controlDecision) Judge(dir string, raw []byte) (*Result, error) {
 	var m cdManifest
-	if err := json.Unmarshal(raw, &m); err != nil {
+	if err := strictUnmarshal(raw, &m); err != nil {
 		return nil, fmt.Errorf("%s/MANIFEST.json does not parse: %w", dir, err)
 	}
 	key, err := hex.DecodeString(m.Keys.Producer.PublicKey)

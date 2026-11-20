@@ -3,7 +3,6 @@ package corpusreaders
 import (
 	"bytes"
 	"encoding/base64"
-	"encoding/json"
 	"fmt"
 	"path/filepath"
 	"sort"
@@ -75,7 +74,7 @@ var narratedBlob = bytes.Repeat([]byte("port: 8080\nmode: strict\n"), 8)
 
 func (o observedEffect) Judge(dir string, raw []byte) (*Result, error) {
 	var m observedEffectManifest
-	if err := json.Unmarshal(raw, &m); err != nil {
+	if err := strictUnmarshal(raw, &m); err != nil {
 		return nil, fmt.Errorf("%s/MANIFEST.json does not parse: %w", dir, err)
 	}
 	if len(m.Vectors) == 0 {
@@ -284,7 +283,7 @@ func blobIsNamed(dir string, m observedEffectManifest, digest string) bool {
 		var envelope struct {
 			Payload string `json:"payload"`
 		}
-		if json.Unmarshal(body, &envelope) != nil {
+		if strictUnmarshal(body, &envelope) != nil {
 			continue
 		}
 		payload, err := base64.StdEncoding.DecodeString(envelope.Payload)

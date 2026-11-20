@@ -61,7 +61,7 @@ var errA2ARefused = errors.New("no canonical form")
 
 func (a2aJCS) Judge(dir string, raw []byte) (*Result, error) {
 	var manifest a2aManifest
-	if err := json.Unmarshal(raw, &manifest); err != nil {
+	if err := strictUnmarshal(raw, &manifest); err != nil {
 		return nil, fmt.Errorf("%s/MANIFEST.json does not parse: %w", dir, err)
 	}
 	result := &Result{}
@@ -83,7 +83,7 @@ func (a2aJCS) Judge(dir string, raw []byte) (*Result, error) {
 		}
 		sum := sha256.Sum256(body)
 		var v a2aVector
-		if err := json.Unmarshal(body, &v); err != nil {
+		if err := strictUnmarshal(body, &v); err != nil {
 			result.Findings = append(result.Findings, fmt.Sprintf("%s does not parse: %v", entry.Path, err))
 			continue
 		}

@@ -116,7 +116,7 @@ type srrExpected struct {
 
 func (s selfReportedRecord) Judge(dir string, raw []byte) (*Result, error) {
 	var manifest srrManifest
-	if err := json.Unmarshal(raw, &manifest); err != nil {
+	if err := strictUnmarshal(raw, &manifest); err != nil {
 		return nil, fmt.Errorf("%s/MANIFEST.json does not parse: %w", dir, err)
 	}
 	result := &Result{}

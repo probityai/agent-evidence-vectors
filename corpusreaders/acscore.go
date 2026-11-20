@@ -86,7 +86,7 @@ type acsExpected struct {
 
 func (a acsCore) Judge(dir string, raw []byte) (*Result, error) {
 	var m acsManifest
-	if err := json.Unmarshal(raw, &m); err != nil {
+	if err := strictUnmarshal(raw, &m); err != nil {
 		return nil, fmt.Errorf("%s/MANIFEST.json does not parse: %w", dir, err)
 	}
 	result := &Result{}

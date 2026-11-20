@@ -438,7 +438,7 @@ func arJWKAlgorithm(material []byte) (string, error) {
 			Crv string `json:"crv"`
 		} `json:"keys"`
 	}
-	if err := json.Unmarshal(material, &set); err != nil {
+	if err := strictUnmarshal(material, &set); err != nil {
 		return "", err
 	}
 	algorithm := ""
@@ -732,7 +732,7 @@ func arVerifyRetained(raw []byte, predicateType, observerKey string, heads []arT
 	var parsed struct {
 		Payload string `json:"payload"`
 	}
-	if json.Unmarshal(envelope, &parsed) != nil {
+	if strictUnmarshal(envelope, &parsed) != nil {
 		return report, arDating{Entry: "malformed", Codes: []string{"entry-record-unreadable"}, DelegationRoot: arNotEstablished}
 	}
 	payload, err := base64.StdEncoding.DecodeString(parsed.Payload)
@@ -747,7 +747,7 @@ func arVerifyRetained(raw []byte, predicateType, observerKey string, heads []arT
 			} `json:"delegation"`
 		} `json:"predicate"`
 	}
-	if json.Unmarshal(payload, &statement) != nil {
+	if strictUnmarshal(payload, &statement) != nil {
 		return report, arDating{Entry: "malformed", Codes: []string{"entry-record-unreadable"}, DelegationRoot: arNotEstablished}
 	}
 	return report, arDate(bundle["envelope"], bundle["retention"], statement.Predicate.IssuedAt,

@@ -8,7 +8,6 @@ import (
 	"crypto/sha256"
 	"encoding/binary"
 	"encoding/hex"
-	"encoding/json"
 	"errors"
 	"fmt"
 	"math/big"
@@ -118,7 +117,7 @@ type iarReport struct{ verdict, code string }
 
 func (ietfAgentRecord) Judge(dir string, raw []byte) (*Result, error) {
 	var m iarManifest
-	if err := json.Unmarshal(raw, &m); err != nil {
+	if err := strictUnmarshal(raw, &m); err != nil {
 		return nil, fmt.Errorf("%s/MANIFEST.json does not parse: %w", dir, err)
 	}
 	keys, err := iarLoadKeys(&m)
@@ -223,7 +222,7 @@ func iarVerify(body []byte, keys *iarKeys, off map[string]bool) iarReport {
 	var head struct {
 		Draft string `json:"draft"`
 	}
-	if err := json.Unmarshal(body, &head); err != nil {
+	if err := strictUnmarshal(body, &head); err != nil {
 		return iarReport{"malformed", "cose-malformed"}
 	}
 	var err error
@@ -541,7 +540,7 @@ type iarAIRHeader struct {
 
 func iarVerifyAIR(body []byte, key *ecdsa.PublicKey, off map[string]bool) error {
 	var c iarAIRCase
-	if err := json.Unmarshal(body, &c); err != nil {
+	if err := strictUnmarshal(body, &c); err != nil {
 		return iarRefuse("cose-malformed")
 	}
 	var prior *iarAIRHeader
@@ -645,7 +644,7 @@ func iarAIRIntegrity(h *iarAIRHeader, protected, payload, signature []byte, key 
 			TS    *int64  `json:"action_timestamp_ms"`
 			Agent *string `json:"agent_id"`
 		}
-		if json.Unmarshal(payload, &copyOf) != nil || copyOf.TS == nil || copyOf.Agent == nil ||
+		if strictUnmarshal(payload, &copyOf) != nil || copyOf.TS == nil || copyOf.Agent == nil ||
 			*copyOf.TS != h.ts || *copyOf.Agent != h.agent {
 			return iarRefuse("header-payload-disagree")
 		}
@@ -713,7 +712,7 @@ type iarClaims struct {
 
 func iarVerifyCLL(body []byte, key ed25519.PublicKey, off map[string]bool) error {
 	var c iarCLLCase
-	if err := json.Unmarshal(body, &c); err != nil {
+	if err := strictUnmarshal(body, &c); err != nil {
 		return iarRefuse("cose-malformed")
 	}
 	claims, err := iarCLLEnvelope(&c, key, off)
@@ -856,7 +855,7 @@ type iarSIDCase struct {
 
 func iarVerifySID(body []byte, key ed25519.PublicKey, off map[string]bool) error {
 	var c iarSIDCase
-	if err := json.Unmarshal(body, &c); err != nil || len(c.Reference.Triple) != 3 {
+	if err := strictUnmarshal(body, &c); err != nil || len(c.Reference.Triple) != 3 {
 		return iarRefuse("cose-malformed")
 	}
 	raw, err := hex.DecodeString(c.Candidate)

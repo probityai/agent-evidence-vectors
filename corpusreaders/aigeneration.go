@@ -114,7 +114,7 @@ type agExpected struct {
 
 func (r aiGeneration) Judge(dir string, raw []byte) (*Result, error) {
 	var manifest agManifest
-	if err := json.Unmarshal(raw, &manifest); err != nil {
+	if err := strictUnmarshal(raw, &manifest); err != nil {
 		return nil, fmt.Errorf("%s/MANIFEST.json does not parse: %w", dir, err)
 	}
 	result := &Result{}
@@ -476,7 +476,7 @@ type agSubject struct {
 
 func newAGSubject(dir string, v agVector, body, trailer []byte) (*agSubject, string) {
 	s := &agSubject{artifacts: map[string][]byte{}, trailer: trailer}
-	if err := json.Unmarshal(body, &s.env); err != nil {
+	if err := strictUnmarshal(body, &s.env); err != nil {
 		return nil, "the member is not an attestation envelope: " + err.Error()
 	}
 	value, err := agDecode(s.env.Statement)

@@ -3,7 +3,6 @@ package corpusreaders
 import (
 	"crypto/ed25519"
 	"encoding/base64"
-	"encoding/json"
 	"fmt"
 	"path/filepath"
 	"time"
@@ -138,7 +137,7 @@ var dlRules = []string{
 
 func (delegationLifecycle) Judge(dir string, raw []byte) (*Result, error) {
 	var manifest scManifest
-	if err := json.Unmarshal(raw, &manifest); err != nil {
+	if err := strictUnmarshal(raw, &manifest); err != nil {
 		return nil, fmt.Errorf("%s/MANIFEST.json does not parse: %w", dir, err)
 	}
 	result := &Result{}
@@ -146,7 +145,7 @@ func (delegationLifecycle) Judge(dir string, raw []byte) (*Result, error) {
 	var vectors []dlVector
 	for _, entry := range manifest.Vectors {
 		var v dlVector
-		if err := json.Unmarshal(entry, &v); err != nil {
+		if err := strictUnmarshal(entry, &v); err != nil {
 			result.Findings = append(result.Findings, fmt.Sprintf("a manifest row does not parse: %v", err))
 			continue
 		}
@@ -225,7 +224,7 @@ func (s *dlState) parse(caseDir, name string) (*dlRecord, bool) {
 		return nil, false
 	}
 	var fields map[string]any
-	if json.Unmarshal(body, &fields) != nil || fields == nil {
+	if strictUnmarshal(body, &fields) != nil || fields == nil {
 		return nil, false
 	}
 	r := &dlRecord{fields: fields, payload: body, sigs: sigs, times: map[string]time.Time{}}
