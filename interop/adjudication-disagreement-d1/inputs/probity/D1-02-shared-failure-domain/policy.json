@@ -1,0 +1,39 @@
+{
+  "schema_version": "probity-policy/v1",
+  "witnesses": {
+    "capability": {
+      "artifact": "capability",
+      "authority": "Synthetic D1 consumer-selected premise; not authenticated",
+      "sha256": "d4c13cff8525044e7392b44c33232c4f20a5fae26218a7c565676a9045ca4533"
+    },
+    "observation": {
+      "artifact": "observation",
+      "authority": "Synthetic D1 consumer-selected premise; not authenticated. Observer A; runs on capture host H, the same host as observer B",
+      "producer": "observer-d1-a",
+      "sha256": "6fc078f7c745d94f05ade03eb9c6b72f64e60476d9d098ad4cb31ad228bfb179",
+      "vantage": "independent"
+    },
+    "observation-b": {
+      "artifact": "observation-b",
+      "authority": "Synthetic D1 consumer-selected premise; not authenticated. Observer B; runs on capture host H, the same host as observer A",
+      "producer": "observer-d1-b",
+      "sha256": "8c5aad9a428ebe4695dfc2014d60191e963cd6334a927fc744e8356ab8152006",
+      "vantage": "independent"
+    }
+  },
+  "assessments": {
+    "d1-absence": {
+      "claim_type": "event_absence/v2",
+      "event_type": "write",
+      "invocation_id": "d1-call-1",
+      "scope": {
+        "id": "d1-window",
+        "start": "2026-11-19T09:00:00Z",
+        "end": "2026-11-19T09:01:00Z"
+      },
+      "capability_witness": "capability",
+      "observation_witness": "observation",
+      "observed_party": "agent-d1"
+    }
+  }
+}
