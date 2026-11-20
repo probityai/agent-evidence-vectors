@@ -541,3 +541,26 @@ class TestContractPages:
         )
         site.main(["--out", str(tmp_path)])
         assert not (tmp_path / "contract/chunked-export/v1.html").exists()
+
+
+class TestEvaluatorPages:
+    """Every evaluator identifier under this host answers with a page at its exact URL."""
+
+    def test_payment_scope_v1_answers_both_forms_and_states_its_identifier(
+        self, tmp_path: Path
+    ) -> None:
+        documents = site.evaluator_documents()
+        assert any(s.parent.name == "payment-scope" and s.stem == "v1" for s, _, _ in documents)
+        site.main(["--out", str(tmp_path)])
+        sibling = tmp_path / "evaluator/payment-scope/v1.html"
+        directory = tmp_path / "evaluator/payment-scope/v1/index.html"
+        assert sibling.is_file() and directory.is_file()
+        text = sibling.read_text(encoding="utf-8")
+        assert f"{site.SITE_URL}/evaluator/payment-scope/v1" in text
+        assert "first failing dimension" in text
+
+    def test_evaluator_directory_alias_is_not_a_sitemap_entry(self, tmp_path: Path) -> None:
+        site.main(["--out", str(tmp_path)])
+        urls = (tmp_path / "sitemap.xml").read_text(encoding="utf-8")
+        assert f"{site.SITE_URL}/evaluator/payment-scope/v1</loc>" in urls
+        assert "evaluator/payment-scope/v1/index.html" not in urls

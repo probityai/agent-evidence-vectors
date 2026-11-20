@@ -140,3 +140,120 @@ fn truncation_does_not_split_a_character() {
         );
     }
 }
+
+/// A noncharacter is a Unicode scalar value. The refusal must say so, and must
+/// not render the surrogate wording ("not a sequence of Unicode scalar values")
+/// that the earlier message applied to every string fault in the variant.
+#[test]
+fn a_noncharacter_is_not_called_a_non_scalar_value() {
+    // Raw U+FFFE after a two-byte prefix inside the run, and the same code point
+    // written as an escape. Built from code points, never typed.
+    let raw = format!("{{\"k\":\"ab{}\"}}", char::from_u32(0xFFFE).unwrap());
+    let escaped = format!("{{\"k\":\"ab\\u{:04x}\"}}", 0xFFFE_u32);
+    for doc in [raw, escaped] {
+        let err = admit_ijson(doc.as_bytes()).expect_err("the profile refuses a noncharacter");
+        let rendered = err.to_string();
+        assert!(
+            !rendered.contains("not a sequence of Unicode scalar values"),
+            "a noncharacter is a scalar value: {rendered}"
+        );
+        assert!(
+            rendered.contains("noncharacter") && rendered.contains("scalar value"),
+            "the message must name the fault: {rendered}"
+        );
+        // The offset is the noncharacter's own first byte, after `{"k":"ab`,
+        // not the start of the run that contains it.
+        match err {
+            Error::StringNotScalar { offset, .. } => assert_eq!(offset, 8, "{doc}"),
+            other => panic!("wrong variant: {other:?}"),
+        }
+    }
+}
+
+/// A raw control character is a scalar value too; JSON refuses it unescaped.
+#[test]
+fn a_raw_control_character_is_not_called_a_non_scalar_value() {
+    let err = admit(b"{\"k\":\"a\x01\"}").expect_err("a raw control character is refused");
+    let rendered = err.to_string();
+    assert!(
+        !rendered.contains("not a sequence of Unicode scalar values"),
+        "{rendered}"
+    );
+    assert!(rendered.contains("raw control character"), "{rendered}");
+}
+
+/// The surrogate fault keeps a message that says what the bytes are.
+#[test]
+fn an_unpaired_surrogate_message_names_the_surrogate() {
+    let err = admit(br#"{"k":"\ud800"}"#).expect_err("a lone surrogate is refused");
+    assert!(
+        err.to_string().contains("unpaired high surrogate escape"),
+        "{err}"
+    );
+}
+
+/// Ill-formed UTF-8 inside a longer run of text is reported at its own first
+/// byte, as a noncharacter and an escape are, not at the start of the run. The
+/// earlier offset pointed six bytes before the fault in each document here, and
+/// the Go rail, which reports the bad byte, disagreed with it. Each document is
+/// `{"k":"ab` followed by one ill-formed sequence: a stray continuation byte, a
+/// byte that never starts UTF-8, an overlong `/`, a surrogate encoded directly
+/// (CESU-8), and a three-byte sequence cut short by the closing quote.
+#[test]
+fn invalid_utf8_is_reported_at_its_own_first_byte() {
+    let faults: [&[u8]; 5] = [
+        &[0x80],
+        &[0xFF],
+        &[0xC0, 0xAF],
+        &[0xED, 0xA0, 0x80],
+        &[0xE2, 0x82],
+    ];
+    for fault in faults {
+        let mut doc = b"{\"k\":\"ab".to_vec();
+        doc.extend_from_slice(fault);
+        doc.extend_from_slice(b"\"}");
+        for (profile, result) in [("rfc8785", admit(&doc)), ("ijson", admit_ijson(&doc))] {
+            match result {
+                Err(Error::StringNotScalar { offset, reason }) => {
+                    assert_eq!(reason, "invalid UTF-8", "{profile} {fault:02x?}");
+                    assert_eq!(offset, 8, "{profile} {fault:02x?}");
+                }
+                other => panic!("{profile} {fault:02x?}: want StringNotScalar, got {other:?}"),
+            }
+        }
+    }
+}
+
+/// Within one run of text the first fault in reading order is the one reported.
+/// A noncharacter before ill-formed bytes in the same run was reported as the
+/// later UTF-8 fault, because the run was checked for UTF-8 as a whole before
+/// it was searched for noncharacters; across runs, and on the Go rail, the
+/// first fault wins. Each document is `{"k":"ab`, U+FDD0 at byte 8 (built from
+/// its code point), then one ill-formed sequence.
+#[test]
+fn a_noncharacter_before_ill_formed_bytes_is_the_fault_reported() {
+    let nonchar = char::from_u32(0xFDD0).unwrap().to_string();
+    let faults: [&[u8]; 3] = [&[0xFF], &[0x80], &[0xED, 0xA0, 0x80]];
+    for fault in faults {
+        let mut doc = b"{\"k\":\"ab".to_vec();
+        doc.extend_from_slice(nonchar.as_bytes());
+        doc.extend_from_slice(fault);
+        doc.extend_from_slice(b"\"}");
+        match admit_ijson(&doc) {
+            Err(Error::StringNotScalar { offset, reason }) => {
+                assert!(reason.contains("noncharacter"), "{fault:02x?}: {reason}");
+                assert_eq!(offset, 8, "{fault:02x?}");
+            }
+            other => panic!("{fault:02x?}: want StringNotScalar, got {other:?}"),
+        }
+        // The RFC 8785 profile admits the noncharacter, so the ill-formed bytes
+        // after it are the first fault there, at their own first byte.
+        match admit(&doc) {
+            Err(Error::StringNotScalar { offset, reason }) => {
+                assert_eq!(reason, "invalid UTF-8", "{fault:02x?}");
+                assert_eq!(offset, 8 + nonchar.len(), "{fault:02x?}");
+            }
+            other => panic!("{fault:02x?}: want StringNotScalar, got {other:?}"),
+        }
+    }
+}
