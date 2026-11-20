@@ -1688,6 +1688,10 @@ class _Reader:
             byte = self.take(1)[0]
             value |= (byte & 0x7F) << shift
             if not byte & 0x80:
+                # A last byte of zero after a continuation byte is a second
+                # spelling of the same value; only the minimal one is read.
+                if byte == 0 and shift:
+                    raise ValueError("non-minimal varuint")
                 return value
             shift += 7
             if shift > 56:
@@ -1749,14 +1753,35 @@ def _ots_timestamp(
     """One OpenTimestamps timestamp: items, each but the last preceded by 0xff."""
     if depth > OTS_MAX_DEPTH:
         raise ValueError("timestamp too deep")
+    seen: set[bytes] = set()
     while True:
         tag = reader.take(1)[0]
         more = tag == 0xFF
         if more:
             tag = reader.take(1)[0]
+        start = reader.at
         _ots_item(reader, tag, message, out, depth)
+        # A repeated operation or attestation at one node is a second branch
+        # some readers keep and others drop, so it is refused, never chosen.
+        key = bytes([tag]) + _ots_item_key(reader.data, start, tag)
+        if key in seen:
+            raise ValueError("repeated operation or attestation in a timestamp node")
+        seen.add(key)
         if not more:
             return
+
+
+def _ots_item_key(data: bytes, start: int, tag: int) -> bytes:
+    """What names an item at its node: an attestation's kind and payload, an
+    append or prepend's argument, nothing for SHA-256."""
+    if tag == OTS_SHA256:
+        return b""
+    item = _Reader(data)
+    item.at = start
+    if tag == 0x00:
+        kind = item.take(8)
+        return kind + item.varbytes()
+    return item.varbytes()
 
 
 def _ots_item(
