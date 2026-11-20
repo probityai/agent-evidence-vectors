@@ -1,9 +1,9 @@
 {
   "contractId": "https://probityai.github.io/agent-evidence-vectors/contract/approval-binding/v1",
-  "corpusDigest": "f8e23695465a238a3806793c4f33413255d4a30c073467e262226cb5b7e2a88a",
+  "corpusDigest": "f437f61e0ded596bcf50cfcc9be88044b47a50db1f1d271dfbc92be223c5d593",
   "counts": {
     "allow": 10,
-    "deny": 35
+    "deny": 37
   },
   "suite": "approval-binding/v1",
   "vectors": [
@@ -201,6 +201,20 @@
       },
       "id": "approval-issued-under-rotated-key",
       "path": "cases/approval-issued-under-rotated-key",
+      "useMatchesApproval": true
+    },
+    {
+      "edit": "the approver's key history names the April key twice; the second entry retires it at 11:50, five minutes before the approval was issued, and a reader that reads only the first entry allows",
+      "expected": {
+        "decision": "deny",
+        "reason": "key_retired"
+      },
+      "files": {
+        "payload.bin": "37e4855e2707561919f5ff0de10785061073a919f892b6d974bb35320877c974",
+        "record.json": "db75d3d8a32242774f0949fb4455b82fbfd55029ba5a3b5b74178a3df97a4f60"
+      },
+      "id": "approval-key-retired-in-later-entry",
+      "path": "cases/approval-key-retired-in-later-entry",
       "useMatchesApproval": true
     },
     {
@@ -467,6 +481,20 @@
       },
       "id": "approval-reused-after-renewal",
       "path": "cases/approval-reused-after-renewal",
+      "useMatchesApproval": true
+    },
+    {
+      "edit": "A is presented after its replacement by B, and the transition's status is spelled Accepted, a value the contract does not define; a reader that reads it as not accepted lets the replaced approval through",
+      "expected": {
+        "decision": "deny",
+        "reason": "transition_status_unknown"
+      },
+      "files": {
+        "payload.bin": "37e4855e2707561919f5ff0de10785061073a919f892b6d974bb35320877c974",
+        "record.json": "22a341a922c3e537c111cff5d33e1a179084eaa124ba4d228a8df99f9bd1a363"
+      },
+      "id": "approval-transition-status-unknown",
+      "path": "cases/approval-transition-status-unknown",
       "useMatchesApproval": true
     },
     {

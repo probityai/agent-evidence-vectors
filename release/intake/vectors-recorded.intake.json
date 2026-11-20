@@ -17,7 +17,7 @@
     "routine": "corpus_digest in corpora/vectors-recorded/gen_vectors.py",
     "routine-file": "corpora/vectors-recorded/gen_vectors.py",
     "serialization": "corpus-routine",
-    "sha256": "efdd313730a1dc3d49f60e4dc559ca5e204d0f6cbefd3459c3271085c15650f5",
+    "sha256": "ed23afe0af6c5216efb84296c986c296d946441ea1250b9352d9cba7e9c1c6a9",
     "verdicts": {
       "availability-failure": "inconclusive",
       "integrity-failure": "fail"
@@ -45,7 +45,7 @@
       },
       "path": "corpora/vectors-recorded/INDEX.md",
       "serialization": "bytes",
-      "sha256": "478516f1bc1f9f46c17c75b1a05c913d322a19121606c84f5ebb00bc4d1fb692"
+      "sha256": "26e50b6d19dc64b50d5e2c97e3a78c37b9aed8bd0c4f05f06c1c891eae34048e"
     },
     {
       "consumed": "unconsumed",
@@ -68,7 +68,7 @@
       },
       "path": "corpora/vectors-recorded/README.md",
       "serialization": "bytes",
-      "sha256": "936ef799b28e650ffc6c1bd5af232e6a7ffc15852c507b51967399ff59ede5d8"
+      "sha256": "1ea49af0c708096307d83ec925893f9c9d408e19c0492c1a726de605633a26e5"
     },
     {
       "consumed": "unconsumed",
@@ -91,7 +91,7 @@
       },
       "path": "corpora/vectors-recorded/gen_vectors.py",
       "serialization": "bytes",
-      "sha256": "ee5022cb8598bad1d80ccd274dcc0bfdaf1facf2c8811d034a252b49ec631218"
+      "sha256": "01ac0469ef29f379a23043f5d7fdd94d7dcfe67e2fcafa4a592bf2c9d73b6343"
     }
   ],
   "boundary": {
@@ -243,7 +243,7 @@
         "go.mod"
       ],
       "serialization": "sha256-listing-v1",
-      "sha256": "c57a0f6eece93aa926028960303d3ca8431ac829c02706a428c66f4806e6b0b1"
+      "sha256": "42a74071838d93dd1983eb566689ff1fce19d480e317b8479d745da941946edf"
     },
     "runtime": {
       "name": "go",
@@ -428,7 +428,7 @@
   ],
   "corpus-digest": {
     "serialization": "sha256-listing-v1",
-    "sha256": "f59eda782c01cbdb6fd00f33585590a597087a31a8fb1f2bf9775f9b6bbb3dd0"
+    "sha256": "978c38bd774cb8e84054793c752a9e5df890e794bb7980deeabbf8fc6c6d920d"
   },
   "exit-code": 0,
   "exit-rule": "zero-iff-every-check-passes",
@@ -461,7 +461,7 @@
       "v71d56db94fd4657c"
     ],
     "path": "corpora/vectors-recorded/MANIFEST.json",
-    "sha256": "fd42660e1dc1da0b4335c6ce46d0ca1251b4207e59885490d9da62efa44e251b"
+    "sha256": "beae3cae3c44d5a3d924c63b8e3ee6fd14fa40eaab6a84ac9fd00bb21a6351de"
   },
   "members": [
     {

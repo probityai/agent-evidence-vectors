@@ -104,13 +104,13 @@ var (
 
 func (sourceCoverage) Judge(dir string, raw []byte) (*Result, error) {
 	var manifest scManifest
-	if err := json.Unmarshal(raw, &manifest); err != nil {
+	if err := strictUnmarshal(raw, &manifest); err != nil {
 		return nil, fmt.Errorf("%s/MANIFEST.json does not parse: %w", dir, err)
 	}
 	result := &Result{}
 	for _, entry := range manifest.Vectors {
 		var v scVector
-		if err := json.Unmarshal(entry, &v); err != nil {
+		if err := strictUnmarshal(entry, &v); err != nil {
 			result.Findings = append(result.Findings, fmt.Sprintf("a manifest row does not parse: %v", err))
 			continue
 		}
@@ -215,7 +215,7 @@ func scReadJSON(caseDir, name string, into any) error {
 	if err != nil {
 		return fmt.Errorf("%s cannot be read: %w", name, err)
 	}
-	if err := json.Unmarshal(body, into); err != nil {
+	if err := strictUnmarshal(body, into); err != nil {
 		return fmt.Errorf("%s does not parse: %w", name, err)
 	}
 	return nil

@@ -86,6 +86,18 @@ pub enum Error {
         /// The offending number token, as written.
         token: String,
     },
+    /// A number token whose value is not the value of the double it reads as,
+    /// refused under the I-JSON profile.
+    ///
+    /// RFC 7493 section 2.2 names `3.141592653589793238462643383279` and
+    /// `1E400` as numbers with more precision or magnitude than a double
+    /// provides. Such a token names one number to a reader that keeps its
+    /// digits and another to every reader that holds a double, so the bytes a
+    /// signer canonicalizes and the value an exact reader acts on differ.
+    InexactNumber {
+        /// The offending number token, as written.
+        token: String,
+    },
     /// Nesting exceeded the configured depth cap.
     ///
     /// The cap refuses rather than recursing. Without it a crafted document
@@ -192,6 +204,13 @@ impl fmt::Display for Error {
                 write!(
                     f,
                     "number is not a finite IEEE-754 double: {}",
+                    clipped(token)
+                )
+            }
+            Self::InexactNumber { token } => {
+                write!(
+                    f,
+                    "number has more precision than an IEEE-754 double holds: {}",
                     clipped(token)
                 )
             }

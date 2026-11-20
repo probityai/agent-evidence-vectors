@@ -56,7 +56,6 @@ one JSON object carrying ``decision`` and ``reason`` and exits 0 for
 
 from __future__ import annotations
 
-import base64
 import binascii
 import hashlib
 import importlib
@@ -67,6 +66,8 @@ from datetime import UTC, datetime
 from functools import lru_cache
 from pathlib import Path
 from typing import Any
+
+from .. import strictb64, strictjson
 
 SUITE = "acs-verdict-evidence/v1.0.1-draft"
 SUPPORTED, CONTRADICTED, NOT_ESTABLISHED, NO_VERDICT = (
@@ -170,7 +171,7 @@ def _b64(value: Any, reason: str) -> bytes:
     if not isinstance(value, str):
         raise Refusal(NO_VERDICT, reason)
     try:
-        return base64.b64decode(value, validate=True)
+        return strictb64.std(value)
     except (binascii.Error, ValueError) as exc:
         raise Refusal(NO_VERDICT, reason) from exc
 
@@ -181,7 +182,7 @@ def parse_envelope(raw: bytes, reason: str = "malformed_envelope"
     if len(raw) > MAX_BYTES:
         raise Refusal(NO_VERDICT, reason)
     try:
-        doc = json.loads(raw)
+        doc = strictjson.loads(raw)
     except (UnicodeDecodeError, ValueError) as exc:
         raise Refusal(NO_VERDICT, reason) from exc
     if not isinstance(doc, dict):
@@ -269,7 +270,7 @@ def _field_ok(field: str, d: dict[str, Any]) -> bool:
 def _statement(body: bytes, predicate_type: str, skip: frozenset[str],
                prefix: str = "") -> dict[str, Any]:
     try:
-        payload = json.loads(body)
+        payload = strictjson.loads(body)
     except (UnicodeDecodeError, ValueError):
         payload = None
     if not isinstance(payload, dict) or (
@@ -320,7 +321,7 @@ def _peer_fail(step: str, decision: str = CONTRADICTED) -> Refusal:
 def _peer_statement(raw: bytes, named: str, peer_keys: dict[str, Any],
                     skip: frozenset[str]) -> tuple[dict[str, Any], str | None]:
     """The verified peer statement and the pinned keyid that signed it."""
-    trusted = {k: base64.b64decode(v["public_key"]) for k, v in peer_keys.items()}
+    trusted = {k: strictb64.std(v["public_key"]) for k, v in peer_keys.items()}
     payload_type, body, sigs = parse_envelope(raw, "peer_artifact_unverified:malformed")
     reason = _signed(payload_type, body, sigs, trusted,
                      "peer:pinned_key" not in skip, "peer:signature" not in skip)
@@ -446,8 +447,8 @@ def _quarantine(statement: dict[str, Any], vector_digest: str, policy: dict[str,
 def judge(record: bytes, vector: bytes, policy: dict[str, Any], supplied: dict[str, bytes],
           skip: frozenset[str] = frozenset()) -> dict[str, str]:
     """The reference reader's decision for one signed verdict or quarantine record."""
-    trusted = {str(k): base64.b64decode(v) for k, v in policy["trusted_keys"].items()}
-    vector_digest = sha256_hex(canonical(json.loads(vector)))
+    trusted = {str(k): strictb64.std(v) for k, v in policy["trusted_keys"].items()}
+    vector_digest = sha256_hex(canonical(strictjson.loads(vector)))
     try:
         payload_type, body, sigs = parse_envelope(record)
         if payload_type != INTOTO and "payload_type" not in skip:
@@ -468,7 +469,7 @@ def judge(record: bytes, vector: bytes, policy: dict[str, Any], supplied: dict[s
 
 def verify(case_path: Path, skip: frozenset[str] = frozenset()) -> dict[str, str]:
     """Judge one case directory's ``case.json``."""
-    case = json.loads(case_path.read_text(encoding="utf-8"))
+    case = strictjson.loads(case_path.read_text(encoding="utf-8"))
     base = case_path.parent
     supplied = {name: (base / file).read_bytes() for name, file in case["supplied"].items()}
     return judge((base / case["record"]).read_bytes(), (base / case["vector"]).read_bytes(),

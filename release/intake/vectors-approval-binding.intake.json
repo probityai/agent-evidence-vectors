@@ -2,10 +2,10 @@
   "aggregate": {
     "counts": {
       "allow": 10,
-      "deny": 35
+      "deny": 37
     },
     "line": "verdict: every member behaves as MANIFEST.json declares",
-    "total": 45
+    "total": 47
   },
   "anchor": {
     "kind": "digest-list-line",
@@ -17,7 +17,7 @@
     "routine": "corpus_digest in corpora/vectors-approval-binding/gen_vectors.py",
     "routine-file": "corpora/vectors-approval-binding/gen_vectors.py",
     "serialization": "corpus-routine",
-    "sha256": "f8e23695465a238a3806793c4f33413255d4a30c073467e262226cb5b7e2a88a",
+    "sha256": "f437f61e0ded596bcf50cfcc9be88044b47a50db1f1d271dfbc92be223c5d593",
     "verdicts": {
       "availability-failure": "inconclusive",
       "integrity-failure": "fail"
@@ -29,7 +29,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "cb82ec899f9fa31958f594cb199880d3412a6f77636c643cc6945dddd7d2a37c"
+          "sha256": "58e5320688bdf6387f407e33e4fbac777bb67e13db5cdfe16ba6387183708a17"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [],
@@ -38,21 +38,21 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "cb82ec899f9fa31958f594cb199880d3412a6f77636c643cc6945dddd7d2a37c"
+          "sha256": "58e5320688bdf6387f407e33e4fbac777bb67e13db5cdfe16ba6387183708a17"
         },
         "swapped-in": "f5e3e5fb409be7c98f93da7aa1f8543eac6e361ec78d5fa0b33ac9fcdca896ef",
         "test": "swap-and-re-pin"
       },
       "path": "corpora/vectors-approval-binding/README.md",
       "serialization": "bytes",
-      "sha256": "e77881dc598d115b9899b388f2694b1c63890d9f954a776dabef88276b19e47f"
+      "sha256": "6b51d6125b80fad36a1dab9063f4ccec557d87a9fdcf86c85d872a295951f301"
     },
     {
       "consumed": "unconsumed",
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "cb82ec899f9fa31958f594cb199880d3412a6f77636c643cc6945dddd7d2a37c"
+          "sha256": "58e5320688bdf6387f407e33e4fbac777bb67e13db5cdfe16ba6387183708a17"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [],
@@ -61,7 +61,7 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "cb82ec899f9fa31958f594cb199880d3412a6f77636c643cc6945dddd7d2a37c"
+          "sha256": "58e5320688bdf6387f407e33e4fbac777bb67e13db5cdfe16ba6387183708a17"
         },
         "swapped-in": "e41edf67bb137d1889243aa149faea9ed338c2cecca2b0d80fe206f7d18b7bbc",
         "test": "swap-and-re-pin"
@@ -75,7 +75,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "cb82ec899f9fa31958f594cb199880d3412a6f77636c643cc6945dddd7d2a37c"
+          "sha256": "58e5320688bdf6387f407e33e4fbac777bb67e13db5cdfe16ba6387183708a17"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [],
@@ -84,21 +84,21 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "cb82ec899f9fa31958f594cb199880d3412a6f77636c643cc6945dddd7d2a37c"
+          "sha256": "58e5320688bdf6387f407e33e4fbac777bb67e13db5cdfe16ba6387183708a17"
         },
         "swapped-in": "a3cc191f47ab115d21810921e5eaa4fb2c00794310ed3b9938991b492efb767f",
         "test": "swap-and-re-pin"
       },
       "path": "corpora/vectors-approval-binding/gen_vectors.py",
       "serialization": "bytes",
-      "sha256": "adc1898eff3dcc8e9a8ac696de4f3722db686e07b68ca372bc70547de9819aba"
+      "sha256": "e70473cfd879b3657ab869aac6cc0aca9b6d874951b9c6ad42122c6562eac052"
     },
     {
       "consumed": "unconsumed",
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "cb82ec899f9fa31958f594cb199880d3412a6f77636c643cc6945dddd7d2a37c"
+          "sha256": "58e5320688bdf6387f407e33e4fbac777bb67e13db5cdfe16ba6387183708a17"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [],
@@ -107,7 +107,7 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "cb82ec899f9fa31958f594cb199880d3412a6f77636c643cc6945dddd7d2a37c"
+          "sha256": "58e5320688bdf6387f407e33e4fbac777bb67e13db5cdfe16ba6387183708a17"
         },
         "swapped-in": "e413c0febb31f6ccd4fa3703b1447ecde6fd478dcd86936e325b0b278d72fc02",
         "test": "swap-and-re-pin"
@@ -129,7 +129,7 @@
     "root": "corpora/vectors-approval-binding"
   },
   "byte-identity": {
-    "pins": 90,
+    "pins": 94,
     "serialization": "bytes"
   },
   "canonicalization": {
@@ -166,7 +166,7 @@
         "go.mod"
       ],
       "serialization": "sha256-listing-v1",
-      "sha256": "c57a0f6eece93aa926028960303d3ca8431ac829c02706a428c66f4806e6b0b1"
+      "sha256": "42a74071838d93dd1983eb566689ff1fce19d480e317b8479d745da941946edf"
     },
     "runtime": {
       "name": "go",
@@ -286,6 +286,14 @@
     },
     {
       "check": "approval-issued-under-rotated-key",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "approval-key-retired-in-later-entry",
       "native": {
         "reasons": [],
         "verdict": "deny"
@@ -445,6 +453,14 @@
       "state": "pass"
     },
     {
+      "check": "approval-transition-status-unknown",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
       "check": "approval-renewal-transition-not-accepted",
       "native": {
         "reasons": [],
@@ -543,7 +559,7 @@
   ],
   "corpus-digest": {
     "serialization": "sha256-listing-v1",
-    "sha256": "b30431ed63363b3fda0b7a91ca4d6db01d213c851e23af260cc4b34fe378a436"
+    "sha256": "c11d29dfe72a1166df1b49983fbf3acd6b9ba112c4aa68004c1df06fbc0bb98a"
   },
   "exit-code": 0,
   "exit-rule": "zero-iff-every-check-passes",
@@ -567,6 +583,7 @@
       "approval-gathered-in-observe-mode",
       "allow-key-rotated-after-issue",
       "approval-issued-under-rotated-key",
+      "approval-key-retired-in-later-entry",
       "approval-id-reused-different-content",
       "approval-id-reused-unread-member",
       "approval-already-consumed",
@@ -586,6 +603,7 @@
       "approval-renewed-same-bounds",
       "allow-predecessor-before-replacement",
       "approval-reused-after-renewal",
+      "approval-transition-status-unknown",
       "approval-renewal-transition-not-accepted",
       "approval-renewal-decision-not-distinct",
       "approval-renewal-predecessor-decision-not-cited",
@@ -600,7 +618,7 @@
       "contract-id-unknown"
     ],
     "path": "corpora/vectors-approval-binding/MANIFEST.json",
-    "sha256": "39f05b9e71d471e2cb6da5adac4e00ea55a40c8be7392f5c72512429c15789c0"
+    "sha256": "797aa03187f13dfea9c572e12d75f50e8b73bdefce4cdf2aaa244bddd7bd85ac"
   },
   "members": [
     {
@@ -784,6 +802,19 @@
         }
       ],
       "id": "approval-issued-under-rotated-key"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-approval-binding/cases/approval-key-retired-in-later-entry/payload.bin",
+          "sha256": "37e4855e2707561919f5ff0de10785061073a919f892b6d974bb35320877c974"
+        },
+        {
+          "path": "corpora/vectors-approval-binding/cases/approval-key-retired-in-later-entry/record.json",
+          "sha256": "db75d3d8a32242774f0949fb4455b82fbfd55029ba5a3b5b74178a3df97a4f60"
+        }
+      ],
+      "id": "approval-key-retired-in-later-entry"
     },
     {
       "files": [
@@ -1035,6 +1066,19 @@
     {
       "files": [
         {
+          "path": "corpora/vectors-approval-binding/cases/approval-transition-status-unknown/payload.bin",
+          "sha256": "37e4855e2707561919f5ff0de10785061073a919f892b6d974bb35320877c974"
+        },
+        {
+          "path": "corpora/vectors-approval-binding/cases/approval-transition-status-unknown/record.json",
+          "sha256": "22a341a922c3e537c111cff5d33e1a179084eaa124ba4d228a8df99f9bd1a363"
+        }
+      ],
+      "id": "approval-transition-status-unknown"
+    },
+    {
+      "files": [
+        {
           "path": "corpora/vectors-approval-binding/cases/approval-renewal-transition-not-accepted/payload.bin",
           "sha256": "37e4855e2707561919f5ff0de10785061073a919f892b6d974bb35320877c974"
         },
@@ -1205,7 +1249,7 @@
       "reference": {
         "path": "release/intake/native/vectors-approval-binding.json",
         "serialization": "bytes",
-        "sha256": "cb82ec899f9fa31958f594cb199880d3412a6f77636c643cc6945dddd7d2a37c"
+        "sha256": "58e5320688bdf6387f407e33e4fbac777bb67e13db5cdfe16ba6387183708a17"
       }
     },
     {
@@ -1214,7 +1258,7 @@
       "reference": {
         "path": "release/intake/native/vectors-approval-binding.txt",
         "serialization": "bytes",
-        "sha256": "7f03624df4f502201fb4132d34016ec163f98961c9921ed367bb38b7ffe0d52f"
+        "sha256": "588c1d3182a9b8b0a738f5b63982c2326eda31a09f876308582490a9abf374e7"
       }
     },
     {
@@ -1239,11 +1283,11 @@
     "runs": [
       {
         "process": "run-1",
-        "sha256": "cb82ec899f9fa31958f594cb199880d3412a6f77636c643cc6945dddd7d2a37c"
+        "sha256": "58e5320688bdf6387f407e33e4fbac777bb67e13db5cdfe16ba6387183708a17"
       },
       {
         "process": "run-2",
-        "sha256": "cb82ec899f9fa31958f594cb199880d3412a6f77636c643cc6945dddd7d2a37c"
+        "sha256": "58e5320688bdf6387f407e33e4fbac777bb67e13db5cdfe16ba6387183708a17"
       }
     ],
     "seed": null,
@@ -1257,7 +1301,7 @@
       "action-occurred-or-authority"
     ],
     "establishes": [
-      "aee-verify, at the source listing named here, judges each of the 45 pinned members of approval-binding/v1 as its manifest declares"
+      "aee-verify, at the source listing named here, judges each of the 47 pinned members of approval-binding/v1 as its manifest declares"
     ],
     "leaves-open": [
       "whether an implementation written from the specification, run by someone other than an author, reaches the same verdicts",
@@ -1268,7 +1312,7 @@
   "selector": {
     "expression": "*",
     "language": "id-glob",
-    "matched": 45,
+    "matched": 47,
     "require": "at-least-one",
     "selected": [
       "allow-bound",
@@ -1285,6 +1329,7 @@
       "approval-gathered-in-observe-mode",
       "allow-key-rotated-after-issue",
       "approval-issued-under-rotated-key",
+      "approval-key-retired-in-later-entry",
       "approval-id-reused-different-content",
       "approval-id-reused-unread-member",
       "approval-already-consumed",
@@ -1304,6 +1349,7 @@
       "approval-renewed-same-bounds",
       "allow-predecessor-before-replacement",
       "approval-reused-after-renewal",
+      "approval-transition-status-unknown",
       "approval-renewal-transition-not-accepted",
       "approval-renewal-decision-not-distinct",
       "approval-renewal-predecessor-decision-not-cited",

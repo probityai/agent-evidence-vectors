@@ -78,6 +78,9 @@ func recordedPointer(subject []byte, pointer string) (int64, bool) {
 	if !strings.HasPrefix(pointer, "/") {
 		return 0, false
 	}
+	if refuseRepeatedMembers(subject) != nil {
+		return 0, false
+	}
 	decoder := json.NewDecoder(bytes.NewReader(subject))
 	decoder.UseNumber()
 	var doc any
@@ -373,11 +376,11 @@ func (recordedSets) Judge(dir string, manifest []byte) (*Result, error) {
 		CorpusDigest string          `json:"corpusDigest"`
 		Vectors      json.RawMessage `json:"vectors"`
 	}
-	if err := json.Unmarshal(manifest, &head); err != nil {
+	if err := strictUnmarshal(manifest, &head); err != nil {
 		return nil, err
 	}
 	var entries []recordedEntry
-	if err := json.Unmarshal(head.Vectors, &entries); err != nil {
+	if err := strictUnmarshal(head.Vectors, &entries); err != nil {
 		return nil, err
 	}
 	result := &Result{}

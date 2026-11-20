@@ -85,13 +85,13 @@ var rsnFive = []string{"evidence_binding_mismatch", "evidence_expired", "authori
 
 func (refusalReason) Judge(dir string, raw []byte) (*Result, error) {
 	var manifest scManifest
-	if err := json.Unmarshal(raw, &manifest); err != nil {
+	if err := strictUnmarshal(raw, &manifest); err != nil {
 		return nil, fmt.Errorf("%s/MANIFEST.json does not parse: %w", dir, err)
 	}
 	result := &Result{}
 	for _, entry := range manifest.Vectors {
 		var v rsnVector
-		if err := json.Unmarshal(entry, &v); err != nil {
+		if err := strictUnmarshal(entry, &v); err != nil {
 			result.Findings = append(result.Findings, fmt.Sprintf("a manifest row does not parse: %v", err))
 			continue
 		}
@@ -130,7 +130,7 @@ func rsnReason(r rsnRecord) (value string, present, null bool) {
 		return "", true, true
 	}
 	var text string
-	if err := json.Unmarshal(r.Response.Reason, &text); err != nil {
+	if err := strictUnmarshal(r.Response.Reason, &text); err != nil {
 		return string(r.Response.Reason), true, false
 	}
 	return text, true, false
@@ -227,7 +227,7 @@ type rsnCheck struct {
 // rsnChecks is the ordered refusal table, first failure wins.
 func rsnChecks(r rsnRecord, emitted string, owed []string, leaseOnly bool) []rsnCheck {
 	var contract string
-	known := len(r.ContractID) > 0 && json.Unmarshal(r.ContractID, &contract) == nil && contract == rsnContractID
+	known := len(r.ContractID) > 0 && strictUnmarshal(r.ContractID, &contract) == nil && contract == rsnContractID
 	wrong := !leaseOnly && !slices.Contains(owed, emitted)
 	return []rsnCheck{
 		{"contract_id_missing", len(r.ContractID) == 0},
