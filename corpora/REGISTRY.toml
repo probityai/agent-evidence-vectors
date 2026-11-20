@@ -781,6 +781,18 @@ standards = ["ietf-draft"]
 shapes = ["ordering", "stale-authority", "self-report"]
 
 [[corpus]]
+id = "vectors-responsibility-escalation"
+path = "corpora/vectors-responsibility-escalation"
+wheel = true
+sdist = true
+title = "Responsibility escalation"
+summary = "What a receiver can establish about an agent's authority at decision time and its escalation to a human role: referral, receipt, acknowledgement, acceptance and closure, with unresolved states kept."
+record_class = "record"
+domains = ["authority", "delegation"]
+standards = ["w3c"]
+shapes = ["stale-authority", "missing-binding", "coverage-gap"]
+
+[[corpus]]
 id = "vectors-restart-records"
 path = "corpora/vectors-restart-records"
 wheel = true

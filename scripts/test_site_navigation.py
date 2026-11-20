@@ -174,6 +174,7 @@ def repository(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> Path:
         "corpora/vectors-key-revocation-list/README.md",
         "corpora/vectors-decision-client-failure-modes/README.md",
         "corpora/vectors-refusal-reason-priority/README.md",
+        "corpora/vectors-responsibility-escalation/README.md",
         "corpora/vectors-monitor-coverage/README.md",
         "corpora/vectors-signature-coverage/README.md",
         "corpora/vectors-evidence-state/README.md",

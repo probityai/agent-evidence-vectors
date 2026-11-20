@@ -189,6 +189,24 @@ Records are from draft-li-rttp-iqa-addressing-02 sections 6.1, 7.2, 8.1 and 8.2.
   A later revision that keeps the set and the order is a new confirmation; any change to either is a new URI.
 - Example: `corpora/vectors-refusal-reason-priority/cases/conformant-expiry-over-revocation/record.json`.
 
+### `predicate/v1/responsibility-escalation`
+
+- Document: `corpora/vectors-responsibility-escalation/README.md`
+- Corpus: `corpora/vectors-responsibility-escalation/`, suite `responsibility-escalation/v1`
+- Rails: `corpusreaders/responsibilityescalation.go`, `packaging/agent_evidence_vectors/responsibilityescalation.py`
+
+The predicate carries one agent decision and its escalation to a designated human role: the
+versions of the authority record the agent acted under, what the reference to that record
+resolved to and the instant it is read at, the evidence slots of the escalation (referral, receipt,
+acknowledgement, acceptance and, where required, closure) and the instant the receiver evaluates
+at. A receiver reconstructs what the evidence establishes and preserves unresolved states: it
+never infers authority, receipt, acceptance or closure from evidence that is absent. The nine cases
+restate the matrix on the W3C public-agent-identity list, October 2026 (messages 0035 and 0043).
+
+- Envelope: a bare JSON record (`contractId`, `recordId`, `decision`, `authority`, `escalation`, `evaluatedAt`), not an in-toto Statement.
+- Field semantics: defined here, as a proposal; the outcome tokens `established`, `partial`, `unresolved` and `not_established` are not an agreed text of any group.
+- Example: `corpora/vectors-responsibility-escalation/cases/h09-clean-path-closed-on-time/record.json`.
+
 ### `predicate/v1/evaluation-claim`
 
 - Document: `spec/predicates/evaluation-claim.md`
