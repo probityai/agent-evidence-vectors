@@ -67,7 +67,18 @@ from decimal import Decimal
 from pathlib import Path
 from typing import Any
 
-from . import strictjson
+if __package__:
+    from . import strictjson
+else:  # run or loaded by file path, as the corpus lock tool does: no package to import from
+    import importlib.util
+
+    _spec = importlib.util.spec_from_file_location(
+        "agent_evidence_vectors_strictjson", Path(__file__).with_name("strictjson.py")
+    )
+    assert _spec is not None and _spec.loader is not None
+    strictjson = importlib.util.module_from_spec(_spec)
+    sys.modules[_spec.name] = strictjson
+    _spec.loader.exec_module(strictjson)
 
 SUITE = "a2a-agent-card-canonicalization-conformance"
 CORPUS_DIR = "vectors-a2a-jcs-v01"
@@ -180,9 +191,41 @@ def _no_duplicates(pairs: list[tuple[str, Any]]) -> dict[str, Any]:
     return out
 
 
+def _exact_integer(token: str) -> int:
+    """An integer token a double holds exactly (RFC 7493 section 2.2), else :class:`Refusal`.
+
+    ``9007199254740993`` would canonicalize as ``9007199254740992``: the bytes a signer signs and
+    the number an exact reader reads would be two values.
+    """
+    value = int(token)
+    try:
+        exact = float(value) == value
+    except OverflowError as exc:
+        raise Refusal("integer outside the IEEE 754 double range") from exc
+    if not exact:
+        raise Refusal(f"integer {token} has more precision than a double holds")
+    return value
+
+
+def _exact_number(token: str) -> float:
+    """A non-integer token whose double, written at its shortest, is the token's own number."""
+    value = float(token)
+    if not math.isfinite(value):
+        raise Refusal("NaN and Infinity have no JSON number form")
+    if Decimal(token) != Decimal(repr(value)):
+        raise Refusal(f"number {token} reads as the double {value!r}, another number")
+    return value
+
+
 def parse(text: str) -> Any:
-    """Parse JSON text as RFC 8785 input. NaN and Infinity parse, and refuse later."""
-    return json.loads(text, object_pairs_hook=_no_duplicates)
+    """Parse JSON text as RFC 8785 input.
+
+    NaN and Infinity parse, and refuse later. A number token no double holds exactly is refused
+    here, as RFC 7493 section 2.2 rules it out of I-JSON.
+    """
+    return json.loads(
+        text, object_pairs_hook=_no_duplicates, parse_int=_exact_integer, parse_float=_exact_number
+    )
 
 
 def canonicalize(value: Any) -> bytes:
