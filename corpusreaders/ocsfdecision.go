@@ -223,7 +223,7 @@ func ocsfJudgeMember(dir string, v ocsfVector) (string, []string) {
 	if err != nil {
 		return kind, append(out, fmt.Sprintf("%s cannot be read: %v", v.Path, err))
 	}
-	value, err := ocsfParse(string(body))
+	value, err := ocsfParseEnvelope(string(body))
 	if err != nil {
 		return kind, append(out, fmt.Sprintf("%s does not parse: %v", v.Path, err))
 	}

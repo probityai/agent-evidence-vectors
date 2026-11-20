@@ -44,14 +44,24 @@ var (
 // decoded, no lone surrogate, no NaN or Infinity, integers exact and bounded to
 // 64 bits, other numbers only when their double is the same number, and nesting
 // bounded.
-func ocsfParse(text string) (any, error) {
+func ocsfParse(text string) (any, error) { return ocsfParseMode(text, false) }
+
+// ocsfParseEnvelope reads a member file's own JSON, the envelope that carries a
+// stream's records as text beside the relying party's key set and heads. The
+// envelope is the corpus's own file and not an emitted record, so its numbers
+// are read as any JSON reader reads them: an integer of any size exactly, a
+// float as the nearest double. The records inside are still read as strict
+// I-JSON.
+func ocsfParseEnvelope(text string) (any, error) { return ocsfParseMode(text, true) }
+
+func ocsfParseMode(text string, envelope bool) (any, error) {
 	if !utf8.ValidString(text) {
 		return nil, errors.New("not-utf8: invalid UTF-8")
 	}
 	if strings.HasPrefix(text, "\ufeff") {
 		return nil, errors.New("not-utf8: a byte-order mark precedes the text")
 	}
-	p := &ocsfParser{s: text}
+	p := &ocsfParser{s: text, envelope: envelope}
 	p.space()
 	value, err := p.value(0)
 	if err != nil {
@@ -65,8 +75,9 @@ func ocsfParse(text string) (any, error) {
 }
 
 type ocsfParser struct {
-	s string
-	i int
+	s        string
+	i        int
+	envelope bool
 }
 
 func (p *ocsfParser) space() {
@@ -303,7 +314,14 @@ func (p *ocsfParser) number() (any, error) {
 	}
 	token := p.s[start:p.i]
 	if isInt {
-		return ocsfExactInt(token)
+		return ocsfExactInt(token, p.envelope)
+	}
+	if p.envelope {
+		f, err := strconv.ParseFloat(token, 64)
+		if err != nil || math.IsInf(f, 0) {
+			return nil, fmt.Errorf("value-not-representable: %s is not a finite double", token)
+		}
+		return ocsfNum{f: f}, nil
 	}
 	f, err := ocsfFiniteFloat(token)
 	if err != nil {
@@ -315,9 +333,9 @@ func (p *ocsfParser) number() (any, error) {
 // ocsfExactInt reads an integer token exactly. The format's rule has no form for
 // an integer outside 64 bits, so one is refused; one outside +-(2**53 - 1) is
 // read and marked wide.
-func ocsfExactInt(token string) (any, error) {
+func ocsfExactInt(token string, unbounded bool) (any, error) {
 	n, ok := new(big.Int).SetString(token, 10)
-	if !ok || n.Cmp(ocsfIntMin) < 0 || n.Cmp(ocsfIntMax) > 0 {
+	if !ok || (!unbounded && (n.Cmp(ocsfIntMin) < 0 || n.Cmp(ocsfIntMax) > 0)) {
 		return nil, fmt.Errorf("unsafe-integer: integer token of %d digits is outside 64 bits, where the format's exact-integer rule has no form", len(token))
 	}
 	wide := new(big.Int).Abs(n).Cmp(ocsfMaxSafe) > 0

@@ -44,7 +44,7 @@ func TestOCSFDecisionExercisedDimensions(t *testing.T) {
 			if err != nil {
 				t.Fatal(err)
 			}
-			value, err := ocsfParse(string(body))
+			value, err := ocsfParseEnvelope(string(body))
 			if err != nil {
 				t.Fatal(err)
 			}
@@ -66,5 +66,18 @@ func TestOCSFDecisionExercisedDimensions(t *testing.T) {
 			}
 			t.Logf("%s => %s %q | %s", id, verdict, code, ocsfSummary(rep))
 		})
+	}
+}
+
+// A member file's envelope is read as any JSON reader reads it, so a head or a
+// key window may carry an integer of any size; the records inside stay strict
+// I-JSON, where an integer outside 64 bits has no form.
+func TestOCSFDecisionEnvelopeIsNotRecordText(t *testing.T) {
+	const wide = `{"epoch": 18446744073709551616, "x": 1.0000000000000001}`
+	if _, err := ocsfParseEnvelope(wide); err != nil {
+		t.Fatalf("the envelope refuses a wide integer: %v", err)
+	}
+	if _, err := ocsfParse(wide); err == nil {
+		t.Fatal("record text accepts an integer outside 64 bits")
 	}
 }
