@@ -88,7 +88,8 @@ def _unwrap(doc: Any) -> Any:
 
 
 def samples(entry: dict) -> list[Any]:
-    """The sample documents of one schema entry in path order; a file that is not an object is skipped.
+    """The sample documents of one schema entry in path order; a file that is not an object is
+    skipped.
 
     ``decode = "dsse"`` reads the statement out of each envelope's base64 payload first.
     """
@@ -98,7 +99,9 @@ def samples(entry: dict) -> list[Any]:
         doc = _load(path)
         if entry.get("decode") == "dsse":
             doc = _unwrap(doc)
-        if isinstance(doc, dict) and all(doc.get(k) == v for k, v in entry.get("where", {}).items()):
+        if isinstance(doc, dict) and all(
+            doc.get(k) == v for k, v in entry.get("where", {}).items()
+        ):
             found.append(doc)
     return found
 
@@ -111,12 +114,18 @@ def measure(entry: dict) -> dict[str, int]:
     positive = [d for d in docs if validator.is_valid(d)]
     variants = [m for d in positive for m in mutants(d)]
     rejected = sum(1 for m in variants if not validator.is_valid(m))
-    return {"samples": len(docs), "positive": len(positive), "negative": len(docs) - len(positive),
-            "mutants": len(variants), "mutants_rejected": rejected}
+    return {
+        "samples": len(docs),
+        "positive": len(positive),
+        "negative": len(docs) - len(positive),
+        "mutants": len(variants),
+        "mutants_rejected": rejected,
+    }
 
 
 def check() -> list[str]:
-    """Every disagreement between the pinned counts and the measured ones, and every unpinned schema."""
+    """Every disagreement between the pinned counts and the measured ones, and every unpinned
+    schema."""
     table = tomllib.loads(COUNTS.read_text(encoding="utf-8"))["schema"]
     problems = []
     pinned = {entry["schema"] for entry in table}
@@ -128,7 +137,9 @@ def check() -> list[str]:
         got = measure(entry)
         for key, value in got.items():
             if entry["expect"].get(key) != value:
-                problems.append(f"{entry['schema']}: {key} is {value}, pinned {entry['expect'].get(key)}")
+                problems.append(
+                    f"{entry['schema']}: {key} is {value}, pinned {entry['expect'].get(key)}"
+                )
         if got["positive"] == 0 or got["negative"] + got["mutants_rejected"] == 0:
             problems.append(f"{entry['schema']}: needs at least one positive and one negative")
     return problems
