@@ -59,9 +59,10 @@ DIFFERED = (
 )
 
 
-def main() -> int:
-    failures: list[str] = []
-    gen = _gen()
+REV04 = "draft-gilda-audit-agent-audit-record-04"
+
+
+def _check_rows(gen, failures: list[str]) -> None:
     rows = {rev: gen.appendix_b_rows(gen._published_text(rev)) for rev, _ in gen.PUBLISHED_REVISIONS}
     if "CS9" not in rows["01"] or "CS10" in rows["01"]:
         failures.append("revision 01's Appendix B should print CS9 and no CS10")
@@ -72,15 +73,15 @@ def main() -> int:
     if "CS18" not in rows["04"] or "X18" not in rows["04"] or len(rows["04"]) != 218:
         failures.append(f"revision 04 prints 218 rows with CS18 and X18, read {len(rows['04'])}")
 
-    manifest = json.loads((CORPUS / "MANIFEST.json").read_text(encoding="utf-8"))
+
+def _check_labels(manifest: dict, failures: list[str]) -> None:
     by_id = {e["draftId"]: e for e in manifest["vectors"]}
-    rev04 = "draft-gilda-audit-agent-audit-record-04"
     if len(DIFFERED) != 39:
         failures.append("the differing list should hold 38 members and CS32")
     for draft_id in DIFFERED:
-        if by_id[draft_id].get("draftRevision") != rev04:
+        if by_id[draft_id].get("draftRevision") != REV04:
             failures.append(f"{draft_id} tests text revision 04 publishes and is not labelled -04")
-    labelled04 = sorted(d for d, e in by_id.items() if e.get("draftRevision") == rev04)
+    labelled04 = sorted(d for d, e in by_id.items() if e.get("draftRevision") == REV04)
     if len(labelled04) != 68:
         failures.append(f"68 members test rules -04 first states, read {len(labelled04)}")
     for draft_id in ("X2", "X3", "X8", "X16"):
@@ -88,15 +89,20 @@ def main() -> int:
             failures.append(f"{draft_id}'s rule is stated by a section of -03, which -04 only prints")
     if by_id["CS10"].get("draftRevision") != "draft-gilda-audit-agent-audit-record-02":
         failures.append("CS10 is first printed by revision 02")
-    if manifest.get("textCounts") != {"proposed": 0, "published": 225}:
-        failures.append(f"textCounts should be 225 published and 0 proposed: {manifest.get('textCounts')}")
-    if manifest.get("draft") != rev04:
+    counts = manifest.get("textCounts")
+    if counts != {"proposed": 0, "published": 225}:
+        failures.append(f"textCounts should be 225 published and 0 proposed: {counts}")
+    if manifest.get("draft") != REV04:
         failures.append(f"the manifest should name revision 04, names {manifest.get('draft')}")
-    if auditrecord._text_findings(manifest):
-        failures.append(f"the committed manifest has text findings: {auditrecord._text_findings(manifest)}")
+    findings = auditrecord._text_findings(manifest)
+    if findings:
+        failures.append(f"the committed manifest has text findings: {findings}")
 
+
+def _check_harness(manifest: dict, failures: list[str]) -> None:
+    rev05 = "draft-gilda-audit-agent-audit-record-05"
     bad = copy.deepcopy(manifest)
-    bad["vectors"][0]["draftRevision"] = "draft-gilda-audit-agent-audit-record-05"
+    bad["vectors"][0]["draftRevision"] = rev05
     if not any("not a published revision" in f for f in auditrecord._text_findings(bad)):
         failures.append("the harness accepted an unpublished draftRevision")
     bad = copy.deepcopy(manifest)
@@ -104,15 +110,18 @@ def main() -> int:
     if not any("textCounts" in f for f in auditrecord._text_findings(bad)):
         failures.append("the harness accepted textCounts that disagree with the members")
     bad = copy.deepcopy(manifest)
-    bad["vectors"][0]["proposed"] = {"revision": "draft-gilda-audit-agent-audit-record-05", "text": "x"}
+    bad["vectors"][0]["proposed"] = {"revision": rev05, "text": "x"}
     if not any("exactly one" in f for f in auditrecord._text_findings(bad)):
         failures.append("the harness accepted a member both published and proposed")
     bad = copy.deepcopy(manifest)
     del bad["vectors"][0]["draftRevision"]
-    bad["vectors"][0]["proposed"] = {"revision": rev04, "text": "x"}
-    if not any("proposed names a published revision" in f for f in auditrecord._text_findings(bad)):
+    bad["vectors"][0]["proposed"] = {"revision": REV04, "text": "x"}
+    findings = auditrecord._text_findings(bad)
+    if not any("proposed names a published revision" in f for f in findings):
         failures.append("the harness accepted a member proposed for revision 04, which is published")
 
+
+def _check_generator(gen, failures: list[str]) -> None:
     gen.define()
     gen.text_fields(gen.MEMBERS)
     if gen.PROPOSED_REVISION != "draft-gilda-audit-agent-audit-record-05":
@@ -135,6 +144,16 @@ def main() -> int:
     refused("the generator accepted X4 under a Section 4.8 that -03 lacks")
     del gen.SECTION_REVISION["X4"]
     gen.text_fields(gen.MEMBERS)
+
+
+def main() -> int:
+    failures: list[str] = []
+    gen = _gen()
+    _check_rows(gen, failures)
+    manifest = json.loads((CORPUS / "MANIFEST.json").read_text(encoding="utf-8"))
+    _check_labels(manifest, failures)
+    _check_harness(manifest, failures)
+    _check_generator(gen, failures)
 
     for failure in failures:
         print(f"FAIL: {failure}")
