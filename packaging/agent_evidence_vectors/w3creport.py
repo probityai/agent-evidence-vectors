@@ -43,13 +43,11 @@ import sys
 from collections.abc import Callable
 from typing import Any
 
-from . import strictjson
-
 if __package__ in (None, ""):
     # Run as a script from a checkout: make the package importable by name.
     sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from agent_evidence_vectors import contextdiscovery, runmetrics  # noqa: E402
+from agent_evidence_vectors import contextdiscovery, runmetrics, strictjson  # noqa: E402
 
 SUITE = "w3c-report-v01-conformance"
 #: What a member of the corpus is a report OF. A report is judged by the rows
