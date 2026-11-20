@@ -169,6 +169,7 @@ only-include = [
     "corpora/vectors-done-contract",
     "corpora/vectors-done-probes",
     "corpora/vectors-done-receipt",
+    "corpora/vectors-empty-interval-statement",
     "corpora/vectors-evidence-state",
     "corpora/vectors-grade-floor",
     "corpora/vectors-grader-isolation",
@@ -239,6 +240,7 @@ exclude = [
     "corpora/vectors-done-contract/**/*.py",
     "corpora/vectors-done-probes/**/*.py",
     "corpora/vectors-done-receipt/**/*.py",
+    "corpora/vectors-empty-interval-statement/**/*.py",
     "corpora/vectors-evidence-state/**/*.py",
     "corpora/vectors-grade-floor/**/*.py",
     "corpora/vectors-grader-isolation/**/*.py",
@@ -308,6 +310,7 @@ exclude = [
 "corpora/vectors-done-contract" = "agent_evidence_vectors/corpora/vectors-done-contract"
 "corpora/vectors-done-probes" = "agent_evidence_vectors/corpora/vectors-done-probes"
 "corpora/vectors-done-receipt" = "agent_evidence_vectors/corpora/vectors-done-receipt"
+"corpora/vectors-empty-interval-statement" = "agent_evidence_vectors/corpora/vectors-empty-interval-statement"
 "corpora/vectors-evidence-state" = "agent_evidence_vectors/corpora/vectors-evidence-state"
 "corpora/vectors-grade-floor" = "agent_evidence_vectors/corpora/vectors-grade-floor"
 "corpora/vectors-grader-isolation" = "agent_evidence_vectors/corpora/vectors-grader-isolation"
@@ -452,6 +455,7 @@ only-include = [
     "corpora/vectors-done-contract",
     "corpora/vectors-done-probes",
     "corpora/vectors-done-receipt",
+    "corpora/vectors-empty-interval-statement",
     "corpora/vectors-evidence-state",
     "corpora/vectors-grade-floor",
     "corpora/vectors-grader-isolation",
