@@ -1,0 +1,17 @@
+{
+  "about": "The published test cases and vectors of the action-binding format (dps-action-binding 0.3.0), copied unchanged. gen_vectors.py checks these digests before reading them.",
+  "repository": "https://github.com/decision-provenance-standard/standard",
+  "commit": "729cdfcbbd9802182769dc19dacecb0a905dcc45",
+  "path": "extensions/action-binding/tests",
+  "licence": "Apache-2.0",
+  "files": {
+    "cases.json": {
+      "sha256": "94b8ceb3920fe3c4e1ae0cccfbde1cf8a3baf615c182fbf99225dff8174f0274",
+      "length": 224632
+    },
+    "vectors.json": {
+      "sha256": "cb7876b2a3056c23063da9ffee3650d28fc05613e24a02a8eaa28aa171f6aa6d",
+      "length": 132674
+    }
+  }
+}
