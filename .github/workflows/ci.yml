@@ -2506,6 +2506,7 @@ jobs:
         run: >-
           python -m mypy --strict agent_evidence_vectors/claim_record/reader.py
           agent_evidence_vectors/claim_record/run.py agent_evidence_vectors/claim_record/ops.py
+          agent_evidence_vectors/claim_record/expectations.py
       - name: Retain the checkout run
         working-directory: packaging
         run: >-

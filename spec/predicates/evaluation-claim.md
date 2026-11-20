@@ -101,9 +101,27 @@ A producer therefore cannot satisfy a rule that requires the execution profile b
 naming the conformance profile.
 
 The published profiles are `conformance/v1` (epoch and settlement may be not applicable
-under `no_authority_exercised` and `no_side_effecting_actions`) and `execution/v1` (no
-coordinate may be not applicable, and settlement evidence is bound by digest). They ship
+under `no_authority_exercised` and `no_side_effecting_actions`), `execution/v1` (no
+coordinate may be not applicable, and settlement evidence is bound by digest) and
+`formal-model/v1` (conformance/v1 plus required case members, below). They ship
 in the package under `claim_record/corpus/profiles/`.
+
+When the producer's own pass or fail is decided against an expected outcome (an
+expectation table, a baseline of expected failures, a proof tool's verified-or-falsified
+target), each case carries that outcome as a member, `expect`, so the case-set digest binds
+it. A case set that leaves it out lets a rewritten expectation keep the same digest, and an
+acceptance rule that pins that digest then accepts a regression (vectors
+`expectation-table-bound` and `expectation-table-rewritten`).
+
+The profile `formal-model/v1` is for a formal model's proof run. Every case carries `expect`
+(`verified` or `falsified`) and `quantifier` (`all-traces` or `exists-trace`), and a case
+expected `verified` over `all-traces` names a `witness`: another case of the same set whose
+expected outcome shows that a trace exists (an `exists-trace` case expected `verified`, or an
+`all-traces` case expected `falsified`, such as the same property in an ablation variant). A
+property over all traces holds vacuously when no trace reaches its premise, and the witness is
+what tells a vacuous proof from a real one. A passed case whose witness cannot show a trace,
+or whose witness failed or was not run, is refused as `VACUOUS_PASS`; such a case belongs in
+`not_run`, and the verdict is then `incomplete`.
 
 Profiles and case sets are resolved by digest from bytes the verifier is given, offline.
 The verifier re-hashes what it resolves, so a store keyed under the wrong digest resolves
@@ -134,9 +152,11 @@ A verifier reports every reason it finds. A record is admitted when it finds non
 | `INVALID_REFERENTIAL_PIN` | A reference the profile requires to be immutable is bound by a name, alias or URI only, or by a malformed digest. References outside the profile's list are not held to this. |
 | `CASE_SET_NOT_ACCEPTED` | The rule does not accept the case set the record binds. |
 | `CASE_SET_UNRESOLVED` | The rule accepts the case set, and its bytes were not supplied. |
+| `CASE_SET_INCOMPLETE` | A case lacks a member the pinned profile requires, a case the profile requires to name a witness names none, or a witness is not a case of the same set. |
 | `APPLICABILITY_MISMATCH` | Applicable and excluded are not the case set exactly, or a required case or an unlisted reason is excluded. |
 | `POPULATION_MISMATCH` | A case is missing from the results, listed twice or not in the case set, or the denominator is wrong. |
 | `ABSENCE_READ_AS_CLEAN` | The verdict is `pass` while a case is not run, or while nothing applied. |
+| `VACUOUS_PASS` | A passed case names a witness whose expected outcome cannot show a trace, or whose witness failed or was not run. |
 | `VERDICT_CONTRADICTED` | The verdict is `pass` with a failure, `fail` with none, or `incomplete` with nothing missing or with a failure. |
 | `VANTAGE_NOT_ACCEPTED` | The rule does not accept the record's vantage. |
 | `BYTES_MISMATCH` | The bytes coordinate binds another case set than applicability resolved, or another implementation than the Statement subject. |
@@ -168,7 +188,21 @@ agent-evidence-vectors claim emit --case-set cases.json --results results.json \
   --verifier-name verifier --verifier-digest sha256:<hex> \
   --observation-vantage substrate --observer ci --statement --output claim.json
 agent-evidence-vectors claim run --output claim-record-result
+agent-evidence-vectors claim from-expectations --format tamarin \
+  --expectations expectations.txt --results prove-output.txt --name my-model --revision 1 \
+  --witness-lemma executable --profile formal-model.json \
+  --implementation-name impl --implementation-digest sha256:<hex> \
+  --verifier-name tamarin --verifier-digest sha256:<hex> \
+  --observation-vantage substrate --observer ci --case-set-out cases.json --output claim.json
 ```
+
+`from-expectations` turns a CI expectation table and the run's output (`table`, `tamarin`,
+`junit` or `tap`) into a case set whose cases carry `expect` and a record over it. A case
+passes when the observed outcome equals the expected one; a case the output does not mention
+is not run; an output line with no expectation row is printed as a warning and kept out of
+the record. With `--witness-lemma`, each all-traces property expected `verified` names the
+lemma of that name in its own variant as its witness, and a property whose witness shows no
+trace is reported not run.
 
 `verify` exits 0 when the record is admitted with verdict `pass`, 3 when it is admitted
 with `fail` or `incomplete`, 1 when it is refused and 2 on unusable input. `emit` records
