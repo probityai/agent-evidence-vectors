@@ -207,10 +207,11 @@ def diff(repo: Path, old: str, new: str) -> dict[str, Any]:
     rows: list[dict[str, Any]] = []
     for path in sorted(set(before) | set(after)):
         was, now = before.get(path), after.get(path)
+        named = now or was
         old_cases = was.cases if was else {}
         new_cases = now.cases if now else {}
         row = {
-            "corpus": (now or was).name if (now or was) else path,
+            "corpus": named.name if named else path,
             "path": path,
             "status": "added" if was is None else ("removed" if now is None else "kept"),
             "added": sorted(set(new_cases) - set(old_cases)),
@@ -319,7 +320,7 @@ def print_table(result: dict[str, Any]) -> None:
 
 
 def main(argv: list[str] | None = None) -> int:
-    parser = argparse.ArgumentParser(description=__doc__.splitlines()[0])
+    parser = argparse.ArgumentParser(description=(__doc__ or "").splitlines()[0])
     parser.add_argument("--repo", type=Path, default=REPO_ROOT)
     sub = parser.add_subparsers(dest="cmd", required=True)
     for name in ("diff", "notes"):

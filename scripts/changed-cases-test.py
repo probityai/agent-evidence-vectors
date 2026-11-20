@@ -12,6 +12,7 @@ import tempfile
 import unittest
 from pathlib import Path
 from types import ModuleType
+from typing import Any
 
 
 def load() -> ModuleType:
@@ -72,7 +73,7 @@ class ChangedCases(unittest.TestCase):
     def tearDown(self) -> None:
         self.tmp.cleanup()
 
-    def run_diff(self, old: str = "v1.2.0", new: str = "HEAD") -> dict[str, object]:
+    def run_diff(self, old: str = "v1.2.0", new: str = "HEAD") -> dict[str, Any]:
         return cc.diff(self.repo.root, old, new)
 
     def test_nothing_changed_reads_every_manifest(self) -> None:
