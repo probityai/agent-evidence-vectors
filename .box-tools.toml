@@ -1,0 +1,22 @@
+# The Go toolchain scripts/regenerate-derived.py and scripts/gen-intake-records.py need to rebuild the
+# release/intake records: gen-intake-records.py builds ./cmd/aee-verify and refuses any Go but the one named in
+# its GO_RUNTIME (1.26), and HiPerGator nodes carry no Go (FileNotFoundError: 'go', 20 Nov 2026).
+# The whole release archive is installed (tree = true), because the go binary reads its GOROOT from where it sits.
+# go1.26.8 is what CI's setup-go '1.26' and the workstation resolve to today. The SHA-256 values are the ones
+# go.dev lists for each archive (https://go.dev/dl/?mode=json), checked against a download on 20 Nov 2026.
+
+[tools.go]
+version = "1.26.8"
+check = ["version"]
+
+[tools.go.linux-x86_64]
+url = "https://go.dev/dl/go1.26.8.linux-amd64.tar.gz"
+sha256 = "d0f743b33e8d8945e6b1f432edd15785c70507121d6e2a723b21285eddf8b57b"
+member = "go/bin/go"
+tree = true
+
+[tools.go.linux-aarch64]
+url = "https://go.dev/dl/go1.26.8.linux-arm64.tar.gz"
+sha256 = "211ffced9dcb9633a55eac6364816ec0ddd951389a740e88fa8b3337971bdda0"
+member = "go/bin/go"
+tree = true
