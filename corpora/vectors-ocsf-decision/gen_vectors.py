@@ -9,7 +9,7 @@ digests in ``source/SOURCE.json``. Writes members of two profiles:
   with this corpus's test key, and each way a stream breaks: a member named twice riding a valid seal,
   a swapped or unknown key id, a record re-signed under a retired key or a key of another authority,
   a dropped tail with an independent head, a deleted record, changed content, a fingerprint recomputed
-  without a new signature, a fork, a substituted uid, a stream gap, ``emission_seq`` disorder, a ruling
+  without a new signature, a fork, a substituted uid, a stream gap, ``emission_seq`` disorder, a verdict
   that reads two ways, a ruling member that is a list or an object, a time written as a millisecond
   integer inside and outside a key's window, a suppressed deny no flag reports, and a policy that lists one key twice. One
   member keeps a dropped tail with no head, which the format cannot show: it reads ``not_checked``.

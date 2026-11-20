@@ -12,6 +12,7 @@ run: absence is never a pass.
 
 from __future__ import annotations
 
+import importlib
 import json
 import sys
 from pathlib import Path
@@ -34,7 +35,9 @@ def declared_differences(report: dict, declared: dict) -> list[str]:
 
 def main() -> int:
     try:
-        from agent_evidence_verify import ocsf_decision
+        # Loaded by name: the package is installed only where this check runs
+        # (CI pins it), so the type gate must not resolve it from the repo env.
+        ocsf_decision = importlib.import_module("agent_evidence_verify.ocsf_decision")
     except ImportError:
         print("ocsf-decision: NOT RUN: agent-evidence-verify with the ocsf_decision reader is not installed")
         return 2

@@ -24,7 +24,7 @@ and a stream whose tail was cut.
   unknown key id, a record re-signed under a retired key, a key of another authority, a policy listing
   one key twice, a dropped tail with an independent head, a deleted record, changed content, a
   fingerprint recomputed without a signature, a fork, a substituted uid, a stream gap, `emission_seq`
-  disorder, a ruling that reads two ways and a suppressed deny no flag reports. One member drops the
+  disorder, a verdict that reads two ways and a suppressed deny no flag reports. One member drops the
   tail with no head: the records alone cannot show it, so `tail` reads `not_checked`, never `verified`.
 - **`strict-*`**: a complete signed chain with an independent head, and refusals for two live keys of
   one authority, no head, an unsigned chain rewritten end to end, an epoch a double cannot hold and a
