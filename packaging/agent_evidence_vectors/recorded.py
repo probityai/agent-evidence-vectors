@@ -57,6 +57,7 @@ import shlex
 from pathlib import Path
 from typing import Any
 
+from . import strictjson
 from .auditrecord import OTS_BITCOIN, _Reader, ots_attestations
 
 SUITE = "recorded-set-conformance/v1"
@@ -192,7 +193,7 @@ def _held_header(binding: dict[str, Any]) -> tuple[int, bytes] | None:
 
 def _subject_integer(subject: bytes, pointer: str) -> int | None:
     try:
-        value = _pointer(json.loads(subject), pointer)
+        value = _pointer(strictjson.loads(subject), pointer)
     except (ValueError, KeyError):
         return None
     return value if type(value) is int else None
@@ -296,7 +297,7 @@ def compact(value: object) -> bytes:
 
 
 def load_manifest(root: Path) -> dict[str, Any]:
-    manifest: dict[str, Any] = json.loads((root / "MANIFEST.json").read_text(encoding="utf-8"))
+    manifest: dict[str, Any] = strictjson.loads((root / "MANIFEST.json").read_bytes())
     return manifest
 
 

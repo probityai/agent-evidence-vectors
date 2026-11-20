@@ -47,6 +47,8 @@ from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any
 
+from . import strictjson
+
 SUITE = "self-reported-record-conformance"
 
 STATEMENT_TYPE = "https://in-toto.io/Statement/v1"
@@ -622,7 +624,7 @@ def _manifest(directory: str) -> dict[str, Any]:
     path = os.path.join(directory, "MANIFEST.json")
     try:
         with open(path, "rb") as handle:
-            decoded = json.loads(handle.read())
+            decoded = strictjson.loads(handle.read())
     except (OSError, ValueError) as exc:
         raise CorpusUnreadable(f"{path} does not parse: {exc}") from exc
     try:

@@ -74,6 +74,8 @@ from functools import lru_cache
 from pathlib import Path
 from typing import Any
 
+from . import strictjson
+
 SUITE = "delegation-lifecycle/v1"
 ACCEPT, REJECT, NO_VERDICT = "accept", "reject", "no_verdict"
 MAX_ENVELOPE_BYTES = 4 * 1024 * 1024
@@ -185,8 +187,16 @@ def _reject_constant(token: str) -> Any:
 
 
 def _loads(raw: bytes) -> Any:
-    """Parse JSON as Go does: invalid UTF-8 is replaced, NaN and Infinity are refused."""
-    return json.loads(raw.decode("utf-8", errors="replace"), parse_constant=_reject_constant)
+    """Parse JSON as Go does: invalid UTF-8 is replaced, NaN and Infinity are refused.
+
+    A repeated member is refused too, where Go keeps the last: the Go reader refuses it
+    before decoding, so the two readers never judge different members of one record.
+    """
+    return json.loads(
+        raw.decode("utf-8", errors="replace"),
+        object_pairs_hook=strictjson.refuse_repeated,
+        parse_constant=_reject_constant,
+    )
 
 
 # ---------------------------------------------------------------------------

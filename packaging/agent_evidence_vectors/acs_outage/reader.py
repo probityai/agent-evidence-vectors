@@ -38,9 +38,10 @@ for ``contradicted`` or ``not_established``, 2 for no verdict.
 from __future__ import annotations
 
 import hashlib
-import json
 from pathlib import Path
 from typing import Any
+
+from .. import strictjson
 
 SUITE = "acs-outage-posture/8a459524530b"
 SUPPORTED, CONTRADICTED, NOT_ESTABLISHED, NO_VERDICT = (
@@ -188,5 +189,5 @@ def judge(step: dict[str, Any], skip: frozenset[str] = frozenset()) -> dict[str,
 
 def verify(case_path: Path, skip: frozenset[str] = frozenset()) -> dict[str, str]:
     """Judge one case directory's ``case.json``."""
-    case = json.loads(case_path.read_text(encoding="utf-8"))
+    case = strictjson.loads(case_path.read_text(encoding="utf-8"))
     return judge(case.get("step"), skip)

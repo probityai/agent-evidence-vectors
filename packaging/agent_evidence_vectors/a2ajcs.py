@@ -67,6 +67,8 @@ from decimal import Decimal
 from pathlib import Path
 from typing import Any
 
+from . import strictjson
+
 SUITE = "a2a-agent-card-canonicalization-conformance"
 CORPUS_DIR = "vectors-a2a-jcs-v01"
 TARGETS = ("rfc8785", "card-signing-input")
@@ -212,7 +214,7 @@ def corpus_digest(manifest_bytes: bytes) -> str:
     differ between languages) stands between the file and its digest.
     """
     text = manifest_bytes.decode("utf-8")
-    declared = json.loads(text)["corpusDigest"]
+    declared = strictjson.loads(text)["corpusDigest"]
     tail = f',\n  "corpusDigest": "{declared}"\n}}\n'
     if not text.endswith(tail):
         raise ValueError(
@@ -230,7 +232,7 @@ def owns(target: str, clause: str) -> bool:
 def load(root: Path) -> tuple[dict[str, Any], list[dict[str, Any]], list[str]]:
     """The manifest, its vectors in manifest order, and every integrity finding."""
     raw = (root / "MANIFEST.json").read_bytes()
-    manifest = json.loads(raw)
+    manifest = strictjson.loads(raw)
     findings: list[str] = []
     if manifest.get("suite") != SUITE:
         findings.append(f"MANIFEST.json declares suite {manifest.get('suite')!r}, not {SUITE!r}")
@@ -276,7 +278,7 @@ def read_vector(body: bytes) -> dict[str, Any]:
     a canonicalizer had to handle never reaches the verifier: A5-019 exists for
     an implementation that copies ``-0`` through, and that one would pass.
     """
-    vector: dict[str, Any] = json.loads(body, parse_int=NumberToken, parse_float=NumberToken)
+    vector: dict[str, Any] = strictjson.loads(body, parse_int=NumberToken, parse_float=NumberToken)
     return vector
 
 
@@ -496,7 +498,7 @@ def _ask(command: list[str], target: str, path: str) -> tuple[str, bytes | None,
     if proc.returncode != 0 or not lines:
         return "errored", None, f"exit {proc.returncode} with no answer"
     try:
-        answer = json.loads(lines[-1])
+        answer = strictjson.loads(lines[-1])
         return "bytes", bytes.fromhex(answer["canonical_utf8_hex"]), "exit 0"
     except (ValueError, KeyError, TypeError) as exc:
         return "errored", None, f"exit 0 without a canonical_utf8_hex answer: {exc}"

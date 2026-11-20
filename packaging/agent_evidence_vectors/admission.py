@@ -45,6 +45,8 @@ from dataclasses import dataclass, field
 from datetime import UTC, datetime
 from typing import Any
 
+from . import strictjson
+
 SUITE = "adversarial-execution-evidence-admission"
 POLICY_ENV = "AEE_CONSUMER_POLICY"
 EXIT_ANSWERS = {0: True, 1: False}
@@ -88,7 +90,7 @@ def load_policy(raw: bytes) -> dict[str, Any]:
     define, a key that is not 32 bytes of hex, or a time bound that is not a
     positive number, because a misspelt pin that reads as absent is a pin that
     silently stopped being enforced."""
-    doc = json.loads(raw)
+    doc = strictjson.loads(raw)
     if not isinstance(doc, dict):
         raise ValueError("a consumer policy is a JSON object")
     unknown = sorted(set(doc) - POLICY_MEMBERS)
@@ -313,7 +315,7 @@ class Judged:
 
 def _load(directory: str) -> dict[str, Any]:
     with open(os.path.join(directory, "MANIFEST.json"), encoding="utf-8") as fh:
-        loaded: dict[str, Any] = json.load(fh)
+        loaded: dict[str, Any] = strictjson.load(fh)
     return loaded
 
 
@@ -439,7 +441,7 @@ def ask(cmd: list[str], statement: str, policy: str) -> tuple[dict[str, Any] | N
         )
     lines = [ln for ln in proc.stdout.decode("utf-8", "replace").splitlines() if ln.strip()]
     try:
-        line = json.loads(lines[-1]) if lines else None
+        line = strictjson.loads(lines[-1]) if lines else None
     except ValueError:
         line = None
     if not isinstance(line, dict):

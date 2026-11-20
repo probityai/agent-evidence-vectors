@@ -68,6 +68,8 @@ from functools import lru_cache
 from pathlib import Path
 from typing import Any
 
+from .. import strictjson
+
 SUITE = "acs-verdict-evidence/v1.0.1-draft"
 SUPPORTED, CONTRADICTED, NOT_ESTABLISHED, NO_VERDICT = (
     "supported", "contradicted", "not_established", "no_verdict")
@@ -181,7 +183,7 @@ def parse_envelope(raw: bytes, reason: str = "malformed_envelope"
     if len(raw) > MAX_BYTES:
         raise Refusal(NO_VERDICT, reason)
     try:
-        doc = json.loads(raw)
+        doc = strictjson.loads(raw)
     except (UnicodeDecodeError, ValueError) as exc:
         raise Refusal(NO_VERDICT, reason) from exc
     if not isinstance(doc, dict):
@@ -269,7 +271,7 @@ def _field_ok(field: str, d: dict[str, Any]) -> bool:
 def _statement(body: bytes, predicate_type: str, skip: frozenset[str],
                prefix: str = "") -> dict[str, Any]:
     try:
-        payload = json.loads(body)
+        payload = strictjson.loads(body)
     except (UnicodeDecodeError, ValueError):
         payload = None
     if not isinstance(payload, dict) or (
@@ -447,7 +449,7 @@ def judge(record: bytes, vector: bytes, policy: dict[str, Any], supplied: dict[s
           skip: frozenset[str] = frozenset()) -> dict[str, str]:
     """The reference reader's decision for one signed verdict or quarantine record."""
     trusted = {str(k): base64.b64decode(v) for k, v in policy["trusted_keys"].items()}
-    vector_digest = sha256_hex(canonical(json.loads(vector)))
+    vector_digest = sha256_hex(canonical(strictjson.loads(vector)))
     try:
         payload_type, body, sigs = parse_envelope(record)
         if payload_type != INTOTO and "payload_type" not in skip:
@@ -468,7 +470,7 @@ def judge(record: bytes, vector: bytes, policy: dict[str, Any], supplied: dict[s
 
 def verify(case_path: Path, skip: frozenset[str] = frozenset()) -> dict[str, str]:
     """Judge one case directory's ``case.json``."""
-    case = json.loads(case_path.read_text(encoding="utf-8"))
+    case = strictjson.loads(case_path.read_text(encoding="utf-8"))
     base = case_path.parent
     supplied = {name: (base / file).read_bytes() for name, file in case["supplied"].items()}
     return judge((base / case["record"]).read_bytes(), (base / case["vector"]).read_bytes(),
