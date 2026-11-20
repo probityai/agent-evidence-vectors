@@ -1,6 +1,6 @@
 {
   "source": "vocabulary.yaml",
-  "source_sha256": "03901e42d814b2064f9034af6a521a0047d63d6ce52c0c403f301150a487dc4e",
+  "source_sha256": "172cd8e53c736612d5bea49046ebc022be95463f7bc91f9e581005771b238015",
   "term_uri_base": "https://w3id.org/agent-evidence/vocab/v1/",
   "terms": {
     "acceptance_observed": {
@@ -1073,6 +1073,26 @@
         "issued_after_only",
         "partial",
         "unknown"
+      ]
+    },
+    "revocation_establishment": {
+      "criticality": "critical",
+      "definition": "How far a verifier established whether a credential was revoked inside a stated interval of a ledger it did not write, with the evaluation time carried beside the value. Closed and fail-closed: an absent or unregistered value makes the statement malformed, and a record that does not support another value is undetermined. The value is about the ledger and not about the world. not_recorded means that no revocation event is on the checked ledger inside the interval, and a revocation decided and never logged cannot show here, so it is not evidence that the credential was never revoked. It is unrelated to the not_recorded value a producer writes for a tool-call argument it chose not to record, which is a value of a different term; this one is read only with the interval, the ledger and the checkpoint it names.",
+      "section": "posture_and_coverage",
+      "uri": "https://w3id.org/agent-evidence/vocab/v1/revocation_establishment",
+      "value_definitions": {
+        "cross_federation_unsynchronised": "The credential's ledger belongs to a federation the verifier's own checkpoint does not cover, and no synchronisation record bridges the two, so a missing event may only mean the federations have not yet exchanged it.",
+        "not_recorded": "The ledger the verifier checked holds no revocation of the credential inside the interval: the chain is unbroken, a signed and timestamped checkpoint covers the end of the interval, and the ledger holds no event for the credential inside the interval, listed or not. It says no revocation was recorded and never that none was decided.",
+        "query_failed": "The question could not be put to the ledger: the call timed out, errored or returned nothing a verifier can read. Nothing is established about the credential, and a failed query is never read as an empty interval.",
+        "recorded": "A revocation of the credential is on a ledger the verifier checked, inside the interval asked about: the chain from the interval's start to a signed, timestamped checkpoint is unbroken and carries the event.",
+        "undetermined": "The record gives the verifier too little to reach another value, or fails one of its checks: a signature that does not verify, a chain that is broken, a checkpoint that stops short of the interval or carries no time. It is the fallback and is never read as not_recorded."
+      },
+      "values": [
+        "recorded",
+        "not_recorded",
+        "query_failed",
+        "cross_federation_unsynchronised",
+        "undetermined"
       ]
     },
     "revocation_list_in_force": {

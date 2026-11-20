@@ -46,6 +46,7 @@ RUNS_A_VERIFIER = (
     "vectors-admission",
     "vectors-ai-agent-action",
     "vectors-anchored-chain",
+    "vectors-empty-interval-statement",
     "vectors-approval-binding",
     "vectors-delegator-right",
     "vectors-badge-vc-verify",
