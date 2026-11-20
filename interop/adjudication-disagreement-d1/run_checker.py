@@ -51,7 +51,8 @@ def evaluate(root: str, case: str) -> tuple[int, dict]:
          "--record", os.path.join(inputs, "records", f"{case}.json"),
          "--scope", "raw", "--max-work", "2000000"],
         capture_output=True, text=True, check=False, env=env)
-    return done.returncode, json.loads(done.stdout) if done.stdout.strip() else {"stderr": done.stderr}
+    parsed = json.loads(done.stdout) if done.stdout.strip() else {"stderr": done.stderr}
+    return done.returncode, parsed
 
 
 def main() -> int:
@@ -59,9 +60,6 @@ def main() -> int:
     parser.add_argument("--checker-root", required=True)
     parser.add_argument("--out")
     args = parser.parse_args()
-    if sys.version_info < (3, 12):
-        print("Python 3.12 or newer is required")
-        return 1
     root = os.path.abspath(args.checker_root)
     problems = check(root)
     if problems:
@@ -80,7 +78,8 @@ def main() -> int:
         got = report.get("result") if code == 0 else None
         print(f"{case}: exit {code}, {got}")
         if got != expected[case]["checker"]:
-            bad.append(f"FAIL {case}: expected {expected[case]['checker']}, got exit {code} {report}")
+            want = expected[case]["checker"]
+            bad.append(f"FAIL {case}: expected {want}, got exit {code} {report}")
     print("\n".join(bad))
     print(f"cases: {len(expected)}, {len(bad)} differ from EXPECTED.json")
     return 1 if bad else 0

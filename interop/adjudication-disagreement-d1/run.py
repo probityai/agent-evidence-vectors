@@ -59,7 +59,8 @@ def main() -> int:
             full = decide(case, scope)
             if args.out:
                 os.makedirs(os.path.join(args.out, case), exist_ok=True)
-                with open(os.path.join(args.out, case, f"{scope}.json"), "w", encoding="utf-8") as fh:
+                target = os.path.join(args.out, case, f"{scope}.json")
+                with open(target, "w", encoding="utf-8") as fh:
                     json.dump(full, fh, indent=2, sort_keys=True)
                     fh.write("\n")
             got = {"decision": full["decision"], "reason": full["reason"]}

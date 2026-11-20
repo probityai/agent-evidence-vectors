@@ -28,17 +28,39 @@ CHECKER = {
     "repository": "Witnessability/witnessability-research",
     "commit": "719b243b6c8b1bcd4429cab6347bb3e77ead6a5e",
     "files": {
-        "standalone/src/witnessability_checker/__init__.py": "29173d924f69319bceed4ae09511ffc467b38f92d3e288113ad727fc89d5044a",
-        "standalone/src/witnessability_checker/__main__.py": "935a1c1166b0c1ea35a82256345000bf2c73ded718d77773bc27a71ecce28f7d",
-        "standalone/src/witnessability_checker/analysis.py": "bebc7340f1e13b2a3e8ea92dbe30ff425f63c6599bcc82177d28d3c795cba0d7",
-        "standalone/src/witnessability_checker/capability_command.py": "72206f435e86d066cafe9c4c721dcb5ed78ec07f1bd4a2be8aa3e7cc078c3fb0",
-        "standalone/src/witnessability_checker/cli.py": "fa90888f5ae5dd2b3f770884c1a277c80edfc7fd6af1ab2eeee931c47c3ff3f9",
-        "standalone/src/witnessability_checker/common.py": "0754a2ec68284b4b8c2411356f79dec35887140c18888ad19c5d275da0f61a92",
-        "standalone/src/witnessability_checker/context.py": "7f551fd06f8d123b4191924ab4676264e11b8ad0a0383fa6a9610a3d9469e668",
-        "standalone/src/witnessability_checker/legacy.py": "b749d73065d0373a7377ff4d1bac1a89f4d7c19aaef5f0da18454c5f8090db78",
-        "standalone/src/witnessability_checker/model.py": "e4fc3704c13b6da816b43b5f5a445a79bd2a9c00ff2e0727ce3ba51e09fff4ad",
-        "standalone/src/witnessability_checker/validation.py": "caa71617c6a1ba9ef6859e6aae1808fb98e98e9a67a479595af20282d2bfc611",
-        "standalone/src/witnessability_checker/verify.py": "f2fb2cfb8b34d050bfe3238b11e6a516afc46b4f5b2bcf603c6415569ec8bb0e",
+        "standalone/src/witnessability_checker/__init__.py": (
+            "29173d924f69319bceed4ae09511ffc467b38f92d3e288113ad727fc89d5044a"
+        ),
+        "standalone/src/witnessability_checker/__main__.py": (
+            "935a1c1166b0c1ea35a82256345000bf2c73ded718d77773bc27a71ecce28f7d"
+        ),
+        "standalone/src/witnessability_checker/analysis.py": (
+            "bebc7340f1e13b2a3e8ea92dbe30ff425f63c6599bcc82177d28d3c795cba0d7"
+        ),
+        "standalone/src/witnessability_checker/capability_command.py": (
+            "72206f435e86d066cafe9c4c721dcb5ed78ec07f1bd4a2be8aa3e7cc078c3fb0"
+        ),
+        "standalone/src/witnessability_checker/cli.py": (
+            "fa90888f5ae5dd2b3f770884c1a277c80edfc7fd6af1ab2eeee931c47c3ff3f9"
+        ),
+        "standalone/src/witnessability_checker/common.py": (
+            "0754a2ec68284b4b8c2411356f79dec35887140c18888ad19c5d275da0f61a92"
+        ),
+        "standalone/src/witnessability_checker/context.py": (
+            "7f551fd06f8d123b4191924ab4676264e11b8ad0a0383fa6a9610a3d9469e668"
+        ),
+        "standalone/src/witnessability_checker/legacy.py": (
+            "b749d73065d0373a7377ff4d1bac1a89f4d7c19aaef5f0da18454c5f8090db78"
+        ),
+        "standalone/src/witnessability_checker/model.py": (
+            "e4fc3704c13b6da816b43b5f5a445a79bd2a9c00ff2e0727ce3ba51e09fff4ad"
+        ),
+        "standalone/src/witnessability_checker/validation.py": (
+            "caa71617c6a1ba9ef6859e6aae1808fb98e98e9a67a479595af20282d2bfc611"
+        ),
+        "standalone/src/witnessability_checker/verify.py": (
+            "f2fb2cfb8b34d050bfe3238b11e6a516afc46b4f5b2bcf603c6415569ec8bb0e"
+        ),
     },
 }
 VERIFIER = "agent-evidence-verify==0.5.1"
@@ -75,8 +97,9 @@ def model(name: str, claim: str, histories: dict[str, bool], domains: list[str],
 
 
 ABSENCE = f"No write event by {PARTY} for invocation {INVOCATION} in d1-window."
-EXECUTED_A = (f"The write {PARTY} executed for invocation {INVOCATION} in d1-window, after permission "
-              "for write A, was write A (premise: exactly one write followed the permission).")
+EXECUTED_A = (f"The write {PARTY} executed for invocation {INVOCATION} in d1-window, "
+              "after permission for write A, was write A "
+              "(premise: exactly one write followed the permission).")
 WRITE_10 = {"id": "e1", "type": "write", "time": "2026-11-19T09:00:10Z"}
 
 # Each case: the records our reader reads, the checker model and record, and the expected
@@ -87,8 +110,9 @@ CASES = {
         "shape": "uncertain binding",
         "event_type": "write",
         "observations": {"observation": ("observer-d1", [WRITE_10],
-                                         "Observer attributes each write to an invocation through "
-                                         "the session id, which a concurrent call d1-call-2 shares")},
+                                         "Observer attributes each write to an invocation "
+                                         "through the session id, which a concurrent call "
+                                         "d1-call-2 shares")},
         "capability": ("observer-d1", ["write"]),
         "model": model(
             "D1-01-binding-uncertain", ABSENCE,
@@ -270,7 +294,8 @@ def build() -> dict[str, bytes]:
         exp = spec["expected"]
         expected[name] = {
             "shape": spec["shape"],
-            "probity": {scope: {"decision": d, "reason": r} for scope, (d, r) in exp["probity"].items()},
+            "probity": {scope: {"decision": d, "reason": r}
+                        for scope, (d, r) in exp["probity"].items()},
             "checker": exp["checker"],
         }
     manifest = {"files": {path: {"length": len(body), "sha256": hashlib.sha256(body).hexdigest()}
@@ -283,7 +308,8 @@ def build() -> dict[str, bytes]:
         "note": ("Expected outputs written from each method's published rules before either "
                  "method ran on these inputs. run.py and run_checker.py compare runs with them."),
         "verifier": VERIFIER, "checker_commit": CHECKER["commit"], "cases": expected})
-    out["CHECKER-PIN.json"] = dump({"repository": CHECKER["repository"], "commit": CHECKER["commit"],
+    out["CHECKER-PIN.json"] = dump({"repository": CHECKER["repository"],
+                                    "commit": CHECKER["commit"],
                                     "files": [{"path": p, "sha256": s}
                                               for p, s in sorted(CHECKER["files"].items())]})
     return out
