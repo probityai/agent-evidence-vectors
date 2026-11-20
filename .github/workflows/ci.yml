@@ -1791,6 +1791,8 @@ jobs:
         run: uv run --extra dev pytest corpora/vectors-open-weight-art53/tests -q
       - name: anchored-chain cases regenerate and force every check
         run: uv run --extra dev pytest corpora/vectors-anchored-chain/tests -q
+      - name: empty-interval-statement cases regenerate, force every check and refuse a reader that trusts the statement
+        run: uv run --extra dev pytest corpora/vectors-empty-interval-statement/tests -q
       - name: receipt-chain-end cases regenerate and force every check
         run: uv run --extra dev pytest corpora/vectors-receipt-chain-end/tests -q
       - name: identity-binding cases regenerate and force every check

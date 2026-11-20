@@ -73,6 +73,7 @@ the nearest of these and what it does not ask for.
 | `posture_and_coverage.base_state_resolution` | no requirement fixes how the before-state of an observed change interval is resolved |
 | `posture_and_coverage.set_sufficiency` | no requirement grades an evidence set's sufficiency apart from each item's reliability |
 | `posture_and_coverage.material_change_trigger` | change management (112-648) governs changes to a system; ending a standing claim when an assumed circumstance changes is a different requirement |
+| `posture_and_coverage.revocation_establishment` | the logging and monitoring items found ask that events be recorded; none asks a record to say whether a revocation query over an interval was answered from an unbroken, checkpointed chain, failed, or reached a federation that had not synchronised |
 | `outcome_lattice.result` | the nearest, 307-507, is about where build and runtime code comes from; a verdict a relying party recomputes from carried records has no CRE |
 | `change_admission.evaluation_mode` | no requirement distinguishes a fresh evaluation from a replayed or cached one |
 | `done_verification.done_contract` | no requirement fixes the definition of done for an automated worker before it acts and binds later records to its digest |

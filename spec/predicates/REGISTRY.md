@@ -36,6 +36,24 @@ The predicate carries an observed effect of an execution, separately from the
 claim an executor makes about it, so that a consumer recomputes the effect from
 carried bytes instead of accepting an asserted one.
 
+### `predicate/v1/empty-interval-statement`
+
+- Document: `corpora/vectors-empty-interval-statement/README.md`
+- Corpus: `corpora/vectors-empty-interval-statement/`, suite `empty-interval-statement/v1`
+- Rails: `corpusreaders/emptyinterval.go`, `packaging/agent_evidence_vectors/emptyinterval.py`
+
+The predicate carries a revocation ledger's signed answer to one question: was this
+credential revoked between two positions of the ledger? The statement names the credential and
+the two positions, lists the events the ledger found for it (the list may be empty) and carries
+a signed, timestamped checkpoint over the ledger's head. A verifier reads the answer against the
+ledger itself and reaches one of the five values of the `revocation_establishment` vocabulary
+term, with `undetermined` as the fallback for a statement that fails a check. An empty list over
+an unbroken, checkpointed chain is `not_recorded`; it never means the credential was not revoked.
+
+- Envelope: a ledger of signed JSON events, a signed statement and a case file, not an in-toto Statement.
+- Field semantics: defined here, as a proposal; the check order and reason tokens are this corpus's own.
+- Example: `corpora/vectors-empty-interval-statement/cases/interval-empty-not-recorded/statement.json`.
+
 ### `predicate/v1/signature-coverage`
 
 - Document: `corpora/vectors-signature-coverage/README.md`
