@@ -613,6 +613,18 @@ standards = ["in-toto"]
 shapes = ["self-report", "wrong-grade"]
 
 [[corpus]]
+id = "vectors-key-directory-observation"
+path = "corpora/vectors-key-directory-observation"
+wheel = true
+sdist = true
+title = "Web Bot Auth key-directory observation"
+summary = "A verifier must evict cached keys only on a directory that resolves without them, never on a 404, an outage, a redirect or an error page."
+record_class = "record"
+domains = ["identity", "agent-protocols"]
+standards = ["ietf-draft"]
+shapes = ["stale-authority", "uncertainty", "malformed-input"]
+
+[[corpus]]
 id = "vectors-mcp-authz"
 path = "corpora/vectors-mcp-authz"
 wheel = true
