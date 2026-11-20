@@ -119,6 +119,9 @@ def test_a_clean_record_is_written_and_an_existing_output_is_refused(tmp_path: P
 
 # The corpus scan: a record already committed, or a new writer that bypasses
 # write_records, goes red here. Adversarial inputs under cases/ name roots on purpose.
+# A snapshots/ directory holds a pinned upstream release byte for byte, with its own
+# checksums; its prose may quote a home path (an attack description does), and editing it
+# would break the pin, so it is not a record this repository writes.
 RECORD_SUFFIXES = (".json", ".jsonl", ".log", ".txt", ".stderr", ".stdout", ".xml")
 
 
@@ -131,6 +134,7 @@ def _tracked_records() -> list[Path]:
         for name in out.split("\0")
         if name.endswith(RECORD_SUFFIXES)
         and "/cases/" not in name
+        and "/snapshots/" not in name
     ]
 
 
