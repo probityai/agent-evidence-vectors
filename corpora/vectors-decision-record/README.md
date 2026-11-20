@@ -29,6 +29,12 @@ relying party should not.
   twice, a retry after an indeterminate attempt with nothing observed at the target, a person no
   identity source confirms, a change no authority source grants, stages backdated consistently, an
   older attachment of the decision, and a removed signature.
+  Further members cover the shapes of a missing or mismatched observation: the requesting service
+  approving, a grant under another charter, an identity source that fails or does not know the
+  approver, an approval the independent clock places after the action ran, a relying party that
+  holds no identity source, authority source, clock, latest-attachment record or trust policy, and a
+  key later revoked as compromised that signs a time before the revocation. The `baseline-sig-*`
+  group adds a key superseded, expired or listed in another role than the one that sealed.
 
 The member's `code` is the first dimension that refused and its status, such as
 `action_binding:failed` or `single_effect_per_request:not_checked`.
