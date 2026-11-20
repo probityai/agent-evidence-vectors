@@ -715,7 +715,7 @@ func rsResult(verdict, code string) rsOutcome {
 // a signature object carrying exactly alg, kid and sig.
 func rsParse(body []byte) (*rsEnvelope, *rsOutcome) {
 	var top map[string]json.RawMessage
-	if err := strictUnmarshal(body, &top); err != nil || len(top) != 2 || top["payload"] == nil || top["signature"] == nil {
+	if err := strictUnmarshalExcept(body, &top, "payload"); err != nil || len(top) != 2 || top["payload"] == nil || top["signature"] == nil {
 		out := rsResult(rsUndecidable, "not_envelope_shape")
 		return nil, &out
 	}
@@ -725,7 +725,7 @@ func rsParse(body []byte) (*rsEnvelope, *rsOutcome) {
 		return nil, &out
 	}
 	env := &rsEnvelope{payload: top["payload"], kid: signature["kid"], alg: signature["alg"]}
-	if err := strictUnmarshal(env.payload, &env.fields); err != nil || env.fields == nil {
+	if err := json.Unmarshal(env.payload, &env.fields); err != nil || env.fields == nil {
 		out := rsResult(rsUndecidable, "payload_not_an_object")
 		return nil, &out
 	}

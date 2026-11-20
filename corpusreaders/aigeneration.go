@@ -503,33 +503,7 @@ func newAGSubject(dir string, v agVector, body, trailer []byte) (*agSubject, str
 // declares as invalid with the code duplicate-member (ofg-c-21), and valueDomain names
 // it; refusing it here would replace that named verdict with an unparsed envelope.
 func agUnmarshalEnvelope(body []byte, env *agEnvelope) error {
-	dec := json.NewDecoder(bytes.NewReader(body))
-	dec.UseNumber()
-	if tok, err := dec.Token(); err != nil || tok != json.Delim('{') {
-		return json.Unmarshal(body, env)
-	}
-	seen := map[string]bool{}
-	for dec.More() {
-		key, err := dec.Token()
-		if err != nil {
-			return err
-		}
-		name, _ := key.(string)
-		if seen[name] {
-			return fmt.Errorf("%w %q", errRepeatedMember, name)
-		}
-		seen[name] = true
-		if name == "statement" {
-			var skip json.RawMessage
-			err = dec.Decode(&skip)
-		} else {
-			err = walkUnique(dec)
-		}
-		if err != nil {
-			return err
-		}
-	}
-	return json.Unmarshal(body, env)
+	return strictUnmarshalExcept(body, env, "statement")
 }
 
 func agDecode(raw []byte) (any, error) {
