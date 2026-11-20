@@ -67,7 +67,6 @@ when no verdict was reached.
 from __future__ import annotations
 
 import argparse
-import base64
 import binascii
 import hashlib
 import importlib
@@ -79,6 +78,7 @@ import sys
 from functools import lru_cache
 from pathlib import Path
 from typing import Any
+
 from . import strictb64
 
 SUITE = "agentic-process-evidence/v0.1"

@@ -56,7 +56,6 @@ one JSON object carrying ``decision`` and ``reason`` and exits 0 for
 
 from __future__ import annotations
 
-import base64
 import binascii
 import hashlib
 import importlib
@@ -67,6 +66,7 @@ from datetime import UTC, datetime
 from functools import lru_cache
 from pathlib import Path
 from typing import Any
+
 from .. import strictb64
 
 SUITE = "acs-verdict-evidence/v1.0.1-draft"

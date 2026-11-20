@@ -51,6 +51,7 @@ from dataclasses import dataclass
 from datetime import datetime
 from pathlib import Path
 from typing import Any
+
 from . import strictb64
 
 SUITE = "agent-did-identity-binding/v1"

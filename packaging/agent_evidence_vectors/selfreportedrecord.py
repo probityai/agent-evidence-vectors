@@ -35,7 +35,6 @@ refused rather than spelled, as the Go encoder refuses it.
 
 from __future__ import annotations
 
-import base64
 import binascii
 import hashlib
 import importlib
@@ -46,6 +45,7 @@ import sys
 from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any
+
 from . import strictb64
 
 SUITE = "self-reported-record-conformance"

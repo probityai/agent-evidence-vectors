@@ -66,6 +66,7 @@ from collections.abc import Callable
 from datetime import datetime
 from pathlib import Path
 from typing import Any
+
 from . import strictb64
 
 SUITE = "badge-vc-verify/v1"

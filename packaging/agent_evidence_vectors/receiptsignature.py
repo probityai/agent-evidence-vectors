@@ -25,7 +25,6 @@ implementation of each in this distribution.
 from __future__ import annotations
 
 import argparse
-import base64
 import hashlib
 import importlib
 import json
@@ -39,6 +38,7 @@ from collections.abc import Callable
 from datetime import datetime
 from itertools import pairwise
 from typing import Any
+
 from . import strictb64
 
 SUITE = "receipt-signature-conformance"

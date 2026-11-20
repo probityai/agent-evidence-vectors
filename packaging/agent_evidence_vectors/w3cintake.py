@@ -115,13 +115,13 @@ fields below are ours, each carrying a rule the group stated without a field:
 from __future__ import annotations
 
 import argparse
-import base64
 import binascii
 import hashlib
 import json
 import os
 import sys
 from typing import Any, TypeGuard
+
 from . import strictb64
 
 SUITE = "w3c-intake-v2-conformance"

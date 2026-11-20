@@ -61,7 +61,6 @@ Ed25519 is the reference rail's own, borrowed at call time.
 from __future__ import annotations
 
 import argparse
-import base64
 import binascii
 import hashlib
 import importlib
@@ -73,6 +72,7 @@ from dataclasses import dataclass, field
 from functools import lru_cache
 from pathlib import Path
 from typing import Any
+
 from . import strictb64
 
 SUITE = "delegation-lifecycle/v1"

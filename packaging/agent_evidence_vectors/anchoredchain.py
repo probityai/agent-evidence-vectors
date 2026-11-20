@@ -38,7 +38,6 @@ prints one JSON object carrying ``decision`` and ``reason``, and exits 0 for
 from __future__ import annotations
 
 import argparse
-import base64
 import hashlib
 import importlib
 import json
@@ -48,6 +47,7 @@ import sys
 from collections.abc import Callable
 from pathlib import Path
 from typing import Any
+
 from . import strictb64
 
 SUITE = "anchored-record-chain/v1"

@@ -47,6 +47,7 @@ import sys
 from datetime import UTC, datetime, timedelta
 from pathlib import Path
 from typing import Any
+
 from . import strictb64
 
 SUITE = "refund-connected/v1"

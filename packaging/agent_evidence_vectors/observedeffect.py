@@ -48,7 +48,6 @@ which is the single implementation in this distribution and must stay so.
 from __future__ import annotations
 
 import argparse
-import base64
 import datetime
 import hashlib
 import importlib
@@ -61,6 +60,7 @@ from collections.abc import Callable
 from dataclasses import dataclass, field
 from decimal import Decimal
 from typing import Any
+
 from . import strictb64
 
 if __package__ in (None, ""):
