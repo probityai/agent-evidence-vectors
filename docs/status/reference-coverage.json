@@ -1,7 +1,7 @@
 {
   "verifier": "https://probityai.github.io/probity/verifiers/agent-evidence-verify",
   "checked": 734,
-  "total": 3077,
+  "total": 3105,
   "corpora": [
     {
       "id": "vectors",
@@ -283,6 +283,12 @@
       "id": "vectors-observed-effect",
       "checked": 0,
       "total": 80,
+      "disagreements": 0
+    },
+    {
+      "id": "vectors-ocsf-decision",
+      "checked": 0,
+      "total": 28,
       "disagreements": 0
     },
     {
