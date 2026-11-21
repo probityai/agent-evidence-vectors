@@ -114,6 +114,9 @@ func (executionBilling) Judge(dir string, raw []byte) (*Result, error) {
 }
 
 func ebDecode(raw []byte) (any, error) {
+	if err := refuseRepeatedMembers(raw); err != nil {
+		return nil, err
+	}
 	decoder := json.NewDecoder(bytes.NewReader(raw))
 	decoder.UseNumber()
 	var value any

@@ -152,7 +152,7 @@ func pbReadJWS(c pbCase, token []byte) pbBinding {
 	}
 	var body map[string]any
 	if herr != nil || perr != nil || serr != nil ||
-		json.Unmarshal(headerRaw, &header) != nil || json.Unmarshal(payloadRaw, &body) != nil {
+		strictUnmarshal(headerRaw, &header) != nil || strictUnmarshal(payloadRaw, &body) != nil {
 		return pbBinding{}
 	}
 	key, kerr := pbB64u(header.JWK.X)
@@ -173,7 +173,7 @@ func pbReadEnvelope(c pbCase, raw []byte) pbBinding {
 		Sig   string          `json:"sig"`
 	}
 	var body map[string]any
-	if json.Unmarshal(raw, &envelope) != nil || json.Unmarshal(envelope.Grant, &body) != nil {
+	if strictUnmarshal(raw, &envelope) != nil || strictUnmarshal(envelope.Grant, &body) != nil {
 		return pbBinding{}
 	}
 	key, kerr := hex.DecodeString(c.Keys["authorization-service"])

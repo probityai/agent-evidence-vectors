@@ -119,7 +119,7 @@ func (d dnsAidCorpus) judgeMember(dir string, e dnsAidEntry, out *Member) {
 	var member struct {
 		Case string `json:"case"`
 	}
-	if err := json.Unmarshal(body, &member); err != nil {
+	if err := strictUnmarshal(body, &member); err != nil {
 		out.Findings = append(out.Findings, "the member does not parse: "+err.Error())
 		return
 	}
