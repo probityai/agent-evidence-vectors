@@ -47,7 +47,7 @@ STEPS: list[tuple[str, str]] = [
 ]
 
 
-def run_steps(repo: Path, check: bool) -> int:
+def run_steps(repo: Path, check: bool, steps: list[tuple[str, str]] = STEPS) -> int:
     """Run every generator, or every generator's check.
 
     A write stops at the first failure, because a later generator reads what an
@@ -56,7 +56,7 @@ def run_steps(repo: Path, check: bool) -> int:
     so one CI run reported one stale family and the next run found another.
     """
     failed = []
-    for name, script in STEPS:
+    for name, script in steps:
         command = [sys.executable, str(repo / script)] + (["--check"] if check else [])
         print(f"== {name}: {script}{' --check' if check else ''}", flush=True)
         if subprocess.run(command, cwd=repo).returncode != 0:
@@ -65,7 +65,7 @@ def run_steps(repo: Path, check: bool) -> int:
                 return 1
             failed.append(name)
     if failed:
-        print(f"FAIL: {len(failed)} of {len(STEPS)} derived families are stale: "
+        print(f"FAIL: {len(failed)} of {len(steps)} derived families are stale: "
               f"{', '.join(failed)}", file=sys.stderr)
         return 1
     return 0

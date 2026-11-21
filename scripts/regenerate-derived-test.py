@@ -140,8 +140,8 @@ class RunSteps(unittest.TestCase):
         module = load()
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
-            module.STEPS = self.fake_repo(root, [0, 1, 1])
-            self.assertEqual(module.run_steps(root, True), 1)
+            steps = self.fake_repo(root, [0, 1, 1])
+            self.assertEqual(module.run_steps(root, True, steps), 1)
             for index in range(3):
                 ran = root / f"step{index}.ran"
                 self.assertTrue(ran.exists(), f"step {index} did not run")
@@ -151,8 +151,8 @@ class RunSteps(unittest.TestCase):
         module = load()
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
-            module.STEPS = self.fake_repo(root, [0, 1, 0])
-            self.assertEqual(module.run_steps(root, False), 1)
+            steps = self.fake_repo(root, [0, 1, 0])
+            self.assertEqual(module.run_steps(root, False, steps), 1)
             self.assertTrue((root / "step1.ran").exists())
             self.assertFalse((root / "step2.ran").exists())
 
@@ -160,8 +160,8 @@ class RunSteps(unittest.TestCase):
         module = load()
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
-            module.STEPS = self.fake_repo(root, [0, 0])
-            self.assertEqual(module.run_steps(root, True), 0)
+            steps = self.fake_repo(root, [0, 0])
+            self.assertEqual(module.run_steps(root, True, steps), 0)
 
 class ResolveMerge(unittest.TestCase):
     def repo_with_two_branches(self, root: Path, extra: bool) -> None:
