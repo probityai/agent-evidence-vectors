@@ -5649,6 +5649,7 @@ def runtime_main(argv: list[str]) -> int:
     runners = {
         uncertaineffect.SUITE: uncertaineffect_runtime.run_runtime,
         decisionclient.SUITE: decisionclient_runtime.run_runtime,
+        actormarker.SUITE: actormarker.run_runtime,
     }
     parser = argparse.ArgumentParser(
         prog="agent-evidence-vectors runtime",

@@ -721,6 +721,33 @@ def hop_check(command: str | list[str], root: Path = ROOT) -> tuple[int, int, li
     return answered, len(requests), errors
 
 
+def run_runtime(command: str, report_path: str, root: Path = ROOT) -> int:
+    """Replay a hop implementation through the corpus and write its report.
+
+    This is the corpus's runtime contract: ``agent-evidence-vectors runtime --corpus
+    vectors-actor-marker-survival --runtime '<hop command>'``, and the Action's
+    ``runtime`` input.
+    """
+    answered, total, errors = hop_check(command, root)
+    for error in errors:
+        print(error)
+    print(f"{SUITE}: hop implementation answered {answered} of {total} hops, {len(errors)} failed")
+    report = {
+        "corpusDigest": _load(root / "MANIFEST.json")["corpusDigest"],
+        "failures": errors,
+        "rail": "runtime",
+        "runtime": {"command": command, "hopsExecuted": answered},
+        "suite": SUITE,
+        "totals": {"conform": total - len(errors), "fail": len(errors), "hops": total},
+    }
+    Path(report_path).write_text(
+        json.dumps(report, indent=2, sort_keys=True) + "\n", encoding="utf-8"
+    )
+    if not total or answered != total:
+        return 2
+    return 1 if errors else 0
+
+
 def _reference_hop_main() -> int:
     answer = reference_hop(strictjson.loads(sys.stdin.read()))
     if answer is None:

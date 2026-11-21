@@ -81,8 +81,10 @@ object on standard input, `{"role", "self", "received": {"protocol", "token"}, "
 {"protocol", "to"}, "at"}`, and prints the `{"protocol", "token"}` it sends, or exits
 non-zero to refuse. It is replayed through every hop of every accepted chain and must send
 the principals the corpus states, in the protocol asked for; it is handed the token with an
-unknown critical parameter and must refuse it. In the GitHub Action, set
-`corpus: vectors-actor-marker-survival` and `hop-command:` to run your own hop in your CI.
+unknown critical parameter and must refuse it. The same run is
+`agent-evidence-vectors runtime --corpus vectors-actor-marker-survival --runtime './my-hop'`,
+and in the GitHub Action it is `corpus: vectors-actor-marker-survival` with `runtime: ./my-hop`,
+so your own hop runs in your CI.
 
 ## Sources
 
