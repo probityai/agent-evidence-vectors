@@ -5,7 +5,7 @@
       "cannot-tell": 6,
       "contradicted": 20
     },
-    "line": "verdict: 1 member(s) and 0 corpus-level claim(s) do not hold",
+    "line": "verdict: every member behaves as MANIFEST.json declares",
     "total": 36
   },
   "anchor": {
@@ -29,8 +29,8 @@
       "consumed": "unconsumed",
       "evidence": {
         "baseline": {
-          "exit-code": 1,
-          "sha256": "cac456dbbbbc481d93b16940f8e0c99967ce0e55c30a29c966347d3bc9b9a287"
+          "exit-code": 0,
+          "sha256": "cf6965707ec1e809156d2d649c1b187572d9f902a7f61540981afeb8527456c8"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [],
@@ -38,8 +38,8 @@
           "W3C-I-002"
         ],
         "swapped": {
-          "exit-code": 1,
-          "sha256": "cac456dbbbbc481d93b16940f8e0c99967ce0e55c30a29c966347d3bc9b9a287"
+          "exit-code": 0,
+          "sha256": "cf6965707ec1e809156d2d649c1b187572d9f902a7f61540981afeb8527456c8"
         },
         "swapped-in": "9f69fe9a6d0ccb844b72efc63539110f188ee6bc768ecbba92059258cdccb6fd",
         "test": "swap-and-re-pin"
@@ -52,8 +52,8 @@
       "consumed": "unconsumed",
       "evidence": {
         "baseline": {
-          "exit-code": 1,
-          "sha256": "cac456dbbbbc481d93b16940f8e0c99967ce0e55c30a29c966347d3bc9b9a287"
+          "exit-code": 0,
+          "sha256": "cf6965707ec1e809156d2d649c1b187572d9f902a7f61540981afeb8527456c8"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [],
@@ -61,8 +61,8 @@
           "W3C-I-002"
         ],
         "swapped": {
-          "exit-code": 1,
-          "sha256": "cac456dbbbbc481d93b16940f8e0c99967ce0e55c30a29c966347d3bc9b9a287"
+          "exit-code": 0,
+          "sha256": "cf6965707ec1e809156d2d649c1b187572d9f902a7f61540981afeb8527456c8"
         },
         "swapped-in": "ca5b62e220acde09bcf7d6c00e6614261a4d80da046d33a442c82b2c0d9b052f",
         "test": "swap-and-re-pin"
@@ -75,8 +75,8 @@
       "consumed": "unconsumed",
       "evidence": {
         "baseline": {
-          "exit-code": 1,
-          "sha256": "cac456dbbbbc481d93b16940f8e0c99967ce0e55c30a29c966347d3bc9b9a287"
+          "exit-code": 0,
+          "sha256": "cf6965707ec1e809156d2d649c1b187572d9f902a7f61540981afeb8527456c8"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [],
@@ -84,22 +84,22 @@
           "W3C-I-002"
         ],
         "swapped": {
-          "exit-code": 1,
-          "sha256": "cac456dbbbbc481d93b16940f8e0c99967ce0e55c30a29c966347d3bc9b9a287"
+          "exit-code": 0,
+          "sha256": "cf6965707ec1e809156d2d649c1b187572d9f902a7f61540981afeb8527456c8"
         },
         "swapped-in": "deb128985eb05479dd21cbbde754dcb7cd6ca2c27479d9ec0ca1c0db74bf44f1",
         "test": "swap-and-re-pin"
       },
       "path": "corpora/vectors-telemetry-evidence/gen_vectors.py",
       "serialization": "bytes",
-      "sha256": "f67abef2460befc299a28bc29f66e33722b4620c9f9ffee408904dcf3f829177"
+      "sha256": "c73b851bf3be4b45a0f0302b3c20c13b35578938fcde27a6e97cdc6f46a49645"
     },
     {
       "consumed": "unconsumed",
       "evidence": {
         "baseline": {
-          "exit-code": 1,
-          "sha256": "cac456dbbbbc481d93b16940f8e0c99967ce0e55c30a29c966347d3bc9b9a287"
+          "exit-code": 0,
+          "sha256": "cf6965707ec1e809156d2d649c1b187572d9f902a7f61540981afeb8527456c8"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [],
@@ -107,8 +107,8 @@
           "W3C-I-002"
         ],
         "swapped": {
-          "exit-code": 1,
-          "sha256": "cac456dbbbbc481d93b16940f8e0c99967ce0e55c30a29c966347d3bc9b9a287"
+          "exit-code": 0,
+          "sha256": "cf6965707ec1e809156d2d649c1b187572d9f902a7f61540981afeb8527456c8"
         },
         "swapped-in": "8af675f23695dde3a45b3f2e098254dabdd6abcb8859b168e0dd2300141c5198",
         "test": "swap-and-re-pin"
@@ -167,7 +167,7 @@
         "go.mod"
       ],
       "serialization": "sha256-listing-v1",
-      "sha256": "37d6533f2accae39217928544c8bdecf31fb0b5d3a857f771c3231893b20907f"
+      "sha256": "538e20a9a6eb18b1580dfa3c390f29ea0386515df94fa9332b3bec22818a2186"
     },
     "runtime": {
       "name": "go",
@@ -360,12 +360,10 @@
     {
       "check": "signed-id-null-signature",
       "native": {
-        "reasons": [
-          "derived agrees/digests_bind_consumed_copy, the manifest declares contradicted/record_shape"
-        ],
+        "reasons": [],
         "verdict": "contradicted"
       },
-      "state": "fail"
+      "state": "pass"
     },
     {
       "check": "log-clean",
@@ -474,9 +472,9 @@
   ],
   "corpus-digest": {
     "serialization": "sha256-listing-v1",
-    "sha256": "df963b2d67666577bf0bf634bba5f6ad4dde1316e76df4dc878017febf12f3e5"
+    "sha256": "604709eb8aebd5addd32309d57fdf23a78083241e2030c139b80b43bbf5efde4"
   },
-  "exit-code": 1,
+  "exit-code": 0,
   "exit-rule": "zero-iff-every-check-passes",
   "exposure": "visible",
   "faults": [],
@@ -854,7 +852,7 @@
     "cases": "native-json",
     "format": "corpus-result-json-v1",
     "process-status": {
-      "exit-code": 1
+      "exit-code": 0
     },
     "summary": "native-text"
   },
@@ -866,7 +864,7 @@
       "reference": {
         "path": "release/intake/native/vectors-telemetry-evidence.json",
         "serialization": "bytes",
-        "sha256": "cac456dbbbbc481d93b16940f8e0c99967ce0e55c30a29c966347d3bc9b9a287"
+        "sha256": "cf6965707ec1e809156d2d649c1b187572d9f902a7f61540981afeb8527456c8"
       }
     },
     {
@@ -875,7 +873,7 @@
       "reference": {
         "path": "release/intake/native/vectors-telemetry-evidence.txt",
         "serialization": "bytes",
-        "sha256": "dfd10f07aec11870e114326c2765d0bf17cb256465721dc5b9959ca140779228"
+        "sha256": "627893012b91474cdae9c55ba65556b727da4094861838ca8c1dc61fdea6c5ac"
       }
     },
     {
@@ -1061,11 +1059,11 @@
     "runs": [
       {
         "process": "run-1",
-        "sha256": "cac456dbbbbc481d93b16940f8e0c99967ce0e55c30a29c966347d3bc9b9a287"
+        "sha256": "cf6965707ec1e809156d2d649c1b187572d9f902a7f61540981afeb8527456c8"
       },
       {
         "process": "run-2",
-        "sha256": "cac456dbbbbc481d93b16940f8e0c99967ce0e55c30a29c966347d3bc9b9a287"
+        "sha256": "cf6965707ec1e809156d2d649c1b187572d9f902a7f61540981afeb8527456c8"
       }
     ],
     "seed": null,
@@ -1132,6 +1130,6 @@
     ]
   },
   "specification-readers": [],
-  "state": "fail",
+  "state": "pass",
   "suite": "telemetry-evidence/v1"
 }

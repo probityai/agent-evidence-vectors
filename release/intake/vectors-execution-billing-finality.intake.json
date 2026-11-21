@@ -163,50 +163,27 @@
       "sha256": "ffe870ff80ccf238b35393683195dd3ac96a8ed55ff10aafb3d457a9b86037c6"
     },
     {
-      "consumed": "consumed",
+      "consumed": "unconsumed",
       "evidence": {
         "baseline": {
           "exit-code": 0,
           "sha256": "c5e5e1a2bd357dea8a1490dd52ef715538b9e9f8c88bdac9ed23013ed9ac538f"
         },
-        "corpus-digest": "not recomputable over the swapped bytes (ValueError)",
-        "pins-moved": [
-          "corpora/vectors-execution-billing-finality/MANIFEST.json",
-          "corpora/vectors-execution-billing-finality/cases/allow-f01-control-final-invoice/record.json",
-          "corpora/vectors-execution-billing-finality/cases/allow-f01-success-reservation-held/record.json",
-          "corpora/vectors-execution-billing-finality/cases/allow-f03-lost-reply-redispatch-refused/record.json",
-          "corpora/vectors-execution-billing-finality/cases/allow-f04-invoice-after-lost-reply/record.json",
-          "corpora/vectors-execution-billing-finality/cases/allow-f14-first-dispatch/record.json",
-          "corpora/vectors-execution-billing-finality/cases/allow-x1-invoice-before-dispatch/record.json",
-          "corpora/vectors-execution-billing-finality/cases/allow-x2-low-invoice-conflict/record.json",
-          "corpora/vectors-execution-billing-finality/cases/allow-x3-cost-above-final-bill-conflict/record.json",
-          "corpora/vectors-execution-billing-finality/cases/allow-x4-contradictory-outcome-conflict/record.json",
-          "corpora/vectors-execution-billing-finality/cases/allow-x5-non-dispatch-after-cost-conflict/record.json",
-          "corpora/vectors-execution-billing-finality/cases/claim-boundary-dropped/record.json",
-          "corpora/vectors-execution-billing-finality/cases/contract-id-missing/record.json",
-          "corpora/vectors-execution-billing-finality/cases/contract-id-unknown/record.json",
-          "corpora/vectors-execution-billing-finality/cases/dispatch-state-missing/record.json",
-          "corpora/vectors-execution-billing-finality/cases/dispatch-state-null/record.json",
-          "corpora/vectors-execution-billing-finality/cases/external-effect-established/record.json",
-          "corpora/vectors-execution-billing-finality/cases/money-as-boolean/record.json",
-          "corpora/vectors-execution-billing-finality/cases/reopen-changed-state/record.json",
-          "corpora/vectors-execution-billing-finality/cases/x1-invoice-replay-refinalized/record.json",
-          "corpora/vectors-execution-billing-finality/cases/x2-account-unfrozen/record.json",
-          "corpora/vectors-execution-billing-finality/cases/x2-conflict-cleared/record.json",
-          "corpora/vectors-execution-billing-finality/cases/x4-outcome-reset-to-unknown/record.json",
-          "corpora/vectors-execution-billing-finality/gen_vectors.py",
-          "corpora/vectors-execution-billing-finality/tests/p04/SOURCE.json"
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
         ],
         "swapped": {
-          "exit-code": 1,
-          "sha256": "2f045bf3627115ef7b14eeb06297747e947e1de6c90dcabf40bc5a5ae0cc98d9"
+          "exit-code": 0,
+          "sha256": "c5e5e1a2bd357dea8a1490dd52ef715538b9e9f8c88bdac9ed23013ed9ac538f"
         },
         "swapped-in": "6d261b2986e068103483ad0ccc4e22cf74580e7c89343a2c5fac7a5486f3106e",
         "test": "swap-and-re-pin"
       },
       "path": "corpora/vectors-execution-billing-finality/tests/p04/exposure_ledger.py",
       "serialization": "bytes",
-      "sha256": "c321eab3e1adfa2169164f63238597f1a1c2a7868d339540a3da574f09c82d0f"
+      "sha256": "6eef4062d2910a6053d8a67db58c8e92613b05ba9098d39119762ff599f08b59"
     },
     {
       "consumed": "unconsumed",
@@ -281,7 +258,7 @@
         "go.mod"
       ],
       "serialization": "sha256-listing-v1",
-      "sha256": "37d6533f2accae39217928544c8bdecf31fb0b5d3a857f771c3231893b20907f"
+      "sha256": "538e20a9a6eb18b1580dfa3c390f29ea0386515df94fa9332b3bec22818a2186"
     },
     "runtime": {
       "name": "go",
@@ -546,7 +523,7 @@
   ],
   "corpus-digest": {
     "serialization": "sha256-listing-v1",
-    "sha256": "8173b09d9ae76630fb78a56cac62006ccf360dcd0075a2b5dd01083da8c8ecb6"
+    "sha256": "37e5fc29b7fae7b57bb4703f0f2f1bdb000159c31584ba60985488fd183a181a"
   },
   "exit-code": 0,
   "exit-rule": "zero-iff-every-check-passes",

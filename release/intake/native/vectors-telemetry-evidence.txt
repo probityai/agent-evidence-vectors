@@ -3,5 +3,4 @@ members: 36
   agrees: 10
   cannot-tell: 6
   contradicted: 20
-FAIL signed-id-null-signature: derived agrees/digests_bind_consumed_copy, the manifest declares contradicted/record_shape
-verdict: 1 member(s) and 0 corpus-level claim(s) do not hold
+verdict: every member behaves as MANIFEST.json declares
