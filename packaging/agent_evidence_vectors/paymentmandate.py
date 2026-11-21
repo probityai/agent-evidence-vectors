@@ -7,6 +7,15 @@ rather than trusting the fields that claim them, and refuses a charge that leave
 mandate in amount, currency, merchant, time or token, a single-use token used twice, and an
 evidence pack whose post-checkout actions are not all recorded.
 
+An x402 record (scheme ``x402-exact-evm-eip3009``) carries the facilitator request verbatim
+in x402 v2 field names: the payment requirements the resource server issued and the payment
+payload the agent's wallet signed. The reader recomputes the EIP-712 digest of the EIP-3009
+``TransferWithAuthorization`` under the requirement's token domain and recovers the signer
+from the signature itself; an unsigned field naming a signer is never read. It then holds
+the signed authorization to the requirement and to the mandate, the settled transfer and
+the nonce the token contract consumed to the authorization, and the facilitator's
+settlement response to the settled transfer.
+
 Every rule below is a refusal code. A record is accepted only when none of the
 rules fires; a rejected record names the first rule that fired, in the order
 listed in ``RULES``. The fixtures are synthetic: no real merchant, patient,
@@ -26,16 +35,22 @@ import re
 import shlex
 import subprocess
 from collections.abc import Callable
+from datetime import datetime
 from pathlib import Path
 from typing import Any
 
-from . import strictjson
+from . import evmsig, strictjson
 
 SUITE = "agent-payment-mandate/v1"
 ACCEPTED, REJECTED = "accepted", "rejected"
 EXIT_FOR = {ACCEPTED: 0, REJECTED: 1}
 ACCEPT_REASON = "mandate_chain_holds"
 HEX64 = re.compile(r"^[0-9a-f]{64}$")
+X402_SCHEME = "x402-exact-evm-eip3009"
+_ADDRESS = re.compile(r"^0x[0-9a-fA-F]{40}$")
+_NONCE = re.compile(r"^0x[0-9a-fA-F]{64}$")
+_SIGNATURE = re.compile(r"^0x[0-9a-fA-F]{130}$")
+_DECIMAL = re.compile(r"^(0|[1-9][0-9]*)$")
 _HERE = Path(__file__).resolve().parent
 ROOT = (
     _HERE / "corpora" / "vectors-agent-payment-mandate"
@@ -125,27 +140,213 @@ def _post_checkout_missing(r: dict[str, Any]) -> bool:
     return not required <= set(_get(r, "post_checkout.recorded") or [])
 
 
-CHECKS: tuple[tuple[str, Callable[[dict[str, Any]], bool]], ...] = (
-    ("mandate_unsigned", _unsigned),
-    ("mandate_digest_mismatch", _digest_mismatch),
-    ("credential_not_bound_to_mandate", _not_bound),
-    ("mandate_expired", _expired),
-    ("amount_over_limit", _over_limit),
-    ("currency_mismatch", _currency),
-    ("merchant_mismatch", _merchant),
-    ("token_not_the_executed_token", _token_mismatch),
-    ("single_use_token_replayed", _replayed),
-    ("receipt_not_bound_to_execution", _receipt_unbound),
-    ("post_checkout_action_missing", _post_checkout_missing),
+def _never(_r: dict[str, Any]) -> bool:
+    return False
+
+
+# --- x402 exact on EVM with EIP-3009 --------------------------------------------------
+
+
+def _x(r: dict[str, Any], path: str) -> Any:
+    return _get(r, "credential.facilitator_request." + path)
+
+
+def _same_address(a: Any, b: Any) -> bool:
+    """EVM addresses compare as 20 bytes; the EIP-55 letter case is an encoding."""
+    return (
+        isinstance(a, str) and isinstance(b, str) and bool(_ADDRESS.match(a))
+        and a.lower() == b.lower() and bool(_ADDRESS.match(b))
+    )  # fmt: skip
+
+
+def _decimal(value: Any) -> int | None:
+    return int(value) if isinstance(value, str) and _DECIMAL.match(value) else None
+
+
+def _whole(value: Any) -> int | None:
+    return value if isinstance(value, int) and not isinstance(value, bool) else None
+
+
+def _unix(stamp: Any) -> int | None:
+    try:
+        return int(datetime.fromisoformat(str(stamp).replace("Z", "+00:00")).timestamp())
+    except ValueError:
+        return None
+
+
+def _x_expired(r: dict[str, Any]) -> bool:
+    settled, expiry = _whole(_get(r, "execution.block_timestamp")), _unix(
+        _get(r, "mandate.terms.expires_at")
+    )
+    return settled is None or expiry is None or settled > expiry
+
+
+def _x_over_limit(r: dict[str, Any]) -> bool:
+    value, ceiling = _decimal(_x(r, "paymentPayload.payload.authorization.value")), _whole(
+        _get(r, "mandate.terms.max_amount_minor")
+    )
+    return value is None or ceiling is None or value > ceiling
+
+
+def _x_currency(r: dict[str, Any]) -> bool:
+    required = _x(r, "paymentRequirements.asset")
+    return not (
+        _same_address(_x(r, "paymentPayload.accepted.asset"), required)
+        and _same_address(required, _get(r, "mandate.terms.currency"))
+    )
+
+
+def _x_merchant(r: dict[str, Any]) -> bool:
+    pay_to = _x(r, "paymentRequirements.payTo")
+    return not (
+        _same_address(_x(r, "paymentPayload.payload.authorization.to"), pay_to)
+        and _same_address(_x(r, "paymentPayload.accepted.payTo"), pay_to)
+        and _same_address(pay_to, _get(r, "mandate.terms.merchant"))
+    )
+
+
+def _x_network(r: dict[str, Any]) -> bool:
+    required = _x(r, "paymentRequirements.network")
+    return not (
+        isinstance(required, str)
+        and _x(r, "paymentPayload.accepted.network") == required
+        and _get(r, "mandate.terms.network") == required
+    )
+
+
+def _x_not_offer_amount(r: dict[str, Any]) -> bool:
+    required = _decimal(_x(r, "paymentRequirements.amount"))
+    return (
+        required is None
+        or _decimal(_x(r, "paymentPayload.payload.authorization.value")) != required
+        or _decimal(_x(r, "paymentPayload.accepted.amount")) != required
+    )
+
+
+def _x_outside_window(r: dict[str, Any]) -> bool:
+    """EIP-3009 settles only when validAfter < block time < validBefore, both strict."""
+    settled = _whole(_get(r, "execution.block_timestamp"))
+    after = _decimal(_x(r, "paymentPayload.payload.authorization.validAfter"))
+    before = _decimal(_x(r, "paymentPayload.payload.authorization.validBefore"))
+    return settled is None or after is None or before is None or not after < settled < before
+
+
+def _x_signature(r: dict[str, Any]) -> bytes | None:
+    text = _x(r, "paymentPayload.payload.signature")
+    return bytes.fromhex(text[2:]) if isinstance(text, str) and _SIGNATURE.match(text) else None
+
+
+def _x_not_canonical(r: dict[str, Any]) -> bool:
+    signature = _x_signature(r)
+    return signature is None or not evmsig.is_low_s(signature)
+
+
+def _x_signer(r: dict[str, Any]) -> str | None:
+    """The address the signature recovers to under the requirement's token domain."""
+    authorization = _x(r, "paymentPayload.payload.authorization")
+    signature = _x_signature(r)
+    if not isinstance(authorization, dict) or signature is None:
+        return None
+    try:
+        digest = evmsig.eip3009_digest(
+            authorization,
+            _x(r, "paymentRequirements.network"),
+            _x(r, "paymentRequirements.asset"),
+            _x(r, "paymentRequirements.extra.name"),
+            _x(r, "paymentRequirements.extra.version"),
+        )
+    except ValueError:
+        return None
+    return evmsig.recover(digest, signature)
+
+
+def _x_not_signer(r: dict[str, Any]) -> bool:
+    return not _same_address(_x_signer(r), _x(r, "paymentPayload.payload.authorization.from"))
+
+
+def _x_not_mandated(r: dict[str, Any]) -> bool:
+    return not _same_address(
+        _x(r, "paymentPayload.payload.authorization.from"), _get(r, "mandate.terms.agent_payer")
+    )
+
+
+def _x_other_nonce(r: dict[str, Any]) -> bool:
+    nonce = _x(r, "paymentPayload.payload.authorization.nonce")
+    used = _get(r, "execution.authorization_used.nonce")
+    return not (
+        _same_address(
+            _get(r, "execution.authorization_used.authorizer"),
+            _x(r, "paymentPayload.payload.authorization.from"),
+        )
+        and isinstance(nonce, str) and bool(_NONCE.match(nonce))
+        and isinstance(used, str) and used.lower() == nonce.lower()
+    )  # fmt: skip
+
+
+def _x_transfer_differs(r: dict[str, Any]) -> bool:
+    auth = "paymentPayload.payload.authorization."
+    value = _decimal(_x(r, auth + "value"))
+    return not (
+        _same_address(_get(r, "execution.transfer.from"), _x(r, auth + "from"))
+        and _same_address(_get(r, "execution.transfer.to"), _x(r, auth + "to"))
+        and value is not None
+        and _decimal(_get(r, "execution.transfer.value")) == value
+        and _same_address(_get(r, "execution.asset"), _x(r, "paymentRequirements.asset"))
+        and _get(r, "execution.network") == _x(r, "paymentRequirements.network")
+    )
+
+
+def _x_replayed(r: dict[str, Any]) -> bool:
+    nonce = str(_x(r, "paymentPayload.payload.authorization.nonce")).lower()
+    return nonce in {str(n).lower() for n in (_get(r, "execution.nonces_used_before") or [])}
+
+
+def _x_receipt_unbound(r: dict[str, Any]) -> bool:
+    response = _get(r, "receipt.settlement_response")
+    if _receipt_unbound(r) or not isinstance(response, dict):
+        return True
+    amount = response.get("amount")
+    return not (
+        response.get("success") is True
+        and response.get("transaction") == _get(r, "execution.transaction")
+        and response.get("network") == _get(r, "execution.network")
+        and _same_address(response.get("payer"), _x(r, "paymentPayload.payload.authorization.from"))
+        and (amount is None or _decimal(amount) == _decimal(_get(r, "execution.transfer.value")))
+    )
+
+
+Check = Callable[[dict[str, Any]], bool]
+
+# (code, check for the AP2, Verifiable Intent and shared-token records, check for x402)
+PROFILE_CHECKS: tuple[tuple[str, Check, Check], ...] = (
+    ("mandate_unsigned", _unsigned, _unsigned),
+    ("mandate_digest_mismatch", _digest_mismatch, _digest_mismatch),
+    ("credential_not_bound_to_mandate", _not_bound, _not_bound),
+    ("mandate_expired", _expired, _x_expired),
+    ("amount_over_limit", _over_limit, _x_over_limit),
+    ("currency_mismatch", _currency, _x_currency),
+    ("merchant_mismatch", _merchant, _x_merchant),
+    ("network_mismatch", _never, _x_network),
+    ("amount_not_offer_amount", _never, _x_not_offer_amount),
+    ("authorization_outside_validity_window", _never, _x_outside_window),
+    ("signature_not_canonical", _never, _x_not_canonical),
+    ("payer_not_authorization_signer", _never, _x_not_signer),
+    ("payer_not_mandated_agent", _never, _x_not_mandated),
+    ("token_not_the_executed_token", _token_mismatch, _x_other_nonce),
+    ("settlement_not_the_authorization", _never, _x_transfer_differs),
+    ("single_use_token_replayed", _replayed, _x_replayed),
+    ("receipt_not_bound_to_execution", _receipt_unbound, _x_receipt_unbound),
+    ("post_checkout_action_missing", _post_checkout_missing, _post_checkout_missing),
 )
 
-RULES = tuple(code for code, _ in CHECKS)
+RULES = tuple(code for code, _, _ in PROFILE_CHECKS)
 
 
 def decide(record: dict[str, Any], skip: frozenset[str] = frozenset()) -> dict[str, str]:
     """The reference reader's decision: the first rule that fires, else accepted."""
-    for code, fires in CHECKS:
-        if code not in skip and fires(record):
+    x402 = record.get("scheme") == X402_SCHEME
+    for code, card, chain in PROFILE_CHECKS:
+        if code not in skip and (chain if x402 else card)(record):
             return {"decision": REJECTED, "reason": code}
     return {"decision": ACCEPTED, "reason": ACCEPT_REASON}
 
