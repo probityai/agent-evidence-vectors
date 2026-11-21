@@ -107,6 +107,49 @@ class Layout(unittest.TestCase):
             self.assertEqual(ran.returncode, 0)
 
 
+class RunSteps(unittest.TestCase):
+    def fake_repo(self, root: Path, exits: list[int]) -> list[tuple[str, str]]:
+        """One script per exit status; each records that it ran."""
+        steps = []
+        for index, code in enumerate(exits):
+            script = root / f"step{index}.py"
+            script.write_text(
+                "import pathlib, sys\n"
+                "ran = pathlib.Path(sys.argv[0]).with_suffix('.ran')\n"
+                "ran.write_text(' '.join(sys.argv[1:]))\n"
+                f"raise SystemExit({code})\n",
+                encoding="utf-8",
+            )
+            steps.append((f"step {index}", script.name))
+        return steps
+
+    def test_a_check_runs_every_step_after_a_failure(self) -> None:
+        module = load()
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            module.STEPS = self.fake_repo(root, [0, 1, 1])
+            self.assertEqual(module.run_steps(root, True), 1)
+            for index in range(3):
+                ran = root / f"step{index}.ran"
+                self.assertTrue(ran.exists(), f"step {index} did not run")
+                self.assertEqual(ran.read_text(encoding="utf-8"), "--check")
+
+    def test_a_write_stops_at_the_first_failure(self) -> None:
+        module = load()
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            module.STEPS = self.fake_repo(root, [0, 1, 0])
+            self.assertEqual(module.run_steps(root, False), 1)
+            self.assertTrue((root / "step1.ran").exists())
+            self.assertFalse((root / "step2.ran").exists())
+
+    def test_a_clean_check_passes(self) -> None:
+        module = load()
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            module.STEPS = self.fake_repo(root, [0, 0])
+            self.assertEqual(module.run_steps(root, True), 0)
+
 class ResolveMerge(unittest.TestCase):
     def repo_with_two_branches(self, root: Path, extra: bool) -> None:
         git(root, "init", "-q", "-b", "main")
