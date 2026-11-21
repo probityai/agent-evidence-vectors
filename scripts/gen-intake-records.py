@@ -101,8 +101,8 @@ def go_source(root: Path = REPO) -> list[str]:
     compiles a package's .go files and never its _test.go files, a testdata
     directory, or a name starting with "_" or "." (the go command ignores all
     three), so those bytes cannot change a verdict the record reports. Listing
-    whole directories pinned them anyway: every test added to a reader made all
-    80 records stale without changing one byte of what aee-verify does, and a
+    whole directories pinned them anyway: every test added to a reader made
+    every record stale without changing one byte of what aee-verify does, and a
     stale record reached CI twice in one pull request that way. The listing is
     now the compiled files, named one by one, so a reader recomputes it from the
     paths exactly as before.
