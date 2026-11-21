@@ -1,6 +1,6 @@
 """The DNS-AID RRset corpus regenerates, the oracle holds every member, and the old reading fails.
 
-    uv run --extra dev pytest corpora/vectors-dns-aid-rrset-v01/tests -q
+uv run --extra dev pytest corpora/vectors-dns-aid-rrset-v01/tests -q
 """
 
 from __future__ import annotations
@@ -29,8 +29,11 @@ MANIFEST = json.loads((HERE / "MANIFEST.json").read_text(encoding="utf-8"))
 
 
 def _tree(root: Path) -> dict[str, bytes]:
-    return {p.relative_to(root).as_posix(): p.read_bytes() for p in sorted(root.rglob("*"))
-            if p.is_file() and p.suffix in (".json", ".md") and "tests" not in p.parts}
+    return {
+        p.relative_to(root).as_posix(): p.read_bytes()
+        for p in sorted(root.rglob("*"))
+        if p.is_file() and p.suffix in (".json", ".md") and "tests" not in p.parts
+    }
 
 
 def _case(entry: dict) -> dict:
