@@ -385,18 +385,6 @@ standards = []
 shapes = ["scope-overreach", "self-report", "broken-chain"]
 
 [[corpus]]
-id = "vectors-catalog-trust-manifest"
-path = "corpora/vectors-catalog-trust-manifest"
-wheel = true
-sdist = true
-title = "Catalog trust manifests"
-summary = "A verifier must judge a signed ARD or AI Catalog object under a named construction: JWS header rules, a key the DID document authorizes, that construction's signing input, and a subject bound to the entry and artifact."
-record_class = "credential"
-domains = ["identity", "provenance", "agent-protocols"]
-standards = ["ietf-draft", "did", "rfc8785"]
-shapes = ["forged-signature", "missing-binding", "malformed-input"]
-
-[[corpus]]
 id = "vectors-capability-requirement"
 path = "corpora/vectors-capability-requirement"
 wheel = true
@@ -407,6 +395,18 @@ record_class = "record"
 domains = ["model-governance", "grading", "provenance"]
 standards = ["eu-ai-act", "rfc8785"]
 shapes = ["uncertainty", "missing-binding", "tampering"]
+
+[[corpus]]
+id = "vectors-catalog-trust-manifest"
+path = "corpora/vectors-catalog-trust-manifest"
+wheel = true
+sdist = true
+title = "Catalog trust manifests"
+summary = "A verifier must judge a signed ARD or AI Catalog object under a named construction: JWS header rules, a key the DID document authorizes, that construction's signing input, and a subject bound to the entry and artifact."
+record_class = "credential"
+domains = ["identity", "provenance", "agent-protocols"]
+standards = ["ietf-draft", "did", "rfc8785"]
+shapes = ["forged-signature", "missing-binding", "malformed-input"]
 
 [[corpus]]
 id = "vectors-chunked-export"
@@ -709,6 +709,18 @@ standards = ["in-toto"]
 shapes = ["self-report", "wrong-grade"]
 
 [[corpus]]
+id = "vectors-key-directory-observation"
+path = "corpora/vectors-key-directory-observation"
+wheel = true
+sdist = true
+title = "Web Bot Auth key-directory observation"
+summary = "A verifier must evict cached keys only on a directory that resolves without them, never on a 404, an outage, a redirect or an error page."
+record_class = "record"
+domains = ["identity", "agent-protocols"]
+standards = ["ietf-draft"]
+shapes = ["stale-authority", "uncertainty", "malformed-input"]
+
+[[corpus]]
 id = "vectors-key-revocation-list"
 path = "corpora/vectors-key-revocation-list"
 wheel = true
@@ -731,18 +743,6 @@ record_class = "record"
 domains = ["authority", "approval", "effects"]
 standards = ["rfc8785"]
 shapes = ["missing-binding", "stale-authority", "forged-signature"]
-
-[[corpus]]
-id = "vectors-key-directory-observation"
-path = "corpora/vectors-key-directory-observation"
-wheel = true
-sdist = true
-title = "Web Bot Auth key-directory observation"
-summary = "A verifier must evict cached keys only on a directory that resolves without them, never on a 404, an outage, a redirect or an error page."
-record_class = "record"
-domains = ["identity", "agent-protocols"]
-standards = ["ietf-draft"]
-shapes = ["stale-authority", "uncertainty", "malformed-input"]
 
 [[corpus]]
 id = "vectors-mcp-authz"
