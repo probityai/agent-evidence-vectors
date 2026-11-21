@@ -104,7 +104,9 @@ def _seal(r: dict[str, Any]) -> dict[str, Any]:
     return r
 
 
-def _with_key_history(r: dict[str, Any], valid_until: str | None, revoked_from: str | None) -> dict[str, Any]:
+def _with_key_history(
+    r: dict[str, Any], valid_until: str | None, revoked_from: str | None
+) -> dict[str, Any]:
     """Add a signing time and the key state the verifier holds for the signing key.
 
     The record states when the mandate was signed and the issuer's key snapshot taken
