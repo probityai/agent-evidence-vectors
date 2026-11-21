@@ -9,22 +9,24 @@
 
 from __future__ import annotations
 
-import json
 import sys
 from pathlib import Path
 
 from digest import corpus_digest
 from record import ACCEPTED, RULES, Refusal, judge
 
+sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "packaging"))
+from agent_evidence_vectors import strictjson  # noqa: E402
+
 HERE = Path(__file__).resolve().parent
 
 
 def main() -> int:
-    manifest = json.loads((HERE / "MANIFEST.json").read_text(encoding="utf-8"))
+    manifest = strictjson.loads((HERE / "MANIFEST.json").read_text(encoding="utf-8"))
     key = bytes.fromhex(manifest["keys"]["producer"]["publicKey"])
     failures, seen = [], set()
     for entry in manifest["vectors"]:
-        member = json.loads((HERE / entry["path"]).read_text(encoding="utf-8"))
+        member = strictjson.loads((HERE / entry["path"]).read_text(encoding="utf-8"))
         try:
             got, code = (
                 judge(member["envelope"], member["disclosed"], key, member["replayedVerdict"]),

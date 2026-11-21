@@ -8,6 +8,8 @@ import logging
 from pathlib import Path, PurePosixPath
 from typing import Any
 
+from .. import strictjson
+
 LOGGER = logging.getLogger(__name__)
 CONTRACT = "runtime-surface-e7-v0.1"
 REVISION = "e4fe474f488c3047b346abb01cbfd77ab447ad69"
@@ -31,7 +33,11 @@ def unique_members(pairs: list[tuple[str, Any]]) -> dict[str, Any]:
 
 def load_object(raw: bytes) -> dict[str, Any]:
     """Decode a UTF-8 JSON object without accepting duplicate members."""
-    value = json.loads(raw.decode("utf-8"), object_pairs_hook=unique_members)
+    value = json.loads(
+        raw.decode("utf-8"),
+        object_pairs_hook=unique_members,
+        parse_constant=strictjson.refuse_constant,
+    )
     if not isinstance(value, dict):
         raise ValueError("expected a JSON object")
     return value

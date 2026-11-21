@@ -66,13 +66,13 @@ type cjObject = map[string]any
 
 func (containmentJournal) Judge(dir string, raw []byte) (*Result, error) {
 	var manifest scManifest
-	if err := json.Unmarshal(raw, &manifest); err != nil {
+	if err := strictUnmarshal(raw, &manifest); err != nil {
 		return nil, fmt.Errorf("%s/MANIFEST.json does not parse: %w", dir, err)
 	}
 	result := &Result{}
 	for _, entry := range manifest.Vectors {
 		var v cjVector
-		if err := json.Unmarshal(entry, &v); err != nil {
+		if err := strictUnmarshal(entry, &v); err != nil {
 			result.Findings = append(result.Findings, fmt.Sprintf("a manifest row does not parse: %v", err))
 			continue
 		}

@@ -41,6 +41,19 @@ anchor catch them, and the corpus says which one.
 | removal-declared-appended | control | yes | verified, `chain_anchored` | |
 | removal-declared-in-place | removal | yes | rejected, `anchored_head_mismatch` | anchor |
 | removal-before-first-anchor | removal limit | yes | verified, `chain_anchored` | nothing can |
+| repeated-member-tail | T5 variant | no | rejected, `store_not_strict_json` | strict parse |
+| utf16-member-order-rfc8785 | control | yes | verified, `chain_anchored` | |
+| utf16-member-order-code-point | canonicalisation | no | rejected, `signature_invalid` | record signature |
+
+Three further rows separate readers that parse or canonicalise differently:
+`repeated-member-tail` writes the newest record with two `record` members, the
+adversary's first and the genuine signed one last, and no anchor or chain link
+covers that line, so a keep-the-last reader verifies it while a keep-the-first
+reader reads the adversary's text. The two `utf16-member-order` cases hold
+records with a member at U+E000 and one at U+1F600, which RFC 8785 orders by
+UTF-16 code unit (the second first) and a code-point sort orders the other way:
+a verifier that sorts by code point rejects the conformant chain and verifies
+the one signed over code-point order.
 
 Three rows carry the findings a signature-only reading misses:
 

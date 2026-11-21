@@ -35,7 +35,6 @@ refused rather than spelled, as the Go encoder refuses it.
 
 from __future__ import annotations
 
-import base64
 import binascii
 import hashlib
 import importlib
@@ -46,6 +45,8 @@ import sys
 from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any
+
+from . import strictb64, strictjson
 
 SUITE = "self-reported-record-conformance"
 
@@ -204,11 +205,15 @@ def decode_member(raw: bytes) -> Any:
     *raw* must be UTF-8 and exactly one document: bytes after it, other than JSON
     whitespace, or a byte that is not UTF-8, are refused, because two files that
     differ only there would carry one statement under two digests. NaN and the
-    infinities are refused too, which JSON has no spelling for.
+    infinities are refused too, which JSON has no spelling for, and so is a
+    member name that repeats in one object, which readers resolve differently.
     """
     text = raw.decode("utf-8").lstrip(" \t\n\r")
     decoder = json.JSONDecoder(
-        parse_int=_int_token, parse_float=_float_token, parse_constant=_reject_constant
+        parse_int=_int_token,
+        parse_float=_float_token,
+        parse_constant=_reject_constant,
+        object_pairs_hook=strictjson.refuse_repeated,
     )
     value, end = decoder.raw_decode(text)
     if text[end:].strip(" \t\n\r"):
@@ -298,7 +303,7 @@ def ed25519_ok(public_hex: str, payload: bytes, signature_b64: str) -> bool:
         return False
     public = bytes.fromhex(public_hex)
     try:
-        signature = base64.b64decode(signature_b64, validate=True)
+        signature = strictb64.std(signature_b64)
     except (ValueError, binascii.Error):
         return False
     if len(public) != 32 or len(signature) != 64:
@@ -622,7 +627,7 @@ def _manifest(directory: str) -> dict[str, Any]:
     path = os.path.join(directory, "MANIFEST.json")
     try:
         with open(path, "rb") as handle:
-            decoded = json.loads(handle.read())
+            decoded = strictjson.loads(handle.read())
     except (OSError, ValueError) as exc:
         raise CorpusUnreadable(f"{path} does not parse: {exc}") from exc
     try:

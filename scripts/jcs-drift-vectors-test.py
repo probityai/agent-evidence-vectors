@@ -55,8 +55,24 @@ class DriftFamily(unittest.TestCase):
                 pinned = bytes.fromhex(case["canonicalHex"])
                 presented = case["presented"].encode("utf-8")
                 self.assertNotEqual(presented, pinned)
+                if case.get("reference") == "refuse":
+                    for text in (case["input"], case["presented"]):
+                        with self.assertRaises(a2ajcs.Refusal):
+                            a2ajcs.parse(text)
+                    # The pin is what a reader that rounds to the nearest double prints.
+                    rounded = json.loads(case["input"], parse_int=lambda t: float(int(t)))
+                    self.assertEqual(a2ajcs.canonicalize(rounded), pinned)
+                    self.assertNotEqual(json.loads(case["input"]), rounded)
+                    continue
                 self.assertEqual(a2ajcs.canonicalize(a2ajcs.parse(case["input"])), pinned)
                 self.assertEqual(a2ajcs.canonicalize(a2ajcs.parse(case["presented"])), pinned)
+
+    def test_only_a_value_no_double_holds_is_refused_by_the_reference(self) -> None:
+        refused = [c for c in CORPUS["driftCases"] if "reference" in c]
+        self.assertEqual([c["id"] for c in refused], ["drift-number-integer-beyond-double"])
+        for case in refused:
+            self.assertEqual(case["reference"], "refuse")
+            self.assertEqual(case["referenceError"], "inexact-number")
 
     def test_python_default_printer_reproduces_its_cases(self) -> None:
         checked = 0

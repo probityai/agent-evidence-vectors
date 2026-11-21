@@ -118,6 +118,13 @@ class TestAnchoredChainCorpus:
             _, errors = corpus.check(skip=frozenset({name}))
             assert errors, f"switching off {name} changed no verdict"
 
+        def test_keep_the_last_reader_is_refused_on_the_repeated_member_tail(
+            self, monkeypatch: pytest.MonkeyPatch
+        ) -> None:
+            monkeypatch.setattr(anchoredchain, "_strict", lambda raw: anchoredchain.json.loads(raw))
+            _, errors = corpus.check()
+            assert _failed(errors) == {"repeated-member-tail"}
+
         def test_verifier_that_rejects_everything_fails_the_controls(
             self, tmp_path: Path
         ) -> None:

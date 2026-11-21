@@ -66,13 +66,13 @@ type sigCovRecord struct {
 
 func (signatureCoverage) Judge(dir string, raw []byte) (*Result, error) {
 	var manifest scManifest
-	if err := json.Unmarshal(raw, &manifest); err != nil {
+	if err := strictUnmarshal(raw, &manifest); err != nil {
 		return nil, fmt.Errorf("%s/MANIFEST.json does not parse: %w", dir, err)
 	}
 	result := &Result{}
 	for _, entry := range manifest.Vectors {
 		var v sigCovVector
-		if err := json.Unmarshal(entry, &v); err != nil {
+		if err := strictUnmarshal(entry, &v); err != nil {
 			result.Findings = append(result.Findings, fmt.Sprintf("a manifest row does not parse: %v", err))
 			continue
 		}
@@ -93,7 +93,7 @@ func sigCovPairsFinding(dir string, raw []byte) string {
 	var declared struct {
 		SignerPairsSha256 string `json:"signerPairsSha256"`
 	}
-	if err := json.Unmarshal(raw, &declared); err != nil {
+	if err := strictUnmarshal(raw, &declared); err != nil {
 		return fmt.Sprintf("MANIFEST.json does not parse: %v", err)
 	}
 	body, err := readIn(dir, "signer-pairs.json")
@@ -133,13 +133,13 @@ func sigCovJudgeMember(caseDir string, v sigCovVector) []string {
 }
 
 func sigCovBytes(r sigCovRecord) (payload, key, signature []byte, err error) {
-	if payload, err = base64.StdEncoding.DecodeString(r.Envelope.Payload); err != nil {
+	if payload, err = decodeCanonical(base64.StdEncoding, r.Envelope.Payload); err != nil {
 		return nil, nil, nil, fmt.Errorf("record.json payload is not base64: %w", err)
 	}
-	if key, err = base64.StdEncoding.DecodeString(r.Envelope.PublicKey); err != nil {
+	if key, err = decodeCanonical(base64.StdEncoding, r.Envelope.PublicKey); err != nil {
 		return nil, nil, nil, fmt.Errorf("record.json public key is not base64: %w", err)
 	}
-	if signature, err = base64.StdEncoding.DecodeString(r.Envelope.Signature); err != nil {
+	if signature, err = decodeCanonical(base64.StdEncoding, r.Envelope.Signature); err != nil {
 		return nil, nil, nil, fmt.Errorf("record.json signature is not base64: %w", err)
 	}
 	return payload, key, signature, nil
@@ -303,7 +303,7 @@ func sigCovReadingDiffers(source, payload any, excluded []string) bool {
 
 func sigCovDecide(r sigCovRecord, source any, payload, key, signature []byte) scDecision {
 	var contract string
-	known := len(r.ContractID) > 0 && json.Unmarshal(r.ContractID, &contract) == nil && contract == sigCovContractID
+	known := len(r.ContractID) > 0 && strictUnmarshal(r.ContractID, &contract) == nil && contract == sigCovContractID
 	verified := len(key) == ed25519.PublicKeySize && ed25519.Verify(key, payload, signature)
 	repeated := bvNoDuplicates(json.NewDecoder(bytes.NewReader(payload))) != nil
 	parsed, err := sigCovDecode(payload)

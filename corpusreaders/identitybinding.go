@@ -5,7 +5,6 @@ import (
 	"crypto/ed25519"
 	"crypto/sha256"
 	"encoding/base64"
-	"encoding/json"
 	"fmt"
 	"math/big"
 	"path/filepath"
@@ -101,13 +100,13 @@ func ibWellFormed(did string) bool { return ibDIDWeb.MatchString(did) || ibDIDWB
 
 func (identityBinding) Judge(dir string, raw []byte) (*Result, error) {
 	var manifest scManifest
-	if err := json.Unmarshal(raw, &manifest); err != nil {
+	if err := strictUnmarshal(raw, &manifest); err != nil {
 		return nil, fmt.Errorf("%s/MANIFEST.json does not parse: %w", dir, err)
 	}
 	result := &Result{}
 	for _, entry := range manifest.Vectors {
 		var v ibVector
-		if err := json.Unmarshal(entry, &v); err != nil {
+		if err := strictUnmarshal(entry, &v); err != nil {
 			result.Findings = append(result.Findings, fmt.Sprintf("a manifest row does not parse: %v", err))
 			continue
 		}
@@ -150,7 +149,7 @@ func ibLoad(caseDir string) (*ibCase, error) {
 	if len(c.env.Signatures) == 0 {
 		return nil, fmt.Errorf("the envelope carries no signature")
 	}
-	payload, err := base64.StdEncoding.DecodeString(c.env.Payload)
+	payload, err := decodeCanonical(base64.StdEncoding, c.env.Payload)
 	if err != nil {
 		return nil, fmt.Errorf("the payload is not base64: %w", err)
 	}
@@ -160,7 +159,7 @@ func ibLoad(caseDir string) (*ibCase, error) {
 			ID string `json:"id"`
 		} `json:"subject"`
 	}
-	if err := json.Unmarshal(payload, &record); err != nil {
+	if err := strictUnmarshal(payload, &record); err != nil {
 		return nil, fmt.Errorf("the payload does not parse: %w", err)
 	}
 	if c.signedAt, err = time.Parse(time.RFC3339, record.SignedAt); err != nil {
@@ -302,7 +301,7 @@ func (c *ibCase) signatureVerifies() bool {
 			key = ibPublicKey(method)
 		}
 	}
-	sig, err := base64.StdEncoding.DecodeString(c.env.Signatures[0].Sig)
+	sig, err := decodeCanonical(base64.StdEncoding, c.env.Signatures[0].Sig)
 	if key == nil || err != nil {
 		return false
 	}
@@ -369,7 +368,7 @@ func ibPublicKey(method map[string]any) ed25519.PublicKey {
 	}
 	jwk, _ := method["publicKeyJwk"].(map[string]any)
 	x, _ := jwk["x"].(string)
-	raw, err := base64.RawURLEncoding.DecodeString(x)
+	raw, err := decodeCanonical(base64.RawURLEncoding, x)
 	if jwk["kty"] != "OKP" || jwk["crv"] != "Ed25519" || err != nil || len(raw) != ed25519.PublicKeySize {
 		return nil
 	}

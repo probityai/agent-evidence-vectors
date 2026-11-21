@@ -25,10 +25,12 @@ Exits 0 clean, 1 with one line per divergence.
 from __future__ import annotations
 
 import hashlib
-import json
 import pathlib
 import sys
 from pathlib import Path
+
+sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "packaging"))
+from agent_evidence_vectors import strictjson  # noqa: E402
 
 HERE = Path(sys.argv[1]).resolve() if len(sys.argv) > 1 else Path(__file__).resolve().parent
 sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "tools" / "artifact-binding"))
@@ -191,7 +193,7 @@ def check_published_key(vectors: list[dict[str, object]], public_key: bytes) -> 
 
 
 def main() -> int:
-    manifest = json.loads((HERE / "MANIFEST.json").read_text(encoding="utf-8"))
+    manifest = strictjson.loads((HERE / "MANIFEST.json").read_text(encoding="utf-8"))
     vectors = manifest["vectors"]
     public_key = bytes.fromhex(manifest["publicKey"])
     profile = str(manifest["profile"])

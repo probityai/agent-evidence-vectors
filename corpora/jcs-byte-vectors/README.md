@@ -91,6 +91,14 @@ canonicalizing either `input` or `presented` gives `canonicalHex`.
 | `non-ascii-escape` | 5 | Non-ASCII text left as `\u` escapes (BMP, surrogate pairs, member names), and U+2028 and U+2029, which Go escapes and JCS prints as UTF-8. |
 | `number-format` | 8 | `-0`, `1.0`, `1e-07`, `1E2`, `1e30`, `1000000000000000000000`, `0.0000001` and an integer past 2^53 printed verbatim. |
 
+One member, `drift-number-integer-beyond-double`, also carries `reference:
+"refuse"` and `referenceError: "inexact-number"`. An integer past 2^53 has no
+exact double, so the Python reference (`a2ajcs`) refuses it (RFC 7493 section
+2.2) instead of printing `canonicalHex`. `canonicalHex` stays what an
+implementation that rounds to the nearest double prints, so the drift between
+a refusing and a rounding reader is recorded, and a reader that refuses is
+conformant for this member.
+
 `source` names the printer. A `go-encoding-json` member is held to a real run of
 `encoding/json` by the `jcsvectors` Go test: it must print exactly `presented`.
 

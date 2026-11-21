@@ -1,11 +1,11 @@
 {
   "aggregate": {
     "counts": {
-      "rejected": 13,
+      "rejected": 9,
       "verified": 3
     },
     "line": "verdict: every member behaves as MANIFEST.json declares",
-    "total": 16
+    "total": 12
   },
   "anchor": {
     "kind": "digest-list-line",
@@ -17,7 +17,7 @@
     "routine": "corpus_digest in corpora/vectors-identity-binding/gen_vectors.py",
     "routine-file": "corpora/vectors-identity-binding/gen_vectors.py",
     "serialization": "corpus-routine",
-    "sha256": "74b9494a9cc5bb5458c3f2f3d587605887b70c32392a37e3330f9e8eb188eb3e",
+    "sha256": "48ada7df04b9770699ba6e22239f189b35ae6ce096970d2f0688cd08ef7fa90c",
     "verdicts": {
       "availability-failure": "inconclusive",
       "integrity-failure": "fail"
@@ -29,7 +29,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "e7f70e5dbc982958bfa34182b3f28df8d16db49cacd41fb7c5717d2c79d50e45"
+          "sha256": "c476b8f544f92d118ec35ca7ba8da9f0057edd729dc869c883ed1a00cda3b604"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [],
@@ -38,21 +38,21 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "e7f70e5dbc982958bfa34182b3f28df8d16db49cacd41fb7c5717d2c79d50e45"
+          "sha256": "c476b8f544f92d118ec35ca7ba8da9f0057edd729dc869c883ed1a00cda3b604"
         },
         "swapped-in": "1c48468473b3d9377eb0d166baeb7bd9f0354d587a2f5432a2a875155e186704",
         "test": "swap-and-re-pin"
       },
       "path": "corpora/vectors-identity-binding/README.md",
       "serialization": "bytes",
-      "sha256": "effb7955ade763315d999fa4e48c7878d0c79154b49ab8be9ed1b7f0a2fa293c"
+      "sha256": "6561a8e35d9e6c97530c16bc08e91eef63f0696137f04f6b0821506c2fa32601"
     },
     {
       "consumed": "unconsumed",
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "e7f70e5dbc982958bfa34182b3f28df8d16db49cacd41fb7c5717d2c79d50e45"
+          "sha256": "c476b8f544f92d118ec35ca7ba8da9f0057edd729dc869c883ed1a00cda3b604"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [],
@@ -61,7 +61,7 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "e7f70e5dbc982958bfa34182b3f28df8d16db49cacd41fb7c5717d2c79d50e45"
+          "sha256": "c476b8f544f92d118ec35ca7ba8da9f0057edd729dc869c883ed1a00cda3b604"
         },
         "swapped-in": "7eb157326a4e2720e35b05992c145adca8357f6c89441a59c84427c7ae7fc842",
         "test": "swap-and-re-pin"
@@ -75,7 +75,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "e7f70e5dbc982958bfa34182b3f28df8d16db49cacd41fb7c5717d2c79d50e45"
+          "sha256": "c476b8f544f92d118ec35ca7ba8da9f0057edd729dc869c883ed1a00cda3b604"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [],
@@ -84,21 +84,21 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "e7f70e5dbc982958bfa34182b3f28df8d16db49cacd41fb7c5717d2c79d50e45"
+          "sha256": "c476b8f544f92d118ec35ca7ba8da9f0057edd729dc869c883ed1a00cda3b604"
         },
         "swapped-in": "7cfca09dca343e21c4e82576b4171d5865f3541a66027cfecbcabd61b236bc3c",
         "test": "swap-and-re-pin"
       },
       "path": "corpora/vectors-identity-binding/gen_vectors.py",
       "serialization": "bytes",
-      "sha256": "bf86d235db98e260b5cdb8f0d2d7877a17816d5a21e95c50486df825a2104f5b"
+      "sha256": "1b2801c302208affbd8909f3afd72922257cbc9be7a6b8f97890209164dff45e"
     },
     {
       "consumed": "unconsumed",
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "e7f70e5dbc982958bfa34182b3f28df8d16db49cacd41fb7c5717d2c79d50e45"
+          "sha256": "c476b8f544f92d118ec35ca7ba8da9f0057edd729dc869c883ed1a00cda3b604"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [],
@@ -107,14 +107,14 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "e7f70e5dbc982958bfa34182b3f28df8d16db49cacd41fb7c5717d2c79d50e45"
+          "sha256": "c476b8f544f92d118ec35ca7ba8da9f0057edd729dc869c883ed1a00cda3b604"
         },
         "swapped-in": "656ed885147e730824c3c9122930af96f17a6f57619ebc0ab02f5bd6b547fbad",
         "test": "swap-and-re-pin"
       },
       "path": "corpora/vectors-identity-binding/tests/test_corpus.py",
       "serialization": "bytes",
-      "sha256": "68346f34d6382409cd53b7ecf14dd7a1b6d3b8d2360ade03820e0c1a75cab01c"
+      "sha256": "b1591a1312690854ee1ac9e5c36bfcc533e575b646fe3d8c586d9d7958cf7f58"
     }
   ],
   "boundary": {
@@ -129,7 +129,7 @@
     "root": "corpora/vectors-identity-binding"
   },
   "byte-identity": {
-    "pins": 47,
+    "pins": 35,
     "serialization": "bytes"
   },
   "canonicalization": {
@@ -166,7 +166,7 @@
         "go.mod"
       ],
       "serialization": "sha256-listing-v1",
-      "sha256": "37d6533f2accae39217928544c8bdecf31fb0b5d3a857f771c3231893b20907f"
+      "sha256": "42a74071838d93dd1983eb566689ff1fce19d480e317b8479d745da941946edf"
     },
     "runtime": {
       "name": "go",
@@ -275,43 +275,11 @@
         "verdict": "rejected"
       },
       "state": "pass"
-    },
-    {
-      "check": "web-backdated-after-rotation",
-      "native": {
-        "reasons": [],
-        "verdict": "rejected"
-      },
-      "state": "pass"
-    },
-    {
-      "check": "wba-deactivated-after-signing",
-      "native": {
-        "reasons": [],
-        "verdict": "rejected"
-      },
-      "state": "pass"
-    },
-    {
-      "check": "web-signing-time-unproven",
-      "native": {
-        "reasons": [],
-        "verdict": "rejected"
-      },
-      "state": "pass"
-    },
-    {
-      "check": "web-forward-dated",
-      "native": {
-        "reasons": [],
-        "verdict": "rejected"
-      },
-      "state": "pass"
     }
   ],
   "corpus-digest": {
     "serialization": "sha256-listing-v1",
-    "sha256": "bc78348816743c7246286d8d0c093f053bc9f1eff107843e214dc19e7c9770de"
+    "sha256": "14da0f931a144ba46c739056b2812a5ec2f73fd673d5813ebec6090799baf52f"
   },
   "exit-code": 0,
   "exit-rule": "zero-iff-every-check-passes",
@@ -332,21 +300,17 @@
       "subject-swap",
       "did-malformed",
       "wba-fingerprint-mismatch",
-      "payload-altered",
-      "web-backdated-after-rotation",
-      "wba-deactivated-after-signing",
-      "web-signing-time-unproven",
-      "web-forward-dated"
+      "payload-altered"
     ],
     "path": "corpora/vectors-identity-binding/MANIFEST.json",
-    "sha256": "0d10885783277663d623ff018bf3c57009f5e218bee568a8e7e1d4ac43c91196"
+    "sha256": "42c8e9ce54c2a0586c37e665a50c21720fbada23c7e3a138a170f81573642f4c"
   },
   "members": [
     {
       "files": [
         {
           "path": "corpora/vectors-identity-binding/cases/web-verified/case.json",
-          "sha256": "1e3afab734bc651f4b8840a3bbf3f0eafdfdb042428495311857a1afccb15bee"
+          "sha256": "4bca7d7f89419691fc7c4c9182cadf6aa2bcaabb88621817a28ac4c7d0cb4195"
         },
         {
           "path": "corpora/vectors-identity-binding/cases/web-verified/did-alice.json",
@@ -363,7 +327,7 @@
       "files": [
         {
           "path": "corpora/vectors-identity-binding/cases/wba-verified/case.json",
-          "sha256": "94d3d687e3f1ffc86e99c22824cc2d7f6c9d9bcdc12f8e00c39636115d1794a6"
+          "sha256": "a910b1848ad979b5cef48084bf34a22a56171451b9cf026bb922d8a2ea9a60ae"
         },
         {
           "path": "corpora/vectors-identity-binding/cases/wba-verified/did-alice.json",
@@ -380,7 +344,7 @@
       "files": [
         {
           "path": "corpora/vectors-identity-binding/cases/web-signed-before-rotation/case.json",
-          "sha256": "89036f6d6664eb11a5b70fc4c5778ac3a792ff8183c6a1c9d30cbf3282d94e6d"
+          "sha256": "4bca7d7f89419691fc7c4c9182cadf6aa2bcaabb88621817a28ac4c7d0cb4195"
         },
         {
           "path": "corpora/vectors-identity-binding/cases/web-signed-before-rotation/did-alice.json",
@@ -397,7 +361,7 @@
       "files": [
         {
           "path": "corpora/vectors-identity-binding/cases/key-not-in-authentication/case.json",
-          "sha256": "1e3afab734bc651f4b8840a3bbf3f0eafdfdb042428495311857a1afccb15bee"
+          "sha256": "4bca7d7f89419691fc7c4c9182cadf6aa2bcaabb88621817a28ac4c7d0cb4195"
         },
         {
           "path": "corpora/vectors-identity-binding/cases/key-not-in-authentication/did-alice.json",
@@ -414,7 +378,7 @@
       "files": [
         {
           "path": "corpora/vectors-identity-binding/cases/key-absent-from-document/case.json",
-          "sha256": "1e3afab734bc651f4b8840a3bbf3f0eafdfdb042428495311857a1afccb15bee"
+          "sha256": "4bca7d7f89419691fc7c4c9182cadf6aa2bcaabb88621817a28ac4c7d0cb4195"
         },
         {
           "path": "corpora/vectors-identity-binding/cases/key-absent-from-document/did-alice.json",
@@ -431,7 +395,7 @@
       "files": [
         {
           "path": "corpora/vectors-identity-binding/cases/did-unresolvable/case.json",
-          "sha256": "b13d99f13cb8b8646f54f6e478d920845db0d658e9a93d4e4c01558be6bd1e4a"
+          "sha256": "470436ecd8edcbab5296d6d80b8c69b7e459bcdfd9f42f47b349a7c9752a79bb"
         },
         {
           "path": "corpora/vectors-identity-binding/cases/did-unresolvable/envelope.json",
@@ -444,7 +408,7 @@
       "files": [
         {
           "path": "corpora/vectors-identity-binding/cases/web-key-rotated-out/case.json",
-          "sha256": "2856550e0726102b26d93c1c3ec836bcf1fdd7ad4edfaac50c1cdb4ca921e8c2"
+          "sha256": "4bca7d7f89419691fc7c4c9182cadf6aa2bcaabb88621817a28ac4c7d0cb4195"
         },
         {
           "path": "corpora/vectors-identity-binding/cases/web-key-rotated-out/did-alice.json",
@@ -461,7 +425,7 @@
       "files": [
         {
           "path": "corpora/vectors-identity-binding/cases/wba-deactivated-before-signing/case.json",
-          "sha256": "94d3d687e3f1ffc86e99c22824cc2d7f6c9d9bcdc12f8e00c39636115d1794a6"
+          "sha256": "a910b1848ad979b5cef48084bf34a22a56171451b9cf026bb922d8a2ea9a60ae"
         },
         {
           "path": "corpora/vectors-identity-binding/cases/wba-deactivated-before-signing/did-alice.json",
@@ -478,7 +442,7 @@
       "files": [
         {
           "path": "corpora/vectors-identity-binding/cases/subject-swap/case.json",
-          "sha256": "ecce9f58ccb2e3fc04aa1720cc398d7fe83b5b5518d67b65dfcfca1e8b869bfb"
+          "sha256": "57846833b430b0cf19dbb6a0e5eebec6d1558934bcf382c96e9ddb062945c4b2"
         },
         {
           "path": "corpora/vectors-identity-binding/cases/subject-swap/did-alice.json",
@@ -499,7 +463,7 @@
       "files": [
         {
           "path": "corpora/vectors-identity-binding/cases/did-malformed/case.json",
-          "sha256": "b13d99f13cb8b8646f54f6e478d920845db0d658e9a93d4e4c01558be6bd1e4a"
+          "sha256": "470436ecd8edcbab5296d6d80b8c69b7e459bcdfd9f42f47b349a7c9752a79bb"
         },
         {
           "path": "corpora/vectors-identity-binding/cases/did-malformed/envelope.json",
@@ -512,7 +476,7 @@
       "files": [
         {
           "path": "corpora/vectors-identity-binding/cases/wba-fingerprint-mismatch/case.json",
-          "sha256": "94d3d687e3f1ffc86e99c22824cc2d7f6c9d9bcdc12f8e00c39636115d1794a6"
+          "sha256": "a910b1848ad979b5cef48084bf34a22a56171451b9cf026bb922d8a2ea9a60ae"
         },
         {
           "path": "corpora/vectors-identity-binding/cases/wba-fingerprint-mismatch/did-alice.json",
@@ -529,7 +493,7 @@
       "files": [
         {
           "path": "corpora/vectors-identity-binding/cases/payload-altered/case.json",
-          "sha256": "1e3afab734bc651f4b8840a3bbf3f0eafdfdb042428495311857a1afccb15bee"
+          "sha256": "4bca7d7f89419691fc7c4c9182cadf6aa2bcaabb88621817a28ac4c7d0cb4195"
         },
         {
           "path": "corpora/vectors-identity-binding/cases/payload-altered/did-alice.json",
@@ -541,74 +505,6 @@
         }
       ],
       "id": "payload-altered"
-    },
-    {
-      "files": [
-        {
-          "path": "corpora/vectors-identity-binding/cases/web-backdated-after-rotation/case.json",
-          "sha256": "9ebb3b4dd57673aec11c79610614b20ab8f9b486e196f3e17bc580fb13afdc23"
-        },
-        {
-          "path": "corpora/vectors-identity-binding/cases/web-backdated-after-rotation/did-alice.json",
-          "sha256": "138d263eb75a1a8203aa024d592e2309e85207465d6235d7c12d0d25dbc8514b"
-        },
-        {
-          "path": "corpora/vectors-identity-binding/cases/web-backdated-after-rotation/envelope.json",
-          "sha256": "a7455e4be92a5ef90d52025a2c3fd9e536a504a6b6b3e717383c1689873df6e7"
-        }
-      ],
-      "id": "web-backdated-after-rotation"
-    },
-    {
-      "files": [
-        {
-          "path": "corpora/vectors-identity-binding/cases/wba-deactivated-after-signing/case.json",
-          "sha256": "4a366cc5b3fc207c6151e7e8b5deac7b7fa1372f5ba19fbe10b97ee559ce5c19"
-        },
-        {
-          "path": "corpora/vectors-identity-binding/cases/wba-deactivated-after-signing/did-alice.json",
-          "sha256": "fd95ba8641e445cffeb8da17aef1302651f23a4e7b974ad4e17554e6a80db2e5"
-        },
-        {
-          "path": "corpora/vectors-identity-binding/cases/wba-deactivated-after-signing/envelope.json",
-          "sha256": "38ce7e41ad49bbaa27bd1a0236d23feda68cd7c7a8518b2d635b59232939ccb7"
-        }
-      ],
-      "id": "wba-deactivated-after-signing"
-    },
-    {
-      "files": [
-        {
-          "path": "corpora/vectors-identity-binding/cases/web-signing-time-unproven/case.json",
-          "sha256": "385d0d5eaf4ea0f023f82abbf9048d767c97fcc2c013f87bb2de8e6f364adab3"
-        },
-        {
-          "path": "corpora/vectors-identity-binding/cases/web-signing-time-unproven/did-alice.json",
-          "sha256": "649d8c4f26d9138c3d7f5f3a685ae78b3dbf16a9e574221c9daa55bc97078ec6"
-        },
-        {
-          "path": "corpora/vectors-identity-binding/cases/web-signing-time-unproven/envelope.json",
-          "sha256": "a7455e4be92a5ef90d52025a2c3fd9e536a504a6b6b3e717383c1689873df6e7"
-        }
-      ],
-      "id": "web-signing-time-unproven"
-    },
-    {
-      "files": [
-        {
-          "path": "corpora/vectors-identity-binding/cases/web-forward-dated/case.json",
-          "sha256": "1e3afab734bc651f4b8840a3bbf3f0eafdfdb042428495311857a1afccb15bee"
-        },
-        {
-          "path": "corpora/vectors-identity-binding/cases/web-forward-dated/did-alice.json",
-          "sha256": "649d8c4f26d9138c3d7f5f3a685ae78b3dbf16a9e574221c9daa55bc97078ec6"
-        },
-        {
-          "path": "corpora/vectors-identity-binding/cases/web-forward-dated/envelope.json",
-          "sha256": "64ac8c874900a6e0c825fc0c7193d7f038939abb531c8589eb40cd64433aaba3"
-        }
-      ],
-      "id": "web-forward-dated"
     }
   ],
   "native": {
@@ -627,7 +523,7 @@
       "reference": {
         "path": "release/intake/native/vectors-identity-binding.json",
         "serialization": "bytes",
-        "sha256": "e7f70e5dbc982958bfa34182b3f28df8d16db49cacd41fb7c5717d2c79d50e45"
+        "sha256": "c476b8f544f92d118ec35ca7ba8da9f0057edd729dc869c883ed1a00cda3b604"
       }
     },
     {
@@ -636,7 +532,7 @@
       "reference": {
         "path": "release/intake/native/vectors-identity-binding.txt",
         "serialization": "bytes",
-        "sha256": "ede846ec9a29b594b2e9abfc8a9e12d0d4fc42f85d25cce640ab61d7c0486609"
+        "sha256": "818e2fc49bd130b454e3a7781a890d4a89d7c5d111e6c61dd9c5218bb321af50"
       }
     },
     {
@@ -725,38 +621,6 @@
         "check:payload-altered"
       ],
       "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"rejected\",\"reason\":\"signature_invalid\"}}"
-    },
-    {
-      "check": "web-backdated-after-rotation",
-      "inputs": [
-        "member:web-backdated-after-rotation",
-        "check:web-backdated-after-rotation"
-      ],
-      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"rejected\",\"reason\":\"key_rotated_out\"}}"
-    },
-    {
-      "check": "wba-deactivated-after-signing",
-      "inputs": [
-        "member:wba-deactivated-after-signing",
-        "check:wba-deactivated-after-signing"
-      ],
-      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"rejected\",\"reason\":\"key_rotated_out\"}}"
-    },
-    {
-      "check": "web-signing-time-unproven",
-      "inputs": [
-        "member:web-signing-time-unproven",
-        "check:web-signing-time-unproven"
-      ],
-      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"rejected\",\"reason\":\"signing_time_unproven\"}}"
-    },
-    {
-      "check": "web-forward-dated",
-      "inputs": [
-        "member:web-forward-dated",
-        "check:web-forward-dated"
-      ],
-      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"rejected\",\"reason\":\"signing_time_unproven\"}}"
     }
   ],
   "relaxed-controls": [],
@@ -766,11 +630,11 @@
     "runs": [
       {
         "process": "run-1",
-        "sha256": "e7f70e5dbc982958bfa34182b3f28df8d16db49cacd41fb7c5717d2c79d50e45"
+        "sha256": "c476b8f544f92d118ec35ca7ba8da9f0057edd729dc869c883ed1a00cda3b604"
       },
       {
         "process": "run-2",
-        "sha256": "e7f70e5dbc982958bfa34182b3f28df8d16db49cacd41fb7c5717d2c79d50e45"
+        "sha256": "c476b8f544f92d118ec35ca7ba8da9f0057edd729dc869c883ed1a00cda3b604"
       }
     ],
     "seed": null,
@@ -784,7 +648,7 @@
       "action-occurred-or-authority"
     ],
     "establishes": [
-      "aee-verify, at the source listing named here, judges each of the 16 pinned members of agent-did-identity-binding/v1 as its manifest declares"
+      "aee-verify, at the source listing named here, judges each of the 12 pinned members of agent-did-identity-binding/v1 as its manifest declares"
     ],
     "leaves-open": [
       "whether an implementation written from the specification, run by someone other than an author, reaches the same verdicts",
@@ -795,7 +659,7 @@
   "selector": {
     "expression": "*",
     "language": "id-glob",
-    "matched": 16,
+    "matched": 12,
     "require": "at-least-one",
     "selected": [
       "web-verified",
@@ -809,11 +673,7 @@
       "subject-swap",
       "did-malformed",
       "wba-fingerprint-mismatch",
-      "payload-altered",
-      "web-backdated-after-rotation",
-      "wba-deactivated-after-signing",
-      "web-signing-time-unproven",
-      "web-forward-dated"
+      "payload-altered"
     ]
   },
   "specification-readers": [],

@@ -891,7 +891,7 @@ func rcB64(s string) ([]byte, bool) {
 	if len(s)-len(body) > 2 {
 		return nil, false
 	}
-	out, err := base64.RawStdEncoding.DecodeString(body)
+	out, err := decodeCanonical(base64.RawStdEncoding, body)
 	if err != nil || strings.ContainsAny(body, "\r\n") {
 		return nil, false
 	}

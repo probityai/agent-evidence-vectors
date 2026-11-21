@@ -60,6 +60,8 @@ from datetime import datetime
 from pathlib import Path
 from typing import Any
 
+from . import strictb64, strictjson
+
 SUITE = "agent-did-identity-binding/v1"
 VERIFIED, REJECTED = "verified", "rejected"
 EXIT_FOR = {VERIFIED: 0, REJECTED: 1}
@@ -161,7 +163,7 @@ def public_key(method: dict[str, Any]) -> bytes | None:
     jwk = method.get("publicKeyJwk")
     if isinstance(jwk, dict) and jwk.get("kty") == "OKP" and jwk.get("crv") == "Ed25519":
         try:
-            raw = base64.urlsafe_b64decode(str(jwk.get("x", "")) + "==")
+            raw = strictb64.url(str(jwk.get("x", "")))
         except ValueError:
             return None
         return raw if len(raw) == 32 else None
@@ -235,21 +237,21 @@ class _Case:
 
 def subject_of(envelope: dict[str, Any]) -> str:
     """The subject DID a DSSE envelope's payload names."""
-    record = json.loads(base64.b64decode(envelope["payload"]))
+    record = strictjson.loads(strictb64.std(envelope["payload"]))
     return str(record["subject"]["id"])
 
 
 def _load(case_path: Path) -> _Case:
-    case = json.loads(case_path.read_text(encoding="utf-8"))
+    case = strictjson.loads(case_path.read_text(encoding="utf-8"))
     base = case_path.parent
-    envelope = json.loads((base / case["envelope"]).read_text(encoding="utf-8"))
-    record = json.loads(base64.b64decode(envelope["payload"]))
+    envelope = strictjson.loads((base / case["envelope"]).read_text(encoding="utf-8"))
+    record = strictjson.loads(strictb64.std(envelope["payload"]))
     keyid = str(envelope["signatures"][0]["keyid"])
     signer = keyid.split("#", 1)[0]
     name = case.get("resolutions", {}).get(signer)
     resolution = None
     if name is not None and (base / name).is_file():
-        resolution = json.loads((base / name).read_text(encoding="utf-8"))
+        resolution = strictjson.loads((base / name).read_text(encoding="utf-8"))
     proven = case.get("provenAt")
     return _Case(envelope, str(record["subject"]["id"]), _when(record["signedAt"]),
                  keyid, signer, resolution, _when(proven) if isinstance(proven, str) else None)
@@ -300,8 +302,8 @@ def signature_verifies(c: _Case) -> bool:
     if key is None:
         return False
     try:
-        sig = base64.b64decode(str(c.envelope["signatures"][0]["sig"]), validate=True)
-        payload = base64.b64decode(str(c.envelope["payload"]), validate=True)
+        sig = strictb64.std(str(c.envelope["signatures"][0]["sig"]))
+        payload = strictb64.std(str(c.envelope["payload"]))
     except ValueError:
         return False
     rail = _rail()
@@ -350,7 +352,7 @@ def _fixture_error(directory: Path, entry: dict[str, Any]) -> str | None:
 
 
 def _validated_entries(root: Path) -> tuple[list[dict[str, Any]], str | None]:
-    manifest = json.loads((root / "MANIFEST.json").read_text(encoding="utf-8"))
+    manifest = strictjson.loads((root / "MANIFEST.json").read_text(encoding="utf-8"))
     entries = manifest["vectors"]
     if _sha(_json(entries)) != manifest["corpusDigest"]:
         return [], "manifest digest mismatch"
@@ -373,7 +375,7 @@ def _external_answer(command: list[str], case_path: Path) -> tuple[bool, dict[st
     except (OSError, subprocess.TimeoutExpired) as exc:
         return False, f"verifier did not run: {exc}"
     try:
-        answer = json.loads(result.stdout)
+        answer = strictjson.loads(result.stdout)
         observed = {key: answer[key] for key in ("decision", "reason")}
     except (ValueError, KeyError, TypeError):
         return True, f"verifier returned no decision (exit {result.returncode})"
@@ -430,7 +432,7 @@ def run(root: str, verifier: list[str] | None, report_path: str, rail_note: str)
     directory = Path(root)
     answered, errors = check(verifier, directory)
     try:
-        manifest = json.loads((directory / "MANIFEST.json").read_text(encoding="utf-8"))
+        manifest = strictjson.loads((directory / "MANIFEST.json").read_text(encoding="utf-8"))
         total = len(manifest["vectors"])
     except (OSError, ValueError, KeyError, TypeError):
         manifest, total = {}, 0
@@ -468,7 +470,7 @@ def main(argv: list[str] | None = None) -> int:
     answered, errors = check(args.verifier)
     for error in errors:
         print(error)
-    total = len(json.loads((ROOT / "MANIFEST.json").read_text(encoding="utf-8"))["vectors"])
+    total = len(strictjson.loads((ROOT / "MANIFEST.json").read_text(encoding="utf-8"))["vectors"])
     print(f"answered {answered} of {total} cases")
     return 1 if errors or answered != total else 0
 

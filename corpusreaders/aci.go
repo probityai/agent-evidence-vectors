@@ -1,7 +1,6 @@
 package corpusreaders
 
 import (
-	"encoding/json"
 	"fmt"
 	"path"
 	"regexp"
@@ -150,7 +149,7 @@ type aciDeployment struct {
 
 func (a aciCorpus) Judge(dir string, raw []byte) (*Result, error) {
 	var m aciManifest
-	if err := json.Unmarshal(raw, &m); err != nil {
+	if err := strictUnmarshal(raw, &m); err != nil {
 		return nil, fmt.Errorf("%s/MANIFEST.json does not parse: %w", dir, err)
 	}
 	result := &Result{}
@@ -211,7 +210,7 @@ func (aciCorpus) loadMember(dir string, v aciVector, member *Member) (aciDeploym
 			fmt.Sprintf("identifier does not recompute from the member's own bytes (declared %s, computed %s)",
 				v.ID, got))
 	}
-	if err := json.Unmarshal(body, &deployment); err != nil {
+	if err := strictUnmarshal(body, &deployment); err != nil {
 		member.Findings = append(member.Findings,
 			fmt.Sprintf("member file %s does not parse as a deployment: %v", v.File, err))
 		return deployment, false
@@ -359,7 +358,7 @@ func aciRun(files map[string]string, level int) map[string]string {
 		}
 		present[kind] = true
 		var fields map[string]any
-		if err := json.Unmarshal([]byte(text), &fields); err != nil {
+		if err := strictUnmarshal([]byte(text), &fields); err != nil {
 			fire("ACI-SER-001", aciViolation) // section 13.1: manifests SHALL be valid JSON
 			continue
 		}
@@ -593,7 +592,7 @@ func aciCheckDiscovery(files map[string]string, level int, fire func(string, str
 		return
 	}
 	var fields map[string]any
-	if err := json.Unmarshal([]byte(wellKnown), &fields); err != nil {
+	if err := strictUnmarshal([]byte(wellKnown), &fields); err != nil {
 		fire("ACI-DIS-002", aciViolation)
 		return
 	}
