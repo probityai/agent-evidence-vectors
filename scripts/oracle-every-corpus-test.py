@@ -64,6 +64,7 @@ RUNS_A_VERIFIER = (
     "vectors-incident-evidence-cell",
     "vectors-propagation-step",
     "vectors-containment-journal",
+    "vectors-capability-requirement",
     "vectors-decision-client-failure-modes",
     "vectors-refusal-reason-priority",
     "vectors-responsibility-escalation",

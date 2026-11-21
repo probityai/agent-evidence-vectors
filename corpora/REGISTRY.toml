@@ -393,6 +393,16 @@ record_class = "credential"
 domains = ["identity", "provenance", "agent-protocols"]
 standards = ["ietf-draft", "did", "rfc8785"]
 shapes = ["forged-signature", "missing-binding", "malformed-input"]
+id = "vectors-capability-requirement"
+path = "corpora/vectors-capability-requirement"
+wheel = true
+sdist = true
+title = "Capability requirements and endpoint reports"
+summary = "A requirement is signed before any model swap; a hosted-endpoint report keeps model identity unproven apart from behaviour on the pinned set, and drift is two signed runs compared."
+record_class = "record"
+domains = ["model-governance", "grading", "provenance"]
+standards = ["eu-ai-act", "rfc8785"]
+shapes = ["uncertainty", "missing-binding", "tampering"]
 
 [[corpus]]
 id = "vectors-chunked-export"

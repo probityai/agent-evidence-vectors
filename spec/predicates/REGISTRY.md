@@ -220,6 +220,23 @@ invoice is not an execution, settled billing never reopens the same attempt's di
 gate, and the dispatch state is a required output that leaves RESERVED once billing
 settles. Scenarios are from the P04 execution and billing candidate (agent-evidence-lab at
 8db9989), with X1 and the dispatch-guard mutants from a non-author run of it.
+### `predicate/v1/capability-requirement`
+
+- Document: `corpora/vectors-capability-requirement/README.md`
+- Corpus: `corpora/vectors-capability-requirement/`, suite `capability-requirement/v1`
+- Rails: `packaging/agent_evidence_vectors/capabilityrequirement.py`
+
+The predicate carries one of three records. A requirement, signed before any model swap,
+states a capability apart from any model, the pinned pass thresholds with a drift tolerance
+each, and an evaluation set by its item digests, with a held-out part the assessor attests
+by commitment. A hosted-endpoint report names that requirement and one signed run, and states
+`modelIdentity` and `behaviour` as two findings: identity stays `unproven` unless the endpoint
+holds weights and the report proves their digest, and behaviour on the pinned set is
+`supported`, `contradicted` or `not_established` from the thresholds and the values the run
+can support. A held-out value counts only with the named assessor's signature for that run.
+A drift record compares two signed runs of one requirement against one endpoint and is refused
+when the runs name different requirement digests or endpoints, repeat one run, or when its
+comparison is not the one the runs give.
 
 ### `predicate/v1/evaluation-claim`
 

@@ -184,6 +184,7 @@ def repository(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> Path:
         "corpora/vectors-propagation-step/README.md",
         "corpora/vectors-containment-journal/README.md",
         "corpora/vectors-key-directory-observation/README.md",
+        "corpora/vectors-capability-requirement/README.md",
         "spec/predicates/evaluation-claim.md",
         "spec/self-reported-record/v1.md",
         "spec/predicates/peer-verification.md",

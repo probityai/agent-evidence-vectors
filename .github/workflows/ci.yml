@@ -1845,6 +1845,8 @@ jobs:
         run: uv run --extra dev pytest corpora/vectors-rsa-digestinfo/tests -q
       - name: execution-billing-finality cases regenerate from ledger runs, force every check and reproduce the mutation table
         run: uv run --extra dev pytest corpora/vectors-execution-billing-finality/tests -q
+      - name: capability-requirement cases regenerate, force every check and refuse one verdict for a hosted endpoint
+        run: uv run --extra dev pytest corpora/vectors-capability-requirement/tests -q
       - name: agent-card-receipt cases regenerate and force every check
         run: uv run --extra dev pytest corpora/vectors-agent-card-receipt/tests -q
       - name: credential-release cases regenerate and force every check

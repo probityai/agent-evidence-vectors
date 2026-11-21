@@ -157,6 +157,7 @@ only-include = [
     "corpora/vectors-badge-vc-verify",
     "corpora/vectors-budget-lineage",
     "corpora/vectors-catalog-trust-manifest",
+    "corpora/vectors-capability-requirement",
     "corpora/vectors-chunked-export",
     "corpora/vectors-completion-confirmation",
     "corpora/vectors-connector-scope",
@@ -242,6 +243,7 @@ exclude = [
     "corpora/vectors-badge-vc-verify/**/*.py",
     "corpora/vectors-budget-lineage/**/*.py",
     "corpora/vectors-catalog-trust-manifest/**/*.py",
+    "corpora/vectors-capability-requirement/**/*.py",
     "corpora/vectors-chunked-export/**/*.py",
     "corpora/vectors-completion-confirmation/**/*.py",
     "corpora/vectors-connector-scope/**/*.py",
@@ -326,6 +328,7 @@ exclude = [
 "corpora/vectors-badge-vc-verify" = "agent_evidence_vectors/corpora/vectors-badge-vc-verify"
 "corpora/vectors-budget-lineage" = "agent_evidence_vectors/corpora/vectors-budget-lineage"
 "corpora/vectors-catalog-trust-manifest" = "agent_evidence_vectors/corpora/vectors-catalog-trust-manifest"
+"corpora/vectors-capability-requirement" = "agent_evidence_vectors/corpora/vectors-capability-requirement"
 "corpora/vectors-chunked-export" = "agent_evidence_vectors/corpora/vectors-chunked-export"
 "corpora/vectors-completion-confirmation" = "agent_evidence_vectors/corpora/vectors-completion-confirmation"
 "corpora/vectors-connector-scope" = "agent_evidence_vectors/corpora/vectors-connector-scope"
@@ -485,6 +488,7 @@ only-include = [
     "corpora/vectors-badge-vc-verify",
     "corpora/vectors-budget-lineage",
     "corpora/vectors-catalog-trust-manifest",
+    "corpora/vectors-capability-requirement",
     "corpora/vectors-chunked-export",
     "corpora/vectors-completion-confirmation",
     "corpora/vectors-connector-scope",
