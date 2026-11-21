@@ -685,6 +685,18 @@ standards = ["in-toto"]
 shapes = ["forged-signature", "tampering", "missing-binding"]
 
 [[corpus]]
+id = "vectors-ocsf-decision"
+path = "corpora/vectors-ocsf-decision"
+wheel = true
+sdist = true
+title = "Decision records: OCSF API Activity"
+summary = "A verifier must report each OCSF decision-record check on its own and refuse a member named twice under a valid seal, a key chosen by an unsigned key id and a cut tail."
+record_class = "record"
+domains = ["authority", "provenance"]
+standards = []
+shapes = ["malformed-input", "forged-signature", "broken-chain"]
+
+[[corpus]]
 id = "vectors-open-weight-art53"
 path = "corpora/vectors-open-weight-art53"
 wheel = true
