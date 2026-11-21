@@ -187,3 +187,24 @@ func TestTelemetryEvidenceLogEdgesNotInTheCorpus(t *testing.T) {
 		r["events_text"] = `{"seq":1,"seq":2,"prev":"` + strings.Repeat("0", 64) + `"}`
 	}), "contradicted/no_duplicate_member")
 }
+
+func TestTelemetryEvidenceManifestRowThatDoesNotParseIsAFinding(t *testing.T) {
+	dir := stage(t, teDir)
+	editManifest(t, dir, func(m map[string]any) {
+		m["vectors"] = append(vectorsOf(m), "not a row")
+	})
+	for _, f := range allFindings(t, dir) {
+		if strings.Contains(f, "a manifest row does not parse") {
+			return
+		}
+	}
+	t.Fatalf("want a finding for the row, got %v", allFindings(t, dir))
+}
+
+func TestTelemetryEvidenceManifestThatDoesNotParseIsAnError(t *testing.T) {
+	dir := stage(t, teDir)
+	editManifest(t, dir, func(m map[string]any) { m["vectors"] = "not a list" })
+	if _, err := corpusreaders.Judge(dir); err == nil || !strings.Contains(err.Error(), "does not parse") {
+		t.Fatalf("want a parse error, got %v", err)
+	}
+}
