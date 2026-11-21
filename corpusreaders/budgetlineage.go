@@ -370,7 +370,7 @@ func blPyString(value any) string {
 // blLooseChargedUnits sums charged units the way the Python reader does before
 // any type check runs, returning nil where the Python reader raises.
 func blLooseChargedUnits(raw map[string]any) *int64 {
-	lineage, ok := blLineage(raw)
+	lineage, ok := blLooseLineage(raw)
 	if !ok {
 		return nil
 	}
@@ -391,9 +391,9 @@ func blLooseChargedUnits(raw map[string]any) *int64 {
 	return &total
 }
 
-// blLineage is the set of budget ids in the root budget's lineage: the root and
+// blLooseLineage is the set of budget ids in the root budget's lineage: the root and
 // every carve a delegation names. False when the record is not that shape.
-func blLineage(raw map[string]any) (map[string]bool, bool) {
+func blLooseLineage(raw map[string]any) (map[string]bool, bool) {
 	budget, ok := raw["budget"].(map[string]any)
 	if !ok {
 		return nil, false

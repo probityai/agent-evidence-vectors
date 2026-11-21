@@ -635,22 +635,36 @@ func lbScanNumber(text string, i int) (int, bool, bool) {
 	} else {
 		i = j
 	}
-	integral := true
+	i, fraction := lbScanFraction(text, i)
+	i, exponent := lbScanExponent(text, i)
+	return i, !fraction && !exponent, true
+}
+
+// lbScanFraction consumes a '.' followed by at least one digit, and reports
+// whether it did.
+func lbScanFraction(text string, i int) (int, bool) {
 	if i+1 < len(text) && text[i] == '.' && text[i+1] >= '0' && text[i+1] <= '9' {
-		i, _ = lbDigits(text, i+1)
-		integral = false
+		j, _ := lbDigits(text, i+1)
+		return j, true
 	}
-	if i < len(text) && (text[i] == 'e' || text[i] == 'E') {
-		j := i + 1
-		if j < len(text) && (text[j] == '+' || text[j] == '-') {
-			j++
-		}
-		if j < len(text) && text[j] >= '0' && text[j] <= '9' {
-			i, _ = lbDigits(text, j)
-			integral = false
-		}
+	return i, false
+}
+
+// lbScanExponent consumes 'e' or 'E', an optional sign and at least one digit,
+// and reports whether it did; without a digit nothing is consumed.
+func lbScanExponent(text string, i int) (int, bool) {
+	if i >= len(text) || (text[i] != 'e' && text[i] != 'E') {
+		return i, false
 	}
-	return i, integral, true
+	j := i + 1
+	if j < len(text) && (text[j] == '+' || text[j] == '-') {
+		j++
+	}
+	if j < len(text) && text[j] >= '0' && text[j] <= '9' {
+		k, _ := lbDigits(text, j)
+		return k, true
+	}
+	return i, false
 }
 
 // lbNumberInRange refuses an integer outside +-(2^53-1) and a float that
