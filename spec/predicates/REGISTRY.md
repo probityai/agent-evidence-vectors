@@ -172,6 +172,22 @@ Records are from draft-li-rttp-iqa-addressing-02 sections 6.1, 7.2, 8.1 and 8.2.
   A later revision that keeps the set and the order is a new confirmation; any change to either is a new URI.
 - Example: `corpora/vectors-refusal-reason-priority/cases/conformant-expiry-over-revocation/record.json`.
 
+### `predicate/v1/credential-reachability`
+
+- Document: `spec/predicates/credential-reachability.md`
+- Corpus: `corpora/vectors-credential-reachability/`, suite `credential-reachability/v1`
+- Rails: `corpusreaders/credreach.go`, `packaging/agent_evidence_vectors/credreach.py`
+
+The predicate carries the result of a probe that ran inside an AI agent's environment,
+with the agent's own identity and view, over a closed list of ambient credential
+classes: SSH agent sockets and key files, cloud metadata endpoints, cloud and registry
+credential files, browser cookie stores, environment tokens, cluster service-account
+tokens, git credential helpers and host keyrings. Each class is `reachable`,
+`not_reachable` or `could_not_test`, and a probe that did not run is never
+`not_reachable`. A key outside the agent's reach signs the result, bound to the
+environment's contract, a verifier's challenge and an audience, so a consumer refuses a
+record the agent could have signed or replayed. The record carries no credential value.
+
 ### `predicate/v1/evaluation-claim`
 
 - Document: `spec/predicates/evaluation-claim.md`

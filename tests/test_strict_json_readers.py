@@ -37,7 +37,7 @@ CASE_READERS = (
     "agenticprocess", "aggregateaccounting", "anchoredchain", "approvalbinding",
     "authoritydispatch", "badgevc", "changeadmission", "chunkedexport",
     "completionconfirmation", "connectorscope", "containmentjournal", "convertedargs",
-    "decisionclient", "delegatorright", "dispatchfence", "evidencecell", "evidencestate",
+    "credreach", "decisionclient", "delegatorright", "dispatchfence", "evidencecell", "evidencestate",
     "gradefloor", "identitybinding", "monitorcoverage", "openweight", "paymentmandate",
     "propagationstep", "receiptchainend", "refusalreason", "signaturecoverage",
     "traceanchor", "uncertaineffect",

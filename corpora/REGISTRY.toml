@@ -433,6 +433,18 @@ standards = ["rfc8785"]
 shapes = ["missing-binding", "tampering"]
 
 [[corpus]]
+id = "vectors-credential-reachability"
+path = "corpora/vectors-credential-reachability"
+wheel = true
+sdist = true
+title = "Credential reachability"
+summary = "A verifier must accept a probe's signed credential-reachability result only when a key outside the agent's reach signed it, bound to the environment contract, its challenge and its audience, and no finding is hidden or overstated."
+record_class = "record"
+domains = ["authority", "identity", "provenance"]
+standards = ["in-toto"]
+shapes = ["self-report", "missing-binding", "replay"]
+
+[[corpus]]
 id = "vectors-credential-release"
 path = "corpora/vectors-credential-release"
 wheel = true
