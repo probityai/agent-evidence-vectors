@@ -11,6 +11,7 @@ Usage: python3 scripts/regenerate-derived-test.py
 from __future__ import annotations
 
 import importlib.util
+import json
 import re
 import shutil
 import subprocess
@@ -222,6 +223,81 @@ class ResolveMerge(unittest.TestCase):
             root = Path(tmp)
             self.repo_with_two_branches(root, extra=False)
             self.assertEqual(module.resolve_merge(root, lambda: 1), 1)
+
+
+def load_intake():
+    spec = importlib.util.spec_from_file_location(
+        "gen_intake_records", REPO / "scripts" / "gen-intake-records.py")
+    assert spec and spec.loader
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    return module
+
+
+class IntakeListing(unittest.TestCase):
+    """The intake records pin the Go files the build compiles, and only those.
+
+    Before this, the listing walked whole directories, so a new _test.go file
+    made every intake record stale while aee-verify compiled the same bytes.
+    """
+
+    def tree(self, root: Path) -> None:
+        files = {
+            "go.mod": "module example\n",
+            "aee/a.go": "package aee\n",
+            "aee/a_test.go": "package aee\n",
+            "aee/_scratch.go": "package aee\n",
+            "cmd/aee-verify/main.go": "package main\n",
+            "corpusreaders/r.go": "package corpusreaders\n",
+            "corpusreaders/r_internal_test.go": "package corpusreaders\n",
+            "corpusreaders/testdata/case.json": "{}\n",
+            "corpusreaders/testdata/helper.go": "package testdata\n",
+        }
+        for rel, body in files.items():
+            (root / rel).parent.mkdir(parents=True, exist_ok=True)
+            (root / rel).write_text(body, encoding="utf-8")
+
+    def digest(self, module, root: Path) -> str:
+        return module.w3cintake.source_listing(str(root), module.go_source(root))
+
+    def test_only_compiled_files_are_listed(self) -> None:
+        module = load_intake()
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            self.tree(root)
+            self.assertEqual(module.go_source(root), [
+                "aee/a.go", "cmd/aee-verify/main.go", "corpusreaders/r.go", "go.mod"])
+
+    def test_a_test_file_or_testdata_change_leaves_the_listing(self) -> None:
+        module = load_intake()
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            self.tree(root)
+            before = self.digest(module, root)
+            (root / "aee/a_test.go").write_text("package aee // changed\n", encoding="utf-8")
+            (root / "corpusreaders/new_test.go").write_text("package corpusreaders\n",
+                                                            encoding="utf-8")
+            (root / "corpusreaders/testdata/case.json").write_text("[]\n", encoding="utf-8")
+            self.assertEqual(self.digest(module, root), before)
+
+    def test_a_compiled_file_change_moves_the_listing(self) -> None:
+        module = load_intake()
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            self.tree(root)
+            before = self.digest(module, root)
+            (root / "corpusreaders/r.go").write_text("package corpusreaders // x\n",
+                                                     encoding="utf-8")
+            self.assertNotEqual(self.digest(module, root), before)
+            (root / "corpusreaders/added.go").write_text("package corpusreaders\n",
+                                                         encoding="utf-8")
+            self.assertIn("corpusreaders/added.go", module.go_source(root))
+
+    def test_the_committed_records_name_the_compiled_files(self) -> None:
+        module = load_intake()
+        record = json.loads((REPO / "release/intake/vectors.intake.json").read_text("utf-8"))
+        self.assertEqual(record["checker"]["revision"]["paths"], module.go_source())
+        self.assertEqual(record["checker"]["shared-verification-code"], module.go_source())
 
 
 if __name__ == "__main__":
