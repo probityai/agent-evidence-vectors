@@ -148,3 +148,16 @@ condition = "AND"
 paths = ['''^(corpora/)?vectors-badge-vc-verify/cases/[^/]+/case\.json$''']
 regexTarget = "match"
 regexes = ['''eyJ[A-Za-z0-9_-]+\.[A-Za-z0-9_-]+\.[A-Za-z0-9_-]*''']
+
+[[allowlists]]
+description = "SHA-256 digests of case files in the status-receipt-binding manifest"
+# MANIFEST.json lists each case file with the SHA-256 of its bytes. The generic rule
+# reads the 64-hex value after "credential.json" as a key. All ten distinct values
+# were checked to equal the digest of a file in the corpus, so they are digests and
+# not secrets. AND: only this one manifest path, and only a file-name member whose
+# value is 64 hex characters.
+targetRules = ["generic-api-key"]
+condition = "AND"
+paths = ['''^corpora/vectors-status-receipt-binding/MANIFEST\.json$''']
+regexTarget = "match"
+regexes = ['''credential\.json"\s*:\s*"[0-9a-f]{64}"''']
