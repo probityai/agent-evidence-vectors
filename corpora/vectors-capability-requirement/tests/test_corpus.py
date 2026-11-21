@@ -93,7 +93,8 @@ def test_every_kind_has_allowed_and_denied_cases() -> None:
 
 def test_every_case_signature_is_real_or_named_as_forged() -> None:
     """The requirement, the attestation and each run signature verify unless the case
-    exists to show one that does not."""
+    exists to show one that does not. A re-signed reject case carries a real signature over
+    a requirement the reader refuses, so only an allow case must also pass the reader."""
     rail = generator.rail
     forged_prefixes = ("reject-requirement-", "reject-threshold-", "reject-capability-changed",
                        "reject-evaluation-digest-edited", "reject-held-out-assessor-changed",
@@ -104,7 +105,8 @@ def test_every_case_signature_is_real_or_named_as_forged() -> None:
         key = base64.b64decode(record["requirerSignature"]["publicKey"])
         sig = base64.b64decode(record["requirerSignature"]["signature"])
         assert rail.ed25519_verify(key, reader.canonical(record["requirement"]), sig), name
-        assert reader.requirement_failure(record) is None, name
+        if name.startswith("allow-"):
+            assert reader.requirement_failure(record) is None, name
 
 
 def test_threshold_change_after_signing_breaks_the_signature() -> None:
