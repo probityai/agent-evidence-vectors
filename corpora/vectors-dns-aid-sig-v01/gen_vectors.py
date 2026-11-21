@@ -25,6 +25,7 @@ from __future__ import annotations
 import base64
 import copy
 import hashlib
+import importlib.util
 import json
 from collections.abc import Callable
 from pathlib import Path
@@ -623,16 +624,18 @@ def _sha(data: bytes) -> str:
     return hashlib.sha256(data).hexdigest()
 
 
-def corpus_digest(manifest: dict[str, Any], root: str | Path = ROOT) -> str:
-    """SHA-256 over the member files in identifier order, read from disk and checked."""
-    base = Path(root)
-    body = b""
-    for entry in sorted(manifest["vectors"], key=lambda e: e["id"]):
-        data = (base / entry["file"]).read_bytes()
-        if _sha(data) != entry["sha256"]:
-            raise ValueError(f"{entry['id']}: file digest mismatch")
-        body += data
-    return _sha(body)
+def _load_digest() -> Any:
+    """digest.py, loaded by path: the preimage lives there so verification needs no package."""
+    spec = importlib.util.spec_from_file_location("dns_aid_sig_digest", ROOT / "digest.py")
+    if spec is None or spec.loader is None:
+        raise ImportError(f"{ROOT / 'digest.py'} could not be loaded")
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    return module
+
+
+#: Imported rather than restated: one preimage, one spelling.
+corpus_digest = _load_digest().corpus_digest
 
 
 def members() -> dict[str, bytes]:
