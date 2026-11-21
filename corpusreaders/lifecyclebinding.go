@@ -721,40 +721,68 @@ func (p *lbParser) escape(out *strings.Builder) error {
 	if c != 'u' {
 		return lbShape
 	}
-	code, ok := p.hex4()
+	digits, ok := p.hex4()
 	if !ok {
 		return lbShape
 	}
+	code := lbHexValue(digits)
 	if code >= 0xD800 && code <= 0xDBFF && strings.HasPrefix(p.text[p.pos:], `\u`) {
 		save := p.pos
 		p.pos += 2
-		if low, ok := p.hex4(); ok && low >= 0xDC00 && low <= 0xDFFF {
-			out.WriteRune(rune(0x10000 + (code-0xD800)<<10 + (low - 0xDC00)))
-			return nil
+		if lowDigits, ok := p.hex4(); ok {
+			if low := lbHexValue(lowDigits); low >= 0xDC00 && low <= 0xDFFF {
+				out.WriteRune(0x10000 + (code-0xD800)<<10 + (low - 0xDC00))
+				return nil
+			}
 		}
 		p.pos = save
 	}
 	if code >= 0xD800 && code <= 0xDFFF {
+		// A lone surrogate is kept as its generalized UTF-8 (WTF-8) bytes, which
+		// utf8 refuses to encode. With code = 0xD|d1|d2|d3 the three bytes are
+		// 0xE0|0xD, 0x80|d1<<2|d2>>2 and 0x80|(d2&3)<<4|d3, built from the hex
+		// digits so no wider value is narrowed to a byte.
 		p.lone = true
-		out.WriteByte(byte(0xE0 | code>>12))
-		out.WriteByte(byte(0x80 | (code>>6)&0x3F))
-		out.WriteByte(byte(0x80 | code&0x3F))
+		out.WriteByte(0xE0 | digits[0])
+		out.WriteByte(0x80 | digits[1]<<2 | digits[2]>>2)
+		out.WriteByte(0x80 | (digits[2]&0x3)<<4 | digits[3])
 		return nil
 	}
-	out.WriteRune(rune(code))
+	out.WriteRune(code)
 	return nil
 }
 
-func (p *lbParser) hex4() (int, bool) {
+// hex4 reads the four hex digits of a \u escape and returns each digit's value
+// (0 to 15), most significant first.
+func (p *lbParser) hex4() ([4]byte, bool) {
+	var digits [4]byte
 	if p.pos+4 > len(p.text) {
-		return 0, false
+		return digits, false
 	}
-	for _, c := range p.text[p.pos : p.pos+4] {
-		if !strings.ContainsRune("0123456789abcdefABCDEF", c) {
-			return 0, false
+	for i := range digits {
+		d, ok := lbHexDigit(p.text[p.pos+i])
+		if !ok {
+			return digits, false
 		}
+		digits[i] = d
 	}
-	n, err := strconv.ParseUint(p.text[p.pos:p.pos+4], 16, 16)
 	p.pos += 4
-	return int(n), err == nil
+	return digits, true
+}
+
+func lbHexDigit(c byte) (byte, bool) {
+	switch {
+	case c >= '0' && c <= '9':
+		return c - '0', true
+	case c >= 'a' && c <= 'f':
+		return c - 'a' + 10, true
+	case c >= 'A' && c <= 'F':
+		return c - 'A' + 10, true
+	}
+	return 0, false
+}
+
+// lbHexValue is the code unit four hex digits spell, at most 0xFFFF.
+func lbHexValue(digits [4]byte) rune {
+	return rune(digits[0])<<12 | rune(digits[1])<<8 | rune(digits[2])<<4 | rune(digits[3])
 }

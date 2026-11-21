@@ -175,7 +175,7 @@ func kdEntries(c *kdCase) []kdEntry {
 			continue
 		}
 		kid, hasKid := key["kid"]
-		ok := !(wellKnown && hasKid && kid != thumb)
+		ok := !wellKnown || !hasKid || kid == thumb
 		found = append(found, kdEntry{thumb, ok})
 	}
 	return found

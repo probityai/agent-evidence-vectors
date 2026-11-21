@@ -5,7 +5,6 @@ import (
 	"encoding/json"
 	"fmt"
 	"math/big"
-	"os"
 	"path/filepath"
 	"reflect"
 	"regexp"
@@ -104,7 +103,12 @@ func (executionBilling) Judge(dir string, raw []byte) (*Result, error) {
 			continue
 		}
 		member := Member{ID: v.ID, Kind: v.Expected.Decision}
-		member.Findings = ebJudgeMember(filepath.Join(dir, v.Path), v)
+		if !filepath.IsLocal(filepath.FromSlash(v.Path)) {
+			member.Findings = []string{v.Path + " leaves the corpus directory"}
+			result.Members = append(result.Members, member)
+			continue
+		}
+		member.Findings = ebJudgeMember(filepath.Join(dir, filepath.FromSlash(v.Path)), v)
 		result.Members = append(result.Members, member)
 	}
 	if finding := scCorpusDigest(manifest); finding != "" {
@@ -131,7 +135,7 @@ func ebDecode(raw []byte) (any, error) {
 
 func ebJudgeMember(caseDir string, v ebVector) []string {
 	findings := acFileFindings(caseDir, v.Files)
-	raw, err := os.ReadFile(filepath.Join(caseDir, "record.json")) // #nosec G304 -- a member of the corpus under judgement
+	raw, err := readIn(caseDir, "record.json")
 	if err != nil {
 		return append(findings, err.Error())
 	}

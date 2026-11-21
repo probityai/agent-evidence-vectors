@@ -6,6 +6,7 @@ import (
 	"crypto/sha256"
 	"crypto/sha512"
 	"encoding/base64"
+	"encoding/binary"
 	"encoding/hex"
 	"encoding/json"
 	"errors"
@@ -374,10 +375,11 @@ func teCBORItem(buf []byte, pos, depth int) (*teCBOR, int, error) {
 	case 0, 1:
 		return &teCBOR{major: major, arg: arg}, pos, nil
 	case 2, 3:
-		if arg > uint64(len(buf)-pos) {
+		rest := buf[pos:]
+		if arg > uint64(len(rest)) {
 			return nil, pos, teRefuse("canonical_form")
 		}
-		end := pos + int(arg) // #nosec G115 -- arg is at most the remaining length, checked above
+		end := pos + int(arg) // #nosec G115 -- arg is at most len(rest), an int, checked above
 		return &teCBOR{major: major, raw: buf[pos:end]}, end, nil
 	}
 	return teCBORContainer(buf, pos, major, arg, depth)
@@ -439,16 +441,15 @@ func teCBORHead(major byte, arg uint64) []byte {
 	if arg < 24 {
 		return []byte{major<<5 | byte(arg)}
 	}
+	var be [8]byte
+	binary.BigEndian.PutUint64(be[:], arg)
 	for _, step := range []struct {
-		info byte
-		size int
-	}{{24, 1}, {25, 2}, {26, 4}, {27, 8}} {
-		if step.size == 8 || arg < 1<<(8*uint(step.size)) {
-			out := []byte{major<<5 | step.info}
-			for shift := (step.size - 1) * 8; shift >= 0; shift -= 8 {
-				out = append(out, byte(arg>>uint(shift))) // #nosec G115 -- the low byte is the byte wanted
-			}
-			return out
+		info  byte
+		size  int
+		limit uint64 // 0: no limit, the eight-byte form holds every value
+	}{{24, 1, 1 << 8}, {25, 2, 1 << 16}, {26, 4, 1 << 32}, {27, 8, 0}} {
+		if step.limit == 0 || arg < step.limit {
+			return append([]byte{major<<5 | step.info}, be[8-step.size:]...)
 		}
 	}
 	return nil
