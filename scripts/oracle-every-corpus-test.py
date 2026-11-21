@@ -70,6 +70,7 @@ RUNS_A_VERIFIER = (
     "vectors-connector-scope",
     "vectors-agent-payment-mandate",
     "vectors-identity-binding",
+    "vectors-status-receipt-binding",
     "vectors-receipt-chain-end",
     "vectors-receipt-signature",
     "vectors-scitt-cose",
