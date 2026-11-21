@@ -48,6 +48,8 @@ from collections.abc import Callable
 from pathlib import Path
 from typing import Any
 
+from agent_evidence_vectors import strictjson
+
 SUITE = "print-witness/v1"
 VERIFIED, REJECTED = "verified", "rejected"
 EXIT_FOR = {VERIFIED: 0, REJECTED: 1}
@@ -116,7 +118,7 @@ def _signed(envelope: Any, keys: dict[str, str]) -> bool:
 
 def _load(case_path: Path) -> tuple[dict[str, Any], bytes, list[bytes]]:
     """The consumer's trust inputs, the job file, and the stored log lines."""
-    case = json.loads(case_path.read_text(encoding="utf-8"))
+    case = strictjson.loads(case_path.read_text(encoding="utf-8"))
     base = case_path.parent
     job = (base / case["job"]).read_bytes()
     lines = [line for line in (base / case["log"]).read_bytes().split(b"\n") if line]
@@ -134,7 +136,7 @@ def _first_failure(
     Every check is total on its own, so switching one off never crashes the next.
     """
     keys = case["witnesses"]
-    envelopes = [json.loads(line) for line in lines]
+    envelopes = [strictjson.loads(line) for line in lines]
     records = [env.get("record", {}) if isinstance(env, dict) else {} for env in envelopes]
     intake = records[0] if records else {}
     last = records[-1] if records else {}
@@ -176,7 +178,7 @@ def verify(case_path: Path, skip: frozenset[str] = frozenset()) -> dict[str, str
 def log_signatures_verify(case_path: Path) -> bool:
     """Whether every log record verifies under the trusted key its kid names."""
     case, _, lines = _load(case_path)
-    return all(_signed(json.loads(line), case["witnesses"]) for line in lines)
+    return all(_signed(strictjson.loads(line), case["witnesses"]) for line in lines)
 
 
 def _fixture_error(directory: Path, entry: dict[str, Any]) -> str | None:
@@ -190,7 +192,7 @@ def _fixture_error(directory: Path, entry: dict[str, Any]) -> str | None:
 
 
 def _validated_entries(root: Path) -> tuple[list[dict[str, Any]], str | None]:
-    manifest = json.loads((root / "MANIFEST.json").read_text(encoding="utf-8"))
+    manifest = strictjson.loads((root / "MANIFEST.json").read_text(encoding="utf-8"))
     entries = manifest["vectors"]
     if _sha(_json(entries)) != manifest["corpusDigest"]:
         return [], "manifest digest mismatch"
@@ -216,7 +218,7 @@ def _external_answer(command: list[str], case_path: Path) -> tuple[bool, dict[st
     except (OSError, subprocess.TimeoutExpired) as exc:
         return False, f"verifier did not run: {exc}"
     try:
-        answer = json.loads(result.stdout)
+        answer = strictjson.loads(result.stdout)
         observed = {key: answer[key] for key in ("decision", "reason")}
     except (ValueError, KeyError, TypeError):
         return True, f"verifier returned no decision (exit {result.returncode})"
@@ -273,7 +275,7 @@ def run(root: str, verifier: list[str] | None, report_path: str, rail_note: str)
     directory = Path(root)
     answered, errors = check(verifier, directory)
     try:
-        manifest = json.loads((directory / "MANIFEST.json").read_text(encoding="utf-8"))
+        manifest = strictjson.loads((directory / "MANIFEST.json").read_text(encoding="utf-8"))
         total = len(manifest["vectors"])
     except (OSError, ValueError, KeyError, TypeError):
         manifest, total = {}, 0
@@ -311,7 +313,7 @@ def main(argv: list[str] | None = None) -> int:
     answered, errors = check(args.verifier)
     for error in errors:
         print(error)
-    total = len(json.loads((ROOT / "MANIFEST.json").read_text(encoding="utf-8"))["vectors"])
+    total = len(strictjson.loads((ROOT / "MANIFEST.json").read_text(encoding="utf-8"))["vectors"])
     print(f"answered {answered} of {total} cases")
     return 1 if errors or answered != total else 0
 

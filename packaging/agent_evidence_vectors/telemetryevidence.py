@@ -35,7 +35,7 @@ import sys
 from pathlib import Path
 from typing import Any
 
-from agent_evidence_vectors import a2ajcs
+from agent_evidence_vectors import a2ajcs, strictjson
 from agent_evidence_vectors.monitorcoverage import _fixture_error, _validated_entries, run_corpus
 
 SUITE = "telemetry-evidence/v1"
@@ -397,7 +397,7 @@ def judge(record: dict[str, Any]) -> dict[str, str]:
 
 
 def verify(record_path: Path) -> dict[str, str]:
-    return judge(json.loads(record_path.read_text(encoding="utf-8")))
+    return judge(strictjson.loads(record_path.read_text(encoding="utf-8")))
 
 
 def _external(command: list[str], path: Path) -> tuple[bool, dict[str, Any] | str]:
@@ -408,7 +408,7 @@ def _external(command: list[str], path: Path) -> tuple[bool, dict[str, Any] | st
     except (OSError, subprocess.TimeoutExpired) as exc:
         return False, f"verifier did not run: {exc}"
     try:
-        answer = json.loads(result.stdout)
+        answer = strictjson.loads(result.stdout)
         observed = {key: answer[key] for key in ("decision", "reason")}
     except (ValueError, KeyError, TypeError):
         return True, f"verifier returned no decision (exit {result.returncode})"
@@ -467,7 +467,7 @@ def main(argv: list[str] | None = None) -> int:
     answered, errors = check(args.verifier)
     for error in errors:
         print(error)
-    total = len(json.loads((ROOT / "MANIFEST.json").read_text(encoding="utf-8"))["vectors"])
+    total = len(strictjson.loads((ROOT / "MANIFEST.json").read_text(encoding="utf-8"))["vectors"])
     print(f"answered {answered} of {total} cases")
     return 1 if errors or answered != total else 0
 

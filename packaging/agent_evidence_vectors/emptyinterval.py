@@ -55,6 +55,7 @@ from collections.abc import Callable
 from pathlib import Path
 from typing import Any
 
+from agent_evidence_vectors import strictjson
 from agent_evidence_vectors.anchoredchain import _fixture_error, _sha, _signed
 from agent_evidence_vectors.monitorcoverage import _validated_entries, run_corpus
 
@@ -97,7 +98,7 @@ Case = dict[str, Any]
 
 
 def _load(path: Path) -> Any:
-    return json.loads(path.read_text(encoding="utf-8"))
+    return strictjson.loads(path.read_text(encoding="utf-8"))
 
 
 def _statement(case: Case, case_dir: Path) -> Any:
@@ -108,7 +109,7 @@ def _statement(case: Case, case_dir: Path) -> Any:
 def _events(case_dir: Path, case: Case) -> tuple[list[bytes], list[Any]]:
     raw = (case_dir / case["ledger"]).read_bytes().split(b"\n")
     lines = [line for line in raw if line]
-    return lines, [json.loads(line) for line in lines]
+    return lines, [strictjson.loads(line) for line in lines]
 
 
 def _covered(case: Case, statement: Case) -> bool:
@@ -234,7 +235,7 @@ def _external_answer(command: list[str], case_path: Path) -> tuple[bool, dict[st
     except (OSError, subprocess.TimeoutExpired) as exc:
         return False, f"verifier did not run: {exc}"
     try:
-        answer = json.loads(result.stdout)
+        answer = strictjson.loads(result.stdout)
         observed = {key: answer[key] for key in ("decision", "reason")}
     except (ValueError, KeyError, TypeError):
         return True, f"verifier returned no decision (exit {result.returncode})"
@@ -304,7 +305,7 @@ def main(argv: list[str] | None = None) -> int:
     answered, errors = check(args.verifier)
     for error in errors:
         print(error)
-    total = len(json.loads((ROOT / "MANIFEST.json").read_text(encoding="utf-8"))["vectors"])
+    total = len(strictjson.loads((ROOT / "MANIFEST.json").read_text(encoding="utf-8"))["vectors"])
     print(f"answered {answered} of {total} cases")
     return 1 if errors or answered != total else 0
 

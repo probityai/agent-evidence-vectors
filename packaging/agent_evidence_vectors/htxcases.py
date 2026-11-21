@@ -38,11 +38,11 @@ prints one JSON object carrying ``decision`` and ``reason``, and exits 0 for
 
 from __future__ import annotations
 
-import json
 from collections.abc import Callable
 from pathlib import Path
 from typing import Any
 
+from agent_evidence_vectors import strictjson
 from agent_evidence_vectors.monitorcoverage import (
     ALLOW,
     DENY,
@@ -140,7 +140,7 @@ def _first_failure(record: Record, skip: frozenset[str]) -> str | None:
 
 def verify(record_path: Path, skip: frozenset[str] = frozenset()) -> dict[str, str]:
     """The reference reader's decision and reason for one record."""
-    record: Record = json.loads(record_path.read_text(encoding="utf-8"))
+    record: Record = strictjson.loads(record_path.read_text(encoding="utf-8"))
     failure = _first_failure(record, skip)
     if failure is not None:
         return {"decision": DENY, "reason": failure}

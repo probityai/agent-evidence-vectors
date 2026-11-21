@@ -2828,7 +2828,7 @@ def _manifest_above(path: str) -> tuple[str, dict[str, Any]]:
         candidate = os.path.join(here, "MANIFEST.json")
         if os.path.isfile(candidate):
             with open(candidate, encoding="utf-8") as handle:
-                return here, json.load(handle)
+                return here, strictjson.load(handle)
         parent = os.path.dirname(here)
         if parent == here:
             raise FileNotFoundError(f"no MANIFEST.json above {path}")
@@ -2847,13 +2847,13 @@ def answer_member(path: str) -> dict[str, Any]:
         raw = handle.read()
     policy = policy_for(manifest, _entry_for_file(manifest, directory, path))
     try:
-        doc = json.loads(raw)
+        doc = strictjson.loads(raw)
     except ValueError:
         doc = None
     if isinstance(doc, dict) and "records" in doc:
         reports, joint = verify_set(raw, policy)
         try:
-            limits = [within_limit(json.loads(_envelope_payload(env)[1])["predicate"])
+            limits = [within_limit(strictjson.loads(_envelope_payload(env)[1])["predicate"])
                       for env in set_records(raw)]
         except (Malformed, ValueError, KeyError, TypeError):
             limits = []
@@ -2874,7 +2874,7 @@ def answer_member(path: str) -> dict[str, Any]:
     out: dict[str, Any] = {"verdict": report.verdict, "codes": report.codes,
                            "derivedTier": report.derived_tier}
     try:
-        out["withinLimit"] = within_limit(json.loads(_envelope_payload(raw)[1])["predicate"])
+        out["withinLimit"] = within_limit(strictjson.loads(_envelope_payload(raw)[1])["predicate"])
     except (Malformed, KeyError, TypeError, ValueError):
         pass
     return out
@@ -2975,7 +2975,7 @@ def _external_answer(command: list[str], path: str) -> tuple[bool, dict[str, Any
         return False, f"verifier did not run: {exc}"
     lines = [line for line in result.stdout.splitlines() if line.strip()]
     try:
-        answer = json.loads(lines[-1])
+        answer = strictjson.loads(lines[-1])
     except (IndexError, ValueError):
         return True, f"verifier printed no JSON object on its last line (exit {result.returncode})"
     if not isinstance(answer, dict):
@@ -2993,7 +2993,7 @@ def run_external(root: str, verifier: list[str], report_path: str, rail_note: st
     answers a verifier gives.
     """
     with open(os.path.join(root, "MANIFEST.json"), encoding="utf-8") as handle:
-        manifest = json.load(handle)
+        manifest = strictjson.load(handle)
     entries: list[dict[str, Any]] = manifest.get("vectors") or []
     failures = [f"corpus: {finding}" for finding in _corpus_findings(root, manifest)]
     rows: list[dict[str, Any]] = []

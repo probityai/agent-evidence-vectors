@@ -29,6 +29,7 @@ from pathlib import Path
 from typing import Any
 
 from agent_evidence_vectors import executionbilling as reader
+from agent_evidence_vectors import strictjson
 
 TIMEOUT_SECONDS = 120
 
@@ -57,7 +58,7 @@ def drive(command: list[str], scenario: dict[str, Any]) -> tuple[bool, list[str]
             return False, [f"runtime did not run: {exc}"], {}
     lines = result.stdout.strip().splitlines()
     try:
-        record = json.loads(lines[-1]) if lines else None
+        record = strictjson.loads(lines[-1]) if lines else None
     except ValueError:
         record = None
     if result.returncode != 0 or record is None:
@@ -69,7 +70,7 @@ def drive(command: list[str], scenario: dict[str, Any]) -> tuple[bool, list[str]
 
 def check_runtime(runtime: str | list[str], root: Path = reader.ROOT) -> dict[str, Any]:
     """Drive the runtime through every scenario and return the report body."""
-    manifest = json.loads((root / "MANIFEST.json").read_text(encoding="utf-8"))
+    manifest = strictjson.loads((root / "MANIFEST.json").read_text(encoding="utf-8"))
     command = shlex.split(runtime) if isinstance(runtime, str) else runtime
     if not command:
         raise ValueError("runtime command is empty")

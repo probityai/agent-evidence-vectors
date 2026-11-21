@@ -93,6 +93,7 @@ from datetime import datetime
 from pathlib import Path
 from typing import Any
 
+from agent_evidence_vectors import strictjson
 from agent_evidence_vectors.cardreceipt import _rail
 from agent_evidence_vectors.monitorcoverage import (
     ALLOW,
@@ -413,7 +414,7 @@ def _first_failure(record: Record, skip: frozenset[str]) -> str | None:
 
 
 def _load(record_path: Path) -> Record:
-    loaded: Record = json.loads(record_path.read_text(encoding="utf-8"))
+    loaded: Record = strictjson.loads(record_path.read_text(encoding="utf-8"))
     return loaded
 
 

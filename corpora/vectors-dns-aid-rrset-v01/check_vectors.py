@@ -21,6 +21,9 @@ from collections import Counter
 from pathlib import Path
 from typing import Any
 
+sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "packaging"))
+from agent_evidence_vectors import strictjson  # noqa: E402
+
 ROOT = Path(__file__).resolve().parent
 TRANSPORTS = {"h2", "h3", "http/1.1", "h2c"}
 
@@ -59,18 +62,21 @@ def report(case: Any) -> dict[str, Any]:
 
 def main(argv: list[str]) -> int:
     if argv:
-        rep = report(json.loads(Path(argv[0]).read_text(encoding="utf-8")))
+        rep = report(strictjson.loads(Path(argv[0]).read_text(encoding="utf-8")))
         print(json.dumps(rep, sort_keys=True))
         return 0 if rep["verdict"] == "valid" else 1
-    manifest = json.loads((ROOT / "MANIFEST.json").read_text(encoding="utf-8"))
+    manifest = strictjson.loads((ROOT / "MANIFEST.json").read_text(encoding="utf-8"))
     bad = 0
     for entry in manifest["vectors"]:
-        got = report(json.loads((ROOT / entry["file"]).read_text(encoding="utf-8")))
+        got = report(strictjson.loads((ROOT / entry["file"]).read_text(encoding="utf-8")))
         want = {k: entry["expected"][k] for k in ("codes", "verdict")}
         if got != want:
             bad += 1
             print(f"FAIL {entry['id']}: {got}, manifest {want}")
-    print(f"{len(manifest['vectors']) - bad} of {len(manifest['vectors'])} members behave as MANIFEST.json declares")
+    print(
+        f"{len(manifest['vectors']) - bad} of {len(manifest['vectors'])} members behave as "
+        "MANIFEST.json declares"
+    )
     return 1 if bad else 0
 
 
