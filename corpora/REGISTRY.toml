@@ -383,6 +383,8 @@ record_class = "record"
 domains = ["delegation", "authority"]
 standards = []
 shapes = ["scope-overreach", "self-report", "broken-chain"]
+
+[[corpus]]
 id = "vectors-catalog-trust-manifest"
 path = "corpora/vectors-catalog-trust-manifest"
 wheel = true
@@ -393,6 +395,8 @@ record_class = "credential"
 domains = ["identity", "provenance", "agent-protocols"]
 standards = ["ietf-draft", "did", "rfc8785"]
 shapes = ["forged-signature", "missing-binding", "malformed-input"]
+
+[[corpus]]
 id = "vectors-capability-requirement"
 path = "corpora/vectors-capability-requirement"
 wheel = true
@@ -715,6 +719,8 @@ record_class = "record"
 domains = ["authority", "provenance"]
 standards = ["w3c"]
 shapes = ["stale-authority", "replay", "coverage-gap"]
+
+[[corpus]]
 id = "vectors-lifecycle-binding"
 path = "corpora/vectors-lifecycle-binding"
 wheel = true
@@ -725,6 +731,8 @@ record_class = "record"
 domains = ["authority", "approval", "effects"]
 standards = ["rfc8785"]
 shapes = ["missing-binding", "stale-authority", "forged-signature"]
+
+[[corpus]]
 id = "vectors-key-directory-observation"
 path = "corpora/vectors-key-directory-observation"
 wheel = true
