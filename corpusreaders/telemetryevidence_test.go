@@ -92,6 +92,7 @@ func TestTelemetryEvidenceEachDigestRuleMovesTheVerdict(t *testing.T) {
 		"digest-undeclared-canonical-form":  "cannot-tell/undeclared_canonical_form",
 		"signed-id-no-pin":                  "cannot-tell/signer_not_established",
 		"signed-id-unsigned-required":       "cannot-tell/unsigned_manifest",
+		"signed-id-null-signature":          "contradicted/record_shape",
 	} {
 		t.Run("the control with the record of "+from, func(t *testing.T) {
 			teWant(t, control, teRead(t, from), want)

@@ -175,7 +175,7 @@ def _cbor_encode(value: Any) -> bytes:
         return _cbor_head(4, len(value)) + b"".join(_cbor_encode(v) for v in value)
     tag, body = value
     if tag == "t":
-        return _cbor_head(3, len(body)) + body
+        return _cbor_head(3, len(body)) + bytes(body)
     pairs = sorted((_cbor_encode(k), _cbor_encode(v)) for k, v in body)
     return _cbor_head(5, len(pairs)) + b"".join(k + v for k, v in pairs)
 
@@ -313,7 +313,7 @@ def judge_digest(record: dict[str, Any]) -> tuple[str, str]:
     if unbound == "undeclared_canonical_form":
         return "cannot-tell", unbound
     if pending or unbound:
-        return "cannot-tell", pending or unbound
+        return "cannot-tell", str(pending or unbound)
     return "agrees", "digests_bind_consumed_copy"
 
 

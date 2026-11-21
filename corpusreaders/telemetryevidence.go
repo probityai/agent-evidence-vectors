@@ -639,7 +639,10 @@ func tePinned(key []byte, pins []string) (string, error) {
 // teManifestSigner returns the not-established reason the signature leaves, or
 // "" when it leaves none; a bad signature is refused.
 func teManifestSigner(manifest map[string]any, r teRecord) (string, error) {
-	signature := manifest["signature"]
+	signature, present := manifest["signature"]
+	if present && signature == nil {
+		return "", teRefuse("record_shape")
+	}
 	if signature == nil {
 		if r.RequireSignature {
 			return "unsigned_manifest", nil

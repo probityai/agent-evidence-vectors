@@ -189,7 +189,7 @@ def _sha(value: Any) -> bool:
     )
 
 
-def _admit(record: Any) -> dict:
+def _admit(record: Any) -> dict[str, Any]:
     if not isinstance(record, dict):
         raise Refused("record_shape")
     if record.get("lifecycle_version") != "v1" or record.get("artifact_type") not in TYPES:
@@ -221,7 +221,7 @@ def _admit(record: Any) -> dict:
     return record
 
 
-def _hash_input(record: dict) -> bytes:
+def _hash_input(record: dict[str, Any]) -> bytes:
     body = {k: v for k, v in record.items() if k != "integrity"}
     rest = {k: v for k, v in record["integrity"].items() if k not in ("current", "signature")}
     if rest:
@@ -229,7 +229,7 @@ def _hash_input(record: dict) -> bytes:
     return _tag(record["artifact_type"], "hash") + b"\n" + _jcs(body)
 
 
-def _authenticated(record: dict, bindings: dict) -> bool:
+def _authenticated(record: dict[str, Any], bindings: dict[str, Any]) -> bool:
     binding = bindings.get(record["producer"])
     if binding is None or binding.get("suite") != "ed25519":
         return False
@@ -255,7 +255,9 @@ def _authenticated(record: dict, bindings: dict) -> bool:
         return False
 
 
-def _self_authorized(controls: list[dict], executions: list[dict], bindings: dict) -> bool:
+def _self_authorized(
+    controls: list[dict[str, Any]], executions: list[dict[str, Any]], bindings: dict[str, Any]
+) -> bool:
     """An issuer-side control signed by a key that signs an execution, under any producer name."""
     executing = {bindings[e["producer"]]["public_key_hex"] for e in executions}
     return any(
@@ -266,12 +268,12 @@ def _self_authorized(controls: list[dict], executions: list[dict], bindings: dic
 
 
 def group_states(
-    records: list[dict], bindings: dict, revocation: dict
+    records: list[dict[str, Any]], bindings: dict[str, Any], revocation: dict[str, Any]
 ) -> dict[tuple[str, str], str]:
     ids = [r["record_id"] for r in records]
     shared = {i for i in ids if ids.count(i) > 1}
     decisions = {r["record_id"]: r for r in records if r["artifact_type"] == "decision"}
-    groups: dict[tuple[str, str], list[dict]] = {}
+    groups: dict[tuple[str, str], list[dict[str, Any]]] = {}
     for record in records:
         if record["artifact_type"] != "decision":
             groups.setdefault(
