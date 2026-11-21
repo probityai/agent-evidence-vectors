@@ -65,7 +65,7 @@ func TestTelemetryEvidenceCommittedCorpusIsClean(t *testing.T) {
 	if err != nil {
 		t.Fatalf("judge: %v", err)
 	}
-	if !result.OK() || len(result.Members) != 35 {
+	if !result.OK() || len(result.Members) != 36 {
 		t.Fatalf("findings: %v members: %d", result.Findings, len(result.Members))
 	}
 	counts := result.CountsByVerdict()
