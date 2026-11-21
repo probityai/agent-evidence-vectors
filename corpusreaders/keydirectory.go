@@ -217,19 +217,7 @@ func kdDecide(c *kdCase) kdExpected {
 	if !isSet || (kdAtWellKnown(c.DirectoryURL) && media != kdMediaType) {
 		return kept("not_a_directory")
 	}
-	entries := kdEntries(c)
-	var after []string
-	listed, malformed := false, false
-	for _, e := range entries {
-		if e.ok {
-			after = append(after, e.thumb)
-			if e.thumb == c.KeyID {
-				listed = true
-			}
-		} else if e.thumb == c.KeyID {
-			malformed = true
-		}
-	}
+	after, listed, malformed := kdListing(kdEntries(c), c.KeyID)
 	replaced := kdExpected{Cache: "replaced", CacheAfter: kdSorted(after), Decision: "not_attributed"}
 	switch {
 	case malformed:
@@ -240,4 +228,18 @@ func kdDecide(c *kdCase) kdExpected {
 		replaced.Decision, replaced.Reason = "attributed", "key_in_directory"
 	}
 	return replaced
+}
+
+// kdListing returns the thumbprints of the well-formed directory entries, whether
+// keyID is among them, and whether an entry naming keyID is malformed.
+func kdListing(entries []kdEntry, keyID string) (after []string, listed, malformed bool) {
+	for _, e := range entries {
+		if e.ok {
+			after = append(after, e.thumb)
+			listed = listed || e.thumb == keyID
+		} else if e.thumb == keyID {
+			malformed = true
+		}
+	}
+	return after, listed, malformed
 }

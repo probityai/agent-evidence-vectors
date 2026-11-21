@@ -249,7 +249,18 @@ func (in eiInput) firstFailure() string {
 	if in.cp.Index == nil || *in.cp.Index < q.ToIndex {
 		return "checkpoint_does_not_cover_range"
 	}
-	upto := min(len(in.lines), *in.cp.Index+1)
+	if reason := in.chainFailure(min(len(in.lines), *in.cp.Index+1)); reason != "" {
+		return reason
+	}
+	if *in.cp.Index >= len(in.lines) || sha(in.lines[*in.cp.Index]) != in.cp.Head {
+		return "checkpoint_head_mismatch"
+	}
+	return ""
+}
+
+// chainFailure checks the ledger events below upto: every event signature first,
+// then every chain link, so a bad signature anywhere outranks a broken link.
+func (in eiInput) chainFailure(upto int) string {
 	for i := 0; i < upto; i++ {
 		if !acSigned(in.events[i].Record, in.events[i].Sig, in.key) {
 			return "ledger_event_invalid"
@@ -264,9 +275,6 @@ func (in eiInput) firstFailure() string {
 		if json.Unmarshal(in.events[i].Record, &rec) != nil || rec.Prev != want || rec.Index != i {
 			return "chain_link_broken"
 		}
-	}
-	if *in.cp.Index >= len(in.lines) || sha(in.lines[*in.cp.Index]) != in.cp.Head {
-		return "checkpoint_head_mismatch"
 	}
 	return ""
 }

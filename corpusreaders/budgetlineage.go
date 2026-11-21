@@ -370,35 +370,9 @@ func blPyString(value any) string {
 // blLooseChargedUnits sums charged units the way the Python reader does before
 // any type check runs, returning nil where the Python reader raises.
 func blLooseChargedUnits(raw map[string]any) *int64 {
-	budget, ok := raw["budget"].(map[string]any)
+	lineage, ok := blLineage(raw)
 	if !ok {
 		return nil
-	}
-	root, ok := budget["id"].(string)
-	if !ok {
-		return nil
-	}
-	lineage := map[string]bool{root: true}
-	grants, ok := raw["delegations"].([]any)
-	if !ok {
-		return nil
-	}
-	for _, item := range grants {
-		g, isMap := item.(map[string]any)
-		if !isMap {
-			return nil
-		}
-		if carve, present := g["carve"]; present && carve != nil {
-			c, isCarve := carve.(map[string]any)
-			if !isCarve {
-				return nil
-			}
-			id, hasID := c["id"].(string)
-			if !hasID {
-				return nil
-			}
-			lineage[id] = true
-		}
 	}
 	ledger, ok := raw["ledger"].([]any)
 	if !ok {
@@ -406,32 +380,83 @@ func blLooseChargedUnits(raw map[string]any) *int64 {
 	}
 	total := int64(0)
 	for _, item := range ledger {
-		m, isMap := item.(map[string]any)
-		if !isMap {
+		units, counted, ok := blChargedEntry(item, lineage)
+		if !ok {
 			return nil
 		}
-		decision, okD := m["decision"].(string)
-		outcome, okO := m["outcome"].(string)
-		if !okD || !okO {
-			return nil
+		if counted {
+			total += units
 		}
-		if decision != "admitted" || (outcome != "committed" && outcome != "unknown") {
-			continue
-		}
-		b, okB := m["budget"].(string)
-		if !okB {
-			return nil
-		}
-		if !lineage[b] {
-			continue
-		}
-		units, okU := blInt(m["units"])
-		if !okU {
-			return nil
-		}
-		total += units
 	}
 	return &total
+}
+
+// blLineage is the set of budget ids in the root budget's lineage: the root and
+// every carve a delegation names. False when the record is not that shape.
+func blLineage(raw map[string]any) (map[string]bool, bool) {
+	budget, ok := raw["budget"].(map[string]any)
+	if !ok {
+		return nil, false
+	}
+	root, ok := budget["id"].(string)
+	if !ok {
+		return nil, false
+	}
+	lineage := map[string]bool{root: true}
+	grants, ok := raw["delegations"].([]any)
+	if !ok {
+		return nil, false
+	}
+	for _, item := range grants {
+		g, isMap := item.(map[string]any)
+		if !isMap {
+			return nil, false
+		}
+		carve, present := g["carve"]
+		if !present || carve == nil {
+			continue
+		}
+		c, isCarve := carve.(map[string]any)
+		if !isCarve {
+			return nil, false
+		}
+		id, hasID := c["id"].(string)
+		if !hasID {
+			return nil, false
+		}
+		lineage[id] = true
+	}
+	return lineage, true
+}
+
+// blChargedEntry reads one ledger entry: its units, whether they are charged to
+// the lineage (admitted, then committed or unknown, against a lineage budget),
+// and false when the entry is not that shape.
+func blChargedEntry(item any, lineage map[string]bool) (int64, bool, bool) {
+	m, isMap := item.(map[string]any)
+	if !isMap {
+		return 0, false, false
+	}
+	decision, okD := m["decision"].(string)
+	outcome, okO := m["outcome"].(string)
+	if !okD || !okO {
+		return 0, false, false
+	}
+	if decision != "admitted" || (outcome != "committed" && outcome != "unknown") {
+		return 0, false, true
+	}
+	b, okB := m["budget"].(string)
+	if !okB {
+		return 0, false, false
+	}
+	if !lineage[b] {
+		return 0, false, true
+	}
+	units, okU := blInt(m["units"])
+	if !okU {
+		return 0, false, false
+	}
+	return units, true, true
 }
 
 func blDecide(raw map[string]any) scDecision {

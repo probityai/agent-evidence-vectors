@@ -193,68 +193,95 @@ func lbAdmit(item any) (lbRecord, error) {
 	if m["lifecycle_version"] != "v1" || lbMembers[kind] == nil {
 		return lbRecord{}, lbRefused{"unregistered_tag"}
 	}
-	for _, name := range lbMembers[kind] {
-		if _, present := m[name]; !present {
+	r := lbRecord{kind: kind, raw: m}
+	// Checked in this order, first refusal wins: members, identity strings,
+	// integrity, the decision reference and boundary side, the digest pointers.
+	for _, step := range []func(*lbRecord) bool{lbAdmitIdentity, lbAdmitIntegrity, lbAdmitRefs, lbAdmitPointers} {
+		if !step(&r) {
 			return lbRecord{}, shape
 		}
 	}
-	r := lbRecord{kind: kind, raw: m}
+	return r, nil
+}
+
+// lbAdmitIdentity checks every registered member is present and the identity
+// strings are non-empty, then records them.
+func lbAdmitIdentity(r *lbRecord) bool {
+	m := r.raw
+	for _, name := range lbMembers[r.kind] {
+		if _, present := m[name]; !present {
+			return false
+		}
+	}
 	names := []string{"record_id", "producer"}
-	if kind != "decision" {
+	if r.kind != "decision" {
 		names = append(names, "instruction_id")
 	}
 	for _, name := range names {
 		if s, ok := lbString(m, name); !ok || s == "" {
-			return lbRecord{}, shape
+			return false
 		}
 	}
 	r.id, _ = lbString(m, "record_id")
 	r.producer, _ = lbString(m, "producer")
 	r.instruction, _ = lbString(m, "instruction_id")
-	integrity, ok := m["integrity"].(map[string]any)
+	return true
+}
+
+// lbAdmitIntegrity reads integrity.current and integrity.signature.value.
+func lbAdmitIntegrity(r *lbRecord) bool {
+	integrity, ok := r.raw["integrity"].(map[string]any)
 	if !ok {
-		return lbRecord{}, shape
+		return false
 	}
-	var currentOK bool
-	if r.current, currentOK = lbSHA(integrity["current"]); !currentOK {
-		return lbRecord{}, shape
+	if r.current, ok = lbSHA(integrity["current"]); !ok {
+		return false
 	}
 	signature, ok := integrity["signature"].(map[string]any)
 	if !ok {
-		return lbRecord{}, shape
+		return false
 	}
-	if r.signature, ok = signature["value"].(string); !ok {
-		return lbRecord{}, shape
-	}
-	if kind != "decision" {
-		ref, ok := m["decision_ref"].(map[string]any)
+	r.signature, ok = signature["value"].(string)
+	return ok
+}
+
+// lbAdmitRefs reads the decision reference of a non-decision record and the
+// boundary side of a control.
+func lbAdmitRefs(r *lbRecord) bool {
+	if r.kind != "decision" {
+		ref, ok := r.raw["decision_ref"].(map[string]any)
 		if !ok {
-			return lbRecord{}, shape
+			return false
 		}
 		if r.decisionRef, ok = ref["record_id"].(string); !ok {
-			return lbRecord{}, shape
+			return false
 		}
 	}
-	if kind == "control" {
-		r.side, _ = m["boundary_side"].(string)
-		if r.side != "issuer" && r.side != "receiver" {
-			return lbRecord{}, shape
-		}
+	if r.kind == "control" {
+		r.side, _ = r.raw["boundary_side"].(string)
+		return r.side == "issuer" || r.side == "receiver"
 	}
+	return true
+}
+
+// lbAdmitPointers reads the optional authorized and executed action digests.
+func lbAdmitPointers(r *lbRecord) bool {
 	for _, pointer := range []string{"authorized_action_digest", "executed_action_digest"} {
-		if value, present := m[pointer]; present {
-			digest, ok := lbSHA(value)
-			if !ok {
-				return lbRecord{}, shape
-			}
-			if pointer == "authorized_action_digest" {
-				r.authorized = digest
-			} else {
-				r.executed = digest
-			}
+		value, present := r.raw[pointer]
+		if !present {
+			continue
+		}
+		digest, ok := lbSHA(value)
+		if !ok {
+			return false
+		}
+		if pointer == "authorized_action_digest" {
+			r.authorized = digest
+		} else {
+			r.executed = digest
 		}
 	}
-	return r, nil
+	return true
 }
 
 // lbHashInput is the domain tag, one LF, then the RFC 8785 bytes of the record
@@ -368,18 +395,7 @@ func lbGroupStates(records []lbRecord, c lbCase) map[string]bool {
 
 func lbGroupState(key lbGroupKey, members []lbRecord, decisions map[string]lbRecord,
 	counts map[string]int, c lbCase) string {
-	var controls, executions []lbRecord
-	issuerSide := false
-	shared := counts[key.decision] > 1
-	for _, m := range members {
-		shared = shared || counts[m.id] > 1
-		if m.kind == "control" {
-			controls = append(controls, m)
-			issuerSide = issuerSide || m.side == "issuer"
-		} else {
-			executions = append(executions, m)
-		}
-	}
+	controls, executions, issuerSide, shared := lbPartition(key, members, counts)
 	decision, cited := decisions[key.decision]
 	switch {
 	case shared:
@@ -400,9 +416,32 @@ func lbGroupState(key lbGroupKey, members []lbRecord, decisions map[string]lbRec
 			return "not_evaluated"
 		}
 	}
-	if lbSelfAuthorized(controls, executions, c.Bindings) {
+	if lbSelfAuthorized(controls, executions, c.Bindings) || !lbOneActionAgreed(controls, executions) {
 		return "failure"
 	}
+	return "satisfied"
+}
+
+// lbPartition splits a group into controls and executions, and reports whether
+// an issuer-side control is present and whether any record id (the cited
+// decision's included) is shared with another record.
+func lbPartition(key lbGroupKey, members []lbRecord, counts map[string]int) (controls, executions []lbRecord, issuerSide, shared bool) {
+	shared = counts[key.decision] > 1
+	for _, m := range members {
+		shared = shared || counts[m.id] > 1
+		if m.kind == "control" {
+			controls = append(controls, m)
+			issuerSide = issuerSide || m.side == "issuer"
+		} else {
+			executions = append(executions, m)
+		}
+	}
+	return controls, executions, issuerSide, shared
+}
+
+// lbOneActionAgreed holds when the controls authorize exactly one action digest,
+// the executions executed exactly one, and the two are the same digest.
+func lbOneActionAgreed(controls, executions []lbRecord) bool {
 	authorized, executed := map[string]bool{}, map[string]bool{}
 	for _, control := range controls {
 		authorized[control.authorized] = true
@@ -411,14 +450,14 @@ func lbGroupState(key lbGroupKey, members []lbRecord, decisions map[string]lbRec
 		executed[execution.executed] = true
 	}
 	if len(authorized) != 1 || len(executed) != 1 {
-		return "failure"
+		return false
 	}
 	for digest := range authorized {
 		if !executed[digest] {
-			return "failure"
+			return false
 		}
 	}
-	return "satisfied"
+	return true
 }
 
 // lbParser is a strict I-JSON reader that raises its refusal at the moment
@@ -559,52 +598,70 @@ func (p *lbParser) object() (any, error) {
 // number scans the JSON number grammar; an integer outside +-(2^53-1) and a
 // float that overflows a double are refused when scanned.
 func (p *lbParser) number() (any, error) {
-	start, i := p.pos, p.pos
-	digits := func() int {
-		n := 0
-		for i < len(p.text) && p.text[i] >= '0' && p.text[i] <= '9' {
-			i++
-			n++
-		}
-		return n
-	}
-	if p.text[i] == '-' {
-		i++
-	}
-	if i < len(p.text) && p.text[i] == '0' {
-		i++
-	} else if digits() == 0 {
+	start := p.pos
+	i, integral, ok := lbScanNumber(p.text, p.pos)
+	if !ok {
 		return nil, lbShape
-	}
-	integral := true
-	if i+1 < len(p.text) && p.text[i] == '.' && p.text[i+1] >= '0' && p.text[i+1] <= '9' {
-		i++
-		digits()
-		integral = false
-	}
-	if i < len(p.text) && (p.text[i] == 'e' || p.text[i] == 'E') {
-		j := i + 1
-		if j < len(p.text) && (p.text[j] == '+' || p.text[j] == '-') {
-			j++
-		}
-		if j < len(p.text) && p.text[j] >= '0' && p.text[j] <= '9' {
-			i = j
-			digits()
-			integral = false
-		}
 	}
 	token := p.text[start:i]
 	p.pos = i
-	if integral {
-		n, err := strconv.ParseInt(token, 10, 64)
-		if err != nil || n > 1<<53-1 || n < -(1<<53-1) {
-			return nil, lbShape
-		}
-	} else if f, err := strconv.ParseFloat(token, 64); math.IsInf(f, 0) || math.IsNaN(f) ||
-		(err != nil && !errors.Is(err, strconv.ErrRange)) {
+	if !lbNumberInRange(token, integral) {
 		return nil, lbShape
 	}
 	return json.Number(token), nil
+}
+
+// lbDigits returns the index past the run of ASCII digits at i, and its length.
+func lbDigits(text string, i int) (int, int) {
+	j := i
+	for j < len(text) && text[j] >= '0' && text[j] <= '9' {
+		j++
+	}
+	return j, j - i
+}
+
+// lbScanNumber scans the JSON number grammar at i the way CPython's scanner does:
+// a fraction or exponent with no digit after it is left unconsumed. It returns the
+// index past the token, whether the token is an integer, and false when no digit
+// follows the sign.
+func lbScanNumber(text string, i int) (int, bool, bool) {
+	if text[i] == '-' {
+		i++
+	}
+	if i < len(text) && text[i] == '0' {
+		i++
+	} else if j, n := lbDigits(text, i); n == 0 {
+		return i, false, false
+	} else {
+		i = j
+	}
+	integral := true
+	if i+1 < len(text) && text[i] == '.' && text[i+1] >= '0' && text[i+1] <= '9' {
+		i, _ = lbDigits(text, i+1)
+		integral = false
+	}
+	if i < len(text) && (text[i] == 'e' || text[i] == 'E') {
+		j := i + 1
+		if j < len(text) && (text[j] == '+' || text[j] == '-') {
+			j++
+		}
+		if j < len(text) && text[j] >= '0' && text[j] <= '9' {
+			i, _ = lbDigits(text, j)
+			integral = false
+		}
+	}
+	return i, integral, true
+}
+
+// lbNumberInRange refuses an integer outside +-(2^53-1) and a float that
+// overflows a double.
+func lbNumberInRange(token string, integral bool) bool {
+	if integral {
+		n, err := strconv.ParseInt(token, 10, 64)
+		return err == nil && n <= 1<<53-1 && n >= -(1<<53-1)
+	}
+	f, err := strconv.ParseFloat(token, 64)
+	return !math.IsInf(f, 0) && !math.IsNaN(f) && (err == nil || errors.Is(err, strconv.ErrRange))
 }
 
 // str decodes a JSON string: control characters are refused, an escaped
