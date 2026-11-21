@@ -83,6 +83,19 @@ class Layout(unittest.TestCase):
         for script in scripts:
             self.assertTrue((REPO / script).is_file(), script)
 
+    def test_the_jcsvectors_copies_are_a_regeneration_step(self) -> None:
+        scripts = [script for _, script in load().STEPS]
+        self.assertIn("scripts/gen-jcsvectors-data.py", scripts)
+        module = load()
+        for path in ("jcsvectors/digests.go", "crates/jcsvectors/src/files.rs",
+                     "crates/jcsvectors/npm/digests.mjs",
+                     "jcsvectors/jcs-byte-vectors/cases.json",
+                     "crates/jcsvectors/data/jcs-byte-vectors/cases.json",
+                     "crates/jcsvectors/npm/data/jcs-byte-vectors/cases.json"):
+            self.assertTrue(module.is_derived(REPO, path), path)
+        for path in ("jcsvectors/jcsvectors.go", "crates/jcsvectors/src/lib.rs"):
+            self.assertFalse(module.is_derived(REPO, path), path)
+
     def test_a_stale_lock_is_refused(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

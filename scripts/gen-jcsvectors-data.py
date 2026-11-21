@@ -25,11 +25,16 @@ MANIFEST.json and every file its ``vectors`` list names, and the byte corpus's
 cases.json. Nothing else in either directory is copied.
 
 Usage (from the repository root):
-    python3 scripts/gen-jcsvectors-data.py
+    python3 scripts/gen-jcsvectors-data.py          # write every copy and table
+    python3 scripts/gen-jcsvectors-data.py --check  # exit 1 when any is stale
+
+scripts/regenerate-derived.py runs it, so a batch regeneration or a merge
+resolution refreshes the copies with the other derived files.
 """
 
 from __future__ import annotations
 
+import argparse
 import hashlib
 import json
 import shutil
@@ -120,8 +125,41 @@ def digests_mjs(files: list[Path]) -> str:
     return "\n".join(lines)
 
 
-def main() -> int:
+def expected(files: list[Path]) -> dict[Path, bytes]:
+    """Every file a run writes, by absolute path, with the bytes it writes."""
+    out: dict[Path, bytes] = {}
+    for dest in (GO_DEST, RUST_DATA, NPM_DATA):
+        for rel in files:
+            out[dest / rel] = (ROOT / "corpora" / rel).read_bytes()
+    out[FILES_RS] = files_rs(files).encode("utf-8")
+    out[DIGESTS_GO] = digests_go(files).encode("utf-8")
+    out[DIGESTS_MJS] = digests_mjs(files).encode("utf-8")
+    return out
+
+
+def stale(files: list[Path]) -> list[str]:
+    """Paths that differ from what a run writes, are missing, or a run would delete."""
+    want = expected(files)
+    found = [path for path, data in want.items()
+             if not path.is_file() or path.read_bytes() != data]
+    for dest in (GO_DEST, RUST_DATA, NPM_DATA):
+        for corpus in (A2A, BYTES):
+            if (dest / corpus).is_dir():
+                found += [path for path in (dest / corpus).rglob("*")
+                          if path.is_file() and path not in want]
+    return sorted(path.relative_to(ROOT).as_posix() for path in found)
+
+
+def main(argv: list[str] | None = None) -> int:
+    parser = argparse.ArgumentParser(description="Copy the RFC 8785 vectors into the packages.")
+    parser.add_argument("--check", action="store_true", help="refuse rather than write")
+    args = parser.parse_args(argv)
     files = sources()
+    if args.check:
+        found = stale(files)
+        for path in found:
+            print(f"FAIL: {path} is not what a run writes now")
+        return 1 if found else 0
     copy(files, GO_DEST)
     copy(files, RUST_DATA)
     copy(files, NPM_DATA)

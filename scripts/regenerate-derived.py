@@ -1,8 +1,9 @@
 #!/usr/bin/env python3
 """Regenerate every file this repository derives, and resolve a merge over them.
 
-Three generators write files that pull requests never edit by hand: the signed
-digest list (scripts/release-digests.py), the intake records under
+Four generators write files that pull requests never edit by hand: the
+jcsvectors package copies of the RFC 8785 corpora (scripts/gen-jcsvectors-data.py),
+the signed digest list (scripts/release-digests.py), the intake records under
 release/intake/ (scripts/gen-intake-records.py) and the shared-source lock
 (interop/agentavow-signed-map-v1/lock_sources.py). Each pins bytes of code or
 corpora that many pull requests change, so two open pull requests that each
@@ -36,8 +37,10 @@ from pathlib import Path
 REPO = Path(__file__).resolve().parent.parent
 
 #: (name, script). Order matters: the intake records name the signed digest
-#: list, so the list is written first.
+#: list, so the list is written first. The jcsvectors copies come before both,
+#: so any generator that reads a package file reads the refreshed one.
 STEPS: list[tuple[str, str]] = [
+    ("jcsvectors copies", "scripts/gen-jcsvectors-data.py"),
     ("digest list", "scripts/release-digests.py"),
     ("intake records", "scripts/gen-intake-records.py"),
     ("shared-source lock", "interop/agentavow-signed-map-v1/lock_sources.py"),
