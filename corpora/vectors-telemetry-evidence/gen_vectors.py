@@ -14,6 +14,7 @@ import base64
 import hashlib
 import json
 import sys
+from collections.abc import Mapping
 from pathlib import Path
 from typing import Any
 
@@ -77,7 +78,7 @@ def _manifest(refs: list[dict], signer: str | None = None) -> str:
 
 
 def _digest_record(
-    consumed: dict[str, bytes | None],
+    consumed: Mapping[str, bytes | None],
     manifest: str,
     pins: list[str] | None = None,
     require_signature: bool = False,

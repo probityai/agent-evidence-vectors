@@ -90,7 +90,7 @@ SOURCES = {
 }
 
 
-def _evidence(value: Evidence, kind: str, attempt_id: str) -> Evidence:
+def _evidence(value: object, kind: str, attempt_id: str) -> Evidence:
     if not isinstance(value, Evidence):
         raise EvidenceValidationError("an Evidence object is required")
     if value.kind != kind or value.source not in SOURCES[kind]:
@@ -258,9 +258,9 @@ class ExposureLedger:
                               bounded_by_authorization: bool = False, bound_evidence: Evidence | None = None) -> dict:
         if type(bounded_by_authorization) is not bool or not bounded_by_authorization:
             raise AdmissionDenied("dispatch needs an explicit external finite-ceiling assumption; this fixture cannot prove it")
-        _evidence(bound_evidence, "enforced_cost_ceiling", attempt_id)
+        bound = _evidence(bound_evidence, "enforced_cost_ceiling", attempt_id)
         return self._event(attempt_id, event_id, "dispatch_start", evidence, bounded_by_authorization=True,
-                           bound_evidence=asdict(bound_evidence))
+                           bound_evidence=asdict(bound))
 
     def observe_outcome(self, attempt_id: str, event_id: str, outcome: str, evidence: Evidence) -> dict:
         if outcome not in {"SUCCEEDED", "FAILED"}:

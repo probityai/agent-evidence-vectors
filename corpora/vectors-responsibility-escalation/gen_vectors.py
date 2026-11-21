@@ -113,7 +113,7 @@ def narrowed(record: dict[str, Any], at: str) -> dict[str, Any]:
 
 def truncate(record: dict[str, Any], *dropped: str) -> dict[str, Any]:
     """Leave the named slots, and every slot after the first of them, unevidenced."""
-    order = list(reader.SLOTS)
+    order: list[str] = list(reader.SLOTS)
     slots = record["escalation"]["slots"]
     for name in order[order.index(dropped[0]) :]:
         if name == "closure" and "closure" not in slots:
