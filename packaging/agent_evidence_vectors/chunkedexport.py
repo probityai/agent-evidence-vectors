@@ -45,6 +45,8 @@ from datetime import datetime
 from pathlib import Path
 from typing import Any
 
+from . import strictjson
+
 SUITE = "chunked-export/v1"
 CONTRACT_ID = ("https://probityai.github.io/agent-evidence-vectors/contract/"
                "chunked-export/v1")
@@ -129,7 +131,7 @@ def _first_failure(record: dict[str, Any], skip: frozenset[str]) -> str | None:
 
 def verify(record_path: Path, skip: frozenset[str] = frozenset()) -> dict[str, str]:
     """The reference reader's decision and reason for one record."""
-    record = json.loads(record_path.read_text(encoding="utf-8"))
+    record = strictjson.loads(record_path.read_text(encoding="utf-8"))
     failure = _first_failure(record, skip)
     if failure is not None:
         return {"decision": DENY, "reason": failure}
@@ -147,7 +149,7 @@ def _fixture_error(directory: Path, entry: dict[str, Any]) -> str | None:
 
 
 def _validated_entries(root: Path) -> tuple[list[dict[str, Any]], str | None]:
-    manifest = json.loads((root / "MANIFEST.json").read_text(encoding="utf-8"))
+    manifest = strictjson.loads((root / "MANIFEST.json").read_text(encoding="utf-8"))
     entries = manifest["vectors"]
     if _sha(_json(entries)) != manifest["corpusDigest"]:
         return [], "manifest digest mismatch"
@@ -170,7 +172,7 @@ def _external_answer(command: list[str], path: Path) -> tuple[bool, dict[str, An
     except (OSError, subprocess.TimeoutExpired) as exc:
         return False, f"verifier did not run: {exc}"
     try:
-        answer = json.loads(result.stdout)
+        answer = strictjson.loads(result.stdout)
         observed = {key: answer[key] for key in ("decision", "reason")}
     except (ValueError, KeyError, TypeError):
         return True, f"verifier returned no decision (exit {result.returncode})"
@@ -181,7 +183,7 @@ def _external_answer(command: list[str], path: Path) -> tuple[bool, dict[str, An
 
 def _corpus_errors(record_path: Path, entry: dict[str, Any]) -> list[str]:
     """Corpus errors in one member, whichever verifier is under test."""
-    record = json.loads(record_path.read_text(encoding="utf-8"))
+    record = strictjson.loads(record_path.read_text(encoding="utf-8"))
     errors = []
     if not payloads_match(record, record_path.parent):
         errors.append("a chunk payload does not match its stated digest")
@@ -237,7 +239,7 @@ def run(root: str, verifier: list[str] | None, report_path: str, rail_note: str)
     directory = Path(root)
     answered, errors = check(verifier, directory)
     try:
-        manifest = json.loads((directory / "MANIFEST.json").read_text(encoding="utf-8"))
+        manifest = strictjson.loads((directory / "MANIFEST.json").read_text(encoding="utf-8"))
         total = len(manifest["vectors"])
     except (OSError, ValueError, KeyError, TypeError):
         manifest, total = {}, 0
@@ -276,7 +278,7 @@ def main(argv: list[str] | None = None) -> int:
     answered, errors = check(args.verifier)
     for error in errors:
         print(error)
-    total = len(json.loads((ROOT / "MANIFEST.json").read_text(encoding="utf-8"))["vectors"])
+    total = len(strictjson.loads((ROOT / "MANIFEST.json").read_text(encoding="utf-8"))["vectors"])
     print(f"answered {answered} of {total} cases")
     return 1 if errors or answered != total else 0
 

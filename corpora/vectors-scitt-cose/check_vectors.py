@@ -41,6 +41,10 @@ from pycose.algorithms import CoseAlgorithm, EdDSA
 from pycose.keys.okp import OKPKey
 from pycose.messages.sign1message import Sign1Message
 
+_REPO = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+sys.path.insert(0, os.path.join(_REPO, "packaging"))
+from agent_evidence_vectors import strictjson  # noqa: E402
+
 HERE = os.path.dirname(os.path.abspath(__file__))
 FAILURES: list[str] = []
 
@@ -274,7 +278,7 @@ class Read:
     def subject_from_payload(self) -> str | None:
         if self.payload is None:
             return None
-        statement = json.loads(self.payload)
+        statement = strictjson.loads(self.payload)
         return "sha256:" + statement["subject"][0]["digest"]["sha256"]
 
     def trust_key_for(self, receipt_raw: bytes) -> OKPKey | None:
@@ -739,7 +743,7 @@ def check_member(entry: dict[str, Any]) -> None:
             "not a function of the bytes stops being an identifier the moment the "
             "bytes move."
         )
-    read = read_vector(entry, json.loads(body))
+    read = read_vector(entry, strictjson.loads(body))
     if read is None:
         return
     check_encoding(read)
@@ -772,7 +776,7 @@ def main() -> None:
         print("usage: check_vectors.py [--json]", file=sys.stderr)
         sys.exit(2)
     with open(os.path.join(HERE, "MANIFEST.json"), encoding="utf-8") as fh:
-        manifest = json.load(fh)
+        manifest = strictjson.load(fh)
 
     check_files(manifest)
     corpus_findings = list(FAILURES)

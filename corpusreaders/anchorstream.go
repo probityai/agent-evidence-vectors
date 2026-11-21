@@ -2,7 +2,6 @@ package corpusreaders
 
 import (
 	"encoding/base64"
-	"encoding/json"
 	"fmt"
 	"path"
 	"strconv"
@@ -97,7 +96,7 @@ type anchorWitness struct {
 
 func (a anchorStream) Judge(dir string, raw []byte) (*Result, error) {
 	var m anchorManifest
-	if err := json.Unmarshal(raw, &m); err != nil {
+	if err := strictUnmarshal(raw, &m); err != nil {
 		return nil, fmt.Errorf("%s/MANIFEST.json does not parse: %w", dir, err)
 	}
 	result := &Result{}
@@ -205,7 +204,7 @@ func (a anchorStream) judgeMember(dir string, m *anchorManifest, v anchorVector,
 	checkAnchorExpectation(v, out)
 
 	var witness anchorWitness
-	if err := json.Unmarshal(witnessRaw, &witness); err != nil {
+	if err := strictUnmarshal(witnessRaw, &witness); err != nil {
 		out.Findings = append(out.Findings, "the witness file does not parse as a witness: "+err.Error())
 		return
 	}
@@ -375,7 +374,7 @@ func checkSidecarCoverage(v anchorVector, stream, sidecarRaw []byte, out *Member
 	var sidecar struct {
 		LineSha256 []string `json:"line_sha256"`
 	}
-	if err := json.Unmarshal(sidecarRaw, &sidecar); err != nil {
+	if err := strictUnmarshal(sidecarRaw, &sidecar); err != nil {
 		out.Findings = append(out.Findings, "the sidecar does not parse: "+err.Error())
 		return
 	}
@@ -405,7 +404,7 @@ func checkBooleanField(v anchorVector, stream []byte, out *Member) {
 	found := false
 	for _, line := range splitStreamLines(stream) {
 		var row map[string]any
-		if json.Unmarshal(line, &row) != nil {
+		if strictUnmarshal(line, &row) != nil {
 			continue
 		}
 		attestation, ok := row["attestation"].(map[string]any)
@@ -473,7 +472,7 @@ func checkEventCollision(v anchorVector, stream []byte, out *Member) {
 	collides := false
 	for _, line := range splitStreamLines(stream) {
 		var row map[string]any
-		if json.Unmarshal(line, &row) != nil {
+		if strictUnmarshal(line, &row) != nil {
 			continue
 		}
 		if _, hasEvent := row["event"]; !hasEvent {
@@ -497,7 +496,7 @@ func checkRuleVersion(v anchorVector, stream []byte, out *Member) {
 	seen := map[string]bool{}
 	for _, line := range splitStreamLines(stream) {
 		var row map[string]any
-		if json.Unmarshal(line, &row) != nil {
+		if strictUnmarshal(line, &row) != nil {
 			continue
 		}
 		if value, present := row["rule_version"]; present {
@@ -535,7 +534,7 @@ func checkBindingRepo(v anchorVector, stream []byte, out *Member) {
 	var found []string
 	for _, line := range splitStreamLines(stream) {
 		var row map[string]any
-		if json.Unmarshal(line, &row) != nil {
+		if strictUnmarshal(line, &row) != nil {
 			continue
 		}
 		attestation, ok := row["attestation"].(map[string]any)
@@ -560,7 +559,7 @@ func checkBindingRepo(v anchorVector, stream []byte, out *Member) {
 }
 
 func checkDefaultBranch(v anchorVector, witness *anchorWitness, out *Member) {
-	branch, err := base64.StdEncoding.DecodeString(witness.DefaultBranch.BytesBase64)
+	branch, err := decodeCanonical(base64.StdEncoding, witness.DefaultBranch.BytesBase64)
 	if err != nil {
 		out.Findings = append(out.Findings, "the default-branch bytes do not decode: "+err.Error())
 		return

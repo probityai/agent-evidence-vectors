@@ -168,6 +168,7 @@ from agent_evidence_vectors import (
     signaturecoverage,
     sourcecoverage,
     starhint,
+    strictjson,
     traceanchor,
     uncertaineffect,
     w3cintake,
@@ -612,6 +613,7 @@ def parse_json_value(raw: bytes) -> Any:
             text,
             object_pairs_hook=_reject_dup_pairs,
             parse_float=_safe_integer_literal,
+            parse_constant=strictjson.refuse_constant,
         )
     except IJsonError:
         raise
@@ -883,7 +885,7 @@ def _statement_strict_fault(raw: bytes) -> bool:
         return dict(pairs)
 
     try:
-        json.loads(text, object_pairs_hook=hook)
+        json.loads(text, object_pairs_hook=hook, parse_constant=strictjson.refuse_constant)
     except (ValueError, RecursionError):
         # Bytes that are not a parseable JSON text at all are a malformed
         # statement, which is the same answer the Go rail and both consumer
@@ -3012,7 +3014,7 @@ def parse_external(
             ]
         )
     try:
-        parsed = json.loads(lines[-1])
+        parsed = strictjson.loads(lines[-1])
     except ValueError as e:
         # This was `except ValueError: pass`. The parse failure then vanished and
         # the verdict stood on the exit status alone, so a rail emitting broken
@@ -3115,7 +3117,7 @@ def load_manifest(suite_dir: str) -> dict[str, Any] | None:
     if not os.path.isfile(path):
         return None
     with open(path, encoding="utf-8") as f:
-        data: dict[str, Any] = json.load(f)
+        data: dict[str, Any] = strictjson.load(f)
         return data
 
 
@@ -4356,11 +4358,11 @@ def _load_statement(raw: bytes) -> tuple[Any, bool]:
     is no value at all and the verifier answers from the bytes alone.
     """
     try:
-        return json.loads(raw.decode("utf-8")), True
+        return strictjson.loads(raw.decode("utf-8")), True
     except (UnicodeDecodeError, ValueError):
         pass
     try:
-        return json.loads(raw.decode("utf-8", "replace")), False
+        return strictjson.loads(raw.decode("utf-8", "replace")), False
     except ValueError:
         return None, False
 
@@ -4844,7 +4846,7 @@ def corpus_provenance(suite_dir: str) -> dict[str, Any]:
             "manifestSha256": None,
         }
     try:
-        manifest = json.loads(raw)
+        manifest = strictjson.loads(raw)
     except ValueError:
         manifest = None
     if not isinstance(manifest, dict):
@@ -4931,7 +4933,7 @@ def verifier_result_header(suite_dir: str) -> dict[str, Any]:
     """Package, version, input digest and corpus revision of one run."""
     try:
         with open(os.path.join(suite_dir, "MANIFEST.json"), "rb") as handle:
-            manifest = json.loads(handle.read())
+            manifest = strictjson.loads(handle.read())
     except (OSError, ValueError):
         manifest = None
     if not isinstance(manifest, dict):
@@ -4973,7 +4975,7 @@ def stamp_report(path: str, suite_dir: str, before: tuple[int, int] | None) -> b
         return False
     try:
         with open(path, encoding="utf-8") as handle:
-            report = json.load(handle)
+            report = strictjson.load(handle)
     except (OSError, ValueError):
         return False
     if not isinstance(report, dict):
@@ -5674,7 +5676,7 @@ def runtime_main(argv: list[str]) -> int:
 def _read_manifest_suite(root: str) -> str | None:
     try:
         with open(os.path.join(root, "MANIFEST.json"), encoding="utf-8") as handle:
-            suite = json.load(handle).get("suite")
+            suite = strictjson.load(handle).get("suite")
     except (OSError, ValueError, AttributeError):
         return None
     return suite if isinstance(suite, str) else None
@@ -5791,7 +5793,7 @@ def rail_main() -> int:
 def _emit_w3c(args: argparse.Namespace) -> None:
     """Write the v0.1 report beside the harness report, from the harness report."""
     with open(args.report_written, encoding="utf-8") as handle:
-        harness = json.load(handle)
+        harness = strictjson.load(handle)
     with open(args.emit_w3c_report, "w", encoding="utf-8") as handle:
         json.dump(w3creport.emit(harness), handle, indent=2, sort_keys=True)
         handle.write("\n")

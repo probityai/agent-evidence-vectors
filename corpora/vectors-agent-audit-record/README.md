@@ -14,17 +14,45 @@ bind consumption state with an operation key, then the rows written for
 revision 02: `A21` (an `api-key` agent authentication), `SQ1` to `SQ5` (the
 `sequence` member and record identity) and `R10` to `R16` (OpenTimestamps
 anchors and the delegation root), then the rows written for revision 03:
-`IS1` and `IS2`, a record issued before its interval was sealed, and `PS1` and `PS2`, principal standing under the `v2` predicate type URI (below), then the rows written for revision 04: `CS41` to `CS49`, the payee and the settled terms of a paid call, and `PR1` to `PR11`, the authenticated principal ([proposed text](../../docs/proposals/audit-record-04-principal.md)), and `DS1` to `DS10`, whose data a call touched and for what purpose ([proposed text](../../docs/proposals/audit-record-04-data-subject.md)), and `PS3` to `PS5`, principal standing established from a published commitment (below). Each carries `draftRevision` and the
+`IS1` and `IS2`, a record issued before its interval was sealed, and `PS1` and `PS2`, principal standing under the `v2` predicate type URI (below), then the rows written for revision 04: `CS41` to `CS49`, the payee and the settled terms of a paid call, and `PR1` to `PR11`, the authenticated principal, and `DS1` to `DS10`, whose data a call touched and for what purpose, and `PS3` to `PS5`, principal standing established from a published commitment (below). Each carries `draftRevision` and the
 identifier the draft prints. After them come `X1` to `X18`, each an existing member with one field changed that reaches a refusal code no earlier member produced: the JSON profile (`X1`, `X2`), `issuedAt` without an offset (`X3`), the statement and predicate types (`X4`, `X5`), consumption shape and the operation key (`X6`, `X7`), the first subject (`X8`), an envelope and a statement that cannot be read (`X9`, `X10`), a retention entry that is malformed or names another envelope or an unexpected or unreadable delegation root (`X11` to `X14`), a retained member whose record or entry cannot be read (`X15`, `X16`), and a set that cannot be read or whose records are malformed (`X17`, `X18`). [`INDEX.md`](INDEX.md) lists every member beside its
 file.
 
 [![Checked with Probity](https://img.shields.io/badge/checked-with_Probity-blue?style=flat-square&logo=data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAMAAABEpIrGAAAAkFBMVEX8%2B%2Bzr5NPgyrfKyLnSq5Wzo4tWltqRkZI2kPU1kvk1j%2FMwkPgzjfI2jO80jO40jO3MdWOZc1SLblN1aFxxXFJzVDY2i%2B40i%2B00i%2Bw0i%2Bs0ius1iOZAapwugNYtdbUqaq0qV4tkRzJXOB47Oz43JRkjNEYiHBwlFxIfFxMcEg0XEQ0WEAwXDAUWCAEOCQcJAgCa503RAAAB3klEQVR42rWT2ZacIBCGceHYoN240SK2Crig4vL%2BbxfszJyZTmaSm6S4rI9a%2FwK3vxj41wDj5E9AwS%2Foxjn7DmARqgVHCBHyJcBxJeZtEG2Nv4hAGEPXYVumddvWAbFfgJJECDfDukxa63ldmw%2FiCTCEK%2BteFzNbQI%2BbQPwzwKJGjNO2LMacxNqK1wgcNfO2mqfbHMs8NEkeXT8AjurRTKfbMlqOa5vFyc8cZclu4PSvWptlPlOMeb4PsQu78MoYQWFIwKUet0nPZl%2FMki1H3x%2FKd1PVhhdkS2tDgM7m9bR3XX8EXtYde59SSVVXNx2NMwuIbbGl74HUu%2BcFXrArSpXqlVSpGz8sUG%2FjoCej1RHA6ZAgl1SmUvVUQjduEGDIdt0MxuwjCHYNAZSwT1IbhaZ%2BFt7BrUAXbguxnx3gZ9AJVJLal0hKaYv4OShGbu249Z4F4jhQ1PcpTUYLDBF5WxZB9dBB14O%2Bm6eu48QQpjBXIizf113iS9sF0LYxZMD1PODbVvtznu96sGOrWyFEiwQEwHNcC8gaF58UxfG1qiqMqzx2AACJ0i0qXyRXEIwjwnD1SBOYdKJ%2B7vxF1eRUaxGF9ePRVgiX3xxOccdhiK5v6v%2Fysgp2Z%2BR%2F3ebv9gP5RU8tSdZhDwAAAABJRU5ErkJggg%3D%3D)](https://github.com/probityai/probity)
 
+## Which text each member tests
+
+Every member is **published** or **proposed**. A published member carries
+`draftRevision`, always a revision the IETF has published (the manifest lists
+them under `publishedRevisions`, with the SHA-256 of each text): for a row, the
+first revision whose Appendix B prints it; for a member carrying
+`draftSection`, the revision whose section first states its rule, which keeps
+that revision when a later Appendix B also prints the row (`X2`, `X3` and `X8`
+to `X16` are -03 members that -04 prints). A proposed member carries
+`proposed`, naming the next revision its rule is proposed for and the proposed
+text under [`docs/proposals/`](../../docs/proposals/), and no `draftRevision`,
+because no published revision states the rule it tests. `textCounts` gives the
+split: 225 published and 0 proposed at this commit.
+
+[Revision 04](https://datatracker.ietf.org/doc/draft-gilda-audit-agent-audit-record/04/)
+was published on 19 November 2026, and its Appendix B prints all 68 members
+that were proposed for it: `CS18` to `CS54`, `PS3` to `PS5`, `PR1` to `PR11`,
+`DS1` to `DS10`, and `X1`, `X4`, `X5`, `X6`, `X7`, `X17` and `X18`. They carry
+`draftRevision` -04, and the pages under `docs/proposals/` that held their text
+are the record of it before publication. A verifier conforms to -04 when it
+reaches the manifest verdict on every member whose `draftRevision` is -04 or
+earlier. The generator derives each label from the published texts vendored
+under [`spec-vendored/`](spec-vendored/) and refuses a member that is published
+and proposed at once, a label naming a section the revision does not carry, a
+section entry that names no revision earlier than the Appendix B that prints
+the row, and a proposed member whose text is missing.
+
 ## Which revision this tests
 
 | Release | Draft revision the corpus tests | Members |
 | --- | --- | --- |
-| The release after v0.28.0 | `draft-gilda-audit-agent-audit-record-03`, and rows of `-04` | every member the v0.28.0 row lists, rows `IS1`, `IS2`, `PS1` and `PS2` of -03 and the open member `PS1b` beside them, and rows `CS41` to `CS54` written for -04 |
+| v0.38.0 | `draft-gilda-audit-agent-audit-record-04` | all 225 members: every member the row below lists, with the 68 rows -04 first prints labelled -04 |
+| After v0.28.0, before v0.38.0 | `draft-gilda-audit-agent-audit-record-03`, and rows of `-04` | every member the v0.28.0 row lists, rows `IS1`, `IS2`, `PS1` and `PS2` of -03 and the open member `PS1b` beside them, and rows `CS41` to `CS54` written for -04 |
 | v0.28.0 | `draft-gilda-audit-agent-audit-record-02` | the 99 Appendix B rows of -00, 7 Section 5.4 members, 22 rows of -01 and 13 rows of -02 |
 | v0.27.0 | `draft-gilda-audit-agent-audit-record-00`, and 22 rows of `-01` | the 99 Appendix B rows, 7 Section 5.4 members and 22 rows of -01 |
 | v0.26.0 to v0.26.2 | `draft-gilda-audit-agent-audit-record-00`, and five rows of `-01` | the 99 Appendix B rows, 7 Section 5.4 members and 5 rows of -01 |

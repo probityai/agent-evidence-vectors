@@ -48,6 +48,8 @@ from datetime import UTC, datetime, timedelta
 from pathlib import Path
 from typing import Any
 
+from . import strictb64, strictjson
+
 SUITE = "refund-connected/v1"
 CONTRACT_REVISION = "review-2026-10-23"
 STEPS = ("input_pic", "input_aps", "admission", "signature_trust", "execution", "observed_effect")
@@ -546,7 +548,7 @@ def check_pic(case: Case) -> None:
         pub_hex = pub_hex.get("public_key")
     _need(isinstance(pub_hex, str) and bool(_HEX64.match(pub_hex)), _refuse, "PIC_KEY")
     try:
-        sig = base64.b64decode(str(entry.get("signature", "")), validate=True)
+        sig = strictb64.std(str(entry.get("signature", "")))
     except (binascii.Error, ValueError):
         raise _refuse("PIC_SIGNATURE") from None
     _need(
@@ -989,7 +991,7 @@ def verify_envelope(
     except ValueError:
         raise _contra("timestamp-format") from None
     try:
-        sig = base64.b64decode(str(env["signature"]), validate=True)
+        sig = strictb64.std(str(env["signature"]))
     except (binascii.Error, ValueError):
         raise _contra("signature-encoding") from None
     _need(
@@ -1662,7 +1664,7 @@ def render(result: dict[str, Any]) -> str:
 def check(root: Path | None = None) -> tuple[int, list[str]]:
     """Judge each shipped case against the verdicts the manifest records for it."""
     base = root or ROOT
-    manifest = json.loads((base / "MANIFEST.json").read_text(encoding="utf-8"))
+    manifest = strictjson.loads((base / "MANIFEST.json").read_text(encoding="utf-8"))
     errors: list[str] = []
     answered = 0
     for vector in manifest["vectors"]:
@@ -1689,7 +1691,7 @@ def run(root: str, verifier: list[str] | None, report_path: str, rail_note: str)
         )
         return 2
     answered, errors = check(directory)
-    manifest = json.loads((directory / "MANIFEST.json").read_text(encoding="utf-8"))
+    manifest = strictjson.loads((directory / "MANIFEST.json").read_text(encoding="utf-8"))
     total = len(manifest["vectors"])
     for error in errors:
         print(error)
@@ -1731,7 +1733,7 @@ def main(argv: list[str] | None = None) -> int:
     answered, errors = check()
     for error in errors:
         print(error)
-    total = len(json.loads((ROOT / "MANIFEST.json").read_text(encoding="utf-8"))["vectors"])
+    total = len(strictjson.loads((ROOT / "MANIFEST.json").read_text(encoding="utf-8"))["vectors"])
     print(f"answered {answered} of {total} cases")
     return 1 if errors or answered != total else 0
 

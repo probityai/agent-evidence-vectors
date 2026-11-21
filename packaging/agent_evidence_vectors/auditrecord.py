@@ -78,6 +78,8 @@ from typing import Any
 if __package__ in (None, ""):
     sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
+from agent_evidence_vectors import strictb64, strictjson  # noqa: E402
+
 SUITE = "agent-audit-record-conformance"
 STATEMENT_TYPE = "https://in-toto.io/Statement/v1"
 PAYLOAD_TYPE = "application/vnd.in-toto+json"
@@ -476,6 +478,7 @@ def parse_statement(payload: bytes) -> Any:
             object_pairs_hook=_no_duplicates,
             parse_int=_safe_int,
             parse_float=_refuse_float,
+            parse_constant=strictjson.refuse_constant,
         )
     except Malformed:
         raise
@@ -1537,8 +1540,10 @@ def rule_names() -> list[str]:
 
 def _envelope_payload(raw: bytes) -> tuple[dict[str, Any], bytes]:
     try:
-        envelope = json.loads(raw, object_pairs_hook=_no_duplicates)
-        payload = base64.b64decode(envelope["payload"], validate=True)
+        envelope = json.loads(
+            raw, object_pairs_hook=_no_duplicates, parse_constant=strictjson.refuse_constant
+        )
+        payload = strictb64.std(envelope["payload"])
     except Malformed:
         raise
     except Exception as exc:
@@ -1559,7 +1564,7 @@ def _signature_holds(envelope: dict[str, Any], canonical: bytes, policy: Policy)
     message = pae(PAYLOAD_TYPE, canonical)
     for entry in signatures if isinstance(signatures, list) else []:
         try:
-            sig = base64.b64decode(entry["sig"], validate=True)
+            sig = strictb64.std(entry["sig"])
         except Exception:
             continue
         if len(key) == 32 and _ed25519_verify(key, message, sig):
@@ -1688,6 +1693,10 @@ class _Reader:
             byte = self.take(1)[0]
             value |= (byte & 0x7F) << shift
             if not byte & 0x80:
+                # A last byte of zero after a continuation byte is a second
+                # spelling of the same value; only the minimal one is read.
+                if byte == 0 and shift:
+                    raise ValueError("non-minimal varuint")
                 return value
             shift += 7
             if shift > 56:
@@ -1749,14 +1758,35 @@ def _ots_timestamp(
     """One OpenTimestamps timestamp: items, each but the last preceded by 0xff."""
     if depth > OTS_MAX_DEPTH:
         raise ValueError("timestamp too deep")
+    seen: set[bytes] = set()
     while True:
         tag = reader.take(1)[0]
         more = tag == 0xFF
         if more:
             tag = reader.take(1)[0]
+        start = reader.at
         _ots_item(reader, tag, message, out, depth)
+        # A repeated operation or attestation at one node is a second branch
+        # some readers keep and others drop, so it is refused, never chosen.
+        key = bytes([tag]) + _ots_item_key(reader.data, start, tag)
+        if key in seen:
+            raise ValueError("repeated operation or attestation in a timestamp node")
+        seen.add(key)
         if not more:
             return
+
+
+def _ots_item_key(data: bytes, start: int, tag: int) -> bytes:
+    """What names an item at its node: an attestation's kind and payload, an
+    append or prepend's argument, nothing for SHA-256."""
+    if tag == OTS_SHA256:
+        return b""
+    item = _Reader(data)
+    item.at = start
+    if tag == 0x00:
+        kind = item.take(8)
+        return kind + item.varbytes()
+    return item.varbytes()
 
 
 def _ots_item(
@@ -1827,7 +1857,7 @@ def anchor_time(
     an rfc3161 anchor dates nothing."""
     kind = anchor.get("kind")
     try:
-        proof = base64.b64decode(anchor["proof"], validate=True)
+        proof = strictb64.std(anchor["proof"])
         if kind == "opentimestamps":
             return _ots_moment(proof, envelope_digest, trust)
         if kind != "transparency-log":
@@ -1932,7 +1962,9 @@ def _dating_anchor_late(r: _Retained) -> None:
 
 
 def _jwk_algorithm(material: bytes) -> str:
-    keys = json.loads(material, object_pairs_hook=_no_duplicates)["keys"]
+    keys = json.loads(
+        material, object_pairs_hook=_no_duplicates, parse_constant=strictjson.refuse_constant
+    )["keys"]
     algorithms = {JWK_ALGORITHMS.get((k.get("kty"), k.get("crv"))) for k in keys}
     if len(algorithms) != 1 or None in algorithms:
         raise ValueError("no single algorithm")
@@ -1953,7 +1985,7 @@ def _dating_delegation_root(r: _Retained) -> None:
     if not elements:
         return
     try:
-        material = base64.b64decode(elements[0]["value"], validate=True)
+        material = strictb64.std(elements[0]["value"])
     except (KeyError, TypeError, ValueError) as exc:
         raise Malformed("entry-delegation-root-unreadable") from exc
     if hashlib.sha256(material).hexdigest() != r.root_digest:
@@ -2089,7 +2121,9 @@ def verify_retained(
 ) -> tuple[Report, Dating]:
     """Judge a retained record: the envelope's verdict, and the dating result."""
     try:
-        bundle = json.loads(raw, object_pairs_hook=_no_duplicates)
+        bundle = json.loads(
+            raw, object_pairs_hook=_no_duplicates, parse_constant=strictjson.refuse_constant
+        )
         envelope, entry = bundle["envelope"], bundle["retention"]
     except (Malformed, ValueError, KeyError, TypeError):
         unreadable = ["retained-unreadable"]
@@ -2502,7 +2536,7 @@ def _limit_findings(entry: dict[str, Any], raw: bytes) -> list[str]:
     label = f"{entry.get('draftId')} {entry.get('slug')}"
     expected = entry.get("expected") or {}
     try:
-        pred = json.loads(_envelope_payload(raw)[1])["predicate"]
+        pred = strictjson.loads(_envelope_payload(raw)[1])["predicate"]
         got = within_limit(pred)
     except (Malformed, KeyError, TypeError, ValueError):
         return [] if "withinLimit" not in expected else [f"{label}: withinLimit cannot be derived"]
@@ -2528,7 +2562,7 @@ def _set_findings(entry: dict[str, Any], raw: bytes, policy: Policy) -> list[str
     except (Malformed, ValueError, KeyError, TypeError):
         envelopes = []
     for env in envelopes:
-        limits.append(within_limit(json.loads(_envelope_payload(env)[1])["predicate"]))
+        limits.append(within_limit(strictjson.loads(_envelope_payload(env)[1])["predicate"]))
     if limits != declared.get("withinLimit", [None] * len(limits)):
         findings.append(
             f"{label}: expected withinLimit {declared.get('withinLimit')}, got {limits}"
@@ -2604,7 +2638,7 @@ def aggregation_findings(entry: dict[str, Any], raw: bytes) -> list[str]:
     label = f"{entry.get('draftId')} {entry.get('slug')}"
     try:
         _, payload = _envelope_payload(raw)
-        pred = json.loads(payload)["predicate"]
+        pred = strictjson.loads(payload)["predicate"]
         want = aggregate_values(block["values"])
     except (Malformed, KeyError, TypeError, ValueError) as exc:
         return [f"{label}: the aggregation block cannot be checked: {exc}"]
@@ -2663,8 +2697,47 @@ def corpus_digest(manifest: dict[str, Any], root: str) -> str:
     return digest.hexdigest()
 
 
-def _corpus_findings(directory: str, manifest: dict[str, Any]) -> list[str]:
+def text_status(entry: dict[str, Any]) -> str:
+    """``published`` or ``proposed``: which text one manifest entry tests.
+
+    A published member carries ``draftRevision``, a revision the IETF has
+    published, and scores every verifier. A proposed member carries
+    ``proposed`` and tests a rule only text proposed for the next revision
+    states, so it scores only a verifier that implements that text: a verifier
+    written from the published text that differs on it has not failed.
+    """
+    return "proposed" if "proposed" in entry else "published"
+
+
+def _text_findings(manifest: dict[str, Any]) -> list[str]:
+    """Each member names exactly one text, and the counts match the members."""
     out: list[str] = []
+    published = {str(r.get("revision")) for r in manifest.get("publishedRevisions") or []}
+    measured = {"published": 0, "proposed": 0}
+    for entry in manifest.get("vectors") or []:
+        label = entry.get("draftId")
+        revision = entry.get("draftRevision")
+        proposed = entry.get("proposed")
+        if (revision is None) == (proposed is None):
+            out.append(f"{label}: a member carries draftRevision or proposed, exactly one")
+            continue
+        if revision is not None and revision not in published:
+            out.append(f"{label}: draftRevision {revision} is not a published revision")
+        if proposed is not None and (
+            not isinstance(proposed, dict)
+            or str(proposed.get("revision")) in published
+            or not proposed.get("text")
+        ):
+            out.append(f"{label}: proposed names a published revision or no proposed text")
+        measured[text_status(entry)] += 1
+    if manifest.get("textCounts") != measured:
+        declared = manifest.get("textCounts")
+        out.append(f"textCounts declare {declared} and the members are {measured}")
+    return out
+
+
+def _corpus_findings(directory: str, manifest: dict[str, Any]) -> list[str]:
+    out: list[str] = _text_findings(manifest)
     entries: list[dict[str, Any]] = manifest.get("vectors") or []
     by_id = {str(e.get("id")): e for e in entries}
     measured: dict[str, int] = {}
@@ -2692,7 +2765,7 @@ def _corpus_findings(directory: str, manifest: dict[str, Any]) -> list[str]:
 
 def judge(directory: str) -> Judged:
     with open(os.path.join(directory, "MANIFEST.json"), encoding="utf-8") as handle:
-        manifest = json.load(handle)
+        manifest = strictjson.load(handle)
     judged = Judged()
     entries: list[dict[str, Any]] = manifest.get("vectors") or []
     if not entries:
