@@ -597,6 +597,18 @@ standards = []
 shapes = ["wrong-grade", "forged-signature", "self-report"]
 
 [[corpus]]
+id = "vectors-empty-interval-statement"
+path = "corpora/vectors-empty-interval-statement"
+wheel = true
+sdist = true
+title = "Empty-interval statements"
+summary = "A verifier must read a ledger's signed statement that a credential has no revocation between two positions as not recorded only over an unbroken, checkpointed chain, and keep failed, unsynchronised and unverifiable answers apart."
+record_class = "chain"
+domains = ["transparency", "provenance"]
+standards = ["w3c"]
+shapes = ["broken-chain", "coverage-gap", "tampering"]
+
+[[corpus]]
 id = "vectors-evidence-state"
 path = "corpora/vectors-evidence-state"
 wheel = true
