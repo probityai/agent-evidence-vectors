@@ -14,8 +14,8 @@
       "path": "release/CORPUS-DIGESTS.txt",
       "uri": "https://github.com/probityai/agent-evidence-vectors/blob/main/release/CORPUS-DIGESTS.txt"
     },
-    "routine": "corpus_digest in corpora/vectors-dns-aid-sig-v01/gen_vectors.py",
-    "routine-file": "corpora/vectors-dns-aid-sig-v01/gen_vectors.py",
+    "routine": "corpus_digest in corpora/vectors-dns-aid-sig-v01/digest.py",
+    "routine-file": "corpora/vectors-dns-aid-sig-v01/digest.py",
     "serialization": "corpus-routine",
     "sha256": "b85cffefc7f2aa9e37cf47b9422f3337198298558510c6425e23d1d4bb8ffd6b",
     "verdicts": {
@@ -68,7 +68,30 @@
       },
       "path": "corpora/vectors-dns-aid-sig-v01/check_vectors.py",
       "serialization": "bytes",
-      "sha256": "7d99e91440f9fb39e8f18454bcaacefcc0b2afec73de78b4a24826ff8ce9b3ab"
+      "sha256": "099290eee5dbce8944358a0dcd330aa79867bdca37563880f0455e545b883ff2"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "ee0219d4fd6a25823e6a78f71d2393c2a226af7d1f38812e9bfab71b6b3cebf0"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "ee0219d4fd6a25823e6a78f71d2393c2a226af7d1f38812e9bfab71b6b3cebf0"
+        },
+        "swapped-in": "89a124961eb2f4c615f89247d6cae4a55f3071cc482ae5f5f10bed4dd5ed6010",
+        "test": "swap-and-re-pin"
+      },
+      "path": "corpora/vectors-dns-aid-sig-v01/digest.py",
+      "serialization": "bytes",
+      "sha256": "4b00ced72776c6fe3f8fbb68df7500b857fee6b32bce98a233170287e9005558"
     },
     {
       "consumed": "unconsumed",
@@ -91,7 +114,7 @@
       },
       "path": "corpora/vectors-dns-aid-sig-v01/gen_vectors.py",
       "serialization": "bytes",
-      "sha256": "b85eebfbb44e976c2894dafd33cc5b8a52d67f7cd1fef4c63215316af499b4d7"
+      "sha256": "1464953a79a624a4287630ccc24786c595072a5fd4fc976149f77b60c3183f8d"
     },
     {
       "consumed": "unconsumed",
@@ -114,7 +137,7 @@
       },
       "path": "corpora/vectors-dns-aid-sig-v01/gen_vectors_independent.py",
       "serialization": "bytes",
-      "sha256": "2909d6c22de21e674fc5490e0e7555eff1ab3e32529b8ea89186dae5d1a85615"
+      "sha256": "cdc0890fd608940c552e82db55f2ebe4d5535ba978cf5edd42b82a6de519dd36"
     },
     {
       "consumed": "unconsumed",
@@ -137,7 +160,7 @@
       },
       "path": "corpora/vectors-dns-aid-sig-v01/tests/test_corpus.py",
       "serialization": "bytes",
-      "sha256": "cd6035e9ba8dbfae695fad5781db6e06b78a220c17ee2376b8afc50643652ef3"
+      "sha256": "0962234c96abf2076ea765d09694603c0d93f8d5a1801439756a39ad59b030f0"
     }
   ],
   "boundary": {
@@ -189,7 +212,7 @@
         "go.mod"
       ],
       "serialization": "sha256-listing-v1",
-      "sha256": "538e20a9a6eb18b1580dfa3c390f29ea0386515df94fa9332b3bec22818a2186"
+      "sha256": "fb66a06c88e9aa5503a3c228ebd3bcdde0c68b141f378178cc5b402a706dbe52"
     },
     "runtime": {
       "name": "go",
@@ -470,7 +493,7 @@
   ],
   "corpus-digest": {
     "serialization": "sha256-listing-v1",
-    "sha256": "14bce6f9a00edc1ce4f896234cb7a0c8043fe3b0f773f65e76ce0b9550b132f8"
+    "sha256": "7f2e42bb6ad8bbeeb10a64c4cb8cab48ce661eef4f5a2d310edaf4e6c1114ce4"
   },
   "exit-code": 0,
   "exit-rule": "zero-iff-every-check-passes",
