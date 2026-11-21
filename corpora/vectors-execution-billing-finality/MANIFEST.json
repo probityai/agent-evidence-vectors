@@ -1,6 +1,6 @@
 {
   "contractId": "https://probityai.github.io/agent-evidence-vectors/predicate/v1/execution-billing-finality",
-  "corpusDigest": "a69ab722927e51f32bfe149ea343d7ad8a2a5fba5f010272ac0c9318fa742a0f",
+  "corpusDigest": "6dfc9c130e4bf13c8b69591acbba2ebf363fa5960a2f5f31d9100c35a34722e3",
   "counts": {
     "allow": 10,
     "deny": 21
@@ -15,7 +15,7 @@
         "F04": "same_attempt_redispatched",
         "X1": "same_attempt_redispatched"
       },
-      "sha256": "6d1b40813ea303355eed2a27d5266175766282ad27bf96a43be472eca81e1c0e",
+      "sha256": "1620e1322f5cd8ac9a629073dfad152be28bf29c9c6f122008754c2070c68ad4",
       "summary": "the dispatch_start guard is removed, so a repeated dispatch is allowed"
     },
     {
@@ -26,7 +26,7 @@
         "F04": "same_attempt_redispatched",
         "X1": "same_attempt_redispatched"
       },
-      "sha256": "33b32e212337fd073d982e3d9c5c390819a90074d422f80f90bd6006ef30a565",
+      "sha256": "c992b8a5b1b566dc73909efc3b7fdfc1c84fdeede6133eaa3d843b8466919e13",
       "summary": "settled billing lets the same attempt dispatch again"
     },
     {
@@ -34,7 +34,7 @@
       "equivalent": true,
       "id": "M3-billing-clause-removed",
       "killedBy": {},
-      "sha256": "9eb322942918eddc70879a6690275962c8e20d71532f804b230efd8ba0f84eec",
+      "sha256": "91ccd50641f0e128a72069ca6c95de7c842440e0545ce33c9a0d191ebed450d9",
       "summary": "the guard reads the dispatch state only; every write that settles billing also moves the dispatch state off RESERVED, so nothing can tell"
     },
     {
@@ -45,7 +45,7 @@
         "X1": "dispatch_state_reserved_after_billing",
         "X3": "dispatch_state_reserved_after_billing"
       },
-      "sha256": "3431d1e34fd4521b1145383c0ed214d639ab18ee82b5676cc2ba4d2923e3e0b2",
+      "sha256": "7489cf3db0a00b7f9ac730b174c83e35ff4cd3afdb11708af1ebec8973499535",
       "summary": "an invoice no longer moves the dispatch state to POSSIBLE"
     },
     {
@@ -56,7 +56,7 @@
         "X1": "same_attempt_redispatched",
         "X3": "dispatch_state_reserved_after_billing"
       },
-      "sha256": "6227987ef6563e2e1e4d648fd7d2b83e908d35cc36868334443863c4e191b0bc",
+      "sha256": "79b4b04cb180ce174dba8db5508fb7a44fd78878e0c547433fed43b7a407cd41",
       "summary": "both: an invoice before any dispatch opens the gate"
     },
     {
@@ -68,7 +68,7 @@
         "F05": "held_released_before_final_billing",
         "X4": "held_released_before_final_billing"
       },
-      "sha256": "807ebb04ca80e131a47a9b98c157a3462c4ae9c30453727cbcc57ca35b5006a1",
+      "sha256": "3696660fbd4d2e449b02cd9b04c3dee13746b331390a080ef8205b76d453ba87",
       "summary": "a successful execution releases the reservation before any final bill"
     },
     {
@@ -80,7 +80,7 @@
         "X1": "execution_outcome_without_observation",
         "X3": "execution_outcome_without_observation"
       },
-      "sha256": "ba93e960649ff8e78264c5b07e45b3f5fe024c88de1a5b718692b5e011962791",
+      "sha256": "148e6b14038bd973bc8eb2e129ce7b5286ff254bb26fd8be3be202da8f6b34b6",
       "summary": "a final invoice also marks the execution SUCCEEDED"
     },
     {
@@ -90,7 +90,7 @@
       "killedBy": {
         "X1": "invoice_replay_refinalized"
       },
-      "sha256": "7d4fae93bd2528ff06ad67dad9400b801be9d09efcff7f333dc21382c34b51fc",
+      "sha256": "2fe7f467453402218b3249abb1c8fbc93a2ad5e94b2a1a620614afb53c3c7b44",
       "summary": "a replayed event id is reported as a new event"
     },
     {
@@ -100,7 +100,7 @@
       "killedBy": {
         "X2": "known_spend_decreased"
       },
-      "sha256": "c7c56ecdbdb8361dc00b3eb077ff03a046f76ccd196d559ebb01f3f7ccd2d6da",
+      "sha256": "24ee955e6357821029756a7bbb2daf1754fe0565e42e4827ca55c2571d083dda",
       "summary": "a final invoice below the known spend is accepted and lowers it"
     },
     {
@@ -108,7 +108,7 @@
       "equivalent": true,
       "id": "R3-non-dispatch-ignores-cost",
       "killedBy": {},
-      "sha256": "67595013b113b50718b7d1b4a5d8aa64da41d4b98fa22168d8ae9985d0c30d3c",
+      "sha256": "db9470b58969f00222d53ec1b1549584fb5be56564675b25d4d3b3563baadc1b",
       "summary": "a non-dispatch proof no longer reads the cost evidence or the known spend; every write that records cost also moves the dispatch state off RESERVED, so nothing can tell"
     },
     {
@@ -118,7 +118,7 @@
       "killedBy": {
         "X3": "final_billing_reversed"
       },
-      "sha256": "13b8d04f28caa6cac1eba077ecb7f685762b26337a6b4ea8a7808c8d9deddf91",
+      "sha256": "48718c18bae41d023b21751e1ac0a8fe2a8d896c605000f5660e7d1827bd2ac9",
       "summary": "a cost observation above a final bill raises the known spend and billing stays FINAL"
     },
     {
@@ -128,7 +128,7 @@
       "killedBy": {
         "X4": "terminal_outcome_overwritten"
       },
-      "sha256": "a0e4aae74285cb80e9a34dbfe6c4e431b6a655ddb5e11c93ecf9bde018936fdd",
+      "sha256": "f2da564fc386eec273e9424deb25a991ffecd28893f71e61ec7e0b7c47ed55fe",
       "summary": "a contradictory terminal outcome replaces the first one"
     }
   ],
@@ -168,7 +168,7 @@
         "reason": "finality_held"
       },
       "files": {
-        "record.json": "3c262c6156eca51c2c4cb45914bf68dac1395a57fa23eb4bef7e481e6fe14def"
+        "record.json": "52a8b5c3d1b1ca7f5cd56367892e9a297c34156524f4cf4020948bd3a84e7b36"
       },
       "id": "allow-f01-success-reservation-held",
       "path": "cases/allow-f01-success-reservation-held",
@@ -216,7 +216,7 @@
         "reason": "finality_held"
       },
       "files": {
-        "record.json": "3043f2c941374008eec00200cd708eac70a9ff7ed117e99d72a04e16a405a85d"
+        "record.json": "c736122f9ce42dba1db04c6f1a24d7a0ae770ec744988f8b111eb0fbc8ba112e"
       },
       "id": "allow-f01-control-final-invoice",
       "path": "cases/allow-f01-control-final-invoice",
@@ -263,7 +263,7 @@
         "reason": "finality_held"
       },
       "files": {
-        "record.json": "51042bc4f05818691c6bdecd711e32d7a8102d55fb343cc10d6e59b7a382d2a6"
+        "record.json": "2e0871a916a86d067d3c72641250dcd9edaec94513d9394fa1076b5c4075e90b"
       },
       "id": "allow-f03-lost-reply-redispatch-refused",
       "path": "cases/allow-f03-lost-reply-redispatch-refused",
@@ -310,7 +310,7 @@
         "reason": "finality_held"
       },
       "files": {
-        "record.json": "c8f8f599cf0e2b25182dba5ae0215254136f5a37f54ba6ea720e66815b8e1fbe"
+        "record.json": "c12740854ca8f6fd06588cc7700e793e6e3352d0367a942d1eeade2b0ae56789"
       },
       "id": "allow-f04-invoice-after-lost-reply",
       "path": "cases/allow-f04-invoice-after-lost-reply",
@@ -367,7 +367,7 @@
         "reason": "finality_held"
       },
       "files": {
-        "record.json": "e7c9fccda5732d365300f0418208f7c56e9309d6985fa0559f5ed76e87c8d296"
+        "record.json": "ae04ceb1144ee0103209d930a3591d0607141835f05f4256e693aa0a147b3b3a"
       },
       "id": "allow-f14-first-dispatch",
       "path": "cases/allow-f14-first-dispatch",
@@ -411,7 +411,7 @@
         "reason": "finality_held"
       },
       "files": {
-        "record.json": "f7448f0e791407a91c9eb4df9fd8fcd84f46a9afe884b2b31911599f83905713"
+        "record.json": "6a643f8fd931bd05fde660ae0a32d93ca70ce485711c284d2a8298f067998708"
       },
       "id": "allow-x1-invoice-before-dispatch",
       "path": "cases/allow-x1-invoice-before-dispatch",
@@ -466,7 +466,7 @@
         "reason": "finality_held"
       },
       "files": {
-        "record.json": "aa998840514807c637dea50c7ca20fe146992870321866cb496e8265fffc8c94"
+        "record.json": "cddbdfb7bbdf7f597ea99f6ae572df73d2d20532c7be25913fcf30a2dff61fb1"
       },
       "id": "allow-x2-low-invoice-conflict",
       "path": "cases/allow-x2-low-invoice-conflict",
@@ -514,7 +514,7 @@
         "reason": "finality_held"
       },
       "files": {
-        "record.json": "8be3f79cd6cba6ab2413cb2e612a65197f2a0cc857d7b0d6ee08544770929d1a"
+        "record.json": "5cbc896e8e05fe25729abc61da9d8d955e982416346586ea323a41fc8b8cd9f0"
       },
       "id": "allow-x3-cost-above-final-bill-conflict",
       "path": "cases/allow-x3-cost-above-final-bill-conflict",
@@ -559,7 +559,7 @@
         "reason": "finality_held"
       },
       "files": {
-        "record.json": "a2f24cc720fbde7beba1f2d5c691514c1098c96b129714f40b246b865e17ea26"
+        "record.json": "7a10c53d2f54ec928e6137b37e229962b39a61cf401e8c275d33977bc9fa88f8"
       },
       "id": "allow-x4-contradictory-outcome-conflict",
       "path": "cases/allow-x4-contradictory-outcome-conflict",
@@ -607,7 +607,7 @@
         "reason": "finality_held"
       },
       "files": {
-        "record.json": "98bbc0762550cfad8918e4ca9a109c597c0e0a808d72e10ea3edb348c3dee615"
+        "record.json": "ceb935386f43031cbc120901ac527faa6a0ec10af4b4b2daffb344e1a51dac3a"
       },
       "id": "allow-x5-non-dispatch-after-cost-conflict",
       "path": "cases/allow-x5-non-dispatch-after-cost-conflict",
@@ -651,7 +651,7 @@
         "reason": "contract_id_missing"
       },
       "files": {
-        "record.json": "6c3f01d54d6e9bb8edab053f98c17b98874b891f2e932b31f81057ca2421ead8"
+        "record.json": "cccae46ce92f64acbde1693ae3d26f381f44e4e2968b4717fa6cebde57fe818c"
       },
       "id": "contract-id-missing",
       "path": "cases/contract-id-missing",
@@ -677,7 +677,7 @@
         "reason": "contract_id_unknown"
       },
       "files": {
-        "record.json": "caf3ac4409f9679e385ffb4dbfff24fabf404b9000223746c15412c18b4b012d"
+        "record.json": "8b937d3bd217004d48c76964107663cc318cc2178923d58f0d4388de223fc852"
       },
       "id": "contract-id-unknown",
       "path": "cases/contract-id-unknown",
@@ -703,7 +703,7 @@
         "reason": "record_malformed"
       },
       "files": {
-        "record.json": "162d05a02a72c939e7542e3dc2bea60e84e6b48657831d25f58ca7ae4dda4123"
+        "record.json": "d4634d89bf7c00be771e524884a704178b6cf3e61c6232da1f0fef9a5fb04833"
       },
       "id": "money-as-boolean",
       "path": "cases/money-as-boolean",
@@ -729,7 +729,7 @@
         "reason": "dispatch_state_missing"
       },
       "files": {
-        "record.json": "7aa0fb24b80cd1f3868bfb7657c7d0416d05c1f2a34be58db65fa4d0904a9ff0"
+        "record.json": "6e8fd37c37cb5fe5b032980b5018745da8d42b310f2254e09478f5b311156824"
       },
       "id": "dispatch-state-missing",
       "path": "cases/dispatch-state-missing",
@@ -755,7 +755,7 @@
         "reason": "dispatch_state_missing"
       },
       "files": {
-        "record.json": "0b7d7aac187daa0a16a2fefa033ec4e08b88f08ed649ce0af08e16bfee134f86"
+        "record.json": "2c9ed63db92c73bb56e4cb9272fa9ea0848dd1827904613d7d92cdc78fab6842"
       },
       "id": "dispatch-state-null",
       "path": "cases/dispatch-state-null",
@@ -781,7 +781,7 @@
         "reason": "claim_boundary_dropped"
       },
       "files": {
-        "record.json": "dc75a5dd09cf9490ea7e31fed6aec13e9d70b0ecb743b3220e6e2e06b916e526"
+        "record.json": "3572d22a6f5221c57b7457b73b04b77ff3926110804b94b6b1fcbc9a78ba22e6"
       },
       "id": "external-effect-established",
       "path": "cases/external-effect-established",
@@ -807,7 +807,7 @@
         "reason": "claim_boundary_dropped"
       },
       "files": {
-        "record.json": "0444ca84062d69fdc4e1d1f496a65ee2e5634ec5b9439a2809deabc5cce1a23b"
+        "record.json": "9da6a0c295681087ae28bbcb61a5c0aac09e442af5f5c8f4a30de63ac5e895a9"
       },
       "id": "claim-boundary-dropped",
       "path": "cases/claim-boundary-dropped",
@@ -833,7 +833,7 @@
         "reason": "reopen_changed_state"
       },
       "files": {
-        "record.json": "3a917f5770b2405905a4c2d816451f6c4d880ae5bc82ff58345fa7f09fa81e2b"
+        "record.json": "bb27b14a0ee2f68cca96f6bf05545a213aab1a571a67a193d87845ad5b7d57a4"
       },
       "id": "reopen-changed-state",
       "path": "cases/reopen-changed-state",
@@ -859,7 +859,7 @@
         "reason": "execution_outcome_without_observation"
       },
       "files": {
-        "record.json": "e821de50b9a2d7d146f6783de59c60ace7ce6ba8e8ac7f0f8aac90f380b88483"
+        "record.json": "0ceae1b7412877b15bd311e28b62f5cd24b74630d673b701d41e63aaad5eced5"
       },
       "id": "f04-invoice-implies-execution",
       "path": "cases/f04-invoice-implies-execution",
@@ -885,7 +885,7 @@
         "reason": "held_released_before_final_billing"
       },
       "files": {
-        "record.json": "c9986e9d2b0a13f2e29da4046c501d00c0d7d56b21e7552561fe4d71fea87c14"
+        "record.json": "699cc2936b7013f72b0da1ee38b386a1269e816d6a3ef968ea46cd0c7783627d"
       },
       "id": "f01-success-releases-reservation",
       "path": "cases/f01-success-releases-reservation",
@@ -911,7 +911,7 @@
         "reason": "same_attempt_redispatched"
       },
       "files": {
-        "record.json": "a44157294e4b056f0c247e3c628fab94b9e1c06bb40d71916135527cee10cd02"
+        "record.json": "c327e1b3c2fac501c62ee4551f4f9ad1a35b866e510d7e75195753409b4d968e"
       },
       "id": "f03-guard-removed-redispatch",
       "path": "cases/f03-guard-removed-redispatch",
@@ -937,7 +937,7 @@
         "reason": "same_attempt_redispatched"
       },
       "files": {
-        "record.json": "dfd6fdb94e1f64c1fd8160194d5aa2633b71f980a671b0703d2d03adf84424bd"
+        "record.json": "6905dce06efa4d184a8242e972206083b69a6ea304493ab57e5841329350c653"
       },
       "id": "f04-final-billing-redispatch",
       "path": "cases/f04-final-billing-redispatch",
@@ -963,7 +963,7 @@
         "reason": "same_attempt_redispatched"
       },
       "files": {
-        "record.json": "4b4ca40b1125652aca6708f337e080178302a7c8676f638e389bac51069f520a"
+        "record.json": "6b0a64ea9119856cf8d8e6a81c4a47462ee55a2528876ebcf09f1c75b4dc962d"
       },
       "id": "x1-invoice-opens-dispatch",
       "path": "cases/x1-invoice-opens-dispatch",
@@ -989,7 +989,7 @@
         "reason": "dispatch_state_reserved_after_billing"
       },
       "files": {
-        "record.json": "be602d4aa62f0b561a8f92edad28321d604f791085572e0ca1e5abe19f7f4fd2"
+        "record.json": "0bcb5df21a81256bf51fe76525d3366506029cb1872d5d2db96839dcdd712a49"
       },
       "id": "x1-dispatch-state-reserved-after-invoice",
       "path": "cases/x1-dispatch-state-reserved-after-invoice",
@@ -1015,7 +1015,7 @@
         "reason": "invoice_replay_refinalized"
       },
       "files": {
-        "record.json": "6c51f2e00a15f1ff142d52089c12cc67db232a52fa680e48021cf5d303425f5b"
+        "record.json": "39cb28c59cb7e9a50abd5e43b5209c9bcd2913e5bf8232ddac7985f2c18bce1e"
       },
       "id": "x1-invoice-replay-refinalized",
       "path": "cases/x1-invoice-replay-refinalized",
@@ -1041,7 +1041,7 @@
         "reason": "known_spend_decreased"
       },
       "files": {
-        "record.json": "7fd01c90ef1f65e0ceb171de3afd2b7ff1d8a73895b0963a825516fb56668f1d"
+        "record.json": "f085a7137fb66c008f168693cbdd3a98908834b5372ddbf054e3f92f5f5540c8"
       },
       "id": "x2-low-invoice-erases-known-spend",
       "path": "cases/x2-low-invoice-erases-known-spend",
@@ -1067,7 +1067,7 @@
         "reason": "final_billing_reversed"
       },
       "files": {
-        "record.json": "3da4f6ab452e405fe94b47c20ab90393039c9919febedb4bab160377eb25b9d3"
+        "record.json": "e76a1ab48dab52474ee31452e8a837512ec30c82e78f4e32be2d0e2346312307"
       },
       "id": "x3-cost-above-final-bill-accepted",
       "path": "cases/x3-cost-above-final-bill-accepted",
@@ -1093,7 +1093,7 @@
         "reason": "final_billing_reversed"
       },
       "files": {
-        "record.json": "1452f1b114e8521db9c0fbf5a35e185f03864514bcce9efa786aae7079442c3a"
+        "record.json": "6e7c407cb3d6e03ba6dc3c46ad751f62067b516de0d6ec89355f0f4c4a9c6696"
       },
       "id": "x2-conflict-cleared",
       "path": "cases/x2-conflict-cleared",
@@ -1119,7 +1119,7 @@
         "reason": "final_billing_reversed"
       },
       "files": {
-        "record.json": "84ec1afee6a1c0e74077dadb5358a2c92473fa7234375898086a4a56c2b97c8c"
+        "record.json": "667111e8ddf04ab65fae21879c2c77acd7fe3e568d99b4a3633d15b131f1b505"
       },
       "id": "x2-account-unfrozen",
       "path": "cases/x2-account-unfrozen",
@@ -1145,7 +1145,7 @@
         "reason": "terminal_outcome_overwritten"
       },
       "files": {
-        "record.json": "30e23e0c0ede0b412f24a2ceff7ce9c3c5a7ea6314f26dd95493dae292f808a3"
+        "record.json": "08613093ff6786f23d1939637d0ab82a57930750cd03fedbbb4c98ceb6f304f4"
       },
       "id": "x4-terminal-outcome-overwritten",
       "path": "cases/x4-terminal-outcome-overwritten",
@@ -1171,7 +1171,7 @@
         "reason": "terminal_outcome_overwritten"
       },
       "files": {
-        "record.json": "3219658c50e65c6b62b5a4d2d86a2a7f486ba6dd40396168e82f44bce9e3f777"
+        "record.json": "39d5b40a3acc27c16cab21daaab2c1a559f697ba6b78273ad538335b461bde20"
       },
       "id": "x4-outcome-reset-to-unknown",
       "path": "cases/x4-outcome-reset-to-unknown",
