@@ -2,16 +2,27 @@
   "schema": "aev-claim-record-manifest/v1",
   "members": {
     "case-sets/empty.json": "sha256:2fff375b3a881a3aa6fdd5b6e579169a36b2a733cf4a196bd2555a51fded7b45",
+    "case-sets/sample-expect-rewritten.json": "sha256:1c8ff0197209e8657137ab86243b44958bab7900ddb6cf3f051666ce1cd34d56",
+    "case-sets/sample-expect.json": "sha256:862c3fe2011a67766f55e08260637bd04922c47a1821ee5e103e6368ba2f64ee",
+    "case-sets/sample-formal-dropped.json": "sha256:058e8b935aa6bf83bec7257b440ca132d596abe8f83ca28085b600bdb4a73b47",
+    "case-sets/sample-formal-optional-witness.json": "sha256:bb6f2958b85665b000c24d9f368800cdef9e25c03b32f7db962ba156bc26c4a9",
+    "case-sets/sample-formal-sibling.json": "sha256:de301e2b89b1d478ce77e04fc4929e172bc029c24259dd5cef3ec1f380774208",
+    "case-sets/sample-formal-unwitnessed.json": "sha256:8930e8d4dc6ef9fd69c426c141679e5edcc4f49c438bc8e4a8b01a260afbc25c",
+    "case-sets/sample-formal-witness-list.json": "sha256:f8372e80e60d4f1a7426d2bf45b701e29ab2da5894886823ef35f560f81a4f2d",
+    "case-sets/sample-formal.json": "sha256:f20796b8531119f84619144c05739c6b2b195752e7a9337065467b571b2a581f",
     "case-sets/sample-r1.json": "sha256:2a1d49fe2f06d19eca63ee09525bf15825b7e67f177cc174ffc602f85c314679",
     "case-sets/sample-r2.json": "sha256:84342c50c2ea17851ca9ef574a1d7581dcb8715ed48f6b5def0fa65348656b76",
     "case-sets/sample-reduced.json": "sha256:66d8a4cb26c5738c990ecd262b57a1f514063d491b9020dde7a3c713ded7523f",
-    "cases.json": "sha256:b83ff6a37c5d9f7a3eb4be554fa9621f0c3cb7b5ef33cbe4318e94c3ccaa0506",
+    "cases.json": "sha256:84674ee99f94935e808a4d1b094dfed5c83138ad926b22dc64e46daec59437f8",
     "profiles/conformance.json": "sha256:5ec2fb34b52972022350cbb8dea4b4d7a0a4d1d57f6e5c017b28bec020df12ab",
     "profiles/execution.json": "sha256:99a7d13812cd86603b72b534f7337fea5939a0aed8311b48ad86de45364f1058",
+    "profiles/formal-model.json": "sha256:3a4b0c66aee545520c0489622efee19a2dd6e6c65c30ffe0073a760de217700f",
+    "rules/conformance-expect.json": "sha256:772962b770823afc3524edac1f92877180e9b12fbfabecaba3186071afa8edf3",
     "rules/conformance-self-report.json": "sha256:6f4e534b265b1424f165519a5ef998aa2b8efd934c762d7dc56899e9a433aec5",
     "rules/conformance.json": "sha256:6b7b3e7392b838bdb5d1ab2d17d9d7f174fa1aff731fff1c654d7d3402f52d21",
     "rules/empty-suite.json": "sha256:14ed31df109e5b72faef076026e8bac5dd9e1a5809b85c2ef8b1a6eb86e194f6",
     "rules/execution.json": "sha256:b13da4dc43be701fced320c998f1055ed601c55cf184bd4413f67dca5f29f807",
+    "rules/formal-model.json": "sha256:42778f1677d9045ea0f5861603b3548582369bfa476cf600c6067e69b16f4026",
     "rules/unshipped-profile.json": "sha256:a5c3009712bdae77df31ccb03c4a7b851842ef0040542b040bb4b7d4041ce6f8"
   }
 }

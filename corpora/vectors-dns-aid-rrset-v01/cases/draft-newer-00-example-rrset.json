@@ -1,0 +1,29 @@
+{
+ "case": "draft-newer-00-example-rrset",
+ "published": [
+  "a2a",
+  "mcp"
+ ],
+ "rrset": [
+  {
+   "owner": "_chat._agents.example.com",
+   "params": {
+    "alpn": "h2,h3",
+    "port": 443,
+    "proto": "a2a"
+   },
+   "priority": 1,
+   "target": "chat.example.com"
+  },
+  {
+   "owner": "_chat._agents.example.com",
+   "params": {
+    "alpn": "h2,h3",
+    "port": 443,
+    "proto": "mcp"
+   },
+   "priority": 1,
+   "target": "chat.example.com"
+  }
+ ]
+}

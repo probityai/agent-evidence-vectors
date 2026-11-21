@@ -1,0 +1,2037 @@
+{
+  "aggregate": {
+    "counts": {
+      "allow": 17,
+      "deny": 75
+    },
+    "line": "verdict: every member behaves as MANIFEST.json declares",
+    "total": 92
+  },
+  "anchor": {
+    "kind": "digest-list-line",
+    "manifest": "vectors-capability-requirement/MANIFEST.json",
+    "reference": {
+      "path": "release/CORPUS-DIGESTS.txt",
+      "uri": "https://github.com/probityai/agent-evidence-vectors/blob/main/release/CORPUS-DIGESTS.txt"
+    },
+    "routine": "corpus_digest in corpora/vectors-capability-requirement/gen_vectors.py",
+    "routine-file": "corpora/vectors-capability-requirement/gen_vectors.py",
+    "serialization": "corpus-routine",
+    "sha256": "163a4ab64017ad571967aa70734e0c7d1328a54ade16831f2e901a42ec232679",
+    "verdicts": {
+      "availability-failure": "inconclusive",
+      "integrity-failure": "fail"
+    }
+  },
+  "artifacts": [
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "eb8c1b8422de1a08e7bec3fa379137d2b19ff834bb9320ef1699ee860f1f059e"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "eb8c1b8422de1a08e7bec3fa379137d2b19ff834bb9320ef1699ee860f1f059e"
+        },
+        "swapped-in": "ef6565019a8a329ab3acda9ee64330296c28ec77f1693e13295e0d508b6bae94",
+        "test": "swap-and-re-pin"
+      },
+      "path": "corpora/vectors-capability-requirement/README.md",
+      "serialization": "bytes",
+      "sha256": "af5316114d86ddc056fa3f4b174a8f556d390d18ec3e06e7a643661174710b9d"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "eb8c1b8422de1a08e7bec3fa379137d2b19ff834bb9320ef1699ee860f1f059e"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "eb8c1b8422de1a08e7bec3fa379137d2b19ff834bb9320ef1699ee860f1f059e"
+        },
+        "swapped-in": "427aca42df88d2a266b2a29b15efd67f3cb48c3bbab037337048965ba233b799",
+        "test": "swap-and-re-pin"
+      },
+      "path": "corpora/vectors-capability-requirement/check_vectors.py",
+      "serialization": "bytes",
+      "sha256": "2a13c60a9d66a3f22297a872d46e112244c4811eb66c5e1c081ded0bf0d51401"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "eb8c1b8422de1a08e7bec3fa379137d2b19ff834bb9320ef1699ee860f1f059e"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "eb8c1b8422de1a08e7bec3fa379137d2b19ff834bb9320ef1699ee860f1f059e"
+        },
+        "swapped-in": "319d6bff00921e68d0284847eba62035f56591f78291e7c30aea920bc959953e",
+        "test": "swap-and-re-pin"
+      },
+      "path": "corpora/vectors-capability-requirement/gen_vectors.py",
+      "serialization": "bytes",
+      "sha256": "e17ea2468aefa7c796fd5772b81a0ea4af94d5155d6e97d83d442b5751da776c"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "eb8c1b8422de1a08e7bec3fa379137d2b19ff834bb9320ef1699ee860f1f059e"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "eb8c1b8422de1a08e7bec3fa379137d2b19ff834bb9320ef1699ee860f1f059e"
+        },
+        "swapped-in": "31741a82bcda0598c98c42f28ece966d2ab668bb89e70aef2855a34b8a24dfe3",
+        "test": "swap-and-re-pin"
+      },
+      "path": "corpora/vectors-capability-requirement/tests/test_corpus.py",
+      "serialization": "bytes",
+      "sha256": "0b9e4e182a32bf070213aaa5a9f43810f52a894f7cb83c8830815ea5e41d6f69"
+    }
+  ],
+  "boundary": {
+    "complete": true,
+    "member-locations": [
+      {
+        "dir": "cases",
+        "recursive": true,
+        "suffix": ""
+      }
+    ],
+    "root": "corpora/vectors-capability-requirement"
+  },
+  "byte-identity": {
+    "pins": 92,
+    "serialization": "bytes"
+  },
+  "canonicalization": {
+    "encoding": "jcs-sha256"
+  },
+  "checker": {
+    "commands": [
+      "go build -o aee-verify ./cmd/aee-verify",
+      "aee-verify -json corpora/vectors-capability-requirement",
+      "aee-verify -json corpora/vectors-capability-requirement",
+      "aee-verify corpora/vectors-capability-requirement"
+    ],
+    "dependencies": [
+      {
+        "path": "go.mod",
+        "serialization": "bytes",
+        "sha256": "c9f5a67159789ead4e2879e86805505c6ba22150b04bef360e6b3333125fb1c2"
+      },
+      {
+        "path": "go.work",
+        "serialization": "bytes",
+        "sha256": "61a9b151174d1aca21dd4b851b7d9a88784c4e6674ba4550a01a36a22f165e47"
+      }
+    ],
+    "helpers": [],
+    "name": "aee-verify",
+    "relationship": "same-implementation",
+    "revision": {
+      "kind": "source-listing",
+      "paths": [
+        "aee",
+        "cmd/aee-verify",
+        "corpusreaders",
+        "go.mod"
+      ],
+      "serialization": "sha256-listing-v1",
+      "sha256": "538e20a9a6eb18b1580dfa3c390f29ea0386515df94fa9332b3bec22818a2186"
+    },
+    "runtime": {
+      "name": "go",
+      "version": "1.26"
+    },
+    "shared-verification-code": [
+      "aee",
+      "cmd/aee-verify",
+      "corpusreaders",
+      "go.mod"
+    ]
+  },
+  "checks": [
+    {
+      "check": "allow-requirement-pinned",
+      "native": {
+        "reasons": [],
+        "verdict": "allow"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "allow-requirement-one-held-out-threshold",
+      "native": {
+        "reasons": [],
+        "verdict": "allow"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "allow-capability-statement-uses-the-word-model",
+      "native": {
+        "reasons": [],
+        "verdict": "allow"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "reject-requirement-contract-id-missing",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "reject-requirement-contract-id-unknown",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "reject-requirement-kind-unknown",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "reject-requirement-unsigned",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "reject-requirement-signed-by-another-key",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "reject-threshold-changed-after-signing",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "reject-threshold-added-after-signing",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "reject-capability-changed-after-signing",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "reject-evaluation-digest-edited-after-signing",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "reject-held-out-assessor-changed-after-signing",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "reject-capability-names-a-model",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "reject-capability-names-a-model-digest",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "reject-capability-names-an-endpoint",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "reject-capability-names-a-provider",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "reject-capability-statement-missing",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "reject-thresholds-empty",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "reject-thresholds-duplicate-metric",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "reject-threshold-comparator-unknown",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "reject-threshold-value-a-string",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "reject-threshold-value-a-fraction",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "reject-threshold-set-unknown",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "reject-threshold-without-drift-tolerance",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "reject-threshold-negative-drift-tolerance",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "reject-evaluation-digest-mismatch",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "reject-evaluation-item-added-after-digest",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "reject-evaluation-item-not-a-digest",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "reject-evaluation-set-empty",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "reject-held-out-absent",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "reject-held-out-attestation-missing",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "reject-held-out-attested-by-another-key",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "reject-held-out-commitment-not-the-attested-one",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "reject-held-out-attested-for-another-capability",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "allow-report-identity-unproven-behaviour-supported",
+      "native": {
+        "reasons": [],
+        "verdict": "allow"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "allow-report-behaviour-contradicted-public-miss",
+      "native": {
+        "reasons": [],
+        "verdict": "allow"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "allow-report-behaviour-contradicted-held-out-miss",
+      "native": {
+        "reasons": [],
+        "verdict": "allow"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "allow-report-threshold-exactly-met",
+      "native": {
+        "reasons": [],
+        "verdict": "allow"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "allow-report-behaviour-not-established-no-held-out",
+      "native": {
+        "reasons": [],
+        "verdict": "allow"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "allow-report-contradiction-beats-missing-held-out",
+      "native": {
+        "reasons": [],
+        "verdict": "allow"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "allow-report-behaviour-not-established-metric-missing",
+      "native": {
+        "reasons": [],
+        "verdict": "allow"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "allow-report-identity-proven-with-weights-held",
+      "native": {
+        "reasons": [],
+        "verdict": "allow"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "reject-report-requirement-unsigned",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "reject-report-run-for-another-requirement",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "reject-report-run-names-no-known-requirement",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "reject-report-run-unsigned",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "reject-report-run-edited-after-signing",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "reject-report-run-signed-by-another-key",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "reject-report-held-out-unsigned",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "reject-report-held-out-signed-by-the-verifier",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "reject-report-held-out-signed-by-another-assessor",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "reject-report-held-out-edited-after-assessor-signed",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "reject-report-held-out-signature-from-another-run",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "reject-report-single-verdict",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "reject-report-model-identity-absent",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "reject-report-behaviour-absent",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "reject-report-identity-proven-for-a-hosted-endpoint",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "reject-report-identity-matches-the-claimed-model",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "reject-report-identity-proven-with-another-digest",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "reject-report-identity-proven-without-proof",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "reject-report-behaviour-supported-with-a-miss",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "reject-report-behaviour-contradicted-with-every-value-met",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "reject-report-behaviour-supported-without-held-out",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "reject-report-behaviour-not-established-when-measured",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "reject-report-behaviour-value-unknown",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "allow-drift-stable",
+      "native": {
+        "reasons": [],
+        "verdict": "allow"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "allow-drift-improvement-is-stable",
+      "native": {
+        "reasons": [],
+        "verdict": "allow"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "allow-drift-change-within-tolerance",
+      "native": {
+        "reasons": [],
+        "verdict": "allow"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "allow-drift-worsened-past-tolerance",
+      "native": {
+        "reasons": [],
+        "verdict": "allow"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "allow-drift-flip-is-drift-even-if-small",
+      "native": {
+        "reasons": [],
+        "verdict": "allow"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "allow-drift-not-established-held-out-missing-now",
+      "native": {
+        "reasons": [],
+        "verdict": "allow"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "reject-drift-requirement-unsigned",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "reject-drift-runs-against-different-requirement-digests",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "reject-drift-baseline-for-another-requirement",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "reject-drift-runs-on-different-endpoints",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "reject-drift-baseline-unsigned",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "reject-drift-current-unsigned",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "reject-drift-current-edited-after-signing",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "reject-drift-held-out-unsigned-in-the-current-run",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "reject-drift-held-out-signed-by-the-verifier-in-the-baseline",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "reject-drift-the-same-run-twice",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "reject-drift-two-runs-with-one-run-id",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "reject-drift-current-run-before-the-baseline",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "reject-drift-runs-at-one-instant",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "reject-drift-outcome-stable-but-worsened-past-tolerance",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "reject-drift-outcome-drifted-within-tolerance",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "reject-drift-threshold-crossed-called-stable",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "reject-drift-change-computed-the-wrong-way",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "reject-drift-change-missing",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "reject-drift-run-id-swapped",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "reject-drift-stable-with-an-unmatched-metric",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    }
+  ],
+  "corpus-digest": {
+    "serialization": "sha256-listing-v1",
+    "sha256": "818284b9f88d277893d12a5db6ccff9f4c7c20d75eecc8879878fc8cc2a4ce74"
+  },
+  "exit-code": 0,
+  "exit-rule": "zero-iff-every-check-passes",
+  "exposure": "visible",
+  "faults": [],
+  "format": "public-agent-conformance/intake-record/v2",
+  "manifest": {
+    "closed": true,
+    "ids": [
+      "allow-requirement-pinned",
+      "allow-requirement-one-held-out-threshold",
+      "allow-capability-statement-uses-the-word-model",
+      "reject-requirement-contract-id-missing",
+      "reject-requirement-contract-id-unknown",
+      "reject-requirement-kind-unknown",
+      "reject-requirement-unsigned",
+      "reject-requirement-signed-by-another-key",
+      "reject-threshold-changed-after-signing",
+      "reject-threshold-added-after-signing",
+      "reject-capability-changed-after-signing",
+      "reject-evaluation-digest-edited-after-signing",
+      "reject-held-out-assessor-changed-after-signing",
+      "reject-capability-names-a-model",
+      "reject-capability-names-a-model-digest",
+      "reject-capability-names-an-endpoint",
+      "reject-capability-names-a-provider",
+      "reject-capability-statement-missing",
+      "reject-thresholds-empty",
+      "reject-thresholds-duplicate-metric",
+      "reject-threshold-comparator-unknown",
+      "reject-threshold-value-a-string",
+      "reject-threshold-value-a-fraction",
+      "reject-threshold-set-unknown",
+      "reject-threshold-without-drift-tolerance",
+      "reject-threshold-negative-drift-tolerance",
+      "reject-evaluation-digest-mismatch",
+      "reject-evaluation-item-added-after-digest",
+      "reject-evaluation-item-not-a-digest",
+      "reject-evaluation-set-empty",
+      "reject-held-out-absent",
+      "reject-held-out-attestation-missing",
+      "reject-held-out-attested-by-another-key",
+      "reject-held-out-commitment-not-the-attested-one",
+      "reject-held-out-attested-for-another-capability",
+      "allow-report-identity-unproven-behaviour-supported",
+      "allow-report-behaviour-contradicted-public-miss",
+      "allow-report-behaviour-contradicted-held-out-miss",
+      "allow-report-threshold-exactly-met",
+      "allow-report-behaviour-not-established-no-held-out",
+      "allow-report-contradiction-beats-missing-held-out",
+      "allow-report-behaviour-not-established-metric-missing",
+      "allow-report-identity-proven-with-weights-held",
+      "reject-report-requirement-unsigned",
+      "reject-report-run-for-another-requirement",
+      "reject-report-run-names-no-known-requirement",
+      "reject-report-run-unsigned",
+      "reject-report-run-edited-after-signing",
+      "reject-report-run-signed-by-another-key",
+      "reject-report-held-out-unsigned",
+      "reject-report-held-out-signed-by-the-verifier",
+      "reject-report-held-out-signed-by-another-assessor",
+      "reject-report-held-out-edited-after-assessor-signed",
+      "reject-report-held-out-signature-from-another-run",
+      "reject-report-single-verdict",
+      "reject-report-model-identity-absent",
+      "reject-report-behaviour-absent",
+      "reject-report-identity-proven-for-a-hosted-endpoint",
+      "reject-report-identity-matches-the-claimed-model",
+      "reject-report-identity-proven-with-another-digest",
+      "reject-report-identity-proven-without-proof",
+      "reject-report-behaviour-supported-with-a-miss",
+      "reject-report-behaviour-contradicted-with-every-value-met",
+      "reject-report-behaviour-supported-without-held-out",
+      "reject-report-behaviour-not-established-when-measured",
+      "reject-report-behaviour-value-unknown",
+      "allow-drift-stable",
+      "allow-drift-improvement-is-stable",
+      "allow-drift-change-within-tolerance",
+      "allow-drift-worsened-past-tolerance",
+      "allow-drift-flip-is-drift-even-if-small",
+      "allow-drift-not-established-held-out-missing-now",
+      "reject-drift-requirement-unsigned",
+      "reject-drift-runs-against-different-requirement-digests",
+      "reject-drift-baseline-for-another-requirement",
+      "reject-drift-runs-on-different-endpoints",
+      "reject-drift-baseline-unsigned",
+      "reject-drift-current-unsigned",
+      "reject-drift-current-edited-after-signing",
+      "reject-drift-held-out-unsigned-in-the-current-run",
+      "reject-drift-held-out-signed-by-the-verifier-in-the-baseline",
+      "reject-drift-the-same-run-twice",
+      "reject-drift-two-runs-with-one-run-id",
+      "reject-drift-current-run-before-the-baseline",
+      "reject-drift-runs-at-one-instant",
+      "reject-drift-outcome-stable-but-worsened-past-tolerance",
+      "reject-drift-outcome-drifted-within-tolerance",
+      "reject-drift-threshold-crossed-called-stable",
+      "reject-drift-change-computed-the-wrong-way",
+      "reject-drift-change-missing",
+      "reject-drift-run-id-swapped",
+      "reject-drift-stable-with-an-unmatched-metric"
+    ],
+    "path": "corpora/vectors-capability-requirement/MANIFEST.json",
+    "sha256": "15ec09cf3be679c2d165f08bfee90d5a6ebcb4c5e84ae67f30f9cafceddd198a"
+  },
+  "members": [
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-capability-requirement/cases/allow-requirement-pinned/record.json",
+          "sha256": "6e2b1dad66a92c3d4242c5e47f0d2d8fd03661f3f3b81e1e8ce38d34153e01bb"
+        }
+      ],
+      "id": "allow-requirement-pinned"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-capability-requirement/cases/allow-requirement-one-held-out-threshold/record.json",
+          "sha256": "8e0f58649fe8b42abc77512c4e1c14b56ddbb13f9518e306c1c5dfe7be8a194a"
+        }
+      ],
+      "id": "allow-requirement-one-held-out-threshold"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-capability-requirement/cases/allow-capability-statement-uses-the-word-model/record.json",
+          "sha256": "4763680f7ee06861cadc255eab34e78960c6e66bd106c6f1f1a629c8d45b53dd"
+        }
+      ],
+      "id": "allow-capability-statement-uses-the-word-model"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-capability-requirement/cases/reject-requirement-contract-id-missing/record.json",
+          "sha256": "9fe1f215de7936f1a6e7eb3ef213526d4724799368058ad832127de00c9b5b6a"
+        }
+      ],
+      "id": "reject-requirement-contract-id-missing"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-capability-requirement/cases/reject-requirement-contract-id-unknown/record.json",
+          "sha256": "76d156f31324242edffeb37695f97ee1018e287853748258212f0dd5a01a97c8"
+        }
+      ],
+      "id": "reject-requirement-contract-id-unknown"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-capability-requirement/cases/reject-requirement-kind-unknown/record.json",
+          "sha256": "1a62ff2fec09fc38f3892a5f52deab2018a52ac8240d6d1ee0a4e86f30f9b4ec"
+        }
+      ],
+      "id": "reject-requirement-kind-unknown"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-capability-requirement/cases/reject-requirement-unsigned/record.json",
+          "sha256": "b498ecc5fbd032d1e87cfcceea33b56607748c54f80afda516936752a0af49ec"
+        }
+      ],
+      "id": "reject-requirement-unsigned"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-capability-requirement/cases/reject-requirement-signed-by-another-key/record.json",
+          "sha256": "bf99b62c2411874fe03ac7008afb7d7f5adc93e560c623ea334a992e0da150f5"
+        }
+      ],
+      "id": "reject-requirement-signed-by-another-key"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-capability-requirement/cases/reject-threshold-changed-after-signing/record.json",
+          "sha256": "648263e3610c91ffa719badf28a2a24905ebf2c9c6dbddee8edeceb4ec1eaa4b"
+        }
+      ],
+      "id": "reject-threshold-changed-after-signing"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-capability-requirement/cases/reject-threshold-added-after-signing/record.json",
+          "sha256": "88611d1d25fc70dc593d72904629a77ec55b5d0360513724c3ecd02107e09e66"
+        }
+      ],
+      "id": "reject-threshold-added-after-signing"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-capability-requirement/cases/reject-capability-changed-after-signing/record.json",
+          "sha256": "55270834be9430080abf8daf915671531b7b689509e47a6e9276ad9d810672c5"
+        }
+      ],
+      "id": "reject-capability-changed-after-signing"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-capability-requirement/cases/reject-evaluation-digest-edited-after-signing/record.json",
+          "sha256": "9282220dfc4aa6f3883279f2764956fde382df9e8d25a1057007f22c86cc1880"
+        }
+      ],
+      "id": "reject-evaluation-digest-edited-after-signing"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-capability-requirement/cases/reject-held-out-assessor-changed-after-signing/record.json",
+          "sha256": "ce8c901cb56c565fa254c8a358714d2d07a862397a5ffc0f88df61d8b94ca2f7"
+        }
+      ],
+      "id": "reject-held-out-assessor-changed-after-signing"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-capability-requirement/cases/reject-capability-names-a-model/record.json",
+          "sha256": "0e946e69897d74e2038a0269ff846deb3fcd2d29f690e96c77a407d9c813f35e"
+        }
+      ],
+      "id": "reject-capability-names-a-model"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-capability-requirement/cases/reject-capability-names-a-model-digest/record.json",
+          "sha256": "711b03f5db9d2b8b9a44773d64ada83459b4bcf6f7988d2f9a81a59b50456c97"
+        }
+      ],
+      "id": "reject-capability-names-a-model-digest"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-capability-requirement/cases/reject-capability-names-an-endpoint/record.json",
+          "sha256": "9345c20685929499e0c5bc181cdf7ad28574b694da8fb403559174ceb9c695d2"
+        }
+      ],
+      "id": "reject-capability-names-an-endpoint"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-capability-requirement/cases/reject-capability-names-a-provider/record.json",
+          "sha256": "dbebe377e01175c05e772ba61f2d6b0d64909fc9e7beb9eab78598ec44d038b4"
+        }
+      ],
+      "id": "reject-capability-names-a-provider"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-capability-requirement/cases/reject-capability-statement-missing/record.json",
+          "sha256": "7d430c685fd64ff50d2221ffaf162ec7b92a3819fdce6f8ab826e7767be95dd2"
+        }
+      ],
+      "id": "reject-capability-statement-missing"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-capability-requirement/cases/reject-thresholds-empty/record.json",
+          "sha256": "68fcf052a206dee6f3eb02abaeff2fa176c9d1f32e8d7b164af6f91b2d148022"
+        }
+      ],
+      "id": "reject-thresholds-empty"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-capability-requirement/cases/reject-thresholds-duplicate-metric/record.json",
+          "sha256": "1a9ec66c77805623c74c5ae423e6d71f5256c8009cd3c960bcb3c3a3088aecfa"
+        }
+      ],
+      "id": "reject-thresholds-duplicate-metric"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-capability-requirement/cases/reject-threshold-comparator-unknown/record.json",
+          "sha256": "8a1a445a6ad23f70408c701090056e140a730c0ae769ac071edcdcd68e191f74"
+        }
+      ],
+      "id": "reject-threshold-comparator-unknown"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-capability-requirement/cases/reject-threshold-value-a-string/record.json",
+          "sha256": "95ca4666fc74d7f3356fc6942aeb7ddebcfee1c952a59c26180a32dec232e0c7"
+        }
+      ],
+      "id": "reject-threshold-value-a-string"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-capability-requirement/cases/reject-threshold-value-a-fraction/record.json",
+          "sha256": "adc4e41fb5b8076c169c8c500e6f8ba5ee61d37615d03343803a3fc0a28df540"
+        }
+      ],
+      "id": "reject-threshold-value-a-fraction"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-capability-requirement/cases/reject-threshold-set-unknown/record.json",
+          "sha256": "41c7d5495161220adea49e34659eae8728c9529c63c94dbf15b8aa0ce12a551b"
+        }
+      ],
+      "id": "reject-threshold-set-unknown"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-capability-requirement/cases/reject-threshold-without-drift-tolerance/record.json",
+          "sha256": "a8f75b42e6c1e82499598a2c261d74422eba3bc9f4e1a1dbfca452501dbfa089"
+        }
+      ],
+      "id": "reject-threshold-without-drift-tolerance"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-capability-requirement/cases/reject-threshold-negative-drift-tolerance/record.json",
+          "sha256": "6131ed695c17998103c433a8b3c1a5ba21a753e8424eefab44a17df38ddf2c93"
+        }
+      ],
+      "id": "reject-threshold-negative-drift-tolerance"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-capability-requirement/cases/reject-evaluation-digest-mismatch/record.json",
+          "sha256": "5271ff877312a9954ce3982eb56a2d6d812cc6d049965f11900529829957a28f"
+        }
+      ],
+      "id": "reject-evaluation-digest-mismatch"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-capability-requirement/cases/reject-evaluation-item-added-after-digest/record.json",
+          "sha256": "c41768397906336110b745662fd3b7193a71567429334a1ee1bfb5cf7bdab888"
+        }
+      ],
+      "id": "reject-evaluation-item-added-after-digest"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-capability-requirement/cases/reject-evaluation-item-not-a-digest/record.json",
+          "sha256": "48b57ec13a0c3ce29ea9ccef12a0c288ec3732be0a4b3cf79cf7f973d41d88fe"
+        }
+      ],
+      "id": "reject-evaluation-item-not-a-digest"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-capability-requirement/cases/reject-evaluation-set-empty/record.json",
+          "sha256": "850e6fed8c40b899cc0359aad79a64ca9a89cd6be6ff608116921fd91d58968e"
+        }
+      ],
+      "id": "reject-evaluation-set-empty"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-capability-requirement/cases/reject-held-out-absent/record.json",
+          "sha256": "7b32d085a4678c45f56d813f65763d2ca610d0621b9680a5f1158788599d7d75"
+        }
+      ],
+      "id": "reject-held-out-absent"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-capability-requirement/cases/reject-held-out-attestation-missing/record.json",
+          "sha256": "62c1d3f7a6acc805006b16837f41ce6baea3beea614d122806df74e5eacfd26c"
+        }
+      ],
+      "id": "reject-held-out-attestation-missing"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-capability-requirement/cases/reject-held-out-attested-by-another-key/record.json",
+          "sha256": "1552b0cae239441d0f3532a7af230d182b80dde5ec78cf9d9d2b7cdcea0baf70"
+        }
+      ],
+      "id": "reject-held-out-attested-by-another-key"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-capability-requirement/cases/reject-held-out-commitment-not-the-attested-one/record.json",
+          "sha256": "699137b65e9489402d19a0c0560a0e3a7d26ccc7c88b312fc7f502326ae3d74a"
+        }
+      ],
+      "id": "reject-held-out-commitment-not-the-attested-one"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-capability-requirement/cases/reject-held-out-attested-for-another-capability/record.json",
+          "sha256": "23d4124846a229ed24ca1cadead1a91857b10b3b929c5dc1f14acc907acba90a"
+        }
+      ],
+      "id": "reject-held-out-attested-for-another-capability"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-capability-requirement/cases/allow-report-identity-unproven-behaviour-supported/record.json",
+          "sha256": "1eda4841746bb1421b8b01f77138460d596e51e0ba2c7e4b2475eb1e69dd1c2e"
+        }
+      ],
+      "id": "allow-report-identity-unproven-behaviour-supported"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-capability-requirement/cases/allow-report-behaviour-contradicted-public-miss/record.json",
+          "sha256": "aac09da2e75582d05266dee098a2a877be3824e78a4a1546870e3a4d8c2265f5"
+        }
+      ],
+      "id": "allow-report-behaviour-contradicted-public-miss"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-capability-requirement/cases/allow-report-behaviour-contradicted-held-out-miss/record.json",
+          "sha256": "b1f934f3dbd9ca410293bc4899d4e913e0596906f380d4fdeba9729ca47b9b0b"
+        }
+      ],
+      "id": "allow-report-behaviour-contradicted-held-out-miss"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-capability-requirement/cases/allow-report-threshold-exactly-met/record.json",
+          "sha256": "7d19a5e2f633efeba08b72ecf46f8afed0994a024a243b6a0c599497d1fb4ff8"
+        }
+      ],
+      "id": "allow-report-threshold-exactly-met"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-capability-requirement/cases/allow-report-behaviour-not-established-no-held-out/record.json",
+          "sha256": "c9bac5c7573fd4f321743b7c9f8c59401797fc86cb632d23ab6fc769a172ee5f"
+        }
+      ],
+      "id": "allow-report-behaviour-not-established-no-held-out"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-capability-requirement/cases/allow-report-contradiction-beats-missing-held-out/record.json",
+          "sha256": "5c0a207e338956f9a78ee7fcec964eb6f951469192c4f210d917b5e22909be28"
+        }
+      ],
+      "id": "allow-report-contradiction-beats-missing-held-out"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-capability-requirement/cases/allow-report-behaviour-not-established-metric-missing/record.json",
+          "sha256": "053051708d52238875667712d0fffc1b3c939d330696b2b7a317a9428b878240"
+        }
+      ],
+      "id": "allow-report-behaviour-not-established-metric-missing"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-capability-requirement/cases/allow-report-identity-proven-with-weights-held/record.json",
+          "sha256": "cd2fb69e96d5e98065497ebbc2bacde8bee54307b129418424b86dce92efba68"
+        }
+      ],
+      "id": "allow-report-identity-proven-with-weights-held"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-capability-requirement/cases/reject-report-requirement-unsigned/record.json",
+          "sha256": "265c4364fa240f0c524481498d780e32317421f651d843cc28a40e9e48877418"
+        }
+      ],
+      "id": "reject-report-requirement-unsigned"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-capability-requirement/cases/reject-report-run-for-another-requirement/record.json",
+          "sha256": "c2dab84a904bb58ce96d5c2d007733b7b0acf2d76ffd0a34707ca3941e634202"
+        }
+      ],
+      "id": "reject-report-run-for-another-requirement"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-capability-requirement/cases/reject-report-run-names-no-known-requirement/record.json",
+          "sha256": "35aa04f4b92248862a8dfe4f08720920023e96fd9796d68e6d202fb9d01f6e4d"
+        }
+      ],
+      "id": "reject-report-run-names-no-known-requirement"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-capability-requirement/cases/reject-report-run-unsigned/record.json",
+          "sha256": "02d68536ce4e87062dff7610096855d29232a74f6154c395eec6b6cedf2929b3"
+        }
+      ],
+      "id": "reject-report-run-unsigned"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-capability-requirement/cases/reject-report-run-edited-after-signing/record.json",
+          "sha256": "f6dc5b2352f5581d6203eb8d7ecd07d66a35bc31f10d271da8c7bde23c5a3ce5"
+        }
+      ],
+      "id": "reject-report-run-edited-after-signing"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-capability-requirement/cases/reject-report-run-signed-by-another-key/record.json",
+          "sha256": "be80f2b0605fc52c177f190dc3b1c8a268cc734df0cb0170cd29a677b6b7f61e"
+        }
+      ],
+      "id": "reject-report-run-signed-by-another-key"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-capability-requirement/cases/reject-report-held-out-unsigned/record.json",
+          "sha256": "b670b9459c9ab859219ab1023015a6fadb06833df2468ca97ab168cee1e7ceaf"
+        }
+      ],
+      "id": "reject-report-held-out-unsigned"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-capability-requirement/cases/reject-report-held-out-signed-by-the-verifier/record.json",
+          "sha256": "97153662693e117300284d1f7115ef15b398b58f274630d6950ccd0cd98a2209"
+        }
+      ],
+      "id": "reject-report-held-out-signed-by-the-verifier"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-capability-requirement/cases/reject-report-held-out-signed-by-another-assessor/record.json",
+          "sha256": "ce8dccd6955def97f909f011395de99b3159fd7ad99c7d9a5b269fa1e198cefb"
+        }
+      ],
+      "id": "reject-report-held-out-signed-by-another-assessor"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-capability-requirement/cases/reject-report-held-out-edited-after-assessor-signed/record.json",
+          "sha256": "5cde9c43652d10f626f4e114e2d79c429f7a918fc8283e2c660d7c311fdb04bf"
+        }
+      ],
+      "id": "reject-report-held-out-edited-after-assessor-signed"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-capability-requirement/cases/reject-report-held-out-signature-from-another-run/record.json",
+          "sha256": "51dcfaa3fe90b847802ceccb1ed45a77618b3f3ef82f7b2fbed9f80e302fe07d"
+        }
+      ],
+      "id": "reject-report-held-out-signature-from-another-run"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-capability-requirement/cases/reject-report-single-verdict/record.json",
+          "sha256": "799c99600fdc648ca2f0e66e61725f05e97eebc2e621b641b1b3eb53270da2a8"
+        }
+      ],
+      "id": "reject-report-single-verdict"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-capability-requirement/cases/reject-report-model-identity-absent/record.json",
+          "sha256": "022dbd56370b4f0504edee46d5ac0ea3745851d437ff9b4384591f516d8ae1c6"
+        }
+      ],
+      "id": "reject-report-model-identity-absent"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-capability-requirement/cases/reject-report-behaviour-absent/record.json",
+          "sha256": "2a572af2c867ea24aeae5c96c194a686a571bc49296070eae3536194d98c6bef"
+        }
+      ],
+      "id": "reject-report-behaviour-absent"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-capability-requirement/cases/reject-report-identity-proven-for-a-hosted-endpoint/record.json",
+          "sha256": "c64d1ff7fe5fa238e54a8f43e7f9d0fbea65d7afdb78b11aa27ca46994a09e1a"
+        }
+      ],
+      "id": "reject-report-identity-proven-for-a-hosted-endpoint"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-capability-requirement/cases/reject-report-identity-matches-the-claimed-model/record.json",
+          "sha256": "3b5dac7da12e869129ba775f678726e6095fd1b7079f1dbbeec3fcfc2ee6f5d7"
+        }
+      ],
+      "id": "reject-report-identity-matches-the-claimed-model"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-capability-requirement/cases/reject-report-identity-proven-with-another-digest/record.json",
+          "sha256": "9dd4485d5509afafabc18533f72f797ccc901fa4d3e8c902c6c5b6943cc366f2"
+        }
+      ],
+      "id": "reject-report-identity-proven-with-another-digest"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-capability-requirement/cases/reject-report-identity-proven-without-proof/record.json",
+          "sha256": "fba2583dd9fc63ff0f441444b5d0ff1e73088c3c5c95343d3ff4a8ee2b454880"
+        }
+      ],
+      "id": "reject-report-identity-proven-without-proof"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-capability-requirement/cases/reject-report-behaviour-supported-with-a-miss/record.json",
+          "sha256": "f2bfe5ab5357d21e5ef4aa374080bc6c8cd5950467d848cec982a324c40eeb0b"
+        }
+      ],
+      "id": "reject-report-behaviour-supported-with-a-miss"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-capability-requirement/cases/reject-report-behaviour-contradicted-with-every-value-met/record.json",
+          "sha256": "fb9ac5df2c4bf7d2903fb3ef9a97ab908c5e0992b81f6c2b72f136bee8c74247"
+        }
+      ],
+      "id": "reject-report-behaviour-contradicted-with-every-value-met"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-capability-requirement/cases/reject-report-behaviour-supported-without-held-out/record.json",
+          "sha256": "692b075331230a3ad3ac09eb1293e1f145c9a4a7f280240e49e8f6d25de06d60"
+        }
+      ],
+      "id": "reject-report-behaviour-supported-without-held-out"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-capability-requirement/cases/reject-report-behaviour-not-established-when-measured/record.json",
+          "sha256": "f3f0c04bcc3166355f8a235aa1ec1973396d770dc7328e79ef1ce559045e0ff7"
+        }
+      ],
+      "id": "reject-report-behaviour-not-established-when-measured"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-capability-requirement/cases/reject-report-behaviour-value-unknown/record.json",
+          "sha256": "7c28efe82a8e1ab73ce003154a862d9a04b4dd8fb564abed50a7305a618544b6"
+        }
+      ],
+      "id": "reject-report-behaviour-value-unknown"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-capability-requirement/cases/allow-drift-stable/record.json",
+          "sha256": "3959c52162561af3e50b3cdc4ba7bf2abb4efb7b723c544396e70ec2407db871"
+        }
+      ],
+      "id": "allow-drift-stable"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-capability-requirement/cases/allow-drift-improvement-is-stable/record.json",
+          "sha256": "1e9f9150eef448a69378a245d3a92805f8312d59f036b07fd51239cb61cc0967"
+        }
+      ],
+      "id": "allow-drift-improvement-is-stable"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-capability-requirement/cases/allow-drift-change-within-tolerance/record.json",
+          "sha256": "bdf7128270fb4c35839ba58331a719e9bea16d624b6052f33da326b1618075ea"
+        }
+      ],
+      "id": "allow-drift-change-within-tolerance"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-capability-requirement/cases/allow-drift-worsened-past-tolerance/record.json",
+          "sha256": "e7427cf1660ff8c2373a4b7991ef3d91d72349202c5632f0687b1b4ce5d7b458"
+        }
+      ],
+      "id": "allow-drift-worsened-past-tolerance"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-capability-requirement/cases/allow-drift-flip-is-drift-even-if-small/record.json",
+          "sha256": "164ce3f5a3be55b931b9d79d751229c675c91e7f3e687db56892314e7185e307"
+        }
+      ],
+      "id": "allow-drift-flip-is-drift-even-if-small"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-capability-requirement/cases/allow-drift-not-established-held-out-missing-now/record.json",
+          "sha256": "9fb068f21f8823578ced58bfa13ab0e64b443eb88969375c878c4504596d5eeb"
+        }
+      ],
+      "id": "allow-drift-not-established-held-out-missing-now"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-capability-requirement/cases/reject-drift-requirement-unsigned/record.json",
+          "sha256": "7640bb53efff90cda2d68a86c7ebdd6a0d7245fe9531d730464b33533a40830a"
+        }
+      ],
+      "id": "reject-drift-requirement-unsigned"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-capability-requirement/cases/reject-drift-runs-against-different-requirement-digests/record.json",
+          "sha256": "b0d664686629af16ca1b2ec4b5b717a6676bdc09fc8cf2269ef9b500d47144ba"
+        }
+      ],
+      "id": "reject-drift-runs-against-different-requirement-digests"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-capability-requirement/cases/reject-drift-baseline-for-another-requirement/record.json",
+          "sha256": "aa84c8b1ee178312de478195e987a5be6a614f1f5f0db8ae7a96a366ed51efa9"
+        }
+      ],
+      "id": "reject-drift-baseline-for-another-requirement"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-capability-requirement/cases/reject-drift-runs-on-different-endpoints/record.json",
+          "sha256": "095201f4b4a4cbaa929005a76feedc27a75078adc761092bac6d3d33392a3311"
+        }
+      ],
+      "id": "reject-drift-runs-on-different-endpoints"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-capability-requirement/cases/reject-drift-baseline-unsigned/record.json",
+          "sha256": "6c68cafd7b4e80128e97791ed6e5693b17dd0fa8ce2c08f8fe2ae1db1d98bf53"
+        }
+      ],
+      "id": "reject-drift-baseline-unsigned"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-capability-requirement/cases/reject-drift-current-unsigned/record.json",
+          "sha256": "39c2f9f8d254757f54cc84c580e507143ff9982690c788010348099a97234883"
+        }
+      ],
+      "id": "reject-drift-current-unsigned"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-capability-requirement/cases/reject-drift-current-edited-after-signing/record.json",
+          "sha256": "e9f906f58331203af28fd087da65e772e9d9b3f24354aada273838f9d4bc42fc"
+        }
+      ],
+      "id": "reject-drift-current-edited-after-signing"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-capability-requirement/cases/reject-drift-held-out-unsigned-in-the-current-run/record.json",
+          "sha256": "0b25f6e41eaec626ef96fc477d0446d4d90a0a56455f26f9f8bd4063084d56ed"
+        }
+      ],
+      "id": "reject-drift-held-out-unsigned-in-the-current-run"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-capability-requirement/cases/reject-drift-held-out-signed-by-the-verifier-in-the-baseline/record.json",
+          "sha256": "65fb0e840579fb2ff81ece5d4fbc2bc6fa7358fcfa2d142981ee057041b2d0e8"
+        }
+      ],
+      "id": "reject-drift-held-out-signed-by-the-verifier-in-the-baseline"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-capability-requirement/cases/reject-drift-the-same-run-twice/record.json",
+          "sha256": "8cbd40b0f276d51dd1f703e3310b156cfc2b175eefd605d936c46b612575b812"
+        }
+      ],
+      "id": "reject-drift-the-same-run-twice"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-capability-requirement/cases/reject-drift-two-runs-with-one-run-id/record.json",
+          "sha256": "35af0d813291b857fd57ca1ebcdcf65e105d7fc1819431a94cc9b6bde6020a83"
+        }
+      ],
+      "id": "reject-drift-two-runs-with-one-run-id"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-capability-requirement/cases/reject-drift-current-run-before-the-baseline/record.json",
+          "sha256": "225b4e5c7e66b07aba8ffb7714b767f3c16b80c472c0341d7c19cb557e59c8c9"
+        }
+      ],
+      "id": "reject-drift-current-run-before-the-baseline"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-capability-requirement/cases/reject-drift-runs-at-one-instant/record.json",
+          "sha256": "5cc735b9cafaa509194f13d9ee2613f5bfb68135807b3f8f6a8a23119e50e666"
+        }
+      ],
+      "id": "reject-drift-runs-at-one-instant"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-capability-requirement/cases/reject-drift-outcome-stable-but-worsened-past-tolerance/record.json",
+          "sha256": "f6e76513c4c3f905dfb045f444bc7551224d87aa8b98707f137581237677399d"
+        }
+      ],
+      "id": "reject-drift-outcome-stable-but-worsened-past-tolerance"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-capability-requirement/cases/reject-drift-outcome-drifted-within-tolerance/record.json",
+          "sha256": "3bdf55b2d2db784d37199d2762176097c573a551ac5b56e05744b1a690aea75e"
+        }
+      ],
+      "id": "reject-drift-outcome-drifted-within-tolerance"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-capability-requirement/cases/reject-drift-threshold-crossed-called-stable/record.json",
+          "sha256": "56d94d7ebb78b40ebe88aa693d52c485271d303381b6f31a6927e48e7a3dc9cf"
+        }
+      ],
+      "id": "reject-drift-threshold-crossed-called-stable"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-capability-requirement/cases/reject-drift-change-computed-the-wrong-way/record.json",
+          "sha256": "3470e756d0598ce75896309d22ba43849cc7643ea8aaa46321a773869f9a8b52"
+        }
+      ],
+      "id": "reject-drift-change-computed-the-wrong-way"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-capability-requirement/cases/reject-drift-change-missing/record.json",
+          "sha256": "ecfbe18acebc8da95c94526b9a3d471fc4524f8e567e41a06d4cc44edc38126b"
+        }
+      ],
+      "id": "reject-drift-change-missing"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-capability-requirement/cases/reject-drift-run-id-swapped/record.json",
+          "sha256": "4db5b96fa5577701b1c47c676263c6e16c5575318a39ed8d2bbed36d7f141104"
+        }
+      ],
+      "id": "reject-drift-run-id-swapped"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-capability-requirement/cases/reject-drift-stable-with-an-unmatched-metric/record.json",
+          "sha256": "877be74959b31f8cd8941d1c14e7c02e867a3a1e31e530f481f151793991cf67"
+        }
+      ],
+      "id": "reject-drift-stable-with-an-unmatched-metric"
+    }
+  ],
+  "native": {
+    "cases": "native-json",
+    "format": "corpus-result-json-v1",
+    "process-status": {
+      "exit-code": 0
+    },
+    "summary": "native-text"
+  },
+  "non-author-runs": [],
+  "observations": [
+    {
+      "carry": "referenced",
+      "id": "native-json",
+      "reference": {
+        "path": "release/intake/native/vectors-capability-requirement.json",
+        "serialization": "bytes",
+        "sha256": "eb8c1b8422de1a08e7bec3fa379137d2b19ff834bb9320ef1699ee860f1f059e"
+      }
+    },
+    {
+      "carry": "referenced",
+      "id": "native-text",
+      "reference": {
+        "path": "release/intake/native/vectors-capability-requirement.txt",
+        "serialization": "bytes",
+        "sha256": "bd0a5fab18ada01f54454bf59400085500a494ede60282fd7125b6fa7fd30732"
+      }
+    },
+    {
+      "carried": "",
+      "carry": "carried",
+      "id": "stderr"
+    }
+  ],
+  "pin-serialization": "bytes",
+  "refusal-verdicts": [
+    "contradicted",
+    "failed",
+    "must-reject",
+    "reject",
+    "rejected"
+  ],
+  "refusals": [],
+  "relaxed-controls": [],
+  "replay-stability": {
+    "cause": null,
+    "ordering": "emission-order",
+    "runs": [
+      {
+        "process": "run-1",
+        "sha256": "eb8c1b8422de1a08e7bec3fa379137d2b19ff834bb9320ef1699ee860f1f059e"
+      },
+      {
+        "process": "run-2",
+        "sha256": "eb8c1b8422de1a08e7bec3fa379137d2b19ff834bb9320ef1699ee860f1f059e"
+      }
+    ],
+    "seed": null,
+    "state": "stable"
+  },
+  "scope": {
+    "does-not-claim": [
+      "whole-attack-surface",
+      "implementation-ranking",
+      "threats-outside-corpus",
+      "action-occurred-or-authority"
+    ],
+    "establishes": [
+      "aee-verify, at the source listing named here, judges each of the 92 pinned members of capability-requirement/v1 as its manifest declares"
+    ],
+    "leaves-open": [
+      "whether an implementation written from the specification, run by someone other than an author, reaches the same verdicts",
+      "whether release/CORPUS-DIGESTS.txt is a list a release signed: the signature beside it does not verify over these bytes, so the anchor is a located line, not a verified one",
+      "whether a re-run by someone other than an author on these exact bytes agrees; none is on the record for them"
+    ]
+  },
+  "selector": {
+    "expression": "*",
+    "language": "id-glob",
+    "matched": 92,
+    "require": "at-least-one",
+    "selected": [
+      "allow-requirement-pinned",
+      "allow-requirement-one-held-out-threshold",
+      "allow-capability-statement-uses-the-word-model",
+      "reject-requirement-contract-id-missing",
+      "reject-requirement-contract-id-unknown",
+      "reject-requirement-kind-unknown",
+      "reject-requirement-unsigned",
+      "reject-requirement-signed-by-another-key",
+      "reject-threshold-changed-after-signing",
+      "reject-threshold-added-after-signing",
+      "reject-capability-changed-after-signing",
+      "reject-evaluation-digest-edited-after-signing",
+      "reject-held-out-assessor-changed-after-signing",
+      "reject-capability-names-a-model",
+      "reject-capability-names-a-model-digest",
+      "reject-capability-names-an-endpoint",
+      "reject-capability-names-a-provider",
+      "reject-capability-statement-missing",
+      "reject-thresholds-empty",
+      "reject-thresholds-duplicate-metric",
+      "reject-threshold-comparator-unknown",
+      "reject-threshold-value-a-string",
+      "reject-threshold-value-a-fraction",
+      "reject-threshold-set-unknown",
+      "reject-threshold-without-drift-tolerance",
+      "reject-threshold-negative-drift-tolerance",
+      "reject-evaluation-digest-mismatch",
+      "reject-evaluation-item-added-after-digest",
+      "reject-evaluation-item-not-a-digest",
+      "reject-evaluation-set-empty",
+      "reject-held-out-absent",
+      "reject-held-out-attestation-missing",
+      "reject-held-out-attested-by-another-key",
+      "reject-held-out-commitment-not-the-attested-one",
+      "reject-held-out-attested-for-another-capability",
+      "allow-report-identity-unproven-behaviour-supported",
+      "allow-report-behaviour-contradicted-public-miss",
+      "allow-report-behaviour-contradicted-held-out-miss",
+      "allow-report-threshold-exactly-met",
+      "allow-report-behaviour-not-established-no-held-out",
+      "allow-report-contradiction-beats-missing-held-out",
+      "allow-report-behaviour-not-established-metric-missing",
+      "allow-report-identity-proven-with-weights-held",
+      "reject-report-requirement-unsigned",
+      "reject-report-run-for-another-requirement",
+      "reject-report-run-names-no-known-requirement",
+      "reject-report-run-unsigned",
+      "reject-report-run-edited-after-signing",
+      "reject-report-run-signed-by-another-key",
+      "reject-report-held-out-unsigned",
+      "reject-report-held-out-signed-by-the-verifier",
+      "reject-report-held-out-signed-by-another-assessor",
+      "reject-report-held-out-edited-after-assessor-signed",
+      "reject-report-held-out-signature-from-another-run",
+      "reject-report-single-verdict",
+      "reject-report-model-identity-absent",
+      "reject-report-behaviour-absent",
+      "reject-report-identity-proven-for-a-hosted-endpoint",
+      "reject-report-identity-matches-the-claimed-model",
+      "reject-report-identity-proven-with-another-digest",
+      "reject-report-identity-proven-without-proof",
+      "reject-report-behaviour-supported-with-a-miss",
+      "reject-report-behaviour-contradicted-with-every-value-met",
+      "reject-report-behaviour-supported-without-held-out",
+      "reject-report-behaviour-not-established-when-measured",
+      "reject-report-behaviour-value-unknown",
+      "allow-drift-stable",
+      "allow-drift-improvement-is-stable",
+      "allow-drift-change-within-tolerance",
+      "allow-drift-worsened-past-tolerance",
+      "allow-drift-flip-is-drift-even-if-small",
+      "allow-drift-not-established-held-out-missing-now",
+      "reject-drift-requirement-unsigned",
+      "reject-drift-runs-against-different-requirement-digests",
+      "reject-drift-baseline-for-another-requirement",
+      "reject-drift-runs-on-different-endpoints",
+      "reject-drift-baseline-unsigned",
+      "reject-drift-current-unsigned",
+      "reject-drift-current-edited-after-signing",
+      "reject-drift-held-out-unsigned-in-the-current-run",
+      "reject-drift-held-out-signed-by-the-verifier-in-the-baseline",
+      "reject-drift-the-same-run-twice",
+      "reject-drift-two-runs-with-one-run-id",
+      "reject-drift-current-run-before-the-baseline",
+      "reject-drift-runs-at-one-instant",
+      "reject-drift-outcome-stable-but-worsened-past-tolerance",
+      "reject-drift-outcome-drifted-within-tolerance",
+      "reject-drift-threshold-crossed-called-stable",
+      "reject-drift-change-computed-the-wrong-way",
+      "reject-drift-change-missing",
+      "reject-drift-run-id-swapped",
+      "reject-drift-stable-with-an-unmatched-metric"
+    ]
+  },
+  "specification-readers": [],
+  "state": "pass",
+  "suite": "capability-requirement/v1"
+}

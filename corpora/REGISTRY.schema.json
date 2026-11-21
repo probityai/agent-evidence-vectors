@@ -60,7 +60,7 @@
           },
           "standards": {
             "type": "array", "maxItems": 3, "uniqueItems": true,
-            "items": {"enum": ["in-toto", "scitt-cose", "w3c", "ietf-draft", "mcp", "a2a", "owasp", "eu-ai-act", "nist", "did", "rfc8785", "oasf", "open-badges", "ap2"]}
+            "items": {"enum": ["in-toto", "scitt-cose", "w3c", "ietf-draft", "mcp", "a2a", "owasp", "eu-ai-act", "nist", "did", "rfc8785", "oasf", "open-badges", "ap2", "x402"]}
           },
           "shapes": {
             "type": "array", "minItems": 1, "maxItems": 3, "uniqueItems": true,

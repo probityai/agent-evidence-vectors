@@ -860,6 +860,38 @@ def w3c_selection_claims() -> tuple[Claim, ...]:
     )
 
 
+NIST_AI_300_1_DIR = "interop/nist-ai-300-1"
+
+
+def nist_member_claims() -> tuple[Claim, ...]:
+    """The NIST AI 300-1 member total its README states twice, from its manifest.
+
+    check_vectors.py --counts derives the figure, but nothing held the README's
+    two copies of it to the manifest. Both went unreported until the audit record
+    corpus total walked onto the same integer (235), so they are claims here and
+    fail the day the manifest's member list moves.
+    """
+    manifest = json.loads(source(f"{NIST_AI_300_1_DIR}/MANIFEST.json").read_text(encoding="utf-8"))
+    members = str(len(manifest["members"]))
+    readme = f"{NIST_AI_300_1_DIR}/README.md"
+    return (
+        Claim(
+            readme,
+            "the members the checker reads",
+            "157 rows by both extractions; ",
+            " members over",
+            members,
+        ),
+        Claim(
+            readme,
+            "the test documents in members/",
+            "[INDEX.md](INDEX.md) | ",
+            " test documents",
+            members,
+        ),
+    )
+
+
 def claims(src: Sources) -> tuple[Claim, ...]:
     """Every live count this repository publishes, and what the sources say it is.
 
@@ -868,10 +900,16 @@ def claims(src: Sources) -> tuple[Claim, ...]:
     for it are generated from the registration instead of being typed out a
     fourth time.
     """
-    return declared_claims(src) + reply_claims(src) + w3c_selection_claims() + tuple(
-        claim
-        for directory, total, accept, reject in src.extra
-        for claim in claims_for_corpus(directory, total, accept, reject)
+    return (
+        declared_claims(src)
+        + reply_claims(src)
+        + w3c_selection_claims()
+        + nist_member_claims()
+        + tuple(
+            claim
+            for directory, total, accept, reject in src.extra
+            for claim in claims_for_corpus(directory, total, accept, reject)
+        )
     )
 
 
@@ -3389,6 +3427,14 @@ MASKS = tuple(
         # collided with the suiteRevision and a reject count while claiming
         # nothing about either.
         r"\b[Rr]ules?\s+\d{1,3}\b",
+        # An ordered-list marker that numbers a named check, `29. `name``, is the
+        # check's position in an ordered list and counts nothing. It surfaced when
+        # the catalog-trust-manifest profile listed its checks in order and three
+        # positions equalled a corpus total and the suiteRevision. The marker must
+        # start the line and be followed by a backticked lower-case name, so a
+        # hard-wrapped sentence that happens to begin with a count and a full stop
+        # is still read.
+        r"(?m)^\d{1,3}\.(?=[ \t]+`[a-z][a-z0-9_]*`)",
         # A line reference, `Lines 417 to 429` or `line 80`, names a place in a
         # file and counts nothing. A pin of that shape collided with the unforced
         # count when the forcing baseline moved from 404 to 417 rules.

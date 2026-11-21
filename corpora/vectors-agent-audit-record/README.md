@@ -32,7 +32,7 @@ to `X16` are -03 members that -04 prints). A proposed member carries
 `proposed`, naming the next revision its rule is proposed for and the proposed
 text under [`docs/proposals/`](../../docs/proposals/), and no `draftRevision`,
 because no published revision states the rule it tests. `textCounts` gives the
-split: 225 published and 0 proposed at this commit.
+split: 235 published and 0 proposed at this commit.
 
 [Revision 04](https://datatracker.ietf.org/doc/draft-gilda-audit-agent-audit-record/04/)
 was published on 19 November 2026, and its Appendix B prints all 68 members
@@ -51,7 +51,7 @@ the row, and a proposed member whose text is missing.
 
 | Release | Draft revision the corpus tests | Members |
 | --- | --- | --- |
-| v0.38.0 | `draft-gilda-audit-agent-audit-record-04` | all 225 members: every member the row below lists, with the 68 rows -04 first prints labelled -04 |
+| v0.38.0 | `draft-gilda-audit-agent-audit-record-04` | all 235 members: every member the row below lists, with the 68 rows -04 first prints labelled -04 |
 | After v0.28.0, before v0.38.0 | `draft-gilda-audit-agent-audit-record-03`, and rows of `-04` | every member the v0.28.0 row lists, rows `IS1`, `IS2`, `PS1` and `PS2` of -03 and the open member `PS1b` beside them, and rows `CS41` to `CS54` written for -04 |
 | v0.28.0 | `draft-gilda-audit-agent-audit-record-02` | the 99 Appendix B rows of -00, 7 Section 5.4 members, 22 rows of -01 and 13 rows of -02 |
 | v0.27.0 | `draft-gilda-audit-agent-audit-record-00`, and 22 rows of `-01` | the 99 Appendix B rows, 7 Section 5.4 members and 22 rows of -01 |

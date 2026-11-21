@@ -125,6 +125,51 @@ def _post_checkout_missing(r: dict[str, Any]) -> bool:
     return not required <= set(_get(r, "post_checkout.recorded") or [])
 
 
+def _signing_key(r: dict[str, Any]) -> tuple[str, dict[str, Any] | None] | None:
+    """The signing time and the key-history entry for the signing key.
+
+    None when the record states no signing time or carries no key history: the key
+    rules then make no statement, so records without key history are judged as before.
+    """
+    signed_at = _get(r, "mandate.signature.signed_at")
+    keys = _get(r, "key_history.keys")
+    if not signed_at or not isinstance(keys, list):
+        return None
+    key_id = _get(r, "mandate.signature.key_id")
+    entry = next((k for k in keys if isinstance(k, dict) and k.get("key_id") == key_id), None)
+    return str(signed_at), entry
+
+
+def _key_unknown(r: dict[str, Any]) -> bool:
+    found = _signing_key(r)
+    return found is not None and found[1] is None
+
+
+def _key_not_yet_valid(r: dict[str, Any]) -> bool:
+    found = _signing_key(r)
+    return found is not None and found[1] is not None and found[0] < str(found[1]["valid_from"])
+
+
+def _key_rotated_out(r: dict[str, Any]) -> bool:
+    found = _signing_key(r)
+    return (
+        found is not None
+        and found[1] is not None
+        and found[1].get("valid_until") is not None
+        and found[0] >= str(found[1]["valid_until"])
+    )
+
+
+def _key_revoked(r: dict[str, Any]) -> bool:
+    found = _signing_key(r)
+    return (
+        found is not None
+        and found[1] is not None
+        and found[1].get("revoked_effective_from") is not None
+        and found[0] >= str(found[1]["revoked_effective_from"])
+    )
+
+
 CHECKS: tuple[tuple[str, Callable[[dict[str, Any]], bool]], ...] = (
     ("mandate_unsigned", _unsigned),
     ("mandate_digest_mismatch", _digest_mismatch),
@@ -137,6 +182,10 @@ CHECKS: tuple[tuple[str, Callable[[dict[str, Any]], bool]], ...] = (
     ("single_use_token_replayed", _replayed),
     ("receipt_not_bound_to_execution", _receipt_unbound),
     ("post_checkout_action_missing", _post_checkout_missing),
+    ("signing_key_unknown", _key_unknown),
+    ("signing_key_not_yet_valid", _key_not_yet_valid),
+    ("signing_key_rotated_out", _key_rotated_out),
+    ("signing_key_revoked", _key_revoked),
 )
 
 RULES = tuple(code for code, _ in CHECKS)

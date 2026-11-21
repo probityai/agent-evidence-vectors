@@ -28,6 +28,20 @@ registry = "crates.io"
 directory = "crates/jcs-admit"
 
 [[unit]]
+prefix = "jcsvectors"
+name = "jcsvectors"
+registry = "crates.io"
+directory = "crates/jcsvectors"
+
+# The npm twin of the jcsvectors Go module. Its first version goes up by token,
+# as the crate's did: npm adds a trusted publisher only to a package that exists.
+[[unit]]
+prefix = "jcsvectors-npm"
+name = "jcsvectors"
+registry = "npm"
+directory = "crates/jcsvectors/npm"
+
+[[unit]]
 prefix = "jcs-admit-py"
 name = "jcs-admit"
 registry = "pypi"
