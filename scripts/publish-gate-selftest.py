@@ -38,12 +38,12 @@ class Mutations(unittest.TestCase):
     def test_clean_tree_passes(self) -> None:
         self.assertEqual(gate.check_all(gate.WORKFLOWS), [])
 
-    def test_manual_trigger_on_release_refused(self) -> None:
+    def test_scheduled_trigger_on_release_refused(self) -> None:
         self.assertTrue(
             self.mutate(
                 "release.yml",
                 "  release:\n    types: [published]\n",
-                "  release:\n    types: [published]\n  workflow_dispatch:\n",
+                "  release:\n    types: [published]\n  schedule:\n    - cron: '0 0 * * *'\n",
             )
         )
 

@@ -1,0 +1,54 @@
+# A version bump on main is not finished until its release exists. A release created with
+# the workflow token fires no release event, so this workflow creates the GitHub release for
+# each unit whose manifest version changed in the push and then dispatches release.yml on
+# that tag; release.yml resolves the unit, refuses a tag that does not match its manifest or
+# main, and publishes through trusted publishing in the unit's own environment.
+name: release-on-bump
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '**/Cargo.toml'
+      - '**/pyproject.toml'
+      - '**/package.json'
+      - 'actions/VERSION'
+      - 'release.toml'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: release-on-bump
+  cancel-in-progress: false
+
+jobs:
+  cut:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    permissions:
+      contents: write
+      actions: write
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - name: create each missing release and start its publish
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+          BEFORE: ${{ github.event.before }}
+        run: |
+          set -euo pipefail
+          tags="$(python3 scripts/workspace.py bumped "$BEFORE" "$GITHUB_SHA")"
+          echo "bumped: $tags"
+          for tag in $(python3 -c 'import json,sys; print(" ".join(json.loads(sys.argv[1])))' "$tags"); do
+            if gh release view "$tag" >/dev/null 2>&1; then
+              echo "$tag already has a release"
+              continue
+            fi
+            gh release create "$tag" --target "$GITHUB_SHA" --title "$tag" \
+              --notes "Release $tag, cut from the version bump in $GITHUB_SHA." --latest=false
+            gh workflow run release.yml --ref "$tag" -f tag="$tag"
+          done

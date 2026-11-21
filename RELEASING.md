@@ -330,6 +330,18 @@ This paragraph said, until 0.12.1, that the replay "asserts `suiteRefusals ==
 release". The step replayed `vectors` only, and the harness ran its AEE rail
 over the eight other suites and printed that rail's failures as a verdict.
 
+## A package version bump releases itself
+
+Changing the version in a unit's manifest on `main` (a `release.toml` unit: `Cargo.toml`,
+`pyproject.toml`, `package.json` or `actions/VERSION`) starts `.github/workflows/release-on-bump.yml`.
+It asks `scripts/workspace.py bumped <before> <after>` which units changed version, creates the
+missing GitHub release `<prefix>-v<version>` at that commit with `--latest=false`, and dispatches
+`release.yml` on the new tag. A release made with the workflow token fires no release event, which
+is why the dispatch exists; `release.yml` then resolves the tag exactly as it does for a release
+published by hand, so a mismatch with the manifest or a commit off `main` still stops it. A unit
+that is imported is not a bump, and two units sharing one directory and registry release once. A
+bump that failed to publish is retried with `gh workflow run release.yml --ref <tag> -f tag=<tag>`.
+
 ## The Hugging Face dataset follows the tag
 
 The `publish` job of `.github/workflows/release.yml` mirrors each corpus release
