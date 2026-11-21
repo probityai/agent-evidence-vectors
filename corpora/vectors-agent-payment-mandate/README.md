@@ -6,6 +6,8 @@ The expected decision and reason for every case are in `MANIFEST.json`; `INDEX.m
 
 The pack binds four things: the mandate the user signed (an AP2 cart or intent mandate, a Mastercard Verifiable Intent credential or a Stripe Shared Payment Token, each named by concept), the credential the agent presented, the charge that ran, and the receipt that ties them. The reader recomputes the mandate digest and the execution digest instead of trusting the fields that claim them.
 
+The x402 cases map the same four onto an x402 `exact` payment on EVM: the mandate names the wallet the agent may pay from and the network, token, payee, ceiling and expiry it may pay within; the credential is the facilitator request (`paymentPayload` and `paymentRequirements`, x402 v2 field names) with the wallet's EIP-3009 `TransferWithAuthorization` signature; the execution is the ledger read of the transfer and the nonce the token contract consumed; the receipt is the facilitator's `SettlementResponse`. The signatures are real secp256k1 signatures from deterministic test-only keys. The reader recomputes the EIP-712 digest under the requirement's token domain and recovers the signer from the signature; it never reads a field that names the signer. The x402 text read is [x402-foundation/x402 at e35bf884](https://github.com/x402-foundation/x402/tree/e35bf8846f3e40f584f7235ea96c0841cb597b27/specs).
+
 For: payment service providers, acquirers and agent-wallet vendors that need to hand an issuer or arbitrator a replayable record of an agent's purchase.
 
 [![Checked with Probity](https://img.shields.io/badge/checked-with_Probity-blue?style=flat-square&logo=data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAMAAABEpIrGAAAAkFBMVEX8%2B%2Bzr5NPgyrfKyLnSq5Wzo4tWltqRkZI2kPU1kvk1j%2FMwkPgzjfI2jO80jO40jO3MdWOZc1SLblN1aFxxXFJzVDY2i%2B40i%2B00i%2Bw0i%2Bs0ius1iOZAapwugNYtdbUqaq0qV4tkRzJXOB47Oz43JRkjNEYiHBwlFxIfFxMcEg0XEQ0WEAwXDAUWCAEOCQcJAgCa503RAAAB3klEQVR42rWT2ZacIBCGceHYoN240SK2Crig4vL%2BbxfszJyZTmaSm6S4rI9a%2FwK3vxj41wDj5E9AwS%2Foxjn7DmARqgVHCBHyJcBxJeZtEG2Nv4hAGEPXYVumddvWAbFfgJJECDfDukxa63ldmw%2FiCTCEK%2BteFzNbQI%2BbQPwzwKJGjNO2LMacxNqK1wgcNfO2mqfbHMs8NEkeXT8AjurRTKfbMlqOa5vFyc8cZclu4PSvWptlPlOMeb4PsQu78MoYQWFIwKUet0nPZl%2FMki1H3x%2FKd1PVhhdkS2tDgM7m9bR3XX8EXtYde59SSVVXNx2NMwuIbbGl74HUu%2BcFXrArSpXqlVSpGz8sUG%2FjoCej1RHA6ZAgl1SmUvVUQjduEGDIdt0MxuwjCHYNAZSwT1IbhaZ%2BFt7BrUAXbguxnx3gZ9AJVJLal0hKaYv4OShGbu249Z4F4jhQ1PcpTUYLDBF5WxZB9dBB14O%2Bm6eu48QQpjBXIizf113iS9sF0LYxZMD1PODbVvtznu96sGOrWyFEiwQEwHNcC8gaF58UxfG1qiqMqzx2AACJ0i0qXyRXEIwjwnD1SBOYdKJ%2B7vxF1eRUaxGF9ePRVgiX3xxOccdhiK5v6v%2Fysgp2Z%2BR%2F3ebv9gP5RU8tSdZhDwAAAABJRU5ErkJggg%3D%3D)](https://github.com/probityai/probity)
@@ -39,12 +41,33 @@ The command prints `answered N of N cases`. To judge the cases with your own ver
 | single-use-token-replayed | rejected, `single_use_token_replayed` | a single-use token already consumed is used again |
 | receipt-not-over-execution | rejected, `receipt_not_bound_to_execution` | execution changed after the receipt digest was taken |
 | post-checkout-fulfilment-missing | rejected, `post_checkout_action_missing` | capture recorded, the fulfilment action is missing |
+| x402-exact-evm-settled-once | accepted, `mandate_chain_holds` | x402 exact on EVM: wallet the mandate names signs the required payment, settled once |
+| x402-exact-evm-at-mandate-ceiling | accepted, `mandate_chain_holds` | x402 required amount equal to the mandate ceiling is inside the mandate |
+| x402-settled-last-valid-second | accepted, `mandate_chain_holds` | settled one second before validBefore, inside the EIP-3009 window |
+| x402-requirement-over-mandate-ceiling | rejected, `amount_over_limit` | server requires one unit over the mandate ceiling and the agent pays it |
+| x402-paid-in-other-asset | rejected, `currency_mismatch` | payment signed for a token other than the required asset |
+| x402-requirement-pays-unmandated-payee | rejected, `merchant_mismatch` | server requires payment to an address the mandate does not name |
+| x402-authorization-pays-other-address | rejected, `merchant_mismatch` | signed authorization pays an address other than payTo |
+| x402-accepted-other-network | rejected, `network_mismatch` | payment built and signed for a network other than the required one |
+| x402-value-over-required-amount | rejected, `amount_not_offer_amount` | authorization one unit over the exact required amount, under the mandate ceiling |
+| x402-settled-at-valid-before | rejected, `authorization_outside_validity_window` | settled at validBefore, which EIP-3009 excludes |
+| x402-settled-at-valid-after | rejected, `authorization_outside_validity_window` | settled at validAfter, which EIP-3009 excludes |
+| x402-settled-after-mandate-expiry | rejected, `mandate_expired` | authorization valid on its own but settled after the mandate expired |
+| x402-signature-high-s | rejected, `signature_not_canonical` | the same signature with s above n/2, which recovers to the payer |
+| x402-signed-by-other-key | rejected, `payer_not_authorization_signer` | authorization from the agent wallet, signed by another key |
+| x402-verifying-key-from-unsigned-selector | rejected, `payer_not_authorization_signer` | another key signs and an unsigned payload member names that key as the signer |
+| x402-signature-from-other-chain | rejected, `payer_not_authorization_signer` | authorization signed under another chain's token domain, presented on this one |
+| x402-payer-not-the-mandated-agent | rejected, `payer_not_mandated_agent` | a validly signed payment from a wallet the mandate does not name |
+| x402-settlement-consumed-other-nonce | rejected, `token_not_the_executed_token` | the ledger consumed another nonce than the one signed |
+| x402-settled-transfer-differs | rejected, `settlement_not_the_authorization` | the ledger transfer moved another value than was signed |
+| x402-nonce-already-used | rejected, `single_use_token_replayed` | the authorization's nonce was consumed before this settlement |
+| x402-settlement-response-other-payer | rejected, `receipt_not_bound_to_execution` | the facilitator's response names a payer other than the signer |
 
 Each rejected case is one mutation away from the accepted case it names as its twin, and the rule it names is the first that fires.
 
 ## The checker is held to its rules
 
-`mutation_check.py` switches each rule off alone and requires that at least one rejected case then gets a different answer. The tests run each rule-less verifier, a mutant, through the contract and require the corpus to refuse it: 11 rules, 11 mutants, every one caught.
+`mutation_check.py` switches each rule off alone and requires that at least one rejected case then gets a different answer. The tests run each rule-less verifier, a mutant, through the contract and require the corpus to refuse it: one mutant per rule, every one caught.
 
 ## Pin it in your CI
 
@@ -57,4 +80,4 @@ Pin the exact version; conformant means passing that version's cases.
 
 ## What it does not test
 
-It does not vendor or quote any of the three schemes' texts, names no upstream field, and does not say who bears the loss in a dispute. `profile.json` maps each scheme's concept to the receipt-side field checked. It proves a charge stayed inside what a user authorised; it does not prove the user meant it.
+It does not vendor or quote the three card-side schemes' texts and names none of their fields; the x402 cases use x402 v2 field names and quote no x402 text. It does not say who bears the loss in a dispute. `profile.json` maps each scheme's concept to the record field checked. The x402 ledger reads are modelled: no chain was queried, and the transaction hashes are synthetic. The x402 cases cover `exact` with EIP-3009 only, not Permit2, ERC-7710, `upto` or smart-wallet (EIP-1271, ERC-6492) signatures. It proves a charge stayed inside what a user authorised; it does not prove the user meant it.

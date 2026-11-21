@@ -248,8 +248,8 @@ sdist = true
 title = "Agent payment dispute packs"
 summary = "A reader must accept an agent-initiated payment only when the signed mandate, presented credential, charge and receipt recompute to the same digests."
 record_class = "record"
-domains = ["payments", "authority"]
-standards = ["ap2"]
+domains = ["payments", "authority", "identity"]
+standards = ["ap2", "x402"]
 shapes = ["missing-binding", "tampering", "scope-overreach"]
 
 [[corpus]]
