@@ -30,19 +30,30 @@ const RevocationDomain = "probity-revocation-v1\x00"
 // RevocationListType is the one body type a list carries.
 const RevocationListType = "https://probityai.github.io/agent-evidence-vectors/predicate/v1/revocation-list"
 
+// RevocationKind is one of the seven subject kinds a list names. The queries take this type, so a kind
+// the format does not define cannot be passed as a variable; the list's parser refuses an entry of any
+// other kind, so no state ever holds one.
+type RevocationKind string
+
 // The seven subject kinds a list names.
 const (
-	KindAgent   = "agent"
-	KindBuild   = "build"
-	KindGrant   = "grant"
-	KindKey     = "key"
-	KindPermit  = "permit"
-	KindSponsor = "sponsor"
-	KindStream  = "stream"
+	KindAgent   RevocationKind = "agent"
+	KindBuild   RevocationKind = "build"
+	KindGrant   RevocationKind = "grant"
+	KindKey     RevocationKind = "key"
+	KindPermit  RevocationKind = "permit"
+	KindSponsor RevocationKind = "sponsor"
+	KindStream  RevocationKind = "stream"
 )
 
 // RevocationKinds lists every kind, ascending.
-var RevocationKinds = []string{KindAgent, KindBuild, KindGrant, KindKey, KindPermit, KindSponsor, KindStream}
+var RevocationKinds = []RevocationKind{KindAgent, KindBuild, KindGrant, KindKey, KindPermit, KindSponsor, KindStream}
+
+// RevocationSubject names one revocable thing: an id under a kind.
+type RevocationSubject struct {
+	Kind RevocationKind
+	ID   string
+}
 
 // The ten refusals Apply reports, in the order it checks them.
 const (
@@ -123,15 +134,15 @@ func (s RevocationState) isRoot(id string) bool {
 }
 
 // Revoked reports whether the list in force names id under kind.
-func (s RevocationState) Revoked(kind, id string) bool {
-	_, ok := s.entries[[2]string{kind, id}]
+func (s RevocationState) Revoked(kind RevocationKind, id string) bool {
+	_, ok := s.entries[[2]string{string(kind), id}]
 	return ok
 }
 
-// Revokes reports whether the list in force names any of the (kind, id) pairs.
-func (s RevocationState) Revokes(pairs ...[2]string) bool {
-	for _, p := range pairs {
-		if s.Revoked(p[0], p[1]) {
+// Revokes reports whether the list in force names any of the subjects.
+func (s RevocationState) Revokes(subjects ...RevocationSubject) bool {
+	for _, p := range subjects {
+		if s.Revoked(p.Kind, p.ID) {
 			return true
 		}
 	}
@@ -139,10 +150,10 @@ func (s RevocationState) Revokes(pairs ...[2]string) bool {
 }
 
 // RevokedIDs returns the ids the list in force names under kind, sorted.
-func (s RevocationState) RevokedIDs(kind string) []string {
+func (s RevocationState) RevokedIDs(kind RevocationKind) []string {
 	out := []string{}
 	for k := range s.entries {
-		if k[0] == kind {
+		if k[0] == string(kind) {
 			out = append(out, k[1])
 		}
 	}
@@ -243,14 +254,18 @@ func (s RevocationState) install(b revBody) (RevocationState, error) {
 			return s, refuse(CodeDropsEntry, "%s:%.12s", key[0], key[1])
 		}
 	}
+	// A revoked key is never a root, whatever the order of the entries: the successors of the held
+	// roots this list revokes join, then every key id it revokes leaves, so a successor the same list
+	// revokes does not stay.
 	gone, joined := map[string]bool{}, []string{}
 	for _, e := range b.entries {
-		if e.kind == KindKey && s.isRoot(e.id) {
-			gone[e.id] = true
-			if e.successor != nil {
-				sum := sha256.Sum256(e.successor)
-				joined = append(joined, hex.EncodeToString(sum[:]))
-			}
+		if e.kind != string(KindKey) {
+			continue
+		}
+		gone[e.id] = true
+		if e.successor != nil && s.isRoot(e.id) {
+			sum := sha256.Sum256(e.successor)
+			joined = append(joined, hex.EncodeToString(sum[:]))
 		}
 	}
 	return RevocationState{
@@ -364,7 +379,7 @@ func readRevEntry(v any) (revEntry, error) {
 		return e, shape("entry_kind_unknown")
 	}
 	id, _ := o.values["id"].(string)
-	if kind == KindGrant || kind == KindKey || kind == KindPermit {
+	if kind == string(KindGrant) || kind == string(KindKey) || kind == string(KindPermit) {
 		if !isHex64(id) {
 			return e, shape("entry_id_form:" + kind)
 		}
@@ -382,7 +397,7 @@ func readRevEntry(v any) (revEntry, error) {
 		}
 	}
 	if sv, has := o.values["successor"]; has {
-		if kind != KindKey {
+		if kind != string(KindKey) {
 			return e, shape("successor_on_non_key_entry")
 		}
 		if e.successor, err = readRawKey(sv, "successor"); err != nil {
@@ -399,7 +414,7 @@ func readRevEntry(v any) (revEntry, error) {
 
 func isRevocationKind(kind string) bool {
 	for _, k := range RevocationKinds {
-		if k == kind {
+		if string(k) == kind {
 			return true
 		}
 	}

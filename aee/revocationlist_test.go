@@ -3,7 +3,7 @@ package aee
 // Held to the shared vectors every reader of the one signed revocation list
 // answers: the same refusal code and index, or the same state, on every case.
 // The vectors are a byte-for-byte copy of probityai/probity
-// packages/probity-records/vectors/shared/revocation.json at commit 6ca9e8d2.
+// packages/probity-records/vectors/shared/revocation.json at commit 5894259f.
 
 import (
 	"crypto/sha256"
@@ -17,7 +17,7 @@ import (
 
 const (
 	revocationVectorsPath   = "testdata/revocation-list.json"
-	revocationVectorsSHA256 = "3c2434cdaee9854811c3b3eca95dd86fb4deb5e0b39c0a9f647d87bfc8e0f033"
+	revocationVectorsSHA256 = "d762714623703accce51db2adedf9d3abeb9f4db568f1749b1754c833f8a4441"
 )
 
 type revocationVector struct {
@@ -60,11 +60,11 @@ func TestRevocationVectorsArePinned(t *testing.T) {
 	sum := sha256.Sum256(raw)
 	if got := hex.EncodeToString(sum[:]); got != revocationVectorsSHA256 {
 		t.Fatalf("%s has SHA-256 %s; it must be the byte-for-byte copy of probityai/probity "+
-			"packages/probity-records/vectors/shared/revocation.json at 6ca9e8d2 (%s)",
+			"packages/probity-records/vectors/shared/revocation.json at 5894259f (%s)",
 			revocationVectorsPath, got, revocationVectorsSHA256)
 	}
-	if n := len(loadRevocationVectors(t)); n != 37 {
-		t.Fatalf("want 37 vectors, have %d", n)
+	if n := len(loadRevocationVectors(t)); n != 39 {
+		t.Fatalf("want 39 vectors, have %d", n)
 	}
 }
 
@@ -107,11 +107,11 @@ func TestRevocationSharedVectors(t *testing.T) {
 			}
 			for _, kind := range RevocationKinds {
 				got := state.RevokedIDs(kind)
-				if len(got) == 0 && len(want.Revoked[kind]) == 0 {
+				if len(got) == 0 && len(want.Revoked[string(kind)]) == 0 {
 					continue
 				}
-				if !reflect.DeepEqual(got, want.Revoked[kind]) {
-					t.Fatalf("revoked %s %v, want %v", kind, got, want.Revoked[kind])
+				if !reflect.DeepEqual(got, want.Revoked[string(kind)]) {
+					t.Fatalf("revoked %s %v, want %v", kind, got, want.Revoked[string(kind)])
 				}
 			}
 		})
@@ -128,7 +128,7 @@ func TestRevocationRefusalCodesAreTheTenInOrder(t *testing.T) {
 	if !reflect.DeepEqual(RevocationRefusalCodes, want) {
 		t.Fatalf("codes %v, want %v", RevocationRefusalCodes, want)
 	}
-	kinds := []string{"agent", "build", "grant", "key", "permit", "sponsor", "stream"}
+	kinds := []RevocationKind{"agent", "build", "grant", "key", "permit", "sponsor", "stream"}
 	if !reflect.DeepEqual(RevocationKinds, kinds) {
 		t.Fatalf("kinds %v, want %v", RevocationKinds, kinds)
 	}
@@ -168,9 +168,9 @@ func TestRevocationQueriesAndImmutability(t *testing.T) {
 			t.Fatalf("%s: ListDigest %q (%v), head %q", v.ID, digest, err, state.Head)
 		}
 		for _, kind := range RevocationKinds {
-			for _, id := range v.Expected.State.Revoked[kind] {
+			for _, id := range v.Expected.State.Revoked[string(kind)] {
 				found = true
-				if !state.Revoked(kind, id) || !state.Revokes([2]string{KindAgent, "nobody-here"}, [2]string{kind, id}) {
+				if !state.Revoked(kind, id) || !state.Revokes(RevocationSubject{KindAgent, "nobody-here"}, RevocationSubject{kind, id}) {
 					t.Fatalf("%s: %s %s not revoked", v.ID, kind, id)
 				}
 				if state.Revoked(kind, id+"x") {
@@ -178,7 +178,7 @@ func TestRevocationQueriesAndImmutability(t *testing.T) {
 				}
 			}
 		}
-		if state.Revoked("no-such-kind", "x") || state.Revokes() {
+		if state.Revoked(RevocationKind("no-such-kind"), "x") || state.Revokes() {
 			t.Fatalf("%s: an unknown kind or no pairs must not be revoked", v.ID)
 		}
 	}
