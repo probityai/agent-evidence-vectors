@@ -403,7 +403,8 @@ def judge(envelope: bytes, policy: dict[str, Any],
     """The reference reader's decision for one signed credential-reachability record."""
     try:
         trusted, agent = _keys(policy.get("trusted_signers")), _keys(policy.get("agent_keys"))
-        if not trusted or set(trusted.values()) & set(agent.values()):
+        if (not trusted or set(trusted.values()) & set(agent.values())
+                or _utc(policy.get("judged_at")) is None):
             raise Refusal(NO_VERDICT, "policy_invalid")
         payload_type, body, sigs = parse_envelope(envelope)
         if payload_type != policy["payload_type"] and "payload_type" not in skip:
