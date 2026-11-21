@@ -3041,6 +3041,8 @@ jobs:
         with:
           persist-credentials: false
       - uses: astral-sh/setup-uv@v7
+        with:
+          enable-cache: false
       - name: Read the checker pin
         id: pin
         run: python3 -c "import json; print('commit=' + json.load(open('interop/adjudication-disagreement-d1/CHECKER-PIN.json'))['commit'])" >> "$GITHUB_OUTPUT"
@@ -3094,6 +3096,8 @@ jobs:
         with:
           persist-credentials: false
       - uses: astral-sh/setup-uv@v7
+        with:
+          enable-cache: false
       - name: Read the checker pin
         id: pin
         run: python3 -c "import json; print('commit=' + json.load(open('interop/event-absence-c1-sergeev/CHECKER-PIN.json'))['commit'])" >> "$GITHUB_OUTPUT"

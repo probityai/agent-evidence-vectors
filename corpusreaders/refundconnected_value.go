@@ -215,7 +215,7 @@ func (p *rcParser) hex4(at int) (int, bool) {
 	if at+4 > len(p.s) {
 		return 0, false
 	}
-	v, err := strconv.ParseUint(string(p.s[at:at+4]), 16, 32)
+	v, err := strconv.ParseUint(string(p.s[at:at+4]), 16, 16)
 	if err != nil || strings.ContainsAny(string(p.s[at:at+4]), "+-_") {
 		return 0, false
 	}
