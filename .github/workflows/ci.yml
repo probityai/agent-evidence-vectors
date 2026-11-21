@@ -1845,6 +1845,8 @@ jobs:
         run: uv run --extra dev pytest corpora/vectors-decision-client-failure-modes/tests -q
       - name: refusal-reason-priority cases regenerate, force every check and refuse a checker that scores any applicable value
         run: uv run --extra dev pytest corpora/vectors-refusal-reason-priority/tests -q
+      - name: actor-marker-survival cases regenerate, force every check and replay the reference hop
+        run: uv run --extra dev --extra generators pytest corpora/vectors-actor-marker-survival/tests -q
       - name: agent-card-receipt cases regenerate and force every check
         run: uv run --extra dev pytest corpora/vectors-agent-card-receipt/tests -q
       - name: credential-release cases regenerate and force every check

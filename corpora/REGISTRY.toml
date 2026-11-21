@@ -181,6 +181,18 @@ standards = ["in-toto", "rfc8785"]
 shapes = ["missing-binding", "tampering", "forged-signature"]
 
 [[corpus]]
+id = "vectors-actor-marker-survival"
+path = "corpora/vectors-actor-marker-survival"
+wheel = true
+sdist = true
+title = "Actor-marker survival"
+summary = "The acting-agent marker must survive every hop: a verifier refuses a stripped, replaced, reordered or truncated actor, a user-alone downgrade, an unsigned marker and an ignored critical parameter."
+record_class = "chain"
+domains = ["identity", "delegation"]
+standards = ["ietf-draft", "a2a", "rfc8785"]
+shapes = ["broken-chain", "missing-binding", "forged-signature"]
+
+[[corpus]]
 id = "vectors-admission"
 path = "corpora/vectors-admission"
 wheel = true

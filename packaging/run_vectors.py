@@ -129,6 +129,7 @@ from typing import Any, NamedTuple, TypeGuard
 # that contract instead of being refused.
 from agent_evidence_vectors import (
     a2ajcs,
+    actormarker,
     admission,
     agenticprocess,
     aggregateaccounting,
@@ -3926,6 +3927,7 @@ def _run_non_reference_suite(
         containmentjournal.SUITE,
         decisionclient.SUITE,
         refusalreason.SUITE,
+        actormarker.SUITE,
         *cardreceipt.SUITES,
         convertedargs.SUITE,
         delegatorright.SUITE,
@@ -3976,6 +3978,7 @@ def _run_non_reference_suite(
         containmentjournal.SUITE: containmentjournal.run,
         decisionclient.SUITE: decisionclient.run,
         refusalreason.SUITE: refusalreason.run,
+        actormarker.SUITE: actormarker.run,
         **{suite: cardreceipt.runner(suite) for suite in cardreceipt.SUITES},
         convertedargs.SUITE: convertedargs.run,
         delegatorright.SUITE: delegatorright.run,
