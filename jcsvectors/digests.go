@@ -6,7 +6,7 @@ package jcsvectors
 // of the corpus file it was copied from. A slice of pairs rather than a map
 // keeps this file as gofmt prints it, with no column alignment to compute.
 var fileDigests = [][2]string{
-	{"jcs-byte-vectors/cases.json", "60af72657a6b1141224d8b58e381a149eee49ad5349f3d7c0cdf4d322fb554f6"},
+	{"jcs-byte-vectors/cases.json", "47cc35970cf70edfbc4a67bfdb20af71bfe7188c11073e49d829a72be8cf7f8d"},
 	{"vectors-a2a-jcs-v01/MANIFEST.json", "d38f4121bcae85f875be5de4802fa9ca4e773aec5e3a9ae1c0134825a5779a98"},
 	{"vectors-a2a-jcs-v01/a2-signatures-exclusion/A2-001.json", "dc15ec0f7dea5c98cb6e23a1f0ad36f69b8b945c269e71846b4f1cbfcb1b279c"},
 	{"vectors-a2a-jcs-v01/a2-signatures-exclusion/A2-002.json", "70707b61ffbf80bb4a983de21af9677cc0611be1ad05184e538bcfdbabafe2d5"},

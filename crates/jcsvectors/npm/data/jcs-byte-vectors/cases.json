@@ -253,7 +253,9 @@
       "canonicalHex": "7b226e223a393030373139393235343734303939327d",
       "sha256": "66c87d9cb3014e05a11baa97df62282d89d425f22ee15816577c84534e2ef1bb",
       "expect": "reject-as-canonical",
-      "error": "not-canonical"
+      "error": "not-canonical",
+      "reference": "refuse",
+      "referenceError": "inexact-number"
     }
   ],
   "depthCases": [
