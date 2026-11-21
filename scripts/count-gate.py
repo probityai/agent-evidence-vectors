@@ -892,6 +892,69 @@ def nist_member_claims() -> tuple[Claim, ...]:
     )
 
 
+TELEMETRY_DIR = "corpora/vectors-telemetry-evidence"
+#: The requirement rows of the corpus README's case table, in table order, each
+#: with the label that opens its row.
+TELEMETRY_ROWS: tuple[tuple[str, str], ...] = (
+    ("OBS-5a", "OBS-5a, a digest over declared canonical bytes"),
+    ("OBS-5b", "OBS-5b, the digest binds the consumed copy, with a denominator"),
+    ("OBS-5c", "OBS-5c, a signed digest set under a pinned key"),
+    ("OBS-7", "OBS-7, an event log against a retained signed head"),
+)
+
+
+def telemetry_claims() -> tuple[Claim, ...]:
+    """The telemetry evidence corpus's counts, from its manifest and one case.
+
+    The README states the case total twice and a case count per requirement, and
+    the README and the generator both describe the zero-of-n case by the number
+    of consumed items it carries. Each is read from the bytes it describes: the
+    total and the per-requirement counts from MANIFEST.json, the denominator
+    from that case's record.json, so adding a case or a consumed item fails here
+    until the prose says so.
+    """
+    manifest = json.loads(source(f"{TELEMETRY_DIR}/MANIFEST.json").read_text(encoding="utf-8"))
+    vectors = manifest["vectors"]
+    total = str(len(vectors))
+    record_path = source(f"{TELEMETRY_DIR}/cases/evidence-ref-zero-of-n/record.json")
+    consumed = str(len(json.loads(record_path.read_text(encoding="utf-8"))["consumed"]))
+    readme = f"{TELEMETRY_DIR}/README.md"
+    rows = tuple(
+        Claim(
+            readme,
+            f"the {draft} case count",
+            f"| {label} | ",
+            " | ",
+            str(sum(1 for vector in vectors if vector["draftId"] == draft)),
+        )
+        for draft, label in TELEMETRY_ROWS
+    )
+    return rows + (
+        Claim(readme, "the corpus total", "`telemetry-evidence/v1`: ", " synthetic records", total),
+        Claim(
+            readme,
+            "the cases the reference verifier agrees with",
+            "agrees with all ",
+            " cases.",
+            total,
+        ),
+        Claim(
+            readme,
+            "the zero-of-n case's consumed items",
+            "every reference removed (`0 of ",
+            "`)",
+            consumed,
+        ),
+        Claim(
+            f"{TELEMETRY_DIR}/gen_vectors.py",
+            "the zero-of-n case's consumed items",
+            "every reference removed: 0 of ",
+            " consumed items carry a digest",
+            consumed,
+        ),
+    )
+
+
 def claims(src: Sources) -> tuple[Claim, ...]:
     """Every live count this repository publishes, and what the sources say it is.
 
@@ -905,6 +968,7 @@ def claims(src: Sources) -> tuple[Claim, ...]:
         + reply_claims(src)
         + w3c_selection_claims()
         + nist_member_claims()
+        + telemetry_claims()
         + tuple(
             claim
             for directory, total, accept, reject in src.extra
@@ -3195,6 +3259,39 @@ FROZEN: tuple[Frozen, ...] = (
         'count of this repository\'s receipt-signature corpus. It met that corpus total of 29 '
         'by coincidence.',
     ),
+    # ---- fixture wording in two corpus generators.
+    # Each sentence describes the case the generator writes beside it, from the
+    # literals in the same call: a spend of units against a budget of 10 in the
+    # budget lineage corpus, and each log edit's position among the six edits in
+    # the telemetry evidence corpus, written from the one tuple that builds those
+    # six cases. They describe the fixture and do not track any corpus total,
+    # which is the same answer the w3c-intake fixture's "2 of 2" gets above.
+    Frozen(
+        "corpora/vectors-budget-lineage/gen_vectors.py",
+        "the control case's spend against the principal's budget",
+        "7 of 10 units of the principal's budget",
+        "The description of one fixture: two charges of units against a budget of 10, "
+        "written from the literals in the same call. It describes that fixture and does "
+        "not track the corpus.",
+    ),
+    Frozen(
+        "corpora/vectors-budget-lineage/gen_vectors.py",
+        "the rerooted case's spend against the principal's budget",
+        "only agent-a's 6 of 10",
+        "The description of one fixture: a charge of 6 against a budget of 10, written "
+        "from the literals in the same call. It describes that fixture and does not "
+        "track the corpus.",
+    ),
+    *(
+        Frozen(
+            "corpora/vectors-telemetry-evidence/gen_vectors.py",
+            f"the position label of log edit {position}",
+            f'"edit {position} of 6: ',
+            "A case's position among the six log edits, written from the one tuple that "
+            "builds the six cases. It labels that fixture and does not track the corpus.",
+        )
+        for position in range(1, 7)
+    ),
 )
 
 
@@ -3435,6 +3532,14 @@ MASKS = tuple(
         # hard-wrapped sentence that happens to begin with a count and a full stop
         # is still read.
         r"(?m)^\d{1,3}\.(?=[ \t]+`[a-z][a-z0-9_]*`)",
+        # `0 of 0` is the name of the empty-denominator condition a coverage rule
+        # refuses (`empty_denominator`, "0 of 0 is never a pass"), not a tally of
+        # anything: a zero denominator cannot be the size of a corpus, because an
+        # empty corpus cannot be registered. It surfaced when the telemetry
+        # evidence corpus named the condition in its summary, README, generator
+        # and reader docstring. Only the zero-over-zero form is masked, so `0 of 4`
+        # beside it is still read, and it is declared as a claim.
+        r"\b0\s*(?:/|\s+of\s+)\s*0\b",
         # A line reference, `Lines 417 to 429` or `line 80`, names a place in a
         # file and counts nothing. A pin of that shape collided with the unforced
         # count when the forcing baseline moved from 404 to 417 rules.
