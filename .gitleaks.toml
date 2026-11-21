@@ -21,6 +21,14 @@ regexes = [
 ]
 
 [[allowlists]]
+description = "Ed25519 public keys in the revocation vectors: issuerKey and successor members hold canonical base64 of a raw 32-byte public key"
+targetRules = ["generic-api-key"]
+regexTarget = "match"
+regexes = [
+  '''(issuerKey|successor)"\s*:\s*"[A-Za-z0-9+/]{43}="''',
+]
+
+[[allowlists]]
 description = "RFC 7638 thumbprints of public JWKs: a SHA-256 digest in base64url, 43 characters (audit-record principal members)"
 targetRules = ["generic-api-key"]
 regexTarget = "match"
