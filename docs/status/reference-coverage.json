@@ -1,7 +1,7 @@
 {
   "verifier": "https://probityai.github.io/probity/verifiers/agent-evidence-verify",
   "checked": 734,
-  "total": 3593,
+  "total": 3747,
   "corpora": [
     {
       "id": "vectors",
@@ -31,6 +31,12 @@
       "id": "vectors-acs-decision-record",
       "checked": 0,
       "total": 15,
+      "disagreements": 0
+    },
+    {
+      "id": "vectors-actor-marker-survival",
+      "checked": 0,
+      "total": 30,
       "disagreements": 0
     },
     {
@@ -66,7 +72,7 @@
     {
       "id": "vectors-agent-payment-mandate",
       "checked": 0,
-      "total": 21,
+      "total": 42,
       "disagreements": 0
     },
     {
@@ -168,13 +174,19 @@
     {
       "id": "vectors-containment-journal",
       "checked": 0,
-      "total": 62,
+      "total": 63,
       "disagreements": 0
     },
     {
       "id": "vectors-converted-argument-binding",
       "checked": 0,
       "total": 17,
+      "disagreements": 0
+    },
+    {
+      "id": "vectors-credential-reachability",
+      "checked": 0,
+      "total": 58,
       "disagreements": 0
     },
     {
@@ -451,6 +463,12 @@
       "id": "vectors-spoofed-tool-output",
       "checked": 47,
       "total": 47,
+      "disagreements": 0
+    },
+    {
+      "id": "vectors-status-receipt-binding",
+      "checked": 0,
+      "total": 24,
       "disagreements": 0
     },
     {
