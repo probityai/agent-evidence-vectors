@@ -50,6 +50,7 @@ RUNS_A_VERIFIER = (
     "vectors-empty-interval-statement",
     "vectors-approval-binding",
     "vectors-delegator-right",
+    "vectors-oasf-record",
     "vectors-badge-vc-verify",
     "vectors-catalog-trust-manifest",
     "vectors-completion-confirmation",
