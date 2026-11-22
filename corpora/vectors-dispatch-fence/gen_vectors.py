@@ -79,6 +79,11 @@ def _second_hop(r: dict[str, Any]) -> None:
     r["otherAttempts"] = [{"admitted": True, "beganAt": at(30), "proposalId": r["proposalId"]}]
 
 
+def _before_expiry(r: dict[str, Any]) -> None:
+    r["effect"]["endedAt"] = at(119)
+    r["commit"]["at"] = at(119)
+
+
 def _at_expiry(r: dict[str, Any]) -> None:
     r["effect"]["endedAt"] = at(120)
     r["commit"]["at"] = at(120)
@@ -134,9 +139,9 @@ def cases() -> list[Case]:
         ("allow-same-proposal-second-hop",
          variant("allow-same-proposal-second-hop", _second_hop), "allow", "exclusive",
          "control: a second attempt carrying the same proposal identifier is re-entrant"),
-        ("allow-effect-ends-at-expiry",
-         variant("allow-effect-ends-at-expiry", _at_expiry), "allow", "exclusive",
-         "control: the effect and the commit land exactly at the hold's expiry"),
+        ("allow-commit-before-expiry",
+         variant("allow-commit-before-expiry", _before_expiry), "allow", "exclusive",
+         "control: the effect and the commit land one second before the hold's expiry"),
         ("contract-id-missing", variant("contract-id-missing", contractId=None), "deny",
          "contract_id_missing", "the record names no contract"),
         ("contract-id-unknown", variant("contract-id-unknown", contractId=unknown), "deny",
@@ -165,6 +170,10 @@ def cases() -> list[Case]:
          variant("commit-after-own-hold-expired", _late_commit), "deny",
          "commit_after_hold_expired",
          "the effect ended in time and the commit landed ten seconds after the hold expired"),
+        ("commit-at-expiry", variant("commit-at-expiry", _at_expiry), "deny",
+         "commit_after_hold_expired",
+         "the effect ended exactly at the expiry, which is inside the half-open hold, and the "
+         "commit landed exactly at the expiry, which is outside it"),
     ]
 
 

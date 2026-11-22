@@ -8,7 +8,7 @@ Registry test keyid: `7f6c8321f0eeae36edef6b77c72ab0a49b7700cbaecf5a1ffa3c5ed6d5
 
 Relying party test keyid: `d1fd80151b3f6cb5d08587bfa3e1a345bcb37958330760ea9d8592b81ec1b71a`
 
-Corpus digest: `84ba70d6a54bfc1badf80a54655814c089bd220e9d81637d2262ac84e2a63442`
+Corpus digest: `9ca18b93dfa3b02d331c6831b994bf0b176bc87d587754c7f7a3716d6ed6ad0f`
 
 ## Revocation across a delegation tree
 
@@ -20,7 +20,7 @@ Corpus digest: `84ba70d6a54bfc1badf80a54655814c089bd220e9d81637d2262ac84e2a63442
 | `tree-sibling-of-revoked-child` | accept | `authority_valid` | The planner revokes the worker's grant and the sibling presents its own grant from the same planner. | A presented chain fails when any grant in it is revoked, so a revocation cuts off every grant beneath the revoked one and nothing beside or above it. |
 | `tree-grandchild-under-revoked-parent` | reject | `grant_revoked` | The organisation revokes the planner's grant and the sub-worker, two levels below, presents its chain. | A presented chain fails when any grant in it is revoked, so a revocation cuts off every grant beneath the revoked one and nothing beside or above it. |
 | `tree-child-revocation-keeps-parent` | accept | `authority_valid` | The planner revokes the worker's grant and the planner presents its own grant. | A presented chain fails when any grant in it is revoked, so a revocation cuts off every grant beneath the revoked one and nothing beside or above it. |
-| `tree-revocation-backdated` | reject | `grant_revoked` | A revocation issued at 14:00 states it took effect at 10:00, and the presentation was observed at 13:00. | Proposed: a revocation applies from its stated effective_at even when it was issued later, as an X.509 invalidity date does; this favours containment over a relying party's reliance on the earlier state. |
+| `tree-revocation-backdated` | reject | `grant_revoked_retroactively` | A revocation issued at 14:00 states it took effect at 10:00, and the presentation was observed at 13:00. | Proposed: a revocation binds from when it is issued. A presentation observed before that is still refused, as containment, as an X.509 invalidity date is; the reason says the revocation was retroactive, so the refusal is never read as proof the grant was revoked when it was presented. |
 | `tree-revocation-without-standing` | accept | `authority_valid` | The sibling signs a revocation of the worker's grant and the worker presents. | Only the issuer of the revoked grant, or an issuer above it in the presented chain, has standing to revoke it; a revocation signed by anyone else is ignored. |
 | `tree-revocation-incomplete` | reject | `revocation_incomplete` | The organisation revokes the planner's grant without stating grounds and the worker presents. | Proposed: a revocation from a principal with standing that states no grounds still stops the authority, and the reason names the missing record field. |
 | `tree-dispute-open` | reject | `grant_revoked_dispute_open` | The worker, cut off by the revocation of the planner's grant, files a dispute at 12:30 and presents at 13:00 with no resolution. | Proposed: a dispute filed by an affected principal, including one cut off by the cascade, does not suspend the revocation; until a resolution signed by a principal with standing exists, the reason says the dispute is open. |

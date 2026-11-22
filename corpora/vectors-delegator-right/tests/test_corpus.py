@@ -133,7 +133,12 @@ class TestDelegatorRightCorpus:
             _, errors = corpus.check(f"{sys.executable} {script}")
             denied = {e["id"] for e in _manifest()["vectors"]
                       if e["expected"]["decision"] == "deny"}
-            assert _failed(errors) == denied
+            # A within-limit allow names its own reason, so a verifier that always says
+            # ``entitled`` misses those controls as well.
+            within_limit = {e["id"] for e in _manifest()["vectors"]
+                            if e["expected"]["reason"] == "within_propagation_limit"}
+            assert within_limit
+            assert _failed(errors) == denied | within_limit
 
         def test_missing_verifier_does_not_count_as_answered(self, tmp_path: Path) -> None:
             answered, errors = corpus.check(str(tmp_path / "no-such-verifier"))
@@ -146,3 +151,10 @@ class TestDelegatorRightCorpus:
             (copied / "cases" / "allow-entitled-delegator" / "record.json").write_bytes(b"{}")
             _, errors = corpus.check(root=copied)
             assert "allow-entitled-delegator: fixture digest mismatch" in errors
+
+        def test_a_removal_inside_the_limit_is_not_an_entitlement(self) -> None:
+            """The limit tolerates cached state; the allow says so and never ``entitled``."""
+            for name in ("allow-entitlement-ended-within-limit",
+                         "allow-ancestor-narrowed-within-limit"):
+                answer = delegatorright.verify(ROOT / "cases" / name / "record.json")
+                assert answer == {"decision": "allow", "reason": "within_propagation_limit"}, name

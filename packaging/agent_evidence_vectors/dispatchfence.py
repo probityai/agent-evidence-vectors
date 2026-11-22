@@ -22,7 +22,9 @@ The reader checks in a fixed order and names the first check that fails:
    initial expiry and every renewal's expiry (``hold_expired_before_effect_ended``);
 7. no other proposal was admitted on the context from the fence's acquisition
    to the effect's end (``concurrent_dispatch_admitted``);
-8. the commit was at or before the hold's expiry (``commit_after_hold_expired``).
+8. the commit was before the hold's expiry, which is half-open: an effect ending at
+   the expiry is inside the hold and a commit at the expiry is outside it
+   (``commit_after_hold_expired``).
 
 A record that passes all eight is ``allow`` with reason ``exclusive``.
 
@@ -86,10 +88,13 @@ def hold_expiry(record: dict[str, Any]) -> datetime:
 
 
 def hold_covers_commit(record: dict[str, Any]) -> bool:
-    """Whether the hold lasted through both the effect and the commit."""
+    """Whether the half-open hold [acquiredAt, expiry) held through the effect and the commit.
+
+    A running effect that ends at the expiry is inside the hold; a commit at the expiry is not.
+    """
     expiry = hold_expiry(record)
     return bool(_when(record["effect"]["endedAt"]) <= expiry
-                and _when(record["commit"]["at"]) <= expiry)
+                and _when(record["commit"]["at"]) < expiry)
 
 
 def _not_bound(record: dict[str, Any]) -> bool:
@@ -136,7 +141,7 @@ def _first_failure(record: dict[str, Any], skip: frozenset[str]) -> str | None:
         "hold_expired_before_effect_ended": lambda: (
             _when(record["effect"]["endedAt"]) > hold_expiry(record)),
         "concurrent_dispatch_admitted": lambda: _concurrent(record),
-        "commit_after_hold_expired": lambda: _when(record["commit"]["at"]) > hold_expiry(record),
+        "commit_after_hold_expired": lambda: _when(record["commit"]["at"]) >= hold_expiry(record),
     }
     for name in CHECKS:
         if name not in skip and failures[name]():
