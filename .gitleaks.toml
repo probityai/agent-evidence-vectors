@@ -161,7 +161,9 @@ regexes = ['''eyJ[A-Za-z0-9_-]+\.[A-Za-z0-9_-]+\.[A-Za-z0-9_-]*''']
 # those, and the two rules after them report what the upstream exemption hides.
 #
 # The first entry passes a value only when three things hold together:
-#   1. where it is: corpora/, vectors/, vectors-<name>/, fixtures/ or testdata/;
+#   1. where it is: corpora/, vectors/, vectors-<name>/, fixtures/ or testdata/, or a
+#      corpus file anywhere (a .json or .jsonl file whose name holds corpus or vectors,
+#      such as packages/admission/rego/corpus_vectors.json);
 #   2. what it is called: the field name ends in a public-key term (public_key,
 #      publicKey, pubkey, pub_key, verifyingKey, verificationKey, verify_key) and at
 #      most one encoding suffix (hex, b64, b64u, base64, base64url, raw, bytes), or it
@@ -182,7 +184,7 @@ regexes = ['''eyJ[A-Za-z0-9_-]+\.[A-Za-z0-9_-]+\.[A-Za-z0-9_-]*''']
 description = "A 32-byte public key under a public-key field name in a corpus or fixture directory"
 targetRules = ["generic-api-key"]
 condition = "AND"
-paths = ['''(?:^|/)(?:testdata|fixtures?|corpora|vectors(?:-[a-z0-9-]+)?)/''']
+paths = ['''(?:^|/)(?:testdata|fixtures?|corpora|vectors(?:-[a-z0-9-]+)?)/|(?:^|/)[\w.-]*(?:corpus|vectors)[\w.-]*\.jsonl?$''']
 regexTarget = "match"
 regexes = [
   '''^(?:[\w.-]*(?i:pub(?:lic)?[_.-]?key|verif(?:y|ying|ication)[_.-]?key)(?i:[_.-]?(?:hex|b64u?|base64(?:url)?|raw|bytes))?|issuerKey)["'\x60]?\s*(?::=|=>|:|=)\s*["'\x60]?(?:[0-9a-f]{64}|[0-9A-F]{64}|[A-Za-z0-9+/]{42}[AEIMQUYcgkosw048]=?|[A-Za-z0-9_-]{42}[AEIMQUYcgkosw048]=?)(?:["'\x60;]|\s|\\[nr])?$''',
