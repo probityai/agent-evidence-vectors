@@ -1,0 +1,680 @@
+{
+  "contractId": "https://probityai.github.io/agent-evidence-vectors/predicate/v1/holder-bound-credential",
+  "corpusDigest": "e9d1876a1bdfbf716618d6d12de54540e9554c351ba6121cf424b57d838f25fd",
+  "counts": {
+    "accept": 5,
+    "reject": 30
+  },
+  "sources": {
+    "rfc7638": {
+      "title": "RFC 7638",
+      "url": "https://www.rfc-editor.org/rfc/rfc7638"
+    },
+    "rfc7800": {
+      "title": "RFC 7800",
+      "url": "https://www.rfc-editor.org/rfc/rfc7800"
+    },
+    "rfc8705": {
+      "title": "RFC 8705",
+      "url": "https://www.rfc-editor.org/rfc/rfc8705"
+    },
+    "rfc9449": {
+      "title": "RFC 9449",
+      "url": "https://www.rfc-editor.org/rfc/rfc9449"
+    }
+  },
+  "suite": "holder-bound-credential/v1",
+  "synthetic": true,
+  "vectors": [
+    {
+      "anchors": [],
+      "edit": "control: one request with a fresh proof signed by the confirmed key",
+      "expected": {
+        "decision": "accept",
+        "reason": "holder_bound"
+      },
+      "files": {
+        "record.json": "53542d3824855216076f8acb8e2b1360c1a26dbe88721815e65ea07379aa2b68"
+      },
+      "id": "accept-single-presentation",
+      "path": "cases/accept-single-presentation",
+      "retained": {
+        "jkt": "ykSZDMRrERYBGWzGUGmnCT98w8tAC3_w1CSJqwi2C-w",
+        "subject": "agent:planner"
+      }
+    },
+    {
+      "anchors": [],
+      "edit": "control: two requests, each with its own proof",
+      "expected": {
+        "decision": "accept",
+        "reason": "holder_bound"
+      },
+      "files": {
+        "record.json": "a92fb9e716c3487b47f0e3647354e8d65d5d8a6b487dfb5bce8dd3a4e87c02f8"
+      },
+      "id": "accept-two-presentations",
+      "path": "cases/accept-two-presentations",
+      "retained": {
+        "jkt": "ykSZDMRrERYBGWzGUGmnCT98w8tAC3_w1CSJqwi2C-w",
+        "subject": "agent:planner"
+      }
+    },
+    {
+      "anchors": [],
+      "edit": "control: a proof exactly 60 seconds old is still fresh",
+      "expected": {
+        "decision": "accept",
+        "reason": "holder_bound"
+      },
+      "files": {
+        "record.json": "d76763245b0dab44437b5f3ac95fc91b553c38a6ceba0c5faffe2c6dbac1ed7d"
+      },
+      "id": "accept-proof-at-the-age-limit",
+      "path": "cases/accept-proof-at-the-age-limit",
+      "retained": {
+        "jkt": "ykSZDMRrERYBGWzGUGmnCT98w8tAC3_w1CSJqwi2C-w",
+        "subject": "agent:planner"
+      }
+    },
+    {
+      "anchors": [],
+      "edit": "control: a proof 5 seconds ahead of the clock is within skew",
+      "expected": {
+        "decision": "accept",
+        "reason": "holder_bound"
+      },
+      "files": {
+        "record.json": "ca7535581e9503a748952d81efd8edaf13b49217178c42d5e42bbc5525be32cc"
+      },
+      "id": "accept-proof-at-the-ahead-limit",
+      "path": "cases/accept-proof-at-the-ahead-limit",
+      "retained": {
+        "jkt": "ykSZDMRrERYBGWzGUGmnCT98w8tAC3_w1CSJqwi2C-w",
+        "subject": "agent:planner"
+      }
+    },
+    {
+      "anchors": [],
+      "edit": "control: a request exactly at the credential's start is inside",
+      "expected": {
+        "decision": "accept",
+        "reason": "holder_bound"
+      },
+      "files": {
+        "record.json": "859ee44435fb2eec47bf625f470a834233a3167242ec6deee4b481c71e647aa5"
+      },
+      "id": "accept-request-at-credential-start",
+      "path": "cases/accept-request-at-credential-start",
+      "retained": {
+        "jkt": "ykSZDMRrERYBGWzGUGmnCT98w8tAC3_w1CSJqwi2C-w",
+        "subject": "agent:planner"
+      }
+    },
+    {
+      "anchors": [],
+      "edit": "no contract identifier",
+      "expected": {
+        "decision": "reject",
+        "reason": "contract_id_missing"
+      },
+      "files": {
+        "record.json": "47d9cdb96bd983cf6f128c4a4e5f505c5f39cf9c35b87b66e408523dda9e8b04"
+      },
+      "id": "contract-id-missing",
+      "path": "cases/contract-id-missing",
+      "retained": {
+        "jkt": null,
+        "subject": null
+      }
+    },
+    {
+      "anchors": [],
+      "edit": "another contract identifier",
+      "expected": {
+        "decision": "reject",
+        "reason": "contract_id_unknown"
+      },
+      "files": {
+        "record.json": "b455b62ac39143a342253fc3e4ef053fa1cac3be264fd2ae0099aade207001f2"
+      },
+      "id": "contract-id-unknown",
+      "path": "cases/contract-id-unknown",
+      "retained": {
+        "jkt": "ykSZDMRrERYBGWzGUGmnCT98w8tAC3_w1CSJqwi2C-w",
+        "subject": "agent:planner"
+      }
+    },
+    {
+      "anchors": [],
+      "edit": "a credential with no presentation at all",
+      "expected": {
+        "decision": "reject",
+        "reason": "record_malformed"
+      },
+      "files": {
+        "record.json": "356d11c2758f82364b332fc7627a28c39d29d1165365b536474a5217dd9430a8"
+      },
+      "id": "no-presentations",
+      "path": "cases/no-presentations",
+      "retained": {
+        "jkt": null,
+        "subject": null
+      }
+    },
+    {
+      "anchors": [
+        {
+          "quote": "jkt",
+          "section": "6.1",
+          "source": "rfc9449"
+        }
+      ],
+      "edit": "the credential confirms no key, so anyone who copies it can use it",
+      "expected": {
+        "decision": "reject",
+        "reason": "credential_not_holder_bound"
+      },
+      "files": {
+        "record.json": "1dc6d43973cacb027063ed5ac912e1b7a98d19d9cc08c5c89ac60d33ffc99978"
+      },
+      "id": "credential-is-bearer",
+      "path": "cases/credential-is-bearer",
+      "retained": {
+        "jkt": null,
+        "subject": "agent:planner"
+      }
+    },
+    {
+      "anchors": [],
+      "edit": "a request one second before the credential starts",
+      "expected": {
+        "decision": "reject",
+        "reason": "credential_not_yet_valid"
+      },
+      "files": {
+        "record.json": "e299f0250ca8d19e4b01db36bea8945d210ba9357da911a7118240b0214cdf73"
+      },
+      "id": "used-before-valid",
+      "path": "cases/used-before-valid",
+      "retained": {
+        "jkt": "ykSZDMRrERYBGWzGUGmnCT98w8tAC3_w1CSJqwi2C-w",
+        "subject": "agent:planner"
+      }
+    },
+    {
+      "anchors": [],
+      "edit": "a request exactly at exp; the window is half-open",
+      "expected": {
+        "decision": "reject",
+        "reason": "credential_expired"
+      },
+      "files": {
+        "record.json": "0f90ef9f7635cd2946ebcbe78ead8b83d28c0a0c5c0b06a63cfd571bb746a4af"
+      },
+      "id": "used-at-expiry",
+      "path": "cases/used-at-expiry",
+      "retained": {
+        "jkt": "ykSZDMRrERYBGWzGUGmnCT98w8tAC3_w1CSJqwi2C-w",
+        "subject": "agent:planner"
+      }
+    },
+    {
+      "anchors": [],
+      "edit": "a request ten minutes after exp",
+      "expected": {
+        "decision": "reject",
+        "reason": "credential_expired"
+      },
+      "files": {
+        "record.json": "85ff16074f7fc4d5a7c9190901ccfc9849e0b52a78a7e9837781c77afcee3973"
+      },
+      "id": "used-after-expiry",
+      "path": "cases/used-after-expiry",
+      "retained": {
+        "jkt": "ykSZDMRrERYBGWzGUGmnCT98w8tAC3_w1CSJqwi2C-w",
+        "subject": "agent:planner"
+      }
+    },
+    {
+      "anchors": [],
+      "edit": "a proof that is not a compact JWS",
+      "expected": {
+        "decision": "reject",
+        "reason": "proof_malformed"
+      },
+      "files": {
+        "record.json": "348873d74cfce7de6c9d67c7b039a895ebaba2ab89c78ef6b79a27a7bbc64c00"
+      },
+      "id": "proof-not-a-jws",
+      "path": "cases/proof-not-a-jws",
+      "retained": {
+        "jkt": "ykSZDMRrERYBGWzGUGmnCT98w8tAC3_w1CSJqwi2C-w",
+        "subject": "agent:planner"
+      }
+    },
+    {
+      "anchors": [],
+      "edit": "a proof header with a crit member the profile does not read",
+      "expected": {
+        "decision": "reject",
+        "reason": "proof_malformed"
+      },
+      "files": {
+        "record.json": "c4d1065e49a028048b70e92f835b327e8fd0bf2a28c086d2186c0fddbe4fd699"
+      },
+      "id": "proof-carries-crit",
+      "path": "cases/proof-carries-crit",
+      "retained": {
+        "jkt": "ykSZDMRrERYBGWzGUGmnCT98w8tAC3_w1CSJqwi2C-w",
+        "subject": "agent:planner"
+      }
+    },
+    {
+      "anchors": [
+        {
+          "quote": "typ: with value \"dpop+jwt\"",
+          "section": "4.2",
+          "source": "rfc9449"
+        }
+      ],
+      "edit": "typ is JWT, so the proof can be confused with another token",
+      "expected": {
+        "decision": "reject",
+        "reason": "proof_type_wrong"
+      },
+      "files": {
+        "record.json": "f4e4efdf8f78938763823de4988b5ee3e64e782da026ff280704920f63d3244e"
+      },
+      "id": "proof-type-jwt",
+      "path": "cases/proof-type-jwt",
+      "retained": {
+        "jkt": "ykSZDMRrERYBGWzGUGmnCT98w8tAC3_w1CSJqwi2C-w",
+        "subject": "agent:planner"
+      }
+    },
+    {
+      "anchors": [
+        {
+          "quote": "It MUST NOT be none or an identifier for a symmetric algorithm (MAC).",
+          "section": "4.2",
+          "source": "rfc9449"
+        }
+      ],
+      "edit": "an unsecured proof: alg none and an empty signature",
+      "expected": {
+        "decision": "reject",
+        "reason": "proof_alg_forbidden"
+      },
+      "files": {
+        "record.json": "08c82701133a6d56677ea6356391afa0ca64ef4a280f166cb7e2f3c216ac10a7"
+      },
+      "id": "proof-alg-none",
+      "path": "cases/proof-alg-none",
+      "retained": {
+        "jkt": "ykSZDMRrERYBGWzGUGmnCT98w8tAC3_w1CSJqwi2C-w",
+        "subject": "agent:planner"
+      }
+    },
+    {
+      "anchors": [
+        {
+          "quote": "It MUST NOT be none or an identifier for a symmetric algorithm (MAC).",
+          "section": "4.2",
+          "source": "rfc9449"
+        }
+      ],
+      "edit": "a MAC algorithm that anyone holding the shared secret could forge",
+      "expected": {
+        "decision": "reject",
+        "reason": "proof_alg_forbidden"
+      },
+      "files": {
+        "record.json": "c566a27b0da0bd8a134b31609441491fe0db9d2fc91f51fc460137826c8cf111"
+      },
+      "id": "proof-alg-hs256",
+      "path": "cases/proof-alg-hs256",
+      "retained": {
+        "jkt": "ykSZDMRrERYBGWzGUGmnCT98w8tAC3_w1CSJqwi2C-w",
+        "subject": "agent:planner"
+      }
+    },
+    {
+      "anchors": [],
+      "edit": "an asymmetric algorithm this profile does not read",
+      "expected": {
+        "decision": "reject",
+        "reason": "proof_alg_unsupported"
+      },
+      "files": {
+        "record.json": "452ded91d79a4552db612aa1c5594c9c34b6efeb72436b2564565680050e59ea"
+      },
+      "id": "proof-alg-rs256",
+      "path": "cases/proof-alg-rs256",
+      "retained": {
+        "jkt": "ykSZDMRrERYBGWzGUGmnCT98w8tAC3_w1CSJqwi2C-w",
+        "subject": "agent:planner"
+      }
+    },
+    {
+      "anchors": [
+        {
+          "quote": "It MUST NOT contain a private key.",
+          "section": "4.2",
+          "source": "rfc9449"
+        }
+      ],
+      "edit": "the header key carries the private member d",
+      "expected": {
+        "decision": "reject",
+        "reason": "proof_key_invalid"
+      },
+      "files": {
+        "record.json": "81625edf7c93a31ae0abbfbaeb978c869b61da3e8816139cd9e4af29ca3ec450"
+      },
+      "id": "proof-jwk-has-private-member",
+      "path": "cases/proof-jwk-has-private-member",
+      "retained": {
+        "jkt": "ykSZDMRrERYBGWzGUGmnCT98w8tAC3_w1CSJqwi2C-w",
+        "subject": "agent:planner"
+      }
+    },
+    {
+      "anchors": [],
+      "edit": "the header carries no key",
+      "expected": {
+        "decision": "reject",
+        "reason": "proof_key_invalid"
+      },
+      "files": {
+        "record.json": "d4b8c229ef6d193a0ed3473e25967dcefd309df15455f78861c611465a4090a7"
+      },
+      "id": "proof-jwk-missing",
+      "path": "cases/proof-jwk-missing",
+      "retained": {
+        "jkt": "ykSZDMRrERYBGWzGUGmnCT98w8tAC3_w1CSJqwi2C-w",
+        "subject": "agent:planner"
+      }
+    },
+    {
+      "anchors": [],
+      "edit": "one bit of the signature changed",
+      "expected": {
+        "decision": "reject",
+        "reason": "proof_signature_invalid"
+      },
+      "files": {
+        "record.json": "36bbf387667d7be3a32380255f017f5e4e95cb0a527a6b1abb866f309a4bb776"
+      },
+      "id": "proof-signature-flipped",
+      "path": "cases/proof-signature-flipped",
+      "retained": {
+        "jkt": "ykSZDMRrERYBGWzGUGmnCT98w8tAC3_w1CSJqwi2C-w",
+        "subject": "agent:planner"
+      }
+    },
+    {
+      "anchors": [],
+      "edit": "the request target was changed after the proof was signed",
+      "expected": {
+        "decision": "reject",
+        "reason": "proof_signature_invalid"
+      },
+      "files": {
+        "record.json": "f1fc4378ca3cbf85732de292d3829f6422aef5354fa1a1f206c037bfff5615e0"
+      },
+      "id": "proof-edited-after-signing",
+      "path": "cases/proof-edited-after-signing",
+      "retained": {
+        "jkt": "ykSZDMRrERYBGWzGUGmnCT98w8tAC3_w1CSJqwi2C-w",
+        "subject": "agent:planner"
+      }
+    },
+    {
+      "anchors": [],
+      "edit": "a re-signed proof with no jti",
+      "expected": {
+        "decision": "reject",
+        "reason": "proof_claims_malformed"
+      },
+      "files": {
+        "record.json": "8eb570a3bd200bff31bb189b4bfd49b270e219c6a35ea8f1d83d4bcbea58b9c7"
+      },
+      "id": "proof-jti-missing",
+      "path": "cases/proof-jti-missing",
+      "retained": {
+        "jkt": "ykSZDMRrERYBGWzGUGmnCT98w8tAC3_w1CSJqwi2C-w",
+        "subject": "agent:planner"
+      }
+    },
+    {
+      "anchors": [],
+      "edit": "the proof is for GET and the request is POST",
+      "expected": {
+        "decision": "reject",
+        "reason": "proof_method_mismatch"
+      },
+      "files": {
+        "record.json": "5b1667404af8d0673858c94312d661dcfc4b763611a897e9ee06451945d7dc29"
+      },
+      "id": "proof-method-mismatch",
+      "path": "cases/proof-method-mismatch",
+      "retained": {
+        "jkt": "ykSZDMRrERYBGWzGUGmnCT98w8tAC3_w1CSJqwi2C-w",
+        "subject": "agent:planner"
+      }
+    },
+    {
+      "anchors": [
+        {
+          "quote": "The HTTP target URI (Section 7.1 of [RFC9110]) of the request to which the JWT is attached, without query and fragment parts.",
+          "section": "4.2",
+          "source": "rfc9449"
+        }
+      ],
+      "edit": "a proof for another endpoint replayed against this one",
+      "expected": {
+        "decision": "reject",
+        "reason": "proof_uri_mismatch"
+      },
+      "files": {
+        "record.json": "b920061e45c610f5c63c79cc0fb4c53ef1dae8726b6486da951d2182bb5e4099"
+      },
+      "id": "proof-for-another-uri",
+      "path": "cases/proof-for-another-uri",
+      "retained": {
+        "jkt": "ykSZDMRrERYBGWzGUGmnCT98w8tAC3_w1CSJqwi2C-w",
+        "subject": "agent:planner"
+      }
+    },
+    {
+      "anchors": [],
+      "edit": "a proof 61 seconds old",
+      "expected": {
+        "decision": "reject",
+        "reason": "proof_stale"
+      },
+      "files": {
+        "record.json": "d8b01edb6cbea278587f65e28c3d08cc2983a6a633268148a74bd7606c5e59f1"
+      },
+      "id": "proof-stale",
+      "path": "cases/proof-stale",
+      "retained": {
+        "jkt": "ykSZDMRrERYBGWzGUGmnCT98w8tAC3_w1CSJqwi2C-w",
+        "subject": "agent:planner"
+      }
+    },
+    {
+      "anchors": [],
+      "edit": "a proof 6 seconds ahead of the clock",
+      "expected": {
+        "decision": "reject",
+        "reason": "proof_from_future"
+      },
+      "files": {
+        "record.json": "a43286e3ab652ef02820e367a12c7031bae6f325c99899bc6e76179195f6c279"
+      },
+      "id": "proof-from-future",
+      "path": "cases/proof-from-future",
+      "retained": {
+        "jkt": "ykSZDMRrERYBGWzGUGmnCT98w8tAC3_w1CSJqwi2C-w",
+        "subject": "agent:planner"
+      }
+    },
+    {
+      "anchors": [
+        {
+          "quote": "ath: hash of the access token. The value MUST be the result of a base64url encoding (as defined in Section 2 of [RFC7515]) the SHA-256 [SHA-256] hash of the ASCII encoding of the associated access token's value.",
+          "section": "4.2",
+          "source": "rfc9449"
+        }
+      ],
+      "edit": "a proof with no access token hash",
+      "expected": {
+        "decision": "reject",
+        "reason": "proof_ath_missing"
+      },
+      "files": {
+        "record.json": "88a36376cf2c0d7f84c0d8ff63e73737993d37f8e7c2f34975f550ca6f2b79d0"
+      },
+      "id": "proof-ath-missing",
+      "path": "cases/proof-ath-missing",
+      "retained": {
+        "jkt": "ykSZDMRrERYBGWzGUGmnCT98w8tAC3_w1CSJqwi2C-w",
+        "subject": "agent:planner"
+      }
+    },
+    {
+      "anchors": [
+        {
+          "quote": "ath: hash of the access token. The value MUST be the result of a base64url encoding (as defined in Section 2 of [RFC7515]) the SHA-256 [SHA-256] hash of the ASCII encoding of the associated access token's value.",
+          "section": "4.2",
+          "source": "rfc9449"
+        }
+      ],
+      "edit": "a proof made for a different access token",
+      "expected": {
+        "decision": "reject",
+        "reason": "proof_ath_mismatch"
+      },
+      "files": {
+        "record.json": "840ece8ad9432fe061f6cbb2a7a3dcdfe83feb7185d90aaa1706ec1797b52cc6"
+      },
+      "id": "proof-ath-for-another-token",
+      "path": "cases/proof-ath-for-another-token",
+      "retained": {
+        "jkt": "ykSZDMRrERYBGWzGUGmnCT98w8tAC3_w1CSJqwi2C-w",
+        "subject": "agent:planner"
+      }
+    },
+    {
+      "anchors": [
+        {
+          "quote": "jkt",
+          "section": "6.1",
+          "source": "rfc9449"
+        }
+      ],
+      "edit": "a valid proof, signed by a key the credential does not confirm",
+      "expected": {
+        "decision": "reject",
+        "reason": "proof_key_not_bound"
+      },
+      "files": {
+        "record.json": "37ac2c9b488d4cd1ba98fc1f13268920b7a509b18dcf120a3e5a1f815318dadb"
+      },
+      "id": "proof-signed-by-other-key",
+      "path": "cases/proof-signed-by-other-key",
+      "retained": {
+        "jkt": "ykSZDMRrERYBGWzGUGmnCT98w8tAC3_w1CSJqwi2C-w",
+        "subject": "agent:planner"
+      }
+    },
+    {
+      "anchors": [],
+      "edit": "two requests carry proofs with the same jti",
+      "expected": {
+        "decision": "reject",
+        "reason": "proof_replayed"
+      },
+      "files": {
+        "record.json": "8cf4a073c05a9f092a899ee12a8d651b997cf7b03ed18e1b1715dcea341ccca8"
+      },
+      "id": "proof-replayed",
+      "path": "cases/proof-replayed",
+      "retained": {
+        "jkt": "ykSZDMRrERYBGWzGUGmnCT98w8tAC3_w1CSJqwi2C-w",
+        "subject": "agent:planner"
+      }
+    },
+    {
+      "anchors": [],
+      "edit": "the first request holds and the second does not",
+      "expected": {
+        "decision": "reject",
+        "reason": "proof_uri_mismatch"
+      },
+      "files": {
+        "record.json": "814bc9f317aa717d437857b57e8a841cf2c9cd08db2b52bb43807beb50172466"
+      },
+      "id": "second-proof-bad",
+      "path": "cases/second-proof-bad",
+      "retained": {
+        "jkt": "ykSZDMRrERYBGWzGUGmnCT98w8tAC3_w1CSJqwi2C-w",
+        "subject": "agent:planner"
+      }
+    },
+    {
+      "anchors": [],
+      "edit": "the confirmed key is the identity point, so (identity, 0) signs every message",
+      "expected": {
+        "decision": "reject",
+        "reason": "proof_key_invalid"
+      },
+      "files": {
+        "record.json": "f1c3ae8ed38c24d0db69093f5ab8626efc7a7f4e131a3c75ac961c43ceca8823"
+      },
+      "id": "proof-key-identity-point",
+      "path": "cases/proof-key-identity-point",
+      "retained": {
+        "jkt": "eV9frzBXPTP92MWWMpoFOh0WI_kJLvGlhcNs15APU_s",
+        "subject": "agent:planner"
+      }
+    },
+    {
+      "anchors": [],
+      "edit": "the confirmed key has order two, so a forged signature verifies for half of all messages",
+      "expected": {
+        "decision": "reject",
+        "reason": "proof_key_invalid"
+      },
+      "files": {
+        "record.json": "a270b95472ad4eca0b03dd17403085e43f1847b6a89551f493c9e388be1fdc9a"
+      },
+      "id": "proof-key-order-two",
+      "path": "cases/proof-key-order-two",
+      "retained": {
+        "jkt": "Jwj2Wm3WQnidt0c7l__0Uyozch0IAYaYe0v8FTzd9rQ",
+        "subject": "agent:planner"
+      }
+    },
+    {
+      "anchors": [],
+      "edit": "the confirmed key is an honest key plus an order-two point: cofactored and cofactorless verifiers answer differently",
+      "expected": {
+        "decision": "reject",
+        "reason": "proof_key_invalid"
+      },
+      "files": {
+        "record.json": "ab66f8584d9335b7accfad1ed512f3f7dfda001920426624953d5a9d114c95a8"
+      },
+      "id": "proof-key-torsion-component",
+      "path": "cases/proof-key-torsion-component",
+      "retained": {
+        "jkt": "NNdAVhSG8702XaxVAXmpOaL1ongVyjVJ6ECT2G12Xdk",
+        "subject": "agent:planner"
+      }
+    }
+  ],
+  "verifierContract": "verifier record.json --json; exit 0 accept, 1 reject"
+}

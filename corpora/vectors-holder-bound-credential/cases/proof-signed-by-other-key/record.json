@@ -1,0 +1,27 @@
+{
+  "contractId": "https://probityai.github.io/agent-evidence-vectors/predicate/v1/holder-bound-credential",
+  "credential": {
+    "cnf": {
+      "jkt": "ykSZDMRrERYBGWzGUGmnCT98w8tAC3_w1CSJqwi2C-w"
+    },
+    "exp": 1795362600,
+    "iat": 1795359000,
+    "issuer": "idp.example",
+    "token": "synthetic-access-token-0001"
+  },
+  "presentations": [
+    {
+      "at": 1795359600,
+      "proof": {
+        "payload": "eyJhdGgiOiJNUWxuSzNMMFhOd05feERtNTFDNjhXZkhSTVVRV2lvMmVxV3A0M1dNVl9zIiwiaHRtIjoiUE9TVCIsImh0dSI6Imh0dHBzOi8vYXBpLmV4YW1wbGUvdjEvdGlja2V0cyIsImlhdCI6MTc5NTM1OTYwMCwianRpIjoicHJvb2YtMSJ9",
+        "protected": "eyJhbGciOiJFZERTQSIsImp3ayI6eyJjcnYiOiJFZDI1NTE5Iiwia3R5IjoiT0tQIiwieCI6IlZ2RGFUMmxnX1hmdzItWkx1Rk9rNmxKX2FHNW5MZDhmSlNPR3ZoZjgyYUEifSwidHlwIjoiZHBvcCtqd3QifQ",
+        "signature": "AFl1RL-fxgQxX-ucb8fL9Ih2WoHABOlvEHX7PH_CDdKuomDyaj1aOUktKnYxB2AIxBN5t-Xpaj80nZrfdINxCQ"
+      },
+      "request": {
+        "htm": "POST",
+        "htu": "https://api.example/v1/tickets"
+      }
+    }
+  ],
+  "subject": "agent:planner"
+}
