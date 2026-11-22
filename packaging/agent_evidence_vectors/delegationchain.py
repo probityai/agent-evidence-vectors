@@ -171,7 +171,7 @@ def _body_malformed(body: Any) -> bool:
 
 
 def _malformed(record: dict[str, Any]) -> bool:
-    chain = record.get("chain")
+    chain: Any = record.get("chain")
     shape = (
         isinstance(record.get("at"), str) and _is_text(record.get("receiver"))
         and isinstance(chain, list) and bool(chain)

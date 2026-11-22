@@ -37,14 +37,14 @@ type revVector struct {
 	Path     string            `json:"path"`
 	Files    map[string]string `json:"files"`
 	Lists    []string          `json:"lists"`
-	Expected revExpected        `json:"expected"`
+	Expected revExpected       `json:"expected"`
 }
 
 type revExpected struct {
 	Decision    string    `json:"decision"`
 	Reason      string    `json:"reason"`
 	Index       *int      `json:"index"`
-	State       revState   `json:"state"`
+	State       revState  `json:"state"`
 	ListDigests []*string `json:"listDigests"`
 }
 
