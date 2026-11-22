@@ -559,8 +559,10 @@ def canonical_route(path: Path) -> str | None:
         An HTML route, the predicate prefix, or the registered extensionless
         predicate or contract URI. A directory alias returns ``None``.
     """
-    if path.parts[0] in ("contract", "evaluator"):
-        return None if path.name == "index.html" else path.with_suffix("").as_posix()
+    if path.parts[0] in ("contract", "evaluator", "schema"):
+        if path.name != "index.html":
+            return path.with_suffix("").as_posix()
+        return f"{path.parts[0]}/" if len(path.parts) == 2 else None
     if path.parts[0] != "predicate":
         return path.as_posix()
     if path.name != "index.html":
@@ -575,8 +577,8 @@ def canonical_route(path: Path) -> str | None:
 CONTRACT_HOST = f"{SITE_URL}/contract/"
 
 
-def contract_ids() -> list[tuple[str, str, Path]]:
-    """Every contract identifier this host must serve, read from the corpus manifests.
+def manifest_contract_ids() -> list[tuple[str, str, Path]]:
+    """Every contract identifier the corpus manifests declare under this host.
 
     Returns
     -------
@@ -592,6 +594,24 @@ def contract_ids() -> list[tuple[str, str, Path]]:
         contract_id = loaded.get("contractId") if isinstance(loaded, dict) else None
         if isinstance(contract_id, str) and contract_id.startswith(CONTRACT_HOST):
             found.append((contract_id, contract_id.removeprefix(CONTRACT_HOST), manifest.parent))
+    return sorted(found)
+
+
+# Contracts whose identifier the corpus README states and no manifest carries. A manifest's
+# bytes are covered by the corpus digest, so adding a `contractId` there would change a
+# released digest; the identifier is entered here instead and the page renders the README.
+README_CONTRACTS = {"agent-audit-record/v1": "corpora/vectors-agent-audit-record"}
+
+
+def contract_ids() -> list[tuple[str, str, Path]]:
+    """Every contract identifier this host must serve.
+
+    The corpus manifests name most of them (``manifest_contract_ids``); ``README_CONTRACTS`` adds the
+    ones a README states. Sorted by identifier.
+    """
+    found = manifest_contract_ids()
+    for name, directory in README_CONTRACTS.items():
+        found.append((f"{CONTRACT_HOST}{name}", name, REPO_ROOT / directory))
     return sorted(found)
 
 
@@ -630,6 +650,92 @@ def contract_pages(tag: str, routes: Mapping[Path, Path] | None = None) -> dict[
             )
             body = head + render_markdown(source, relative, selected)
             pages[relative] = page(f"Contract {name}", body, tag, relative)
+    return pages
+
+
+SCHEMA_HOST = f"{SITE_URL}/schema/"
+
+
+def schema_documents() -> list[tuple[str, str, Path]]:
+    """Every JSON Schema whose ``$id`` sits under this host's ``schema/`` prefix.
+
+    Returns
+    -------
+    list of tuple
+        ``($id, path under schema/, schema file)``, sorted by identifier. ``spec/schemas/`` is the one
+        place schemas are published from, so a schema added there with an ``$id`` under this host gets
+        its page with no other change.
+    """
+    found = []
+    for source in sorted((REPO_ROOT / "spec" / "schemas").glob("*.schema.json")):
+        with source.open(encoding="utf-8") as handle:
+            loaded = json.load(handle)
+        schema_id = loaded.get("$id") if isinstance(loaded, dict) else None
+        if isinstance(schema_id, str) and schema_id.startswith(SCHEMA_HOST):
+            found.append((schema_id, schema_id.removeprefix(SCHEMA_HOST), source))
+    return sorted(found)
+
+
+def schema_routes(name: str) -> tuple[Path, Path]:
+    """The two files that serve ``schema/<name>``: a sibling ``.html`` and a directory index."""
+    base = Path("schema") / name
+    return base.with_suffix(".html"), base / "index.html"
+
+
+def schema_pages(tag: str) -> dict[Path, str]:
+    """One page per schema identifier, each showing the schema it names, served at its exact URL."""
+    pages: dict[Path, str] = {}
+    for schema_id, name, source in schema_documents():
+        loaded = json.loads(source.read_text(encoding="utf-8"))
+        title = loaded.get("title", name)
+        description = loaded.get("description", "")
+        shown = json.dumps(loaded, indent=2, ensure_ascii=False)
+        for relative in schema_routes(name):
+            body = (
+                f"<h1>Schema <code>{html.escape(name)}</code></h1>\n"
+                f"<p>Schema identifier: <code>{html.escape(schema_id)}</code></p>\n"
+                f"<p>{html.escape(title)}. {html.escape(description)}</p>\n"
+                f'<p>Source: <a href="{html.escape(repository_url(source.relative_to(REPO_ROOT)))}">'
+                f"<code>{html.escape(source.relative_to(REPO_ROOT).as_posix())}</code></a>. "
+                f"Carried in release <code>{html.escape(tag)}</code>. The identifier never changes "
+                "meaning; a change is published under a new identifier.</p>\n<hr>\n"
+                f"<pre><code>{html.escape(shown)}</code></pre>\n"
+            )
+            pages[relative] = page(f"Schema {name}", body, tag, relative)
+    return pages
+
+
+def listing_page(tag: str, family: str, heading: str, entries: list[tuple[str, str]]) -> dict[Path, str]:
+    """The index page of one identifier family, at ``<family>/`` and ``<family>/index.html``."""
+    relative = Path(family) / "index.html"
+    items = "\n".join(
+        f'<li><a href="{html.escape(name)}"><code>{html.escape(identifier)}</code></a></li>'
+        for identifier, name in entries
+    )
+    body = (
+        f"<h1>{html.escape(heading)}</h1>\n<p>Every identifier this site serves under "
+        f"<code>{SITE_URL}/{family}/</code>.</p>\n<ul>\n{items}\n</ul>\n"
+    )
+    return {relative: page(heading, body, tag, relative)}
+
+
+def family_listings(tag: str) -> dict[Path, str]:
+    """Index pages for the contract, schema and evaluator identifier families."""
+    pages: dict[Path, str] = {}
+    pages.update(
+        listing_page(tag, "contract", "Contract identifiers", [(i, f"{n}") for i, n, _ in contract_ids()])
+    )
+    pages.update(
+        listing_page(tag, "schema", "Schema identifiers", [(i, f"{n}") for i, n, _ in schema_documents()])
+    )
+    pages.update(
+        listing_page(
+            tag,
+            "evaluator",
+            "Evaluator identifiers",
+            [(f"{SITE_URL}/evaluator/{s.parent.name}/{s.stem}", f"{s.parent.name}/{s.stem}") for s, _, _ in evaluator_documents()],
+        )
+    )
     return pages
 
 
@@ -690,6 +796,12 @@ def page_sources(routes: Mapping[Path, Path]) -> dict[Path, tuple[Path, ...]]:
     for source, sibling, directory in evaluator_documents():
         sources[sibling] = (source,)
         sources[directory] = (source,)
+    for _, name, source in schema_documents():
+        for relative in schema_routes(name):
+            sources[relative] = (source,)
+    sources[Path("contract/index.html")] = tuple(d / MANIFEST_NAME for _, _, d in contract_ids())
+    sources[Path("schema/index.html")] = tuple(s for _, _, s in schema_documents())
+    sources[Path("evaluator/index.html")] = tuple(s for s, _, _ in evaluator_documents())
     return sources
 
 
@@ -804,6 +916,8 @@ def main(argv: list[str]) -> int:
     pages.update(predicate_pages(tag, routes))
     pages.update(contract_pages(tag, routes))
     pages.update(evaluator_pages(tag, routes))
+    pages.update(schema_pages(tag))
+    pages.update(family_listings(tag))
     for relative, rendered in pages.items():
         target = out / relative
         target.parent.mkdir(parents=True, exist_ok=True)

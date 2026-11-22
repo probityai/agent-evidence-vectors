@@ -474,6 +474,72 @@ reproduce is refused.
 - Predicate body: A statement about freeze atomicity of an isolation substrate: that co-resident microVMs were brought to a hypervisor-enforced quiescent state with bounded, measured timing, and no in-flight inter-VM segment escaped the freeze.
 - Status: current. The URI will not move, because a record carries it inside the bytes its producer signed.
 
+### `predicate/v1/tool-call-record`
+
+- Emitter: `probity-records` in `probityai/probity` (`packages/probity-records`, `records.py`).
+- Envelope: an in-toto Statement carried in a DSSE envelope, one line of a hash-chained journal.
+- Predicate body: one phase of one tool call: `phase` (`authorize`, `intent` or `effect`), `runId`, `toolCallId`, `tool`, `argsSha256`, `permitId`, the decision and its reason, the approval-binding records and threshold behind an allow, the grant, exception and authority it rests on, the outcome and result digest, and an `uncertainEffect` record when a reply was lost. The journal adds `seq`, `prev` and `at`.
+- Status: current. The URI will not move, because a record carries it inside the bytes its producer signed.
+
+### `predicate/v1/tool-call-journal-checkpoint`
+
+- Emitter: `probity-records` in `probityai/probity` (`journal.py`).
+- Envelope: an in-toto Statement carried in a DSSE envelope.
+- Predicate body: a signed count of the journal's lines (`count`), the hash of its last line (`head`) and the time (`at`). An outsider who pins a checkpoint exposes a truncated or rewritten journal.
+- Status: current. The URI will not move, because a record carries it inside the bytes its producer signed.
+
+### `predicate/v1/revocation-list`
+
+- Emitter: `probity-records` in `probityai/probity` (`revocation.py`), with a TypeScript twin and a Go reader.
+- Envelope: a signed body `{type, listId, seq, previous, issuedAt, issuerKey, entries}` with an Ed25519 signature over a domain prefix and the RFC 8785 bytes of the body, not an in-toto Statement. `type` is this URI.
+- Predicate body: a cumulative chain of revocation lists (keys, permits, grants, agents, streams, sponsors and builds). An entry, once published, stays in every later list byte for byte. A verifier pins root key ids and never reads one from a list.
+- Status: current. The URI will not move, because a list carries it inside the bytes its issuer signed.
+
+### `predicate/v1/export-seal`
+
+- Emitter: `probity-records` in `probityai/probity` (`exports.py`).
+- Envelope: an in-toto Statement carried in a DSSE envelope whose subject is the bytes of a governance platform's JSON export.
+- Predicate body: a dated census with denominators (records, types, stages, audit-field counts, duplicate and missing ids) and a per-record digest list, so a party who distrusts the platform can recompute it from the export and the public key.
+- Status: current. The URI will not move, because a record carries it inside the bytes its producer signed.
+
+### `predicate/v1/approval-quorum`
+
+- Emitter: `probity-records` in `probityai/probity` (`quorum.py`).
+- Predicate body: an M-of-N approval policy (`policyId`, `threshold`, approvers and optional roles) and the signed votes counted against one request hash. A proposer's own vote is never counted, and each approver fills one role.
+- Status: current. The URI will not move, because a record carries it inside the bytes its producer signed.
+
+### `predicate/v1/capability-grant`
+
+- Emitter: `probity-records` in `probityai/probity` (`grants.py`).
+- Predicate body: task-scoped authority: the tools a holder may call, a closed-world constraint on each argument, a window, a use and spend budget, a delegation depth, a confirmation key (`cnf`) and, for a standing grant, the `sponsor` who answers for it and the `reviewBy` instant. A child grant narrows its parent on every axis.
+- Status: current. The URI will not move, because a record carries it inside the bytes its producer signed.
+
+### `predicate/v1/governance-step`
+
+- Emitter: `probity-records` in `probityai/probity` (`governance.py`).
+- Predicate body: one workflow step of a governance process as a journal statement, with a kind of `intake`, `risk_route`, `approval`, `attestation`, `signoff` or `exception`.
+- Status: current. The URI will not move, because a record carries it inside the bytes its producer signed.
+
+### `predicate/v1/governance-exception`
+
+- Emitter: `probity-records` in `probityai/probity` (`governance.py`).
+- Predicate body: a bounded exception to standing policy: its owner, rationale, scope (a tool and closed-world argument constraints), window, and the quorum policy that must approve it. The approving votes sign the exception digest, and the permit and the tool-call record carry that digest.
+- Status: current. The URI will not move, because a record carries it inside the bytes its producer signed.
+
+### `predicate/v1/credential-reachability`
+
+- Emitter: the `credential_reachability/v1` adapter of `agent-evidence-verify` in `probityai/probity`.
+- Envelope: an in-toto Statement carried in a DSSE envelope, signed by a key outside the agent's reach.
+- Predicate body: a probe ran inside an agent's environment, tried every ambient credential class of a closed list, and recorded each attempt with a verdict per class and an overall result. A record that passes every rule is `supported` with the reason `contained_verified`, `exposed_verified` or `incomplete_verified`. The consumer pins the trusted signer keys, environment, audience, challenge and freshness; none is read from the record.
+- Status: current. The URI will not move, because a record carries it inside the bytes its producer signed.
+
+### `predicate/v1/actor-marker-survival`
+
+- Emitter: `agent-evidence-verify` in `probityai/probity` (`actor_marker.py`).
+- Envelope: a chain of Ed25519-signed statements, one per hop; the key and the writer's role come from a trust bundle the caller holds, never from the record. This URI is also the contract identifier a record names.
+- Predicate body: the answer to one question, did the acting-agent marker survive every hop, over `rfc8693` nested `act` claims or `a2a-actor-chain` tokens.
+- Status: current. The URI will not move, because a record carries it inside the bytes its producer signed.
+
 The entries in this section are registrations, not specifications. Their field
 definitions are normative where they are published, which is not here, and no
 count, field list or wire form on this page may be read as authoritative for
