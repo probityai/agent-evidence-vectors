@@ -113,6 +113,10 @@ GENERATORS = (
     # disclosed context and policy, read from the recorded ACS run; it builds its
     # own manifest and index.
     "corpora/vectors-acs-decision-record/gen_vectors.py",
+    # The AVE id resolution corpus. Members are tool outputs judged against
+    # vendored AVE snapshots; the generator refuses one the checker does not
+    # answer as declared, and builds its own manifest and index.
+    "corpora/vectors-ave-id-resolution/gen_vectors.py",
     # The W3C intake-criteria corpus. Every member is an intake record whose
     # digests are taken over fixture trees the generator writes beside it, and
     # the generator refuses a member the checker does not answer as claimed.
@@ -502,6 +506,9 @@ OWNED = (
     ("corpora/vectors-acs-decision-record/members", "*.json"),
     ("corpora/vectors-acs-decision-record", "MANIFEST.json"),
     ("corpora/vectors-acs-decision-record", "INDEX.md"),
+    ("corpora/vectors-ave-id-resolution/cases", "*/output.*"),
+    ("corpora/vectors-ave-id-resolution", "MANIFEST.json"),
+    ("corpora/vectors-ave-id-resolution", "INDEX.md"),
     ("corpora/vectors-w3c-intake/vectors", "v*.json"),
     # Every fixture file carries an extension and no fixture directory does, so
     # this names the files under trees/ and never a directory the gate would
