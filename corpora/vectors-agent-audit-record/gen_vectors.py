@@ -3113,10 +3113,14 @@ def _read_state_at(pred: dict[str, Any], stamp: str) -> None:
     pred["evaluation"]["inputs"][CONSUMPTION_ENTRY]["lastResult"] = stamp
 
 
-def _zero_settled_later(reported_at: str) -> Callable[[], list[dict[str, Any]]]:
-    """CS53 and CS54: the zero settlement of CS50, then a new operation under the
+def _zero_settled_later(
+    reported_at: str, label: str = "zero-settled-later"
+) -> Callable[[], list[dict[str, Any]]]:
+    """CS53 to CS55: the zero settlement of CS50, then a new operation under the
     same limit document, dated reported_at, that reads a later revision, holds
-    nothing and counts what CS50 read as consumed."""
+    nothing and counts what CS50 read as consumed. The later record's recordId is
+    label: a set whose records match another member's bytes would collide with it,
+    so CS55, which differs from CS54 only in its reading, takes its own label."""
 
     def records() -> list[dict[str, Any]]:
         settling = from_pred("CS50")
@@ -3125,7 +3129,7 @@ def _zero_settled_later(reported_at: str) -> Callable[[], list[dict[str, Any]]]:
             revision=43,
             same_request=False,
             requested=5_000_000,
-            record="zero-settled-later",
+            record=label,
         )
         _in_asset(later, USDC_BASE_SEPOLIA)
         _consumption(later)["payee"] = PAYEE_P
@@ -3136,7 +3140,7 @@ def _zero_settled_later(reported_at: str) -> Callable[[], list[dict[str, Any]]]:
         read_before = read_at - datetime.timedelta(seconds=2)
         _read_state_at(later, read_before.strftime("%Y-%m-%dT%H:%M:%SZ"))
         seal_commitment(later)
-        return [_named(settling, "zero-settled-call"), _named(later, "zero-settled-later")]
+        return [_named(settling, "zero-settled-call"), _named(later, label)]
 
     return records
 
@@ -3349,6 +3353,7 @@ def define_settlement() -> None:
             "2026-09-19T11:10:02Z",
             "malformed",
             "consumption-set-release-unshown",
+            "zero-settled-later",
         ),
         (
             "CS54",
@@ -3358,6 +3363,7 @@ def define_settlement() -> None:
             UPTO_DEADLINE,
             "valid",
             None,
+            "zero-settled-later",
         ),
         (
             "CS55",
@@ -3368,15 +3374,16 @@ def define_settlement() -> None:
             UPTO_DEADLINE,
             "malformed",
             "consumption-set-release-unshown",
+            "zero-settled-later-proposed",
         ),
     ]
-    for draft_id, slug, row, reported_at, verdict, joint_code in zero_sets:
+    for draft_id, slug, row, reported_at, verdict, joint_code, label in zero_sets:
         member(
             draft_id,
             slug,
             None,
             row,
-            _ledger_set(draft_id, _zero_settled_later(reported_at)),
+            _ledger_set(draft_id, _zero_settled_later(reported_at, label)),
             "valid",
             tier="authoritative",
             section="5.9",
@@ -5279,11 +5286,11 @@ def _ids(prefix: str, first: int, last: int) -> list[str]:
 
 PROPOSALS = "docs/proposals"
 #: Members whose rule only proposed text states, each with that text. CS55 is
-#: the one moved boundary of a zero settlement, held out of revision 04 (CS54 keeps
-#: its published reading). Since revision 04 was published: its Appendix B prints all 68 members that
-#: were proposed for it (CS18 to CS54, PS3 to PS5, PR1 to PR11, DS1 to DS10,
-#: and X1, X4, X5, X6, X7, X17, X18), and the pages under docs/proposals/ are
-#: the record of the text before it was published.
+#: the one moved boundary of a zero settlement, proposed for revision 05; CS54
+#: keeps the reading revision 04 publishes. Revision 04's Appendix B printed all
+#: 68 members proposed for it (CS18 to CS54, PS3 to PS5, PR1 to PR11, DS1 to DS10,
+#: and X1, X4, X5, X6, X7, X17, X18), and the pages under docs/proposals/ are the
+#: record of the text before it was published.
 PROPOSED: dict[str, str] = {
     "CS55": "docs/proposals/audit-record-05-deadline-boundary.md",
 }
