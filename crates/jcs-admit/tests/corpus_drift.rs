@@ -195,3 +195,61 @@ fn every_refusal_case_is_refused_with_its_named_class() {
         );
     }
 }
+
+/// A noncharacter is a Unicode scalar value, so RFC 8785 admits it and prints
+/// its UTF-8 bytes, from the raw and the escaped spelling alike. RFC 7493
+/// section 2.1 forbids one in a member name or string value, so the I-JSON
+/// profile refuses every `noncharacter` member and admits every
+/// `noncharacter-neighbour` member (the scalar value next to each edge).
+#[test]
+fn every_noncharacter_case_admits_to_the_pin_and_is_refused_under_ijson() {
+    let corpus = corpus();
+    let cases = members(&corpus, "noncharacterCases");
+    assert_eq!(
+        cases.len(),
+        44,
+        "the family changed size; update this count with the corpus"
+    );
+    for case in &cases {
+        let id = text(case, "id");
+        let input = text(case, "input").as_bytes();
+        let pinned = unhex(text(case, "canonicalHex"));
+        assert_eq!(
+            admit(input).unwrap(),
+            pinned,
+            "{id}: admitted bytes differ from the pin"
+        );
+        assert!(
+            is_canonical(&pinned),
+            "{id}: the pinned bytes are not canonical to the gate"
+        );
+        if text(case, "family") == "noncharacter-neighbour" {
+            assert!(case.get("boundedError").is_none(), "{id}");
+            assert_eq!(
+                jcs_admit::admit_ijson(input).unwrap(),
+                pinned,
+                "{id}: a neighbour must be admitted under I-JSON"
+            );
+            continue;
+        }
+        assert_eq!(text(case, "family"), "noncharacter", "{id}");
+        assert_eq!(text(case, "boundedError"), "invalid-unicode", "{id}");
+        assert!(
+            matches!(
+                jcs_admit::admit_ijson(input),
+                Err(Error::StringNotScalar { .. })
+            ),
+            "{id}: admitted under I-JSON"
+        );
+    }
+    for position in ["value", "member-name"] {
+        for spelling in ["raw", "escaped"] {
+            assert!(
+                cases
+                    .iter()
+                    .any(|c| text(c, "position") == position && text(c, "spelling") == spelling),
+                "no noncharacter case for a {spelling} {position}"
+            );
+        }
+    }
+}

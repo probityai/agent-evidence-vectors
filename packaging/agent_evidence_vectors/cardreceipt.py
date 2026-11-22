@@ -61,7 +61,6 @@ one JSON object carrying ``decision`` and ``reason``, and exits 0 for
 from __future__ import annotations
 
 import argparse
-import base64
 import hashlib
 import importlib
 import json
@@ -75,6 +74,8 @@ from pathlib import Path
 from typing import Any
 
 from agent_evidence_vectors import a2ajcs
+
+from . import strictb64, strictjson
 
 RECEIPT_SUITE = "agent-card-receipt/v1"
 RELEASE_SUITE = "credential-release/v1"
@@ -349,7 +350,7 @@ def _credential_fields(predicate: Any) -> bool:
 def _b64(text: Any) -> bytes:
     _require(isinstance(text, str), "base64 text")
     try:
-        return base64.b64decode(str(text), validate=True)
+        return strictb64.std(str(text))
     except ValueError as exc:
         raise Malformed("base64") from exc
 
@@ -575,7 +576,7 @@ def _fixture_error(directory: Path, entry: dict[str, Any]) -> str | None:
 
 
 def _validated_entries(suite: str, root: Path) -> tuple[list[dict[str, Any]], str | None]:
-    manifest = json.loads((root / "MANIFEST.json").read_text(encoding="utf-8"))
+    manifest = strictjson.loads((root / "MANIFEST.json").read_text(encoding="utf-8"))
     entries = manifest["vectors"]
     if sha256_hex(_manifest_json(entries)) != manifest["corpusDigest"]:
         return [], "manifest digest mismatch"
@@ -599,7 +600,7 @@ def _external_answer(command: list[str], suite: str,
     except (OSError, subprocess.TimeoutExpired) as exc:
         return False, f"verifier did not run: {exc}"
     try:
-        answer = json.loads(result.stdout)
+        answer = strictjson.loads(result.stdout)
         observed = {key: answer[key] for key in ("decision", "reason")}
     except (ValueError, KeyError, TypeError):
         return True, f"verifier returned no decision (exit {result.returncode})"
@@ -651,7 +652,7 @@ def runner(suite: str) -> Callable[[str, list[str] | None, str, str], int]:
         directory = Path(root)
         answered, errors = check(suite, verifier, directory)
         try:
-            manifest = json.loads((directory / "MANIFEST.json").read_text(encoding="utf-8"))
+            manifest = strictjson.loads((directory / "MANIFEST.json").read_text(encoding="utf-8"))
             total = len(manifest["vectors"])
         except (OSError, ValueError, KeyError, TypeError):
             manifest, total = {}, 0
@@ -692,7 +693,7 @@ def main(argv: list[str] | None = None) -> int:
     answered, errors = check(args.suite, args.verifier)
     for error in errors:
         print(error)
-    total = len(json.loads((ROOTS[args.suite] / "MANIFEST.json").read_text(
+    total = len(strictjson.loads((ROOTS[args.suite] / "MANIFEST.json").read_text(
         encoding="utf-8"))["vectors"])
     print(f"answered {answered} of {total} cases")
     return 1 if errors or answered != total else 0

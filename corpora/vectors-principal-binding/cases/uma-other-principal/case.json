@@ -1,0 +1,33 @@
+{
+  "binding": "binding.jws",
+  "keys": {
+    "agent": "5ec017f307ef24944386cc7aa2b8cd61413e6bbb4c4d4c2a5679d653c2211438"
+  },
+  "profile": "uma-for-agents",
+  "request": {
+    "agent": "agent:bb178a4faa56c996",
+    "principal": "https://bob-as.uma.lab",
+    "scope": [
+      "positions:read"
+    ]
+  },
+  "schema_version": "agent-principal-binding-case/v1",
+  "template": {
+    "expires_in": 172800,
+    "family": "fam-7Qm2",
+    "nonce": "n-41c9e0",
+    "proffered_by": "https://alice-as.uma.lab",
+    "prohibited": [
+      "retention-after-review",
+      "marketing",
+      "model-training"
+    ],
+    "purpose": "Suitability review for advisory onboarding",
+    "resource_id": "alice-vault/get_positions",
+    "scope": [
+      "positions:read"
+    ],
+    "template_id": "alice/advisor-tier1/v2",
+    "terms_uri": "https://alice-as.uma.lab/terms/alice/advisor-tier1/v2"
+  }
+}

@@ -31,12 +31,16 @@ under the same flags must FAIL, or the test is measuring nothing and says so.
 
 from __future__ import annotations
 
+import re
 import subprocess
 import sys
 from pathlib import Path
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
 CHECK = REPO_ROOT / "scripts" / "release-digests.py"
+#: What an interpreter prints when an import failed: the only output that
+#: means the check needed a package it could not see.
+IMPORT_FAILURE = re.compile(r"\b(ModuleNotFoundError|ImportError)\b")
 
 
 def isolated(args: list[str]) -> subprocess.CompletedProcess[str]:
@@ -69,7 +73,23 @@ def main() -> int:
 
     done = isolated([str(CHECK), "--check"])
     if done.returncode != 0:
+        output = f"{done.stdout}\n{done.stderr}"
         tail = (done.stderr or done.stdout).strip().splitlines()
+        if not IMPORT_FAILURE.search(output):
+            # The check ran to its verdict under isolation, which is the property
+            # this test owns; it refused the digest list itself. Saying "a
+            # dependency" here sent authors hunting for a package while the real
+            # fix was a regeneration (20 Nov 2026, two merge-queue groups).
+            print(
+                "FAIL: `release-digests.py --check` ran with no third-party package "
+                "reachable and refused the digest list: release/CORPUS-DIGESTS.txt "
+                "does not match the corpora on disk. Regenerate it with "
+                "`uv run --locked --extra generators python scripts/regenerate-derived.py`.",
+                file=sys.stderr,
+            )
+            for line in tail[-6:]:
+                print(f"  {line}", file=sys.stderr)
+            return 1
         print(
             "FAIL: `release-digests.py --check` does not run without third-party "
             "packages, so a reader who cloned the tag and installed nothing cannot "
