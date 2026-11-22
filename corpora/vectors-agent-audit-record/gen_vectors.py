@@ -170,10 +170,10 @@ def seal_commitment(pred: dict[str, Any]) -> None:
 # Evaluation inputs (Section 5.4 of draft-gilda-audit-agent-audit-record-00).
 # Every entry carries input, lastResult and maxAge, and every age is measured
 # from lastResult to the reference time: decision.evaluatedAt where the record
-# carries it (FR21 to FR27, revision 04) and decision.reportedAt otherwise,
+# carries it (FR21 to FR27, revision 05) and decision.reportedAt otherwise,
 # 2026-09-19T11:04:02Z in every member except FR17a. An input is fresh while its
-# age is less than maxAge, so an age equal to maxAge is stale (revision 04;
-# revision 00 to 03 called it fresh). The skew tolerance is 300 seconds. The
+# age is less than maxAge, so an age equal to maxAge is stale (revision 05;
+# revisions 00 to 04 called it fresh). The skew tolerance is 300 seconds. The
 # accept members carry the inputs the draft's own example prints: a policy read
 # at 10:00:00 under a day's maximum and a standing value read at 11:00:00 under
 # an hour's.
@@ -1615,7 +1615,7 @@ def define_freshness() -> None:
         member(draft_id, slug, None, row, build, "valid", tier="authoritative")
 
     # FR2 keeps the bytes it shipped with as an accept member through v0.26.0 and
-    # later, and revision 04 moves the boundary under it: an age equal to maxAge
+    # later, and revision 05 moves the boundary under it: an age equal to maxAge
     # is stale, so evaluated beside it is malformed.
     member(
         "FR2",
@@ -1872,7 +1872,7 @@ def define_freshness() -> None:
 
 
 # ---------------------------------------------------------------------------
-# The time a decision was taken (revision 04, rows FR23 to FR26, and FR27).
+# The time a decision was taken (revision 05, rows FR21 to FR27).
 #
 # decision.evaluatedAt is optional: the time the decision point evaluated its
 # inputs and took the decision. Where the record carries it, every entry's age
@@ -3679,7 +3679,7 @@ def define_audit_next() -> None:
 # exactly at maxAge. draft-jackson-wimse-evaluation-05 Section 3 forbids using
 # the input ("at or past its horizon") and Section 5.4 of revision 03 called it
 # fresh ("an age equal to maxAge is fresh"), so the member was open between the
-# two drafts until revision 04 adopted the first boundary: an input exactly
+# two drafts until revision 05 adopts the first boundary: an input exactly
 # maxAge old is stale, and PS1b, not-evaluated naming it, is valid.
 # ---------------------------------------------------------------------------
 
@@ -5411,12 +5411,18 @@ def _ids(prefix: str, first: int, last: int) -> list[str]:
 
 
 PROPOSALS = "docs/proposals"
-#: Members whose rule only proposed text states, each with that text. Empty
-#: since revision 04 was published: its Appendix B prints all 68 members that
-#: were proposed for it (CS18 to CS54, PS3 to PS5, PR1 to PR11, DS1 to DS10,
-#: and X1, X4, X5, X6, X7, X17, X18), and the pages under docs/proposals/ are
-#: the record of the text before it was published.
-PROPOSED: dict[str, str] = {}
+#: Members whose rule only proposed text states, each with that text. FR21 to
+#: FR27 test revision 05's boundary and decision.evaluatedAt, which no published
+#: revision states yet. Revision 04's Appendix B printed all 68 members proposed
+#: for it (CS18 to CS54, PS3 to PS5, PR1 to PR11, DS1 to DS10, and X1, X4, X5,
+#: X6, X7, X17, X18), and the pages under docs/proposals/ are the record of the
+#: text before it was published.
+PROPOSED: dict[str, str] = {
+    **{
+        d: f"{PROPOSALS}/audit-record-04-evaluated-at.md"
+        for d in ("FR21", "FR22", "FR23", "FR24", "FR25", "FR26", "FR27")
+    },
+}
 
 
 def _first_printed(texts: dict[str, list[str]]) -> dict[str, str]:

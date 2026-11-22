@@ -28,7 +28,7 @@ func init() { register(auditRecord{}) }
 // unavailable inputs are derived from the entries. The reference time is
 // decision.evaluatedAt when the record carries it and decision.reportedAt
 // otherwise, and an input is fresh only while its age is less than its maxAge
-// (revision 04, FR2 and FR21 to FR27). Rows R1 to R9 are retained
+// (revision 05, FR2 and FR21 to FR27). Rows R1 to R9 are retained
 // records, the envelope beside its retention entry, and each is judged twice:
 // the envelope's verdict, and the dating check of Section 4.7.1, reported
 // beside the verdict.

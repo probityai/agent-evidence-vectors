@@ -1,14 +1,15 @@
-# Proposed text for draft-gilda-audit-agent-audit-record-04: decision.evaluatedAt and the freshness boundary
+# Proposed text for draft-gilda-audit-agent-audit-record-05: decision.evaluatedAt and the freshness boundary
 
-Change text for the next revision of Section 5.4 and Appendix B. Each paragraph names the members
+Change text for the next revision (05) of Section 5.4 and Appendix B. Revision 04 is the latest
+published revision and the baseline for every comparison below. Each paragraph names the members
 of `vectors-agent-audit-record` that test it. The predicate URI does not change: `evaluatedAt` is an
 optional member, and a record without it is measured at `decision.reportedAt` as under revision
-03. Two shipped members change verdict, so the release that carries this text is a minor release
+04. Two shipped members change verdict, so the release that carries this text is a minor release
 under [RELEASING.md](../../RELEASING.md).
 
 ## 1. Why the member exists
 
-Revision 03 measures every input's age at `decision.reportedAt`. A decision point that reports a
+Revision 04 measures every input's age at `decision.reportedAt`. A decision point that reports a
 decision later than it takes it, because it batches or queues its records before sending them,
 writes a correct record that a verifier reads as wrong: an input that was fresh when the decision
 was taken is stale by the time the record says it was reported, so a record under `evaluated` is
@@ -23,9 +24,9 @@ later than `reportedAt` by more than the skew tolerance is malformed. That bound
 
 ## 2. The boundary moves to at-or-past
 
-Revision 03 says an age equal to `maxAge` is fresh. Section 3 of `draft-jackson-wimse-evaluation-05`
+Revision 04 says an age equal to `maxAge` is fresh. Section 3 of `draft-jackson-wimse-evaluation-05`
 forbids using an input "at or past its horizon". No record satisfied both texts at the boundary, so
-`PS1b` was published as an indeterminate member with two readings. Revision 04 adopts the
+`PS1b` was published as an indeterminate member with two readings. Revision 05 adopts the
 evaluation draft's boundary: an input is fresh while its age is less than `maxAge`, and an input
 exactly `maxAge` old is stale. The same thread agreed it on 9 November 2026.
 
@@ -72,7 +73,7 @@ same rule.
 
 ## 5. Members that change verdict
 
-| member | file | under revision 03 | under revision 04 |
+| member | file | under revision 04 | under revision 05 |
 | --- | --- | --- | --- |
 | `FR2` | `vb2d65dfff88bebcf` | valid: an age equal to `maxAge` is fresh | malformed, `evaluation-inconsistent`: the input is stale under `evaluated` |
 | `PS1b` | `v12896bcb35edd1b1` | indeterminate, `valid` or `malformed`; the reference reader took `malformed` | valid: the input is stale, and `not-evaluated` naming it matches the derived set |
@@ -109,7 +110,7 @@ time and requires each reading to fail exactly the members named here and no oth
 | weakened reading | members that fail it |
 | --- | --- |
 | age measured to `issuedAt` rather than the reference time | `FR9`, `FR21`, `FR22`, `FR23`, `FR25` |
-| an age equal to `maxAge` read as fresh, the boundary of revisions 00 to 03 | `FR2`, `FR24`, `PS1b` |
+| an age equal to `maxAge` read as fresh, the boundary of revisions 00 to 04 | `FR2`, `FR24`, `PS1b` |
 | `evaluatedAt` ignored, every age measured to `reportedAt` | `FR21`, `FR22`, `FR23` |
 | an `evaluatedAt` after `reportedAt` accepted however late | `FR25` |
 | an `evaluatedAt` after `reportedAt` refused with no skew tolerance | `FR26` |

@@ -37,7 +37,7 @@ from its ``lastResult`` to the reference time, and the unavailable inputs are
 derived from the entries, so a record shaped for revision 02 is malformed. The
 reference time is ``decision.evaluatedAt`` when the record carries it and
 ``decision.reportedAt`` otherwise, and an input is fresh only while its age is
-less than its ``maxAge`` (revision 04, FR2 and FR21 to FR27).
+less than its ``maxAge`` (revision 05, FR2 and FR21 to FR27).
 Rows R1 to R9 are retained records: the envelope beside the retention entry of
 Section 4.7, judged twice, once for the record's verdict and once by the dating
 check of Section 4.7.1, whose result is reported beside the verdict.
@@ -707,7 +707,7 @@ def _entry_unavailable(entry: dict[str, Any], reference: datetime.datetime) -> b
 
 def reference_time(pred: dict[str, Any]) -> datetime.datetime:
     """The time every evaluation entry's age is measured to: ``decision.evaluatedAt``
-    when the record carries it, ``decision.reportedAt`` otherwise (revision 04).
+    when the record carries it, ``decision.reportedAt`` otherwise (revision 05).
     A decision is not reported before it is evaluated, so an evaluatedAt later
     than reportedAt by more than the skew tolerance is malformed (FR25), and one
     exactly at the tolerance is not (FR26)."""
