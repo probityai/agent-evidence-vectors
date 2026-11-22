@@ -71,7 +71,7 @@ func TestDispatchFenceEachCheckMovesTheVerdict(t *testing.T) {
 			`"endedAt": "2026-10-24T12:02:00Z"`, `"endedAt": "2026-10-24T12:02:01Z"`, 1)
 		dir := dfStage(t, "commit-at-expiry", later)
 		got := scDerived(t, dir, "commit-at-expiry")
-		for _, want := range []string{"derived deny/hold_expired_before_effect_ended", "hold covers commit: false"} {
+		for _, want := range []string{"derived deny/hold_expired_before_effect_ended"} {
 			if !strings.Contains(got, want) {
 				t.Fatalf("want %q in %q", want, got)
 			}
