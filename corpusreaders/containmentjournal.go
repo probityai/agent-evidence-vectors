@@ -3,6 +3,7 @@ package corpusreaders
 import (
 	"bytes"
 	"crypto/sha256"
+	_ "embed"
 	"encoding/hex"
 	"encoding/json"
 	"errors"
@@ -672,6 +673,31 @@ func cjMalformed(record cjObject) bool {
 	return false
 }
 
+// cjRegistryJSON is the shared refusal-code registry (refusal-code/v1). From revision 1.3 a
+// refusal's reasonCode is any code in it. packaging/agent_evidence_vectors/refusal_codes.json
+// holds the same bytes, and a test holds the two together.
+//
+//go:embed refusal_codes.json
+var cjRegistryJSON []byte
+
+// cjRefusalCodes returns the registry's codes; a registry that does not parse yields none, so
+// every reasonCode is then denied (fail closed), and the registry test names the fault.
+func cjRefusalCodes() []string {
+	var document struct {
+		Codes []struct {
+			Code string `json:"code"`
+		} `json:"codes"`
+	}
+	if err := json.Unmarshal(cjRegistryJSON, &document); err != nil {
+		return nil
+	}
+	codes := make([]string, 0, len(document.Codes))
+	for _, entry := range document.Codes {
+		codes = append(codes, entry.Code)
+	}
+	return codes
+}
+
 var cjClosed = map[string][]string{
 	"event": {"topology", "delivery", "decision", "fallback", "restart", "assessment",
 		"restoration", "response", "tool_call", "retrieval", "refusal"},
@@ -682,8 +708,7 @@ var cjClosed = map[string][]string{
 	"availability":     {"scored", "no_output", "judge_missing"},
 	"witness":          {"SELF", "EXTERNAL"},
 	"decision":         {"act", "continue", "escalate"},
-	"reasonCode": {"budget_exhausted", "purpose_out_of_scope", "permit_revoked",
-		"authority_chain_violation"},
+	"reasonCode": cjRefusalCodes(),
 }
 
 var cjClosedOrder = []string{"event", "basis", "responseFunction", "failurePosture",
@@ -1205,7 +1230,8 @@ func cjReachFrom(entries []cjObject, subject string, fromSeq int64) cjReach {
 				found.deliveries++
 			}
 		case "tool_call":
-			if tainted[cjStr(entry, "agent")] {
+			// A refused call reached nothing: revision 1.3.
+			if refused, _ := entry["refused"].(bool); !refused && tainted[cjStr(entry, "agent")] {
 				found.toolCalls++
 			}
 		}

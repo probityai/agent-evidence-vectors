@@ -25,12 +25,14 @@ every such event is an entry of one hash-chained journal:
 - ``response``: a decision to act, continue or escalate after an alert;
 - ``tool_call``: an agent called a tool, and, from revision 1.1, whether the
   call was refused (with its reason) and the digest of the grant chain it ran
-  under;
+  under; a refused call is no reach (revision 1.3);
 - ``refusal`` (revision 1.1): the router refused one message over an edge in
-  force, named by a neutral registered code (``budget_exhausted``,
-  ``purpose_out_of_scope``, ``permit_revoked``, ``authority_chain_violation``);
-  the verdict is the same for every registered code, and only an unknown code
-  is denied; it is not a delivery, so it is not a drop over a present edge;
+  force, named by a neutral code of the shared refusal-code registry
+  (``refusal_codes.json``, for example ``budget_exhausted`` or
+  ``permit_revoked``; from revision 1.3 the whole registry, before it four
+  codes); the verdict is the same for every registered code, and only an
+  unknown code is denied; it is not a delivery, so it is not a drop over a
+  present edge;
 - ``retrieval`` (revision 1.1): an agent asked for a document, whether it was
   admitted, and the Merkle inclusion path from the document's digest to the
   run's ``snapshotRoot``.
@@ -92,13 +94,22 @@ from agent_evidence_vectors.monitorcoverage import (
 )
 
 SUITE = "containment-journal/v1"
-SUITE_REVISION = 3  # revision 1.2 of the predicate; CHANGES.md carries the ledger
+SUITE_REVISION = 4  # revision 1.3 of the predicate; CHANGES.md carries the ledger
 _BASE = "https://probityai.github.io/agent-evidence-vectors/predicate/v1/"
 CONTRACT_ID = _BASE + "containment-journal"
 RECEIPT_CONTRACT_ID = _BASE + "blast-radius-receipt"
 ALLOWED_REASON = "containment_consistent"
 RECEIPT_REASON = "blast_radius_consistent"
 ZERO = "sha256:" + "0" * 64
+def _registry_codes() -> tuple[str, ...]:
+    """The codes of refusal-code/v1, read from the registry file beside this module."""
+    document = json.loads((Path(__file__).resolve().parent / "refusal_codes.json").read_text("utf-8"))
+    return tuple(entry["code"] for entry in document["codes"])
+
+
+# Revision 1.3: a refusal's reasonCode is any code of the shared registry, so a verifier and the
+# checks that report a refusal name it the same way. A minor release adds codes to the registry.
+REFUSAL_CODES = _registry_codes()
 CHECKS = (
     "contract_id_missing", "contract_id_unknown", "record_not_canonical", "record_malformed",
     "closed_vocabulary_violation", "chain_seq_gap", "chain_broken", "chain_time_reversed",
@@ -133,8 +144,7 @@ CLOSED = {
     "witness": ("SELF", "EXTERNAL"),
     "decision": ("act", "continue", "escalate"),
     "side": ("left", "right"),
-    "reasonCode": ("budget_exhausted", "purpose_out_of_scope", "permit_revoked",
-                   "authority_chain_violation"),
+    "reasonCode": REFUSAL_CODES,
 }
 # The members each event carries, past seq, prev, at and event.
 EVENT_MEMBERS = {
@@ -593,13 +603,14 @@ def judge_journal(record: Any, not_canonical: bool,
 
 
 def reach(record: Record, subject: str, from_seq: int) -> dict[str, Any]:
-    """The agents, deliveries and tool calls a subject reached from one entry on."""
+    """The agents, deliveries and tool calls a subject reached from one entry on (a refused call is no reach)."""
     tainted, deliveries, tools = {subject}, 0, 0
     for entry in record["entries"][from_seq:]:
         if entry["event"] == "delivery" and not entry["dropped"] and entry["sender"] in tainted:
             tainted.add(entry["receiver"])
             deliveries += 1
-        elif entry["event"] == "tool_call" and entry["agent"] in tainted:
+        elif (entry["event"] == "tool_call" and not entry.get("refused")
+              and entry["agent"] in tainted):
             tools += 1
     return {"agents": sorted(tainted - {subject}), "deliveries": deliveries, "toolCalls": tools}
 

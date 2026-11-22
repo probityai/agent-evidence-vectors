@@ -1,23 +1,23 @@
 {
   "contractId": "https://probityai.github.io/agent-evidence-vectors/predicate/v1/containment-journal",
-  "corpusDigest": "bf2608f9751be7f192c08a4356b36454cc538ceb709ca04c15c8c3f35a77d261",
+  "corpusDigest": "2527c45825e9a04a674204d559d61d4095a29a483bac697d1e2c94cb83081f02",
   "counts": {
-    "allow": 16,
-    "deny": 46
+    "allow": 30,
+    "deny": 50
   },
   "receiptContractId": "https://probityai.github.io/agent-evidence-vectors/predicate/v1/blast-radius-receipt",
   "suite": "containment-journal/v1",
-  "suiteRevision": 3,
+  "suiteRevision": 4,
   "synthetic": true,
   "vectors": [
     {
-      "edit": "control: agent-c is isolated and its tool call is refused, agent-a's call names its grant chain, and the receipt counts agent-c's attempt",
+      "edit": "control: agent-c is isolated and its tool call is refused, agent-a's call names its grant chain, and the receipt does not count agent-c's refused attempt as reach",
       "expected": {
         "decision": "allow",
         "reason": "blast_radius_consistent"
       },
       "files": {
-        "receipt.json": "7d044da5dddbe7a2c015e9ef48dfc16606d4bd4898151862c44787852cba7073",
+        "receipt.json": "d56b7ff9ec64cc3f13e46e64e0d647bd9e953c1a07f6f23272d73c428e5a2006",
         "record.json": "ab57b544114ca6d044b8256a6e89f47f1f33fb61ba4c74ce928cb1d27b3690db"
       },
       "id": "allow-isolated-agents-tool-call-refused",
@@ -1316,6 +1316,369 @@
         "entries": 6,
         "events": {
           "delivery": 3,
+          "tool_call": 2,
+          "topology": 1
+        }
+      }
+    },
+    {
+      "edit": "control: the router refuses a message over an edge in force under approval_auth_not_fresh, a code of the approval family of the shared registry, and the verdict is the one every registered code gives",
+      "expected": {
+        "decision": "allow",
+        "reason": "containment_consistent"
+      },
+      "files": {
+        "record.json": "45b68ab06328f8539dbe89260a52273c8c5ff49545437c57fa206c5c73faf63e"
+      },
+      "id": "allow-refusal-registry-code-approval",
+      "path": "cases/allow-refusal-registry-code-approval",
+      "retained": {
+        "enforcement": "enforced",
+        "entries": 2,
+        "events": {
+          "refusal": 1,
+          "topology": 1
+        }
+      }
+    },
+    {
+      "edit": "control: the router refuses a message over an edge in force under authority_evidence_missing, a code of the authority family of the shared registry, and the verdict is the one every registered code gives",
+      "expected": {
+        "decision": "allow",
+        "reason": "containment_consistent"
+      },
+      "files": {
+        "record.json": "37feff18530c56c1e6ea7a2dcfdaddfaf9b8103646e37a7f12e5aff36cbf86df"
+      },
+      "id": "allow-refusal-registry-code-authority",
+      "path": "cases/allow-refusal-registry-code-authority",
+      "retained": {
+        "enforcement": "enforced",
+        "entries": 2,
+        "events": {
+          "refusal": 1,
+          "topology": 1
+        }
+      }
+    },
+    {
+      "edit": "control: the router refuses a message over an edge in force under delegation_agent_revoked, a code of the delegation family of the shared registry, and the verdict is the one every registered code gives",
+      "expected": {
+        "decision": "allow",
+        "reason": "containment_consistent"
+      },
+      "files": {
+        "record.json": "6d1bdbb724af64334eff9908b32db29e81a25b8992de766fc0923ce0dad2f548"
+      },
+      "id": "allow-refusal-registry-code-delegation",
+      "path": "cases/allow-refusal-registry-code-delegation",
+      "retained": {
+        "enforcement": "enforced",
+        "entries": 2,
+        "events": {
+          "refusal": 1,
+          "topology": 1
+        }
+      }
+    },
+    {
+      "edit": "control: the router refuses a message over an edge in force under credential_names_only_user, a code of the gateway family of the shared registry, and the verdict is the one every registered code gives",
+      "expected": {
+        "decision": "allow",
+        "reason": "containment_consistent"
+      },
+      "files": {
+        "record.json": "583232112896a2e82059925072cf00ce9627a08437cdcec8a8d3657e9287370f"
+      },
+      "id": "allow-refusal-registry-code-gateway",
+      "path": "cases/allow-refusal-registry-code-gateway",
+      "retained": {
+        "enforcement": "enforced",
+        "entries": 2,
+        "events": {
+          "refusal": 1,
+          "topology": 1
+        }
+      }
+    },
+    {
+      "edit": "control: the router refuses a message over an edge in force under argument_outside_exception, a code of the governance family of the shared registry, and the verdict is the one every registered code gives",
+      "expected": {
+        "decision": "allow",
+        "reason": "containment_consistent"
+      },
+      "files": {
+        "record.json": "77ea556d7d623644d5c2d674f2938f8881ab380001a45715475926cc0daa4e1d"
+      },
+      "id": "allow-refusal-registry-code-governance",
+      "path": "cases/allow-refusal-registry-code-governance",
+      "retained": {
+        "enforcement": "enforced",
+        "entries": 2,
+        "events": {
+          "refusal": 1,
+          "topology": 1
+        }
+      }
+    },
+    {
+      "edit": "control: the router refuses a message over an edge in force under allow_not_under_a_grant, a code of the grants family of the shared registry, and the verdict is the one every registered code gives",
+      "expected": {
+        "decision": "allow",
+        "reason": "containment_consistent"
+      },
+      "files": {
+        "record.json": "b75d639c20916d381316204c469b300a993fc826acfbc1790df0b78628d3b8bb"
+      },
+      "id": "allow-refusal-registry-code-grants",
+      "path": "cases/allow-refusal-registry-code-grants",
+      "retained": {
+        "enforcement": "enforced",
+        "entries": 2,
+        "events": {
+          "refusal": 1,
+          "topology": 1
+        }
+      }
+    },
+    {
+      "edit": "control: the router refuses a message over an edge in force under identity_act_malformed, a code of the identity family of the shared registry, and the verdict is the one every registered code gives",
+      "expected": {
+        "decision": "allow",
+        "reason": "containment_consistent"
+      },
+      "files": {
+        "record.json": "2bc1b9f7bf6db31aff305f17c0894cfc952d3ab7c7f58666b04ad54a91266577"
+      },
+      "id": "allow-refusal-registry-code-identity",
+      "path": "cases/allow-refusal-registry-code-identity",
+      "retained": {
+        "enforcement": "enforced",
+        "entries": 2,
+        "events": {
+          "refusal": 1,
+          "topology": 1
+        }
+      }
+    },
+    {
+      "edit": "control: the router refuses a message over an edge in force under allow_without_approval_binding, a code of the journal family of the shared registry, and the verdict is the one every registered code gives",
+      "expected": {
+        "decision": "allow",
+        "reason": "containment_consistent"
+      },
+      "files": {
+        "record.json": "3b5abd7b9b45c8bd04ec393dae881c6ce1ae2159186fce212b75e4a8422b3b5f"
+      },
+      "id": "allow-refusal-registry-code-journal",
+      "path": "cases/allow-refusal-registry-code-journal",
+      "retained": {
+        "enforcement": "enforced",
+        "entries": 2,
+        "events": {
+          "refusal": 1,
+          "topology": 1
+        }
+      }
+    },
+    {
+      "edit": "control: the router refuses a message over an edge in force under did_document_id_mismatch, a code of the key family of the shared registry, and the verdict is the one every registered code gives",
+      "expected": {
+        "decision": "allow",
+        "reason": "containment_consistent"
+      },
+      "files": {
+        "record.json": "820a35c83dcc08cfd386f08bfcc2f6438493f04af1ffec85736b380ea26b80e4"
+      },
+      "id": "allow-refusal-registry-code-key",
+      "path": "cases/allow-refusal-registry-code-key",
+      "retained": {
+        "enforcement": "enforced",
+        "entries": 2,
+        "events": {
+          "refusal": 1,
+          "topology": 1
+        }
+      }
+    },
+    {
+      "edit": "control: the router refuses a message over an edge in force under actor_inserted, a code of the marker family of the shared registry, and the verdict is the one every registered code gives",
+      "expected": {
+        "decision": "allow",
+        "reason": "containment_consistent"
+      },
+      "files": {
+        "record.json": "5da2e1fff5d290f8706f710bbd75309d386555cef244bcb0513c9c3e0c26942e"
+      },
+      "id": "allow-refusal-registry-code-marker",
+      "path": "cases/allow-refusal-registry-code-marker",
+      "retained": {
+        "enforcement": "enforced",
+        "entries": 2,
+        "events": {
+          "refusal": 1,
+          "topology": 1
+        }
+      }
+    },
+    {
+      "edit": "control: the router refuses a message over an edge in force under agent_identity_missing, a code of the mesh family of the shared registry, and the verdict is the one every registered code gives",
+      "expected": {
+        "decision": "allow",
+        "reason": "containment_consistent"
+      },
+      "files": {
+        "record.json": "f635ac6ef02e67d16978899aa50f9ec3b34948231ad7a65eae68c1f942599bff"
+      },
+      "id": "allow-refusal-registry-code-mesh",
+      "path": "cases/allow-refusal-registry-code-mesh",
+      "retained": {
+        "enforcement": "enforced",
+        "entries": 2,
+        "events": {
+          "refusal": 1,
+          "topology": 1
+        }
+      }
+    },
+    {
+      "edit": "control: the router refuses a message over an edge in force under cnf_invalid, a code of the possession family of the shared registry, and the verdict is the one every registered code gives",
+      "expected": {
+        "decision": "allow",
+        "reason": "containment_consistent"
+      },
+      "files": {
+        "record.json": "6403b0da3ff07876ed20e2cc8f1a08ca6bc38de3a5f723e18294bacf01507e9d"
+      },
+      "id": "allow-refusal-registry-code-possession",
+      "path": "cases/allow-refusal-registry-code-possession",
+      "retained": {
+        "enforcement": "enforced",
+        "entries": 2,
+        "events": {
+          "refusal": 1,
+          "topology": 1
+        }
+      }
+    },
+    {
+      "edit": "control: the router refuses a message over an edge in force under revocation_entry_from_future, a code of the revocation family of the shared registry, and the verdict is the one every registered code gives",
+      "expected": {
+        "decision": "allow",
+        "reason": "containment_consistent"
+      },
+      "files": {
+        "record.json": "146572b20722f9c8da5d489b95e438846296a8ab0010a5b7b6625585d259d85c"
+      },
+      "id": "allow-refusal-registry-code-revocation",
+      "path": "cases/allow-refusal-registry-code-revocation",
+      "retained": {
+        "enforcement": "enforced",
+        "entries": 2,
+        "events": {
+          "refusal": 1,
+          "topology": 1
+        }
+      }
+    },
+    {
+      "edit": "control: the router refuses a message over an edge in force under single_use_store_failed, a code of the singleuse family of the shared registry, and the verdict is the one every registered code gives",
+      "expected": {
+        "decision": "allow",
+        "reason": "containment_consistent"
+      },
+      "files": {
+        "record.json": "ece87006f73a75cc4b7f9e94b6da8ceb48c3de6233452cee1f3197fafbbbd373"
+      },
+      "id": "allow-refusal-registry-code-singleuse",
+      "path": "cases/allow-refusal-registry-code-singleuse",
+      "retained": {
+        "enforcement": "enforced",
+        "entries": 2,
+        "events": {
+          "refusal": 1,
+          "topology": 1
+        }
+      }
+    },
+    {
+      "edit": "the refusal names a code the registry does not hold",
+      "expected": {
+        "decision": "deny",
+        "reason": "closed_vocabulary_violation"
+      },
+      "files": {
+        "record.json": "7777ba88d93fa9b3d3322af13dcf8d75958ee5de6f442b0e6285a22259fa8ecb"
+      },
+      "id": "reject-refusal-unknown-code",
+      "path": "cases/reject-refusal-unknown-code",
+      "retained": {
+        "enforcement": "enforced",
+        "entries": 2,
+        "events": {
+          "refusal": 1,
+          "topology": 1
+        }
+      }
+    },
+    {
+      "edit": "the refusal spells a registered code in kebab form, which is not the code",
+      "expected": {
+        "decision": "deny",
+        "reason": "closed_vocabulary_violation"
+      },
+      "files": {
+        "record.json": "28888a1b821c5019e45dbac114d3e03610968af89900ac1f9d4d9dc27536ede5"
+      },
+      "id": "reject-refusal-code-kebab",
+      "path": "cases/reject-refusal-code-kebab",
+      "retained": {
+        "enforcement": "enforced",
+        "entries": 2,
+        "events": {
+          "refusal": 1,
+          "topology": 1
+        }
+      }
+    },
+    {
+      "edit": "the refusal carries a detail after the code, and a published record names the code alone",
+      "expected": {
+        "decision": "deny",
+        "reason": "closed_vocabulary_violation"
+      },
+      "files": {
+        "record.json": "80fd48b3c78045c1a82373732794fb898021dd3352cdcd3748406459ddfc0892"
+      },
+      "id": "reject-refusal-code-carries-detail",
+      "path": "cases/reject-refusal-code-carries-detail",
+      "retained": {
+        "enforcement": "enforced",
+        "entries": 2,
+        "events": {
+          "refusal": 1,
+          "topology": 1
+        }
+      }
+    },
+    {
+      "edit": "the receipt counts agent-c's refused tool call, which reached nothing",
+      "expected": {
+        "decision": "deny",
+        "reason": "blast_radius_overstated"
+      },
+      "files": {
+        "receipt.json": "302e41dea03ddfbc7c14ed7a1e305c292789ab16b067cb7c4d8a33599edcb489",
+        "record.json": "ebb1fc9d9120e8aa60c30de0260389f521185e4a035d1860214a71dc950520ba"
+      },
+      "id": "reject-blast-radius-counts-refused-tool-call",
+      "path": "cases/reject-blast-radius-counts-refused-tool-call",
+      "retained": {
+        "enforcement": "enforced",
+        "entries": 5,
+        "events": {
+          "decision": 1,
+          "delivery": 1,
           "tool_call": 2,
           "topology": 1
         }
