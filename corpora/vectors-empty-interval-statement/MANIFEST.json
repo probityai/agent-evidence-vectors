@@ -1,0 +1,306 @@
+{
+  "corpusDigest": "1fe67f2406e75a05a2df2bdf340521a306b90eaa865a8c8e7f17fb911b70e3cf",
+  "counts": {
+    "cross_federation_unsynchronised": 1,
+    "not_recorded": 4,
+    "query_failed": 1,
+    "recorded": 2,
+    "undetermined": 8
+  },
+  "provenance": {
+    "note": "Synthetic ledgers and statements. The five values are the revocation_establishment term of the vocabulary; the check order and reason tokens are this corpus's own.",
+    "source": "W3C public-agent-identity list, 2026, discussion of revocation freshness"
+  },
+  "suite": "empty-interval-statement/v1",
+  "synthetic": true,
+  "vectors": [
+    {
+      "edit": "the chain is unbroken, a signed and timestamped checkpoint covers the interval and the ledger holds no revocation of the credential inside it",
+      "expected": {
+        "decision": "not_recorded",
+        "reason": "no_revocation_in_covered_interval"
+      },
+      "files": {
+        "case.json": "b68c49ef0a8eff9ba63d922a6a6602eb251e547f5b34db7860bfa9fd7bc307b2",
+        "ledger.jsonl": "423157c84f1931bb289cb52dd387a5ae8badc7b963d1bdc68e1057c8da6ba25c",
+        "statement.json": "88d819d0f8e56c708cab4e9e13f4de54c4857561901e05cea152a70f02330bfc"
+      },
+      "id": "interval-empty-not-recorded",
+      "path": "cases/interval-empty-not-recorded",
+      "retained": {
+        "checkpointSigned": true,
+        "statementSigned": true
+      }
+    },
+    {
+      "edit": "the credential is revoked at position 4, inside the interval, and the statement lists it",
+      "expected": {
+        "decision": "recorded",
+        "reason": "revocation_recorded"
+      },
+      "files": {
+        "case.json": "b68c49ef0a8eff9ba63d922a6a6602eb251e547f5b34db7860bfa9fd7bc307b2",
+        "ledger.jsonl": "346c5b12cc15f54e3bcd2cf0729944ab288784da1f56c6ea1f59b2b918f4777f",
+        "statement.json": "1a4863f56560133bb92f74e75f18d84de9123220d9c6aa6100a16992964e3f06"
+      },
+      "id": "interval-holds-revocation",
+      "path": "cases/interval-holds-revocation",
+      "retained": {
+        "checkpointSigned": true,
+        "statementSigned": true
+      }
+    },
+    {
+      "edit": "the negative control: a signed statement that lists nothing while the ledger holds a revocation inside the interval; the ledger decides, not the statement",
+      "expected": {
+        "decision": "recorded",
+        "reason": "statement_omits_recorded_event"
+      },
+      "files": {
+        "case.json": "b68c49ef0a8eff9ba63d922a6a6602eb251e547f5b34db7860bfa9fd7bc307b2",
+        "ledger.jsonl": "346c5b12cc15f54e3bcd2cf0729944ab288784da1f56c6ea1f59b2b918f4777f",
+        "statement.json": "b85765c4af6f6757559305835eb084ec58b63720c8b824f83733dfa70d7a5971"
+      },
+      "id": "statement-omits-recorded-event",
+      "path": "cases/statement-omits-recorded-event",
+      "retained": {
+        "checkpointSigned": true,
+        "statementSigned": true
+      }
+    },
+    {
+      "edit": "another credential is revoked inside the interval, which says nothing about this one",
+      "expected": {
+        "decision": "not_recorded",
+        "reason": "no_revocation_in_covered_interval"
+      },
+      "files": {
+        "case.json": "b68c49ef0a8eff9ba63d922a6a6602eb251e547f5b34db7860bfa9fd7bc307b2",
+        "ledger.jsonl": "13d709a849ef100b5f455e97138b0e4c7cf1331d4fdf41e4ecf11c448c23a16f",
+        "statement.json": "21267a483b5c9d5d3eb3e454f646281252945e6dd630e73fe9613c0902a659ac"
+      },
+      "id": "other-credential-revoked-in-interval",
+      "path": "cases/other-credential-revoked-in-interval",
+      "retained": {
+        "checkpointSigned": true,
+        "statementSigned": true
+      }
+    },
+    {
+      "edit": "the credential is revoked at position 1 and at position 6, one before the interval and one after it, and the interval is empty",
+      "expected": {
+        "decision": "not_recorded",
+        "reason": "no_revocation_in_covered_interval"
+      },
+      "files": {
+        "case.json": "b68c49ef0a8eff9ba63d922a6a6602eb251e547f5b34db7860bfa9fd7bc307b2",
+        "ledger.jsonl": "70a16227534102322bcb5a2c147b5c04862397c376761a793ec42b86594268be",
+        "statement.json": "2fc337b31729f4230f9a78bd8f8f06311bc8844d8b2fb4fd91fe19bb1dbbf708"
+      },
+      "id": "revocation-outside-interval",
+      "path": "cases/revocation-outside-interval",
+      "retained": {
+        "checkpointSigned": true,
+        "statementSigned": true
+      }
+    },
+    {
+      "edit": "the ledger returned no answer, which is never read as an empty interval",
+      "expected": {
+        "decision": "query_failed",
+        "reason": "ledger_query_failed"
+      },
+      "files": {
+        "case.json": "d592fc23a3c39c5d9b5736dbc5b65edff8385894d0fddba045b8c49a4049c525",
+        "ledger.jsonl": "423157c84f1931bb289cb52dd387a5ae8badc7b963d1bdc68e1057c8da6ba25c"
+      },
+      "id": "query-failed",
+      "path": "cases/query-failed",
+      "retained": {
+        "checkpointSigned": null,
+        "statementSigned": null
+      }
+    },
+    {
+      "edit": "the ledger is in a federation the verifier has no synchronisation record with, so a missing event may only be one not yet exchanged",
+      "expected": {
+        "decision": "cross_federation_unsynchronised",
+        "reason": "federation_not_synchronised"
+      },
+      "files": {
+        "case.json": "ad52fa7195bd8010b0326b357f41c8f3abe708d132376736d2d61c92d3dd18ad",
+        "ledger.jsonl": "423157c84f1931bb289cb52dd387a5ae8badc7b963d1bdc68e1057c8da6ba25c",
+        "statement.json": "88d819d0f8e56c708cab4e9e13f4de54c4857561901e05cea152a70f02330bfc"
+      },
+      "id": "cross-federation-unsynchronised",
+      "path": "cases/cross-federation-unsynchronised",
+      "retained": {
+        "checkpointSigned": true,
+        "statementSigned": true
+      }
+    },
+    {
+      "edit": "the control: the same ledger in another federation, with a synchronisation record bridging to it, is read as an interval of the verifier's own",
+      "expected": {
+        "decision": "not_recorded",
+        "reason": "no_revocation_in_covered_interval"
+      },
+      "files": {
+        "case.json": "acebd58400f43aa80da2aff250653a132937a7486fe90f1778de833198f51a42",
+        "ledger.jsonl": "423157c84f1931bb289cb52dd387a5ae8badc7b963d1bdc68e1057c8da6ba25c",
+        "statement.json": "88d819d0f8e56c708cab4e9e13f4de54c4857561901e05cea152a70f02330bfc"
+      },
+      "id": "cross-federation-synchronised",
+      "path": "cases/cross-federation-synchronised",
+      "retained": {
+        "checkpointSigned": true,
+        "statementSigned": true
+      }
+    },
+    {
+      "edit": "the statement is signed by a key that is not the ledger's",
+      "expected": {
+        "decision": "undetermined",
+        "reason": "statement_signature_invalid"
+      },
+      "files": {
+        "case.json": "b68c49ef0a8eff9ba63d922a6a6602eb251e547f5b34db7860bfa9fd7bc307b2",
+        "ledger.jsonl": "423157c84f1931bb289cb52dd387a5ae8badc7b963d1bdc68e1057c8da6ba25c",
+        "statement.json": "d6d812897f72d348dab23fd8cc1af2feb9a59541528ab00084453bb68d37f496"
+      },
+      "id": "forged-statement-signature",
+      "path": "cases/forged-statement-signature",
+      "retained": {
+        "checkpointSigned": true,
+        "statementSigned": false
+      }
+    },
+    {
+      "edit": "a genuine statement about another credential, replayed for this one",
+      "expected": {
+        "decision": "undetermined",
+        "reason": "statement_for_other_interval"
+      },
+      "files": {
+        "case.json": "b68c49ef0a8eff9ba63d922a6a6602eb251e547f5b34db7860bfa9fd7bc307b2",
+        "ledger.jsonl": "423157c84f1931bb289cb52dd387a5ae8badc7b963d1bdc68e1057c8da6ba25c",
+        "statement.json": "1a46bde8a3feb4354329716e073884add985f8ce2dfffa047cd514c4d25d6701"
+      },
+      "id": "statement-for-other-credential",
+      "path": "cases/statement-for-other-credential",
+      "retained": {
+        "checkpointSigned": true,
+        "statementSigned": true
+      }
+    },
+    {
+      "edit": "the statement verifies and the checkpoint inside it is signed by another key",
+      "expected": {
+        "decision": "undetermined",
+        "reason": "checkpoint_signature_invalid"
+      },
+      "files": {
+        "case.json": "b68c49ef0a8eff9ba63d922a6a6602eb251e547f5b34db7860bfa9fd7bc307b2",
+        "ledger.jsonl": "423157c84f1931bb289cb52dd387a5ae8badc7b963d1bdc68e1057c8da6ba25c",
+        "statement.json": "596aed1598f721701c15f70b783d8ccfe24e008e2f2b8febb6ede9bb7b926703"
+      },
+      "id": "forged-checkpoint-signature",
+      "path": "cases/forged-checkpoint-signature",
+      "retained": {
+        "checkpointSigned": false,
+        "statementSigned": true
+      }
+    },
+    {
+      "edit": "a correctly signed checkpoint that carries no signing time",
+      "expected": {
+        "decision": "undetermined",
+        "reason": "checkpoint_not_timestamped"
+      },
+      "files": {
+        "case.json": "b68c49ef0a8eff9ba63d922a6a6602eb251e547f5b34db7860bfa9fd7bc307b2",
+        "ledger.jsonl": "423157c84f1931bb289cb52dd387a5ae8badc7b963d1bdc68e1057c8da6ba25c",
+        "statement.json": "a9b04a2269234d85d2574021e8bf08e691a62247472d9b51b88709c5f8dc5de4"
+      },
+      "id": "checkpoint-without-time",
+      "path": "cases/checkpoint-without-time",
+      "retained": {
+        "checkpointSigned": true,
+        "statementSigned": true
+      }
+    },
+    {
+      "edit": "the checkpoint is signed over position 4 and the interval ends at 5",
+      "expected": {
+        "decision": "undetermined",
+        "reason": "checkpoint_does_not_cover_range"
+      },
+      "files": {
+        "case.json": "b68c49ef0a8eff9ba63d922a6a6602eb251e547f5b34db7860bfa9fd7bc307b2",
+        "ledger.jsonl": "423157c84f1931bb289cb52dd387a5ae8badc7b963d1bdc68e1057c8da6ba25c",
+        "statement.json": "89ba6a68ea072ed1d34a8a305933bbbe2743b325ddf311e89936264cabe3a01c"
+      },
+      "id": "checkpoint-stops-short",
+      "path": "cases/checkpoint-stops-short",
+      "retained": {
+        "checkpointSigned": true,
+        "statementSigned": true
+      }
+    },
+    {
+      "edit": "a revocation edited into a rotation after signing, which an empty list then appears to confirm",
+      "expected": {
+        "decision": "undetermined",
+        "reason": "ledger_event_invalid"
+      },
+      "files": {
+        "case.json": "b68c49ef0a8eff9ba63d922a6a6602eb251e547f5b34db7860bfa9fd7bc307b2",
+        "ledger.jsonl": "badfd30b8cc8f78e4717739be810ca1ce61e9531c8be42318509839b8f264e4e",
+        "statement.json": "b85765c4af6f6757559305835eb084ec58b63720c8b824f83733dfa70d7a5971"
+      },
+      "id": "event-edited-in-place",
+      "path": "cases/event-edited-in-place",
+      "retained": {
+        "checkpointSigned": true,
+        "statementSigned": true
+      }
+    },
+    {
+      "edit": "the revocation is removed from the ledger and every remaining signature verifies; only the chain shows the hole",
+      "expected": {
+        "decision": "undetermined",
+        "reason": "chain_link_broken"
+      },
+      "files": {
+        "case.json": "b68c49ef0a8eff9ba63d922a6a6602eb251e547f5b34db7860bfa9fd7bc307b2",
+        "ledger.jsonl": "eeb0dfec66709d8564b8fd0375ba76ba8a4d442ff11a49fc574ba7fb1377a348",
+        "statement.json": "b85765c4af6f6757559305835eb084ec58b63720c8b824f83733dfa70d7a5971"
+      },
+      "id": "event-deleted-from-interval",
+      "path": "cases/event-deleted-from-interval",
+      "retained": {
+        "checkpointSigned": true,
+        "statementSigned": true
+      }
+    },
+    {
+      "edit": "every event verifies and links, and the checkpoint names a head the ledger no longer holds",
+      "expected": {
+        "decision": "undetermined",
+        "reason": "checkpoint_head_mismatch"
+      },
+      "files": {
+        "case.json": "b68c49ef0a8eff9ba63d922a6a6602eb251e547f5b34db7860bfa9fd7bc307b2",
+        "ledger.jsonl": "b8bedf8ae4fbaedf8ab70116429f92806b7e1dcf5a2e4690bbbce2b1903bf408",
+        "statement.json": "88d819d0f8e56c708cab4e9e13f4de54c4857561901e05cea152a70f02330bfc"
+      },
+      "id": "ledger-rolled-back-to-abandoned-branch",
+      "path": "cases/ledger-rolled-back-to-abandoned-branch",
+      "retained": {
+        "checkpointSigned": true,
+        "statementSigned": true
+      }
+    }
+  ],
+  "verifierContract": "verifier case.json --json; exit 0 recorded, 1 not_recorded, 2 query_failed, 3 cross_federation_unsynchronised, 4 undetermined"
+}

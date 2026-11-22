@@ -165,8 +165,8 @@ def _module_sources() -> list[Path]:
     return sources
 
 
-# A json.loads that keeps its own call is strict when it passes both refusal hooks. The first two
-# do not, and each says why. The third is a mutation switch.
+# A json.loads that keeps its own call is strict when it passes both refusal hooks. These
+# do not, and each says why.
 OWN_PROFILE = {
     # The A2A JCS corpus reads NaN and Infinity and refuses them at canonicalization, under
     # the reason its number-serialization vectors (A5-REJECT-016 to 018) expect.
@@ -177,6 +177,12 @@ OWN_PROFILE = {
     # The lenient parse runs only when the corpus mutation check switches the strict-JSON
     # rule off, to prove a repeated-member payload is refused by that rule and no other.
     ("packaging/agent_evidence_vectors/credreach.py", "_statement"),
+    # Ablation readers, reached only when a run skips one named check to show that check is
+    # load-bearing: with jws_malformed skipped, the header is read as a lenient verifier reads
+    # it; with duplicate_member skipped, the catalog is read keep-the-last. The strict path
+    # ahead of each (strict_loads) refuses both spellings.
+    ("packaging/agent_evidence_vectors/catalogtrust.py", "_lenient_jws"),
+    ("packaging/agent_evidence_vectors/catalogtrust.py", "load"),
 }
 
 

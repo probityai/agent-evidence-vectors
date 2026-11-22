@@ -1,0 +1,53 @@
+{
+  "acceptances": [
+    {
+      "acceptedAt": "2026-11-16T12:01:00Z",
+      "delegate": "agent-a",
+      "grantId": "g-a"
+    }
+  ],
+  "asOf": "2026-11-16T12:30:00Z",
+  "budget": {
+    "id": "budget-1",
+    "limit": 10,
+    "unit": "units"
+  },
+  "contractId": "https://probityai.github.io/agent-evidence-observer/contract/budget-lineage/v1",
+  "delegations": [
+    {
+      "delegate": "agent-a",
+      "delegator": "principal-1",
+      "grantId": "g-a",
+      "issuedAt": "2026-11-16T12:00:00Z"
+    },
+    {
+      "delegate": "agent-b",
+      "delegator": "agent-a",
+      "grantId": "g-b",
+      "issuedAt": "2026-11-16T12:01:00Z"
+    }
+  ],
+  "ledger": [
+    {
+      "agent": "agent-a",
+      "at": "2026-11-16T12:10:00Z",
+      "budget": "budget-1",
+      "decision": "admitted",
+      "outcome": "committed",
+      "requestId": "r1",
+      "units": 3
+    },
+    {
+      "agent": "agent-b",
+      "at": "2026-11-16T12:10:00Z",
+      "budget": "budget-1",
+      "decision": "admitted",
+      "outcome": "committed",
+      "requestId": "r2",
+      "units": 4
+    }
+  ],
+  "maxDepth": 3,
+  "principal": "principal-1",
+  "recordId": "record-delegation-recorded-only-by-delegator"
+}

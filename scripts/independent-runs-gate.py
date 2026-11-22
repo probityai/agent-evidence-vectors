@@ -274,7 +274,85 @@ def _run_field_failures(run: dict[str, Any], current: int) -> list[str]:
             f"{where}: a run its author called directed may not be flagged unprompted, "
             "and a run its author did not call directed may not be flagged prompted."
         )
+    out.extend(_limit_failures(run, where))
     out.extend(_pair_failures(run, where))
+    return out
+
+
+# A limit that says nothing is the inverse of a limit: "none" reads as a claim that
+# the figures establish everything a reader might take from them. Matched on the
+# whole field after case folding and trailing punctuation, never on a word inside
+# a sentence, so a real limit that happens to contain "none" is untouched.
+PLACEHOLDER_LIMITS = frozenset(
+    {
+        "none",
+        "nothing",
+        "n/a",
+        "na",
+        "-",
+        "--",
+        "tbd",
+        "todo",
+        "unknown",
+        "null",
+        "nil",
+        "not applicable",
+        "see note",
+    }
+)
+
+
+def _limit_failures(run: dict[str, Any], where: str) -> list[str]:
+    """The row's doesNotEstablish is present, says something, and states no figure
+    the row does not carry.
+
+    The limit is prose that sits beside the figures, so a number written into it is
+    a published figure. Every other figure this file publishes is bound in the
+    row's figures array and counted in the documents that carry it; a figure in the
+    limit that is not one of the row's own would be the one figure here nothing
+    checks, which is how a parity count or another run's score could be altered,
+    or invented, under a passing gate.
+    """
+    dne = run.get("doesNotEstablish")
+    if not isinstance(dne, str) or not dne.strip():
+        return [
+            f"{where}: carries no doesNotEstablish. Every figure here is quoted with "
+            "what it does not show beside it, so a row without that limit may not "
+            "license a figure."
+        ]
+    if dne.strip().rstrip(".;:").strip().lower() in PLACEHOLDER_LIMITS:
+        return [
+            f"{where}: doesNotEstablish is the placeholder {dne.strip()!r}, which "
+            "reads as a claim that the figures show everything; state what they do "
+            "not show."
+        ]
+    own = {str(f.get("figure")) for f in run.get("figures", [])}
+    return [
+        f"{where}: doesNotEstablish states the figure {fig}, which is not one of this "
+        "row's figures. Bind it in the row's figures array with the documents that "
+        "carry it, or take it out of the limit."
+        for fig in FIGURE_IN_PROSE.findall(dne)
+        if fig not in own
+    ]
+
+
+def limit_carriage_failures(runs: list[dict[str, Any]], report: str) -> list[str]:
+    """Each row's limit stands, verbatim, in the implementation report.
+
+    The ledger's own comment says a figure is quoted with its limit beside it. A
+    limit kept only in this JSON file is one no reader of the report ever sees, so
+    the report carries every limit in note 1's table and this check holds it to the
+    ledger word for word after whitespace collapsing.
+    """
+    out: list[str] = []
+    for run in runs:
+        dne = normalize(str(run.get("doesNotEstablish", "")))
+        if dne and dne not in report:
+            out.append(
+                f"docs/IMPLEMENTATION-REPORT.md: does not carry the doesNotEstablish of "
+                f"the run at suiteRevision {run.get('suiteRevision')} verbatim: "
+                f"{dne[:72]!r}..."
+            )
     return out
 
 
@@ -810,6 +888,7 @@ def collect() -> tuple[list[str], int, list[int], int]:
         failures.extend(site_failures(site, expected))
     failures.extend(figure_failures(runs))
     failures.extend(unprompted_failures(runs, report))
+    failures.extend(limit_carriage_failures(runs, report))
     failures.extend(quote_failures(ledger["quotedWording"]))
     failures.extend(current_revision_failures(report, current))
     failures.extend(attempt_prose_failures(attempts))

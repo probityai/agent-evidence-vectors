@@ -1,0 +1,11 @@
+{
+  "claim": "evidence-digest",
+  "consumed": {
+    "c": {
+      "hex": "a26161016162820203"
+    }
+  },
+  "manifest_text": "{\"schema_version\": \"evidence-digest-manifest/v1\", \"refs\": [{\"id\": \"c\", \"hash_alg\": \"sha-256\", \"canonicalization\": \"cbor-deterministic\", \"digest\": \"b44774f185e1268bc3bfc660f02b1153546030565dd1b71c517a7390dbb24e02\"}]}",
+  "pinned_key_sha256": null,
+  "require_signature": false
+}

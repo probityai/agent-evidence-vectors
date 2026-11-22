@@ -5,11 +5,15 @@
     python3 run.py digest --python <py> --document <path> --artifact <path> [--artifact ...]
     python3 run.py policy --opa <opa> --rules <name> --statement <path> [--statement ...] [--pins <path>]
     python3 run.py coverage --document <path> --required <path>
+    python3 run.py admit --rule-set <name> --document <path> [--document ...] [--file <uri>=<path> ...]
+                         [--options <path>] [--warn <code> ...]
 
 `digest` runs the published agent-evidence-admission checker once per artifact. `policy`
 evaluates every statement against one rule set of packages/admission/rego in a single opa
 call. `coverage` runs the checker's coverage-check from this checkout's own source (standard
-library only, so there is nothing to install) and reports one row per required class. Both write `result` (`admitted` or `refused`) and `refusals` (a count) to
+library only, so there is nothing to install) and reports one row per required class. `admit` runs
+one of the checker's rule sets from this checkout's own source on each record, one row per record.
+All write `result` (`admitted` or `refused`) and `refusals` (a count) to
 GITHUB_OUTPUT and a table to GITHUB_STEP_SUMMARY when those are set, and exit 0 when
 everything is admitted, 1 when anything is refused, 2 when an input could not be read or a
 tool failed. Every tool is pinned in pins.json by version and SHA-256. Standard library
@@ -266,6 +270,29 @@ def check_policy(opa: str, rules: str, paths: list[str], pins_path: str | None) 
     return rows
 
 
+def check_admit(rule_set: str, documents: list[str], files: list[str], options: str | None,
+                warn: list[str]) -> list[Row]:
+    """Run one rule set from this checkout on each record; one row per record, its refusals as reasons."""
+    env = {**os.environ, "PYTHONPATH": str(CHECKER_SRC)}
+    extra = [arg for pair in files for arg in ("--file", pair)] + [arg for code in warn for arg in ("--warn", code)]
+    if options:
+        extra += ["--options", options]
+    rows = []
+    for document in documents:
+        done = subprocess.run([sys.executable, "-m", "agent_evidence_admission.cli", "admit", rule_set, document,
+                               "--json", *extra], check=False, capture_output=True, text=True, env=env)
+        if done.returncode not in (0, 1):
+            raise SetupError(f"admit {rule_set} {document}: exit {done.returncode}: {(done.stderr or done.stdout).strip()}")
+        try:
+            verdict = json.loads(done.stdout)
+        except ValueError as error:
+            raise SetupError(f"admit printed no verdict: {done.stdout[:2000]}") from error
+        reasons = [f"{r['code']} at {r['at']}: {r['detail']}" for r in verdict["refusals"]]
+        reasons += [f"warning {r['code']} at {r['at']}: {r['detail']}" for r in verdict["warnings"]]
+        rows.append(Row(document, verdict["verdict"] == "admit", reasons))
+    return rows
+
+
 def _cell(text: str) -> str:
     return text.replace("|", "\\|").replace("\n", " ")
 
@@ -310,6 +337,12 @@ def _parser() -> argparse.ArgumentParser:
     coverage = commands.add_parser("coverage")
     coverage.add_argument("--document", required=True)
     coverage.add_argument("--required", required=True)
+    admit = commands.add_parser("admit")
+    admit.add_argument("--rule-set", required=True)
+    admit.add_argument("--document", action="append", required=True)
+    admit.add_argument("--file", action="append", default=[])
+    admit.add_argument("--options")
+    admit.add_argument("--warn", action="append", default=[])
     policy = commands.add_parser("policy")
     policy.add_argument("--opa", required=True)
     policy.add_argument("--rules", required=True)
@@ -332,6 +365,11 @@ def main(argv: list[str] | None = None) -> int:
             return report("digest check", check_digests(args.python, args.document, _paths(args.artifact)))
         if args.command == "coverage":
             return report("coverage check", check_coverage(args.document, args.required))
+        if args.command == "admit":
+            files = [line for value in args.file for line in (v.strip() for v in value.splitlines()) if line]
+            warn = [line for value in args.warn for line in (v.strip() for v in value.splitlines()) if line]
+            return report(f"{args.rule_set} rule set",
+                          check_admit(args.rule_set, _paths(args.document), files, args.options or None, warn))
         return report(f"{args.rules} rules",
                       check_policy(args.opa, args.rules, _paths(args.statement), args.pins or None))
     except (SetupError, OSError, subprocess.CalledProcessError) as error:

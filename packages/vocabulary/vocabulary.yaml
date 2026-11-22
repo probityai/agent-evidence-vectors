@@ -1170,6 +1170,55 @@ posture_and_coverage:
       upper bound has already passed. The pair is what lets a reader tell a
       current claim from an old one whose subject moved.
 
+  revocation_establishment:
+    status: proposed
+    criticality: critical
+    review_by: "2027-05-21"
+    values: [recorded, not_recorded, query_failed, cross_federation_unsynchronised, undetermined]
+    value_definitions:
+      recorded: "A revocation of the credential is on a ledger the verifier checked, inside the interval asked about: the chain from the interval's start to a signed, timestamped checkpoint is unbroken and carries the event."
+      not_recorded: "The ledger the verifier checked holds no revocation of the credential inside the interval: the chain is unbroken, a signed and timestamped checkpoint covers the end of the interval, and the ledger holds no event for the credential inside the interval, listed or not. It says no revocation was recorded and never that none was decided."
+      query_failed: "The question could not be put to the ledger: the call timed out, errored or returned nothing a verifier can read. Nothing is established about the credential, and a failed query is never read as an empty interval."
+      cross_federation_unsynchronised: "The credential's ledger belongs to a federation the verifier's own checkpoint does not cover, and no synchronisation record bridges the two, so a missing event may only mean the federations have not yet exchanged it."
+      undetermined: "The record gives the verifier too little to reach another value, or fails one of its checks: a signature that does not verify, a chain that is broken, a checkpoint that stops short of the interval or carries no time. It is the fallback and is never read as not_recorded."
+    definition: >
+      How far a verifier established whether a credential was revoked inside a
+      stated interval of a ledger it did not write, with the evaluation time
+      carried beside the value. Closed and fail-closed: an absent or
+      unregistered value makes the statement malformed, and a record that does
+      not support another value is undetermined. The value is about the ledger
+      and not about the world. not_recorded means that no revocation event is
+      on the checked ledger inside the interval, and a revocation decided and
+      never logged cannot show here, so it is not evidence that the credential
+      was never revoked. It is unrelated to the not_recorded value a
+      producer writes for a tool-call argument it chose not to record, which is
+      a value of a different term; this one is read only with the interval,
+      the ledger and the checkpoint it names.
+    check: >
+      A verifier checks, in order, that the query returned an answer
+      (query_failed otherwise), that the ledger's federation is the verifier's
+      or a synchronisation record bridges to it (cross_federation_unsynchronised
+      otherwise), that the statement and the checkpoint verify under the
+      ledger's key, that the checkpoint carries a signing time and covers the
+      end of the interval, that every event verifies and links to the one
+      before, and that the checkpoint names the head it holds. A failure of
+      any of these is undetermined. It then reads the events for the credential
+      inside the interval from the ledger itself, never from the statement:
+      one revocation makes the value recorded, whatever the statement lists;
+      none makes it not_recorded.
+    source_path: "predicate.revocationEstablishment.value (declared); derived from the ledger events inside the interval and the signed checkpoint"
+    issuers_in_production: []
+    promotion_trigger: "An independently maintained registry or ledger that is not us emits one of these values for a revocation query, with the interval and the evaluation time, in a signed record and files a crosswalk with evidence: emitted."
+    why_this_registry: >
+      A revocation registry answers a verifier's question about one credential
+      and one interval, and the answer a relying party most often needs is the
+      empty one: nothing was recorded. A relying party that cannot tell an
+      empty interval over an unbroken, checkpointed chain from a failed query,
+      from a ledger in another federation and from a chain with a hole in it
+      reads all four the same way, as nothing to worry about. Naming the five
+      states, with undetermined as the fallback, keeps the weak ones from
+      passing as the strong one.
+
 # outcome_lattice: the recomputable verdict a consumer derives, never a
 # policy threshold and not producer-asserted.
 outcome_lattice:
@@ -2413,20 +2462,24 @@ principal_identity:
     review_by: "2027-05-08"
     values: [pinned_before_first_call, unpinned]
     value_definitions:
-      pinned_before_first_call: "The client held the RFC 7638 SHA-256 thumbprint of the issuer key in its configuration before its first call to the issuer and refused any key whose thumbprint differed."
+      pinned_before_first_call: "The client held a pin set for the issuer, one or more RFC 7638 SHA-256 thumbprints at an epoch, in its configuration before its first call to the issuer and refused any key whose thumbprint was not in the set."
       unpinned: "The client trusted whatever key the issuer's JWKS served at the time, with no thumbprint configured."
     definition: >
       Whether the client that obtained the token pinned the issuer's signing
-      key by its RFC 7638 thumbprint before its first call. A pin is all or
-      nothing: a configuration that pins one issuer and leaves another
-      unpinned, or names two thumbprints for one issuer, is malformed and is
-      never read as pinned. A pin is never downgraded: on a thumbprint
-      mismatch or a failed key fetch the client refuses, and does not fall
-      back to the unpinned path. Closed and fail-closed.
+      key by its RFC 7638 thumbprint before its first call. A pin is a set of
+      thumbprints at an epoch, a positive integer that only grows, so a next
+      key can be pinned beside the current one before rotation. A pin is all
+      or nothing: a configuration that pins one issuer and leaves another
+      unpinned, or names two different sets for one issuer at one epoch, is
+      malformed and is never read as pinned. A pin is never downgraded: a set
+      at an epoch below the one the client already reached is refused, and on
+      a thumbprint outside the set or a failed key fetch the client refuses
+      and does not fall back to the unpinned path. Closed and fail-closed.
     check: >
       A verifier reads pinned_before_first_call only when the record carries
-      the configured thumbprint and it equals principal.keyThumbprint, which
-      the verifier recomputes from principal.key. A record claiming a pin
+      the configured thumbprint that matched, a member of the issuer's pin
+      set, and it equals principal.keyThumbprint, which the verifier
+      recomputes from principal.key. A record claiming a pin
       whose thumbprint differs, or a mixed configuration, is refused. A
       relying party that requires a pin refuses unpinned.
     source_path: "predicate.principal.keyThumbprint compared with the configured pin at predicate.principal.pinnedThumbprint"

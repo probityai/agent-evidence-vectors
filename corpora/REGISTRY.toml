@@ -373,6 +373,42 @@ standards = ["w3c"]
 shapes = ["forged-signature", "stale-authority"]
 
 [[corpus]]
+id = "vectors-budget-lineage"
+path = "corpora/vectors-budget-lineage"
+wheel = true
+sdist = true
+title = "Budget lineage across delegation"
+summary = "Every charge a delegated agent makes must stay in the budget its principal granted: a sub-agent that opens a new root, outruns the depth limit or carves a wider budget is refused, and a delegation needs both ends."
+record_class = "record"
+domains = ["delegation", "authority"]
+standards = []
+shapes = ["scope-overreach", "self-report", "broken-chain"]
+
+[[corpus]]
+id = "vectors-capability-requirement"
+path = "corpora/vectors-capability-requirement"
+wheel = true
+sdist = true
+title = "Capability requirements and endpoint reports"
+summary = "A requirement is signed before any model swap; a hosted-endpoint report keeps model identity unproven apart from behaviour on the pinned set, and drift is two signed runs compared."
+record_class = "record"
+domains = ["model-governance", "grading", "provenance"]
+standards = ["eu-ai-act", "rfc8785"]
+shapes = ["uncertainty", "missing-binding", "tampering"]
+
+[[corpus]]
+id = "vectors-catalog-trust-manifest"
+path = "corpora/vectors-catalog-trust-manifest"
+wheel = true
+sdist = true
+title = "Catalog trust manifests"
+summary = "A verifier must judge a signed ARD or AI Catalog object under a named construction: JWS header rules, a key the DID document authorizes, that construction's signing input, and a subject bound to the entry and artifact."
+record_class = "credential"
+domains = ["identity", "provenance", "agent-protocols"]
+standards = ["ietf-draft", "did", "rfc8785"]
+shapes = ["forged-signature", "missing-binding", "malformed-input"]
+
+[[corpus]]
 id = "vectors-chunked-export"
 path = "corpora/vectors-chunked-export"
 wheel = true
@@ -517,6 +553,30 @@ standards = []
 shapes = ["race-condition", "stale-authority", "missing-binding"]
 
 [[corpus]]
+id = "vectors-dns-aid-rrset-v01"
+path = "corpora/vectors-dns-aid-rrset-v01"
+wheel = true
+sdist = true
+title = "DNS-AID agent RRsets"
+summary = "A verifier must accept an SVCB RRset only when it holds exactly one record per published agent protocol, reading the protocol from proto or from the non-transport alpn tokens."
+record_class = "record"
+domains = ["agent-protocols", "identity"]
+standards = ["ietf-draft"]
+shapes = ["missing-binding", "coverage-gap", "malformed-input"]
+
+[[corpus]]
+id = "vectors-dns-aid-sig-v01"
+path = "corpora/vectors-dns-aid-sig-v01"
+wheel = true
+sdist = true
+title = "DNS-AID record signatures"
+summary = "A verifier must reach agrees only when an SVCB record's ES256 sig binds its endpoint and params under a key the zone owner is known to hold, and cannot-tell when no key authority ties the key set to the zone."
+record_class = "record"
+domains = ["identity", "agent-protocols", "authority"]
+standards = ["ietf-draft"]
+shapes = ["forged-signature", "missing-binding", "malformed-input"]
+
+[[corpus]]
 id = "vectors-done-contract"
 path = "corpora/vectors-done-contract"
 wheel = true
@@ -553,6 +613,18 @@ standards = []
 shapes = ["wrong-grade", "forged-signature", "self-report"]
 
 [[corpus]]
+id = "vectors-empty-interval-statement"
+path = "corpora/vectors-empty-interval-statement"
+wheel = true
+sdist = true
+title = "Empty-interval statements"
+summary = "A verifier must read a ledger's signed statement that a credential has no revocation between two positions as not recorded only over an unbroken, checkpointed chain, and keep failed, unsynchronised and unverifiable answers apart."
+record_class = "chain"
+domains = ["transparency", "provenance"]
+standards = ["w3c"]
+shapes = ["broken-chain", "coverage-gap", "tampering"]
+
+[[corpus]]
 id = "vectors-evidence-state"
 path = "corpora/vectors-evidence-state"
 wheel = true
@@ -563,6 +635,18 @@ record_class = "record"
 domains = ["effects", "provenance"]
 standards = []
 shapes = ["coverage-gap", "self-report"]
+
+[[corpus]]
+id = "vectors-execution-billing-finality"
+path = "corpora/vectors-execution-billing-finality"
+wheel = true
+sdist = true
+title = "Execution billing finality"
+summary = "A spend ledger must keep execution outcome, billing finality and dispatch state apart: a success is not a final bill, an invoice is not an execution, and settled billing never reopens the same attempt's dispatch gate."
+record_class = "execution-evidence"
+domains = ["effects", "payments"]
+standards = []
+shapes = ["uncertainty", "replay", "self-report"]
 
 [[corpus]]
 id = "vectors-grade-floor"
@@ -587,6 +671,18 @@ record_class = "receipt"
 domains = ["grading", "completion"]
 standards = []
 shapes = ["tampering", "wrong-grade", "missing-binding"]
+
+[[corpus]]
+id = "vectors-htx-cases"
+path = "corpora/vectors-htx-cases"
+wheel = true
+sdist = true
+title = "HTX pattern case pairs"
+summary = "A verifier must accept a confirmed transaction only for the request the person confirmed and a disclosure only within what the person agreed to share, for the stated purpose, and refuse each one-field departure."
+record_class = "record"
+domains = ["approval", "authority"]
+standards = []
+shapes = ["missing-binding", "scope-overreach"]
 
 [[corpus]]
 id = "vectors-identity-binding"
@@ -623,6 +719,30 @@ record_class = "record"
 domains = ["effects", "provenance"]
 standards = ["in-toto"]
 shapes = ["self-report", "wrong-grade"]
+
+[[corpus]]
+id = "vectors-key-directory-observation"
+path = "corpora/vectors-key-directory-observation"
+wheel = true
+sdist = true
+title = "Web Bot Auth key-directory observation"
+summary = "A verifier must evict cached keys only on a directory that resolves without them, never on a 404, an outage, a redirect or an error page."
+record_class = "record"
+domains = ["identity", "agent-protocols"]
+standards = ["ietf-draft"]
+shapes = ["stale-authority", "uncertainty", "malformed-input"]
+
+[[corpus]]
+id = "vectors-lifecycle-binding"
+path = "corpora/vectors-lifecycle-binding"
+wheel = true
+sdist = true
+title = "Lifecycle binding"
+summary = "Records are grouped by decision and instruction; a shared identity is never resolved by order, revocation and domain-separated pre-images are required, and absent evidence is never a match."
+record_class = "record"
+domains = ["authority", "approval", "effects"]
+standards = ["rfc8785"]
+shapes = ["missing-binding", "stale-authority", "forged-signature"]
 
 [[corpus]]
 id = "vectors-mcp-authz"
@@ -709,6 +829,30 @@ standards = ["eu-ai-act"]
 shapes = ["coverage-gap", "uncertainty"]
 
 [[corpus]]
+id = "vectors-principal-binding"
+path = "corpora/vectors-principal-binding"
+wheel = true
+sdist = true
+title = "Agent-to-principal bindings"
+summary = "A verifier must recompute a binding of an agent to its principal and scope from its native record, UMA for Agents terms or an HCP grant, and refuse it when the agent, principal or scope changes or the record was edited after signing."
+record_class = "credential"
+domains = ["delegation", "identity", "authority"]
+standards = []
+shapes = ["missing-binding", "scope-overreach", "forged-signature"]
+
+[[corpus]]
+id = "vectors-print-witness"
+path = "corpora/vectors-print-witness"
+wheel = true
+sdist = true
+title = "Witnessed machine-job logs"
+summary = "A verifier must refuse a log signed by a machine-side witness that stops early, sits beside a job file the witness did not sign, or switches witness mid-job, even when every record verifies under a trusted key."
+record_class = "chain"
+domains = ["effects", "provenance"]
+standards = []
+shapes = ["broken-chain", "missing-binding", "tampering"]
+
+[[corpus]]
 id = "vectors-propagation-step"
 path = "corpora/vectors-propagation-step"
 wheel = true
@@ -781,6 +925,18 @@ standards = ["ietf-draft"]
 shapes = ["ordering", "stale-authority", "self-report"]
 
 [[corpus]]
+id = "vectors-responsibility-escalation"
+path = "corpora/vectors-responsibility-escalation"
+wheel = true
+sdist = true
+title = "Responsibility escalation"
+summary = "What a receiver can establish about an agent's authority at decision time and its escalation to a human role: referral, receipt, acknowledgement, acceptance and closure, with unresolved states kept."
+record_class = "record"
+domains = ["authority", "delegation"]
+standards = ["w3c"]
+shapes = ["stale-authority", "missing-binding", "coverage-gap"]
+
+[[corpus]]
 id = "vectors-restart-records"
 path = "corpora/vectors-restart-records"
 wheel = true
@@ -791,6 +947,18 @@ record_class = "record"
 domains = ["authority", "approval"]
 standards = ["in-toto"]
 shapes = ["missing-binding", "malformed-input", "stale-authority"]
+
+[[corpus]]
+id = "vectors-rsa-digestinfo"
+path = "corpora/vectors-rsa-digestinfo"
+wheel = true
+sdist = true
+title = "RSA DigestInfo, whole block"
+summary = "An RSA PKCS#1 v1.5 SHA-256 verifier must compare the whole recovered block: bytes before the digest, after a DigestInfo prefix, a SHA-512 OID or a short padding string are refused."
+record_class = "receipt"
+domains = ["provenance"]
+standards = []
+shapes = ["forged-signature", "malformed-input"]
 
 [[corpus]]
 id = "vectors-scitt-cose"
@@ -853,6 +1021,18 @@ standards = []
 shapes = ["self-report", "tampering"]
 
 [[corpus]]
+id = "vectors-telemetry-evidence"
+path = "corpora/vectors-telemetry-evidence"
+wheel = true
+sdist = true
+title = "Telemetry evidence: digests and event logs"
+summary = "Each digest binds the copy the consumer reads, N of N, under a declared canonical form; a repeated member, a self-carried key and 0 of 0 are refused, and so is each of six log edits."
+record_class = "chain"
+domains = ["provenance", "transparency", "canonicalization"]
+standards = ["rfc8785"]
+shapes = ["missing-binding", "tampering", "coverage-gap"]
+
+[[corpus]]
 id = "vectors-test-tampering"
 path = "corpora/vectors-test-tampering"
 wheel = true
@@ -911,3 +1091,15 @@ record_class = "report"
 domains = ["grading", "provenance"]
 standards = ["w3c", "ietf-draft", "rfc8785"]
 shapes = ["malformed-input", "wrong-grade"]
+
+[[corpus]]
+id = "vectors-x402-evidence-join"
+path = "corpora/vectors-x402-evidence-join"
+wheel = true
+sdist = true
+title = "x402 offer-to-settlement join"
+summary = "A verifier must accept an x402 payment only when the seller key, signed offer, payment, settlement, ledger and delivery join, and say indeterminate when evidence is absent."
+record_class = "record"
+domains = ["payments", "provenance"]
+standards = ["x402"]
+shapes = ["missing-binding", "tampering", "uncertainty"]
