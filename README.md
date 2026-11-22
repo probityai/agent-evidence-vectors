@@ -14,7 +14,7 @@ Test an agent-evidence verifier against saved records with known outcomes. The c
 
 ![Four-arm demo: an intact archive verifies, a changed byte fails, a missing artifact is not established, and a changed verifier keeps both outcomes](https://raw.githubusercontent.com/probityai/agent-evidence-vectors/main/demo/four-arms.gif)
 
-Add it to a project with `uv add agent-evidence-vectors`, or `pip install agent-evidence-vectors`. The `probityai` command checks a claim about an agent run offline against evidence you pinned: `pip install probityai==0.1.1`.
+Add it to a project with `uv add agent-evidence-vectors`, or `pip install agent-evidence-vectors`. The `probityai` command checks a claim about an agent run offline against evidence you pinned: `pip install probityai`.
 
 <a name="run-the-suite-against-your-verifier"></a>
 
