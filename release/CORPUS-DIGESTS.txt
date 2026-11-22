@@ -11,7 +11,7 @@ bb94f0aba314bcc901872a8fe81f2f00266bf631572d3c66601e679e08697621  vectors-agent-
 99c46fa19029691a1bdfb9f78f80c457639d9df985bf05e9609255006f07dd6e  vectors-agent-card-receipt/MANIFEST.json  agent-card-receipt/v1  vectors=44  no-suiteRevision
 27623d6a4a10f4cd0aedc1145182c276456e619c3ae771ec646746ef823f5ec4  vectors-agent-change-admission/MANIFEST.json  agent-change-admission/v1  vectors=35  no-suiteRevision
 a2674abfcf5b0edfaa8fe0f68be393066d962aee95c24362e00ea45ddbed1efc  vectors-agent-decision/MANIFEST.json  agent-decision-conformance  vectors=41  no-suiteRevision
-4280659456899e8b0c939e054f1351b3f16eb1f5f88ef191c230b66c4ca36850  vectors-agent-payment-mandate/MANIFEST.json  agent-payment-mandate/v1  vectors=21  no-suiteRevision
+5c61ca4f45bba361d4bb5c67f86489ccbc7fa0d7dc53d75b42159a94dcf1ab2c  vectors-agent-payment-mandate/MANIFEST.json  agent-payment-mandate/v1  vectors=42  no-suiteRevision
 17bb6d15a07170b85caf4d06e70f4b3571590c4c1083e5834b9158a5cd621ff9  vectors-agentic-process-evidence/MANIFEST.json  agentic-process-evidence/v0.1  vectors=52  no-suiteRevision
 856596834a5cd59aa4629802d27aecd9087ba7b20718bdffdf2ead85f82ff23b  vectors-aggregate-accounting/MANIFEST.json  aggregate-accounting/v1  vectors=19  no-suiteRevision
 36ab3447ae8a037ca30576209591cb0d0223b0539e64513c9c97ee0ed87288b5  vectors-ai-agent-action/MANIFEST.json  ai-agent-action-conformance  vectors=75  no-suiteRevision
@@ -28,11 +28,12 @@ d5fb983e61a8ae732badf116a2183a8bdc52b95677a7cf89cdc475422a57bb4f  vectors-catalo
 8d9e15ebf4e6a6b76960491fff189ccdad8521479fff71de1da8ddc43f22b12a  vectors-chunked-export/MANIFEST.json  chunked-export/v1  vectors=12  no-suiteRevision
 96b6a79576ee8d4ffcdbb88bbddd00d4a91b2a471744064843e6e934cca445bb  vectors-completion-confirmation/MANIFEST.json  completion-confirmation/v1  vectors=28  no-suiteRevision
 873332850e34c4edad77f2ca89cfb25247a940e106f67f045acbe7186b3d7ca5  vectors-connector-scope/MANIFEST.json  connector-scope-record/v1  vectors=13  no-suiteRevision
-bf2608f9751be7f192c08a4356b36454cc538ceb709ca04c15c8c3f35a77d261  vectors-containment-journal/MANIFEST.json  containment-journal/v1  vectors=62  suiteRevision=3
+dcb4c76819d71c7323ee099279e4690ddf28c800aaaccabe6447f76fb96a8a83  vectors-containment-journal/MANIFEST.json  containment-journal/v1  vectors=63  suiteRevision=4
 cc90a6895c3a3514cc81a5b201361a0935bdcf39eeb5a65fd35f70d1b060772a  vectors-converted-argument-binding/MANIFEST.json  converted-argument-binding/v1  vectors=17  no-suiteRevision
 c965700e60eeed555cee2bec753af9020e93e7db065ba303494ddacd51e5d00b  vectors-credential-reachability/MANIFEST.json  credential-reachability/v1  vectors=58  no-suiteRevision
 585eb6e3fabced309e7d27e1240f49574e4c2cdeb42bb5d05f2fb6e1f83a6ef2  vectors-credential-release/MANIFEST.json  credential-release/v1  vectors=30  no-suiteRevision
 dbadd1d78f0615878edf5b3c71fc054c35c62afecf7d23e0b28670c4ba7c6aad  vectors-decision-client-failure-modes/MANIFEST.json  decision-client-failure-modes/v1  vectors=35  no-suiteRevision
+25218b83bb9118b118ba505c5d251c09175cbabefa640caa9b4d9edace2c27f0  vectors-delegation-chain/MANIFEST.json  delegation-chain/v1  vectors=20  no-suiteRevision
 84ba70d6a54bfc1badf80a54655814c089bd220e9d81637d2262ac84e2a63442  vectors-delegation-lifecycle/MANIFEST.json  delegation-lifecycle/v1  vectors=54  no-suiteRevision
 57dbef274d278c7ffafb4214ff10079dd0ef4467e1135d22cd69b540045c76aa  vectors-delegator-right/MANIFEST.json  delegator-right/v1  vectors=26  no-suiteRevision
 211da5f3010d6e38a9b119cd02250865cdd4196ec56816bc0edf78d7d96eac06  vectors-dependency-selection/MANIFEST.json  artifact-binding-conformance  vectors=6  no-suiteRevision
@@ -76,6 +77,7 @@ d8372db7e2425d6d86a33a175e894afb4c63f344ab70828c89bdcf9826f90686  vectors-respon
 9675d858355f9ceaf071380551de090ddec20ea5cbf6605241601712e882523d  vectors-signature-coverage/MANIFEST.json  signature-coverage/v1  vectors=37  no-suiteRevision
 ca7f06472d102f88983ab14f93e4856b1d62b9a05dad21f9f2fcdbc1b2df28e1  vectors-source-coverage/MANIFEST.json  source-text-coverage/v1  vectors=8  no-suiteRevision
 b3c47a5974eefa98dace6fe23957eb286d4ba5f57eed46c3c22cc8cc49c754e9  vectors-spoofed-tool-output/MANIFEST.json  spoofed-tool-output/v2  vectors=47  no-suiteRevision
+94fa1607e2c3044a1d4c5c984a6ac2be6c8beef7ec3f09a33767e736539263d8  vectors-status-receipt-binding/MANIFEST.json  status-receipt-binding/v1  vectors=24  no-suiteRevision
 345b94589c79fa21f2a01c055c7e5da2f7d37137666cf345aa1661a4152eb50c  vectors-telemetry-evidence/MANIFEST.json  telemetry-evidence/v1  vectors=36  no-suiteRevision
 5134e32c0684bb929503e9487ba35e8b7b256429dfd096e53435be031dfe304d  vectors-test-tampering/MANIFEST.json  test-tampering/v2  vectors=34  no-suiteRevision
 bda9952cc553d78d4315e6119e745bb15bb0078fe70c2de29d196679d0582144  vectors-trace-anchor/MANIFEST.json  trace-registry-anchor/v1  vectors=27  no-suiteRevision
