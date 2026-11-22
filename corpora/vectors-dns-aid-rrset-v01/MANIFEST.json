@@ -1,0 +1,155 @@
+{
+ "corpusDigest": "e4b706b02bec52dd9b6059d707686658ea7a2c5a45ec1b0b82cd5f136c07b2f2",
+ "counts": {
+  "accept": 4,
+  "reject": 7
+ },
+ "specification": {
+  "scope": "The SVCB RRset served for one DNS-AID agent name. The agent protocol of a record is its proto SvcParam when present and otherwise the alpn tokens that are not transports (h2, h3, h2c, http/1.1). A conforming RRset has exactly one record per agent protocol the publisher published, and no record names no protocol or two. All fixtures are synthetic.",
+  "sources": [
+   "RFC 9460 Service Binding and Parameter Specification via the DNS (SVCB)",
+   "IETF draft on DNS-based agent discovery, revision 02, section 3.1.1 example records",
+   "IETF draft on DNS-based agent discovery, newer revision 00, section 3.1.1 and Table 1 (proto)"
+  ],
+  "status": "proposal of this repository, not a vendored upstream text",
+  "verifierContract": "verifier <case file>: the last stdout line is one JSON object with `verdict` (valid or invalid) and `codes` (a set); exit 0 for valid, 1 for invalid."
+ },
+ "suite": "dns-aid-rrset/v1",
+ "vectors": [
+  {
+   "description": "two records, alpn=mcp and alpn=a2a: one record per protocol",
+   "expected": {
+    "codes": [],
+    "verdict": "valid"
+   },
+   "file": "cases/two-records-bare-alpn.json",
+   "id": "two-records-bare-alpn",
+   "kind": "accept",
+   "sha256": "ad4af4c1dba007d26a6461931523ac2ef31b413a23fcfadc11e7cee8fda69180"
+  },
+  {
+   "description": "the earlier draft's example: the protocol shares alpn with the transports",
+   "expected": {
+    "codes": [],
+    "verdict": "valid"
+   },
+   "file": "cases/draft-02-example-rrset.json",
+   "id": "draft-02-example-rrset",
+   "kind": "accept",
+   "sha256": "1b3e38dbe03459e600d47a4d241514ba0bc544596cdc2631ea81c0a944b8beb2"
+  },
+  {
+   "description": "the newer draft's example: alpn carries the transports, proto the agent protocol",
+   "expected": {
+    "codes": [],
+    "verdict": "valid"
+   },
+   "file": "cases/draft-newer-00-example-rrset.json",
+   "id": "draft-newer-00-example-rrset",
+   "kind": "accept",
+   "sha256": "f65ff09ec75691d702f655f91c021b31cadd631bee62a6c748cb4e1a49d2189a"
+  },
+  {
+   "description": "after publishing mcp then a2a only the a2a record remains: the second publish replaced the first",
+   "expected": {
+    "codes": [
+     "protocol-record-missing"
+    ],
+    "verdict": "invalid"
+   },
+   "file": "cases/one-record-after-overwrite.json",
+   "id": "one-record-after-overwrite",
+   "kind": "reject",
+   "sha256": "90e3848025a5526202d90523d5e82c95527ee6c68953c168718f879afa9fb64d"
+  },
+  {
+   "description": "one record names two agent protocols in alpn",
+   "expected": {
+    "codes": [
+     "record-names-two-protocols"
+    ],
+    "verdict": "invalid"
+   },
+   "file": "cases/two-protocols-one-alpn.json",
+   "id": "two-protocols-one-alpn",
+   "kind": "reject",
+   "sha256": "044e3115657ec82db303dda0198147483ea2ba1fef745a438f43158ebfd59b5a"
+  },
+  {
+   "description": "one record's proto value names two agent protocols",
+   "expected": {
+    "codes": [
+     "record-names-two-protocols"
+    ],
+    "verdict": "invalid"
+   },
+   "file": "cases/two-protocols-one-proto.json",
+   "id": "two-protocols-one-proto",
+   "kind": "reject",
+   "sha256": "92f9c6f240b83ffb5da1d96aa34c137c61be30f4524c81f1b4f45175277d0bae"
+  },
+  {
+   "description": "a record whose alpn names only transports and that carries no proto",
+   "expected": {
+    "codes": [
+     "record-names-no-protocol"
+    ],
+    "verdict": "invalid"
+   },
+   "file": "cases/transport-only-record.json",
+   "id": "transport-only-record",
+   "kind": "reject",
+   "sha256": "c48e6740b0a179ea4e0eb5aa5509c22307db120dba93fd1b5fd28be149402609"
+  },
+  {
+   "description": "two records for mcp, so which endpoint serves it is undecided",
+   "expected": {
+    "codes": [
+     "protocol-record-duplicated"
+    ],
+    "verdict": "invalid"
+   },
+   "file": "cases/duplicate-protocol-record.json",
+   "id": "duplicate-protocol-record",
+   "kind": "reject",
+   "sha256": "d8c9b69068fe7f6455f6d0f395a9b3b77f57dd20d411c25d65ba4dd88baf7e37"
+  },
+  {
+   "description": "a record for a protocol the publisher did not publish",
+   "expected": {
+    "codes": [
+     "protocol-record-unexpected"
+    ],
+    "verdict": "invalid"
+   },
+   "file": "cases/unpublished-protocol-record.json",
+   "id": "unpublished-protocol-record",
+   "kind": "reject",
+   "sha256": "e7686fe5574c7c47081baef83deb4e3af153e184c3b3ccb8c7e1480655f6feb0"
+  },
+  {
+   "description": "after deleting the mcp record the a2a record is still served",
+   "expected": {
+    "codes": [],
+    "verdict": "valid"
+   },
+   "file": "cases/after-delete-sibling-kept.json",
+   "id": "after-delete-sibling-kept",
+   "kind": "accept",
+   "sha256": "954a4e7a08014b5852028325e61bcf79c3684f54d2feb64566d64da4baf58dd3"
+  },
+  {
+   "description": "deleting the mcp record also removed the a2a record",
+   "expected": {
+    "codes": [
+     "protocol-record-missing"
+    ],
+    "verdict": "invalid"
+   },
+   "file": "cases/after-delete-sibling-lost.json",
+   "id": "after-delete-sibling-lost",
+   "kind": "reject",
+   "sha256": "60b54aaedccbc5185a3368891bde6762f6029293b797f9a0789c1d214deae509"
+  }
+ ]
+}

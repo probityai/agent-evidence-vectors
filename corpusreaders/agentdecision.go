@@ -94,7 +94,7 @@ func adMalformed(code string) error { return &adRefusal{"malformed", code} }
 
 func (agentDecision) Judge(dir string, raw []byte) (*Result, error) {
 	var m adManifest
-	if err := json.Unmarshal(raw, &m); err != nil {
+	if err := strictUnmarshal(raw, &m); err != nil {
 		return nil, fmt.Errorf("%s/MANIFEST.json does not parse: %w", dir, err)
 	}
 	result := &Result{}
@@ -200,7 +200,7 @@ func adCheck(envelope, arguments []byte, m *adManifest, disabled string) error {
 	// Bytes that are not JSON at all are a malformed member; JSON that is not an
 	// object is an envelope carrying no signature, which is how Python reads both.
 	var parsed any
-	if err := json.Unmarshal(envelope, &parsed); err != nil {
+	if err := strictUnmarshal(envelope, &parsed); err != nil {
 		return err
 	}
 	env, isObject := parsed.(map[string]any)
@@ -211,7 +211,7 @@ func adCheck(envelope, arguments []byte, m *adManifest, disabled string) error {
 	var err error
 	if disabled == "signature" {
 		text, _ := env["payload"].(string)
-		payload, err = base64.StdEncoding.DecodeString(text)
+		payload, err = decodeCanonical(base64.StdEncoding, text)
 	} else {
 		payload, err = adSignature(env, m)
 	}
@@ -220,7 +220,7 @@ func adCheck(envelope, arguments []byte, m *adManifest, disabled string) error {
 	}
 	var stmt map[string]any
 	if disabled == "statement" {
-		err = json.Unmarshal(payload, &stmt)
+		err = strictUnmarshal(payload, &stmt)
 	} else {
 		stmt, err = adStatement(payload, m.PredicateType)
 	}
@@ -249,7 +249,7 @@ func adSignature(env map[string]any, m *adManifest) ([]byte, error) {
 		return nil, invalid
 	}
 	text, _ := env["payload"].(string)
-	payload, err := base64.StdEncoding.Strict().DecodeString(text)
+	payload, err := decodeCanonical(base64.StdEncoding, text)
 	if err != nil {
 		return nil, invalid
 	}
@@ -259,7 +259,7 @@ func adSignature(env map[string]any, m *adManifest) ([]byte, error) {
 	}
 	entry, _ := sigs[0].(map[string]any)
 	sigText, _ := entry["sig"].(string)
-	sig, err := base64.StdEncoding.Strict().DecodeString(sigText)
+	sig, err := decodeCanonical(base64.StdEncoding, sigText)
 	key, keyErr := hex.DecodeString(m.Keys.Producer.PublicKey)
 	if err != nil || keyErr != nil || len(key) != ed25519.PublicKeySize {
 		return nil, invalid
@@ -277,7 +277,7 @@ func adPAE(payloadType string, payload []byte) []byte {
 func adStatement(payload []byte, predicateType string) (map[string]any, error) {
 	bad := adMalformed("statement-malformed")
 	var stmt map[string]any
-	if err := json.Unmarshal(payload, &stmt); err != nil || stmt == nil {
+	if err := strictUnmarshal(payload, &stmt); err != nil || stmt == nil {
 		return nil, bad
 	}
 	subjects, ok := stmt["subject"].([]any)

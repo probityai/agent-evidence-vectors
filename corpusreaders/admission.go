@@ -3,7 +3,6 @@ package corpusreaders
 import (
 	"crypto/sha256"
 	"encoding/hex"
-	"encoding/json"
 	"fmt"
 	"os"
 	"path/filepath"
@@ -58,7 +57,7 @@ var admissionWhitespace = regexp.MustCompile(`\s+`)
 
 func (admission) Judge(dir string, raw []byte) (*Result, error) {
 	var m admissionManifest
-	if err := json.Unmarshal(raw, &m); err != nil {
+	if err := strictUnmarshal(raw, &m); err != nil {
 		return nil, fmt.Errorf("%s does not parse: %w", filepath.Join(dir, ManifestName), err)
 	}
 	res := &Result{}

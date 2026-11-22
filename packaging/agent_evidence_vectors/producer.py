@@ -47,7 +47,7 @@ from typing import Any
 if __package__ in (None, ""):
     sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from agent_evidence_vectors import w3creport  # noqa: E402
+from agent_evidence_vectors import strictjson, w3creport  # noqa: E402
 
 RECEIPT_FORMAT = "agent-evidence-vectors/producer-receipt/v1"
 PASS, FAIL, NO_VERDICT = 0, 1, 2
@@ -112,7 +112,7 @@ def _load_checker() -> ModuleType:
 
 
 def _run_record(raw: bytes) -> list[str]:
-    record = json.loads(raw)
+    record = strictjson.loads(raw)
     if not isinstance(record, dict):
         return ["shape: a run record is a JSON object"]
     verdict = _load_checker().check_record(record)
@@ -216,7 +216,7 @@ def load_pins(path: str) -> dict[str, dict[str, Any]]:
     digests (``report-sha256``, ``report-bytes``, ``declared``,
     ``check-set-sha256``) pins the one record the producer emits.
     """
-    document = json.loads(Path(path).read_text(encoding="utf-8"))
+    document = strictjson.loads(Path(path).read_text(encoding="utf-8"))
     if isinstance(document, dict) and "records" not in document:
         flat = {EXPECTED_KEYS[k]: v for k, v in document.items() if k in EXPECTED_KEYS}
         if flat:

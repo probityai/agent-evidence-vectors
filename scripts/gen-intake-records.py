@@ -88,10 +88,37 @@ REPOSITORY = "https://github.com/probityai/agent-evidence-vectors"
 GO_RUNTIME = "1.26"
 PYTHON_RUNTIME = (3, 13)
 
-#: The Go checker's source: the binary's package, every package it imports from
-#: this module, and the module file. The module is stdlib-only, so there is no
-#: go.sum; go.work decides which modules a build in this tree resolves.
-GO_SOURCE = ["aee", "cmd/aee-verify", "corpusreaders", "go.mod"]
+#: The Go checker's packages: the binary's package and every package it imports
+#: from this module. The module is stdlib-only, so there is no go.sum; go.work
+#: decides which modules a build in this tree resolves.
+GO_PACKAGES = ["aee", "cmd/aee-verify", "corpusreaders"]
+
+
+def go_source(root: Path = REPO) -> list[str]:
+    """The files `go build ./cmd/aee-verify` compiles, plus go.mod, as record paths.
+
+    A record's revision pins the code that ran. The build named in the record
+    compiles a package's .go files and never its _test.go files, a testdata
+    directory, or a name starting with "_" or "." (the go command ignores all
+    three), so those bytes cannot change a verdict the record reports. Listing
+    whole directories pinned them anyway: every test added to a reader made
+    every record stale without changing one byte of what aee-verify does, and a
+    stale record reached CI twice in one pull request that way. The listing is
+    now the compiled files, named one by one, so a reader recomputes it from the
+    paths exactly as before.
+    """
+    found: list[str] = []
+    for package in GO_PACKAGES:
+        for current, dirs, files in os.walk(root / package):
+            dirs[:] = sorted(d for d in dirs
+                             if d != "testdata" and not d.startswith(("_", ".")))
+            for name in files:
+                if (name.endswith(".go") and not name.endswith("_test.go")
+                        and not name.startswith(("_", "."))):
+                    found.append(Path(current, name).relative_to(root).as_posix())
+    return sorted(found) + ["go.mod"]
+
+
 GO_DEPENDENCIES = ["go.mod", "go.work"]
 SCITT = "vectors-scitt-cose"
 PYTHON_DEPENDENCIES = ["pyproject.toml", "uv.lock"]
@@ -541,7 +568,7 @@ def checker(directory: str, runs: tuple[Run, Run, Run]) -> dict[str, Any]:
         }
         build = "uv sync --locked --extra generators"
     else:
-        source, deps = GO_SOURCE, GO_DEPENDENCIES
+        source, deps = go_source(), GO_DEPENDENCIES
         name, runtime = "aee-verify", {"name": "go", "version": GO_RUNTIME}
         build = "go build -o aee-verify ./cmd/aee-verify"
     return {

@@ -3,4 +3,4 @@
 // module proxy serves only these files and not the repository's corpora.
 module github.com/probityai/agent-evidence-vectors/jcsvectors
 
-go 1.24
+go 1.21.0

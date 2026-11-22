@@ -1,0 +1,40 @@
+{
+ "case": "proto-field-agent-protocol",
+ "jwks": {
+  "keys": [
+   {
+    "crv": "P-256",
+    "kid": "k1",
+    "kty": "EC",
+    "x": "_fPaJ3wIDb-i1RoWB2R9ZdiU5l6iF9DbXZnTmK-axjs",
+    "y": "hdSyd3lQHn35Jcf1OZ3MG6cJcF2dMcBjF25FuOKDfKc"
+   }
+  ]
+ },
+ "jwks_url": "https://dns-aid.example.com/.well-known/dns-aid-jwks.json",
+ "key_authority": {
+  "jwks_fingerprint": "GxXN0GXH4jzK1C-li4-pLdtufD7kCXTVdLXtwp6tGUk",
+  "kind": "pin"
+ },
+ "now": 1790000000,
+ "record": {
+  "alpn": "h2,h3",
+  "fqdn": "chat.example.com",
+  "params": {
+   "bap": null,
+   "cap": "https://chat.example.com/.well-known/agent-cap.json",
+   "cap-sha256": "47DEQpj8HBSa-_TImW-5JCeuQeRkm5NMpJWZG3hSuFU",
+   "connect-class": null,
+   "connect-meta": null,
+   "enroll-uri": null,
+   "policy": "https://example.com/agent-policy",
+   "realm": null,
+   "well-known": null
+  },
+  "port": 443,
+  "proto": "a2a",
+  "target": "chat.example.com",
+  "zone": "example.com"
+ },
+ "sig": "eyJhbGciOiJFUzI1NiIsImtpZCI6ImsxIiwidHlwIjoiSldUIn0.eyJhbHBuIjoiYTJhIiwiZXhwIjoxNzkwMDg2NDAwLCJmcWRuIjoiY2hhdC5leGFtcGxlLmNvbSIsImlhdCI6MTc4OTk5OTk0MCwicG9ydCI6NDQzLCJzdmNiIjoiVk5rX2RjODlaQVROdTM2ejU5M1VJbXpvSnU2S3B5NlE3Y0tESF90eTVITSIsInRhcmdldCI6ImNoYXQuZXhhbXBsZS5jb20ifQ.341OM2NIA8AWYefyyYm8aNUn-YNHI9NBzxxyHFBPRNf5jXvObBE8XiFe5gyveUMoh8edYiYxZY2tdR4IGwnA1g"
+}

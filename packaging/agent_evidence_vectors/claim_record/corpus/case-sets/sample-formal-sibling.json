@@ -1,0 +1,20 @@
+{
+  "schema": "aev-claim-case-set/v1",
+  "name": "sample-formal-model-sibling",
+  "revision": "1",
+  "cases": [
+    {
+      "id": "s1",
+      "requirement": "required",
+      "expect": "falsified",
+      "quantifier": "all-traces"
+    },
+    {
+      "id": "p3",
+      "requirement": "required",
+      "expect": "verified",
+      "quantifier": "all-traces",
+      "witness": "s1"
+    }
+  ]
+}
