@@ -86,7 +86,8 @@ object predicate), `predicate_malformed` (the member set, the types, exactly one
 including a state written `/ES3` instead of `#ES3` and the column label `investigation`
 written where `monitoring_increase` belongs), `empty_cell_labelled` (an empty cell labelled
 anything but `unknown`) and `truth_disclaimer_missing` (the sentence absent or
-paraphrased). Each denied case fails exactly its named check. The controls use every
+paraphrased). A cell that passes all five is `allow`, reason `cell_recorded`. Each denied
+case fails exactly its named check. The controls use every
 response value, every support label, an empty cell, and the states `ES0`, `ES6` and
 `ES8`. Counts are in `MANIFEST.json`.
 

@@ -51,7 +51,11 @@ whose `digest` MUST carry exactly one entry, `sha256`, in lowercase hexadecimal.
 digest is the SHA-256 of the RFC 8785 form of the card as served, without its top-level
 `signatures` member. These are A2A specification section 8.4.1 rules 2 and 3, the bytes a
 card's own JWS signatures cover, so the receipt binds the bytes the card owner signs and a
-card carrying signatures and the same card without them have one digest. Rule 1 of that
+card carrying signatures and the same card without them have one digest. The exclusion set
+is that one member and it is not recursive: a member named `signatures` inside an extension
+or any other nested value is digested as served, and no other top-level member is excluded,
+including an `additionalSignatures` member that some catalog formats reserve and A2A does
+not. Rule 1 of that
 section, which decides whether a member the card omits is treated as present at its
 default, is open in a2aproject/A2A issue 2122 and is not applied here: the digest is over
 the card as it is served. A card that is not an I-JSON object, carries a duplicate member

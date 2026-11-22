@@ -31,7 +31,8 @@ watched producer made about itself), `clean_with_incomplete_coverage`,
 `defence_effect_without_effective_actions`. Each denied case fails exactly its named
 check; the controls show that `not_established` and `flagged` stand on partial coverage,
 and that a defence with no effective action is fine as long as nobody credits it with an
-effect. Counts are in `MANIFEST.json`.
+effect. A verdict that passes all nine is `allow`, reason `verdict_supported`. Counts are
+in `MANIFEST.json`.
 
 The case `reject-defence-effect-with-zero-effective-actions` is the shape of a defence
 evaluated over 2,000 decisions in which it took no action: an evaluation has to count
