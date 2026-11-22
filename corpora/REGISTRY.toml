@@ -697,6 +697,18 @@ standards = []
 shapes = ["tampering", "wrong-grade", "missing-binding"]
 
 [[corpus]]
+id = "vectors-holder-bound-credential"
+path = "corpora/vectors-holder-bound-credential"
+wheel = true
+sdist = true
+title = "Holder-bound credentials"
+summary = "A verifier must accept a request only when a fresh proof signed by the credential's own confirmed key covers that request, and refuse a proof that chose its key, downgrades its algorithm or is stale, replayed or aimed elsewhere."
+record_class = "record"
+domains = ["identity", "authority"]
+standards = []
+shapes = ["forged-signature", "replay", "missing-binding"]
+
+[[corpus]]
 id = "vectors-htx-cases"
 path = "corpora/vectors-htx-cases"
 wheel = true
@@ -707,6 +719,18 @@ record_class = "record"
 domains = ["approval", "authority"]
 standards = []
 shapes = ["missing-binding", "scope-overreach"]
+
+[[corpus]]
+id = "vectors-identity-assurance"
+path = "corpora/vectors-identity-assurance"
+wheel = true
+sdist = true
+title = "Identity assurance levels"
+summary = "A verifier must grade an agent identity at the highest level whose test and every lower test pass, never outvote a refusal, and refuse a finding set it cannot read."
+record_class = "record"
+domains = ["identity", "authority"]
+standards = []
+shapes = ["self-report", "missing-binding", "malformed-input"]
 
 [[corpus]]
 id = "vectors-identity-binding"

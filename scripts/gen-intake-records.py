@@ -123,7 +123,11 @@ GO_DEPENDENCIES = ["go.mod", "go.work"]
 SCITT = "vectors-scitt-cose"
 DELEGATION = "vectors-delegation-chain"
 #: Corpora whose checker is a Python script in the corpus directory, not aee-verify.
-PYTHON_CHECKERS = (SCITT, DELEGATION)
+HOLDER_BOUND = "vectors-holder-bound-credential"
+ASSURANCE = "vectors-identity-assurance"
+PYTHON_CHECKERS = (SCITT, DELEGATION, HOLDER_BOUND, ASSURANCE)
+#: Python checkers whose text run prints one "answered N of M cases" line.
+ANSWERED_LINE_CHECKERS = (DELEGATION, HOLDER_BOUND, ASSURANCE)
 PYTHON_DEPENDENCIES = ["pyproject.toml", "uv.lock"]
 
 REFUSAL_VERDICTS = ["contradicted", "failed", "must-reject", "reject", "rejected"]
@@ -540,13 +544,14 @@ SCITT_LINE = re.compile(r"^OK (\d+) accept, (\d+) reject, (\d+) indeterminate, "
 
 def aggregate_of(directory: str, text: Run) -> dict[str, Any]:
     output = text.stdout.decode("utf-8")
-    if directory == DELEGATION:
+    if directory in ANSWERED_LINE_CHECKERS:
         line = output.rstrip("\n")
         match = DELEGATION_LINE.match(line)
         if match is None:
-            raise SystemExit(f"FAIL: {DELEGATION} printed no summary line: {output!r}")
-        declared = json.loads(read(f"{where(DELEGATION)}/MANIFEST.json"))["counts"]
-        counts = {"accept": declared["allow"], "reject": declared["deny"]}
+            raise SystemExit(f"FAIL: {directory} printed no summary line: {output!r}")
+        declared = json.loads(read(f"{where(directory)}/MANIFEST.json"))["counts"]
+        counts = {"accept": declared.get("allow", declared.get("accept", 0)),
+                  "reject": declared.get("deny", declared.get("reject", 0))}
         return {"line": line, "total": int(match[1]), "counts": counts}
     if directory == SCITT:
         line = output.rstrip("\n")
