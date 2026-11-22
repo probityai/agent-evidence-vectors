@@ -162,6 +162,7 @@ only-include = [
     "corpora/vectors-converted-argument-binding",
     "corpora/vectors-credential-release",
     "corpora/vectors-decision-client-failure-modes",
+    "corpora/vectors-delegation-chain",
     "corpora/vectors-delegation-lifecycle",
     "corpora/vectors-delegator-right",
     "corpora/vectors-dependency-selection",
@@ -232,6 +233,7 @@ exclude = [
     "corpora/vectors-converted-argument-binding/**/*.py",
     "corpora/vectors-credential-release/**/*.py",
     "corpora/vectors-decision-client-failure-modes/**/*.py",
+    "corpora/vectors-delegation-chain/**/*.py",
     "corpora/vectors-delegation-lifecycle/**/*.py",
     "corpora/vectors-delegator-right/**/*.py",
     "corpora/vectors-dependency-selection/**/*.py",
@@ -301,6 +303,7 @@ exclude = [
 "corpora/vectors-converted-argument-binding" = "agent_evidence_vectors/corpora/vectors-converted-argument-binding"
 "corpora/vectors-credential-release" = "agent_evidence_vectors/corpora/vectors-credential-release"
 "corpora/vectors-decision-client-failure-modes" = "agent_evidence_vectors/corpora/vectors-decision-client-failure-modes"
+"corpora/vectors-delegation-chain" = "agent_evidence_vectors/corpora/vectors-delegation-chain"
 "corpora/vectors-delegation-lifecycle" = "agent_evidence_vectors/corpora/vectors-delegation-lifecycle"
 "corpora/vectors-delegator-right" = "agent_evidence_vectors/corpora/vectors-delegator-right"
 "corpora/vectors-dependency-selection" = "agent_evidence_vectors/corpora/vectors-dependency-selection"
@@ -445,6 +448,7 @@ only-include = [
     "corpora/vectors-converted-argument-binding",
     "corpora/vectors-credential-release",
     "corpora/vectors-decision-client-failure-modes",
+    "corpora/vectors-delegation-chain",
     "corpora/vectors-delegation-lifecycle",
     "corpora/vectors-delegator-right",
     "corpora/vectors-dependency-selection",

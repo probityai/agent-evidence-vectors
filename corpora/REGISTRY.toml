@@ -457,6 +457,18 @@ standards = []
 shapes = ["uncertainty", "malformed-input", "self-report"]
 
 [[corpus]]
+id = "vectors-delegation-chain"
+path = "corpora/vectors-delegation-chain"
+wheel = true
+sdist = true
+title = "Delegation chains"
+summary = "A verifier must refuse a signed delegation chain that widens any axis at any hop, is spliced, re-signed by an outsider or revoked."
+record_class = "record"
+domains = ["delegation", "authority"]
+standards = ["owasp"]
+shapes = ["scope-overreach", "stale-authority"]
+
+[[corpus]]
 id = "vectors-delegation-lifecycle"
 path = "corpora/vectors-delegation-lifecycle"
 wheel = true
