@@ -592,10 +592,11 @@ def _receipt_cases() -> list[Case]:
 
 
 def _registry_cases() -> list[Case]:
-    """Revision 1.3: a refusal's reasonCode is any code of the shared registry, one control per family."""
+    """Revision 1.3: a refusal's reasonCode is any registry code, one control a family."""
     registry = json.loads((ROOT.parents[1] / "packaging" / "agent_evidence_vectors"
                            / "refusal_codes.json").read_text("utf-8"))["codes"]
-    taken = {"budget_exhausted", "purpose_out_of_scope", "permit_revoked", "authority_chain_violation"}
+    taken = {"budget_exhausted", "purpose_out_of_scope", "permit_revoked",
+             "authority_chain_violation"}
     first: dict[str, str] = {}
     for entry in registry:  # the registry is sorted, so the first code of a family is stable
         family = entry["check"].split(".")[0]
@@ -603,7 +604,8 @@ def _registry_cases() -> list[Case]:
             first.setdefault(family, entry["code"])
     out: list[Case] = [
         (f"allow-refusal-registry-code-{family}",
-         Journal(channelsClosed=True).refuse("agent-a", "agent-b", code).build(f"registry-{family}"),
+         Journal(channelsClosed=True).refuse("agent-a", "agent-b", code)
+         .build(f"registry-{family}"),
          None, "allow", reader.ALLOWED_REASON,
          f"control: the router refuses a message over an edge in force under {code}, a code of "
          f"the {family} family of the shared registry, and the verdict is the one every "
@@ -624,7 +626,8 @@ def _registry_cases() -> list[Case]:
         ("reject-closed-vocabulary-violation-refusal-code-detail",
          Journal(channelsClosed=True).refuse("agent-a", "agent-b", "permit_revoked:link-2")
          .build("detail-code"), None, "deny", "closed_vocabulary_violation",
-         "the refusal carries a detail after the code, and a published record names the code alone"),
+         "the refusal carries a detail after the code, and a published record names the "
+         "code alone"),
         ("reject-blast-radius-overstated-counts-refused-tool-call", refused, counted, "deny",
          "blast_radius_overstated", "the receipt counts agent-c's refused tool call, which "
          "reached nothing"),

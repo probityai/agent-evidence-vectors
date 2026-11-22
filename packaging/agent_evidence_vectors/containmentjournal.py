@@ -103,7 +103,8 @@ RECEIPT_REASON = "blast_radius_consistent"
 ZERO = "sha256:" + "0" * 64
 def _registry_codes() -> tuple[str, ...]:
     """The codes of refusal-code/v1, read from the registry file beside this module."""
-    document = json.loads((Path(__file__).resolve().parent / "refusal_codes.json").read_text("utf-8"))
+    registry_file = Path(__file__).resolve().parent / "refusal_codes.json"
+    document = json.loads(registry_file.read_text("utf-8"))
     return tuple(entry["code"] for entry in document["codes"])
 
 
@@ -603,7 +604,7 @@ def judge_journal(record: Any, not_canonical: bool,
 
 
 def reach(record: Record, subject: str, from_seq: int) -> dict[str, Any]:
-    """The agents, deliveries and tool calls a subject reached from one entry on (a refused call is no reach)."""
+    """The agents, deliveries and tool calls a subject reached from one entry on, refusals aside."""
     tainted, deliveries, tools = {subject}, 0, 0
     for entry in record["entries"][from_seq:]:
         if entry["event"] == "delivery" and not entry["dropped"] and entry["sender"] in tainted:
