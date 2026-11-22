@@ -2563,7 +2563,8 @@ jobs:
           echo "always-accept=$ACCEPT always-reject=$REJECT discriminates=$DISCRIMINATES found=$FOUND"
           test -n "$ACCEPT" && test -n "$REJECT"
           test "$DISCRIMINATES" = true
-          test "$FOUND" = 57
+          want=$(python3 -c 'import json,sys; print(len(json.load(open(sys.argv[1]))["vectors"]))' corpora/vectors-a2a-jcs-v01/MANIFEST.json)
+          test "$FOUND" = "$want"
       - name: profile, a canonicalizer that declares integer-only passes with it
         id: profile
         uses: ./
@@ -2644,7 +2645,7 @@ jobs:
           verifier: python3 -S scripts/fixtures/action-v8/conformance/verifier.py
           artifact-name: agent-evidence-vectors-results-conformance
           report-path: conformance-report.json
-      - name: four of four, both controls, and the reference stage read 0 of 4 with nothing installed
+      - name: four of four, both controls, and the reference stage read none of them with nothing installed
         env:
           RESULT: ${{ steps.conformance.outputs.result }}
           FOUND: ${{ steps.conformance.outputs.vectors-found }}
@@ -2750,8 +2751,8 @@ jobs:
         continue-on-error: true
         uses: ./
         with:
-          corpus: vectors-a2a-jcs-v01
-          verifier: python -m agent_evidence_vectors.a2ajcs
+          vectors: scripts/fixtures/action-v8/mutate/plain
+          verifier: python3 scripts/fixtures/action-v8/mutate/lenient_candidate.py
           mutate: structural
           mutate-limit: "50"
           artifact-name: agent-evidence-vectors-results-mutate-noroute
@@ -2804,8 +2805,8 @@ jobs:
 
   # The case count on a Windows runner: a pattern that matched nothing there
   # once let a project's CI pass on zero vectors. The conformance mode runs with
-  # python -S and nothing installed, and the replay counts the a2a corpus's 57
-  # cases on this runner's own disk.
+  # python -S and nothing installed, and the replay counts every case of the a2a
+  # corpus manifest on this runner's own disk.
   ci__action_windows:
     runs-on: windows-2025
     timeout-minutes: 20
@@ -2855,7 +2856,8 @@ jobs:
           echo "conformance=$RESULT found=$FOUND none=$NONE a2a=$A2A found=$A2AFOUND executed=$EXECUTED"
           test "$RESULT" = pass && test "$FOUND" = 4
           test "$NONE" = failure
-          test "$A2A" = pass && test "$A2AFOUND" = 57 && test "$EXECUTED" = 57
+          want=$(python -c 'import json,sys; print(len(json.load(open(sys.argv[1]))["vectors"]))' corpora/vectors-a2a-jcs-v01/MANIFEST.json)
+          test "$A2A" = pass && test "$A2AFOUND" = "$want" && test "$EXECUTED" = "$want"
     needs:
       - changes
     if: ${{ fromJSON(needs.changes.outputs.run)['ci'] }}

@@ -508,9 +508,10 @@ def judge_controls(
 
 def run(mode: str, verifier: list[str], corpus_dir: Path, limit: int) -> dict[str, Any]:
     manifest = action_checks.manifest_of(corpus_dir) or {}
+    listed = action_checks.listed_members(manifest)
     members = [
         m
-        for m in action_checks.listed_members(manifest)
+        for m in listed
         if str(m["entry"].get("kind") or m["entry"].get("disposition"))
         in action_checks.ACCEPT_KINDS
     ]
@@ -546,6 +547,13 @@ def run(mode: str, verifier: list[str], corpus_dir: Path, limit: int) -> dict[st
             compare(candidate(verifier, path), theirs, f"{member['id']} #{index} ({name})", tally)
             path.unlink()
     notes = [] if route else ["no reference route into this corpus, so no mutant was compared"]
+    if len(members) < len(listed):
+        # A member with no accept kind is never mutated, so a corpus whose manifest
+        # declares no kinds reads 0 of 0; say how many were left out and why.
+        notes.append(
+            f"{len(listed) - len(members)} of {len(listed)} listed members declare no accept "
+            "kind, so no mutant was built from them"
+        )
     if tally["uncontrolled"]:
         notes.append(
             f"{tally['uncontrolled']} mutants were not compared: their unmutated control was "

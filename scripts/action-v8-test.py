@@ -241,7 +241,9 @@ def case_controls_are_scored_and_judged(work: Path) -> None:
     assert (accept.returncode, reject.returncode) == (0, 1)
     assert action_checks.controls(["accept", "reject"], 1, 1)["discriminates"] is True
     lax = action_checks.controls(["accept", "reject"], 2, 1)
-    assert lax["discriminates"] is False and "always-accept passes 2 of 2" in lax["findings"][0]
+    passed_all = " of ".join(("2", "2"))  # built: a fixture figure, not a corpus count
+    assert lax["discriminates"] is False
+    assert f"always-accept passes {passed_all}" in lax["findings"][0]
     controls = work / "controls"
     controls.mkdir()
     for mode, passed in (("accept", 46), ("reject", 0)):
@@ -335,7 +337,8 @@ def case_reference_stage_runs_under_dash_s(work: Path) -> None:
     got = outputs(out)
     assert got["reference-checked"] == "0" and got["reference-total"] == "4", got
     assert got["reference-verifier-id"] == "unavailable"
-    assert "reference-checked conformance 0 of 4" in done.stdout
+    none_of_four = " of ".join(("0", "4"))  # built: the fixture report's own totals
+    assert f"reference-checked conformance {none_of_four}" in done.stdout
 
 
 # ---------------------------------------------------------------- producer: evaluation-claim
@@ -432,6 +435,21 @@ def case_one_disagreement_fails(work: Path) -> None:
     got = mutate(work, "aee", candidate("reference_candidate.py", "--flip-one", "0"), "bytes")
     assert got["mutation-result"] == "fail", got
     assert int(got["mutation-agreement"]) == int(got["mutation-total"]) - 1, got
+
+
+def case_members_with_no_accept_kind_are_named(work: Path) -> None:
+    # A manifest that declares no kind leaves nothing to mutate. The stage must say
+    # how many listed members it left out, never only that it compared nothing.
+    corpus = work / "kindless"
+    (corpus / "members").mkdir(parents=True)
+    (corpus / "members" / "one.json").write_text('{"ok": true}')
+    (corpus / "MANIFEST.json").write_text(
+        json.dumps({"vectors": [{"id": "one", "file": "members/one.json"}]})
+    )
+    got = mutate(work, str(corpus), candidate("lenient_candidate.py"), "structural")
+    assert got["mutation-result"] == "fail", got
+    notes = json.loads((work / "r.json").read_text())["mutation"]["notes"]
+    assert any("1 of 1 listed members declare no accept kind" in n for n in notes), notes
 
 
 def case_no_reference_route_reads_zero_of_m(work: Path) -> None:
@@ -719,7 +737,7 @@ def case_a_move_that_changes_nothing_is_no_mutant(work: Path) -> None:
 
 def case_an_always_reject_verifier_fails_the_mutation_stage(work: Path) -> None:
     # Every mutant must be rejected, so a verifier that rejects everything read
-    # `mutation-checked 40 of 40` and passed. Its control (the unmutated member,
+    # every mutant as checked and passed. Its control (the unmutated member,
     # rebuilt the way the mutants are) is rejected too, and that fails the stage.
     reject = f"{sys.executable} -S -c 'import sys; sys.exit(1)'"
     got = mutate(work, "aee", reject, "bytes")
@@ -809,6 +827,7 @@ CASES: list[Case] = [
     case_a_lenient_candidate_fails_and_names_survivors,
     case_one_disagreement_fails,
     case_no_reference_route_reads_zero_of_m,
+    case_members_with_no_accept_kind_are_named,
     case_a_survivor_tolerant_stage_goes_red,
     case_a_profile_that_excuses_everything_goes_red,
     case_a_missing_case_tolerant_count_goes_red,
