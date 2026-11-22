@@ -65,7 +65,7 @@
       },
       "path": "corpora/vectors-delegation-chain/check_vectors.py",
       "serialization": "bytes",
-      "sha256": "e44b8870050fba5922a6414e69730060f08c39ce9fa93da30e762067a1e4fbb5"
+      "sha256": "19d3b7c8f8e27fd117b49e62e8a36c8d5afe3020372afb8e473dc74d14da74e0"
     },
     {
       "consumed": "unconsumed",
@@ -143,7 +143,7 @@
       {
         "path": "pyproject.toml",
         "serialization": "bytes",
-        "sha256": "e7b8ccca569440d31c66fccd58ca2d3f82f4473e38f5f7ec056cde4b2ba61fa9"
+        "sha256": "d7b4ea4c9018dfb9eee59b298dbb479d8797f043c50b317fef76d53df7be3194"
       },
       {
         "path": "uv.lock",
@@ -160,7 +160,7 @@
         "corpora/vectors-delegation-chain/check_vectors.py"
       ],
       "serialization": "sha256-listing-v1",
-      "sha256": "cc2bd6d3e6b5c762a1617f9b734acbbd11c0a4be078ba4147948e105362c9ca9"
+      "sha256": "61eaed507c25bcf623b765c6c4e678a71779236f197011d9f78867048238221f"
     },
     "runtime": {
       "name": "cpython",
@@ -334,7 +334,7 @@
   ],
   "corpus-digest": {
     "serialization": "sha256-listing-v1",
-    "sha256": "b7eb7a130e61abe23efd34b643d81eeb3174d807c9a29ef7d21055d4108c3bb5"
+    "sha256": "1a70ee679f3164ce193bec34bee820410205d63c4ff0140b8255fe4f935379e3"
   },
   "exit-code": 0,
   "exit-rule": "zero-iff-every-check-passes",
