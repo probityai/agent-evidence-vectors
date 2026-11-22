@@ -21,8 +21,8 @@ and the identity of a retry (``consumption_findings``, ``within_limit``,
 ``verify_set``). ``consumption.supersedes`` names the limit document a record's
 ``limitDigest`` replaced, ``consumption.payee`` and each held entry's ``payee``
 the account a payment goes to, and ``consumption.settled`` the terms a paid call
-settled on as read from the chain (CS41 to CS55). A set member (CS7, CS8, CS17,
-CS18 to CS22, CS25, CS48, CS49, CS53, CS54, CS55) is a file
+settled on as read from the chain (CS41 to CS54). A set member (CS7, CS8, CS17,
+CS18 to CS22, CS25, CS48, CS49, CS53, CS54) is a file
 of several records judged one by one and then as a set, under one ledger: the
 ``limitDigest`` values that ``supersedes`` links, so a permit held under a
 limit that was then replaced is still seen.
@@ -206,7 +206,7 @@ CONSUMPTION_MEMBERS = (
 #: The members ``consumption`` may carry beside them: the digest of the limit
 #: document this record's ``limitDigest`` replaced (a raise or a cut), the exact
 #: asset, the payee digest of this request's payment, and the terms the call
-#: settled on (CS41 to CS55).
+#: settled on (CS41 to CS54).
 CONSUMPTION_OPTIONAL = ("supersedes", "asset", "payee", "settled")
 #: The members of ``asset``, the optional exact asset a consumption counts in
 #: when no ISO 4217 code names it (a token on one chain): a CAIP-19 asset id and
@@ -225,7 +225,7 @@ CONSUMPTION_COUNTS = ("limit", "consumed", "reserved", "requested", "stateRevisi
 #: The members of one ``held`` entry, an earlier permit that has not settled,
 #: and the one it may carry beside them: the payee digest of that permit's
 #: payment (CS41, CS42), and the deadline of that permit, an instant, which a
-#: zero settlement keeps (CS50 to CS55).
+#: zero settlement keeps (CS50 to CS54).
 HELD_MEMBERS = ("operationKey", "requestDigest", "amount")
 HELD_OPTIONAL = ("payee", "deadline")
 #: The members of ``settled``, each required: the amount, asset and payee the
@@ -2267,9 +2267,8 @@ def _set_settled_uncounted(group: list[dict[str, Any]]) -> bool:
 
 
 #: Whether a record dated exactly at the deadline ends a zero settlement's hold
-#: (CS55): it does not. Permit2 reverts only when block.timestamp is greater
-#: than the deadline, so the hold ends strictly after it.
-DEADLINE_READING = {"inclusive": False}
+#: (CS54): the hold ends at or after the deadline.
+DEADLINE_READING = {"inclusive": True}
 
 
 def _hold_ended(later: dict[str, Any], deadline: datetime.datetime) -> bool:
@@ -2279,11 +2278,11 @@ def _hold_ended(later: dict[str, Any], deadline: datetime.datetime) -> bool:
 
 def _set_unexpired_hold(group: list[dict[str, Any]]) -> bool:
     """The hold of an operation that settled 0 ends only when a later record of
-    the ledger is dated after the held entry's deadline, or a record of that
-    operation shows occurred. A record before the deadline, or at it, that no
-    longer holds the key, whether or not the operation's own record shows none,
-    released a permit the facilitator can still settle (CS53, CS55); one after
-    the deadline is the control (CS54)."""
+    the ledger is at or after the held entry's deadline, or a record of that
+    operation shows occurred. A record before the deadline that no longer holds
+    the key, whether or not the operation's own record shows none, released a
+    permit the facilitator can still settle (CS53); one at or after the
+    deadline is the control (CS54)."""
     for settling in group:
         consumption = consumption_of(settling)
         assert consumption is not None

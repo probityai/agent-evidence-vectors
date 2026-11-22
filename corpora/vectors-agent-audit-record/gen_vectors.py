@@ -3023,15 +3023,13 @@ def define_consumption_carryover() -> None:
 # chain and never from the signed payload (CS47). A later record of the ledger
 # counts the settled amount, not the held one (CS48, CS49).
 #
-# CS50 to CS55: the same case at a settlement of 0 (vendrell46, #307). An x402
+# CS50 to CS54: the same case at a settlement of 0 (vendrell46, #307). An x402
 # EVM upto permit that settles 0 sends no transaction, so settled.transaction
 # is the empty string, valid only at amount 0 (CS50, CS51). The authorization
 # is not spent, so the facilitator can still settle it up to the maximum until
 # its deadline: the held entry keeps the operation key and carries the deadline
-# (CS52), and a later record of the ledger releases it only strictly after that
-# deadline (CS53, CS54, CS55). Permit2 reverts only when block.timestamp is
-# greater than the permit's deadline, so a block stamped exactly at the deadline
-# can still settle it (vendrell46, #307).
+# (CS52), and a later record of the ledger releases it only at or after that
+# deadline (CS53, CS54).
 # ---------------------------------------------------------------------------
 
 #: USDC on Base Sepolia, the asset of the x402 MCP transport's example, and the
@@ -3089,8 +3087,6 @@ def _settled(pred: dict[str, Any]) -> None:
 
 #: The deadline of the upto permit, as the record shape writes instants.
 UPTO_DEADLINE = "2026-09-19T11:34:02Z"
-#: One second after it: the first instant at which no block can settle the permit.
-UPTO_AFTER_DEADLINE = "2026-09-19T11:34:03Z"
 
 
 def _zero_settled(pred: dict[str, Any]) -> None:
@@ -3356,19 +3352,19 @@ def define_settlement() -> None:
         ),
         (
             "CS54",
-            "cs54-set-zero-settlement-released-after-the-deadline",
-            "CS53 where the later record is dated one second after the permit's deadline: "
-            "each record valid, the set valid",
-            UPTO_AFTER_DEADLINE,
+            "cs54-set-zero-settlement-released-at-the-deadline",
+            "CS53 where the later record is dated at the permit's deadline: each record "
+            "valid, the set valid",
+            UPTO_DEADLINE,
             "valid",
             None,
         ),
         (
             "CS55",
-            "cs55-set-zero-settlement-released-at-the-deadline",
-            "CS53 where the later record is dated at the permit's deadline, the last second "
-            "Permit2 accepts the permit in: each record valid, the set malformed because a "
-            "block stamped at the deadline can still settle it",
+            "cs55-set-zero-settlement-released-at-deadline-proposed",
+            "CS53 where the later record is dated at the permit's deadline: each record "
+            "valid, the set malformed, under the proposed reading that a record must be "
+            "dated after the deadline to release the hold",
             UPTO_DEADLINE,
             "malformed",
             "consumption-set-release-unshown",
@@ -5282,12 +5278,15 @@ def _ids(prefix: str, first: int, last: int) -> list[str]:
 
 
 PROPOSALS = "docs/proposals"
-#: Members whose rule only proposed text states, each with that text. Empty
-#: since revision 04 was published: its Appendix B prints all 68 members that
+#: Members whose rule only proposed text states, each with that text. CS55 is
+#: the one moved boundary of a zero settlement, held out of revision 04 (CS54 keeps
+#: its published reading). Since revision 04 was published: its Appendix B prints all 68 members that
 #: were proposed for it (CS18 to CS54, PS3 to PS5, PR1 to PR11, DS1 to DS10,
 #: and X1, X4, X5, X6, X7, X17, X18), and the pages under docs/proposals/ are
 #: the record of the text before it was published.
-PROPOSED: dict[str, str] = {}
+PROPOSED: dict[str, str] = {
+    "CS55": "docs/proposals/audit-record-05-deadline-boundary.md",
+}
 
 
 def _first_printed(texts: dict[str, list[str]]) -> dict[str, str]:
