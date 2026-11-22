@@ -485,8 +485,9 @@ jobs:
   # A published release for a sub-package tag (anything that is not
   # v<x>.<y>.<z>) must never be Latest: the repository page and
   # releases/latest would then point at a package instead of the corpus.
-  # Whoever created the release, this demotes it and then fails if Latest is
-  # still not the newest corpus tag.
+  # Whoever created the release, this demotes it, then sets the newest corpus
+  # release Latest itself (demoting does not hand Latest back), and fails if
+  # releases/latest is still not that tag.
   keep-latest-on-corpus:
     if: ${{ github.event_name == 'release' && !startsWith(github.event.release.tag_name, 'v') }}
     runs-on: ubuntu-24.04
@@ -504,6 +505,26 @@ jobs:
           GH_REPO: ${{ github.repository }}
           TAG: ${{ github.event.release.tag_name }}
         run: gh release edit "$TAG" --latest=false
+      - name: the newest corpus release is Latest
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+        run: |
+          set -euo pipefail
+          # The corpus tags are the bare v<major>.<minor>.<patch> tags that
+          # scripts/check-latest-release.py counts; the newest by version wins.
+          newest="$(git tag --list 'v*' | grep -E '^v[0-9]+\.[0-9]+\.[0-9]+$' | sort -V | tail -n1 || true)"
+          if [ -z "$newest" ]; then
+            echo "::error::no v<major>.<minor>.<patch> tag exists to make Latest"
+            exit 1
+          fi
+          gh release edit "$newest" --latest
+          latest="$(gh api "repos/$GITHUB_REPOSITORY/releases/latest" --jq .tag_name)"
+          if [ "$latest" != "$newest" ]; then
+            echo "::error::releases/latest is $latest after setting Latest, expected $newest"
+            exit 1
+          fi
+          echo "releases/latest is $newest"
       - name: Latest is the newest corpus tag
         env:
           GH_TOKEN: ${{ github.token }}
