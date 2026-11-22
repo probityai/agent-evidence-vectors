@@ -2045,6 +2045,10 @@ jobs:
         run: |
           uv run mypy --strict scripts/auditrecord-issuedat-test.py
           uv run python scripts/auditrecord-issuedat-test.py
+      - name: the audit record reader judges hostile inputs and never crashes on them
+        run: |
+          uv run mypy --strict scripts/auditrecord-hostile-input-test.py
+          uv run python scripts/auditrecord-hostile-input-test.py
       - name: a named verifier runs over the agent-audit-record corpus through its contract
         run: |
           uv run mypy --strict scripts/auditrecord-contract-test.py
