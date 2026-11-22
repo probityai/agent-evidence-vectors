@@ -11,6 +11,7 @@ Usage: python3 scripts/regenerate-derived-test.py
 from __future__ import annotations
 
 import importlib.util
+import json
 import re
 import shutil
 import subprocess
@@ -83,6 +84,19 @@ class Layout(unittest.TestCase):
         for script in scripts:
             self.assertTrue((REPO / script).is_file(), script)
 
+    def test_the_jcsvectors_copies_are_a_regeneration_step(self) -> None:
+        scripts = [script for _, script in load().STEPS]
+        self.assertIn("scripts/gen-jcsvectors-data.py", scripts)
+        module = load()
+        for path in ("jcsvectors/digests.go", "crates/jcsvectors/src/files.rs",
+                     "crates/jcsvectors/npm/digests.mjs",
+                     "jcsvectors/jcs-byte-vectors/cases.json",
+                     "crates/jcsvectors/data/jcs-byte-vectors/cases.json",
+                     "crates/jcsvectors/npm/data/jcs-byte-vectors/cases.json"):
+            self.assertTrue(module.is_derived(REPO, path), path)
+        for path in ("jcsvectors/jcsvectors.go", "crates/jcsvectors/src/lib.rs"):
+            self.assertFalse(module.is_derived(REPO, path), path)
+
     def test_a_stale_lock_is_refused(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
@@ -106,6 +120,49 @@ class Layout(unittest.TestCase):
             ran = subprocess.run([sys.executable, str(lock), "--check"], capture_output=True)
             self.assertEqual(ran.returncode, 0)
 
+
+class RunSteps(unittest.TestCase):
+    def fake_repo(self, root: Path, exits: list[int]) -> list[tuple[str, str]]:
+        """One script per exit status; each records that it ran."""
+        steps = []
+        for index, code in enumerate(exits):
+            script = root / f"step{index}.py"
+            script.write_text(
+                "import pathlib, sys\n"
+                "ran = pathlib.Path(sys.argv[0]).with_suffix('.ran')\n"
+                "ran.write_text(' '.join(sys.argv[1:]))\n"
+                f"raise SystemExit({code})\n",
+                encoding="utf-8",
+            )
+            steps.append((f"step {index}", script.name))
+        return steps
+
+    def test_a_check_runs_every_step_after_a_failure(self) -> None:
+        module = load()
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            steps = self.fake_repo(root, [0, 1, 1])
+            self.assertEqual(module.run_steps(root, True, steps), 1)
+            for index in range(3):
+                ran = root / f"step{index}.ran"
+                self.assertTrue(ran.exists(), f"step {index} did not run")
+                self.assertEqual(ran.read_text(encoding="utf-8"), "--check")
+
+    def test_a_write_stops_at_the_first_failure(self) -> None:
+        module = load()
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            steps = self.fake_repo(root, [0, 1, 0])
+            self.assertEqual(module.run_steps(root, False, steps), 1)
+            self.assertTrue((root / "step1.ran").exists())
+            self.assertFalse((root / "step2.ran").exists())
+
+    def test_a_clean_check_passes(self) -> None:
+        module = load()
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            steps = self.fake_repo(root, [0, 0])
+            self.assertEqual(module.run_steps(root, True, steps), 0)
 
 class ResolveMerge(unittest.TestCase):
     def repo_with_two_branches(self, root: Path, extra: bool) -> None:
@@ -166,6 +223,81 @@ class ResolveMerge(unittest.TestCase):
             root = Path(tmp)
             self.repo_with_two_branches(root, extra=False)
             self.assertEqual(module.resolve_merge(root, lambda: 1), 1)
+
+
+def load_intake():
+    spec = importlib.util.spec_from_file_location(
+        "gen_intake_records", REPO / "scripts" / "gen-intake-records.py")
+    assert spec and spec.loader
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    return module
+
+
+class IntakeListing(unittest.TestCase):
+    """The intake records pin the Go files the build compiles, and only those.
+
+    Before this, the listing walked whole directories, so a new _test.go file
+    made every intake record stale while aee-verify compiled the same bytes.
+    """
+
+    def tree(self, root: Path) -> None:
+        files = {
+            "go.mod": "module example\n",
+            "aee/a.go": "package aee\n",
+            "aee/a_test.go": "package aee\n",
+            "aee/_scratch.go": "package aee\n",
+            "cmd/aee-verify/main.go": "package main\n",
+            "corpusreaders/r.go": "package corpusreaders\n",
+            "corpusreaders/r_internal_test.go": "package corpusreaders\n",
+            "corpusreaders/testdata/case.json": "{}\n",
+            "corpusreaders/testdata/helper.go": "package testdata\n",
+        }
+        for rel, body in files.items():
+            (root / rel).parent.mkdir(parents=True, exist_ok=True)
+            (root / rel).write_text(body, encoding="utf-8")
+
+    def digest(self, module, root: Path) -> str:
+        return module.w3cintake.source_listing(str(root), module.go_source(root))
+
+    def test_only_compiled_files_are_listed(self) -> None:
+        module = load_intake()
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            self.tree(root)
+            self.assertEqual(module.go_source(root), [
+                "aee/a.go", "cmd/aee-verify/main.go", "corpusreaders/r.go", "go.mod"])
+
+    def test_a_test_file_or_testdata_change_leaves_the_listing(self) -> None:
+        module = load_intake()
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            self.tree(root)
+            before = self.digest(module, root)
+            (root / "aee/a_test.go").write_text("package aee // changed\n", encoding="utf-8")
+            (root / "corpusreaders/new_test.go").write_text("package corpusreaders\n",
+                                                            encoding="utf-8")
+            (root / "corpusreaders/testdata/case.json").write_text("[]\n", encoding="utf-8")
+            self.assertEqual(self.digest(module, root), before)
+
+    def test_a_compiled_file_change_moves_the_listing(self) -> None:
+        module = load_intake()
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            self.tree(root)
+            before = self.digest(module, root)
+            (root / "corpusreaders/r.go").write_text("package corpusreaders // x\n",
+                                                     encoding="utf-8")
+            self.assertNotEqual(self.digest(module, root), before)
+            (root / "corpusreaders/added.go").write_text("package corpusreaders\n",
+                                                         encoding="utf-8")
+            self.assertIn("corpusreaders/added.go", module.go_source(root))
+
+    def test_the_committed_records_name_the_compiled_files(self) -> None:
+        module = load_intake()
+        record = json.loads((REPO / "release/intake/vectors.intake.json").read_text("utf-8"))
+        self.assertEqual(record["checker"]["revision"]["paths"], module.go_source())
+        self.assertEqual(record["checker"]["shared-verification-code"], module.go_source())
 
 
 if __name__ == "__main__":

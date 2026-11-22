@@ -28,7 +28,12 @@ from agent_evidence_vectors import identitybinding  # noqa: E402
 # Members whose DSSE signature verifies under the key the envelope names, and
 # which a verifier must still reject: the binding, not the signature, decides.
 SIGNED_REJECTS = {"subject-swap", "web-key-rotated-out", "wba-deactivated-before-signing",
-                  "wba-fingerprint-mismatch", "key-not-in-authentication"}
+                  "wba-fingerprint-mismatch", "key-not-in-authentication",
+                  "web-backdated-after-rotation", "wba-deactivated-after-signing",
+                  "web-signing-time-unproven", "web-forward-dated"}
+# Members a verifier that judges the key only at the signer-asserted signedAt accepts.
+SIGNED_AT_ONLY_ACCEPTS = {"web-backdated-after-rotation", "wba-deactivated-after-signing",
+                          "web-signing-time-unproven", "web-forward-dated"}
 
 
 def _stub(tmp_path: Path, skip: tuple[str, ...]) -> str:
@@ -102,6 +107,29 @@ class TestIdentityBindingCorpus:
             skip = tuple(c for c in identitybinding.CHECKS if c != "signature_invalid")
             _, errors = corpus.check(_stub(tmp_path, skip))
             assert SIGNED_REJECTS <= _failed(errors)
+
+        def test_a_verifier_trusting_the_signers_clock_is_refused(self, tmp_path: Path) -> None:
+            """A reader that judges the key only at signedAt admits a signature backdated to
+            before a rotation or a deactivation; the proven-time members refuse it."""
+            script = tmp_path / "signed_at_only.py"
+            script.write_text(
+                "import json, sys\n"
+                f"sys.path.insert(0, {str(ROOT.parents[1] / 'packaging')!r})\n"
+                "import run_vectors\n"
+                "from pathlib import Path\n"
+                "from agent_evidence_vectors import identitybinding as m\n"
+                "c = m._load(Path(sys.argv[1]))\n"
+                "c = m._Case(c.envelope, c.subject, c.signed_at, c.keyid, c.signer, c.resolution,"
+                " c.signed_at)\n"
+                "f = m._first_failure(c, frozenset())\n"
+                "a = {'decision': 'rejected', 'reason': f} if f else "
+                "{'decision': 'verified', 'reason': 'subject_bound'}\n"
+                "print(json.dumps(a))\n"
+                "sys.exit(m.EXIT_FOR[a['decision']])\n",
+                encoding="ascii",
+            )
+            _, errors = corpus.check(f"{sys.executable} {script}")
+            assert _failed(errors) == SIGNED_AT_ONLY_ACCEPTS
 
         @pytest.mark.parametrize("name", identitybinding.CHECKS)
         def test_every_check_is_forced_by_some_case(self, name: str) -> None:

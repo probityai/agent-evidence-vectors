@@ -1,0 +1,339 @@
+{
+ "ruleSet": "ijson",
+ "cases": [
+  {
+   "id": "plain-object",
+   "text": "{\"a\":1,\"b\":[true,false,null,\"x\"],\"c\":1.5}",
+   "expect": {
+    "verdict": "admit"
+   },
+   "rationale": "an object of the common value kinds; 1.5 is a fraction"
+  },
+  {
+   "id": "integers-only",
+   "text": "{\"count\":3,\"ids\":[1,2,3],\"nested\":{\"k\":\"v\"}}",
+   "expect": {
+    "verdict": "admit"
+   },
+   "rationale": "integers, strings and nesting within the bounds"
+  },
+  {
+   "id": "last-safe-integer",
+   "text": "{\"n\":9007199254740991}",
+   "expect": {
+    "verdict": "admit"
+   },
+   "rationale": "2^53 - 1 is the largest exact I-JSON integer"
+  },
+  {
+   "id": "neg-last-safe-integer",
+   "text": "{\"n\":-9007199254740991}",
+   "expect": {
+    "verdict": "admit"
+   },
+   "rationale": "-(2^53 - 1) is the smallest"
+  },
+  {
+   "id": "depth-64",
+   "text": "[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]",
+   "expect": {
+    "verdict": "admit"
+   },
+   "rationale": "64 levels of nesting is the bound itself"
+  },
+  {
+   "id": "duplicate-top",
+   "text": "{\"role\":\"user\",\"role\":\"admin\"}",
+   "expect": {
+    "verdict": "refuse",
+    "code": "duplicate-member"
+   },
+   "rationale": "a repeated member keeps its last value in most decoders"
+  },
+  {
+   "id": "duplicate-nested",
+   "text": "{\"a\":{\"b\":{\"c\":{\"role\":\"user\",\"role\":\"admin\"}}}}",
+   "expect": {
+    "verdict": "refuse",
+    "code": "duplicate-member"
+   },
+   "rationale": "a repeat three levels down"
+  },
+  {
+   "id": "duplicate-in-array",
+   "text": "{\"a\":[{\"x\":1,\"x\":2}]}",
+   "expect": {
+    "verdict": "refuse",
+    "code": "duplicate-member"
+   },
+   "rationale": "a repeat inside an array element"
+  },
+  {
+   "id": "duplicate-escaped",
+   "text": "{\"a\":1,\"\\u0061\":2}",
+   "expect": {
+    "verdict": "refuse",
+    "code": "duplicate-member"
+   },
+   "rationale": "the same name once escaped, once not"
+  },
+  {
+   "id": "case-variant",
+   "text": "{\"revoked\":false,\"Revoked\":true}",
+   "expect": {
+    "verdict": "refuse",
+    "code": "case-fold-collision"
+   },
+   "rationale": "a case-insensitive decoder reads Revoked as revoked"
+  },
+  {
+   "id": "dotless-i",
+   "text": "{\"admin\":false,\"adm\\u0131n\":true}",
+   "expect": {
+    "verdict": "refuse",
+    "code": "case-fold-collision"
+   },
+   "rationale": "U+0131 folds to i in locale-sensitive matchers"
+  },
+  {
+   "id": "dotted-capital-i",
+   "text": "{\"ID\":\"a\",\"\\u0130D\":\"b\"}",
+   "expect": {
+    "verdict": "refuse",
+    "code": "case-fold-collision"
+   },
+   "rationale": "U+0130 folds to i as well"
+  },
+  {
+   "id": "kelvin-sign",
+   "text": "{\"key\":1,\"\\u212aey\":2}",
+   "expect": {
+    "verdict": "refuse",
+    "code": "case-fold-collision"
+   },
+   "rationale": "U+212A folds to k"
+  },
+  {
+   "id": "lone-high-surrogate",
+   "text": "{\"a\":\"\\ud800\"}",
+   "expect": {
+    "verdict": "refuse",
+    "code": "lone-surrogate"
+   },
+   "rationale": "no UTF-8 text carries U+D800"
+  },
+  {
+   "id": "lone-low-surrogate-in-name",
+   "text": "{\"\\udc00\":1}",
+   "expect": {
+    "verdict": "refuse",
+    "code": "lone-surrogate"
+   },
+   "rationale": "a lone surrogate in a member name"
+  },
+  {
+   "id": "paired-surrogates",
+   "text": "{\"a\":\"\\ud83d\\ude00\"}",
+   "expect": {
+    "verdict": "admit"
+   },
+   "rationale": "a surrogate pair is one scalar value"
+  },
+  {
+   "id": "noncharacter",
+   "text": "{\"a\":\"\\uffff\"}",
+   "expect": {
+    "verdict": "refuse",
+    "code": "noncharacter"
+   },
+   "rationale": "RFC 7493 2.1 excludes noncharacters"
+  },
+  {
+   "id": "noncharacter-fdd0",
+   "text": "{\"a\":\"\\ufdd0\"}",
+   "expect": {
+    "verdict": "refuse",
+    "code": "noncharacter"
+   },
+   "rationale": "U+FDD0 is a noncharacter"
+  },
+  {
+   "id": "two-pow-53",
+   "text": "{\"n\":9007199254740992}",
+   "expect": {
+    "verdict": "refuse",
+    "code": "unsafe-integer"
+   },
+   "rationale": "2^53 is outside +-(2^53 - 1)"
+  },
+  {
+   "id": "two-pow-53-plus-one",
+   "text": "{\"n\":9007199254740993}",
+   "expect": {
+    "verdict": "refuse",
+    "code": "unsafe-integer"
+   },
+   "rationale": "2^53 + 1 rounds to 2^53 in a double"
+  },
+  {
+   "id": "u64-max",
+   "text": "{\"n\":18446744073709551615}",
+   "expect": {
+    "verdict": "refuse",
+    "code": "unsafe-integer"
+   },
+   "rationale": "a u64 reader takes it, a double reader rounds it"
+  },
+  {
+   "id": "fraction-past-2-53",
+   "text": "{\"n\":12345678901234567.5}",
+   "expect": {
+    "verdict": "refuse",
+    "code": "unsafe-integer"
+   },
+   "rationale": "a fraction whose double is the integer 12345678901234568, past 2^53"
+  },
+  {
+   "id": "exponent-overflow",
+   "text": "{\"n\":1e400}",
+   "expect": {
+    "verdict": "refuse",
+    "code": "value-not-representable"
+   },
+   "rationale": "1e400 has no finite double"
+  },
+  {
+   "id": "exponent-underflow",
+   "text": "{\"n\":1e-400}",
+   "expect": {
+    "verdict": "refuse",
+    "code": "value-not-representable"
+   },
+   "rationale": "1e-400 is not zero: a decimal reader keeps it, a double reader reads 0 and RFC 8785 writes 0"
+  },
+  {
+   "id": "precision-past-double",
+   "text": "{\"n\":3.141592653589793238462643383279}",
+   "expect": {
+    "verdict": "refuse",
+    "code": "value-not-representable"
+   },
+   "rationale": "RFC 7493 2.2's own example: more digits than a double holds; a decimal reader keeps them, a double reader rounds"
+  },
+  {
+   "id": "exact-double-expansion",
+   "text": "{\"n\":0.1000000000000000055511151231257827021181583404541015625}",
+   "expect": {
+    "verdict": "admit"
+   },
+   "rationale": "0.1's double written out exactly: the double holds the whole value, so the two readers agree"
+  },
+  {
+   "id": "nan",
+   "text": "{\"n\":NaN}",
+   "expect": {
+    "verdict": "refuse",
+    "code": "non-json-number"
+   },
+   "rationale": "NaN is not a JSON number"
+  },
+  {
+   "id": "neg-infinity",
+   "text": "{\"n\":-Infinity}",
+   "expect": {
+    "verdict": "refuse",
+    "code": "non-json-number"
+   },
+   "rationale": "-Infinity is not a JSON number"
+  },
+  {
+   "id": "long-token",
+   "text": "{\"n\":1111111111111111111111111111111111111111111111111111111111111111111111}",
+   "expect": {
+    "verdict": "refuse",
+    "code": "number-token-too-long"
+   },
+   "rationale": "a 70-digit integer token, refused before conversion"
+  },
+  {
+   "id": "negative-zero",
+   "text": "{\"n\":-0}",
+   "expect": {
+    "verdict": "refuse",
+    "code": "negative-zero"
+   },
+   "rationale": "RFC 8785 writes -0 as 0"
+  },
+  {
+   "id": "not-utf8",
+   "base64": "eyJhIjoiwygifQ==",
+   "expect": {
+    "verdict": "refuse",
+    "code": "not-utf8"
+   },
+   "rationale": "0xC3 0x28 is not UTF-8"
+  },
+  {
+   "id": "encoded-surrogate",
+   "base64": "eyJhIjoi7aCAIn0=",
+   "expect": {
+    "verdict": "refuse",
+    "code": "not-utf8"
+   },
+   "rationale": "a surrogate encoded in UTF-8 is not UTF-8"
+  },
+  {
+   "id": "byte-order-mark",
+   "base64": "77u/eyJhIjoxfQ==",
+   "expect": {
+    "verdict": "refuse",
+    "code": "not-utf8"
+   },
+   "rationale": "I-JSON text carries no byte-order mark"
+  },
+  {
+   "id": "too-deep",
+   "text": "[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]",
+   "expect": {
+    "verdict": "refuse",
+    "code": "nesting-too-deep"
+   },
+   "rationale": "65 levels of nesting"
+  },
+  {
+   "id": "trailing-comma",
+   "text": "{\"a\":1,}",
+   "expect": {
+    "verdict": "refuse",
+    "code": "not-parseable"
+   },
+   "rationale": "not JSON"
+  },
+  {
+   "id": "trailing-data",
+   "text": "{\"a\":1} {\"b\":2}",
+   "expect": {
+    "verdict": "refuse",
+    "code": "not-parseable"
+   },
+   "rationale": "two values"
+  },
+  {
+   "id": "negative-zero-fraction",
+   "text": "{\"n\":-0.0}",
+   "expect": {
+    "verdict": "refuse",
+    "code": "negative-zero"
+   },
+   "rationale": "-0.0 is negative zero too"
+  },
+  {
+   "id": "small-fraction",
+   "text": "{\"n\":0.000001}",
+   "expect": {
+    "verdict": "admit"
+   },
+   "rationale": "a fraction inside the range"
+  }
+ ]
+}

@@ -39,7 +39,7 @@ import os
 import re
 import sys
 from collections.abc import Callable
-from typing import Any
+from typing import Any, TypedDict
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, HERE)
@@ -768,6 +768,23 @@ def build_t5() -> Built:
             stmt, separators=(",", ":"), sort_keys=True, ensure_ascii=False
         ).encode()
     }
+
+
+def _max_age_unsafe(value: int) -> Callable[[], Built]:
+    """FR1 with key-source's maxAge outside the I-JSON range. RFC 8785 cannot
+    serialize it, so the bytes are written with sorted keys by hand, as T5's."""
+
+    def build() -> Built:
+        pred = from_pred("FR1")
+        pred["evaluation"]["inputs"][KEY_ENTRY]["maxAge"] = value
+        stmt = statement(pred)
+        return {
+            "payload": json.dumps(
+                stmt, separators=(",", ":"), sort_keys=True, ensure_ascii=False
+            ).encode()
+        }
+
+    return build
 
 
 def depth(node: Any) -> int:
@@ -1642,7 +1659,9 @@ def define_freshness() -> None:
             "fr9-last-result-after-the-decision",
             "FR1",
             "an entry whose lastResult is later than decision.reportedAt by 301 seconds, more "
-            "than the skew tolerance",
+            "than the skew tolerance: the future bound takes the skew tolerance only, never the "
+            "entry's maxAge, so a reading that bounds the absolute age by maxAge admits it "
+            "(301 <= 3600)",
             mutate(
                 "FR1",
                 _entry_change(KEY_ENTRY, lambda e: e.update(lastResult="2026-09-19T11:09:03Z")),
@@ -1756,6 +1775,50 @@ def define_freshness() -> None:
         tier="authoritative",
         section="5.4",
     )
+    for draft_id, slug, value, why in (
+        (
+            "FR19",
+            "fr19-max-age-two-to-the-64-minus-one",
+            2**64 - 1,
+            "18446744073709551615, outside the I-JSON range of RFC 7493 Section 2.2: a reader "
+            "on doubles rounds it and a reader on unsigned 64-bit integers takes it whole",
+        ),
+        (
+            "FR20",
+            "fr20-max-age-two-to-the-53-plus-one",
+            2**53 + 1,
+            "9007199254740993, which a double rounds to 9007199254740992, so two readers of "
+            "one record judge two different maxAge values",
+        ),
+        (
+            "FR20a",
+            "fr20a-max-age-two-to-the-53",
+            2**53,
+            "9007199254740992, the first integer outside the I-JSON range: magnitude at or above "
+            "2^53 is refused, not only magnitude above it",
+        ),
+    ):
+        member(
+            draft_id,
+            slug,
+            "FR1",
+            f"FR1 with key-source's maxAge of {why}",
+            _max_age_unsafe(value),
+            "malformed",
+            ["unsafe-integer"],
+            section="5.4",
+        )
+    member(
+        "FR20b",
+        "fr20b-max-age-last-safe-integer",
+        "FR1",
+        "FR1 with key-source's maxAge of 9007199254740991, the last integer inside the I-JSON "
+        "range: fresh, so a reader that refuses before 2^53 is caught",
+        mutate("FR1", _entry_change(KEY_ENTRY, lambda e: e.update(maxAge=2**53 - 1))),
+        "valid",
+        tier="authoritative",
+        section="5.4",
+    )
     member(
         "FR17a",
         "fr17a-first-hop-two-hour-max-age-fresh",
@@ -1823,7 +1886,14 @@ def define_freshness() -> None:
 #: Value A is 30 seconds old under 60 and expires at 11:04:32; value B is 3600
 #: seconds old under 7200 and expires at 12:04:02. Both are fresh.
 FR14_REPORTED_AT = "2026-09-19T11:04:02Z"
-FR14_VALUES = [
+
+
+class HeldValue(TypedDict):
+    lastResult: str
+    maxAge: int
+
+
+FR14_VALUES: list[HeldValue] = [
     {"lastResult": "2026-09-19T11:03:32Z", "maxAge": 60},
     {"lastResult": "2026-09-19T10:04:02Z", "maxAge": 2 * HOUR},
 ]
@@ -4482,6 +4552,30 @@ def _r16(entry_: dict[str, Any], logged: bytes) -> None:
     entry_["anchors"] = [ots_anchor("r16", logged, 880015, "2026-09-19T11:30:00Z", prefix=tree)]
 
 
+def _received_at(stamp: str) -> Callable[[dict[str, Any], bytes], None]:
+    return _set_entry("receivedAt", stamp)
+
+
+def _r23(entry_: dict[str, Any], logged: bytes) -> None:
+    """The block time exactly anchorWithin plus 7200 seconds after receivedAt."""
+    entry_["anchors"][1] = ots_anchor("r23", logged, 880025, "2026-09-19T13:09:30Z")
+
+
+def _r24(entry_: dict[str, Any], logged: bytes) -> None:
+    """R23's block time one second later."""
+    entry_["anchors"][1] = ots_anchor("r24", logged, 880026, "2026-09-19T13:09:31Z")
+
+
+def _r21(entry_: dict[str, Any], logged: bytes) -> None:
+    """The first anchor exactly anchorWithin plus the skew tolerance after issuedAt."""
+    entry_["anchors"] = [log_anchor("r21", "retainer", "2026-09-19T11:14:11Z", 4, 3, logged)]
+
+
+def _r22(entry_: dict[str, Any], logged: bytes) -> None:
+    """The block time exactly 7200 seconds earlier than receivedAt."""
+    entry_["anchors"][1] = ots_anchor("r22", logged, 880001, "2026-09-19T09:04:30Z")
+
+
 def _r13(entry_: dict[str, Any], logged: bytes) -> None:
     entry_["anchors"] = [log_anchor("r13", "retainer", "2026-09-19T11:05:00Z", 3, 1, logged)]
     entry_["validationData"].append(root_element(ROOT_JWKS))
@@ -5003,6 +5097,81 @@ def define_retained() -> None:
             tier="authoritative",
             dating=expected_dating,
         )
+    # Each dating bound gets its own pair: the instant exactly on the bound is
+    # well-formed and one second past it is malformed. R3, R6, R7 and R11 hold
+    # the second of each pair; R19 to R22 hold the first, and R23 and R24 are the
+    # pair for the late bound under the 7200 seconds an opentimestamps time
+    # allows, so a reader that applies that allowance to receivedAt alone, or
+    # cuts the late bound back to the skew tolerance, is caught.
+    asserted = "asserted-consistent"
+    bounds: list[tuple[str, str, str, str, Callable[[], Built], dict[str, Any]]] = [
+        (
+            "R23",
+            "r23-opentimestamps-late-bound-exact",
+            "R10",
+            "the retaining party's opentimestamps block time exactly anchorWithin plus 7200 "
+            "seconds after receivedAt: the allowance an opentimestamps time takes applies to the "
+            "late bound too, so the entry is well-formed",
+            retained("R23", _r23, "R10"),
+            dating(dated_at="2026-09-19T11:04:20Z", receipt=asserted),
+        ),
+        (
+            "R24",
+            "r24-opentimestamps-late-bound-one-second-past",
+            "R23",
+            "the block time one second later than R23's, past anchorWithin plus the 7200 seconds",
+            retained("R24", _r24, "R23"),
+            dating(dated_at="2026-09-19T11:04:20Z", entry_="malformed", code="entry-anchor-late"),
+        ),
+        (
+            "R19",
+            "r19-received-at-skew-after-the-retainer-anchor",
+            "R2",
+            "receivedAt later than the retaining party's earliest anchor by exactly 300 seconds, "
+            "the skew tolerance: well-formed, the pair of R3",
+            retained("R19", _received_at("2026-09-19T11:09:40Z"), "R2"),
+            dating(dated_at="2026-09-19T11:04:20Z", receipt=asserted),
+        ),
+        (
+            "R20",
+            "r20-received-at-skew-before-issued",
+            "R2",
+            "receivedAt earlier than issuedAt by exactly 300 seconds, the skew tolerance: "
+            "well-formed, the pair of R6",
+            retained("R20", _received_at("2026-09-19T10:59:11Z"), "R2"),
+            dating(dated_at="2026-09-19T11:04:20Z", receipt=asserted),
+        ),
+        (
+            "R21",
+            "r21-retainer-anchor-on-the-late-bound",
+            "R1",
+            "the retaining party's first anchor exactly 600 seconds after issuedAt, anchorWithin "
+            "plus the skew tolerance: well-formed, the pair of R7",
+            retained("R21", _r21, "R1"),
+            dating(dated_at="2026-09-19T11:14:11Z"),
+        ),
+        (
+            "R22",
+            "r22-opentimestamps-header-exactly-7200-early",
+            "R10",
+            "the block header time earlier than receivedAt by exactly 7200 seconds: well-formed, "
+            "the pair of R11",
+            retained("R22", _r22, "R10"),
+            dating(dated_at="2026-09-19T09:04:30Z", receipt=asserted),
+        ),
+    ]
+    for draft_id, slug, parent, row, build, expected_dating in bounds:
+        member(
+            draft_id,
+            slug,
+            parent,
+            row,
+            build,
+            "valid",
+            tier="authoritative",
+            dating=expected_dating,
+            section="4.7.1",
+        )
 
 
 #: Appendix B's order, then the members for rules it carries no row for. A
@@ -5014,14 +5183,14 @@ ORDER = (
     "FR1 FR2 FR3 FR4 FR5 FR6 FR7 FR8 FR9 FR10 FR11 FR12 FR13 "
     "EV1 EV2 EV3 EV4 EV5 EV6 EV7 EV8 EV9 EV10 EV11 EV12 EV13 OV1 OV2 OV3 N1 N2 "
     "R1 R2 R3 R4 R5 R6 R7 R8 R9 "
-    "FR13b FR16 FR17a FR17b FR17c FR18 EV14 "
+    "FR13b FR16 FR17a FR17b FR17c FR18 FR19 FR20 FR20a FR20b EV14 "
     "TI6 V4 V5 FR14 FR15 "
     "CS1 CS2 CS3 CS4 CS5 CS6 CS7 CS8 CS9 CS10 CS11 CS12 CS13 CS14 CS15 CS16 CS17 "
     "CS18 CS19 CS20 CS21 CS22 CS23 CS24 CS25 "
     "CS26 CS27 CS28 CS29 CS30 CS31 CS32 CS33 CS34 CS35 CS36 CS37 CS38 CS39 CS40 "
     "CS41 CS42 CS43 CS44 CS45 CS46 CS47 CS48 CS49 CS50 CS51 CS52 CS53 CS54 "
     "A21 SQ1 SQ2 SQ3 SQ4 SQ5 "
-    "R10 R11 R12 R13 R14 R15 R16 "
+    "R10 R11 R12 R13 R14 R15 R16 R19 R20 R21 R22 R23 R24 "
     "IS1 IS2 PS1 PS2 PS1b PS3 PS4 PS5 "
     "PR1 PR2 PR3 PR4 PR5 PR6 PR7 PR8 PR9 PR10 PR11 "
     "DS1 DS2 DS3 DS4 DS5 DS6 DS7 DS8 DS9 DS10 "
@@ -5086,6 +5255,8 @@ def has_section(lines: list[str], section: str) -> bool:
 #: the row: the revision whose section the member's draftSection names.
 SECTION_REVISION: dict[str, str] = {
     **{d: "00" for d in ("FR13b", "FR16", "FR17a", "FR17b", "FR17c", "FR18", "EV14")},
+    **{d: "00" for d in ("FR19", "FR20", "FR20a", "FR20b", "R19", "R20", "R21")},
+    **{d: "01" for d in ("R22", "R23", "R24")},
     "PS1b": "03",
     **{d: "03" for d in ("X2", "X3", "X8", "X9", "X10", "X11", "X12", "X13", "X14")},
     **{d: "03" for d in ("X15", "X16")},

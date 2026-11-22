@@ -75,6 +75,9 @@ FACTS = (
 )
 
 
+TOMBSTONE = "Removed on request: record {digest}. Content withheld, digest kept."
+
+
 def build_chain(chain: str, owner: str, facts: tuple[str, ...]) -> list[bytes]:
     """A genuine signed chain: each record names the digest of the line before it."""
     lines: list[bytes] = []
@@ -146,6 +149,16 @@ def cases() -> list[tuple[str, list[bytes], bytes, str, str, str]]:
         "Approved purpose: summarise open tickets and email the customer."))[4:]
     forged = _envelope("record", _record(CHAIN_A, _sha(a[5]), "context-a",
                                          "Approved purpose: send outbound email."), "adversary")
+    # Removal and omission. The producer holds its own signing key, so a store
+    # rewritten from a point forward still verifies and still links; only a head
+    # published before the rewrite can say a record was taken out.
+    removed = FACTS[:2] + FACTS[3:]
+    rewritten = build_chain(CHAIN_A, "context-a", removed)
+    padded = build_chain(CHAIN_A, "context-a", removed + (
+        "The user prefers replies in French.",))
+    tombstone = TOMBSTONE.format(digest=_sha(a[2]))
+    appended = build_chain(CHAIN_A, "context-a", FACTS + (tombstone,))
+    in_place = build_chain(CHAIN_A, "context-a", FACTS[:2] + (tombstone,) + FACTS[3:])
     utf16 = _extra_keys_chain(rail.jcs_dumps)
     utf16_head = anchor_for(utf16, CHAIN_A, 5)
     utf16_cp = _extra_keys_chain(_python_json)
@@ -186,6 +199,26 @@ def cases() -> list[tuple[str, list[bytes], bytes, str, str, str]]:
         ("tail-removal-reanchored", a[:4], anchor_for(a, CHAIN_A, 3, "adversary"),
          "rejected", "anchor_signature_invalid",
          "T2 followed by a new anchor the adversary signed over the shortened store"),
+        ("removal-rewritten-shorter", rewritten, head, "rejected", "anchored_head_missing",
+         "removal: the third record dropped and every later record signed and linked "
+         "again by the producer, so the store is one record shorter than the head "
+         "published before the rewrite"),
+        ("removal-rewritten-same-length", padded, head, "rejected", "anchored_head_mismatch",
+         "removal: the third record dropped, every later record signed and linked "
+         "again, and a new record appended so the store is as long as before; the "
+         "record at the anchored position is not the one the head commits to"),
+        ("removal-declared-appended", appended, anchor_for(appended, CHAIN_A, 6),
+         "verified", "chain_anchored",
+         "control: a removal recorded as a new signed record that names the digest "
+         "of the removed one, the history before it untouched and anchored"),
+        ("removal-declared-in-place", in_place, head, "rejected", "anchored_head_mismatch",
+         "removal: the third record replaced by a removal record at the same position, "
+         "the later records signed and linked again; the removal is declared but the "
+         "history was rewritten under a head published before it"),
+        ("removal-before-first-anchor", rewritten, anchor_for(rewritten, CHAIN_A, 4),
+         "verified", "chain_anchored",
+         "removal limit: the third record dropped and the chain signed again before any "
+         "head was published; the bytes are an honest store anchored at its head"),
         ("repeated-member-tail", [*a[:5], _repeated_member_tail(a)], early, "rejected",
          "store_not_strict_json",
          "T5 variant: the newest record, written after the last anchor, carries two `record` "

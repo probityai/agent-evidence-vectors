@@ -21,6 +21,18 @@
       {
         "header": "00000020176f245c72246041094d45f6a9fe368b8c598243a1ffa64ab2eca108510c0743dd096785a6a04061cd96f0e62dbb1089141633b1907cba322ce83fac3fbb48ab3872ae6affff001d8f6d0d00",
         "height": 880015
+      },
+      {
+        "header": "0000002038b27326fe605b8d12706331b51d09b93db46cfde0482aa4718dac24426b09e12e4ee7b01e2dacf91f26f890e3e0899aea212e41570058cdf48c8a436b8db9201e50ae6affff001d816d0d00",
+        "height": 880001
+      },
+      {
+        "header": "000000201e92dd233765f3f8d5699b6fb5ae9dc47c7796092cd825f10b12bf4ab0d9f779810cf9b4f05d9630f7a4f7e49b2b403a5c936fb7c246c82e9b6b7012e11f8c918a89ae6affff001d996d0d00",
+        "height": 880025
+      },
+      {
+        "header": "000000200dfc1c266381e0e5d0a99aaf9e96f052f05a3ff5756e7cb4653805ee9aea512727f318972f89b91b311d37cf645303395d61b2e188557b4bcf87d73494f3a7aa8b89ae6affff001d9a6d0d00",
+        "height": 880026
       }
     ],
     "note": "The tree heads of the test transparency log every R member's anchors are in, as a verifier holds them by a means other than a signature: a checkpoint it already witnessed. A transparency-log anchor validates as a hash commitment when its proof, an RFC 9162 TransItem of type inclusion_proof_v2 over the leaf SHA-256(0x00 || envelopeDigest), recomputes to one of these for its logId and treeSize; its time is that head's timestamp.",
@@ -72,14 +84,20 @@
         "rootHash": "57c371673f17c02746c5dff0135211b2172fa42f137a5e8bad276a230f1f97e4",
         "timestamp": "2026-09-19T11:05:00Z",
         "treeSize": 3
+      },
+      {
+        "logId": "2b0601040181fd590101",
+        "rootHash": "20e56f9de66020d9cd72165462328e78253ea3bfc19d34fbc2b27cd5c3c7380b",
+        "timestamp": "2026-09-19T11:14:11Z",
+        "treeSize": 4
       }
     ]
   },
-  "corpusDigest": "4e23b2657679aab1484add84ef82e6e5c2a8d681a8d93e4fe11981206efb767f",
+  "corpusDigest": "bb94f0aba314bcc901872a8fe81f2f00266bf631572d3c66601e679e08697621",
   "counts": {
-    "accept": 98,
+    "accept": 105,
     "indeterminate": 2,
-    "reject": 125
+    "reject": 128
   },
   "draft": "draft-gilda-audit-agent-audit-record-04",
   "emptyTree": {
@@ -132,7 +150,7 @@
   "suite": "agent-audit-record-conformance",
   "textCounts": {
     "proposed": 0,
-    "published": 225
+    "published": 235
   },
   "vectors": [
     {
@@ -1216,7 +1234,7 @@
       "kind": "reject",
       "parent": "vc500431013be1967",
       "parentDraftId": "FR1",
-      "row": "an entry whose lastResult is later than decision.reportedAt by 301 seconds, more than the skew tolerance",
+      "row": "an entry whose lastResult is later than decision.reportedAt by 301 seconds, more than the skew tolerance: the future bound takes the skew tolerance only, never the entry's maxAge, so a reading that bounds the absolute age by maxAge admits it (301 <= 3600)",
       "slug": "fr9-last-result-after-the-decision"
     },
     {
@@ -1918,6 +1936,77 @@
       "kind": "accept",
       "row": "FR1 with key-source's lastResult 300 seconds after decision.reportedAt, exactly the skew tolerance: not malformed, and an age below zero is at most maxAge, so fresh",
       "slug": "fr18-last-result-inside-skew-tolerance"
+    },
+    {
+      "draftId": "FR19",
+      "draftRevision": "draft-gilda-audit-agent-audit-record-00",
+      "draftSection": "5.4",
+      "expected": {
+        "codes": [
+          "unsafe-integer"
+        ],
+        "verdict": "malformed"
+      },
+      "file": "statements/v96df9711ef367c58.json",
+      "id": "v96df9711ef367c58",
+      "kind": "reject",
+      "parent": "vc500431013be1967",
+      "parentDraftId": "FR1",
+      "row": "FR1 with key-source's maxAge of 18446744073709551615, outside the I-JSON range of RFC 7493 Section 2.2: a reader on doubles rounds it and a reader on unsigned 64-bit integers takes it whole",
+      "slug": "fr19-max-age-two-to-the-64-minus-one"
+    },
+    {
+      "draftId": "FR20",
+      "draftRevision": "draft-gilda-audit-agent-audit-record-00",
+      "draftSection": "5.4",
+      "expected": {
+        "codes": [
+          "unsafe-integer"
+        ],
+        "verdict": "malformed"
+      },
+      "file": "statements/v5b6234a918869d9b.json",
+      "id": "v5b6234a918869d9b",
+      "kind": "reject",
+      "parent": "vc500431013be1967",
+      "parentDraftId": "FR1",
+      "row": "FR1 with key-source's maxAge of 9007199254740993, which a double rounds to 9007199254740992, so two readers of one record judge two different maxAge values",
+      "slug": "fr20-max-age-two-to-the-53-plus-one"
+    },
+    {
+      "draftId": "FR20a",
+      "draftRevision": "draft-gilda-audit-agent-audit-record-00",
+      "draftSection": "5.4",
+      "expected": {
+        "codes": [
+          "unsafe-integer"
+        ],
+        "verdict": "malformed"
+      },
+      "file": "statements/v2c69755fbfb0dade.json",
+      "id": "v2c69755fbfb0dade",
+      "kind": "reject",
+      "parent": "vc500431013be1967",
+      "parentDraftId": "FR1",
+      "row": "FR1 with key-source's maxAge of 9007199254740992, the first integer outside the I-JSON range: magnitude at or above 2^53 is refused, not only magnitude above it",
+      "slug": "fr20a-max-age-two-to-the-53"
+    },
+    {
+      "draftId": "FR20b",
+      "draftRevision": "draft-gilda-audit-agent-audit-record-00",
+      "draftSection": "5.4",
+      "expected": {
+        "codes": [],
+        "derivedTier": "authoritative",
+        "verdict": "valid"
+      },
+      "file": "statements/vc7fdb058600a29a2.json",
+      "id": "vc7fdb058600a29a2",
+      "kind": "accept",
+      "parent": "vc500431013be1967",
+      "parentDraftId": "FR1",
+      "row": "FR1 with key-source's maxAge of 9007199254740991, the last integer inside the I-JSON range: fresh, so a reader that refuses before 2^53 is caught",
+      "slug": "fr20b-max-age-last-safe-integer"
     },
     {
       "draftId": "EV14",
@@ -3396,6 +3485,162 @@
       "parentDraftId": "R1",
       "row": "the only anchor an opentimestamps proof whose path runs from envelopeDigest through a Merkle tree the retaining party built and a Bitcoin transaction carrying its root to the block header",
       "slug": "r16-opentimestamps-through-own-tree"
+    },
+    {
+      "draftId": "R19",
+      "draftRevision": "draft-gilda-audit-agent-audit-record-00",
+      "draftSection": "4.7.1",
+      "expected": {
+        "codes": [],
+        "dating": {
+          "codes": [],
+          "datedAt": "2026-09-19T11:04:20Z",
+          "delegationRoot": {
+            "result": "not-established"
+          },
+          "entry": "well-formed",
+          "receipt": "asserted-consistent"
+        },
+        "derivedTier": "authoritative",
+        "verdict": "valid"
+      },
+      "file": "retained/v36eedf95c00a5d64.json",
+      "id": "v36eedf95c00a5d64",
+      "kind": "accept",
+      "parent": "v90581da25d334bc5",
+      "parentDraftId": "R2",
+      "row": "receivedAt later than the retaining party's earliest anchor by exactly 300 seconds, the skew tolerance: well-formed, the pair of R3",
+      "slug": "r19-received-at-skew-after-the-retainer-anchor"
+    },
+    {
+      "draftId": "R20",
+      "draftRevision": "draft-gilda-audit-agent-audit-record-00",
+      "draftSection": "4.7.1",
+      "expected": {
+        "codes": [],
+        "dating": {
+          "codes": [],
+          "datedAt": "2026-09-19T11:04:20Z",
+          "delegationRoot": {
+            "result": "not-established"
+          },
+          "entry": "well-formed",
+          "receipt": "asserted-consistent"
+        },
+        "derivedTier": "authoritative",
+        "verdict": "valid"
+      },
+      "file": "retained/v57a8d487026919d7.json",
+      "id": "v57a8d487026919d7",
+      "kind": "accept",
+      "parent": "v90581da25d334bc5",
+      "parentDraftId": "R2",
+      "row": "receivedAt earlier than issuedAt by exactly 300 seconds, the skew tolerance: well-formed, the pair of R6",
+      "slug": "r20-received-at-skew-before-issued"
+    },
+    {
+      "draftId": "R21",
+      "draftRevision": "draft-gilda-audit-agent-audit-record-00",
+      "draftSection": "4.7.1",
+      "expected": {
+        "codes": [],
+        "dating": {
+          "codes": [],
+          "datedAt": "2026-09-19T11:14:11Z",
+          "delegationRoot": {
+            "result": "not-established"
+          },
+          "entry": "well-formed"
+        },
+        "derivedTier": "authoritative",
+        "verdict": "valid"
+      },
+      "file": "retained/v552ab4762cf4b682.json",
+      "id": "v552ab4762cf4b682",
+      "kind": "accept",
+      "parent": "vcca72e0d016c5db3",
+      "parentDraftId": "R1",
+      "row": "the retaining party's first anchor exactly 600 seconds after issuedAt, anchorWithin plus the skew tolerance: well-formed, the pair of R7",
+      "slug": "r21-retainer-anchor-on-the-late-bound"
+    },
+    {
+      "draftId": "R22",
+      "draftRevision": "draft-gilda-audit-agent-audit-record-01",
+      "draftSection": "4.7.1",
+      "expected": {
+        "codes": [],
+        "dating": {
+          "codes": [],
+          "datedAt": "2026-09-19T09:04:30Z",
+          "delegationRoot": {
+            "result": "not-established"
+          },
+          "entry": "well-formed",
+          "receipt": "asserted-consistent"
+        },
+        "derivedTier": "authoritative",
+        "verdict": "valid"
+      },
+      "file": "retained/vdbd0cbfedd24a8f7.json",
+      "id": "vdbd0cbfedd24a8f7",
+      "kind": "accept",
+      "parent": "ve38383b5fa8cfbe2",
+      "parentDraftId": "R10",
+      "row": "the block header time earlier than receivedAt by exactly 7200 seconds: well-formed, the pair of R11",
+      "slug": "r22-opentimestamps-header-exactly-7200-early"
+    },
+    {
+      "draftId": "R23",
+      "draftRevision": "draft-gilda-audit-agent-audit-record-01",
+      "draftSection": "4.7.1",
+      "expected": {
+        "codes": [],
+        "dating": {
+          "codes": [],
+          "datedAt": "2026-09-19T11:04:20Z",
+          "delegationRoot": {
+            "result": "not-established"
+          },
+          "entry": "well-formed",
+          "receipt": "asserted-consistent"
+        },
+        "derivedTier": "authoritative",
+        "verdict": "valid"
+      },
+      "file": "retained/v36a6408036bd15f4.json",
+      "id": "v36a6408036bd15f4",
+      "kind": "accept",
+      "parent": "ve38383b5fa8cfbe2",
+      "parentDraftId": "R10",
+      "row": "the retaining party's opentimestamps block time exactly anchorWithin plus 7200 seconds after receivedAt: the allowance an opentimestamps time takes applies to the late bound too, so the entry is well-formed",
+      "slug": "r23-opentimestamps-late-bound-exact"
+    },
+    {
+      "draftId": "R24",
+      "draftRevision": "draft-gilda-audit-agent-audit-record-01",
+      "draftSection": "4.7.1",
+      "expected": {
+        "codes": [],
+        "dating": {
+          "codes": [
+            "entry-anchor-late"
+          ],
+          "datedAt": "2026-09-19T11:04:20Z",
+          "delegationRoot": {
+            "result": "not-established"
+          },
+          "entry": "malformed"
+        },
+        "derivedTier": "authoritative",
+        "verdict": "valid"
+      },
+      "file": "retained/v23e66be3a23024bb.json",
+      "id": "v23e66be3a23024bb",
+      "kind": "accept",
+      "parent": "v36a6408036bd15f4",
+      "parentDraftId": "R23",
+      "row": "the block time one second later than R23's, past anchorWithin plus the 7200 seconds",
+      "slug": "r24-opentimestamps-late-bound-one-second-past"
     },
     {
       "draftId": "IS1",

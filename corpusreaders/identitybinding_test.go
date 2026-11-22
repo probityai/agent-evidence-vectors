@@ -56,8 +56,8 @@ func TestIdentityBindingEachCheckMovesTheVerdict(t *testing.T) {
 	}{
 		{"web-verified", "envelope.json", "payload-altered", "derived rejected/signature_invalid"},
 		{"web-verified", "envelope.json", "key-not-in-authentication", "derived rejected/key_not_authorized"},
-		{"web-signed-before-rotation", "envelope.json", "web-key-rotated-out", "derived rejected/key_rotated_out"},
-		{"web-key-rotated-out", "envelope.json", "web-signed-before-rotation", "derived verified/subject_bound"},
+		// A July signature against a record proven in April claims a time after its own proof.
+		{"web-signed-before-rotation", "envelope.json", "web-key-rotated-out", "derived rejected/signing_time_unproven"},
 		{"wba-verified", "did-alice.json", "wba-deactivated-before-signing", "derived rejected/key_rotated_out"},
 		{"wba-verified", "did-alice.json", "wba-fingerprint-mismatch", "derived rejected/binding_fingerprint_mismatch"},
 		{"wba-fingerprint-mismatch", "did-alice.json", "wba-verified", "derived rejected/signature_invalid"},
@@ -65,6 +65,10 @@ func TestIdentityBindingEachCheckMovesTheVerdict(t *testing.T) {
 		{"wba-verified", "envelope.json", "did-malformed", "derived rejected/did_malformed"},
 		{"web-verified", "envelope.json", "subject-swap", "derived rejected/signer_not_subject"},
 		{"payload-altered", "envelope.json", "web-verified", "the signature verifies: true"},
+		{"web-backdated-after-rotation", "case.json", "web-signed-before-rotation", "derived verified/subject_bound"},
+		{"web-signed-before-rotation", "case.json", "web-backdated-after-rotation", "derived rejected/key_rotated_out"},
+		{"web-verified", "case.json", "web-signing-time-unproven", "derived rejected/signing_time_unproven"},
+		{"web-forward-dated", "envelope.json", "web-verified", "derived verified/subject_bound"},
 	}
 	for _, tc := range cases {
 		t.Run(tc.member+" with "+tc.file+" of "+tc.from, func(t *testing.T) {
