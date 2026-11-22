@@ -13,9 +13,9 @@ a case added bumps the revision, and the generator rewrites the cases byte-ident
   true, in both readers. A refused call did not run, so the receipt names only calls that ran.
 - Cases added: `allow-refusal-registry-code-<family>` for each of the 14 registry families
   (approval, authority, delegation, gateway, governance, grants, identity, journal, key, marker,
-  mesh, possession, revocation, singleuse), `reject-refusal-unknown-code`,
-  `reject-refusal-code-kebab`, `reject-refusal-code-carries-detail` and
-  `reject-blast-radius-counts-refused-tool-call` (the receipt that revision 3 allowed).
+  mesh, possession, revocation, singleuse), `reject-closed-vocabulary-violation-refusal-code-unknown`,
+  `reject-closed-vocabulary-violation-refusal-code-kebab`, `reject-closed-vocabulary-violation-refusal-code-detail` and
+  `reject-blast-radius-overstated-counts-refused-tool-call` (the receipt that revision 3 allowed).
 - Cases changed: `allow-isolated-agents-tool-call-refused`: its receipt counted the refused call
   (`toolCalls` 1) and now counts none (`toolCalls` 0). Its journal keeps its bytes. Every other
   revision 3 case keeps its bytes and its verdict.

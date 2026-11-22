@@ -613,19 +613,19 @@ def _registry_cases() -> list[Case]:
                                                          componentProfileDigest=PROFILE)
     counted = receipt(refused, reached={"toolCalls": 1})
     out += [
-        ("reject-refusal-unknown-code",
+        ("reject-closed-vocabulary-violation-refusal-code-unknown",
          Journal(channelsClosed=True).refuse("agent-a", "agent-b", "not_a_registered_code")
          .build("unknown-code"), None, "deny", "closed_vocabulary_violation",
          "the refusal names a code the registry does not hold"),
-        ("reject-refusal-code-kebab",
+        ("reject-closed-vocabulary-violation-refusal-code-kebab",
          Journal(channelsClosed=True).refuse("agent-a", "agent-b", "budget-exhausted")
          .build("kebab-code"), None, "deny", "closed_vocabulary_violation",
          "the refusal spells a registered code in kebab form, which is not the code"),
-        ("reject-refusal-code-carries-detail",
+        ("reject-closed-vocabulary-violation-refusal-code-detail",
          Journal(channelsClosed=True).refuse("agent-a", "agent-b", "permit_revoked:link-2")
          .build("detail-code"), None, "deny", "closed_vocabulary_violation",
          "the refusal carries a detail after the code, and a published record names the code alone"),
-        ("reject-blast-radius-counts-refused-tool-call", refused, counted, "deny",
+        ("reject-blast-radius-overstated-counts-refused-tool-call", refused, counted, "deny",
          "blast_radius_overstated", "the receipt counts agent-c's refused tool call, which "
          "reached nothing"),
     ]

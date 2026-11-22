@@ -1,6 +1,6 @@
 {
   "contractId": "https://probityai.github.io/agent-evidence-vectors/predicate/v1/containment-journal",
-  "corpusDigest": "2527c45825e9a04a674204d559d61d4095a29a483bac697d1e2c94cb83081f02",
+  "corpusDigest": "48460f214e080cd5133857c5943e24e28a3a3c960e5383a5e5795e5f1a596c8a",
   "counts": {
     "allow": 30,
     "deny": 50
@@ -1610,8 +1610,8 @@
       "files": {
         "record.json": "7777ba88d93fa9b3d3322af13dcf8d75958ee5de6f442b0e6285a22259fa8ecb"
       },
-      "id": "reject-refusal-unknown-code",
-      "path": "cases/reject-refusal-unknown-code",
+      "id": "reject-closed-vocabulary-violation-refusal-code-unknown",
+      "path": "cases/reject-closed-vocabulary-violation-refusal-code-unknown",
       "retained": {
         "enforcement": "enforced",
         "entries": 2,
@@ -1630,8 +1630,8 @@
       "files": {
         "record.json": "28888a1b821c5019e45dbac114d3e03610968af89900ac1f9d4d9dc27536ede5"
       },
-      "id": "reject-refusal-code-kebab",
-      "path": "cases/reject-refusal-code-kebab",
+      "id": "reject-closed-vocabulary-violation-refusal-code-kebab",
+      "path": "cases/reject-closed-vocabulary-violation-refusal-code-kebab",
       "retained": {
         "enforcement": "enforced",
         "entries": 2,
@@ -1650,8 +1650,8 @@
       "files": {
         "record.json": "80fd48b3c78045c1a82373732794fb898021dd3352cdcd3748406459ddfc0892"
       },
-      "id": "reject-refusal-code-carries-detail",
-      "path": "cases/reject-refusal-code-carries-detail",
+      "id": "reject-closed-vocabulary-violation-refusal-code-detail",
+      "path": "cases/reject-closed-vocabulary-violation-refusal-code-detail",
       "retained": {
         "enforcement": "enforced",
         "entries": 2,
@@ -1671,8 +1671,8 @@
         "receipt.json": "302e41dea03ddfbc7c14ed7a1e305c292789ab16b067cb7c4d8a33599edcb489",
         "record.json": "ebb1fc9d9120e8aa60c30de0260389f521185e4a035d1860214a71dc950520ba"
       },
-      "id": "reject-blast-radius-counts-refused-tool-call",
-      "path": "cases/reject-blast-radius-counts-refused-tool-call",
+      "id": "reject-blast-radius-overstated-counts-refused-tool-call",
+      "path": "cases/reject-blast-radius-overstated-counts-refused-tool-call",
       "retained": {
         "enforcement": "enforced",
         "entries": 5,
