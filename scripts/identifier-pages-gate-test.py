@@ -113,12 +113,15 @@ def main() -> int:
     with tempfile.TemporaryDirectory(dir=ROOT.parent) as tmp:
         repo = stage(Path(tmp))
         (repo / "docs" / "planted-schema.md").write_text(
-            f"A record names {HOST}/schema/ghost-schema/v1 and no schema backs it.\n", encoding="utf-8"
+            f"A record names {HOST}/schema/ghost-schema/v1 and no schema backs it.\n",
+            encoding="utf-8",
         )
         commit_all(repo)
         code, out = gate(repo)
         if code != 1 or "schema/ghost-schema/v1" not in out:
-            failures.append(f"a schema identifier with no schema was not refused (exit {code}):\n{out}")
+            failures.append(
+                f"a schema identifier with no schema was not refused (exit {code}):\n{out}"
+            )
         else:
             print("PASS control: a schema identifier no schema backs is refused")
 

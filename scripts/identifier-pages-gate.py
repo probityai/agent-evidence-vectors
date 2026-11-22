@@ -18,15 +18,18 @@ schema, evaluator or verifiers. Each must be one of:
   (``<path>.html`` and ``<path>/index.html``);
 * served by the organisation site and listed in ``spec/identifiers-served-elsewhere.txt``, with the
   organisation site publishing its page;
-* a negative vector and listed in ``spec/identifiers-unresolved.txt``: an identifier a test case names
-  to be refused as unknown, which must never resolve.
+* a negative vector and listed in ``spec/identifiers-unresolved.txt``: an identifier a test
+  case names to be refused as unknown, which must never resolve.
 
 ``--live`` (after a Pages deploy) fetches every one: served identifiers must answer 200, negative
 vectors 404. The listings are the review point: a new identifier that is in neither file fails here.
 
-    heavy-queue heavy-run --name identifier-pages-gate --timeout 3600 -- python3 scripts/identifier-pages-gate.py
-    heavy-queue heavy-run --name identifier-pages-gate --timeout 3600 -- python3 scripts/identifier-pages-gate.py --also ../probity
-    heavy-queue heavy-run --name identifier-pages-gate --timeout 3600 -- python3 scripts/identifier-pages-gate.py --live
+    heavy-queue heavy-run --name identifier-pages-gate --timeout 3600 \
+        -- python3 scripts/identifier-pages-gate.py
+    heavy-queue heavy-run --name identifier-pages-gate --timeout 3600 \
+        -- python3 scripts/identifier-pages-gate.py --also ../probity
+    heavy-queue heavy-run --name identifier-pages-gate --timeout 3600 \
+        -- python3 scripts/identifier-pages-gate.py --live
 """
 
 from __future__ import annotations
@@ -137,8 +140,8 @@ def own_path(uri: str) -> str | None:
 def pages_dir_serves(uri: str) -> bool:
     """True for an identifier the organisation site serves from this repository's ``pages/``.
 
-    ``pages/`` holds the identifier pages of ``agent-evidence/predicate/v1/``, which the organisation
-    site copies; a page present there is a page served.
+    ``pages/`` holds the identifier pages of ``agent-evidence/predicate/v1/``, which the
+    organisation site copies; a page present there is a page served.
     """
     prefix = f"{ORIGIN}/agent-evidence/"
     if not uri.startswith(prefix):
@@ -172,25 +175,34 @@ def hermetic(roots: list[Path]) -> list[str]:
             rel = own_path(uri)
             if rel is None:
                 failures.append(
-                    f"{uri} is named in {len(where)} file(s) ({', '.join(where[:3])}) on a host this "
-                    "site does not serve and is in neither spec/identifiers-served-elsewhere.txt nor "
+                    f"{uri} is named in {len(where)} file(s) ({', '.join(where[:3])}) on a host "
+                    "this site does not serve and is in neither "
+                    "spec/identifiers-served-elsewhere.txt nor "
                     "spec/identifiers-unresolved.txt"
                 )
                 continue
             # A family listing (predicate/v1) is a directory page; an identifier has both routings.
-            routes = (f"{rel}/index.html",) if rel.count("/") < 2 else (f"{rel}.html", f"{rel}/index.html")
+            routes = (
+                (f"{rel}/index.html",)
+                if rel.count("/") < 2
+                else (f"{rel}.html", f"{rel}/index.html")
+            )
             for route in routes:
                 if not (Path(tmp) / route).is_file():
                     failures.append(
-                        f"{uri} is named in {len(where)} file(s) ({', '.join(where[:3])}) and the site "
-                        f"build writes no {route}, so the identifier returns 404; register it "
-                        "(predicates: spec/predicates/REGISTRY.md; schemas: spec/schemas/; contracts: "
+                        f"{uri} is named in {len(where)} file(s) ({', '.join(where[:3])}) and "
+                        f"the site build writes no {route}, so the identifier returns 404; "
+                        "register it "
+                        "(predicates: spec/predicates/REGISTRY.md; schemas: spec/schemas/; "
+                        "contracts: "
                         "a corpus manifest contractId) or list it as a negative vector in "
                         "spec/identifiers-unresolved.txt"
                     )
                     break
     stale = sorted((elsewhere | unresolved) - set(refs))
-    failures.extend(f"{uri} is listed but no tracked file names it; delete the line" for uri in stale)
+    failures.extend(
+        f"{uri} is listed but no tracked file names it; delete the line" for uri in stale
+    )
     both = sorted(elsewhere & unresolved)
     failures.extend(f"{uri} is listed as both served and unresolved" for uri in both)
     print(
@@ -244,15 +256,22 @@ def live(roots: list[Path]) -> list[str]:
 
 def main(argv: list[str]) -> int:
     parser = argparse.ArgumentParser(description=(__doc__ or "").split("\n\n")[0])
-    parser.add_argument("--live", action="store_true", help="fetch each identifier from the published host")
-    parser.add_argument("--also", type=Path, action="append", default=[], help="another checkout to scan")
+    parser.add_argument(
+        "--live", action="store_true", help="fetch each identifier from the published host"
+    )
+    parser.add_argument(
+        "--also", type=Path, action="append", default=[], help="another checkout to scan"
+    )
     args = parser.parse_args(argv)
     roots = [ROOT, *[p.resolve() for p in args.also]]
     failures = live(roots) if args.live else hermetic(roots)
     for failure in failures:
         print(f"FAIL: {failure}")
     if not failures:
-        print("OK: every identifier resolves" + (" on the published host" if args.live else " as listed"))
+        print(
+            "OK: every identifier resolves"
+            + (" on the published host" if args.live else " as listed")
+        )
     return 1 if failures else 0
 
 
