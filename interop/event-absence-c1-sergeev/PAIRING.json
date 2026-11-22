@@ -1,0 +1,8 @@
+{
+  "note": "How the checker's three verdicts line up with event_absence/v2 under the default PEER requirement. A case passes only when both sides still return their pinned answer on the same pinned inputs and the pair still agrees.",
+  "verdict_to_decision": {
+    "TRUE": "supported",
+    "FALSE": "contradicted",
+    "UNRESOLVED": "not_established"
+  }
+}

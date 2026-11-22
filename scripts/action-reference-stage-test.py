@@ -329,6 +329,62 @@ def case_the_expectation_comes_from_the_corpus(work: Path) -> None:
     assert (checked, total) == (0, 1) and notes, notes
 
 
+AUDIT_RECORD = "vectors-agent-audit-record"
+
+
+def _audit_record_claim_installed() -> bool:
+    """Whether the reference verifier this test runs under has agent_audit_record/v1."""
+    try:
+        return importlib.util.find_spec("agent_evidence_verify.adapters.audit_record") is not None
+    except ModuleNotFoundError:
+        return False
+
+
+def case_the_audit_record_corpus_reads_m_of_m_once_the_claim_exists(work: Path) -> None:
+    """Every audit record member is routed: M of M with the claim type, 0 of M without it."""
+    manifest = json.loads((REPO_ROOT / "corpora" / AUDIT_RECORD / "MANIFEST.json").read_text())
+    total = len(manifest["vectors"])
+    proc, report = _run_stage(work, AUDIT_RECORD, total)
+    assert proc.returncode == 0, proc.stdout + proc.stderr
+    lines = proc.stdout.splitlines()
+    if _audit_record_claim_installed():
+        assert lines[0] == f"reference-checked conformance {total} of {total}", lines[:5]
+        assert "FULL-RELEASE" in lines and report["reference"]["fullRelease"] is True
+    else:
+        assert lines[0] == f"reference-checked conformance 0 of {total}", lines[:5]
+        assert any("could not run" in line for line in lines), lines[:5]
+
+
+def case_an_audit_record_expectation_comes_from_the_corpus(work: Path) -> None:
+    """A member whose declared code is changed leaves N, whether the claim type exists or not."""
+    stage = load_stage()
+    root = REPO_ROOT / "corpora" / AUDIT_RECORD
+    manifest = json.loads((root / "MANIFEST.json").read_text())
+    member = json.loads(json.dumps(next(e for e in manifest["vectors"] if e["draftId"] == "R24")))
+    member["expected"]["dating"]["codes"] = ["entry-received-after-anchor"]
+    checked, total, notes = stage.audit_record_tally([member], root)
+    assert (checked, total) == (0, 1) and notes, notes
+
+
+def case_an_audit_record_set_judged_short_is_not_checked(work: Path) -> None:
+    """A check that judged fewer records than a set member holds does not agree with it, even
+    when every record it did judge and the joint result match."""
+    stage = load_stage()
+    root = REPO_ROOT / "corpora" / AUDIT_RECORD
+    manifest = json.loads((root / "MANIFEST.json").read_text())
+    member = next(
+        e for e in manifest["vectors"]
+        if "set" in e["expected"] and e["expected"]["set"]["codes"] != ["set-unreadable"]
+    )
+    held = stage.audit_record_set_size(member, root)
+    assert held >= 2, (member["draftId"], held)
+    declared = member["expected"]["set"]
+    found = {"records": [], "set": {"verdict": declared["verdict"], "codes": declared["codes"],
+                                    "missing": declared.get("missing", [])}}
+    problems = stage.audit_record_problems(member, found, held)
+    assert any(f"0 records judged of the {held}" in p for p in problems), problems
+
+
 def _mutation_goes_red(work: Path, anchor: str, replacement: str, reason: str) -> None:
     if os.environ.get("AEV_ACTION_UNDER_TEST"):
         return
@@ -385,6 +441,9 @@ CASES: list[Callable[[Path], None]] = [
     case_the_default_corpus_is_reference_checked_in_full,
     case_dropping_a_member_kind_lowers_n,
     case_the_expectation_comes_from_the_corpus,
+    case_the_audit_record_corpus_reads_m_of_m_once_the_claim_exists,
+    case_an_audit_record_expectation_comes_from_the_corpus,
+    case_an_audit_record_set_judged_short_is_not_checked,
     case_a_skippable_stage_goes_red,
     case_an_unhashed_reference_goes_red,
 ]

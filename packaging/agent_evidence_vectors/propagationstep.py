@@ -37,7 +37,6 @@ prints one JSON object carrying ``decision`` and ``reason``, and exits 0 for
 
 from __future__ import annotations
 
-import json
 from collections.abc import Callable
 from datetime import datetime
 from pathlib import Path
@@ -51,6 +50,8 @@ from agent_evidence_vectors.monitorcoverage import (
     cli,
     run_corpus,
 )
+
+from . import strictjson
 
 SUITE = "propagation-step/v1"
 CONTRACT_ID = "https://probityai.github.io/agent-evidence-vectors/predicate/v1/propagation-step"
@@ -148,7 +149,7 @@ def _first_failure(record: Record, skip: frozenset[str]) -> str | None:
 
 def verify(record_path: Path, skip: frozenset[str] = frozenset()) -> dict[str, str]:
     """The reference reader's decision and reason for one record."""
-    record: Record = json.loads(record_path.read_text(encoding="utf-8"))
+    record: Record = strictjson.loads(record_path.read_text(encoding="utf-8"))
     failure = _first_failure(record, skip)
     if failure is not None:
         return {"decision": DENY, "reason": failure}

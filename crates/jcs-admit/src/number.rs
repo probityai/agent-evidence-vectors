@@ -15,6 +15,19 @@ use crate::{Error, Options};
 /// has no exact IEEE-754 double.
 const MAX_SAFE_DIGITS: &str = "9007199254740992";
 
+/// `2^53` as a double. Exact, being a power of two; every double at or above it
+/// is an integer.
+const TWO_POW_53: f64 = 9_007_199_254_740_992.0;
+
+/// Whether a token's nearest double is at or above 2^53 in magnitude (or is not
+/// finite). Rust's `f64` parse rounds correctly, ties to even, as Python's
+/// `float()` and ECMAScript's `Number` do, so all three pick the same double.
+fn rounds_past_safe_range(token: &str) -> bool {
+    token
+        .parse::<f64>()
+        .map_or(true, |v| !v.is_finite() || v.abs() >= TWO_POW_53)
+}
+
 /// A JSON number token decomposed into an exact `digits * 10^exp10`, with
 /// `digits` carrying no leading and no trailing zero.
 ///
@@ -29,6 +42,12 @@ struct Decomposed {
 }
 
 impl Decomposed {
+    /// Whether two decompositions name one number. Zero has no digits and any
+    /// exponent, so `0.0` and `0e0` are one value.
+    fn same_value(&self, other: &Self) -> bool {
+        self.digits == other.digits && (self.digits.is_empty() || self.exp10 == other.exp10)
+    }
+
     /// Whether the value is an integer, zero included.
     fn is_integer(&self) -> bool {
         self.digits.is_empty() || self.exp10 >= 0
@@ -119,6 +138,20 @@ fn decompose(token: &str) -> Decomposed {
     Decomposed { digits, exp10 }
 }
 
+/// Whether a token's value is the value of the double it reads as.
+///
+/// The double's shortest round-trip form (Rust's `{:e}`, the same digits as
+/// ECMAScript `Number::toString` and Python `repr`) is decomposed exactly, as
+/// the token is, and the two are compared as numbers: `1.10` and `0.1` hold,
+/// `3.141592653589793238` and `1e-400` do not. A token with no finite double
+/// is left to the finiteness refusal, which names it more precisely.
+fn is_exact(token: &str) -> bool {
+    match token.parse::<f64>() {
+        Ok(v) if v.is_finite() => decompose(token).same_value(&decompose(&format!("{v:e}"))),
+        _ => true,
+    }
+}
+
 /// Apply the number half of admission to one token.
 ///
 /// # Why the profile is consulted before finiteness
@@ -148,6 +181,21 @@ pub(crate) fn check(token: &str, opts: &Options) -> Result<(), Error> {
                 token: token.to_owned(),
             });
         }
+        // The Go rail this crate ports runs the safe-integer rule together with
+        // integers-only, so there a fraction was refused before the range was
+        // asked. With integers-only off, a fraction whose nearest double reaches
+        // 2^53 (`12345678901234567.5` -> 12345678901234568) must be refused here,
+        // or the profile emits an integer it then refuses on re-admission.
+        if opts.wants_safe_integers() && !d.is_integer() && rounds_past_safe_range(token) {
+            return Err(Error::UnsafeInteger {
+                token: token.to_owned(),
+            });
+        }
+    }
+    if opts.wants_exact_numbers() && !is_exact(token) {
+        return Err(Error::InexactNumber {
+            token: token.to_owned(),
+        });
     }
     // Decided here rather than left to the delegate. `serde_json_canonicalizer`
     // does refuse a non-finite double, as an untyped `io::Error` reading "NaN

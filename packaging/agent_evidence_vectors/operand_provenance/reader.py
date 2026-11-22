@@ -43,10 +43,11 @@ one JSON object carrying ``decision`` and ``reason`` and exits 0 for
 from __future__ import annotations
 
 import hashlib
-import json
 from decimal import Decimal, InvalidOperation
 from pathlib import Path
 from typing import Any
+
+from .. import strictjson
 
 SUITE = "operand-provenance/declared-constant-v1"
 SUPPORTED, CONTRADICTED, NOT_ESTABLISHED, NO_VERDICT = (
@@ -174,7 +175,7 @@ def judge(case: dict[str, Any], skip: frozenset[str] = frozenset()) -> dict[str,
 def verify(case_json: Path, skip: frozenset[str] = frozenset()) -> dict[str, str]:
     """Read one case file and judge it."""
     try:
-        case = json.loads(Path(case_json).read_text(encoding="utf-8"))
+        case = strictjson.loads(Path(case_json).read_text(encoding="utf-8"))
     except (OSError, ValueError):
         return _answer(NO_VERDICT, "malformed_case:unreadable")
     if not isinstance(case, dict):

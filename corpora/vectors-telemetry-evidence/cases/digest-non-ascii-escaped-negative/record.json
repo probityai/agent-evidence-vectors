@@ -1,0 +1,11 @@
+{
+  "claim": "evidence-digest",
+  "consumed": {
+    "n": {
+      "text": "{\"note\": \"caf\u00e9 \u00fcber\"}"
+    }
+  },
+  "manifest_text": "{\"schema_version\": \"evidence-digest-manifest/v1\", \"refs\": [{\"id\": \"n\", \"hash_alg\": \"sha-256\", \"canonicalization\": \"rfc8785\", \"digest\": \"b07eb950876995719479cfc068825219b17f359a4a40e812b6f4ca4bf56839de\"}]}",
+  "pinned_key_sha256": null,
+  "require_signature": false
+}

@@ -43,7 +43,7 @@ jobs:
     runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v4
-      - uses: probityai/agent-evidence-vectors@v0.37.0
+      - uses: probityai/agent-evidence-vectors@v0.37.1
         with:
           producer: python3 -m mypkg.emit --out out/report.json
           records: out/*.json

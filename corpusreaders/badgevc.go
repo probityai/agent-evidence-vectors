@@ -52,13 +52,13 @@ func (badgeVC) Suite() string { return "badge-vc-verify/v1" }
 
 func (badgeVC) Judge(dir string, raw []byte) (*Result, error) {
 	var manifest scManifest
-	if err := json.Unmarshal(raw, &manifest); err != nil {
+	if err := strictUnmarshal(raw, &manifest); err != nil {
 		return nil, fmt.Errorf("%s/MANIFEST.json does not parse: %w", dir, err)
 	}
 	result := &Result{}
 	for _, entry := range manifest.Vectors {
 		var v drVector
-		if err := json.Unmarshal(entry, &v); err != nil {
+		if err := strictUnmarshal(entry, &v); err != nil {
 			result.Findings = append(result.Findings, fmt.Sprintf("a manifest row does not parse: %v", err))
 			continue
 		}
@@ -118,7 +118,7 @@ func bvDecide(c map[string]any) scDecision {
 	if kidDID != issuer || !known {
 		return bvDeny("issuer_key_binding")
 	}
-	signature, _ := base64.RawURLEncoding.Strict().DecodeString(parts[2])
+	signature, _ := decodeCanonical(base64.RawURLEncoding, parts[2])
 	if !ed25519.Verify(ed25519.PublicKey(key), []byte(parts[0]+"."+parts[1]), signature) {
 		return bvDeny("signature_invalid")
 	}
@@ -194,7 +194,7 @@ func bvHeld(declared map[string]any) (map[string][]byte, bool) {
 		if !ok || fragment == "" {
 			return nil, false
 		}
-		raw, err := base64.RawURLEncoding.Strict().DecodeString(text)
+		raw, err := decodeCanonical(base64.RawURLEncoding, text)
 		if err != nil || len(raw) != ed25519.PublicKeySize {
 			return nil, false
 		}
@@ -239,7 +239,7 @@ func bvHeader(parts []string) (string, string, bool) {
 	}
 	var decoded [3][]byte
 	for i, part := range parts {
-		raw, err := base64.RawURLEncoding.Strict().DecodeString(part)
+		raw, err := decodeCanonical(base64.RawURLEncoding, part)
 		if err != nil {
 			return "", "", false
 		}
@@ -263,7 +263,7 @@ func bvHeader(parts []string) (string, string, bool) {
 
 // bvPayload decodes the credential and checks the members the contract names.
 func bvPayload(part string) (map[string]any, bool) {
-	raw, err := base64.RawURLEncoding.Strict().DecodeString(part)
+	raw, err := decodeCanonical(base64.RawURLEncoding, part)
 	if err != nil {
 		return nil, false
 	}

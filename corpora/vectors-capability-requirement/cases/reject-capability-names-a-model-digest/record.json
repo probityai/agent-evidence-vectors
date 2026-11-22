@@ -1,0 +1,50 @@
+{
+  "assessorAttestation": {
+    "publicKey": "xCAlDc+XkJ6JNf3j8F80rmvh8MwS3WQSV9YyXmyTcWE=",
+    "signature": "R1wNMLD7Ugx1QFxX2Qy4EN+o5t2eQnWkdWtYl8JgpvvQ3xdnrvLIgPXOwhsg9GpSQoiuoEqvMWhRRz18WrqhBw=="
+  },
+  "contractId": "https://probityai.github.io/agent-evidence-vectors/predicate/v1/capability-requirement",
+  "kind": "requirement",
+  "recordId": "record-reject-capability-names-a-model-digest",
+  "requirement": {
+    "capability": {
+      "id": "ticket-routing",
+      "modelDigest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "statement": "Route an inbound support ticket to the right queue and refuse only tickets that are out of scope."
+    },
+    "evaluationSet": {
+      "digest": "b05d6488510f3528d67a3d2a76b243cca08a4c4b3d656c07516812cc56b98081",
+      "heldOut": {
+        "assessorKey": "xCAlDc+XkJ6JNf3j8F80rmvh8MwS3WQSV9YyXmyTcWE=",
+        "commitment": "3cbd12b8ded427909a4bf0bd8dc48dc26f345787884fb0c8e1a23544ca0f1fb0"
+      },
+      "items": [
+        "3758af258344960bb8c33ed18b971d467fbb6dd80e9703cf672be4a6686d0e03",
+        "bc828188ccca830e7378675f7298553eddf6619ea5204a01eb923a7717233acf",
+        "56468096daa15da6d828c78d6b0644168b7a990bb13591a4774bcbdca8d33f52",
+        "168b7b356ff8306149b151f111ef3a1bc19644a264d22f1734a55fadd3b998f7"
+      ]
+    },
+    "issuedAt": "2026-10-01T09:00:00Z",
+    "thresholds": [
+      {
+        "comparator": "gte",
+        "maxDrift": 30,
+        "metric": "accuracy-permille",
+        "set": "public",
+        "value": 900
+      },
+      {
+        "comparator": "lte",
+        "maxDrift": 20,
+        "metric": "false-refusal-permille",
+        "set": "heldOut",
+        "value": 50
+      }
+    ]
+  },
+  "requirerSignature": {
+    "publicKey": "pKz8Vp3qSgWKkFhx8rJ23sWKGT9NcFrZo9O3LfJ6CCA=",
+    "signature": "lFDtyS0lKVn+Bz0qqKEOW/KkkqiGozpunSTN4FaU0qTIsVI5fVALD5Trz8AiHcnmvS+ibZSPzJGAUfCIHLe1Dw=="
+  }
+}

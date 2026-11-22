@@ -2,8 +2,9 @@
 
     uv run python vectors-agent-payment-mandate/gen_vectors.py
 
-Four accepted members (one per scheme plus the exact-limit boundary) and eleven
-rejected twins, one per rule, each one mutation away from an accepted member.
+Six accepted members (one per scheme, the exact-limit boundary and two key-history
+members) and fifteen rejected twins, one per rule, each one mutation away from an
+accepted member.
 Every case, the manifest, the index and the profile map are functions of this
 file alone. The fixtures are synthetic.
 """
@@ -103,6 +104,30 @@ def _seal(r: dict[str, Any]) -> dict[str, Any]:
     return r
 
 
+def _with_key_history(
+    r: dict[str, Any], valid_until: str | None, revoked_from: str | None
+) -> dict[str, Any]:
+    """Add a signing time and the key state the verifier holds for the signing key.
+
+    The record states when the mandate was signed and the issuer's key snapshot taken
+    at dispute time; the key is judged by its state at the signing time, never by
+    whether the snapshot still lists it as current.
+    """
+    r["mandate"]["signature"]["signed_at"] = "2026-10-20T09:00:00Z"
+    r["key_history"] = {
+        "snapshot_at": "2026-11-18T00:00:00Z",
+        "keys": [
+            {
+                "key_id": "issuer-key-1",
+                "valid_from": "2026-09-01T00:00:00Z",
+                "valid_until": valid_until,
+                "revoked_effective_from": revoked_from,
+            }
+        ],
+    }
+    return r
+
+
 def _base(scheme: str, amount: int | None = None) -> dict[str, Any]:
     kind, merchant, currency, limit = _SCHEME_TERMS[scheme]
     spend = limit - 400 if amount is None else amount
@@ -141,6 +166,10 @@ BASES: dict[str, Callable[[], dict[str, Any]]] = {
     "vi": lambda: _base("mastercard-verifiable-intent-credential"),
     "spt": lambda: _base("stripe-shared-payment-token"),
     "limit": lambda: _base("ap2-cart-mandate", amount=12900),
+    "rotated": lambda: _with_key_history(_base("ap2-cart-mandate"), "2026-11-01T00:00:00Z", None),
+    "revoked": lambda: _with_key_history(
+        _base("mastercard-verifiable-intent-credential"), None, "2026-11-10T00:00:00Z"
+    ),
 }
 
 
@@ -191,6 +220,22 @@ def _receipt_stale(r: dict[str, Any]) -> None:
 
 def _no_fulfilment(r: dict[str, Any]) -> None:
     r["post_checkout"]["recorded"] = ["capture"]
+
+
+def _signed_after_rotation(r: dict[str, Any]) -> None:
+    r["mandate"]["signature"]["signed_at"] = "2026-11-02T09:00:00Z"
+
+
+def _key_not_in_snapshot(r: dict[str, Any]) -> None:
+    r["key_history"]["keys"] = []
+
+
+def _signed_before_validity(r: dict[str, Any]) -> None:
+    r["key_history"]["keys"][0]["valid_from"] = "2026-10-21T00:00:00Z"
+
+
+def _revoked_before_signing(r: dict[str, Any]) -> None:
+    r["key_history"]["keys"][0]["revoked_effective_from"] = "2026-10-19T00:00:00Z"
 
 
 # (id, base, mutation or None for an accepted member, refusal code, description, twin)
@@ -314,6 +359,54 @@ MEMBERS: tuple[tuple[str, str, Callable[[dict[str, Any]], None] | None, str, str
         "post_checkout_action_missing",
         "capture recorded, the fulfilment action is missing",
         "authorized-ap2-cart",
+    ),
+    (
+        "authorized-key-rotated-after-signing",
+        "rotated",
+        None,
+        "",
+        "the signing key was rotated out after the mandate was signed; it was in effect at signing",
+        "",
+    ),
+    (
+        "authorized-key-revoked-after-signing",
+        "revoked",
+        None,
+        "",
+        "the signing key was revoked effective after the mandate was signed",
+        "",
+    ),
+    (
+        "signing-key-not-in-snapshot",
+        "rotated",
+        _key_not_in_snapshot,
+        "signing_key_unknown",
+        "the issuer key snapshot holds no entry for the signing key",
+        "authorized-key-rotated-after-signing",
+    ),
+    (
+        "signed-after-key-rotated-out",
+        "rotated",
+        _signed_after_rotation,
+        "signing_key_rotated_out",
+        "the mandate was signed after the key's validity ended",
+        "authorized-key-rotated-after-signing",
+    ),
+    (
+        "signed-before-key-valid",
+        "rotated",
+        _signed_before_validity,
+        "signing_key_not_yet_valid",
+        "the mandate was signed before the key's validity began",
+        "authorized-key-rotated-after-signing",
+    ),
+    (
+        "signed-after-key-revoked",
+        "revoked",
+        _revoked_before_signing,
+        "signing_key_revoked",
+        "the key was revoked effective before the mandate was signed",
+        "authorized-key-revoked-after-signing",
     ),
 )
 

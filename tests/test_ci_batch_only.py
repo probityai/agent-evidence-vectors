@@ -43,7 +43,7 @@ class BatchOnly(unittest.TestCase):
 
     def test_always_without_gate_is_refused(self):
         bad = GOOD.replace(f"always() && ({CHECK.GATE})", "always()")
-        self.assertIn("ci-ok", " ".join(CHECK.check_text("ci.yml", bad)))
+        self.assertIn("ci-ok", " ".join(CHECK.check_text("other.yml", bad)))
 
     def test_missing_gate_is_refused(self):
         bad = GOOD.replace(f"if: ${{{{ {CHECK.GATE} }}}}", "if: true")

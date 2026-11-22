@@ -97,6 +97,22 @@ def dump(obj: Any) -> str:
     return yaml.safe_dump(obj)
 
 
+def executable(job: dict[str, Any]) -> dict[str, Any]:
+    """The job without its display names: the job's and each step's `name:`.
+
+    A display name runs nothing, so a step called "what cargo publish would upload"
+    over `cargo package` does not publish. Every other key stays, `with:` inputs too.
+    """
+    out = {k: v for k, v in job.items() if k != "name"}
+    steps = job.get("steps")
+    if isinstance(steps, list):
+        out["steps"] = [
+            {k: v for k, v in s.items() if k != "name"} if isinstance(s, dict) else s
+            for s in steps
+        ]
+    return out
+
+
 def exempt_problem(key: tuple[str, str], env: str | None, body: str) -> str | None:
     """Why an exempt job no longer has the shape that earned the exemption, else None."""
     if key in EXACT_EXEMPT:
@@ -116,7 +132,7 @@ def job_problems(name: str, doc: dict[str, Any], job_id: str, job: dict[str, Any
         problems.append(f"{where} has a computed environment")
     if env == ENV and (name, job_id) != TOKEN_JOB:
         problems.append(f"{where} uses {ENV}; only {TOKEN_JOB[0]}:{TOKEN_JOB[1]} may")
-    publishes = bool(PUBLISH_MARKERS.search(dump(job)))
+    publishes = bool(PUBLISH_MARKERS.search(dump(executable(job))))
     key = (name, job_id)
     if key in EXACT_EXEMPT or key in OIDC_SIGNING_JOBS:
         reason = exempt_problem(key, env, dump(job))

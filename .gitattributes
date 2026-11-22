@@ -18,6 +18,13 @@ vectors-poc-evidence/package/poc_evidence_vectors/corpus/** -text
 release/CORPUS-DIGESTS.txt derived
 release/intake/** derived
 interop/agentavow-signed-map-v1/source-lock.json derived
+jcsvectors/vectors-a2a-jcs-v01/** derived
+jcsvectors/jcs-byte-vectors/** derived
+jcsvectors/digests.go derived
+crates/jcsvectors/data/** derived
+crates/jcsvectors/src/files.rs derived
+crates/jcsvectors/npm/data/** derived
+crates/jcsvectors/npm/digests.mjs derived
 # Every corpus and fixture is compared byte for byte (manifest sha256, corpusDigest, expected
 # verdicts): a Windows checkout that turned LF into CRLF failed the a2a replay on its own bytes.
 corpora/** -text

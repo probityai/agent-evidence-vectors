@@ -1,0 +1,42 @@
+system: draft-pei-opsawg-agentops-observability
+system_url: https://datatracker.ietf.org/doc/draft-pei-opsawg-agentops-observability/
+crosswalk_version: "0.1.0"
+vocabulary_version_targeted: "0.10.0"
+
+maintainer:
+  github: probityai
+  third_party_authored: true
+
+summary_of_system: >
+  An IETF Internet-Draft (OPSAWG, revision -00) that defines an event model for observing agentic
+  systems in network operations: per-event session, sequence, actor, phase and status members, and an
+  evidence-ref that points at large or sensitive content by id, media type, hash and location. This
+  filing maps the event model's integrity members; it is written from outside the draft and promotes
+  nothing.
+
+record_binding:
+  sequence_number:
+    match: partial
+    evidence: asserted
+    source_path: https://datatracker.ietf.org/doc/html/draft-pei-opsawg-agentops-observability-00
+    notes: "Each event carries sequence, 'a monotonically increasing value within the producing actor', and consumers must not read it as a total order across producers (section on the core event model)."
+    divergences:
+      - "Monotonically increasing allows gaps, so a dropped event is indistinguishable from a skipped number; this term requires a start at 0 and a step of exactly 1 per trajectory."
+      - "The sequence is scoped to the producing actor, not to one trajectory, and no member links an event to the digest of the one before it."
+  canonicalization:
+    match: no_mapping
+    notes: "evidence-ref carries hash as a text string and names no canonicalization, so a second party cannot recompute it over structured content."
+  hash_alg:
+    match: no_mapping
+    notes: "evidence-ref carries hash as a text string and names no hash function beside it."
+  trajectory_head:
+    match: no_mapping
+    notes: "The event model defines no signed head over the last event and the count, so a cut tail is not visible."
+  coverage_boundary:
+    match: no_mapping
+    notes: "The event model does not state which events a trajectory is meant to contain, so an absent event cannot be told from one never in scope."
+
+decision_receipt:
+  receipt_chain_link:
+    match: no_mapping
+    notes: "No member carries the digest of the previous event."

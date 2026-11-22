@@ -37,6 +37,10 @@ from typing import Any
 from cryptography.exceptions import InvalidSignature
 from cryptography.hazmat.primitives.asymmetric.ed25519 import Ed25519PublicKey
 
+_REPO = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+sys.path.insert(0, os.path.join(_REPO, "packaging"))
+from agent_evidence_vectors import strictjson  # noqa: E402
+
 HERE = os.path.dirname(os.path.abspath(__file__))
 REPO = os.path.dirname(os.path.dirname(HERE))
 sys.path.insert(0, HERE)
@@ -104,7 +108,7 @@ def _signature(envelope: dict[str, Any], public_hex: str, payload_type: str) -> 
 
 def _statement(payload: bytes, predicate_type: str) -> dict[str, Any]:
     try:
-        stmt = json.loads(payload)
+        stmt = strictjson.loads(payload)
     except ValueError as exc:
         raise Refused("malformed", "statement-malformed") from exc
     if not isinstance(stmt, dict):
@@ -212,7 +216,7 @@ def verify(
 ) -> Report:
     """Judge one member: an envelope, and the arguments it discloses if any."""
     try:
-        envelope = json.loads(envelope_bytes)
+        envelope = strictjson.loads(envelope_bytes)
         if not isinstance(envelope, dict):
             raise Refused("invalid", "signature-invalid")
         if disabled == "signature":
@@ -222,7 +226,7 @@ def verify(
                 envelope, manifest["keys"]["producer"]["publicKey"], manifest["payloadType"]
             )
         if disabled == "statement":
-            stmt = json.loads(payload)
+            stmt = strictjson.loads(payload)
         else:
             stmt = _statement(payload, manifest["predicateType"])
         predicate = stmt.get("predicate")
@@ -299,7 +303,7 @@ def _second_path(manifest: dict[str, Any]) -> list[str]:
     for entry in manifest["vectors"]:
         if "canonicalArguments" not in entry:
             continue
-        text = encode(json.loads(_read(entry["arguments"])))
+        text = encode(strictjson.loads(_read(entry["arguments"])))
         if text != entry["canonicalArguments"]:
             findings.append(f"{entry['slug']}: a second canonicalizer writes {text}")
     return findings
@@ -325,7 +329,7 @@ def sweep(manifest: dict[str, Any]) -> list[str]:
 
 def main() -> int:
     with open(os.path.join(HERE, "MANIFEST.json"), encoding="utf-8") as fh:
-        manifest = json.load(fh)
+        manifest = strictjson.load(fh)
     findings = judge(manifest) + _second_path(manifest) + sweep(manifest)
     for finding in findings:
         print(f"FAIL check: {finding}")
