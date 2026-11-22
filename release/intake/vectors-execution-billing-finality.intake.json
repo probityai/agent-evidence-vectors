@@ -17,7 +17,7 @@
     "routine": "corpus_digest in corpora/vectors-execution-billing-finality/gen_vectors.py",
     "routine-file": "corpora/vectors-execution-billing-finality/gen_vectors.py",
     "serialization": "corpus-routine",
-    "sha256": "a69ab722927e51f32bfe149ea343d7ad8a2a5fba5f010272ac0c9318fa742a0f",
+    "sha256": "6dfc9c130e4bf13c8b69591acbba2ebf363fa5960a2f5f31d9100c35a34722e3",
     "verdicts": {
       "availability-failure": "inconclusive",
       "integrity-failure": "fail"
@@ -45,7 +45,7 @@
       },
       "path": "corpora/vectors-execution-billing-finality/README.md",
       "serialization": "bytes",
-      "sha256": "c6edb01f4ee1dd12a073f4e7a82d9b61eb5e1434aa221ab9ac90d5d077cdc4ea"
+      "sha256": "c3e6e3ad60dcb1233727ac773b84a3230ad7f552dd2e86a72315fb17907d0a84"
     },
     {
       "consumed": "unconsumed",
@@ -163,20 +163,40 @@
       "sha256": "ffe870ff80ccf238b35393683195dd3ac96a8ed55ff10aafb3d457a9b86037c6"
     },
     {
-      "consumed": "unconsumed",
+      "consumed": "consumed",
       "evidence": {
         "baseline": {
           "exit-code": 0,
           "sha256": "c5e5e1a2bd357dea8a1490dd52ef715538b9e9f8c88bdac9ed23013ed9ac538f"
         },
-        "corpus-digest": "unchanged",
-        "pins-moved": [],
-        "refused-by": [
-          "W3C-I-002"
+        "corpus-digest": "not recomputable over the swapped bytes (ValueError)",
+        "pins-moved": [
+          "corpora/vectors-execution-billing-finality/cases/allow-f01-control-final-invoice/record.json",
+          "corpora/vectors-execution-billing-finality/cases/allow-f01-success-reservation-held/record.json",
+          "corpora/vectors-execution-billing-finality/cases/allow-f03-lost-reply-redispatch-refused/record.json",
+          "corpora/vectors-execution-billing-finality/cases/allow-f04-invoice-after-lost-reply/record.json",
+          "corpora/vectors-execution-billing-finality/cases/allow-f14-first-dispatch/record.json",
+          "corpora/vectors-execution-billing-finality/cases/allow-x1-invoice-before-dispatch/record.json",
+          "corpora/vectors-execution-billing-finality/cases/allow-x2-low-invoice-conflict/record.json",
+          "corpora/vectors-execution-billing-finality/cases/allow-x3-cost-above-final-bill-conflict/record.json",
+          "corpora/vectors-execution-billing-finality/cases/allow-x4-contradictory-outcome-conflict/record.json",
+          "corpora/vectors-execution-billing-finality/cases/allow-x5-non-dispatch-after-cost-conflict/record.json",
+          "corpora/vectors-execution-billing-finality/cases/claim-boundary-dropped/record.json",
+          "corpora/vectors-execution-billing-finality/cases/contract-id-missing/record.json",
+          "corpora/vectors-execution-billing-finality/cases/contract-id-unknown/record.json",
+          "corpora/vectors-execution-billing-finality/cases/dispatch-state-missing/record.json",
+          "corpora/vectors-execution-billing-finality/cases/dispatch-state-null/record.json",
+          "corpora/vectors-execution-billing-finality/cases/external-effect-established/record.json",
+          "corpora/vectors-execution-billing-finality/cases/money-as-boolean/record.json",
+          "corpora/vectors-execution-billing-finality/cases/reopen-changed-state/record.json",
+          "corpora/vectors-execution-billing-finality/cases/x1-invoice-replay-refinalized/record.json",
+          "corpora/vectors-execution-billing-finality/cases/x2-account-unfrozen/record.json",
+          "corpora/vectors-execution-billing-finality/cases/x2-conflict-cleared/record.json",
+          "corpora/vectors-execution-billing-finality/cases/x4-outcome-reset-to-unknown/record.json"
         ],
         "swapped": {
-          "exit-code": 0,
-          "sha256": "c5e5e1a2bd357dea8a1490dd52ef715538b9e9f8c88bdac9ed23013ed9ac538f"
+          "exit-code": 1,
+          "sha256": "2f045bf3627115ef7b14eeb06297747e947e1de6c90dcabf40bc5a5ae0cc98d9"
         },
         "swapped-in": "6d261b2986e068103483ad0ccc4e22cf74580e7c89343a2c5fac7a5486f3106e",
         "test": "swap-and-re-pin"
@@ -323,7 +343,6 @@
         "corpusreaders/identitybinding.go",
         "corpusreaders/ietfagentrecord.go",
         "corpusreaders/keydirectory.go",
-        "corpusreaders/keyrevocation.go",
         "corpusreaders/lifecyclebinding.go",
         "corpusreaders/mcpauthz.go",
         "corpusreaders/mcpowasp.go",
@@ -368,7 +387,7 @@
         "go.mod"
       ],
       "serialization": "sha256-listing-v1",
-      "sha256": "03897d25406b4edb71c736905eeb18729de4311f41f782579b39eea32881e46e"
+      "sha256": "646a6c74c2734ee8e1dc0708a86b2000b16775c9f2ecbf3437e0fd104e2efd8d"
     },
     "runtime": {
       "name": "go",
@@ -446,7 +465,6 @@
       "corpusreaders/identitybinding.go",
       "corpusreaders/ietfagentrecord.go",
       "corpusreaders/keydirectory.go",
-      "corpusreaders/keyrevocation.go",
       "corpusreaders/lifecyclebinding.go",
       "corpusreaders/mcpauthz.go",
       "corpusreaders/mcpowasp.go",
@@ -743,7 +761,7 @@
   ],
   "corpus-digest": {
     "serialization": "sha256-listing-v1",
-    "sha256": "37e5fc29b7fae7b57bb4703f0f2f1bdb000159c31584ba60985488fd183a181a"
+    "sha256": "482538ca00cf8550b3aef4cec9710530185e5ed15ff4f4257125ff57a4a8e6c8"
   },
   "exit-code": 0,
   "exit-rule": "zero-iff-every-check-passes",
@@ -786,14 +804,14 @@
       "x4-outcome-reset-to-unknown"
     ],
     "path": "corpora/vectors-execution-billing-finality/MANIFEST.json",
-    "sha256": "d45f64b81734a5b6e801748e8b90369546bf1fbcdaa6402387895b06c7d1a29e"
+    "sha256": "2a9622976a8a38c5163144a050d8c5f09ac54a2192513486a80479b8850879f5"
   },
   "members": [
     {
       "files": [
         {
           "path": "corpora/vectors-execution-billing-finality/cases/allow-f01-success-reservation-held/record.json",
-          "sha256": "3c262c6156eca51c2c4cb45914bf68dac1395a57fa23eb4bef7e481e6fe14def"
+          "sha256": "52a8b5c3d1b1ca7f5cd56367892e9a297c34156524f4cf4020948bd3a84e7b36"
         }
       ],
       "id": "allow-f01-success-reservation-held"
@@ -802,7 +820,7 @@
       "files": [
         {
           "path": "corpora/vectors-execution-billing-finality/cases/allow-f01-control-final-invoice/record.json",
-          "sha256": "3043f2c941374008eec00200cd708eac70a9ff7ed117e99d72a04e16a405a85d"
+          "sha256": "c736122f9ce42dba1db04c6f1a24d7a0ae770ec744988f8b111eb0fbc8ba112e"
         }
       ],
       "id": "allow-f01-control-final-invoice"
@@ -811,7 +829,7 @@
       "files": [
         {
           "path": "corpora/vectors-execution-billing-finality/cases/allow-f03-lost-reply-redispatch-refused/record.json",
-          "sha256": "51042bc4f05818691c6bdecd711e32d7a8102d55fb343cc10d6e59b7a382d2a6"
+          "sha256": "2e0871a916a86d067d3c72641250dcd9edaec94513d9394fa1076b5c4075e90b"
         }
       ],
       "id": "allow-f03-lost-reply-redispatch-refused"
@@ -820,7 +838,7 @@
       "files": [
         {
           "path": "corpora/vectors-execution-billing-finality/cases/allow-f04-invoice-after-lost-reply/record.json",
-          "sha256": "c8f8f599cf0e2b25182dba5ae0215254136f5a37f54ba6ea720e66815b8e1fbe"
+          "sha256": "c12740854ca8f6fd06588cc7700e793e6e3352d0367a942d1eeade2b0ae56789"
         }
       ],
       "id": "allow-f04-invoice-after-lost-reply"
@@ -829,7 +847,7 @@
       "files": [
         {
           "path": "corpora/vectors-execution-billing-finality/cases/allow-f14-first-dispatch/record.json",
-          "sha256": "e7c9fccda5732d365300f0418208f7c56e9309d6985fa0559f5ed76e87c8d296"
+          "sha256": "ae04ceb1144ee0103209d930a3591d0607141835f05f4256e693aa0a147b3b3a"
         }
       ],
       "id": "allow-f14-first-dispatch"
@@ -838,7 +856,7 @@
       "files": [
         {
           "path": "corpora/vectors-execution-billing-finality/cases/allow-x1-invoice-before-dispatch/record.json",
-          "sha256": "f7448f0e791407a91c9eb4df9fd8fcd84f46a9afe884b2b31911599f83905713"
+          "sha256": "6a643f8fd931bd05fde660ae0a32d93ca70ce485711c284d2a8298f067998708"
         }
       ],
       "id": "allow-x1-invoice-before-dispatch"
@@ -847,7 +865,7 @@
       "files": [
         {
           "path": "corpora/vectors-execution-billing-finality/cases/allow-x2-low-invoice-conflict/record.json",
-          "sha256": "aa998840514807c637dea50c7ca20fe146992870321866cb496e8265fffc8c94"
+          "sha256": "cddbdfb7bbdf7f597ea99f6ae572df73d2d20532c7be25913fcf30a2dff61fb1"
         }
       ],
       "id": "allow-x2-low-invoice-conflict"
@@ -856,7 +874,7 @@
       "files": [
         {
           "path": "corpora/vectors-execution-billing-finality/cases/allow-x3-cost-above-final-bill-conflict/record.json",
-          "sha256": "8be3f79cd6cba6ab2413cb2e612a65197f2a0cc857d7b0d6ee08544770929d1a"
+          "sha256": "5cbc896e8e05fe25729abc61da9d8d955e982416346586ea323a41fc8b8cd9f0"
         }
       ],
       "id": "allow-x3-cost-above-final-bill-conflict"
@@ -865,7 +883,7 @@
       "files": [
         {
           "path": "corpora/vectors-execution-billing-finality/cases/allow-x4-contradictory-outcome-conflict/record.json",
-          "sha256": "a2f24cc720fbde7beba1f2d5c691514c1098c96b129714f40b246b865e17ea26"
+          "sha256": "7a10c53d2f54ec928e6137b37e229962b39a61cf401e8c275d33977bc9fa88f8"
         }
       ],
       "id": "allow-x4-contradictory-outcome-conflict"
@@ -874,7 +892,7 @@
       "files": [
         {
           "path": "corpora/vectors-execution-billing-finality/cases/allow-x5-non-dispatch-after-cost-conflict/record.json",
-          "sha256": "98bbc0762550cfad8918e4ca9a109c597c0e0a808d72e10ea3edb348c3dee615"
+          "sha256": "ceb935386f43031cbc120901ac527faa6a0ec10af4b4b2daffb344e1a51dac3a"
         }
       ],
       "id": "allow-x5-non-dispatch-after-cost-conflict"
@@ -883,7 +901,7 @@
       "files": [
         {
           "path": "corpora/vectors-execution-billing-finality/cases/contract-id-missing/record.json",
-          "sha256": "6c3f01d54d6e9bb8edab053f98c17b98874b891f2e932b31f81057ca2421ead8"
+          "sha256": "cccae46ce92f64acbde1693ae3d26f381f44e4e2968b4717fa6cebde57fe818c"
         }
       ],
       "id": "contract-id-missing"
@@ -892,7 +910,7 @@
       "files": [
         {
           "path": "corpora/vectors-execution-billing-finality/cases/contract-id-unknown/record.json",
-          "sha256": "caf3ac4409f9679e385ffb4dbfff24fabf404b9000223746c15412c18b4b012d"
+          "sha256": "8b937d3bd217004d48c76964107663cc318cc2178923d58f0d4388de223fc852"
         }
       ],
       "id": "contract-id-unknown"
@@ -901,7 +919,7 @@
       "files": [
         {
           "path": "corpora/vectors-execution-billing-finality/cases/money-as-boolean/record.json",
-          "sha256": "162d05a02a72c939e7542e3dc2bea60e84e6b48657831d25f58ca7ae4dda4123"
+          "sha256": "d4634d89bf7c00be771e524884a704178b6cf3e61c6232da1f0fef9a5fb04833"
         }
       ],
       "id": "money-as-boolean"
@@ -910,7 +928,7 @@
       "files": [
         {
           "path": "corpora/vectors-execution-billing-finality/cases/dispatch-state-missing/record.json",
-          "sha256": "7aa0fb24b80cd1f3868bfb7657c7d0416d05c1f2a34be58db65fa4d0904a9ff0"
+          "sha256": "6e8fd37c37cb5fe5b032980b5018745da8d42b310f2254e09478f5b311156824"
         }
       ],
       "id": "dispatch-state-missing"
@@ -919,7 +937,7 @@
       "files": [
         {
           "path": "corpora/vectors-execution-billing-finality/cases/dispatch-state-null/record.json",
-          "sha256": "0b7d7aac187daa0a16a2fefa033ec4e08b88f08ed649ce0af08e16bfee134f86"
+          "sha256": "2c9ed63db92c73bb56e4cb9272fa9ea0848dd1827904613d7d92cdc78fab6842"
         }
       ],
       "id": "dispatch-state-null"
@@ -928,7 +946,7 @@
       "files": [
         {
           "path": "corpora/vectors-execution-billing-finality/cases/external-effect-established/record.json",
-          "sha256": "dc75a5dd09cf9490ea7e31fed6aec13e9d70b0ecb743b3220e6e2e06b916e526"
+          "sha256": "3572d22a6f5221c57b7457b73b04b77ff3926110804b94b6b1fcbc9a78ba22e6"
         }
       ],
       "id": "external-effect-established"
@@ -937,7 +955,7 @@
       "files": [
         {
           "path": "corpora/vectors-execution-billing-finality/cases/claim-boundary-dropped/record.json",
-          "sha256": "0444ca84062d69fdc4e1d1f496a65ee2e5634ec5b9439a2809deabc5cce1a23b"
+          "sha256": "9da6a0c295681087ae28bbcb61a5c0aac09e442af5f5c8f4a30de63ac5e895a9"
         }
       ],
       "id": "claim-boundary-dropped"
@@ -946,7 +964,7 @@
       "files": [
         {
           "path": "corpora/vectors-execution-billing-finality/cases/reopen-changed-state/record.json",
-          "sha256": "3a917f5770b2405905a4c2d816451f6c4d880ae5bc82ff58345fa7f09fa81e2b"
+          "sha256": "bb27b14a0ee2f68cca96f6bf05545a213aab1a571a67a193d87845ad5b7d57a4"
         }
       ],
       "id": "reopen-changed-state"
@@ -955,7 +973,7 @@
       "files": [
         {
           "path": "corpora/vectors-execution-billing-finality/cases/f04-invoice-implies-execution/record.json",
-          "sha256": "e821de50b9a2d7d146f6783de59c60ace7ce6ba8e8ac7f0f8aac90f380b88483"
+          "sha256": "0ceae1b7412877b15bd311e28b62f5cd24b74630d673b701d41e63aaad5eced5"
         }
       ],
       "id": "f04-invoice-implies-execution"
@@ -964,7 +982,7 @@
       "files": [
         {
           "path": "corpora/vectors-execution-billing-finality/cases/f01-success-releases-reservation/record.json",
-          "sha256": "c9986e9d2b0a13f2e29da4046c501d00c0d7d56b21e7552561fe4d71fea87c14"
+          "sha256": "699cc2936b7013f72b0da1ee38b386a1269e816d6a3ef968ea46cd0c7783627d"
         }
       ],
       "id": "f01-success-releases-reservation"
@@ -973,7 +991,7 @@
       "files": [
         {
           "path": "corpora/vectors-execution-billing-finality/cases/f03-guard-removed-redispatch/record.json",
-          "sha256": "a44157294e4b056f0c247e3c628fab94b9e1c06bb40d71916135527cee10cd02"
+          "sha256": "c327e1b3c2fac501c62ee4551f4f9ad1a35b866e510d7e75195753409b4d968e"
         }
       ],
       "id": "f03-guard-removed-redispatch"
@@ -982,7 +1000,7 @@
       "files": [
         {
           "path": "corpora/vectors-execution-billing-finality/cases/f04-final-billing-redispatch/record.json",
-          "sha256": "dfd6fdb94e1f64c1fd8160194d5aa2633b71f980a671b0703d2d03adf84424bd"
+          "sha256": "6905dce06efa4d184a8242e972206083b69a6ea304493ab57e5841329350c653"
         }
       ],
       "id": "f04-final-billing-redispatch"
@@ -991,7 +1009,7 @@
       "files": [
         {
           "path": "corpora/vectors-execution-billing-finality/cases/x1-invoice-opens-dispatch/record.json",
-          "sha256": "4b4ca40b1125652aca6708f337e080178302a7c8676f638e389bac51069f520a"
+          "sha256": "6b0a64ea9119856cf8d8e6a81c4a47462ee55a2528876ebcf09f1c75b4dc962d"
         }
       ],
       "id": "x1-invoice-opens-dispatch"
@@ -1000,7 +1018,7 @@
       "files": [
         {
           "path": "corpora/vectors-execution-billing-finality/cases/x1-dispatch-state-reserved-after-invoice/record.json",
-          "sha256": "be602d4aa62f0b561a8f92edad28321d604f791085572e0ca1e5abe19f7f4fd2"
+          "sha256": "0bcb5df21a81256bf51fe76525d3366506029cb1872d5d2db96839dcdd712a49"
         }
       ],
       "id": "x1-dispatch-state-reserved-after-invoice"
@@ -1009,7 +1027,7 @@
       "files": [
         {
           "path": "corpora/vectors-execution-billing-finality/cases/x1-invoice-replay-refinalized/record.json",
-          "sha256": "6c51f2e00a15f1ff142d52089c12cc67db232a52fa680e48021cf5d303425f5b"
+          "sha256": "39cb28c59cb7e9a50abd5e43b5209c9bcd2913e5bf8232ddac7985f2c18bce1e"
         }
       ],
       "id": "x1-invoice-replay-refinalized"
@@ -1018,7 +1036,7 @@
       "files": [
         {
           "path": "corpora/vectors-execution-billing-finality/cases/x2-low-invoice-erases-known-spend/record.json",
-          "sha256": "7fd01c90ef1f65e0ceb171de3afd2b7ff1d8a73895b0963a825516fb56668f1d"
+          "sha256": "f085a7137fb66c008f168693cbdd3a98908834b5372ddbf054e3f92f5f5540c8"
         }
       ],
       "id": "x2-low-invoice-erases-known-spend"
@@ -1027,7 +1045,7 @@
       "files": [
         {
           "path": "corpora/vectors-execution-billing-finality/cases/x3-cost-above-final-bill-accepted/record.json",
-          "sha256": "3da4f6ab452e405fe94b47c20ab90393039c9919febedb4bab160377eb25b9d3"
+          "sha256": "e76a1ab48dab52474ee31452e8a837512ec30c82e78f4e32be2d0e2346312307"
         }
       ],
       "id": "x3-cost-above-final-bill-accepted"
@@ -1036,7 +1054,7 @@
       "files": [
         {
           "path": "corpora/vectors-execution-billing-finality/cases/x2-conflict-cleared/record.json",
-          "sha256": "1452f1b114e8521db9c0fbf5a35e185f03864514bcce9efa786aae7079442c3a"
+          "sha256": "6e7c407cb3d6e03ba6dc3c46ad751f62067b516de0d6ec89355f0f4c4a9c6696"
         }
       ],
       "id": "x2-conflict-cleared"
@@ -1045,7 +1063,7 @@
       "files": [
         {
           "path": "corpora/vectors-execution-billing-finality/cases/x2-account-unfrozen/record.json",
-          "sha256": "84ec1afee6a1c0e74077dadb5358a2c92473fa7234375898086a4a56c2b97c8c"
+          "sha256": "667111e8ddf04ab65fae21879c2c77acd7fe3e568d99b4a3633d15b131f1b505"
         }
       ],
       "id": "x2-account-unfrozen"
@@ -1054,7 +1072,7 @@
       "files": [
         {
           "path": "corpora/vectors-execution-billing-finality/cases/x4-terminal-outcome-overwritten/record.json",
-          "sha256": "30e23e0c0ede0b412f24a2ceff7ce9c3c5a7ea6314f26dd95493dae292f808a3"
+          "sha256": "08613093ff6786f23d1939637d0ab82a57930750cd03fedbbb4c98ceb6f304f4"
         }
       ],
       "id": "x4-terminal-outcome-overwritten"
@@ -1063,7 +1081,7 @@
       "files": [
         {
           "path": "corpora/vectors-execution-billing-finality/cases/x4-outcome-reset-to-unknown/record.json",
-          "sha256": "3219658c50e65c6b62b5a4d2d86a2a7f486ba6dd40396168e82f44bce9e3f777"
+          "sha256": "39d5b40a3acc27c16cab21daaab2c1a559f697ba6b78273ad538335b461bde20"
         }
       ],
       "id": "x4-outcome-reset-to-unknown"

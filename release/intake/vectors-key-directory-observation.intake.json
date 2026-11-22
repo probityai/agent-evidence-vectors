@@ -45,7 +45,7 @@
       },
       "path": "corpora/vectors-key-directory-observation/README.md",
       "serialization": "bytes",
-      "sha256": "d62a60a51006a768fde00393851a2854088613b3a0b01a1dd32890c3b7564fcf"
+      "sha256": "74cfc1f05f0a904689b46d752d8f7e1dcca87ed315d4e940c9eabba1b0706003"
     },
     {
       "consumed": "unconsumed",
@@ -231,7 +231,6 @@
         "corpusreaders/identitybinding.go",
         "corpusreaders/ietfagentrecord.go",
         "corpusreaders/keydirectory.go",
-        "corpusreaders/keyrevocation.go",
         "corpusreaders/lifecyclebinding.go",
         "corpusreaders/mcpauthz.go",
         "corpusreaders/mcpowasp.go",
@@ -276,7 +275,7 @@
         "go.mod"
       ],
       "serialization": "sha256-listing-v1",
-      "sha256": "03897d25406b4edb71c736905eeb18729de4311f41f782579b39eea32881e46e"
+      "sha256": "646a6c74c2734ee8e1dc0708a86b2000b16775c9f2ecbf3437e0fd104e2efd8d"
     },
     "runtime": {
       "name": "go",
@@ -354,7 +353,6 @@
       "corpusreaders/identitybinding.go",
       "corpusreaders/ietfagentrecord.go",
       "corpusreaders/keydirectory.go",
-      "corpusreaders/keyrevocation.go",
       "corpusreaders/lifecyclebinding.go",
       "corpusreaders/mcpauthz.go",
       "corpusreaders/mcpowasp.go",
@@ -507,7 +505,7 @@
   ],
   "corpus-digest": {
     "serialization": "sha256-listing-v1",
-    "sha256": "f43697c55c11c7269a2b4157255874dad8d6cdf145e181990d31d6a6c0ac9bd8"
+    "sha256": "5af2c57fd3dfacb06700a39d119018f8aa5c51a32fb2cfc271e78c235b5a0450"
   },
   "exit-code": 0,
   "exit-rule": "zero-iff-every-check-passes",
