@@ -1243,14 +1243,12 @@ func cjWriterOf(write cjObject) cjObject {
 	return cjObject{"agent": write["agent"], "user": p["user"], "chainDigest": p["chainDigest"]}
 }
 
-// storeRead refuses a value read back (and not refused by its reader) that is
-// not the value last written to its key, or that names another writer.
+// storeRead refuses a read of a key no write ran to, a value read back (and not
+// refused by its reader) that is not the value last written to its key, and a
+// read, refused or not, that names another writer than that last write's.
 func (w *cjWalk) storeRead(entry cjObject) string {
-	if cjBool(entry, "refused") {
-		return ""
-	}
 	last, written := w.written[[2]string{cjStr(entry, "store"), cjStr(entry, "keyDigest")}]
-	if !written || last["valueDigest"] != entry["valueDigest"] {
+	if !written || (!cjBool(entry, "refused") && last["valueDigest"] != entry["valueDigest"]) {
 		return "read_value_unwritten"
 	}
 	named, _ := entry["writer"].(cjObject)

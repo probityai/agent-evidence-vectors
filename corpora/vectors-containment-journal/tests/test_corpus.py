@@ -240,6 +240,26 @@ def _bad_profile(record: dict[str, Any]) -> None:
     record["componentProfileDigest"] = "sha256:00"
 
 
+READ_BACK = "allow-write-attributed-and-read-back"
+WITHHELD = 4  # agent-c's read of agent-a's value, refused by agent-c for want of a rule
+
+
+def _withheld_read_names_another_writer(record: dict[str, Any]) -> None:
+    record["entries"][WITHHELD]["writer"] = {"agent": "agent-d"}
+
+
+def _withheld_read_names_another_user(record: dict[str, Any]) -> None:
+    record["entries"][WITHHELD]["writer"]["user"] = "another principal"
+
+
+def _withheld_read_of_an_unwritten_key(record: dict[str, Any]) -> None:
+    record["entries"][WITHHELD]["keyDigest"] = "sha256:" + "0" * 64
+
+
+def _withheld_read_of_another_value(record: dict[str, Any]) -> None:
+    record["entries"][WITHHELD]["valueDigest"] = "sha256:" + "0" * 64
+
+
 # Each attempt to get an isolated agent's call, an unattested document or an unbound
 # call past the 1.1 rules, and the reason the reader must give.
 BYPASSES = [
@@ -252,6 +272,9 @@ BYPASSES = [
     (ATTESTED, _outside, "retrieval_admitted_outside_snapshot"),
     (ATTESTED, _sibling_swapped, "retrieval_admitted_outside_snapshot"),
     (ATTESTED, _too_deep, "record_malformed"),
+    (READ_BACK, _withheld_read_names_another_writer, "read_writer_mismatch"),
+    (READ_BACK, _withheld_read_names_another_user, "read_writer_mismatch"),
+    (READ_BACK, _withheld_read_of_an_unwritten_key, "read_value_unwritten"),
 ]
 
 
@@ -260,6 +283,18 @@ BYPASSES = [
 def test_each_bypass_attempt_is_refused(tmp_path: Path, name: str, change: Any,
                                         reason: str) -> None:
     assert _edited_verdict(tmp_path, name, change) == {"decision": "deny", "reason": reason}
+
+
+def test_a_withheld_read_of_another_value_is_still_allowed(tmp_path: Path) -> None:
+    # The receipt binds the journal's head, so the edited journal is judged without it.
+    record = _record(READ_BACK)
+    _withheld_read_of_another_value(record)
+    generator.rechain(record["entries"])
+    staged = tmp_path / READ_BACK
+    staged.mkdir()
+    _write(staged / "record.json", record)
+    assert reader.verify(staged / "record.json") == {"decision": "allow",
+                                                    "reason": reader.ALLOWED_REASON}
 
 
 def test_a_run_that_names_no_snapshot_and_claims_none_is_judged_on_the_rest(

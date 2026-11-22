@@ -388,6 +388,47 @@ func TestContainmentJournalStructuredEditsGiveTheirReasons(t *testing.T) {
 	}
 }
 
+// A refused read still names the last write to its key, and that is checked. The
+// withheld read is entry 4 of the read-back case; the journal is cut after it, so it
+// is the head and the edit leaves the hash chain intact.
+func TestContainmentJournalWithheldReadNamesTheLastWriter(t *testing.T) {
+	const member = "allow-write-attributed-and-read-back"
+	edits := []struct{ path, value, want string }{
+		{`["writer"]`, `{"agent":"agent-d"}`, "read_writer_mismatch"},
+		{`["writer","user"]`, `"another principal"`, "read_writer_mismatch"},
+		{`["keyDigest"]`, `"sha256:0000000000000000000000000000000000000000000000000000000000000000"`, "read_value_unwritten"},
+		{`["valueDigest"]`, `"sha256:0000000000000000000000000000000000000000000000000000000000000000"`, "allowed"},
+	}
+	for _, edit := range edits {
+		t.Run(edit.path+"="+edit.value, func(t *testing.T) {
+			record := cjDecodeRecord(t, cjFile(t, member, "record.json"))
+			entries, _ := record["entries"].([]any)
+			withheld, _ := entries[4].(map[string]any)
+			if withheld["event"] != "store_read" || withheld["refused"] != true {
+				t.Fatalf("entry 4 of %s is not the withheld read: %v", member, withheld)
+			}
+			record["entries"] = entries[:5]
+			path, _ := cjJSON(t, edit.path).([]any)
+			cjSet(t, withheld, path, cjJSON(t, edit.value))
+			staged := cjStage(t, member, map[string][]byte{"record.json": cjEncode(t, record)})
+			// The receipt binds the uncut journal's head; the cut journal is judged without it.
+			if err := os.Remove(filepath.Join(staged, "cases", member, "receipt.json")); err != nil {
+				t.Fatal(err)
+			}
+			got := scDerived(t, staged, member)
+			if edit.want == "allowed" {
+				if !strings.Contains(got, "derived allow/") {
+					t.Fatalf("want an allow, got %q", got)
+				}
+				return
+			}
+			if !strings.Contains(got, "/"+edit.want+",") {
+				t.Fatalf("want %s, got %q", edit.want, got)
+			}
+		})
+	}
+}
+
 func TestContainmentJournalUnreadableManifestRows(t *testing.T) {
 	dir := cjStage(t, cjControl, nil)
 	manifest := filepath.Join(dir, "MANIFEST.json")

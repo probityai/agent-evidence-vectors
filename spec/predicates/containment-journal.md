@@ -120,10 +120,12 @@ that chain) and `digest`, which is `sha256:` and the hex SHA-256 of the canonica
 `{"agent": <agent>, "chainDigest": <chainDigest>, "user": <user>}`.
 
 A `store_read` records that `agent` read the value `valueDigest` back from `store` under
-`keyDigest`, and names the `writer` it attributes the value to: `{"agent": <a listed agent>}`,
-plus `user` and `chainDigest` together when the write it read was attributed. A read its reader
-refused (for example, the reader has no rule for that writer) carries `refused: true` and its
-reason, and asserts nothing about the value.
+`keyDigest`, and names the `writer` of the last write that ran to that key:
+`{"agent": <a listed agent>}`, plus `user` and `chainDigest` together when that write was
+attributed. A read its reader refused (for example, the reader has no rule for that writer, or
+the value is not the one last written) carries `refused: true` and its reason. It asserts
+nothing about the value, but its `writer` is still a statement about the key and is checked
+like any other: a refused read cannot name a writer that never wrote the key.
 
 ### The inclusion path
 
@@ -180,11 +182,11 @@ reason `containment_consistent`.
      refused, `write_value_not_permitted` when it names a `permitValueDigest` other than its
      `valueDigest`, and `write_by_isolated_agent` when its agent has no outgoing edge in the
      graph in force. A write that passes becomes the last write to its `(store, keyDigest)`;
-   - store_read (2.0), when not refused: `read_value_unwritten` when no earlier write that was
-     not refused wrote its `(store, keyDigest)`, or the last such write wrote another value;
-     `read_writer_mismatch` when its `writer` is not that write's agent with, when the write
-     names principals, their `user` and `chainDigest` (a value read back under a different
-     writer).
+   - store_read (2.0), refused or not: `read_value_unwritten` when no earlier write that was
+     not refused wrote its `(store, keyDigest)`, or, for a read that was not refused, the last
+     such write wrote another value; `read_writer_mismatch` when its `writer` is not that
+     write's agent with, when the write names principals, their `user` and `chainDigest` (a
+     value read back, or withheld, under a different writer).
 8. Run-level claims, after the walk: `advisory_claimed_as_enforced`,
    `defended_claim_after_fail_open`, `detector_output_uninformative`, and (1.1)
    `tool_call_authority_unbound` when `authorityChainChecked` is claimed and a tool call that

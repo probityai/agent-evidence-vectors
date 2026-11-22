@@ -39,8 +39,9 @@ every such event is an entry of one hash-chained journal:
   when attributed, its ``principals``: the user, the delegation chain digest and
   the digest of the (agent, user, chain) document;
 - ``store_read`` (revision 2.0): an agent read a value back, naming the writer
-  it attributes the value to; the walk checks that writer is the last write that
-  ran to the key, with the same value.
+  of the last write that ran to the key; the walk checks that writer for every
+  read, and for a read the reader did not refuse, that the value is the one that
+  write wrote.
 
 A reader of revision 1.x denies a journal that carries either revision 2.0 event
 (``closed_vocabulary_violation``), which is the correct answer for a reader that
@@ -600,10 +601,11 @@ class _Walk:
         self.written[(entry["store"], entry["keyDigest"])] = entry
 
     def _store_read(self, _: int, entry: Record) -> None:
-        if entry.get("refused") is True:
-            return  # the reader withheld the value; a refusal asserts nothing about who wrote it
+        # A read names the last write that ran to its key, refused or not: a reader that
+        # withheld the value still states who wrote the key, and that statement is checked.
         last = self.written.get((entry["store"], entry["keyDigest"]))
-        if last is None or last["valueDigest"] != entry["valueDigest"]:
+        refused = entry.get("refused") is True
+        if last is None or (not refused and last["valueDigest"] != entry["valueDigest"]):
             self.fail("read_value_unwritten")
             return
         if entry["writer"] != writer_of(last):

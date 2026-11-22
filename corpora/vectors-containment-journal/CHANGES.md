@@ -8,9 +8,10 @@ a case added bumps the revision, and the generator rewrites the cases byte-ident
 - Release note: two events, `write` and `store_read`. A write names its agent, store, key and
   value digests, whether it was refused and why, the value its permit bound
   (`permitValueDigest`) and, when attributed, its `principals` (user, delegation chain digest,
-  and the digest of the agent, user and chain). A read back names the writer it attributes the
-  value to, and the reader checks that writer is the last write that ran to the key, with the
-  same value. The blast-radius reach follows taint through a shared store.
+  and the digest of the agent, user and chain). A read back names the writer of the last write
+  that ran to the key. The reader checks that writer on every read, refused or not, and checks
+  the value on a read that was not refused, so a withheld read cannot name a writer that never
+  wrote the key. The blast-radius reach follows taint through a shared store.
 - Major revision: a reader of revision 1.x denies a journal that carries a `write` or a
   `store_read` entry with `closed_vocabulary_violation`. That is the correct behaviour for a
   reader that does not know an event, and the reason the number is 2.0. This is the write event
