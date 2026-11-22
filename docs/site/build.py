@@ -611,7 +611,10 @@ def contract_ids() -> list[tuple[str, str, Path]]:
     """
     found = manifest_contract_ids()
     for name, directory in README_CONTRACTS.items():
-        found.append((f"{CONTRACT_HOST}{name}", name, REPO_ROOT / directory))
+        # A tree without the corpus (a test fixture) has nothing to serve; in the real tree the
+        # identifier gate refuses a contract identifier that is named and has no page.
+        if (REPO_ROOT / directory).is_dir():
+            found.append((f"{CONTRACT_HOST}{name}", name, REPO_ROOT / directory))
     return sorted(found)
 
 
