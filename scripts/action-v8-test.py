@@ -771,6 +771,7 @@ def case_a_control_keeps_the_members_tier_and_a_mutant_need_not(work: Path) -> N
     stage = _load("action-mutate-stage.py")
     corpus = FIXTURES / "mutate" / "aee"
     manifest = action_checks.manifest_of(corpus)
+    assert manifest is not None, "the AEE fixture has no manifest"
     route = stage.reference_route(manifest, corpus)
     assert route is not None, "no reference route into the AEE fixture"
     judge, _, judge_control = route
