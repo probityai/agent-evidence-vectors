@@ -122,6 +122,61 @@ conforms = my_verdict in conforming_verdicts(entry)
 draft does not define codes, so a verifier is scored on the verdict alone; the
 codes are published so two implementations can compare where they stopped.
 
+## The external-verifier contract
+
+A named verifier runs over this corpus through the harness and the GitHub
+Action:
+
+```sh
+uvx agent-evidence-vectors==<release> --corpus vectors-agent-audit-record \
+  --verifier "<your verifier>" --report report.json
+```
+
+```yaml
+- uses: probityai/agent-evidence-vectors@<release tag>
+  with:
+    corpus: vectors-agent-audit-record
+    verifier: <your verifier>
+```
+
+The contract, identifier
+`https://probityai.github.io/agent-evidence-vectors/contract/agent-audit-record/v1`:
+
+- **Invocation.** `<verifier> <corpus-dir>/<member file> --json`, once per
+  member. The file is under `statements/`, `sets/` or `retained/`. The verifier
+  takes the observer key (`keys.observer.publicKey`), the accepted predicate
+  type and the anchor trust (`anchorTrust`) from the `MANIFEST.json` above the
+  member file, and reads nothing under `expected`.
+- **Output.** The last nonempty stdout line is one JSON object. `verdict` is
+  `valid` or `malformed`, and `codes` is an array of strings. Exit status 0
+  means `valid` and 1 means `malformed`. Any other status, or a status that
+  disagrees with `verdict`, counts as a disagreement.
+- **Members that declare more.** A valid answer carries `derivedTier` where the
+  entry declares one. A member declaring `withinLimit` needs `withinLimit`. A
+  set member (`sets/`) needs `set`: `verdict`, `codes`, and `missing` and
+  `withinLimit` where declared. A retained member (`retained/`) needs `dating`:
+  `entry`, `codes`, `datedAt` and `receipt` (absent where the entry has none),
+  and `delegationRoot.result`, plus `delegationRoot.algorithm` where declared.
+- **Scoring.** The verdict must be one of `conforming_verdicts(entry)`. The tier,
+  `withinLimit`, the `set` verdict, `missing` and `withinLimit`, and the
+  `dating` entry, `datedAt`, `receipt` and `delegationRoot` must equal what the
+  entry declares. No code array is scored: the record's `codes`, and the code
+  arrays inside `set` and `dating` (compared as sets), are reported under
+  `reasonParityNotes`, because the draft defines verdicts and results and not
+  codes. Only published members are scored. On a proposed member (see "Which
+  text each member tests") a difference is a note, the row reads
+  `differs-from-proposed`, and `totals.proposedDiffer` counts it. Each member's
+  `aggregation` block and the corpus-level claims (counts, digests, text
+  labels) are checked by the harness whatever verifier runs.
+
+The reference reader answers under the same contract, so it can stand in for
+your verifier when you wire the job:
+
+```sh
+agent-evidence-vectors --corpus vectors-agent-audit-record \
+  --verifier "python3 -m agent_evidence_vectors.auditrecord"
+```
+
 ## Independent runs
 
 The first reader from outside this repository is Mayur Agnihotri's
