@@ -1597,7 +1597,9 @@ def corpus_digest(manifest: dict[str, Any], root: str) -> str:
         declared = entry["files"]
         if {p.name for p in directory.iterdir() if p.is_file()} != set(declared):
             raise ValueError(f"{entry['id']}: file set changed")
-        files = {name: hashlib.sha256((directory / name).read_bytes()).hexdigest() for name in declared}
+        files = {
+            name: hashlib.sha256((directory / name).read_bytes()).hexdigest() for name in declared
+        }
         if files != declared:
             raise ValueError(f"{entry['id']}: file digest mismatch")
         entries.append({**entry, "files": files})
