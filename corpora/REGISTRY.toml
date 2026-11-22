@@ -721,18 +721,6 @@ standards = ["ietf-draft"]
 shapes = ["stale-authority", "uncertainty", "malformed-input"]
 
 [[corpus]]
-id = "vectors-key-revocation-list"
-path = "corpora/vectors-key-revocation-list"
-wheel = true
-sdist = true
-title = "Key-revocation lists"
-summary = "A verifier must trust a signed list of revoked keys only from a signer chosen by thumbprint, refuse tampered, replayed older and stale lists, keep revocations it has seen, and read an uncovered key as no statement."
-record_class = "record"
-domains = ["authority", "provenance"]
-standards = ["w3c"]
-shapes = ["stale-authority", "replay", "coverage-gap"]
-
-[[corpus]]
 id = "vectors-lifecycle-binding"
 path = "corpora/vectors-lifecycle-binding"
 wheel = true

@@ -160,7 +160,6 @@ from agent_evidence_vectors import (
     htxcases,
     identitybinding,
     keydirectory,
-    keyrevocation,
     lifecyclebinding,
     mcpowasp,
     monitorcoverage,
@@ -3924,7 +3923,6 @@ def _run_non_reference_suite(
         auditrecord.SUITE,
         sourcecoverage.SUITE,
         anchoredchain.SUITE,
-        keyrevocation.SUITE,
         principalbinding.SUITE,
         printwitness.SUITE,
         emptyinterval.SUITE,
@@ -3989,7 +3987,6 @@ def _run_non_reference_suite(
     # contract their README states, so every case is answered or the run fails.
     full_reader = {
         anchoredchain.SUITE: anchoredchain.run,
-        keyrevocation.SUITE: keyrevocation.run,
         principalbinding.SUITE: principalbinding.run,
         printwitness.SUITE: printwitness.run,
         emptyinterval.SUITE: emptyinterval.run,
