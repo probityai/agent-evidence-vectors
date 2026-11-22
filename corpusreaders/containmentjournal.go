@@ -708,7 +708,7 @@ var cjClosed = map[string][]string{
 	"availability":     {"scored", "no_output", "judge_missing"},
 	"witness":          {"SELF", "EXTERNAL"},
 	"decision":         {"act", "continue", "escalate"},
-	"reasonCode": cjRefusalCodes(),
+	"reasonCode":       cjRefusalCodes(),
 }
 
 var cjClosedOrder = []string{"event", "basis", "responseFunction", "failurePosture",

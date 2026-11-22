@@ -332,3 +332,31 @@ def test_the_manifest_revision_is_the_changelogs_newest() -> None:
     heading = next(line for line in (ROOT / "CHANGES.md").read_text(encoding="utf-8").splitlines()
                    if line.startswith("## suiteRevision "))
     assert manifest["suiteRevision"] == int(heading.split()[2])
+
+
+def test_the_registry_is_sorted_unique_snake_case_and_holds_the_four_original_codes() -> None:
+    codes = list(reader.REFUSAL_CODES)
+    assert codes == sorted(set(codes))
+    assert all("-" not in code and ":" not in code for code in codes)
+    assert {"budget_exhausted", "purpose_out_of_scope", "permit_revoked",
+            "authority_chain_violation"} <= set(codes)
+
+
+def test_both_readers_ship_the_same_registry_bytes() -> None:
+    package = Path(reader.__file__).resolve().parent / "refusal_codes.json"
+    go_copy = ROOT.parents[1] / "corpusreaders" / "refusal_codes.json"
+    assert package.read_bytes() == go_copy.read_bytes()
+
+
+def test_every_registry_family_has_a_control_case() -> None:
+    registry = json.loads((Path(reader.__file__).resolve().parent / "refusal_codes.json")
+                          .read_text("utf-8"))["codes"]
+    families = {entry["check"].split(".")[0] for entry in registry}
+    assert families == {name.removeprefix("allow-refusal-registry-code-") for name in ALLOWED
+                        if name.startswith("allow-refusal-registry-code-")}
+
+
+def test_a_refused_tool_call_is_no_reach() -> None:
+    record = {"entries": [{"event": "tool_call", "agent": "agent-c", "tool": "t", "refused": True},
+                          {"event": "tool_call", "agent": "agent-c", "tool": "t"}]}
+    assert reader.reach(record, "agent-c", 0)["toolCalls"] == 1

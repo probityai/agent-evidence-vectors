@@ -396,3 +396,42 @@ func TestContainmentJournalUnreadableManifestRows(t *testing.T) {
 		t.Fatal("want an error for a manifest that does not parse")
 	}
 }
+
+// The Go readers embed a copy of the refusal-code registry that the Python package ships: the two
+// must be the same bytes, a sorted list of unique snake-case codes that holds the four codes of
+// revisions 1.1 and 1.2.
+func TestContainmentJournalRegistryCopiesAreTheSameBytes(t *testing.T) {
+	goCopy, err := os.ReadFile("refusal_codes.json")
+	if err != nil {
+		t.Fatalf("read the embedded copy: %v", err)
+	}
+	pyCopy, err := os.ReadFile(filepath.Join("..", "packaging", "agent_evidence_vectors", "refusal_codes.json"))
+	if err != nil {
+		t.Fatalf("read the package copy: %v", err)
+	}
+	if !bytes.Equal(goCopy, pyCopy) {
+		t.Fatal("corpusreaders/refusal_codes.json differs from packaging/agent_evidence_vectors/refusal_codes.json")
+	}
+	var document struct {
+		Codes []struct {
+			Code string `json:"code"`
+		} `json:"codes"`
+	}
+	if err := json.Unmarshal(goCopy, &document); err != nil {
+		t.Fatalf("parse: %v", err)
+	}
+	held := map[string]bool{}
+	previous := ""
+	for _, entry := range document.Codes {
+		if entry.Code <= previous || strings.ContainsAny(entry.Code, "-: ") {
+			t.Fatalf("registry is not sorted unique snake-case at %q after %q", entry.Code, previous)
+		}
+		previous = entry.Code
+		held[entry.Code] = true
+	}
+	for _, code := range []string{"budget_exhausted", "purpose_out_of_scope", "permit_revoked", "authority_chain_violation"} {
+		if !held[code] {
+			t.Fatalf("registry lacks %s, a code of revisions 1.1 and 1.2", code)
+		}
+	}
+}

@@ -4,12 +4,14 @@ Type URI: https://probityai.github.io/agent-evidence-vectors/predicate/v1/contai
 
 Receipt type URI: https://probityai.github.io/agent-evidence-vectors/predicate/v1/blast-radius-receipt
 
-Version: 1.2 (corpus suite `containment-journal/v1`, `suiteRevision` 3)
+Version: 1.3 (corpus suite `containment-journal/v1`, `suiteRevision` 4)
 
 > Status: DRAFT, issued under a self-hosted `predicateType` URI. The URIs will not move once
 > a signed statement carries them. Revision 1.1 adds optional members only: a journal written
 > to revision 1.0 keeps its shape, and its verdict changes only where it records a tool call by
-> an agent that was isolated at the time (`tool_call_by_isolated_agent`).
+> an agent that was isolated at the time (`tool_call_by_isolated_agent`). Revision 1.3 takes the
+> shared refusal-code registry for a refusal's `reasonCode` and leaves a refused tool call out of
+> the blast radius; CHANGES.md in the corpus lists both verdict changes.
 
 ## Purpose
 
@@ -68,7 +70,7 @@ with `from` different from `to`.
 | `restoration` | `agent`, `admitted`, `threshold`, `evidence` (entry digests), `ruleDigest` |
 | `response` | `decision`, `alertAt`, `authority`, `reason`; `act` adds `actedAt` |
 | `tool_call` | `agent`, `tool`; optional (1.1) `refused` (boolean), `refusalReason` (present exactly when `refused` is true), `grantChainDigest` |
-| `refusal` (1.1) | `sender`, `receiver`, `bodyDigest`, `reasonCode` (one of the registered codes, below) |
+| `refusal` (1.1) | `sender`, `receiver`, `bodyDigest`, `reasonCode` (a code of the refusal-code registry, below) |
 | `retrieval` (1.1) | `agent`, `documentDigest`, `admitted` (boolean), `proof` (at most 64 steps, each `["left" or "right", digest]`) |
 
 Closed vocabularies: `enforcement`, `event`, `basis` (`detector_online_label`,
@@ -84,22 +86,28 @@ that carries no detail of the policy. It is not a delivery, so it is not a drop 
 edge; a delivery marked dropped over an edge in force is still refused with
 `drop_over_present_edge`.
 
-The registered `reasonCode` values are:
+From revision 1.3 the registered `reasonCode` values are the codes of the refusal-code
+registry (`https://probityai.github.io/agent-evidence-vectors/refusal-code/v1`, shipped as
+`refusal_codes.json` in the `agent-evidence-vectors` package and in the Go readers). A code is
+lowercase words joined by underscores; the code alone is recorded, and the detail a check
+may log beside it (`<code>:<detail>`) never reaches the journal. Revisions 1.1 and 1.2
+registered four codes, which the registry holds with the same meaning:
 
 | code | meaning |
 |---|---|
 | `budget_exhausted` | the sender's budget is spent |
 | `purpose_out_of_scope` | the message falls outside the purpose the sender was granted |
-| `permit_revoked` | the sender's permit is no longer valid: a revocation floor after a compromise epoch, or an agent on probation that holds a narrower permit class |
+| `permit_revoked` | a permit is used after its revocation |
 | `authority_chain_violation` | the delivery's grant chain crosses a data role, for example retrieved text or tool output acting as an instruction |
 
 The verdict does not depend on which registered code appears: any registered code gives the
-same result on the same journal, and a code the reader does not know is the only one it
-denies (`closed_vocabulary_violation`). A minor release may add codes to this registry, so a
+same result on the same journal, and a code the reader does not know, or one written in another
+form (`budget-exhausted`) or with a detail (`permit_revoked:link-2`), is the only one it
+denies (`closed_vocabulary_violation`). A minor release may add codes to the registry, so a
 reader denies only the codes it does not know and never infers a verdict from the meaning of
-a known one. `authority_chain_violation` is for deliveries only; a refused `tool_call`
-carries its reason in `refusalReason`, as free text. A refusal of a write belongs to the
-write event of the next major revision of this predicate and is not recorded by this event.
+a known one. A refused `tool_call` carries its reason in `refusalReason`, as free text. A
+refusal of a write belongs to the write event of the next major revision of this predicate and
+is not recorded by this event.
 
 ### The inclusion path
 
@@ -164,7 +172,7 @@ less one) and `reached` (`agents`: sorted unique, subject excluded; `deliveries`
 `toolCalls`). It is judged only beside an allowed journal. The reader recomputes the reach:
 from `fromSeq` on, a delivery not dropped whose sender is tainted taints the receiver and
 counts once, even when the receiver is already tainted, and a tool call by a tainted agent
-counts once, refused or not (a refusal entry is not a delivery and never counts). Rules
+counts once unless it was refused (1.3: a refused call reached nothing; a refusal entry is not a delivery and never counts). Rules
 in order: `receipt_contract_id_missing`, `receipt_contract_id_unknown`, `receipt_malformed`,
 `receipt_journal_mismatch`, `blast_radius_understated`, `blast_radius_overstated`; all pass is
 `allow`, `blast_radius_consistent`.
