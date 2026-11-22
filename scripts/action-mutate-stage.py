@@ -392,8 +392,11 @@ def load_stage() -> Any:
     return module
 
 
-def reference_route(manifest: dict[str, Any], corpus_dir: Path) -> tuple[Any, str] | None:
-    """A function judging one mutant's bytes, and the verifier id; None when there is no route."""
+Route = tuple[Callable[[dict[str, Any], Path], str], str, Callable[[dict[str, Any], Path], str]]
+
+
+def reference_route(manifest: dict[str, Any], corpus_dir: Path) -> Route | None:
+    """How the reference judges a mutant and a control, and its id; None when there is no route."""
     if manifest.get("predicateType") != AEE_PREDICATE:
         return None
     stage = load_stage()
@@ -401,8 +404,7 @@ def reference_route(manifest: dict[str, Any], corpus_dir: Path) -> tuple[Any, st
         return None
     # The reference pins the corpus's published key. Its verdict stays `valid` for a
     # payload signed with any other key and only the tier drops to `unattested`, so a
-    # file the unmutated member's signatures attest must still be attested: one that
-    # is not was re-signed under a misread recipe and is rejected as such.
+    # verdict alone cannot show that the stage re-signed with the right key.
     keys = [stage.aee_test_key()]
     attested: dict[str, bool] = {}
     for member in action_checks.listed_members(manifest):
@@ -413,17 +415,24 @@ def reference_route(manifest: dict[str, Any], corpus_dir: Path) -> tuple[Any, st
         attested[member["id"]] = "attested" in (found.get("tiers") or [])
 
     def judge(entry: dict[str, Any], root: Path) -> str:
+        # A mutant is judged on its verdict alone: an edit may lower the tier of a
+        # valid statement (a `basis` other than substrate does), and that is the
+        # reference's reading of the edit, which the verifier under test must match.
+        return str(stage.aee_decide(entry, root, keys)["verdict"])
+
+    def judge_control(entry: dict[str, Any], root: Path) -> str:
+        # A control is the member itself, re-encoded or re-signed by the stage. It
+        # carries no edit, so it must keep every tier the member has: one the
+        # member's own signatures attest that comes back unattested was re-signed
+        # with a key the corpus does not publish, and no mutant of it is compared.
         found = stage.aee_decide(entry, root, keys)
         verdict = str(found["verdict"])
-        if (
-            verdict == "valid"
-            and attested.get(entry["id"])
-            and "attested" not in (found.get("tiers") or [])
-        ):
-            return "invalid"
+        if verdict == "valid" and attested.get(entry["id"]):
+            if "attested" not in (found.get("tiers") or []):
+                return "unattested"
         return verdict
 
-    return judge, stage.reference_id()
+    return judge, stage.reference_id(), judge_control
 
 
 def candidate(verifier: list[str], path: Path) -> str:
@@ -498,7 +507,7 @@ def judge_controls(
     keys: set[tuple[str, str]],
     controls: dict[tuple[str, str], Build],
     verifier: list[str],
-    route: tuple[Any, str] | None,
+    route: Route | None,
     root: Path,
 ) -> dict[tuple[str, str], str | None]:
     """Each needed control judged by both verifiers: None when both accept it, else why not."""
@@ -511,7 +520,7 @@ def judge_controls(
         theirs = None
         if route is not None:
             try:
-                theirs = route[0]({"id": member_id, "file": path.name}, root)
+                theirs = route[2]({"id": member_id, "file": path.name}, root)
             except Exception as exc:  # noqa: BLE001 -- one control must not hide the rest
                 theirs = f"errored ({exc!r})"
         path.unlink()

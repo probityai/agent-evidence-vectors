@@ -760,6 +760,46 @@ def case_a_wrong_resign_key_is_caught_by_the_control(work: Path) -> None:
     assert corpus.is_dir()
 
 
+def case_a_control_keeps_the_members_tier_and_a_mutant_need_not(work: Path) -> None:
+    # The reference keeps a wrong-key signature `valid` and drops only its tier, so
+    # a control is held to the member's attested tier. A mutant is not: an edit that
+    # lowers the tier (a basis other than substrate) is the reference's own reading,
+    # and holding a mutant to it made the reference disagree with itself.
+    import copy
+    import hashlib
+
+    stage = _load("action-mutate-stage.py")
+    corpus = FIXTURES / "mutate" / "aee"
+    manifest = action_checks.manifest_of(corpus)
+    route = stage.reference_route(manifest, corpus)
+    assert route is not None, "no reference route into the AEE fixture"
+    judge, _, judge_control = route
+    member = action_checks.listed_members(manifest)[0]
+    document = json.loads((corpus / member["path"]).read_bytes())
+    path = next(stage.envelopes(document))
+    inner = json.loads(stage.base64.b64decode(stage.get_at(document, path)["payload"]))
+    right = stage.key_seed(manifest)
+    wrong = hashlib.sha256(b"not-the-published-label").digest()
+    dropped = copy.deepcopy(document)
+    dropped["predicate"]["attackResults"][0]["basis"] = "substratf"
+    files = {
+        "true": json.dumps(document).encode(),
+        "right-key": stage._resealed_as_is(document, path, inner, right)(),
+        "wrong-key": stage._resealed_as_is(document, path, inner, wrong)(),
+        "dropped-tier": json.dumps(dropped).encode(),
+    }
+    seen = {}
+    for name, data in files.items():
+        (work / f"{name}.json").write_bytes(data)
+        entry = {"id": member["id"], "file": f"{name}.json"}
+        seen[name] = (judge_control(entry, work), judge(entry, work))
+    assert seen["true"] == ("valid", "valid"), seen
+    assert seen["right-key"] == ("valid", "valid"), seen
+    assert seen["wrong-key"][0] != "valid", seen
+    assert seen["dropped-tier"][0] != "valid", seen
+    assert seen["dropped-tier"][1] == "valid", seen
+
+
 def case_a_control_tolerant_stage_goes_red(work: Path) -> None:
     mutant = _copy_with(work, "action-mutate-stage.py", "if control[key]:", "if False:")
     reject = f"{sys.executable} -S -c 'import sys; sys.exit(1)'"
@@ -845,6 +885,7 @@ CASES: list[Case] = [
     case_a_move_that_changes_nothing_is_no_mutant,
     case_an_always_reject_verifier_fails_the_mutation_stage,
     case_a_wrong_resign_key_is_caught_by_the_control,
+    case_a_control_keeps_the_members_tier_and_a_mutant_need_not,
     case_a_control_tolerant_stage_goes_red,
     case_a_profile_excuse_without_its_cause_goes_red,
     case_a_runtime_replay_is_counted_by_scenario,
