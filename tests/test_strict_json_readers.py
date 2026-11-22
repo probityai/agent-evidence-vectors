@@ -112,8 +112,12 @@ def _judged(module: ModuleType, path: Path) -> str:
 def test_a_case_reader_accepts_no_lenient_spelling(name: str, kind: str, tmp_path: Path) -> None:
     module = importlib.import_module(f"agent_evidence_vectors.{name}")
     directory, handed = _accepted_member(module)
-    copy = tmp_path / directory.name
+    root = Path(module.ROOT)
+    copy = tmp_path / "corpus" / directory.relative_to(root)
     shutil.copytree(directory, copy)
+    for top in root.iterdir():  # a reader may look for TRUST.json beside the manifest
+        if top.is_file():
+            shutil.copy2(top, tmp_path / "corpus" / top.name)
     assert _judged(module, copy / handed) in _accepting(module), "control copy not accepted"
     accepted = []
     for member in sorted(copy.rglob("*.json")):
