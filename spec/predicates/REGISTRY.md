@@ -169,6 +169,25 @@ verdict it carried), the condition, outcome and basis the client recorded, and
 whether the action was performed, so a consumer can tell a policy decision from a
 fallback and an allow from a fault read as one.
 
+### `predicate/v1/actor-marker-survival`
+
+- Document: `corpora/vectors-actor-marker-survival/README.md`
+- Corpus: `corpora/vectors-actor-marker-survival/`, suite `actor-marker-survival/v1`
+- Rails: `corpusreaders/actormarker.go`, `packaging/agent_evidence_vectors/actormarker.py`
+
+The predicate carries one delegated request as a chain of signed statements: the origin
+issuer's statement of the token it sent, then one statement per hop of the token it received
+and the token it sent, each in its protocol's native form (RFC 8693 nested `act` claims, or the
+A2A `actorChain` member proposed in a2aproject/A2A issue 2028). The acting-agent marker must
+survive every hop: an agent appends itself, a relay forwards unchanged, and a verifier refuses a
+stripped, replaced, reordered, inserted or truncated actor, a downgrade to the user alone, a
+marker carried only in an unsigned header, a deferred dispatch without the stored principals,
+and a token acted on despite an unknown critical header parameter (RFC 7515 section 4.1.11).
+
+- Envelope: a bare JSON record (`contractId`, `statements`), each statement Ed25519-signed over
+  its RFC 8785 bytes under a writer key and role taken from a trust bundle the verifier holds.
+- Example: `corpora/vectors-actor-marker-survival/cases/accept-protocol-change/record.json`.
+
 ### `predicate/v1/refusal-reason-priority`
 
 - Document: `corpora/vectors-refusal-reason-priority/README.md`

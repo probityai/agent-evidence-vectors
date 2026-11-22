@@ -40,7 +40,7 @@ CASE_READERS = (
     "decisionclient", "delegatorright", "dispatchfence", "evidencecell", "evidencestate",
     "gradefloor", "identitybinding", "monitorcoverage", "openweight", "paymentmandate",
     "propagationstep", "receiptchainend", "refusalreason", "signaturecoverage",
-    "statusreceipt", "traceanchor", "uncertaineffect",
+    "actormarker", "statusreceipt", "traceanchor", "uncertaineffect",
 )
 ACCEPTING = {"accepted", "allow", "verified", "supported", "anchored", "conformant", "exempt"}
 HOSTILE = ("repeated-member", "non-finite-member", "first-number-nan")

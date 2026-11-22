@@ -129,6 +129,7 @@ from typing import Any, NamedTuple, TypeGuard
 # that contract instead of being refused.
 from agent_evidence_vectors import (
     a2ajcs,
+    actormarker,
     admission,
     agenticprocess,
     aggregateaccounting,
@@ -3954,6 +3955,7 @@ def _run_non_reference_suite(
         lifecyclebinding.SUITE,
         rsadigestinfo.SUITE,
         executionbilling.SUITE,
+        actormarker.SUITE,
         *cardreceipt.SUITES,
         catalogtrust.SUITE,
         convertedargs.SUITE,
@@ -4019,6 +4021,7 @@ def _run_non_reference_suite(
         lifecyclebinding.SUITE: lifecyclebinding.run,
         rsadigestinfo.SUITE: rsadigestinfo.run,
         executionbilling.SUITE: executionbilling.run,
+        actormarker.SUITE: actormarker.run,
         **{suite: cardreceipt.runner(suite) for suite in cardreceipt.SUITES},
         catalogtrust.SUITE: catalogtrust.runner(catalogtrust.SUITE),
         convertedargs.SUITE: convertedargs.run,
@@ -5701,6 +5704,7 @@ def runtime_main(argv: list[str]) -> int:
         uncertaineffect.SUITE: uncertaineffect_runtime.run_runtime,
         decisionclient.SUITE: decisionclient_runtime.run_runtime,
         executionbilling.SUITE: executionbilling_runtime.run_runtime,
+        actormarker.SUITE: actormarker.run_runtime,
     }
     parser = argparse.ArgumentParser(
         prog="agent-evidence-vectors runtime",

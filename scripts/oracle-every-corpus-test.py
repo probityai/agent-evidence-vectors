@@ -74,6 +74,7 @@ RUNS_A_VERIFIER = (
     "vectors-lifecycle-binding",
     "vectors-rsa-digestinfo",
     "vectors-execution-billing-finality",
+    "vectors-actor-marker-survival",
     "vectors-agent-card-receipt",
     "vectors-credential-release",
     "vectors-chunked-export",
