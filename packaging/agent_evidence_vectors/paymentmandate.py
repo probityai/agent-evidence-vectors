@@ -34,6 +34,7 @@ from pathlib import Path
 from typing import Any
 
 from agent_evidence_vectors.w3cintake import ed25519_verify
+from . import strictjson
 
 SUITE = "agent-payment-mandate/v1"
 ACCEPTED, REJECTED = "accepted", "rejected"
@@ -174,9 +175,53 @@ def _post_checkout_missing(r: dict[str, Any], _policy: dict[str, Any]) -> bool:
     return not required <= set(_get(r, "post_checkout.recorded") or [])
 
 
+def _signing_key(r: dict[str, Any]) -> tuple[str, dict[str, Any] | None] | None:
+    """The signing time and the key-history entry for the signing key.
+
+    None when the record states no signing time or carries no key history: the key
+    rules then make no statement, so records without key history are judged as before.
+    """
+    signed_at = _get(r, "mandate.signature.signed_at")
+    keys = _get(r, "key_history.keys")
+    if not signed_at or not isinstance(keys, list):
+        return None
+    key_id = _get(r, "mandate.signature.key_id")
+    entry = next((k for k in keys if isinstance(k, dict) and k.get("key_id") == key_id), None)
+    return str(signed_at), entry
+
+
+def _key_unknown(r: dict[str, Any], _policy: dict[str, Any]) -> bool:
+    found = _signing_key(r)
+    return found is not None and found[1] is None
+
+
+def _key_not_yet_valid(r: dict[str, Any], _policy: dict[str, Any]) -> bool:
+    found = _signing_key(r)
+    return found is not None and found[1] is not None and found[0] < str(found[1]["valid_from"])
+
+
+def _key_rotated_out(r: dict[str, Any], _policy: dict[str, Any]) -> bool:
+    found = _signing_key(r)
+    return (
+        found is not None
+        and found[1] is not None
+        and found[1].get("valid_until") is not None
+        and found[0] >= str(found[1]["valid_until"])
+    )
+
+
+def _key_revoked(r: dict[str, Any], _policy: dict[str, Any]) -> bool:
+    found = _signing_key(r)
+    return (
+        found is not None
+        and found[1] is not None
+        and found[1].get("revoked_effective_from") is not None
+        and found[0] >= str(found[1]["revoked_effective_from"])
+    )
+
+
 CHECKS: tuple[tuple[str, Callable[[dict[str, Any], dict[str, Any]], bool]], ...] = (
     ("mandate_unsigned", _unsigned),
-    ("mandate_signature_invalid", _mandate_signature_invalid),
     ("mandate_digest_mismatch", _digest_mismatch),
     ("credential_not_bound_to_mandate", _not_bound),
     ("mandate_expired", _expired),
@@ -186,9 +231,14 @@ CHECKS: tuple[tuple[str, Callable[[dict[str, Any], dict[str, Any]], bool]], ...]
     ("token_not_the_executed_token", _token_mismatch),
     ("single_use_token_replayed", _replayed),
     ("receipt_not_bound_to_execution", _receipt_unbound),
+    ("post_checkout_action_missing", _post_checkout_missing),
+    ("signing_key_unknown", _key_unknown),
+    ("signing_key_not_yet_valid", _key_not_yet_valid),
+    ("signing_key_rotated_out", _key_rotated_out),
+    ("signing_key_revoked", _key_revoked),
+    ("mandate_signature_invalid", _mandate_signature_invalid),
     ("receipt_signer_not_witness", _receipt_signer_not_witness),
     ("receipt_signature_invalid", _receipt_signature_invalid),
-    ("post_checkout_action_missing", _post_checkout_missing),
 )
 
 RULES = tuple(code for code, _ in CHECKS)
@@ -216,7 +266,7 @@ def verify(
     skip: frozenset[str] = frozenset(),
     policy: dict[str, Any] | None = None,
 ) -> dict[str, str]:
-    return decide(json.loads(case_path.read_text(encoding="utf-8")), skip, policy)
+    return decide(strictjson.loads(case_path.read_text(encoding="utf-8")), skip, policy)
 
 
 def _fixture_error(directory: Path, entry: dict[str, Any]) -> str | None:
@@ -230,7 +280,7 @@ def _fixture_error(directory: Path, entry: dict[str, Any]) -> str | None:
 
 
 def _validated_entries(root: Path) -> tuple[list[dict[str, Any]], str | None]:
-    manifest = json.loads((root / "MANIFEST.json").read_text(encoding="utf-8"))
+    manifest = strictjson.loads((root / "MANIFEST.json").read_text(encoding="utf-8"))
     entries = manifest["vectors"]
     if _sha(_json(entries)) != manifest["corpusDigest"]:
         return [], "manifest digest mismatch"
@@ -270,7 +320,7 @@ def _external_answer(
     except (OSError, subprocess.TimeoutExpired) as exc:
         return False, f"verifier did not run: {exc}"
     try:
-        answer = json.loads(result.stdout)
+        answer = strictjson.loads(result.stdout)
         observed = {key: answer[key] for key in ("decision", "reason")}
     except (ValueError, KeyError, TypeError):
         return True, f"verifier returned no decision (exit {result.returncode})"
@@ -323,7 +373,7 @@ def run(root: str, verifier: list[str] | None, report_path: str, rail_note: str)
     directory = Path(root)
     answered, errors = check(verifier, directory)
     try:
-        manifest = json.loads((directory / "MANIFEST.json").read_text(encoding="utf-8"))
+        manifest = strictjson.loads((directory / "MANIFEST.json").read_text(encoding="utf-8"))
         total = len(manifest["vectors"])
     except (OSError, ValueError, KeyError, TypeError):
         manifest, total = {}, 0
@@ -376,7 +426,7 @@ def main(argv: list[str] | None = None) -> int:
     answered, errors = check(args.verifier)
     for error in errors:
         print(error)
-    total = len(json.loads((ROOT / "MANIFEST.json").read_text(encoding="utf-8"))["vectors"])
+    total = len(strictjson.loads((ROOT / "MANIFEST.json").read_text(encoding="utf-8"))["vectors"])
     print(f"answered {answered} of {total} cases")
     return 1 if errors or answered != total else 0
 

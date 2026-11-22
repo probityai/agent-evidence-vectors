@@ -47,7 +47,7 @@ if __package__ in (None, ""):
     # Run as a script from a checkout: make the package importable by name.
     sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from agent_evidence_vectors import contextdiscovery, runmetrics  # noqa: E402
+from agent_evidence_vectors import contextdiscovery, runmetrics, strictjson  # noqa: E402
 
 SUITE = "w3c-report-v01-conformance"
 #: What a member of the corpus is a report OF. A report is judged by the rows
@@ -207,10 +207,15 @@ def load_json(raw: bytes | str) -> Any:
 
     An integer parses to IntToken and any other number to NumberToken, an exact
     Decimal, so a digest decides on the value the token denotes and a refusal
-    names the token as it was written. NaN and Infinity are not JSON.
+    names the token as it was written. NaN and Infinity are not JSON, and an
+    object that names one member twice is refused rather than read as its last.
     """
     return json.loads(
-        raw, parse_int=IntToken, parse_float=NumberToken, parse_constant=_refuse_constant
+        raw,
+        object_pairs_hook=strictjson.refuse_repeated,
+        parse_int=IntToken,
+        parse_float=NumberToken,
+        parse_constant=_refuse_constant,
     )
 
 
@@ -1436,7 +1441,7 @@ def corpus_digest(manifest: dict[str, Any], root: str) -> str:
 
 def judge(directory: str) -> Judged:
     with open(os.path.join(directory, "MANIFEST.json"), encoding="utf-8") as handle:
-        manifest = json.load(handle)
+        manifest = strictjson.load(handle)
     judged = Judged()
     known = _requirements(directory, manifest, judged.findings)
     seen: set[str] = set()
@@ -1760,7 +1765,7 @@ def main(argv: list[str] | None = None) -> int:
         sys.stdout.write(render(judged, SUITE))
         return 0 if judged.ok() else 1
     with open(args.conformance_report, encoding="utf-8") as handle:
-        report = emit(json.load(handle), args.tree_shape)
+        report = emit(strictjson.load(handle), args.tree_shape)
     json.dump(report, sys.stdout, indent=2, sort_keys=True)
     sys.stdout.write("\n")
     return 0

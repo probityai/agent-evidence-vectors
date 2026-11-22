@@ -852,7 +852,7 @@ func arSetRecords(raw []byte) ([][]byte, error) {
 	var bundle struct {
 		Records []json.RawMessage `json:"records"`
 	}
-	if err := json.Unmarshal(raw, &bundle); err != nil || bundle.Records == nil {
+	if err := strictUnmarshal(raw, &bundle); err != nil || bundle.Records == nil {
 		return nil, arRefuse("set-unreadable")
 	}
 	envelopes := make([][]byte, 0, len(bundle.Records))
@@ -867,10 +867,10 @@ func arEnvelopePayload(envelope []byte) ([]byte, error) {
 	var parsed struct {
 		Payload string `json:"payload"`
 	}
-	if err := json.Unmarshal(envelope, &parsed); err != nil {
+	if err := strictUnmarshal(envelope, &parsed); err != nil {
 		return nil, err
 	}
-	return base64.StdEncoding.DecodeString(parsed.Payload)
+	return decodeCanonical(base64.StdEncoding, parsed.Payload)
 }
 
 // arEnvelopePredicate reads the predicate of an envelope already judged valid.

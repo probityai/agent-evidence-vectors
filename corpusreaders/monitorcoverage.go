@@ -84,13 +84,13 @@ type mcRecord struct {
 
 func (monitorCoverage) Judge(dir string, raw []byte) (*Result, error) {
 	var manifest scManifest
-	if err := json.Unmarshal(raw, &manifest); err != nil {
+	if err := strictUnmarshal(raw, &manifest); err != nil {
 		return nil, fmt.Errorf("%s/MANIFEST.json does not parse: %w", dir, err)
 	}
 	result := &Result{}
 	for _, entry := range manifest.Vectors {
 		var v mcVector
-		if err := json.Unmarshal(entry, &v); err != nil {
+		if err := strictUnmarshal(entry, &v); err != nil {
 			result.Findings = append(result.Findings, fmt.Sprintf("a manifest row does not parse: %v", err))
 			continue
 		}
@@ -150,7 +150,7 @@ func mcCountsInvalid(r mcRecord) bool {
 
 func mcDecide(r mcRecord) scDecision {
 	var contract string
-	known := len(r.ContractID) > 0 && json.Unmarshal(r.ContractID, &contract) == nil && contract == mcContractID
+	known := len(r.ContractID) > 0 && strictUnmarshal(r.ContractID, &contract) == nil && contract == mcContractID
 	clean := r.Verdict.Result == "clean"
 	at := func(stamp string) time.Time { t, _ := time.Parse(time.RFC3339, stamp); return t }
 	start, end := at(r.Window.Start), at(r.Window.End)

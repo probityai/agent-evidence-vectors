@@ -1,0 +1,451 @@
+{
+  "contractId": "https://probityai.github.io/agent-evidence-observer/contract/budget-lineage/v1",
+  "corpusDigest": "e9f39729e43f3200958350bd3bf2151ead073dabfccc03db37c72292887ac12e",
+  "counts": {
+    "allow": 7,
+    "deny": 14
+  },
+  "suite": "budget-lineage/v1",
+  "vectors": [
+    {
+      "edit": "control: the principal delegates to agent-a, agent-a to agent-b, and the two spend 7 of 10 units of the principal's budget",
+      "expected": {
+        "decision": "allow",
+        "reason": "lineage_held"
+      },
+      "files": {
+        "record.json": "abb688b0ab3555f473fe935757de92dfb876f907eb83bbdc08a2d511ce2a3c25"
+      },
+      "id": "allow-two-hop-tree-within-budget",
+      "path": "cases/allow-two-hop-tree-within-budget",
+      "retained": {
+        "agents": [
+          "agent-a",
+          "agent-b"
+        ],
+        "budget": "budget-1",
+        "chargedUnits": 7,
+        "principal": "principal-1"
+      }
+    },
+    {
+      "edit": "control: agent-a holds a carve of 6 from the principal's 10 and its subtree spends 6",
+      "expected": {
+        "decision": "allow",
+        "reason": "lineage_held"
+      },
+      "files": {
+        "record.json": "e0fce82089c2788505948a5d237e5fb7dd78471df6f2397e90650629b53ef373"
+      },
+      "id": "allow-carve-within-parent",
+      "path": "cases/allow-carve-within-parent",
+      "retained": {
+        "agents": [
+          "agent-a",
+          "agent-b"
+        ],
+        "budget": "budget-1",
+        "chargedUnits": 6,
+        "principal": "principal-1"
+      }
+    },
+    {
+      "edit": "control: agent-c sits at depth 3 against a limit of 3 and is charged",
+      "expected": {
+        "decision": "allow",
+        "reason": "lineage_held"
+      },
+      "files": {
+        "record.json": "02eed809b82f0e764a6fe6f169072978b809b6406f6703aad1f04f6e95ac7e39"
+      },
+      "id": "allow-depth-at-limit",
+      "path": "cases/allow-depth-at-limit",
+      "retained": {
+        "agents": [
+          "agent-c"
+        ],
+        "budget": "budget-1",
+        "chargedUnits": 2,
+        "principal": "principal-1"
+      }
+    },
+    {
+      "edit": "control: agent-x was never delegated to, so its 9 units on another budget are not the tree's",
+      "expected": {
+        "decision": "allow",
+        "reason": "lineage_held"
+      },
+      "files": {
+        "record.json": "e13204661ab887fb81af2e735d12019a55f15693043e1b129ca9086dd62fe051"
+      },
+      "id": "allow-outsider-booked-elsewhere",
+      "path": "cases/allow-outsider-booked-elsewhere",
+      "retained": {
+        "agents": [
+          "agent-a",
+          "agent-b",
+          "agent-x"
+        ],
+        "budget": "budget-1",
+        "chargedUnits": 7,
+        "principal": "principal-1"
+      }
+    },
+    {
+      "edit": "control: agent-b's grant was revoked at 12:05 and its charge on another budget came at 12:06",
+      "expected": {
+        "decision": "allow",
+        "reason": "lineage_held"
+      },
+      "files": {
+        "record.json": "7f169e307ab53e82339b90d49c2e98c7e2132b574d8062f18dee407a0d18a70a"
+      },
+      "id": "allow-revoked-delegate-books-elsewhere-after-revocation",
+      "path": "cases/allow-revoked-delegate-books-elsewhere-after-revocation",
+      "retained": {
+        "agents": [
+          "agent-a",
+          "agent-b"
+        ],
+        "budget": "budget-1",
+        "chargedUnits": 3,
+        "principal": "principal-1"
+      }
+    },
+    {
+      "edit": "control: revoking agent-a at 12:05 removes agent-b with it, so agent-b's charge elsewhere at 12:06 is not the tree's",
+      "expected": {
+        "decision": "allow",
+        "reason": "lineage_held"
+      },
+      "files": {
+        "record.json": "0798f433dccfa8f7d9263a012775127f6b41799faa605cae44f2a49118c2dde3"
+      },
+      "id": "allow-grandchild-after-parent-revoked-books-elsewhere",
+      "path": "cases/allow-grandchild-after-parent-revoked-books-elsewhere",
+      "retained": {
+        "agents": [
+          "agent-a",
+          "agent-b"
+        ],
+        "budget": "budget-1",
+        "chargedUnits": 3,
+        "principal": "principal-1"
+      }
+    },
+    {
+      "edit": "control: agent-b asked another budget for 8 and was refused, so nothing was charged",
+      "expected": {
+        "decision": "allow",
+        "reason": "lineage_held"
+      },
+      "files": {
+        "record.json": "47d39635ae3f1b003c27c6acf3ebc681aa7df2f51c57251f6163828b1361be03"
+      },
+      "id": "allow-refused-elsewhere-not-charged",
+      "path": "cases/allow-refused-elsewhere-not-charged",
+      "retained": {
+        "agents": [
+          "agent-a",
+          "agent-b"
+        ],
+        "budget": "budget-1",
+        "chargedUnits": 7,
+        "principal": "principal-1"
+      }
+    },
+    {
+      "edit": "the record names no contract",
+      "expected": {
+        "decision": "deny",
+        "reason": "contract_id_missing"
+      },
+      "files": {
+        "record.json": "2d54cfbd1d0bbfde63cafb8a4e895d0201b633cd093eff7ce3c77be85600fa09"
+      },
+      "id": "contract-id-missing",
+      "path": "cases/contract-id-missing",
+      "retained": {
+        "agents": [
+          "agent-a",
+          "agent-b"
+        ],
+        "budget": "budget-1",
+        "chargedUnits": 7,
+        "principal": "principal-1"
+      }
+    },
+    {
+      "edit": "the record names a contract version that does not exist",
+      "expected": {
+        "decision": "deny",
+        "reason": "contract_id_unknown"
+      },
+      "files": {
+        "record.json": "95bf08b095341d1aff544012247538c784fa34230d8b4f25d305530d905dfc12"
+      },
+      "id": "contract-id-unknown",
+      "path": "cases/contract-id-unknown",
+      "retained": {
+        "agents": [
+          "agent-a",
+          "agent-b"
+        ],
+        "budget": "budget-1",
+        "chargedUnits": 7,
+        "principal": "principal-1"
+      }
+    },
+    {
+      "edit": "a charge carries a negative number of units",
+      "expected": {
+        "decision": "deny",
+        "reason": "malformed_record"
+      },
+      "files": {
+        "record.json": "f8de65ce9e6bf4ef9ab7d04a0aed3872294de68c09ce8699e7780afa38fc0542"
+      },
+      "id": "malformed-ledger-units-negative",
+      "path": "cases/malformed-ledger-units-negative",
+      "retained": {
+        "agents": [
+          "agent-a",
+          "agent-b"
+        ],
+        "budget": "budget-1",
+        "chargedUnits": 1,
+        "principal": "principal-1"
+      }
+    },
+    {
+      "edit": "the delegations are an object, not a list",
+      "expected": {
+        "decision": "deny",
+        "reason": "malformed_record"
+      },
+      "files": {
+        "record.json": "92fc074d5b5e25fd09def9458e74d2c9ac53b209e570cd3c91d8617386903bd0"
+      },
+      "id": "malformed-delegations-not-list",
+      "path": "cases/malformed-delegations-not-list",
+      "retained": {
+        "agents": [
+          "agent-a",
+          "agent-b"
+        ],
+        "budget": "budget-1",
+        "chargedUnits": null,
+        "principal": "principal-1"
+      }
+    },
+    {
+      "edit": "agent-a's grant to agent-b has no acceptance by agent-b: only the delegator says it handed the task over, so agent-b cannot be held to it",
+      "expected": {
+        "decision": "deny",
+        "reason": "delegation_unilateral"
+      },
+      "files": {
+        "record.json": "5ddc60505da34e17840ea95f85f59c54038489694f3308ea4d7c39c089113146"
+      },
+      "id": "delegation-recorded-only-by-delegator",
+      "path": "cases/delegation-recorded-only-by-delegator",
+      "retained": {
+        "agents": [
+          "agent-a",
+          "agent-b"
+        ],
+        "budget": "budget-1",
+        "chargedUnits": 7,
+        "principal": "principal-1"
+      }
+    },
+    {
+      "edit": "agent-b accepts a grant g-z that no delegator issued",
+      "expected": {
+        "decision": "deny",
+        "reason": "delegation_unilateral"
+      },
+      "files": {
+        "record.json": "b654ed3b0de00c17169be5188b589d9392d41ea2d1a9c29e575e287eec99770c"
+      },
+      "id": "delegation-claimed-only-by-delegate",
+      "path": "cases/delegation-claimed-only-by-delegate",
+      "retained": {
+        "agents": [
+          "agent-a",
+          "agent-b"
+        ],
+        "budget": "budget-1",
+        "chargedUnits": 7,
+        "principal": "principal-1"
+      }
+    },
+    {
+      "edit": "agent-b's authority comes from agent-x, which the principal never delegated to",
+      "expected": {
+        "decision": "deny",
+        "reason": "delegation_detached"
+      },
+      "files": {
+        "record.json": "180f974b3a97c46bec6b434c02bfc71113c3384b69709facc239aca2ba5c1391"
+      },
+      "id": "delegation-from-outside-tree",
+      "path": "cases/delegation-from-outside-tree",
+      "retained": {
+        "agents": [
+          "agent-a",
+          "agent-b"
+        ],
+        "budget": "budget-1",
+        "chargedUnits": 7,
+        "principal": "principal-1"
+      }
+    },
+    {
+      "edit": "agent-d sits at depth 4 against a limit of 3 and was admitted, as a runtime that counts depth from a flow agent-c opened afresh would admit it",
+      "expected": {
+        "decision": "deny",
+        "reason": "depth_limit_exceeded"
+      },
+      "files": {
+        "record.json": "eedc5eadf1c36b59b731f2413d5858d316d3e6816dc277d3bc3bad45ef2bad75"
+      },
+      "id": "depth-reset-by-fresh-root",
+      "path": "cases/depth-reset-by-fresh-root",
+      "retained": {
+        "agents": [
+          "agent-d"
+        ],
+        "budget": "budget-1",
+        "chargedUnits": 2,
+        "principal": "principal-1"
+      }
+    },
+    {
+      "edit": "agent-a holds 6 units and carves 9 for agent-b: the sub-agent's budget is wider than the one it inherits",
+      "expected": {
+        "decision": "deny",
+        "reason": "carve_exceeds_parent"
+      },
+      "files": {
+        "record.json": "6c24393f1f313f69d8c3101c32662619535e1dd8932d1a9fb9f71dce98c76cc4"
+      },
+      "id": "carve-wider-than-parent",
+      "path": "cases/carve-wider-than-parent",
+      "retained": {
+        "agents": [
+          "agent-b"
+        ],
+        "budget": "budget-1",
+        "chargedUnits": 2,
+        "principal": "principal-1"
+      }
+    },
+    {
+      "edit": "agent-b opened a fresh root and was charged 6 against a budget nobody delegated, while the principal's budget shows only agent-a's 6 of 10",
+      "expected": {
+        "decision": "deny",
+        "reason": "charge_outside_lineage"
+      },
+      "files": {
+        "record.json": "f6c7f7a69912734fc950e5ed80c5f2d02555126799c496ced4fcd6aa374977cd"
+      },
+      "id": "subagent-rerooted-budget",
+      "path": "cases/subagent-rerooted-budget",
+      "retained": {
+        "agents": [
+          "agent-a",
+          "agent-b"
+        ],
+        "budget": "budget-1",
+        "chargedUnits": 6,
+        "principal": "principal-1"
+      }
+    },
+    {
+      "edit": "agent-b's charge on another budget came at 12:04, while its grant ran until 12:05",
+      "expected": {
+        "decision": "deny",
+        "reason": "charge_outside_lineage"
+      },
+      "files": {
+        "record.json": "e73cc59ae8f09a6097b58bce27f2da07d862cca879e7cf3ae5b5957c0d6367ec"
+      },
+      "id": "rerooted-charge-before-revocation",
+      "path": "cases/rerooted-charge-before-revocation",
+      "retained": {
+        "agents": [
+          "agent-a",
+          "agent-b"
+        ],
+        "budget": "budget-1",
+        "chargedUnits": 3,
+        "principal": "principal-1"
+      }
+    },
+    {
+      "edit": "agent-b's charge on a fresh root has an unknown outcome, which still counts",
+      "expected": {
+        "decision": "deny",
+        "reason": "charge_outside_lineage"
+      },
+      "files": {
+        "record.json": "7b6b6ef1229dfed3cef62a50bf599298295135a584344047e6fbb4935ce04acd"
+      },
+      "id": "rerooted-unknown-outcome",
+      "path": "cases/rerooted-unknown-outcome",
+      "retained": {
+        "agents": [
+          "agent-a",
+          "agent-b"
+        ],
+        "budget": "budget-1",
+        "chargedUnits": 3,
+        "principal": "principal-1"
+      }
+    },
+    {
+      "edit": "three agents each spend 4, inside any per-agent limit of 5, and together spend 12 of the principal's 10",
+      "expected": {
+        "decision": "deny",
+        "reason": "lineage_overspend"
+      },
+      "files": {
+        "record.json": "089dcc7844b7892abb667c9f30c173a39ac97791f8346f002b4605a9780cde7b"
+      },
+      "id": "overspend-across-subtrees",
+      "path": "cases/overspend-across-subtrees",
+      "retained": {
+        "agents": [
+          "agent-a",
+          "agent-b",
+          "agent-e"
+        ],
+        "budget": "budget-1",
+        "chargedUnits": 12,
+        "principal": "principal-1"
+      }
+    },
+    {
+      "edit": "agent-b spends 7 from agent-a's carve of 6, though the principal's 10 would cover it",
+      "expected": {
+        "decision": "deny",
+        "reason": "lineage_overspend"
+      },
+      "files": {
+        "record.json": "20e6e5444ac1a2c43735f425e2a2e6555244a4b5234e3ce005c6d3568f8042e0"
+      },
+      "id": "overspend-inside-carve",
+      "path": "cases/overspend-inside-carve",
+      "retained": {
+        "agents": [
+          "agent-b"
+        ],
+        "budget": "budget-1",
+        "chargedUnits": 7,
+        "principal": "principal-1"
+      }
+    }
+  ],
+  "verifierContract": "verifier record.json --json; exit 0 allow, 1 deny"
+}

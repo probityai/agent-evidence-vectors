@@ -382,7 +382,7 @@ func arInclusionRoot(leaf []byte, leafIndex, treeSize uint64, path [][]byte) []b
 // opentimestamps anchor its block height with ots set; "" when it does not validate.
 func arAnchorTime(anchor map[string]any, digest []byte, heads []arTreeHead) (string, uint64, bool) {
 	text, _ := anchor["proof"].(string)
-	proof, err := base64.StdEncoding.DecodeString(text)
+	proof, err := decodeCanonical(base64.StdEncoding, text)
 	if err != nil {
 		return "", 0, false
 	}
@@ -438,7 +438,7 @@ func arJWKAlgorithm(material []byte) (string, error) {
 			Crv string `json:"crv"`
 		} `json:"keys"`
 	}
-	if err := json.Unmarshal(material, &set); err != nil {
+	if err := strictUnmarshal(material, &set); err != nil {
 		return "", err
 	}
 	algorithm := ""
@@ -473,7 +473,7 @@ func arDelegationRoot(r *arRetained) error {
 		return nil
 	}
 	text, _ := elements[0]["value"].(string)
-	material, err := base64.StdEncoding.DecodeString(text)
+	material, err := decodeCanonical(base64.StdEncoding, text)
 	if err != nil {
 		return arRefuse("entry-delegation-root-unreadable")
 	}
@@ -702,6 +702,9 @@ func arDate(envelope any, entryRaw any, issuedAt, rootDigest string, heads []arT
 // arUnwrapRetained returns the envelope bytes and the parsed bundle of a
 // retained member's file.
 func arUnwrapRetained(raw []byte) ([]byte, map[string]any, error) {
+	if err := refuseRepeatedMembers(raw); err != nil {
+		return nil, nil, err
+	}
 	decoder := json.NewDecoder(bytes.NewReader(raw))
 	decoder.UseNumber()
 	var bundle map[string]any
@@ -732,10 +735,10 @@ func arVerifyRetained(raw []byte, predicateType, observerKey string, heads []arT
 	var parsed struct {
 		Payload string `json:"payload"`
 	}
-	if json.Unmarshal(envelope, &parsed) != nil {
+	if strictUnmarshal(envelope, &parsed) != nil {
 		return report, arDating{Entry: "malformed", Codes: []string{"entry-record-unreadable"}, DelegationRoot: arNotEstablished}
 	}
-	payload, err := base64.StdEncoding.DecodeString(parsed.Payload)
+	payload, err := decodeCanonical(base64.StdEncoding, parsed.Payload)
 	if err != nil {
 		return report, arDating{Entry: "malformed", Codes: []string{"entry-record-unreadable"}, DelegationRoot: arNotEstablished}
 	}
@@ -747,7 +750,7 @@ func arVerifyRetained(raw []byte, predicateType, observerKey string, heads []arT
 			} `json:"delegation"`
 		} `json:"predicate"`
 	}
-	if json.Unmarshal(payload, &statement) != nil {
+	if strictUnmarshal(payload, &statement) != nil {
 		return report, arDating{Entry: "malformed", Codes: []string{"entry-record-unreadable"}, DelegationRoot: arNotEstablished}
 	}
 	return report, arDate(bundle["envelope"], bundle["retention"], statement.Predicate.IssuedAt,

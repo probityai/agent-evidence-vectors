@@ -80,7 +80,7 @@ type agentActionVector struct {
 
 func (a agentAction) Judge(dir string, raw []byte) (*Result, error) {
 	var m agentActionManifest
-	if err := json.Unmarshal(raw, &m); err != nil {
+	if err := strictUnmarshal(raw, &m); err != nil {
 		return nil, fmt.Errorf("%s/MANIFEST.json does not parse: %w", dir, err)
 	}
 	result := &Result{}
@@ -145,7 +145,7 @@ func (a agentAction) judgeMember(dir string, m *agentActionManifest, ctx *agentA
 		return
 	}
 	var statement map[string]any
-	if err := json.Unmarshal(body, &statement); err != nil {
+	if err := strictUnmarshal(body, &statement); err != nil {
 		out.Findings = append(out.Findings, "the statement does not parse: "+err.Error())
 		return
 	}

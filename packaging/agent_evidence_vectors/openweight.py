@@ -57,6 +57,8 @@ import subprocess
 from pathlib import Path
 from typing import Any
 
+from . import strictjson
+
 SUITE = "open-weight-art53/v1"
 EXEMPT, NOT_EXEMPT, NOT_ESTABLISHED = "exempt", "not-exempt", "not-established"
 RELEASE_SCHEMA = "open-weight-release/v1"
@@ -169,8 +171,8 @@ def assess(release: dict[str, Any]) -> dict[str, Any]:
 
 def verify(case_path: Path) -> dict[str, Any]:
     """Read ``case.json``, load the release it names and judge it."""
-    case = json.loads(case_path.read_text(encoding="utf-8"))
-    release = json.loads((case_path.parent / case["release"]).read_text(encoding="utf-8"))
+    case = strictjson.loads(case_path.read_text(encoding="utf-8"))
+    release = strictjson.loads((case_path.parent / case["release"]).read_text(encoding="utf-8"))
     if release.get("schema_version") != RELEASE_SCHEMA:
         raise ValueError(f"release is not {RELEASE_SCHEMA}")
     return assess(release)
@@ -187,7 +189,7 @@ def _fixture_error(directory: Path, entry: dict[str, Any]) -> str | None:
 
 
 def _validated_entries(root: Path) -> tuple[list[dict[str, Any]], str | None]:
-    manifest = json.loads((root / "MANIFEST.json").read_text(encoding="utf-8"))
+    manifest = strictjson.loads((root / "MANIFEST.json").read_text(encoding="utf-8"))
     entries = manifest["vectors"]
     if _sha(_json(entries)) != manifest["corpusDigest"]:
         return [], "manifest digest mismatch"
@@ -210,7 +212,7 @@ def _external_answer(command: list[str], case_path: Path) -> tuple[bool, dict[st
     except (OSError, subprocess.TimeoutExpired) as exc:
         return False, f"verifier did not run: {exc}"
     try:
-        answer = json.loads(result.stdout)
+        answer = strictjson.loads(result.stdout)
         observed = {key: answer[key] for key in ("decision", "reason")}
     except (ValueError, KeyError, TypeError):
         return True, f"verifier returned no decision (exit {result.returncode})"
@@ -262,7 +264,7 @@ def run(root: str, verifier: list[str] | None, report_path: str, rail_note: str)
     directory = Path(root)
     answered, errors = check(verifier, directory)
     try:
-        manifest = json.loads((directory / "MANIFEST.json").read_text(encoding="utf-8"))
+        manifest = strictjson.loads((directory / "MANIFEST.json").read_text(encoding="utf-8"))
         total = len(manifest["vectors"])
     except (OSError, ValueError, KeyError, TypeError):
         manifest, total = {}, 0
@@ -298,7 +300,7 @@ def main(argv: list[str] | None = None) -> int:
     if args.target:
         try:
             path = Path(args.target)
-            data = json.loads(path.read_text(encoding="utf-8"))
+            data = strictjson.loads(path.read_text(encoding="utf-8"))
             answer = verify(path) if data.get("schema_version") == CASE_SCHEMA else assess(data)
         except (OSError, ValueError, KeyError, TypeError) as exc:
             print(f"cannot read the release record: {exc}")
@@ -309,7 +311,7 @@ def main(argv: list[str] | None = None) -> int:
     answered, errors = check(args.verifier)
     for error in errors:
         print(error)
-    total = len(json.loads((ROOT / "MANIFEST.json").read_text(encoding="utf-8"))["vectors"])
+    total = len(strictjson.loads((ROOT / "MANIFEST.json").read_text(encoding="utf-8"))["vectors"])
     print(f"answered {answered} of {total} cases")
     return 1 if errors or answered != total else 0
 

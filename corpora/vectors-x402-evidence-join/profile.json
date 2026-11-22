@@ -1,0 +1,24 @@
+{
+  "map": {
+    "S2 offer (PaymentRequirements accepted by the buyer)": "offer.accepted",
+    "S2 offer digest and signature": "offer.digest, offer.signature",
+    "S3 payment bound to the offer": "payment.offer_digest",
+    "S3 payment construction (exact scheme authorization)": "payment.authorization",
+    "S5 facilitator SettlementResponse": "settlement.facilitator",
+    "S5 ledger transfer read by a party other than the payer": "settlement.ledger",
+    "S6 delivered result": "delivery.body, delivery.body_sha256",
+    "S7 fulfilment evaluation against declared criteria": "fulfilment",
+    "buyer identity anchor (payer address)": "payment.authorization.from, settlement.facilitator.payer",
+    "keys the seller domain vouches for": "seller.key_ids",
+    "receipt binding offer, transaction and delivery": "receipt",
+    "seller identity anchor (base domain of the resource URL)": "seller.domain, offer.resource.url"
+  },
+  "note": "Maps each stage of an x402 transaction to the record fields this suite checks. Stage labels follow the Evidence Chain RFP (S2 offer to S7 fulfilment); x402 field names follow the v2 specification.",
+  "suite": "x402-evidence-join/v1",
+  "verdicts": {
+    "accepted": "verified: every join in the record recomputes",
+    "fulfilment.evaluated false": "not evaluated: visible in the record and does not block acceptance",
+    "indeterminate": "the evidence needed to establish the join is absent, and the reason names what is missing",
+    "rejected": "contradicted: the evidence present fails the join, and the reason names the clause"
+  }
+}

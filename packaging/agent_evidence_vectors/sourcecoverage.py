@@ -11,6 +11,8 @@ import sys
 from pathlib import Path
 from typing import Any
 
+from . import strictjson
+
 SUITE = "source-text-coverage/v1"
 _HERE = Path(__file__).resolve().parent
 ROOT = (_HERE / "corpora" / "vectors-source-coverage" if
@@ -50,7 +52,7 @@ def _execute(
     except (OSError, subprocess.TimeoutExpired) as exc:
         return False, f"verifier did not run: {exc}"
     try:
-        answer = json.loads(result.stdout)
+        answer = strictjson.loads(result.stdout)
         observed = {key: answer[key] for key in ("decision", "reason")}
     except (ValueError, KeyError, TypeError):
         return True, f"verifier returned no decision (exit {result.returncode})"
@@ -61,7 +63,7 @@ def _execute(
 
 def _validated_entries(root: Path) -> tuple[list[dict[str, Any]], str | None]:
     """Check manifest commitments and return its members."""
-    manifest = json.loads((root / "MANIFEST.json").read_text())
+    manifest = strictjson.loads((root / "MANIFEST.json").read_text())
     entries = manifest["vectors"]
     if _digest(_json(entries)) != manifest["corpusDigest"]:
         return [], "manifest digest mismatch"
@@ -113,7 +115,7 @@ def run_external(root: str, verifier: list[str], report_path: str, rail_note: st
     executed, errors = check(verifier, directory)
     manifest: dict[str, Any] = {}
     try:
-        manifest = json.loads((directory / "MANIFEST.json").read_text(encoding="utf-8"))
+        manifest = strictjson.loads((directory / "MANIFEST.json").read_text(encoding="utf-8"))
         total = len(manifest["vectors"])
     except (OSError, ValueError, KeyError, TypeError):
         total = 0
@@ -157,7 +159,7 @@ def main() -> int:
     executed, errors = check(args.verifier)
     for error in errors:
         print(error)
-    total = len(json.loads((ROOT / "MANIFEST.json").read_text())["vectors"])
+    total = len(strictjson.loads((ROOT / "MANIFEST.json").read_text())["vectors"])
     print(f"executed {executed} of {total} vectors")
     return 1 if errors else 0
 

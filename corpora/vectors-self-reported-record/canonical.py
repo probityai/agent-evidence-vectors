@@ -65,15 +65,29 @@ def _scrub(value: Any) -> Any:
     return value
 
 
+def _refuse_repeated(pairs: list[tuple[str, Any]]) -> dict[str, Any]:
+    """An object that names one member twice has no single reading: refuse it."""
+    out: dict[str, Any] = {}
+    for key, value in pairs:
+        if key in out:
+            raise ValueError(f"repeated member {key!r}")
+        out[key] = value
+    return out
+
+
 def decode_strict(raw: bytes) -> Any:
     """The one JSON document in *raw*, numbers kept as tokens.
 
     Raises ValueError (UnicodeDecodeError and JSONDecodeError are both one) or
-    RecursionError when *raw* is not exactly one JSON document in UTF-8.
+    RecursionError when *raw* is not exactly one JSON document in UTF-8, or names
+    a member twice in one object.
     """
     text = raw.decode("utf-8").lstrip(" \t\n\r")
     decoder = json.JSONDecoder(
-        parse_int=_int_token, parse_float=_float_token, parse_constant=_reject_constant
+        parse_int=_int_token,
+        parse_float=_float_token,
+        parse_constant=_reject_constant,
+        object_pairs_hook=_refuse_repeated,
     )
     value, end = decoder.raw_decode(text)
     if text[end:].strip(" \t\n\r"):
