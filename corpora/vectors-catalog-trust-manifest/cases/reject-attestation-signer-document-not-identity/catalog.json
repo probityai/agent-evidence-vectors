@@ -1,0 +1,37 @@
+{
+  "entries": [
+    {
+      "digest": "sha256:5346c3b356f1b2db025b97d464d73a62442ca39ad1480549e23daff147f35ef1",
+      "displayName": "travel",
+      "identifier": "urn:air:publisher.example:agent:travel",
+      "trustManifest": {
+        "attestations": [
+          {
+            "digest": "sha256:ae9aadf1bbaf4491202a108830a17024a1a45d94db8977db1f66a49f5e60467b",
+            "mediaType": "application/vnd.in-toto+json",
+            "type": "https://w3id.org/agent-evidence/predicate/v1/agent-card-receipt",
+            "uri": "https://assessor.example/evidence/attestation-0.dsse.json"
+          }
+        ],
+        "expiresAt": "2027-11-01T00:00:00Z",
+        "identity": "did:web:publisher.example",
+        "issuedAt": "2026-11-01T00:00:00Z",
+        "signature": "eyJhbGciOiJFUzI1NiIsImtpZCI6ImRpZDp3ZWI6cHVibGlzaGVyLmV4YW1wbGUjZXMyNTYifQ..DNQKgiLDYzWSBsMaGpxWpebAqNJ4BD9nQ_ZlRe_p2nM8hPC_1Eefq9SbylqjPijJdAPXFZHN2QhrGuT9IFreRQ",
+        "subject": {
+          "digest": "sha256:5346c3b356f1b2db025b97d464d73a62442ca39ad1480549e23daff147f35ef1",
+          "identifier": "urn:air:publisher.example:agent:travel",
+          "type": "application/a2a-agent-card+json",
+          "version": "1.0.0"
+        }
+      },
+      "type": "application/a2a-agent-card+json",
+      "url": "https://publisher.example/agents/travel/agent-card.json",
+      "version": "1.0.0"
+    }
+  ],
+  "host": {
+    "displayName": "Publisher Example",
+    "identifier": "did:web:publisher.example"
+  },
+  "specVersion": "1.0"
+}

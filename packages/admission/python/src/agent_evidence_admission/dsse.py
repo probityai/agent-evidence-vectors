@@ -51,16 +51,33 @@ class Opened:
     keyid: str
 
 
-def _b64(text: object, what: str) -> bytes:
+def decode_base64(text: object, what: str = "value") -> bytes:
+    """DSSE's Base64(): standard or URL-safe, padded (protocol.md: "verifiers MUST accept either").
+
+    One alphabet per string, and the canonical spelling in it: ``QQ==`` and ``QR==`` both decode to
+    ``A`` in a lenient decoder, and two strings for one byte sequence are two envelopes for one
+    signature. Raises :class:`EnvelopeError` (a ``ValueError``).
+    """
     if not isinstance(text, str):
         raise EnvelopeError(f"{what} is not a string")
+    url_safe = any(c in "-_" for c in text)
+    if url_safe and any(c in "+/" for c in text):
+        raise EnvelopeError(f"{what} mixes the standard and URL-safe base64 alphabets")
     try:
-        data = base64.b64decode(text, validate=True)
+        if url_safe:
+            data = base64.b64decode(text.replace("-", "+").replace("_", "/"), validate=True)
+        else:
+            data = base64.b64decode(text, validate=True)
     except (binascii.Error, ValueError) as error:
         raise EnvelopeError(f"{what} is not base64") from error
-    if base64.b64encode(data).decode("ascii") != text:
+    again = (base64.urlsafe_b64encode if url_safe else base64.b64encode)(data).decode("ascii")
+    if again != text:
         raise EnvelopeError(f"{what} is not canonical base64")
     return data
+
+
+def _b64(text: object, what: str) -> bytes:
+    return decode_base64(text, what)
 
 
 def open_envelope(envelope: object, trusted: dict[str, bytes], payload_type: str = STATEMENT_TYPE) -> Opened:

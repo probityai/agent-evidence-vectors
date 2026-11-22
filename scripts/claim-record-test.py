@@ -183,9 +183,11 @@ KILLS: list[tuple[str, str, Callable[..., Any]]] = [
     ("is_immutable", "INVALID_REFERENTIAL_PIN", lambda ref: True),
     ("resolve_case_set", "CASE_SET_NOT_ACCEPTED", lambda ctx, rule, sets, ref: None),
     ("resolve_case_set", "CASE_SET_UNRESOLVED", lambda ctx, rule, sets, ref: None),
+    ("check_case_members", "CASE_SET_INCOMPLETE", lambda ctx, profile, held: True),
     ("partition_ok", "APPLICABILITY_MISMATCH", lambda whole, parts: True),
     ("partition_ok", "POPULATION_MISMATCH", lambda whole, parts: True),
     ("verdict_reason", "ABSENCE_READ_AS_CLEAN", lambda *a: None),
+    ("check_vacuity", "VACUOUS_PASS", _never),
     ("verdict_reason", "VERDICT_CONTRADICTED", lambda *a: None),
     ("check_vantage", "VANTAGE_NOT_ACCEPTED", _never),
     ("check_bytes", "BYTES_MISMATCH", _never),
@@ -421,3 +423,166 @@ def test_cli_verify_malformed_rule_is_unusable_not_a_refusal(tmp_path: Path) -> 
     rule["profile"] = {"id": "conformance/v1", "name": "by tag only"}
     rule_file = _write(tmp_path, "rule.json", rule)
     assert claim_main(["verify", "--record", str(record), "--rule", str(rule_file)]) == 2
+
+
+# --- from-expectations: an expectation table and a run's output become a record ----
+
+from agent_evidence_vectors.claim_record.expectations import from_expectations  # noqa: E402
+
+_FORMAL = next(p for p in PROFILES.values() if p["id"] == "formal-model/v1")
+_EXPECT_TABLE = (
+    "m1|-|executable|verified\nm1|-|secrecy|verified\nm1|NOCHK|executable|verified\n"
+    "m1|NOCHK|secrecy|falsified\nm2|-|executable|falsified\nm2|-|auth|verified\n"
+)
+_TAMARIN_OUT = (
+    "== m1|-\n  executable (exists-trace): verified (5 steps)\n"
+    "  secrecy (all-traces): verified (12 steps)\n== m1|NOCHK\n"
+    "  executable (exists-trace): verified (5 steps)\n"
+    "  secrecy (all-traces): falsified - found trace (14 steps)\n== m2|-\n"
+    "  executable (exists-trace): falsified - no trace found (3 steps)\n"
+    "  auth (all-traces): verified (9 steps)\n  extra (all-traces): verified (1 steps)\n"
+)
+
+
+def _emit_and_judge(case_set: dict[str, Any], results: dict[str, Any],
+                    profile: dict[str, Any]) -> dict[str, Any]:
+    ref = {"name": "x", "digest": "sha256:" + "0" * 64}
+    record = emit(case_set=case_set, results=results,
+                  profile={"id": profile["id"], "digest": digest_of(profile)},
+                  implementation=ref, verifier=ref, observation_vantage="substrate",
+                  observer="ci")
+    rule = {"schema": reader.RULE_SCHEMA, "id": "x",
+            "profile": {"id": profile["id"], "digest": digest_of(profile)},
+            "case_sets": [digest_of(case_set)], "accept_vantage": ["substrate"]}
+    return summary(verify(record, rule, {digest_of(profile): profile},
+                          {digest_of(case_set): case_set}))
+
+
+def test_tamarin_table_becomes_an_admitted_formal_model_record() -> None:
+    case_set, results, warnings = from_expectations(
+        "tamarin", _EXPECT_TABLE, _TAMARIN_OUT, name="t", revision="1",
+        witness_lemma="executable")
+    witnesses = {c["id"]: c.get("witness") for c in case_set["cases"]}
+    assert witnesses["m1|-|secrecy"] == "m1|-|executable"
+    assert witnesses["m2|-|auth"] == "m2|-|executable"
+    assert "m2|-|auth" not in results["passed"]
+    assert any("extra" in w for w in warnings) and any("vacuously" in w for w in warnings)
+    got = _emit_and_judge(case_set, results, _FORMAL)
+    assert got == {"result": "ADMITTED", "verdict": "incomplete", "reasons": []}
+
+
+def test_a_vacuous_pass_left_in_the_record_is_refused() -> None:
+    case_set, results, _ = from_expectations(
+        "tamarin", _EXPECT_TABLE, _TAMARIN_OUT, name="t", revision="1",
+        witness_lemma="executable")
+    results["passed"].append("m2|-|auth")
+    assert _emit_and_judge(case_set, results, _FORMAL)["reasons"] == ["VACUOUS_PASS"]
+
+
+def test_a_flipped_expectation_changes_the_case_set_digest() -> None:
+    first, _, _ = from_expectations("tamarin", _EXPECT_TABLE, _TAMARIN_OUT,
+                                    name="t", revision="1")
+    flipped = _EXPECT_TABLE.replace("m1|NOCHK|secrecy|falsified", "m1|NOCHK|secrecy|verified")
+    second, _, _ = from_expectations("tamarin", flipped, _TAMARIN_OUT, name="t", revision="1")
+    assert digest_of(first) != digest_of(second)
+
+
+@pytest.mark.parametrize(("fmt", "output"), [
+    ("table", "a|pass\nb|fail\nz|pass\n"),
+    ("tap", "TAP version 13\nok 1 - a\nnot ok 2 - b\nok 3 - c # SKIP no network\nok 4 - z\n"),
+    ("junit", '<testsuite><testcase classname="" name="a"/><testcase name="b"><failure/>'
+              '</testcase><testcase name="c"><skipped/></testcase>'
+              '<testcase name="z"/></testsuite>'),
+])
+def test_ci_formats_give_pass_fail_and_not_run(fmt: str, output: str) -> None:
+    case_set, results, warnings = from_expectations(
+        fmt, "a|pass\nb|pass\nc|pass\n", output, name="ci", revision="1")
+    assert results == {"passed": ["a"], "failed": ["b"]}
+    assert warnings == ["output names 'z', which has no expectation row"]
+    assert all(c["expect"] == "pass" for c in case_set["cases"])
+    conformance = next(p for p in PROFILES.values() if p["id"] == "conformance/v1")
+    assert _emit_and_judge(case_set, results, conformance) == {
+        "result": "ADMITTED", "verdict": "fail", "reasons": []}
+
+
+def test_expectation_table_refuses_an_unknown_outcome_and_a_repeated_id() -> None:
+    with pytest.raises(MalformedInput):
+        from_expectations("table", "a|maybe\n", "", name="x", revision="1")
+    with pytest.raises(MalformedInput):
+        from_expectations("table", "a|pass\na|fail\n", "", name="x", revision="1")
+
+
+
+@pytest.mark.parametrize(("fmt", "output", "case_id"), [
+    ("tap", "TAP version 13\n1..2\nnot ok 1 - c1\nok 2 - c1\n", "c1"),
+    ("junit", '<testsuite><testcase classname="s" name="c1"><failure/></testcase>'
+              '<testcase classname="s" name="c1"/></testsuite>', "s.c1"),
+    ("tamarin", "== m|f\n  c1 (all-traces): falsified - found trace (8 steps)\n== m|f\n"
+                "  c1 (all-traces): verified (12 steps)\n", "m|f|c1"),
+])
+def test_a_later_line_never_turns_a_failure_into_a_pass(fmt: str, output: str,
+                                                        case_id: str) -> None:
+    expected = case_id + ("|verified\n" if fmt == "tamarin" else "|pass\n")
+    with pytest.raises(reader.MalformedInput, match="twice"):
+        from_expectations(fmt, expected, output, name="dup", revision="1")
+
+
+def test_a_tap_line_inside_a_yaml_block_is_not_a_result() -> None:
+    # Test 2 never ran; the only "ok 2" is text inside test 1's diagnostic block.
+    output = ("TAP version 13\n1..2\nnot ok 1 - rejects forged\n  ---\n  log: |\n"
+              "    ok 2 - accepts valid\n  ...\n")
+    _, results, _ = from_expectations("tap", "rejects forged|pass\naccepts valid|pass\n",
+                                      output, name="yaml", revision="1")
+    assert results == {"passed": [], "failed": ["rejects forged"]}
+
+
+def test_a_tap_subtest_line_is_not_a_top_level_result() -> None:
+    output = ("TAP version 14\n1..1\n# Subtest: group\n    ok 1 - inner\n    1..1\n"
+              "not ok 1 - group\n")
+    _, results, _ = from_expectations("tap", "inner|pass\ngroup|pass\n", output,
+                                      name="sub", revision="1")
+    assert results == {"passed": [], "failed": ["group"]}
+
+
+def test_an_escaped_tap_hash_stays_in_the_description() -> None:
+    output = "ok 1 - issue \\#42 # SKIP offline\nnot ok 2 - path a\\\\b\n"
+    _, results, _ = from_expectations("tap", "issue #42|pass\npath a\\b|pass\n", output,
+                                      name="esc", revision="1")
+    assert results == {"passed": [], "failed": ["path a\\b"]}
+
+
+def test_a_repeated_identical_line_is_one_observation() -> None:
+    _, results, _ = from_expectations("tap", "c1|pass\n", "ok 1 - c1\nok 2 - c1\n",
+                                      name="dup", revision="1")
+    assert results == {"passed": ["c1"], "failed": []}
+
+
+def test_a_tamarin_line_before_any_variant_header_is_a_warning() -> None:
+    _, _, warnings = from_expectations(
+        "tamarin", "m|f|secrecy|verified\n",
+        "  stray (all-traces): verified (1 steps)\n== m|f\n"
+        "  secrecy (all-traces): verified (2 steps)\n",
+        name="t", revision="1")
+    assert any("before any" in w for w in warnings)
+
+
+def test_an_unwitnessed_exists_trace_falsified_pass_is_reported_not_run() -> None:
+    table = "m|-|setup|verified\nm|-|attack|falsified\nn|-|attack|falsified\n"
+    out = ("== m|-\n  setup (exists-trace): verified (2 steps)\n"
+           "  attack (exists-trace): falsified - no trace found (4 steps)\n== n|-\n"
+           "  attack (exists-trace): falsified - no trace found (1 steps)\n")
+    case_set, results, warnings = from_expectations("tamarin", table, out, name="t",
+                                                    revision="1", witness_lemma="setup")
+    assert results["passed"] == ["m|-|setup", "m|-|attack"]
+    assert any("n|-|attack holds vacuously" in w for w in warnings)
+    assert _emit_and_judge(case_set, results, _FORMAL)["result"] == "ADMITTED"
+
+
+def test_vacuity_does_not_depend_on_table_order() -> None:
+    table = "m|-|auth|verified\nm|-|setup|falsified\n"
+    out = ("== m|-\n  auth (all-traces): verified (9 steps)\n"
+           "  setup (exists-trace): falsified - no trace found (3 steps)\n")
+    case_set, results, _ = from_expectations("tamarin", table, out, name="t", revision="1",
+                                             witness_lemma="setup")
+    assert results["passed"] == []
+    assert _emit_and_judge(case_set, results, _FORMAL)["result"] == "ADMITTED"

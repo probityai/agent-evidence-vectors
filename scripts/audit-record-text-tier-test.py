@@ -99,8 +99,8 @@ def _check_manifest_header(manifest: dict, by_id: dict, failures: list[str]) -> 
     if by_id["CS10"].get("draftRevision") != "draft-gilda-audit-agent-audit-record-02":
         failures.append("CS10 is first printed by revision 02")
     counts = manifest.get("textCounts")
-    if counts != {"proposed": 0, "published": 225}:
-        failures.append(f"textCounts should be 225 published and 0 proposed: {counts}")
+    if counts != {"proposed": 0, "published": 235}:
+        failures.append(f"textCounts should be 235 published and 0 proposed: {counts}")
     if manifest.get("draft") != REV04:
         failures.append(f"the manifest should name revision 04, names {manifest.get('draft')}")
     findings = auditrecord._text_findings(manifest)

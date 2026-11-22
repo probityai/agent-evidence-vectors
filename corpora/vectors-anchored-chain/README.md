@@ -8,7 +8,8 @@ edits of
 Section 6, and the whole-store snapshot rollback the
 [agmi](https://github.com/tech4biz-yasha/agmi) suite measures as T9, applied to a
 signed chain, plus a rollback to an abandoned branch,
-a re-anchoring attempt and three controls. The expected decision and reason
+a re-anchoring attempt, five removal cases (omission by the key holder) and
+three controls. The expected decision and reason
 for every case are in `MANIFEST.json`.
 
 [![Checked with Probity](https://img.shields.io/badge/checked-with_Probity-blue?style=flat-square&logo=data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAMAAABEpIrGAAAAkFBMVEX8%2B%2Bzr5NPgyrfKyLnSq5Wzo4tWltqRkZI2kPU1kvk1j%2FMwkPgzjfI2jO80jO40jO3MdWOZc1SLblN1aFxxXFJzVDY2i%2B40i%2B00i%2Bw0i%2Bs0ius1iOZAapwugNYtdbUqaq0qV4tkRzJXOB47Oz43JRkjNEYiHBwlFxIfFxMcEg0XEQ0WEAwXDAUWCAEOCQcJAgCa503RAAAB3klEQVR42rWT2ZacIBCGceHYoN240SK2Crig4vL%2BbxfszJyZTmaSm6S4rI9a%2FwK3vxj41wDj5E9AwS%2Foxjn7DmARqgVHCBHyJcBxJeZtEG2Nv4hAGEPXYVumddvWAbFfgJJECDfDukxa63ldmw%2FiCTCEK%2BteFzNbQI%2BbQPwzwKJGjNO2LMacxNqK1wgcNfO2mqfbHMs8NEkeXT8AjurRTKfbMlqOa5vFyc8cZclu4PSvWptlPlOMeb4PsQu78MoYQWFIwKUet0nPZl%2FMki1H3x%2FKd1PVhhdkS2tDgM7m9bR3XX8EXtYde59SSVVXNx2NMwuIbbGl74HUu%2BcFXrArSpXqlVSpGz8sUG%2FjoCej1RHA6ZAgl1SmUvVUQjduEGDIdt0MxuwjCHYNAZSwT1IbhaZ%2BFt7BrUAXbguxnx3gZ9AJVJLal0hKaYv4OShGbu249Z4F4jhQ1PcpTUYLDBF5WxZB9dBB14O%2Bm6eu48QQpjBXIizf113iS9sF0LYxZMD1PODbVvtznu96sGOrWyFEiwQEwHNcC8gaF58UxfG1qiqMqzx2AACJ0i0qXyRXEIwjwnD1SBOYdKJ%2B7vxF1eRUaxGF9ePRVgiX3xxOccdhiK5v6v%2Fysgp2Z%2BR%2F3ebv9gP5RU8tSdZhDwAAAABJRU5ErkJggg%3D%3D)](https://github.com/probityai/probity)
@@ -35,6 +36,11 @@ anchor catch them, and the corpus says which one.
 | t9-snapshot-rollback | T9 (agmi) | yes | rejected, `anchored_head_missing` | anchor |
 | rollback-to-abandoned-branch | rollback | yes | rejected, `anchored_head_mismatch` | anchor |
 | tail-removal-reanchored | T2, re-anchored | yes | rejected, `anchor_signature_invalid` | anchor key |
+| removal-rewritten-shorter | removal | yes | rejected, `anchored_head_missing` | anchor |
+| removal-rewritten-same-length | removal | yes | rejected, `anchored_head_mismatch` | anchor |
+| removal-declared-appended | control | yes | verified, `chain_anchored` | |
+| removal-declared-in-place | removal | yes | rejected, `anchored_head_mismatch` | anchor |
+| removal-before-first-anchor | removal limit | yes | verified, `chain_anchored` | nothing can |
 | repeated-member-tail | T5 variant | no | rejected, `store_not_strict_json` | strict parse |
 | utf16-member-order-rfc8785 | control | yes | verified, `chain_anchored` | |
 | utf16-member-order-code-point | canonicalisation | no | rejected, `signature_invalid` | record signature |
@@ -63,6 +69,24 @@ Three rows carry the findings a signature-only reading misses:
   anchor.** `rollback-to-abandoned-branch` holds records the producer really
   signed on a branch it later abandoned. Every signature verifies and every
   link holds.
+
+The five `removal-` cases cover omission. They differ from T2 and T3 in who
+holds a key: the producer signs and links the rewritten store itself, so every
+signature verifies and every link holds, and only a head published before the
+rewrite can say a record was taken out.
+
+- **A removal done as a rewrite is rejected, declared or not.**
+  `removal-rewritten-shorter` and `removal-rewritten-same-length` drop one
+  record and sign and link the rest again, the second one padding the store
+  back to its old length. `removal-declared-in-place` swaps the record for a
+  removal notice at the same position. The anchor still names the old head, so
+  each fails there.
+- **A removal done as an appended record is accepted.**
+  `removal-declared-appended` leaves the history untouched and adds a signed
+  record naming the digest of the one removed.
+- **A removal before the first head is published cannot be seen.**
+  `removal-before-first-anchor` expects `verified`, and a verifier that rejects
+  it is refusing an honest store.
 
 ## Running it
 

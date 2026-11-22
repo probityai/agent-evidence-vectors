@@ -164,7 +164,7 @@ def _module_sources() -> list[Path]:
     return sources
 
 
-# A json.loads that keeps its own call is strict when it passes both refusal hooks. These two
+# A json.loads that keeps its own call is strict when it passes both refusal hooks. These
 # do not, and each says why.
 OWN_PROFILE = {
     # The A2A JCS corpus reads NaN and Infinity and refuses them at canonicalization, under
@@ -173,6 +173,12 @@ OWN_PROFILE = {
     # A detector, not a reader: it reports whether the payload repeats a member, which the
     # signature-coverage rules then refuse under their own reason.
     ("packaging/agent_evidence_vectors/signaturecoverage.py", "_repeated_member"),
+    # Ablation readers, reached only when a run skips one named check to show that check is
+    # load-bearing: with jws_malformed skipped, the header is read as a lenient verifier reads
+    # it; with duplicate_member skipped, the catalog is read keep-the-last. The strict path
+    # ahead of each (strict_loads) refuses both spellings.
+    ("packaging/agent_evidence_vectors/catalogtrust.py", "_lenient_jws"),
+    ("packaging/agent_evidence_vectors/catalogtrust.py", "load"),
 }
 
 

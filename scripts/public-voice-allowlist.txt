@@ -38,3 +38,8 @@ docs/research/external-records.md	agent	Co-authored-by
 
 # Cites a correction posted on the public mailing list.
 interop/w3c-v01-appendix/README.md	correction	corrected in
+
+# The leap-second cases name the exact second under test; the minute is the content of the case.
+corpora/vectors-catalog-trust-manifest/README.md	timestamp	2026-11-01T00:00
+corpora/vectors-catalog-trust-manifest/README.md	timestamp	2016-12-31T23:59
+corpora/vectors-catalog-trust-manifest/README.md	timestamp	59:60 UTC

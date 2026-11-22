@@ -26,6 +26,13 @@ STATUS_FN = re.compile(r"\b(always|failure|cancelled)\s*\(")
 EXEMPT = {
     "dco.yml": "posts the required dco/sign-off commit status, which a skipped job never posts",
 }
+# Jobs that run on a plain pull request on purpose, with the reason. Each is held to being cheap.
+PLAIN_PR_JOBS = {
+    ("ci.yml", "pre_queue"): "the cheap batch checks (scripts/pre-queue.py): a failing pull "
+    "request must not take a queue slot",
+    ("ci.yml", "ci-ok"): "the required aggregator: it reports pre_queue's failure before the "
+    "pull request is enqueued",
+}
 
 
 def _top_block(lines: list[str], names: tuple[str, ...]) -> list[str]:
@@ -121,6 +128,8 @@ def check_text(name: str, text: str) -> list[str]:
         return ok
 
     for j in js:
+        if (name, j) in PLAIN_PR_JOBS:
+            continue
         if not reaches(j):
             findings.append(f"{name}: job {j} can run on a plain pull request "
                             "(add the batch gate or need the gated select job)")
