@@ -81,8 +81,11 @@ corpus digest verifies, record bindings equal the derived binding), which
 machine-checks the suite's single-fault discipline.
 
 Outputs a gate-by-vector coverage report: a human table on stdout plus
-``conformance-report.json`` (all paths repo-relative).  Exit status: 0 all
-checks pass, 1 any check fails, 2 usage or suite-not-found.
+``conformance-report.json`` (all paths repo-relative), written to the working
+directory unless ``--report`` names another path.  The report committed at
+``packaging/conformance-report.json`` is replaced only by a run that names that
+path, and a defaulted run standing in ``packaging/`` is refused.  Exit status: 0
+all checks pass, 1 any check fails, 2 usage or suite-not-found.
 
 TEST KEYS ONLY: the harness re-derives the suite's Ed25519 test keys from
 the published recipe ``seed(role) = SHA-256("in-toto-aee-test-key/<role>/v1")``.
@@ -4988,11 +4991,44 @@ def stamp_report(path: str, suite_dir: str, before: tuple[int, int] | None) -> b
     return True
 
 
-def _report_path(args: argparse.Namespace) -> str:
-    """Where the report goes: --report, else beside this file."""
-    return str(args.report) if args.report else os.path.join(
-        os.path.dirname(os.path.abspath(__file__)), "conformance-report.json"
+REPORT_NAME = "conformance-report.json"
+
+
+def committed_report_path() -> str | None:
+    """The report a checkout commits beside this file, or None from the wheel.
+
+    A run is an observation, so it never writes this file unless its caller
+    names the path. It was once the default, and a corpus run replaced the
+    committed record with its own.
+    """
+    if installed_layout():
+        return None
+    return os.path.join(os.path.dirname(os.path.abspath(__file__)), REPORT_NAME)
+
+
+def default_report_refusal(explicit: str | None) -> str | None:
+    """Why a defaulted report may not be written, or None when it may.
+
+    The default is ``conformance-report.json`` in the working directory. In a
+    checkout, a caller standing in the directory that holds the committed report
+    would reach it by default, so that case is refused; ``--report`` naming the
+    path is the way to ask for it.
+    """
+    if explicit is not None:
+        return None
+    committed = committed_report_path()
+    if committed is None or os.path.realpath(REPORT_NAME) != os.path.realpath(committed):
+        return None
+    return (
+        f"agent-evidence-vectors: refusing to write {committed}: it is the committed "
+        "report, and this run did not ask for it. Run from another directory, or pass "
+        "--report with that path to replace it"
     )
+
+
+def _report_path(args: argparse.Namespace) -> str:
+    """Where the report goes: --report, else conformance-report.json in the working directory."""
+    return str(args.report) if args.report else REPORT_NAME
 
 
 def _run_write_report(
@@ -5655,8 +5691,17 @@ def runtime_main(argv: list[str]) -> int:
     parser.add_argument("--corpus", default="vectors-uncertain-effect")
     parser.add_argument("--vectors", default=None, help="corpus directory (overrides --corpus)")
     parser.add_argument("--runtime", required=True, help="adapter command line")
-    parser.add_argument("--report", default="conformance-report.json")
+    parser.add_argument(
+        "--report",
+        default=None,
+        help="output path for conformance-report.json (default: the working directory)",
+    )
     args = parser.parse_args(argv)
+    refusal = default_report_refusal(args.report)
+    if refusal is not None:
+        print(refusal, file=sys.stderr)
+        return 2
+    args.report = _report_path(args)
     root = args.vectors or corpus_dir(args.corpus)
     manifest = _read_manifest_suite(root)
     runner = runners.get(manifest or "")
@@ -5730,7 +5775,9 @@ def rail_main() -> int:
     parser.add_argument(
         "--report",
         default=None,
-        help="output path for conformance-report.json",
+        help="output path for conformance-report.json (default: the working "
+        "directory; naming the committed packaging/conformance-report.json asks to "
+        "replace it)",
     )
     parser.add_argument(
         "--self-test",
@@ -5765,11 +5812,10 @@ def rail_main() -> int:
         return self_test()
     if args.vectors is None:
         args.vectors = corpus_dir(args.corpus)
-    if args.report is None and installed_layout():
-        # Beside this file is site-packages when the wheel is installed, and a
-        # report written there is one nobody finds. The working directory is
-        # where a relying party's CI looks for it.
-        args.report = "conformance-report.json"
+    refusal = default_report_refusal(args.report)
+    if refusal is not None:
+        print(refusal, file=sys.stderr)
+        return 2
     args.report_written = None
     report_before = _report_stat(_report_path(args))
     status = run_suite(args)
