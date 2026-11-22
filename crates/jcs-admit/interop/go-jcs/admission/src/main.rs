@@ -12,6 +12,7 @@ fn class(error: &Error) -> &'static str {
         Error::UnsafeInteger { .. } => "UnsafeInteger",
         Error::NonIntegerNumber { .. } => "NonIntegerNumber",
         Error::NonFiniteNumber { .. } => "NonFiniteNumber",
+        Error::InexactNumber { .. } => "InexactNumber",
         Error::TooDeep { .. } => "TooDeep",
         Error::TooLarge { .. } => "TooLarge",
         Error::Syntax { .. } => "Syntax",

@@ -39,12 +39,20 @@ The command prints `answered N of N cases`. To judge the cases with your own ver
 | single-use-token-replayed | rejected, `single_use_token_replayed` | a single-use token already consumed is used again |
 | receipt-not-over-execution | rejected, `receipt_not_bound_to_execution` | execution changed after the receipt digest was taken |
 | post-checkout-fulfilment-missing | rejected, `post_checkout_action_missing` | capture recorded, the fulfilment action is missing |
+| authorized-key-rotated-after-signing | accepted, `mandate_chain_holds` | the signing key was rotated out after the mandate was signed; in effect at signing |
+| authorized-key-revoked-after-signing | accepted, `mandate_chain_holds` | the signing key was revoked effective after the mandate was signed |
+| signing-key-not-in-snapshot | rejected, `signing_key_unknown` | the issuer key snapshot holds no entry for the signing key |
+| signed-before-key-valid | rejected, `signing_key_not_yet_valid` | signed before the key's validity began |
+| signed-after-key-rotated-out | rejected, `signing_key_rotated_out` | signed after the key's validity ended |
+| signed-after-key-revoked | rejected, `signing_key_revoked` | the key was revoked effective before signing |
 
 Each rejected case is one mutation away from the accepted case it names as its twin, and the rule it names is the first that fires.
 
+The last six cases carry a signing time and the issuer's key snapshot. The signing key is judged by its state at the signing time: a key rotated out or revoked after signing still holds, and one unknown, not yet valid, rotated out or revoked at signing does not. A record with no signing time or no snapshot makes no key statement, and is judged as before.
+
 ## The checker is held to its rules
 
-`mutation_check.py` switches each rule off alone and requires that at least one rejected case then gets a different answer. The tests run each rule-less verifier, a mutant, through the contract and require the corpus to refuse it: 11 rules, 11 mutants, every one caught.
+`mutation_check.py` switches each rule off alone and requires that at least one rejected case then gets a different answer. The tests run each rule-less verifier, a mutant, through the contract and require the corpus to refuse it: every rule has its mutant, and every one is caught.
 
 ## Pin it in your CI
 

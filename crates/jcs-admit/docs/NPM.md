@@ -6,7 +6,7 @@ JavaScript layer loads that artifact and represents native refusals as errors.
 It does not parse JSON, canonicalize values or translate refusal reasons.
 
 The npm package is `jcs-admit` version `0.1.1`. Its release tag is `jcs-admit-npm-v0.1.1`,
-separate from the native crate's version `0.1.3`. The existing Rust `v0.1.1`
+separate from the native crate's version `0.1.4`. The existing Rust `v0.1.1`
 release and its pinned consumer examples remain unchanged. Registry metadata,
 artifact hashes and provenance identify a published package; a source tag alone
 does not establish registry availability.
@@ -41,7 +41,7 @@ reason enum. A duplicate member called `name`, for example, is available as
 `error.fields.name` and does not replace `Error.name`. New native variants remain
 possible because the Rust error is non-exhaustive.
 
-Node 22.14 or newer loads the WASM bytes internally through the package's ESM
+Node 20 or newer loads the WASM bytes internally through the package's ESM
 entry point. Browsers import `jcs-admit/browser` and await its default initializer.
 A bundler or static server must retain the adjacent generated modules and `.wasm`
 file. Both routes use the same bytes, without an install script or runtime npm
@@ -53,7 +53,7 @@ examples.
 The default Rust crate retains its native Rust 1.74 and dependency-floor contract.
 The separate `npm/wasm` binding crate has its own manifest and lockfile. It uses
 current `wasm-bindgen` 0.2.129 and needs Rust 1.81 or newer. The
-qualification workflow pins Rust 1.99.0, Node 22.14.0 and Node 24.19.0. Use the
+qualification workflow pins Rust 1.99.0, Node 20.0.0 and Node 24.19.0. Use the
 same wasm-bindgen CLI version as the locked Rust dependency.
 
 From a clean source checkout:

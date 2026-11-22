@@ -1,7 +1,6 @@
 package corpusreaders
 
 import (
-	"encoding/json"
 	"fmt"
 	"sort"
 	"strings"
@@ -41,7 +40,7 @@ type mcpAuthzEntry struct {
 
 func (r mcpAuthz) Judge(dir string, raw []byte) (*Result, error) {
 	var m mcpAuthzManifest
-	if err := json.Unmarshal(raw, &m); err != nil {
+	if err := strictUnmarshal(raw, &m); err != nil {
 		return nil, fmt.Errorf("%s/MANIFEST.json does not parse: %w", dir, err)
 	}
 	result := &Result{}
@@ -103,7 +102,7 @@ func (mcpAuthz) judgeMember(dir string, e mcpAuthzEntry, out *Member) {
 			Synthetic bool `json:"synthetic"`
 		} `json:"fixture"`
 	}
-	if err := json.Unmarshal(body, &obs); err != nil {
+	if err := strictUnmarshal(body, &obs); err != nil {
 		out.Findings = append(out.Findings, "the observation does not parse: "+err.Error())
 		return
 	}

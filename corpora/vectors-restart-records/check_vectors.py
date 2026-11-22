@@ -31,6 +31,9 @@ from datetime import UTC, datetime
 from pathlib import Path
 from typing import Any
 
+sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "packaging"))
+from agent_evidence_vectors import strictjson  # noqa: E402
+
 HERE = Path(__file__).resolve().parent
 HOST = "https://probityai.github.io/agent-evidence-vectors"
 STATEMENT_TYPE = "https://in-toto.io/Statement/v1"
@@ -692,7 +695,7 @@ def check_bundle_dir(directory: Path) -> tuple[str, str]:
 
 def replay(root: Path = HERE) -> list[str]:
     """Every disagreement between this checker and MANIFEST.json, as text."""
-    manifest = json.loads((root / "MANIFEST.json").read_text(encoding="utf-8"))
+    manifest = strictjson.loads((root / "MANIFEST.json").read_text(encoding="utf-8"))
     failures: list[str] = []
     for entry in manifest["vectors"]:
         directory = root / entry["path"]
@@ -731,7 +734,7 @@ def main(argv: list[str] | None = None) -> int:
     failures = replay()
     for failure in failures:
         print(f"FAIL {failure}")
-    total = len(json.loads((HERE / "MANIFEST.json").read_text(encoding="utf-8"))["vectors"])
+    total = len(strictjson.loads((HERE / "MANIFEST.json").read_text(encoding="utf-8"))["vectors"])
     print(f"{'FAIL' if failures else 'PASS'}: {total - len(failures)} of {total} members agree "
           "with MANIFEST.json")
     return 1 if failures else 0

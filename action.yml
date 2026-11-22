@@ -134,15 +134,15 @@ inputs:
     default: "agent-evidence-vectors-receipt.json"
 
   check:
-    description: "Admission mode. Setting it selects this mode; leave it empty to replay a corpus instead. What to check: `digest` (an artifact has a digest its document names), `policy` (a statement passes one admission rule set) or `coverage` (a CycloneDX BOM or SPDX 3 document accounts for every class a buyer requires)."
+    description: "Admission mode. Setting it selects this mode; leave it empty to replay a corpus instead. What to check: `digest` (an artifact has a digest its document names), `policy` (a statement passes one admission rule set), `coverage` (a CycloneDX BOM or SPDX 3 document accounts for every class a buyer requires) or `admit` (each record passes one of the checker's rule sets before any verifier judges it)."
     required: false
     default: ""
   document:
-    description: "For `digest`: the in-toto statement, CycloneDX SBOM or TEA artifact that names the digests. For `coverage`: the CycloneDX JSON BOM or SPDX 3 JSON-LD document."
+    description: "For `digest`: the in-toto statement, CycloneDX SBOM or TEA artifact that names the digests. For `coverage`: the CycloneDX JSON BOM or SPDX 3 JSON-LD document. For `admit`: the record paths, one per line."
     required: false
     default: ""
   artifacts:
-    description: "For `digest`: the artifact paths, one per line. Each must have a digest the document names."
+    description: "For `digest`: the artifact paths, one per line. Each must have a digest the document names. For `admit`: the bytes a record names by URI, one `<uri>=<path>` per line."
     required: false
     default: ""
   required:
@@ -157,6 +157,18 @@ inputs:
     description: "For `policy`: `execution-evidence`, `agent-change-admission` or `verifier-isolation`."
     required: false
     default: execution-evidence
+  rule-set:
+    description: "For `admit`: `ijson`, `ijson-integer-only`, `audit-freshness`, `catalog-attestations`, `mcp-authz` or `co-signed-receipt`."
+    required: false
+    default: ""
+  rule-options:
+    description: "For `admit`: a JSON file of the rule set's options (for `mcp-authz`: resource, issuers, tokenEndpoints, now)."
+    required: false
+    default: ""
+  warn:
+    description: "For `admit`: refusal codes to report as warnings instead of refusing, one per line (a `*-not-evaluated` code accepts a check that could not run)."
+    required: false
+    default: ""
 
 outputs:
   report:
@@ -250,6 +262,17 @@ runs:
         python -m pip install --quiet --disable-pip-version-check \
           --no-index --no-deps "$build"/dist/agent_evidence_vectors-*.whl
         agent-evidence-vectors --list-corpora
+        # The corpus revision every report records (verifierResult.corpusRevision):
+        # the tag input when one was named, else the ref this action was used at,
+        # which is the commit itself for `uses: ...@<sha>`, else the commit of a
+        # local checkout (`uses: ./`).
+        revision="${TAG:-$ACTION_REF}"
+        if [ -z "$revision" ]; then
+          revision="$(git -C "$ACTION_PATH" rev-parse --verify 'HEAD^{commit}' 2>/dev/null || true)"
+        fi
+        if [ -n "$revision" ]; then
+          echo "AEV_PACKAGE_REVISION=$revision" >> "$GITHUB_ENV"
+        fi
         echo "::endgroup::"
 
     - name: Replay the corpus
@@ -436,10 +459,10 @@ runs:
           digest)
             python="$(python3 "$SCRIPT" install-checker "$tools/checker")"
             echo "python=$python" >> "$GITHUB_OUTPUT" ;;
-          coverage)
+          coverage|admit)
             ;;
           *)
-            echo "::error::check must be digest, policy or coverage, not '$CHECK'"
+            echo "::error::check must be digest, policy, coverage or admit, not '$CHECK'"
             exit 2 ;;
         esac
     - name: check the evidence
@@ -457,10 +480,19 @@ runs:
         RULES: ${{ inputs.rules }}
         PINS: ${{ inputs.pins }}
         REQUIRED: ${{ inputs.required }}
+        RULE_SET: ${{ inputs.rule-set }}
+        RULE_OPTIONS: ${{ inputs.rule-options }}
+        WARN: ${{ inputs.warn }}
       run: |
         set -euo pipefail
         case "$CHECK" in
           digest) python3 "$SCRIPT" digest --python "$CHECKER_PYTHON" --document "$DOCUMENT" --artifact "$ARTIFACTS" ;;
           coverage) python3 "$SCRIPT" coverage --document "$DOCUMENT" --required "$REQUIRED" ;;
+          admit)
+            args=(admit --rule-set "$RULE_SET" --document "$DOCUMENT")
+            if [ -n "$ARTIFACTS" ]; then args+=(--file "$ARTIFACTS"); fi
+            if [ -n "$RULE_OPTIONS" ]; then args+=(--options "$RULE_OPTIONS"); fi
+            if [ -n "$WARN" ]; then args+=(--warn "$WARN"); fi
+            python3 "$SCRIPT" "${args[@]}" ;;
           *) python3 "$SCRIPT" policy --opa "$OPA" --rules "$RULES" --statement "$STATEMENT" --pins "$PINS" ;;
         esac

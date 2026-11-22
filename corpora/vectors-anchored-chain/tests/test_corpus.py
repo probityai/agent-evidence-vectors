@@ -27,6 +27,10 @@ from agent_evidence_vectors import anchoredchain  # noqa: E402
 GENUINE_REJECTS = {"t2-tail-removal", "t3-middle-deletion", "t4-reorder",
                    "t6-cross-context-replay", "t7-rollback-older-record",
                    "t9-snapshot-rollback"}
+# The producer's own key signs and links the rewritten store, so only the anchor answers.
+REWRITE_REJECTS = {"removal-rewritten-shorter", "removal-rewritten-same-length",
+                   "removal-declared-in-place"}
+REMOVAL_ACCEPTS = {"removal-declared-appended", "removal-before-first-anchor"}
 
 
 def _stub(tmp_path: Path, skip: tuple[str, ...]) -> str:
@@ -71,31 +75,55 @@ class TestAnchoredChainCorpus:
             assert errors == []
             assert answered == len(generator.cases())
 
-        def test_eight_rejected_stores_hold_only_genuine_signed_records(self) -> None:
+        def test_every_rejected_store_with_valid_signatures_is_listed(self) -> None:
             manifest = anchoredchain.json.loads((ROOT / "MANIFEST.json").read_text())
             genuine = {e["id"] for e in manifest["vectors"]
                        if e["storeSignaturesVerify"] and e["expected"]["decision"] == "rejected"}
-            assert genuine == GENUINE_REJECTS | {"tail-removal-reanchored",
-                                                 "rollback-to-abandoned-branch"}
+            assert genuine == GENUINE_REJECTS | REWRITE_REJECTS | {
+                "tail-removal-reanchored", "rollback-to-abandoned-branch"}
+
+        def test_removal_accepts_are_verified_with_the_chain_anchored(self) -> None:
+            manifest = anchoredchain.json.loads((ROOT / "MANIFEST.json").read_text())
+            expected = {e["id"]: e["expected"] for e in manifest["vectors"]}
+            for name in REMOVAL_ACCEPTS:
+                assert expected[name] == {"decision": "verified", "reason": "chain_anchored"}
+
+        def test_a_removal_is_declared_by_a_signed_record_naming_the_removed_digest(
+            self,
+        ) -> None:
+            lines = (ROOT / "cases" / "removal-declared-appended" / "store.jsonl"
+                     ).read_bytes().split(b"\n")
+            records = [anchoredchain.json.loads(line)["record"] for line in lines if line]
+            intact = (ROOT / "cases" / "intact" / "store.jsonl").read_bytes().split(b"\n")
+            assert generator._sha(intact[2]) in records[-1]["content"]
+            assert records[-1]["prev"] == generator._sha(lines[5])
 
     class TestFailingCases:
         def test_signature_only_verifier_is_refused_on_the_genuine_records(
             self, tmp_path: Path
         ) -> None:
             _, errors = corpus.check(_stub(tmp_path, anchoredchain.CHECKS[2:]))
-            assert _failed(errors) == GENUINE_REJECTS | {"rollback-to-abandoned-branch"}
+            assert _failed(errors) == GENUINE_REJECTS | REWRITE_REJECTS | {
+                "rollback-to-abandoned-branch"}
 
         def test_verifier_without_the_anchor_misses_removal_and_branch_rollback(
             self, tmp_path: Path
         ) -> None:
             _, errors = corpus.check(_stub(tmp_path, anchoredchain.CHECKS[4:]))
             assert _failed(errors) == {"t2-tail-removal", "t9-snapshot-rollback",
-                                       "rollback-to-abandoned-branch"}
+                                       "rollback-to-abandoned-branch"} | REWRITE_REJECTS
 
         @pytest.mark.parametrize("name", anchoredchain.CHECKS)
         def test_every_check_is_forced_by_some_case(self, name: str) -> None:
             _, errors = corpus.check(skip=frozenset({name}))
             assert errors, f"switching off {name} changed no verdict"
+
+        def test_keep_the_last_reader_is_refused_on_the_repeated_member_tail(
+            self, monkeypatch: pytest.MonkeyPatch
+        ) -> None:
+            monkeypatch.setattr(anchoredchain, "_strict", lambda raw: anchoredchain.json.loads(raw))
+            _, errors = corpus.check()
+            assert _failed(errors) == {"repeated-member-tail"}
 
         def test_verifier_that_rejects_everything_fails_the_controls(
             self, tmp_path: Path
@@ -106,7 +134,7 @@ class TestAnchoredChainCorpus:
                               encoding="ascii")
             _, errors = corpus.check(f"{sys.executable} {script}")
             assert {"intact", "records-after-last-anchor",
-                    "t2-tail-removal-after-last-anchor"} <= _failed(errors)
+                    "t2-tail-removal-after-last-anchor"} | REMOVAL_ACCEPTS <= _failed(errors)
 
         def test_missing_verifier_does_not_count_as_answered(self, tmp_path: Path) -> None:
             answered, errors = corpus.check(str(tmp_path / "no-such-verifier"))

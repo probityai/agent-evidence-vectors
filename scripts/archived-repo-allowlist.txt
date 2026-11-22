@@ -33,3 +33,7 @@ interop/govops-capability-id/**  # a captured source tree and its manifest, pinn
 packages/admission/consumers/policy-vocabulary/host-selection.json  # selection record pinned to an observer commit that exists only in the archive
 packages/admission/consumers/spend-reservation/observer-selection.json  # selection record pinned to an observer commit that exists only in the archive
 crates/jcs-admit/interop/go-jcs/go.mod  # a comment that records the module path this file used before it got a local name
+crates/jcs-admit/interop/go-jcs/test_check.py  # test: asserts a manifest does not name the archived jcs-admit repository
+tests/test_registry_links.py  # test fixtures: the archived repository names the registry-link check must refuse
+tests/test_release_links.py  # test fixtures: the archived repository names the release-link check must refuse
+corpora/vectors-agent-audit-record/spec-vendored/draft-gilda-audit-agent-audit-record-00.txt  # the posted draft text, vendored byte for byte and pinned by sha256 in its intake record; the line names the vocabulary repository as the draft did

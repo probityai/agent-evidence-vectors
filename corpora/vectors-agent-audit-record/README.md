@@ -14,18 +14,45 @@ bind consumption state with an operation key, then the rows written for
 revision 02: `A21` (an `api-key` agent authentication), `SQ1` to `SQ5` (the
 `sequence` member and record identity) and `R10` to `R16` (OpenTimestamps
 anchors and the delegation root), then the rows written for revision 03:
-`IS1` and `IS2`, a record issued before its interval was sealed, and `PS1` and `PS2`, principal standing under the `v2` predicate type URI (below), then the rows written for revision 04: `CS41` to `CS49`, the payee and the settled terms of a paid call, and `PR1` to `PR11`, the authenticated principal ([proposed text](../../docs/proposals/audit-record-04-principal.md)), and `DS1` to `DS10`, whose data a call touched and for what purpose ([proposed text](../../docs/proposals/audit-record-04-data-subject.md)), and `PS3` to `PS5`, principal standing established from a published commitment (below). Each carries `draftRevision` and the
+`IS1` and `IS2`, a record issued before its interval was sealed, and `PS1` and `PS2`, principal standing under the `v2` predicate type URI (below), then the rows written for revision 04: `CS41` to `CS49`, the payee and the settled terms of a paid call, and `PR1` to `PR11`, the authenticated principal, and `DS1` to `DS10`, whose data a call touched and for what purpose, and `PS3` to `PS5`, principal standing established from a published commitment (below). Each carries `draftRevision` and the
 identifier the draft prints. After them come `X1` to `X18`, each an existing member with one field changed that reaches a refusal code no earlier member produced: the JSON profile (`X1`, `X2`), `issuedAt` without an offset (`X3`), the statement and predicate types (`X4`, `X5`), consumption shape and the operation key (`X6`, `X7`), the first subject (`X8`), an envelope and a statement that cannot be read (`X9`, `X10`), a retention entry that is malformed or names another envelope or an unexpected or unreadable delegation root (`X11` to `X14`), a retained member whose record or entry cannot be read (`X15`, `X16`), and a set that cannot be read or whose records are malformed (`X17`, `X18`). [`INDEX.md`](INDEX.md) lists every member beside its
 file.
 
 [![Checked with Probity](https://img.shields.io/badge/checked-with_Probity-blue?style=flat-square&logo=data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAMAAABEpIrGAAAAkFBMVEX8%2B%2Bzr5NPgyrfKyLnSq5Wzo4tWltqRkZI2kPU1kvk1j%2FMwkPgzjfI2jO80jO40jO3MdWOZc1SLblN1aFxxXFJzVDY2i%2B40i%2B00i%2Bw0i%2Bs0ius1iOZAapwugNYtdbUqaq0qV4tkRzJXOB47Oz43JRkjNEYiHBwlFxIfFxMcEg0XEQ0WEAwXDAUWCAEOCQcJAgCa503RAAAB3klEQVR42rWT2ZacIBCGceHYoN240SK2Crig4vL%2BbxfszJyZTmaSm6S4rI9a%2FwK3vxj41wDj5E9AwS%2Foxjn7DmARqgVHCBHyJcBxJeZtEG2Nv4hAGEPXYVumddvWAbFfgJJECDfDukxa63ldmw%2FiCTCEK%2BteFzNbQI%2BbQPwzwKJGjNO2LMacxNqK1wgcNfO2mqfbHMs8NEkeXT8AjurRTKfbMlqOa5vFyc8cZclu4PSvWptlPlOMeb4PsQu78MoYQWFIwKUet0nPZl%2FMki1H3x%2FKd1PVhhdkS2tDgM7m9bR3XX8EXtYde59SSVVXNx2NMwuIbbGl74HUu%2BcFXrArSpXqlVSpGz8sUG%2FjoCej1RHA6ZAgl1SmUvVUQjduEGDIdt0MxuwjCHYNAZSwT1IbhaZ%2BFt7BrUAXbguxnx3gZ9AJVJLal0hKaYv4OShGbu249Z4F4jhQ1PcpTUYLDBF5WxZB9dBB14O%2Bm6eu48QQpjBXIizf113iS9sF0LYxZMD1PODbVvtznu96sGOrWyFEiwQEwHNcC8gaF58UxfG1qiqMqzx2AACJ0i0qXyRXEIwjwnD1SBOYdKJ%2B7vxF1eRUaxGF9ePRVgiX3xxOccdhiK5v6v%2Fysgp2Z%2BR%2F3ebv9gP5RU8tSdZhDwAAAABJRU5ErkJggg%3D%3D)](https://github.com/probityai/probity)
 
+## Which text each member tests
+
+Every member is **published** or **proposed**. A published member carries
+`draftRevision`, always a revision the IETF has published (the manifest lists
+them under `publishedRevisions`, with the SHA-256 of each text): for a row, the
+first revision whose Appendix B prints it; for a member carrying
+`draftSection`, the revision whose section first states its rule, which keeps
+that revision when a later Appendix B also prints the row (`X2`, `X3` and `X8`
+to `X16` are -03 members that -04 prints). A proposed member carries
+`proposed`, naming the next revision its rule is proposed for and the proposed
+text under [`docs/proposals/`](../../docs/proposals/), and no `draftRevision`,
+because no published revision states the rule it tests. `textCounts` gives the
+split: 235 published and 0 proposed at this commit.
+
+[Revision 04](https://datatracker.ietf.org/doc/draft-gilda-audit-agent-audit-record/04/)
+was published on 19 November 2026, and its Appendix B prints all 68 members
+that were proposed for it: `CS18` to `CS54`, `PS3` to `PS5`, `PR1` to `PR11`,
+`DS1` to `DS10`, and `X1`, `X4`, `X5`, `X6`, `X7`, `X17` and `X18`. They carry
+`draftRevision` -04, and the pages under `docs/proposals/` that held their text
+are the record of it before publication. A verifier conforms to -04 when it
+reaches the manifest verdict on every member whose `draftRevision` is -04 or
+earlier. The generator derives each label from the published texts vendored
+under [`spec-vendored/`](spec-vendored/) and refuses a member that is published
+and proposed at once, a label naming a section the revision does not carry, a
+section entry that names no revision earlier than the Appendix B that prints
+the row, and a proposed member whose text is missing.
+
 ## Which revision this tests
 
 | Release | Draft revision the corpus tests | Members |
 | --- | --- | --- |
-| The next release | `draft-gilda-audit-agent-audit-record-03`, and rows of `-04` | as below, with `FR2` moved to malformed and `PS1b` settled as valid by the freshness boundary of -04, and rows `FR19` to `FR24` and the Section 5.4 member `FR25` written for -04 ([proposed text](../../docs/proposals/audit-record-04-evaluated-at.md)) |
-| The release after v0.28.0 | `draft-gilda-audit-agent-audit-record-03`, and rows of `-04` | every member the v0.28.0 row lists, rows `IS1`, `IS2`, `PS1` and `PS2` of -03 and the open member `PS1b` beside them, and rows `CS41` to `CS54` written for -04 |
+| v0.38.0 | `draft-gilda-audit-agent-audit-record-04` | all 235 members: every member the row below lists, with the 68 rows -04 first prints labelled -04 |
+| After v0.28.0, before v0.38.0 | `draft-gilda-audit-agent-audit-record-03`, and rows of `-04` | every member the v0.28.0 row lists, rows `IS1`, `IS2`, `PS1` and `PS2` of -03 and the open member `PS1b` beside them, and rows `CS41` to `CS54` written for -04 |
 | v0.28.0 | `draft-gilda-audit-agent-audit-record-02` | the 99 Appendix B rows of -00, 7 Section 5.4 members, 22 rows of -01 and 13 rows of -02 |
 | v0.27.0 | `draft-gilda-audit-agent-audit-record-00`, and 22 rows of `-01` | the 99 Appendix B rows, 7 Section 5.4 members and 22 rows of -01 |
 | v0.26.0 to v0.26.2 | `draft-gilda-audit-agent-audit-record-00`, and five rows of `-01` | the 99 Appendix B rows, 7 Section 5.4 members and 5 rows of -01 |
@@ -69,6 +96,9 @@ carries one (`PS1`, `PS1b` and `PS3` to `PS5` carry the `v2` URI), then score ea
 
 - an accept or reject member conforms when your verdict equals
   `expected.verdict`;
+- the indeterminate member `PS1b` is open between two drafts (below): your
+  verifier conforms on it with `valid` or `malformed`, and the reference reader
+  takes `malformed`;
 - the indeterminate member `N2` is a row the draft leaves open. It carries no
   `expected.verdict`, and your verifier conforms on it when its verdict is any
   one listed under `readings`: `valid` or `indeterminate`. The reference reader
@@ -91,6 +121,61 @@ conforms = my_verdict in conforming_verdicts(entry)
 `expected.codes` are the reference reader's names for its first refusal. The
 draft does not define codes, so a verifier is scored on the verdict alone; the
 codes are published so two implementations can compare where they stopped.
+
+## The external-verifier contract
+
+A named verifier runs over this corpus through the harness and the GitHub
+Action:
+
+```sh
+uvx agent-evidence-vectors==<release> --corpus vectors-agent-audit-record \
+  --verifier "<your verifier>" --report report.json
+```
+
+```yaml
+- uses: probityai/agent-evidence-vectors@<release tag>
+  with:
+    corpus: vectors-agent-audit-record
+    verifier: <your verifier>
+```
+
+The contract, identifier
+`https://probityai.github.io/agent-evidence-vectors/contract/agent-audit-record/v1`:
+
+- **Invocation.** `<verifier> <corpus-dir>/<member file> --json`, once per
+  member. The file is under `statements/`, `sets/` or `retained/`. The verifier
+  takes the observer key (`keys.observer.publicKey`), the accepted predicate
+  type and the anchor trust (`anchorTrust`) from the `MANIFEST.json` above the
+  member file, and reads nothing under `expected`.
+- **Output.** The last nonempty stdout line is one JSON object. `verdict` is
+  `valid` or `malformed`, and `codes` is an array of strings. Exit status 0
+  means `valid` and 1 means `malformed`. Any other status, or a status that
+  disagrees with `verdict`, counts as a disagreement.
+- **Members that declare more.** A valid answer carries `derivedTier` where the
+  entry declares one. A member declaring `withinLimit` needs `withinLimit`. A
+  set member (`sets/`) needs `set`: `verdict`, `codes`, and `missing` and
+  `withinLimit` where declared. A retained member (`retained/`) needs `dating`:
+  `entry`, `codes`, `datedAt` and `receipt` (absent where the entry has none),
+  and `delegationRoot.result`, plus `delegationRoot.algorithm` where declared.
+- **Scoring.** The verdict must be one of `conforming_verdicts(entry)`. The tier,
+  `withinLimit`, the `set` verdict, `missing` and `withinLimit`, and the
+  `dating` entry, `datedAt`, `receipt` and `delegationRoot` must equal what the
+  entry declares. No code array is scored: the record's `codes`, and the code
+  arrays inside `set` and `dating` (compared as sets), are reported under
+  `reasonParityNotes`, because the draft defines verdicts and results and not
+  codes. Only published members are scored. On a proposed member (see "Which
+  text each member tests") a difference is a note, the row reads
+  `differs-from-proposed`, and `totals.proposedDiffer` counts it. Each member's
+  `aggregation` block and the corpus-level claims (counts, digests, text
+  labels) are checked by the harness whatever verifier runs.
+
+The reference reader answers under the same contract, so it can stand in for
+your verifier when you wire the job:
+
+```sh
+agent-evidence-vectors --corpus vectors-agent-audit-record \
+  --verifier "python3 -m agent_evidence_vectors.auditrecord"
+```
 
 ## Independent runs
 
@@ -178,35 +263,18 @@ would be caught.
 
 Every evaluation carries
 `inputs`, one entry per input the decision depended on, each with `input`,
-`lastResult` and `maxAge`. An entry's age runs from `lastResult` to the
-reference time, never to `issuedAt`: `decision.evaluatedAt` when the record
-carries it, the time the decision was taken, and `decision.reportedAt`
-otherwise. An input is fresh while its age is less than `maxAge`, so an age
-equal to `maxAge` is stale; `lastResult` of `none` is never established; a
-`lastResult` more than the 300-second skew tolerance after the reference time
-is malformed; and so is a `decision.evaluatedAt` more than the same tolerance
-after `decision.reportedAt`. The unavailable
+`lastResult` and `maxAge`. An entry's age runs from `lastResult` to
+`decision.reportedAt`, never to `issuedAt`; an age equal to `maxAge` is fresh;
+`lastResult` of `none` is never established; and a `lastResult` more than the
+300-second skew tolerance after `reportedAt` is malformed. The unavailable
 inputs are derived from the entries: under `evaluated` they must be none, and
 under `not-evaluated` `unavailableInput` must name exactly them. Every member
 carries entries that agree with it, so a record shaped for revision 02, with no
 `inputs`, is refused (`EV13`).
 
-- `FR1` to `FR13` are Appendix B rows. `FR2` sits on the boundary: its age is
-  exactly `maxAge` at `reportedAt`. Through revision 03 that age was fresh and
-  `FR2` was valid; revision 04 moves the boundary, and the same bytes are now
-  malformed (`evaluation-inconsistent`), a verdict change on a shipped member.
-- `FR19` to `FR24` are rows written for revision 04 ([proposed
-  text](../../docs/proposals/audit-record-04-evaluated-at.md)). `FR19` decided
-  half an hour before it reported, with `standing-source` fresh when it decided
-  and stale when it reported, and is valid; `FR20` records that input as
-  unavailable, which only the set derived at `reportedAt` would match, and is
-  malformed. `FR21` and `FR22` put the boundary at `evaluatedAt`: one second
-  inside `maxAge` is fresh, exactly at it is stale. `FR23` carries an
-  `evaluatedAt` one second past the skew tolerance after `reportedAt` and
-  `FR24` one exactly at it. `FR25`, a Section 5.4 member no row isolates,
-  carries a `lastResult` past the tolerance after `evaluatedAt` and before
-  `reportedAt`, so only a verifier measuring the skew to the reference time
-  refuses it.
+- `FR1` to `FR13` are Appendix B rows. `FR2` sits on the boundary
+  and on the reference time at once: its age is exactly `maxAge` at
+  `reportedAt` and nine seconds past it at `issuedAt`.
 - `FR13b` and `EV14` isolate two sentences the rows reach only through a later
   check: a negative `maxAge` stales its entry, so `FR13` is refused by the
   derived set as well, and `FR13b` names that entry so only the sign refuses it;
@@ -443,18 +511,20 @@ generator reproduces his bytes and file identifiers.
   at its `maxAge` and the source not answering. -05 Section 3 forbids using an
   input "at or past its horizon", so the record it requires is this one,
   `not-evaluated`. Section 5.4 of -03 as filed says "an age equal to maxAge is
-  fresh" (`FR2`), so the derived unavailable set was empty and the record
-  failed the recompute of Section 4.6. Through the release after v0.28.0 the
-  member was indeterminate with those two readings. Revision 04 adopts -05's
-  boundary: an input is fresh while its age is less than `maxAge`, so `PS1b` is
-  valid and `FR2` is malformed. Revision 04 also measures at the evaluation
-  instant as -05 does, `decision.evaluatedAt` where the record carries it
-  (`FR19` to `FR25`, above).
+  fresh" (`FR2`), so the derived unavailable set is empty and the record fails
+  the recompute of Section 4.6. No record satisfies both texts, so the member is
+  indeterminate with two readings, `valid` and `malformed`, until the two drafts
+  carry one boundary: either -03 adopts -05's (fresh when the age is less than
+  `maxAge`, so `FR2` becomes malformed and `FR8` moves to "equal to"), or -05
+  adopts -03's ("past its horizon" in place of "at or past"). The reference
+  reader keeps -03's boundary and takes `malformed` (`evaluation-inconsistent`).
+  The two drafts also measure at different instants: -05 judges the horizon at
+  the evaluation instant and -03 measures age at `decision.reportedAt`; both
+  members assume the decision point reports when it evaluates.
 
 `check_vectors.py` holds both sides: a reader that applies the extended set
 under the `v1` URI as well fails exactly `PS2`, and a reader that accepts the
-`v2` URI with the `v1` set fails exactly `PS1`, `PS1b` and `PS3` to `PS5`
-(below).
+`v2` URI with the `v1` set fails exactly `PS1` and `PS3` to `PS5` (below).
 
 ## Principal standing from a published commitment: `PS3` to `PS5`
 
@@ -470,8 +540,8 @@ built on `PS1` and judged under the `v2` URI.
 - `PS3`: no commitment held. `lastResult` is `none`, so the input was never
   established, and the record is `not-evaluated` naming
   `principal-standing-source`: a transient refusal, not a deny. A commitment
-  held past its maximum age is `PS1`, and one exactly at it is `PS1b`, stale
-  since revision 04 (above).
+  held past its maximum age is `PS1`, and one exactly at it is `PS1b`, which
+  stays open between the two drafts (above).
 - `PS4`: the commitment is current and the proof against it shows the standing
   withdrawn. Every entry is fresh, the record is `evaluated`, and the decision
   is `deny`.

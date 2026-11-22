@@ -115,6 +115,67 @@ def note_removed(root: Path) -> None:
     edit(root, change)
 
 
+def limit_removed(root: Path) -> None:
+    def change(ledger: dict[str, Any]) -> None:
+        del ledger["runs"][0]["doesNotEstablish"]
+
+    edit(root, change)
+
+
+def limit_emptied(root: Path) -> None:
+    def change(ledger: dict[str, Any]) -> None:
+        ledger["runs"][-1]["doesNotEstablish"] = "  "
+
+    edit(root, change)
+
+
+# The revision-25 parity figure moved by one. Built, not written, because it is a
+# figure no run produced and the count gate rightly refuses an unaccounted ratio.
+ALTERED_FIGURE = "/".join((str(69 + 1), "193"))
+
+
+def limit_figure_altered(root: Path) -> None:
+    """The limit's own parity count moved by one. Every other place the figure is
+    stated is counted, so before this case the limit was the one place a figure
+    could change under a passing gate."""
+
+    def change(ledger: dict[str, Any]) -> None:
+        row = next(r for r in ledger["runs"] if r["suiteRevision"] == 25)
+        row["doesNotEstablish"] = row["doesNotEstablish"].replace("69/193", ALTERED_FIGURE)
+
+    edit(root, change)
+
+
+def limit_borrows_figure(root: Path) -> None:
+    """Another run's score written into this run's limit: a real figure, but not one
+    this row carries, so nothing binds it here."""
+
+    def change(ledger: dict[str, Any]) -> None:
+        row = next(r for r in ledger["runs"] if r["suiteRevision"] == 1)
+        row["doesNotEstablish"] += "; the directed 272/272 at revision 28 is a different run"
+
+    edit(root, change)
+
+
+def limit_placeholder(root: Path) -> None:
+    def change(ledger: dict[str, Any]) -> None:
+        ledger["runs"][0]["doesNotEstablish"] = "None."
+
+    edit(root, change)
+
+
+def limit_dropped_from_report(root: Path) -> None:
+    """The ledger keeps the limit and the report stops stating it: the figure is
+    then published with no limit beside it."""
+    ledger = json.loads((root / LEDGER).read_text(encoding="utf-8"))
+    row = next(r for r in ledger["runs"] if r["suiteRevision"] == 3)
+    path = root / "docs" / "IMPLEMENTATION-REPORT.md"
+    text = path.read_text(encoding="utf-8")
+    old = f"| 3 | {row['doesNotEstablish']} |"
+    assert old in text, f"mutation anchor {old!r} moved"
+    path.write_text(text.replace(old, "| 3 | see the ledger |", 1), encoding="utf-8")
+
+
 def open_outcome(root: Path) -> None:
     def change(ledger: dict[str, Any]) -> None:
         ledger["attempts"][0]["outcome"] = "did not really work out"
@@ -258,6 +319,42 @@ def roster_removed(root: Path) -> None:
 
 
 CASES: tuple[Case, ...] = (
+    (
+        "a figure altered inside a limit is refused",
+        limit_figure_altered,
+        False,
+        ("suiteRevision 25", f"states the figure {ALTERED_FIGURE}"),
+    ),
+    (
+        "a limit stating another run's figure is refused",
+        limit_borrows_figure,
+        False,
+        ("suiteRevision 1", "states the figure 272/272"),
+    ),
+    (
+        "a placeholder limit is refused",
+        limit_placeholder,
+        False,
+        ("suiteRevision 1", "is the placeholder 'None.'"),
+    ),
+    (
+        "a limit the report stops stating is refused",
+        limit_dropped_from_report,
+        False,
+        ("does not carry the doesNotEstablish of the run at suiteRevision 3",),
+    ),
+    (
+        "a run whose doesNotEstablish was deleted is refused",
+        limit_removed,
+        False,
+        ("suiteRevision 1", "carries no doesNotEstablish"),
+    ),
+    (
+        "a run whose doesNotEstablish is blank is refused",
+        limit_emptied,
+        False,
+        ("suiteRevision 28", "carries no doesNotEstablish"),
+    ),
     (
         "a roster label outside the three labels is refused",
         roster_label_outside_set,

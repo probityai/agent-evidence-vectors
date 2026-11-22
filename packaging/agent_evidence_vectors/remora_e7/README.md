@@ -53,6 +53,6 @@ with unchanged bytes and its original manifest path preserved for hashing,
 so it cannot be accidentally imported or formatted as our implementation.
 
 ```sh
-python -m pip install pytest==8.4.2 hypothesis==6.168.3
+python -m pip install pytest==9.2.0 hypothesis==6.168.3
 python -m pytest -q scripts/remora-e7-reader-test.py
 ```
