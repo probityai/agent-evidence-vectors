@@ -244,13 +244,19 @@ def inclusion(document: str) -> list[list[str]]:
 
 
 def tool_run(enforcement: str = "enforced", refused: bool = True, bound: bool = True,
-             **claims: Any) -> Journal:
-    """agent-c isolated by a detector, then agent-a and agent-c each call a tool."""
+             delegated: bool = False, **claims: Any) -> Journal:
+    """agent-c isolated by a detector, then agent-a and agent-c each call a tool.
+
+    ``bound``: agent-a's call names the authority chain the guard walked for it;
+    ``delegated``: it also names the capability grant chain it was delegated under.
+    """
     journal = isolate_c(Journal(enforcement, **claims), basis="detector_online_label",
                         **detector(PEAKED))
     journal.deliver("agent-c", "agent-a", dropped=enforcement == "enforced")
-    grant = {"grantChainDigest": label("grant chain task to agent-a")} if bound else {}
-    journal.tool("agent-a", "search", **grant)
+    chains = {"authorityChainDigest": label("authority chain task to agent-a")} if bound else {}
+    if delegated:
+        chains["grantChainDigest"] = label("capability grant chain sponsor to agent-a")
+    journal.tool("agent-a", "search", **chains)
     if refused:
         return journal.tool("agent-c", "search", refused=True,
                             refusalReason="no permit for an isolated agent")
@@ -561,7 +567,18 @@ def _v11_cases() -> list[Case]:
         ("reject-tool-call-authority-unbound",
          tool_run(bound=False, authorityChainChecked=True).build("unbound"), None, "deny",
          "tool_call_authority_unbound", "the run claims every tool call's authority chain was "
-         "checked, and agent-a's call names no grant chain"),
+         "checked, and agent-a's call names no authority chain"),
+    ]
+
+
+def _v13_cases() -> list[Case]:
+    """Revision 1.3: the authority chain the guard walked and the capability grant chain are two
+    members, and one never stands in for the other."""
+    both = tool_run(delegated=True, authorityChainChecked=True).build("delegated")
+    return [
+        ("allow-tool-call-names-authority-and-grant-chains", both, None, "allow",
+         reader.ALLOWED_REASON, "control: agent-a's call names the authority chain the guard "
+         "walked and the capability grant chain it was delegated under"),
     ]
 
 
@@ -594,7 +611,7 @@ def cases() -> list[Case]:
     """Every case: id, journal, receipt or None, decision, reason, and what it shows."""
     return (_allowed() + _malformed_cases() + _delivery_cases() + _decision_cases()
             + _recovery_cases() + _restoration_cases() + _response_cases() + _v11_cases()
-            + _receipt_cases())
+            + _v13_cases() + _receipt_cases())
 
 
 def generate(root: Path = ROOT) -> dict[str, Any]:
