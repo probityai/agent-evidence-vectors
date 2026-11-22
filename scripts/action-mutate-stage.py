@@ -392,16 +392,36 @@ def load_stage() -> Any:
     return module
 
 
-def reference_route(manifest: dict[str, Any]) -> tuple[Any, str] | None:
+def reference_route(manifest: dict[str, Any], corpus_dir: Path) -> tuple[Any, str] | None:
     """A function judging one mutant's bytes, and the verifier id; None when there is no route."""
     if manifest.get("predicateType") != AEE_PREDICATE:
         return None
     stage = load_stage()
     if stage.reference_missing():
         return None
+    # The reference pins the corpus's published key. Its verdict stays `valid` for a
+    # payload signed with any other key and only the tier drops to `unattested`, so a
+    # file the unmutated member's signatures attest must still be attested: one that
+    # is not was re-signed under a misread recipe and is rejected as such.
+    keys = [stage.aee_test_key()]
+    attested: dict[str, bool] = {}
+    for member in action_checks.listed_members(manifest):
+        try:
+            found = stage.aee_decide({"id": member["id"], "file": member["path"]}, corpus_dir, keys)
+        except Exception:  # noqa: BLE001 -- an unjudged member keeps no tier to hold
+            continue
+        attested[member["id"]] = "attested" in (found.get("tiers") or [])
 
     def judge(entry: dict[str, Any], root: Path) -> str:
-        return str(stage.aee_decide(entry, root, [])["verdict"])
+        found = stage.aee_decide(entry, root, keys)
+        verdict = str(found["verdict"])
+        if (
+            verdict == "valid"
+            and attested.get(entry["id"])
+            and "attested" not in (found.get("tiers") or [])
+        ):
+            return "invalid"
+        return verdict
 
     return judge, stage.reference_id()
 
@@ -515,7 +535,7 @@ def run(mode: str, verifier: list[str], corpus_dir: Path, limit: int) -> dict[st
         if str(m["entry"].get("kind") or m["entry"].get("disposition"))
         in action_checks.ACCEPT_KINDS
     ]
-    route = reference_route(manifest)
+    route = reference_route(manifest, corpus_dir)
     planned, controls, refusals, skipped = plan(members, corpus_dir, mode, key_seed(manifest))
     chosen = sample(len(planned), limit)
     tally: dict[str, Any] = {

@@ -700,7 +700,9 @@ def case_conformance_paths_keep_hashes_and_never_read_as_options(work: Path) -> 
     (cases / "#12.json").write_text("{}")
     (cases / "-v.json").write_text("{}")
     expected = work / "expected.txt"
-    expected.write_text("#12.json valid  # a comment after whitespace\n-v.json valid\n")
+    # `#` at the start of a line opens a comment, so a name that starts with one is
+    # written `./#12.json`, the way a shell would need it too.
+    expected.write_text("./#12.json valid  # a comment after whitespace\n-v.json valid\n")
     assert action_checks.read_expected(expected) == {"#12.json": "valid", "-v.json": "valid"}
     seen = work / "seen.txt"
     echo = work / "echo.py"
