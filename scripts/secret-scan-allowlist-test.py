@@ -15,6 +15,7 @@ says private, and the same line outside a corpus directory must all still fail.
 from __future__ import annotations
 
 import base64
+import hashlib
 import os
 import shutil
 import subprocess
@@ -47,8 +48,10 @@ REAL_JWT = ".".join(
 )
 DIGEST = "4badc4f0c891b654107a33eb52b94a3d31ef3bd9dbba322958019ad1a9cc07bb"
 KEY = "k" + "ey"
-# A 64-byte Ed25519 private key (seed then public half), built here, never a literal.
-PRIVATE_64 = bytes((i * 53 + 7) % 256 for i in range(4 * 16))
+# A 64-byte Ed25519 private key (seed then public half), built here, never a literal. A
+# hash output, not an arithmetic run: gitleaks drops a value whose text holds one of its
+# stopwords, and a run of evenly spaced bytes encodes to one often enough to pass a case.
+PRIVATE_64 = hashlib.sha512(b"ed25519 private key: seed then public half").digest()
 B64URL_32 = base64.urlsafe_b64encode(bytes((i * 41 + 3) % 256 for i in range(2 * 16))).decode().rstrip("=")
 HEX_32 = bytes((i * 23 + 19) % 256 for i in range(2 * 16)).hex()
 TRUST = "corpora/vectors-actor-marker-survival/TRUST.json"
