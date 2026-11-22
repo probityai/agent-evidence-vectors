@@ -3997,7 +3997,6 @@ def define_principal_bounds() -> None:
             verdict,
             [code] if code else [],
             tier="authoritative" if verdict == "valid" else None,
-            revision=REVISION_04,
         )
     member(
         "PR16",
@@ -4009,7 +4008,6 @@ def define_principal_bounds() -> None:
         "valid",
         [],
         tier="authoritative",
-        revision=REVISION_04,
     )
 
 
@@ -4090,7 +4088,6 @@ def define_principal_provider_and_pin() -> None:
             derived(draft_id, "PR1", change),
             "valid",
             tier="authoritative",
-            revision=REVISION_04,
         )
     rejects: list[tuple[str, str, str, str, Callable[[dict[str, Any]], None], str]] = [
         (
@@ -4155,7 +4152,6 @@ def define_principal_provider_and_pin() -> None:
             mutate(base, change),
             "malformed",
             [code],
-            revision=REVISION_04,
         )
 
 
@@ -5508,7 +5504,9 @@ PROPOSALS = "docs/proposals"
 #: were proposed for it (CS18 to CS54, PS3 to PS5, PR1 to PR11, DS1 to DS10,
 #: and X1, X4, X5, X6, X7, X17, X18), and the pages under docs/proposals/ are
 #: the record of the text before it was published.
-PROPOSED: dict[str, str] = {}
+PROPOSED: dict[str, str] = {
+    **{f"PR{n}": f"{PROPOSALS}/audit-record-04-principal.md" for n in range(12, 28)},
+}
 
 
 def _first_printed(texts: dict[str, list[str]]) -> dict[str, str]:
