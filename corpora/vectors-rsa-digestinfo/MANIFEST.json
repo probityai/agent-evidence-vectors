@@ -1,0 +1,110 @@
+{
+  "corpusDigest": "74ece9efabfaee28f046dc0cdc615195548df3eaaffc4e2e0fa2d1462c482bee",
+  "counts": {
+    "invalid": 6,
+    "profile-dependent": 1,
+    "valid": 1
+  },
+  "keySeedLabel": "agent-evidence-vectors/rsa-digestinfo/v1/",
+  "suite": "rsa-digestinfo/v1",
+  "synthetic": true,
+  "vectors": [
+    {
+      "edit": "control: the RFC 8017 encoding",
+      "expected": {
+        "decision": "valid",
+        "reason": "rfc8017"
+      },
+      "files": {
+        "record.json": "b3741156f5a9cb6e9b6868acb58d2813eb8e9bfc31ed4d6a82dec6276efb0224"
+      },
+      "id": "rfc8017-null-parameters",
+      "path": "cases/rfc8017-null-parameters"
+    },
+    {
+      "edit": "the exact block with the NULL parameters omitted: accepted or refused by the consumer's profile",
+      "expected": {
+        "decision": "profile-dependent",
+        "reason": "absent_null_parameters"
+      },
+      "files": {
+        "record.json": "99495239fa4fe619ad71396ef1708182e21f00da07a8ffc17b324f68c1f2e967"
+      },
+      "id": "absent-null-parameters-exact",
+      "path": "cases/absent-null-parameters-exact"
+    },
+    {
+      "edit": "arbitrary bytes between the padding and the digest",
+      "expected": {
+        "decision": "invalid",
+        "reason": "block_not_exact_encoding"
+      },
+      "files": {
+        "record.json": "c18b6ae247297e1b61053d115140b367b470f02af96af0a51a051d53676beb79"
+      },
+      "id": "garbage-prefix",
+      "path": "cases/garbage-prefix"
+    },
+    {
+      "edit": "bytes after a DigestInfo prefix and before the digest",
+      "expected": {
+        "decision": "invalid",
+        "reason": "block_not_exact_encoding"
+      },
+      "files": {
+        "record.json": "10dfb42cba174bc6557df8dd60cebc3ba742a8a8b51b6b97710c74055bf765ce"
+      },
+      "id": "garbage-after-legacy-prefix",
+      "path": "cases/garbage-after-legacy-prefix"
+    },
+    {
+      "edit": "a SHA-512 OID carrying a 32-byte value",
+      "expected": {
+        "decision": "invalid",
+        "reason": "block_not_exact_encoding"
+      },
+      "files": {
+        "record.json": "b7ecf4fc41f4bc19dbc6da9e4f74a642b52c795294fab3e465991b4fd957eb71"
+      },
+      "id": "sha512-oid",
+      "path": "cases/sha512-oid"
+    },
+    {
+      "edit": "a padding string shorter than the modulus requires, with filler before the digest",
+      "expected": {
+        "decision": "invalid",
+        "reason": "block_not_exact_encoding"
+      },
+      "files": {
+        "record.json": "91f04fa443076233abf99074c3a8d57cb4542c42503086a50d02b03187ed89ef"
+      },
+      "id": "short-padding",
+      "path": "cases/short-padding"
+    },
+    {
+      "edit": "control: the right encoding over another message",
+      "expected": {
+        "decision": "invalid",
+        "reason": "block_not_exact_encoding"
+      },
+      "files": {
+        "record.json": "1199cf4772ff25aa4c0bda5d40a672d75e3675e439475b0ba10835060be45b9d"
+      },
+      "id": "wrong-message",
+      "path": "cases/wrong-message"
+    },
+    {
+      "edit": "control: a signature shorter than the modulus",
+      "expected": {
+        "decision": "invalid",
+        "reason": "signature_length"
+      },
+      "files": {
+        "record.json": "dede96ab5a37f93d4583d6a2b6e37bc7ac81359e19e9e16a40db82848a75ae9b"
+      },
+      "id": "signature-one-byte-short",
+      "path": "cases/signature-one-byte-short"
+    }
+  ],
+  "verifierContract": "verifier record.json --json; exit 0 valid, 1 invalid, 2 profile-dependent"
+}

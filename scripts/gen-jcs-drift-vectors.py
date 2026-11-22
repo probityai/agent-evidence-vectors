@@ -2,10 +2,11 @@
 """Write the canonicalizer-drift and nesting-depth negative families into cases.json.
 
 ``corpora/jcs-byte-vectors/cases.json`` carries two kinds of members. The
-canonical and reject cases are authored by hand. ``driftCases`` and
-``depthCases`` are written by this script, and nothing else touches those two
-keys. ``--check`` regenerates them in memory and exits 1 when the file on disk
-differs, so a hand edit to a generated key cannot survive CI.
+canonical and reject cases are authored by hand. ``driftCases``,
+``depthCases``, ``refusalCases``, ``noncharacterCases`` and ``preimageCases``
+are written by this script, and nothing else touches those keys. ``--check``
+regenerates them in memory and exits 1 when the file on disk differs, so a hand
+edit to a generated key cannot survive CI.
 
 Drift cases (``driftCases``): bytes that a producer printed and presented as the
 canonical form of a value, which RFC 8785 does not print that way. Each member
@@ -30,6 +31,30 @@ sequence of Unicode scalar values, a repeated member name). Every canonicalizer
 must refuse them. ``error`` names the refusal class; ``inputHex`` replaces
 ``input`` where the bytes are not valid UTF-8 and so cannot sit in a JSON string.
 
+Noncharacter cases (``noncharacterCases``): a Unicode noncharacter inside a
+string value and inside a member name, written raw and as a ``\\u`` escape.
+RFC 8785 prints a noncharacter as its UTF-8 bytes, so the default profile pins
+``canonicalHex``. RFC 7493 section 2.1 says a member name or string value MUST
+NOT include one, escaped or not, so the bounded profile refuses every
+``noncharacter`` member (``boundedError``), as ``jcs_admit::admit_ijson`` does.
+The ``noncharacter-neighbour`` members carry the scalar value next to each edge of
+the noncharacter set (U+FDCF, U+FDF0, U+FFFD, U+1FFFD, U+10FFFD) and no
+``boundedError``: every profile prints them, so a bounded verifier whose
+noncharacter test is too wide fails them instead of passing the family.
+
+Preimage cases (``preimageCases``): which bytes a field digest covers. A scalar
+text value hashes its raw UTF-8 bytes, a structured value hashes its RFC 8785
+bytes, and an absent value hashes the empty input. A present ``null`` is a
+structured value and hashes the four bytes ``null``; only a field the record does
+not carry is absent. Each member pins the correct
+``sha256`` and the ``statedWrongSha256`` a reader gets from the usual mistake
+(hashing the scalar's JSON form, the structured value as written, or ``null``),
+so a reader that makes the mistake fails the member instead of agreeing with it.
+
+The README's examples block is written from the same values, one member per
+family, so a worked example in the documentation cannot drift from the corpus:
+``--check`` fails when either file differs.
+
 Usage (from the repository root):
     python3 scripts/gen-jcs-drift-vectors.py           # write
     python3 scripts/gen-jcs-drift-vectors.py --check   # exit 1 on drift
@@ -41,9 +66,11 @@ import hashlib
 import json
 import sys
 from pathlib import Path
+from typing import Any
 
 ROOT = Path(__file__).resolve().parent.parent
 CASES = ROOT / "corpora" / "jcs-byte-vectors" / "cases.json"
+README = CASES.with_name("README.md")
 
 DEPTH_CAP = 128
 REJECT_DEPTHS = (129, 256, 512, 1024)
@@ -350,12 +377,166 @@ def refusal_cases() -> list[dict[str, str]]:
     return out
 
 
+# Noncharacters, RFC 7493 section 2.1 by way of Unicode chapter 23.7: the
+# contiguous U+FDD0..U+FDEF run (both ends) and the last two code points of a
+# plane (the BMP pair and the first and last supplementary planes).
+NONCHARACTERS: tuple[int, ...] = (0xFDD0, 0xFDEF, 0xFFFE, 0xFFFF, 0x1FFFE, 0x10FFFF)
+# The scalar value just outside each edge of that set: below and above the run,
+# and below the pair of the BMP and of the first and last supplementary planes.
+# Each must be accepted under every profile.
+NEIGHBOURS: tuple[int, ...] = (0xFDCF, 0xFDF0, 0xFFFD, 0x1FFFD, 0x10FFFD)
+
+
+def escape(code_point: int) -> str:
+    """The JSON escape for one code point: a UTF-16 surrogate pair past the BMP."""
+    if code_point < 0x10000:
+        return f"\\u{code_point:04x}"
+    offset = code_point - 0x10000
+    return f"\\u{0xD800 + (offset >> 10):04x}\\u{0xDC00 + (offset & 0x3FF):04x}"
+
+
+def noncharacter_cases() -> list[dict[str, str]]:
+    out: list[dict[str, str]] = []
+    families = [("noncharacter", c) for c in NONCHARACTERS]
+    families += [("noncharacter-neighbour", c) for c in NEIGHBOURS]
+    for family, code_point in families:
+        raw = chr(code_point)
+        for position in ("value", "member-name"):
+            for spelling in ("raw", "escaped"):
+                written = raw if spelling == "raw" else escape(code_point)
+                if position == "value":
+                    text, canonical = f'["{written}"]', f'["{raw}"]'
+                else:
+                    text, canonical = f'{{"{written}":1}}', f'{{"{raw}":1}}'
+                pinned = canonical.encode("utf-8")
+                member = {
+                    "id": f"{family}-u{code_point:04x}-{position}-{spelling}",
+                    "family": family,
+                    "codePoint": f"U+{code_point:04X}",
+                    "position": position,
+                    "spelling": spelling,
+                    "input": text,
+                    "canonicalHex": pinned.hex(),
+                    "sha256": hashlib.sha256(pinned).hexdigest(),
+                }
+                if family == "noncharacter":
+                    member["boundedError"] = "invalid-unicode"
+                out.append(member)
+    return out
+
+
+# id, profile, the value as JSON text (None when absent), the correct preimage,
+# the preimage of the stated wrong answer, and what the wrong answer hashed.
+PREIMAGES: tuple[tuple[str, str, str | None, bytes, bytes, str], ...] = (
+    ("scalar-ascii", "scalar-text", '"approve"', b"approve", b'"approve"', "json-form"),
+    (
+        "scalar-non-ascii",
+        "scalar-text",
+        '"caf\\u00e9"',
+        "caf\u00e9".encode(),
+        '"caf\u00e9"'.encode(),
+        "json-form",
+    ),
+    ("scalar-newline", "scalar-text", '"a\\nb"', b"a\nb", b'"a\\nb"', "json-form"),
+    ("scalar-empty", "scalar-text", '""', b"", b'""', "json-form"),
+    (
+        "structured-reordered",
+        "structured-json",
+        '{"b":2,"a":1}',
+        b'{"a":1,"b":2}',
+        b'{"b":2,"a":1}',
+        "as-written",
+    ),
+    (
+        "structured-escaped",
+        "structured-json",
+        '["caf\\u00e9"]',
+        '["caf\u00e9"]'.encode(),
+        b'["caf\\u00e9"]',
+        "as-written",
+    ),
+    ("structured-null", "structured-json", "null", b"null", b"", "null-as-absent"),
+    ("absent", "absent", None, b"", b"null", "json-null"),
+)
+
+
+def preimage_cases() -> list[dict[str, object]]:
+    out: list[dict[str, object]] = []
+    for case_id, profile, text, right, wrong, mistake in PREIMAGES:
+        member: dict[str, object] = {"id": f"preimage-{case_id}", "profile": profile}
+        if text is not None:
+            member["value"] = text
+        member["preimageHex"] = right.hex()
+        member["sha256"] = hashlib.sha256(right).hexdigest()
+        member["statedWrongPreimageHex"] = wrong.hex()
+        member["statedWrongSha256"] = hashlib.sha256(wrong).hexdigest()
+        member["statedWrongReading"] = mistake
+        out.append(member)
+    empty = hashlib.sha256(b"").hexdigest()
+    for member in out:
+        if member["sha256"] == empty and member["profile"] != "absent":
+            member["collidesWith"] = "preimage-absent"
+    return out
+
+
 def render() -> str:
     corpus = json.loads(CASES.read_text("utf-8"))
     corpus["driftCases"] = drift_cases()
     corpus["depthCases"] = depth_cases()
     corpus["refusalCases"] = refusal_cases()
+    corpus["noncharacterCases"] = noncharacter_cases()
+    corpus["preimageCases"] = preimage_cases()
     return json.dumps(corpus, indent=2) + "\n"
+
+
+BEGIN = "<!-- examples: written by scripts/gen-jcs-drift-vectors.py from cases.json -->"
+END = "<!-- examples: end -->"
+
+
+def example_rows(corpus: dict[str, Any]) -> list[str]:
+    """One worked example per family, every value read from the corpus itself."""
+
+    def code(text: str) -> str:
+        return "`" + text.replace("|", "\\|") + "`" if text else "(empty)"
+
+    rows = []
+    for member in corpus["canonicalCases"][:1]:
+        rows.append((member["id"], member["input"], f"bytes {member['canonicalHex']}"))
+    for member in corpus["driftCases"][:1]:
+        rows.append(
+            (member["id"], member["presented"], f"not canonical; bytes {member['canonicalHex']}")
+        )
+    for member in corpus["refusalCases"][:1]:
+        rows.append((member["id"], member["input"], f"refuse ({member['error']})"))
+    escaped = [m for m in corpus["noncharacterCases"] if m["spelling"] == "escaped"]
+    for member in escaped[:1]:
+        rows.append(
+            (
+                member["id"],
+                member["input"],
+                f"bytes {member['canonicalHex']}; bounded: refuse ({member['boundedError']})",
+            )
+        )
+    for member in corpus["preimageCases"][:1]:
+        rows.append(
+            (
+                member["id"],
+                member["value"],
+                f"sha256 {member['sha256']}, never {member['statedWrongSha256']}",
+            )
+        )
+    out = ["| Member | Input | Expected answer |", "| --- | --- | --- |"]
+    out += [f"| `{ident}` | {code(text)} | {answer} |" for ident, text, answer in rows]
+    return out
+
+
+def render_readme(corpus_text: str) -> str:
+    """The README with its examples block rewritten from ``corpus_text``."""
+    readme = README.read_text("utf-8")
+    head, rest = readme.split(BEGIN, 1)
+    _, tail = rest.split(END, 1)
+    block = "\n".join([BEGIN, *example_rows(json.loads(corpus_text)), END])
+    return head + block + tail
 
 
 def main(argv: list[str]) -> int:
@@ -363,12 +544,16 @@ def main(argv: list[str]) -> int:
         print(__doc__)
         return 2
     wanted = render()
+    wanted_readme = render_readme(wanted)
     if argv:
-        if CASES.read_text("utf-8") != wanted:
-            print(f"{CASES.relative_to(ROOT)} differs from what {Path(__file__).name} writes")
-            return 1
-        return 0
+        status = 0
+        for path, text in ((CASES, wanted), (README, wanted_readme)):
+            if path.read_text("utf-8") != text:
+                print(f"{path.relative_to(ROOT)} differs from what {Path(__file__).name} writes")
+                status = 1
+        return status
     CASES.write_text(wanted, encoding="utf-8")
+    README.write_text(wanted_readme, encoding="utf-8")
     return 0
 
 
