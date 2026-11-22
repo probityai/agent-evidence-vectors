@@ -373,6 +373,7 @@
         "corpusreaders/registry.go",
         "corpusreaders/responsibilityescalation.go",
         "corpusreaders/restartrecords.go",
+        "corpusreaders/revocationlist.go",
         "corpusreaders/rsadigestinfo.go",
         "corpusreaders/rulecorpus.go",
         "corpusreaders/runmetrics.go",
@@ -392,7 +393,7 @@
         "go.mod"
       ],
       "serialization": "sha256-listing-v1",
-      "sha256": "6a7fd963dd63477975371c166bad9a6be4023d0f03f67a3e9f646416677377ac"
+      "sha256": "cea7cbb1971635fddeb19e2b0570e1e5cfe8f8dee627f2eb1aa344d65a3be9c6"
     },
     "runtime": {
       "name": "go",
@@ -500,6 +501,7 @@
       "corpusreaders/registry.go",
       "corpusreaders/responsibilityescalation.go",
       "corpusreaders/restartrecords.go",
+      "corpusreaders/revocationlist.go",
       "corpusreaders/rsadigestinfo.go",
       "corpusreaders/rulecorpus.go",
       "corpusreaders/runmetrics.go",
