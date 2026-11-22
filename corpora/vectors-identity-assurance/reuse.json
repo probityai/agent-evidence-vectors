@@ -1,0 +1,161 @@
+{
+  "entries": {
+    "vectors-actor-marker-survival/accept-two-hop": {
+      "corpus": "vectors-actor-marker-survival",
+      "decision": "accept",
+      "file": "record.json",
+      "member": "accept-two-hop",
+      "reason": "marker_survives",
+      "sha256": "04a5a5f9b8a459596ca55b77982b7a13be3ee4a76407240675961eeab87b371a",
+      "suite": "actor-marker-survival/v1"
+    },
+    "vectors-actor-marker-survival/own-marker-stripped": {
+      "corpus": "vectors-actor-marker-survival",
+      "decision": "reject",
+      "file": "record.json",
+      "member": "own-marker-stripped",
+      "reason": "marker_stripped",
+      "sha256": "115bf701e16f738e7e11267bc2372a5023cefddd246a4f7ec0345494ff362cd1",
+      "suite": "actor-marker-survival/v1"
+    },
+    "vectors-credential-reachability/contained": {
+      "corpus": "vectors-credential-reachability",
+      "decision": "accept",
+      "file": "envelope.json",
+      "member": "contained",
+      "reason": "contained_verified",
+      "sha256": "050b0bb3688d734aefdaf19c99c1e69687512d9bcbc39c4c95a8690ab24337c2",
+      "suite": "credential-reachability/v1"
+    },
+    "vectors-credential-reachability/exposed": {
+      "corpus": "vectors-credential-reachability",
+      "decision": "accept",
+      "file": "envelope.json",
+      "member": "exposed",
+      "reason": "exposed_verified",
+      "sha256": "215e9c9c6cff202ca6acf251529291c86d047bed1772e426853114e60bf88488",
+      "suite": "credential-reachability/v1"
+    },
+    "vectors-credential-reachability/signed-by-agent-key": {
+      "corpus": "vectors-credential-reachability",
+      "decision": "reject",
+      "file": "envelope.json",
+      "member": "signed-by-agent-key",
+      "reason": "signed_by_agent_key",
+      "sha256": "bced1e0ff897f236b627bbb44d1c65894defb19d9b23b326309db73e23020b77",
+      "suite": "credential-reachability/v1"
+    },
+    "vectors-delegator-right/allow-entitled-delegator": {
+      "corpus": "vectors-delegator-right",
+      "decision": "accept",
+      "file": "record.json",
+      "member": "allow-entitled-delegator",
+      "reason": "entitled",
+      "sha256": "6449442dd62599283430cac82998692746264f235437278a81182639c80eef6e",
+      "suite": "delegator-right/v1"
+    },
+    "vectors-delegator-right/delegate-scope-exceeds-delegator": {
+      "corpus": "vectors-delegator-right",
+      "decision": "reject",
+      "file": "record.json",
+      "member": "delegate-scope-exceeds-delegator",
+      "reason": "delegate_exceeds_delegator",
+      "sha256": "6448c504154bbf292d0f1741a61a042274a9f7126a57d22ec51eb9e8669484d0",
+      "suite": "delegator-right/v1"
+    },
+    "vectors-grade-floor/e0-self-stamped-e4": {
+      "corpus": "vectors-grade-floor",
+      "decision": "reject",
+      "file": "case.json",
+      "member": "e0-self-stamped-e4",
+      "reason": "e1_no_external_observer",
+      "rung": "E0",
+      "sha256": "bc82492cea27f4897a8f9f6125d7d34278c5f9eb52e0b1ba8e922fe9c249213e",
+      "suite": "evidence-grade-floor/v1"
+    },
+    "vectors-grade-floor/e1-observed": {
+      "corpus": "vectors-grade-floor",
+      "decision": "accept",
+      "file": "case.json",
+      "member": "e1-observed",
+      "reason": "grade_derived",
+      "rung": "E1",
+      "sha256": "15c13fc4e0bca9c28843023b4bb496736578ccda603d448dc3ff42fca9fa46db",
+      "suite": "evidence-grade-floor/v1"
+    },
+    "vectors-grade-floor/e2-enforced": {
+      "corpus": "vectors-grade-floor",
+      "decision": "accept",
+      "file": "case.json",
+      "member": "e2-enforced",
+      "reason": "grade_derived",
+      "rung": "E2",
+      "sha256": "1b8e62037e0ed946842b3a6819d3714ce118fa69b450d51b6f72d3b1fa0edb65",
+      "suite": "evidence-grade-floor/v1"
+    },
+    "vectors-grade-floor/e4-anchored": {
+      "corpus": "vectors-grade-floor",
+      "decision": "accept",
+      "file": "case.json",
+      "member": "e4-anchored",
+      "reason": "grade_derived",
+      "rung": "E4",
+      "sha256": "788201668f87e30a1e85715bb358759c4f69275913b2a4ecf56295ff14110e73",
+      "suite": "evidence-grade-floor/v1"
+    },
+    "vectors-holder-bound-credential/accept-single-presentation": {
+      "corpus": "vectors-holder-bound-credential",
+      "decision": "accept",
+      "file": "record.json",
+      "member": "accept-single-presentation",
+      "reason": "holder_bound",
+      "sha256": "53542d3824855216076f8acb8e2b1360c1a26dbe88721815e65ea07379aa2b68",
+      "suite": "holder-bound-credential/v1"
+    },
+    "vectors-holder-bound-credential/credential-is-bearer": {
+      "corpus": "vectors-holder-bound-credential",
+      "decision": "reject",
+      "file": "record.json",
+      "member": "credential-is-bearer",
+      "reason": "credential_not_holder_bound",
+      "sha256": "1dc6d43973cacb027063ed5ac912e1b7a98d19d9cc08c5c89ac60d33ffc99978",
+      "suite": "holder-bound-credential/v1"
+    },
+    "vectors-holder-bound-credential/proof-signed-by-other-key": {
+      "corpus": "vectors-holder-bound-credential",
+      "decision": "reject",
+      "file": "record.json",
+      "member": "proof-signed-by-other-key",
+      "reason": "proof_key_not_bound",
+      "sha256": "37ac2c9b488d4cd1ba98fc1f13268920b7a509b18dcf120a3e5a1f815318dadb",
+      "suite": "holder-bound-credential/v1"
+    },
+    "vectors-identity-binding/web-verified": {
+      "corpus": "vectors-identity-binding",
+      "decision": "accept",
+      "file": "envelope.json",
+      "member": "web-verified",
+      "reason": "subject_bound",
+      "sha256": "a7455e4be92a5ef90d52025a2c3fd9e536a504a6b6b3e717383c1689873df6e7",
+      "suite": "agent-did-identity-binding/v1"
+    },
+    "vectors-principal-binding/uma-bound": {
+      "corpus": "vectors-principal-binding",
+      "decision": "accept",
+      "file": "binding.jws",
+      "member": "uma-bound",
+      "reason": "agent_bound",
+      "sha256": "b0e70d2b95bb1b49bc7e1dfaf065b7730deef2af8c99a2e4f5ffac0711bcd951",
+      "suite": "agent-principal-binding/v1"
+    },
+    "vectors-principal-binding/uma-signed-by-other-key": {
+      "corpus": "vectors-principal-binding",
+      "decision": "reject",
+      "file": "binding.jws",
+      "member": "uma-signed-by-other-key",
+      "reason": "signature_invalid",
+      "sha256": "232a7eb548fc734a6ab580d6da66c89d54bdd6b0c9ac8afbff1cc6122bbe0ba0",
+      "suite": "agent-principal-binding/v1"
+    }
+  }
+}

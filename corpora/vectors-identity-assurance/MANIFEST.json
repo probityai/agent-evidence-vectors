@@ -1,0 +1,866 @@
+{
+  "contractId": "https://probityai.github.io/agent-evidence-vectors/predicate/v1/identity-assurance-levels",
+  "corpusDigest": "f335b9c592416d9d02f3da0229e784ccb0264898c6184cb3297becff13f7e5b6",
+  "counts": {
+    "accept": 27,
+    "reject": 17
+  },
+  "reuseSha256": "3fd31f4c882151e68fa5e281a98197918fdf2fe5314e3424cfa909a8744d798c",
+  "sources": {
+    "rfc7800": {
+      "title": "RFC 7800",
+      "url": "https://www.rfc-editor.org/rfc/rfc7800"
+    },
+    "rfc8693": {
+      "title": "RFC 8693",
+      "url": "https://www.rfc-editor.org/rfc/rfc8693"
+    },
+    "rfc9449": {
+      "title": "RFC 9449",
+      "url": "https://www.rfc-editor.org/rfc/rfc9449"
+    }
+  },
+  "suite": "identity-assurance-levels/v1",
+  "synthetic": true,
+  "vectors": [
+    {
+      "edit": "a subject and nothing else: self-declared",
+      "expected": {
+        "decision": "accept",
+        "reason": "level=0 next=T1:no_finding"
+      },
+      "files": {
+        "record.json": "7fc08ddfedfa9d4a8f57661b9fea63717f0d66443b689f224b40a9ce2b748b7e"
+      },
+      "id": "level-0-declared-only",
+      "path": "cases/level-0-declared-only",
+      "retained": {
+        "evidence": [],
+        "subject": "agent:planner"
+      }
+    },
+    {
+      "edit": "an issuer-signed binding for the subject",
+      "expected": {
+        "decision": "accept",
+        "reason": "level=1 next=T2:no_finding"
+      },
+      "files": {
+        "record.json": "d8ef8fef1809f582c2d0e7bea37394f25006cc557ee10ca2cb57a72dc8f3933b"
+      },
+      "id": "level-1-issuer-marker",
+      "path": "cases/level-1-issuer-marker",
+      "retained": {
+        "evidence": [
+          "b0e70d2b95bb1b49bc7e1dfaf065b7730deef2af8c99a2e4f5ffac0711bcd951"
+        ],
+        "subject": "agent:planner"
+      }
+    },
+    {
+      "edit": "the same level reached through a DID binding",
+      "expected": {
+        "decision": "accept",
+        "reason": "level=1 next=T2:no_finding"
+      },
+      "files": {
+        "record.json": "6fc8cad07c537e0671decac15c7db2df4c03dd2063d98588da07a81471d2716f"
+      },
+      "id": "level-1-did-binding",
+      "path": "cases/level-1-did-binding",
+      "retained": {
+        "evidence": [
+          "a7455e4be92a5ef90d52025a2c3fd9e536a504a6b6b3e717383c1689873df6e7"
+        ],
+        "subject": "agent:planner"
+      }
+    },
+    {
+      "edit": "the marker survives every hop",
+      "expected": {
+        "decision": "accept",
+        "reason": "level=2 next=T3:no_finding"
+      },
+      "files": {
+        "record.json": "539483f3be5f89aeddaf339bffd66597b41c305de002b23155225b070602126d"
+      },
+      "id": "level-2-marker-survives",
+      "path": "cases/level-2-marker-survives",
+      "retained": {
+        "evidence": [
+          "04a5a5f9b8a459596ca55b77982b7a13be3ee4a76407240675961eeab87b371a",
+          "b0e70d2b95bb1b49bc7e1dfaf065b7730deef2af8c99a2e4f5ffac0711bcd951"
+        ],
+        "subject": "agent:planner"
+      }
+    },
+    {
+      "edit": "the credential confirms a key and the presenter proved it",
+      "expected": {
+        "decision": "accept",
+        "reason": "level=3 next=T4:no_finding"
+      },
+      "files": {
+        "record.json": "e399cc016927779d1ad13dd37b1cba74b57d458c6622835c1ceb0acf52b0e651"
+      },
+      "id": "level-3-holder-bound",
+      "path": "cases/level-3-holder-bound",
+      "retained": {
+        "evidence": [
+          "04a5a5f9b8a459596ca55b77982b7a13be3ee4a76407240675961eeab87b371a",
+          "53542d3824855216076f8acb8e2b1360c1a26dbe88721815e65ea07379aa2b68",
+          "b0e70d2b95bb1b49bc7e1dfaf065b7730deef2af8c99a2e4f5ffac0711bcd951"
+        ],
+        "subject": "agent:planner"
+      }
+    },
+    {
+      "edit": "every delegation only narrows",
+      "expected": {
+        "decision": "accept",
+        "reason": "level=4 next=T5:no_finding"
+      },
+      "files": {
+        "record.json": "7b18f72466d0355197985d17fc5f350709759bb735f73b4e2b1c3c7a2265f9d1"
+      },
+      "id": "level-4-narrowing-chain",
+      "path": "cases/level-4-narrowing-chain",
+      "retained": {
+        "evidence": [
+          "04a5a5f9b8a459596ca55b77982b7a13be3ee4a76407240675961eeab87b371a",
+          "53542d3824855216076f8acb8e2b1360c1a26dbe88721815e65ea07379aa2b68",
+          "6449442dd62599283430cac82998692746264f235437278a81182639c80eef6e",
+          "b0e70d2b95bb1b49bc7e1dfaf065b7730deef2af8c99a2e4f5ffac0711bcd951"
+        ],
+        "subject": "agent:planner"
+      }
+    },
+    {
+      "edit": "the agent can reach no unmarked credential",
+      "expected": {
+        "decision": "accept",
+        "reason": "level=5 next=T6:no_finding"
+      },
+      "files": {
+        "record.json": "9ffc8a5cb8d7a1e463865e75525f1f0d9659b20609527fa5cfd409e7d31a46db"
+      },
+      "id": "level-5-no-unmarked-credential",
+      "path": "cases/level-5-no-unmarked-credential",
+      "retained": {
+        "evidence": [
+          "04a5a5f9b8a459596ca55b77982b7a13be3ee4a76407240675961eeab87b371a",
+          "050b0bb3688d734aefdaf19c99c1e69687512d9bcbc39c4c95a8690ab24337c2",
+          "53542d3824855216076f8acb8e2b1360c1a26dbe88721815e65ea07379aa2b68",
+          "6449442dd62599283430cac82998692746264f235437278a81182639c80eef6e",
+          "b0e70d2b95bb1b49bc7e1dfaf065b7730deef2af8c99a2e4f5ffac0711bcd951"
+        ],
+        "subject": "agent:planner"
+      }
+    },
+    {
+      "edit": "every test passes; the record sits where the agent cannot reach it",
+      "expected": {
+        "decision": "accept",
+        "reason": "level=6 next=none"
+      },
+      "files": {
+        "record.json": "909c06c28080135b117815ce41140306ef1b2b1ca1bed06cc806d306169aeda3"
+      },
+      "id": "level-6-out-of-reach-record",
+      "path": "cases/level-6-out-of-reach-record",
+      "retained": {
+        "evidence": [
+          "04a5a5f9b8a459596ca55b77982b7a13be3ee4a76407240675961eeab87b371a",
+          "050b0bb3688d734aefdaf19c99c1e69687512d9bcbc39c4c95a8690ab24337c2",
+          "1b8e62037e0ed946842b3a6819d3714ce118fa69b450d51b6f72d3b1fa0edb65",
+          "53542d3824855216076f8acb8e2b1360c1a26dbe88721815e65ea07379aa2b68",
+          "6449442dd62599283430cac82998692746264f235437278a81182639c80eef6e",
+          "b0e70d2b95bb1b49bc7e1dfaf065b7730deef2af8c99a2e4f5ffac0711bcd951"
+        ],
+        "subject": "agent:planner"
+      }
+    },
+    {
+      "edit": "an anchored record clears the floor too",
+      "expected": {
+        "decision": "accept",
+        "reason": "level=6 next=none"
+      },
+      "files": {
+        "record.json": "89afcad649ab2e7c15b1bb418ecc305018e5f690347cef51d9ed22109f31d721"
+      },
+      "id": "level-6-e4-anchored",
+      "path": "cases/level-6-e4-anchored",
+      "retained": {
+        "evidence": [
+          "04a5a5f9b8a459596ca55b77982b7a13be3ee4a76407240675961eeab87b371a",
+          "050b0bb3688d734aefdaf19c99c1e69687512d9bcbc39c4c95a8690ab24337c2",
+          "53542d3824855216076f8acb8e2b1360c1a26dbe88721815e65ea07379aa2b68",
+          "6449442dd62599283430cac82998692746264f235437278a81182639c80eef6e",
+          "788201668f87e30a1e85715bb358759c4f69275913b2a4ecf56295ff14110e73",
+          "b0e70d2b95bb1b49bc7e1dfaf065b7730deef2af8c99a2e4f5ffac0711bcd951"
+        ],
+        "subject": "agent:planner"
+      }
+    },
+    {
+      "edit": "levels 4, 5 and 6 are proven but 3 is not, so the level is 2",
+      "expected": {
+        "decision": "accept",
+        "reason": "level=2 next=T3:no_finding"
+      },
+      "files": {
+        "record.json": "663d318416202f8cb508b921e87c4364f1cbcb82f36da99af86b1a71dc75089f"
+      },
+      "id": "skips-holder-bound",
+      "path": "cases/skips-holder-bound",
+      "retained": {
+        "evidence": [
+          "04a5a5f9b8a459596ca55b77982b7a13be3ee4a76407240675961eeab87b371a",
+          "050b0bb3688d734aefdaf19c99c1e69687512d9bcbc39c4c95a8690ab24337c2",
+          "1b8e62037e0ed946842b3a6819d3714ce118fa69b450d51b6f72d3b1fa0edb65",
+          "6449442dd62599283430cac82998692746264f235437278a81182639c80eef6e",
+          "b0e70d2b95bb1b49bc7e1dfaf065b7730deef2af8c99a2e4f5ffac0711bcd951"
+        ],
+        "subject": "agent:planner"
+      }
+    },
+    {
+      "edit": "every test above 1 is proven but 1 is not, so the level is 0",
+      "expected": {
+        "decision": "accept",
+        "reason": "level=0 next=T1:no_finding"
+      },
+      "files": {
+        "record.json": "f22ab15bb08c5fc020261f9023e467cb97b8a93b8f4cb86e757ac18faa867ddd"
+      },
+      "id": "skips-issuer-marker",
+      "path": "cases/skips-issuer-marker",
+      "retained": {
+        "evidence": [
+          "04a5a5f9b8a459596ca55b77982b7a13be3ee4a76407240675961eeab87b371a",
+          "050b0bb3688d734aefdaf19c99c1e69687512d9bcbc39c4c95a8690ab24337c2",
+          "1b8e62037e0ed946842b3a6819d3714ce118fa69b450d51b6f72d3b1fa0edb65",
+          "53542d3824855216076f8acb8e2b1360c1a26dbe88721815e65ea07379aa2b68",
+          "6449442dd62599283430cac82998692746264f235437278a81182639c80eef6e"
+        ],
+        "subject": "agent:planner"
+      }
+    },
+    {
+      "edit": "the marker is not shown to survive, so the level is 1",
+      "expected": {
+        "decision": "accept",
+        "reason": "level=1 next=T2:no_finding"
+      },
+      "files": {
+        "record.json": "2de817b79943e252a5302783b31054e144106ce8a8c66247da4f281d52e03021"
+      },
+      "id": "skips-marker-survival",
+      "path": "cases/skips-marker-survival",
+      "retained": {
+        "evidence": [
+          "050b0bb3688d734aefdaf19c99c1e69687512d9bcbc39c4c95a8690ab24337c2",
+          "1b8e62037e0ed946842b3a6819d3714ce118fa69b450d51b6f72d3b1fa0edb65",
+          "53542d3824855216076f8acb8e2b1360c1a26dbe88721815e65ea07379aa2b68",
+          "6449442dd62599283430cac82998692746264f235437278a81182639c80eef6e",
+          "b0e70d2b95bb1b49bc7e1dfaf065b7730deef2af8c99a2e4f5ffac0711bcd951"
+        ],
+        "subject": "agent:planner"
+      }
+    },
+    {
+      "edit": "no chain finding, so the level is 3",
+      "expected": {
+        "decision": "accept",
+        "reason": "level=3 next=T4:no_finding"
+      },
+      "files": {
+        "record.json": "76c3c73a242a1cf96572b24bfee46fd2b327047a689f358f36d86fd3cef5da4a"
+      },
+      "id": "skips-narrowing-chain",
+      "path": "cases/skips-narrowing-chain",
+      "retained": {
+        "evidence": [
+          "04a5a5f9b8a459596ca55b77982b7a13be3ee4a76407240675961eeab87b371a",
+          "050b0bb3688d734aefdaf19c99c1e69687512d9bcbc39c4c95a8690ab24337c2",
+          "1b8e62037e0ed946842b3a6819d3714ce118fa69b450d51b6f72d3b1fa0edb65",
+          "53542d3824855216076f8acb8e2b1360c1a26dbe88721815e65ea07379aa2b68",
+          "b0e70d2b95bb1b49bc7e1dfaf065b7730deef2af8c99a2e4f5ffac0711bcd951"
+        ],
+        "subject": "agent:planner"
+      }
+    },
+    {
+      "edit": "no reachability finding, so the level is 4",
+      "expected": {
+        "decision": "accept",
+        "reason": "level=4 next=T5:no_finding"
+      },
+      "files": {
+        "record.json": "f9dfe0c35245e8a5bfbeb44d33452245cb0018030fd8061d01d3f5eef2176e2c"
+      },
+      "id": "skips-no-unmarked-credential",
+      "path": "cases/skips-no-unmarked-credential",
+      "retained": {
+        "evidence": [
+          "04a5a5f9b8a459596ca55b77982b7a13be3ee4a76407240675961eeab87b371a",
+          "1b8e62037e0ed946842b3a6819d3714ce118fa69b450d51b6f72d3b1fa0edb65",
+          "53542d3824855216076f8acb8e2b1360c1a26dbe88721815e65ea07379aa2b68",
+          "6449442dd62599283430cac82998692746264f235437278a81182639c80eef6e",
+          "b0e70d2b95bb1b49bc7e1dfaf065b7730deef2af8c99a2e4f5ffac0711bcd951"
+        ],
+        "subject": "agent:planner"
+      }
+    },
+    {
+      "edit": "two gaps: the lower one decides",
+      "expected": {
+        "decision": "accept",
+        "reason": "level=2 next=T3:no_finding"
+      },
+      "files": {
+        "record.json": "3e4fb47f212535521fafbad55d31bcd46703f277178a868650dd1f9a16f79abe"
+      },
+      "id": "skips-two-levels",
+      "path": "cases/skips-two-levels",
+      "retained": {
+        "evidence": [
+          "04a5a5f9b8a459596ca55b77982b7a13be3ee4a76407240675961eeab87b371a",
+          "1b8e62037e0ed946842b3a6819d3714ce118fa69b450d51b6f72d3b1fa0edb65",
+          "6449442dd62599283430cac82998692746264f235437278a81182639c80eef6e",
+          "b0e70d2b95bb1b49bc7e1dfaf065b7730deef2af8c99a2e4f5ffac0711bcd951"
+        ],
+        "subject": "agent:planner"
+      }
+    },
+    {
+      "edit": "the same findings in reverse order give the same level",
+      "expected": {
+        "decision": "accept",
+        "reason": "level=6 next=none"
+      },
+      "files": {
+        "record.json": "fe4c1a1286d2e275c37497b085efcf76f62e8a8abf8ec1a3710d822df3960be2"
+      },
+      "id": "order-does-not-matter",
+      "path": "cases/order-does-not-matter",
+      "retained": {
+        "evidence": [
+          "04a5a5f9b8a459596ca55b77982b7a13be3ee4a76407240675961eeab87b371a",
+          "050b0bb3688d734aefdaf19c99c1e69687512d9bcbc39c4c95a8690ab24337c2",
+          "1b8e62037e0ed946842b3a6819d3714ce118fa69b450d51b6f72d3b1fa0edb65",
+          "53542d3824855216076f8acb8e2b1360c1a26dbe88721815e65ea07379aa2b68",
+          "6449442dd62599283430cac82998692746264f235437278a81182639c80eef6e",
+          "b0e70d2b95bb1b49bc7e1dfaf065b7730deef2af8c99a2e4f5ffac0711bcd951"
+        ],
+        "subject": "agent:planner"
+      }
+    },
+    {
+      "edit": "an accepting and a refusing finding for the same test: the refusal stands",
+      "expected": {
+        "decision": "accept",
+        "reason": "level=2 next=T3:finding_refused:proof_key_not_bound"
+      },
+      "files": {
+        "record.json": "c583a8d5241fef8a57d743087eadb36c805228a442ffcaacc923d5eece282052"
+      },
+      "id": "refusal-outvotes-acceptance",
+      "path": "cases/refusal-outvotes-acceptance",
+      "retained": {
+        "evidence": [
+          "04a5a5f9b8a459596ca55b77982b7a13be3ee4a76407240675961eeab87b371a",
+          "37ac2c9b488d4cd1ba98fc1f13268920b7a509b18dcf120a3e5a1f815318dadb",
+          "53542d3824855216076f8acb8e2b1360c1a26dbe88721815e65ea07379aa2b68",
+          "b0e70d2b95bb1b49bc7e1dfaf065b7730deef2af8c99a2e4f5ffac0711bcd951"
+        ],
+        "subject": "agent:planner"
+      }
+    },
+    {
+      "edit": "a bearer credential is refused, so no holder binding",
+      "expected": {
+        "decision": "accept",
+        "reason": "level=2 next=T3:finding_refused:credential_not_holder_bound"
+      },
+      "files": {
+        "record.json": "e3ce101f787046a1b064b92117b5b27d867109252e12dae1a26f03c87a08bf16"
+      },
+      "id": "bearer-credential",
+      "path": "cases/bearer-credential",
+      "retained": {
+        "evidence": [
+          "04a5a5f9b8a459596ca55b77982b7a13be3ee4a76407240675961eeab87b371a",
+          "1dc6d43973cacb027063ed5ac912e1b7a98d19d9cc08c5c89ac60d33ffc99978",
+          "b0e70d2b95bb1b49bc7e1dfaf065b7730deef2af8c99a2e4f5ffac0711bcd951"
+        ],
+        "subject": "agent:planner"
+      }
+    },
+    {
+      "edit": "the marker was stripped at a hop",
+      "expected": {
+        "decision": "accept",
+        "reason": "level=1 next=T2:finding_refused:marker_stripped"
+      },
+      "files": {
+        "record.json": "20e4cf4b52ddde7a47c32d8b4bd3ea3643438c7d4a24af11bd77d37bd1f3d18e"
+      },
+      "id": "marker-stripped",
+      "path": "cases/marker-stripped",
+      "retained": {
+        "evidence": [
+          "115bf701e16f738e7e11267bc2372a5023cefddd246a4f7ec0345494ff362cd1",
+          "b0e70d2b95bb1b49bc7e1dfaf065b7730deef2af8c99a2e4f5ffac0711bcd951"
+        ],
+        "subject": "agent:planner"
+      }
+    },
+    {
+      "edit": "a binding signed by another key proves nothing",
+      "expected": {
+        "decision": "accept",
+        "reason": "level=0 next=T1:finding_refused:signature_invalid"
+      },
+      "files": {
+        "record.json": "66d6af9a52b52b83ce3b075ce4aeb30fed6c84d6121646d1ea66f298493493f9"
+      },
+      "id": "issuer-signature-forged",
+      "path": "cases/issuer-signature-forged",
+      "retained": {
+        "evidence": [
+          "232a7eb548fc734a6ab580d6da66c89d54bdd6b0c9ac8afbff1cc6122bbe0ba0"
+        ],
+        "subject": "agent:planner"
+      }
+    },
+    {
+      "edit": "a delegate holding more than its delegator",
+      "expected": {
+        "decision": "accept",
+        "reason": "level=3 next=T4:finding_refused:delegate_exceeds_delegator"
+      },
+      "files": {
+        "record.json": "1afb08177b1c0e59244f7e77a7315b5aaed4621525532716b091b89e0b63eca8"
+      },
+      "id": "delegation-widened",
+      "path": "cases/delegation-widened",
+      "retained": {
+        "evidence": [
+          "04a5a5f9b8a459596ca55b77982b7a13be3ee4a76407240675961eeab87b371a",
+          "53542d3824855216076f8acb8e2b1360c1a26dbe88721815e65ea07379aa2b68",
+          "6448c504154bbf292d0f1741a61a042274a9f7126a57d22ec51eb9e8669484d0",
+          "b0e70d2b95bb1b49bc7e1dfaf065b7730deef2af8c99a2e4f5ffac0711bcd951"
+        ],
+        "subject": "agent:planner"
+      }
+    },
+    {
+      "edit": "a holder-bound finding about another agent does not lift this one",
+      "expected": {
+        "decision": "accept",
+        "reason": "level=2 next=T3:subject_mismatch"
+      },
+      "files": {
+        "record.json": "f6fc14df754b846a3e5e7697d1961782295ef05f846f7a9f316d95788fd94852"
+      },
+      "id": "subject-mismatch",
+      "path": "cases/subject-mismatch",
+      "retained": {
+        "evidence": [
+          "04a5a5f9b8a459596ca55b77982b7a13be3ee4a76407240675961eeab87b371a",
+          "53542d3824855216076f8acb8e2b1360c1a26dbe88721815e65ea07379aa2b68",
+          "b0e70d2b95bb1b49bc7e1dfaf065b7730deef2af8c99a2e4f5ffac0711bcd951"
+        ],
+        "subject": "agent:planner"
+      }
+    },
+    {
+      "edit": "a verified exposure is an answer, and not the answer that proves containment",
+      "expected": {
+        "decision": "accept",
+        "reason": "level=4 next=T5:reason_not_proving:exposed_verified"
+      },
+      "files": {
+        "record.json": "7f2b8f15b81ae9ba494873362b2997a05484484f97a4dede54959dce67891109"
+      },
+      "id": "reachability-exposed",
+      "path": "cases/reachability-exposed",
+      "retained": {
+        "evidence": [
+          "04a5a5f9b8a459596ca55b77982b7a13be3ee4a76407240675961eeab87b371a",
+          "215e9c9c6cff202ca6acf251529291c86d047bed1772e426853114e60bf88488",
+          "53542d3824855216076f8acb8e2b1360c1a26dbe88721815e65ea07379aa2b68",
+          "6449442dd62599283430cac82998692746264f235437278a81182639c80eef6e",
+          "b0e70d2b95bb1b49bc7e1dfaf065b7730deef2af8c99a2e4f5ffac0711bcd951"
+        ],
+        "subject": "agent:planner"
+      }
+    },
+    {
+      "edit": "the probe was signed with a key the agent holds",
+      "expected": {
+        "decision": "accept",
+        "reason": "level=4 next=T5:finding_refused:signed_by_agent_key"
+      },
+      "files": {
+        "record.json": "493ec6b20085bec6623c9b271206e8ac9e9be1d35a814946a9774441442e0c93"
+      },
+      "id": "reachability-credential-signed-by-agent",
+      "path": "cases/reachability-credential-signed-by-agent",
+      "retained": {
+        "evidence": [
+          "04a5a5f9b8a459596ca55b77982b7a13be3ee4a76407240675961eeab87b371a",
+          "53542d3824855216076f8acb8e2b1360c1a26dbe88721815e65ea07379aa2b68",
+          "6449442dd62599283430cac82998692746264f235437278a81182639c80eef6e",
+          "b0e70d2b95bb1b49bc7e1dfaf065b7730deef2af8c99a2e4f5ffac0711bcd951",
+          "bced1e0ff897f236b627bbb44d1c65894defb19d9b23b326309db73e23020b77"
+        ],
+        "subject": "agent:planner"
+      }
+    },
+    {
+      "edit": "an observed record is below the floor",
+      "expected": {
+        "decision": "accept",
+        "reason": "level=5 next=T6:rung_below_floor:E1"
+      },
+      "files": {
+        "record.json": "697802eedea3df60dd62579eeb772be66e037b28c990b7713c027fdb1ef703ff"
+      },
+      "id": "floor-below-e2",
+      "path": "cases/floor-below-e2",
+      "retained": {
+        "evidence": [
+          "04a5a5f9b8a459596ca55b77982b7a13be3ee4a76407240675961eeab87b371a",
+          "050b0bb3688d734aefdaf19c99c1e69687512d9bcbc39c4c95a8690ab24337c2",
+          "15c13fc4e0bca9c28843023b4bb496736578ccda603d448dc3ff42fca9fa46db",
+          "53542d3824855216076f8acb8e2b1360c1a26dbe88721815e65ea07379aa2b68",
+          "6449442dd62599283430cac82998692746264f235437278a81182639c80eef6e",
+          "b0e70d2b95bb1b49bc7e1dfaf065b7730deef2af8c99a2e4f5ffac0711bcd951"
+        ],
+        "subject": "agent:planner"
+      }
+    },
+    {
+      "edit": "an accepting floor finding with no rung",
+      "expected": {
+        "decision": "accept",
+        "reason": "level=5 next=T6:rung_missing"
+      },
+      "files": {
+        "record.json": "81c5bace413aaff02a7cca98176b6745bc4495694ef3fd4aa8a874ecefd591b0"
+      },
+      "id": "floor-rung-missing",
+      "path": "cases/floor-rung-missing",
+      "retained": {
+        "evidence": [
+          "04a5a5f9b8a459596ca55b77982b7a13be3ee4a76407240675961eeab87b371a",
+          "050b0bb3688d734aefdaf19c99c1e69687512d9bcbc39c4c95a8690ab24337c2",
+          "1b8e62037e0ed946842b3a6819d3714ce118fa69b450d51b6f72d3b1fa0edb65",
+          "53542d3824855216076f8acb8e2b1360c1a26dbe88721815e65ea07379aa2b68",
+          "6449442dd62599283430cac82998692746264f235437278a81182639c80eef6e",
+          "b0e70d2b95bb1b49bc7e1dfaf065b7730deef2af8c99a2e4f5ffac0711bcd951"
+        ],
+        "subject": "agent:planner"
+      }
+    },
+    {
+      "edit": "a record that stamped itself E4 is refused",
+      "expected": {
+        "decision": "accept",
+        "reason": "level=5 next=T6:finding_refused:e1_no_external_observer"
+      },
+      "files": {
+        "record.json": "fa72cfa3f8fa2a26a8bb7ecca21c6cea14057aea5d0f4755614d9d0009a565e8"
+      },
+      "id": "floor-self-stamped",
+      "path": "cases/floor-self-stamped",
+      "retained": {
+        "evidence": [
+          "04a5a5f9b8a459596ca55b77982b7a13be3ee4a76407240675961eeab87b371a",
+          "050b0bb3688d734aefdaf19c99c1e69687512d9bcbc39c4c95a8690ab24337c2",
+          "53542d3824855216076f8acb8e2b1360c1a26dbe88721815e65ea07379aa2b68",
+          "6449442dd62599283430cac82998692746264f235437278a81182639c80eef6e",
+          "b0e70d2b95bb1b49bc7e1dfaf065b7730deef2af8c99a2e4f5ffac0711bcd951",
+          "bc82492cea27f4897a8f9f6125d7d34278c5f9eb52e0b1ba8e922fe9c249213e"
+        ],
+        "subject": "agent:planner"
+      }
+    },
+    {
+      "edit": "no contract",
+      "expected": {
+        "decision": "reject",
+        "reason": "contract_id_missing"
+      },
+      "files": {
+        "record.json": "93e871039e5bd7869aabeb3e1d198d13bd552ee4f4422a12c9f24e1954559128"
+      },
+      "id": "contract-id-missing",
+      "path": "cases/contract-id-missing",
+      "retained": {
+        "evidence": [],
+        "subject": null
+      }
+    },
+    {
+      "edit": "another contract",
+      "expected": {
+        "decision": "reject",
+        "reason": "contract_id_unknown"
+      },
+      "files": {
+        "record.json": "34a6effca0bdf920dc7cfc7cd6857465c888de19afc8632ffcf55fe205fdf44d"
+      },
+      "id": "contract-id-unknown",
+      "path": "cases/contract-id-unknown",
+      "retained": {
+        "evidence": [],
+        "subject": null
+      }
+    },
+    {
+      "edit": "a member not in the set",
+      "expected": {
+        "decision": "reject",
+        "reason": "record_malformed"
+      },
+      "files": {
+        "record.json": "e4f9e1c9032ad9dda0eb82819e96a32618db73b98d5aadd450257cf77de798f0"
+      },
+      "id": "set-has-extra-member",
+      "path": "cases/set-has-extra-member",
+      "retained": {
+        "evidence": [],
+        "subject": null
+      }
+    },
+    {
+      "edit": "no subject at all",
+      "expected": {
+        "decision": "reject",
+        "reason": "record_malformed"
+      },
+      "files": {
+        "record.json": "e6393d7cedad38f6879fed2b68f2e490c499a30f140205e3731eed299049abad"
+      },
+      "id": "subject-empty",
+      "path": "cases/subject-empty",
+      "retained": {
+        "evidence": [],
+        "subject": null
+      }
+    },
+    {
+      "edit": "a subject with surrounding whitespace is not an exact string",
+      "expected": {
+        "decision": "reject",
+        "reason": "record_malformed"
+      },
+      "files": {
+        "record.json": "571d601933df4aab8b9f61a9c30fa450da58a57ca150bc189b04ecac49bb28d4"
+      },
+      "id": "subject-padded",
+      "path": "cases/subject-padded",
+      "retained": {
+        "evidence": [],
+        "subject": null
+      }
+    },
+    {
+      "edit": "findings is an object",
+      "expected": {
+        "decision": "reject",
+        "reason": "record_malformed"
+      },
+      "files": {
+        "record.json": "1298d25d9159be6f171fba61b1c1f25ffebc06ce64f1e750944e0d5ff6ae3490"
+      },
+      "id": "findings-not-a-list",
+      "path": "cases/findings-not-a-list",
+      "retained": {
+        "evidence": [],
+        "subject": null
+      }
+    },
+    {
+      "edit": "a decision other than accept or reject",
+      "expected": {
+        "decision": "reject",
+        "reason": "finding_malformed"
+      },
+      "files": {
+        "record.json": "7349ac3afa306ab9001e59a850ed43bd34e3c57254b034433b9a0d0da4013ba5"
+      },
+      "id": "finding-decision-unknown",
+      "path": "cases/finding-decision-unknown",
+      "retained": {
+        "evidence": [],
+        "subject": null
+      }
+    },
+    {
+      "edit": "evidence digest is not 64 hex characters",
+      "expected": {
+        "decision": "reject",
+        "reason": "finding_malformed"
+      },
+      "files": {
+        "record.json": "ab94cac790cd6e5b1998b509743b36642920f3d121ad1fba772f5b5211bb12f8"
+      },
+      "id": "finding-digest-short",
+      "path": "cases/finding-digest-short",
+      "retained": {
+        "evidence": [],
+        "subject": null
+      }
+    },
+    {
+      "edit": "evidence digest is not lowercase hex",
+      "expected": {
+        "decision": "reject",
+        "reason": "finding_malformed"
+      },
+      "files": {
+        "record.json": "35eb88eff080dce0003d5cc63326d23273e5b7abd0d8abb2d0c9bba213927484"
+      },
+      "id": "finding-digest-uppercase",
+      "path": "cases/finding-digest-uppercase",
+      "retained": {
+        "evidence": [],
+        "subject": null
+      }
+    },
+    {
+      "edit": "a finding with no evidence",
+      "expected": {
+        "decision": "reject",
+        "reason": "finding_malformed"
+      },
+      "files": {
+        "record.json": "1fc8a621bc20a92b07ea3efdf6e186fb3d5d977fdeb3c62804186a7d792a4bae"
+      },
+      "id": "finding-evidence-missing",
+      "path": "cases/finding-evidence-missing",
+      "retained": {
+        "evidence": [],
+        "subject": null
+      }
+    },
+    {
+      "edit": "a rung that is not E0 to E4",
+      "expected": {
+        "decision": "reject",
+        "reason": "finding_malformed"
+      },
+      "files": {
+        "record.json": "9340550cc7d181abf509f2d236c62e3a4b0a081e69a690570ef8127e29d2f9a7"
+      },
+      "id": "finding-rung-unknown",
+      "path": "cases/finding-rung-unknown",
+      "retained": {
+        "evidence": [],
+        "subject": null
+      }
+    },
+    {
+      "edit": "a finding subject with trailing whitespace",
+      "expected": {
+        "decision": "reject",
+        "reason": "finding_malformed"
+      },
+      "files": {
+        "record.json": "4fec22e4505d0cfc610ea9355c71c3dfb1be6296e79bcf97026998fae21b3aa2"
+      },
+      "id": "finding-subject-padded",
+      "path": "cases/finding-subject-padded",
+      "retained": {
+        "evidence": [],
+        "subject": null
+      }
+    },
+    {
+      "edit": "a finding member outside the contract",
+      "expected": {
+        "decision": "reject",
+        "reason": "finding_malformed"
+      },
+      "files": {
+        "record.json": "57c8ce6ac23dc766f962fb9b4aea31feb1dce65bd701ba1093da132af31d5254"
+      },
+      "id": "finding-extra-member",
+      "path": "cases/finding-extra-member",
+      "retained": {
+        "evidence": [],
+        "subject": null
+      }
+    },
+    {
+      "edit": "the same evidence reported as accept and as reject",
+      "expected": {
+        "decision": "reject",
+        "reason": "finding_conflict"
+      },
+      "files": {
+        "record.json": "ccf8869b39e2a0ade9b169c9a498657974efae810d46cd27715a4b37ca9a7854"
+      },
+      "id": "finding-conflict",
+      "path": "cases/finding-conflict",
+      "retained": {
+        "evidence": [],
+        "subject": null
+      }
+    },
+    {
+      "edit": "one digest listed as the proof of two different suites",
+      "expected": {
+        "decision": "reject",
+        "reason": "finding_conflict"
+      },
+      "files": {
+        "record.json": "73885abc2fe5dbd1e7cb3bc75efd3f623342dc28005d07a9169965c61c7ee483"
+      },
+      "id": "evidence-claimed-by-two-suites",
+      "path": "cases/evidence-claimed-by-two-suites",
+      "retained": {
+        "evidence": [],
+        "subject": null
+      }
+    },
+    {
+      "edit": "one digest listed as evidence about two different agents",
+      "expected": {
+        "decision": "reject",
+        "reason": "finding_conflict"
+      },
+      "files": {
+        "record.json": "1f8fc8c7c313ca2ff1ab53d86dbcc7c4d099b231218442b2869f4c5c9717f238"
+      },
+      "id": "evidence-claimed-for-two-subjects",
+      "path": "cases/evidence-claimed-for-two-subjects",
+      "retained": {
+        "evidence": [],
+        "subject": null
+      }
+    },
+    {
+      "edit": "a single digest listed under all six suites would otherwise grade level 6",
+      "expected": {
+        "decision": "reject",
+        "reason": "finding_conflict"
+      },
+      "files": {
+        "record.json": "375043ef29e862667755da27453913b0f4ecfbf6f26e2741b14b83843d0acb39"
+      },
+      "id": "one-evidence-for-every-level",
+      "path": "cases/one-evidence-for-every-level",
+      "retained": {
+        "evidence": [],
+        "subject": null
+      }
+    }
+  ],
+  "verifierContract": "verifier record.json --json; exit 0 accept, 1 reject"
+}
