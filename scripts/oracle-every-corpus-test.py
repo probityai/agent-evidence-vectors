@@ -58,6 +58,7 @@ RUNS_A_VERIFIER = (
     "vectors-budget-lineage",
     "vectors-principal-binding",
     "vectors-print-witness",
+    "vectors-assertion-grade",
     "vectors-uncertain-effect",
     "vectors-monitor-coverage",
     "vectors-signature-coverage",

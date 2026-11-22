@@ -1952,6 +1952,12 @@ jobs:
           uv run --extra dev pytest corpora/vectors-grade-floor/tests -q
           uv run python corpora/vectors-grade-floor/check_vectors.py
           uv run python corpora/vectors-grade-floor/mutation_check.py
+      - name: assertion-grade cases regenerate, agree and every rule is load-bearing
+        run: |
+          set -euo pipefail
+          uv run --extra dev pytest corpora/vectors-assertion-grade/tests -q
+          uv run python corpora/vectors-assertion-grade/check_vectors.py
+          uv run python corpora/vectors-assertion-grade/mutation_check.py
       - name: change-admission cases regenerate, agree and every rule is load-bearing
         run: |
           set -euo pipefail

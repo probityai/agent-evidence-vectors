@@ -1,7 +1,7 @@
 {
   "verifier": "https://probityai.github.io/probity/verifiers/agent-evidence-verify",
   "checked": 734,
-  "total": 3593,
+  "total": 3646,
   "corpora": [
     {
       "id": "vectors",
@@ -115,6 +115,12 @@
       "id": "vectors-artifact-binding",
       "checked": 0,
       "total": 8,
+      "disagreements": 0
+    },
+    {
+      "id": "vectors-assertion-grade",
+      "checked": 0,
+      "total": 53,
       "disagreements": 0
     },
     {

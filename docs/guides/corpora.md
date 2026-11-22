@@ -16,6 +16,7 @@ Choose the record format you need, then follow its [reader route](../reference/c
 | Bind an evaluation to saved inputs | [vectors-artifact-binding](../../corpora/vectors-artifact-binding/) | [Artifact-binding v1](../../spec/artifact-binding/v1.md) |
 | Record an AI-assisted dependency change | [vectors-dependency-selection](../../corpora/vectors-dependency-selection/) | [Artifact-binding v1, section 6.2](../../spec/artifact-binding/v1.md) |
 | Selected source passages in a report | [vectors-source-coverage](../../corpora/vectors-source-coverage/README.md) | Consumer-pinned source capture and time window; named verifier required |
+| Grade each assertion by who wrote its content (I, W+, W, S) | [vectors-assertion-grade](../../corpora/vectors-assertion-grade/README.md) | C2SP checkpoints and cosignatures, RFC 9162 proofs, receipt map proofs; packaged reader or named verifier |
 | Evidence grade derived by the consumer, E0-E4 | [vectors-grade-floor](../../corpora/vectors-grade-floor/README.md) | Ladder of AAIF Observability WG issue #37; packaged reader or named verifier |
 | Connector scope record (read, change, refused) | [vectors-connector-scope](../../corpora/vectors-connector-scope/README.md) | A health-system connector's scope record; packaged reader or named verifier |
 | What an MCP server publishes about its OAuth protection | [vectors-mcp-authz](../../corpora/vectors-mcp-authz/README.md) | RFC 9728, RFC 8414, RFC 6750 and the MCP authorization specification; named verifier required |
