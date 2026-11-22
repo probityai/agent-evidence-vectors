@@ -443,13 +443,13 @@ def case_members_with_no_accept_kind_are_named(work: Path) -> None:
     corpus = work / "kindless"
     (corpus / "members").mkdir(parents=True)
     (corpus / "members" / "one.json").write_text('{"ok": true}')
-    (corpus / "MANIFEST.json").write_text(
-        json.dumps({"vectors": [{"id": "one", "file": "members/one.json"}]})
-    )
+    listed = [{"id": "one", "file": "members/one.json"}]
+    (corpus / "MANIFEST.json").write_text(json.dumps({"vectors": listed}))
     got = mutate(work, str(corpus), candidate("lenient_candidate.py"), "structural")
     assert got["mutation-result"] == "fail", got
     notes = json.loads((work / "r.json").read_text())["mutation"]["notes"]
-    assert any("1 of 1 listed members declare no accept kind" in n for n in notes), notes
+    expected = f"{len(listed)} of {len(listed)} listed members declare no accept kind"
+    assert any(expected in n for n in notes), notes
 
 
 def case_no_reference_route_reads_zero_of_m(work: Path) -> None:

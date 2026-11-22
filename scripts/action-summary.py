@@ -75,6 +75,36 @@ def _flag(name: str) -> bool:
     return os.environ.get(name, "true").strip().lower() != "false"
 
 
+def _no_report(
+    report_path: str, summary_path: str, output_path: str, status: str, corpus_dir: str
+) -> None:
+    """Write the summary and outputs for a run whose harness wrote no report."""
+    summary: list[str] = []
+    outputs: list[str] = []
+    # The harness refused before it could write anything. That is a result,
+    # and it is reported as one rather than as a zero-vector pass.
+    summary.append(
+        f"## agent-evidence-vectors: no report\n\n"
+        f"The harness exited {status} before writing `{report_path}`. "
+        "Read the step log for the refusal.\n\n"
+        f"{OFFLINE}\n"
+    )
+    result = "fail"
+    if corpus_dir:
+        counted = action_checks.count_cases(corpus_dir)
+        summary.append(_count_line(counted) + "\n\n")
+        outputs.append(f"vectors-found={counted['present']}\n")
+        # No case on this runner: a listed corpus with nothing on disk, or
+        # a directory with no manifest and no file. A directory holding
+        # files the harness refused is not an empty corpus.
+        empty = counted["present"] == 0 and (counted["manifest"] or not counted["filesOnDisk"])
+        if empty and not _flag("FAIL_ON_NO_VECTORS"):
+            result = "no-verdict"
+    summary.append(action_checks.controls_line(action_checks.controls([], None, None)) + "\n")
+    outputs.append(f"vectors=0\nconform=0\nresult={result}\n")
+    _write(summary_path, summary, output_path, outputs)
+
+
 def main() -> int:
     report_path = required("REPORT")
     summary_path = required("GITHUB_STEP_SUMMARY")
@@ -83,33 +113,12 @@ def main() -> int:
     corpus = os.environ.get("CORPUS", "vectors")
     corpus_dir = os.environ.get("CORPUS_DIR", "")
 
+    if not Path(report_path).is_file():
+        _no_report(report_path, summary_path, output_path, status, corpus_dir)
+        return 0
+
     summary: list[str] = []
     outputs: list[str] = []
-
-    if not Path(report_path).is_file():
-        # The harness refused before it could write anything. That is a result,
-        # and it is reported as one rather than as a zero-vector pass.
-        summary.append(
-            f"## agent-evidence-vectors: no report\n\n"
-            f"The harness exited {status} before writing `{report_path}`. "
-            "Read the step log for the refusal.\n\n"
-            f"{OFFLINE}\n"
-        )
-        result = "fail"
-        if corpus_dir:
-            counted = action_checks.count_cases(corpus_dir)
-            summary.append(_count_line(counted) + "\n\n")
-            outputs.append(f"vectors-found={counted['present']}\n")
-            # No case on this runner: a listed corpus with nothing on disk, or
-            # a directory with no manifest and no file. A directory holding
-            # files the harness refused is not an empty corpus.
-            empty = counted["present"] == 0 and (counted["manifest"] or not counted["filesOnDisk"])
-            if empty and not _flag("FAIL_ON_NO_VECTORS"):
-                result = "no-verdict"
-        summary.append(action_checks.controls_line(action_checks.controls([], None, None)) + "\n")
-        outputs.append(f"vectors=0\nconform=0\nresult={result}\n")
-        _write(summary_path, summary, output_path, outputs)
-        return 0
 
     with open(report_path, encoding="utf-8") as handle:
         report: dict[str, Any] = json.load(handle)
