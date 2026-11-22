@@ -5,7 +5,8 @@ credential states, as claims its issuer already vouched for, whom it names (``su
 when it is valid, the token a proof must bind to, and the key it confirms: ``cnf.jkt``, the
 RFC 7638 thumbprint of the holder's public key (RFC 7800 section 3.1, RFC 9449 section 6).
 Each presentation is an HTTP request (``htm``, ``htu``), the time the relying party saw it
-(``at``) and a DPoP proof JWT (RFC 9449 section 4.2).
+(``at``) and a DPoP proof JWT (RFC 9449 section 4.2) in flattened JWS JSON form (RFC 7515
+section 7.2.2: ``protected``, ``payload``, ``signature``).
 
 This contract tests possession only. Whether the credential's own claims are genuine is the
 question a level 1 test answers about the same subject (identity-assurance-levels/v1), so a
@@ -220,16 +221,26 @@ def _shape(record: Record) -> None:
         _need(isinstance(request, dict) and set(request) == {"htm", "htu"}, "request members")
         _need(_is_text(request["htm"]) and _is_text(request["htu"]), "request values")
         _need(not set("?#") & set(request["htu"]), "htu carries a query or fragment")
-        _need(isinstance(item["proof"], str), "proof is not text")
+        proof = item["proof"]
+        _need(
+            isinstance(proof, dict)
+            and set(proof) == {"protected", "payload", "signature"}
+            and all(isinstance(v, str) for v in proof.values()),
+            "proof is not a flattened JWS",
+        )
 
 
 def _decode_proof(item: dict[str, Any]) -> Proof:
-    """Decode one presentation; a proof that is not a compact JWS leaves header None."""
-    parts = item["proof"].split(".")
+    """Decode one presentation; a proof that is not a JWS leaves header None.
+
+    The proof is the flattened JWS JSON serialization of RFC 7515 section 7.2.2: its three
+    segments are the members ``protected``, ``payload`` and ``signature``, and the bytes that
+    were signed are ``protected`` + "." + ``payload``, exactly as in the compact form.
+    """
+    proof = item["proof"]
+    parts = [proof["protected"], proof["payload"], proof["signature"]]
     request = item["request"]
     blank = Proof(item["at"], request["htm"], request["htu"], b"", None, None, b"")
-    if len(parts) != 3:
-        return blank
     # An unsecured JWS (alg none) has an empty signature segment; it still decodes, so the
     # algorithm check, not a decoding error, is what refuses it.
     raw = [unb64url(parts[0]), unb64url(parts[1]), b"" if parts[2] == "" else unb64url(parts[2])]
