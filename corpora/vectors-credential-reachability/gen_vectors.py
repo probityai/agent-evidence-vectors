@@ -77,7 +77,7 @@ def _prefix(label: str) -> str:
 CONTRACT_DIGEST = _hex("environment contract run-0042")
 CHALLENGE = _hex("verifier challenge 0042")
 PROBE_DIGEST = _hex("credential-probe 1.0.0 binary")
-MARKED_PREFIX = _prefix("agent token issued to agent-0042")
+ISSUED_PREFIX = _prefix("agent token issued to agent-0042")
 
 
 def canonical(value: object) -> bytes:
@@ -131,7 +131,7 @@ def _a(locator: str, outcome: str, prefix: str | None = None,
 
 
 def _contained_attempts() -> dict[str, list[dict[str, str]]]:
-    """What a probe records in an environment that holds no unmarked credential."""
+    """What a probe records where the only credential is one issued to the agent."""
     return {
         "ssh-agent": [_a("env:SSH_AUTH_SOCK", "absent"),
                       _a("glob:/tmp/ssh-*/agent.*", "absent")],
@@ -184,7 +184,7 @@ def derive_result(verdicts: list[str]) -> str:
 
 
 def predicate(attempts: dict[str, list[dict[str, str]]],
-              marked: list[dict[str, str]] | None = None) -> dict[str, Any]:
+              issued: list[dict[str, str]] | None = None) -> dict[str, Any]:
     classes = [{"class": c, "verdict": derive_verdict(attempts[c]), "attempts": attempts[c]}
                for c in CLASSES]
     return {
@@ -196,7 +196,7 @@ def predicate(attempts: dict[str, list[dict[str, str]]],
         "probe": {"name": "credential-probe", "version": "1.0.0",
                   "digest": {"sha256": PROBE_DIGEST}},
         "placeholders": [{"prefix": PLACEHOLDER}],
-        "markedCredentials": marked or [],
+        "issuedToAgent": issued or [],
         "classes": classes,
         "result": derive_result([c["verdict"] for c in classes]),
     }
@@ -234,16 +234,16 @@ def incomplete() -> dict[str, Any]:
     return statement(predicate(attempts))
 
 
-def contained_marked() -> dict[str, Any]:
+def contained_issued_to_agent() -> dict[str, Any]:
     attempts = _contained_attempts()
-    attempts["environment-token"].append(_a("env:AGENT_TOKEN", "marked", MARKED_PREFIX))
+    attempts["environment-token"].append(_a("env:AGENT_TOKEN", "issued_to_agent", ISSUED_PREFIX))
     return statement(predicate(attempts, [{"id": "agent-token-0042",
-                                           "digestPrefix": MARKED_PREFIX}]))
+                                           "digestPrefix": ISSUED_PREFIX}]))
 
 
 BASES: dict[str, Callable[[], dict[str, Any]]] = {
     "contained": contained, "exposed": exposed, "incomplete": incomplete,
-    "contained-marked": contained_marked,
+    "contained-issued-to-agent": contained_issued_to_agent,
 }
 
 
@@ -388,8 +388,9 @@ MEMBERS: tuple[tuple[str, str, Mutation | None, str, str, str], ...] = (
     ("incomplete", "incomplete", None, SUPPORTED, "incomplete_verified",
      "one metadata attempt failed, so that class could not be tested and the result is "
      "incomplete"),
-    ("contained-marked", "contained-marked", None, SUPPORTED, "contained_verified",
-     "an agent token that carries an agent marker is reachable, and nothing else"),
+    ("contained-issued-to-agent", "contained-issued-to-agent", None, SUPPORTED,
+     "contained_verified",
+     "a token issued to the agent is reachable, and nothing else"),
     ("contained-unpinned-cosigner", "contained",
      _signers((OTHER, keyid(OTHER)), (HOST, keyid(HOST))), SUPPORTED, "contained_verified",
      "a first signature by a key no policy names is ignored; the host's verifies"),
@@ -443,8 +444,8 @@ MEMBERS: tuple[tuple[str, str, Mutation | None, str, str, str], ...] = (
     ("predicate-extra-member", "contained",
      _pred(lambda p: p.__setitem__("secrets", [])), NOT_ESTABLISHED,
      "predicate_field_invalid:members", "the predicate carries a member outside its list"),
-    ("predicate-member-missing", "contained", _pred(lambda p: p.pop("markedCredentials")),
-     NOT_ESTABLISHED, "predicate_field_invalid:members", "markedCredentials is absent"),
+    ("predicate-member-missing", "contained", _pred(lambda p: p.pop("issuedToAgent")),
+     NOT_ESTABLISHED, "predicate_field_invalid:members", "issuedToAgent is absent"),
     ("class-set-downgrade", "contained",
      _pred(lambda p: p.__setitem__("classSet", "credential-reachability/v0")), NOT_ESTABLISHED,
      "class_set_unsupported", "the record claims an older, shorter class list"),
@@ -455,10 +456,10 @@ MEMBERS: tuple[tuple[str, str, Mutation | None, str, str, str], ...] = (
     ("placeholder-prefix-empty", "contained",
      _pred(lambda p: p.__setitem__("placeholders", [{"prefix": ""}])), NOT_ESTABLISHED,
      "predicate_field_invalid:placeholders", "a declared placeholder prefix is empty"),
-    ("marked-prefix-long", "contained-marked",
-     _pred(lambda p: p["markedCredentials"][0].__setitem__("digestPrefix", MARKED_PREFIX + "0")),
-     NOT_ESTABLISHED, "predicate_field_invalid:markedCredentials",
-     "a declared marked credential carries 13 hex digits"),
+    ("issued-to-agent-prefix-long", "contained-issued-to-agent",
+     _pred(lambda p: p["issuedToAgent"][0].__setitem__("digestPrefix", ISSUED_PREFIX + "0")),
+     NOT_ESTABLISHED, "predicate_field_invalid:issuedToAgent",
+     "a declared credential issued to the agent carries 13 hex digits"),
     ("challenge-malformed", "contained", _pred(lambda p: p.__setitem__("challenge", "0042")),
      NOT_ESTABLISHED, "predicate_field_invalid:challenge", "the challenge is not 64 hex"),
     ("probed-at-offset", "contained",
@@ -510,9 +511,10 @@ MEMBERS: tuple[tuple[str, str, Mutation | None, str, str, str], ...] = (
      "class_duplicate:ssh-agent", "one class is reported twice"),
     ("class-omitted", "contained", _drop_class("host-keyring"), CONTRADICTED,
      "class_missing:host-keyring", "the host keyring class is left out"),
-    ("marked-undeclared", "contained-marked",
-     _pred(lambda p: p.__setitem__("markedCredentials", [])), CONTRADICTED,
-     "marked_undeclared", "a credential is called marked that the record does not declare"),
+    ("issued-to-agent-undeclared", "contained-issued-to-agent",
+     _pred(lambda p: p.__setitem__("issuedToAgent", [])), CONTRADICTED,
+     "issued_to_agent_undeclared",
+     "a credential is called issued to the agent that the record does not declare"),
     ("placeholder-undeclared", "contained", _pred(lambda p: p.__setitem__("placeholders", [])),
      CONTRADICTED, "placeholder_undeclared",
      "values are called placeholders while the record declares no placeholder prefix"),

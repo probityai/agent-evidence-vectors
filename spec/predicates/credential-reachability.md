@@ -96,10 +96,10 @@ The **predicate** is a closed object with exactly these members:
 - `placeholders`: a list of objects, each exactly `prefix` (printable ASCII, 1 to
   200 bytes). Each is a prefix of a stand-in value a credential broker hands the
   agent in place of a secret it holds back. May be empty.
-- `markedCredentials`: a list of objects, each exactly `id` (printable ASCII, 1 to
+- `issuedToAgent`: a list of objects, each exactly `id` (printable ASCII, 1 to
   200 bytes) and `digestPrefix` (12 lowercase hex): credentials the environment
-  issues to the agent that carry an agent marker (they name the agent). May be
-  empty.
+  issued to the agent in the agent's own name, so a service that checks one sees
+  the agent and not a person or another workload. May be empty.
 - `classes`: a list of class results, one per class of the class set, each exactly
   `class`, `verdict` and `attempts`:
   - `class`: one term of the class list.
@@ -129,8 +129,8 @@ The **predicate** is a closed object with exactly these members:
 
 | Outcome | Meaning | `digestPrefix` |
 | --- | --- | --- |
-| `found` | A credential that carries no agent marker was read or answered | required |
-| `marked` | A credential was found and it is one of `markedCredentials` | required, equal to that entry's |
+| `found` | A credential not issued to the agent was read or answered | required |
+| `issued_to_agent` | A credential was found and it is one of `issuedToAgent` | required, equal to that entry's |
 | `placeholder` | A value was found and it is a broker stand-in (it starts with a declared `placeholders` prefix) | absent |
 | `absent` | The locator does not exist or did not answer | absent |
 | `denied` | The locator exists and the agent's access was refused | absent |
@@ -147,9 +147,9 @@ A verifier recomputes, and never copies:
 - The result is `exposed` when any class is `reachable`; otherwise `incomplete`
   when any class is `could_not_test`; otherwise `contained`.
 
-Only `contained` supports the claim that no credential without an agent marker is
-reachable from the agent's environment, and only for the classes of the class set,
-at `probedAt`, from the agent's vantage.
+Only `contained` supports the claim that no credential other than one issued to the
+agent is reachable from the agent's environment, and only for the classes of the
+class set, at `probedAt`, from the agent's vantage.
 
 ## Carriage
 
@@ -175,7 +175,7 @@ the raw 32-byte public key.
     "vantage": "agent-process",
     "probe": { "name": "credential-probe", "version": "1.0.0", "digest": { "sha256": "<64-hex>" } },
     "placeholders": [ { "prefix": "BROKER_PLACEHOLDER_" } ],
-    "markedCredentials": [],
+    "issuedToAgent": [],
     "classes": [
       { "class": "ssh-agent", "verdict": "not_reachable",
         "attempts": [ { "locator": "env:SSH_AUTH_SOCK", "outcome": "absent" } ] },
@@ -211,8 +211,8 @@ reports the first that fails, as a decision and a reason.
 | 10 | The predicate is an object | not established | `predicate_field_invalid:predicate` |
 | 11 | The predicate has exactly the members of its list | not established | `predicate_field_invalid:members` |
 | 12 | `classSet` is `credential-reachability/v1` | not established | `class_set_unsupported` |
-| 13 | Each member is well formed, in the order `audience`, `challenge`, `probedAt`, `vantage` (a text), `probe`, `placeholders`, `markedCredentials`, `classes` (a list of objects, each exactly `class`, `verdict` and `attempts`, with a known class term, a known verdict and a non-empty list of attempts, each an object with a well-formed `locator`, a known `outcome`, and a well-formed `detail` when present), `result` | not established | `predicate_field_invalid:<member>` |
-| 14 | No attempt has a member outside `locator`, `outcome`, `digestPrefix` and `detail`; `digestPrefix` is present exactly when the outcome is `found` or `marked`, and is then 12 lowercase hex characters. A record that can hold more than a short prefix will eventually be handed a secret | contradicted | `attempt_fields` |
+| 13 | Each member is well formed, in the order `audience`, `challenge`, `probedAt`, `vantage` (a text), `probe`, `placeholders`, `issuedToAgent`, `classes` (a list of objects, each exactly `class`, `verdict` and `attempts`, with a known class term, a known verdict and a non-empty list of attempts, each an object with a well-formed `locator`, a known `outcome`, and a well-formed `detail` when present), `result` | not established | `predicate_field_invalid:<member>` |
+| 14 | No attempt has a member outside `locator`, `outcome`, `digestPrefix` and `detail`; `digestPrefix` is present exactly when the outcome is `found` or `issued_to_agent`, and is then 12 lowercase hex characters. A record that can hold more than a short prefix will eventually be handed a secret | contradicted | `attempt_fields` |
 | 15 | `vantage` is `agent-process` | not established | `vantage_not_agent` |
 | 16 | `audience` is the pinned audience | contradicted | `audience_mismatch` |
 | 17 | `challenge` is the challenge the verifier issued | contradicted | `challenge_mismatch` |
@@ -221,14 +221,14 @@ reports the first that fails, as a decision and a reason.
 | 20 | When the policy pins probe digests, the probe's digest is one of them | not established | `probe_not_pinned` |
 | 21 | No class appears twice | contradicted | `class_duplicate:<class>` |
 | 22 | Every class of the class set appears | contradicted | `class_missing:<class>`, the first missing class in list order |
-| 23 | Every `marked` attempt's prefix is a declared marked credential's | contradicted | `marked_undeclared` |
+| 23 | Every `issued_to_agent` attempt's prefix is an `issuedToAgent` entry's | contradicted | `issued_to_agent_undeclared` |
 | 24 | A `placeholder` attempt appears only when `placeholders` is not empty | contradicted | `placeholder_undeclared` |
 | 25 | Each class's verdict is the derived one, checked in list order | contradicted | `reachable_reported_clean:<class>` when declared `not_reachable` and derived `reachable`; `untested_reported_clean:<class>` when declared `not_reachable` and derived `could_not_test`; `class_verdict_mismatch:<class>` otherwise |
 | 26 | The result is the derived one | contradicted | `result_overstates` when the declared result is better than the derived one (`contained` is better than `incomplete`, which is better than `exposed`), `result_mismatch` otherwise |
 
 A record that passes every rule is supported, with the reason `contained_verified`,
 `exposed_verified` or `incomplete_verified` after its result. A supported `exposed`
-record is a verified finding that a credential without an agent marker is
+record is a verified finding that a credential not issued to the agent is
 reachable.
 
 A policy that lists one key both as a trusted signer and as an agent key is the

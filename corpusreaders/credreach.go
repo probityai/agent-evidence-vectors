@@ -32,12 +32,12 @@ var (
 		"registry-config-file", "browser-cookie-store", "environment-token",
 		"cluster-service-account", "git-credential", "host-keyring"}
 	credVerdictWords = []string{"reachable", "not_reachable", "could_not_test"}
-	credOutcomes     = []string{"found", "marked", "placeholder", "absent", "denied", "error", "not_run"}
+	credOutcomes     = []string{"found", "issued_to_agent", "placeholder", "absent", "denied", "error", "not_run"}
 	credResults      = []string{"contained", "incomplete", "exposed"} // best first
 	credMembers      = []string{"classSet", "audience", "challenge", "probedAt", "vantage", "probe",
-		"placeholders", "markedCredentials", "classes", "result"}
+		"placeholders", "issuedToAgent", "classes", "result"}
 	credFields = []string{"audience", "challenge", "probedAt", "vantage", "probe", "placeholders",
-		"markedCredentials", "classes", "result"}
+		"issuedToAgent", "classes", "result"}
 	credAttemptMembers = map[string]bool{"locator": true, "outcome": true, "digestPrefix": true, "detail": true}
 
 	credHex64   = regexp.MustCompile(`^[0-9a-f]{64}$`)
@@ -346,7 +346,7 @@ func credFieldOK(field string, p map[string]any) bool {
 			m, ok := credExact(e, "prefix")
 			return ok && credText(m["prefix"], credText200)
 		})
-	case "markedCredentials":
+	case "issuedToAgent":
 		return credList(value, func(e any) bool {
 			m, ok := credExact(e, "id", "digestPrefix")
 			return ok && credText(m["id"], credText200) && credText(m["digestPrefix"], credHex12)
@@ -394,7 +394,7 @@ func credWellFormed(p map[string]any) *credRefusal {
 	}
 	for _, c := range credClassList(p) {
 		for _, a := range credAttempts(c) {
-			needs := a["outcome"] == "found" || a["outcome"] == "marked"
+			needs := a["outcome"] == "found" || a["outcome"] == "issued_to_agent"
 			prefix, has := a["digestPrefix"]
 			extra := false
 			for name := range a {
@@ -451,8 +451,8 @@ func credCoverage(p map[string]any) *credRefusal {
 		}
 	}
 	declared := map[string]bool{}
-	marked, _ := p["markedCredentials"].([]any)
-	for _, item := range marked {
+	issued, _ := p["issuedToAgent"].([]any)
+	for _, item := range issued {
 		entry, _ := item.(map[string]any)
 		if prefix, ok := entry["digestPrefix"].(string); ok {
 			declared[prefix] = true
@@ -465,8 +465,8 @@ func credCoverage(p map[string]any) *credRefusal {
 	}
 	for _, a := range attempts {
 		prefix, _ := a["digestPrefix"].(string)
-		if a["outcome"] == "marked" && !declared[prefix] {
-			return credRefuse("contradicted", "marked_undeclared")
+		if a["outcome"] == "issued_to_agent" && !declared[prefix] {
+			return credRefuse("contradicted", "issued_to_agent_undeclared")
 		}
 	}
 	for _, a := range attempts {

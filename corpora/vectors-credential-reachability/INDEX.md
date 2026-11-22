@@ -8,14 +8,14 @@ Environment-host test keyid: `f49838752f4581ef7fcdadc8369e3fd9e72a6e388850aa5b8b
 
 Agent test keyid: `6b0c184dc9b6d3e033f0624fbde5112c1d75dfd99f1ceb21e89c06653d16144f`
 
-Corpus digest: `e0efa624d721cc254120b9667d900c1c141d1a8012a686a5035ef58c6fe391b8`
+Corpus digest: `c965700e60eeed555cee2bec753af9020e93e7db065ba303494ddacd51e5d00b`
 
 | id | decision | reason | twin | mutation |
 | --- | --- | --- | --- | --- |
 | `contained` | supported | `contained_verified` |  | every class tried and not reachable; two broker placeholders in the environment |
 | `exposed` | supported | `exposed_verified` |  | a positive control: a key file, a cloud secret, stored git credentials and a cookie database are reachable |
 | `incomplete` | supported | `incomplete_verified` |  | one metadata attempt failed, so that class could not be tested and the result is incomplete |
-| `contained-marked` | supported | `contained_verified` |  | an agent token that carries an agent marker is reachable, and nothing else |
+| `contained-issued-to-agent` | supported | `contained_verified` |  | a token issued to the agent is reachable, and nothing else |
 | `contained-unpinned-cosigner` | supported | `contained_verified` |  | a first signature by a key no policy names is ignored; the host's verifies |
 | `contained-no-probe-pin` | supported | `contained_verified` |  | the verifier pins no probe digest |
 | `malformed-envelope` | no_verdict | `malformed_envelope` | contained | the envelope bytes are not JSON |
@@ -36,12 +36,12 @@ Corpus digest: `e0efa624d721cc254120b9667d900c1c141d1a8012a686a5035ef58c6fe391b8
 | `another-environment-contract` | contradicted | `environment_mismatch` | contained | the record is for the same environment name under another contract |
 | `predicate-not-object` | not_established | `predicate_field_invalid:predicate` | contained | the predicate is a string |
 | `predicate-extra-member` | not_established | `predicate_field_invalid:members` | contained | the predicate carries a member outside its list |
-| `predicate-member-missing` | not_established | `predicate_field_invalid:members` | contained | markedCredentials is absent |
+| `predicate-member-missing` | not_established | `predicate_field_invalid:members` | contained | issuedToAgent is absent |
 | `class-set-downgrade` | not_established | `class_set_unsupported` | contained | the record claims an older, shorter class list |
 | `audience-empty` | not_established | `predicate_field_invalid:audience` | contained | the audience is empty |
 | `vantage-not-text` | not_established | `predicate_field_invalid:vantage` | contained | the vantage is null |
 | `placeholder-prefix-empty` | not_established | `predicate_field_invalid:placeholders` | contained | a declared placeholder prefix is empty |
-| `marked-prefix-long` | not_established | `predicate_field_invalid:markedCredentials` | contained-marked | a declared marked credential carries 13 hex digits |
+| `issued-to-agent-prefix-long` | not_established | `predicate_field_invalid:issuedToAgent` | contained-issued-to-agent | a declared credential issued to the agent carries 13 hex digits |
 | `challenge-malformed` | not_established | `predicate_field_invalid:challenge` | contained | the challenge is not 64 hex |
 | `probed-at-offset` | not_established | `predicate_field_invalid:probedAt` | contained | the probe time carries a zone offset, not Z |
 | `probe-digest-missing` | not_established | `predicate_field_invalid:probe` | contained | the probe names no digest |
@@ -61,7 +61,7 @@ Corpus digest: `e0efa624d721cc254120b9667d900c1c141d1a8012a686a5035ef58c6fe391b8
 | `probe-not-pinned` | not_established | `probe_not_pinned` | contained | the probe is not one the verifier pins |
 | `class-duplicate` | contradicted | `class_duplicate:ssh-agent` | contained | one class is reported twice |
 | `class-omitted` | contradicted | `class_missing:host-keyring` | contained | the host keyring class is left out |
-| `marked-undeclared` | contradicted | `marked_undeclared` | contained-marked | a credential is called marked that the record does not declare |
+| `issued-to-agent-undeclared` | contradicted | `issued_to_agent_undeclared` | contained-issued-to-agent | a credential is called issued to the agent that the record does not declare |
 | `placeholder-undeclared` | contradicted | `placeholder_undeclared` | contained | values are called placeholders while the record declares no placeholder prefix |
 | `found-reported-clean` | contradicted | `reachable_reported_clean:ssh-key-file` | exposed | a class with a found key file is reported not reachable |
 | `not-run-reported-clean` | contradicted | `untested_reported_clean:cloud-metadata` | contained | a metadata attempt did not run and the class is still reported not reachable |

@@ -45,12 +45,12 @@ CLASSES = ("ssh-agent", "ssh-key-file", "cloud-metadata", "cloud-config-file",
            "registry-config-file", "browser-cookie-store", "environment-token",
            "cluster-service-account", "git-credential", "host-keyring")
 VERDICTS = ("reachable", "not_reachable", "could_not_test")
-OUTCOMES = ("found", "marked", "placeholder", "absent", "denied", "error", "not_run")
+OUTCOMES = ("found", "issued_to_agent", "placeholder", "absent", "denied", "error", "not_run")
 RESULTS = ("contained", "incomplete", "exposed")  # best first
 MEMBERS = ("classSet", "audience", "challenge", "probedAt", "vantage", "probe",
-           "placeholders", "markedCredentials", "classes", "result")
+           "placeholders", "issuedToAgent", "classes", "result")
 FIELDS = ("audience", "challenge", "probedAt", "vantage", "probe", "placeholders",
-          "markedCredentials", "classes", "result")
+          "issuedToAgent", "classes", "result")
 ATTEMPT_MEMBERS = frozenset({"locator", "outcome", "digestPrefix", "detail"})
 MAX_ENVELOPE_BYTES = 4 * 1024 * 1024
 
@@ -68,7 +68,7 @@ RULES = (
     "payload_object", "statement_type", "predicate", "subject_shape", "environment",
     "predicate_object", "members", "class_set", *(f"field:{f}" for f in FIELDS),
     "attempt_fields", "vantage", "audience", "challenge", "future", "stale", "probe_pin",
-    "class_duplicate", "class_missing", "marked", "placeholder", "class_verdict", "result",
+    "class_duplicate", "class_missing", "issued_to_agent", "placeholder", "class_verdict", "result",
 )
 _HERE = Path(__file__).resolve().parent
 ROOT = (_HERE / "corpora" / "vectors-credential-reachability" if (_HERE / "corpora").exists()
@@ -236,7 +236,7 @@ def _field_ok(field: str, p: dict[str, Any]) -> bool:
     if field == "placeholders":
         return isinstance(value, list) and all(
             _exact(e, {"prefix"}) and _text(e["prefix"], TEXT200) for e in value)
-    if field == "markedCredentials":
+    if field == "issuedToAgent":
         return isinstance(value, list) and all(
             _exact(e, {"id", "digestPrefix"}) and _text(e["id"], TEXT200)
             and _text(e["digestPrefix"], HEX12) for e in value)
@@ -323,7 +323,7 @@ def _wellformed(p: dict[str, Any], skip: frozenset[str]) -> None:
         return
     for c in _classes(p):
         for a in _attempts(c):
-            needs = a.get("outcome") in ("found", "marked")
+            needs = a.get("outcome") in ("found", "issued_to_agent")
             if (not set(a) <= ATTEMPT_MEMBERS or ("digestPrefix" in a) != needs
                     or (needs and not _text(a.get("digestPrefix"), HEX12))):
                 raise Refusal(CONTRADICTED, "attempt_fields")
@@ -362,15 +362,15 @@ def _coverage(p: dict[str, Any], skip: frozenset[str]) -> None:
     for name in CLASSES:
         if name not in seen and "class_missing" not in skip:
             raise Refusal(CONTRADICTED, f"class_missing:{name}")
-    marked = p.get("markedCredentials")
-    declared = {e.get("digestPrefix") for e in marked if isinstance(e, dict)} \
-        if isinstance(marked, list) else set()
+    issued = p.get("issuedToAgent")
+    declared = {e.get("digestPrefix") for e in issued if isinstance(e, dict)} \
+        if isinstance(issued, list) else set()
     placeholders = p.get("placeholders")
     attempts = [a for c in _classes(p) for a in _attempts(c)]
-    if "marked" not in skip and any(
-            a.get("outcome") == "marked" and a.get("digestPrefix") not in declared
+    if "issued_to_agent" not in skip and any(
+            a.get("outcome") == "issued_to_agent" and a.get("digestPrefix") not in declared
             for a in attempts):
-        raise Refusal(CONTRADICTED, "marked_undeclared")
+        raise Refusal(CONTRADICTED, "issued_to_agent_undeclared")
     if "placeholder" not in skip and not placeholders and any(
             a.get("outcome") == "placeholder" for a in attempts):
         raise Refusal(CONTRADICTED, "placeholder_undeclared")

@@ -37,8 +37,8 @@ The rules that matter most:
   refused.
 
 A record that passes is `supported`: `contained_verified`, `exposed_verified` or
-`incomplete_verified`. Only `contained` supports the claim that no credential without
-an agent marker is reachable from the agent's environment. A supported `exposed` record
+`incomplete_verified`. Only `contained` supports the claim that no credential other
+than one issued to the agent is reachable from the agent's environment. A supported `exposed` record
 is a verified finding; the `exposed` member is the positive control.
 
 Each refused member names its supported twin and differs from it by one scripted
