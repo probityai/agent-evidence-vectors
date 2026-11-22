@@ -93,11 +93,11 @@
       }
     ]
   },
-  "corpusDigest": "bb94f0aba314bcc901872a8fe81f2f00266bf631572d3c66601e679e08697621",
+  "corpusDigest": "369536b8067b4e5407768e7f55bde030fb6111faa11d05889a1c298a8b5c26ae",
   "counts": {
-    "accept": 105,
-    "indeterminate": 2,
-    "reject": 128
+    "accept": 108,
+    "indeterminate": 1,
+    "reject": 133
   },
   "draft": "draft-gilda-audit-agent-audit-record-04",
   "emptyTree": {
@@ -149,7 +149,7 @@
   "skewTolerance": 300,
   "suite": "agent-audit-record-conformance",
   "textCounts": {
-    "proposed": 0,
+    "proposed": 7,
     "published": 235
   },
   "vectors": [
@@ -1114,15 +1114,18 @@
       "draftId": "FR2",
       "draftRevision": "draft-gilda-audit-agent-audit-record-00",
       "expected": {
-        "codes": [],
-        "derivedTier": "authoritative",
-        "verdict": "valid"
+        "codes": [
+          "evaluation-inconsistent"
+        ],
+        "verdict": "malformed"
       },
       "file": "statements/vb2d65dfff88bebcf.json",
       "id": "vb2d65dfff88bebcf",
-      "kind": "accept",
-      "row": "FR1 with standing-source's age at decision.reportedAt exactly equal to its maxAge, 3600 seconds, so the input is fresh",
-      "slug": "fr2-age-equal-to-max-age-is-fresh"
+      "kind": "reject",
+      "parent": "vc500431013be1967",
+      "parentDraftId": "FR1",
+      "row": "evaluated beside an input whose age at decision.reportedAt is exactly its maxAge, 3600 seconds, so the input is stale",
+      "slug": "fr2-age-equal-to-max-age-is-stale"
     },
     {
       "draftId": "FR3",
@@ -1934,7 +1937,7 @@
       "file": "statements/v8685b6576fbd0c04.json",
       "id": "v8685b6576fbd0c04",
       "kind": "accept",
-      "row": "FR1 with key-source's lastResult 300 seconds after decision.reportedAt, exactly the skew tolerance: not malformed, and an age below zero is at most maxAge, so fresh",
+      "row": "FR1 with key-source's lastResult 300 seconds after decision.reportedAt, exactly the skew tolerance: not malformed, and an age below zero is less than maxAge, so fresh",
       "slug": "fr18-last-result-inside-skew-tolerance"
     },
     {
@@ -2121,6 +2124,138 @@
       "parentDraftId": "FR14",
       "row": "the entry carrying the second value's lastResult beside the first value's maxAge, under evaluated: the pair the -00 rule writes, age 3600 under 60",
       "slug": "fr15-oldest-last-result-beside-smallest-max-age"
+    },
+    {
+      "draftId": "FR21",
+      "expected": {
+        "codes": [],
+        "derivedTier": "authoritative",
+        "verdict": "valid"
+      },
+      "file": "statements/v60d638129b92fda4.json",
+      "id": "v60d638129b92fda4",
+      "kind": "accept",
+      "proposed": {
+        "revision": "draft-gilda-audit-agent-audit-record-05",
+        "text": "docs/proposals/audit-record-04-evaluated-at.md"
+      },
+      "row": "A1 with decision.evaluatedAt 1800 seconds before decision.reportedAt and standing-source fresh at decision.evaluatedAt (2042 seconds under 3600) but older than its maxAge at decision.reportedAt (3842 seconds), under evaluated",
+      "slug": "fr21-evaluated-at-fresh-at-evaluation-stale-at-report"
+    },
+    {
+      "draftId": "FR22",
+      "expected": {
+        "codes": [
+          "evaluation-inconsistent"
+        ],
+        "verdict": "malformed"
+      },
+      "file": "statements/v6ab6d120fb63f7cf.json",
+      "id": "v6ab6d120fb63f7cf",
+      "kind": "reject",
+      "parent": "v60d638129b92fda4",
+      "parentDraftId": "FR21",
+      "proposed": {
+        "revision": "draft-gilda-audit-agent-audit-record-05",
+        "text": "docs/proposals/audit-record-04-evaluated-at.md"
+      },
+      "row": "not-evaluated naming standing-source, which is fresh at decision.evaluatedAt: the set derived at decision.reportedAt would match it",
+      "slug": "fr22-not-evaluated-naming-input-fresh-at-evaluated-at"
+    },
+    {
+      "draftId": "FR23",
+      "expected": {
+        "codes": [],
+        "derivedTier": "authoritative",
+        "verdict": "valid"
+      },
+      "file": "statements/v0fce851ecdb6eca5.json",
+      "id": "v0fce851ecdb6eca5",
+      "kind": "accept",
+      "proposed": {
+        "revision": "draft-gilda-audit-agent-audit-record-05",
+        "text": "docs/proposals/audit-record-04-evaluated-at.md"
+      },
+      "row": "FR21 with standing-source one second younger than its maxAge at decision.evaluatedAt (3599 seconds under 3600)",
+      "slug": "fr23-evaluated-at-one-second-inside-max-age"
+    },
+    {
+      "draftId": "FR24",
+      "expected": {
+        "codes": [
+          "evaluation-inconsistent"
+        ],
+        "verdict": "malformed"
+      },
+      "file": "statements/v6bd353d5c0c3a2ee.json",
+      "id": "v6bd353d5c0c3a2ee",
+      "kind": "reject",
+      "parent": "v0fce851ecdb6eca5",
+      "parentDraftId": "FR23",
+      "proposed": {
+        "revision": "draft-gilda-audit-agent-audit-record-05",
+        "text": "docs/proposals/audit-record-04-evaluated-at.md"
+      },
+      "row": "standing-source exactly its maxAge old at decision.evaluatedAt (3600 seconds under 3600), under evaluated",
+      "slug": "fr24-evaluated-at-age-equal-to-max-age"
+    },
+    {
+      "draftId": "FR25",
+      "expected": {
+        "codes": [
+          "evaluation-result-after-decision"
+        ],
+        "verdict": "malformed"
+      },
+      "file": "statements/v1adad24a3576858f.json",
+      "id": "v1adad24a3576858f",
+      "kind": "reject",
+      "parent": "vc500431013be1967",
+      "parentDraftId": "FR1",
+      "proposed": {
+        "revision": "draft-gilda-audit-agent-audit-record-05",
+        "text": "docs/proposals/audit-record-04-evaluated-at.md"
+      },
+      "row": "decision.evaluatedAt 301 seconds after decision.reportedAt, more than the skew tolerance, every entry fresh at either time",
+      "slug": "fr25-evaluated-at-past-skew-tolerance-after-report"
+    },
+    {
+      "draftId": "FR26",
+      "expected": {
+        "codes": [],
+        "derivedTier": "authoritative",
+        "verdict": "valid"
+      },
+      "file": "statements/v4b4a73f73eee6cb5.json",
+      "id": "v4b4a73f73eee6cb5",
+      "kind": "accept",
+      "proposed": {
+        "revision": "draft-gilda-audit-agent-audit-record-05",
+        "text": "docs/proposals/audit-record-04-evaluated-at.md"
+      },
+      "row": "FR1 with decision.evaluatedAt 300 seconds after decision.reportedAt, exactly the skew tolerance",
+      "slug": "fr26-evaluated-at-at-skew-tolerance-after-report"
+    },
+    {
+      "draftId": "FR27",
+      "draftSection": "5.4",
+      "expected": {
+        "codes": [
+          "evaluation-result-after-decision"
+        ],
+        "verdict": "malformed"
+      },
+      "file": "statements/v9f9440961ddc78fe.json",
+      "id": "v9f9440961ddc78fe",
+      "kind": "reject",
+      "parent": "v60d638129b92fda4",
+      "parentDraftId": "FR21",
+      "proposed": {
+        "revision": "draft-gilda-audit-agent-audit-record-05",
+        "text": "docs/proposals/audit-record-04-evaluated-at.md"
+      },
+      "row": "policy-source's lastResult 301 seconds after decision.evaluatedAt and before decision.reportedAt: the skew is measured to the reference time",
+      "slug": "fr27-last-result-past-skew-tolerance-after-evaluated-at"
     },
     {
       "draftId": "CS1",
@@ -3715,27 +3850,17 @@
       "draftRevision": "draft-gilda-audit-agent-audit-record-03",
       "draftSection": "5.4",
       "expected": {
-        "codes": [
-          "evaluation-inconsistent"
-        ]
+        "codes": [],
+        "derivedTier": "authoritative",
+        "verdict": "valid"
       },
       "file": "statements/v12896bcb35edd1b1.json",
       "id": "v12896bcb35edd1b1",
-      "kind": "indeterminate",
+      "kind": "accept",
       "parent": "vd96413ec87814d0b",
       "parentDraftId": "PS1",
       "predicateType": "https://probityai.github.io/agent-evidence-vectors/predicate/v2/agent-audit-record",
-      "readings": [
-        {
-          "rationale": "draft-jackson-wimse-evaluation-05 Section 3: a verifier must not use an input at or past its horizon, its as-of time plus the pinned maximum age, so at an age equal to maxAge the input is unavailable and not-evaluated naming it is the record required. The reading if this draft adopts that boundary (an input is fresh when its age is less than maxAge, and FR2 becomes malformed)",
-          "verdict": "valid"
-        },
-        {
-          "rationale": "Section 5.4 of draft-gilda-audit-agent-audit-record-03 as filed: an age equal to maxAge is fresh (FR2), so the derived unavailable set is empty and a not-evaluated record naming the input fails the recompute of Section 4.6. The reading if draft-jackson-wimse-evaluation adopts this draft's boundary (past its horizon, in place of at or past)",
-          "verdict": "malformed"
-        }
-      ],
-      "row": "principal-standing-source exactly at maxAge (age 3600 under 3600) and not answering, still not-evaluated naming it: open between draft-jackson-wimse-evaluation-05 Section 3 and this section",
+      "row": "principal-standing-source exactly at maxAge (age 3600 under 3600) and not answering, not-evaluated naming it: an input exactly maxAge old is stale, the boundary of draft-jackson-wimse-evaluation-05 Section 3 that revision 04 adopts",
       "slug": "ps1b-principal-standing-age-equal-to-max-age"
     },
     {
