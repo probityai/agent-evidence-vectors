@@ -95,7 +95,11 @@ def signed_list(
 ) -> dict[str, Any]:
     """A list envelope signed by the labelled key, which it carries beside its thumbprint."""
     sig = rail.ed25519_sign(_seed(label), rail.jcs_dumps(payload))
-    return {"list": payload, "sig": base64.b64encode(sig).decode(), "signer": signer(label, claimed)}
+    return {
+        "list": payload,
+        "sig": base64.b64encode(sig).decode(),
+        "signer": signer(label, claimed),
+    }
 
 
 def case_file(
