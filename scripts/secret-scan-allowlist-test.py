@@ -95,6 +95,7 @@ STMT = "corpora/vectors-credential-release/cases/credential-carries-secret/state
         ("corpora/vectors-x/cases/a/case.json", f'{{\n  "verifying{KEY.title()}": "{B64URL_32}"\n}}\n'),
         ("vectors/statements/v1.json", f'{{"embeddedVerification{KEY.title()}": "{HEX_32}"}}\n'),
         ("interop/x/fixtures/w.json", f'{{\n  "signer_public_{KEY}_hex": "{HEX_32}"\n}}\n'),
+        ("packages/admission/rego/corpus_vectors.json", f'{{"embeddedVerification{KEY.title()}": "{HEX_32}"}}\n'),
         (TRUST, f'{{"writers": {{"agent": {{\n  "{KEY}": "{B64URL_32}",\n  "role": "agent"}}}}}}\n'),
     ],
 )
@@ -117,6 +118,7 @@ def test_the_fixture_shapes_scan_clean(tmp_path: Path, relpath: str, text: str) 
         ("src/config.json", f'{{\n  "public{KEY.title()}": "{PRIVATE_64.hex()}"\n}}\n'),
         ("src/config.json", f'{{\n  "public_{KEY}_seed": "{REAL_B64}"\n}}\n'),
         ("src/client.py", f'signing_{KEY} = "{HEX_32}"\n'),
+        ("scripts/probe-test.py", f'OTHER_{KEY.upper()} = "{HEX_32}"\n'),
         (STMT, f'{{\n  "credential": {{\n    "token": "{REAL_JWT}"\n  }}\n}}\n'),
         ("src/client.py", f'cred = dict(token="{EMPTY_JWT}")\n'),
         ("src/client.py", 'api_key = "%s"\n' % ("ghp_" + "a1B2c3D4e5F6g7H8i9J0" * 2)),
