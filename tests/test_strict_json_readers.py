@@ -37,7 +37,8 @@ CASE_READERS = (
     "agenticprocess", "aggregateaccounting", "anchoredchain", "approvalbinding",
     "authoritydispatch", "badgevc", "changeadmission", "chunkedexport",
     "completionconfirmation", "connectorscope", "containmentjournal", "convertedargs",
-    "credreach", "decisionclient", "delegatorright", "dispatchfence", "evidencecell", "evidencestate",
+    "credreach", "decisionclient", "delegatorright", "dispatchfence", "evidencecell",
+    "evidencestate",
     "gradefloor", "identitybinding", "monitorcoverage", "openweight", "paymentmandate",
     "propagationstep", "receiptchainend", "refusalreason", "signaturecoverage",
     "traceanchor", "uncertaineffect",
@@ -164,8 +165,8 @@ def _module_sources() -> list[Path]:
     return sources
 
 
-# A json.loads that keeps its own call is strict when it passes both refusal hooks. These two
-# do not, and each says why.
+# A json.loads that keeps its own call is strict when it passes both refusal hooks. The first two
+# do not, and each says why. The third is a mutation switch.
 OWN_PROFILE = {
     # The A2A JCS corpus reads NaN and Infinity and refuses them at canonicalization, under
     # the reason its number-serialization vectors (A5-REJECT-016 to 018) expect.
@@ -173,6 +174,9 @@ OWN_PROFILE = {
     # A detector, not a reader: it reports whether the payload repeats a member, which the
     # signature-coverage rules then refuse under their own reason.
     ("packaging/agent_evidence_vectors/signaturecoverage.py", "_repeated_member"),
+    # The lenient parse runs only when the corpus mutation check switches the strict-JSON
+    # rule off, to prove a repeated-member payload is refused by that rule and no other.
+    ("packaging/agent_evidence_vectors/credreach.py", "_statement"),
 }
 
 
