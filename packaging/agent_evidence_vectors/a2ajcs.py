@@ -67,6 +67,19 @@ from decimal import Decimal
 from pathlib import Path
 from typing import Any
 
+if __package__:
+    from . import strictjson
+else:  # run or loaded by file path, as the corpus lock tool does: no package to import from
+    import importlib.util
+
+    _spec = importlib.util.spec_from_file_location(
+        "agent_evidence_vectors_strictjson", Path(__file__).with_name("strictjson.py")
+    )
+    assert _spec is not None and _spec.loader is not None
+    strictjson = importlib.util.module_from_spec(_spec)
+    sys.modules[_spec.name] = strictjson
+    _spec.loader.exec_module(strictjson)
+
 SUITE = "a2a-agent-card-canonicalization-conformance"
 CORPUS_DIR = "vectors-a2a-jcs-v01"
 TARGETS = ("rfc8785", "card-signing-input")
@@ -178,9 +191,41 @@ def _no_duplicates(pairs: list[tuple[str, Any]]) -> dict[str, Any]:
     return out
 
 
+def _exact_integer(token: str) -> int:
+    """An integer token a double holds exactly (RFC 7493 section 2.2), else :class:`Refusal`.
+
+    ``9007199254740993`` would canonicalize as ``9007199254740992``: the bytes a signer signs and
+    the number an exact reader reads would be two values.
+    """
+    value = int(token)
+    try:
+        exact = float(value) == value
+    except OverflowError as exc:
+        raise Refusal("integer outside the IEEE 754 double range") from exc
+    if not exact:
+        raise Refusal(f"integer {token} has more precision than a double holds")
+    return value
+
+
+def _exact_number(token: str) -> float:
+    """A non-integer token whose double, written at its shortest, is the token's own number."""
+    value = float(token)
+    if not math.isfinite(value):
+        raise Refusal("NaN and Infinity have no JSON number form")
+    if Decimal(token) != Decimal(repr(value)):
+        raise Refusal(f"number {token} reads as the double {value!r}, another number")
+    return value
+
+
 def parse(text: str) -> Any:
-    """Parse JSON text as RFC 8785 input. NaN and Infinity parse, and refuse later."""
-    return json.loads(text, object_pairs_hook=_no_duplicates)
+    """Parse JSON text as RFC 8785 input.
+
+    NaN and Infinity parse, and refuse later. A number token no double holds exactly is refused
+    here, as RFC 7493 section 2.2 rules it out of I-JSON.
+    """
+    return json.loads(
+        text, object_pairs_hook=_no_duplicates, parse_int=_exact_integer, parse_float=_exact_number
+    )
 
 
 def canonicalize(value: Any) -> bytes:
@@ -212,7 +257,7 @@ def corpus_digest(manifest_bytes: bytes) -> str:
     differ between languages) stands between the file and its digest.
     """
     text = manifest_bytes.decode("utf-8")
-    declared = json.loads(text)["corpusDigest"]
+    declared = strictjson.loads(text)["corpusDigest"]
     tail = f',\n  "corpusDigest": "{declared}"\n}}\n'
     if not text.endswith(tail):
         raise ValueError(
@@ -230,7 +275,7 @@ def owns(target: str, clause: str) -> bool:
 def load(root: Path) -> tuple[dict[str, Any], list[dict[str, Any]], list[str]]:
     """The manifest, its vectors in manifest order, and every integrity finding."""
     raw = (root / "MANIFEST.json").read_bytes()
-    manifest = json.loads(raw)
+    manifest = strictjson.loads(raw)
     findings: list[str] = []
     if manifest.get("suite") != SUITE:
         findings.append(f"MANIFEST.json declares suite {manifest.get('suite')!r}, not {SUITE!r}")
@@ -276,7 +321,7 @@ def read_vector(body: bytes) -> dict[str, Any]:
     a canonicalizer had to handle never reaches the verifier: A5-019 exists for
     an implementation that copies ``-0`` through, and that one would pass.
     """
-    vector: dict[str, Any] = json.loads(body, parse_int=NumberToken, parse_float=NumberToken)
+    vector: dict[str, Any] = strictjson.loads(body, parse_int=NumberToken, parse_float=NumberToken)
     return vector
 
 
@@ -496,7 +541,7 @@ def _ask(command: list[str], target: str, path: str) -> tuple[str, bytes | None,
     if proc.returncode != 0 or not lines:
         return "errored", None, f"exit {proc.returncode} with no answer"
     try:
-        answer = json.loads(lines[-1])
+        answer = strictjson.loads(lines[-1])
         return "bytes", bytes.fromhex(answer["canonical_utf8_hex"]), "exit 0"
     except (ValueError, KeyError, TypeError) as exc:
         return "errored", None, f"exit 0 without a canonical_utf8_hex answer: {exc}"

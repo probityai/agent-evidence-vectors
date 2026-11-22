@@ -1,0 +1,7 @@
+suite: responsibility-escalation/v1
+members: 9
+  established: 2
+  not_established: 2
+  partial: 4
+  unresolved: 1
+verdict: every member behaves as MANIFEST.json declares

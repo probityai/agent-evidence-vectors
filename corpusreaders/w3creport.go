@@ -112,7 +112,7 @@ type w3cExpected struct {
 
 func (w w3cReport) Judge(dir string, raw []byte) (*Result, error) {
 	var m w3cManifest
-	if err := json.Unmarshal(raw, &m); err != nil {
+	if err := strictUnmarshal(raw, &m); err != nil {
 		return nil, fmt.Errorf("%s/MANIFEST.json does not parse: %w", dir, err)
 	}
 	result := &Result{}

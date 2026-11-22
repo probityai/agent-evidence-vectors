@@ -1,0 +1,72 @@
+{
+  "case_id": "vectors-x402-evidence-join-payee-swapped",
+  "delivery": {
+    "body": "{\"forecast\":\"clear\",\"city\":\"Example City\",\"unit\":\"C\",\"high\":21}",
+    "body_sha256": "d7a8886e56f638534542458d46a76c70fa8222022589b907b24f62053030fbcd"
+  },
+  "fulfilment": {
+    "evaluated": false
+  },
+  "offer": {
+    "accepted": {
+      "amount": "10000",
+      "asset": "SynthAsset1111111111111111111111111111111111",
+      "maxTimeoutSeconds": 60,
+      "network": "solana:5eykt4UsFv8P8NJdTREpY1vzqKqZKvdp",
+      "payTo": "SynthPayee1111111111111111111111111111111111",
+      "scheme": "exact"
+    },
+    "digest": "db227b69f230f8b1792de865f45012a0befe8afba22d17c8f9d04b1354eaeab2",
+    "resource": {
+      "url": "https://seller.example/v1/forecast"
+    },
+    "signature": {
+      "key_id": "seller-key-1",
+      "value_sha256": "b9fcc3226695e802f00184787a3a56445f2047b3fb12973c335b31cb6f112569"
+    }
+  },
+  "payment": {
+    "authorization": {
+      "from": "SynthPayer1111111111111111111111111111111111",
+      "nonce": "synth-nonce-0001",
+      "to": "SynthOther1111111111111111111111111111111111",
+      "validBefore": "1795000000",
+      "value": "10000"
+    },
+    "offer_digest": "db227b69f230f8b1792de865f45012a0befe8afba22d17c8f9d04b1354eaeab2",
+    "signature": {
+      "signer": "SynthPayer1111111111111111111111111111111111"
+    }
+  },
+  "receipt": {
+    "delivery_digest": "d7a8886e56f638534542458d46a76c70fa8222022589b907b24f62053030fbcd",
+    "key_id": "seller-key-1",
+    "offer_digest": "db227b69f230f8b1792de865f45012a0befe8afba22d17c8f9d04b1354eaeab2",
+    "signature": "4913948a15e530ef2a7efa1bb37cf51eab8c96e3ac8eacd9ee4ea01bff3aaf4d",
+    "transaction": "SynthTx111111111111111111111111111111111111111111111111111111111111111111111111111111111"
+  },
+  "schema": "x402-evidence-join-record/v1",
+  "seller": {
+    "domain": "seller.example",
+    "key_ids": [
+      "seller-key-1"
+    ]
+  },
+  "settlement": {
+    "facilitator": {
+      "network": "solana:5eykt4UsFv8P8NJdTREpY1vzqKqZKvdp",
+      "payer": "SynthPayer1111111111111111111111111111111111",
+      "success": true,
+      "transaction": "SynthTx111111111111111111111111111111111111111111111111111111111111111111111111111111111"
+    },
+    "ledger": {
+      "asset": "SynthAsset1111111111111111111111111111111111",
+      "from": "SynthPayer1111111111111111111111111111111111",
+      "network": "solana:5eykt4UsFv8P8NJdTREpY1vzqKqZKvdp",
+      "status": "success",
+      "to": "SynthPayee1111111111111111111111111111111111",
+      "transaction": "SynthTx111111111111111111111111111111111111111111111111111111111111111111111111111111111",
+      "value": "10000"
+    }
+  }
+}

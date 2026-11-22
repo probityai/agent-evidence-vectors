@@ -52,6 +52,7 @@ import sys
 from collections.abc import Callable, Iterator
 from typing import Any
 
+from agent_evidence_vectors import strictjson
 from cryptography.exceptions import InvalidSignature
 from cryptography.hazmat.primitives.asymmetric.ed25519 import Ed25519PublicKey
 
@@ -67,7 +68,7 @@ from canonical import canonical_bytes  # noqa: E402
 
 def _manifest() -> dict[str, object]:
     with open(os.path.join(HERE, "MANIFEST.json"), encoding="utf-8") as fh:
-        loaded: dict[str, object] = json.load(fh)
+        loaded: dict[str, object] = strictjson.load(fh)
     return loaded
 
 
@@ -101,7 +102,7 @@ def _envelope_bytes(entry: dict[str, object]) -> bytes:
     envelope beside its retention entry."""
     raw = _raw(entry)
     if _retained(entry):
-        return json.dumps(json.loads(raw)["envelope"]).encode()
+        return json.dumps(strictjson.loads(raw)["envelope"]).encode()
     return raw
 
 
@@ -112,7 +113,7 @@ def _verify(
 ) -> auditrecord.Report:
     if _retained(entry):
         with open(os.path.join(HERE, "MANIFEST.json"), encoding="utf-8") as fh:
-            heads = auditrecord.tree_heads(json.load(fh))
+            heads = auditrecord.tree_heads(strictjson.load(fh))
         return auditrecord.verify_retained(_raw(entry), policy, heads, disabled=disabled)[0]
     return auditrecord.verify(_envelope_bytes(entry), policy, disabled=disabled)
 
@@ -130,9 +131,9 @@ def _second_signature_path(manifest: dict[str, object]) -> list[str]:
             continue
         holds = True
         for raw_envelope in _envelopes(entry):
-            envelope = json.loads(raw_envelope)
+            envelope = strictjson.loads(raw_envelope)
             payload = base64.b64decode(envelope["payload"])
-            canonical = canonical_bytes(json.loads(payload))
+            canonical = canonical_bytes(strictjson.loads(payload))
             message = auditrecord.pae(auditrecord.PAYLOAD_TYPE, canonical)
             sig = base64.b64decode(envelope["signatures"][0]["sig"])
             try:
@@ -964,7 +965,7 @@ def _fails(entry: dict[str, object], policy: auditrecord.Policy) -> bool:
         reports, joint = auditrecord.verify_set(_raw(entry), policy)
         declared = expected["set"]
         limits = [
-            auditrecord.within_limit(json.loads(auditrecord._envelope_payload(env)[1])["predicate"])
+            auditrecord.within_limit(strictjson.loads(auditrecord._envelope_payload(env)[1])["predicate"])
             for env in _envelopes(entry)
         ]
         return (
@@ -977,7 +978,8 @@ def _fails(entry: dict[str, object], policy: auditrecord.Policy) -> bool:
     if verdict not in auditrecord.conforming_verdicts(entry):
         return True
     if "withinLimit" in expected:
-        pred = json.loads(auditrecord._envelope_payload(_envelope_bytes(entry))[1])["predicate"]
+        payload = auditrecord._envelope_payload(_envelope_bytes(entry))[1]
+        pred = strictjson.loads(payload)["predicate"]
         return bool(auditrecord.within_limit(pred) != expected["withinLimit"])
     return False
 

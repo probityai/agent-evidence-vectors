@@ -1,8 +1,8 @@
 {
-  "corpusDigest": "535cf77805d4720714fbe5f39a65a64f72ef6f69edfbf118a39fa8c8fdff77db",
+  "corpusDigest": "4280659456899e8b0c939e054f1351b3f16eb1f5f88ef191c230b66c4ca36850",
   "counts": {
-    "accepted": 4,
-    "rejected": 11
+    "accepted": 6,
+    "rejected": 15
   },
   "schema": "agent-payment-mandate-record/v1",
   "specification": {
@@ -206,6 +206,82 @@
       "id": "post-checkout-fulfilment-missing",
       "path": "cases/post-checkout-fulfilment-missing",
       "twin": "authorized-ap2-cart"
+    },
+    {
+      "description": "the signing key was rotated out after the mandate was signed; it was in effect at signing",
+      "expected": {
+        "decision": "accepted",
+        "reason": "mandate_chain_holds"
+      },
+      "files": {
+        "case.json": "4f0460a3080ccfefb045e00a9cc25887ca162edc6840eb1cfa19993d3e648d5f"
+      },
+      "id": "authorized-key-rotated-after-signing",
+      "path": "cases/authorized-key-rotated-after-signing"
+    },
+    {
+      "description": "the signing key was revoked effective after the mandate was signed",
+      "expected": {
+        "decision": "accepted",
+        "reason": "mandate_chain_holds"
+      },
+      "files": {
+        "case.json": "542c0c7b036f50445145c42dc44ba0b494244095ee3a47e249ef2be99aa25827"
+      },
+      "id": "authorized-key-revoked-after-signing",
+      "path": "cases/authorized-key-revoked-after-signing"
+    },
+    {
+      "description": "the issuer key snapshot holds no entry for the signing key",
+      "expected": {
+        "decision": "rejected",
+        "reason": "signing_key_unknown"
+      },
+      "files": {
+        "case.json": "7d133548fd8f735b6ef0e9d2d44d2bb5ad5237eee60461bd695483949b2b4c02"
+      },
+      "id": "signing-key-not-in-snapshot",
+      "path": "cases/signing-key-not-in-snapshot",
+      "twin": "authorized-key-rotated-after-signing"
+    },
+    {
+      "description": "the mandate was signed after the key's validity ended",
+      "expected": {
+        "decision": "rejected",
+        "reason": "signing_key_rotated_out"
+      },
+      "files": {
+        "case.json": "3f01f074120304e6f241ec92b26f4535babc2276e824af50d459386283da5ae2"
+      },
+      "id": "signed-after-key-rotated-out",
+      "path": "cases/signed-after-key-rotated-out",
+      "twin": "authorized-key-rotated-after-signing"
+    },
+    {
+      "description": "the mandate was signed before the key's validity began",
+      "expected": {
+        "decision": "rejected",
+        "reason": "signing_key_not_yet_valid"
+      },
+      "files": {
+        "case.json": "cd6e9170ae5b50183aa6e8cbbdfbd1c4cec42ca1c814f7b51b9028b7b05cb918"
+      },
+      "id": "signed-before-key-valid",
+      "path": "cases/signed-before-key-valid",
+      "twin": "authorized-key-rotated-after-signing"
+    },
+    {
+      "description": "the key was revoked effective before the mandate was signed",
+      "expected": {
+        "decision": "rejected",
+        "reason": "signing_key_revoked"
+      },
+      "files": {
+        "case.json": "cffdea97d2d23eb85418fc14b66f39135725a26bd156748e6d5a5a2fe10245e4"
+      },
+      "id": "signed-after-key-revoked",
+      "path": "cases/signed-after-key-revoked",
+      "twin": "authorized-key-revoked-after-signing"
     }
   ],
   "verifierContract": "verifier case.json --json"

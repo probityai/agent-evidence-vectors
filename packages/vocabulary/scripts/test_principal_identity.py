@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Hold the registry, the validator and the guide to the principal_identity section.
 
-The section's two terms each carry a `check`, the rule a verifier applies to decide
+The section's three terms each carry a `check`, the rule a verifier applies to decide
 the term. This checks that every term starts proposed with no issuer, carries a
 criticality, a review date, a definition and a promotion trigger, that a term declaring
 closed values defines each of them, that every term has a non-empty check, that the guide
@@ -31,7 +31,7 @@ _VOCAB = _ROOT / "vocabulary.yaml"
 _REGISTRY = _ROOT / "registry.py"
 _INDEX = _ROOT / "registry.json"
 _PAGE = _ROOT / "docs" / "principal-identity.md"
-_EXPECTED_TERMS = {"identity_provider", "issuer_key_pinning"}
+_EXPECTED_TERMS = {"identity_provider", "issuer_key_pinning", "key_publisher"}
 _REQUIRED_KEYS = ("criticality", "review_by", "definition", "promotion_trigger", "source_path")
 
 
@@ -142,7 +142,7 @@ def _check_terms(section: dict, page: str) -> list[str]:
     failures = []
     if set(section) != _EXPECTED_TERMS:
         differ = sorted(set(section) ^ _EXPECTED_TERMS)
-        failures.append(f"terms {differ} differ from the two the section carries")
+        failures.append(f"terms {differ} differ from the three the section carries")
     for name, term in section.items():
         failures.extend(_check_fields(name, term))
         failures.extend(_check_definitions(name, term))

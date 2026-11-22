@@ -75,6 +75,9 @@ func jsonNumberIsZero(n json.Number) bool {
 // re-encoding can tell an integer from a float instead of routing both through
 // float64 and printing 1 as 1.0.
 func decodeJSONNumbers(raw []byte) (any, error) {
+	if err := refuseRepeatedMembers(raw); err != nil {
+		return nil, err
+	}
 	dec := json.NewDecoder(bytes.NewReader(raw))
 	dec.UseNumber()
 	var value any
