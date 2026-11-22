@@ -1,0 +1,1126 @@
+{
+  "aggregate": {
+    "counts": {
+      "ambiguous": 13,
+      "conformant": 15,
+      "nonconformant": 16
+    },
+    "line": "verdict: every member behaves as MANIFEST.json declares",
+    "total": 44
+  },
+  "anchor": {
+    "kind": "digest-list-line",
+    "manifest": "vectors-physical-completion/MANIFEST.json",
+    "reference": {
+      "path": "release/CORPUS-DIGESTS.txt",
+      "uri": "https://github.com/probityai/agent-evidence-vectors/blob/main/release/CORPUS-DIGESTS.txt"
+    },
+    "routine": "corpus_digest in corpora/vectors-physical-completion/gen_vectors.py",
+    "routine-file": "corpora/vectors-physical-completion/gen_vectors.py",
+    "serialization": "corpus-routine",
+    "sha256": "c96efa91ee478597e2fb0d42fb71e98e6a9bf8d5ba30674ec73ebac6ccb6d270",
+    "verdicts": {
+      "availability-failure": "inconclusive",
+      "integrity-failure": "fail"
+    }
+  },
+  "artifacts": [
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "f7e70d2a7fc3757e211f3384fd6a6fcefb80e004634887d20fc92507d4dda578"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "f7e70d2a7fc3757e211f3384fd6a6fcefb80e004634887d20fc92507d4dda578"
+        },
+        "swapped-in": "7bc6293b9eb1cbd5b1ca68d28f61976634415894e7026d3eb926a9c7b1698831",
+        "test": "swap-and-re-pin"
+      },
+      "path": "corpora/vectors-physical-completion/README.md",
+      "serialization": "bytes",
+      "sha256": "9eebfab56d605927a2e4a8aca63481788e05529921a8d7da3fa7142f8a8553f7"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "f7e70d2a7fc3757e211f3384fd6a6fcefb80e004634887d20fc92507d4dda578"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "f7e70d2a7fc3757e211f3384fd6a6fcefb80e004634887d20fc92507d4dda578"
+        },
+        "swapped-in": "852d70907dbed5fb9f18815662e1158544fcd3b8db6210a5d829868b92b10618",
+        "test": "swap-and-re-pin"
+      },
+      "path": "corpora/vectors-physical-completion/check_vectors.py",
+      "serialization": "bytes",
+      "sha256": "d54f4aebcde6434f4b779bb74659a1b9cf9c1342e2a1934ef9421db6d0c704a9"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "f7e70d2a7fc3757e211f3384fd6a6fcefb80e004634887d20fc92507d4dda578"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "f7e70d2a7fc3757e211f3384fd6a6fcefb80e004634887d20fc92507d4dda578"
+        },
+        "swapped-in": "8751e728f558eaec30f8eb579a0dd300f277325e1d391a7b009e5fed536a24b5",
+        "test": "swap-and-re-pin"
+      },
+      "path": "corpora/vectors-physical-completion/gen_vectors.py",
+      "serialization": "bytes",
+      "sha256": "b8a12dbbe0ea680bc76d18311cf76fbc0ea3ac74b86582633ab169b2d44093fc"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "f7e70d2a7fc3757e211f3384fd6a6fcefb80e004634887d20fc92507d4dda578"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "f7e70d2a7fc3757e211f3384fd6a6fcefb80e004634887d20fc92507d4dda578"
+        },
+        "swapped-in": "4af8a6fe011f6aebb8056b4233a7e21b8a891f06111dce10c6002987c3ccd5ec",
+        "test": "swap-and-re-pin"
+      },
+      "path": "corpora/vectors-physical-completion/tests/test_corpus.py",
+      "serialization": "bytes",
+      "sha256": "1e80a9bc49c2e1f3608716a0993996ca5c93198caccc0df5434ba35d42fc7627"
+    }
+  ],
+  "boundary": {
+    "complete": true,
+    "member-locations": [
+      {
+        "dir": "cases",
+        "recursive": true,
+        "suffix": ""
+      }
+    ],
+    "root": "corpora/vectors-physical-completion"
+  },
+  "byte-identity": {
+    "pins": 44,
+    "serialization": "bytes"
+  },
+  "canonicalization": {
+    "encoding": "jcs-sha256"
+  },
+  "checker": {
+    "commands": [
+      "go build -o aee-verify ./cmd/aee-verify",
+      "aee-verify -json corpora/vectors-physical-completion",
+      "aee-verify -json corpora/vectors-physical-completion",
+      "aee-verify corpora/vectors-physical-completion"
+    ],
+    "dependencies": [
+      {
+        "path": "go.mod",
+        "serialization": "bytes",
+        "sha256": "c9f5a67159789ead4e2879e86805505c6ba22150b04bef360e6b3333125fb1c2"
+      },
+      {
+        "path": "go.work",
+        "serialization": "bytes",
+        "sha256": "61a9b151174d1aca21dd4b851b7d9a88784c4e6674ba4550a01a36a22f165e47"
+      }
+    ],
+    "helpers": [],
+    "name": "aee-verify",
+    "relationship": "same-implementation",
+    "revision": {
+      "kind": "source-listing",
+      "paths": [
+        "aee",
+        "cmd/aee-verify",
+        "corpusreaders",
+        "go.mod"
+      ],
+      "serialization": "sha256-listing-v1",
+      "sha256": "e434e5085259d2b370df9d422566b5508a36f8fee907345b092f01a67b044722"
+    },
+    "runtime": {
+      "name": "go",
+      "version": "1.26"
+    },
+    "shared-verification-code": [
+      "aee",
+      "cmd/aee-verify",
+      "corpusreaders",
+      "go.mod"
+    ]
+  },
+  "checks": [
+    {
+      "check": "conformant-receipt-alone-not-provided",
+      "native": {
+        "reasons": [],
+        "verdict": "conformant"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "conformant-controller-success-not-provided",
+      "native": {
+        "reasons": [],
+        "verdict": "conformant"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "conformant-witness-proven-to-policy",
+      "native": {
+        "reasons": [],
+        "verdict": "conformant"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "conformant-witness-not-satisfied",
+      "native": {
+        "reasons": [],
+        "verdict": "conformant"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "conformant-stale-witness-indeterminate",
+      "native": {
+        "reasons": [],
+        "verdict": "conformant"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "conformant-replayed-observation-indeterminate",
+      "native": {
+        "reasons": [],
+        "verdict": "conformant"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "conformant-criterion-after-dispatch-indeterminate",
+      "native": {
+        "reasons": [],
+        "verdict": "conformant"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "conformant-unidentified-witness-indeterminate",
+      "native": {
+        "reasons": [],
+        "verdict": "conformant"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "conformant-untrusted-witness-indeterminate",
+      "native": {
+        "reasons": [],
+        "verdict": "conformant"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "conformant-unauthenticated-observation-not-provided",
+      "native": {
+        "reasons": [],
+        "verdict": "conformant"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "conformant-unbound-observation-not-provided",
+      "native": {
+        "reasons": [],
+        "verdict": "conformant"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "conformant-ack-lost-witness-proven",
+      "native": {
+        "reasons": [],
+        "verdict": "conformant"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "conformant-ack-lost-not-provided",
+      "native": {
+        "reasons": [],
+        "verdict": "conformant"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "conformant-conflict-success-against-unmet",
+      "native": {
+        "reasons": [],
+        "verdict": "conformant"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "conformant-conflict-failure-against-met",
+      "native": {
+        "reasons": [],
+        "verdict": "conformant"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "nonconformant-contract-id-missing",
+      "native": {
+        "reasons": [],
+        "verdict": "nonconformant"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "nonconformant-contract-id-unknown",
+      "native": {
+        "reasons": [],
+        "verdict": "nonconformant"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "nonconformant-result-member-absent",
+      "native": {
+        "reasons": [],
+        "verdict": "nonconformant"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "nonconformant-unqualified-proven",
+      "native": {
+        "reasons": [],
+        "verdict": "nonconformant"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "nonconformant-physical-completion-proven-token",
+      "native": {
+        "reasons": [],
+        "verdict": "nonconformant"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "nonconformant-proven-without-trust-configuration",
+      "native": {
+        "reasons": [],
+        "verdict": "nonconformant"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "nonconformant-result-outside-vocabulary",
+      "native": {
+        "reasons": [],
+        "verdict": "nonconformant"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "nonconformant-conflict-as-profile-token",
+      "native": {
+        "reasons": [],
+        "verdict": "nonconformant"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "nonconformant-receipt-executed-read-as-completion",
+      "native": {
+        "reasons": [],
+        "verdict": "nonconformant"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "nonconformant-controller-success-read-as-completion",
+      "native": {
+        "reasons": [],
+        "verdict": "nonconformant"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "nonconformant-absence-read-as-not-satisfied",
+      "native": {
+        "reasons": [],
+        "verdict": "nonconformant"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "nonconformant-lost-ack-read-as-not-executed",
+      "native": {
+        "reasons": [],
+        "verdict": "nonconformant"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "nonconformant-lost-ack-over-met-witness",
+      "native": {
+        "reasons": [],
+        "verdict": "nonconformant"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "nonconformant-controller-failure-read-as-not-satisfied",
+      "native": {
+        "reasons": [],
+        "verdict": "nonconformant"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "nonconformant-absence-read-as-indeterminate",
+      "native": {
+        "reasons": [],
+        "verdict": "nonconformant"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "nonconformant-absence-read-as-not-applicable",
+      "native": {
+        "reasons": [],
+        "verdict": "nonconformant"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "open-bare-receipt-not-claimed",
+      "native": {
+        "reasons": [],
+        "verdict": "ambiguous"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "open-stale-witness-proven",
+      "native": {
+        "reasons": [],
+        "verdict": "ambiguous"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "open-replayed-observation-proven",
+      "native": {
+        "reasons": [],
+        "verdict": "ambiguous"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "open-criterion-after-dispatch-proven",
+      "native": {
+        "reasons": [],
+        "verdict": "ambiguous"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "open-unidentified-witness-proven",
+      "native": {
+        "reasons": [],
+        "verdict": "ambiguous"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "open-untrusted-witness-proven",
+      "native": {
+        "reasons": [],
+        "verdict": "ambiguous"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "open-unauthenticated-observation-proven",
+      "native": {
+        "reasons": [],
+        "verdict": "ambiguous"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "open-unbound-observation-proven",
+      "native": {
+        "reasons": [],
+        "verdict": "ambiguous"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "open-unmet-witness-proven",
+      "native": {
+        "reasons": [],
+        "verdict": "ambiguous"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "open-settled-witness-indeterminate",
+      "native": {
+        "reasons": [],
+        "verdict": "ambiguous"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "open-conflict-erased-to-proven",
+      "native": {
+        "reasons": [],
+        "verdict": "ambiguous"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "open-conflict-erased-to-not-satisfied",
+      "native": {
+        "reasons": [],
+        "verdict": "ambiguous"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "open-conflict-drops-a-claim",
+      "native": {
+        "reasons": [],
+        "verdict": "ambiguous"
+      },
+      "state": "pass"
+    }
+  ],
+  "corpus-digest": {
+    "serialization": "sha256-listing-v1",
+    "sha256": "ef41006f34242c1046689188bc2f312332e5d8a521f19e39836673a10ea8197a"
+  },
+  "exit-code": 0,
+  "exit-rule": "zero-iff-every-check-passes",
+  "exposure": "visible",
+  "faults": [],
+  "format": "public-agent-conformance/intake-record/v2",
+  "manifest": {
+    "closed": true,
+    "ids": [
+      "conformant-receipt-alone-not-provided",
+      "conformant-controller-success-not-provided",
+      "conformant-witness-proven-to-policy",
+      "conformant-witness-not-satisfied",
+      "conformant-stale-witness-indeterminate",
+      "conformant-replayed-observation-indeterminate",
+      "conformant-criterion-after-dispatch-indeterminate",
+      "conformant-unidentified-witness-indeterminate",
+      "conformant-untrusted-witness-indeterminate",
+      "conformant-unauthenticated-observation-not-provided",
+      "conformant-unbound-observation-not-provided",
+      "conformant-ack-lost-witness-proven",
+      "conformant-ack-lost-not-provided",
+      "conformant-conflict-success-against-unmet",
+      "conformant-conflict-failure-against-met",
+      "nonconformant-contract-id-missing",
+      "nonconformant-contract-id-unknown",
+      "nonconformant-result-member-absent",
+      "nonconformant-unqualified-proven",
+      "nonconformant-physical-completion-proven-token",
+      "nonconformant-proven-without-trust-configuration",
+      "nonconformant-result-outside-vocabulary",
+      "nonconformant-conflict-as-profile-token",
+      "nonconformant-receipt-executed-read-as-completion",
+      "nonconformant-controller-success-read-as-completion",
+      "nonconformant-absence-read-as-not-satisfied",
+      "nonconformant-lost-ack-read-as-not-executed",
+      "nonconformant-lost-ack-over-met-witness",
+      "nonconformant-controller-failure-read-as-not-satisfied",
+      "nonconformant-absence-read-as-indeterminate",
+      "nonconformant-absence-read-as-not-applicable",
+      "open-bare-receipt-not-claimed",
+      "open-stale-witness-proven",
+      "open-replayed-observation-proven",
+      "open-criterion-after-dispatch-proven",
+      "open-unidentified-witness-proven",
+      "open-untrusted-witness-proven",
+      "open-unauthenticated-observation-proven",
+      "open-unbound-observation-proven",
+      "open-unmet-witness-proven",
+      "open-settled-witness-indeterminate",
+      "open-conflict-erased-to-proven",
+      "open-conflict-erased-to-not-satisfied",
+      "open-conflict-drops-a-claim"
+    ],
+    "path": "corpora/vectors-physical-completion/MANIFEST.json",
+    "sha256": "7f54210e503945dbbb2685988520e019418f00caa36c6ba900657838b678c2fa"
+  },
+  "members": [
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-physical-completion/cases/conformant-receipt-alone-not-provided/record.json",
+          "sha256": "d7f0be3bf37ec6f4ee8ecafd670f1e504a9d3b89e0d7476f1ab2543843ae26ce"
+        }
+      ],
+      "id": "conformant-receipt-alone-not-provided"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-physical-completion/cases/conformant-controller-success-not-provided/record.json",
+          "sha256": "f0e9e54aec5d7c15ba8ac8f00fe9e2cc3aba59b3222c3108cdcdcb5291fe6545"
+        }
+      ],
+      "id": "conformant-controller-success-not-provided"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-physical-completion/cases/conformant-witness-proven-to-policy/record.json",
+          "sha256": "9f9d9a3a9d9124a2aeb8ab491b770341f42e38dce15eb02352bfe809add7ba7e"
+        }
+      ],
+      "id": "conformant-witness-proven-to-policy"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-physical-completion/cases/conformant-witness-not-satisfied/record.json",
+          "sha256": "449757b5e3a90c89611b8b2a58736e30dfe227346972937ecaa834976e22e0d5"
+        }
+      ],
+      "id": "conformant-witness-not-satisfied"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-physical-completion/cases/conformant-stale-witness-indeterminate/record.json",
+          "sha256": "1942d2a6b8065e2c0024bc071d933fa603f34d5e3861618b51c949e02af8dc0e"
+        }
+      ],
+      "id": "conformant-stale-witness-indeterminate"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-physical-completion/cases/conformant-replayed-observation-indeterminate/record.json",
+          "sha256": "df9b4b2c95ec052a003b69af26b44f9e04be70fa40242ca67d2aec35a5c60efb"
+        }
+      ],
+      "id": "conformant-replayed-observation-indeterminate"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-physical-completion/cases/conformant-criterion-after-dispatch-indeterminate/record.json",
+          "sha256": "fc1c7661a5d2fcd3da5874df52681e94f0f61bd922d4eea892dd637619dfb0a8"
+        }
+      ],
+      "id": "conformant-criterion-after-dispatch-indeterminate"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-physical-completion/cases/conformant-unidentified-witness-indeterminate/record.json",
+          "sha256": "50b4437ba8824efaee1502ed3f74ccf8a78c6d80676806857da495f77b5ea6a0"
+        }
+      ],
+      "id": "conformant-unidentified-witness-indeterminate"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-physical-completion/cases/conformant-untrusted-witness-indeterminate/record.json",
+          "sha256": "812dde5d1ad318ca52f8cfc690c3394edd10d83d71425ea63497762945def0e7"
+        }
+      ],
+      "id": "conformant-untrusted-witness-indeterminate"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-physical-completion/cases/conformant-unauthenticated-observation-not-provided/record.json",
+          "sha256": "c4c651d200580b8eddf061e339391f7b9d1d59a793226fc746d3edaba11c6be9"
+        }
+      ],
+      "id": "conformant-unauthenticated-observation-not-provided"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-physical-completion/cases/conformant-unbound-observation-not-provided/record.json",
+          "sha256": "9465ac3e9903e387752a79be3d35e158cea7c95b2d8982078af98dec829f092a"
+        }
+      ],
+      "id": "conformant-unbound-observation-not-provided"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-physical-completion/cases/conformant-ack-lost-witness-proven/record.json",
+          "sha256": "56763ab8fdaa099dc126f6cbf24db44da9edb16c01fb9d6fd97b5f98a43a9504"
+        }
+      ],
+      "id": "conformant-ack-lost-witness-proven"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-physical-completion/cases/conformant-ack-lost-not-provided/record.json",
+          "sha256": "f08458ae9de673cbea5f0f6aafb799c0af1077eab101dab3b4dd9daad024f312"
+        }
+      ],
+      "id": "conformant-ack-lost-not-provided"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-physical-completion/cases/conformant-conflict-success-against-unmet/record.json",
+          "sha256": "93bb97027dfe5a908195100bd6b6c057b430daea4abca07c8edfdb5cf08802ad"
+        }
+      ],
+      "id": "conformant-conflict-success-against-unmet"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-physical-completion/cases/conformant-conflict-failure-against-met/record.json",
+          "sha256": "6729cc887e2ac83731f264da65549189695f261497505f02b951fad7c235e963"
+        }
+      ],
+      "id": "conformant-conflict-failure-against-met"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-physical-completion/cases/nonconformant-contract-id-missing/record.json",
+          "sha256": "d4d221f5ee5fb59860b351d1c074cb41e6fd9a7f4be33213d1ba144cf6452666"
+        }
+      ],
+      "id": "nonconformant-contract-id-missing"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-physical-completion/cases/nonconformant-contract-id-unknown/record.json",
+          "sha256": "69c316a2774fdeb54bee28e85e159df27fb42960e3bca37b8a105b5f9b7b8edd"
+        }
+      ],
+      "id": "nonconformant-contract-id-unknown"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-physical-completion/cases/nonconformant-result-member-absent/record.json",
+          "sha256": "69614fe0393095ee32589eafdf54e5719bd867f0856167c4c2a0824a60f4af54"
+        }
+      ],
+      "id": "nonconformant-result-member-absent"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-physical-completion/cases/nonconformant-unqualified-proven/record.json",
+          "sha256": "cab0f40ba4043f0bbc5353dc52889a296e3a5fe157ae828378048bf027f59bfb"
+        }
+      ],
+      "id": "nonconformant-unqualified-proven"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-physical-completion/cases/nonconformant-physical-completion-proven-token/record.json",
+          "sha256": "c1f003e7acdacb062b54d8a2e57fecfb1f713178d5e6e9714a9130803a9efeb4"
+        }
+      ],
+      "id": "nonconformant-physical-completion-proven-token"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-physical-completion/cases/nonconformant-proven-without-trust-configuration/record.json",
+          "sha256": "fe2cca478b967ac98131faa97d3ed16bdfbaf7bc99b3b163f5ed16ab594183d9"
+        }
+      ],
+      "id": "nonconformant-proven-without-trust-configuration"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-physical-completion/cases/nonconformant-result-outside-vocabulary/record.json",
+          "sha256": "0debbb74bfb2588af5b54724e3a8974f8d6c088b2dc72fa105b8abee2837feff"
+        }
+      ],
+      "id": "nonconformant-result-outside-vocabulary"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-physical-completion/cases/nonconformant-conflict-as-profile-token/record.json",
+          "sha256": "1efd96c3c28e681d69c2fc87c69230f1f60fb1de59efbe1ebebb4c2ae338f018"
+        }
+      ],
+      "id": "nonconformant-conflict-as-profile-token"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-physical-completion/cases/nonconformant-receipt-executed-read-as-completion/record.json",
+          "sha256": "beadc61da20264e90c02a75be8a9b7c7e3ea4cca602c1a0777eca64751a05e61"
+        }
+      ],
+      "id": "nonconformant-receipt-executed-read-as-completion"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-physical-completion/cases/nonconformant-controller-success-read-as-completion/record.json",
+          "sha256": "83359d5e6bb83b916d6ce37d63018cc5ac1a18f37480f5a51356da92117d3532"
+        }
+      ],
+      "id": "nonconformant-controller-success-read-as-completion"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-physical-completion/cases/nonconformant-absence-read-as-not-satisfied/record.json",
+          "sha256": "2b3b76d166f28f167fa9a0e20ce6db3264104ee2b29e95d70c358e0ab433b20a"
+        }
+      ],
+      "id": "nonconformant-absence-read-as-not-satisfied"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-physical-completion/cases/nonconformant-lost-ack-read-as-not-executed/record.json",
+          "sha256": "fd9d85b3c6a4108c3ecd167e1927fcdfa5969a8593927e2b7c9b2667bf7f8059"
+        }
+      ],
+      "id": "nonconformant-lost-ack-read-as-not-executed"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-physical-completion/cases/nonconformant-lost-ack-over-met-witness/record.json",
+          "sha256": "36690c346830a56c4aa0d78cc593dd78cae00f85b087c6e60e8a7a30285415ac"
+        }
+      ],
+      "id": "nonconformant-lost-ack-over-met-witness"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-physical-completion/cases/nonconformant-controller-failure-read-as-not-satisfied/record.json",
+          "sha256": "49afa59042eb75f0c727bfcce00ae277ea339da6902a5731a0314105b9bfbd7d"
+        }
+      ],
+      "id": "nonconformant-controller-failure-read-as-not-satisfied"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-physical-completion/cases/nonconformant-absence-read-as-indeterminate/record.json",
+          "sha256": "d55825b733c29f22227d0dc434ffcea185aa5347c6ca810bd84762fa98a41f09"
+        }
+      ],
+      "id": "nonconformant-absence-read-as-indeterminate"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-physical-completion/cases/nonconformant-absence-read-as-not-applicable/record.json",
+          "sha256": "c17e781716810eb6832984494831517ca416a73b2f93eb7b701d214f6e077889"
+        }
+      ],
+      "id": "nonconformant-absence-read-as-not-applicable"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-physical-completion/cases/open-bare-receipt-not-claimed/record.json",
+          "sha256": "85c2201be8576dc2686713fddd838f4c7f0e7a29ff5bcd177e43a3e60ac069f6"
+        }
+      ],
+      "id": "open-bare-receipt-not-claimed"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-physical-completion/cases/open-stale-witness-proven/record.json",
+          "sha256": "cac24889bc6c1e1ce1a797d9491ba67abf356e0f37b5986f5e385f023f759f71"
+        }
+      ],
+      "id": "open-stale-witness-proven"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-physical-completion/cases/open-replayed-observation-proven/record.json",
+          "sha256": "4d6285d8a7800a15d749ca00483bcdcf37d8bc83cb15e54458a7e3dbc9095d9d"
+        }
+      ],
+      "id": "open-replayed-observation-proven"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-physical-completion/cases/open-criterion-after-dispatch-proven/record.json",
+          "sha256": "2946fc032a364b50d80aa0853a35e33c9f2d192219e46d6f03453e5b6dfdff31"
+        }
+      ],
+      "id": "open-criterion-after-dispatch-proven"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-physical-completion/cases/open-unidentified-witness-proven/record.json",
+          "sha256": "5bdffd36232618f15ad07761e0c7f9b5b9922d72532c9e240b5b45ab122f0c70"
+        }
+      ],
+      "id": "open-unidentified-witness-proven"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-physical-completion/cases/open-untrusted-witness-proven/record.json",
+          "sha256": "9a2751dfb27e3de7ff1a606395d45a5260707acaee10ddf42d34e2eec859118a"
+        }
+      ],
+      "id": "open-untrusted-witness-proven"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-physical-completion/cases/open-unauthenticated-observation-proven/record.json",
+          "sha256": "e97e07a290770ec7f2dd0c57caf6ae2289f941f94c1137dd0f3bb505dd6c1275"
+        }
+      ],
+      "id": "open-unauthenticated-observation-proven"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-physical-completion/cases/open-unbound-observation-proven/record.json",
+          "sha256": "011df791635c083052f1a3d345ac8119d5787404a825d29ed31779b4a5e8d17e"
+        }
+      ],
+      "id": "open-unbound-observation-proven"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-physical-completion/cases/open-unmet-witness-proven/record.json",
+          "sha256": "292bd297a01371f16850d3a26b23ad46cb93520999a7ded3fcec0a48a42f8b2f"
+        }
+      ],
+      "id": "open-unmet-witness-proven"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-physical-completion/cases/open-settled-witness-indeterminate/record.json",
+          "sha256": "539576a00b9c3f13496d2bf363ff8970ffbb93eda10fb849e0fff106cac1e0f3"
+        }
+      ],
+      "id": "open-settled-witness-indeterminate"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-physical-completion/cases/open-conflict-erased-to-proven/record.json",
+          "sha256": "e49bcacf7dda9e3e5e8c9c4e561425f3c163c49edf9e0288ec50c501450d410e"
+        }
+      ],
+      "id": "open-conflict-erased-to-proven"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-physical-completion/cases/open-conflict-erased-to-not-satisfied/record.json",
+          "sha256": "d2799c72e3235539fb4554825cc35d64c82d591da3b0e91840d72bbde6d745f0"
+        }
+      ],
+      "id": "open-conflict-erased-to-not-satisfied"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-physical-completion/cases/open-conflict-drops-a-claim/record.json",
+          "sha256": "5202c4ce929e1d84815b131e6482660f54e68480da6d5c0b22f774d0512d031d"
+        }
+      ],
+      "id": "open-conflict-drops-a-claim"
+    }
+  ],
+  "native": {
+    "cases": "native-json",
+    "format": "corpus-result-json-v1",
+    "process-status": {
+      "exit-code": 0
+    },
+    "summary": "native-text"
+  },
+  "non-author-runs": [],
+  "observations": [
+    {
+      "carry": "referenced",
+      "id": "native-json",
+      "reference": {
+        "path": "release/intake/native/vectors-physical-completion.json",
+        "serialization": "bytes",
+        "sha256": "f7e70d2a7fc3757e211f3384fd6a6fcefb80e004634887d20fc92507d4dda578"
+      }
+    },
+    {
+      "carry": "referenced",
+      "id": "native-text",
+      "reference": {
+        "path": "release/intake/native/vectors-physical-completion.txt",
+        "serialization": "bytes",
+        "sha256": "a464222cb3737f9d4656ecc0dfacc508d5bd93cec43c67a8110dd5541af0a334"
+      }
+    },
+    {
+      "carried": "",
+      "carry": "carried",
+      "id": "stderr"
+    }
+  ],
+  "pin-serialization": "bytes",
+  "refusal-verdicts": [
+    "contradicted",
+    "failed",
+    "must-reject",
+    "reject",
+    "rejected"
+  ],
+  "refusals": [],
+  "relaxed-controls": [],
+  "replay-stability": {
+    "cause": null,
+    "ordering": "emission-order",
+    "runs": [
+      {
+        "process": "run-1",
+        "sha256": "f7e70d2a7fc3757e211f3384fd6a6fcefb80e004634887d20fc92507d4dda578"
+      },
+      {
+        "process": "run-2",
+        "sha256": "f7e70d2a7fc3757e211f3384fd6a6fcefb80e004634887d20fc92507d4dda578"
+      }
+    ],
+    "seed": null,
+    "state": "stable"
+  },
+  "scope": {
+    "does-not-claim": [
+      "whole-attack-surface",
+      "implementation-ranking",
+      "threats-outside-corpus",
+      "action-occurred-or-authority"
+    ],
+    "establishes": [
+      "aee-verify, at the source listing named here, judges each of the 44 pinned members of physical-completion/v1 as its manifest declares"
+    ],
+    "leaves-open": [
+      "whether an implementation written from the specification, run by someone other than an author, reaches the same verdicts",
+      "whether release/CORPUS-DIGESTS.txt is a list a release signed: the signature beside it does not verify over these bytes, so the anchor is a located line, not a verified one",
+      "whether a re-run by someone other than an author on these exact bytes agrees; none is on the record for them"
+    ]
+  },
+  "selector": {
+    "expression": "*",
+    "language": "id-glob",
+    "matched": 44,
+    "require": "at-least-one",
+    "selected": [
+      "conformant-receipt-alone-not-provided",
+      "conformant-controller-success-not-provided",
+      "conformant-witness-proven-to-policy",
+      "conformant-witness-not-satisfied",
+      "conformant-stale-witness-indeterminate",
+      "conformant-replayed-observation-indeterminate",
+      "conformant-criterion-after-dispatch-indeterminate",
+      "conformant-unidentified-witness-indeterminate",
+      "conformant-untrusted-witness-indeterminate",
+      "conformant-unauthenticated-observation-not-provided",
+      "conformant-unbound-observation-not-provided",
+      "conformant-ack-lost-witness-proven",
+      "conformant-ack-lost-not-provided",
+      "conformant-conflict-success-against-unmet",
+      "conformant-conflict-failure-against-met",
+      "nonconformant-contract-id-missing",
+      "nonconformant-contract-id-unknown",
+      "nonconformant-result-member-absent",
+      "nonconformant-unqualified-proven",
+      "nonconformant-physical-completion-proven-token",
+      "nonconformant-proven-without-trust-configuration",
+      "nonconformant-result-outside-vocabulary",
+      "nonconformant-conflict-as-profile-token",
+      "nonconformant-receipt-executed-read-as-completion",
+      "nonconformant-controller-success-read-as-completion",
+      "nonconformant-absence-read-as-not-satisfied",
+      "nonconformant-lost-ack-read-as-not-executed",
+      "nonconformant-lost-ack-over-met-witness",
+      "nonconformant-controller-failure-read-as-not-satisfied",
+      "nonconformant-absence-read-as-indeterminate",
+      "nonconformant-absence-read-as-not-applicable",
+      "open-bare-receipt-not-claimed",
+      "open-stale-witness-proven",
+      "open-replayed-observation-proven",
+      "open-criterion-after-dispatch-proven",
+      "open-unidentified-witness-proven",
+      "open-untrusted-witness-proven",
+      "open-unauthenticated-observation-proven",
+      "open-unbound-observation-proven",
+      "open-unmet-witness-proven",
+      "open-settled-witness-indeterminate",
+      "open-conflict-erased-to-proven",
+      "open-conflict-erased-to-not-satisfied",
+      "open-conflict-drops-a-claim"
+    ]
+  },
+  "specification-readers": [],
+  "state": "pass",
+  "suite": "physical-completion/v1"
+}

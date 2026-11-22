@@ -76,6 +76,7 @@ RUNS_A_VERIFIER = (
     "vectors-rsa-digestinfo",
     "vectors-execution-billing-finality",
     "vectors-agent-request-proof",
+    "vectors-physical-completion",
     "vectors-agent-card-receipt",
     "vectors-credential-release",
     "vectors-chunked-export",
