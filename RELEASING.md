@@ -245,6 +245,15 @@ git push origin refs/tags/vX.Y.Z:refs/tags/vX.Y.Z
 #    `merge-freeze clear probityai/agent-evidence-vectors`.
 python3 -B path/to/probityai-.github/scripts/version-pins.py write
 python3 -B path/to/probityai-.github/scripts/version-pins.py check
+
+# 12. Open the reproduction request issue for vX.Y.Z from
+#    docs/REPRODUCTION-REQUEST.md: the tag, the commit, the PyPI page, the
+#    exact commands and the last lines a clean run printed, pasted from the
+#    release run. Label it reproduction-request and close the previous
+#    release's request with a link to the new one. Replies come through the
+#    reproduction report form and stay in the issue as posted.
+gh issue create -R probityai/agent-evidence-vectors --label reproduction-request \
+  --title "Reproduction request: vX.Y.Z" --body-file <filled copy of the template body>
 ```
 
 A tag that missed main is not repaired. `release.yml` fails it in `verify`
@@ -404,4 +413,28 @@ GOPROXY=https://proxy.golang.org GOFLAGS=-mod=mod go list -m github.com/probitya
 The tag triggers no workflow and publishes nothing; the last command asks the module proxy to
 fetch it, which also records its hash in the public checksum database. The embedded files are
 copies written by `scripts/gen-jcsvectors-data.py`, so a corpus change reaches the module only
-through a new tag. Bump the minor for a removed vector or a changed verdict, the patch otherwise.
+through a new tag. A release that adds, removes or changes a vector, or adds to the API, is a
+minor version: an added vector can turn a passing implementation red, so it is never a patch.
+List the cases that changed in the tag message. The patch is for documentation and fixes that
+change no case.
+
+### The npm twin
+
+`crates/jcsvectors/npm` publishes the same files as the npm package `jcsvectors`, at the Go
+module's version, so the two are released together: tag the module as above, then publish a
+GitHub release for the tag `jcsvectors-npm-vX.Y.Z` on the same commit. `release.yml` tests the
+package on that commit (node:test and the case-by-case comparison with the Go module), packs it,
+and publishes that exact tarball with provenance through npm trusted publishing (environment
+`npm`). npm adds a trusted publisher only to a package that exists, so the first version goes up
+by token, from the tagged commit, after the same checks:
+
+```sh
+git checkout jcsvectors/vX.Y.Z
+(cd crates/jcsvectors/npm && npm test)
+(cd jcsvectors && GOWORK=off JCSVECTORS_SUMMARY=/tmp/go-summary.json go test -count=1 -run TestWriteSummary .)
+node crates/jcsvectors/npm/test/cross.mjs /tmp/go-summary.json
+cd crates/jcsvectors/npm && npm publish --access public
+```
+
+Then add the trusted publisher on npmjs.com (owner probityai, repository agent-evidence-vectors,
+workflow release.yml, environment npm) so every later version goes through `release.yml`.

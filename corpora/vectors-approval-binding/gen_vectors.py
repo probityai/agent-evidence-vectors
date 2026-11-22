@@ -226,6 +226,14 @@ def cases() -> list[Case]:
          APPROVED, "deny", "key_retired",
          "the approval was issued under the approver's April key five minutes after that "
          "key was rotated out"),
+        ("approval-key-retired-in-later-entry",
+         record(key="reviewer-1-key-2026-10", retired=[
+             {"keyId": "reviewer-1-key-2026-04", "retiredAt": "2026-10-21T11:56:00Z"},
+             {"keyId": "reviewer-1-key-2026-04", "retiredAt": "2026-10-21T11:50:00Z"}],
+             approved={"keyId": "reviewer-1-key-2026-04"}), APPROVED, "deny", "key_retired",
+         "the approver's key history names the April key twice; the second entry retires "
+         "it at 11:50, five minutes before the approval was issued, and a reader that reads "
+         "only the first entry allows"),
         ("approval-id-reused-different-content",
          record(presented=[approval(), approval(principal="user:bob", tool="file.delete")]),
          APPROVED, "deny", "approval_id_ambiguous",
@@ -290,6 +298,14 @@ def cases() -> list[Case]:
          APPROVED, "deny", "approval_superseded",
          "A is presented after the A to B replacement was accepted and before any execution "
          "under B; A is unexpired and unconsumed, so only supersession can refuse it"),
+        ("approval-transition-status-unknown", record(
+            approved=A, presented=[approval(**A), approval(**B)],
+            transitions=[transition(status="Accepted")], effects={EFFECT: "RESERVED"},
+            use={"effectKey": EFFECT}),
+         APPROVED, "deny", "transition_status_unknown",
+         "A is presented after its replacement by B, and the transition's status is "
+         "spelled Accepted, a value the contract does not define; a reader that reads it as "
+         "not accepted lets the replaced approval through"),
         ("approval-renewal-transition-not-accepted",
          renewal(moved={"status": "proposed"}), APPROVED, "deny",
          "renewal_transition_missing",

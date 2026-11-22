@@ -75,7 +75,7 @@ var gfHex64 = regexp.MustCompile(`^[0-9a-f]{64}$`)
 
 func (gradeFloor) Judge(dir string, raw []byte) (*Result, error) {
 	var manifest scManifest
-	if err := json.Unmarshal(raw, &manifest); err != nil {
+	if err := strictUnmarshal(raw, &manifest); err != nil {
 		return nil, fmt.Errorf("%s/MANIFEST.json does not parse: %w", dir, err)
 	}
 	result := &Result{}
@@ -83,7 +83,7 @@ func (gradeFloor) Judge(dir string, raw []byte) (*Result, error) {
 	var vectors []gfVector
 	for _, entry := range manifest.Vectors {
 		var v gfVector
-		if err := json.Unmarshal(entry, &v); err != nil {
+		if err := strictUnmarshal(entry, &v); err != nil {
 			result.Findings = append(result.Findings, fmt.Sprintf("a manifest row does not parse: %v", err))
 			continue
 		}
@@ -185,7 +185,7 @@ func gfRecordedDenial(r gfRecord) bool {
 		var d struct {
 			RecordedBy string `json:"recorded_by"`
 		}
-		if json.Unmarshal(raw, &d) == nil && engines[d.RecordedBy] {
+		if strictUnmarshal(raw, &d) == nil && engines[d.RecordedBy] {
 			return true
 		}
 	}
@@ -208,7 +208,7 @@ func gfMarker(r gfRecord, name string) bool {
 		return false
 	}
 	var m map[string]any
-	if json.Unmarshal(raw, &m) != nil || m == nil {
+	if strictUnmarshal(raw, &m) != nil || m == nil {
 		return false
 	}
 	str := func(key string) string { s, _ := m[key].(string); return s }

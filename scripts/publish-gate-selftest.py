@@ -38,6 +38,22 @@ class Mutations(unittest.TestCase):
     def test_clean_tree_passes(self) -> None:
         self.assertEqual(gate.check_all(gate.WORKFLOWS), [])
 
+    def test_step_name_naming_a_publish_command_passes(self) -> None:
+        body = (
+            "name: x\non: push\njobs:\n  a:\n    name: what npm publish would upload\n"
+            "    runs-on: ubuntu-latest\n    steps:\n"
+            "      - name: The package cargo publish would upload builds\n"
+            "        run: cargo package --locked\n"
+        )
+        self.assertEqual(self.add_workflow("x.yml", body), [])
+
+    def test_publish_command_under_a_plain_step_name_refused(self) -> None:
+        body = (
+            "name: x\non: push\njobs:\n  a:\n    runs-on: ubuntu-latest\n"
+            "    steps:\n      - name: package\n        run: cargo publish --locked\n"
+        )
+        self.assertTrue(self.add_workflow("x.yml", body))
+
     def test_scheduled_trigger_on_release_refused(self) -> None:
         self.assertTrue(
             self.mutate(

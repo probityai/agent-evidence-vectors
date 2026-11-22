@@ -1,0 +1,35 @@
+{
+  "entries": [
+    {
+      "digest": "sha256:5346c3b356f1b2db025b97d464d73a62442ca39ad1480549e23daff147f35ef1",
+      "displayName": "travel",
+      "identifier": "urn:air:publisher.example:agent:travel",
+      "trustManifests": [
+        {
+          "contributor": "did:web:192.0.2.1",
+          "signature": {
+            "expiresAt": "2027-11-01T00:00:00Z",
+            "issuedAt": "2026-11-01T00:00:00Z",
+            "jws": "eyJhbGciOiJFUzI1NiIsImtpZCI6ImRpZDp3ZWI6MTkyLjAuMi4xI2VzMjU2IiwidHlwIjoiYWktY2F0YWxvZy10cnVzdC1tYW5pZmVzdCtqd3MifQ..YAqyjAS82UZ6YptwWkaqxb_T0_E9euODwvxvLVyJ84-16wZ1MRVjhoHvR4cxsNQ4Fbjpy3lbgEws0Vr1Eejr_w",
+            "profile": "did-web-v1",
+            "signer": "did:web:192.0.2.1"
+          },
+          "subject": {
+            "digest": "sha256:5346c3b356f1b2db025b97d464d73a62442ca39ad1480549e23daff147f35ef1",
+            "identifier": "urn:air:publisher.example:agent:travel",
+            "type": "application/a2a-agent-card+json",
+            "version": "1.0.0"
+          }
+        }
+      ],
+      "type": "application/a2a-agent-card+json",
+      "url": "https://publisher.example/agents/travel/agent-card.json",
+      "version": "1.0.0"
+    }
+  ],
+  "host": {
+    "displayName": "Publisher Example",
+    "identifier": "did:web:publisher.example"
+  },
+  "specVersion": "1.0"
+}

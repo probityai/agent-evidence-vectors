@@ -8,6 +8,7 @@ import (
 	"errors"
 	"fmt"
 	"math"
+	"math/big"
 	"os"
 	"path/filepath"
 	"sort"
@@ -61,7 +62,7 @@ var errA2ARefused = errors.New("no canonical form")
 
 func (a2aJCS) Judge(dir string, raw []byte) (*Result, error) {
 	var manifest a2aManifest
-	if err := json.Unmarshal(raw, &manifest); err != nil {
+	if err := strictUnmarshal(raw, &manifest); err != nil {
 		return nil, fmt.Errorf("%s/MANIFEST.json does not parse: %w", dir, err)
 	}
 	result := &Result{}
@@ -83,7 +84,7 @@ func (a2aJCS) Judge(dir string, raw []byte) (*Result, error) {
 		}
 		sum := sha256.Sum256(body)
 		var v a2aVector
-		if err := json.Unmarshal(body, &v); err != nil {
+		if err := strictUnmarshal(body, &v); err != nil {
 			result.Findings = append(result.Findings, fmt.Sprintf("%s does not parse: %v", entry.Path, err))
 			continue
 		}
@@ -178,6 +179,9 @@ func a2aAnswer(target string, text []byte) ([]byte, error) {
 	if err := dec.Decode(&value); err != nil {
 		return nil, errA2ARefused
 	}
+	if err := refuseRepeatedMembers(text); err != nil {
+		return nil, errA2ARefused
+	}
 	if card, ok := value.(map[string]any); ok && target == "card-signing-input" {
 		delete(card, "signatures")
 	}
@@ -234,8 +238,8 @@ func a2aWrite(buf *strings.Builder, value any) error {
 	case bool:
 		buf.WriteString(strconv.FormatBool(v))
 	case json.Number:
-		f, err := strconv.ParseFloat(string(v), 64)
-		if err != nil || math.IsInf(f, 0) || math.IsNaN(f) {
+		f, ok := a2aExactNumber(string(v))
+		if !ok {
 			return errA2ARefused
 		}
 		buf.WriteString(a2aNumber(f))
@@ -311,6 +315,32 @@ func a2aString(buf *strings.Builder, s string) {
 		}
 	}
 	buf.WriteByte('"')
+}
+
+// a2aExactNumber reads a JSON number token as a double only when a double holds the
+// token exactly (RFC 7493 section 2.2). An integer must equal its double; any other
+// token must equal the shortest decimal that double prints as. 9007199254740993 would
+// canonicalize as 9007199254740992, so the bytes a signer signs and the number an exact
+// reader reads would be two values, and such a token has no canonical form.
+func a2aExactNumber(token string) (float64, bool) {
+	f, err := strconv.ParseFloat(token, 64)
+	if err != nil || math.IsInf(f, 0) || math.IsNaN(f) {
+		return 0, false
+	}
+	if !strings.ContainsAny(token, ".eE") {
+		integer, ok := new(big.Int).SetString(token, 10)
+		if !ok {
+			return 0, false
+		}
+		held, _ := new(big.Float).SetFloat64(f).Int(nil)
+		return f, held.Cmp(integer) == 0
+	}
+	want, ok := new(big.Rat).SetString(token)
+	if !ok {
+		return 0, false
+	}
+	have, ok := new(big.Rat).SetString(strconv.FormatFloat(f, 'g', -1, 64))
+	return f, ok && want.Cmp(have) == 0
 }
 
 // a2aNumber is ECMAScript Number::toString of a finite double: the shortest

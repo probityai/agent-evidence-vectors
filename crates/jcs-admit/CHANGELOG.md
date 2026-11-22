@@ -7,8 +7,21 @@ follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## 0.1.4
 
+### Added
+
+- `Options::exact_numbers` and `Error::InexactNumber`: refuse a number token whose value is
+  not the value of the double it reads as. `Options::ijson()` turns it on.
+
 ### Fixed
 
+- `admit_ijson` admitted RFC 7493's own two examples of a number an I-JSON message does not
+  carry: `3.141592653589793238462643383279` (written `3.141592653589793`) and `1e-400`
+  (written `0`). It also admitted `9007199254740991.4` as `9007199254740991` and
+  `333333333.33333329` as `333333333.3333333`. A signer canonicalizing those tokens signs
+  another number than the one an exact reader acts on. They are now refused with
+  `InexactNumber`; a spelling the double holds exactly (`1.10`, `0.1`, `-0.0`, `1e-7`) is
+  admitted as before. RFC 8785 as written (`admit`) is unchanged, so its reference sample
+  still canonicalizes. probityai/probity's `jcs_canonical/v1` refuses the same tokens.
 - `admit_ijson` refused an integer token at or above 2^53 but admitted a fraction whose nearest
   double is at or above 2^53, such as `12345678901234567.5`, and emitted the unsafe integer
   `12345678901234568`, which it then refused as input and `is_canonical_with` reported as not

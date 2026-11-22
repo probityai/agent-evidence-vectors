@@ -70,6 +70,8 @@ import importlib
 import json
 import os
 import re
+import shlex
+import subprocess
 import sys
 from collections.abc import Callable
 from dataclasses import dataclass, field
@@ -77,6 +79,8 @@ from typing import Any
 
 if __package__ in (None, ""):
     sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
+from agent_evidence_vectors import strictb64, strictjson  # noqa: E402
 
 SUITE = "agent-audit-record-conformance"
 STATEMENT_TYPE = "https://in-toto.io/Statement/v1"
@@ -476,6 +480,7 @@ def parse_statement(payload: bytes) -> Any:
             object_pairs_hook=_no_duplicates,
             parse_int=_safe_int,
             parse_float=_refuse_float,
+            parse_constant=strictjson.refuse_constant,
         )
     except Malformed:
         raise
@@ -1537,8 +1542,10 @@ def rule_names() -> list[str]:
 
 def _envelope_payload(raw: bytes) -> tuple[dict[str, Any], bytes]:
     try:
-        envelope = json.loads(raw, object_pairs_hook=_no_duplicates)
-        payload = base64.b64decode(envelope["payload"], validate=True)
+        envelope = json.loads(
+            raw, object_pairs_hook=_no_duplicates, parse_constant=strictjson.refuse_constant
+        )
+        payload = strictb64.std(envelope["payload"])
     except Malformed:
         raise
     except Exception as exc:
@@ -1559,7 +1566,7 @@ def _signature_holds(envelope: dict[str, Any], canonical: bytes, policy: Policy)
     message = pae(PAYLOAD_TYPE, canonical)
     for entry in signatures if isinstance(signatures, list) else []:
         try:
-            sig = base64.b64decode(entry["sig"], validate=True)
+            sig = strictb64.std(entry["sig"])
         except Exception:
             continue
         if len(key) == 32 and _ed25519_verify(key, message, sig):
@@ -1688,6 +1695,10 @@ class _Reader:
             byte = self.take(1)[0]
             value |= (byte & 0x7F) << shift
             if not byte & 0x80:
+                # A last byte of zero after a continuation byte is a second
+                # spelling of the same value; only the minimal one is read.
+                if byte == 0 and shift:
+                    raise ValueError("non-minimal varuint")
                 return value
             shift += 7
             if shift > 56:
@@ -1749,14 +1760,35 @@ def _ots_timestamp(
     """One OpenTimestamps timestamp: items, each but the last preceded by 0xff."""
     if depth > OTS_MAX_DEPTH:
         raise ValueError("timestamp too deep")
+    seen: set[bytes] = set()
     while True:
         tag = reader.take(1)[0]
         more = tag == 0xFF
         if more:
             tag = reader.take(1)[0]
+        start = reader.at
         _ots_item(reader, tag, message, out, depth)
+        # A repeated operation or attestation at one node is a second branch
+        # some readers keep and others drop, so it is refused, never chosen.
+        key = bytes([tag]) + _ots_item_key(reader.data, start, tag)
+        if key in seen:
+            raise ValueError("repeated operation or attestation in a timestamp node")
+        seen.add(key)
         if not more:
             return
+
+
+def _ots_item_key(data: bytes, start: int, tag: int) -> bytes:
+    """What names an item at its node: an attestation's kind and payload, an
+    append or prepend's argument, nothing for SHA-256."""
+    if tag == OTS_SHA256:
+        return b""
+    item = _Reader(data)
+    item.at = start
+    if tag == 0x00:
+        kind = item.take(8)
+        return kind + item.varbytes()
+    return item.varbytes()
 
 
 def _ots_item(
@@ -1827,7 +1859,7 @@ def anchor_time(
     an rfc3161 anchor dates nothing."""
     kind = anchor.get("kind")
     try:
-        proof = base64.b64decode(anchor["proof"], validate=True)
+        proof = strictb64.std(anchor["proof"])
         if kind == "opentimestamps":
             return _ots_moment(proof, envelope_digest, trust)
         if kind != "transparency-log":
@@ -1932,7 +1964,9 @@ def _dating_anchor_late(r: _Retained) -> None:
 
 
 def _jwk_algorithm(material: bytes) -> str:
-    keys = json.loads(material, object_pairs_hook=_no_duplicates)["keys"]
+    keys = json.loads(
+        material, object_pairs_hook=_no_duplicates, parse_constant=strictjson.refuse_constant
+    )["keys"]
     algorithms = {JWK_ALGORITHMS.get((k.get("kty"), k.get("crv"))) for k in keys}
     if len(algorithms) != 1 or None in algorithms:
         raise ValueError("no single algorithm")
@@ -1953,7 +1987,7 @@ def _dating_delegation_root(r: _Retained) -> None:
     if not elements:
         return
     try:
-        material = base64.b64decode(elements[0]["value"], validate=True)
+        material = strictb64.std(elements[0]["value"])
     except (KeyError, TypeError, ValueError) as exc:
         raise Malformed("entry-delegation-root-unreadable") from exc
     if hashlib.sha256(material).hexdigest() != r.root_digest:
@@ -2089,7 +2123,9 @@ def verify_retained(
 ) -> tuple[Report, Dating]:
     """Judge a retained record: the envelope's verdict, and the dating result."""
     try:
-        bundle = json.loads(raw, object_pairs_hook=_no_duplicates)
+        bundle = json.loads(
+            raw, object_pairs_hook=_no_duplicates, parse_constant=strictjson.refuse_constant
+        )
         envelope, entry = bundle["envelope"], bundle["retention"]
     except (Malformed, ValueError, KeyError, TypeError):
         unreadable = ["retained-unreadable"]
@@ -2502,7 +2538,7 @@ def _limit_findings(entry: dict[str, Any], raw: bytes) -> list[str]:
     label = f"{entry.get('draftId')} {entry.get('slug')}"
     expected = entry.get("expected") or {}
     try:
-        pred = json.loads(_envelope_payload(raw)[1])["predicate"]
+        pred = strictjson.loads(_envelope_payload(raw)[1])["predicate"]
         got = within_limit(pred)
     except (Malformed, KeyError, TypeError, ValueError):
         return [] if "withinLimit" not in expected else [f"{label}: withinLimit cannot be derived"]
@@ -2528,7 +2564,7 @@ def _set_findings(entry: dict[str, Any], raw: bytes, policy: Policy) -> list[str
     except (Malformed, ValueError, KeyError, TypeError):
         envelopes = []
     for env in envelopes:
-        limits.append(within_limit(json.loads(_envelope_payload(env)[1])["predicate"]))
+        limits.append(within_limit(strictjson.loads(_envelope_payload(env)[1])["predicate"]))
     if limits != declared.get("withinLimit", [None] * len(limits)):
         findings.append(
             f"{label}: expected withinLimit {declared.get('withinLimit')}, got {limits}"
@@ -2604,7 +2640,7 @@ def aggregation_findings(entry: dict[str, Any], raw: bytes) -> list[str]:
     label = f"{entry.get('draftId')} {entry.get('slug')}"
     try:
         _, payload = _envelope_payload(raw)
-        pred = json.loads(payload)["predicate"]
+        pred = strictjson.loads(payload)["predicate"]
         want = aggregate_values(block["values"])
     except (Malformed, KeyError, TypeError, ValueError) as exc:
         return [f"{label}: the aggregation block cannot be checked: {exc}"]
@@ -2731,7 +2767,7 @@ def _corpus_findings(directory: str, manifest: dict[str, Any]) -> list[str]:
 
 def judge(directory: str) -> Judged:
     with open(os.path.join(directory, "MANIFEST.json"), encoding="utf-8") as handle:
-        manifest = json.load(handle)
+        manifest = strictjson.load(handle)
     judged = Judged()
     entries: list[dict[str, Any]] = manifest.get("vectors") or []
     if not entries:
@@ -2766,6 +2802,272 @@ def render(judged: Judged, suite: str) -> str:
     return "\n".join(lines) + "\n"
 
 
+# --------------------------------------------------------------------------
+# The external-verifier contract.
+# --------------------------------------------------------------------------
+
+#: The identifier of the contract below, as the README states it.
+CONTRACT_ID = "https://probityai.github.io/agent-evidence-vectors/contract/agent-audit-record/v1"
+
+#: The verdicts the contract carries, and the exit status each one takes.
+CONTRACT_EXIT = {"valid": 0, "malformed": 1}
+
+
+def _entry_for_file(manifest: dict[str, Any], directory: str, path: str) -> dict[str, Any] | None:
+    target = os.path.realpath(path)
+    for entry in manifest.get("vectors") or []:
+        if os.path.realpath(os.path.join(directory, str(entry.get("file", "")))) == target:
+            found: dict[str, Any] = entry
+            return found
+    return None
+
+
+def _manifest_above(path: str) -> tuple[str, dict[str, Any]]:
+    here = os.path.dirname(os.path.abspath(path))
+    while True:
+        candidate = os.path.join(here, "MANIFEST.json")
+        if os.path.isfile(candidate):
+            with open(candidate, encoding="utf-8") as handle:
+                return here, strictjson.load(handle)
+        parent = os.path.dirname(here)
+        if parent == here:
+            raise FileNotFoundError(f"no MANIFEST.json above {path}")
+        here = parent
+
+
+def answer_member(path: str) -> dict[str, Any]:
+    """This reader's answer for one member file, in the contract's shape.
+
+    The keys, the predicate type and the anchor trust come from the MANIFEST
+    above the member, as the contract tells any verifier to take them; nothing
+    under ``expected`` is read.
+    """
+    directory, manifest = _manifest_above(path)
+    with open(path, "rb") as handle:
+        raw = handle.read()
+    policy = policy_for(manifest, _entry_for_file(manifest, directory, path))
+    try:
+        doc = strictjson.loads(raw)
+    except ValueError:
+        doc = None
+    # The contract names a set member by its place: a file under ``sets/``.
+    # Its shape cannot say so, because a set whose ``records`` member is
+    # missing or misnamed is still a set member, and malformed as one.
+    in_sets = os.path.basename(os.path.dirname(os.path.abspath(path))) == "sets"
+    if in_sets or (isinstance(doc, dict) and "records" in doc):
+        reports, joint = verify_set(raw, policy)
+        try:
+            limits = [within_limit(strictjson.loads(_envelope_payload(env)[1])["predicate"])
+                      for env in set_records(raw)]
+        except (Malformed, ValueError, KeyError, TypeError):
+            limits = []
+        unsound = not reports or any(r.verdict != "valid" for r in reports)
+        verdict = "malformed" if unsound else "valid"
+        return {
+            "verdict": verdict,
+            "codes": [code for report in reports for code in report.codes],
+            "derivedTier": reports[0].derived_tier if reports else "",
+            "set": {"verdict": joint.verdict, "codes": joint.codes,
+                    "missing": joint.missing, "withinLimit": limits},
+        }
+    if isinstance(doc, dict) and ("envelope" in doc or "retention" in doc):
+        report, dated = verify_retained(raw, policy, tree_heads(manifest))
+        return {"verdict": report.verdict, "codes": report.codes,
+                "derivedTier": report.derived_tier, "dating": dating_dict(dated)}
+    report = verify(raw, policy)
+    out: dict[str, Any] = {"verdict": report.verdict, "codes": report.codes,
+                           "derivedTier": report.derived_tier}
+    try:
+        out["withinLimit"] = within_limit(strictjson.loads(_envelope_payload(raw)[1])["predicate"])
+    except (Malformed, KeyError, TypeError, ValueError):
+        pass
+    return out
+
+
+def _codes_note(where: str, declared: Any, got: Any) -> list[str]:
+    """A note when a code array differs from the declared one, compared as sets.
+
+    The draft defines verdicts and results, not codes, so a code difference is
+    reported and never scored, in ``set`` and ``dating`` as in the record.
+    """
+    if not isinstance(got, list) or set(declared or []) != set(got):
+        return [f"{where} codes: expected {declared or []}, got {got}"]
+    return []
+
+
+def _dating_mismatch(declared: dict[str, Any], got: Any) -> tuple[list[str], list[str]]:
+    if not isinstance(got, dict):
+        return ["the answer carries no dating object"], []
+    normative: list[str] = []
+    for name in ("entry", "datedAt", "receipt"):
+        if declared.get(name) != got.get(name):
+            normative.append(
+                f"dating {name}: expected {declared.get(name)!r}, got {got.get(name)!r}"
+            )
+    want_root: dict[str, Any] = declared.get("delegationRoot") or {}
+    root_answer = got.get("delegationRoot")
+    got_root: dict[str, Any] = root_answer if isinstance(root_answer, dict) else {}
+    for name in ("result", "algorithm"):
+        if name in want_root and want_root[name] != got_root.get(name):
+            normative.append(
+                f"dating delegationRoot.{name}: expected {want_root[name]!r}, "
+                f"got {got_root.get(name)!r}"
+            )
+    return normative, _codes_note("dating", declared.get("codes"), got.get("codes"))
+
+
+def _set_mismatch(declared: dict[str, Any], got: Any) -> tuple[list[str], list[str]]:
+    if not isinstance(got, dict):
+        return ["the answer carries no set object"], []
+    normative: list[str] = []
+    if declared.get("verdict") != got.get("verdict"):
+        normative.append(
+            f"set verdict: expected {declared.get('verdict')!r}, got {got.get('verdict')!r}"
+        )
+    for name in ("missing", "withinLimit"):
+        if name in declared and declared[name] != got.get(name):
+            normative.append(f"set {name}: expected {declared[name]}, got {got.get(name)}")
+    return normative, _codes_note("set", declared.get("codes"), got.get("codes"))
+
+
+def contract_findings(entry: dict[str, Any], answer: dict[str, Any]) -> tuple[list[str], list[str]]:
+    """Score one answer against one manifest entry.
+
+    Returns the normative findings (verdict, tier, withinLimit, the set result
+    and the dating result) and the reason-parity findings (the record's codes,
+    and the code arrays inside ``set`` and ``dating``), kept apart as the AEE
+    contract keeps them. Only the normative findings make a member fail: the
+    draft defines verdicts and results, not codes, so every code array is
+    compared and reported, never scored.
+    """
+    expected = entry.get("expected") or {}
+    verdict = answer.get("verdict")
+    codes = answer.get("codes")
+    normative: list[str] = []
+    parity: list[str] = []
+    if verdict not in conforming_verdicts(entry):
+        normative.append(f"expected {sorted(conforming_verdicts(entry))}, got {verdict!r}")
+    if not isinstance(codes, list) or not all(isinstance(c, str) for c in codes):
+        normative.append("codes is not an array of strings")
+        codes = []
+    tier = answer.get("derivedTier")
+    if verdict == "valid" and "derivedTier" in expected and expected["derivedTier"] != tier:
+        normative.append(f"derivedTier: expected {expected['derivedTier']!r}, got {tier!r}")
+    if "set" in expected:
+        found, notes = _set_mismatch(expected["set"], answer.get("set"))
+        normative.extend(found)
+        parity.extend(notes)
+    elif "dating" in expected:
+        found, notes = _dating_mismatch(expected["dating"], answer.get("dating"))
+        normative.extend(found)
+        parity.extend(notes)
+    elif "withinLimit" in expected and expected["withinLimit"] != answer.get("withinLimit"):
+        normative.append(
+            f"withinLimit: expected {expected['withinLimit']}, got {answer.get('withinLimit')}"
+        )
+    declared = set(expected.get("codes") or [])
+    if declared and not declared & set(codes):
+        parity.append(f"no emitted code {codes} is among the declared codes {sorted(declared)}")
+    return normative, parity
+
+
+def _external_answer(command: list[str], path: str) -> tuple[bool, dict[str, Any] | str]:
+    try:
+        result = subprocess.run([*command, path, "--json"], capture_output=True,
+                                text=True, timeout=90, check=False)
+    except (OSError, subprocess.TimeoutExpired) as exc:
+        return False, f"verifier did not run: {exc}"
+    lines = [line for line in result.stdout.splitlines() if line.strip()]
+    try:
+        answer = strictjson.loads(lines[-1])
+    except (IndexError, ValueError):
+        return True, f"verifier printed no JSON object on its last line (exit {result.returncode})"
+    if not isinstance(answer, dict):
+        return True, f"the last stdout line is not a JSON object (exit {result.returncode})"
+    if CONTRACT_EXIT.get(str(answer.get("verdict"))) != result.returncode:
+        return True, f"exit {result.returncode} disagrees with verdict {answer.get('verdict')!r}"
+    return True, answer
+
+
+def run_external(root: str, verifier: list[str], report_path: str, rail_note: str) -> int:
+    """Judge every member through a named verifier under the contract.
+
+    The corpus-level claims and each member's aggregation block are checked by
+    this reader whatever the verifier: they are claims about the corpus, not
+    answers a verifier gives.
+    """
+    with open(os.path.join(root, "MANIFEST.json"), encoding="utf-8") as handle:
+        manifest = strictjson.load(handle)
+    entries: list[dict[str, Any]] = manifest.get("vectors") or []
+    failures = [f"corpus: {finding}" for finding in _corpus_findings(root, manifest)]
+    rows: list[dict[str, Any]] = []
+    notes: list[str] = []
+    normative: list[str]
+    parity: list[str]
+    answered = parity_mismatch = proposed_differ = 0
+    for entry in entries:
+        label = f"{entry.get('draftId')} {entry.get('id')}"
+        path = os.path.join(root, str(entry.get("file", "")))
+        try:
+            with open(path, "rb") as handle:
+                own = aggregation_findings(entry, handle.read())
+        except OSError as exc:
+            own = [f"the vector body is unreadable: {exc}"]
+        ran, answer = _external_answer(verifier, path)
+        answered += int(ran)
+        if isinstance(answer, str):
+            normative, parity = [answer], []
+        else:
+            normative, parity = contract_findings(entry, answer)
+        parity_mismatch += int(bool(parity))
+        text = text_status(entry)
+        # A proposed member tests a rule no published revision states, so a
+        # verifier that differs on it has not failed: its difference is a note.
+        # The corpus's own claims (aggregation) bind whatever the text.
+        scored = normative if text == "published" else []
+        findings = own + scored
+        failures.extend(f"{label}: {finding}" for finding in findings)
+        notes.extend(f"{label}: {finding}" for finding in parity)
+        if text == "proposed":
+            proposed_differ += int(bool(normative))
+            notes.extend(f"{label} (proposed text, not scored): {finding}" for finding in normative)
+        rows.append({"id": entry.get("id"), "draftId": entry.get("draftId"),
+                     "kind": entry.get("kind"), "text": text,
+                     "conformance": "conform" if not (own or normative) else (
+                         "fail" if findings else "differs-from-proposed"),
+                     "conformanceReasons": own + normative, "reasonParityFindings": parity,
+                     "status": "pass" if not findings else "fail"})
+    for failure in failures:
+        print(failure)
+    for note in notes:
+        print(f"note (codes, not scored): {note}")
+    total = len(entries)
+    print(f"{SUITE}: {shlex.join(verifier)} answered {answered} of {total} members, "
+          f"{len(failures)} disagreement(s)")
+    if not answered or not total:
+        print("no report written: no member was answered")
+        return 2
+    failed = sum(1 for row in rows if row["status"] == "fail")
+    report = {
+        "suite": SUITE, "contract": CONTRACT_ID, "rail": "external",
+        "verifier": {"command": verifier, "vectorsExecuted": answered, "note": rail_note},
+        "corpusDigest": manifest.get("corpusDigest"),
+        "totals": {"vectors": total,
+                   "conform": sum(1 for row in rows if row["conformance"] == "conform"),
+                   "fail": failed,
+                   "published": sum(1 for row in rows if row["text"] == "published"),
+                   "proposed": sum(1 for row in rows if row["text"] == "proposed"),
+                   "proposedDiffer": proposed_differ,
+                   "reasonParityMismatch": parity_mismatch, "suiteRefusals": 0},
+        "rows": rows,
+        "failures": failures,
+        "reasonParityNotes": notes,
+    }
+    with open(report_path, "w", encoding="utf-8") as handle:
+        handle.write(json.dumps(report, indent=2, sort_keys=True) + "\n")
+    return 1 if failures or answered != total else 0
+
+
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(
         prog="auditrecord",
@@ -2773,8 +3075,15 @@ def main(argv: list[str] | None = None) -> int:
         "draft-gilda-audit-agent-audit-record-00 and the five rows of revision 01 "
         "(TI6, V4, V5, FR14, FR15)",
     )
-    parser.add_argument("directory", help="a corpus directory carrying MANIFEST.json")
+    parser.add_argument("directory", help="a corpus directory carrying MANIFEST.json, or one "
+                        "member file to answer under the external-verifier contract (with --json)")
+    parser.add_argument("--json", action="store_true",
+                        help="answer one member file as one JSON object; exit 0 valid, 1 malformed")
     args = parser.parse_args(argv)
+    if os.path.isfile(args.directory):
+        answer = answer_member(args.directory)
+        print(json.dumps(answer, sort_keys=True))
+        return CONTRACT_EXIT.get(str(answer["verdict"]), 2)
     judged = judge(args.directory)
     sys.stdout.write(render(judged, SUITE))
     return 0 if judged.ok() else 1

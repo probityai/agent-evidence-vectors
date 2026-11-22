@@ -1,8 +1,8 @@
 {
-  "corpusDigest": "a92cf47c64f905ec6a57c4bf624c2667c075da4a76d58b4d251584831202dc86",
+  "corpusDigest": "d4e2d5ab66d331ef7a3aa7b9ceb2c1c66b636675045c3e5539a59dc9d5a960a4",
   "counts": {
-    "rejected": 11,
-    "verified": 3
+    "rejected": 16,
+    "verified": 6
   },
   "suite": "anchored-record-chain/v1",
   "vectors": [
@@ -215,6 +215,126 @@
       "id": "tail-removal-reanchored",
       "path": "cases/tail-removal-reanchored",
       "storeSignaturesVerify": true
+    },
+    {
+      "edit": "removal: the third record dropped and every later record signed and linked again by the producer, so the store is one record shorter than the head published before the rewrite",
+      "expected": {
+        "decision": "rejected",
+        "reason": "anchored_head_missing"
+      },
+      "files": {
+        "anchor.json": "d3c37863f32302a426605e56c26572e8850663ffa890ee0356d28d467a294894",
+        "case.json": "e079edc395007d64e281a68e7bc2a3c00db6e03c077bdc109fe4fcb4d749ef65",
+        "store.jsonl": "a8aefc441cac08397010a7ddfbff776f3d607c41888421f198c099e4b389d578"
+      },
+      "id": "removal-rewritten-shorter",
+      "path": "cases/removal-rewritten-shorter",
+      "storeSignaturesVerify": true
+    },
+    {
+      "edit": "removal: the third record dropped, every later record signed and linked again, and a new record appended so the store is as long as before; the record at the anchored position is not the one the head commits to",
+      "expected": {
+        "decision": "rejected",
+        "reason": "anchored_head_mismatch"
+      },
+      "files": {
+        "anchor.json": "d3c37863f32302a426605e56c26572e8850663ffa890ee0356d28d467a294894",
+        "case.json": "e079edc395007d64e281a68e7bc2a3c00db6e03c077bdc109fe4fcb4d749ef65",
+        "store.jsonl": "52fa721f15ed66071ff33991fbbf460618649de8610c20f0ca3846f67c34bc1e"
+      },
+      "id": "removal-rewritten-same-length",
+      "path": "cases/removal-rewritten-same-length",
+      "storeSignaturesVerify": true
+    },
+    {
+      "edit": "control: a removal recorded as a new signed record that names the digest of the removed one, the history before it untouched and anchored",
+      "expected": {
+        "decision": "verified",
+        "reason": "chain_anchored"
+      },
+      "files": {
+        "anchor.json": "4beb67356f05ebdb2b1ddc618c6c7324fe0f08f234b6d73d81d4ef65976db502",
+        "case.json": "e079edc395007d64e281a68e7bc2a3c00db6e03c077bdc109fe4fcb4d749ef65",
+        "store.jsonl": "514d75853cb3f78a38cd4c8dc2040c99ae52ca03bf7b5f34fbf456964f9be547"
+      },
+      "id": "removal-declared-appended",
+      "path": "cases/removal-declared-appended",
+      "storeSignaturesVerify": true
+    },
+    {
+      "edit": "removal: the third record replaced by a removal record at the same position, the later records signed and linked again; the removal is declared but the history was rewritten under a head published before it",
+      "expected": {
+        "decision": "rejected",
+        "reason": "anchored_head_mismatch"
+      },
+      "files": {
+        "anchor.json": "d3c37863f32302a426605e56c26572e8850663ffa890ee0356d28d467a294894",
+        "case.json": "e079edc395007d64e281a68e7bc2a3c00db6e03c077bdc109fe4fcb4d749ef65",
+        "store.jsonl": "e9ad916b4c12903863ec3943d1c46ea4c9d76be3ad662bf0ca6fe2f0b47c0b42"
+      },
+      "id": "removal-declared-in-place",
+      "path": "cases/removal-declared-in-place",
+      "storeSignaturesVerify": true
+    },
+    {
+      "edit": "removal limit: the third record dropped and the chain signed again before any head was published; the bytes are an honest store anchored at its head",
+      "expected": {
+        "decision": "verified",
+        "reason": "chain_anchored"
+      },
+      "files": {
+        "anchor.json": "f33c0e2be83882812e465713a767497f985e4d3efca1d56e920d8829807ec11c",
+        "case.json": "e079edc395007d64e281a68e7bc2a3c00db6e03c077bdc109fe4fcb4d749ef65",
+        "store.jsonl": "a8aefc441cac08397010a7ddfbff776f3d607c41888421f198c099e4b389d578"
+      },
+      "id": "removal-before-first-anchor",
+      "path": "cases/removal-before-first-anchor",
+      "storeSignaturesVerify": true
+    },
+    {
+      "edit": "T5 variant: the newest record, written after the last anchor, carries two `record` members, the adversary's first and the genuine signed one last",
+      "expected": {
+        "decision": "rejected",
+        "reason": "store_not_strict_json"
+      },
+      "files": {
+        "anchor.json": "41e75c4c8636508e190913cc06a3743d5c6eb8035bbba1a339155d75f5f63bac",
+        "case.json": "e079edc395007d64e281a68e7bc2a3c00db6e03c077bdc109fe4fcb4d749ef65",
+        "store.jsonl": "8d6811fc14d2b05ffdc6bee67cba505430116e543e972e3cf7fba9876c25fdfa"
+      },
+      "id": "repeated-member-tail",
+      "path": "cases/repeated-member-tail",
+      "storeSignaturesVerify": false
+    },
+    {
+      "edit": "control: members that sort differently by code point and by UTF-16 code unit, signed over RFC 8785 bytes",
+      "expected": {
+        "decision": "verified",
+        "reason": "chain_anchored"
+      },
+      "files": {
+        "anchor.json": "7f65829961e8539c30cca51eeca9714bb09d58b9e9d5ba6453eb82550ee45aeb",
+        "case.json": "e079edc395007d64e281a68e7bc2a3c00db6e03c077bdc109fe4fcb4d749ef65",
+        "store.jsonl": "0dd91be9c9dabc7391b56adf3f073255fe008b41c7e41b936b1cb5743cbf2f97"
+      },
+      "id": "utf16-member-order-rfc8785",
+      "path": "cases/utf16-member-order-rfc8785",
+      "storeSignaturesVerify": true
+    },
+    {
+      "edit": "the same records signed over bytes ordered by code point, which RFC 8785 does not produce: a reader that canonicalises that way verifies a signature no RFC 8785 reader can",
+      "expected": {
+        "decision": "rejected",
+        "reason": "signature_invalid"
+      },
+      "files": {
+        "anchor.json": "ffa6ae026bd19e70bb9ae326e944b867851374c7dac3bf56cf87e5893d3e0ca4",
+        "case.json": "e079edc395007d64e281a68e7bc2a3c00db6e03c077bdc109fe4fcb4d749ef65",
+        "store.jsonl": "eceb75cc56b5eed5db5be831c8c59ff09a444db188bd9b52b19f0daa4e2881fb"
+      },
+      "id": "utf16-member-order-code-point",
+      "path": "cases/utf16-member-order-code-point",
+      "storeSignaturesVerify": false
     }
   ],
   "verifierContract": "verifier case.json --json; exit 0 verified, 1 rejected"

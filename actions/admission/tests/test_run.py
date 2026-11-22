@@ -413,3 +413,52 @@ def test_coverage_main_exit_codes(tmp_path: Path) -> None:
 
 def test_coverage_runs_the_checker_of_this_checkout_without_an_installed_package() -> None:
     assert (run.CHECKER_SRC / "agent_evidence_admission" / "coverage_check.py").is_file()
+
+
+RULE_EXAMPLES = ROOT / "packages" / "admission" / "python" / "vectors" / "rules" / "catalog-attestations" / "examples"
+ARTIFACT_URI = "https://tools.example.com/mcp/invoice-reader.json"
+STATEMENT_URI = "https://tools.example.com/trust/invoice-reader.intoto.json"
+SCAN_URI = "https://tools.example.com/trust/invoice-reader.scan.sarif"
+
+
+def test_admit_binds_the_attestation_to_its_entry() -> None:
+    files = [f"{ARTIFACT_URI}={RULE_EXAMPLES / 'invoice-reader.json'}",
+             f"{STATEMENT_URI}={RULE_EXAMPLES / 'invoice-reader.intoto.json'}"]
+    (row,) = run.check_admit("catalog-attestations", [str(RULE_EXAMPLES / "control.catalog.json")], files, None, [])
+    assert row.admitted
+    assert row.reasons == []
+
+
+def test_admit_refuses_a_transplanted_attestation_and_reports_warnings() -> None:
+    document = [str(RULE_EXAMPLES / "transplant.catalog.json")]
+    files = [f"{SCAN_URI}={RULE_EXAMPLES / 'invoice-reader.scan.sarif'}"]
+    (row,) = run.check_admit("catalog-attestations", document, files, None, [])
+    assert not row.admitted
+    assert [r.split(" at ")[0] for r in row.reasons] == ["entry_digest_missing_for_url", "attestation_unsigned"]
+    (warned,) = run.check_admit("catalog-attestations", document, files, None, ["entry_digest_missing_for_url"])
+    assert not warned.admitted
+    assert warned.reasons[0].startswith("attestation_unsigned")
+    assert warned.reasons[1].startswith("warning entry_digest_missing_for_url")
+
+
+def test_admit_main_exit_codes(tmp_path: Path) -> None:
+    control = str(RULE_EXAMPLES / "control.catalog.json")
+    every_gap = "entry-bytes-not-evaluated\nattestation-pin-not-evaluated\nattestation-subject-not-evaluated"
+    assert run.main(["admit", "--rule-set", "catalog-attestations", "--document", control, "--warn", every_gap]) == 0
+    assert run.main(["admit", "--rule-set", "catalog-attestations", "--document", control]) == 1
+    options = _write(tmp_path / "options.json", {"skew": 300})
+    fresh = next(c for c in json.loads((RULE_EXAMPLES.parents[1] / "audit-freshness" / "manifest.json").read_text())["cases"]
+                 if c["id"] == "fr1-every-input-fresh")
+    record = tmp_path / "audit.json"
+    record.write_text(fresh["text"])
+    assert run.main(["admit", "--rule-set", "audit-freshness", "--document", str(record), "--options", options]) == 0
+    # An option the rule set does not define is a setup error, not a silent default.
+    assert run.main(["admit", "--rule-set", "ijson", "--document", control, "--options", options]) == 2
+    assert run.main(["admit", "--rule-set", "nope", "--document", control]) == 2
+    # A code that means the record was not read cannot be a warning: it would admit what no rule judged.
+    assert run.main(["admit", "--rule-set", "ijson", "--document", control, "--warn", "not-parseable"]) == 2
+    assert run.main(["admit", "--rule-set", "ijson", "--document", str(tmp_path / "missing.json")]) == 2
+
+
+def test_admit_runs_the_checker_of_this_checkout_without_an_installed_package() -> None:
+    assert (run.CHECKER_SRC / "agent_evidence_admission" / "rules.py").is_file()

@@ -60,7 +60,8 @@
 //! 4. **A number with no finite double** ([`Error::NonFiniteNumber`]), and under
 //!    the opt-in RFC 7493 profile ([`admit_ijson`]) an integer of magnitude at or
 //!    above 2^53, or a fraction whose nearest double is one
-//!    ([`Error::UnsafeInteger`]), or a Unicode noncharacter.
+//!    ([`Error::UnsafeInteger`]), a token carrying more precision than its
+//!    double ([`Error::InexactNumber`]), or a Unicode noncharacter.
 //! 5. **An input past a size cap** ([`Error::TooLarge`]). A depth cap bounds the
 //!    stack; a size cap bounds the heap.
 //!
@@ -120,6 +121,7 @@ pub struct Options {
     max_bytes: Option<usize>,
     safe_integers: bool,
     integers_only: bool,
+    exact_numbers: bool,
     reject_noncharacters: bool,
 }
 
@@ -138,13 +140,15 @@ impl Options {
             max_bytes: Some(DEFAULT_MAX_BYTES),
             safe_integers: false,
             integers_only: false,
+            exact_numbers: false,
             reject_noncharacters: false,
         }
     }
 
     /// RFC 8785 plus the RFC 7493 I-JSON profile: an integer must lie inside the
-    /// range where an IEEE-754 double is exact, and a Unicode noncharacter is
-    /// refused in a string literal.
+    /// range where an IEEE-754 double is exact, every number token must name the
+    /// value of the double it reads as ([`Options::exact_numbers`]), and a
+    /// Unicode noncharacter is refused in a string literal.
     ///
     /// Opt-in rather than default, and the reason is load-bearing: the RFC 8785
     /// reference suite carries `1e30` and `1e-27`, so a crate whose default
@@ -153,6 +157,7 @@ impl Options {
     pub const fn ijson() -> Self {
         Self {
             safe_integers: true,
+            exact_numbers: true,
             reject_noncharacters: true,
             ..Self::rfc8785()
         }
@@ -239,6 +244,29 @@ impl Options {
         self
     }
 
+    /// Refuse a number token whose value is not the value of the double it
+    /// reads as (RFC 7493 section 2.2).
+    ///
+    /// The token and the shortest form of its double are compared as exact
+    /// decimals, so a spelling with trailing zeros or another exponent is
+    /// admitted and a token carrying digits the double drops is refused with
+    /// [`Error::InexactNumber`]: `3.141592653589793238462643383279` and
+    /// `1e-400`, RFC 7493's own examples, and `9007199254740991.4`, which reads
+    /// as `9007199254740991`.
+    ///
+    /// ```
+    /// use jcs_admit::{admit_with, Error, Options};
+    /// let opts = Options::rfc8785().exact_numbers(true);
+    /// assert_eq!(admit_with(b"1.10", &opts), Ok(b"1.1".to_vec()));
+    /// assert_eq!(admit_with(b"3.141592653589793238", &opts),
+    ///     Err(Error::InexactNumber { token: "3.141592653589793238".to_owned() }));
+    /// ```
+    #[must_use]
+    pub const fn exact_numbers(mut self, refuse: bool) -> Self {
+        self.exact_numbers = refuse;
+        self
+    }
+
     /// Refuse a Unicode noncharacter in a string literal (RFC 7493 section 2.1).
     #[must_use]
     pub const fn reject_noncharacters(mut self, refuse: bool) -> Self {
@@ -256,6 +284,10 @@ impl Options {
 
     pub(crate) const fn wants_integers_only(&self) -> bool {
         self.integers_only
+    }
+
+    pub(crate) const fn wants_exact_numbers(&self) -> bool {
+        self.exact_numbers
     }
 
     pub(crate) const fn wants_noncharacter_check(&self) -> bool {
@@ -306,8 +338,8 @@ pub fn admit(input: &[u8]) -> Result<Vec<u8>, Error> {
 /// # Errors
 ///
 /// As [`admit`], and additionally for an integer of magnitude at or above 2^53, a
-/// fraction whose nearest double is such an integer, or a Unicode noncharacter in
-/// a string literal.
+/// fraction whose nearest double is such an integer, a number token whose value
+/// is not the value of its double, or a Unicode noncharacter in a string literal.
 pub fn admit_ijson(input: &[u8]) -> Result<Vec<u8>, Error> {
     admit_with(input, &Options::ijson())
 }

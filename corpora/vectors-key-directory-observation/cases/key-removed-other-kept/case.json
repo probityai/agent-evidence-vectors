@@ -1,0 +1,15 @@
+{
+  "cached": [
+    "NoLxPewTmsLpNeG-SjV7pV0VSZQd_JWq0qndZlbA0yg",
+    "Oub5dZo5jqBTA3luGlnHIa8SmlraTF6gAhCzWLGvkt4"
+  ],
+  "directoryUrl": "https://agent.example/.well-known/http-message-signatures-directory",
+  "fetch": {
+    "body": "response.body",
+    "mediaType": "application/http-message-signatures-directory+json",
+    "outcome": "response",
+    "status": 200
+  },
+  "keyid": "NoLxPewTmsLpNeG-SjV7pV0VSZQd_JWq0qndZlbA0yg",
+  "schema_version": "web-bot-auth-key-directory-observation-case/v1"
+}

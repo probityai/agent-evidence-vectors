@@ -67,7 +67,6 @@ when no verdict was reached.
 from __future__ import annotations
 
 import argparse
-import base64
 import binascii
 import hashlib
 import importlib
@@ -79,6 +78,8 @@ import sys
 from functools import lru_cache
 from pathlib import Path
 from typing import Any
+
+from . import strictb64, strictjson
 
 SUITE = "agentic-process-evidence/v0.1"
 SUPPORTED, CONTRADICTED, NOT_ESTABLISHED, NO_VERDICT = (
@@ -171,7 +172,7 @@ def _b64(value: Any) -> bytes:
     if not isinstance(value, str):
         raise Refusal(NO_VERDICT, "malformed_envelope")
     try:
-        return base64.b64decode(value, validate=True)
+        return strictb64.std(value)
     except (binascii.Error, ValueError) as exc:
         raise Refusal(NO_VERDICT, "malformed_envelope") from exc
 
@@ -181,7 +182,7 @@ def parse_envelope(raw: bytes) -> tuple[str, bytes, list[tuple[str, bytes]]]:
     if len(raw) > MAX_ENVELOPE_BYTES:
         raise Refusal(NO_VERDICT, "malformed_envelope")
     try:
-        doc = json.loads(raw)
+        doc = strictjson.loads(raw)
     except (UnicodeDecodeError, ValueError) as exc:
         raise Refusal(NO_VERDICT, "malformed_envelope") from exc
     if not isinstance(doc, dict):
@@ -374,14 +375,14 @@ def _statement(payload: Any, policy: dict[str, Any], skip: frozenset[str]) -> No
 def judge(envelope: bytes, policy: dict[str, Any],
           skip: frozenset[str] = frozenset()) -> dict[str, str]:
     """The reference reader's decision for one signed process evidence statement."""
-    trusted = {str(k): base64.b64decode(v) for k, v in policy["trusted_keys"].items()}
+    trusted = {str(k): strictb64.std(v) for k, v in policy["trusted_keys"].items()}
     try:
         payload_type, body, sigs = parse_envelope(envelope)
         if payload_type != policy["payload_type"] and "payload_type" not in skip:
             raise Refusal(NOT_ESTABLISHED, "unsupported_payload_type")
         _signed_by(payload_type, body, sigs, trusted, skip)
         try:
-            payload = json.loads(body)
+            payload = strictjson.loads(body)
         except (UnicodeDecodeError, ValueError):
             payload = None
         _statement(payload, policy, skip)
@@ -403,7 +404,7 @@ def check_statement(statement: Any, predicate_type: str) -> str | None:
 
 
 def verify(case_path: Path, skip: frozenset[str] = frozenset()) -> dict[str, str]:
-    case = json.loads(case_path.read_text(encoding="utf-8"))
+    case = strictjson.loads(case_path.read_text(encoding="utf-8"))
     return judge((case_path.parent / case["envelope"]).read_bytes(), case["policy"], skip)
 
 
@@ -418,7 +419,7 @@ def _fixture_error(directory: Path, entry: dict[str, Any]) -> str | None:
 
 
 def _validated_entries(root: Path) -> tuple[list[dict[str, Any]], str | None]:
-    manifest = json.loads((root / "MANIFEST.json").read_text(encoding="utf-8"))
+    manifest = strictjson.loads((root / "MANIFEST.json").read_text(encoding="utf-8"))
     entries = manifest["vectors"]
     if _sha(_json(entries)) != manifest["corpusDigest"]:
         return [], "manifest digest mismatch"
@@ -448,7 +449,7 @@ def _external_answer(command: list[str], case_path: Path) -> tuple[bool, dict[st
     except (OSError, subprocess.TimeoutExpired) as exc:
         return False, f"verifier did not run: {exc}"
     try:
-        answer = json.loads(result.stdout.strip().splitlines()[-1])
+        answer = strictjson.loads(result.stdout.strip().splitlines()[-1])
         observed = {key: answer[key] for key in ("decision", "reason")}
     except (ValueError, KeyError, TypeError, IndexError):
         return True, f"verifier returned no decision (exit {result.returncode})"
@@ -500,7 +501,7 @@ def run(root: str, verifier: list[str] | None, report_path: str, rail_note: str)
     directory = Path(root)
     answered, errors = check(verifier, directory)
     try:
-        manifest = json.loads((directory / "MANIFEST.json").read_text(encoding="utf-8"))
+        manifest = strictjson.loads((directory / "MANIFEST.json").read_text(encoding="utf-8"))
         total = len(manifest["vectors"])
     except (OSError, ValueError, KeyError, TypeError):
         manifest, total = {}, 0
@@ -538,7 +539,7 @@ def main(argv: list[str] | None = None) -> int:
     answered, errors = check(args.verifier)
     for error in errors:
         print(error)
-    total = len(json.loads((ROOT / "MANIFEST.json").read_text(encoding="utf-8"))["vectors"])
+    total = len(strictjson.loads((ROOT / "MANIFEST.json").read_text(encoding="utf-8"))["vectors"])
     print(f"answered {answered} of {total} cases")
     return 1 if errors or answered != total else 0
 

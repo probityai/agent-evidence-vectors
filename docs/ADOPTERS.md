@@ -14,10 +14,10 @@ Projects whose own tree or build uses a corpus from this repository. Runs of a c
 
 A row is listed only with the adopter's consent, read in the public thread named in the row.
 
-| Project | Tier | What it uses | Consent |
-| --- | --- | --- | --- |
-| [a2aproject/a2a-python](https://github.com/a2aproject/a2a-python) | Vendored copy | `jcs_depth_v1` as `tests/utils/jcs_depth_vectors.json` | Merged by the project's maintainers in [a2a-python#1294](https://github.com/a2aproject/a2a-python/pull/1294), a pull request opened by this repository's maintainer |
+| Project | Tier | What it uses | Consent | Does not establish |
+| --- | --- | --- | --- | --- |
+| [a2aproject/a2a-python](https://github.com/a2aproject/a2a-python) | Vendored copy | `jcs_depth_v1` as `tests/utils/jcs_depth_vectors.json` | Merged by the project's maintainers in [a2a-python#1294](https://github.com/a2aproject/a2a-python/pull/1294), a pull request opened by this repository's maintainer | That the project's copy matches the current corpus (a vendored copy drifts), that it runs any other corpus, or that the project chose the listing unprompted: the pull request came from this repository's maintainer |
 
 ## Add your project
 
-Open a pull request that adds one row: the project, the tier, the corpus and the pin, and a link to a public thread or commit where a maintainer of that project agrees to the listing. A pinned dependency or a CI run is preferred over a copy, because only those two tell you when the corpus changes.
+Open a pull request that adds one row: the project, the tier, the corpus and the pin, a link to a public thread or commit where a maintainer of that project agrees to the listing, and what the listing does not establish (for example, that the project runs every corpus, or a figure from a run). A pinned dependency or a CI run is preferred over a copy, because only those two tell you when the corpus changes.

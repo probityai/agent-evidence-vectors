@@ -9,18 +9,21 @@ import (
 
 // A rule corpus is a manifest of single-record cases, each judged by an ordered
 // list of rules: the first rule that fires names the refusal, and a record no
-// rule fires on is accepted. The Python readers in packaging/agent_evidence_vectors
-// apply the same rules in the same order; the manifest carries the answer both
-// must reach, and a rejected member names the accepted twin it differs from.
+// rule fires on is accepted. A rule named in indeterminate fires when the
+// evidence needed to decide is absent, and its decision is indeterminate rather
+// than rejected. The Python readers in packaging/agent_evidence_vectors apply the
+// same rules in the same order; the manifest carries the answer both must reach,
+// and every member that is not accepted names the accepted twin it differs from.
 type rlRule struct {
 	code  string
 	fires func(record any) bool
 }
 
 type ruleCorpus struct {
-	suite  string
-	accept string
-	rules  []rlRule
+	suite         string
+	accept        string
+	rules         []rlRule
+	indeterminate map[string]bool
 }
 
 func (c ruleCorpus) Suite() string { return c.suite }
@@ -41,6 +44,9 @@ type rlVector struct {
 func (c ruleCorpus) decide(record any) rlExpected {
 	for _, rule := range c.rules {
 		if rule.fires(record) {
+			if c.indeterminate[rule.code] {
+				return rlExpected{Decision: "indeterminate", Reason: rule.code}
+			}
 			return rlExpected{Decision: "rejected", Reason: rule.code}
 		}
 	}
@@ -49,7 +55,7 @@ func (c ruleCorpus) decide(record any) rlExpected {
 
 func (c ruleCorpus) Judge(dir string, raw []byte) (*Result, error) {
 	var manifest scManifest
-	if err := json.Unmarshal(raw, &manifest); err != nil {
+	if err := strictUnmarshal(raw, &manifest); err != nil {
 		return nil, fmt.Errorf("%s/MANIFEST.json does not parse: %w", dir, err)
 	}
 	result := &Result{}
@@ -57,7 +63,7 @@ func (c ruleCorpus) Judge(dir string, raw []byte) (*Result, error) {
 	var vectors []rlVector
 	for _, entry := range manifest.Vectors {
 		var v rlVector
-		if err := json.Unmarshal(entry, &v); err != nil {
+		if err := strictUnmarshal(entry, &v); err != nil {
 			result.Findings = append(result.Findings, fmt.Sprintf("a manifest row does not parse: %v", err))
 			continue
 		}
@@ -67,8 +73,8 @@ func (c ruleCorpus) Judge(dir string, raw []byte) (*Result, error) {
 	for _, v := range vectors {
 		member := Member{ID: v.ID, Kind: v.Expected.Decision}
 		member.Findings = c.judgeMember(filepath.Join(dir, v.Path), v)
-		if v.Expected.Decision == "rejected" && !accepted[v.Twin] {
-			member.Findings = append(member.Findings, "a rejected member must name an accepted twin")
+		if v.Expected.Decision != "accepted" && !accepted[v.Twin] {
+			member.Findings = append(member.Findings, "a rejected or indeterminate member must name an accepted twin")
 		}
 		result.Members = append(result.Members, member)
 	}

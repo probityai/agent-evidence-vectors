@@ -67,7 +67,7 @@ type mrpPolicy struct {
 
 func (m mcpResponsePhase) Judge(dir string, raw []byte) (*Result, error) {
 	var manifest mrpManifest
-	if err := json.Unmarshal(raw, &manifest); err != nil {
+	if err := strictUnmarshal(raw, &manifest); err != nil {
 		return nil, fmt.Errorf("%s/MANIFEST.json does not parse: %w", dir, err)
 	}
 	result := &Result{}
@@ -172,7 +172,7 @@ func (mcpResponsePhase) checkAgainstCriterion(dir string, v mrpVector, out *Memb
 		return
 	}
 	var op mrpOperation
-	if err := json.Unmarshal(body, &op); err != nil {
+	if err := strictUnmarshal(body, &op); err != nil {
 		out.Findings = append(out.Findings, "the operation does not parse: "+err.Error())
 		return
 	}
@@ -249,7 +249,7 @@ func conformantReceives(op mrpOperation) (string, string) {
 			Code    int    `json:"code"`
 			Message string `json:"message"`
 		}
-		if err := json.Unmarshal(op.Policy.Error, &e); err != nil {
+		if err := strictUnmarshal(op.Policy.Error, &e); err != nil {
 			return "", "policy.error does not parse: " + err.Error()
 		}
 		completion := map[string]any{
@@ -291,7 +291,7 @@ func checkMrpIdentity(body []byte, v mrpVector, out *Member) {
 // compared by value rather than by byte order.
 func canonicalJSON(raw json.RawMessage) (string, string) {
 	var value any
-	if err := json.Unmarshal(raw, &value); err != nil {
+	if err := strictUnmarshal(raw, &value); err != nil {
 		return "", err.Error()
 	}
 	return canonicalValue(value)
