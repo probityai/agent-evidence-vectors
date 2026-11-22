@@ -219,6 +219,35 @@ func (s RevocationState) Apply(signed []byte) (RevocationState, error) {
 	return s.install(body)
 }
 
+// RevocationChainVerdict is a chain of signed lists judged in order by a verifier that pins
+// the given roots and holds no list yet.
+type RevocationChainVerdict struct {
+	// Verdict is VerdictValid when every list was accepted and VerdictInvalid otherwise.
+	Verdict string
+	// Refusal is the first refusal, nil when valid.
+	Refusal *RevocationError
+	// Index is the position of the refused list, -1 when valid.
+	Index int
+	// State is the list in force: after the last list when valid, and when invalid the one
+	// the refused list was checked against.
+	State RevocationState
+}
+
+// VerifyRevocationChain applies the signed lists (the JSON bytes of each) in order, from a
+// verifier that pins rootKeyIDs and holds no list, and stops at the first refusal.
+func VerifyRevocationChain(rootKeyIDs []string, lists [][]byte) RevocationChainVerdict {
+	state := NewRevocationState(rootKeyIDs)
+	for i, list := range lists {
+		next, err := state.Apply(list)
+		if err != nil {
+			refusal, _ := err.(*RevocationError)
+			return RevocationChainVerdict{Verdict: VerdictInvalid, Refusal: refusal, Index: i, State: state}
+		}
+		state = next
+	}
+	return RevocationChainVerdict{Verdict: VerdictValid, Index: -1, State: state}
+}
+
 func hasMember(o *jsonObject, name string) bool {
 	_, ok := o.values[name]
 	return ok
@@ -249,8 +278,10 @@ func (s RevocationState) install(b revBody) (RevocationState, error) {
 		}
 		entries[[2]string{e.kind, e.id}] = e.canon
 	}
-	for key, held := range s.entries {
-		if !bytes.Equal(entries[key], held) {
+	// Held entries are checked in (kind, id) order, so a list that drops or edits several is
+	// refused naming the first of them, the same one on every run.
+	for _, key := range sortedEntryKeys(s.entries) {
+		if held := s.entries[key]; !bytes.Equal(entries[key], held) {
 			return s, refuse(CodeDropsEntry, "%s:%.12s", key[0], key[1])
 		}
 	}
@@ -276,6 +307,17 @@ func (s RevocationState) install(b revBody) (RevocationState, error) {
 		IssuedAt: b.issuedAt,
 		entries:  entries,
 	}, nil
+}
+
+func sortedEntryKeys(entries map[[2]string][]byte) [][2]string {
+	keys := make([][2]string, 0, len(entries))
+	for key := range entries {
+		keys = append(keys, key)
+	}
+	sort.Slice(keys, func(i, j int) bool {
+		return keys[i][0] < keys[j][0] || keys[i][0] == keys[j][0] && keys[i][1] < keys[j][1]
+	})
+	return keys
 }
 
 func readRevBody(v any) (revBody, error) {
@@ -364,7 +406,7 @@ func readRevEntry(v any) (revEntry, error) {
 	if !ok {
 		return e, shape("entry_not_an_object")
 	}
-	for name := range o.values {
+	for _, name := range o.keys {
 		switch name {
 		case "kind", "id", "revokedAt", "reason", "successor":
 		default:

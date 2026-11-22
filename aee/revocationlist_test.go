@@ -197,3 +197,33 @@ func TestRevocationApplyRefusesNonLists(t *testing.T) {
 		}
 	}
 }
+
+// VerifyRevocationChain answers every shared vector as Apply in a loop does: the same refusal at
+// the same index, the state in force when it refused, and the final state when nothing is refused.
+func TestVerifyRevocationChainAnswersTheSharedVectors(t *testing.T) {
+	for _, v := range loadRevocationVectors(t) {
+		lists := make([][]byte, len(v.Lists))
+		for i, list := range v.Lists {
+			lists[i] = list
+		}
+		got := VerifyRevocationChain(v.Roots, lists)
+		if v.Expected.Refused == "" {
+			if got.Verdict != VerdictValid || got.Refusal != nil || got.Index != -1 ||
+				got.State.Seq != v.Expected.State.Seq || got.State.Head != v.Expected.State.Head {
+				t.Fatalf("%s: %+v, want valid at seq %d", v.ID, got, v.Expected.State.Seq)
+			}
+			continue
+		}
+		if got.Verdict != VerdictInvalid || got.Refusal == nil || got.Refusal.Code != v.Expected.Refused ||
+			got.Index != *v.Expected.Index {
+			t.Fatalf("%s: %+v, want %s at %d", v.ID, got, v.Expected.Refused, *v.Expected.Index)
+		}
+		held := NewRevocationState(v.Roots)
+		for _, list := range lists[:got.Index] {
+			held, _ = held.Apply(list)
+		}
+		if !reflect.DeepEqual(got.State, held) {
+			t.Fatalf("%s: state at refusal %+v, want %+v", v.ID, got.State, held)
+		}
+	}
+}
