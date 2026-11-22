@@ -54,6 +54,23 @@ an unbroken, checkpointed chain is `not_recorded`; it never means the credential
 - Field semantics: defined here, as a proposal; the check order and reason tokens are this corpus's own.
 - Example: `corpora/vectors-empty-interval-statement/cases/interval-empty-not-recorded/statement.json`.
 
+### `predicate/v1/key-revocation-list`
+
+- Document: `corpora/vectors-key-revocation-list/README.md`
+- Corpus: `corpora/vectors-key-revocation-list/`, suite `key-revocation-list/v1`
+- Rails: `corpusreaders/keyrevocation.go`, `packaging/agent_evidence_vectors/keyrevocation.py`
+
+The predicate carries an issuer's signed list of revoked keys: each entry names a key
+thumbprint and the time its revocation takes effect, and the list names the keys it covers,
+its issue time and the time its next update is due. A verifier trusts the signing key by
+the thumbprint of the key itself, rejects a list that does not verify or is older than the last
+accepted, treats a list read after its next update as stale, keeps a revocation it has already
+seen, and reads a key the list does not cover as no statement.
+
+- Envelope: a signed JSON list with the signing key beside its thumbprint, not an in-toto Statement.
+- Field semantics: defined here, as a proposal; the check order and reason tokens are this corpus's own.
+- Example: `corpora/vectors-key-revocation-list/cases/revoked-in-list/list.json`.
+
 ### `predicate/v1/signature-coverage`
 
 - Document: `corpora/vectors-signature-coverage/README.md`

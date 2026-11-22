@@ -48,6 +48,7 @@ RUNS_A_VERIFIER = (
     "vectors-ai-agent-action",
     "vectors-anchored-chain",
     "vectors-empty-interval-statement",
+    "vectors-key-revocation-list",
     "vectors-approval-binding",
     "vectors-delegator-right",
     "vectors-oasf-record",
