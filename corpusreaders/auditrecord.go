@@ -28,7 +28,7 @@ func init() { register(auditRecord{}) }
 // unavailable inputs are derived from the entries. The reference time is
 // decision.evaluatedAt when the record carries it and decision.reportedAt
 // otherwise, and an input is fresh only while its age is less than its maxAge
-// (revision 04, FR2 and FR19 to FR25). Rows R1 to R9 are retained
+// (revision 04, FR2 and FR21 to FR27). Rows R1 to R9 are retained
 // records, the envelope beside its retention entry, and each is judged twice:
 // the envelope's verdict, and the dating check of Section 4.7.1, reported
 // beside the verdict.
@@ -695,8 +695,8 @@ func arMaxAge(value any) (int64, bool) {
 
 // arEntryUnavailable says whether one entry is stale or never established at
 // the reference time. An input is fresh while its age is less than maxAge, so
-// an age equal to maxAge is stale (FR2, FR22), and a lastResult later than the
-// reference time by more than the skew tolerance is malformed (FR9, FR25).
+// an age equal to maxAge is stale (FR2, FR24), and a lastResult later than the
+// reference time by more than the skew tolerance is malformed (FR9, FR27).
 func arEntryUnavailable(entry map[string]any, maxAge int64, reference time.Time) (bool, error) {
 	last, _ := entry["lastResult"].(string)
 	if last == arNeverHeld {
@@ -719,7 +719,7 @@ func arEntryUnavailable(entry map[string]any, maxAge int64, reference time.Time)
 // decision.evaluatedAt when the record carries it, decision.reportedAt
 // otherwise. A decision is not reported before it is evaluated, so an
 // evaluatedAt later than reportedAt by more than the skew tolerance is
-// malformed (FR23), and one exactly at the tolerance is not (FR24).
+// malformed (FR25), and one exactly at the tolerance is not (FR26).
 func arReferenceTime(pred map[string]any) (time.Time, error) {
 	reportedAt, err := arInstant(arStr(pred, "decision.reportedAt"))
 	if err != nil {

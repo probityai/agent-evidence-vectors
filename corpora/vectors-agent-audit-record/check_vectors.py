@@ -677,37 +677,37 @@ SECTION_READINGS: list[tuple[str, Callable[[], contextlib.AbstractContextManager
     (
         "an age measured to issuedAt rather than the reference time",
         lambda: _freshness(reference="issuedAt"),
-        "FR9,FR19,FR20,FR21,FR23",
+        "FR9,FR21,FR22,FR23,FR25",
     ),
     (
         "an age equal to maxAge read as fresh, the boundary of revisions 00 to 03",
         lambda: _freshness(stale_at_bound=False),
-        "FR2,FR22,PS1b",
+        "FR2,FR24,PS1b",
     ),
     (
         "decision.evaluatedAt ignored, every age measured to decision.reportedAt",
         lambda: _freshness(reference="reportedAt"),
-        "FR19,FR20,FR21",
+        "FR21,FR22,FR23",
     ),
     (
         "a decision.evaluatedAt after decision.reportedAt accepted however late",
         lambda: _freshness(evaluated_skew=None),
-        "FR23",
+        "FR25",
     ),
     (
         "a decision.evaluatedAt after decision.reportedAt refused with no skew tolerance",
         lambda: _freshness(evaluated_skew=datetime.timedelta(0)),
-        "FR24",
+        "FR26",
     ),
     (
         "a lastResult's skew measured to decision.reportedAt rather than the reference time",
         lambda: _freshness(skew_to_reported=True),
-        "FR25",
+        "FR27",
     ),
     (
         "a lastResult after the reference time accepted however late",
         lambda: _freshness(skew=None),
-        "FR9,FR25",
+        "FR9,FR27",
     ),
     (
         "a lastResult after the reference time refused with no skew tolerance",
@@ -737,12 +737,12 @@ SECTION_READINGS: list[tuple[str, Callable[[], contextlib.AbstractContextManager
     (
         "unavailableInput not matched against the entries",
         lambda: _swapped_rule("evaluation", _evaluation_reading(match_entries=False)),
-        "FR7,FR20",
+        "FR7,FR22",
     ),
     (
         "evaluated not checked against the entries",
         lambda: _swapped_rule("evaluation", _evaluation_reading(evaluated_by_entries=False)),
-        "FR2,FR8,FR17c,FR15,FR22",
+        "FR2,FR8,FR17c,FR15,FR24",
     ),
     (
         "an evaluation member the draft does not define accepted",

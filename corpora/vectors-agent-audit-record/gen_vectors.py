@@ -170,7 +170,7 @@ def seal_commitment(pred: dict[str, Any]) -> None:
 # Evaluation inputs (Section 5.4 of draft-gilda-audit-agent-audit-record-00).
 # Every entry carries input, lastResult and maxAge, and every age is measured
 # from lastResult to the reference time: decision.evaluatedAt where the record
-# carries it (FR19 to FR25, revision 04) and decision.reportedAt otherwise,
+# carries it (FR21 to FR27, revision 04) and decision.reportedAt otherwise,
 # 2026-09-19T11:04:02Z in every member except FR17a. An input is fresh while its
 # age is less than maxAge, so an age equal to maxAge is stale (revision 04;
 # revision 00 to 03 called it fresh). The skew tolerance is 300 seconds. The
@@ -1872,7 +1872,7 @@ def define_freshness() -> None:
 
 
 # ---------------------------------------------------------------------------
-# The time a decision was taken (revision 04, rows FR19 to FR24, and FR25).
+# The time a decision was taken (revision 04, rows FR23 to FR26, and FR27).
 #
 # decision.evaluatedAt is optional: the time the decision point evaluated its
 # inputs and took the decision. Where the record carries it, every entry's age
@@ -1880,23 +1880,23 @@ def define_freshness() -> None:
 # decision.reportedAt. An evaluatedAt later than reportedAt by more than the
 # skew tolerance is malformed. Each member below is wrong for exactly one reader:
 #
-# * FR19 to FR21: a reader that measures to reportedAt and ignores evaluatedAt.
-#   FR19 decided 1800 seconds before it reported, with standing-source 2042
-#   seconds old then and 3842 seconds old at reportedAt; FR20 is FR19 recorded as
+# * FR21 to FR23: a reader that measures to reportedAt and ignores evaluatedAt.
+#   FR21 decided 1800 seconds before it reported, with standing-source 2042
+#   seconds old then and 3842 seconds old at reportedAt; FR22 is FR21 recorded as
 #   not-evaluated naming it, which the set derived at reportedAt would match.
-# * FR21 and FR22: the boundary at evaluatedAt, one second inside maxAge (fresh)
+# * FR23 and FR24: the boundary at evaluatedAt, one second inside maxAge (fresh)
 #   and exactly at it (stale).
-# * FR23 and FR24: evaluatedAt 301 seconds after reportedAt (malformed) and 300
+# * FR25 and FR26: evaluatedAt 301 seconds after reportedAt (malformed) and 300
 #   seconds after (valid). Both are built on FR1, whose entries are fresh at
-#   either time, so only the evaluatedAt sentence refuses FR23. Built on FR19, as
+#   either time, so only the evaluatedAt sentence refuses FR25. Built on FR21, as
 #   the draft's row first named, standing-source would also be stale at the later
-#   time and FR23 would be malformed under a reader that has no evaluatedAt rule.
-# * FR25, a sentence no Appendix B row isolates: policy-source produced 301
+#   time and FR25 would be malformed under a reader that has no evaluatedAt rule.
+# * FR27, a sentence no Appendix B row isolates: policy-source produced 301
 #   seconds after evaluatedAt and before reportedAt, so only a reader measuring
 #   the skew to the reference time refuses it.
 # ---------------------------------------------------------------------------
 
-#: FR19's decision.evaluatedAt, 1800 seconds before the reportedAt of A1.
+#: FR21's decision.evaluatedAt, 1800 seconds before the reportedAt of A1.
 EVALUATED_EARLY = "2026-09-19T10:34:02Z"
 
 
@@ -1917,54 +1917,54 @@ def _standing_at(parent: str, name: str, last_result: str) -> Callable[[], Built
     return build
 
 
-def build_fr19() -> Built:
+def build_fr21() -> Built:
     pred = from_pred("A1")
     pred["decision"]["evaluatedAt"] = EVALUATED_EARLY
     pred["evaluation"]["inputs"] = [
         entry("policy-source", "2026-09-19T10:00:00Z", DAY),
         entry("standing-source", "2026-09-19T10:00:00Z", HOUR),
     ]
-    return accept("FR19", pred)
+    return accept("FR21", pred)
 
 
-def build_fr24() -> Built:
+def build_fr26() -> Built:
     pred = from_pred("FR1")
     pred["decision"]["evaluatedAt"] = "2026-09-19T11:09:02Z"
-    return accept("FR24", pred)
+    return accept("FR26", pred)
 
 
-def _fr20(pred: dict[str, Any]) -> None:
+def _fr22(pred: dict[str, Any]) -> None:
     pred["evaluation"]["status"] = "not-evaluated"
     pred["evaluation"]["unavailableInput"] = ["standing-source"]
 
 
-def _fr25(pred: dict[str, Any]) -> None:
+def _fr27(pred: dict[str, Any]) -> None:
     pred["evaluation"]["inputs"][0]["lastResult"] = "2026-09-19T10:39:03Z"
 
 
 def define_evaluated_at() -> None:
     accepts: list[tuple[str, str, str, Callable[[], Built]]] = [
         (
-            "FR19",
-            "fr19-evaluated-at-fresh-at-evaluation-stale-at-report",
+            "FR21",
+            "fr21-evaluated-at-fresh-at-evaluation-stale-at-report",
             "A1 with decision.evaluatedAt 1800 seconds before decision.reportedAt and "
             "standing-source fresh at decision.evaluatedAt (2042 seconds under 3600) but older "
             "than its maxAge at decision.reportedAt (3842 seconds), under evaluated",
-            build_fr19,
+            build_fr21,
         ),
         (
-            "FR21",
-            "fr21-evaluated-at-one-second-inside-max-age",
-            "FR19 with standing-source one second younger than its maxAge at "
+            "FR23",
+            "fr23-evaluated-at-one-second-inside-max-age",
+            "FR21 with standing-source one second younger than its maxAge at "
             "decision.evaluatedAt (3599 seconds under 3600)",
-            _standing_at("FR19", "FR21", "2026-09-19T09:34:03Z"),
+            _standing_at("FR21", "FR23", "2026-09-19T09:34:03Z"),
         ),
         (
-            "FR24",
-            "fr24-evaluated-at-at-skew-tolerance-after-report",
+            "FR26",
+            "fr26-evaluated-at-at-skew-tolerance-after-report",
             "FR1 with decision.evaluatedAt 300 seconds after decision.reportedAt, exactly the "
             "skew tolerance",
-            build_fr24,
+            build_fr26,
         ),
     ]
     for draft_id, slug, row, build in accepts:
@@ -1973,29 +1973,29 @@ def define_evaluated_at() -> None:
         )
     rejects: list[tuple[str, str, str, str, Callable[[], Built], str]] = [
         (
-            "FR20",
-            "fr20-not-evaluated-naming-input-fresh-at-evaluated-at",
-            "FR19",
+            "FR22",
+            "fr22-not-evaluated-naming-input-fresh-at-evaluated-at",
+            "FR21",
             "not-evaluated naming standing-source, which is fresh at decision.evaluatedAt: the "
             "set derived at decision.reportedAt would match it",
-            mutate("FR19", _fr20),
+            mutate("FR21", _fr22),
             "evaluation-inconsistent",
         ),
         (
-            "FR22",
-            "fr22-evaluated-at-age-equal-to-max-age",
-            "FR21",
+            "FR24",
+            "fr24-evaluated-at-age-equal-to-max-age",
+            "FR23",
             "standing-source exactly its maxAge old at decision.evaluatedAt (3600 seconds under "
             "3600), under evaluated",
             mutate(
-                "FR21",
+                "FR23",
                 lambda p: p["evaluation"]["inputs"][1].update(lastResult="2026-09-19T09:34:02Z"),
             ),
             "evaluation-inconsistent",
         ),
         (
-            "FR23",
-            "fr23-evaluated-at-past-skew-tolerance-after-report",
+            "FR25",
+            "fr25-evaluated-at-past-skew-tolerance-after-report",
             "FR1",
             "decision.evaluatedAt 301 seconds after decision.reportedAt, more than the skew "
             "tolerance, every entry fresh at either time",
@@ -2006,12 +2006,12 @@ def define_evaluated_at() -> None:
     for draft_id, slug, parent, row, build, code in rejects:
         member(draft_id, slug, parent, row, build, "malformed", [code])
     member(
-        "FR25",
-        "fr25-last-result-past-skew-tolerance-after-evaluated-at",
-        "FR19",
+        "FR27",
+        "fr27-last-result-past-skew-tolerance-after-evaluated-at",
+        "FR21",
         "policy-source's lastResult 301 seconds after decision.evaluatedAt and before "
         "decision.reportedAt: the skew is measured to the reference time",
-        mutate("FR19", _fr25),
+        mutate("FR21", _fr27),
         "malformed",
         ["evaluation-result-after-decision"],
         section="5.4",
@@ -5327,7 +5327,7 @@ ORDER = (
     "R1 R2 R3 R4 R5 R6 R7 R8 R9 "
     "FR13b FR16 FR17a FR17b FR17c FR18 FR19 FR20 FR20a FR20b EV14 "
     "TI6 V4 V5 FR14 FR15 "
-    "FR19 FR20 FR21 FR22 FR23 FR24 FR25 "
+    "FR21 FR22 FR23 FR24 FR25 FR26 FR27 "
     "CS1 CS2 CS3 CS4 CS5 CS6 CS7 CS8 CS9 CS10 CS11 CS12 CS13 CS14 CS15 CS16 CS17 "
     "CS18 CS19 CS20 CS21 CS22 CS23 CS24 CS25 "
     "CS26 CS27 CS28 CS29 CS30 CS31 CS32 CS33 CS34 CS35 CS36 CS37 CS38 CS39 CS40 "

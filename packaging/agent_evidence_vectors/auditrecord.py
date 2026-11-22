@@ -37,7 +37,7 @@ from its ``lastResult`` to the reference time, and the unavailable inputs are
 derived from the entries, so a record shaped for revision 02 is malformed. The
 reference time is ``decision.evaluatedAt`` when the record carries it and
 ``decision.reportedAt`` otherwise, and an input is fresh only while its age is
-less than its ``maxAge`` (revision 04, FR2 and FR19 to FR25).
+less than its ``maxAge`` (revision 04, FR2 and FR21 to FR27).
 Rows R1 to R9 are retained records: the envelope beside the retention entry of
 Section 4.7, judged twice, once for the record's verdict and once by the dating
 check of Section 4.7.1, whose result is reported beside the verdict.
@@ -693,9 +693,9 @@ def _rule_closed_vocabularies(state: _State) -> None:
 
 def _entry_unavailable(entry: dict[str, Any], reference: datetime.datetime) -> bool:
     """Stale or never established at ``reference``. An input is fresh while its
-    age is less than maxAge, so an age equal to maxAge is stale (FR2, FR22); a
+    age is less than maxAge, so an age equal to maxAge is stale (FR2, FR24); a
     lastResult later than ``reference`` by more than the skew tolerance is
-    malformed (FR9, FR25)."""
+    malformed (FR9, FR27)."""
     if entry["lastResult"] == NEVER_HELD:
         return True
     produced = _instant(entry["lastResult"])
@@ -709,8 +709,8 @@ def reference_time(pred: dict[str, Any]) -> datetime.datetime:
     """The time every evaluation entry's age is measured to: ``decision.evaluatedAt``
     when the record carries it, ``decision.reportedAt`` otherwise (revision 04).
     A decision is not reported before it is evaluated, so an evaluatedAt later
-    than reportedAt by more than the skew tolerance is malformed (FR23), and one
-    exactly at the tolerance is not (FR24)."""
+    than reportedAt by more than the skew tolerance is malformed (FR25), and one
+    exactly at the tolerance is not (FR26)."""
     reported_at = _instant(pred["decision"]["reportedAt"])
     if "evaluatedAt" not in pred["decision"]:
         return reported_at
@@ -778,7 +778,7 @@ def derive_unavailable(pred: dict[str, Any], predicate_type: str = PREDICATE_TYP
     """The inputs a verifier derives as unavailable from ``evaluation.inputs``,
     in entry order, after holding every entry to its shape (FR5, FR6, FR9 to FR13)
     and its input to the set ``predicate_type`` names, each measured to the
-    reference time (FR19 to FR25)."""
+    reference time (FR21 to FR27)."""
     allowed = evaluation_inputs(predicate_type)
     entries = pred["evaluation"]["inputs"]
     if not isinstance(entries, list):
