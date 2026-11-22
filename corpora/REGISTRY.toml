@@ -349,6 +349,18 @@ standards = []
 shapes = ["missing-binding", "tampering", "coverage-gap"]
 
 [[corpus]]
+id = "vectors-assertion-grade"
+path = "corpora/vectors-assertion-grade"
+wheel = true
+sdist = true
+title = "Assertion grade"
+summary = "A reader must grade each assertion of a record bundle by who could have written its content (I, W+, W or S) and name whom it is independent of, never taking a grade from the bundle's own claim."
+record_class = "record"
+domains = ["grading", "transparency", "provenance"]
+standards = []
+shapes = ["wrong-grade", "self-report", "forged-signature"]
+
+[[corpus]]
 id = "vectors-authority-at-dispatch"
 path = "corpora/vectors-authority-at-dispatch"
 wheel = true
