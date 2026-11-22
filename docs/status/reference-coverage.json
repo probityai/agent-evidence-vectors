@@ -1,7 +1,7 @@
 {
   "verifier": "https://probityai.github.io/probity/verifiers/agent-evidence-verify",
   "checked": 734,
-  "total": 3082,
+  "total": 3613,
   "corpora": [
     {
       "id": "vectors",
@@ -42,7 +42,7 @@
     {
       "id": "vectors-agent-audit-record",
       "checked": 0,
-      "total": 225,
+      "total": 235,
       "disagreements": 0
     },
     {
@@ -66,7 +66,7 @@
     {
       "id": "vectors-agent-payment-mandate",
       "checked": 0,
-      "total": 15,
+      "total": 21,
       "disagreements": 0
     },
     {
@@ -102,7 +102,7 @@
     {
       "id": "vectors-anchored-chain",
       "checked": 0,
-      "total": 17,
+      "total": 22,
       "disagreements": 0
     },
     {
@@ -127,6 +127,24 @@
       "id": "vectors-badge-vc-verify",
       "checked": 0,
       "total": 40,
+      "disagreements": 0
+    },
+    {
+      "id": "vectors-budget-lineage",
+      "checked": 0,
+      "total": 21,
+      "disagreements": 0
+    },
+    {
+      "id": "vectors-capability-requirement",
+      "checked": 0,
+      "total": 92,
+      "disagreements": 0
+    },
+    {
+      "id": "vectors-catalog-trust-manifest",
+      "checked": 0,
+      "total": 115,
       "disagreements": 0
     },
     {
@@ -202,6 +220,18 @@
       "disagreements": 0
     },
     {
+      "id": "vectors-dns-aid-rrset-v01",
+      "checked": 0,
+      "total": 11,
+      "disagreements": 0
+    },
+    {
+      "id": "vectors-dns-aid-sig-v01",
+      "checked": 0,
+      "total": 33,
+      "disagreements": 0
+    },
+    {
       "id": "vectors-done-contract",
       "checked": 65,
       "total": 76,
@@ -220,9 +250,21 @@
       "disagreements": 0
     },
     {
+      "id": "vectors-empty-interval-statement",
+      "checked": 0,
+      "total": 16,
+      "disagreements": 0
+    },
+    {
       "id": "vectors-evidence-state",
       "checked": 0,
       "total": 25,
+      "disagreements": 0
+    },
+    {
+      "id": "vectors-execution-billing-finality",
+      "checked": 0,
+      "total": 31,
       "disagreements": 0
     },
     {
@@ -238,9 +280,15 @@
       "disagreements": 0
     },
     {
-      "id": "vectors-identity-binding",
+      "id": "vectors-htx-cases",
       "checked": 0,
       "total": 12,
+      "disagreements": 0
+    },
+    {
+      "id": "vectors-identity-binding",
+      "checked": 0,
+      "total": 16,
       "disagreements": 0
     },
     {
@@ -253,6 +301,18 @@
       "id": "vectors-incident-evidence-cell",
       "checked": 0,
       "total": 31,
+      "disagreements": 0
+    },
+    {
+      "id": "vectors-key-directory-observation",
+      "checked": 0,
+      "total": 13,
+      "disagreements": 0
+    },
+    {
+      "id": "vectors-lifecycle-binding",
+      "checked": 0,
+      "total": 42,
       "disagreements": 0
     },
     {
@@ -298,6 +358,18 @@
       "disagreements": 0
     },
     {
+      "id": "vectors-principal-binding",
+      "checked": 0,
+      "total": 18,
+      "disagreements": 0
+    },
+    {
+      "id": "vectors-print-witness",
+      "checked": 0,
+      "total": 12,
+      "disagreements": 0
+    },
+    {
       "id": "vectors-propagation-step",
       "checked": 0,
       "total": 12,
@@ -334,9 +406,21 @@
       "disagreements": 0
     },
     {
+      "id": "vectors-responsibility-escalation",
+      "checked": 0,
+      "total": 9,
+      "disagreements": 0
+    },
+    {
       "id": "vectors-restart-records",
       "checked": 0,
       "total": 57,
+      "disagreements": 0
+    },
+    {
+      "id": "vectors-rsa-digestinfo",
+      "checked": 0,
+      "total": 8,
       "disagreements": 0
     },
     {
@@ -370,6 +454,12 @@
       "disagreements": 0
     },
     {
+      "id": "vectors-telemetry-evidence",
+      "checked": 0,
+      "total": 36,
+      "disagreements": 0
+    },
+    {
       "id": "vectors-test-tampering",
       "checked": 34,
       "total": 34,
@@ -397,6 +487,12 @@
       "id": "vectors-w3c-report",
       "checked": 0,
       "total": 273,
+      "disagreements": 0
+    },
+    {
+      "id": "vectors-x402-evidence-join",
+      "checked": 0,
+      "total": 17,
       "disagreements": 0
     }
   ]

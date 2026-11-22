@@ -284,6 +284,20 @@ directed 232/232 is not evidence about the determinacy of the text, and the blin
    edition of this note carried our own derived expectation for `bad-743`
    and `bad-744`; the author's run has replaced it, which is the outcome a derived
    expectation should always have.
+
+   What each run does not establish, recorded beside it in `docs/INDEPENDENT-RUNS.json`
+   and stated here word for word:
+
+   | suiteRevision | Does not establish |
+   | --- | --- |
+   | 1 | conformance at any suiteRevision after 1, or on a rule no revision-1 vector exercises: revision 4 made encoding well-formedness and the 128-deep nesting bound normative over a corpus that exercised neither |
+   | 2 | a blind reading, since its author read the changelog before implementing and the unchanged build scored 132/138; nor conformance at any other suiteRevision |
+   | 3 | conformance at any later suiteRevision: a revision-3 pass is not a revision-4 pass, and this checker still read the nesting bound as 256 when revision 5 published |
+   | 5 | a blind reading, since its author called the run directed; nor that the checker held the 128-deep bound before aee-checker#3, when the same corpus scored 148/149 |
+   | 6 | conformance at any later suiteRevision, or a blind reading, since the run is directed; the unchanged revision-5 build scored 151/153 because it lacked the RFC 7493 section 2.1 noncharacter exclusion |
+   | 22 | that the text alone determines every verdict: the blind first run scored 179/232 with accepts 8/54, and the 232/232 pass followed a specification diff already read, which its author says is not evidence about the determinacy of the text; nor which fix recovered which vector, an attribution its author withdrew |
+   | 25 | that an unaided reader arrives at the revision-25 verdicts, since the checker was brought to this revision before it was measured; nor which build did the running, since no checker source digest was posted; reason parity was 69/193 |
+   | 28 | a blind reading, since the run is directed, or reason parity, which was 80/209; its author claims one property only, that no vector-driven fix was possible because the build predates every vector |
 2. **The consumer rails carry the suiteRevision-32 corpus.** The TypeScript rail,
    the standalone Python rail and the MCP server rail each vendor all 288 vectors of
    suiteRevision 32 byte-for-byte (`VENDOR-STAMP.json` pins the source spec digest,

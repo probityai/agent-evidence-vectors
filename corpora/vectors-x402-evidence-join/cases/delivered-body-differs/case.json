@@ -1,0 +1,72 @@
+{
+  "case_id": "vectors-x402-evidence-join-delivered-body-differs",
+  "delivery": {
+    "body": "{\"forecast\":\"rain\",\"city\":\"Example City\",\"unit\":\"C\",\"high\":21}",
+    "body_sha256": "d7a8886e56f638534542458d46a76c70fa8222022589b907b24f62053030fbcd"
+  },
+  "fulfilment": {
+    "evaluated": false
+  },
+  "offer": {
+    "accepted": {
+      "amount": "10000",
+      "asset": "0xa5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5",
+      "maxTimeoutSeconds": 60,
+      "network": "eip155:8453",
+      "payTo": "0xb0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0",
+      "scheme": "exact"
+    },
+    "digest": "d05b99d02fc34c2f2c8988fa3658b08c5296e5a8ea1c6c1d3363e7b86658f558",
+    "resource": {
+      "url": "https://seller.example/v1/forecast"
+    },
+    "signature": {
+      "key_id": "seller-key-1",
+      "value_sha256": "ad5aee3b3cdd21349500cea43537c40ddd2fc2c02de9106d87938d73c9bd5518"
+    }
+  },
+  "payment": {
+    "authorization": {
+      "from": "0xc1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1",
+      "nonce": "0xe3e3e3e3e3e3e3e3e3e3e3e3e3e3e3e3e3e3e3e3e3e3e3e3e3e3e3e3e3e3e3e3",
+      "to": "0xb0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0",
+      "validBefore": "1795000000",
+      "value": "10000"
+    },
+    "offer_digest": "d05b99d02fc34c2f2c8988fa3658b08c5296e5a8ea1c6c1d3363e7b86658f558",
+    "signature": {
+      "signer": "0xc1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1"
+    }
+  },
+  "receipt": {
+    "delivery_digest": "d7a8886e56f638534542458d46a76c70fa8222022589b907b24f62053030fbcd",
+    "key_id": "seller-key-1",
+    "offer_digest": "d05b99d02fc34c2f2c8988fa3658b08c5296e5a8ea1c6c1d3363e7b86658f558",
+    "signature": "5092d36036dd51d1cdbda94117f4b8c648d8df3ed72ae6a528441afabcc52e38",
+    "transaction": "0xd2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2"
+  },
+  "schema": "x402-evidence-join-record/v1",
+  "seller": {
+    "domain": "seller.example",
+    "key_ids": [
+      "seller-key-1"
+    ]
+  },
+  "settlement": {
+    "facilitator": {
+      "network": "eip155:8453",
+      "payer": "0xc1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1",
+      "success": true,
+      "transaction": "0xd2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2"
+    },
+    "ledger": {
+      "asset": "0xa5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5",
+      "from": "0xc1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1",
+      "network": "eip155:8453",
+      "status": "success",
+      "to": "0xb0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0",
+      "transaction": "0xd2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2",
+      "value": "10000"
+    }
+  }
+}

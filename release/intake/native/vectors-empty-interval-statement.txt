@@ -1,0 +1,8 @@
+suite: empty-interval-statement/v1
+members: 16
+  cross_federation_unsynchronised: 1
+  not_recorded: 4
+  query_failed: 1
+  recorded: 2
+  undetermined: 8
+verdict: every member behaves as MANIFEST.json declares

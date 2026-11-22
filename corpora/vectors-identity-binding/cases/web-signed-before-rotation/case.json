@@ -1,7 +1,8 @@
 {
   "envelope": "envelope.json",
+  "provenAt": "2026-04-02T08:00:00Z",
   "resolutions": {
     "did:web:agents.example.com:alice": "did-alice.json"
   },
-  "schema_version": "agent-did-identity-binding-case/v1"
+  "schema_version": "agent-did-identity-binding-case/v2"
 }
