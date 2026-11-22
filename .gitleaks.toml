@@ -29,6 +29,14 @@ regexes = [
 ]
 
 [[allowlists]]
+description = "Raw Ed25519 public keys, 32 bytes in standard base64 (44 characters), in the holderKey and issuerKey of a delegation-chain grant"
+# The keys come from fixed published seeds (vectors-delegation-chain/gen_vectors.py), so each is public by
+# construction. The shape is pinned to one 44-character value ending in "=", in these two field names only.
+targetRules = ["generic-api-key"]
+regexTarget = "match"
+regexes = ['''(holderKey|issuerKey)"\s*:\s*"[A-Za-z0-9+/]{43}="''']
+
+[[allowlists]]
 description = "RFC 7638 thumbprints of public JWKs: a SHA-256 digest in base64url, 43 characters (audit-record principal members)"
 targetRules = ["generic-api-key"]
 regexTarget = "match"
