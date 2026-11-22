@@ -1,0 +1,52 @@
+name: w1-regen
+on:
+  push:
+    branches:
+      - scratch/w1-regen-1122
+permissions:
+  contents: read
+jobs:
+  regen:
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    env:
+      UV_LINK_MODE: copy
+    strategy:
+      fail-fast: false
+      matrix:
+        branch:
+          - lane/vectors-half-open-1122
+          - lane/delegation-chain-vectors-1121
+          - lane/credential-reachability-1121
+          - lane/actor-marker-survival-1121
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: ${{ matrix.branch }}
+          fetch-depth: 0
+      - uses: actions/setup-go@b7ad1dad31e06c5925ef5d2fc7ad053ef454303e # v7.0.0
+        with:
+          go-version: '1.26'
+      - uses: astral-sh/setup-uv@37802adc94f370d6bfd71619e3f0bf239e1f3b78 # v7
+        with:
+          python-version: '3.13'
+      - name: sync the generator dependencies
+        run: uv sync --locked --extra generators
+      - name: regenerate the derived files, the corpus README and the reference coverage
+        run: |
+          set -euo pipefail
+          uv run --locked --extra generators python scripts/regenerate-derived.py
+          uv run --locked --extra generators python scripts/corpus-registry.py
+          uv run --group crosscheck python scripts/reference-coverage.py
+      - name: write the patch
+        run: |
+          set -euo pipefail
+          git add -A
+          git diff --cached --binary > "$RUNNER_TEMP/regen.patch"
+          git diff --cached --stat | tail -60
+          wc -c "$RUNNER_TEMP/regen.patch"
+          cp "$RUNNER_TEMP/regen.patch" regen.patch
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: regen-${{ strategy.job-index }}
+          path: regen.patch
