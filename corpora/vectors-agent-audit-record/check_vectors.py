@@ -890,6 +890,16 @@ SECTION_READINGS: list[tuple[str, Callable[[], contextlib.AbstractContextManager
         "CS53",
     ),
     (
+        "a principal's token refused when issued within the skew tolerance after the decision",
+        lambda: _reading(auditrecord.PRINCIPAL_SKEW_READING, "issued", False),
+        "PR13",
+    ),
+    (
+        "a principal's token refused when expired within the skew tolerance before the decision",
+        lambda: _reading(auditrecord.PRINCIPAL_SKEW_READING, "expires", False),
+        "PR12",
+    ),
+    (
         "a zero settlement's hold ended only by a record after its deadline, not at it",
         lambda: _reading(auditrecord.DEADLINE_READING, "inclusive", False),
         "CS54",

@@ -1103,7 +1103,7 @@ def _rule_delegation(state: _State) -> None:
 
 
 # --------------------------------------------------------------------------
-# The authenticated principal (revision 04, rows PR1 to PR11).
+# The authenticated principal (revision 04, rows PR1 to PR16).
 # --------------------------------------------------------------------------
 
 #: The members ``principal`` carries, each required, and the one it may carry
@@ -1213,6 +1213,12 @@ def _principal_shape(principal: Any) -> None:
     _principal_key_shape(principal["key"])
 
 
+#: Whether the skew tolerance applies on each side of a principal's token
+#: lifetime: to its issue (PR13, PR15) and to its expiry (PR12, PR14). A test
+#: sets one false to ask what a reader with no tolerance on that side does.
+PRINCIPAL_SKEW_READING = {"issued": True, "expires": True}
+
+
 def _principal_lifetime(principal: dict[str, Any], reported_at: Any) -> None:
     """Issued no later than the decision and not expired at it, both within the
     skew tolerance; a lifetime that ends before it starts is malformed."""
@@ -1224,16 +1230,19 @@ def _principal_lifetime(principal: dict[str, Any], reported_at: Any) -> None:
     if expires <= issued:
         raise Malformed("principal-malformed")
     decided = _instant(reported_at)
-    if issued - decided > SKEW_TOLERANCE:
+    none = datetime.timedelta(0)
+    issued_skew = SKEW_TOLERANCE if PRINCIPAL_SKEW_READING["issued"] else none
+    expires_skew = SKEW_TOLERANCE if PRINCIPAL_SKEW_READING["expires"] else none
+    if issued - decided > issued_skew:
         raise Malformed("principal-not-yet-valid")
-    if decided - expires > SKEW_TOLERANCE:
+    if decided - expires > expires_skew:
         raise Malformed("principal-expired")
 
 
 def _rule_principal(state: _State) -> None:
     """The optional principal member: the IdP-authenticated principal the
     decision point established, bound to the agent's credential by its digest
-    and to the issuer's key by its RFC 7638 thumbprint (PR1 to PR11)."""
+    and to the issuer's key by its RFC 7638 thumbprint (PR1 to PR16)."""
     pred = state.predicate
     if "principal" not in pred:
         return

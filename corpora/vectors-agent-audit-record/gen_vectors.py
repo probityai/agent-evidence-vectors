@@ -3692,7 +3692,7 @@ def define_principal_standing() -> None:
 
 
 # ---------------------------------------------------------------------------
-# The authenticated principal (revision 04, rows PR1 to PR11).
+# The authenticated principal (revision 04, rows PR1 to PR16).
 #
 # A decision point that authenticated the call through an identity provider
 # knows who the principal is: the issuer, the subject, the client, the
@@ -3929,6 +3929,87 @@ def define_principal() -> None:
             "malformed",
             [code],
         )
+    define_principal_bounds()
+
+
+def _lifetime(issued: str, expires: str) -> Callable[[dict[str, Any]], None]:
+    def change(pred: dict[str, Any]) -> None:
+        pred["principal"]["issuedAt"] = issued
+        pred["principal"]["expiresAt"] = expires
+
+    return change
+
+
+def define_principal_bounds() -> None:
+    """PR12 to PR16 (Laurent Lemonnier's two readings on #401). The skew
+    tolerance applies on both sides of the token's lifetime: decision.reportedAt
+    is 11:04:02, so a token that expired four minutes before it, or was issued
+    four minutes after it, is valid, and one second past the 300-second
+    tolerance on either side is refused. Under subjectKind system the subject is
+    whatever identifier the issuer uses for the client (RFC 9068, Section 2.2),
+    which need not equal clientId, and a verifier does not compare them."""
+    bounds = [
+        (
+            "PR12",
+            "pr12-principal-expired-within-skew",
+            "PR1 whose token expired at 11:00:02, four minutes before decision.reportedAt and "
+            "within the skew tolerance",
+            _lifetime("2026-09-19T10:00:02Z", "2026-09-19T11:00:02Z"),
+            "valid",
+            None,
+        ),
+        (
+            "PR13",
+            "pr13-principal-issued-within-skew",
+            "PR1 whose token was issued at 11:08:02, four minutes after decision.reportedAt and "
+            "within the skew tolerance",
+            _lifetime("2026-09-19T11:08:02Z", "2026-09-19T12:08:02Z"),
+            "valid",
+            None,
+        ),
+        (
+            "PR14",
+            "pr14-principal-expired-past-skew",
+            "PR1 whose token expired at 10:59:01, 301 seconds before decision.reportedAt: one "
+            "second past the skew tolerance",
+            _lifetime("2026-09-19T09:59:01Z", "2026-09-19T10:59:01Z"),
+            "malformed",
+            "principal-expired",
+        ),
+        (
+            "PR15",
+            "pr15-principal-issued-past-skew",
+            "PR1 whose token was issued at 11:09:03, 301 seconds after decision.reportedAt: one "
+            "second past the skew tolerance",
+            _lifetime("2026-09-19T11:09:03Z", "2026-09-19T12:09:03Z"),
+            "malformed",
+            "principal-not-yet-valid",
+        ),
+    ]
+    for draft_id, slug, row, change, verdict, code in bounds:
+        member(
+            draft_id,
+            slug,
+            "PR1",
+            row,
+            mutate("PR1", change),
+            verdict,
+            [code] if code else [],
+            tier="authoritative" if verdict == "valid" else None,
+            revision=REVISION_04,
+        )
+    member(
+        "PR16",
+        "pr16-principal-system-subject-not-client-id",
+        "PR2",
+        "PR2 where the principal's subject is the issuer's own identifier for the client, not "
+        "its client_id, as RFC 9068 Section 2.2 allows: valid, a verifier does not compare them",
+        mutate("PR2", _principal_edit("subject", "0oa8f5j3ecb5w3dF35d7")),
+        "valid",
+        [],
+        tier="authoritative",
+        revision=REVISION_04,
+    )
 
 
 def _expired(pred: dict[str, Any]) -> None:
@@ -5192,7 +5273,7 @@ ORDER = (
     "A21 SQ1 SQ2 SQ3 SQ4 SQ5 "
     "R10 R11 R12 R13 R14 R15 R16 R19 R20 R21 R22 R23 R24 "
     "IS1 IS2 PS1 PS2 PS1b PS3 PS4 PS5 "
-    "PR1 PR2 PR3 PR4 PR5 PR6 PR7 PR8 PR9 PR10 PR11 "
+    "PR1 PR2 PR3 PR4 PR5 PR6 PR7 PR8 PR9 PR10 PR11 PR12 PR13 PR14 PR15 PR16 "
     "DS1 DS2 DS3 DS4 DS5 DS6 DS7 DS8 DS9 DS10 "
     "X1 X2 X3 X4 X5 X6 X7 X8 X9 X10 X11 X12 X13 X14 X15 X16 X17 X18"
 ).split()
