@@ -1,0 +1,26 @@
+{
+  "body": {
+    "entries": [
+      {
+        "id": "524227d0dbab017d1cfcd44aa540f82de137afcbeea296e92fcc768fd2daaef6",
+        "kind": "key",
+        "reason": "compromised",
+        "revokedAt": "2026-06-01T00:00:00Z"
+      },
+      {
+        "id": "66e0964922229d08455f3b8961827ac11e766a0cba43ee5a5b5dc2cd78870bf2",
+        "kind": "key",
+        "reason": "rotation",
+        "revokedAt": "2026-06-01T00:00:00Z",
+        "successor": "I9dejgXrb7a7eFLkgHTJdJE9EecCR936q+7+pt0qEUM="
+      }
+    ],
+    "issuedAt": "2026-06-02T00:00:00Z",
+    "issuerKey": "I9dejgXrb7a7eFLkgHTJdJE9EecCR936q+7+pt0qEUM=",
+    "listId": "probity-revocations",
+    "previous": "sha256:6a1d75e82e170970f5af37c025226a96f80fccab60b01660f44880c68ab3ae4c",
+    "seq": 2,
+    "type": "https://probityai.github.io/agent-evidence-vectors/predicate/v1/revocation-list"
+  },
+  "sig": "3uHEXMyD32k7SK5xk4ap59hkjTXjIowuSIHAleFRW0poc/s6YUrnBFZgHimtNKyJ8/Z/cacvfswu8cdLsdUFDA=="
+}
