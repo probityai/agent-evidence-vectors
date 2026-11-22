@@ -1,27 +1,32 @@
 #!/usr/bin/env python3
-"""Every predicate type URI this repository names resolves on the Pages site.
+"""Every identifier a record, corpus or package names under the Pages host resolves to a page.
 
-A ``predicateType`` is written inside bytes a third party signs, so it cannot
-move after publication, and a type URI that returns 404 reads to a verifier
-exactly like a type that was withdrawn. ``predicate/v1/self-reported-record``
-was named 18 times on the default branch and inside every signed member of its
-corpus, and returned 404, because it was never entered in
-``spec/predicates/REGISTRY.md`` and the site build publishes what the registry
-lists.
+An identifier (a predicate type, a contract, a schema, an evaluator, a verifier) is written inside
+bytes a third party signs or reads, so it cannot move after publication, and one that returns 404
+reads to a verifier exactly like one that was withdrawn. ``predicate/v1/self-reported-record`` was
+named 18 times and inside every signed member of its corpus and returned 404; later, 48 of the 120
+identifiers the public repositories name answered 404, because this gate read only the predicate
+prefix of one host in one repository and the site build publishes only what its sources list.
 
-Two checks, and they answer different questions:
+This gate reads every tracked file of the repository (and of every ``--also`` checkout, for example
+the public ``probity`` repository whose packages emit identifiers), in plain text and inside every
+base64 ``payload`` a signature covers, and finds each identifier under the Pages host
+``https://probityai.github.io/<site>/<family>/...`` with ``<family>`` one of predicate, contract,
+schema, evaluator or verifiers. Each must be one of:
 
-* default (hermetic, every push): every URI under this host's ``/predicate/``
-  prefix that appears in a tracked file, including inside a base64 ``payload``
-  a signature covers, is registered, and the site build writes a page for it
-  under both routings a static host may use (``<name>.html`` and
-  ``<name>/index.html``);
-* ``--live`` (after a Pages deploy): each of those URIs answers 200 from the
-  published host. It cannot run before the deploy that publishes a new page, so
-  it runs in the Pages workflow after deploy, never as a pre-push step.
+* served by this site: the site build writes its page, under both routings a static host may use
+  (``<path>.html`` and ``<path>/index.html``);
+* served by the organisation site and listed in ``spec/identifiers-served-elsewhere.txt``, with the
+  organisation site publishing its page;
+* a negative vector and listed in ``spec/identifiers-unresolved.txt``: an identifier a test case names
+  to be refused as unknown, which must never resolve.
 
-    python3 scripts/predicate-uri-gate.py
-    python3 scripts/predicate-uri-gate.py --live
+``--live`` (after a Pages deploy) fetches every one: served identifiers must answer 200, negative
+vectors 404. The listings are the review point: a new identifier that is in neither file fails here.
+
+    heavy-queue heavy-run --name identifier-pages-gate --timeout 3600 -- python3 scripts/identifier-pages-gate.py
+    heavy-queue heavy-run --name identifier-pages-gate --timeout 3600 -- python3 scripts/identifier-pages-gate.py --also ../probity
+    heavy-queue heavy-run --name identifier-pages-gate --timeout 3600 -- python3 scripts/identifier-pages-gate.py --live
 """
 
 from __future__ import annotations
@@ -40,9 +45,20 @@ from pathlib import Path
 from typing import Any
 
 ROOT = Path(__file__).resolve().parents[1]
-HOST = "https://probityai.github.io/agent-evidence-vectors"
-URI_RE = re.compile(re.escape(HOST) + r"/predicate/(v\d+)/([a-z0-9-]+)")
-REGISTRY_RE = re.compile(r"^### `predicate/(v\d+)/([a-z0-9-]+)`$", re.MULTILINE)
+ORIGIN = "https://probityai.github.io"
+SITE = "agent-evidence-vectors"
+FAMILIES = ("predicate", "contract", "schema", "evaluator", "verifiers")
+SEGMENT = r"[A-Za-z0-9][A-Za-z0-9._-]*"
+URI_RE = re.compile(
+    re.escape(ORIGIN)
+    + r"/(?:agent-evidence-vectors|agent-evidence-observer|agent-evidence|probity)/(?:"
+    + "|".join(FAMILIES)
+    + r")(?:/"
+    + SEGMENT
+    + r")+"
+)
+SERVED_ELSEWHERE = ROOT / "spec" / "identifiers-served-elsewhere.txt"
+UNRESOLVED = ROOT / "spec" / "identifiers-unresolved.txt"
 
 
 def tracked_files(root: Path) -> list[Path]:
@@ -67,15 +83,19 @@ def _payloads(value: Any) -> list[str]:
     return out
 
 
-def uris_in(path: Path) -> set[tuple[str, str]]:
-    """The (version, name) of every type URI a file names, in plain text or
-    inside a base64 payload. A text search alone misses the second, which is
-    where the URI a signature covers usually sits."""
+def clean(uri: str) -> str:
+    """Drop the punctuation a sentence leaves after a URI."""
+    return uri.rstrip(".-_")
+
+
+def uris_in(path: Path) -> set[str]:
+    """Every identifier a file names, in plain text or inside a base64 payload. A text search alone
+    misses the second, which is where the identifier a signature covers usually sits."""
     try:
         text = path.read_text(encoding="utf-8")
     except (UnicodeDecodeError, OSError):
         return set()
-    found = set(URI_RE.findall(text))
+    found = {clean(u) for u in URI_RE.findall(text)}
     if path.suffix in (".json", ".jsonl"):
         for line in text.splitlines() if path.suffix == ".jsonl" else [text]:
             try:
@@ -87,92 +107,118 @@ def uris_in(path: Path) -> set[tuple[str, str]]:
                     decoded = base64.b64decode(payload, validate=True).decode("utf-8", "replace")
                 except (binascii.Error, ValueError):
                     continue
-                found |= set(URI_RE.findall(decoded))
+                found |= {clean(u) for u in URI_RE.findall(decoded)}
     return found
 
 
-def referenced(root: Path) -> dict[tuple[str, str], list[str]]:
-    refs: dict[tuple[str, str], list[str]] = {}
-    for path in tracked_files(root):
-        for key in uris_in(path):
-            refs.setdefault(key, []).append(str(path.relative_to(root)))
+def referenced(roots: list[Path]) -> dict[str, list[str]]:
+    refs: dict[str, list[str]] = {}
+    for root in roots:
+        for path in tracked_files(root):
+            if path in (SERVED_ELSEWHERE, UNRESOLVED):
+                continue
+            for uri in uris_in(path):
+                refs.setdefault(uri, []).append(f"{root.name}/{path.relative_to(root)}")
     return refs
 
 
-def registered(root: Path) -> set[tuple[str, str]]:
-    text = (root / "spec" / "predicates" / "REGISTRY.md").read_text(encoding="utf-8")
-    return set(REGISTRY_RE.findall(text))
+def listed(path: Path) -> set[str]:
+    """The identifiers one listing file names, one per line; ``#`` starts a comment."""
+    lines = path.read_text(encoding="utf-8").splitlines()
+    return {ln.split("#", 1)[0].strip() for ln in lines if ln.split("#", 1)[0].strip()}
 
 
-def hermetic(root: Path) -> list[str]:
-    refs = referenced(root)
+def own_path(uri: str) -> str | None:
+    """The path of an identifier under this site, else None."""
+    prefix = f"{ORIGIN}/{SITE}/"
+    return uri.removeprefix(prefix) if uri.startswith(prefix) else None
+
+
+def hermetic(roots: list[Path]) -> list[str]:
+    refs = referenced(roots)
     if not refs:
-        return ["no predicate type URI under the Pages host was found at all; the scan is broken"]
+        return ["no identifier under the Pages host was found at all; the scan is broken"]
+    elsewhere = listed(SERVED_ELSEWHERE)
+    unresolved = listed(UNRESOLVED)
     failures = []
-    known = registered(root)
-    for key, where in sorted(refs.items()):
-        if key not in known:
-            failures.append(
-                f"predicate/{key[0]}/{key[1]} is named in {len(where)} file(s) "
-                f"({', '.join(where[:3])}) and is not in spec/predicates/REGISTRY.md, "
-                "so the site publishes no page for it and the URI returns 404"
-            )
     with tempfile.TemporaryDirectory() as tmp:
         build = subprocess.run(
-            [sys.executable, str(root / "docs" / "site" / "build.py"), "--out", tmp],
+            [sys.executable, str(ROOT / "docs" / "site" / "build.py"), "--out", tmp],
             capture_output=True,
             text=True,
             check=False,
         )
         if build.returncode != 0:
-            return failures + [f"the site build failed: {build.stderr.strip()[-400:]}"]
-        for version, name in sorted(refs):
-            for rel in (
-                f"predicate/{version}/{name}.html",
-                f"predicate/{version}/{name}/index.html",
-            ):
-                if not (Path(tmp) / rel).is_file():
-                    failures.append(f"the site build writes no {rel}")
+            return [f"the site build failed: {build.stderr.strip()[-400:]}"]
+        for uri, where in sorted(refs.items()):
+            if uri in unresolved:
+                continue
+            if uri in elsewhere:
+                continue
+            rel = own_path(uri)
+            if rel is None:
+                failures.append(
+                    f"{uri} is named in {len(where)} file(s) ({', '.join(where[:3])}) on a host this "
+                    "site does not serve and is in neither spec/identifiers-served-elsewhere.txt nor "
+                    "spec/identifiers-unresolved.txt"
+                )
+                continue
+            for route in (f"{rel}.html", f"{rel}/index.html"):
+                if not (Path(tmp) / route).is_file():
+                    failures.append(
+                        f"{uri} is named in {len(where)} file(s) ({', '.join(where[:3])}) and the site "
+                        f"build writes no {route}, so the identifier returns 404; register it "
+                        "(predicates: spec/predicates/REGISTRY.md; schemas: spec/schemas/; contracts: "
+                        "a corpus manifest contractId) or list it as a negative vector in "
+                        "spec/identifiers-unresolved.txt"
+                    )
+                    break
+    stale = sorted((elsewhere | unresolved) - set(refs))
+    failures.extend(f"{uri} is listed but no tracked file names it; delete the line" for uri in stale)
+    both = sorted(elsewhere & unresolved)
+    failures.extend(f"{uri} is listed as both served and unresolved" for uri in both)
     print(
-        f"{len(refs)} predicate type URI(s) named in tracked files; each is checked against "
-        "the registry and the built site"
+        f"{len(refs)} identifier(s) named in tracked files of {len(roots)} checkout(s); "
+        f"{len(unresolved)} negative vector(s), {len(elsewhere)} served by the organisation site"
     )
     return failures
 
 
-def live(root: Path) -> list[str]:
+def status(url: str) -> int | str:
+    try:
+        with urllib.request.urlopen(url, timeout=30) as response:  # noqa: S310 -- a fixed https host
+            return response.status
+    except urllib.error.HTTPError as err:
+        return err.code
+    except (urllib.error.URLError, TimeoutError) as err:
+        return f"the request did not complete ({err})"
+
+
+def live(roots: list[Path]) -> list[str]:
     failures = []
-    for version, name in sorted(set(referenced(root)) | registered(root)):
-        url = f"{HOST}/predicate/{version}/{name}"
-        try:
-            with urllib.request.urlopen(url, timeout=30) as response:  # noqa: S310 -- a fixed https host
-                status = response.status
-        except urllib.error.HTTPError as err:
-            status = err.code
-        except (urllib.error.URLError, TimeoutError) as err:
-            failures.append(f"{url}: the request did not complete ({err}); nothing was established")
-            continue
-        print(f"{status} {url}")
-        if status != 200:
-            failures.append(f"{url} answered {status}")
+    unresolved = listed(UNRESOLVED)
+    for uri in sorted(set(referenced(roots)) | listed(SERVED_ELSEWHERE) | unresolved):
+        got = status(uri)
+        want = 404 if uri in unresolved else 200
+        print(f"{got} {uri}")
+        if isinstance(got, str):
+            failures.append(f"{uri}: {got}; nothing was established")
+        elif got != want:
+            failures.append(f"{uri} answered {got}, expected {want}")
     return failures
 
 
 def main(argv: list[str]) -> int:
     parser = argparse.ArgumentParser(description=(__doc__ or "").split("\n\n")[0])
-    parser.add_argument(
-        "--live", action="store_true", help="fetch each URI from the published host"
-    )
-    parser.add_argument("--root", type=Path, default=ROOT)
+    parser.add_argument("--live", action="store_true", help="fetch each identifier from the published host")
+    parser.add_argument("--also", type=Path, action="append", default=[], help="another checkout to scan")
     args = parser.parse_args(argv)
-    failures = live(args.root) if args.live else hermetic(args.root)
+    roots = [ROOT, *[p.resolve() for p in args.also]]
+    failures = live(roots) if args.live else hermetic(roots)
     for failure in failures:
         print(f"FAIL: {failure}")
     if not failures:
-        print(
-            "OK: every predicate type URI resolves"
-            + (" on the published host" if args.live else " in the built site")
-        )
+        print("OK: every identifier resolves" + (" on the published host" if args.live else " as listed"))
     return 1 if failures else 0
 
 
