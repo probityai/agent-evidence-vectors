@@ -164,6 +164,7 @@ only-include = [
     "corpora/vectors-connector-scope",
     "corpora/vectors-containment-journal",
     "corpora/vectors-converted-argument-binding",
+    "corpora/vectors-credential-reachability",
     "corpora/vectors-credential-release",
     "corpora/vectors-decision-client-failure-modes",
     "corpora/vectors-delegation-lifecycle",
@@ -252,6 +253,7 @@ exclude = [
     "corpora/vectors-connector-scope/**/*.py",
     "corpora/vectors-containment-journal/**/*.py",
     "corpora/vectors-converted-argument-binding/**/*.py",
+    "corpora/vectors-credential-reachability/**/*.py",
     "corpora/vectors-credential-release/**/*.py",
     "corpora/vectors-decision-client-failure-modes/**/*.py",
     "corpora/vectors-delegation-lifecycle/**/*.py",
@@ -339,6 +341,7 @@ exclude = [
 "corpora/vectors-connector-scope" = "agent_evidence_vectors/corpora/vectors-connector-scope"
 "corpora/vectors-containment-journal" = "agent_evidence_vectors/corpora/vectors-containment-journal"
 "corpora/vectors-converted-argument-binding" = "agent_evidence_vectors/corpora/vectors-converted-argument-binding"
+"corpora/vectors-credential-reachability" = "agent_evidence_vectors/corpora/vectors-credential-reachability"
 "corpora/vectors-credential-release" = "agent_evidence_vectors/corpora/vectors-credential-release"
 "corpora/vectors-decision-client-failure-modes" = "agent_evidence_vectors/corpora/vectors-decision-client-failure-modes"
 "corpora/vectors-delegation-lifecycle" = "agent_evidence_vectors/corpora/vectors-delegation-lifecycle"
@@ -501,6 +504,7 @@ only-include = [
     "corpora/vectors-connector-scope",
     "corpora/vectors-containment-journal",
     "corpora/vectors-converted-argument-binding",
+    "corpora/vectors-credential-reachability",
     "corpora/vectors-credential-release",
     "corpora/vectors-decision-client-failure-modes",
     "corpora/vectors-delegation-lifecycle",

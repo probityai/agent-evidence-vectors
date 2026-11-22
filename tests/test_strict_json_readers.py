@@ -37,7 +37,8 @@ CASE_READERS = (
     "agenticprocess", "aggregateaccounting", "anchoredchain", "approvalbinding",
     "authoritydispatch", "badgevc", "changeadmission", "chunkedexport",
     "completionconfirmation", "connectorscope", "containmentjournal", "convertedargs",
-    "decisionclient", "delegatorright", "dispatchfence", "evidencecell", "evidencestate",
+    "credreach", "decisionclient", "delegatorright", "dispatchfence", "evidencecell",
+    "evidencestate",
     "gradefloor", "identitybinding", "monitorcoverage", "openweight", "paymentmandate",
     "propagationstep", "receiptchainend", "refusalreason", "signaturecoverage",
     "actormarker", "statusreceipt", "traceanchor", "uncertaineffect",
@@ -165,7 +166,7 @@ def _module_sources() -> list[Path]:
 
 
 # A json.loads that keeps its own call is strict when it passes both refusal hooks. These
-# do not, and each says why.
+# do not, and each says why; some are mutation switches.
 OWN_PROFILE = {
     # The A2A JCS corpus reads NaN and Infinity and refuses them at canonicalization, under
     # the reason its number-serialization vectors (A5-REJECT-016 to 018) expect.
@@ -179,6 +180,9 @@ OWN_PROFILE = {
     # ahead of each (strict_loads) refuses both spellings.
     ("packaging/agent_evidence_vectors/catalogtrust.py", "_lenient_jws"),
     ("packaging/agent_evidence_vectors/catalogtrust.py", "load"),
+    # The lenient parse runs only when the corpus mutation check switches the strict-JSON
+    # rule off, to prove a repeated-member payload is refused by that rule and no other.
+    ("packaging/agent_evidence_vectors/credreach.py", "_statement"),
 }
 
 

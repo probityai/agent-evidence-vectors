@@ -64,6 +64,7 @@ The predicate carries one signed structure: the source as readers see it with re
 kept, the signed payload with its signature, the keys declared outside the signature, and
 the paths a consumer reads. The signature input must determine everything a reader can
 read: two records that read differently may not share one.
+
 ### `predicate/v1/evidence-state`
 
 - Document: `corpora/vectors-evidence-state/README.md`
@@ -226,6 +227,7 @@ restate the matrix on the W3C public-agent-identity list, October 2026 (messages
 - Envelope: a bare JSON record (`contractId`, `recordId`, `decision`, `authority`, `escalation`, `evaluatedAt`), not an in-toto Statement.
 - Field semantics: defined here, as a proposal; the outcome tokens `established`, `partial`, `unresolved` and `not_established` are not an agreed text of any group.
 - Example: `corpora/vectors-responsibility-escalation/cases/h09-clean-path-closed-on-time/record.json`.
+
 ### `predicate/v1/execution-billing-finality`
 
 - Document: `corpora/vectors-execution-billing-finality/README.md`
@@ -240,6 +242,7 @@ invoice is not an execution, settled billing never reopens the same attempt's di
 gate, and the dispatch state is a required output that leaves RESERVED once billing
 settles. Scenarios are from the P04 execution and billing candidate (agent-evidence-lab at
 8db9989), with X1 and the dispatch-guard mutants from a non-author run of it.
+
 ### `predicate/v1/capability-requirement`
 
 - Document: `corpora/vectors-capability-requirement/README.md`
@@ -257,6 +260,22 @@ can support. A held-out value counts only with the named assessor's signature fo
 A drift record compares two signed runs of one requirement against one endpoint and is refused
 when the runs name different requirement digests or endpoints, repeat one run, or when its
 comparison is not the one the runs give.
+
+### `predicate/v1/credential-reachability`
+
+- Document: `spec/predicates/credential-reachability.md`
+- Corpus: `corpora/vectors-credential-reachability/`, suite `credential-reachability/v1`
+- Rails: `corpusreaders/credreach.go`, `packaging/agent_evidence_vectors/credreach.py`
+
+The predicate carries the result of a probe that ran inside an AI agent's environment,
+with the agent's own identity and view, over a closed list of ambient credential
+classes: SSH agent sockets and key files, cloud metadata endpoints, cloud and registry
+credential files, browser cookie stores, environment tokens, cluster service-account
+tokens, git credential helpers and host keyrings. Each class is `reachable`,
+`not_reachable` or `could_not_test`, and a probe that did not run is never
+`not_reachable`. A key outside the agent's reach signs the result, bound to the
+environment's contract, a verifier's challenge and an audience, so a consumer refuses a
+record the agent could have signed or replayed. The record carries no credential value.
 
 ### `predicate/v1/evaluation-claim`
 
