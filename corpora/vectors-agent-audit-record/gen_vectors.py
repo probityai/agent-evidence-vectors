@@ -1629,7 +1629,6 @@ def define_freshness() -> None:
         ),
         "malformed",
         ["evaluation-inconsistent"],
-        revision=REVISION_04,
     )
 
     rejects: list[tuple[str, str, str, str, Callable[[], Built], str]] = [
@@ -1970,7 +1969,7 @@ def define_evaluated_at() -> None:
     ]
     for draft_id, slug, row, build in accepts:
         member(
-            draft_id, slug, None, row, build, "valid", tier="authoritative", revision=REVISION_04
+            draft_id, slug, None, row, build, "valid", tier="authoritative"
         )
     rejects: list[tuple[str, str, str, str, Callable[[], Built], str]] = [
         (
@@ -2005,7 +2004,7 @@ def define_evaluated_at() -> None:
         ),
     ]
     for draft_id, slug, parent, row, build, code in rejects:
-        member(draft_id, slug, parent, row, build, "malformed", [code], revision=REVISION_04)
+        member(draft_id, slug, parent, row, build, "malformed", [code])
     member(
         "FR25",
         "fr25-last-result-past-skew-tolerance-after-evaluated-at",
@@ -2016,7 +2015,6 @@ def define_evaluated_at() -> None:
         "malformed",
         ["evaluation-result-after-decision"],
         section="5.4",
-        revision=REVISION_04,
     )
 
 
@@ -3830,7 +3828,6 @@ def define_principal_standing() -> None:
         "valid",
         tier="authoritative",
         section="5.4",
-        revision=REVISION_04,
         predicate_type=PREDICATE_TYPE_V2,
     )
     define_principal_standing_commitment()
