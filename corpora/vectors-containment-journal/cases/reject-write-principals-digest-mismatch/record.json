@@ -1,0 +1,92 @@
+{
+  "agents": [
+    "agent-a",
+    "agent-b",
+    "agent-c",
+    "agent-d"
+  ],
+  "claims": {},
+  "contractId": "https://probityai.github.io/agent-evidence-vectors/predicate/v1/containment-journal",
+  "enforcement": "enforced",
+  "entries": [
+    {
+      "at": "2026-11-03T09:00:00Z",
+      "edges": [
+        [
+          "agent-a",
+          "agent-b"
+        ],
+        [
+          "agent-a",
+          "agent-c"
+        ],
+        [
+          "agent-a",
+          "agent-d"
+        ],
+        [
+          "agent-b",
+          "agent-a"
+        ],
+        [
+          "agent-b",
+          "agent-c"
+        ],
+        [
+          "agent-b",
+          "agent-d"
+        ],
+        [
+          "agent-c",
+          "agent-a"
+        ],
+        [
+          "agent-c",
+          "agent-b"
+        ],
+        [
+          "agent-c",
+          "agent-d"
+        ],
+        [
+          "agent-d",
+          "agent-a"
+        ],
+        [
+          "agent-d",
+          "agent-b"
+        ],
+        [
+          "agent-d",
+          "agent-c"
+        ]
+      ],
+      "event": "topology",
+      "prev": "sha256:0000000000000000000000000000000000000000000000000000000000000000",
+      "seq": 0
+    },
+    {
+      "agent": "agent-a",
+      "at": "2026-11-03T09:00:10Z",
+      "event": "write",
+      "keyDigest": "sha256:3eecf1ec0cb9fca75c524ac18c08ccd47a948d3ad797e6a07a783e4bc1498749",
+      "permitValueDigest": "sha256:4272908083e20d677d4e6c5a01550d65be78dcae94c96a4899fbfbfaa1987880",
+      "prev": "sha256:4fd72b86d7bd13f6013f15f96fd47d7cd33420f09f4cd83aa71d3a93011a2232",
+      "principals": {
+        "chainDigest": "sha256:e3621d1cdeb9acd044b238d04508f3de4cde1e7cdf94752defd24626da3ec91b",
+        "digest": "sha256:ec707216f75bee9e46a1078c2c57b7b006109986637d4dfe641d5c3694683667",
+        "user": "7b5247267cbe7378805b54a3a81382f4f76c68f20d4343b062b1cc759f673780"
+      },
+      "refused": false,
+      "seq": 1,
+      "store": "notes",
+      "valueDigest": "sha256:4272908083e20d677d4e6c5a01550d65be78dcae94c96a4899fbfbfaa1987880"
+    }
+  ],
+  "messageFields": [
+    "body",
+    "receiver",
+    "sender"
+  ],
+  "runId": "run-mislabelled"
+}

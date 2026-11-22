@@ -4,12 +4,16 @@ Type URI: https://probityai.github.io/agent-evidence-vectors/predicate/v1/contai
 
 Receipt type URI: https://probityai.github.io/agent-evidence-vectors/predicate/v1/blast-radius-receipt
 
-Version: 1.2 (corpus suite `containment-journal/v1`, `suiteRevision` 3)
+Version: 2.0 (corpus suite `containment-journal/v1`, `suiteRevision` 4)
 
 > Status: DRAFT, issued under a self-hosted `predicateType` URI. The URIs will not move once
 > a signed statement carries them. Revision 1.1 adds optional members only: a journal written
 > to revision 1.0 keeps its shape, and its verdict changes only where it records a tool call by
-> an agent that was isolated at the time (`tool_call_by_isolated_agent`).
+> an agent that was isolated at the time (`tool_call_by_isolated_agent`). Revision 2.0 adds
+> two events, `write` and `store_read`, so that every value an agent writes to a shared store
+> says who wrote it. It is a major revision because a reader of 1.x denies a journal that
+> carries either event (`closed_vocabulary_violation`): that is the correct answer for a reader
+> that cannot judge them. A journal with neither keeps its bytes and its verdict.
 
 ## Purpose
 
@@ -51,7 +55,8 @@ Optional members (revision 1.1):
 `detectorDriven` (booleans), `responseBoundSeconds` (integer at least 0), and from revision
 1.1 `retrievalAttested` (every admitted retrieval is inside `snapshotRoot`) and
 `authorityChainChecked` (every tool call that ran was checked against a grant chain, whose
-digest it carries).
+digest it carries), and from revision 2.0 `writesAttributed` (every write that ran names its
+principals) and `writesBound` (every write that ran names the value its permit bound).
 
 Every entry carries `seq`, `prev` (entry 0 cites `sha256:` and 64 zeros), `at`, `event` and
 exactly the event's members. Edge lists are sorted unique `[from, to]` pairs of listed agents
@@ -70,6 +75,8 @@ with `from` different from `to`.
 | `tool_call` | `agent`, `tool`; optional (1.1) `refused` (boolean), `refusalReason` (present exactly when `refused` is true), `grantChainDigest` |
 | `refusal` (1.1) | `sender`, `receiver`, `bodyDigest`, `reasonCode` (one of the registered codes, below) |
 | `retrieval` (1.1) | `agent`, `documentDigest`, `admitted` (boolean), `proof` (at most 64 steps, each `["left" or "right", digest]`) |
+| `write` (2.0) | `agent`, `store` (at most 300 characters), `keyDigest`, `valueDigest`, `refused` (boolean); optional `refusalReason` (present exactly when `refused` is true), `permitValueDigest`, `principals` |
+| `store_read` (2.0) | `agent`, `store`, `keyDigest`, `valueDigest`, `writer`; optional `refused` (boolean), `refusalReason` (present exactly when `refused` is true) |
 
 Closed vocabularies: `enforcement`, `event`, `basis` (`detector_online_label`,
 `detector_no_label`, `random_rate_matched`, `ground_truth_oracle`, `fixed_schedule`,
@@ -99,7 +106,24 @@ denies (`closed_vocabulary_violation`). A minor release may add codes to this re
 reader denies only the codes it does not know and never infers a verdict from the meaning of
 a known one. `authority_chain_violation` is for deliveries only; a refused `tool_call`
 carries its reason in `refusalReason`, as free text. A refusal of a write belongs to the
-write event of the next major revision of this predicate and is not recorded by this event.
+`write` event (revision 2.0) and is not recorded by this event.
+
+### Writes and reads back (revision 2.0)
+
+A shared store is anything one agent writes and another later reads: a blackboard, a tool's
+state, an orchestrator's log. A `write` records one write by `agent` to `store`, the key and the
+value by digest, and whether the write was refused and why. `permitValueDigest` is the value
+digest the write's permit bound, when the write ran under one. `principals` names who wrote it:
+`user` (at most 300 characters: the identity of the principal the agent's delegation chain was
+granted by, for example the key id of the root grant's issuer), `chainDigest` (the digest of
+that chain) and `digest`, which is `sha256:` and the hex SHA-256 of the canonical bytes of
+`{"agent": <agent>, "chainDigest": <chainDigest>, "user": <user>}`.
+
+A `store_read` records that `agent` read the value `valueDigest` back from `store` under
+`keyDigest`, and names the `writer` it attributes the value to: `{"agent": <a listed agent>}`,
+plus `user` and `chainDigest` together when the write it read was attributed. A read its reader
+refused (for example, the reader has no rule for that writer) carries `refused: true` and its
+reason, and asserts nothing about the value.
 
 ### The inclusion path
 
@@ -150,11 +174,23 @@ reason `containment_consistent`.
    - tool_call (1.1): `tool_call_by_isolated_agent` when the call is not refused and its agent
      has no outgoing edge in the graph in force. This holds under either enforcement: an
      advisory topology can state an isolation it cannot impose, and a journal that shows the
-     isolated agent acting does not show containment.
+     isolated agent acting does not show containment;
+   - write (2.0): `write_principals_digest_mismatch` when its `principals.digest` is not the
+     digest of its agent, user and chain (refused or not); then, for a write that was not
+     refused, `write_value_not_permitted` when it names a `permitValueDigest` other than its
+     `valueDigest`, and `write_by_isolated_agent` when its agent has no outgoing edge in the
+     graph in force. A write that passes becomes the last write to its `(store, keyDigest)`;
+   - store_read (2.0), when not refused: `read_value_unwritten` when no earlier write that was
+     not refused wrote its `(store, keyDigest)`, or the last such write wrote another value;
+     `read_writer_mismatch` when its `writer` is not that write's agent with, when the write
+     names principals, their `user` and `chainDigest` (a value read back under a different
+     writer).
 8. Run-level claims, after the walk: `advisory_claimed_as_enforced`,
    `defended_claim_after_fail_open`, `detector_output_uninformative`, and (1.1)
    `tool_call_authority_unbound` when `authorityChainChecked` is claimed and a tool call that
-   was not refused carries no `grantChainDigest`.
+   was not refused carries no `grantChainDigest`, and (2.0) `write_principals_missing` when
+   `writesAttributed` is claimed and a write that was not refused names no `principals`, then
+   `write_unpermitted` when `writesBound` is claimed and one names no `permitValueDigest`.
 
 ## The blast-radius receipt
 
@@ -164,14 +200,18 @@ less one) and `reached` (`agents`: sorted unique, subject excluded; `deliveries`
 `toolCalls`). It is judged only beside an allowed journal. The reader recomputes the reach:
 from `fromSeq` on, a delivery not dropped whose sender is tainted taints the receiver and
 counts once, even when the receiver is already tainted, and a tool call by a tainted agent
-counts once, refused or not (a refusal entry is not a delivery and never counts). Rules
+counts once, refused or not (a refusal entry is not a delivery and never counts). From
+revision 2.0 a shared store carries taint as well: a value a tainted agent wrote (a write not
+refused) is tainted until an untainted agent's write replaces it, and an agent that reads a
+tainted value back (a read not refused) is tainted; neither is counted as a delivery. Rules
 in order: `receipt_contract_id_missing`, `receipt_contract_id_unknown`, `receipt_malformed`,
 `receipt_journal_mismatch`, `blast_radius_understated`, `blast_radius_overstated`; all pass is
 `allow`, `blast_radius_consistent`.
 
 ## What a consistent journal does not show
 
-That the defence recorded every event, that a call it marks refused did not run, that its
+That the defence recorded every event, that a call or a write it marks refused did not
+run, that a `user` it names is the principal it says, that its
 snapshot root is the attested corpus, or that its detector is any good. A journal that names
 no snapshot and claims no attestation says nothing about its retrievals, and one that does not
 claim `authorityChainChecked` says nothing about grant chains: a consumer that relies on either

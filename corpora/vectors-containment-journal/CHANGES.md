@@ -3,6 +3,29 @@
 A published `suiteRevision` is never mutated in place. A normative change to the predicate or
 a case added bumps the revision, and the generator rewrites the cases byte-identically.
 
+## suiteRevision 4 (predicate revision 2.0: every value an agent writes says who wrote it)
+
+- Release note: two events, `write` and `store_read`. A write names its agent, store, key and
+  value digests, whether it was refused and why, the value its permit bound
+  (`permitValueDigest`) and, when attributed, its `principals` (user, delegation chain digest,
+  and the digest of the agent, user and chain). A read back names the writer it attributes the
+  value to, and the reader checks that writer is the last write that ran to the key, with the
+  same value. The blast-radius reach follows taint through a shared store.
+- Major revision: a reader of revision 1.x denies a journal that carries a `write` or a
+  `store_read` entry with `closed_vocabulary_violation`. That is the correct behaviour for a
+  reader that does not know an event, and the reason the number is 2.0. This is the write event
+  revision 1.1 deferred to ("Refusals of writes belong to the next major revision's write
+  event").
+- New members, all optional: the claims `writesAttributed` and `writesBound`.
+- New rules: `write_principals_digest_mismatch`, `write_value_not_permitted`,
+  `write_by_isolated_agent`, `read_value_unwritten`, `read_writer_mismatch`,
+  `write_principals_missing`, `write_unpermitted`.
+- Cases added: `allow-write-attributed-and-read-back` (with a receipt that reaches agent-b
+  through the store), `allow-blast-radius-store-overwritten-by-clean-writer` (with a receipt),
+  `allow-write-unattributed-without-claim`, and one `reject-` case per new rule.
+- Cases changed: none. Every revision 3 case keeps its bytes and its verdict.
+- Verdict change outside the corpus: none for a journal without the two events.
+
 ## suiteRevision 3 (predicate revision 1.2: a detector decision is judged by what it changes)
 
 - `decision_not_supported_by_estimates` now fires only when a `detector_` decision with equal
