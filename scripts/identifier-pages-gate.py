@@ -215,7 +215,7 @@ def hermetic(roots: list[Path]) -> list[str]:
 def status(url: str) -> int | str:
     try:
         with urllib.request.urlopen(url, timeout=30) as response:  # noqa: S310 -- a fixed https host
-            return response.status
+            return int(response.status)
     except urllib.error.HTTPError as err:
         return err.code
     except (urllib.error.URLError, TimeoutError) as err:
