@@ -12,7 +12,7 @@
     "total": 42
   },
   "anchor": {
-    "kind": "signed-digest-list",
+    "kind": "digest-list-line",
     "manifest": "vectors-lifecycle-binding/MANIFEST.json",
     "reference": {
       "path": "release/CORPUS-DIGESTS.txt",
@@ -22,13 +22,6 @@
     "routine-file": "corpora/vectors-lifecycle-binding/gen_vectors.py",
     "serialization": "corpus-routine",
     "sha256": "066433e09f4fb757bdca7387bb8f5248bdbc80f2165bf790776c8fbc7974efdb",
-    "signature": {
-      "key": "release/cosign.pub",
-      "key-sha256": "15fccb1635dd1d9333146cb389f26fa3c3b9213aeed1da945ea1f51a2dc1be84",
-      "path": "release/CORPUS-DIGESTS.txt.sig",
-      "scheme": "ed25519",
-      "serialization": "bytes"
-    },
     "verdicts": {
       "availability-failure": "inconclusive",
       "integrity-failure": "fail"
@@ -225,6 +218,7 @@
         "corpusreaders/anchorstream.go",
         "corpusreaders/approvalbinding.go",
         "corpusreaders/artifactbinding.go",
+        "corpusreaders/assertiongrade.go",
         "corpusreaders/auditrecord.go",
         "corpusreaders/auditrecord_consumption.go",
         "corpusreaders/auditrecord_datasubject.go",
@@ -309,7 +303,7 @@
         "go.mod"
       ],
       "serialization": "sha256-listing-v1",
-      "sha256": "646a6c74c2734ee8e1dc0708a86b2000b16775c9f2ecbf3437e0fd104e2efd8d"
+      "sha256": "7d273e9d387e198569284e6014937e35393ad83297054f087f2dca224cf8611c"
     },
     "runtime": {
       "name": "go",
@@ -347,6 +341,7 @@
       "corpusreaders/anchorstream.go",
       "corpusreaders/approvalbinding.go",
       "corpusreaders/artifactbinding.go",
+      "corpusreaders/assertiongrade.go",
       "corpusreaders/auditrecord.go",
       "corpusreaders/auditrecord_consumption.go",
       "corpusreaders/auditrecord_datasubject.go",
@@ -1279,6 +1274,7 @@
     ],
     "leaves-open": [
       "whether an implementation written from the specification, run by someone other than an author, reaches the same verdicts",
+      "whether release/CORPUS-DIGESTS.txt is a list a release signed: the signature beside it does not verify over these bytes, so the anchor is a located line, not a verified one",
       "whether a re-run by someone other than an author on these exact bytes agrees; none is on the record for them"
     ]
   },

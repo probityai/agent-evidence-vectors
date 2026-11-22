@@ -195,7 +195,7 @@ def _int(value: Any) -> int:
     return value
 
 
-def _pins(trust: Doc, name: str) -> Doc:
+def _pins(trust: Doc, name: str) -> dict[Any, Any]:
     value = trust.get(name)
     return value if isinstance(value, dict) else {}
 
@@ -831,7 +831,7 @@ def _hsm_route(x: Assertion, hsm: Doc) -> str:
     if rows is None:
         x.cap("hsm_counter_not_attested", "W")
         return ""
-    seqs = [r.get("seq") for r in rows]
+    seqs: list[Any] = [r.get("seq") for r in rows]
     if any(type(s) is not int for s in seqs) or seqs != list(range(seqs[0], seqs[0] + len(seqs))):
         x.cap("hsm_counter_gap", "W")
     if not _hsm_accounted(x, rows, hsm.get("accounted", [])):
