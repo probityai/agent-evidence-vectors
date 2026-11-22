@@ -4,8 +4,8 @@ build-backend = "hatchling.build"
 
 [project]
 name = "agent-evidence-admission"
-version = "0.2.0"
-description = "Check that an artifact has the digest its compliance document, SBOM or attestation names."
+version = "0.3.0"
+description = "Check that an artifact has the digest its document names, and refuse a record before it is judged."
 readme = "README.md"
 requires-python = ">=3.10"
 license = "Apache-2.0"

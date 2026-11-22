@@ -299,6 +299,11 @@ def row_r2(w: Path, log: Path, row: dict[str, Any]) -> tuple[bool, dict[str, Any
     return detail["ok"], detail
 
 
+def r3_records(out: Path) -> Path:
+    """The directory holding R3's record set: the emitter writes ``out/records/`` or the records themselves."""
+    return out / "records" if (out / "records").is_dir() else out
+
+
 def row_r3(w: Path, log: Path, row: dict[str, Any]) -> tuple[bool, dict[str, Any]]:
     p = row["pins"]
     src = fetch_commit(p["repository"], p["commit"], w / "src", log)
@@ -312,7 +317,7 @@ def row_r3(w: Path, log: Path, row: dict[str, Any]) -> tuple[bool, dict[str, Any
     must(run([str(py), str(emitter), "--artifact",
               "papers/dependable-multiroot-agent-evidence/artifact", "--out", str(out),
               "--runner", "Anton Sokolov (Tyche Institute)"], src, log), "emit_w3c_v01.py")
-    records = out / "records" if (out / "records").is_dir() else out
+    records = r3_records(out)
     detail = compare_trees(posted, tree_digests(records), row["may_differ"],
                            row.get("outside_record_set"))
     detail["SHA256SUMS"] = expect_files(records, row["expect"])
@@ -323,8 +328,7 @@ def row_r3_v01(w: Path, log: Path, row: dict[str, Any]) -> tuple[bool, dict[str,
     """Run the posted converter over the records the R3 rerun wrote, and compare."""
     p = row["pins"]
     out3 = w.parent / "R3" / "out"
-    # The same rule row_r3 applies: the emitter writes records/ or the records themselves.
-    records = out3 / "records" if (out3 / "records").is_dir() else out3
+    records = r3_records(out3)
     if not (records / "SHA256SUMS").is_file():
         raise Refused("R3-v01 reads the R3 rerun's records: run R3 first")
     data = attachment(p["converter"], w.parent / "_attachments")
@@ -609,6 +613,31 @@ def row_r8_compare(w: Path, log: Path, row: dict[str, Any]) -> tuple[bool, dict[
     return ok, detail
 
 
+def row_r8_compare_169(w: Path, log: Path, row: dict[str, Any]) -> tuple[bool, dict[str, Any]]:
+    """The same comparison as R8-compare, with no family left out: all 169 judged members."""
+    p, expect = row["pins"], row["expect"]
+    script = w / "r8_compare.py"
+    script.write_bytes(attachment(p["script"], w.parent / "_attachments"))
+    with tarfile.open(fileobj=io.BytesIO(attachment(p["reader"], w.parent / "_attachments"))) as archive:
+        archive.extractall(w / "reader", filter="data")
+    verdicts = w / "reader" / p["verdicts"]
+    corpus = aev_tree(p["corpus_tag"], w / "aev", log, ["/vectors-w3c-report/MANIFEST.json"])
+    manifest_path = corpus / "vectors-w3c-report" / "MANIFEST.json"
+    py = venv(w, "r8c169", p["python"], [], log)
+    printed = w / "compare-all.txt"
+    must(run([str(py), "-I", str(script), str(manifest_path), str(verdicts)], w, log,
+             stdout=printed), "r8_compare.py")
+    observed = r8_figures(printed.read_text(encoding="utf-8"))
+    want = {k: expect[k] for k in ("judged", "numbered", "agree")}
+    unnumbered = {k: observed["unnumbered"][k] for k in expect["unnumbered"]}
+    detail = {"verdicts.tsv": {"posted": expect["verdicts.tsv"], "observed": sha256_file(verdicts)},
+              "excluded": [], "observed": observed,
+              "posted": {**want, "unnumbered": expect["unnumbered"]}}
+    ok = (detail["verdicts.tsv"]["posted"] == detail["verdicts.tsv"]["observed"]
+          and {k: observed[k] for k in want} == want and unnumbered == expect["unnumbered"])
+    return ok, detail
+
+
 def row_script(script: str) -> Callable[[Path, Path, dict[str, Any]], tuple[bool, dict[str, Any]]]:
     def handler(w: Path, log: Path, row: dict[str, Any]) -> tuple[bool, dict[str, Any]]:
         result = w / "script-result.json"
@@ -766,7 +795,9 @@ def row_r15(w: Path, log: Path, row: dict[str, Any]) -> tuple[bool, dict[str, An
 HANDLERS: dict[str, Callable[[Path, Path, dict[str, Any]], tuple[bool, dict[str, Any]]]] = {
     "R1": row_r1, "R2": row_r2, "R3": row_r3, "R3-v01": row_r3_v01, "R4": row_r4, "R4-driver": row_r4_driver,
     "R5": row_r5, "R6": row_r6, "R6-v01": row_r6_v01, "R7": row_r7, "R8": row_r8, "R8-compare": row_r8_compare,
-    "R9": row_script("r9_corpus_history.py"), "R10": row_script("r10_minus_zero.py"),
+    "R8-compare-169": row_r8_compare_169,
+    "R9": row_script("r9_corpus_history.py"), "Item-7.3-10": row_script("item_7_3_10.py"),
+    "R4-nonascii": row_script("r4_nonascii.py"), "R10": row_script("r10_minus_zero.py"),
     "R11": row_r11, "R12": row_r12, "R13": row_r13, "R14": row_r14, "R15": row_r15,
 }
 

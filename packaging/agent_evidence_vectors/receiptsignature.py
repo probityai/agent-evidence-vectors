@@ -25,7 +25,6 @@ implementation of each in this distribution.
 from __future__ import annotations
 
 import argparse
-import base64
 import hashlib
 import importlib
 import json
@@ -39,6 +38,8 @@ from collections.abc import Callable
 from datetime import datetime
 from itertools import pairwise
 from typing import Any
+
+from . import strictb64, strictjson
 
 SUITE = "receipt-signature-conformance"
 KEYS_ENV = "AEV_RECEIPT_JWKS"
@@ -151,7 +152,9 @@ def _repeats(value: Any) -> bool:
 def parse_envelope(body: bytes) -> tuple[dict[str, Any] | None, str | None]:
     """The envelope shape of Section 2.1, or the outcome that stops at the shape."""
     try:
-        top = json.loads(body, object_pairs_hook=_objects)
+        top = json.loads(
+            body, object_pairs_hook=_objects, parse_constant=strictjson.refuse_constant
+        )
     except ValueError:
         return None, outcome_text(UNDECIDABLE, "not_envelope_shape")
     if not isinstance(top, dict) or set(top) != {"payload", "signature"}:
@@ -175,7 +178,7 @@ def _public_key(key: dict[str, Any]) -> bytes | None:
     if not isinstance(x, str):
         return None
     try:
-        raw = base64.urlsafe_b64decode(x + "=" * (-len(x) % 4))
+        raw = strictb64.url(x)
     except ValueError:
         return None
     return raw if len(raw) == 32 else None
@@ -306,7 +309,7 @@ def _lifecycle(issued: Any, key: dict[str, Any], gap_closed: bool) -> str:
 def link(body: bytes) -> str | None:
     """Section 6.7: "sha256:" and the hex of SHA-256(JCS(the whole receipt))."""
     try:
-        return "sha256:" + _sha(_rail().jcs_dumps(json.loads(body)))
+        return "sha256:" + _sha(_rail().jcs_dumps(strictjson.loads(body)))
     except ValueError:
         return None
 
@@ -494,7 +497,7 @@ class _Corpus:
         if _sha(body) != spec.get("sha256"):
             self.findings.append(f"the {name} key set {rel} does not match its pinned digest")
         try:
-            keys = json.loads(body)["keys"]
+            keys = strictjson.loads(body)["keys"]
         except (ValueError, KeyError, TypeError) as e:
             self.findings.append(f"the {name} key set {rel} does not parse: {e}")
             return {}
@@ -791,7 +794,7 @@ KINDS = ("accept", "gap", "indeterminate", "reject")
 
 def _load(directory: str) -> dict[str, Any]:
     with open(os.path.join(directory, "MANIFEST.json"), encoding="utf-8") as handle:
-        manifest: dict[str, Any] = json.load(handle)
+        manifest: dict[str, Any] = strictjson.load(handle)
     return manifest
 
 
@@ -864,7 +867,7 @@ def ask(cmd: list[str], receipt: str, keys: str,
     if not lines:
         return None, "the verifier wrote no answer line"
     try:
-        line = json.loads(lines[-1])
+        line = strictjson.loads(lines[-1])
     except ValueError:
         return None, "the verifier's last stdout line is not JSON"
     if not isinstance(line, dict) or line.get("verdict") != verdict:

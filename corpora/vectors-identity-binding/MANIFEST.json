@@ -1,7 +1,7 @@
 {
-  "corpusDigest": "48ada7df04b9770699ba6e22239f189b35ae6ce096970d2f0688cd08ef7fa90c",
+  "corpusDigest": "74b9494a9cc5bb5458c3f2f3d587605887b70c32392a37e3330f9e8eb188eb3e",
   "counts": {
-    "rejected": 9,
+    "rejected": 13,
     "verified": 3
   },
   "didWbaSource": {
@@ -19,7 +19,7 @@
         "reason": "subject_bound"
       },
       "files": {
-        "case.json": "4bca7d7f89419691fc7c4c9182cadf6aa2bcaabb88621817a28ac4c7d0cb4195",
+        "case.json": "1e3afab734bc651f4b8840a3bbf3f0eafdfdb042428495311857a1afccb15bee",
         "did-alice.json": "649d8c4f26d9138c3d7f5f3a685ae78b3dbf16a9e574221c9daa55bc97078ec6",
         "envelope.json": "a7455e4be92a5ef90d52025a2c3fd9e536a504a6b6b3e717383c1689873df6e7"
       },
@@ -35,7 +35,7 @@
         "reason": "subject_bound"
       },
       "files": {
-        "case.json": "a910b1848ad979b5cef48084bf34a22a56171451b9cf026bb922d8a2ea9a60ae",
+        "case.json": "94d3d687e3f1ffc86e99c22824cc2d7f6c9d9bcdc12f8e00c39636115d1794a6",
         "did-alice.json": "9f5065ef7922589c462ae6e5c38c2bd5781fd92c310016ac4beb5d7d612fca2e",
         "envelope.json": "587512d4c051e940ee96f53fb0745a0207c2629950e101d925c7a4f996868590"
       },
@@ -45,13 +45,13 @@
     },
     {
       "didMethod": "web",
-      "edit": "control: signed in March by a key rotated out in June; the March version decides",
+      "edit": "control: signed in March and proven to exist in April by a key rotated out in June; the key held from signing through proof",
       "expected": {
         "decision": "verified",
         "reason": "subject_bound"
       },
       "files": {
-        "case.json": "4bca7d7f89419691fc7c4c9182cadf6aa2bcaabb88621817a28ac4c7d0cb4195",
+        "case.json": "89036f6d6664eb11a5b70fc4c5778ac3a792ff8183c6a1c9d30cbf3282d94e6d",
         "did-alice.json": "138d263eb75a1a8203aa024d592e2309e85207465d6235d7c12d0d25dbc8514b",
         "envelope.json": "a7455e4be92a5ef90d52025a2c3fd9e536a504a6b6b3e717383c1689873df6e7"
       },
@@ -67,7 +67,7 @@
         "reason": "key_not_authorized"
       },
       "files": {
-        "case.json": "4bca7d7f89419691fc7c4c9182cadf6aa2bcaabb88621817a28ac4c7d0cb4195",
+        "case.json": "1e3afab734bc651f4b8840a3bbf3f0eafdfdb042428495311857a1afccb15bee",
         "did-alice.json": "649d8c4f26d9138c3d7f5f3a685ae78b3dbf16a9e574221c9daa55bc97078ec6",
         "envelope.json": "a855c7c59695f50d1d6b358a6945dd89699b718ae97f658cd42ca70d25ba2c93"
       },
@@ -83,7 +83,7 @@
         "reason": "key_not_authorized"
       },
       "files": {
-        "case.json": "4bca7d7f89419691fc7c4c9182cadf6aa2bcaabb88621817a28ac4c7d0cb4195",
+        "case.json": "1e3afab734bc651f4b8840a3bbf3f0eafdfdb042428495311857a1afccb15bee",
         "did-alice.json": "649d8c4f26d9138c3d7f5f3a685ae78b3dbf16a9e574221c9daa55bc97078ec6",
         "envelope.json": "e5ebf1040cda1c280953819052c41217fa8905c6cfd6de7bdee2592c8d6aecff"
       },
@@ -99,7 +99,7 @@
         "reason": "did_unresolvable"
       },
       "files": {
-        "case.json": "470436ecd8edcbab5296d6d80b8c69b7e459bcdfd9f42f47b349a7c9752a79bb",
+        "case.json": "b13d99f13cb8b8646f54f6e478d920845db0d658e9a93d4e4c01558be6bd1e4a",
         "envelope.json": "b4d105f8851a95530d7e77be5f1e6a87a7cdd410e0a3c259289667d1c6dbf1b0"
       },
       "id": "did-unresolvable",
@@ -114,7 +114,7 @@
         "reason": "key_rotated_out"
       },
       "files": {
-        "case.json": "4bca7d7f89419691fc7c4c9182cadf6aa2bcaabb88621817a28ac4c7d0cb4195",
+        "case.json": "2856550e0726102b26d93c1c3ec836bcf1fdd7ad4edfaac50c1cdb4ca921e8c2",
         "did-alice.json": "138d263eb75a1a8203aa024d592e2309e85207465d6235d7c12d0d25dbc8514b",
         "envelope.json": "64ac8c874900a6e0c825fc0c7193d7f038939abb531c8589eb40cd64433aaba3"
       },
@@ -130,7 +130,7 @@
         "reason": "key_rotated_out"
       },
       "files": {
-        "case.json": "a910b1848ad979b5cef48084bf34a22a56171451b9cf026bb922d8a2ea9a60ae",
+        "case.json": "94d3d687e3f1ffc86e99c22824cc2d7f6c9d9bcdc12f8e00c39636115d1794a6",
         "did-alice.json": "fd95ba8641e445cffeb8da17aef1302651f23a4e7b974ad4e17554e6a80db2e5",
         "envelope.json": "587512d4c051e940ee96f53fb0745a0207c2629950e101d925c7a4f996868590"
       },
@@ -146,7 +146,7 @@
         "reason": "signer_not_subject"
       },
       "files": {
-        "case.json": "57846833b430b0cf19dbb6a0e5eebec6d1558934bcf382c96e9ddb062945c4b2",
+        "case.json": "ecce9f58ccb2e3fc04aa1720cc398d7fe83b5b5518d67b65dfcfca1e8b869bfb",
         "did-alice.json": "649d8c4f26d9138c3d7f5f3a685ae78b3dbf16a9e574221c9daa55bc97078ec6",
         "did-bob.json": "8e989d1f9c74290deed9407603c7c12a989fd2e188055d399e702431c92498d4",
         "envelope.json": "c2bb5f9a4b5c4576a57fe66d04fceb038f324eea68ccedf2cc80cd4c6e0f8f31"
@@ -163,7 +163,7 @@
         "reason": "did_malformed"
       },
       "files": {
-        "case.json": "470436ecd8edcbab5296d6d80b8c69b7e459bcdfd9f42f47b349a7c9752a79bb",
+        "case.json": "b13d99f13cb8b8646f54f6e478d920845db0d658e9a93d4e4c01558be6bd1e4a",
         "envelope.json": "cd2393b47a006b9074a8d8cff1c00c4db24b667b2f03cfa4585037843689b1d1"
       },
       "id": "did-malformed",
@@ -178,7 +178,7 @@
         "reason": "binding_fingerprint_mismatch"
       },
       "files": {
-        "case.json": "a910b1848ad979b5cef48084bf34a22a56171451b9cf026bb922d8a2ea9a60ae",
+        "case.json": "94d3d687e3f1ffc86e99c22824cc2d7f6c9d9bcdc12f8e00c39636115d1794a6",
         "did-alice.json": "4c336327832dc99b403ef646675ae07ebb99686cca4dc523cec153200f43bd74",
         "envelope.json": "358008d0387fb8085a10174529d526530b6cc896a5984f12617e736b8a67c84a"
       },
@@ -194,13 +194,77 @@
         "reason": "signature_invalid"
       },
       "files": {
-        "case.json": "4bca7d7f89419691fc7c4c9182cadf6aa2bcaabb88621817a28ac4c7d0cb4195",
+        "case.json": "1e3afab734bc651f4b8840a3bbf3f0eafdfdb042428495311857a1afccb15bee",
         "did-alice.json": "649d8c4f26d9138c3d7f5f3a685ae78b3dbf16a9e574221c9daa55bc97078ec6",
         "envelope.json": "02073615284bd3029da448b5921e7ae4e2229165d98ef2971f7f77f2f42e8057"
       },
       "id": "payload-altered",
       "path": "cases/payload-altered",
       "signatureVerifies": false
+    },
+    {
+      "didMethod": "web",
+      "edit": "says it was signed in March, but first proven to exist in July, after the June version dropped the key: indistinguishable from a signature backdated by its holder",
+      "expected": {
+        "decision": "rejected",
+        "reason": "key_rotated_out"
+      },
+      "files": {
+        "case.json": "9ebb3b4dd57673aec11c79610614b20ab8f9b486e196f3e17bc580fb13afdc23",
+        "did-alice.json": "138d263eb75a1a8203aa024d592e2309e85207465d6235d7c12d0d25dbc8514b",
+        "envelope.json": "a7455e4be92a5ef90d52025a2c3fd9e536a504a6b6b3e717383c1689873df6e7"
+      },
+      "id": "web-backdated-after-rotation",
+      "path": "cases/web-backdated-after-rotation",
+      "signatureVerifies": true
+    },
+    {
+      "didMethod": "wba",
+      "edit": "signed in March, but first proven to exist in July, after the DID was deactivated in June",
+      "expected": {
+        "decision": "rejected",
+        "reason": "key_rotated_out"
+      },
+      "files": {
+        "case.json": "4a366cc5b3fc207c6151e7e8b5deac7b7fa1372f5ba19fbe10b97ee559ce5c19",
+        "did-alice.json": "fd95ba8641e445cffeb8da17aef1302651f23a4e7b974ad4e17554e6a80db2e5",
+        "envelope.json": "38ce7e41ad49bbaa27bd1a0236d23feda68cd7c7a8518b2d635b59232939ccb7"
+      },
+      "id": "wba-deactivated-after-signing",
+      "path": "cases/wba-deactivated-after-signing",
+      "signatureVerifies": true
+    },
+    {
+      "didMethod": "web",
+      "edit": "the verifier states no time at which it can prove the record existed, so only the signer's word dates it",
+      "expected": {
+        "decision": "rejected",
+        "reason": "signing_time_unproven"
+      },
+      "files": {
+        "case.json": "385d0d5eaf4ea0f023f82abbf9048d767c97fcc2c013f87bb2de8e6f364adab3",
+        "did-alice.json": "649d8c4f26d9138c3d7f5f3a685ae78b3dbf16a9e574221c9daa55bc97078ec6",
+        "envelope.json": "a7455e4be92a5ef90d52025a2c3fd9e536a504a6b6b3e717383c1689873df6e7"
+      },
+      "id": "web-signing-time-unproven",
+      "path": "cases/web-signing-time-unproven",
+      "signatureVerifies": true
+    },
+    {
+      "didMethod": "web",
+      "edit": "says it was signed in July, but was proven to exist in March",
+      "expected": {
+        "decision": "rejected",
+        "reason": "signing_time_unproven"
+      },
+      "files": {
+        "case.json": "1e3afab734bc651f4b8840a3bbf3f0eafdfdb042428495311857a1afccb15bee",
+        "did-alice.json": "649d8c4f26d9138c3d7f5f3a685ae78b3dbf16a9e574221c9daa55bc97078ec6",
+        "envelope.json": "64ac8c874900a6e0c825fc0c7193d7f038939abb531c8589eb40cd64433aaba3"
+      },
+      "id": "web-forward-dated",
+      "path": "cases/web-forward-dated",
+      "signatureVerifies": true
     }
   ],
   "verifierContract": "verifier case.json --json; exit 0 verified, 1 rejected"

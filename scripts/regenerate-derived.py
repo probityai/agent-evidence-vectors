@@ -1,8 +1,9 @@
 #!/usr/bin/env python3
 """Regenerate every file this repository derives, and resolve a merge over them.
 
-Three generators write files that pull requests never edit by hand: the signed
-digest list (scripts/release-digests.py), the intake records under
+Four generators write files that pull requests never edit by hand: the
+jcsvectors package copies of the RFC 8785 corpora (scripts/gen-jcsvectors-data.py),
+the signed digest list (scripts/release-digests.py), the intake records under
 release/intake/ (scripts/gen-intake-records.py) and the shared-source lock
 (interop/agentavow-signed-map-v1/lock_sources.py). Each pins bytes of code or
 corpora that many pull requests change, so two open pull requests that each
@@ -36,22 +37,37 @@ from pathlib import Path
 REPO = Path(__file__).resolve().parent.parent
 
 #: (name, script). Order matters: the intake records name the signed digest
-#: list, so the list is written first.
+#: list, so the list is written first. The jcsvectors copies come before both,
+#: so any generator that reads a package file reads the refreshed one.
 STEPS: list[tuple[str, str]] = [
+    ("jcsvectors copies", "scripts/gen-jcsvectors-data.py"),
     ("digest list", "scripts/release-digests.py"),
     ("intake records", "scripts/gen-intake-records.py"),
     ("shared-source lock", "interop/agentavow-signed-map-v1/lock_sources.py"),
 ]
 
 
-def run_steps(repo: Path, check: bool) -> int:
-    """Run every generator, or every generator's check; the first failure stops."""
-    for name, script in STEPS:
+def run_steps(repo: Path, check: bool, steps: list[tuple[str, str]] = STEPS) -> int:
+    """Run every generator, or every generator's check.
+
+    A write stops at the first failure, because a later generator reads what an
+    earlier one wrote. A check runs every step and names each stale one: a stale
+    intake record used to stop the check before the shared-source lock was read,
+    so one CI run reported one stale family and the next run found another.
+    """
+    failed = []
+    for name, script in steps:
         command = [sys.executable, str(repo / script)] + (["--check"] if check else [])
         print(f"== {name}: {script}{' --check' if check else ''}", flush=True)
         if subprocess.run(command, cwd=repo).returncode != 0:
             print(f"FAIL: {name}", file=sys.stderr)
-            return 1
+            if not check:
+                return 1
+            failed.append(name)
+    if failed:
+        print(f"FAIL: {len(failed)} of {len(steps)} derived families are stale: "
+              f"{', '.join(failed)}", file=sys.stderr)
+        return 1
     return 0
 
 

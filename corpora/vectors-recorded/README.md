@@ -34,10 +34,15 @@ binding reads only the OpenTimestamps header and the SHA-256 it commits to. An
 `opentimestamps-bitcoin-header` binding also runs every operation of the proof
 and holds the 80-byte header of the anchoring block, with its height and the
 block id it must hash to. A `binding-malformed` also covers a held header that
-does not hash to its id and a pointer the subject does not carry. The header is
-a trust input: proof of work and the block's place on the chain with the most
-work are not checked, so the binding says the proof commits to a header the
-corpus holds, taken from the header view its publisher recorded. The 7200
+does not hash to its id, a pointer the subject does not carry, and a held
+header without its own proof of work: its SHA-256d must be at or under the
+target its `nBits` encodes, and that target no easier than the network's limit
+(mainnet, `0x1d00ffff`, unless the block declares `"network": "regtest"`, as
+the synthetic members do). A self-consistent 80-byte header with no work is
+therefore refused. The block's place on the chain with the most work is still a
+trust input, so the binding says the proof commits to a header that carries its
+own work and that the corpus holds, taken from the header view its publisher
+recorded. The 7200
 seconds are the allowance draft-gilda-audit-agent-audit-record gives an
 OpenTimestamps time; its `R10` sits inside it and its `R11` one second past,
 which is what the synthetic `anchor-intact` and `stated-after-anchor` members
@@ -73,7 +78,9 @@ configuration's threshold. `vate-rb-receiving-captures` holds three runs of
 Takao Sato's Revocation Boundary receiving example at his pinned commit: revocation before
 acceptance, a commit observed after revocation, and an incomplete observation whose counts stay
 unknown. Each case carries the Statement, the receiver's selection, the test plan, the observation
-and his reader's report. A set lands as its own member when its
+and his reader's report. `horizon-furui-day-2026-11-03` holds the two leaf envelopes of the
+FURUI day record of 2026-11-03 and the runner keys, as Toshikatsu Oga's runner served them on its last day of keeping them; the leaf
+hashes and the root recompute from them, and the runner signature and Bitcoin anchor are not checked. A set lands as its own member when its
 publisher released it in its own directory with its own `SHA256SUMS`, so a
 check of each directory as its publisher keeps it stays exact.
 

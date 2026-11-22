@@ -47,5 +47,40 @@ func paymentMandate() ruleCorpus {
 		{"post_checkout_action_missing", func(r any) bool {
 			return !rlSubset(rlStringSet(rlGet(r, "post_checkout.required")), rlStringSet(rlGet(r, "post_checkout.recorded")))
 		}},
+		{"signing_key_unknown", func(r any) bool {
+			_, entry, ok := pmSigningKey(r)
+			return ok && entry == nil
+		}},
+		{"signing_key_not_yet_valid", func(r any) bool {
+			signed, entry, ok := pmSigningKey(r)
+			return ok && entry != nil && signed < rlStr(entry["valid_from"])
+		}},
+		{"signing_key_rotated_out", func(r any) bool {
+			signed, entry, ok := pmSigningKey(r)
+			return ok && entry != nil && entry["valid_until"] != nil && signed >= rlStr(entry["valid_until"])
+		}},
+		{"signing_key_revoked", func(r any) bool {
+			signed, entry, ok := pmSigningKey(r)
+			return ok && entry != nil && entry["revoked_effective_from"] != nil &&
+				signed >= rlStr(entry["revoked_effective_from"])
+		}},
 	}}
+}
+
+// pmSigningKey returns the signing time and the key-history entry for the signing key.
+// ok is false when the record states no signing time or carries no key history, so
+// the key rules then make no statement.
+func pmSigningKey(r any) (signed string, entry map[string]any, ok bool) {
+	signed = rlStr(rlGet(r, "mandate.signature.signed_at"))
+	keys, isList := rlGet(r, "key_history.keys").([]any)
+	if signed == "" || !isList {
+		return "", nil, false
+	}
+	keyID := rlStr(rlGet(r, "mandate.signature.key_id"))
+	for _, k := range keys {
+		if m := rlMap(k); m != nil && rlStr(m["key_id"]) == keyID {
+			return signed, m, true
+		}
+	}
+	return signed, nil, true
 }

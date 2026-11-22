@@ -95,3 +95,28 @@ Checks that a CycloneDX BOM or SPDX 3 document accounts for every class a buyer 
 ```
 
 The same check runs as a command, `agent-evidence-admission coverage-check sbom.cdx.json --required tender/required-classes.json`, and its [positive and negative vectors](../packages/admission/python/vectors/coverage/manifest.json) are the conformance cases for it.
+
+## `check: admit`
+
+Runs one of the [admission rule sets](../packages/admission/docs/RULE-SETS.md) on each record before any verifier judges it: `ijson` and `ijson-integer-only` (the byte strings two decoders read as two documents), `audit-freshness` (audit-record time bounds), `catalog-attestations` (an ARD or AI Catalog attestation bound to the entry it sits in), `mcp-authz` (an MCP server's audience, issuer, lifetime and binding decision on a decoded token) and `co-signed-receipt`. Each record is one row; its reasons are the rule codes it breaks, each with the JSON Pointer it applies to. Like `coverage`, it needs no pinned tool: it runs from the tagged commit's own source. It is in the releases after v0.37.0.
+
+| input | meaning |
+| --- | --- |
+| `rule-set` | the rule set to run |
+| `document` | the record paths, one per line |
+| `artifacts` | the bytes a record names by URI, one `<uri>=<path>` per line; nothing is fetched |
+| `rule-options` | a JSON file of the rule set's options, such as the resource and issuers for `mcp-authz` |
+| `warn` | refusal codes to report as warnings, one per line; a check that could not run refuses under a `*-not-evaluated` code unless it is listed here |
+
+```yaml
+- uses: probityai/agent-evidence-vectors@v0.37.1
+  with:
+    check: admit
+    rule-set: catalog-attestations
+    document: .well-known/ard.json
+    artifacts: |
+      https://tools.example.com/mcp/invoice-reader.json=dist/invoice-reader.json
+      https://tools.example.com/trust/invoice-reader.intoto.json=dist/invoice-reader.intoto.json
+```
+
+The same check runs as a command, `agent-evidence-admission admit catalog-attestations ard.json --file <uri>=<path>`, and each rule set's [vectors](../packages/admission/python/vectors/rules/) are its conformance cases.

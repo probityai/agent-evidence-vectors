@@ -1,4 +1,4 @@
-# Files that may name the archived probityai/agent-evidence, each with its reason.
+# Files that may still name an archived probityai repository, each with its reason.
 # Read by scripts/archived-repo-gate.py. A line is `<path or dir/**>  # <reason>`.
 .githooks/commit-msg.imported-tips  # history: the commit ids imported from the archived repository
 packages/vocabulary/.githooks/commit-msg.imported-tips  # history: the commit ids imported from the archived repository
@@ -14,3 +14,26 @@ w3id/agent-evidence.htaccess  # must equal the live w3id.org rules byte for byte
 scripts/archived-repo-gate.py  # the gate itself
 scripts/archived-repo-gate-test.py  # the gate's tests
 scripts/archived-repo-allowlist.txt  # this list
+# Added when the gate learned every archived repository, not only agent-evidence. Each entry
+# is a record or an identifier that cannot be repointed without changing bytes that something
+# else pins. The identifier-hosts workflow watches that every old name keeps redirecting.
+corpora/vectors-agent-change-admission/gen_vectors.py  # writes the predicate type URI, split over two lines, into signed statements
+packages/admission/rego/gen_agent_change_admission_vectors.py  # writes the same predicate type URI, split over two lines
+packages/vocabulary/scripts/test_change_admission.py  # asserts the same predicate type URI, split over two lines
+corpora/vectors-self-reported-record/MANIFEST.json  # corpus manifest bound by the release corpus digests
+corpora/vectors-self-reported-record/gen_vectors.py  # writes the manifest above; changing it changes the corpus
+corpora/vectors-authority-at-dispatch/MANIFEST.json  # corpus manifest bound by the release corpus digests
+corpora/vectors-authority-at-dispatch/gen_vectors.py  # writes the manifest above; changing it changes the corpus
+crates/dsse/vectors/cross_lang_signing.json  # the key label is hashed into the fixture key seed; renaming it changes the key and every signature
+crates/dsse/vectors/generate/main.go  # holds the key label that is hashed into the fixture key seed
+crates/jcs-admit/interop/rfc8785-py/MANIFEST.json  # oracle manifest whose digest the retained report records; its commit exists only in the archive
+crates/jcs-admit/interop/go-jcs/MANIFEST.json  # oracle manifest whose digest the retained report records; its commit exists only in the archive
+interop/aps-jcs/**  # experiment inputs pinned by commit and by the source-lock digest; the commit exists only in the archive
+interop/govops-capability-id/**  # a captured source tree and its manifest, pinned by commit and digest; the commits exist only in the archive
+packages/admission/consumers/policy-vocabulary/host-selection.json  # selection record pinned to an observer commit that exists only in the archive
+packages/admission/consumers/spend-reservation/observer-selection.json  # selection record pinned to an observer commit that exists only in the archive
+crates/jcs-admit/interop/go-jcs/go.mod  # a comment that records the module path this file used before it got a local name
+crates/jcs-admit/interop/go-jcs/test_check.py  # test: asserts a manifest does not name the archived jcs-admit repository
+tests/test_registry_links.py  # test fixtures: the archived repository names the registry-link check must refuse
+tests/test_release_links.py  # test fixtures: the archived repository names the release-link check must refuse
+corpora/vectors-agent-audit-record/spec-vendored/draft-gilda-audit-agent-audit-record-00.txt  # the posted draft text, vendored byte for byte and pinned by sha256 in its intake record; the line names the vocabulary repository as the draft did

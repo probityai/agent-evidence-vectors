@@ -5,7 +5,6 @@ import (
 	"crypto/ed25519"
 	"crypto/sha256"
 	"encoding/base64"
-	"encoding/json"
 	"fmt"
 	"math/big"
 	"path/filepath"
@@ -25,13 +24,17 @@ func init() { register(identityBinding{}) }
 //  1. the subject and signer DIDs are well formed: did_malformed;
 //  2. the signer DID is the subject: signer_not_subject;
 //  3. a resolution fixture exists for it: did_unresolvable;
-//  4. a did:wba path DID's e1_ segment is the RFC 7638 thumbprint of an Ed25519
+//  4. the case states provenAt, the earliest time the verifier can prove the
+//     record existed, and signedAt is not later than it: signing_time_unproven;
+//  5. a did:wba path DID's e1_ segment is the RFC 7638 thumbprint of an Ed25519
 //     Multikey under authentication: binding_fingerprint_mismatch;
-//  5. the version in effect at signing still authorises the key and is not
-//     deactivated, where an earlier version authorised it: key_rotated_out;
-//  6. that version lists the key under authentication or assertionMethod:
-//     key_not_authorized;
-//  7. the DSSE signature verifies under that key: signature_invalid.
+//  6. every version in effect from signing through provenAt still authorises the
+//     key and is not deactivated, where a version at or before signing
+//     authorised it: key_rotated_out (signedAt is the signer's word, so a key
+//     dropped before provenAt cannot be told from a backdated signature);
+//  7. the version in effect at signing lists the key under authentication or
+//     assertionMethod: key_not_authorized;
+//  8. the DSSE signature verifies under that key: signature_invalid.
 //
 // The reader also recomputes each member's declared signatureVerifies, because
 // the corpus's claim is that several rejected records carry a good signature.
@@ -50,6 +53,7 @@ type ibVector struct {
 type ibCaseFile struct {
 	Envelope    string            `json:"envelope"`
 	Resolutions map[string]string `json:"resolutions"`
+	ProvenAt    *string           `json:"provenAt"`
 }
 
 type ibEnvelope struct {
@@ -75,6 +79,7 @@ type ibCase struct {
 	payload  []byte
 	subject  string
 	signedAt time.Time
+	provenAt *time.Time // nil when the case states none
 	keyID    string
 	signer   string
 	versions []ibVersion // nil when the signer DID has no resolution fixture
@@ -95,13 +100,13 @@ func ibWellFormed(did string) bool { return ibDIDWeb.MatchString(did) || ibDIDWB
 
 func (identityBinding) Judge(dir string, raw []byte) (*Result, error) {
 	var manifest scManifest
-	if err := json.Unmarshal(raw, &manifest); err != nil {
+	if err := strictUnmarshal(raw, &manifest); err != nil {
 		return nil, fmt.Errorf("%s/MANIFEST.json does not parse: %w", dir, err)
 	}
 	result := &Result{}
 	for _, entry := range manifest.Vectors {
 		var v ibVector
-		if err := json.Unmarshal(entry, &v); err != nil {
+		if err := strictUnmarshal(entry, &v); err != nil {
 			result.Findings = append(result.Findings, fmt.Sprintf("a manifest row does not parse: %v", err))
 			continue
 		}
@@ -144,7 +149,7 @@ func ibLoad(caseDir string) (*ibCase, error) {
 	if len(c.env.Signatures) == 0 {
 		return nil, fmt.Errorf("the envelope carries no signature")
 	}
-	payload, err := base64.StdEncoding.DecodeString(c.env.Payload)
+	payload, err := decodeCanonical(base64.StdEncoding, c.env.Payload)
 	if err != nil {
 		return nil, fmt.Errorf("the payload is not base64: %w", err)
 	}
@@ -154,11 +159,18 @@ func ibLoad(caseDir string) (*ibCase, error) {
 			ID string `json:"id"`
 		} `json:"subject"`
 	}
-	if err := json.Unmarshal(payload, &record); err != nil {
+	if err := strictUnmarshal(payload, &record); err != nil {
 		return nil, fmt.Errorf("the payload does not parse: %w", err)
 	}
 	if c.signedAt, err = time.Parse(time.RFC3339, record.SignedAt); err != nil {
 		return nil, fmt.Errorf("signedAt %q does not parse: %w", record.SignedAt, err)
+	}
+	if file.ProvenAt != nil {
+		proven, err := time.Parse(time.RFC3339, *file.ProvenAt)
+		if err != nil {
+			return nil, fmt.Errorf("provenAt %q does not parse: %w", *file.ProvenAt, err)
+		}
+		c.provenAt = &proven
 	}
 	c.payload, c.subject, c.keyID = payload, record.Subject.ID, c.env.Signatures[0].KeyID
 	c.signer, _, _ = strings.Cut(c.keyID, "#")
@@ -191,6 +203,7 @@ func (c *ibCase) decide() scDecision {
 		{"did_malformed", func() bool { return !ibWellFormed(c.subject) || !ibWellFormed(c.signer) }},
 		{"signer_not_subject", func() bool { return c.signer != c.subject }},
 		{"did_unresolvable", func() bool { return c.versions == nil }},
+		{"signing_time_unproven", func() bool { return c.provenAt == nil || c.signedAt.After(*c.provenAt) }},
 		{"binding_fingerprint_mismatch", c.fingerprintMismatch},
 		{"key_rotated_out", c.rotatedOut},
 		{"key_not_authorized", func() bool {
@@ -257,10 +270,26 @@ func (c *ibCase) rotatedOut() bool {
 	if !ever {
 		return false
 	}
-	if v.Doc["deactivated"] == true || v.Meta.Deactivated {
-		return true
+	for _, held := range append([]ibVersion{*v}, c.untilProven()...) {
+		if held.Doc["deactivated"] == true || held.Meta.Deactivated || !ibAuthorised(held.Doc, c.keyID) {
+			return true
+		}
 	}
-	return !ibAuthorised(v.Doc, c.keyID)
+	return false
+}
+
+// untilProven is every version that took effect after signing and no later than provenAt.
+func (c *ibCase) untilProven() []ibVersion {
+	var out []ibVersion
+	if c.provenAt == nil {
+		return out
+	}
+	for _, v := range c.versions {
+		if v.updated.After(c.signedAt) && !v.updated.After(*c.provenAt) {
+			out = append(out, v)
+		}
+	}
+	return out
 }
 
 // signatureVerifies reports whether the DSSE signature verifies under the key
@@ -272,7 +301,7 @@ func (c *ibCase) signatureVerifies() bool {
 			key = ibPublicKey(method)
 		}
 	}
-	sig, err := base64.StdEncoding.DecodeString(c.env.Signatures[0].Sig)
+	sig, err := decodeCanonical(base64.StdEncoding, c.env.Signatures[0].Sig)
 	if key == nil || err != nil {
 		return false
 	}
@@ -339,7 +368,7 @@ func ibPublicKey(method map[string]any) ed25519.PublicKey {
 	}
 	jwk, _ := method["publicKeyJwk"].(map[string]any)
 	x, _ := jwk["x"].(string)
-	raw, err := base64.RawURLEncoding.DecodeString(x)
+	raw, err := decodeCanonical(base64.RawURLEncoding, x)
 	if jwk["kty"] != "OKP" || jwk["crv"] != "Ed25519" || err != nil || len(raw) != ed25519.PublicKeySize {
 		return nil
 	}

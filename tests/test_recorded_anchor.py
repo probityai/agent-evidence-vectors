@@ -75,3 +75,59 @@ def test_header_time_and_tolerance_are_the_draft_values() -> None:
     assert recorded.OTS_TOLERANCE_SECONDS == 7200
     header = bytes.fromhex(_anchor(_member("hs51-set2-acks"), 972403)["block"]["header"])
     assert recorded.header_time(header) == 1792548064
+
+
+def _forged_header(real: dict, bits: int, network: str | None = None) -> dict:
+    """The real header's Merkle root and time under ``bits``, with a nonce that
+    meets the target when ``network`` is regtest and no work at all otherwise,
+    and a block id recomputed so the held header is self-consistent."""
+    header = bytes.fromhex(real["block"]["header"])
+    body = header[:72] + bits.to_bytes(4, "little")
+    nonce = 0
+    if network == "regtest":
+        while not recorded.meets_own_work(body + nonce.to_bytes(4, "little"), network):
+            nonce += 1
+    forged = body + nonce.to_bytes(4, "little")
+    block = {**real["block"], "header": forged.hex(), "id": recorded.block_id(forged)}
+    if network is not None:
+        block["network"] = network
+    return {**copy.deepcopy(real), "block": block}
+
+
+def test_a_self_consistent_header_with_no_work_is_refused() -> None:
+    entry = _member("hs51-set2-acks")
+    real = _anchor(entry, 972403)
+    forged = _forged_header(real, 0x1D00FFFF)
+    assert int(forged["block"]["id"], 16) > recorded.compact_target(0x1D00FFFF)
+    assert _codes(entry, [forged]) == ["binding-malformed"]
+
+
+def test_a_mainnet_header_easier_than_the_mainnet_limit_is_refused() -> None:
+    entry = _member("hs51-set2-acks")
+    real = _anchor(entry, 972403)
+    easy = _forged_header(real, 0x207FFFFF, network="regtest")
+    del easy["block"]["network"]
+    assert _codes(entry, [easy]) == ["binding-malformed"]
+    easy["block"]["network"] = "testnet-of-my-own"
+    assert _codes(entry, [easy]) == ["binding-malformed"]
+
+
+def test_a_declared_regtest_header_with_its_work_is_read() -> None:
+    entry = _member("hs51-set2-acks")
+    regtest = _forged_header(_anchor(entry, 972403), 0x207FFFFF, network="regtest")
+    assert _codes(entry, [regtest]) == []
+
+
+def test_a_compact_target_that_is_negative_zero_or_overflowing_is_no_target() -> None:
+    for bits in (0x1D80FFFF, 0x1D000000, 0xFF00FFFF, 0x00000000):
+        assert recorded.compact_target(bits) is None
+    assert recorded.compact_target(0x1D00FFFF) == 0xFFFF << 208
+
+
+def test_every_real_held_header_meets_its_own_work() -> None:
+    manifest = json.loads((ROOT / "MANIFEST.json").read_text(encoding="utf-8"))
+    real = [b["block"] for e in manifest["vectors"] if e["kind"] == "recorded"
+            for b in e["bindings"] if "block" in b]
+    assert real
+    for block in real:
+        assert recorded.meets_own_work(bytes.fromhex(block["header"]), "mainnet"), block["height"]

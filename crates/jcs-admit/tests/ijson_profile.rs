@@ -195,20 +195,20 @@ fn an_exponent_beyond_i64_is_a_number_verdict_not_a_syntax_error() {
         );
     }
 
-    // A magnitude that far BELOW 1 underflows to zero, which ECMAScript writes
-    // as "0", and the profile accepts it exactly as RFC 8785 does.
+    // A nonzero magnitude that far BELOW 1 underflows to zero in a double,
+    // which does not hold the token, so the profile refuses it as inexact.
     for token in [
         "1e-99999999999999999999",
         "1e-9223372036854775809",
         "123e-9223372036854775807",
     ] {
-        assert_eq!(
+        assert!(
+            matches!(
+                admit_ijson(token.as_bytes()),
+                Err(Error::InexactNumber { .. })
+            ),
+            "{token}: want InexactNumber, got {:?}",
             admit_ijson(token.as_bytes())
-                .as_deref()
-                .map(String::from_utf8_lossy)
-                .as_deref(),
-            Ok("0"),
-            "{token}"
         );
     }
 
@@ -225,5 +225,71 @@ fn an_exponent_beyond_i64_is_a_number_verdict_not_a_syntax_error() {
             !matches!(admit_ijson(token.as_bytes()), Err(Error::Syntax { .. })),
             "{token} was reported as invalid JSON by a number range check"
         );
+    }
+}
+
+/// A fraction whose nearest double reaches 2^53 canonicalizes to an unsafe
+/// integer. Found by the 15 Nov 2026 break-it pass: `admit_ijson` admitted
+/// `12345678901234567.5` and emitted `12345678901234568`, which it then refused.
+#[test]
+fn a_fraction_that_rounds_past_the_bound_is_refused() {
+    for token in [
+        "12345678901234567.5",
+        "9007199254740991.5", // tie, rounds to even: 2^53
+        "-9007199254740991.5",
+        "9007199254740992.5",
+        "9007199254740991.9",
+        "1.00000000000000001e16",
+    ] {
+        assert!(
+            matches!(
+                admit_ijson(token.as_bytes()),
+                Err(Error::UnsafeInteger { .. })
+            ),
+            "{token}"
+        );
+        // RFC 8785 as written still admits and rounds it.
+        assert!(admit(token.as_bytes()).is_ok(), "{token}");
+    }
+    // Rounds down into the safe range, so the safe-integer rule alone admits it
+    // and writes a safe integer. The profile still refuses it: the token carries
+    // a fraction its double drops (RFC 7493 section 2.2).
+    assert_eq!(
+        jcs_admit::admit_with(
+            b"9007199254740991.4",
+            &Options::rfc8785().safe_integers(true)
+        )
+        .unwrap(),
+        b"9007199254740991"
+    );
+    assert!(matches!(
+        admit_ijson(b"9007199254740991.4"),
+        Err(Error::InexactNumber { .. })
+    ));
+}
+
+/// Whatever the profile admits, it admits again unchanged, and reports canonical.
+#[test]
+fn the_profile_is_idempotent_on_its_own_output() {
+    let opts = Options::ijson();
+    for token in PINNED.iter().map(|r| r.0).chain([
+        "12345678901234567.5",
+        "9007199254740991.4",
+        "1e2",
+        "100.0",
+        "1.5",
+        "-0.1",
+        "333333333.33333329",
+        "1e-7",
+        "1e-400",
+    ]) {
+        if let Ok(out) = jcs_admit::admit_with(token.as_bytes(), &opts) {
+            assert_eq!(
+                jcs_admit::admit_with(&out, &opts).ok().as_deref(),
+                Some(out.as_slice()),
+                "{token}"
+            );
+            assert!(jcs_admit::is_canonical_with(&out, &opts), "{token}");
+        }
     }
 }
