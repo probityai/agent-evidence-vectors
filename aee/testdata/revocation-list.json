@@ -1,0 +1,1728 @@
+[
+  {
+    "description": "an empty first list is in force",
+    "expected": {
+      "state": {
+        "head": "sha256:ed6588d126f86b6fdfd9ed683c4e541ce5b30e5924d9d510a10c611ac9a083f7",
+        "issuedAt": "2026-06-01T00:00:00Z",
+        "listId": "probity-revocations",
+        "revoked": {
+          "agent": [],
+          "build": [],
+          "grant": [],
+          "key": [],
+          "permit": [],
+          "sponsor": [],
+          "stream": []
+        },
+        "roots": [
+          "66e0964922229d08455f3b8961827ac11e766a0cba43ee5a5b5dc2cd78870bf2"
+        ],
+        "seq": 1
+      }
+    },
+    "id": "RL01",
+    "lists": [
+      {
+        "body": {
+          "entries": [],
+          "issuedAt": "2026-06-01T00:00:00Z",
+          "issuerKey": "31J9Yt30rIbYE7BUMeLJwD+WxLxznqGNkbouuyOQwwk=",
+          "listId": "probity-revocations",
+          "previous": null,
+          "seq": 1,
+          "type": "https://probityai.github.io/agent-evidence-vectors/predicate/v1/revocation-list"
+        },
+        "sig": "4a6s3g/u2L+PyFm/g/Sa2MuuontLF+UwP83v4aI54JFu24St5hIeQm3j8+T+L93/p6FiUH5XJWpuWI/kdBUKDA=="
+      }
+    ],
+    "roots": [
+      "66e0964922229d08455f3b8961827ac11e766a0cba43ee5a5b5dc2cd78870bf2"
+    ]
+  },
+  {
+    "description": "a chain of three lists naming every kind",
+    "expected": {
+      "state": {
+        "head": "sha256:5362028615e46a0b3d9286daacf21f7529b3b1db41b90106c6cbac70f4e67998",
+        "issuedAt": "2026-06-03T00:00:00Z",
+        "listId": "probity-revocations",
+        "revoked": {
+          "agent": [
+            "agent:alpha",
+            "agent:one"
+          ],
+          "build": [
+            "build:one"
+          ],
+          "grant": [
+            "1362c039c94e673a9abbf8b742aca7c0b7224e81772949ba38991962ecb20e32"
+          ],
+          "key": [
+            "1362c039c94e673a9abbf8b742aca7c0b7224e81772949ba38991962ecb20e32"
+          ],
+          "permit": [
+            "1362c039c94e673a9abbf8b742aca7c0b7224e81772949ba38991962ecb20e32"
+          ],
+          "sponsor": [
+            "sponsor:one"
+          ],
+          "stream": [
+            "stream-7",
+            "stream:one"
+          ]
+        },
+        "roots": [
+          "66e0964922229d08455f3b8961827ac11e766a0cba43ee5a5b5dc2cd78870bf2"
+        ],
+        "seq": 3
+      }
+    },
+    "id": "RL02",
+    "lists": [
+      {
+        "body": {
+          "entries": [],
+          "issuedAt": "2026-06-01T00:00:00Z",
+          "issuerKey": "31J9Yt30rIbYE7BUMeLJwD+WxLxznqGNkbouuyOQwwk=",
+          "listId": "probity-revocations",
+          "previous": null,
+          "seq": 1,
+          "type": "https://probityai.github.io/agent-evidence-vectors/predicate/v1/revocation-list"
+        },
+        "sig": "4a6s3g/u2L+PyFm/g/Sa2MuuontLF+UwP83v4aI54JFu24St5hIeQm3j8+T+L93/p6FiUH5XJWpuWI/kdBUKDA=="
+      },
+      {
+        "body": {
+          "entries": [
+            {
+              "id": "agent:alpha",
+              "kind": "agent",
+              "revokedAt": "2026-06-02T00:00:00Z"
+            },
+            {
+              "id": "stream-7",
+              "kind": "stream",
+              "revokedAt": "2026-06-02T00:00:00Z"
+            }
+          ],
+          "issuedAt": "2026-06-02T00:00:00Z",
+          "issuerKey": "31J9Yt30rIbYE7BUMeLJwD+WxLxznqGNkbouuyOQwwk=",
+          "listId": "probity-revocations",
+          "previous": "sha256:ed6588d126f86b6fdfd9ed683c4e541ce5b30e5924d9d510a10c611ac9a083f7",
+          "seq": 2,
+          "type": "https://probityai.github.io/agent-evidence-vectors/predicate/v1/revocation-list"
+        },
+        "sig": "KvUo09+LKEOCVg6Y0PAMi9R9awayckTb9BC5kF81n0RJaOM5vdQNjFOIG+J1qtzB5ZwRO+S1xuPzhtshC+ZqCg=="
+      },
+      {
+        "body": {
+          "entries": [
+            {
+              "id": "agent:alpha",
+              "kind": "agent",
+              "revokedAt": "2026-06-02T00:00:00Z"
+            },
+            {
+              "id": "agent:one",
+              "kind": "agent",
+              "reason": "test",
+              "revokedAt": "2026-06-03T00:00:00Z"
+            },
+            {
+              "id": "build:one",
+              "kind": "build",
+              "reason": "test",
+              "revokedAt": "2026-06-03T00:00:00Z"
+            },
+            {
+              "id": "1362c039c94e673a9abbf8b742aca7c0b7224e81772949ba38991962ecb20e32",
+              "kind": "grant",
+              "reason": "test",
+              "revokedAt": "2026-06-03T00:00:00Z"
+            },
+            {
+              "id": "1362c039c94e673a9abbf8b742aca7c0b7224e81772949ba38991962ecb20e32",
+              "kind": "key",
+              "reason": "test",
+              "revokedAt": "2026-06-03T00:00:00Z"
+            },
+            {
+              "id": "1362c039c94e673a9abbf8b742aca7c0b7224e81772949ba38991962ecb20e32",
+              "kind": "permit",
+              "reason": "test",
+              "revokedAt": "2026-06-03T00:00:00Z"
+            },
+            {
+              "id": "sponsor:one",
+              "kind": "sponsor",
+              "reason": "test",
+              "revokedAt": "2026-06-03T00:00:00Z"
+            },
+            {
+              "id": "stream-7",
+              "kind": "stream",
+              "revokedAt": "2026-06-02T00:00:00Z"
+            },
+            {
+              "id": "stream:one",
+              "kind": "stream",
+              "reason": "test",
+              "revokedAt": "2026-06-03T00:00:00Z"
+            }
+          ],
+          "issuedAt": "2026-06-03T00:00:00Z",
+          "issuerKey": "31J9Yt30rIbYE7BUMeLJwD+WxLxznqGNkbouuyOQwwk=",
+          "listId": "probity-revocations",
+          "previous": "sha256:3088aa34b5c81141c9970d6d43e4f55ccdec72e5d0f0bbf45e978cb14661f303",
+          "seq": 3,
+          "type": "https://probityai.github.io/agent-evidence-vectors/predicate/v1/revocation-list"
+        },
+        "sig": "PDOj2zAvB9km76kwWSGTXJCdK3JrP1287vuYBh/WnlhP4ysGrgYh/tGWIR94o8nSteCZUQZZH5aWJay/17uwDw=="
+      }
+    ],
+    "roots": [
+      "66e0964922229d08455f3b8961827ac11e766a0cba43ee5a5b5dc2cd78870bf2"
+    ]
+  },
+  {
+    "description": "a root rotates to its successor, which signs the next list",
+    "expected": {
+      "state": {
+        "head": "sha256:dc3bbe24bd52a5b988f7604f22961f15f6373a86403341dfdfc775b0c6d0ef20",
+        "issuedAt": "2026-06-02T00:00:00Z",
+        "listId": "probity-revocations",
+        "revoked": {
+          "agent": [],
+          "build": [],
+          "grant": [],
+          "key": [
+            "66e0964922229d08455f3b8961827ac11e766a0cba43ee5a5b5dc2cd78870bf2"
+          ],
+          "permit": [],
+          "sponsor": [],
+          "stream": []
+        },
+        "roots": [
+          "524227d0dbab017d1cfcd44aa540f82de137afcbeea296e92fcc768fd2daaef6"
+        ],
+        "seq": 2
+      }
+    },
+    "id": "RL03",
+    "lists": [
+      {
+        "body": {
+          "entries": [
+            {
+              "id": "66e0964922229d08455f3b8961827ac11e766a0cba43ee5a5b5dc2cd78870bf2",
+              "kind": "key",
+              "reason": "rotation",
+              "revokedAt": "2026-06-01T00:00:00Z",
+              "successor": "I9dejgXrb7a7eFLkgHTJdJE9EecCR936q+7+pt0qEUM="
+            }
+          ],
+          "issuedAt": "2026-06-01T00:00:00Z",
+          "issuerKey": "31J9Yt30rIbYE7BUMeLJwD+WxLxznqGNkbouuyOQwwk=",
+          "listId": "probity-revocations",
+          "previous": null,
+          "seq": 1,
+          "type": "https://probityai.github.io/agent-evidence-vectors/predicate/v1/revocation-list"
+        },
+        "sig": "K/APvFZgFiH6xBiMXgBS8xr/ABiJsWO5JU3Rkvz2q6j07xocy7sBfpLHVEj2BfkTVNJsW5mpetYPKA1DB04uAA=="
+      },
+      {
+        "body": {
+          "entries": [
+            {
+              "id": "66e0964922229d08455f3b8961827ac11e766a0cba43ee5a5b5dc2cd78870bf2",
+              "kind": "key",
+              "reason": "rotation",
+              "revokedAt": "2026-06-01T00:00:00Z",
+              "successor": "I9dejgXrb7a7eFLkgHTJdJE9EecCR936q+7+pt0qEUM="
+            }
+          ],
+          "issuedAt": "2026-06-02T00:00:00Z",
+          "issuerKey": "I9dejgXrb7a7eFLkgHTJdJE9EecCR936q+7+pt0qEUM=",
+          "listId": "probity-revocations",
+          "previous": "sha256:26c0fe9197ee1f46ebea2b0ee010fb45485ac6ef99c39d722f90b193e10188f0",
+          "seq": 2,
+          "type": "https://probityai.github.io/agent-evidence-vectors/predicate/v1/revocation-list"
+        },
+        "sig": "38TrVUb3Xk/bBxGrwua+9m/SxxNNbT/6I+D4LR+IFdqZ483jX88B4k3ZvqxLe51CLxw1Qmxx93Wn1VoXCioNBQ=="
+      }
+    ],
+    "roots": [
+      "66e0964922229d08455f3b8961827ac11e766a0cba43ee5a5b5dc2cd78870bf2"
+    ]
+  },
+  {
+    "description": "a reason outside the BMP canonicalises the same in every reader",
+    "expected": {
+      "state": {
+        "head": "sha256:868add311d26e815a45ed4050e50c71b9429fafa79112c13d66320f588b4987c",
+        "issuedAt": "2026-06-01T00:00:00Z",
+        "listId": "probity-revocations",
+        "revoked": {
+          "agent": [],
+          "build": [],
+          "grant": [],
+          "key": [],
+          "permit": [],
+          "sponsor": [
+            "sponsor:acme"
+          ],
+          "stream": []
+        },
+        "roots": [
+          "66e0964922229d08455f3b8961827ac11e766a0cba43ee5a5b5dc2cd78870bf2"
+        ],
+        "seq": 1
+      }
+    },
+    "id": "RL04",
+    "lists": [
+      {
+        "body": {
+          "entries": [
+            {
+              "id": "sponsor:acme",
+              "kind": "sponsor",
+              "reason": "key on a lost laptop \ud83d\udcbb\u2028",
+              "revokedAt": "2026-06-01T00:00:00Z"
+            }
+          ],
+          "issuedAt": "2026-06-01T00:00:00Z",
+          "issuerKey": "31J9Yt30rIbYE7BUMeLJwD+WxLxznqGNkbouuyOQwwk=",
+          "listId": "probity-revocations",
+          "previous": null,
+          "seq": 1,
+          "type": "https://probityai.github.io/agent-evidence-vectors/predicate/v1/revocation-list"
+        },
+        "sig": "QxPisjSrzj3XNRf8znpYN2Cn4OWYeLV4ntEL1cNPbKgLxXpuAbRs/fgJKkfLTQ7SBg9kEnNFwAZhBKG212BjDQ=="
+      }
+    ],
+    "roots": [
+      "66e0964922229d08455f3b8961827ac11e766a0cba43ee5a5b5dc2cd78870bf2"
+    ]
+  },
+  {
+    "description": "an unknown kind is refused even when signed",
+    "expected": {
+      "index": 0,
+      "refused": "revocation_list_shape"
+    },
+    "id": "RL05",
+    "lists": [
+      {
+        "body": {
+          "entries": [
+            {
+              "id": "tenant:x",
+              "kind": "tenant",
+              "revokedAt": "2026-06-01T00:00:00Z"
+            }
+          ],
+          "issuedAt": "2026-06-01T00:00:00Z",
+          "issuerKey": "31J9Yt30rIbYE7BUMeLJwD+WxLxznqGNkbouuyOQwwk=",
+          "listId": "probity-revocations",
+          "previous": null,
+          "seq": 1,
+          "type": "https://probityai.github.io/agent-evidence-vectors/predicate/v1/revocation-list"
+        },
+        "sig": "eARGlyFEcrdG/scNkkK/am8XeG/gTj3A0RiAguOOh5Ui+uE57pyG0HUPFum5Mbt9R02dHe2PMg8mI5Bhmq/eBg=="
+      }
+    ],
+    "roots": [
+      "66e0964922229d08455f3b8961827ac11e766a0cba43ee5a5b5dc2cd78870bf2"
+    ]
+  },
+  {
+    "description": "entries out of order are refused",
+    "expected": {
+      "index": 0,
+      "refused": "revocation_list_shape"
+    },
+    "id": "RL06",
+    "lists": [
+      {
+        "body": {
+          "entries": [
+            {
+              "id": "s",
+              "kind": "stream",
+              "revokedAt": "2026-06-01T00:00:00Z"
+            },
+            {
+              "id": "a",
+              "kind": "agent",
+              "revokedAt": "2026-06-01T00:00:00Z"
+            }
+          ],
+          "issuedAt": "2026-06-01T00:00:00Z",
+          "issuerKey": "31J9Yt30rIbYE7BUMeLJwD+WxLxznqGNkbouuyOQwwk=",
+          "listId": "probity-revocations",
+          "previous": null,
+          "seq": 1,
+          "type": "https://probityai.github.io/agent-evidence-vectors/predicate/v1/revocation-list"
+        },
+        "sig": "iqPV5cDt+4qcQgYCWMBr2Jnhq0d5eFu9avLqodqCDlwBvSRKy629xRRr+e3j4F9JVqexDSUFWOJ8TotQnPyNAw=="
+      }
+    ],
+    "roots": [
+      "66e0964922229d08455f3b8961827ac11e766a0cba43ee5a5b5dc2cd78870bf2"
+    ]
+  },
+  {
+    "description": "a duplicate entry is refused",
+    "expected": {
+      "index": 0,
+      "refused": "revocation_list_shape"
+    },
+    "id": "RL07",
+    "lists": [
+      {
+        "body": {
+          "entries": [
+            {
+              "id": "a",
+              "kind": "agent",
+              "revokedAt": "2026-06-01T00:00:00Z"
+            },
+            {
+              "id": "a",
+              "kind": "agent",
+              "revokedAt": "2026-06-01T00:00:00Z"
+            }
+          ],
+          "issuedAt": "2026-06-01T00:00:00Z",
+          "issuerKey": "31J9Yt30rIbYE7BUMeLJwD+WxLxznqGNkbouuyOQwwk=",
+          "listId": "probity-revocations",
+          "previous": null,
+          "seq": 1,
+          "type": "https://probityai.github.io/agent-evidence-vectors/predicate/v1/revocation-list"
+        },
+        "sig": "I5zF5rIPgA9BnQwrl/ndkGUZH9cCuaAEubKl6F0NLhnX0KjxuOxsd3QDFclng2WMt9ePTXsFy388f0RRliIfCA=="
+      }
+    ],
+    "roots": [
+      "66e0964922229d08455f3b8961827ac11e766a0cba43ee5a5b5dc2cd78870bf2"
+    ]
+  },
+  {
+    "description": "a non-ASCII identifier is refused",
+    "expected": {
+      "index": 0,
+      "refused": "revocation_list_shape"
+    },
+    "id": "RL08",
+    "lists": [
+      {
+        "body": {
+          "entries": [
+            {
+              "id": "agent:\u00e9",
+              "kind": "agent",
+              "revokedAt": "2026-06-01T00:00:00Z"
+            }
+          ],
+          "issuedAt": "2026-06-01T00:00:00Z",
+          "issuerKey": "31J9Yt30rIbYE7BUMeLJwD+WxLxznqGNkbouuyOQwwk=",
+          "listId": "probity-revocations",
+          "previous": null,
+          "seq": 1,
+          "type": "https://probityai.github.io/agent-evidence-vectors/predicate/v1/revocation-list"
+        },
+        "sig": "t7fWoYVeMFUzxsRUhVL5enZQ+eQ2f4BZEc9mok/4YB76Lyk/VhPR5wux9nyyACUnFTRDAO1Joxyshg4NxPwqDQ=="
+      }
+    ],
+    "roots": [
+      "66e0964922229d08455f3b8961827ac11e766a0cba43ee5a5b5dc2cd78870bf2"
+    ]
+  },
+  {
+    "description": "an identifier with a space is refused",
+    "expected": {
+      "index": 0,
+      "refused": "revocation_list_shape"
+    },
+    "id": "RL09",
+    "lists": [
+      {
+        "body": {
+          "entries": [
+            {
+              "id": "agent one",
+              "kind": "agent",
+              "revokedAt": "2026-06-01T00:00:00Z"
+            }
+          ],
+          "issuedAt": "2026-06-01T00:00:00Z",
+          "issuerKey": "31J9Yt30rIbYE7BUMeLJwD+WxLxznqGNkbouuyOQwwk=",
+          "listId": "probity-revocations",
+          "previous": null,
+          "seq": 1,
+          "type": "https://probityai.github.io/agent-evidence-vectors/predicate/v1/revocation-list"
+        },
+        "sig": "CtsEgiT3H+TPM9d4+q8CqoCdElWk+DddyCWHBu/l3D/Fh1yGF44L+Q2/oyrmpRaoNnFSh8EMqq8xsY3GK89gCw=="
+      }
+    ],
+    "roots": [
+      "66e0964922229d08455f3b8961827ac11e766a0cba43ee5a5b5dc2cd78870bf2"
+    ]
+  },
+  {
+    "description": "an identifier of 513 characters is refused",
+    "expected": {
+      "index": 0,
+      "refused": "revocation_list_shape"
+    },
+    "id": "RL10",
+    "lists": [
+      {
+        "body": {
+          "entries": [
+            {
+              "id": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+              "kind": "agent",
+              "revokedAt": "2026-06-01T00:00:00Z"
+            }
+          ],
+          "issuedAt": "2026-06-01T00:00:00Z",
+          "issuerKey": "31J9Yt30rIbYE7BUMeLJwD+WxLxznqGNkbouuyOQwwk=",
+          "listId": "probity-revocations",
+          "previous": null,
+          "seq": 1,
+          "type": "https://probityai.github.io/agent-evidence-vectors/predicate/v1/revocation-list"
+        },
+        "sig": "6g6TyGZ89S9GAB5tkzAHS1OZUVdpf2ZFGxe5Fo4P75Jz8UL/1ZIlTT/GvxGDBQEfHl/aC+yqHSR1QJlrNoDqBw=="
+      }
+    ],
+    "roots": [
+      "66e0964922229d08455f3b8961827ac11e766a0cba43ee5a5b5dc2cd78870bf2"
+    ]
+  },
+  {
+    "description": "an extra body member is refused",
+    "expected": {
+      "index": 0,
+      "refused": "revocation_list_shape"
+    },
+    "id": "RL11",
+    "lists": [
+      {
+        "body": {
+          "entries": [],
+          "extra": "x",
+          "issuedAt": "2026-06-01T00:00:00Z",
+          "issuerKey": "31J9Yt30rIbYE7BUMeLJwD+WxLxznqGNkbouuyOQwwk=",
+          "listId": "probity-revocations",
+          "previous": null,
+          "seq": 1,
+          "type": "https://probityai.github.io/agent-evidence-vectors/predicate/v1/revocation-list"
+        },
+        "sig": "2PgKdLJgYzdORTImpFOA5tdcm0m3kWloo71YjJiERgbQwxs9c9/1qERB5JipSxVL2X1/8QcSXRhdQoV1Y9VOBg=="
+      }
+    ],
+    "roots": [
+      "66e0964922229d08455f3b8961827ac11e766a0cba43ee5a5b5dc2cd78870bf2"
+    ]
+  },
+  {
+    "description": "a boolean seq is refused",
+    "expected": {
+      "index": 0,
+      "refused": "revocation_list_shape"
+    },
+    "id": "RL12",
+    "lists": [
+      {
+        "body": {
+          "entries": [],
+          "issuedAt": "2026-06-01T00:00:00Z",
+          "issuerKey": "31J9Yt30rIbYE7BUMeLJwD+WxLxznqGNkbouuyOQwwk=",
+          "listId": "probity-revocations",
+          "previous": null,
+          "seq": true,
+          "type": "https://probityai.github.io/agent-evidence-vectors/predicate/v1/revocation-list"
+        },
+        "sig": "ylK/zCiqHNMzLO7lDEY9LEkyW7GpFTnCnsYIATRsvbzRdJOq6o+7xZiLd/+BV+fMJTkqzZ6hRY3KaVIYdCvLBg=="
+      }
+    ],
+    "roots": [
+      "66e0964922229d08455f3b8961827ac11e766a0cba43ee5a5b5dc2cd78870bf2"
+    ]
+  },
+  {
+    "description": "a seq beyond 2^53-1 is refused",
+    "expected": {
+      "index": 0,
+      "refused": "revocation_list_shape"
+    },
+    "id": "RL13",
+    "lists": [
+      {
+        "body": {
+          "entries": [],
+          "issuedAt": "2026-06-01T00:00:00Z",
+          "issuerKey": "31J9Yt30rIbYE7BUMeLJwD+WxLxznqGNkbouuyOQwwk=",
+          "listId": "probity-revocations",
+          "previous": "sha256:0000000000000000000000000000000000000000000000000000000000000000",
+          "seq": 9007199254740992,
+          "type": "https://probityai.github.io/agent-evidence-vectors/predicate/v1/revocation-list"
+        },
+        "sig": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=="
+      }
+    ],
+    "roots": [
+      "66e0964922229d08455f3b8961827ac11e766a0cba43ee5a5b5dc2cd78870bf2"
+    ]
+  },
+  {
+    "description": "a timestamp with an offset is refused",
+    "expected": {
+      "index": 0,
+      "refused": "revocation_list_shape"
+    },
+    "id": "RL14",
+    "lists": [
+      {
+        "body": {
+          "entries": [],
+          "issuedAt": "2026-06-01T00:00:00+00:00",
+          "issuerKey": "31J9Yt30rIbYE7BUMeLJwD+WxLxznqGNkbouuyOQwwk=",
+          "listId": "probity-revocations",
+          "previous": null,
+          "seq": 1,
+          "type": "https://probityai.github.io/agent-evidence-vectors/predicate/v1/revocation-list"
+        },
+        "sig": "O+2Pi7ztY5vHUcTqkwMMFk7ZbQ9gmd6oTN3XFQPmfe2UL4TxZZkp8bRw3NBUMAu1kmvToqD0/WKQRg5sM2B+Ag=="
+      }
+    ],
+    "roots": [
+      "66e0964922229d08455f3b8961827ac11e766a0cba43ee5a5b5dc2cd78870bf2"
+    ]
+  },
+  {
+    "description": "a timestamp that is not a calendar day is refused",
+    "expected": {
+      "index": 0,
+      "refused": "revocation_list_shape"
+    },
+    "id": "RL15",
+    "lists": [
+      {
+        "body": {
+          "entries": [],
+          "issuedAt": "2026-02-30T00:00:00Z",
+          "issuerKey": "31J9Yt30rIbYE7BUMeLJwD+WxLxznqGNkbouuyOQwwk=",
+          "listId": "probity-revocations",
+          "previous": null,
+          "seq": 1,
+          "type": "https://probityai.github.io/agent-evidence-vectors/predicate/v1/revocation-list"
+        },
+        "sig": "J/Y/kQk0H26iWyZf0/xc38OA8BclffXURVxpYgVYKqhk5pc6rt5ZWVafNo7cKN1xKSuWOdJ/QhZyeKa5XaV3Cg=="
+      }
+    ],
+    "roots": [
+      "66e0964922229d08455f3b8961827ac11e766a0cba43ee5a5b5dc2cd78870bf2"
+    ]
+  },
+  {
+    "description": "an issuer key in non-canonical base64 is refused",
+    "expected": {
+      "index": 0,
+      "refused": "revocation_list_shape"
+    },
+    "id": "RL16",
+    "lists": [
+      {
+        "body": {
+          "entries": [],
+          "issuedAt": "2026-06-01T00:00:00Z",
+          "issuerKey": "31J9Yt30rIbYE7BUMeLJwD+WxLxznqGNkbouuyOQwwl=",
+          "listId": "probity-revocations",
+          "previous": null,
+          "seq": 1,
+          "type": "https://probityai.github.io/agent-evidence-vectors/predicate/v1/revocation-list"
+        },
+        "sig": "17yMfrwvhQ7S4qjusjXiPFb47rL8+YQL1q3e0sq86i9TXDmtMKr14Dh736rxJ14NVEWeBEL4nFpdshSBE5XoAg=="
+      }
+    ],
+    "roots": [
+      "66e0964922229d08455f3b8961827ac11e766a0cba43ee5a5b5dc2cd78870bf2"
+    ]
+  },
+  {
+    "description": "an upper-case grant digest is refused",
+    "expected": {
+      "index": 0,
+      "refused": "revocation_list_shape"
+    },
+    "id": "RL17",
+    "lists": [
+      {
+        "body": {
+          "entries": [
+            {
+              "id": "1362C039C94E673A9ABBF8B742ACA7C0B7224E81772949BA38991962ECB20E32",
+              "kind": "grant",
+              "revokedAt": "2026-06-01T00:00:00Z"
+            }
+          ],
+          "issuedAt": "2026-06-01T00:00:00Z",
+          "issuerKey": "31J9Yt30rIbYE7BUMeLJwD+WxLxznqGNkbouuyOQwwk=",
+          "listId": "probity-revocations",
+          "previous": null,
+          "seq": 1,
+          "type": "https://probityai.github.io/agent-evidence-vectors/predicate/v1/revocation-list"
+        },
+        "sig": "yBq0OrCcKXnaZbIYmZlzHMOaeKhRvh+6Mu0akXemQX/6Belrl0AMc1DvSuw5tyMueQP5ADBmlJOoIKDGCrbIDA=="
+      }
+    ],
+    "roots": [
+      "66e0964922229d08455f3b8961827ac11e766a0cba43ee5a5b5dc2cd78870bf2"
+    ]
+  },
+  {
+    "description": "a successor on an agent entry is refused",
+    "expected": {
+      "index": 0,
+      "refused": "revocation_list_shape"
+    },
+    "id": "RL18",
+    "lists": [
+      {
+        "body": {
+          "entries": [
+            {
+              "id": "a",
+              "kind": "agent",
+              "revokedAt": "2026-06-01T00:00:00Z",
+              "successor": "I9dejgXrb7a7eFLkgHTJdJE9EecCR936q+7+pt0qEUM="
+            }
+          ],
+          "issuedAt": "2026-06-01T00:00:00Z",
+          "issuerKey": "31J9Yt30rIbYE7BUMeLJwD+WxLxznqGNkbouuyOQwwk=",
+          "listId": "probity-revocations",
+          "previous": null,
+          "seq": 1,
+          "type": "https://probityai.github.io/agent-evidence-vectors/predicate/v1/revocation-list"
+        },
+        "sig": "quRcWf6TffYQCoqPNv+/zf/Dpwne3AdQu7+vSQevRrzljCwToRh0PKUG2Yy6A6u/QExIQBzrEm2//MW0DerYAA=="
+      }
+    ],
+    "roots": [
+      "66e0964922229d08455f3b8961827ac11e766a0cba43ee5a5b5dc2cd78870bf2"
+    ]
+  },
+  {
+    "description": "a signed list with an extra top-level member is refused",
+    "expected": {
+      "index": 0,
+      "refused": "revocation_list_shape"
+    },
+    "id": "RL19",
+    "lists": [
+      {
+        "body": {
+          "entries": [],
+          "issuedAt": "2026-06-01T00:00:00Z",
+          "issuerKey": "31J9Yt30rIbYE7BUMeLJwD+WxLxznqGNkbouuyOQwwk=",
+          "listId": "probity-revocations",
+          "previous": null,
+          "seq": 1,
+          "type": "https://probityai.github.io/agent-evidence-vectors/predicate/v1/revocation-list"
+        },
+        "issuer": "x",
+        "sig": "4a6s3g/u2L+PyFm/g/Sa2MuuontLF+UwP83v4aI54JFu24St5hIeQm3j8+T+L93/p6FiUH5XJWpuWI/kdBUKDA=="
+      }
+    ],
+    "roots": [
+      "66e0964922229d08455f3b8961827ac11e766a0cba43ee5a5b5dc2cd78870bf2"
+    ]
+  },
+  {
+    "description": "another type is refused",
+    "expected": {
+      "index": 0,
+      "refused": "revocation_list_shape"
+    },
+    "id": "RL20",
+    "lists": [
+      {
+        "body": {
+          "entries": [],
+          "issuedAt": "2026-06-01T00:00:00Z",
+          "issuerKey": "31J9Yt30rIbYE7BUMeLJwD+WxLxznqGNkbouuyOQwwk=",
+          "listId": "probity-revocations",
+          "previous": null,
+          "seq": 1,
+          "type": "https://example.org/revocations"
+        },
+        "sig": "UqEzTtl6FAi88dFWNvFbjv/86qfAd4vfm1/mYcPSI+T6B0lchOd+lnOYeW262Q1aiIGVVrl4dF/rQy2z8M7OAA=="
+      }
+    ],
+    "roots": [
+      "66e0964922229d08455f3b8961827ac11e766a0cba43ee5a5b5dc2cd78870bf2"
+    ]
+  },
+  {
+    "description": "a list from a key that is not a pinned root is refused",
+    "expected": {
+      "index": 0,
+      "refused": "revocation_list_signer_not_a_root"
+    },
+    "id": "RL21",
+    "lists": [
+      {
+        "body": {
+          "entries": [],
+          "issuedAt": "2026-06-01T00:00:00Z",
+          "issuerKey": "ZJIFcfbKrNuxxYJFqKH486wr3jtppgb5UTRIQoR04Ws=",
+          "listId": "probity-revocations",
+          "previous": null,
+          "seq": 1,
+          "type": "https://probityai.github.io/agent-evidence-vectors/predicate/v1/revocation-list"
+        },
+        "sig": "cXMg3uG/fdLKh/agsGTx1BgIptcVOCM+ED2oHqLj0CdRP3kR7LvHPpJvjMgLGVuGX8JwdFwFtsP64W85wdj1Dw=="
+      }
+    ],
+    "roots": [
+      "66e0964922229d08455f3b8961827ac11e766a0cba43ee5a5b5dc2cd78870bf2"
+    ]
+  },
+  {
+    "description": "a list whose entries were edited after signing is refused",
+    "expected": {
+      "index": 0,
+      "refused": "revocation_list_signature_unverified"
+    },
+    "id": "RL22",
+    "lists": [
+      {
+        "body": {
+          "entries": [],
+          "issuedAt": "2026-06-02T00:00:00Z",
+          "issuerKey": "31J9Yt30rIbYE7BUMeLJwD+WxLxznqGNkbouuyOQwwk=",
+          "listId": "probity-revocations",
+          "previous": null,
+          "seq": 1,
+          "type": "https://probityai.github.io/agent-evidence-vectors/predicate/v1/revocation-list"
+        },
+        "sig": "KvUo09+LKEOCVg6Y0PAMi9R9awayckTb9BC5kF81n0RJaOM5vdQNjFOIG+J1qtzB5ZwRO+S1xuPzhtshC+ZqCg=="
+      }
+    ],
+    "roots": [
+      "66e0964922229d08455f3b8961827ac11e766a0cba43ee5a5b5dc2cd78870bf2"
+    ]
+  },
+  {
+    "description": "a pinned issuer key over another key's signature is refused",
+    "expected": {
+      "index": 0,
+      "refused": "revocation_list_signature_unverified"
+    },
+    "id": "RL23",
+    "lists": [
+      {
+        "body": {
+          "entries": [],
+          "issuedAt": "2026-06-01T00:00:00Z",
+          "issuerKey": "31J9Yt30rIbYE7BUMeLJwD+WxLxznqGNkbouuyOQwwk=",
+          "listId": "probity-revocations",
+          "previous": null,
+          "seq": 1,
+          "type": "https://probityai.github.io/agent-evidence-vectors/predicate/v1/revocation-list"
+        },
+        "sig": "ts4NxJ1xxxObRsUQIiNKH3EvSKZY3I34T2chrclmkcw5UTalcd/+Gd1L1/PhtMxHEo5FaVEmxGrRoBg/HR69Bg=="
+      }
+    ],
+    "roots": [
+      "66e0964922229d08455f3b8961827ac11e766a0cba43ee5a5b5dc2cd78870bf2"
+    ]
+  },
+  {
+    "description": "a signature with one bit flipped is refused",
+    "expected": {
+      "index": 0,
+      "refused": "revocation_list_signature_unverified"
+    },
+    "id": "RL24",
+    "lists": [
+      {
+        "body": {
+          "entries": [],
+          "issuedAt": "2026-06-01T00:00:00Z",
+          "issuerKey": "31J9Yt30rIbYE7BUMeLJwD+WxLxznqGNkbouuyOQwwk=",
+          "listId": "probity-revocations",
+          "previous": null,
+          "seq": 1,
+          "type": "https://probityai.github.io/agent-evidence-vectors/predicate/v1/revocation-list"
+        },
+        "sig": "4K6s3g/u2L+PyFm/g/Sa2MuuontLF+UwP83v4aI54JFu24St5hIeQm3j8+T+L93/p6FiUH5XJWpuWI/kdBUKDA=="
+      }
+    ],
+    "roots": [
+      "66e0964922229d08455f3b8961827ac11e766a0cba43ee5a5b5dc2cd78870bf2"
+    ]
+  },
+  {
+    "description": "a signature in non-canonical base64 is refused",
+    "expected": {
+      "index": 0,
+      "refused": "revocation_list_signature_unverified"
+    },
+    "id": "RL25",
+    "lists": [
+      {
+        "body": {
+          "entries": [],
+          "issuedAt": "2026-06-01T00:00:00Z",
+          "issuerKey": "31J9Yt30rIbYE7BUMeLJwD+WxLxznqGNkbouuyOQwwk=",
+          "listId": "probity-revocations",
+          "previous": null,
+          "seq": 1,
+          "type": "https://probityai.github.io/agent-evidence-vectors/predicate/v1/revocation-list"
+        },
+        "sig": "4a6s3g/u2L+PyFm/g/Sa2MuuontLF+UwP83v4aI54JFu24St5hIeQm3j8+T+L93/p6FiUH5XJWpuWI/kdBUKDB=="
+      }
+    ],
+    "roots": [
+      "66e0964922229d08455f3b8961827ac11e766a0cba43ee5a5b5dc2cd78870bf2"
+    ]
+  },
+  {
+    "description": "a list from another chain is refused",
+    "expected": {
+      "index": 1,
+      "refused": "revocation_list_other_chain"
+    },
+    "id": "RL26",
+    "lists": [
+      {
+        "body": {
+          "entries": [],
+          "issuedAt": "2026-06-01T00:00:00Z",
+          "issuerKey": "31J9Yt30rIbYE7BUMeLJwD+WxLxznqGNkbouuyOQwwk=",
+          "listId": "probity-revocations",
+          "previous": null,
+          "seq": 1,
+          "type": "https://probityai.github.io/agent-evidence-vectors/predicate/v1/revocation-list"
+        },
+        "sig": "4a6s3g/u2L+PyFm/g/Sa2MuuontLF+UwP83v4aI54JFu24St5hIeQm3j8+T+L93/p6FiUH5XJWpuWI/kdBUKDA=="
+      },
+      {
+        "body": {
+          "entries": [],
+          "issuedAt": "2026-06-02T00:00:00Z",
+          "issuerKey": "31J9Yt30rIbYE7BUMeLJwD+WxLxznqGNkbouuyOQwwk=",
+          "listId": "other",
+          "previous": "sha256:ed6588d126f86b6fdfd9ed683c4e541ce5b30e5924d9d510a10c611ac9a083f7",
+          "seq": 2,
+          "type": "https://probityai.github.io/agent-evidence-vectors/predicate/v1/revocation-list"
+        },
+        "sig": "yLTNqiYwuUBKH/SFSzXuZgcacOo5dmuw+tPDWqWAIcCoNmj8reQLwOWT1W+2mtKg5KK2VOaKWFgb80YNK/noAQ=="
+      }
+    ],
+    "roots": [
+      "66e0964922229d08455f3b8961827ac11e766a0cba43ee5a5b5dc2cd78870bf2"
+    ]
+  },
+  {
+    "description": "the list in force replayed is refused",
+    "expected": {
+      "index": 2,
+      "refused": "revocation_list_rollback"
+    },
+    "id": "RL27",
+    "lists": [
+      {
+        "body": {
+          "entries": [],
+          "issuedAt": "2026-06-01T00:00:00Z",
+          "issuerKey": "31J9Yt30rIbYE7BUMeLJwD+WxLxznqGNkbouuyOQwwk=",
+          "listId": "probity-revocations",
+          "previous": null,
+          "seq": 1,
+          "type": "https://probityai.github.io/agent-evidence-vectors/predicate/v1/revocation-list"
+        },
+        "sig": "4a6s3g/u2L+PyFm/g/Sa2MuuontLF+UwP83v4aI54JFu24St5hIeQm3j8+T+L93/p6FiUH5XJWpuWI/kdBUKDA=="
+      },
+      {
+        "body": {
+          "entries": [
+            {
+              "id": "agent:alpha",
+              "kind": "agent",
+              "revokedAt": "2026-06-02T00:00:00Z"
+            },
+            {
+              "id": "stream-7",
+              "kind": "stream",
+              "revokedAt": "2026-06-02T00:00:00Z"
+            }
+          ],
+          "issuedAt": "2026-06-02T00:00:00Z",
+          "issuerKey": "31J9Yt30rIbYE7BUMeLJwD+WxLxznqGNkbouuyOQwwk=",
+          "listId": "probity-revocations",
+          "previous": "sha256:ed6588d126f86b6fdfd9ed683c4e541ce5b30e5924d9d510a10c611ac9a083f7",
+          "seq": 2,
+          "type": "https://probityai.github.io/agent-evidence-vectors/predicate/v1/revocation-list"
+        },
+        "sig": "KvUo09+LKEOCVg6Y0PAMi9R9awayckTb9BC5kF81n0RJaOM5vdQNjFOIG+J1qtzB5ZwRO+S1xuPzhtshC+ZqCg=="
+      },
+      {
+        "body": {
+          "entries": [
+            {
+              "id": "agent:alpha",
+              "kind": "agent",
+              "revokedAt": "2026-06-02T00:00:00Z"
+            },
+            {
+              "id": "stream-7",
+              "kind": "stream",
+              "revokedAt": "2026-06-02T00:00:00Z"
+            }
+          ],
+          "issuedAt": "2026-06-02T00:00:00Z",
+          "issuerKey": "31J9Yt30rIbYE7BUMeLJwD+WxLxznqGNkbouuyOQwwk=",
+          "listId": "probity-revocations",
+          "previous": "sha256:ed6588d126f86b6fdfd9ed683c4e541ce5b30e5924d9d510a10c611ac9a083f7",
+          "seq": 2,
+          "type": "https://probityai.github.io/agent-evidence-vectors/predicate/v1/revocation-list"
+        },
+        "sig": "KvUo09+LKEOCVg6Y0PAMi9R9awayckTb9BC5kF81n0RJaOM5vdQNjFOIG+J1qtzB5ZwRO+S1xuPzhtshC+ZqCg=="
+      }
+    ],
+    "roots": [
+      "66e0964922229d08455f3b8961827ac11e766a0cba43ee5a5b5dc2cd78870bf2"
+    ]
+  },
+  {
+    "description": "a rollback to an earlier list is refused",
+    "expected": {
+      "index": 2,
+      "refused": "revocation_list_rollback"
+    },
+    "id": "RL28",
+    "lists": [
+      {
+        "body": {
+          "entries": [],
+          "issuedAt": "2026-06-01T00:00:00Z",
+          "issuerKey": "31J9Yt30rIbYE7BUMeLJwD+WxLxznqGNkbouuyOQwwk=",
+          "listId": "probity-revocations",
+          "previous": null,
+          "seq": 1,
+          "type": "https://probityai.github.io/agent-evidence-vectors/predicate/v1/revocation-list"
+        },
+        "sig": "4a6s3g/u2L+PyFm/g/Sa2MuuontLF+UwP83v4aI54JFu24St5hIeQm3j8+T+L93/p6FiUH5XJWpuWI/kdBUKDA=="
+      },
+      {
+        "body": {
+          "entries": [
+            {
+              "id": "agent:alpha",
+              "kind": "agent",
+              "revokedAt": "2026-06-02T00:00:00Z"
+            },
+            {
+              "id": "stream-7",
+              "kind": "stream",
+              "revokedAt": "2026-06-02T00:00:00Z"
+            }
+          ],
+          "issuedAt": "2026-06-02T00:00:00Z",
+          "issuerKey": "31J9Yt30rIbYE7BUMeLJwD+WxLxznqGNkbouuyOQwwk=",
+          "listId": "probity-revocations",
+          "previous": "sha256:ed6588d126f86b6fdfd9ed683c4e541ce5b30e5924d9d510a10c611ac9a083f7",
+          "seq": 2,
+          "type": "https://probityai.github.io/agent-evidence-vectors/predicate/v1/revocation-list"
+        },
+        "sig": "KvUo09+LKEOCVg6Y0PAMi9R9awayckTb9BC5kF81n0RJaOM5vdQNjFOIG+J1qtzB5ZwRO+S1xuPzhtshC+ZqCg=="
+      },
+      {
+        "body": {
+          "entries": [],
+          "issuedAt": "2026-06-01T00:00:00Z",
+          "issuerKey": "31J9Yt30rIbYE7BUMeLJwD+WxLxznqGNkbouuyOQwwk=",
+          "listId": "probity-revocations",
+          "previous": null,
+          "seq": 1,
+          "type": "https://probityai.github.io/agent-evidence-vectors/predicate/v1/revocation-list"
+        },
+        "sig": "4a6s3g/u2L+PyFm/g/Sa2MuuontLF+UwP83v4aI54JFu24St5hIeQm3j8+T+L93/p6FiUH5XJWpuWI/kdBUKDA=="
+      }
+    ],
+    "roots": [
+      "66e0964922229d08455f3b8961827ac11e766a0cba43ee5a5b5dc2cd78870bf2"
+    ]
+  },
+  {
+    "description": "a list from the future (a seq gap) is refused",
+    "expected": {
+      "index": 1,
+      "refused": "revocation_list_gap"
+    },
+    "id": "RL29",
+    "lists": [
+      {
+        "body": {
+          "entries": [],
+          "issuedAt": "2026-06-01T00:00:00Z",
+          "issuerKey": "31J9Yt30rIbYE7BUMeLJwD+WxLxznqGNkbouuyOQwwk=",
+          "listId": "probity-revocations",
+          "previous": null,
+          "seq": 1,
+          "type": "https://probityai.github.io/agent-evidence-vectors/predicate/v1/revocation-list"
+        },
+        "sig": "4a6s3g/u2L+PyFm/g/Sa2MuuontLF+UwP83v4aI54JFu24St5hIeQm3j8+T+L93/p6FiUH5XJWpuWI/kdBUKDA=="
+      },
+      {
+        "body": {
+          "entries": [
+            {
+              "id": "agent:alpha",
+              "kind": "agent",
+              "revokedAt": "2026-06-02T00:00:00Z"
+            },
+            {
+              "id": "agent:one",
+              "kind": "agent",
+              "reason": "test",
+              "revokedAt": "2026-06-03T00:00:00Z"
+            },
+            {
+              "id": "build:one",
+              "kind": "build",
+              "reason": "test",
+              "revokedAt": "2026-06-03T00:00:00Z"
+            },
+            {
+              "id": "1362c039c94e673a9abbf8b742aca7c0b7224e81772949ba38991962ecb20e32",
+              "kind": "grant",
+              "reason": "test",
+              "revokedAt": "2026-06-03T00:00:00Z"
+            },
+            {
+              "id": "1362c039c94e673a9abbf8b742aca7c0b7224e81772949ba38991962ecb20e32",
+              "kind": "key",
+              "reason": "test",
+              "revokedAt": "2026-06-03T00:00:00Z"
+            },
+            {
+              "id": "1362c039c94e673a9abbf8b742aca7c0b7224e81772949ba38991962ecb20e32",
+              "kind": "permit",
+              "reason": "test",
+              "revokedAt": "2026-06-03T00:00:00Z"
+            },
+            {
+              "id": "sponsor:one",
+              "kind": "sponsor",
+              "reason": "test",
+              "revokedAt": "2026-06-03T00:00:00Z"
+            },
+            {
+              "id": "stream-7",
+              "kind": "stream",
+              "revokedAt": "2026-06-02T00:00:00Z"
+            },
+            {
+              "id": "stream:one",
+              "kind": "stream",
+              "reason": "test",
+              "revokedAt": "2026-06-03T00:00:00Z"
+            }
+          ],
+          "issuedAt": "2026-06-03T00:00:00Z",
+          "issuerKey": "31J9Yt30rIbYE7BUMeLJwD+WxLxznqGNkbouuyOQwwk=",
+          "listId": "probity-revocations",
+          "previous": "sha256:3088aa34b5c81141c9970d6d43e4f55ccdec72e5d0f0bbf45e978cb14661f303",
+          "seq": 3,
+          "type": "https://probityai.github.io/agent-evidence-vectors/predicate/v1/revocation-list"
+        },
+        "sig": "PDOj2zAvB9km76kwWSGTXJCdK3JrP1287vuYBh/WnlhP4ysGrgYh/tGWIR94o8nSteCZUQZZH5aWJay/17uwDw=="
+      }
+    ],
+    "roots": [
+      "66e0964922229d08455f3b8961827ac11e766a0cba43ee5a5b5dc2cd78870bf2"
+    ]
+  },
+  {
+    "description": "a fresh reader refuses a first list past seq 1",
+    "expected": {
+      "index": 0,
+      "refused": "revocation_list_gap"
+    },
+    "id": "RL30",
+    "lists": [
+      {
+        "body": {
+          "entries": [
+            {
+              "id": "agent:alpha",
+              "kind": "agent",
+              "revokedAt": "2026-06-02T00:00:00Z"
+            },
+            {
+              "id": "stream-7",
+              "kind": "stream",
+              "revokedAt": "2026-06-02T00:00:00Z"
+            }
+          ],
+          "issuedAt": "2026-06-02T00:00:00Z",
+          "issuerKey": "31J9Yt30rIbYE7BUMeLJwD+WxLxznqGNkbouuyOQwwk=",
+          "listId": "probity-revocations",
+          "previous": "sha256:ed6588d126f86b6fdfd9ed683c4e541ce5b30e5924d9d510a10c611ac9a083f7",
+          "seq": 2,
+          "type": "https://probityai.github.io/agent-evidence-vectors/predicate/v1/revocation-list"
+        },
+        "sig": "KvUo09+LKEOCVg6Y0PAMi9R9awayckTb9BC5kF81n0RJaOM5vdQNjFOIG+J1qtzB5ZwRO+S1xuPzhtshC+ZqCg=="
+      }
+    ],
+    "roots": [
+      "66e0964922229d08455f3b8961827ac11e766a0cba43ee5a5b5dc2cd78870bf2"
+    ]
+  },
+  {
+    "description": "a fork (seq right, previous wrong) is refused",
+    "expected": {
+      "index": 2,
+      "refused": "revocation_list_previous_mismatch"
+    },
+    "id": "RL31",
+    "lists": [
+      {
+        "body": {
+          "entries": [],
+          "issuedAt": "2026-06-01T00:00:00Z",
+          "issuerKey": "31J9Yt30rIbYE7BUMeLJwD+WxLxznqGNkbouuyOQwwk=",
+          "listId": "probity-revocations",
+          "previous": null,
+          "seq": 1,
+          "type": "https://probityai.github.io/agent-evidence-vectors/predicate/v1/revocation-list"
+        },
+        "sig": "4a6s3g/u2L+PyFm/g/Sa2MuuontLF+UwP83v4aI54JFu24St5hIeQm3j8+T+L93/p6FiUH5XJWpuWI/kdBUKDA=="
+      },
+      {
+        "body": {
+          "entries": [
+            {
+              "id": "agent:alpha",
+              "kind": "agent",
+              "revokedAt": "2026-06-02T00:00:00Z"
+            },
+            {
+              "id": "stream-7",
+              "kind": "stream",
+              "revokedAt": "2026-06-02T00:00:00Z"
+            }
+          ],
+          "issuedAt": "2026-06-02T00:00:00Z",
+          "issuerKey": "31J9Yt30rIbYE7BUMeLJwD+WxLxznqGNkbouuyOQwwk=",
+          "listId": "probity-revocations",
+          "previous": "sha256:ed6588d126f86b6fdfd9ed683c4e541ce5b30e5924d9d510a10c611ac9a083f7",
+          "seq": 2,
+          "type": "https://probityai.github.io/agent-evidence-vectors/predicate/v1/revocation-list"
+        },
+        "sig": "KvUo09+LKEOCVg6Y0PAMi9R9awayckTb9BC5kF81n0RJaOM5vdQNjFOIG+J1qtzB5ZwRO+S1xuPzhtshC+ZqCg=="
+      },
+      {
+        "body": {
+          "entries": [
+            {
+              "id": "agent:alpha",
+              "kind": "agent",
+              "revokedAt": "2026-06-02T00:00:00Z"
+            },
+            {
+              "id": "stream-7",
+              "kind": "stream",
+              "revokedAt": "2026-06-02T00:00:00Z"
+            }
+          ],
+          "issuedAt": "2026-06-03T00:00:00Z",
+          "issuerKey": "31J9Yt30rIbYE7BUMeLJwD+WxLxznqGNkbouuyOQwwk=",
+          "listId": "probity-revocations",
+          "previous": "sha256:ed6588d126f86b6fdfd9ed683c4e541ce5b30e5924d9d510a10c611ac9a083f7",
+          "seq": 3,
+          "type": "https://probityai.github.io/agent-evidence-vectors/predicate/v1/revocation-list"
+        },
+        "sig": "KRd2rpScc4tU2Wdo8AZy/1EDbkr1YtP3+/keeMkBiy86iakX9pX52VHmHj+2k/erDWdR8IsAP26xnELkpTqxBQ=="
+      }
+    ],
+    "roots": [
+      "66e0964922229d08455f3b8961827ac11e766a0cba43ee5a5b5dc2cd78870bf2"
+    ]
+  },
+  {
+    "description": "a list issued before the list in force is refused",
+    "expected": {
+      "index": 2,
+      "refused": "revocation_list_time_reversed"
+    },
+    "id": "RL32",
+    "lists": [
+      {
+        "body": {
+          "entries": [],
+          "issuedAt": "2026-06-01T00:00:00Z",
+          "issuerKey": "31J9Yt30rIbYE7BUMeLJwD+WxLxznqGNkbouuyOQwwk=",
+          "listId": "probity-revocations",
+          "previous": null,
+          "seq": 1,
+          "type": "https://probityai.github.io/agent-evidence-vectors/predicate/v1/revocation-list"
+        },
+        "sig": "4a6s3g/u2L+PyFm/g/Sa2MuuontLF+UwP83v4aI54JFu24St5hIeQm3j8+T+L93/p6FiUH5XJWpuWI/kdBUKDA=="
+      },
+      {
+        "body": {
+          "entries": [
+            {
+              "id": "agent:alpha",
+              "kind": "agent",
+              "revokedAt": "2026-06-02T00:00:00Z"
+            },
+            {
+              "id": "stream-7",
+              "kind": "stream",
+              "revokedAt": "2026-06-02T00:00:00Z"
+            }
+          ],
+          "issuedAt": "2026-06-02T00:00:00Z",
+          "issuerKey": "31J9Yt30rIbYE7BUMeLJwD+WxLxznqGNkbouuyOQwwk=",
+          "listId": "probity-revocations",
+          "previous": "sha256:ed6588d126f86b6fdfd9ed683c4e541ce5b30e5924d9d510a10c611ac9a083f7",
+          "seq": 2,
+          "type": "https://probityai.github.io/agent-evidence-vectors/predicate/v1/revocation-list"
+        },
+        "sig": "KvUo09+LKEOCVg6Y0PAMi9R9awayckTb9BC5kF81n0RJaOM5vdQNjFOIG+J1qtzB5ZwRO+S1xuPzhtshC+ZqCg=="
+      },
+      {
+        "body": {
+          "entries": [
+            {
+              "id": "agent:alpha",
+              "kind": "agent",
+              "revokedAt": "2026-06-02T00:00:00Z"
+            },
+            {
+              "id": "stream-7",
+              "kind": "stream",
+              "revokedAt": "2026-06-02T00:00:00Z"
+            }
+          ],
+          "issuedAt": "2026-06-01T00:00:00Z",
+          "issuerKey": "31J9Yt30rIbYE7BUMeLJwD+WxLxznqGNkbouuyOQwwk=",
+          "listId": "probity-revocations",
+          "previous": "sha256:3088aa34b5c81141c9970d6d43e4f55ccdec72e5d0f0bbf45e978cb14661f303",
+          "seq": 3,
+          "type": "https://probityai.github.io/agent-evidence-vectors/predicate/v1/revocation-list"
+        },
+        "sig": "4g2r4v5E+ptlC79RgCrfBDA/aYWVzLztRYLplKsB99+upGODxTxZ899fmUIvgLjZICfTmCKknCzC8lwC4BccCQ=="
+      }
+    ],
+    "roots": [
+      "66e0964922229d08455f3b8961827ac11e766a0cba43ee5a5b5dc2cd78870bf2"
+    ]
+  },
+  {
+    "description": "an entry revoked after the list's issue time is refused",
+    "expected": {
+      "index": 0,
+      "refused": "revocation_entry_from_future"
+    },
+    "id": "RL33",
+    "lists": [
+      {
+        "body": {
+          "entries": [
+            {
+              "id": "a",
+              "kind": "agent",
+              "revokedAt": "2026-06-02T00:00:00Z"
+            }
+          ],
+          "issuedAt": "2026-06-01T00:00:00Z",
+          "issuerKey": "31J9Yt30rIbYE7BUMeLJwD+WxLxznqGNkbouuyOQwwk=",
+          "listId": "probity-revocations",
+          "previous": null,
+          "seq": 1,
+          "type": "https://probityai.github.io/agent-evidence-vectors/predicate/v1/revocation-list"
+        },
+        "sig": "agkpeTZEALk6bzQlZAFdbR9CqajGikQ9Ia4mKLEAxOVphNpLFFRwfDetZojRgzQGg+0zetEh1Vd0j4zawg6hBw=="
+      }
+    ],
+    "roots": [
+      "66e0964922229d08455f3b8961827ac11e766a0cba43ee5a5b5dc2cd78870bf2"
+    ]
+  },
+  {
+    "description": "a list that drops an entry (shrinks) is refused",
+    "expected": {
+      "index": 2,
+      "refused": "revocation_list_drops_entry"
+    },
+    "id": "RL34",
+    "lists": [
+      {
+        "body": {
+          "entries": [],
+          "issuedAt": "2026-06-01T00:00:00Z",
+          "issuerKey": "31J9Yt30rIbYE7BUMeLJwD+WxLxznqGNkbouuyOQwwk=",
+          "listId": "probity-revocations",
+          "previous": null,
+          "seq": 1,
+          "type": "https://probityai.github.io/agent-evidence-vectors/predicate/v1/revocation-list"
+        },
+        "sig": "4a6s3g/u2L+PyFm/g/Sa2MuuontLF+UwP83v4aI54JFu24St5hIeQm3j8+T+L93/p6FiUH5XJWpuWI/kdBUKDA=="
+      },
+      {
+        "body": {
+          "entries": [
+            {
+              "id": "agent:alpha",
+              "kind": "agent",
+              "revokedAt": "2026-06-02T00:00:00Z"
+            },
+            {
+              "id": "stream-7",
+              "kind": "stream",
+              "revokedAt": "2026-06-02T00:00:00Z"
+            }
+          ],
+          "issuedAt": "2026-06-02T00:00:00Z",
+          "issuerKey": "31J9Yt30rIbYE7BUMeLJwD+WxLxznqGNkbouuyOQwwk=",
+          "listId": "probity-revocations",
+          "previous": "sha256:ed6588d126f86b6fdfd9ed683c4e541ce5b30e5924d9d510a10c611ac9a083f7",
+          "seq": 2,
+          "type": "https://probityai.github.io/agent-evidence-vectors/predicate/v1/revocation-list"
+        },
+        "sig": "KvUo09+LKEOCVg6Y0PAMi9R9awayckTb9BC5kF81n0RJaOM5vdQNjFOIG+J1qtzB5ZwRO+S1xuPzhtshC+ZqCg=="
+      },
+      {
+        "body": {
+          "entries": [],
+          "issuedAt": "2026-06-03T00:00:00Z",
+          "issuerKey": "31J9Yt30rIbYE7BUMeLJwD+WxLxznqGNkbouuyOQwwk=",
+          "listId": "probity-revocations",
+          "previous": "sha256:3088aa34b5c81141c9970d6d43e4f55ccdec72e5d0f0bbf45e978cb14661f303",
+          "seq": 3,
+          "type": "https://probityai.github.io/agent-evidence-vectors/predicate/v1/revocation-list"
+        },
+        "sig": "CPpz4iiGJaQpEJR/6kQxzpIOCbxM9DIV8Usi69FfEBgWAZUusu5uN1XesuYDohbFFvuG5bftyUVb4qseKvh0DQ=="
+      }
+    ],
+    "roots": [
+      "66e0964922229d08455f3b8961827ac11e766a0cba43ee5a5b5dc2cd78870bf2"
+    ]
+  },
+  {
+    "description": "a list that edits an entry is refused",
+    "expected": {
+      "index": 2,
+      "refused": "revocation_list_drops_entry"
+    },
+    "id": "RL35",
+    "lists": [
+      {
+        "body": {
+          "entries": [],
+          "issuedAt": "2026-06-01T00:00:00Z",
+          "issuerKey": "31J9Yt30rIbYE7BUMeLJwD+WxLxznqGNkbouuyOQwwk=",
+          "listId": "probity-revocations",
+          "previous": null,
+          "seq": 1,
+          "type": "https://probityai.github.io/agent-evidence-vectors/predicate/v1/revocation-list"
+        },
+        "sig": "4a6s3g/u2L+PyFm/g/Sa2MuuontLF+UwP83v4aI54JFu24St5hIeQm3j8+T+L93/p6FiUH5XJWpuWI/kdBUKDA=="
+      },
+      {
+        "body": {
+          "entries": [
+            {
+              "id": "agent:alpha",
+              "kind": "agent",
+              "revokedAt": "2026-06-02T00:00:00Z"
+            },
+            {
+              "id": "stream-7",
+              "kind": "stream",
+              "revokedAt": "2026-06-02T00:00:00Z"
+            }
+          ],
+          "issuedAt": "2026-06-02T00:00:00Z",
+          "issuerKey": "31J9Yt30rIbYE7BUMeLJwD+WxLxznqGNkbouuyOQwwk=",
+          "listId": "probity-revocations",
+          "previous": "sha256:ed6588d126f86b6fdfd9ed683c4e541ce5b30e5924d9d510a10c611ac9a083f7",
+          "seq": 2,
+          "type": "https://probityai.github.io/agent-evidence-vectors/predicate/v1/revocation-list"
+        },
+        "sig": "KvUo09+LKEOCVg6Y0PAMi9R9awayckTb9BC5kF81n0RJaOM5vdQNjFOIG+J1qtzB5ZwRO+S1xuPzhtshC+ZqCg=="
+      },
+      {
+        "body": {
+          "entries": [
+            {
+              "id": "agent:alpha",
+              "kind": "agent",
+              "reason": "changed",
+              "revokedAt": "2026-06-02T00:00:00Z"
+            },
+            {
+              "id": "stream-7",
+              "kind": "stream",
+              "revokedAt": "2026-06-02T00:00:00Z"
+            }
+          ],
+          "issuedAt": "2026-06-03T00:00:00Z",
+          "issuerKey": "31J9Yt30rIbYE7BUMeLJwD+WxLxznqGNkbouuyOQwwk=",
+          "listId": "probity-revocations",
+          "previous": "sha256:3088aa34b5c81141c9970d6d43e4f55ccdec72e5d0f0bbf45e978cb14661f303",
+          "seq": 3,
+          "type": "https://probityai.github.io/agent-evidence-vectors/predicate/v1/revocation-list"
+        },
+        "sig": "ndUmZYcwZh/TzoLDmpaOX19w3scPpMZj/VkEu0ho1C8tlLYIGIs8UZdOg2wAfzIO1oRTFhkSkVc06aWRbm4NDw=="
+      }
+    ],
+    "roots": [
+      "66e0964922229d08455f3b8961827ac11e766a0cba43ee5a5b5dc2cd78870bf2"
+    ]
+  },
+  {
+    "description": "after rotation the old root's next list is refused",
+    "expected": {
+      "index": 1,
+      "refused": "revocation_list_signer_not_a_root"
+    },
+    "id": "RL36",
+    "lists": [
+      {
+        "body": {
+          "entries": [
+            {
+              "id": "66e0964922229d08455f3b8961827ac11e766a0cba43ee5a5b5dc2cd78870bf2",
+              "kind": "key",
+              "reason": "rotation",
+              "revokedAt": "2026-06-01T00:00:00Z",
+              "successor": "I9dejgXrb7a7eFLkgHTJdJE9EecCR936q+7+pt0qEUM="
+            }
+          ],
+          "issuedAt": "2026-06-01T00:00:00Z",
+          "issuerKey": "31J9Yt30rIbYE7BUMeLJwD+WxLxznqGNkbouuyOQwwk=",
+          "listId": "probity-revocations",
+          "previous": null,
+          "seq": 1,
+          "type": "https://probityai.github.io/agent-evidence-vectors/predicate/v1/revocation-list"
+        },
+        "sig": "K/APvFZgFiH6xBiMXgBS8xr/ABiJsWO5JU3Rkvz2q6j07xocy7sBfpLHVEj2BfkTVNJsW5mpetYPKA1DB04uAA=="
+      },
+      {
+        "body": {
+          "entries": [
+            {
+              "id": "66e0964922229d08455f3b8961827ac11e766a0cba43ee5a5b5dc2cd78870bf2",
+              "kind": "key",
+              "reason": "rotation",
+              "revokedAt": "2026-06-01T00:00:00Z",
+              "successor": "I9dejgXrb7a7eFLkgHTJdJE9EecCR936q+7+pt0qEUM="
+            }
+          ],
+          "issuedAt": "2026-06-02T00:00:00Z",
+          "issuerKey": "31J9Yt30rIbYE7BUMeLJwD+WxLxznqGNkbouuyOQwwk=",
+          "listId": "probity-revocations",
+          "previous": "sha256:26c0fe9197ee1f46ebea2b0ee010fb45485ac6ef99c39d722f90b193e10188f0",
+          "seq": 2,
+          "type": "https://probityai.github.io/agent-evidence-vectors/predicate/v1/revocation-list"
+        },
+        "sig": "HxWdxehwSbyZxC8+CvP/f3ZfrHt5pnyvWJ9OoeAtA55IXsPj83AnUf8XYq2OZfJcuXg56uNuMkNSshvApwKuBg=="
+      }
+    ],
+    "roots": [
+      "66e0964922229d08455f3b8961827ac11e766a0cba43ee5a5b5dc2cd78870bf2"
+    ]
+  },
+  {
+    "description": "a root revoked without a successor ends the chain",
+    "expected": {
+      "index": 1,
+      "refused": "revocation_list_signer_not_a_root"
+    },
+    "id": "RL37",
+    "lists": [
+      {
+        "body": {
+          "entries": [
+            {
+              "id": "66e0964922229d08455f3b8961827ac11e766a0cba43ee5a5b5dc2cd78870bf2",
+              "kind": "key",
+              "reason": "compromised",
+              "revokedAt": "2026-06-01T00:00:00Z"
+            }
+          ],
+          "issuedAt": "2026-06-01T00:00:00Z",
+          "issuerKey": "31J9Yt30rIbYE7BUMeLJwD+WxLxznqGNkbouuyOQwwk=",
+          "listId": "probity-revocations",
+          "previous": null,
+          "seq": 1,
+          "type": "https://probityai.github.io/agent-evidence-vectors/predicate/v1/revocation-list"
+        },
+        "sig": "POpbBo2Z8RTjAtvch2R7lH0HQa9vpLcLCe+yVhkar+DFE6JvBdX0W3Cr+Py762dk8EG8XaGXMVud2UBdFZ/TCQ=="
+      },
+      {
+        "body": {
+          "entries": [
+            {
+              "id": "66e0964922229d08455f3b8961827ac11e766a0cba43ee5a5b5dc2cd78870bf2",
+              "kind": "key",
+              "reason": "compromised",
+              "revokedAt": "2026-06-01T00:00:00Z"
+            }
+          ],
+          "issuedAt": "2026-06-02T00:00:00Z",
+          "issuerKey": "31J9Yt30rIbYE7BUMeLJwD+WxLxznqGNkbouuyOQwwk=",
+          "listId": "probity-revocations",
+          "previous": "sha256:38a92067ce8f44a46eb1ae065106cd8900a288e38e2a03dc0ba32c5fa890bfdb",
+          "seq": 2,
+          "type": "https://probityai.github.io/agent-evidence-vectors/predicate/v1/revocation-list"
+        },
+        "sig": "QLIxnmSQTJc9O0moOAmumhVAdZhZYxe6NzCSPiXt0hVua3dXgQAAHXm4P6LQeDYWhfWSOug8w2h2tnRMZGgNCQ=="
+      }
+    ],
+    "roots": [
+      "66e0964922229d08455f3b8961827ac11e766a0cba43ee5a5b5dc2cd78870bf2"
+    ]
+  },
+  {
+    "description": "a root revoked with a successor that the same list revokes ends the chain (successor id sorts before)",
+    "expected": {
+      "index": 1,
+      "refused": "revocation_list_signer_not_a_root"
+    },
+    "id": "RL38",
+    "lists": [
+      {
+        "body": {
+          "entries": [
+            {
+              "id": "524227d0dbab017d1cfcd44aa540f82de137afcbeea296e92fcc768fd2daaef6",
+              "kind": "key",
+              "reason": "compromised",
+              "revokedAt": "2026-06-01T00:00:00Z"
+            },
+            {
+              "id": "66e0964922229d08455f3b8961827ac11e766a0cba43ee5a5b5dc2cd78870bf2",
+              "kind": "key",
+              "reason": "rotation",
+              "revokedAt": "2026-06-01T00:00:00Z",
+              "successor": "I9dejgXrb7a7eFLkgHTJdJE9EecCR936q+7+pt0qEUM="
+            }
+          ],
+          "issuedAt": "2026-06-01T00:00:00Z",
+          "issuerKey": "31J9Yt30rIbYE7BUMeLJwD+WxLxznqGNkbouuyOQwwk=",
+          "listId": "probity-revocations",
+          "previous": null,
+          "seq": 1,
+          "type": "https://probityai.github.io/agent-evidence-vectors/predicate/v1/revocation-list"
+        },
+        "sig": "ZTXkakBr1gxo5Jm74YAipWpJhuByQBR6qp4FPRjOAEZcbFRFINR0FT5JtEc36ecNF76bpayhUFO6pcP4ofdgAw=="
+      },
+      {
+        "body": {
+          "entries": [
+            {
+              "id": "524227d0dbab017d1cfcd44aa540f82de137afcbeea296e92fcc768fd2daaef6",
+              "kind": "key",
+              "reason": "compromised",
+              "revokedAt": "2026-06-01T00:00:00Z"
+            },
+            {
+              "id": "66e0964922229d08455f3b8961827ac11e766a0cba43ee5a5b5dc2cd78870bf2",
+              "kind": "key",
+              "reason": "rotation",
+              "revokedAt": "2026-06-01T00:00:00Z",
+              "successor": "I9dejgXrb7a7eFLkgHTJdJE9EecCR936q+7+pt0qEUM="
+            }
+          ],
+          "issuedAt": "2026-06-02T00:00:00Z",
+          "issuerKey": "I9dejgXrb7a7eFLkgHTJdJE9EecCR936q+7+pt0qEUM=",
+          "listId": "probity-revocations",
+          "previous": "sha256:6a1d75e82e170970f5af37c025226a96f80fccab60b01660f44880c68ab3ae4c",
+          "seq": 2,
+          "type": "https://probityai.github.io/agent-evidence-vectors/predicate/v1/revocation-list"
+        },
+        "sig": "3uHEXMyD32k7SK5xk4ap59hkjTXjIowuSIHAleFRW0poc/s6YUrnBFZgHimtNKyJ8/Z/cacvfswu8cdLsdUFDA=="
+      }
+    ],
+    "roots": [
+      "66e0964922229d08455f3b8961827ac11e766a0cba43ee5a5b5dc2cd78870bf2"
+    ]
+  },
+  {
+    "description": "a root revoked with a successor that the same list revokes ends the chain (successor id sorts after)",
+    "expected": {
+      "index": 1,
+      "refused": "revocation_list_signer_not_a_root"
+    },
+    "id": "RL39",
+    "lists": [
+      {
+        "body": {
+          "entries": [
+            {
+              "id": "66e0964922229d08455f3b8961827ac11e766a0cba43ee5a5b5dc2cd78870bf2",
+              "kind": "key",
+              "reason": "rotation",
+              "revokedAt": "2026-06-01T00:00:00Z",
+              "successor": "DLu3nxHYBp252V4sEF4kg5ZPC4lzY1FYRWJCpBvCfIs="
+            },
+            {
+              "id": "d0e39b4807fadb584973def8c7578eb1791129e860ed6fd2b195ad12b91a2adf",
+              "kind": "key",
+              "reason": "compromised",
+              "revokedAt": "2026-06-01T00:00:00Z"
+            }
+          ],
+          "issuedAt": "2026-06-01T00:00:00Z",
+          "issuerKey": "31J9Yt30rIbYE7BUMeLJwD+WxLxznqGNkbouuyOQwwk=",
+          "listId": "probity-revocations",
+          "previous": null,
+          "seq": 1,
+          "type": "https://probityai.github.io/agent-evidence-vectors/predicate/v1/revocation-list"
+        },
+        "sig": "R2vvIcUqQUJ2ghjynkIKOmGRvFcShe6DrpkxzBwgBYEZu0AHQADk/EVmcYy3/rf3oPX1P+YsLTib1IxpU++CCg=="
+      },
+      {
+        "body": {
+          "entries": [
+            {
+              "id": "66e0964922229d08455f3b8961827ac11e766a0cba43ee5a5b5dc2cd78870bf2",
+              "kind": "key",
+              "reason": "rotation",
+              "revokedAt": "2026-06-01T00:00:00Z",
+              "successor": "DLu3nxHYBp252V4sEF4kg5ZPC4lzY1FYRWJCpBvCfIs="
+            },
+            {
+              "id": "d0e39b4807fadb584973def8c7578eb1791129e860ed6fd2b195ad12b91a2adf",
+              "kind": "key",
+              "reason": "compromised",
+              "revokedAt": "2026-06-01T00:00:00Z"
+            }
+          ],
+          "issuedAt": "2026-06-02T00:00:00Z",
+          "issuerKey": "DLu3nxHYBp252V4sEF4kg5ZPC4lzY1FYRWJCpBvCfIs=",
+          "listId": "probity-revocations",
+          "previous": "sha256:8badfe4be0d762837b0d20084016aec6df5aeba1ae5f288be337b4e632e6a95a",
+          "seq": 2,
+          "type": "https://probityai.github.io/agent-evidence-vectors/predicate/v1/revocation-list"
+        },
+        "sig": "dPnkDeF//RVVvsi05kcsfBkn2nwbsunJSGzuSneOfCufjvDRZrwdScXOQFZ84Wwz52KgTswfv3pSCewIxk/kDQ=="
+      }
+    ],
+    "roots": [
+      "66e0964922229d08455f3b8961827ac11e766a0cba43ee5a5b5dc2cd78870bf2"
+    ]
+  }
+]
