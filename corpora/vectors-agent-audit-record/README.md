@@ -32,7 +32,7 @@ to `X16` are -03 members that -04 prints). A proposed member carries
 `proposed`, naming the next revision its rule is proposed for and the proposed
 text under [`docs/proposals/`](../../docs/proposals/), and no `draftRevision`,
 because no published revision states the rule it tests. `textCounts` gives the
-split: 225 published and 0 proposed at this commit.
+split: 235 published and 0 proposed at this commit.
 
 [Revision 04](https://datatracker.ietf.org/doc/draft-gilda-audit-agent-audit-record/04/)
 was published on 19 November 2026, and its Appendix B prints all 68 members
@@ -51,7 +51,7 @@ the row, and a proposed member whose text is missing.
 
 | Release | Draft revision the corpus tests | Members |
 | --- | --- | --- |
-| v0.38.0 | `draft-gilda-audit-agent-audit-record-04` | all 225 members: every member the row below lists, with the 68 rows -04 first prints labelled -04 |
+| v0.38.0 | `draft-gilda-audit-agent-audit-record-04` | all 235 members: every member the row below lists, with the 68 rows -04 first prints labelled -04 |
 | After v0.28.0, before v0.38.0 | `draft-gilda-audit-agent-audit-record-03`, and rows of `-04` | every member the v0.28.0 row lists, rows `IS1`, `IS2`, `PS1` and `PS2` of -03 and the open member `PS1b` beside them, and rows `CS41` to `CS54` written for -04 |
 | v0.28.0 | `draft-gilda-audit-agent-audit-record-02` | the 99 Appendix B rows of -00, 7 Section 5.4 members, 22 rows of -01 and 13 rows of -02 |
 | v0.27.0 | `draft-gilda-audit-agent-audit-record-00`, and 22 rows of `-01` | the 99 Appendix B rows, 7 Section 5.4 members and 22 rows of -01 |
@@ -121,6 +121,61 @@ conforms = my_verdict in conforming_verdicts(entry)
 `expected.codes` are the reference reader's names for its first refusal. The
 draft does not define codes, so a verifier is scored on the verdict alone; the
 codes are published so two implementations can compare where they stopped.
+
+## The external-verifier contract
+
+A named verifier runs over this corpus through the harness and the GitHub
+Action:
+
+```sh
+uvx agent-evidence-vectors==<release> --corpus vectors-agent-audit-record \
+  --verifier "<your verifier>" --report report.json
+```
+
+```yaml
+- uses: probityai/agent-evidence-vectors@<release tag>
+  with:
+    corpus: vectors-agent-audit-record
+    verifier: <your verifier>
+```
+
+The contract, identifier
+`https://probityai.github.io/agent-evidence-vectors/contract/agent-audit-record/v1`:
+
+- **Invocation.** `<verifier> <corpus-dir>/<member file> --json`, once per
+  member. The file is under `statements/`, `sets/` or `retained/`. The verifier
+  takes the observer key (`keys.observer.publicKey`), the accepted predicate
+  type and the anchor trust (`anchorTrust`) from the `MANIFEST.json` above the
+  member file, and reads nothing under `expected`.
+- **Output.** The last nonempty stdout line is one JSON object. `verdict` is
+  `valid` or `malformed`, and `codes` is an array of strings. Exit status 0
+  means `valid` and 1 means `malformed`. Any other status, or a status that
+  disagrees with `verdict`, counts as a disagreement.
+- **Members that declare more.** A valid answer carries `derivedTier` where the
+  entry declares one. A member declaring `withinLimit` needs `withinLimit`. A
+  set member (`sets/`) needs `set`: `verdict`, `codes`, and `missing` and
+  `withinLimit` where declared. A retained member (`retained/`) needs `dating`:
+  `entry`, `codes`, `datedAt` and `receipt` (absent where the entry has none),
+  and `delegationRoot.result`, plus `delegationRoot.algorithm` where declared.
+- **Scoring.** The verdict must be one of `conforming_verdicts(entry)`. The tier,
+  `withinLimit`, the `set` verdict, `missing` and `withinLimit`, and the
+  `dating` entry, `datedAt`, `receipt` and `delegationRoot` must equal what the
+  entry declares. No code array is scored: the record's `codes`, and the code
+  arrays inside `set` and `dating` (compared as sets), are reported under
+  `reasonParityNotes`, because the draft defines verdicts and results and not
+  codes. Only published members are scored. On a proposed member (see "Which
+  text each member tests") a difference is a note, the row reads
+  `differs-from-proposed`, and `totals.proposedDiffer` counts it. Each member's
+  `aggregation` block and the corpus-level claims (counts, digests, text
+  labels) are checked by the harness whatever verifier runs.
+
+The reference reader answers under the same contract, so it can stand in for
+your verifier when you wire the job:
+
+```sh
+agent-evidence-vectors --corpus vectors-agent-audit-record \
+  --verifier "python3 -m agent_evidence_vectors.auditrecord"
+```
 
 ## Independent runs
 

@@ -1,0 +1,11 @@
+{
+  "claim": "evidence-digest",
+  "consumed": {
+    "r": {
+      "hex": "00ff62696e617279"
+    }
+  },
+  "manifest_text": "{\"schema_version\": \"evidence-digest-manifest/v1\", \"refs\": [{\"id\": \"r\", \"hash_alg\": \"sha-512\", \"canonicalization\": \"raw\", \"digest\": \"758d7bde1e672057fc0903ac533cb2ec769d6f6a40dd12eca12560fbc3e2cccc5e8bbd463ca62eb90781b81daa6dbfb0bd54daf5b6495e8e6ad897e63e842288\"}]}",
+  "pinned_key_sha256": null,
+  "require_signature": false
+}

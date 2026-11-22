@@ -1,0 +1,239 @@
+{
+  "corpusDigest": "461cddb8a89c5e140f3ba3c566620941e7c4c6feff2bb827fc0d9911a47b1818",
+  "counts": {
+    "attributed": 4,
+    "not_attributed": 9
+  },
+  "source": {
+    "document": "draft-ietf-webbotauth-httpsig-protocol-01",
+    "sections": [
+      "5.5",
+      "5.5.1",
+      "5.5.2",
+      "6.10"
+    ],
+    "sha256": "28d85996810063563cd3fd65611275b2b118d7dbc68d380bc51c24b180ba1193",
+    "url": "https://www.ietf.org/archive/id/draft-ietf-webbotauth-httpsig-protocol-01.txt"
+  },
+  "suite": "web-bot-auth-key-directory-observation/v1",
+  "vectors": [
+    {
+      "edit": "the directory lists the key the request names",
+      "expected": {
+        "cache": "replaced",
+        "cacheAfter": [
+          "NoLxPewTmsLpNeG-SjV7pV0VSZQd_JWq0qndZlbA0yg"
+        ],
+        "decision": "attributed",
+        "reason": "key_in_directory"
+      },
+      "files": {
+        "case.json": "1656c9708328335045370a7d2c1318d3cb38cd24dc0381ca011991cc86af0ba5",
+        "response.body": "d5628390ab734b371b903c90fe6a7ffe2dbc908fc209c6b1d35282834c239ef6"
+      },
+      "id": "key-listed",
+      "path": "cases/key-listed"
+    },
+    {
+      "edit": "a rotation in progress: the old and the new key are both listed",
+      "expected": {
+        "cache": "replaced",
+        "cacheAfter": [
+          "NoLxPewTmsLpNeG-SjV7pV0VSZQd_JWq0qndZlbA0yg",
+          "Oub5dZo5jqBTA3luGlnHIa8SmlraTF6gAhCzWLGvkt4"
+        ],
+        "decision": "attributed",
+        "reason": "key_in_directory"
+      },
+      "files": {
+        "case.json": "3239f6c87d7c7a5ee2366d375e6cec7b944c4605bcc771d2500ecb7476bb6c82",
+        "response.body": "8f83137dc9e6e80ef08cdea3b85b29e989b41cbcd6aa360adf394cea598ec3c6"
+      },
+      "id": "key-listed-among-several",
+      "path": "cases/key-listed-among-several"
+    },
+    {
+      "edit": "the operator withdrew the agent and serves an empty key set with 200: evidence, so the cached key is evicted",
+      "expected": {
+        "cache": "replaced",
+        "cacheAfter": [],
+        "decision": "not_attributed",
+        "reason": "key_absent_from_directory"
+      },
+      "files": {
+        "case.json": "0ea480896cff9b70aa1653fdaea27c7bf288f5f75f80ee07db4742fd3f82f68c",
+        "response.body": "32666cf8af5c2667c999d9e815420c621c267460f8e357362faabe3e8a200a82"
+      },
+      "id": "empty-key-set-evicts",
+      "path": "cases/empty-key-set-evicts"
+    },
+    {
+      "edit": "the directory stopped listing one key and still lists the other",
+      "expected": {
+        "cache": "replaced",
+        "cacheAfter": [
+          "Oub5dZo5jqBTA3luGlnHIa8SmlraTF6gAhCzWLGvkt4"
+        ],
+        "decision": "not_attributed",
+        "reason": "key_absent_from_directory"
+      },
+      "files": {
+        "case.json": "0c60ab4815aef4fa5647f8141ccf91a1240fd827d10c32f93f1c61c34dfe8c58",
+        "response.body": "89df9620d04cbca2c74ecf85806e32a755eae2d5dcd7eafd154575d0042b41ae"
+      },
+      "id": "key-removed-other-kept",
+      "path": "cases/key-removed-other-kept"
+    },
+    {
+      "edit": "a 404 is a discovery failure, not a removal: the cached key stays",
+      "expected": {
+        "cache": "kept",
+        "cacheAfter": [
+          "NoLxPewTmsLpNeG-SjV7pV0VSZQd_JWq0qndZlbA0yg"
+        ],
+        "decision": "not_attributed",
+        "reason": "discovery_failed"
+      },
+      "files": {
+        "case.json": "1e8697e1d5a0349366661a488e95df6596bcff09e951263a049571d71f5444e7",
+        "response.body": "7515bf959b73b956ceb967351c7e299cbb3668a53d35f9c770eb72e00d93ced6"
+      },
+      "id": "status-404-keeps-cache",
+      "path": "cases/status-404-keeps-cache"
+    },
+    {
+      "edit": "an operator outage must not revoke its keys at the verifier",
+      "expected": {
+        "cache": "kept",
+        "cacheAfter": [
+          "NoLxPewTmsLpNeG-SjV7pV0VSZQd_JWq0qndZlbA0yg"
+        ],
+        "decision": "not_attributed",
+        "reason": "discovery_failed"
+      },
+      "files": {
+        "case.json": "5b27c24635bd0962118ad766432789803f2c278f91a1e4356f99d129ef24d60e",
+        "response.body": "d86d91ab26795dfb15bf60134a3afe4736c51e8a1c60eea2a13fa2a1cb590482"
+      },
+      "id": "status-503-keeps-cache",
+      "path": "cases/status-503-keeps-cache"
+    },
+    {
+      "edit": "the connection failed before any response: nothing was observed",
+      "expected": {
+        "cache": "kept",
+        "cacheAfter": [
+          "NoLxPewTmsLpNeG-SjV7pV0VSZQd_JWq0qndZlbA0yg"
+        ],
+        "decision": "not_attributed",
+        "reason": "discovery_failed"
+      },
+      "files": {
+        "case.json": "e36e91866393253a2ca08716943c3c8f42341f4f49a25c4eb736cd21678902b0"
+      },
+      "id": "transport-failure-keeps-cache",
+      "path": "cases/transport-failure-keeps-cache"
+    },
+    {
+      "edit": "a verifier must not follow a redirect from the directory URL",
+      "expected": {
+        "cache": "kept",
+        "cacheAfter": [
+          "NoLxPewTmsLpNeG-SjV7pV0VSZQd_JWq0qndZlbA0yg"
+        ],
+        "decision": "not_attributed",
+        "reason": "redirect_not_followed"
+      },
+      "files": {
+        "case.json": "f6b80916e45180c27441678fe18d3058ac25a2698ead2f47af43538bc5e7cf31",
+        "response.body": "4c07ca355736a7193924ad2faf7f0d8a03baa8787d3dce79650629f60ef9582c"
+      },
+      "id": "redirect-not-followed",
+      "path": "cases/redirect-not-followed"
+    },
+    {
+      "edit": "a CDN error page served with 200 is not an empty directory: the cached key stays",
+      "expected": {
+        "cache": "kept",
+        "cacheAfter": [
+          "NoLxPewTmsLpNeG-SjV7pV0VSZQd_JWq0qndZlbA0yg"
+        ],
+        "decision": "not_attributed",
+        "reason": "not_a_directory"
+      },
+      "files": {
+        "case.json": "570e1b47a4b3398325c982e91d698725ce84deb5baafb13868339ba89dc0069e",
+        "response.body": "daaa5e2004337e5eb719f995ec33425f80611259c0ae5d2146c2a830f6347cde"
+      },
+      "id": "html-error-page-with-200",
+      "path": "cases/html-error-page-with-200"
+    },
+    {
+      "edit": "a JWK Set at the well-known URI without the registered media type",
+      "expected": {
+        "cache": "kept",
+        "cacheAfter": [
+          "NoLxPewTmsLpNeG-SjV7pV0VSZQd_JWq0qndZlbA0yg"
+        ],
+        "decision": "not_attributed",
+        "reason": "not_a_directory"
+      },
+      "files": {
+        "case.json": "d4f72d7c0b224b7bd8ff6c2d8d488a52b0119a523f908f5ef8c0db78ed6c27db",
+        "response.body": "89df9620d04cbca2c74ecf85806e32a755eae2d5dcd7eafd154575d0042b41ae"
+      },
+      "id": "wrong-media-type-at-well-known",
+      "path": "cases/wrong-media-type-at-well-known"
+    },
+    {
+      "edit": "the draft's own Section 5.5.1 example: its kid is not the key's thumbprint, so the entry is malformed and dropped",
+      "expected": {
+        "cache": "replaced",
+        "cacheAfter": [],
+        "decision": "not_attributed",
+        "reason": "kid_not_thumbprint"
+      },
+      "files": {
+        "case.json": "1ccf68044bbeff888e5ecd7304dae828f0cd64e1b24f3d711ddd3191548d095f",
+        "response.body": "b83bced87d0867b864f34d7e765eca8e251f6d378d7535af73e96823a6be67ba"
+      },
+      "id": "kid-not-thumbprint-at-well-known",
+      "path": "cases/kid-not-thumbprint-at-well-known"
+    },
+    {
+      "edit": "the same key with the kid Appendix E gives it",
+      "expected": {
+        "cache": "replaced",
+        "cacheAfter": [
+          "poqkLGiymh_W0uP6PZFw-dvez3QJT5SolqXBCW38r0U"
+        ],
+        "decision": "attributed",
+        "reason": "key_in_directory"
+      },
+      "files": {
+        "case.json": "1ccf68044bbeff888e5ecd7304dae828f0cd64e1b24f3d711ddd3191548d095f",
+        "response.body": "248867e5aef6f38347112c951e6fe34466aee919af2c7d750db36da8d4d135ad"
+      },
+      "id": "kid-thumbprint-at-well-known",
+      "path": "cases/kid-thumbprint-at-well-known"
+    },
+    {
+      "edit": "away from the well-known URI a kid is an operator label; the verifier matches by computed thumbprint",
+      "expected": {
+        "cache": "replaced",
+        "cacheAfter": [
+          "Zn_noWfTfSLLH0iRras4raVw5YAlOtD-RXRsJd0Z_zI"
+        ],
+        "decision": "attributed",
+        "reason": "key_in_directory"
+      },
+      "files": {
+        "case.json": "13e8ec031284c5b1f405b4539db6a84d4a7de77d98cbc7bd0c24461a1a1c46b2",
+        "response.body": "6ab1bb0f69ad72c46d76447afa4c6f64777631c32a7155ec9dbab01091781c4b"
+      },
+      "id": "kid-label-off-well-known",
+      "path": "cases/kid-label-off-well-known"
+    }
+  ],
+  "verifierContract": "verifier case.json --json; prints decision, reason, cache and cacheAfter; exit 0 attributed, 1 not_attributed"
+}

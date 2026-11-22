@@ -138,7 +138,10 @@ from agent_evidence_vectors import (
     auditrecord,
     authoritydispatch,
     badgevc,
+    budgetlineage,
+    capabilityrequirement,
     cardreceipt,
+    catalogtrust,
     changeadmission,
     chunkedexport,
     completionconfirmation,
@@ -150,30 +153,41 @@ from agent_evidence_vectors import (
     delegatorright,
     dispatchfence,
     donerun,
+    emptyinterval,
     evidencecell,
     evidencestate,
+    executionbilling,
     gradefloor,
+    htxcases,
     identitybinding,
+    keydirectory,
+    lifecyclebinding,
     mcpowasp,
     monitorcoverage,
     observedeffect,
     openweight,
     paymentmandate,
+    principalbinding,
+    printwitness,
     propagationstep,
     receiptchainend,
     receiptsignature,
     recorded,
     refundconnected,
     refusalreason,
+    responsibilityescalation,
+    rsadigestinfo,
     selfreportedrecord,
     signaturecoverage,
     sourcecoverage,
     starhint,
     strictjson,
+    telemetryevidence,
     traceanchor,
     uncertaineffect,
     w3cintake,
     w3creport,
+    x402join,
 )
 
 AEE_PREDICATE_TYPE = "https://in-toto.io/attestation/adversarial-execution-evidence/v0.7"
@@ -3910,14 +3924,19 @@ def _run_non_reference_suite(
         auditrecord.SUITE,
         sourcecoverage.SUITE,
         anchoredchain.SUITE,
+        principalbinding.SUITE,
+        printwitness.SUITE,
+        emptyinterval.SUITE,
         openweight.SUITE,
         receiptchainend.SUITE,
         identitybinding.SUITE,
+        keydirectory.SUITE,
         authoritydispatch.SUITE,
         approvalbinding.SUITE,
         dispatchfence.SUITE,
         refundconnected.SUITE,
         aggregateaccounting.SUITE,
+        budgetlineage.SUITE,
         uncertaineffect.SUITE,
         monitorcoverage.SUITE,
         signaturecoverage.SUITE,
@@ -3926,9 +3945,17 @@ def _run_non_reference_suite(
         propagationstep.SUITE,
         containmentjournal.SUITE,
         decisionclient.SUITE,
+        capabilityrequirement.SUITE,
         refusalreason.SUITE,
         actormarker.SUITE,
+        responsibilityescalation.SUITE,
+        htxcases.SUITE,
+        telemetryevidence.SUITE,
+        lifecyclebinding.SUITE,
+        rsadigestinfo.SUITE,
+        executionbilling.SUITE,
         *cardreceipt.SUITES,
+        catalogtrust.SUITE,
         convertedargs.SUITE,
         delegatorright.SUITE,
         badgevc.SUITE,
@@ -3940,6 +3967,7 @@ def _run_non_reference_suite(
         gradefloor.SUITE,
         connectorscope.SUITE,
         paymentmandate.SUITE,
+        x402join.SUITE,
         recorded.SUITE,
         changeadmission.SUITE,
         agenticprocess.SUITE,
@@ -3961,14 +3989,19 @@ def _run_non_reference_suite(
     # contract their README states, so every case is answered or the run fails.
     full_reader = {
         anchoredchain.SUITE: anchoredchain.run,
+        principalbinding.SUITE: principalbinding.run,
+        printwitness.SUITE: printwitness.run,
+        emptyinterval.SUITE: emptyinterval.run,
         openweight.SUITE: openweight.run,
         receiptchainend.SUITE: receiptchainend.run,
         identitybinding.SUITE: identitybinding.run,
+        keydirectory.SUITE: keydirectory.run,
         authoritydispatch.SUITE: authoritydispatch.run,
         approvalbinding.SUITE: approvalbinding.run,
         dispatchfence.SUITE: dispatchfence.run,
         refundconnected.SUITE: refundconnected.run,
         aggregateaccounting.SUITE: aggregateaccounting.run,
+        budgetlineage.SUITE: budgetlineage.run,
         uncertaineffect.SUITE: uncertaineffect.run,
         monitorcoverage.SUITE: monitorcoverage.run,
         signaturecoverage.SUITE: signaturecoverage.run,
@@ -3977,9 +4010,17 @@ def _run_non_reference_suite(
         propagationstep.SUITE: propagationstep.run,
         containmentjournal.SUITE: containmentjournal.run,
         decisionclient.SUITE: decisionclient.run,
+        capabilityrequirement.SUITE: capabilityrequirement.run,
         refusalreason.SUITE: refusalreason.run,
         actormarker.SUITE: actormarker.run,
+        responsibilityescalation.SUITE: responsibilityescalation.run,
+        htxcases.SUITE: htxcases.run,
+        telemetryevidence.SUITE: telemetryevidence.run,
+        lifecyclebinding.SUITE: lifecyclebinding.run,
+        rsadigestinfo.SUITE: rsadigestinfo.run,
+        executionbilling.SUITE: executionbilling.run,
         **{suite: cardreceipt.runner(suite) for suite in cardreceipt.SUITES},
+        catalogtrust.SUITE: catalogtrust.runner(catalogtrust.SUITE),
         convertedargs.SUITE: convertedargs.run,
         delegatorright.SUITE: delegatorright.run,
         badgevc.SUITE: badgevc.run,
@@ -3990,6 +4031,7 @@ def _run_non_reference_suite(
         gradefloor.SUITE: gradefloor.run,
         connectorscope.SUITE: connectorscope.run,
         paymentmandate.SUITE: paymentmandate.run,
+        x402join.SUITE: x402join.run,
         recorded.SUITE: recorded.run,
         changeadmission.SUITE: changeadmission.run,
         agenticprocess.SUITE: agenticprocess.run,
@@ -3998,12 +4040,19 @@ def _run_non_reference_suite(
     }.get(suite)
     if full_reader is not None:
         return full_reader(suite_dir, external_cmd, report_path, rail_note)
-    if external_cmd is not None and suite == receiptsignature.SUITE:
-        return receiptsignature.run_external(suite_dir, external_cmd, report_path, rail_note)
-    # The admission corpus writes down a contract of its own: the policy path in
-    # AEE_CONSUMER_POLICY, and exit 0 exactly when the statement is admitted.
-    if external_cmd is not None and suite == admission.SUITE:
-        return admission.run_external(suite_dir, external_cmd, report_path, rail_note)
+    # These corpora write a contract of their own for a named verifier: the
+    # receipt-signature corpus its external-verifier contract, the admission
+    # corpus the policy path in AEE_CONSUMER_POLICY and exit 0 exactly when the
+    # statement is admitted, and the agent audit record corpus, in its README,
+    # one member file per call, a verdict, the codes, and the tier, set and
+    # dating results its members declare.
+    own_contract = {
+        receiptsignature.SUITE: receiptsignature.run_external,
+        admission.SUITE: admission.run_external,
+        auditrecord.SUITE: auditrecord.run_external,
+    }.get(suite)
+    if external_cmd is not None and own_contract is not None:
+        return own_contract(suite_dir, external_cmd, report_path, rail_note)
     if external_cmd is not None:
         return refuse_verifier(
             f"the verifier {shlex.join(external_cmd)!r} {DID_NOT_RUN}: the corpus "
@@ -5643,6 +5692,8 @@ def runtime_main(argv: list[str]) -> int:
     from agent_evidence_vectors import (
         decisionclient,
         decisionclient_runtime,
+        executionbilling,
+        executionbilling_runtime,
         uncertaineffect_runtime,
     )
 
@@ -5650,6 +5701,7 @@ def runtime_main(argv: list[str]) -> int:
         uncertaineffect.SUITE: uncertaineffect_runtime.run_runtime,
         decisionclient.SUITE: decisionclient_runtime.run_runtime,
         actormarker.SUITE: actormarker.run_runtime,
+        executionbilling.SUITE: executionbilling_runtime.run_runtime,
     }
     parser = argparse.ArgumentParser(
         prog="agent-evidence-vectors runtime",
