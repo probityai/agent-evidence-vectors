@@ -1,14 +1,14 @@
 {
   "aggregate": {
     "counts": {
-      "allow": 16,
-      "deny": 46
+      "allow": 19,
+      "deny": 53
     },
     "line": "verdict: every member behaves as MANIFEST.json declares",
-    "total": 62
+    "total": 72
   },
   "anchor": {
-    "kind": "signed-digest-list",
+    "kind": "digest-list-line",
     "manifest": "vectors-containment-journal/MANIFEST.json",
     "reference": {
       "path": "release/CORPUS-DIGESTS.txt",
@@ -17,14 +17,7 @@
     "routine": "corpus_digest in corpora/vectors-containment-journal/gen_vectors.py",
     "routine-file": "corpora/vectors-containment-journal/gen_vectors.py",
     "serialization": "corpus-routine",
-    "sha256": "bf2608f9751be7f192c08a4356b36454cc538ceb709ca04c15c8c3f35a77d261",
-    "signature": {
-      "key": "release/cosign.pub",
-      "key-sha256": "15fccb1635dd1d9333146cb389f26fa3c3b9213aeed1da945ea1f51a2dc1be84",
-      "path": "release/CORPUS-DIGESTS.txt.sig",
-      "scheme": "ed25519",
-      "serialization": "bytes"
-    },
+    "sha256": "daa77cdc1b145a7e5108f0d614df205ce914e559dbf2e5e5292f16a396395b81",
     "verdicts": {
       "availability-failure": "inconclusive",
       "integrity-failure": "fail"
@@ -36,7 +29,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "6f59d357b93be733a03bf5d3516c041e4573644fa421c57b36531152badae238"
+          "sha256": "057a5d25536bb60fb88f1a06a988bc024e3df4493c350f4de22491b6cc117aa7"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [],
@@ -45,21 +38,21 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "6f59d357b93be733a03bf5d3516c041e4573644fa421c57b36531152badae238"
+          "sha256": "057a5d25536bb60fb88f1a06a988bc024e3df4493c350f4de22491b6cc117aa7"
         },
         "swapped-in": "8b50a0a3d14a9ceb690d18d88d7b5e2720761e6471a0f970821a6b4ab4b9f2ee",
         "test": "swap-and-re-pin"
       },
       "path": "corpora/vectors-containment-journal/CHANGES.md",
       "serialization": "bytes",
-      "sha256": "f8ff23711b2b2b95119c2a779feb025eca76da67dfb734f08e36ff22fe8bd071"
+      "sha256": "df8b94fab2c59c0f5d14ef8c0ae7823c1d1bd4290c16a8b77ad39c745410906d"
     },
     {
       "consumed": "unconsumed",
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "6f59d357b93be733a03bf5d3516c041e4573644fa421c57b36531152badae238"
+          "sha256": "057a5d25536bb60fb88f1a06a988bc024e3df4493c350f4de22491b6cc117aa7"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [],
@@ -68,7 +61,7 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "6f59d357b93be733a03bf5d3516c041e4573644fa421c57b36531152badae238"
+          "sha256": "057a5d25536bb60fb88f1a06a988bc024e3df4493c350f4de22491b6cc117aa7"
         },
         "swapped-in": "88bf8f1c3d0e02b5234fc5dccf9ef3476fb40e81ec05ef3310291dc6523a3ea9",
         "test": "swap-and-re-pin"
@@ -82,7 +75,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "6f59d357b93be733a03bf5d3516c041e4573644fa421c57b36531152badae238"
+          "sha256": "057a5d25536bb60fb88f1a06a988bc024e3df4493c350f4de22491b6cc117aa7"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [],
@@ -91,7 +84,7 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "6f59d357b93be733a03bf5d3516c041e4573644fa421c57b36531152badae238"
+          "sha256": "057a5d25536bb60fb88f1a06a988bc024e3df4493c350f4de22491b6cc117aa7"
         },
         "swapped-in": "f4a56290b215b8459f90cd09a684d5d00344192110e53f4501ddd61290792213",
         "test": "swap-and-re-pin"
@@ -105,7 +98,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "6f59d357b93be733a03bf5d3516c041e4573644fa421c57b36531152badae238"
+          "sha256": "057a5d25536bb60fb88f1a06a988bc024e3df4493c350f4de22491b6cc117aa7"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [],
@@ -114,21 +107,21 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "6f59d357b93be733a03bf5d3516c041e4573644fa421c57b36531152badae238"
+          "sha256": "057a5d25536bb60fb88f1a06a988bc024e3df4493c350f4de22491b6cc117aa7"
         },
         "swapped-in": "21cb077c47daeae7f8b38293b83a19175d7f63ea1f402ac95d16ae8e052b1664",
         "test": "swap-and-re-pin"
       },
       "path": "corpora/vectors-containment-journal/gen_vectors.py",
       "serialization": "bytes",
-      "sha256": "74974e239ac472de0b8b02a885f91288d52d5b49ba7cedcc76ef86921dd6df4c"
+      "sha256": "350aa52f767be89e06848a3aa8898c488ed1fd42c244d661ccc9e6cc46b04e29"
     },
     {
       "consumed": "unconsumed",
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "6f59d357b93be733a03bf5d3516c041e4573644fa421c57b36531152badae238"
+          "sha256": "057a5d25536bb60fb88f1a06a988bc024e3df4493c350f4de22491b6cc117aa7"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [],
@@ -137,14 +130,14 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "6f59d357b93be733a03bf5d3516c041e4573644fa421c57b36531152badae238"
+          "sha256": "057a5d25536bb60fb88f1a06a988bc024e3df4493c350f4de22491b6cc117aa7"
         },
         "swapped-in": "9d588bd5f509578d68b8491c352c28f814ed023227552c27f829be820caecb6d",
         "test": "swap-and-re-pin"
       },
       "path": "corpora/vectors-containment-journal/tests/test_corpus.py",
       "serialization": "bytes",
-      "sha256": "37b6765f5e3ad1fef949c0c2a55f4940db80fa46fc17c1f969a48288e6f1db51"
+      "sha256": "dddff3a8e716a6af36afd67598c8342022b4aa5a0320c0182284c44e9795ac11"
     }
   ],
   "boundary": {
@@ -159,7 +152,7 @@
     "root": "corpora/vectors-containment-journal"
   },
   "byte-identity": {
-    "pins": 73,
+    "pins": 85,
     "serialization": "bytes"
   },
   "canonicalization": {
@@ -305,7 +298,7 @@
         "go.mod"
       ],
       "serialization": "sha256-listing-v1",
-      "sha256": "646a6c74c2734ee8e1dc0708a86b2000b16775c9f2ecbf3437e0fd104e2efd8d"
+      "sha256": "a011e050e553869c610dca5e47109c4e94c08f43f63beda829341c7e895f2710"
     },
     "runtime": {
       "name": "go",
@@ -877,6 +870,86 @@
       "state": "pass"
     },
     {
+      "check": "allow-write-attributed-and-read-back",
+      "native": {
+        "reasons": [],
+        "verdict": "allow"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "allow-blast-radius-store-overwritten-by-clean-writer",
+      "native": {
+        "reasons": [],
+        "verdict": "allow"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "allow-write-unattributed-without-claim",
+      "native": {
+        "reasons": [],
+        "verdict": "allow"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "reject-write-principals-digest-mismatch",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "reject-write-value-not-permitted",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "reject-write-by-isolated-agent",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "reject-read-value-unwritten",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "reject-read-writer-mismatch",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "reject-write-principals-missing",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "reject-write-unpermitted",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
       "check": "reject-receipt-contract-id-missing",
       "native": {
         "reasons": [],
@@ -927,7 +1000,7 @@
   ],
   "corpus-digest": {
     "serialization": "sha256-listing-v1",
-    "sha256": "3f83febc3d83a36799b7914c1d22e36b89d49925f5ac76dc1edd505abd269f32"
+    "sha256": "6a04410cef9d8ba09cc6da2e4bfecd194639d8844e774169d9c6fe79d800b17e"
   },
   "exit-code": 0,
   "exit-rule": "zero-iff-every-check-passes",
@@ -993,6 +1066,16 @@
       "reject-retrieval-admitted-outside-snapshot",
       "reject-tool-call-by-isolated-agent",
       "reject-tool-call-authority-unbound",
+      "allow-write-attributed-and-read-back",
+      "allow-blast-radius-store-overwritten-by-clean-writer",
+      "allow-write-unattributed-without-claim",
+      "reject-write-principals-digest-mismatch",
+      "reject-write-value-not-permitted",
+      "reject-write-by-isolated-agent",
+      "reject-read-value-unwritten",
+      "reject-read-writer-mismatch",
+      "reject-write-principals-missing",
+      "reject-write-unpermitted",
       "reject-receipt-contract-id-missing",
       "reject-receipt-contract-id-unknown",
       "reject-receipt-malformed",
@@ -1001,7 +1084,7 @@
       "reject-blast-radius-overstated"
     ],
     "path": "corpora/vectors-containment-journal/MANIFEST.json",
-    "sha256": "ca94cf86ed63291096cbd87d679c9d785ca1f1e606e72add02d45bd24b0da618"
+    "sha256": "4c88458a3d486b28af2f23cd11a37e197f059032e5ab2ddd19372704f0d8e394"
   },
   "members": [
     {
@@ -1531,6 +1614,104 @@
     {
       "files": [
         {
+          "path": "corpora/vectors-containment-journal/cases/allow-write-attributed-and-read-back/receipt.json",
+          "sha256": "23e84c0a18a393b07a538cc1d0a6171284772b3260bfded554d68295d3bd84ea"
+        },
+        {
+          "path": "corpora/vectors-containment-journal/cases/allow-write-attributed-and-read-back/record.json",
+          "sha256": "b65756680c527a51ba17455aa8d2313454b6c4d4484444f0f118bac2f41abc7c"
+        }
+      ],
+      "id": "allow-write-attributed-and-read-back"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-containment-journal/cases/allow-blast-radius-store-overwritten-by-clean-writer/receipt.json",
+          "sha256": "75003e0ffe5103f9beaf858ea2c67169acd4f113cf79f98f7826485b1659a566"
+        },
+        {
+          "path": "corpora/vectors-containment-journal/cases/allow-blast-radius-store-overwritten-by-clean-writer/record.json",
+          "sha256": "5b1094166712381ca23114125c0126f26ae4fefc5a7d84d945444e57b24a3b9a"
+        }
+      ],
+      "id": "allow-blast-radius-store-overwritten-by-clean-writer"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-containment-journal/cases/allow-write-unattributed-without-claim/record.json",
+          "sha256": "972d2d939e3532b16c95ebe6a90aa8189b3098f1ee1a0d732f0d40afb94b21ae"
+        }
+      ],
+      "id": "allow-write-unattributed-without-claim"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-containment-journal/cases/reject-write-principals-digest-mismatch/record.json",
+          "sha256": "451e49968bd90c5612b3be20fe68b77d167b37d78d9aff8add3c714ecc5a8161"
+        }
+      ],
+      "id": "reject-write-principals-digest-mismatch"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-containment-journal/cases/reject-write-value-not-permitted/record.json",
+          "sha256": "f10720f93b400e566f1acd8faf8b434448410f6598e10ef03f8c4c21dcd85657"
+        }
+      ],
+      "id": "reject-write-value-not-permitted"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-containment-journal/cases/reject-write-by-isolated-agent/record.json",
+          "sha256": "c438e2fef92e4bf2e088d439b87cdca70ad7adb768e0d7ca2c84a75ac1db1e68"
+        }
+      ],
+      "id": "reject-write-by-isolated-agent"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-containment-journal/cases/reject-read-value-unwritten/record.json",
+          "sha256": "6867f3acdca6f9091e510fa0f33c58bbbb006fae82acf12c0e938ad22c7d3a8a"
+        }
+      ],
+      "id": "reject-read-value-unwritten"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-containment-journal/cases/reject-read-writer-mismatch/record.json",
+          "sha256": "d05ddfe41beba60e6364238c7b8eb3f158265b1fce9736d627b2dbfe76ed7f3d"
+        }
+      ],
+      "id": "reject-read-writer-mismatch"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-containment-journal/cases/reject-write-principals-missing/record.json",
+          "sha256": "91c7ada2b7e3edcaaba73e55bd47a65acaeb7f08afee8fd7b736bdd77c457ed4"
+        }
+      ],
+      "id": "reject-write-principals-missing"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-containment-journal/cases/reject-write-unpermitted/record.json",
+          "sha256": "2380339a8c002bc72ee73649b2b3fe732c7aa6fca548fb6ede0003debc2519ef"
+        }
+      ],
+      "id": "reject-write-unpermitted"
+    },
+    {
+      "files": [
+        {
           "path": "corpora/vectors-containment-journal/cases/reject-receipt-contract-id-missing/receipt.json",
           "sha256": "d6ac2ce66ee0cd4402a7ca62e9c779d92e217dc6c14b414811059424f053b2c9"
         },
@@ -1623,7 +1804,7 @@
       "reference": {
         "path": "release/intake/native/vectors-containment-journal.json",
         "serialization": "bytes",
-        "sha256": "6f59d357b93be733a03bf5d3516c041e4573644fa421c57b36531152badae238"
+        "sha256": "057a5d25536bb60fb88f1a06a988bc024e3df4493c350f4de22491b6cc117aa7"
       }
     },
     {
@@ -1632,7 +1813,7 @@
       "reference": {
         "path": "release/intake/native/vectors-containment-journal.txt",
         "serialization": "bytes",
-        "sha256": "20b7af25b23d61df5bf28f87317bd476d04c31141b39471751a9bf377ec52541"
+        "sha256": "1cd2ac1aa6df5ed1cb94fd9d163b1163cf4732d0d030d87614174ed0971a351d"
       }
     },
     {
@@ -1657,11 +1838,11 @@
     "runs": [
       {
         "process": "run-1",
-        "sha256": "6f59d357b93be733a03bf5d3516c041e4573644fa421c57b36531152badae238"
+        "sha256": "057a5d25536bb60fb88f1a06a988bc024e3df4493c350f4de22491b6cc117aa7"
       },
       {
         "process": "run-2",
-        "sha256": "6f59d357b93be733a03bf5d3516c041e4573644fa421c57b36531152badae238"
+        "sha256": "057a5d25536bb60fb88f1a06a988bc024e3df4493c350f4de22491b6cc117aa7"
       }
     ],
     "seed": null,
@@ -1675,17 +1856,18 @@
       "action-occurred-or-authority"
     ],
     "establishes": [
-      "aee-verify, at the source listing named here, judges each of the 62 pinned members of containment-journal/v1 as its manifest declares"
+      "aee-verify, at the source listing named here, judges each of the 72 pinned members of containment-journal/v1 as its manifest declares"
     ],
     "leaves-open": [
       "whether an implementation written from the specification, run by someone other than an author, reaches the same verdicts",
+      "whether release/CORPUS-DIGESTS.txt is a list a release signed: the signature beside it does not verify over these bytes, so the anchor is a located line, not a verified one",
       "whether a re-run by someone other than an author on these exact bytes agrees; none is on the record for them"
     ]
   },
   "selector": {
     "expression": "*",
     "language": "id-glob",
-    "matched": 62,
+    "matched": 72,
     "require": "at-least-one",
     "selected": [
       "allow-isolated-agents-tool-call-refused",
@@ -1744,6 +1926,16 @@
       "reject-retrieval-admitted-outside-snapshot",
       "reject-tool-call-by-isolated-agent",
       "reject-tool-call-authority-unbound",
+      "allow-write-attributed-and-read-back",
+      "allow-blast-radius-store-overwritten-by-clean-writer",
+      "allow-write-unattributed-without-claim",
+      "reject-write-principals-digest-mismatch",
+      "reject-write-value-not-permitted",
+      "reject-write-by-isolated-agent",
+      "reject-read-value-unwritten",
+      "reject-read-writer-mismatch",
+      "reject-write-principals-missing",
+      "reject-write-unpermitted",
       "reject-receipt-contract-id-missing",
       "reject-receipt-contract-id-unknown",
       "reject-receipt-malformed",
