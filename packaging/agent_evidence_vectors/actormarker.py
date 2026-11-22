@@ -273,7 +273,7 @@ def _shape_side(side: Any, where: str, *, to: bool) -> None:
 
 def _shape(record: Record) -> None:
     """Raise Malformed unless the record has the shape this contract reads."""
-    items = record.get("statements")
+    items: Any = record.get("statements")
     _need(isinstance(items, list) and len(items) >= 2, "statements needs an origin and a hop")
     for index, item in enumerate(items):
         _need(isinstance(item, dict), "a statement entry is not an object")
@@ -655,7 +655,7 @@ def reference_hop(request: dict[str, Any]) -> dict[str, Any] | None:
 def hop_requests(root: Path = ROOT) -> list[tuple[str, dict[str, Any], Principals | None]]:
     """(label, request, principals owed or None for a refusal) for the hop contract."""
     manifest, trust = _load(root / "MANIFEST.json"), _load(root / "TRUST.json")
-    out = []
+    out: list[tuple[str, dict[str, Any], Principals | None]] = []
     for entry in manifest["vectors"]:
         reason = entry["expected"]["reason"]
         if reason not in (ACCEPT_REASON, "unknown_critical_attribute_ignored"):

@@ -203,6 +203,25 @@ func TestUnknownSuiteIsRefusedByName(t *testing.T) {
 	}
 }
 
+// TestDelegationChainSuiteRefusesByName: the delegation-chain corpus is judged
+// by its Python reference reader only, so this binary names it and refuses.
+func TestDelegationChainSuiteRefusesByName(t *testing.T) {
+	dir := t.TempDir()
+	manifest := `{"suite":"delegation-chain/v1","vectors":[]}`
+	if err := os.WriteFile(filepath.Join(dir, corpusreaders.ManifestName), []byte(manifest), 0o600); err != nil {
+		t.Fatal(err)
+	}
+	result, err := corpusreaders.Judge(dir)
+	if result != nil || err == nil {
+		t.Fatal("a suite with no reader behind it returned a result")
+	}
+	for _, want := range []string{"delegation-chain/v1", "Python reference reader", "not a pass"} {
+		if !strings.Contains(err.Error(), want) {
+			t.Errorf("the refusal does not mention %q: %v", want, err)
+		}
+	}
+}
+
 // TestRegisteredButUnimplementedSuiteRefuses: the SCITT/COSE corpus is a real
 // corpus this binary cannot yet judge. It must refuse by name rather than pass.
 func TestRegisteredButUnimplementedSuiteRefuses(t *testing.T) {
