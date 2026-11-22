@@ -1,8 +1,8 @@
 {
-  "corpusDigest": "dd6ef3898211be46d44940308a0cec84e63e2e218ec2e92a41010e0c52e821f8",
+  "corpusDigest": "0f31f555de65086f659e2da9792c8a41a7005c98972e625f42beab6eef7cd600",
   "counts": {
-    "accepted": 4,
-    "rejected": 14
+    "accepted": 6,
+    "rejected": 18
   },
   "schema": "agent-payment-mandate-record/v1",
   "specification": {
@@ -195,6 +195,95 @@
       "twin": "authorized-vi-credential"
     },
     {
+      "description": "capture recorded, the fulfilment action is missing",
+      "expected": {
+        "decision": "rejected",
+        "reason": "post_checkout_action_missing"
+      },
+      "files": {
+        "case.json": "f574eaff5bdea6f493343808d5dd19f80d84976e9d46be069d754cc5de64bcbe"
+      },
+      "id": "post-checkout-fulfilment-missing",
+      "path": "cases/post-checkout-fulfilment-missing",
+      "twin": "authorized-ap2-cart"
+    },
+    {
+      "description": "the signing key was rotated out after the mandate was signed; it was in effect at signing",
+      "expected": {
+        "decision": "accepted",
+        "reason": "mandate_chain_holds"
+      },
+      "files": {
+        "case.json": "b3cd734080cc935fa065c4815c80d6ce63fa68810ed8652d2dbcdc9c1b59ae3c"
+      },
+      "id": "authorized-key-rotated-after-signing",
+      "path": "cases/authorized-key-rotated-after-signing"
+    },
+    {
+      "description": "the signing key was revoked effective after the mandate was signed",
+      "expected": {
+        "decision": "accepted",
+        "reason": "mandate_chain_holds"
+      },
+      "files": {
+        "case.json": "ba6387b16075a423c9db5671539c55de963bf62d781fd043a20731a88b3e36a4"
+      },
+      "id": "authorized-key-revoked-after-signing",
+      "path": "cases/authorized-key-revoked-after-signing"
+    },
+    {
+      "description": "the issuer key snapshot holds no entry for the signing key",
+      "expected": {
+        "decision": "rejected",
+        "reason": "signing_key_unknown"
+      },
+      "files": {
+        "case.json": "a64dbe96ed075f7eda90b03d4ef641d5bf747e527a992ba69ce72ab59ac1e77c"
+      },
+      "id": "signing-key-not-in-snapshot",
+      "path": "cases/signing-key-not-in-snapshot",
+      "twin": "authorized-key-rotated-after-signing"
+    },
+    {
+      "description": "the mandate was signed after the key's validity ended",
+      "expected": {
+        "decision": "rejected",
+        "reason": "signing_key_rotated_out"
+      },
+      "files": {
+        "case.json": "b89295e83460b25d9c1ebcd02db809ef6a537ebf6fa1530bfb15167a933a82a6"
+      },
+      "id": "signed-after-key-rotated-out",
+      "path": "cases/signed-after-key-rotated-out",
+      "twin": "authorized-key-rotated-after-signing"
+    },
+    {
+      "description": "the mandate was signed before the key's validity began",
+      "expected": {
+        "decision": "rejected",
+        "reason": "signing_key_not_yet_valid"
+      },
+      "files": {
+        "case.json": "32f2b223a3d009ba961c996ee370572df790ead655183f43909c0c3991eba264"
+      },
+      "id": "signed-before-key-valid",
+      "path": "cases/signed-before-key-valid",
+      "twin": "authorized-key-rotated-after-signing"
+    },
+    {
+      "description": "the key was revoked effective before the mandate was signed",
+      "expected": {
+        "decision": "rejected",
+        "reason": "signing_key_revoked"
+      },
+      "files": {
+        "case.json": "e63288daf85960d752a202d26ae7e1d9d481f3781055edb76e0c29e902dc9c80"
+      },
+      "id": "signed-after-key-revoked",
+      "path": "cases/signed-after-key-revoked",
+      "twin": "authorized-key-revoked-after-signing"
+    },
+    {
       "description": "holder raised the ceiling and recomputed every digest without the issuer key",
       "expected": {
         "decision": "rejected",
@@ -232,19 +321,6 @@
       "id": "receipt-signed-by-agent",
       "path": "cases/receipt-signed-by-agent",
       "twin": "authorized-spt-seller-bound"
-    },
-    {
-      "description": "capture recorded, the fulfilment action is missing",
-      "expected": {
-        "decision": "rejected",
-        "reason": "post_checkout_action_missing"
-      },
-      "files": {
-        "case.json": "f574eaff5bdea6f493343808d5dd19f80d84976e9d46be069d754cc5de64bcbe"
-      },
-      "id": "post-checkout-fulfilment-missing",
-      "path": "cases/post-checkout-fulfilment-missing",
-      "twin": "authorized-ap2-cart"
     }
   ],
   "verifierContract": "verifier case.json --json --policy policy.json"
