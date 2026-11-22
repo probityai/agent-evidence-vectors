@@ -303,3 +303,25 @@ class TestBindingMembers:
         assert member["transitions"][0]["acceptedAt"] > member["use"]["usedAt"]
         member["transitions"][0]["acceptedAt"] = control["transitions"][0]["acceptedAt"]
         assert member == control
+
+
+class TestVerifyRecord:
+    """The in-memory entry point answers exactly what the file-based one answers."""
+
+    @pytest.mark.parametrize("entry", json.loads(
+        (ROOT / "MANIFEST.json").read_text(encoding="utf-8"))["vectors"],
+        ids=lambda entry: entry["id"])
+    def test_matches_verify_on_every_member(self, entry: dict) -> None:
+        path = ROOT / entry["path"] / "record.json"
+        record = json.loads(path.read_text(encoding="utf-8"))
+        used = (path.parent / record["use"]["payloadFile"]).read_bytes()
+        assert approvalbinding.verify_record(record, used) == approvalbinding.verify(path)
+        assert approvalbinding.verify_record(record, used) == entry["expected"]
+
+    def test_judges_the_bytes_it_is_given_not_a_file(self) -> None:
+        path = ROOT / "cases" / "approval-renewed-same-bounds" / "record.json"
+        record = json.loads(path.read_text(encoding="utf-8"))
+        used = (path.parent / record["use"]["payloadFile"]).read_bytes()
+        assert approvalbinding.verify_record(record, used)["decision"] == "allow"
+        assert approvalbinding.verify_record(record, used + b"x") == {
+            "decision": "deny", "reason": "payload_mismatch"}

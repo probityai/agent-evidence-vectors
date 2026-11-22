@@ -91,7 +91,7 @@ A limit is not a pass. Allow one with `--allow` only when your use of the record
 
 ## The recorded run
 
-[TRANSCRIPT.txt](offline-verify/TRANSCRIPT.txt) is a run of exactly these files on 2026-11-08: [connected.sh](offline-verify/connected.sh) in a `python:3.12-slim` container, then [offline.sh](offline-verify/offline.sh) in a fresh container started with `--network none`, whose only interface was `lo` and whose probe of the package index failed with no route. [scripts/offline-verify-run.sh](../../scripts/offline-verify-run.sh) reproduces it. The summary it printed:
+[TRANSCRIPT.txt](offline-verify/TRANSCRIPT.txt) is a run of exactly these files on 2026-11-10 (Python 3.12, x86-64): [connected.sh](offline-verify/connected.sh) in a `python:3.12-slim` container, then [offline.sh](offline-verify/offline.sh) in a fresh container started with `--network none`, whose only interface was `lo` and whose probe of the package index failed with no route. [scripts/offline-verify-run.sh](../../scripts/offline-verify-run.sh) reproduces it. The summary it printed:
 
 ```text
 pinned v02fd1bc1d7916002 contradicted invalid LEAF_HASH_MISMATCH corpus-digest-mismatch None -
@@ -106,6 +106,8 @@ unpinned vfcb846afff2d6979 supported valid NOT_PUBLICLY_VERIFIABLE - pass unatte
 ```
 
 The last two lines are one record. With the key pinned its row is attested and the report is clean; with no key the same bytes verify but nobody can say who observed them.
+
+Three more recordings of the same files, each in a container started with `--network none` and each printing the same eight verdicts, sit beside it, so the page holds on the other interpreter and CPU architecture a stranger is likely to have: [TRANSCRIPT-py312-aarch64.txt](offline-verify/TRANSCRIPT-py312-aarch64.txt) (Python 3.12, arm64), [TRANSCRIPT-py313-aarch64.txt](offline-verify/TRANSCRIPT-py313-aarch64.txt) (Python 3.13, arm64) and [TRANSCRIPT-py313-x86_64.txt](offline-verify/TRANSCRIPT-py313-x86_64.txt) (Python 3.13, x86-64). Each header names the machine, the image digest, the Python it ran and the digest of the page folder, and the page test refuses a transcript whose folder digest is not the folder's current one. Make one with `IMAGE=python:3.13-slim sh scripts/offline-verify-run.sh`.
 
 ## Pin the verifier in your CI
 

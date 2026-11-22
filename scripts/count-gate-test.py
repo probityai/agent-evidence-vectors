@@ -1231,6 +1231,15 @@ ACCEPT_CASES: list[Case] = [
         ("are accounted for",),
     ),
     (
+        "an ordered-list marker numbering a named check is a position, not a count",
+        lambda root: append(
+            root,
+            "BUILD-NOTES.md",
+            f"\n{REGISTERED_COUNT}. `attestation_digest_mismatch`: the vectors disagree.\n",
+        ),
+        ("are accounted for",),
+    ),
+    (
         "an issue number in a GitHub URL is an identifier, not a count",
         lambda root: append(
             root,

@@ -1,0 +1,211 @@
+{
+  "contractId": "https://probityai.github.io/agent-evidence-vectors/predicate/v1/responsibility-escalation",
+  "corpusDigest": "d8372db7e2425d6d86a33a175e894afb4c63f344ab70828c89bdcf9826f90686",
+  "counts": {
+    "established": 2,
+    "not_established": 2,
+    "partial": 4,
+    "unresolved": 1
+  },
+  "provenance": {
+    "note": "The cases restate the nine-case matrix of the list thread in this corpus's own words, over synthetic records. The expected outcome tokens are this corpus's proposal and are not an agreed text.",
+    "source": "W3C public-agent-identity list, October 2026, messages 2026Oct 0035 and 0043"
+  },
+  "suite": "responsibility-escalation/v1",
+  "synthetic": true,
+  "vectors": [
+    {
+      "case": 1,
+      "decisionClass": "screen_out_candidate",
+      "edit": "the agent's authority narrowed three days after the decision and after the whole escalation; read at the decision instant it held",
+      "expected": {
+        "decision": "established",
+        "reason": "authority_held_at_decision_time"
+      },
+      "files": {
+        "record.json": "deea587429d3cf6ee391a511db6ac321ed23bfb8c9f32ef4b818e1845b2bda3b"
+      },
+      "id": "h01-authority-narrowed-after-decision",
+      "line": "authority-valid-then-narrowed",
+      "path": "cases/h01-authority-narrowed-after-decision",
+      "retained": {
+        "evidenced": "referral+receipt+acknowledgement+acceptance",
+        "inForce": "v1",
+        "readAt": "decision"
+      },
+      "statement": "valid at decision time, narrowed later"
+    },
+    {
+      "case": 2,
+      "decisionClass": "adverse_background_determination",
+      "edit": "the referral is evidenced and no receipt is: the receiver does not infer delivery",
+      "expected": {
+        "decision": "partial",
+        "reason": "receipt_not_evidenced"
+      },
+      "files": {
+        "record.json": "63801e2f3f3339715f3dc05a587db8e9994c5ecb8fbee7b9c0d36592751a2be8"
+      },
+      "id": "h02-referral-without-receipt",
+      "line": "referral-without-receipt",
+      "path": "cases/h02-referral-without-receipt",
+      "retained": {
+        "evidenced": "referral",
+        "inForce": "v1",
+        "readAt": "decision"
+      },
+      "statement": "referral issued, receipt not evidenced"
+    },
+    {
+      "case": 3,
+      "decisionClass": "request_sensitive_documents",
+      "edit": "the designated role acknowledged and nothing evidences that it accepted",
+      "expected": {
+        "decision": "partial",
+        "reason": "acceptance_not_evidenced"
+      },
+      "files": {
+        "record.json": "c7514815148978014cbc9ec811896f8bfebf2f8da8962c19de72a31d5324015a"
+      },
+      "id": "h03-acknowledged-without-acceptance",
+      "line": "acknowledged-without-acceptance",
+      "path": "cases/h03-acknowledged-without-acceptance",
+      "retained": {
+        "evidenced": "referral+receipt+acknowledgement",
+        "inForce": "v1",
+        "readAt": "decision"
+      },
+      "statement": "acknowledged, acceptance not evidenced"
+    },
+    {
+      "case": 4,
+      "decisionClass": "screen_out_candidate",
+      "edit": "the referral was received and, at the stated evaluation instant, nothing answers it",
+      "expected": {
+        "decision": "unresolved",
+        "reason": "escalation_unanswered"
+      },
+      "files": {
+        "record.json": "6fa4ae1c39782353e4197e31e83dc10cb14cf157c8c35fe625b6e9c043bf9f42"
+      },
+      "id": "h04-unanswered-escalation",
+      "line": "unanswered-escalation",
+      "path": "cases/h04-unanswered-escalation",
+      "retained": {
+        "evidenced": "referral+receipt",
+        "inForce": "v1",
+        "readAt": "decision"
+      },
+      "statement": "unanswered, remains unresolved"
+    },
+    {
+      "case": 5,
+      "decisionClass": "adverse_background_determination",
+      "edit": "the reference to the authority record did not resolve, so what the agent held cannot be reconstructed even though the escalation is fully evidenced",
+      "expected": {
+        "decision": "not_established",
+        "reason": "reference_unavailable"
+      },
+      "files": {
+        "record.json": "9da00b26df5628b83a5ae7709956ee90e360acfd7ee03e7a2b28b1bd1434641c"
+      },
+      "id": "h05-reference-unavailable",
+      "line": "reference-unavailable",
+      "path": "cases/h05-reference-unavailable",
+      "retained": {
+        "evidenced": "referral+receipt+acknowledgement+acceptance",
+        "inForce": "v1",
+        "readAt": "decision"
+      },
+      "statement": "reference unavailable or inconsistent"
+    },
+    {
+      "case": 6,
+      "decisionClass": "request_sensitive_documents",
+      "edit": "authority is read at the referral instant, where it held, and had narrowed by the time the designated role acknowledged",
+      "evaluationInstants": {
+        "authorityRead": "referral"
+      },
+      "expected": {
+        "decision": "partial",
+        "reason": "authority_narrowed_before_acknowledgement"
+      },
+      "files": {
+        "record.json": "597b9ed953900f37859312d3389a6e670f3a4182bec76d80842550e19842c7b7"
+      },
+      "id": "h06-authority-narrowed-before-acknowledgement",
+      "line": "narrowed-between-referral-and-acknowledgement",
+      "path": "cases/h06-authority-narrowed-before-acknowledgement",
+      "retained": {
+        "evidenced": "referral+receipt+acknowledgement+acceptance",
+        "inForce": "v1",
+        "readAt": "referral"
+      },
+      "statement": "narrowed between escalation and acknowledgement"
+    },
+    {
+      "case": 7,
+      "decisionClass": "screen_out_candidate",
+      "edit": "the reference returned the current record, which no longer holds, in place of the version in force at the decision instant",
+      "expected": {
+        "decision": "not_established",
+        "reason": "current_record_resolved_not_decision_time"
+      },
+      "files": {
+        "record.json": "b50c25d509122c67c1cf5a34f909c6c279cf45e4d0483c4c0a52ade09a5d4022"
+      },
+      "id": "h07-current-record-resolved",
+      "line": "current-record-resolved",
+      "path": "cases/h07-current-record-resolved",
+      "retained": {
+        "evidenced": "referral+receipt+acknowledgement+acceptance",
+        "inForce": "v1",
+        "readAt": "decision"
+      },
+      "statement": "resolution returns the current record"
+    },
+    {
+      "case": 8,
+      "decisionClass": "adverse_background_determination",
+      "edit": "the acknowledgement is evidenced and its author is not the designated role",
+      "expected": {
+        "decision": "partial",
+        "reason": "acknowledged_outside_designated_role"
+      },
+      "files": {
+        "record.json": "ec77020bcb5e777e236a851fae7458921066d9d98d596564f77f9061adfa7e91"
+      },
+      "id": "h08-acknowledged-outside-role",
+      "line": "acknowledged-outside-role",
+      "path": "cases/h08-acknowledged-outside-role",
+      "retained": {
+        "evidenced": "referral+receipt+acknowledgement",
+        "inForce": "v1",
+        "readAt": "decision"
+      },
+      "statement": "acknowledged outside the designated role"
+    },
+    {
+      "case": 9,
+      "decisionClass": "screen_out_candidate",
+      "edit": "authority held, every slot through closure is evidenced and the designated role closed inside the window",
+      "expected": {
+        "decision": "established",
+        "reason": "closed_as_accepted"
+      },
+      "files": {
+        "record.json": "dac63a8b13dcc4baade879155572bda909213852ac08bd28a61181a31f84d447"
+      },
+      "id": "h09-clean-path-closed-on-time",
+      "line": "clean-path-closed-on-time",
+      "path": "cases/h09-clean-path-closed-on-time",
+      "retained": {
+        "evidenced": "referral+receipt+acknowledgement+acceptance+closure",
+        "inForce": "v1",
+        "readAt": "decision"
+      },
+      "statement": "closed as accepted on time"
+    }
+  ],
+  "verifierContract": "verifier record.json --json; exit 0 established, 1 not_established, 2 partial, 3 unresolved"
+}

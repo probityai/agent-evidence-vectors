@@ -17,37 +17,57 @@ The reader checks in a fixed order and names the first check that fails:
 3. the use's ``approvalId`` is the identifier of the approval being checked; a
    use that names another approval, or none, is not judged against this one
    (``approval_not_cited``);
-4. no other presented approval shares the approval's identifier and differs
+4. the approval is one the server issued: its identifier is in
+   ``issuedApprovalIds``, the register the server holds. An approval the client
+   built and presented, however well formed, is not one (``approval_not_issued``);
+5. no other presented approval shares the approval's identifier and differs
    from it in any member, compared as parsed JSON values over the whole object,
    including members no check reads; the same approval presented twice, with
    equal values, is not ambiguous (``approval_id_ambiguous``);
-5. the identifier is not among the consumed ones (``approval_replayed``);
-6. no replacement accepted at or before the use has taken the approval's place
-   (``approval_superseded``);
-7. a use that claims ``authorityForm: renewed`` has a transition accepted at or
-   before the use naming this approval as successor; a transition accepted
-   later does not establish the renewal (``renewal_transition_missing``);
-8. that transition binds the successor to exactly one predecessor
-   (``renewal_binding_invalid``);
-9. the approval's ``keyId`` is the trusted key of its approver
-   (``key_not_bound``);
-10. the use's principal is the approval's principal; a shared ``clientId`` does
+6. no other presented approval completes the same ``requestId`` under another
+   identifier: one request is answered once
+   (``approval_request_completed_twice``);
+7. the approval's ``outcome`` is a grant, ``approved`` or
+   ``approved-with-corrections``; a denied request is not a grant, whatever
+   happened to the call (``approval_not_granted``). An approval with
+   corrections binds the corrected bytes in ``payloadSha256``; the bytes first
+   requested, in ``requestedPayloadSha256``, are not approved (check 18);
+8. the record's ``enforcement`` is ``enforce``; an approval gathered in an
+   observe or monitor mode never gated the call (``approval_not_enforced``);
+9. the identifier is not among the consumed ones (``approval_replayed``);
+10. every transition naming the approval, as predecessor or successor, carries a
+    status the contract defines, ``proposed`` or ``accepted``; a status outside
+    them is refused rather than read as not accepted, which would let a
+    replaced approval through (``transition_status_unknown``);
+11. no replacement accepted at or before the use has taken the approval's place
+    (``approval_superseded``);
+12. a use that claims ``authorityForm: renewed`` has a transition accepted at or
+    before the use naming this approval as successor; a transition accepted
+    later does not establish the renewal (``renewal_transition_missing``);
+13. that transition binds the successor to exactly one predecessor
+    (``renewal_binding_invalid``);
+14. the approval's ``keyId`` is the trusted key of its approver, or a key listed
+    for that approver in ``retiredKeys`` (``key_not_bound``);
+15. a key listed in ``retiredKeys`` signed the approval before the earliest
+    ``retiredAt`` any entry naming it gives; an approval issued under a
+    rotated-out key at or after the rotation is refused (``key_retired``);
+16. the use's principal is the approval's principal; a shared ``clientId`` does
     not stand in for the user (``principal_mismatch``);
-11. the use's event and phase are the approved ones (``event_phase_mismatch``);
-12. the used tool, target and payload bytes are the approved ones
+17. the use's event and phase are the approved ones (``event_phase_mismatch``);
+18. the used tool, target and payload bytes are the approved ones
     (``payload_mismatch``);
-13. ``usedAt`` is at or after ``issuedAt`` and before ``expiresAt``
+19. ``usedAt`` is at or after ``issuedAt`` and before ``expiresAt``
     (``approval_outside_validity``);
-14. the effect the use names is not closed (``effect_already_closed``);
-15. the policy release lookup answered (``comparison_unavailable``); an
+20. the effect the use names is not closed (``effect_already_closed``);
+21. the policy release lookup answered (``comparison_unavailable``); an
     unanswered lookup is never read as a match;
-16. the release was served at the decision time: first served at or before it,
+22. the release was served at the decision time: first served at or before it,
     and last served at or after it minus the grace period
     (``release_not_served_at_decision``).
 
 A record that passes all of them is ``allow`` with reason ``bound``.
 
-Renewal by replacement is judged by checks 6, 7, 8 and 14. An approval B can
+Renewal by replacement is judged by checks 10 to 13 and 20. An approval B can
 replace an earlier approval A over equal bounds. Equal bounds, the same
 recorded decision and the same logical effect are three different identities,
 so the record carries each one apart:
@@ -63,10 +83,10 @@ so the record carries each one apart:
   effect's lifecycle state. ``CONSUMED`` and ``UNCERTAIN_CLOSE`` are closed, so
   a new grant does not reopen them.
 
-Check 6 refuses the predecessor because it was superseded, not because it
-expired or was consumed, and it needs no execution under the successor. Checks 6
-and 7 read a transition at the same instant: it counts from ``acceptedAt`` on,
-for the predecessor it replaces and for the successor it establishes. Check 8
+Check 11 refuses the predecessor because it was superseded, not because it
+expired or was consumed, and it needs no execution under the successor. Checks 11
+and 12 read a transition at the same instant: it counts from ``acceptedAt`` on,
+for the predecessor it replaces and for the successor it establishes. Check 13
 requires the presented records under the predecessor's identifier to agree, so
 the predecessor resolves to one approval whatever the order of the list, the
 transition to cite that predecessor's recorded decision, the successor's
@@ -95,21 +115,31 @@ from datetime import datetime, timedelta
 from pathlib import Path
 from typing import Any
 
+from . import strictjson
+
 SUITE = "approval-binding/v1"
 CONTRACT_ID = "https://probityai.github.io/agent-evidence-vectors/contract/approval-binding/v1"
 ALLOW, DENY = "allow", "deny"
 EXIT_FOR = {ALLOW: 0, DENY: 1}
+# The statuses a transition may carry; any other is refused, never read as not accepted.
+TRANSITION_STATUSES = ("proposed", "accepted")
 # The order is the contract: a reader names the first check that fails.
 CHECKS = (
     "contract_id_missing",
     "contract_id_unknown",
     "approval_not_cited",
+    "approval_not_issued",
     "approval_id_ambiguous",
+    "approval_request_completed_twice",
+    "approval_not_granted",
+    "approval_not_enforced",
     "approval_replayed",
+    "transition_status_unknown",
     "approval_superseded",
     "renewal_transition_missing",
     "renewal_binding_invalid",
     "key_not_bound",
+    "key_retired",
     "principal_mismatch",
     "event_phase_mismatch",
     "payload_mismatch",
@@ -122,6 +152,7 @@ CHECKS = (
 # renewal is a fresh grant, so its own window is its own.
 BOUND_FIELDS = ("event", "payloadSha256", "phase", "principal", "target", "tool")
 REPLACEMENT = "exclusive-replacement"
+GRANTS = ("approved", "approved-with-corrections")
 CLOSED_EFFECT_STATES = ("CONSUMED", "UNCERTAIN_CLOSE")
 _HERE = Path(__file__).resolve().parent
 ROOT = (_HERE / "corpora" / "vectors-approval-binding" if
@@ -144,6 +175,46 @@ def _ambiguous(record: dict[str, Any]) -> bool:
     approval = record["approval"]
     return any(other["approvalId"] == approval["approvalId"] and other != approval
                for other in record.get("presentedApprovals", []))
+
+
+def _completed_twice(record: dict[str, Any]) -> bool:
+    approval = record["approval"]
+    return any(other["requestId"] == approval["requestId"]
+               and other["approvalId"] != approval["approvalId"]
+               for other in record.get("presentedApprovals", []))
+
+
+def _retired_at(record: dict[str, Any]) -> datetime | None:
+    """The earliest instant any ``retiredKeys`` entry retires the approval's key, or None.
+
+    Every entry naming the key is read, never only the first: a later entry that
+    retires the key earlier is not hidden behind an earlier one, the rule
+    ``registry.key_history`` applies to a key history.
+    """
+    approval = record["approval"]
+    instants = [_when(entry["retiredAt"])
+                for entry in record.get("retiredKeys", {}).get(approval["approver"], [])
+                if entry["keyId"] == approval["keyId"]]
+    return min(instants) if instants else None
+
+
+def _key_unbound(record: dict[str, Any]) -> bool:
+    approval = record["approval"]
+    return (record["trustedKeys"].get(approval["approver"]) != approval["keyId"]
+            and _retired_at(record) is None)
+
+
+def _key_retired(record: dict[str, Any]) -> bool:
+    retired = _retired_at(record)
+    return retired is not None and _when(record["approval"]["issuedAt"]) >= retired
+
+
+def _transition_status_unknown(record: dict[str, Any]) -> bool:
+    """Whether a transition naming the approval carries a status the contract does not define."""
+    approval_id = record["approval"]["approvalId"]
+    return any(t["status"] not in TRANSITION_STATUSES
+               and approval_id in (t["predecessorApprovalId"], t["successorApprovalId"])
+               for t in record.get("transitions", []))
 
 
 def _validity(record: dict[str, Any]) -> bool:
@@ -216,7 +287,7 @@ def use_matches_approval(record: dict[str, Any], used: bytes) -> bool:
 
 
 def _load(record_path: Path) -> tuple[dict[str, Any], bytes]:
-    record = json.loads(record_path.read_text(encoding="utf-8"))
+    record = strictjson.loads(record_path.read_text(encoding="utf-8"))
     used = (record_path.parent / record["use"]["payloadFile"]).read_bytes()
     return record, used
 
@@ -232,14 +303,20 @@ def _first_failure(record: dict[str, Any], used: bytes, skip: frozenset[str]) ->
         "contract_id_missing": lambda: "contractId" not in record,
         "contract_id_unknown": lambda: record.get("contractId", CONTRACT_ID) != CONTRACT_ID,
         "approval_not_cited": lambda: use.get("approvalId") != approval["approvalId"],
+        "approval_not_issued": lambda: approval["approvalId"] not in record.get(
+            "issuedApprovalIds", []),
         "approval_id_ambiguous": lambda: _ambiguous(record),
+        "approval_request_completed_twice": lambda: _completed_twice(record),
+        "approval_not_granted": lambda: approval.get("outcome") not in GRANTS,
+        "approval_not_enforced": lambda: record.get("enforcement") != "enforce",
         "approval_replayed": lambda: approval["approvalId"] in record.get(
             "consumedApprovalIds", []),
+        "transition_status_unknown": lambda: _transition_status_unknown(record),
         "approval_superseded": lambda: _superseded(record),
         "renewal_transition_missing": lambda: _renewal_missing(record),
         "renewal_binding_invalid": lambda: _renewal_invalid(record),
-        "key_not_bound": lambda: record["trustedKeys"].get(approval["approver"]) != approval[
-            "keyId"],
+        "key_not_bound": lambda: _key_unbound(record),
+        "key_retired": lambda: _key_retired(record),
         "principal_mismatch": lambda: use["principal"] != approval["principal"],
         "event_phase_mismatch": lambda: (use["event"], use["phase"]) != (
             approval["event"], approval["phase"]),
@@ -255,12 +332,24 @@ def _first_failure(record: dict[str, Any], used: bytes, skip: frozenset[str]) ->
     return None
 
 
-def verify(record_path: Path, skip: frozenset[str] = frozenset()) -> dict[str, str]:
-    """The reference reader's decision and reason for one record."""
-    failure = _first_failure(*_load(record_path), skip)
+def verify_record(
+    record: dict[str, Any], used: bytes, skip: frozenset[str] = frozenset(),
+) -> dict[str, str]:
+    """The reference reader's decision and reason for a record and its used payload bytes.
+
+    This is ``verify`` without the file system: a caller that already holds the
+    record and the payload in memory gets the same answer without writing either
+    to disk.
+    """
+    failure = _first_failure(record, used, skip)
     if failure is not None:
         return {"decision": DENY, "reason": failure}
     return {"decision": ALLOW, "reason": "bound"}
+
+
+def verify(record_path: Path, skip: frozenset[str] = frozenset()) -> dict[str, str]:
+    """The reference reader's decision and reason for one record."""
+    return verify_record(*_load(record_path), skip)
 
 
 def _fixture_error(directory: Path, entry: dict[str, Any]) -> str | None:
@@ -274,7 +363,7 @@ def _fixture_error(directory: Path, entry: dict[str, Any]) -> str | None:
 
 
 def _validated_entries(root: Path) -> tuple[list[dict[str, Any]], str | None]:
-    manifest = json.loads((root / "MANIFEST.json").read_text(encoding="utf-8"))
+    manifest = strictjson.loads((root / "MANIFEST.json").read_text(encoding="utf-8"))
     entries = manifest["vectors"]
     if _sha(_json(entries)) != manifest["corpusDigest"]:
         return [], "manifest digest mismatch"
@@ -297,7 +386,7 @@ def _external_answer(command: list[str], path: Path) -> tuple[bool, dict[str, An
     except (OSError, subprocess.TimeoutExpired) as exc:
         return False, f"verifier did not run: {exc}"
     try:
-        answer = json.loads(result.stdout)
+        answer = strictjson.loads(result.stdout)
         observed = {key: answer[key] for key in ("decision", "reason")}
     except (ValueError, KeyError, TypeError):
         return True, f"verifier returned no decision (exit {result.returncode})"
@@ -354,7 +443,7 @@ def run(root: str, verifier: list[str] | None, report_path: str, rail_note: str)
     directory = Path(root)
     answered, errors = check(verifier, directory)
     try:
-        manifest = json.loads((directory / "MANIFEST.json").read_text(encoding="utf-8"))
+        manifest = strictjson.loads((directory / "MANIFEST.json").read_text(encoding="utf-8"))
         total = len(manifest["vectors"])
     except (OSError, ValueError, KeyError, TypeError):
         manifest, total = {}, 0
@@ -393,7 +482,7 @@ def main(argv: list[str] | None = None) -> int:
     answered, errors = check(args.verifier)
     for error in errors:
         print(error)
-    total = len(json.loads((ROOT / "MANIFEST.json").read_text(encoding="utf-8"))["vectors"])
+    total = len(strictjson.loads((ROOT / "MANIFEST.json").read_text(encoding="utf-8"))["vectors"])
     print(f"answered {answered} of {total} cases")
     return 1 if errors or answered != total else 0
 

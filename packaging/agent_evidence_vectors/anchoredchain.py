@@ -10,7 +10,10 @@ adversary who can edit the store needs no key to delete, reorder, replay or
 roll back records the system signed itself. Only the chain links and the anchor
 answer the second question.
 
-The reader checks in a fixed order and names the first check that fails:
+The reader checks in a fixed order and names the first check that fails. Before the first,
+every stored line and the anchor must parse with no repeated object member
+(``store_not_strict_json``): a line that a keep-the-last reader and a keep-the-first reader
+read two ways is a line no verifier may decide on.
 
 1. every stored record verifies under the producer key (``signature_invalid``);
 2. the anchor verifies under the anchor key, which the store does not hold
@@ -38,7 +41,6 @@ prints one JSON object carrying ``decision`` and ``reason``, and exits 0 for
 from __future__ import annotations
 
 import argparse
-import base64
 import hashlib
 import importlib
 import json
@@ -48,6 +50,8 @@ import sys
 from collections.abc import Callable
 from pathlib import Path
 from typing import Any
+
+from . import strictb64, strictjson
 
 SUITE = "anchored-record-chain/v1"
 VERIFIED, REJECTED = "verified", "rejected"
@@ -100,19 +104,37 @@ def _signed(envelope: Any, body_key: str, key: bytes) -> bool:
     if not isinstance(envelope, dict) or not isinstance(envelope.get(body_key), dict):
         return False
     try:
-        sig = base64.b64decode(str(envelope.get("sig", "")), validate=True)
+        sig = strictb64.std(str(envelope.get("sig", "")))
     except ValueError:
         return False
     rail = _rail()
     return bool(rail.ed25519_verify(key, rail.jcs_dumps(envelope[body_key]), sig))
 
 
+class StoreNotStrictJson(ValueError):
+    """A stored line or the anchor repeats an object member, or is not JSON at all."""
+
+
+def _strict(raw: bytes | str) -> Any:
+    """Parse the way a stored line is read: a repeated member is refused, never resolved.
+
+    A reader that keeps the last of two members verifies the record it kept while a reader
+    that keeps the first reads the other one, and the producer's signature covers only one
+    of them. The line is the unit the chain links hash, so a line that two readers read
+    two ways is a line the verifier must not decide on.
+    """
+    try:
+        return strictjson.loads(raw)
+    except ValueError as exc:
+        raise StoreNotStrictJson(str(exc)) from exc
+
+
 def _load(case_path: Path) -> tuple[dict[str, Any], list[bytes], dict[str, Any]]:
     """The consumer's trust inputs, the stored lines, and the anchor envelope."""
-    case = json.loads(case_path.read_text(encoding="utf-8"))
+    case = strictjson.loads(case_path.read_text(encoding="utf-8"))
     base = case_path.parent
     lines = [line for line in (base / case["store"]).read_bytes().split(b"\n") if line]
-    anchor = json.loads((base / case["anchor"]).read_text(encoding="utf-8"))
+    anchor = _strict((base / case["anchor"]).read_bytes())
     return case, lines, anchor
 
 
@@ -126,7 +148,7 @@ def _first_failure(
     prove that every check is forced by some member; a verifier never sets it.
     """
     producer = bytes.fromhex(case["keys"]["producer"])
-    envelopes = [json.loads(line) for line in lines]
+    envelopes = [_strict(line) for line in lines]
     failures: dict[str, Callable[[], bool]] = {
         "signature_invalid": lambda: not all(
             _signed(env, "record", producer) for env in envelopes),
@@ -151,8 +173,12 @@ def _first_failure(
 
 def verify(case_path: Path, skip: frozenset[str] = frozenset()) -> dict[str, str]:
     """The reference reader's decision and reason for one case."""
-    case, lines, anchor = _load(case_path)
-    failure = _first_failure(case, lines, anchor, skip)
+    try:
+        case, lines, anchor = _load(case_path)
+        failure = _first_failure(case, lines, anchor, skip)
+    except StoreNotStrictJson:
+        # Before every named check: the check order is defined over lines a reader can read once.
+        return {"decision": REJECTED, "reason": "store_not_strict_json"}
     if failure is not None:
         return {"decision": REJECTED, "reason": failure}
     after = len(lines) - 1 - int(anchor["anchor"]["index"])
@@ -164,7 +190,10 @@ def store_signatures_verify(case_path: Path) -> bool:
     """Whether every stored record verifies under the producer key."""
     case, lines, _ = _load(case_path)
     producer = bytes.fromhex(case["keys"]["producer"])
-    return all(_signed(json.loads(line), "record", producer) for line in lines)
+    try:
+        return all(_signed(_strict(line), "record", producer) for line in lines)
+    except StoreNotStrictJson:
+        return False
 
 
 def _fixture_error(directory: Path, entry: dict[str, Any]) -> str | None:
@@ -178,7 +207,7 @@ def _fixture_error(directory: Path, entry: dict[str, Any]) -> str | None:
 
 
 def _validated_entries(root: Path) -> tuple[list[dict[str, Any]], str | None]:
-    manifest = json.loads((root / "MANIFEST.json").read_text(encoding="utf-8"))
+    manifest = strictjson.loads((root / "MANIFEST.json").read_text(encoding="utf-8"))
     entries = manifest["vectors"]
     if _sha(_json(entries)) != manifest["corpusDigest"]:
         return [], "manifest digest mismatch"
@@ -201,7 +230,7 @@ def _external_answer(command: list[str], case_path: Path) -> tuple[bool, dict[st
     except (OSError, subprocess.TimeoutExpired) as exc:
         return False, f"verifier did not run: {exc}"
     try:
-        answer = json.loads(result.stdout)
+        answer = strictjson.loads(result.stdout)
         observed = {key: answer[key] for key in ("decision", "reason")}
     except (ValueError, KeyError, TypeError):
         return True, f"verifier returned no decision (exit {result.returncode})"
@@ -258,7 +287,7 @@ def run(root: str, verifier: list[str] | None, report_path: str, rail_note: str)
     directory = Path(root)
     answered, errors = check(verifier, directory)
     try:
-        manifest = json.loads((directory / "MANIFEST.json").read_text(encoding="utf-8"))
+        manifest = strictjson.loads((directory / "MANIFEST.json").read_text(encoding="utf-8"))
         total = len(manifest["vectors"])
     except (OSError, ValueError, KeyError, TypeError):
         manifest, total = {}, 0
@@ -296,7 +325,7 @@ def main(argv: list[str] | None = None) -> int:
     answered, errors = check(args.verifier)
     for error in errors:
         print(error)
-    total = len(json.loads((ROOT / "MANIFEST.json").read_text(encoding="utf-8"))["vectors"])
+    total = len(strictjson.loads((ROOT / "MANIFEST.json").read_text(encoding="utf-8"))["vectors"])
     print(f"answered {answered} of {total} cases")
     return 1 if errors or answered != total else 0
 

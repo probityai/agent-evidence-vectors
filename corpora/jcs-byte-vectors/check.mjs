@@ -1,8 +1,13 @@
 import { createHash } from "node:crypto";
 import { spawnSync } from "node:child_process";
 import { readFileSync } from "node:fs";
+import { remint } from "./remint.mjs";
 
 const cases = JSON.parse(readFileSync(new URL("./cases.json", import.meta.url)));
+// The computed families must come out the same from a second generator that
+// shares no code with the one that wrote them.
+const reminted = remint(cases);
+if (reminted.length) throw new Error(`second generator disagrees:\n${reminted.join("\n")}`);
 const args = process.argv.slice(2);
 let profile = "jcs";
 let command = null;
@@ -60,7 +65,7 @@ function canonical(value) {
 function runVerifier(entry, expected) {
   if (!command) return;
   const result = spawnSync(command[0], command.slice(1), {
-    input: Buffer.from(entry.input, "utf8"),
+    input: entry.inputHex !== undefined ? Buffer.from(entry.inputHex, "hex") : Buffer.from(entry.input, "utf8"),
     maxBuffer: 1024 * 1024,
   });
   if (result.error) throw result.error;
@@ -114,6 +119,16 @@ for (const entry of cases.driftCases) {
   runVerifier({ id: entry.id, input: entry.presented }, pinned);
 }
 
+// Refusal cases: not one valid JCS input at all. No profile excuses a verifier
+// that prints bytes for them.
+for (const entry of cases.refusalCases) {
+  if ((entry.input === undefined) === (entry.inputHex === undefined)) {
+    throw new Error(`${entry.id}: needs exactly one of input and inputHex`);
+  }
+  if (entry.expect !== "reject") throw new Error(`${entry.id}: a refusal case must expect reject`);
+  runVerifier(entry, null);
+}
+
 // Depth cases: the cap of 128 nested containers is this corpus's admission
 // profile, not RFC 8785, so a verifier is held to it under --profile bounded.
 for (const entry of cases.depthCases) {
@@ -129,4 +144,77 @@ for (const entry of cases.depthCases) {
   }
 }
 
-console.log(`${cases.canonicalCases.length} JCS byte vectors, ${cases.driftCases.length} drift vectors and ${cases.depthCases.length} depth vectors checked${command ? ` against ${command[0]} (${profile})` : ""}`);
+// Noncharacter cases: RFC 8785 prints a noncharacter as its UTF-8 bytes, which
+// the ECMAScript oracle must reproduce from both spellings. RFC 7493 section 2.1
+// forbids one in a member name or string value, escaped or not, so the bounded
+// profile holds a verifier to a refusal.
+// A neighbour member carries the scalar value next to an edge of that set and
+// must be printed under every profile, so a bounded verifier whose noncharacter
+// test is too wide fails it. Each member's code point is classified here from
+// the Unicode definition, not taken from either generator's list.
+const isNoncharacter = (cp) => (cp & 0xfffe) === 0xfffe || (cp >= 0xfdd0 && cp <= 0xfdef);
+for (const entry of cases.noncharacterCases) {
+  const value = JSON.parse(entry.input);
+  assertScalars(value);
+  const pinned = Buffer.from(entry.canonicalHex, "hex");
+  const cp = parseInt(entry.codePoint.slice(2), 16);
+  const refused = entry.family === "noncharacter";
+  if (
+    !Buffer.from(canonical(value), "utf8").equals(pinned) ||
+    createHash("sha256").update(pinned).digest("hex") !== entry.sha256 ||
+    !pinned.toString("utf8").includes(String.fromCodePoint(cp)) ||
+    isNoncharacter(cp) !== refused ||
+    !["noncharacter", "noncharacter-neighbour"].includes(entry.family) ||
+    (refused ? entry.boundedError !== "invalid-unicode" : entry.boundedError !== undefined)
+  ) {
+    throw new Error(`${entry.id}: noncharacter case disagrees with the ECMAScript oracle`);
+  }
+  runVerifier(entry, profile === "bounded" && refused ? null : pinned);
+}
+
+// Preimage cases: which bytes a field digest covers. A scalar text value hashes
+// its raw UTF-8, a structured value its canonical bytes, an absent value the
+// empty input. Each member also states the wrong answer of the usual mistake,
+// which must be a different digest, so agreeing with it is a failure.
+const sha = bytes => createHash("sha256").update(bytes).digest("hex");
+for (const entry of cases.preimageCases) {
+  let right;
+  if (entry.profile === "scalar-text") {
+    const value = JSON.parse(entry.value);
+    if (typeof value !== "string") throw new Error(`${entry.id}: not a scalar text value`);
+    right = Buffer.from(value, "utf8");
+  } else if (entry.profile === "structured-json") {
+    right = Buffer.from(canonical(JSON.parse(entry.value)), "utf8");
+  } else if (entry.profile === "absent") {
+    if (entry.value !== undefined) throw new Error(`${entry.id}: an absent value carries a value`);
+    right = Buffer.alloc(0);
+  } else {
+    throw new Error(`${entry.id}: unknown preimage profile ${entry.profile}`);
+  }
+  // The stated wrong answer, recomputed from the mistake it names: the scalar's
+  // JSON form, the structured value as written, a present null read as absent,
+  // or an absent field read as null.
+  const mistakes = {
+    "json-form": ["scalar-text", () => Buffer.from(canonical(JSON.parse(entry.value)), "utf8")],
+    "as-written": ["structured-json", () => Buffer.from(entry.value, "utf8")],
+    "null-as-absent": ["structured-json", () => Buffer.alloc(0)],
+    "json-null": ["absent", () => Buffer.from("null", "utf8")],
+  };
+  const mistake = mistakes[entry.statedWrongReading];
+  if (!mistake || mistake[0] !== entry.profile) {
+    throw new Error(`${entry.id}: stated wrong reading ${entry.statedWrongReading} does not fit ${entry.profile}`);
+  }
+  if (entry.statedWrongReading === "null-as-absent" && JSON.parse(entry.value) !== null) {
+    throw new Error(`${entry.id}: null-as-absent names a value that is not null`);
+  }
+  const wrong = mistake[1]();
+  if (
+    right.toString("hex") !== entry.preimageHex || sha(right) !== entry.sha256 ||
+    wrong.toString("hex") !== entry.statedWrongPreimageHex || sha(wrong) !== entry.statedWrongSha256 ||
+    entry.sha256 === entry.statedWrongSha256
+  ) {
+    throw new Error(`${entry.id}: preimage case disagrees with the ECMAScript oracle`);
+  }
+}
+
+console.log(`${cases.canonicalCases.length} JCS byte vectors, ${cases.driftCases.length} drift vectors, ${cases.refusalCases.length} refusal vectors, ${cases.depthCases.length} depth vectors, ${cases.noncharacterCases.length} noncharacter vectors and ${cases.preimageCases.length} preimage vectors checked${command ? ` against ${command[0]} (${profile})` : ""}`);

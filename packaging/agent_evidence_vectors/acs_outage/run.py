@@ -23,6 +23,7 @@ import sys
 from pathlib import Path
 from typing import Any
 
+from .. import strictjson
 from ..record_paths import portable_argv, write_records
 from .reader import EXIT_FOR, SUITE, SUPPORTED, sha256_hex, verify
 
@@ -54,7 +55,7 @@ def _check_case(root: Path, case: dict[str, Any], by_id: dict[str, Any]) -> None
 
 def load_manifest(root: Path) -> dict[str, Any]:
     """Check every pinned file and the case set before any case is judged."""
-    manifest = json.loads((root / "MANIFEST.json").read_text(encoding="utf-8"))
+    manifest = strictjson.loads((root / "MANIFEST.json").read_text(encoding="utf-8"))
     if manifest.get("suite") != SUITE:
         raise CorpusError("unexpected suite")
     cases = manifest["cases"]
@@ -83,7 +84,7 @@ def _external(command: list[str], case_json: Path) -> tuple[bool, dict[str, Any]
         why = exc.strerror if isinstance(exc, OSError) and exc.strerror else type(exc).__name__
         return False, f"verifier did not run: {why}"
     try:
-        answer = json.loads(result.stdout.strip().splitlines()[-1])
+        answer = strictjson.loads(result.stdout.strip().splitlines()[-1])
         observed = {key: answer[key] for key in ("decision", "reason")}
     except (ValueError, KeyError, TypeError, IndexError):
         return True, f"verifier returned no decision (exit {result.returncode})"

@@ -29,8 +29,13 @@ check is narrow on purpose:
   (``anchor-not-after-seen``), and one for a Unix time the subject states,
   which must be no later than the header time plus 7200 seconds, the allowance
   draft-gilda-audit-agent-audit-record gives an OpenTimestamps time
-  (``stated-after-anchor``). The header is a trust input: this reader does not
-  check proof of work or that the block is on the chain with the most work.
+  (``stated-after-anchor``). The held header must also carry its own proof of
+  work: its hash at or under the target its ``nBits`` field encodes, and that
+  target no easier than the network's limit (mainnet unless the block declares
+  ``"network": "regtest"``); a header that fails either is not a header
+  (``binding-malformed``), so a self-consistent forged header is refused. The
+  header is still a trust input: this reader does not check that the block is
+  on the chain with the most work.
 
 A set that passes says the retained bytes match the digests that were published.
 It says nothing about whether what those bytes record (a payment, a budget, a
@@ -57,6 +62,7 @@ import shlex
 from pathlib import Path
 from typing import Any
 
+from . import strictjson
 from .auditrecord import OTS_BITCOIN, _Reader, ots_attestations
 
 SUITE = "recorded-set-conformance/v1"
@@ -162,6 +168,36 @@ def block_id(header: bytes) -> str:
     return hashlib.sha256(hashlib.sha256(header).digest()).digest()[::-1].hex()
 
 
+#: The easiest target each network allows (Bitcoin Core's ``powLimit``), keyed by
+#: the ``network`` a held block may declare; an absent ``network`` is mainnet.
+POW_LIMITS = {
+    "mainnet": 0x00000000FFFF << 208,
+    "regtest": 0x7FFFFF << 232,
+}
+
+
+def compact_target(bits: int) -> int | None:
+    """The target a compact ``nBits`` value encodes, as Bitcoin Core's
+    ``SetCompact`` reads it; None when it is negative, zero or overflows 256 bits."""
+    exponent, mantissa = bits >> 24, bits & 0x007FFFFF
+    if bits & 0x00800000 or mantissa == 0:
+        return None
+    target = mantissa >> 8 * (3 - exponent) if exponent <= 3 else mantissa << 8 * (exponent - 3)
+    return target if 0 < target < 1 << 256 else None
+
+
+def meets_own_work(header: bytes, network: str) -> bool:
+    """True when the header hashes at or under its own target and that target is
+    no easier than the network's limit. Self-consistency only: whether the block
+    is on the chain with the most work stays a trust input."""
+    limit = POW_LIMITS.get(network)
+    target = compact_target(int.from_bytes(header[72:76], "little"))
+    if limit is None or target is None or target > limit:
+        return False
+    work = hashlib.sha256(hashlib.sha256(header).digest()).digest()
+    return int.from_bytes(work, "little") <= target
+
+
 def _pointer(document: Any, pointer: str) -> Any:
     """The value at an RFC 6901 JSON pointer; KeyError when there is none."""
     if not pointer.startswith("/"):
@@ -185,14 +221,16 @@ def _held_header(binding: dict[str, Any]) -> tuple[int, bytes] | None:
         header = bytes.fromhex(str(block.get("header")))
     except ValueError:
         return None
-    if len(header) != 80 or block_id(header) != block.get("id"):
+    network = block.get("network", "mainnet")
+    if (len(header) != 80 or block_id(header) != block.get("id")
+            or not isinstance(network, str) or not meets_own_work(header, network)):
         return None
     return block["height"], header
 
 
 def _subject_integer(subject: bytes, pointer: str) -> int | None:
     try:
-        value = _pointer(json.loads(subject), pointer)
+        value = _pointer(strictjson.loads(subject), pointer)
     except (ValueError, KeyError):
         return None
     return value if type(value) is int else None
@@ -296,7 +334,7 @@ def compact(value: object) -> bytes:
 
 
 def load_manifest(root: Path) -> dict[str, Any]:
-    manifest: dict[str, Any] = json.loads((root / "MANIFEST.json").read_text(encoding="utf-8"))
+    manifest: dict[str, Any] = strictjson.loads((root / "MANIFEST.json").read_bytes())
     return manifest
 
 

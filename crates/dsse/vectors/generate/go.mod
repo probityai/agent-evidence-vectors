@@ -1,4 +1,4 @@
-module github.com/probityai/dsse/vectors/generate
+module dsse.invalid/vectors-generate
 
 go 1.25.5
 

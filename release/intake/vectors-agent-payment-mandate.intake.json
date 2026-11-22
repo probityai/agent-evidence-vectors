@@ -1,14 +1,14 @@
 {
   "aggregate": {
     "counts": {
-      "accepted": 4,
-      "rejected": 11
+      "accepted": 6,
+      "rejected": 15
     },
     "line": "verdict: every member behaves as MANIFEST.json declares",
-    "total": 15
+    "total": 21
   },
   "anchor": {
-    "kind": "digest-list-line",
+    "kind": "signed-digest-list",
     "manifest": "vectors-agent-payment-mandate/MANIFEST.json",
     "reference": {
       "path": "release/CORPUS-DIGESTS.txt",
@@ -17,7 +17,14 @@
     "routine": "corpus_digest in corpora/vectors-agent-payment-mandate/gen_vectors.py",
     "routine-file": "corpora/vectors-agent-payment-mandate/gen_vectors.py",
     "serialization": "corpus-routine",
-    "sha256": "535cf77805d4720714fbe5f39a65a64f72ef6f69edfbf118a39fa8c8fdff77db",
+    "sha256": "4280659456899e8b0c939e054f1351b3f16eb1f5f88ef191c230b66c4ca36850",
+    "signature": {
+      "key": "release/cosign.pub",
+      "key-sha256": "15fccb1635dd1d9333146cb389f26fa3c3b9213aeed1da945ea1f51a2dc1be84",
+      "path": "release/CORPUS-DIGESTS.txt.sig",
+      "scheme": "ed25519",
+      "serialization": "bytes"
+    },
     "verdicts": {
       "availability-failure": "inconclusive",
       "integrity-failure": "fail"
@@ -29,7 +36,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "cad75fcb6a106550eaab2acd9b816b0d61153d841fcfad35f976cce47644b977"
+          "sha256": "07a3b4989f33f4c668399d929656d96255aa00e90e91234d7fd3675b4d70c191"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [],
@@ -38,21 +45,21 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "cad75fcb6a106550eaab2acd9b816b0d61153d841fcfad35f976cce47644b977"
+          "sha256": "07a3b4989f33f4c668399d929656d96255aa00e90e91234d7fd3675b4d70c191"
         },
         "swapped-in": "784cc13c5b1cf03ff179729014dae7363c7765eccfd7023c1b84166084ecb93c",
         "test": "swap-and-re-pin"
       },
       "path": "corpora/vectors-agent-payment-mandate/INDEX.md",
       "serialization": "bytes",
-      "sha256": "40e76a3b418c8afa9fcc401d233089c4915ad776062ead8c2f77b5c631fc939f"
+      "sha256": "d5e1d409b213bd943ddf0c06ef86b7233346d8b6fec99a0d2b2594abb65c8ffc"
     },
     {
       "consumed": "unconsumed",
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "cad75fcb6a106550eaab2acd9b816b0d61153d841fcfad35f976cce47644b977"
+          "sha256": "07a3b4989f33f4c668399d929656d96255aa00e90e91234d7fd3675b4d70c191"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [],
@@ -61,21 +68,21 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "cad75fcb6a106550eaab2acd9b816b0d61153d841fcfad35f976cce47644b977"
+          "sha256": "07a3b4989f33f4c668399d929656d96255aa00e90e91234d7fd3675b4d70c191"
         },
         "swapped-in": "32092ac19bdd15f81d268c839456cac589b25ddb4f68fc85e02e896b48921569",
         "test": "swap-and-re-pin"
       },
       "path": "corpora/vectors-agent-payment-mandate/README.md",
       "serialization": "bytes",
-      "sha256": "212b57fb9356c59e0e41e69ab789713b6ce97a3b8304da890f822b96f2ba5234"
+      "sha256": "277f213b8d7c06b0c67f9787a9208c3cc23155bc4526c105de66ad697ceaa42d"
     },
     {
       "consumed": "unconsumed",
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "cad75fcb6a106550eaab2acd9b816b0d61153d841fcfad35f976cce47644b977"
+          "sha256": "07a3b4989f33f4c668399d929656d96255aa00e90e91234d7fd3675b4d70c191"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [],
@@ -84,7 +91,7 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "cad75fcb6a106550eaab2acd9b816b0d61153d841fcfad35f976cce47644b977"
+          "sha256": "07a3b4989f33f4c668399d929656d96255aa00e90e91234d7fd3675b4d70c191"
         },
         "swapped-in": "9efbc0808239d470b72910b825fb77777f26a773b3f936e39be65054d79460ff",
         "test": "swap-and-re-pin"
@@ -98,7 +105,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "cad75fcb6a106550eaab2acd9b816b0d61153d841fcfad35f976cce47644b977"
+          "sha256": "07a3b4989f33f4c668399d929656d96255aa00e90e91234d7fd3675b4d70c191"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [],
@@ -107,21 +114,21 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "cad75fcb6a106550eaab2acd9b816b0d61153d841fcfad35f976cce47644b977"
+          "sha256": "07a3b4989f33f4c668399d929656d96255aa00e90e91234d7fd3675b4d70c191"
         },
         "swapped-in": "deb8643d61fafbeed4be3f23b11c2cb5a80d3ca16c2cd32062d3dc8bc9ea9efd",
         "test": "swap-and-re-pin"
       },
       "path": "corpora/vectors-agent-payment-mandate/gen_vectors.py",
       "serialization": "bytes",
-      "sha256": "1a6153fc3d0baa1eb8eae882b19442d3ab98fde6abd5af45d25b5d016573e6e0"
+      "sha256": "66335fb227b6d5ce571d260d9b45a5f6977fd7d2672a1331c43fbf6a982942b9"
     },
     {
       "consumed": "unconsumed",
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "cad75fcb6a106550eaab2acd9b816b0d61153d841fcfad35f976cce47644b977"
+          "sha256": "07a3b4989f33f4c668399d929656d96255aa00e90e91234d7fd3675b4d70c191"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [],
@@ -130,7 +137,7 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "cad75fcb6a106550eaab2acd9b816b0d61153d841fcfad35f976cce47644b977"
+          "sha256": "07a3b4989f33f4c668399d929656d96255aa00e90e91234d7fd3675b4d70c191"
         },
         "swapped-in": "8b89d7235d3d3928184f32783a1a2ee4ba2e7d05b951a1a419771201476602c7",
         "test": "swap-and-re-pin"
@@ -144,7 +151,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "cad75fcb6a106550eaab2acd9b816b0d61153d841fcfad35f976cce47644b977"
+          "sha256": "07a3b4989f33f4c668399d929656d96255aa00e90e91234d7fd3675b4d70c191"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [],
@@ -153,7 +160,7 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "cad75fcb6a106550eaab2acd9b816b0d61153d841fcfad35f976cce47644b977"
+          "sha256": "07a3b4989f33f4c668399d929656d96255aa00e90e91234d7fd3675b4d70c191"
         },
         "swapped-in": "8d13fd813b35f386447d17bb5554eaca35164bf52681f631c388591ef95aede9",
         "test": "swap-and-re-pin"
@@ -167,7 +174,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "cad75fcb6a106550eaab2acd9b816b0d61153d841fcfad35f976cce47644b977"
+          "sha256": "07a3b4989f33f4c668399d929656d96255aa00e90e91234d7fd3675b4d70c191"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [],
@@ -176,7 +183,7 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "cad75fcb6a106550eaab2acd9b816b0d61153d841fcfad35f976cce47644b977"
+          "sha256": "07a3b4989f33f4c668399d929656d96255aa00e90e91234d7fd3675b4d70c191"
         },
         "swapped-in": "89535d6c845db66d0ba66b9d1a05195a6ff868bffcddfa325c59a96de755eb80",
         "test": "swap-and-re-pin"
@@ -198,7 +205,7 @@
     "root": "corpora/vectors-agent-payment-mandate"
   },
   "byte-identity": {
-    "pins": 15,
+    "pins": 21,
     "serialization": "bytes"
   },
   "canonicalization": {
@@ -229,22 +236,240 @@
     "revision": {
       "kind": "source-listing",
       "paths": [
-        "aee",
-        "cmd/aee-verify",
-        "corpusreaders",
+        "aee/admission.go",
+        "aee/carried_base64.go",
+        "aee/codes.go",
+        "aee/commitments.go",
+        "aee/jcs.go",
+        "aee/merkle.go",
+        "aee/pae.go",
+        "aee/recompute.go",
+        "aee/runbinding.go",
+        "aee/statement.go",
+        "aee/tier.go",
+        "aee/types.go",
+        "aee/validity.go",
+        "aee/verify.go",
+        "cmd/aee-verify/corpus.go",
+        "cmd/aee-verify/main.go",
+        "corpusreaders/a2ajcs.go",
+        "corpusreaders/aci.go",
+        "corpusreaders/acscore.go",
+        "corpusreaders/admission.go",
+        "corpusreaders/aeecorpus.go",
+        "corpusreaders/agentaction.go",
+        "corpusreaders/agentaction_chain.go",
+        "corpusreaders/agentdecision.go",
+        "corpusreaders/agenticprocess.go",
+        "corpusreaders/aggregateaccounting.go",
+        "corpusreaders/aigeneration.go",
+        "corpusreaders/anchoredchain.go",
+        "corpusreaders/anchorstream.go",
+        "corpusreaders/approvalbinding.go",
+        "corpusreaders/artifactbinding.go",
+        "corpusreaders/auditrecord.go",
+        "corpusreaders/auditrecord_consumption.go",
+        "corpusreaders/auditrecord_datasubject.go",
+        "corpusreaders/auditrecord_dating.go",
+        "corpusreaders/auditrecord_principal.go",
+        "corpusreaders/auditrecord_sequence.go",
+        "corpusreaders/authoritydispatch.go",
+        "corpusreaders/badgevc.go",
+        "corpusreaders/budgetlineage.go",
+        "corpusreaders/canonical_base64.go",
+        "corpusreaders/capabilityrequirement.go",
+        "corpusreaders/cardreceipt.go",
+        "corpusreaders/catalogtrust.go",
+        "corpusreaders/changeadmission.go",
+        "corpusreaders/chunkedexport.go",
+        "corpusreaders/common.go",
+        "corpusreaders/completionconfirmation.go",
+        "corpusreaders/connectorscope.go",
+        "corpusreaders/containmentjournal.go",
+        "corpusreaders/contextdiscovery.go",
+        "corpusreaders/controldecision.go",
+        "corpusreaders/convertedargs.go",
+        "corpusreaders/decisionclient.go",
+        "corpusreaders/delegationlifecycle.go",
+        "corpusreaders/delegatorright.go",
+        "corpusreaders/dispatchfence.go",
+        "corpusreaders/dnsaid.go",
+        "corpusreaders/doneargv.go",
+        "corpusreaders/donechecks.go",
+        "corpusreaders/donerecords.go",
+        "corpusreaders/donerun.go",
+        "corpusreaders/emptyinterval.go",
+        "corpusreaders/evidencecell.go",
+        "corpusreaders/evidencestate.go",
+        "corpusreaders/executionbilling.go",
+        "corpusreaders/gradefloor.go",
+        "corpusreaders/htxcases.go",
+        "corpusreaders/identitybinding.go",
+        "corpusreaders/ietfagentrecord.go",
+        "corpusreaders/keydirectory.go",
+        "corpusreaders/lifecyclebinding.go",
+        "corpusreaders/mcpauthz.go",
+        "corpusreaders/mcpowasp.go",
+        "corpusreaders/mcprecord.go",
+        "corpusreaders/mcpresponsephase.go",
+        "corpusreaders/monitorcoverage.go",
+        "corpusreaders/observedeffect.go",
+        "corpusreaders/openweight.go",
+        "corpusreaders/paymentmandate.go",
+        "corpusreaders/principalbinding.go",
+        "corpusreaders/printwitness.go",
+        "corpusreaders/propagationstep.go",
+        "corpusreaders/pyjson.go",
+        "corpusreaders/receiptchainend.go",
+        "corpusreaders/receiptsignature.go",
+        "corpusreaders/recorded.go",
+        "corpusreaders/refundconnected.go",
+        "corpusreaders/refundconnected_aps.go",
+        "corpusreaders/refundconnected_run.go",
+        "corpusreaders/refundconnected_steps.go",
+        "corpusreaders/refundconnected_trust.go",
+        "corpusreaders/refundconnected_value.go",
+        "corpusreaders/refusalreason.go",
+        "corpusreaders/registry.go",
+        "corpusreaders/responsibilityescalation.go",
+        "corpusreaders/restartrecords.go",
+        "corpusreaders/rsadigestinfo.go",
+        "corpusreaders/rulecorpus.go",
+        "corpusreaders/runmetrics.go",
+        "corpusreaders/scittcose.go",
+        "corpusreaders/selfreported.go",
+        "corpusreaders/signaturecoverage.go",
+        "corpusreaders/sourcecoverage.go",
+        "corpusreaders/strictjson.go",
+        "corpusreaders/telemetryevidence.go",
+        "corpusreaders/traceanchor.go",
+        "corpusreaders/uncertaineffect.go",
+        "corpusreaders/w3cintake.go",
+        "corpusreaders/w3cjcs.go",
+        "corpusreaders/w3creport.go",
+        "corpusreaders/x402join.go",
         "go.mod"
       ],
       "serialization": "sha256-listing-v1",
-      "sha256": "fa0751e529d000d5fb3b3cde26f849fe1e6b5c6e28b0ed4aab55c25e79e5f5c7"
+      "sha256": "646a6c74c2734ee8e1dc0708a86b2000b16775c9f2ecbf3437e0fd104e2efd8d"
     },
     "runtime": {
       "name": "go",
       "version": "1.26"
     },
     "shared-verification-code": [
-      "aee",
-      "cmd/aee-verify",
-      "corpusreaders",
+      "aee/admission.go",
+      "aee/carried_base64.go",
+      "aee/codes.go",
+      "aee/commitments.go",
+      "aee/jcs.go",
+      "aee/merkle.go",
+      "aee/pae.go",
+      "aee/recompute.go",
+      "aee/runbinding.go",
+      "aee/statement.go",
+      "aee/tier.go",
+      "aee/types.go",
+      "aee/validity.go",
+      "aee/verify.go",
+      "cmd/aee-verify/corpus.go",
+      "cmd/aee-verify/main.go",
+      "corpusreaders/a2ajcs.go",
+      "corpusreaders/aci.go",
+      "corpusreaders/acscore.go",
+      "corpusreaders/admission.go",
+      "corpusreaders/aeecorpus.go",
+      "corpusreaders/agentaction.go",
+      "corpusreaders/agentaction_chain.go",
+      "corpusreaders/agentdecision.go",
+      "corpusreaders/agenticprocess.go",
+      "corpusreaders/aggregateaccounting.go",
+      "corpusreaders/aigeneration.go",
+      "corpusreaders/anchoredchain.go",
+      "corpusreaders/anchorstream.go",
+      "corpusreaders/approvalbinding.go",
+      "corpusreaders/artifactbinding.go",
+      "corpusreaders/auditrecord.go",
+      "corpusreaders/auditrecord_consumption.go",
+      "corpusreaders/auditrecord_datasubject.go",
+      "corpusreaders/auditrecord_dating.go",
+      "corpusreaders/auditrecord_principal.go",
+      "corpusreaders/auditrecord_sequence.go",
+      "corpusreaders/authoritydispatch.go",
+      "corpusreaders/badgevc.go",
+      "corpusreaders/budgetlineage.go",
+      "corpusreaders/canonical_base64.go",
+      "corpusreaders/capabilityrequirement.go",
+      "corpusreaders/cardreceipt.go",
+      "corpusreaders/catalogtrust.go",
+      "corpusreaders/changeadmission.go",
+      "corpusreaders/chunkedexport.go",
+      "corpusreaders/common.go",
+      "corpusreaders/completionconfirmation.go",
+      "corpusreaders/connectorscope.go",
+      "corpusreaders/containmentjournal.go",
+      "corpusreaders/contextdiscovery.go",
+      "corpusreaders/controldecision.go",
+      "corpusreaders/convertedargs.go",
+      "corpusreaders/decisionclient.go",
+      "corpusreaders/delegationlifecycle.go",
+      "corpusreaders/delegatorright.go",
+      "corpusreaders/dispatchfence.go",
+      "corpusreaders/dnsaid.go",
+      "corpusreaders/doneargv.go",
+      "corpusreaders/donechecks.go",
+      "corpusreaders/donerecords.go",
+      "corpusreaders/donerun.go",
+      "corpusreaders/emptyinterval.go",
+      "corpusreaders/evidencecell.go",
+      "corpusreaders/evidencestate.go",
+      "corpusreaders/executionbilling.go",
+      "corpusreaders/gradefloor.go",
+      "corpusreaders/htxcases.go",
+      "corpusreaders/identitybinding.go",
+      "corpusreaders/ietfagentrecord.go",
+      "corpusreaders/keydirectory.go",
+      "corpusreaders/lifecyclebinding.go",
+      "corpusreaders/mcpauthz.go",
+      "corpusreaders/mcpowasp.go",
+      "corpusreaders/mcprecord.go",
+      "corpusreaders/mcpresponsephase.go",
+      "corpusreaders/monitorcoverage.go",
+      "corpusreaders/observedeffect.go",
+      "corpusreaders/openweight.go",
+      "corpusreaders/paymentmandate.go",
+      "corpusreaders/principalbinding.go",
+      "corpusreaders/printwitness.go",
+      "corpusreaders/propagationstep.go",
+      "corpusreaders/pyjson.go",
+      "corpusreaders/receiptchainend.go",
+      "corpusreaders/receiptsignature.go",
+      "corpusreaders/recorded.go",
+      "corpusreaders/refundconnected.go",
+      "corpusreaders/refundconnected_aps.go",
+      "corpusreaders/refundconnected_run.go",
+      "corpusreaders/refundconnected_steps.go",
+      "corpusreaders/refundconnected_trust.go",
+      "corpusreaders/refundconnected_value.go",
+      "corpusreaders/refusalreason.go",
+      "corpusreaders/registry.go",
+      "corpusreaders/responsibilityescalation.go",
+      "corpusreaders/restartrecords.go",
+      "corpusreaders/rsadigestinfo.go",
+      "corpusreaders/rulecorpus.go",
+      "corpusreaders/runmetrics.go",
+      "corpusreaders/scittcose.go",
+      "corpusreaders/selfreported.go",
+      "corpusreaders/signaturecoverage.go",
+      "corpusreaders/sourcecoverage.go",
+      "corpusreaders/strictjson.go",
+      "corpusreaders/telemetryevidence.go",
+      "corpusreaders/traceanchor.go",
+      "corpusreaders/uncertaineffect.go",
+      "corpusreaders/w3cintake.go",
+      "corpusreaders/w3cjcs.go",
+      "corpusreaders/w3creport.go",
+      "corpusreaders/x402join.go",
       "go.mod"
     ]
   },
@@ -368,11 +593,59 @@
         "verdict": "rejected"
       },
       "state": "pass"
+    },
+    {
+      "check": "authorized-key-rotated-after-signing",
+      "native": {
+        "reasons": [],
+        "verdict": "accepted"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "authorized-key-revoked-after-signing",
+      "native": {
+        "reasons": [],
+        "verdict": "accepted"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "signing-key-not-in-snapshot",
+      "native": {
+        "reasons": [],
+        "verdict": "rejected"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "signed-after-key-rotated-out",
+      "native": {
+        "reasons": [],
+        "verdict": "rejected"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "signed-before-key-valid",
+      "native": {
+        "reasons": [],
+        "verdict": "rejected"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "signed-after-key-revoked",
+      "native": {
+        "reasons": [],
+        "verdict": "rejected"
+      },
+      "state": "pass"
     }
   ],
   "corpus-digest": {
     "serialization": "sha256-listing-v1",
-    "sha256": "dc21cbd910e14e7835c2157ac79c888374ffda65bc0c34cf2bd3d6aafd528b5c"
+    "sha256": "21d99f3bfb1400600e6a7bdb54f35164d0cd2ca9133a47786d1ddc4e9ecb7574"
   },
   "exit-code": 0,
   "exit-rule": "zero-iff-every-check-passes",
@@ -396,10 +669,16 @@
       "executed-token-differs",
       "single-use-token-replayed",
       "receipt-not-over-execution",
-      "post-checkout-fulfilment-missing"
+      "post-checkout-fulfilment-missing",
+      "authorized-key-rotated-after-signing",
+      "authorized-key-revoked-after-signing",
+      "signing-key-not-in-snapshot",
+      "signed-after-key-rotated-out",
+      "signed-before-key-valid",
+      "signed-after-key-revoked"
     ],
     "path": "corpora/vectors-agent-payment-mandate/MANIFEST.json",
-    "sha256": "972d83e2aa97dbe90bc4643d6652d7c5838a9414880a803a7abae33a5432309e"
+    "sha256": "3ddf0ebb6dac7c421b394041993985469896256977a24a34d0f23c5de9b64f01"
   },
   "members": [
     {
@@ -536,6 +815,60 @@
         }
       ],
       "id": "post-checkout-fulfilment-missing"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-agent-payment-mandate/cases/authorized-key-rotated-after-signing/case.json",
+          "sha256": "4f0460a3080ccfefb045e00a9cc25887ca162edc6840eb1cfa19993d3e648d5f"
+        }
+      ],
+      "id": "authorized-key-rotated-after-signing"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-agent-payment-mandate/cases/authorized-key-revoked-after-signing/case.json",
+          "sha256": "542c0c7b036f50445145c42dc44ba0b494244095ee3a47e249ef2be99aa25827"
+        }
+      ],
+      "id": "authorized-key-revoked-after-signing"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-agent-payment-mandate/cases/signing-key-not-in-snapshot/case.json",
+          "sha256": "7d133548fd8f735b6ef0e9d2d44d2bb5ad5237eee60461bd695483949b2b4c02"
+        }
+      ],
+      "id": "signing-key-not-in-snapshot"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-agent-payment-mandate/cases/signed-after-key-rotated-out/case.json",
+          "sha256": "3f01f074120304e6f241ec92b26f4535babc2276e824af50d459386283da5ae2"
+        }
+      ],
+      "id": "signed-after-key-rotated-out"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-agent-payment-mandate/cases/signed-before-key-valid/case.json",
+          "sha256": "cd6e9170ae5b50183aa6e8cbbdfbd1c4cec42ca1c814f7b51b9028b7b05cb918"
+        }
+      ],
+      "id": "signed-before-key-valid"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-agent-payment-mandate/cases/signed-after-key-revoked/case.json",
+          "sha256": "cffdea97d2d23eb85418fc14b66f39135725a26bd156748e6d5a5a2fe10245e4"
+        }
+      ],
+      "id": "signed-after-key-revoked"
     }
   ],
   "native": {
@@ -554,7 +887,7 @@
       "reference": {
         "path": "release/intake/native/vectors-agent-payment-mandate.json",
         "serialization": "bytes",
-        "sha256": "cad75fcb6a106550eaab2acd9b816b0d61153d841fcfad35f976cce47644b977"
+        "sha256": "07a3b4989f33f4c668399d929656d96255aa00e90e91234d7fd3675b4d70c191"
       }
     },
     {
@@ -563,7 +896,7 @@
       "reference": {
         "path": "release/intake/native/vectors-agent-payment-mandate.txt",
         "serialization": "bytes",
-        "sha256": "1de3e38467d36f989d7950965003b67dd0485d774359b2a66f359028faa9f688"
+        "sha256": "9c98732427e04586ef549ee79cd70583af235eaeb1135a03d6bd864c6639ddd1"
       }
     },
     {
@@ -668,6 +1001,38 @@
         "check:post-checkout-fulfilment-missing"
       ],
       "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"rejected\",\"reason\":\"post_checkout_action_missing\"}}"
+    },
+    {
+      "check": "signing-key-not-in-snapshot",
+      "inputs": [
+        "member:signing-key-not-in-snapshot",
+        "check:signing-key-not-in-snapshot"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"rejected\",\"reason\":\"signing_key_unknown\"}}"
+    },
+    {
+      "check": "signed-after-key-rotated-out",
+      "inputs": [
+        "member:signed-after-key-rotated-out",
+        "check:signed-after-key-rotated-out"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"rejected\",\"reason\":\"signing_key_rotated_out\"}}"
+    },
+    {
+      "check": "signed-before-key-valid",
+      "inputs": [
+        "member:signed-before-key-valid",
+        "check:signed-before-key-valid"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"rejected\",\"reason\":\"signing_key_not_yet_valid\"}}"
+    },
+    {
+      "check": "signed-after-key-revoked",
+      "inputs": [
+        "member:signed-after-key-revoked",
+        "check:signed-after-key-revoked"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"rejected\",\"reason\":\"signing_key_revoked\"}}"
     }
   ],
   "relaxed-controls": [],
@@ -677,11 +1042,11 @@
     "runs": [
       {
         "process": "run-1",
-        "sha256": "cad75fcb6a106550eaab2acd9b816b0d61153d841fcfad35f976cce47644b977"
+        "sha256": "07a3b4989f33f4c668399d929656d96255aa00e90e91234d7fd3675b4d70c191"
       },
       {
         "process": "run-2",
-        "sha256": "cad75fcb6a106550eaab2acd9b816b0d61153d841fcfad35f976cce47644b977"
+        "sha256": "07a3b4989f33f4c668399d929656d96255aa00e90e91234d7fd3675b4d70c191"
       }
     ],
     "seed": null,
@@ -695,18 +1060,17 @@
       "action-occurred-or-authority"
     ],
     "establishes": [
-      "aee-verify, at the source listing named here, judges each of the 15 pinned members of agent-payment-mandate/v1 as its manifest declares"
+      "aee-verify, at the source listing named here, judges each of the 21 pinned members of agent-payment-mandate/v1 as its manifest declares"
     ],
     "leaves-open": [
       "whether an implementation written from the specification, run by someone other than an author, reaches the same verdicts",
-      "whether release/CORPUS-DIGESTS.txt is a list a release signed: the signature beside it does not verify over these bytes, so the anchor is a located line, not a verified one",
       "whether a re-run by someone other than an author on these exact bytes agrees; none is on the record for them"
     ]
   },
   "selector": {
     "expression": "*",
     "language": "id-glob",
-    "matched": 15,
+    "matched": 21,
     "require": "at-least-one",
     "selected": [
       "authorized-ap2-cart",
@@ -723,7 +1087,13 @@
       "executed-token-differs",
       "single-use-token-replayed",
       "receipt-not-over-execution",
-      "post-checkout-fulfilment-missing"
+      "post-checkout-fulfilment-missing",
+      "authorized-key-rotated-after-signing",
+      "authorized-key-revoked-after-signing",
+      "signing-key-not-in-snapshot",
+      "signed-after-key-rotated-out",
+      "signed-before-key-valid",
+      "signed-after-key-revoked"
     ]
   },
   "specification-readers": [],

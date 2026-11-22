@@ -3,7 +3,6 @@ package corpusreaders
 import (
 	"crypto/ed25519"
 	"encoding/base64"
-	"encoding/json"
 	"fmt"
 	"path/filepath"
 	"regexp"
@@ -78,7 +77,7 @@ var apFields = []string{
 
 func (agenticProcess) Judge(dir string, raw []byte) (*Result, error) {
 	var manifest scManifest
-	if err := json.Unmarshal(raw, &manifest); err != nil {
+	if err := strictUnmarshal(raw, &manifest); err != nil {
 		return nil, fmt.Errorf("%s/MANIFEST.json does not parse: %w", dir, err)
 	}
 	result := &Result{}
@@ -86,7 +85,7 @@ func (agenticProcess) Judge(dir string, raw []byte) (*Result, error) {
 	var vectors []apVector
 	for _, entry := range manifest.Vectors {
 		var v apVector
-		if err := json.Unmarshal(entry, &v); err != nil {
+		if err := strictUnmarshal(entry, &v); err != nil {
 			result.Findings = append(result.Findings, fmt.Sprintf("a manifest row does not parse: %v", err))
 			continue
 		}
@@ -145,7 +144,7 @@ func apVerify(envelope []byte, policy apPolicy) *apRefusal {
 		return r
 	}
 	var payload any
-	if json.Unmarshal(body, &payload) != nil {
+	if strictUnmarshal(body, &payload) != nil {
 		payload = nil
 	}
 	statement, isObj := payload.(map[string]any)
@@ -171,7 +170,7 @@ func apParse(envelope []byte) (string, []byte, []caSig, bool) {
 		return "", nil, nil, false
 	}
 	var doc map[string]any
-	if json.Unmarshal(envelope, &doc) != nil || doc == nil {
+	if strictUnmarshal(envelope, &doc) != nil || doc == nil {
 		return "", nil, nil, false
 	}
 	payloadType, ok := doc["payloadType"].(string)
@@ -205,7 +204,7 @@ func apSignature(payloadType string, body []byte, sigs []caSig, trusted map[stri
 			continue
 		}
 		named = true
-		key, err := base64.StdEncoding.DecodeString(encoded)
+		key, err := decodeCanonical(base64.StdEncoding, encoded)
 		if err == nil && len(key) == ed25519.PublicKeySize && ed25519.Verify(key, message, s.sig) {
 			return nil
 		}

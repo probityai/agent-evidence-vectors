@@ -1,0 +1,38 @@
+{
+ "case": "key-set-without-ec-key",
+ "jwks": {
+  "keys": [
+   {
+    "e": "AQAB",
+    "kid": "k1",
+    "kty": "RSA",
+    "n": "eMkD_r71AK9nVFFf8bNYg4_nES3CRIZZS-vkb1N0ZDw"
+   }
+  ]
+ },
+ "jwks_url": "https://dns-aid.example.com/.well-known/dns-aid-jwks.json",
+ "key_authority": {
+  "jwks_fingerprint": "GxXN0GXH4jzK1C-li4-pLdtufD7kCXTVdLXtwp6tGUk",
+  "kind": "pin"
+ },
+ "now": 1790000000,
+ "record": {
+  "alpn": "a2a",
+  "fqdn": "_chat._a2a._agents.example.com",
+  "params": {
+   "bap": null,
+   "cap": "https://chat.example.com/.well-known/agent-cap.json",
+   "cap-sha256": "47DEQpj8HBSa-_TImW-5JCeuQeRkm5NMpJWZG3hSuFU",
+   "connect-class": null,
+   "connect-meta": null,
+   "enroll-uri": null,
+   "policy": "https://example.com/agent-policy",
+   "realm": "prod",
+   "well-known": null
+  },
+  "port": 443,
+  "target": "chat.example.com",
+  "zone": "example.com"
+ },
+ "sig": "eyJhbGciOiJFUzI1NiIsImtpZCI6ImsxIiwidHlwIjoiSldUIn0.eyJhbHBuIjoiYTJhIiwiZXhwIjoxNzkwMDg2NDAwLCJmcWRuIjoiX2NoYXQuX2EyYS5fYWdlbnRzLmV4YW1wbGUuY29tIiwiaWF0IjoxNzg5OTk5OTQwLCJwb3J0Ijo0NDMsInN2Y2IiOiJuYWNEOENWZjRfeXR0QmZaN09FT2FfYmk0SHlmQTNIV3Y3NlU3NEliWE13IiwidGFyZ2V0IjoiY2hhdC5leGFtcGxlLmNvbSJ9.dMwdeS4gYswowg-x1vL5DIudnh311aGmxR9aZe6d5NYGVaqcQn2kU1cvAO-Y7MW2MA2ZojTYWu3xCT7w7M_4Yg"
+}

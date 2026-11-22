@@ -17,6 +17,7 @@ from dataclasses import dataclass, field
 from pathlib import Path
 
 from . import __version__, dsse
+from .evidence_semantics import NO_RECORDS
 
 PREDICATE_TYPE = "https://github.com/probityai/agent-evidence-vectors/blob/main/packages/admission/docs/CONFORMANCE-RESULT.md"
 STATEMENT = "https://in-toto.io/Statement/v1"
@@ -112,7 +113,7 @@ def _score_problems(scores: object) -> list[str]:
         ints = isinstance(score, dict) and all(
             isinstance(score.get(k), int) and not isinstance(score.get(k), bool) and score[k] >= 0 for k in ("passed", "total")
         )
-        if not ints or not isinstance(score.get("role"), str) or not score["role"] or score["passed"] > score["total"]:
+        if not ints or not isinstance(score.get("role"), str) or not score["role"] or score["passed"] > score["total"] or score["total"] == 0:
             problems.append("field-invalid:scores")
             break
     return problems
@@ -179,6 +180,8 @@ def run_corpus(manifest: dict, command: Sequence[str], base: Path, timeout: floa
     Exit 0 is accept, exit 1 is refuse, anything else (including a timeout or a command that will
     not start) is ``errored``, so a broken implementation never reads as a refusal.
     """
+    if not manifest["cases"]:
+        raise ValueError(f"the manifest has no cases: {NO_RECORDS}")
     results = []
     for case in manifest["cases"]:
         verdict = "errored"

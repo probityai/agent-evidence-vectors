@@ -43,6 +43,10 @@ from typing import Any
 from cryptography.exceptions import InvalidSignature
 from cryptography.hazmat.primitives.asymmetric.ed25519 import Ed25519PublicKey
 
+_REPO = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+sys.path.insert(0, os.path.join(_REPO, "packaging"))
+from agent_evidence_vectors import strictjson  # noqa: E402
+
 HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, HERE)
 
@@ -1170,7 +1174,7 @@ def _schema_from_spec() -> dict[str, Any]:
     found = re.search(r"^## Schema\n\n```jsonc\n(.*?)\n```", text, re.S | re.M)
     if found is None:
         raise SystemExit(f"{PREDICATE_SPEC_PATH} carries no Schema block to check against")
-    schema: dict[str, Any] = json.loads(found.group(1))
+    schema: dict[str, Any] = strictjson.loads(found.group(1))
     return schema
 
 
@@ -1246,14 +1250,14 @@ def check_schema_spellings(manifest: dict[str, Any]) -> None:
     # The optional codeDigest member's cases live in the interop profile rather
     # than in this corpus, and the Schema block governs them all the same.
     with open(os.path.join(CODE_DIGEST_PROFILE, "MANIFEST.json"), encoding="utf-8") as fh:
-        profile = json.load(fh)
+        profile = strictjson.load(fh)
     accepted += [
         (f"code-digest/{entry['id']}", os.path.join(CODE_DIGEST_PROFILE, entry["file"]))
         for entry in profile["vectors"]
         if entry["expected"]["verdict"] == "valid"
     ]
     with open(os.path.join(INVOCATION_BINDING_PROFILE, "MANIFEST.json"), encoding="utf-8") as fh:
-        profile = json.load(fh)
+        profile = strictjson.load(fh)
     accepted += [
         (
             f"invocation-binding/{entry['id']}",
@@ -1265,8 +1269,8 @@ def check_schema_spellings(manifest: dict[str, Any]) -> None:
     seen: set[str] = set()
     for slug, path in accepted:
         with open(path, encoding="utf-8") as fh:
-            envelope = json.load(fh)
-        statement = json.loads(base64.b64decode(envelope["payload"]))
+            envelope = strictjson.load(fh)
+        statement = strictjson.loads(base64.b64decode(envelope["payload"]))
         _walk_spellings(schema, statement, "$", seen, FAILURES, slug)
     for path in sorted(declared_paths - seen):
         FAILURES.append(
@@ -1429,7 +1433,7 @@ def check_counts(manifest: dict[str, Any]) -> None:
 
 def main() -> None:
     with open(os.path.join(HERE, "MANIFEST.json"), encoding="utf-8") as fh:
-        manifest = json.load(fh)
+        manifest = strictjson.load(fh)
     for entry in manifest["vectors"]:
         check_member(manifest, entry)
     check_twins(manifest)

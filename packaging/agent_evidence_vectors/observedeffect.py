@@ -48,7 +48,6 @@ which is the single implementation in this distribution and must stay so.
 from __future__ import annotations
 
 import argparse
-import base64
 import datetime
 import hashlib
 import importlib
@@ -66,6 +65,8 @@ if __package__ in (None, ""):
     # Run as a script from a checkout: make the package importable by name, and
     # put the rail's directory on the path so the Ed25519 borrowed below resolves.
     sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
+from agent_evidence_vectors import strictb64, strictjson  # noqa: E402
 
 SUITE = "observed-effect-conformance"
 STATEMENT_TYPE = "https://in-toto.io/Statement/v1"
@@ -1213,7 +1214,7 @@ def verify(raw: bytes, policy: Policy, *, disabled: str | None = None) -> Report
         envelope = json.loads(
             raw, object_pairs_hook=_no_duplicates, parse_constant=_no_constant
         )
-        payload = base64.b64decode(envelope["payload"], validate=True)
+        payload = strictb64.std(envelope["payload"])
         statement = json.loads(
             payload,
             object_pairs_hook=_no_duplicates,
@@ -1262,7 +1263,7 @@ def _apply_rules(state: _State, disabled: str | None) -> Report | None:
 def _verify_envelope(envelope: dict[str, Any], payload: bytes, state: _State) -> Report:
     """The last gate, after every carried-bytes rule held."""
     try:
-        signature = base64.b64decode(envelope["signatures"][0]["sig"], validate=True)
+        signature = strictb64.std(envelope["signatures"][0]["sig"])
         public_key = bytes.fromhex(state.policy.observer_public_key)
     except Exception:
         return Report("malformed", ["envelope-signature-unreadable"], state.derived_tier)
@@ -1500,8 +1501,8 @@ def _blob_is_named(directory: str, manifest: dict[str, Any], digest: str) -> boo
     for entry in manifest.get("vectors", []):
         try:
             with open(os.path.join(directory, str(entry.get("file", ""))), "rb") as handle:
-                envelope = json.load(handle)
-            payload = base64.b64decode(envelope["payload"], validate=True)
+                envelope = strictjson.load(handle)
+            payload = strictb64.std(envelope["payload"])
         except Exception:
             continue
         if digest.encode("ascii") in payload:
@@ -1593,7 +1594,7 @@ def corpus_digest(manifest: dict[str, Any], root: str) -> str:
 
 def judge(directory: str) -> Judged:
     with open(os.path.join(directory, "MANIFEST.json"), encoding="utf-8") as handle:
-        manifest = json.load(handle)
+        manifest = strictjson.load(handle)
     judged = Judged()
     policy, notes, findings = _policy(directory, manifest)
     judged.notes.extend(notes)

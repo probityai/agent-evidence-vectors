@@ -44,7 +44,14 @@ meta:
     incident_response section.
     Since 0.10.0 it names the identity provider behind the issuer of a
     validated principal and whether the issuer's key was pinned, in the
-    principal_identity section. It does not define reputation, wallet,
+    principal_identity section. Since 0.10.0 it also names the fields a signed
+    record of one allow-or-refuse decision carries, in the decision_receipt
+    section: the verdict and its strictness order, what the decision was made
+    over, in what world, as one of how many, and one fact a provider can
+    re-check. Since 0.10.0 it also names how the bytes of a record are
+    canonicalized, hashed, ordered and signed and whose key may sign them, in
+    the record_binding section, and how a verdict a record states about
+    itself is re-derived, in the evaluation_claim section. It does not define reputation, wallet,
     reasoning-integrity or actor-scoring terms; those are out of scope by
     design (see out_of_scope below).
   promotion_lifecycle: >
@@ -1162,6 +1169,55 @@ posture_and_coverage:
       interval already carried; this term states the condition under which the
       upper bound has already passed. The pair is what lets a reader tell a
       current claim from an old one whose subject moved.
+
+  revocation_establishment:
+    status: proposed
+    criticality: critical
+    review_by: "2027-05-21"
+    values: [recorded, not_recorded, query_failed, cross_federation_unsynchronised, undetermined]
+    value_definitions:
+      recorded: "A revocation of the credential is on a ledger the verifier checked, inside the interval asked about: the chain from the interval's start to a signed, timestamped checkpoint is unbroken and carries the event."
+      not_recorded: "The ledger the verifier checked holds no revocation of the credential inside the interval: the chain is unbroken, a signed and timestamped checkpoint covers the end of the interval, and the ledger holds no event for the credential inside the interval, listed or not. It says no revocation was recorded and never that none was decided."
+      query_failed: "The question could not be put to the ledger: the call timed out, errored or returned nothing a verifier can read. Nothing is established about the credential, and a failed query is never read as an empty interval."
+      cross_federation_unsynchronised: "The credential's ledger belongs to a federation the verifier's own checkpoint does not cover, and no synchronisation record bridges the two, so a missing event may only mean the federations have not yet exchanged it."
+      undetermined: "The record gives the verifier too little to reach another value, or fails one of its checks: a signature that does not verify, a chain that is broken, a checkpoint that stops short of the interval or carries no time. It is the fallback and is never read as not_recorded."
+    definition: >
+      How far a verifier established whether a credential was revoked inside a
+      stated interval of a ledger it did not write, with the evaluation time
+      carried beside the value. Closed and fail-closed: an absent or
+      unregistered value makes the statement malformed, and a record that does
+      not support another value is undetermined. The value is about the ledger
+      and not about the world. not_recorded means that no revocation event is
+      on the checked ledger inside the interval, and a revocation decided and
+      never logged cannot show here, so it is not evidence that the credential
+      was never revoked. It is unrelated to the not_recorded value a
+      producer writes for a tool-call argument it chose not to record, which is
+      a value of a different term; this one is read only with the interval,
+      the ledger and the checkpoint it names.
+    check: >
+      A verifier checks, in order, that the query returned an answer
+      (query_failed otherwise), that the ledger's federation is the verifier's
+      or a synchronisation record bridges to it (cross_federation_unsynchronised
+      otherwise), that the statement and the checkpoint verify under the
+      ledger's key, that the checkpoint carries a signing time and covers the
+      end of the interval, that every event verifies and links to the one
+      before, and that the checkpoint names the head it holds. A failure of
+      any of these is undetermined. It then reads the events for the credential
+      inside the interval from the ledger itself, never from the statement:
+      one revocation makes the value recorded, whatever the statement lists;
+      none makes it not_recorded.
+    source_path: "predicate.revocationEstablishment.value (declared); derived from the ledger events inside the interval and the signed checkpoint"
+    issuers_in_production: []
+    promotion_trigger: "An independently maintained registry or ledger that is not us emits one of these values for a revocation query, with the interval and the evaluation time, in a signed record and files a crosswalk with evidence: emitted."
+    why_this_registry: >
+      A revocation registry answers a verifier's question about one credential
+      and one interval, and the answer a relying party most often needs is the
+      empty one: nothing was recorded. A relying party that cannot tell an
+      empty interval over an unbroken, checkpointed chain from a failed query,
+      from a ledger in another federation and from a chain with a hole in it
+      reads all four the same way, as nothing to worry about. Naming the five
+      states, with undetermined as the fallback, keeps the weak ones from
+      passing as the strong one.
 
 # outcome_lattice: the recomputable verdict a consumer derives, never a
 # policy threshold and not producer-asserted.
@@ -2406,20 +2462,24 @@ principal_identity:
     review_by: "2027-05-08"
     values: [pinned_before_first_call, unpinned]
     value_definitions:
-      pinned_before_first_call: "The client held the RFC 7638 SHA-256 thumbprint of the issuer key in its configuration before its first call to the issuer and refused any key whose thumbprint differed."
+      pinned_before_first_call: "The client held a pin set for the issuer, one or more RFC 7638 SHA-256 thumbprints at an epoch, in its configuration before its first call to the issuer and refused any key whose thumbprint was not in the set."
       unpinned: "The client trusted whatever key the issuer's JWKS served at the time, with no thumbprint configured."
     definition: >
       Whether the client that obtained the token pinned the issuer's signing
-      key by its RFC 7638 thumbprint before its first call. A pin is all or
-      nothing: a configuration that pins one issuer and leaves another
-      unpinned, or names two thumbprints for one issuer, is malformed and is
-      never read as pinned. A pin is never downgraded: on a thumbprint
-      mismatch or a failed key fetch the client refuses, and does not fall
-      back to the unpinned path. Closed and fail-closed.
+      key by its RFC 7638 thumbprint before its first call. A pin is a set of
+      thumbprints at an epoch, a positive integer that only grows, so a next
+      key can be pinned beside the current one before rotation. A pin is all
+      or nothing: a configuration that pins one issuer and leaves another
+      unpinned, or names two different sets for one issuer at one epoch, is
+      malformed and is never read as pinned. A pin is never downgraded: a set
+      at an epoch below the one the client already reached is refused, and on
+      a thumbprint outside the set or a failed key fetch the client refuses
+      and does not fall back to the unpinned path. Closed and fail-closed.
     check: >
       A verifier reads pinned_before_first_call only when the record carries
-      the configured thumbprint and it equals principal.keyThumbprint, which
-      the verifier recomputes from principal.key. A record claiming a pin
+      the configured thumbprint that matched, a member of the issuer's pin
+      set, and it equals principal.keyThumbprint, which the verifier
+      recomputes from principal.key. A record claiming a pin
       whose thumbprint differs, or a mixed configuration, is refused. A
       relying party that requires a pin refuses unpinned.
     source_path: "predicate.principal.keyThumbprint compared with the configured pin at predicate.principal.pinnedThumbprint"
@@ -2431,6 +2491,1191 @@ principal_identity:
       pin fails has no pin at all. Naming the two states, with mixed and
       downgraded configurations refused, lets a reader tell a client that
       would have caught a swapped issuer key from one that would not.
+
+  key_publisher:
+    status: proposed
+    criticality: critical
+    review_by: "2027-05-21"
+    values: [agent_origin, verifier_chosen_issuer]
+    value_definitions:
+      agent_origin: "The key set the verifier used was published by the agent's own origin: the agent, or the party that deployed it, serves the keys that vouch for its signatures, and the verifier reached them through the origin the agent named."
+      verifier_chosen_issuer: "The key set the verifier used was published by an issuer or network the verifier chose before it saw the agent's record, and the agent's own origin had no part in serving it."
+    definition: >
+      Which party publishes the key set a verifier trusts for a signed
+      payment instruction or credential: the agent's own origin, or an issuer
+      or network the verifier selected independently. It is read beside
+      issuer_key_pinning, and the two together answer which origin vouches for
+      the key and whether the verifier pinned it somewhere else first. A key
+      set the agent's origin serves proves only that the origin holds the key,
+      so a verifier that requires an independent publisher refuses agent_origin.
+      Closed and fail-closed.
+    check: >
+      A verifier derives the value from where it fetched the key set: the same
+      origin the agent presented, or a registry, issuer or network it was
+      configured with before the record arrived. A record whose declared value
+      differs from the derived one is refused, never reconciled. A key set
+      fetched from an origin the verifier cannot classify is malformed. A
+      relying party that requires an independent publisher refuses agent_origin.
+    source_path: "predicate.principal.keyPublisher (declared); derived from the origin the key set was fetched from"
+    issuers_in_production: []
+    promotion_trigger: "An independently maintained payment or agent gateway that is not us records which party published the key set it trusted in a signed record and files a crosswalk with evidence: emitted."
+    why_this_registry: >
+      A rail that resolves keys from whatever the agent points at trusts the
+      agent's claim about itself, while one that resolves them from an issuer
+      or network it chose has a second party vouching. Naming the two states
+      lets a dispute reader tell which kind of key lookup stood behind a
+      mandate without trusting each vendor's label.
+
+# decision_receipt: the fields a signed record of one allow-or-refuse decision
+# carries so that a party who does not trust the decision point can check what
+# it decided over, in what world and as one of how many. Every term here is a
+# state a verifier derives from which fields are present and what they equal.
+# The load-bearing rule across the section: an absent field and an empty one are
+# different claims, and a zero-filled digest is never a stand-in for either.
+# upstream_receipt is the one term about a second party: a provider that
+# answered the call can be asked, at a re-check address, whether it agrees.
+decision_receipt:
+
+  decision_verdict:
+    status: proposed
+    criticality: critical
+    review_by: "2027-05-10"
+    values: [allow, constrain, require_approval, block, halt]
+    value_definitions:
+      allow: "The action may run as proposed."
+      constrain: "The action may run only after the decision point rewrites it as the record states; the bytes bound by the permit are the rewritten bytes."
+      require_approval: "The action waits for a named approver other than the proposer; until the approval is recorded it is not allowed."
+      block: "This one action is refused. The run may continue with other actions. A two-valued decision that says deny is read as block."
+      halt: "The action is refused and the run ends; no later action of the run is allowed without a new run."
+    definition: >
+      The outcome a decision point reached for one proposed action, in a fixed
+      strictness order from least to most strict: allow, constrain,
+      require_approval, block, halt. When more than one policy answers the same
+      action, the strictest verdict wins, the same way in every verifier, and a
+      verifier reports every policy that answered at the winning verdict. A
+      check that failed without producing a verdict of its own, such as a
+      content guardrail, is read as block. An unregistered verdict, a
+      differently spelled one and an empty set of answers are never read as
+      allow. Closed and fail-closed.
+    check: >
+      A verifier orders the verdicts by the strictness order above and returns
+      the strictest, with the policies that gave it sorted by identifier. It
+      returns no decision, never allow, for an empty set, and refuses an
+      unregistered or differently spelled verdict as malformed. It treats deny
+      from a two-valued decision point as block and allow as allow.
+    source_path: "predicate.decision.verdict (one per policy); the resolved verdict at predicate.decision.resolved"
+    issuers_in_production: []
+    promotion_trigger: "An independently maintained decision point that is not us emits a resolved verdict from this order in a signed record and files a crosswalk with evidence: emitted."
+    why_this_registry: >
+      Decision points already return a verdict from a small closed set, each
+      with its own spelling and its own answer to what wins when two policies
+      disagree. A reader comparing two vendors' records otherwise has to
+      reverse-engineer the tie-break from code. One order, stated once and
+      checked by vectors, lets two verifiers resolve the same conflict to the
+      same answer.
+
+  request_commitment:
+    status: proposed
+    criticality: critical
+    review_by: "2027-05-10"
+    values: [committed, uncanonicalizable]
+    value_definitions:
+      committed: "The record carries the SHA-256 of the canonical bytes of the request the decision was made over."
+      uncanonicalizable: "The decision point could not canonicalize the request, and the record carries no request digest."
+    definition: >
+      Whether the decision is bound to the bytes of the request it judged. A
+      digest is carried only when the request was canonicalized. When it was
+      not, the field is omitted, never null and never filled with zero bytes,
+      so that a missing commitment cannot be read as one over an empty or
+      zero request. A verifier that holds the request recomputes the digest and
+      refuses a record whose digest differs.
+    check: >
+      A verifier reads committed only when the field is a 64-hex SHA-256 that is
+      not all zeros, and refuses a null, an empty string and a zero-filled
+      digest as malformed. It reads an omitted field as uncanonicalizable and
+      says so; a relying party that requires a commitment refuses
+      uncanonicalizable. Given the request bytes, it recomputes the digest and
+      refuses a mismatch.
+    source_path: "predicate.decision.requestHash"
+    issuers_in_production: []
+    promotion_trigger: "An independently maintained decision point that is not us records a request digest, or its absence, by this rule in a signed record and files a crosswalk with evidence: emitted."
+    why_this_registry: >
+      A decision record that says allowed without saying over what is
+      unfalsifiable: any request can be claimed after the fact. A digest turns
+      the claim into a check, and the rule that an absent digest is omitted and
+      not zero-filled keeps a failed canonicalization from looking like a
+      commitment.
+
+  policy_commitment:
+    status: proposed
+    criticality: critical
+    review_by: "2027-05-10"
+    values: [committed, not_committed]
+    value_definitions:
+      committed: "The record carries the SHA-256 of the policy configuration in force at decision time."
+      not_committed: "The record carries no digest of the policy configuration."
+    definition: >
+      Whether the record names, by digest, the policy configuration the
+      decision point applied. Without it two decisions that differ only because
+      the policy changed between them cannot be told apart from one that was
+      wrong. The digest is over the canonical bytes of the configuration and a
+      verifier holding the configuration recomputes it.
+    check: >
+      A verifier reads committed only when the field is a 64-hex SHA-256 that is
+      not all zeros, and reads an omitted field as not_committed. Given the
+      configuration bytes it recomputes the digest and refuses a mismatch. A
+      relying party that requires a policy commitment refuses not_committed.
+    source_path: "predicate.decision.policyDefinitionHash"
+    issuers_in_production: []
+    promotion_trigger: "An independently maintained decision point that is not us records the digest of the policy it applied in a signed record and files a crosswalk with evidence: emitted."
+    why_this_registry: >
+      A decision is a function of its policy. A record that omits the policy
+      leaves a reader to trust the decision point's own account of what it was
+      enforcing when it decided.
+
+  trust_root_commitment:
+    status: proposed
+    criticality: critical
+    review_by: "2027-05-10"
+    values: [committed, not_committed]
+    value_definitions:
+      committed: "The record carries the SHA-256 of the set of trusted roots the decision point honoured at decision time."
+      not_committed: "The record carries no digest of the trusted root set."
+    definition: >
+      Whether the record names, by digest, the set of issuers the decision
+      point was trusting when it decided. The chain embedded in a record shows
+      which root issued the authority, and not that the decision point had any
+      business trusting that root. The digest is over the canonical bytes of
+      the sorted root set.
+    check: >
+      A verifier reads committed only when the field is a 64-hex SHA-256 that is
+      not all zeros, and reads an omitted field as not_committed. Given the
+      root set it recomputes the digest over the roots sorted by their
+      encoding and refuses a mismatch. A relying party that holds its own root
+      set refuses a record whose digest names a different one.
+    source_path: "predicate.decision.trustedRootsHash"
+    issuers_in_production: []
+    promotion_trigger: "An independently maintained decision point that is not us records the digest of its trusted root set in a signed record and files a crosswalk with evidence: emitted."
+    why_this_registry: >
+      With the policy digest and the revocation view, the trusted root set pins
+      the world the decision point was operating in. A record without it says a
+      credential was valid and leaves open who the decision point believed
+      could vouch for it.
+
+  revocation_list_in_force:
+    status: proposed
+    criticality: critical
+    review_by: "2027-05-10"
+    values: [versioned_list, unversioned_list, no_list_loaded]
+    value_definitions:
+      versioned_list: "The decision point held a revocation list that carries a monotonic version; the record carries the list digest and the version."
+      unversioned_list: "The decision point held a revocation list with no version; the record carries the list digest and no version."
+      no_list_loaded: "The decision point held no revocation data; the record carries neither a digest nor a version."
+    definition: >
+      Which revocation data the decision point held when it decided. Holding no
+      list and holding a list that revoked nothing are different claims: the
+      first says revocation was never consulted, the second says it was
+      consulted and did not match. A list that revoked nothing still has a
+      digest, the digest of the empty list's canonical bytes, and so is never
+      no_list_loaded. Without this term a stale or absent list is
+      indistinguishable from a current one.
+    check: >
+      A verifier derives the value from which fields are present: a list digest
+      with a version is versioned_list, a list digest with no version is
+      unversioned_list, and neither is no_list_loaded. A version with no digest,
+      a zero-filled digest and a null in either field are malformed. A relying
+      party that requires revocation to have been consulted refuses
+      no_list_loaded and accepts a versioned_list whose digest is the digest of
+      the empty list. A verifier holding a published list recomputes its
+      digest and refuses a mismatch.
+    source_path: "predicate.decision.revocationListHash and predicate.decision.revocationListVersion"
+    issuers_in_production: []
+    promotion_trigger: "An independently maintained decision point that is not us records which revocation list it held, or that it held none, in a signed record and files a crosswalk with evidence: emitted."
+    why_this_registry: >
+      Without it, "the credential was not revoked when this ran" cannot be
+      falsified. revocation_state says what a relying party observed after a
+      revocation was issued; this says what the decision point knew when it
+      decided.
+
+  receipt_chain_link:
+    status: proposed
+    criticality: critical
+    review_by: "2027-05-10"
+    values: [first, linked, unchained]
+    value_definitions:
+      first: "The record is the first one its signer emitted in the chain and carries no previous digest."
+      linked: "The record carries the SHA-256 of the previous record its signer emitted."
+      unchained: "The signer does not chain its records."
+    definition: >
+      Whether a record names, by digest, the record its signer emitted before
+      it, so that deleting a record breaks every record after it. Individually
+      valid records do not make a set of records whole: a decision point can
+      decline to emit a record for a decision it would rather forget. A chain
+      proves its middle and its start; it proves nothing about newer records
+      cut from the end, so a verifier states the end it could not establish
+      unless the consumer holds the last digest and the count outside the
+      signer's reach. A chain is read in order, a repeated record is refused,
+      and two records that claim the same predecessor are a fork.
+    check: >
+      A verifier walks the records in the order they were emitted. It refuses a
+      linked record whose previous digest is not the digest of the record before
+      it, a record that appears twice and two records naming one predecessor.
+      It reads a stream whose first record carries a previous digest as
+      starting mid-chain, and a later record with no previous digest as a
+      reset, which it reports as unchained and never as continuous. It reports
+      an end it could not establish when no head anchor was supplied, and
+      refuses a stream whose last digest or count differs from a supplied
+      anchor.
+    source_path: "predicate.decision.previousReceiptHash"
+    issuers_in_production: []
+    promotion_trigger: "An independently maintained decision point that is not us emits a hash-chained record stream and a verifier that is not ours checks it by this rule, filing a crosswalk with evidence: emitted."
+    why_this_registry: >
+      A chain walker that keys records by digest in a set accepts a repeated
+      record and a reordered stream, and one that stops at the last link cannot
+      see a cut tail. Stating order, duplicate, fork and end as the rules makes
+      the claim rise from "this decision happened" to "these are all the
+      decisions up to a stated end".
+
+  possession_proof:
+    status: proposed
+    criticality: critical
+    review_by: "2027-05-10"
+    values: [bound, absent]
+    value_definitions:
+      bound: "The record carries the holder's proof-of-possession signature over this invocation."
+      absent: "The record carries no proof-of-possession signature."
+    definition: >
+      Whether an allow carries the holder's own proof that it held the key for
+      this invocation, signed over the request and a time window. The proof is
+      what anchors the decision instant: the holder signs the window and the
+      window is recomputed from the record's timestamp, so the instant is
+      attested by a key the decision point does not hold. An allow with no
+      proof is evidence of the signer's word alone.
+    check: >
+      A verifier reads bound only when the field is a signature of the length
+      the scheme names, verifies it against the holder key the record's
+      authority names over the request digest and the window recomputed from
+      the record's timestamp, and refuses an allow whose proof is absent or
+      does not verify. The same proof carried by two allows is a replay and
+      the second is refused.
+    source_path: "predicate.decision.possessionSignature"
+    issuers_in_production: []
+    promotion_trigger: "An independently maintained decision point that is not us records the holder's possession signature with each allow in a signed record and files a crosswalk with evidence: emitted."
+    why_this_registry: >
+      Delegated authority is only as good as the proof that the holder was the
+      one asking. Recording the proof beside the decision lets a third party
+      check the instant and refuse a replayed one.
+
+  decision_code:
+    status: proposed
+    criticality: critical
+    review_by: "2027-05-10"
+    values: null
+    definition: >
+      A canonical kebab-case name for why a decision was not allow, drawn from a
+      list the decision point publishes. It is required whenever the verdict is
+      not allow and absent when it is allow. It never holds free text, an
+      argument value or an identifier from the request, because the field is
+      meant to be safe to retain indefinitely.
+    check: >
+      A verifier matches the value against ^[a-z][a-z0-9]*(-[a-z0-9]+)*$ with at
+      most 64 characters, refuses a record whose verdict is not allow and whose
+      code is absent, refuses one whose verdict is allow and whose code is
+      present, and refuses a code that is not in a code list the relying party
+      holds when it holds one.
+    source_path: "predicate.decision.code"
+    issuers_in_production: []
+    promotion_trigger: "An independently maintained decision point that is not us records a canonical refusal code with each refusal in a signed record and files a crosswalk with evidence: emitted."
+    why_this_registry: >
+      A refusal reason in prose leaks arguments into a long-lived record and
+      cannot be counted. A closed grammar keeps the field retainable and lets
+      a reader tally refusals by cause.
+
+  enforcement_point_label:
+    status: proposed
+    criticality: informational
+    review_by: "2027-05-10"
+    values: null
+    definition: >
+      A human-readable label a deployment gives to an enforcement point. It is
+      descriptive only: the signer's key is the identity and the only field a
+      verifier keys trust on. Two enforcement points may carry one label and a
+      label may change while the key stays.
+    check: >
+      A verifier never uses the label as a lookup key into a registry of
+      signers, never reports a record as coming from a labelled enforcement
+      point on the label alone, and reports the label next to the key it was
+      signed under.
+    source_path: "predicate.decision.enforcementPointLabel"
+    issuers_in_production: []
+    promotion_trigger: "An independently maintained decision point that is not us records a descriptive label next to its signing key in a signed record and files a crosswalk with evidence: emitted."
+    why_this_registry: >
+      A reader who trusts a label trusts whoever can type it. Saying in the
+      registry that the label is descriptive keeps a verifier from building
+      trust on it.
+
+  correlation_handle:
+    status: proposed
+    criticality: informational
+    review_by: "2027-05-10"
+    values: null
+    definition: >
+      An identifier the host supplies so a decision record can be matched with
+      the host's own logs: a request id, a trace or span id, a workflow
+      activity id. It is not an identity guarantee. Two invocations may carry
+      the same handle and nothing enforces uniqueness. Telling repeats apart is
+      the chain link's job, and matching a decision to its arguments is the
+      request commitment's job.
+    check: >
+      A verifier never treats two records with one handle as one decision,
+      never refuses a record because its handle repeats, and never accepts a
+      handle as proof that a decision was made over particular arguments.
+    source_path: "predicate.decision.correlationHandle"
+    issuers_in_production: []
+    promotion_trigger: "An independently maintained decision point that is not us records a host-supplied correlation handle in a signed record and files a crosswalk with evidence: emitted."
+    why_this_registry: >
+      A handle that looks like an identifier invites a verifier to key on it.
+      Saying it is correlation only stops a repeated handle from being read as
+      a replay or a single decision.
+
+  upstream_receipt:
+    status: proposed
+    criticality: critical
+    review_by: "2027-05-10"
+    values: [agrees, disagrees, unreachable, not_checked]
+    value_definitions:
+      agrees: "The verifier asked the upstream provider at the re-check address and the provider's own record of the call matches the fact the receipt states."
+      disagrees: "The verifier asked the upstream provider and its record differs from the fact the receipt states."
+      unreachable: "The verifier asked and the provider did not answer with a record, for any reason, including a record that has expired."
+      not_checked: "The verifier did not ask."
+    definition: >
+      One fact about a call, stated by the agent platform in its receipt and
+      re-checkable at the independent party that served the call. The receipt
+      names the provider, the provider's own identifier for the call (a
+      generation id) and an https re-check address. A verifier checks the one
+      fact against the provider's record without trusting the agent platform or
+      the producer of the receipt. The result is reported as one of four
+      values, and only agrees is a pass: unreachable and not_checked are never
+      counted as pass. Every failure to obtain a record, whether the call is
+      unknown, the record expired, the address answered with something other
+      than a record or the transport failed, is reported as unreachable with
+      one error text, so the answer reveals nothing about which.
+    check: >
+      A verifier refuses a receipt whose re-check address is not an https URL,
+      whose provider or generation id is empty, or whose fact is not named. It
+      fetches the address, compares the named fact with the provider's record
+      field by field, returns agrees only on equality, returns disagrees on any
+      difference, and returns unreachable for every other outcome. It counts
+      unreachable and not_checked as unchecked in any tally of passes.
+    source_path: "predicate.upstreamReceipt.{provider,generationId,recheckUrl,fact}"
+    issuers_in_production: []
+    promotion_trigger: "An independently maintained agent platform that is not us emits a provider, a generation id and a re-check address in a signed record and a verifier that is not ours re-checks it, with a crosswalk with evidence: emitted."
+    why_this_registry: >
+      Most claims in an agent platform's receipt can only be trusted on the
+      platform's word. A fact the serving provider also records, such as which
+      model actually answered, can be asked of the provider. Naming the
+      provider, the call and the address in the record turns that one claim
+      into a check, and the four outcomes keep a provider that could not be
+      reached from reading as a provider that agreed.
+
+# record_binding: how the bytes of a record are fixed, hashed, ordered, signed,
+# and whose key may sign them. Added in 0.10.0. Every term here answers one
+# question a verifier must settle before any claim inside the record is read:
+# which bytes does the digest or signature cover, under which rule were those
+# bytes produced, and was the key that signed them entitled to speak for the
+# record. A verifier that skips any one of them can be shown a valid signature
+# over bytes that are not the record it reads.
+record_binding:
+
+  canonicalization:
+    status: proposed
+    criticality: critical
+    review_by: "2027-05-15"
+    values: [rfc8785, jcs_safe_integer_v1, jcs_integer_only_v1, cbor_deterministic, raw]
+    value_definitions:
+      rfc8785: "The JSON Canonicalization Scheme of RFC 8785, applied to the parsed value. Numbers are serialized from their IEEE 754 double, so two number tokens with the same nearest double give the same bytes."
+      jcs_safe_integer_v1: "RFC 8785, plus one refusal applied to the parsed double: a number token whose nearest double is an integer of magnitude 2^53 or more is refused, whether the token was written as an integer, with a fraction or with an exponent. Fractions below that magnitude are allowed. Duplicate member names, lone surrogates and invalid UTF-8 are refused before parsing."
+      jcs_integer_only_v1: "RFC 8785 restricted to integer numbers: every number token is an integer of magnitude below 2^53, written without a fraction or an exponent, and never -0 (RFC 8785 writes it as 0, a rewrite this profile refuses). Any other number token puts the object outside this profile, which is a refusal by declared profile and not a canonicalization failure. Duplicate member names, lone surrogates and invalid UTF-8 are refused before parsing."
+      cbor_deterministic: "The deterministic encoding of RFC 8949 section 4.2.1: preferred serialization, definite lengths and map keys sorted by their encoded bytes."
+      raw: "No canonicalization: the digest or signature covers the exact bytes as transmitted or stored, and a verifier must hold those exact bytes."
+    definition: >
+      The rule that turns a record, or the object a digest names, into the
+      bytes that are hashed or signed. A digest or signature without a declared
+      canonicalization cannot be recomputed by a second party: two correct
+      implementations that guess differently get different bytes and one of
+      them reports a forgery that is not there. The two safe-integer profiles
+      are different rules, not two spellings of one: jcs_safe_integer_v1
+      allows fractions and judges the parsed double, jcs_integer_only_v1
+      refuses any fraction or exponent. A verifier never substitutes one for
+      the other, never reads plain rfc8785 as either, and never reads a
+      refusal by a declared profile as a failure of the record under rfc8785.
+    check: >
+      A verifier reads the declared value, recomputes the bytes under exactly
+      that rule and compares. It reports an undeclared canonicalization as
+      cannot tell, never as a mismatch. Under either safe-integer profile it
+      refuses a duplicate member name, a lone surrogate and invalid UTF-8
+      before it builds a value, and it refuses an input it would have to
+      rewrite to canonicalize (a respelled integer past 2^53 under
+      jcs_safe_integer_v1, any fraction, exponent or -0 under
+      jcs_integer_only_v1). An input
+      refused by the declared profile is reported as outside the profile, a
+      count of its own, and never folded into agreement or disagreement.
+    source_path: "the canonicalization member next to any digest or signature (for example evidence_ref.canonicalization, integrity.canonicalization)"
+    issuers_in_production: []
+    promotion_trigger: "An independently maintained producer that is not us writes one of these values next to a digest or signature in a real record, and a verifier that is not ours recomputes it, filing a crosswalk with evidence: emitted."
+    why_this_registry: >
+      Hand-written canonicalizers fail in the same places: a duplicate member
+      kept last-wins, a lone surrogate passed through, an integer past 2^53
+      rewritten to its neighbour. Naming the rule, and naming the subset
+      profiles as separate values, lets a verifier say which rule it judged by
+      and lets a subset implementation be scored inside its own profile.
+
+  hash_alg:
+    status: proposed
+    criticality: critical
+    review_by: "2027-05-15"
+    values: [sha_256, sha_384, sha_512]
+    value_definitions:
+      sha_256: "SHA-256 of FIPS 180-4, carried as 64 lowercase hex characters."
+      sha_384: "SHA-384 of FIPS 180-4, carried as 96 lowercase hex characters."
+      sha_512: "SHA-512 of FIPS 180-4, carried as 128 lowercase hex characters."
+    definition: >
+      The hash function a digest was computed with. It is named next to the
+      digest and never inferred from the digest's length, because two
+      functions of one length cannot be told apart by length, and a verifier
+      that guesses accepts whichever reading verifies.
+    check: >
+      A verifier refuses a digest whose length or alphabet does not match the
+      named function, refuses an unregistered function under cases 1 and 2 of
+      the open value rule, and recomputes the digest over the bytes the
+      declared canonicalization produces.
+    source_path: "the hash_alg member next to any digest"
+    issuers_in_production: []
+    promotion_trigger: "An independently maintained producer that is not us names the hash function next to each digest in a real record and files a crosswalk with evidence: emitted."
+    why_this_registry: >
+      A digest without its function is half a claim. Most records carry
+      SHA-256 by convention, and a convention is exactly what a second
+      implementation reads differently.
+
+  sequence_number:
+    status: proposed
+    criticality: critical
+    review_by: "2027-05-15"
+    values: null
+    definition: >
+      The position of a record in its producer's stream for one trajectory,
+      a non-negative integer that starts at 0 and rises by exactly 1 with each
+      record. Together with the link to the previous record's digest (the rule
+      of receipt_chain_link, applied to any stream of records) it lets a
+      verifier tell a dropped, repeated or reordered record from a complete
+      stream. The sequence number alone proves nothing: it is inside the
+      producer's reach, and only the digest link and a head held outside the
+      producer's reach make a gap visible.
+    check: >
+      A verifier refuses a stream whose numbers do not start at 0 (or at the
+      number a supplied anchor names), repeat, skip or fall, refuses a number
+      outside 0 to 2^53-1 (the anchor's starting number included), and refuses a record whose number disagrees with
+      its position in the digest chain.
+    source_path: "the seq member of a log or receipt record"
+    issuers_in_production: []
+    promotion_trigger: "An independently maintained producer that is not us numbers its records by this rule in a real stream and files a crosswalk with evidence: emitted."
+    why_this_registry: >
+      Event logs that are hashed record by record but never numbered or
+      linked let anyone delete a record without trace: every remaining record
+      still verifies. Numbering and linking are what turn a set of valid
+      records into a stream whose gaps are visible.
+
+  trajectory_head:
+    status: proposed
+    criticality: critical
+    review_by: "2027-05-15"
+    values: [witnessed, producer_signed, absent]
+    value_definitions:
+      witnessed: "The stream identity, the digest of the last record and the record count are signed by a witness key whose public half the consumer pinned and the producer does not hold."
+      producer_signed: "The stream identity, the digest of the last record and the count are signed only by the producer's own key."
+      absent: "No signed statement of the stream identity, the last record and the count exists."
+    definition: >
+      What fixes the end of a record stream. A digest chain proves its middle
+      and its start, and says nothing about records cut from the end: the
+      producer, or anyone holding its storage, can truncate the tail and every
+      remaining record still verifies. Only a head signed by a key outside the
+      producer's reach turns "these records verify" into "these are all the
+      records up to this point". producer_signed fixes the end against a
+      third party who edits storage, never against the producer itself.
+      The head names the stream it closes: a head over a digest and a count
+      alone can be presented as the end of another stream by the same
+      producer, so one stream's head would close a second, truncated one.
+      The signed bytes are the stream identity, the last digest and the
+      count under a signing domain that names the head, so a head signature
+      is never valid as a record signature or the reverse. Exactly: the
+      ASCII bytes agent-evidence/record-binding/v1/trajectory-head, one byte
+      0x0A, the stream identity, 0x0A, the last digest, 0x0A, then the count
+      in decimal ASCII digits with no sign and no leading zero, with nothing
+      after it. The identity and the digest are the exact strings the head
+      carries, UTF-8 encoded with no normalization; neither may be empty or
+      contain 0x0A, and the count is an integer in 0 to 2^53-1.
+    check: >
+      A verifier reports witnessed only when the head's signature verifies
+      under a pinned witness key, the head's stream identity equals the
+      identity the consumer asked for, the head's digest equals the digest of
+      the last record it walked and the count equals the number walked. A
+      head with no stream identity, or one naming a different stream, does
+      not close the stream being read. A head whose identity or digest
+      contains 0x0A has no signed bytes and is refused, whatever a signature
+      check reported. registry.trajectory_head applies the
+      rule and registry.trajectory_head_preimage builds the signed bytes. It reports
+      a stream with an absent head as complete only up to an end it could not
+      establish, and never as complete.
+    source_path: "the signed head object of a log (stream identity, head digest, count, signature)"
+    issuers_in_production: []
+    promotion_trigger: "An independently maintained producer that is not us publishes a witness-signed head over its record stream and files a crosswalk with evidence: emitted."
+    why_this_registry: >
+      Tail truncation is the edit no per-record check can see. Naming who
+      signed the head is the difference between a log the producer can
+      silently shorten and one it cannot.
+
+  coverage_boundary:
+    status: proposed
+    criticality: critical
+    review_by: "2027-05-15"
+    values: [declared, undeclared]
+    value_definitions:
+      declared: "The record names which events or objects the stream or digest is meant to cover, so an absent one inside the boundary is an omission and one outside it is not."
+      undeclared: "The record does not name what it is meant to cover."
+    definition: >
+      The stated extent of what a digest or a record stream covers: which
+      event kinds, which trajectory, which copy of an object. Without it an
+      absence cannot be judged: a missing event may be an omission or may
+      never have been in scope, and a digest may bind a copy of the object that
+      no consumer reads. The boundary includes which copy is covered: a digest
+      over one file while the consumer reads another binds nothing the
+      consumer uses.
+    check: >
+      A verifier reports an omission only inside a declared boundary, reports
+      completeness as cannot tell when the boundary is undeclared, and refuses
+      a digest whose covered copy differs from the copy the consumer declares
+      it reads.
+    source_path: "the coverage or scope member of a log head or evidence reference"
+    issuers_in_production: []
+    promotion_trigger: "An independently maintained producer that is not us declares the coverage boundary of its stream or digest in a real record and files a crosswalk with evidence: emitted."
+    why_this_registry: >
+      coverage_denominator says how much of a population a claim covers; this
+      says what the population is for one stream or one digest, so that a
+      verifier can tell a missing record from one that never belonged.
+
+  signature_coverage:
+    status: proposed
+    criticality: critical
+    review_by: "2027-05-15"
+    values: [full, endpoint_only, none]
+    value_definitions:
+      full: "The signature verifies and covers every member of the record a consumer acts on."
+      endpoint_only: "The signature verifies and covers only the endpoint members (name, target, port, protocol); the other members a consumer acts on are not attested."
+      none: "No signature covers the record, or the signature that is present does not verify."
+    definition: >
+      How much of a record a verifying signature actually covers. A valid
+      signature that covers part of a record is a true statement about that
+      part and no statement about the rest, and reporting it as plain verified
+      is a false statement about what was proven: whoever chooses which genuine
+      signature to replay chooses one that leaves the members they want to
+      change uncovered. A key that could not be fetched leaves the question
+      unanswered, which is cannot tell and never none.
+    check: >
+      A verifier compares the signed members with the members the consumer
+      acts on and reports full only when every one is covered. It reports
+      endpoint_only with the uncovered members named, and never folds it into
+      full. It reports an unreachable key as cannot tell, not none.
+    source_path: "the verifier's report over a signed discovery or capability record"
+    issuers_in_production: []
+    promotion_trigger: "An independently maintained verifier that is not us reports partial signature coverage as its own state on real records and files a crosswalk with evidence: emitted."
+    why_this_registry: >
+      Partial coverage is the verdict most verifiers have no word for, so it
+      is reported as success. One term with three values gives it a name that
+      a consumer can refuse.
+
+  key_authority:
+    status: proposed
+    criticality: critical
+    review_by: "2027-05-15"
+    values: [pin, dnssec_chain, kt_inclusion, none]
+    value_definitions:
+      pin: "The verifier holds the signer's public key, or its thumbprint, from a source outside the record and the record's own transport."
+      dnssec_chain: "The key is published in DNS and the verifier validated the DNSSEC chain from a trust anchor it holds to the record that carries the key."
+      kt_inclusion: "The key is in a key-transparency log and the verifier checked an inclusion proof against a log head signed by a key it holds."
+      none: "The key came only from the record itself or from an unauthenticated fetch."
+    definition: >
+      What proves that the key a signature verifies under is entitled to speak
+      for the record. A signature proves only that some key signed some bytes.
+      A key carried inside the record, or fetched over a channel the attacker
+      controls, proves nothing about who signed: a forger signs with their own
+      key and ships it alongside. A verdict that the record agrees with its
+      signer needs one of the first three values; none tops out at cannot
+      tell, however well the signature verifies.
+    check: >
+      A verifier names the authority path it used and reports agreement only
+      under pin, dnssec_chain or kt_inclusion with the path actually checked.
+      It refuses a signature under a key the record names that is not the key
+      the authority path yields. Under none it reports cannot tell and states
+      that the key was self-carried.
+    source_path: "the verifier's report (key authority path) for any signed record"
+    issuers_in_production: []
+    promotion_trigger: "An independently maintained verifier that is not us reports the authority path of the key behind each verdict on real records and files a crosswalk with evidence: emitted."
+    why_this_registry: >
+      Verifier after verifier accepts a signature without proving the key may
+      speak for the record, and reports a forgery under a foreign key as
+      verified. One closed list of authority paths makes the question
+      unavoidable and makes none visible.
+
+  signing_construction:
+    status: proposed
+    criticality: critical
+    review_by: "2027-05-15"
+    values: [ard_draft_bu_00, ai_catalog_2026_11, ai_catalog_snapshot, field_whole_entry]
+    value_definitions:
+      ard_draft_bu_00: "draft-bu-dawn-ard-discovery-00 section 3.5: the RFC 8785 canonical form of the trustManifest object minus its signature member, signed as a detached JWS string."
+      ai_catalog_2026_11: "The AI Catalog specification with ADR-0027 and ADR-0028, pinned at Agent-Card/ai-catalog commit e2b425f9e7678a5e6497c5fcff4826d906a4a605: the RFC 8785 canonical form of the trust manifest minus the immediate signature.jws and additionalSignatures members, removed non-recursively, with protected typ ai-catalog-trust-manifest+jws. The same input was defined before ADR-0028 (commit 4a341fae92ba79bebac9cbd927c4c3acbeb534c8, specification line 937) for a string signature."
+      ai_catalog_snapshot: "ADR-0028, section on signing catalog snapshots, at the same pinned commit: the RFC 8785 canonical form of the whole catalog minus the immediate root signature.jws and additionalSignatures members, removed non-recursively, with protected typ ai-catalog+jws. Nested Trust Manifests and their signatures stay in the signed bytes."
+      field_whole_entry: "Measured practice in published catalogs, defined by no normative document: the RFC 8785 canonical form of the whole catalog entry minus trustManifest.signature."
+    definition: >
+      Which bytes a signature over an agent catalog object is computed on.
+      One object family is signed three different ways in normative text and
+      in the field, and a record valid under one construction is invalid or
+      not applicable under the others. The construction is therefore a named,
+      closed parameter of every signature verdict over such an object: a
+      verdict that names no construction cannot be reproduced, and a verifier
+      that tries each construction until one verifies accepts whatever an
+      attacker can make verify under any of them.
+    check: >
+      A verifier takes the construction as an input, never searches for one,
+      refuses an unregistered construction under cases 1 and 2 of the open
+      value rule, and states in every verdict which construction it applied.
+      It reports the same object under two constructions as two verdicts.
+    source_path: "the verifier's input and report for a signed catalog object"
+    issuers_in_production: []
+    promotion_trigger: "An independently maintained catalog publisher or verifier that is not us names the construction its signature or verdict uses in a real artifact and files a crosswalk with evidence: emitted."
+    why_this_registry: >
+      Three signing inputs for one object family is a measured divergence, not
+      a hypothetical one. Until the documents converge, the only way two
+      verifiers reach one verdict is to name the input.
+
+  key_history:
+    status: proposed
+    criticality: critical
+    review_by: "2027-05-15"
+    values: [key_current, key_rotated_out, key_not_authorized_at_issue, key_revoked, key_unknown]
+    value_definitions:
+      key_current: "The signing key was authorized when the record was issued, an authorization window that holds the issuance time is still open, and the history records no revocation of the key."
+      key_rotated_out: "The signing key was authorized when the record was issued, and every window that held the issuance time has since ended, by an ordinary rotation or by a revocation whose effective time is after issuance. The record stays valid."
+      key_not_authorized_at_issue: "The signing key is known to the history, but its authorization began after the record's issuance time or ended before it by rotation. The record is refused."
+      key_revoked: "The signing key was revoked at or before the record's issuance time, or revoked afterwards for compromise with an effective time at or before issuance. The record is refused."
+      key_unknown: "The verifier holds no history that names the signing key. Nothing is decided: the result is indeterminate, never refused as forged and never accepted."
+    definition: >
+      The standing of a signing key as of the time a record was issued, read
+      from a key history the verifier holds (authorization start, rotation
+      end, revocation with its effective time and reason). It separates a key
+      rotated out after issuance, which leaves the record valid, from a key
+      that was never authorized at issuance, which makes it a forgery. Without
+      that separation a pre-rotation record and a forgery look the same, and a
+      verifier either refuses every old record or accepts every forged one.
+    check: >
+      A verifier evaluates the history at the record's issuance time, not at
+      the time of checking, and only when the issuance time is itself bound
+      by the signature. It refuses a history whose entry is not an object or
+      whose window ends (retired_at) before it starts (authorized_from),
+      never reading it as an empty window. A revocation for compromise is applied at its
+      effective time, which may precede its publication. It reads every
+      entry that names the key (a key may hold several authorization
+      windows), never only the first, so a later entry that revokes the key
+      is never hidden behind an earlier one. A key absent from the history
+      gives key_unknown and an indeterminate result.
+    source_path: "the verifier's report over a signed record, against a key history document"
+    issuers_in_production: []
+    promotion_trigger: "An independently maintained verifier that is not us reports key standing as of issuance with these distinctions on real records and files a crosswalk with evidence: emitted."
+    why_this_registry: >
+      Keys rotate. Records outlive the keys that signed them. A verifier that
+      checks keys against today's list refuses honest history; one that ignores
+      history accepts forgeries signed under a key that was never authorized.
+
+# evaluation_claim: how a verdict a record states about itself is turned into
+# a check. Added in 0.10.0. A record that says "within mandate", "passed" or
+# "authorized equals executed" is evidence only once a second party can re-derive
+# the verdict from the record's own inputs under a rule both of them can name.
+# Every term here either names that rule, names an outcome of re-deriving it, or
+# names a condition under which a stated pass is empty.
+evaluation_claim:
+
+  evaluator:
+    status: proposed
+    criticality: critical
+    review_by: "2027-05-15"
+    values: null
+    definition: >
+      The URI of a published, versioned evaluation function that turns a
+      record's recorded inputs into its verdict. The function is normative and
+      complete: it names its inputs, its output values and the order in which
+      it checks, so two implementations given the same inputs return the same
+      verdict and the same first failing dimension. A version is never edited
+      after publication; a change is a new version under a new URI. The first
+      registered evaluator is
+      https://probityai.github.io/agent-evidence-vectors/evaluator/payment-scope/v1,
+      which judges a payment against the scope a principal granted.
+    check: >
+      A verifier refuses an evaluator value that is not an absolute https URI
+      with a host (https:// alone is refused, never read as unknown),
+      re-derives the verdict when it holds the named function, and returns
+      evaluator_unknown (an indeterminate result) when it does not. It never
+      substitutes a function it holds for the one the record names.
+    source_path: "the evaluator member next to an asserted verdict"
+    issuers_in_production: []
+    promotion_trigger: "An independently maintained producer that is not us names a published evaluator next to a verdict in a real record and a verifier that is not ours re-derives it, filing a crosswalk with evidence: emitted."
+    why_this_registry: >
+      A record that asserts a verdict without naming the rule asks to be
+      trusted. Naming a published function turns the assertion into a
+      computation any party can repeat, and makes the producer's own key
+      irrelevant to whether the verdict is right.
+
+  asserted_verdict:
+    status: proposed
+    criticality: critical
+    review_by: "2027-05-15"
+    values: [rederived_agrees, asserted_verdict_contradicted, evaluator_unknown]
+    value_definitions:
+      rederived_agrees: "The verifier re-derived the verdict from the recorded inputs under the named evaluator and got the verdict the record asserts."
+      asserted_verdict_contradicted: "The re-derived verdict differs from the asserted one. The record is refused, whoever signed it."
+      evaluator_unknown: "The record names no evaluator, or one the verifier does not hold. The asserted verdict is reported and nothing is decided."
+    definition: >
+      The outcome of checking a verdict a record asserts about its own inputs.
+      A signature over an asserted verdict proves who asserted it, never that
+      it is right: the key that is entitled to sign can sign a verdict its own
+      inputs refute. So an asserted verdict is read only through re-derivation,
+      and a verifier that trusts the asserted field accepts every such record.
+    check: >
+      A verifier never reads the asserted verdict as an input to its own. It
+      recomputes the verdict under the named evaluator from the recorded
+      inputs, compares, and refuses on a difference even when the signature
+      and the key are valid. It refuses a record whose inputs the named
+      evaluator holds as malformed (missing, of another type, out of range)
+      and never re-derives a verdict from them. It refuses a record that
+      names an evaluator it holds and carries no asserted verdict, or one
+      that is not among the evaluator's output values (for payment-scope/v1,
+      within or outside, compared byte for byte), and never reports either
+      as asserted_verdict_contradicted: there is no claim to contradict.
+      Without the evaluator it reports evaluator_unknown and an
+      indeterminate result.
+    source_path: "the asserted verdict member and the evaluator member of a record"
+    issuers_in_production: []
+    promotion_trigger: "An independently maintained verifier that is not us re-derives asserted verdicts and refuses contradicted ones on real records, filing a crosswalk with evidence: emitted."
+    why_this_registry: >
+      Records that carry their own verdict are becoming common in payment
+      disputes and agent audit trails. The trusted-key-holder who signs a
+      wrong verdict is the case a signature check cannot catch and a
+      re-derivation always does.
+
+  verification_decision:
+    status: proposed
+    criticality: critical
+    review_by: "2027-05-15"
+    values: [accepted, rejected, indeterminate]
+    value_definitions:
+      accepted: "Every check the profile requires ran and passed."
+      rejected: "At least one check ran and failed."
+      indeterminate: "No check failed, and at least one required check could not be decided from what the verifier holds (an unknown evaluator, an unknown key, an unreachable source)."
+    definition: >
+      The verifier's decision on one record, with a third outcome beside
+      accept and reject. A two-valued decision forces an undecidable record
+      into one of the two: read as accepted it lets an unknown key through,
+      read as rejected it reports a forgery that is not there. indeterminate
+      is a decision in its own right, carried in the verifier's exit status
+      (0 accepted, 1 rejected, 2 indeterminate) and in its report, and never
+      counted as a pass.
+    check: >
+      A verifier returns rejected whenever any check failed, even if another
+      could not be decided; indeterminate only when none failed and one could
+      not be decided; accepted only when all were decided and passed. A tally
+      counts indeterminate separately from both.
+    source_path: "the verifier's exit status and report"
+    issuers_in_production: []
+    promotion_trigger: "An independently maintained verifier that is not us returns a three-valued decision on real records and files a crosswalk with evidence: emitted."
+    why_this_registry: >
+      Transparency receipts, payment receipts and agent records all meet the
+      key nobody can resolve and the rule nobody named. A shared third outcome
+      keeps those from being silently counted either way.
+
+  check_outcome:
+    status: proposed
+    criticality: critical
+    review_by: "2027-05-15"
+    values: [pass, fail, not_evaluated]
+    value_definitions:
+      pass: "The check ran and its condition held."
+      fail: "The check ran and its condition did not hold."
+      not_evaluated: "The check did not run: an earlier check in the profile's order failed, or its inputs were absent."
+    definition: >
+      The outcome of one check inside a verification that runs its checks in a
+      fixed order and stops at the first failure. Every check after the first
+      failure is not_evaluated, never pass: a report that lists later checks
+      as passing claims they held when they never ran. A report lists every
+      check of the profile, in order, with its outcome.
+    check: >
+      A verifier reports every check the profile names, in the profile's
+      order, refuses a report that lists a check as pass after a fail, and
+      refuses a report that omits a check the profile names. The report as a
+      whole is fail when a check failed, pass only when every check ran and
+      passed, and not_evaluated when none failed and one did not run: a
+      report of checks that did not run never reads as a pass. It refuses a
+      profile that names no check, since a pass over no checks is a pass over
+      nothing, and one that names a check twice, so one run cannot stand for
+      two.
+    source_path: "the per-check list of a verifier's report"
+    issuers_in_production: []
+    promotion_trigger: "An independently maintained verifier that is not us reports checks after the first failure as not evaluated on real records and files a crosswalk with evidence: emitted."
+    why_this_registry: >
+      A list of passes after a failure is the most common way a verifier's
+      report overstates what it checked.
+
+  vacuity_witness:
+    status: proposed
+    criticality: critical
+    review_by: "2027-05-15"
+    values: [witnessed, vacuous_pass, no_witness]
+    value_definitions:
+      witnessed: "A witness run shows the condition the property guards is reachable: at least one honest execution of the checked model or system reaches the state the property is about."
+      vacuous_pass: "The property was reported as holding, and the witness for its precondition is falsified: no honest execution reaches the guarded state, so the property holds because nothing happens. The pass is refused."
+      no_witness: "No witness was declared or run for the property."
+    definition: >
+      Whether a property reported as holding on all traces was ever exercised.
+      An all-traces property holds trivially over a model with no honest
+      trace, and a case set that counts such a result as a pass reports
+      coverage it does not have. The witness is a separate, declared check
+      that the guarded state is reachable; a pass whose witness is falsified
+      is a vacuous pass, a code of its own, and the case is recorded as not
+      run.
+    check: >
+      A verifier reads a pass as a pass only with a witnessed result for the
+      same variant. A pass with a falsified witness is refused as
+      vacuous_pass and the case is counted as not run. A pass with no witness
+      is reported as no_witness and never counted toward coverage that the
+      case set claims to have exercised. A failing result whose witness is
+      falsified is refused as contradictory: a property over an unreachable
+      guarded state has no trace that can violate it. A result or a witness
+      that is not a boolean is refused, never read by truthiness.
+    source_path: "the witness member of a case in a case set, and the verifier's per-case report"
+    issuers_in_production: []
+    promotion_trigger: "An independently maintained formal-model or test case set that is not ours declares a witness per property and a verifier that is not ours refuses vacuous passes, filing a crosswalk with evidence: emitted."
+    why_this_registry: >
+      A formal model that proves a protocol property usually proves it over
+      every variant at once, and the variants where no honest run exists pass
+      every safety property for free. The witness is the one check that tells
+      a proof from an empty one.
+
+  evidence_attribution:
+    status: proposed
+    criticality: critical
+    review_by: "2027-05-15"
+    values: [co_signed, single_signed, unattributed_evidence]
+    value_definitions:
+      co_signed: "Two parties with distinct keys signed the same record bytes, both signatures verify, and key authority lets each key speak for its own party."
+      single_signed: "One party signed the record, the signature verifies, and key authority lets the key speak for that party."
+      unattributed_evidence: "The record carries no verifying signature, a co-signature member that is present does not verify, or key authority refuses a signing key for its party; the evidence is attributed to no party."
+    definition: >
+      Which parties a record binds. Two signatures bind two parties to one
+      record. They do not prove the record true, and they do not prove the
+      two parties independent: one operator can hold both keys, and two
+      parties can agree on a false statement. A co-signature that is present
+      and does not verify is not a weaker co-signature; it makes the record
+      unattributed evidence, because the record claims a binding it does not
+      have. A signature under a key that may not speak for its party binds no
+      party either, so the value is decided with key authority: a forger who
+      signs as the agent under a key of his own makes the record unattributed
+      evidence, not co-signed.
+    check: >
+      A verifier reports co_signed only when both signatures verify under two
+      distinct keys and key authority, asked about each key with that party
+      as the subject, lets each speak for its own party; reports a present
+      signature that fails, or a key an authority refuses, as
+      unattributed_evidence; reports no value while key authority is
+      undecided; and never raises a verdict about the record's content
+      because a second signature is present.
+    source_path: "the signature and co-signature members of a receipt"
+    issuers_in_production: []
+    promotion_trigger: "An independently maintained producer that is not us emits co-signed receipts and a verifier that is not ours checks both signatures by this rule, filing a crosswalk with evidence: emitted."
+    why_this_registry: >
+      Co-signed receipts are read as stronger evidence than they are. Stating
+      the trust boundary in the term keeps two signatures from being read as
+      two independent witnesses of the truth.
+
+  signer_distinctness:
+    status: proposed
+    criticality: critical
+    review_by: "2027-05-15"
+    values: [distinct, key_named_not_signing, one_key_two_ids, own_key_as_cosigner, one_authority_threshold, below_threshold]
+    value_definitions:
+      distinct: "Every signature the record requires verifies, under a different key, and the keys resolve to different authorities."
+      key_named_not_signing: "The record names a key as a signer, and no signature in it verifies under that key, including a signer named under an identifier another named signer already uses, whose one signature cannot verify under two keys."
+      one_key_two_ids: "One key is listed under two key identifiers and counted twice toward a required number of signers."
+      own_key_as_cosigner: "The issuer's own key is listed among the signers counted toward the required number. The issuer never counts toward that number, so a record that needs the issuer and one other party states a required count of 1."
+      one_authority_threshold: "A threshold of signers is met by keys that all resolve to one authority."
+      below_threshold: "Fewer distinct keys sign than the record requires, with no key counted twice: the count is not met at all."
+    definition: >
+      Whether the signers a record counts toward a required number are
+      distinct, both as keys and as authorities. A threshold of signatures is
+      worth what the number of independent authorities behind it is worth: two
+      identifiers for one key, the issuer counted as its own cosigner, or a
+      threshold met by keys of one authority each meet the count and none of
+      them meets the purpose; a count that is simply short is a fifth
+      failure. Applies to agent capability credentials,
+      threshold-signed receipts and any record that requires more than one
+      signer.
+    check: >
+      A verifier counts a signer once per distinct key and once per distinct
+      authority, refuses a record whose required count is met only by
+      counting a key or an authority twice, refuses a named signer whose
+      signature is absent or does not verify, refuses two named signers under
+      one identifier, and reports a count of distinct keys below the required
+      number as below_threshold. It reports own_key_as_cosigner for a record
+      that lists the issuer's own key among its signers whatever the count,
+      since the issuer never counts toward it, and refuses a required count
+      that is not an integer of at least 1: a threshold of 0 is met by nobody
+      signing.
+    source_path: "the signatures, signer list and required-signer count of a record"
+    issuers_in_production: []
+    promotion_trigger: "An independently maintained verifier that is not us counts signers by distinct key and authority on real records and files a crosswalk with evidence: emitted."
+    why_this_registry: >
+      Signer counts are checked by length far more often than by identity. Four
+      failure values are the ways a count is met without independence; the
+      fifth keeps a short count from being reported as one of them.
+
+  lifecycle_binding:
+    status: proposed
+    criticality: critical
+    review_by: "2027-05-15"
+    values: [satisfied, failure, missing, not_evaluated, indeterminate]
+    value_definitions:
+      satisfied: "Every artifact in the group is admitted, authenticated under an active key binding and unique by identity, and every authorized action digest equals every executed action digest."
+      failure: "The authorized and executed digests differ among admitted, authenticated, unique, actively bound artifacts, an authorizing record disagrees with another authorizing record in the group, or an artifact in the group, or the decision it cites, does not authenticate (its signature fails, or its key is not the one its producer's binding names)."
+      missing: "The group lacks an authorizing record, an execution record, or the decision record it cites."
+      not_evaluated: "An artifact needed for the comparison, or the decision it cites, is signed under a key binding that is not active in the supplied revocation snapshot, or the execution cites an instruction no authorization in the supplied set covers."
+      indeterminate: "Two artifacts in the group share one identity; no winner is chosen and nothing is compared."
+    definition: >
+      Whether the authenticated execution report names the action the
+      authenticated control authorized, for one decision and one instruction.
+      Records are grouped by (decision, instruction). Every authorizing record
+      in the group, from the issuing and the receiving side, is compared with
+      every execution record in the group; a match on one pair proves nothing
+      about the others. Each digest is computed by the convention declared for
+      its pointer (raw or a named canonicalization), the signature suite is
+      the one the verifier-accepted key binding names (the wire algorithm
+      member is informative only), the key binding is resolved from the
+      record's producer, and a revocation snapshot is required. Hash and
+      signature pre-images are domain-separated: each is a tag naming the
+      format version, the artifact type and whether it is a hash or a
+      signature input, a line feed, then the canonical bytes, and the tags
+      come from a closed registry, so an unregistered tag fails closed and one
+      signature can never be replayed as another artifact type or as a hash.
+      The registry is exactly six ASCII tags of the form
+      agent-evidence/lifecycle-binding/v1/TYPE/PURPOSE, TYPE one of decision,
+      control or execution and PURPOSE one of hash or signature; the
+      pre-image is the tag bytes, one byte 0x0A, then the canonical bytes,
+      with nothing between them and nothing after. A v2 format is a new set
+      of tags, never a respelling of these.
+      Absent evidence is never satisfied. The claim is about records: it never says that the
+      executed bytes themselves were observed.
+    check: >
+      A verifier groups by decision and instruction, refuses to choose between
+      two artifacts with one identity (indeterminate, independent of order,
+      and for every group that holds the identity, even when the two
+      artifacts sit in different groups), refuses an artifact that lacks a
+      member or carries one of another type (authenticated is a boolean, the
+      rest are strings),
+      applies its rules in one order to every artifact of the group, the
+      cited decision record included: identity first, then an execution no
+      control covers (not_evaluated), then a missing control, execution or
+      decision record (missing), then authentication (failure), then an
+      inactive key binding (not_evaluated), then the digest comparison. It
+      reports satisfied only when every pair in the group matches, and
+      refuses an artifact of an unregistered type and never skips it. A grouping that compares the first authorization with
+      the first execution, or that reads a keyless self-hash as
+      authentication, is not this profile.
+    source_path: "the verifier's report over a set of control and execution records"
+    issuers_in_production: []
+    promotion_trigger: "An independently maintained runtime that is not us emits control and execution records a verifier that is not ours judges by this profile, filing a crosswalk with evidence: emitted."
+    why_this_registry: >
+      "Authorized is not executed" is the question a platform security team
+      asks first and the one most runtime evidence formats answer by matching
+      one pair. Grouping, identity, authentication and revocation are each a
+      way to get the answer wrong, and the five states keep an unknown from
+      reading as a match.
+
+  on_behalf_of:
+    status: proposed
+    criticality: critical
+    review_by: "2027-05-15"
+    values: null
+    definition: >
+      The party an agent acted for in the recorded action: a user, an
+      organisation or another agent, named by an identifier the relying party
+      can resolve. It is distinct from the acting entity and from the party
+      that authorized the action, and a record that names only the acting
+      entity cannot answer whose instruction was carried out. The value is a
+      claim inside the signed record, attributed to its signer, and never
+      proof that the named party consented.
+    check: >
+      A verifier refuses an empty value and an identifier it cannot parse,
+      reports the value next to the signer that attributed it, and never
+      reports the named party as the signer.
+    source_path: "the on-behalf-of member of an agent audit record"
+    issuers_in_production: []
+    promotion_trigger: "An independently maintained producer that is not us names the party acted for in a real audit record and files a crosswalk with evidence: emitted."
+    why_this_registry: >
+      Audit records name the agent and the action and leave out the person the
+      action was for, which is the first thing an investigator asks.
+
+  anchor_within:
+    status: proposed
+    criticality: critical
+    review_by: "2027-05-15"
+    values: null
+    definition: >
+      The number of seconds after a record's issuance time within which its
+      external time anchor must fall: the late bound on the anchor. It is an
+      integer between 0 and 2^53-1. The anchor's own uncertainty is added to
+      this bound by block_time_allowance where the anchor's clock lags its
+      commitment; the bound is checked with equality allowed, so an anchor
+      exactly at issuance plus anchor_within plus the allowance is in time.
+    check: >
+      A verifier refuses a value outside 0 to 2^53-1 before any arithmetic,
+      refuses an anchor later than issuance plus anchor_within plus the
+      applicable allowance, accepts one exactly at the bound, and holds one
+      vector at the bound and one a second past it.
+    source_path: "the anchorWithin member of an agent audit record"
+    issuers_in_production: []
+    promotion_trigger: "An independently maintained producer that is not us declares an anchor bound in a real record and files a crosswalk with evidence: emitted."
+    why_this_registry: >
+      An anchor proves a ceiling only if the record says how late it may be.
+      Without a stated bound a year-old anchor reads as fresh.
+
+  anchor_early_allowance:
+    status: proposed
+    criticality: critical
+    review_by: "2027-05-15"
+    values: null
+    definition: >
+      The number of seconds by which a record's external time anchor may
+      precede the record's issuance time: the early bound on the anchor. It
+      is an integer between 0 and 2^53-1. An anchor commits to bytes that
+      already exist, so an anchor earlier than issuance means the issuance
+      time was written later than the record existed, which makes the record
+      read fresher than it is, unless the anchor's clock runs behind. A block
+      header time may be set earlier than the moment its block was made, so
+      this allowance covers that clock error and nothing else. It is the
+      early bound's own allowance: block_time_allowance widens the late bound
+      only, and neither value widens the other bound.
+    check: >
+      A verifier refuses a value outside 0 to 2^53-1 before any arithmetic,
+      refuses a profile that names an anchor time but lacks this member
+      (never a default of zero or of the late allowance), refuses an anchor
+      earlier than issuance minus the allowance, accepts one exactly at the
+      bound, and holds one vector at the bound and one a second before it.
+    source_path: "the early anchor allowance of a time-anchored record or verifier profile"
+    issuers_in_production: []
+    promotion_trigger: "An independently maintained producer or verifier that is not us declares an early bound for an anchor time in a real artifact and files a crosswalk with evidence: emitted."
+    why_this_registry: >
+      A late bound alone accepts an anchor from before the record was issued,
+      so a post-dated issuance time passes every freshness check. The early
+      bound needs its own allowance, because the clock error that delays an
+      anchor is not the error that makes it read early.
+
+  block_time_allowance:
+    status: proposed
+    criticality: critical
+    review_by: "2027-05-15"
+    values: null
+    definition: >
+      The seconds added to a time bound to cover the uncertainty of the clock
+      behind an anchor, stated per bound. A block-chain header time trails the
+      commitment it carries by confirmation latency and may be set loosely by
+      the miner, so a bound compared against it needs an allowance; a bound
+      compared against a clock that states its own accuracy does not. The
+      allowance belongs to the bound it widens and is never shared: this
+      term widens the late anchor bound, anchor_early_allowance is the early
+      anchor bound's own, and neither widens the future bound on issuance.
+    check: >
+      A verifier applies the allowance only to the bound it is declared for,
+      refuses a value outside 0 to 2^53-1, and holds one vector pair per
+      bound so that removing the allowance from one bound turns that pair
+      red.
+    source_path: "the per-bound allowance of a time-anchored record or profile"
+    issuers_in_production: []
+    promotion_trigger: "An independently maintained producer or verifier that is not us declares a per-bound allowance for an anchor time in a real artifact and files a crosswalk with evidence: emitted."
+    why_this_registry: >
+      Time checks fail by sharing one tolerance between bounds that need
+      different ones. A named allowance per bound keeps each bound testable.
+
+  clock_skew_tolerance:
+    status: proposed
+    criticality: critical
+    review_by: "2027-05-15"
+    values: null
+    definition: >
+      The seconds by which a record's issuance time may lie in the verifier's
+      future. Freshness is asymmetric: the past bound is the record's maximum
+      age plus the uncertainty allowed for its clock, and the future bound is
+      the skew tolerance alone, never the maximum age. A symmetric check of the
+      absolute age against the maximum age admits a record issued up to the
+      maximum age in the future, which is a record that cannot exist yet.
+    check: >
+      A verifier refuses a value outside 0 to 2^53-1 before any arithmetic,
+      refuses a profile that lacks a bound the check needs (never a default),
+      refuses a profile member it does not define by name (a misspelled
+      allowance is never ignored), refuses a record whose issuance time is later than the check time plus
+      the skew tolerance, accepts one exactly at that bound, and never uses
+      the maximum age for the future bound.
+    source_path: "the skew tolerance of a verifier profile or record"
+    issuers_in_production: []
+    promotion_trigger: "An independently maintained verifier that is not us applies an asymmetric future bound with a stated skew tolerance on real records and files a crosswalk with evidence: emitted."
+    why_this_registry: >
+      The symmetric freshness check is the default in most code, and it lets a
+      future-dated record through. A separate term for the future bound makes
+      the asymmetry part of the record's contract.
+
+  conformance_extension:
+    status: proposed
+    criticality: informational
+    review_by: "2027-05-15"
+    values: null
+    definition: >
+      An identifier an agent card or capability document lists among its
+      declared extensions to state that the records its agent emits are
+      judged by a named corpus revision under a named verifier. The
+      identifier is this term's own URI,
+      https://w3id.org/agent-evidence/vocab/v1/conformance_extension, written
+      inside the signed card, so the statement is covered by the card's
+      signature: removing it invalidates the card. Its params object carries
+      exactly four members, each a non-empty string: corpus (the corpus
+      package name), corpus_version, verifier (the verifier package name) and
+      verifier_version. A version is one exact release in one spelling: a
+      normalized PEP 440 public version (0.7.0, 1.0rc1, 0.7.0.post1, 2.0.dev3)
+      or a SemVer 2.0.0 version without build metadata (1.0.0-rc.1). Leading
+      zeros, spellings PEP 440 normalizes away (1.0-rc1, 1.0.0alpha), an
+      epoch, a local label, build metadata and any range, operator or
+      wildcard are refused. The card lists the extension once. The statement is a claim by the card's signer that a third party
+      checks by running the named verifier on the named corpus; it is never a
+      claim that the agent behaves well.
+    check: >
+      A verifier reads the extension only inside a card whose signature
+      verifies under a key the card's own DID is authorised to use, refuses
+      params with a missing or extra member, an empty value, a version range
+      or a second listing of the extension, runs the named verifier on the
+      named corpus revision when asked, and reports the card's claim as
+      contradicted when that run does not reach the corpus's expected
+      verdicts.
+    source_path: "capabilities.extensions[] of a signed agent card, uri equal to this term's URI"
+    issuers_in_production: []
+    promotion_trigger: "An independently maintained agent that is not ours lists this extension in a signed card and files a crosswalk with evidence: emitted."
+    why_this_registry: >
+      A conformance claim in a README is unsigned and travels nowhere. Inside a
+      signed card it travels with every discovery of the agent and cannot be
+      dropped without breaking the card.
 
 system_attributes:
   values:

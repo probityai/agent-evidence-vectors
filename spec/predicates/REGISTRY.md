@@ -36,6 +36,24 @@ The predicate carries an observed effect of an execution, separately from the
 claim an executor makes about it, so that a consumer recomputes the effect from
 carried bytes instead of accepting an asserted one.
 
+### `predicate/v1/empty-interval-statement`
+
+- Document: `corpora/vectors-empty-interval-statement/README.md`
+- Corpus: `corpora/vectors-empty-interval-statement/`, suite `empty-interval-statement/v1`
+- Rails: `corpusreaders/emptyinterval.go`, `packaging/agent_evidence_vectors/emptyinterval.py`
+
+The predicate carries a revocation ledger's signed answer to one question: was this
+credential revoked between two positions of the ledger? The statement names the credential and
+the two positions, lists the events the ledger found for it (the list may be empty) and carries
+a signed, timestamped checkpoint over the ledger's head. A verifier reads the answer against the
+ledger itself and reaches one of the five values of the `revocation_establishment` vocabulary
+term, with `undetermined` as the fallback for a statement that fails a check. An empty list over
+an unbroken, checkpointed chain is `not_recorded`; it never means the credential was not revoked.
+
+- Envelope: a ledger of signed JSON events, a signed statement and a case file, not an in-toto Statement.
+- Field semantics: defined here, as a proposal; the check order and reason tokens are this corpus's own.
+- Example: `corpora/vectors-empty-interval-statement/cases/interval-empty-not-recorded/statement.json`.
+
 ### `predicate/v1/signature-coverage`
 
 - Document: `corpora/vectors-signature-coverage/README.md`
@@ -164,6 +182,62 @@ The reason must be the first applicable value of the list, none when no conditio
 applies, with null as the only permit; the observation member stays null when the relied-on
 observation is absent or not fresh, and a diagnostic read neither authorizes nor renews.
 Records are from draft-li-rttp-iqa-addressing-02 sections 6.1, 7.2, 8.1 and 8.2.
+
+- Envelope: a bare JSON record (`contractId`, `recordId`, `facts`, `response`), not an in-toto Statement.
+- Field semantics: the closed refusal set and its order are normative in draft-li-rttp-iqa-addressing-02,
+  owned by Aicent-com, who confirmed revision 02 (sha256 `02491c5a`) on 7 Nov 2026 in
+  [#492](https://github.com/probityai/agent-evidence-vectors/issues/492#issuecomment-6710136659).
+  A later revision that keeps the set and the order is a new confirmation; any change to either is a new URI.
+- Example: `corpora/vectors-refusal-reason-priority/cases/conformant-expiry-over-revocation/record.json`.
+
+### `predicate/v1/responsibility-escalation`
+
+- Document: `corpora/vectors-responsibility-escalation/README.md`
+- Corpus: `corpora/vectors-responsibility-escalation/`, suite `responsibility-escalation/v1`
+- Rails: `corpusreaders/responsibilityescalation.go`, `packaging/agent_evidence_vectors/responsibilityescalation.py`
+
+The predicate carries one agent decision and its escalation to a designated human role: the
+versions of the authority record the agent acted under, what the reference to that record
+resolved to and the instant it is read at, the evidence slots of the escalation (referral, receipt,
+acknowledgement, acceptance and, where required, closure) and the instant the receiver evaluates
+at. A receiver reconstructs what the evidence establishes and preserves unresolved states: it
+never infers authority, receipt, acceptance or closure from evidence that is absent. The nine cases
+restate the matrix on the W3C public-agent-identity list, October 2026 (messages 0035 and 0043).
+
+- Envelope: a bare JSON record (`contractId`, `recordId`, `decision`, `authority`, `escalation`, `evaluatedAt`), not an in-toto Statement.
+- Field semantics: defined here, as a proposal; the outcome tokens `established`, `partial`, `unresolved` and `not_established` are not an agreed text of any group.
+- Example: `corpora/vectors-responsibility-escalation/cases/h09-clean-path-closed-on-time/record.json`.
+### `predicate/v1/execution-billing-finality`
+
+- Document: `corpora/vectors-execution-billing-finality/README.md`
+- Corpus: `corpora/vectors-execution-billing-finality/`, suite `execution-billing-finality/v1`
+- Rails: `corpusreaders/executionbilling.go`, `packaging/agent_evidence_vectors/executionbilling.py`
+  and the runtime contract in `packaging/agent_evidence_vectors/executionbilling_runtime.py`
+
+The predicate carries one runtime's observation of one scenario against its spend ledger:
+the attempt's execution outcome, billing finality and dispatch state after the reservation,
+every step, a reopen in a fresh process and every probe. A success is not a final bill, an
+invoice is not an execution, settled billing never reopens the same attempt's dispatch
+gate, and the dispatch state is a required output that leaves RESERVED once billing
+settles. Scenarios are from the P04 execution and billing candidate (agent-evidence-lab at
+8db9989), with X1 and the dispatch-guard mutants from a non-author run of it.
+### `predicate/v1/capability-requirement`
+
+- Document: `corpora/vectors-capability-requirement/README.md`
+- Corpus: `corpora/vectors-capability-requirement/`, suite `capability-requirement/v1`
+- Rails: `packaging/agent_evidence_vectors/capabilityrequirement.py`
+
+The predicate carries one of three records. A requirement, signed before any model swap,
+states a capability apart from any model, the pinned pass thresholds with a drift tolerance
+each, and an evaluation set by its item digests, with a held-out part the assessor attests
+by commitment. A hosted-endpoint report names that requirement and one signed run, and states
+`modelIdentity` and `behaviour` as two findings: identity stays `unproven` unless the endpoint
+holds weights and the report proves their digest, and behaviour on the pinned set is
+`supported`, `contradicted` or `not_established` from the thresholds and the values the run
+can support. A held-out value counts only with the named assessor's signature for that run.
+A drift record compares two signed runs of one requirement against one endpoint and is refused
+when the runs name different requirement digests or endpoints, repeat one run, or when its
+comparison is not the one the runs give.
 
 ### `predicate/v1/evaluation-claim`
 
@@ -424,5 +498,7 @@ each day. Each document is the authority for its type.
   `corpora/vectors-agent-card-receipt/`.
 - `credential-release`: `spec/predicates/credential-release.md`, corpus
   `corpora/vectors-credential-release/`.
+- `token-grant-receipt`: `spec/predicates/token-grant-receipt.md`, checked by the
+  `token_grant_receipt/v1` claim type of `agent-evidence-verify`; no corpus yet.
 
 `spec/predicates/done-records.md` defines the records both read and no type URI.
