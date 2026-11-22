@@ -14,9 +14,9 @@ name = "w3c-report-rs"
 path = "src/main.rs"
 
 [dependencies]
-jcs-admit = "=0.1.1"
+jcs-admit = "=0.1.3"
 serde_json = { version = "1", features = ["preserve_order", "arbitrary_precision"] }
-sha2 = "0.10"
+sha2 = "0.11"
 
 [lints.rust]
 warnings = "deny"
