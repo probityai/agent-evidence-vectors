@@ -209,6 +209,7 @@ only-include = [
     "corpora/vectors-source-coverage",
     "corpora/vectors-spoofed-tool-output",
     "corpora/vectors-telemetry-evidence",
+    "corpora/vectors-status-receipt-binding",
     "corpora/vectors-test-tampering",
     "corpora/vectors-trace-anchor",
     "corpora/vectors-uncertain-effect",
@@ -295,6 +296,7 @@ exclude = [
     "corpora/vectors-source-coverage/**/*.py",
     "corpora/vectors-spoofed-tool-output/**/*.py",
     "corpora/vectors-telemetry-evidence/**/*.py",
+    "corpora/vectors-status-receipt-binding/**/*.py",
     "corpora/vectors-test-tampering/**/*.py",
     "corpora/vectors-trace-anchor/**/*.py",
     "corpora/vectors-uncertain-effect/**/*.py",
@@ -380,6 +382,7 @@ exclude = [
 "corpora/vectors-source-coverage" = "agent_evidence_vectors/corpora/vectors-source-coverage"
 "corpora/vectors-spoofed-tool-output" = "agent_evidence_vectors/corpora/vectors-spoofed-tool-output"
 "corpora/vectors-telemetry-evidence" = "agent_evidence_vectors/corpora/vectors-telemetry-evidence"
+"corpora/vectors-status-receipt-binding" = "agent_evidence_vectors/corpora/vectors-status-receipt-binding"
 "corpora/vectors-test-tampering" = "agent_evidence_vectors/corpora/vectors-test-tampering"
 "corpora/vectors-trace-anchor" = "agent_evidence_vectors/corpora/vectors-trace-anchor"
 "corpora/vectors-uncertain-effect" = "agent_evidence_vectors/corpora/vectors-uncertain-effect"
@@ -540,6 +543,7 @@ only-include = [
     "corpora/vectors-source-coverage",
     "corpora/vectors-spoofed-tool-output",
     "corpora/vectors-telemetry-evidence",
+    "corpora/vectors-status-receipt-binding",
     "corpora/vectors-test-tampering",
     "corpora/vectors-trace-anchor",
     "corpora/vectors-uncertain-effect",
