@@ -84,6 +84,7 @@ from datetime import datetime
 from pathlib import Path
 from typing import Any
 
+from agent_evidence_vectors import strictjson
 from agent_evidence_vectors.monitorcoverage import (
     ALLOW,
     DENY,
@@ -101,10 +102,12 @@ RECEIPT_CONTRACT_ID = _BASE + "blast-radius-receipt"
 ALLOWED_REASON = "containment_consistent"
 RECEIPT_REASON = "blast_radius_consistent"
 ZERO = "sha256:" + "0" * 64
+
+
 def _registry_codes() -> tuple[str, ...]:
     """The codes of refusal-code/v1, read from the registry file beside this module."""
     registry_file = Path(__file__).resolve().parent / "refusal_codes.json"
-    document = json.loads(registry_file.read_text("utf-8"))
+    document = strictjson.loads(registry_file.read_text("utf-8"))
     return tuple(entry["code"] for entry in document["codes"])
 
 
