@@ -21,6 +21,7 @@ import subprocess
 import sys
 import tempfile
 from pathlib import Path
+from typing import Any
 
 ROOT = Path(__file__).resolve().parents[1]
 HARNESS = ROOT / "packaging" / "run_vectors.py"
@@ -55,7 +56,7 @@ def harness(verifier: str, report: Path) -> tuple[int, str]:
     return done.returncode, done.stdout + done.stderr
 
 
-def _scoring_cases(entries: list[dict]) -> list[str]:
+def _scoring_cases(entries: list[dict[str, Any]]) -> list[str]:
     """Codes inside set and dating are reported, never scored, and a proposed
     member never fails a verifier. CS7, CS8, CS17, SQ5, X17 and X18 once failed
     an outside verifier whose set verdicts matched on set codes alone."""
