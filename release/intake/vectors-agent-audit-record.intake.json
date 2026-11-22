@@ -1,12 +1,12 @@
 {
   "aggregate": {
     "counts": {
-      "accept": 98,
+      "accept": 105,
       "indeterminate": 2,
-      "reject": 125
+      "reject": 128
     },
     "line": "verdict: every member behaves as MANIFEST.json declares",
-    "total": 225
+    "total": 235
   },
   "anchor": {
     "kind": "digest-list-line",
@@ -18,7 +18,7 @@
     "routine": "corpus_digest in corpora/vectors-agent-audit-record/digest.py",
     "routine-file": "corpora/vectors-agent-audit-record/digest.py",
     "serialization": "corpus-routine",
-    "sha256": "4e23b2657679aab1484add84ef82e6e5c2a8d681a8d93e4fe11981206efb767f",
+    "sha256": "bb94f0aba314bcc901872a8fe81f2f00266bf631572d3c66601e679e08697621",
     "verdicts": {
       "availability-failure": "inconclusive",
       "integrity-failure": "fail"
@@ -30,7 +30,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "3b10b36c85df2bb805bdc0199b7bf658af528377571893356c9c8d753bc6e93b"
+          "sha256": "90c44f1127698721630d36d1c495b95c865d26389456176f52b8dda855757c22"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [],
@@ -39,7 +39,7 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "3b10b36c85df2bb805bdc0199b7bf658af528377571893356c9c8d753bc6e93b"
+          "sha256": "90c44f1127698721630d36d1c495b95c865d26389456176f52b8dda855757c22"
         },
         "swapped-in": "ee181acd3e75eb3326e9bec186fa701544b5537e7885e83a0848f67633c15711",
         "test": "swap-and-re-pin"
@@ -53,7 +53,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "3b10b36c85df2bb805bdc0199b7bf658af528377571893356c9c8d753bc6e93b"
+          "sha256": "90c44f1127698721630d36d1c495b95c865d26389456176f52b8dda855757c22"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [],
@@ -62,21 +62,21 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "3b10b36c85df2bb805bdc0199b7bf658af528377571893356c9c8d753bc6e93b"
+          "sha256": "90c44f1127698721630d36d1c495b95c865d26389456176f52b8dda855757c22"
         },
         "swapped-in": "856976b53e0398f58f0d56270e38fc677791247c6cf34ca44b7397ff6e0743bb",
         "test": "swap-and-re-pin"
       },
       "path": "corpora/vectors-agent-audit-record/INDEX.md",
       "serialization": "bytes",
-      "sha256": "85a6773bffa45d447fab10b59e6f41b2a49a4c5fc69497d4201a330bd6521071"
+      "sha256": "a75c4516f40fa049341e4f43b46504924c566eb29f3e0b01e15b3f4702ee7f1c"
     },
     {
       "consumed": "unconsumed",
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "3b10b36c85df2bb805bdc0199b7bf658af528377571893356c9c8d753bc6e93b"
+          "sha256": "90c44f1127698721630d36d1c495b95c865d26389456176f52b8dda855757c22"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [],
@@ -85,21 +85,21 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "3b10b36c85df2bb805bdc0199b7bf658af528377571893356c9c8d753bc6e93b"
+          "sha256": "90c44f1127698721630d36d1c495b95c865d26389456176f52b8dda855757c22"
         },
         "swapped-in": "db98115b37430d8465de3a1b1c9f85a9e832ab9e15b8a375f741c4d656a94aad",
         "test": "swap-and-re-pin"
       },
       "path": "corpora/vectors-agent-audit-record/README.md",
       "serialization": "bytes",
-      "sha256": "506281eaca11585b5cc56bcb455734baf1f4a7accd38ce68fd46223c1f3ff582"
+      "sha256": "0efa340126baca92f8674a80990dab76e6d36cd0f2f79ec251b25cf59ee91aea"
     },
     {
       "consumed": "unconsumed",
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "3b10b36c85df2bb805bdc0199b7bf658af528377571893356c9c8d753bc6e93b"
+          "sha256": "90c44f1127698721630d36d1c495b95c865d26389456176f52b8dda855757c22"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [],
@@ -108,7 +108,7 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "3b10b36c85df2bb805bdc0199b7bf658af528377571893356c9c8d753bc6e93b"
+          "sha256": "90c44f1127698721630d36d1c495b95c865d26389456176f52b8dda855757c22"
         },
         "swapped-in": "79c713ca368ba656c7e7fe9bff5dd1187332160832ebc9661dd4783cf27d4dbe",
         "test": "swap-and-re-pin"
@@ -122,7 +122,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "3b10b36c85df2bb805bdc0199b7bf658af528377571893356c9c8d753bc6e93b"
+          "sha256": "90c44f1127698721630d36d1c495b95c865d26389456176f52b8dda855757c22"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [],
@@ -131,7 +131,7 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "3b10b36c85df2bb805bdc0199b7bf658af528377571893356c9c8d753bc6e93b"
+          "sha256": "90c44f1127698721630d36d1c495b95c865d26389456176f52b8dda855757c22"
         },
         "swapped-in": "efa2ac7ca3307bb740e22713a643c48d64b8bb70a995c1dc3d1a03d106a50750",
         "test": "swap-and-re-pin"
@@ -145,7 +145,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "3b10b36c85df2bb805bdc0199b7bf658af528377571893356c9c8d753bc6e93b"
+          "sha256": "90c44f1127698721630d36d1c495b95c865d26389456176f52b8dda855757c22"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [],
@@ -154,21 +154,21 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "3b10b36c85df2bb805bdc0199b7bf658af528377571893356c9c8d753bc6e93b"
+          "sha256": "90c44f1127698721630d36d1c495b95c865d26389456176f52b8dda855757c22"
         },
         "swapped-in": "02e98b2bda5352b1bd4bf5ec9b050d20374c51bb0b4b2db841b09dd5206744a1",
         "test": "swap-and-re-pin"
       },
       "path": "corpora/vectors-agent-audit-record/check_vectors.py",
       "serialization": "bytes",
-      "sha256": "9226d0510778dc83f81a5492c4fdbf62946f01f36d7c7de5be917832a297afd0"
+      "sha256": "b008b4c26653eae2dfd779238d182e3b5a4663a92112e8ab71430998c2ca52e8"
     },
     {
       "consumed": "unconsumed",
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "3b10b36c85df2bb805bdc0199b7bf658af528377571893356c9c8d753bc6e93b"
+          "sha256": "90c44f1127698721630d36d1c495b95c865d26389456176f52b8dda855757c22"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [],
@@ -177,7 +177,7 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "3b10b36c85df2bb805bdc0199b7bf658af528377571893356c9c8d753bc6e93b"
+          "sha256": "90c44f1127698721630d36d1c495b95c865d26389456176f52b8dda855757c22"
         },
         "swapped-in": "0ca0695c55320091581b928ccb82146043df4c2ba864fa1432e0d4cfa03d69f2",
         "test": "swap-and-re-pin"
@@ -191,7 +191,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "3b10b36c85df2bb805bdc0199b7bf658af528377571893356c9c8d753bc6e93b"
+          "sha256": "90c44f1127698721630d36d1c495b95c865d26389456176f52b8dda855757c22"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [],
@@ -200,14 +200,144 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "3b10b36c85df2bb805bdc0199b7bf658af528377571893356c9c8d753bc6e93b"
+          "sha256": "90c44f1127698721630d36d1c495b95c865d26389456176f52b8dda855757c22"
         },
         "swapped-in": "f20fa7e2324807333e826c8023127fdaefd7823918e04cc37fbd1c693ee13480",
         "test": "swap-and-re-pin"
       },
       "path": "corpora/vectors-agent-audit-record/gen_vectors.py",
       "serialization": "bytes",
-      "sha256": "578bd09427bb382ecb574b443774d3f2fea86f6f2a2be22139667768175cc959"
+      "sha256": "cec201377ec3cc4cd3cb7e0e5b5ed3e17df6ee2ffb01622564bcfb72468e17e9"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "90c44f1127698721630d36d1c495b95c865d26389456176f52b8dda855757c22"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [
+          "corpora/vectors-agent-audit-record/MANIFEST.json",
+          "corpora/vectors-agent-audit-record/gen_vectors.py"
+        ],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "90c44f1127698721630d36d1c495b95c865d26389456176f52b8dda855757c22"
+        },
+        "swapped-in": "c4d0aa56f99d02e791145d423a67f8f0b64370f3f82d01fa1ad9c7a73f7cab11",
+        "test": "swap-and-re-pin"
+      },
+      "path": "corpora/vectors-agent-audit-record/spec-vendored/draft-gilda-audit-agent-audit-record-00.txt",
+      "serialization": "bytes",
+      "sha256": "81420b90935257227212b238c3c956e51829af1d2326b4a111db00083a0967a6"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "90c44f1127698721630d36d1c495b95c865d26389456176f52b8dda855757c22"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [
+          "corpora/vectors-agent-audit-record/MANIFEST.json",
+          "corpora/vectors-agent-audit-record/gen_vectors.py"
+        ],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "90c44f1127698721630d36d1c495b95c865d26389456176f52b8dda855757c22"
+        },
+        "swapped-in": "1f1e29b5fc3425dcae2e5e82a5e92ba897adf224fa065ba062073bb1a2c1c2c2",
+        "test": "swap-and-re-pin"
+      },
+      "path": "corpora/vectors-agent-audit-record/spec-vendored/draft-gilda-audit-agent-audit-record-01.txt",
+      "serialization": "bytes",
+      "sha256": "6bcd5b2ae49fe7ee53972db0f3b349c46a1870771d29105b884323e1f94235e4"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "90c44f1127698721630d36d1c495b95c865d26389456176f52b8dda855757c22"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [
+          "corpora/vectors-agent-audit-record/MANIFEST.json",
+          "corpora/vectors-agent-audit-record/gen_vectors.py"
+        ],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "90c44f1127698721630d36d1c495b95c865d26389456176f52b8dda855757c22"
+        },
+        "swapped-in": "a17b1fb7ebb4cade033531b291626dab252132b559f11ed30ecd1642126c5ad4",
+        "test": "swap-and-re-pin"
+      },
+      "path": "corpora/vectors-agent-audit-record/spec-vendored/draft-gilda-audit-agent-audit-record-02.txt",
+      "serialization": "bytes",
+      "sha256": "40ac8c0a26633827d403cad3402fabf8cbd637aa3e5bc03055d25b641e5c8a7e"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "90c44f1127698721630d36d1c495b95c865d26389456176f52b8dda855757c22"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [
+          "corpora/vectors-agent-audit-record/MANIFEST.json",
+          "corpora/vectors-agent-audit-record/gen_vectors.py"
+        ],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "90c44f1127698721630d36d1c495b95c865d26389456176f52b8dda855757c22"
+        },
+        "swapped-in": "670fa27d90ab0c23d86176678868a24115f131d7f18be1e151afa520f4c91a10",
+        "test": "swap-and-re-pin"
+      },
+      "path": "corpora/vectors-agent-audit-record/spec-vendored/draft-gilda-audit-agent-audit-record-03.txt",
+      "serialization": "bytes",
+      "sha256": "c5d0b74686b62b5d1fd954b2dae0cf02b402c87a06efa6fc82abf8fa847ed786"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "90c44f1127698721630d36d1c495b95c865d26389456176f52b8dda855757c22"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [
+          "corpora/vectors-agent-audit-record/MANIFEST.json",
+          "corpora/vectors-agent-audit-record/gen_vectors.py"
+        ],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "90c44f1127698721630d36d1c495b95c865d26389456176f52b8dda855757c22"
+        },
+        "swapped-in": "7007caeb57a2bf199db28a05cc8629c862374458eddbb9181b1b0e93e669c95b",
+        "test": "swap-and-re-pin"
+      },
+      "path": "corpora/vectors-agent-audit-record/spec-vendored/draft-gilda-audit-agent-audit-record-04.txt",
+      "serialization": "bytes",
+      "sha256": "5592994311a3db303405eacebcb203f589b7aa083d81bcdb291a3a78d4adbde6"
     }
   ],
   "boundary": {
@@ -232,7 +362,7 @@
     "root": "corpora/vectors-agent-audit-record"
   },
   "byte-identity": {
-    "pins": 225,
+    "pins": 235,
     "serialization": "bytes"
   },
   "canonicalization": {
@@ -263,22 +393,242 @@
     "revision": {
       "kind": "source-listing",
       "paths": [
-        "aee",
-        "cmd/aee-verify",
-        "corpusreaders",
+        "aee/admission.go",
+        "aee/carried_base64.go",
+        "aee/codes.go",
+        "aee/commitments.go",
+        "aee/jcs.go",
+        "aee/merkle.go",
+        "aee/pae.go",
+        "aee/recompute.go",
+        "aee/runbinding.go",
+        "aee/statement.go",
+        "aee/tier.go",
+        "aee/types.go",
+        "aee/validity.go",
+        "aee/verify.go",
+        "cmd/aee-verify/corpus.go",
+        "cmd/aee-verify/main.go",
+        "corpusreaders/a2ajcs.go",
+        "corpusreaders/aci.go",
+        "corpusreaders/acscore.go",
+        "corpusreaders/admission.go",
+        "corpusreaders/aeecorpus.go",
+        "corpusreaders/agentaction.go",
+        "corpusreaders/agentaction_chain.go",
+        "corpusreaders/agentdecision.go",
+        "corpusreaders/agenticprocess.go",
+        "corpusreaders/aggregateaccounting.go",
+        "corpusreaders/aigeneration.go",
+        "corpusreaders/anchoredchain.go",
+        "corpusreaders/anchorstream.go",
+        "corpusreaders/approvalbinding.go",
+        "corpusreaders/artifactbinding.go",
+        "corpusreaders/auditrecord.go",
+        "corpusreaders/auditrecord_consumption.go",
+        "corpusreaders/auditrecord_datasubject.go",
+        "corpusreaders/auditrecord_dating.go",
+        "corpusreaders/auditrecord_principal.go",
+        "corpusreaders/auditrecord_sequence.go",
+        "corpusreaders/authoritydispatch.go",
+        "corpusreaders/badgevc.go",
+        "corpusreaders/budgetlineage.go",
+        "corpusreaders/canonical_base64.go",
+        "corpusreaders/capabilityrequirement.go",
+        "corpusreaders/cardreceipt.go",
+        "corpusreaders/catalogtrust.go",
+        "corpusreaders/changeadmission.go",
+        "corpusreaders/chunkedexport.go",
+        "corpusreaders/common.go",
+        "corpusreaders/completionconfirmation.go",
+        "corpusreaders/connectorscope.go",
+        "corpusreaders/containmentjournal.go",
+        "corpusreaders/contextdiscovery.go",
+        "corpusreaders/controldecision.go",
+        "corpusreaders/convertedargs.go",
+        "corpusreaders/decisionclient.go",
+        "corpusreaders/delegationlifecycle.go",
+        "corpusreaders/delegatorright.go",
+        "corpusreaders/dispatchfence.go",
+        "corpusreaders/dnsaid.go",
+        "corpusreaders/doneargv.go",
+        "corpusreaders/donechecks.go",
+        "corpusreaders/donerecords.go",
+        "corpusreaders/donerun.go",
+        "corpusreaders/emptyinterval.go",
+        "corpusreaders/evidencecell.go",
+        "corpusreaders/evidencestate.go",
+        "corpusreaders/executionbilling.go",
+        "corpusreaders/gradefloor.go",
+        "corpusreaders/htxcases.go",
+        "corpusreaders/identitybinding.go",
+        "corpusreaders/ietfagentrecord.go",
+        "corpusreaders/keydirectory.go",
+        "corpusreaders/keyrevocation.go",
+        "corpusreaders/lifecyclebinding.go",
+        "corpusreaders/mcpauthz.go",
+        "corpusreaders/mcpowasp.go",
+        "corpusreaders/mcprecord.go",
+        "corpusreaders/mcpresponsephase.go",
+        "corpusreaders/monitorcoverage.go",
+        "corpusreaders/observedeffect.go",
+        "corpusreaders/openweight.go",
+        "corpusreaders/paymentmandate.go",
+        "corpusreaders/principalbinding.go",
+        "corpusreaders/printwitness.go",
+        "corpusreaders/propagationstep.go",
+        "corpusreaders/pyjson.go",
+        "corpusreaders/receiptchainend.go",
+        "corpusreaders/receiptsignature.go",
+        "corpusreaders/recorded.go",
+        "corpusreaders/refundconnected.go",
+        "corpusreaders/refundconnected_aps.go",
+        "corpusreaders/refundconnected_run.go",
+        "corpusreaders/refundconnected_steps.go",
+        "corpusreaders/refundconnected_trust.go",
+        "corpusreaders/refundconnected_value.go",
+        "corpusreaders/refusalreason.go",
+        "corpusreaders/registry.go",
+        "corpusreaders/responsibilityescalation.go",
+        "corpusreaders/restartrecords.go",
+        "corpusreaders/rsadigestinfo.go",
+        "corpusreaders/rulecorpus.go",
+        "corpusreaders/runmetrics.go",
+        "corpusreaders/scittcose.go",
+        "corpusreaders/selfreported.go",
+        "corpusreaders/signaturecoverage.go",
+        "corpusreaders/sourcecoverage.go",
+        "corpusreaders/strictjson.go",
+        "corpusreaders/telemetryevidence.go",
+        "corpusreaders/traceanchor.go",
+        "corpusreaders/uncertaineffect.go",
+        "corpusreaders/w3cintake.go",
+        "corpusreaders/w3cjcs.go",
+        "corpusreaders/w3creport.go",
+        "corpusreaders/x402join.go",
         "go.mod"
       ],
       "serialization": "sha256-listing-v1",
-      "sha256": "88c7cbed923e595ee9c6351f8b8dfbf69a524dee74c6df0c760823406250393a"
+      "sha256": "2558d3c3540ca75832aa22684a055fc39afda0c8de8907410e00d642becedc70"
     },
     "runtime": {
       "name": "go",
       "version": "1.26"
     },
     "shared-verification-code": [
-      "aee",
-      "cmd/aee-verify",
-      "corpusreaders",
+      "aee/admission.go",
+      "aee/carried_base64.go",
+      "aee/codes.go",
+      "aee/commitments.go",
+      "aee/jcs.go",
+      "aee/merkle.go",
+      "aee/pae.go",
+      "aee/recompute.go",
+      "aee/runbinding.go",
+      "aee/statement.go",
+      "aee/tier.go",
+      "aee/types.go",
+      "aee/validity.go",
+      "aee/verify.go",
+      "cmd/aee-verify/corpus.go",
+      "cmd/aee-verify/main.go",
+      "corpusreaders/a2ajcs.go",
+      "corpusreaders/aci.go",
+      "corpusreaders/acscore.go",
+      "corpusreaders/admission.go",
+      "corpusreaders/aeecorpus.go",
+      "corpusreaders/agentaction.go",
+      "corpusreaders/agentaction_chain.go",
+      "corpusreaders/agentdecision.go",
+      "corpusreaders/agenticprocess.go",
+      "corpusreaders/aggregateaccounting.go",
+      "corpusreaders/aigeneration.go",
+      "corpusreaders/anchoredchain.go",
+      "corpusreaders/anchorstream.go",
+      "corpusreaders/approvalbinding.go",
+      "corpusreaders/artifactbinding.go",
+      "corpusreaders/auditrecord.go",
+      "corpusreaders/auditrecord_consumption.go",
+      "corpusreaders/auditrecord_datasubject.go",
+      "corpusreaders/auditrecord_dating.go",
+      "corpusreaders/auditrecord_principal.go",
+      "corpusreaders/auditrecord_sequence.go",
+      "corpusreaders/authoritydispatch.go",
+      "corpusreaders/badgevc.go",
+      "corpusreaders/budgetlineage.go",
+      "corpusreaders/canonical_base64.go",
+      "corpusreaders/capabilityrequirement.go",
+      "corpusreaders/cardreceipt.go",
+      "corpusreaders/catalogtrust.go",
+      "corpusreaders/changeadmission.go",
+      "corpusreaders/chunkedexport.go",
+      "corpusreaders/common.go",
+      "corpusreaders/completionconfirmation.go",
+      "corpusreaders/connectorscope.go",
+      "corpusreaders/containmentjournal.go",
+      "corpusreaders/contextdiscovery.go",
+      "corpusreaders/controldecision.go",
+      "corpusreaders/convertedargs.go",
+      "corpusreaders/decisionclient.go",
+      "corpusreaders/delegationlifecycle.go",
+      "corpusreaders/delegatorright.go",
+      "corpusreaders/dispatchfence.go",
+      "corpusreaders/dnsaid.go",
+      "corpusreaders/doneargv.go",
+      "corpusreaders/donechecks.go",
+      "corpusreaders/donerecords.go",
+      "corpusreaders/donerun.go",
+      "corpusreaders/emptyinterval.go",
+      "corpusreaders/evidencecell.go",
+      "corpusreaders/evidencestate.go",
+      "corpusreaders/executionbilling.go",
+      "corpusreaders/gradefloor.go",
+      "corpusreaders/htxcases.go",
+      "corpusreaders/identitybinding.go",
+      "corpusreaders/ietfagentrecord.go",
+      "corpusreaders/keydirectory.go",
+      "corpusreaders/keyrevocation.go",
+      "corpusreaders/lifecyclebinding.go",
+      "corpusreaders/mcpauthz.go",
+      "corpusreaders/mcpowasp.go",
+      "corpusreaders/mcprecord.go",
+      "corpusreaders/mcpresponsephase.go",
+      "corpusreaders/monitorcoverage.go",
+      "corpusreaders/observedeffect.go",
+      "corpusreaders/openweight.go",
+      "corpusreaders/paymentmandate.go",
+      "corpusreaders/principalbinding.go",
+      "corpusreaders/printwitness.go",
+      "corpusreaders/propagationstep.go",
+      "corpusreaders/pyjson.go",
+      "corpusreaders/receiptchainend.go",
+      "corpusreaders/receiptsignature.go",
+      "corpusreaders/recorded.go",
+      "corpusreaders/refundconnected.go",
+      "corpusreaders/refundconnected_aps.go",
+      "corpusreaders/refundconnected_run.go",
+      "corpusreaders/refundconnected_steps.go",
+      "corpusreaders/refundconnected_trust.go",
+      "corpusreaders/refundconnected_value.go",
+      "corpusreaders/refusalreason.go",
+      "corpusreaders/registry.go",
+      "corpusreaders/responsibilityescalation.go",
+      "corpusreaders/restartrecords.go",
+      "corpusreaders/rsadigestinfo.go",
+      "corpusreaders/rulecorpus.go",
+      "corpusreaders/runmetrics.go",
+      "corpusreaders/scittcose.go",
+      "corpusreaders/selfreported.go",
+      "corpusreaders/signaturecoverage.go",
+      "corpusreaders/sourcecoverage.go",
+      "corpusreaders/strictjson.go",
+      "corpusreaders/telemetryevidence.go",
+      "corpusreaders/traceanchor.go",
+      "corpusreaders/uncertaineffect.go",
+      "corpusreaders/w3cintake.go",
+      "corpusreaders/w3cjcs.go",
+      "corpusreaders/w3creport.go",
+      "corpusreaders/x402join.go",
       "go.mod"
     ]
   },
@@ -1124,6 +1474,38 @@
       "state": "pass"
     },
     {
+      "check": "v96df9711ef367c58",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v5b6234a918869d9b",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v2c69755fbfb0dade",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "vc7fdb058600a29a2",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
       "check": "vc6a2a10ae5ac5b15",
       "native": {
         "reasons": [],
@@ -1708,6 +2090,54 @@
       "state": "pass"
     },
     {
+      "check": "v36eedf95c00a5d64",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v57a8d487026919d7",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v552ab4762cf4b682",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "vdbd0cbfedd24a8f7",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v36a6408036bd15f4",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v23e66be3a23024bb",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
       "check": "v17091ccb23254ec6",
       "native": {
         "reasons": [],
@@ -2086,7 +2516,7 @@
   ],
   "corpus-digest": {
     "serialization": "sha256-listing-v1",
-    "sha256": "cc035d519d45b44ea04fa55a09e26024b3c95dc82fb1ca83b62efff1e1bc8a17"
+    "sha256": "09e7e24ccefc47f6c49cadd2cf7fc2f5dd2e8cd575a26b0a9b6bd7a6b8680528"
   },
   "exit-code": 0,
   "exit-rule": "zero-iff-every-check-passes",
@@ -2201,6 +2631,10 @@
       "vf0eac30344ab74d2",
       "v9403ce70be1f6056",
       "v8685b6576fbd0c04",
+      "v96df9711ef367c58",
+      "v5b6234a918869d9b",
+      "v2c69755fbfb0dade",
+      "vc7fdb058600a29a2",
       "vc6a2a10ae5ac5b15",
       "v3ca484096743a01b",
       "v5fb1106ca638aaca",
@@ -2274,6 +2708,12 @@
       "v3bcc3efbad13217b",
       "vd41f53ed499a1780",
       "va737fb3f9f927f4b",
+      "v36eedf95c00a5d64",
+      "v57a8d487026919d7",
+      "v552ab4762cf4b682",
+      "vdbd0cbfedd24a8f7",
+      "v36a6408036bd15f4",
+      "v23e66be3a23024bb",
       "v17091ccb23254ec6",
       "ve2802a038120dd2c",
       "vd96413ec87814d0b",
@@ -2323,7 +2763,7 @@
       "v425531073d0c4bd6"
     ],
     "path": "corpora/vectors-agent-audit-record/MANIFEST.json",
-    "sha256": "362175b54c95ae06181dfa953cca23003c7bd4ce699a73effb9fe6884e37c828"
+    "sha256": "b626e6746fae9ca78948ba5d290249fa5c343deb23839b41dfb73d88ad1a3323"
   },
   "members": [
     {
@@ -3274,6 +3714,42 @@
     {
       "files": [
         {
+          "path": "corpora/vectors-agent-audit-record/statements/v96df9711ef367c58.json",
+          "sha256": "96df9711ef367c58de451b47f12921d2fd7f2582f28aba74ff8b93f305895a75"
+        }
+      ],
+      "id": "v96df9711ef367c58"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-agent-audit-record/statements/v5b6234a918869d9b.json",
+          "sha256": "5b6234a918869d9b67aed4b1dbcfceb294a19d8f56207184d3d3cb5de756be44"
+        }
+      ],
+      "id": "v5b6234a918869d9b"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-agent-audit-record/statements/v2c69755fbfb0dade.json",
+          "sha256": "2c69755fbfb0dadef38ae0faf76ffba337d2f4adb1cf850a3d9e1b7fcb63ca54"
+        }
+      ],
+      "id": "v2c69755fbfb0dade"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-agent-audit-record/statements/vc7fdb058600a29a2.json",
+          "sha256": "c7fdb058600a29a271ab51e5354d1b36021088c0470959d2b4d21f55b2b699f8"
+        }
+      ],
+      "id": "vc7fdb058600a29a2"
+    },
+    {
+      "files": [
+        {
           "path": "corpora/vectors-agent-audit-record/statements/vc6a2a10ae5ac5b15.json",
           "sha256": "c6a2a10ae5ac5b152549b6ba35cf37c42f9926eafca847afd8bf0836aa0cd7d4"
         }
@@ -3931,6 +4407,60 @@
     {
       "files": [
         {
+          "path": "corpora/vectors-agent-audit-record/retained/v36eedf95c00a5d64.json",
+          "sha256": "36eedf95c00a5d64570655d589e82af4196b19345b815dde55cfc98037224609"
+        }
+      ],
+      "id": "v36eedf95c00a5d64"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-agent-audit-record/retained/v57a8d487026919d7.json",
+          "sha256": "57a8d487026919d71cb70681855d2847d0411e8e37954beab2bfa38c0ea12915"
+        }
+      ],
+      "id": "v57a8d487026919d7"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-agent-audit-record/retained/v552ab4762cf4b682.json",
+          "sha256": "552ab4762cf4b68231fdcb43a9345c34697ae944be1184a037685a7f825b1ecf"
+        }
+      ],
+      "id": "v552ab4762cf4b682"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-agent-audit-record/retained/vdbd0cbfedd24a8f7.json",
+          "sha256": "dbd0cbfedd24a8f7b85f103dcfe2a62e9de13060bc5ba3f9b7d4177b9340605a"
+        }
+      ],
+      "id": "vdbd0cbfedd24a8f7"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-agent-audit-record/retained/v36a6408036bd15f4.json",
+          "sha256": "36a6408036bd15f4ee3cdb7f7acc82b434467a6853c81d6ca636d6dd8e71d7e5"
+        }
+      ],
+      "id": "v36a6408036bd15f4"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-agent-audit-record/retained/v23e66be3a23024bb.json",
+          "sha256": "23e66be3a23024bb2b9f619ccbb158a6b7b0da581619050827fe7b4b399ce350"
+        }
+      ],
+      "id": "v23e66be3a23024bb"
+    },
+    {
+      "files": [
+        {
           "path": "corpora/vectors-agent-audit-record/statements/v17091ccb23254ec6.json",
           "sha256": "17091ccb23254ec6f768f729eaaa33176359d78f1af8639135a5ce489070c7ea"
         }
@@ -4386,7 +4916,7 @@
       "reference": {
         "path": "release/intake/native/vectors-agent-audit-record.json",
         "serialization": "bytes",
-        "sha256": "3b10b36c85df2bb805bdc0199b7bf658af528377571893356c9c8d753bc6e93b"
+        "sha256": "90c44f1127698721630d36d1c495b95c865d26389456176f52b8dda855757c22"
       }
     },
     {
@@ -4395,7 +4925,7 @@
       "reference": {
         "path": "release/intake/native/vectors-agent-audit-record.txt",
         "serialization": "bytes",
-        "sha256": "e3258016ebbc49bff192baf0a4798f955d83cfa8c243c0f725cb5d54a8981585"
+        "sha256": "b908d5d784fc9c570f3510cb8a51f81f87270de0964654c4528ec366b7b31105"
       }
     },
     {
@@ -4950,6 +5480,30 @@
       "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"codes\":[\"evaluation-inconsistent\"],\"verdict\":\"malformed\"}}"
     },
     {
+      "check": "v96df9711ef367c58",
+      "inputs": [
+        "member:v96df9711ef367c58",
+        "check:v96df9711ef367c58"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"codes\":[\"unsafe-integer\"],\"verdict\":\"malformed\"}}"
+    },
+    {
+      "check": "v5b6234a918869d9b",
+      "inputs": [
+        "member:v5b6234a918869d9b",
+        "check:v5b6234a918869d9b"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"codes\":[\"unsafe-integer\"],\"verdict\":\"malformed\"}}"
+    },
+    {
+      "check": "v2c69755fbfb0dade",
+      "inputs": [
+        "member:v2c69755fbfb0dade",
+        "check:v2c69755fbfb0dade"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"codes\":[\"unsafe-integer\"],\"verdict\":\"malformed\"}}"
+    },
+    {
       "check": "vc6a2a10ae5ac5b15",
       "inputs": [
         "member:vc6a2a10ae5ac5b15",
@@ -5421,11 +5975,11 @@
     "runs": [
       {
         "process": "run-1",
-        "sha256": "3b10b36c85df2bb805bdc0199b7bf658af528377571893356c9c8d753bc6e93b"
+        "sha256": "90c44f1127698721630d36d1c495b95c865d26389456176f52b8dda855757c22"
       },
       {
         "process": "run-2",
-        "sha256": "3b10b36c85df2bb805bdc0199b7bf658af528377571893356c9c8d753bc6e93b"
+        "sha256": "90c44f1127698721630d36d1c495b95c865d26389456176f52b8dda855757c22"
       }
     ],
     "seed": null,
@@ -5439,7 +5993,7 @@
       "action-occurred-or-authority"
     ],
     "establishes": [
-      "aee-verify, at the source listing named here, judges each of the 225 pinned members of agent-audit-record-conformance as its manifest declares"
+      "aee-verify, at the source listing named here, judges each of the 235 pinned members of agent-audit-record-conformance as its manifest declares"
     ],
     "leaves-open": [
       "whether an implementation written from the specification, run by someone other than an author, reaches the same verdicts",
@@ -5450,7 +6004,7 @@
   "selector": {
     "expression": "*",
     "language": "id-glob",
-    "matched": 225,
+    "matched": 235,
     "require": "at-least-one",
     "selected": [
       "v22ea7615379eecca",
@@ -5558,6 +6112,10 @@
       "vf0eac30344ab74d2",
       "v9403ce70be1f6056",
       "v8685b6576fbd0c04",
+      "v96df9711ef367c58",
+      "v5b6234a918869d9b",
+      "v2c69755fbfb0dade",
+      "vc7fdb058600a29a2",
       "vc6a2a10ae5ac5b15",
       "v3ca484096743a01b",
       "v5fb1106ca638aaca",
@@ -5631,6 +6189,12 @@
       "v3bcc3efbad13217b",
       "vd41f53ed499a1780",
       "va737fb3f9f927f4b",
+      "v36eedf95c00a5d64",
+      "v57a8d487026919d7",
+      "v552ab4762cf4b682",
+      "vdbd0cbfedd24a8f7",
+      "v36a6408036bd15f4",
+      "v23e66be3a23024bb",
       "v17091ccb23254ec6",
       "ve2802a038120dd2c",
       "vd96413ec87814d0b",

@@ -31,6 +31,7 @@ from any project.
 | The use cites the approval checked | `approval-use-cites-predecessor`, `approval-use-cites-no-approval` | the review of the renewal cases on [#292](https://github.com/probityai/agent-evidence-vectors/pull/292#issuecomment-6491378743) by `AAkhtanin`: a use naming another approval, or none, was judged against the one presented |
 | Policy served at decision time | `release-first-served-after-decision`, `release-retired-beyond-grace` | [JanssenProject/jans#15447](https://github.com/JanssenProject/jans/pull/15447): release history and a grace period for late records |
 | A failed lookup is not a match | `release-lookup-unavailable` | the same pull request |
+| A transition status the contract defines | `approval-transition-status-unknown` | a replacement whose status is misspelled, read as not accepted, leaves the replaced approval usable |
 | Renewal by replacement | `approval-renewed-same-bounds`, `approval-reused-after-renewal`, `approval-renewal-transition-not-accepted`, `approval-renewal-decision-not-distinct`, `approval-renewal-predecessor-decision-not-cited`, `approval-renewal-bounds-differ`, `approval-renewal-accepted-after-use`, `approval-renewal-predecessor-ambiguous` | the approval-renewal thread in [aaif/wg-observability-and-traceability#66](https://github.com/aaif/wg-observability-and-traceability/issues/66): the cases were asked for by `narko4u` and the sequence comes from `AAkhtanin` |
 | A new grant does not reopen a closed effect | `approval-renewal-reopens-consumed-effect`, `approval-renewal-reopens-uncertain-effect` | the same thread |
 | Server-held approval state | `approval-not-issued-by-server` | the client-held approval pattern: a server that accepts an approval object the client sends back, rather than reading its own register |
@@ -38,7 +39,7 @@ from any project.
 | Approval with corrections | `approval-corrections-not-applied` | the reviewer edits the arguments; the grant covers the corrected bytes only |
 | A deny is a deny in observe mode | `approval-denied-observe-mode` | monitor and observe modes that log a deny and run the call |
 | Observe mode never gates | `approval-gathered-in-observe-mode` | an approval collected while the gate only logs |
-| Key rotation | `approval-issued-under-rotated-key` | an approval signed under a key after its rotation |
+| Key rotation | `approval-issued-under-rotated-key`, `approval-key-retired-in-later-entry` | an approval signed under a key after its rotation |
 
 The controls (`allow-*`) keep a verifier from denying everything: another
 approval under a different identifier, the same approval presented twice with
@@ -74,33 +75,36 @@ A verifier names the first check that fails.
    `approved-with-corrections`; a denied request is not a grant, whatever
    happened to the call (`approval_not_granted`). An approval with
    corrections binds the corrected bytes in `payloadSha256`; the bytes first
-   requested, in `requestedPayloadSha256`, are not approved (check 17);
+   requested, in `requestedPayloadSha256`, are not approved (check 18);
 8. the record's `enforcement` is `enforce`; an approval gathered in an
    observe or monitor mode never gated the call (`approval_not_enforced`);
 9. the identifier is not among the consumed ones (`approval_replayed`);
-10. no replacement accepted at or before the use has taken the approval's place
+10. every transition naming the approval, as predecessor or successor, carries a
+    status the contract defines, `proposed` or `accepted`; any other status is
+    refused rather than read as not accepted (`transition_status_unknown`);
+11. no replacement accepted at or before the use has taken the approval's place
     (`approval_superseded`);
-11. a use that claims `authorityForm: renewed` has a transition accepted at or
+12. a use that claims `authorityForm: renewed` has a transition accepted at or
     before the use naming this approval as successor; a transition accepted
     later does not establish the renewal (`renewal_transition_missing`);
-12. that transition binds the successor to exactly one predecessor
+13. that transition binds the successor to exactly one predecessor
     (`renewal_binding_invalid`);
-13. the approval's `keyId` is the trusted key of its approver, or a key listed
+14. the approval's `keyId` is the trusted key of its approver, or a key listed
     for that approver in `retiredKeys` (`key_not_bound`);
-14. a key listed in `retiredKeys` signed the approval before its
-    `retiredAt`; an approval issued under a rotated-out key at or after the
+15. a key listed in `retiredKeys` signed the approval before the earliest
+    `retiredAt` any entry naming it gives; an approval issued under a rotated-out key at or after the
     rotation is refused (`key_retired`);
-15. the use's principal is the approval's principal; a shared `clientId` does
+16. the use's principal is the approval's principal; a shared `clientId` does
     not stand in for the user (`principal_mismatch`);
-16. the use's event and phase are the approved ones (`event_phase_mismatch`);
-17. the used tool, target and payload bytes are the approved ones
+17. the use's event and phase are the approved ones (`event_phase_mismatch`);
+18. the used tool, target and payload bytes are the approved ones
     (`payload_mismatch`);
-18. `usedAt` is at or after `issuedAt` and before `expiresAt`
+19. `usedAt` is at or after `issuedAt` and before `expiresAt`
     (`approval_outside_validity`);
-19. the effect the use names is not closed (`effect_already_closed`);
-20. the policy release lookup answered (`comparison_unavailable`); an
+20. the effect the use names is not closed (`effect_already_closed`);
+21. the policy release lookup answered (`comparison_unavailable`); an
     unanswered lookup is never read as a match;
-21. the release was served at the decision time: first served at or before it,
+22. the release was served at the decision time: first served at or before it,
     and last served at or after it minus the grace period
     (`release_not_served_at_decision`).
 

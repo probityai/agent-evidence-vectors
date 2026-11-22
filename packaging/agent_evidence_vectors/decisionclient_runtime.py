@@ -53,6 +53,8 @@ from typing import Any
 
 from agent_evidence_vectors import decisionclient as reader
 
+from . import strictjson
+
 ENV_POINT = "AEV_DECISION_POINT"
 ENV_SINK = "AEV_EFFECT_SINK"
 ENV_RECORD = "AEV_DECISION_RECORD"
@@ -177,7 +179,7 @@ def judge(scenario: dict[str, Any], counts: Counts, reported: dict[str, Any] | N
     if record_path is not None and record_path.exists():
         try:
             answer = reader.verify(record_path)
-            record = json.loads(record_path.read_text(encoding="utf-8"))
+            record = strictjson.loads(record_path.read_text(encoding="utf-8"))
             recorded = record["decision"]["outcome"]
         except (OSError, ValueError, KeyError, TypeError) as exc:
             return [*problems, f"the decision record does not read: {exc}"]
@@ -192,7 +194,7 @@ def judge(scenario: dict[str, Any], counts: Counts, reported: dict[str, Any] | N
 def _reported(stdout: str) -> dict[str, Any] | None:
     lines = [line for line in stdout.strip().splitlines() if line.strip()]
     try:
-        answer = json.loads(lines[-1])
+        answer = strictjson.loads(lines[-1])
         reported = {key: answer[key] for key in REPORT_KEYS}
     except (IndexError, ValueError, KeyError, TypeError):
         return None
@@ -225,7 +227,7 @@ def drive(command: list[str], scenario: dict[str, Any]) -> tuple[bool, list[str]
 
 def check_runtime(client: str | list[str], root: Path = reader.ROOT) -> dict[str, Any]:
     """Drive the client through every scenario and return the report body."""
-    manifest = json.loads((root / "MANIFEST.json").read_text(encoding="utf-8"))
+    manifest = strictjson.loads((root / "MANIFEST.json").read_text(encoding="utf-8"))
     command = shlex.split(client) if isinstance(client, str) else client
     if not command:
         raise ValueError("client command is empty")

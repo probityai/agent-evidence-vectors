@@ -27,7 +27,6 @@ func TestRCECompactMatchesCPython(t *testing.T) {
 		`{ "b": 1, "a": [true, false, null, "x"] }`: `{"b":1,"a":[true,false,null,"x"]}`,
 		`{"k":"éé/<>&"}`:                            `{"k":"éé/<>&"}`,
 		`{"k":"\u0001\n\t\"\\"}`:                    `{"k":"\u0001\n\t\"\\"}`,
-		`{"a":1,"a":2,"b":3}`:                       `{"a":2,"b":3}`,
 		`{"n":-0}`:                                  `{"n":0}`,
 	}
 	for in, want := range cases {
@@ -39,7 +38,7 @@ func TestRCECompactMatchesCPython(t *testing.T) {
 	if _, err := mustParse(t, `{"f":1.5}`).compact(); err == nil {
 		t.Error("a float encoded without refusal")
 	}
-	for _, bad := range []string{`{"a":1} {}`, `{"a":`, `[1,`} {
+	for _, bad := range []string{`{"a":1} {}`, `{"a":`, `[1,`, `{"a":1,"a":2,"b":3}`} {
 		if _, err := rceParse([]byte(bad)); err == nil {
 			t.Errorf("parse(%q) accepted", bad)
 		}

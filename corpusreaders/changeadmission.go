@@ -3,7 +3,6 @@ package corpusreaders
 import (
 	"crypto/ed25519"
 	"encoding/base64"
-	"encoding/json"
 	"fmt"
 	"path/filepath"
 	"regexp"
@@ -75,7 +74,7 @@ const caStatementV1 = "https://in-toto.io/Statement/v1"
 
 func (changeAdmission) Judge(dir string, raw []byte) (*Result, error) {
 	var manifest scManifest
-	if err := json.Unmarshal(raw, &manifest); err != nil {
+	if err := strictUnmarshal(raw, &manifest); err != nil {
 		return nil, fmt.Errorf("%s/MANIFEST.json does not parse: %w", dir, err)
 	}
 	result := &Result{}
@@ -83,7 +82,7 @@ func (changeAdmission) Judge(dir string, raw []byte) (*Result, error) {
 	var vectors []caVector
 	for _, entry := range manifest.Vectors {
 		var v caVector
-		if err := json.Unmarshal(entry, &v); err != nil {
+		if err := strictUnmarshal(entry, &v); err != nil {
 			result.Findings = append(result.Findings, fmt.Sprintf("a manifest row does not parse: %v", err))
 			continue
 		}
@@ -136,7 +135,7 @@ func caB64(value any) ([]byte, bool) {
 	if !ok || strings.ContainsAny(s, "\r\n") {
 		return nil, false
 	}
-	out, err := base64.StdEncoding.DecodeString(s)
+	out, err := decodeCanonical(base64.StdEncoding, s)
 	return out, err == nil
 }
 
@@ -167,7 +166,7 @@ func caVerify(envelope []byte, c caCase, supplied map[string][]byte) (map[string
 		return nil, r
 	}
 	var payload any
-	if json.Unmarshal(body, &payload) != nil {
+	if strictUnmarshal(body, &payload) != nil {
 		payload = nil
 	}
 	obj, isObj := payload.(map[string]any)
@@ -217,7 +216,7 @@ func caParse(envelope []byte) (string, []byte, []caSig, bool) {
 		return "", nil, nil, false
 	}
 	var doc map[string]any
-	if json.Unmarshal(envelope, &doc) != nil || doc == nil {
+	if strictUnmarshal(envelope, &doc) != nil || doc == nil {
 		return "", nil, nil, false
 	}
 	payloadType, ok := doc["payloadType"].(string)
@@ -251,7 +250,7 @@ func caSignature(payloadType string, body []byte, sigs []caSig, trusted map[stri
 			continue
 		}
 		named = true
-		key, err := base64.StdEncoding.DecodeString(encoded)
+		key, err := decodeCanonical(base64.StdEncoding, encoded)
 		if err == nil && len(key) == ed25519.PublicKeySize && ed25519.Verify(key, message, s.sig) {
 			return nil
 		}

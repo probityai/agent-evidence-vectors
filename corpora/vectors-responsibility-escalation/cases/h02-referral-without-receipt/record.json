@@ -1,0 +1,50 @@
+{
+  "authority": {
+    "readAt": "decision",
+    "reference": "https://authority.example/records/agent-hr-7",
+    "resolution": {
+      "returned": "v1",
+      "status": "resolved"
+    },
+    "versions": [
+      {
+        "effectiveFrom": "2026-01-01T00:00:00Z",
+        "holds": true,
+        "id": "v1"
+      }
+    ]
+  },
+  "contractId": "https://probityai.github.io/agent-evidence-vectors/predicate/v1/responsibility-escalation",
+  "decision": {
+    "agent": "agent-hr-7",
+    "at": "2026-03-02T10:00:00Z",
+    "class": "adverse_background_determination",
+    "id": "d-0001"
+  },
+  "escalation": {
+    "closure": {
+      "required": false
+    },
+    "designatedRole": "compliance-officer",
+    "slots": {
+      "acceptance": {
+        "coverage": "complete",
+        "evidenced": false
+      },
+      "acknowledgement": {
+        "coverage": "complete",
+        "evidenced": false
+      },
+      "receipt": {
+        "coverage": "complete",
+        "evidenced": false
+      },
+      "referral": {
+        "at": "2026-03-02T10:05:00Z",
+        "evidenced": true
+      }
+    }
+  },
+  "evaluatedAt": "2026-03-10T09:00:00Z",
+  "recordId": "record-h02"
+}

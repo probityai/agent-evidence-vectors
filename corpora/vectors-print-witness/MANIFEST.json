@@ -1,0 +1,201 @@
+{
+  "corpusDigest": "c4a4e7e9486da01099af900dedda951dcabffdde05c42ef0dd95c997bb073fd9",
+  "counts": {
+    "rejected": 10,
+    "verified": 2
+  },
+  "suite": "print-witness/v1",
+  "vectors": [
+    {
+      "change": "control: one witness takes in the ordered G-code, logs every layer and closes",
+      "expected": {
+        "decision": "verified",
+        "reason": "print_witnessed"
+      },
+      "files": {
+        "case.json": "e30f60de19f45b3c5b4fa4eda73bf2c52cf1b0c5cc4e58ec9fd47ff11cfef3e7",
+        "job.gcode": "a755d81ce7225964db510dbe56333454b81455c2da259f79bb2ad91109af00fb",
+        "log.jsonl": "e6ba88f5058fcf31e17bcbd5d5b9d60c9882980c97a9434ef811a20542500b21"
+      },
+      "id": "intact",
+      "logSignaturesVerify": true,
+      "path": "cases/intact"
+    },
+    {
+      "change": "control: the same job witnessed end to end by the second trusted witness",
+      "expected": {
+        "decision": "verified",
+        "reason": "print_witnessed"
+      },
+      "files": {
+        "case.json": "e30f60de19f45b3c5b4fa4eda73bf2c52cf1b0c5cc4e58ec9fd47ff11cfef3e7",
+        "job.gcode": "a755d81ce7225964db510dbe56333454b81455c2da259f79bb2ad91109af00fb",
+        "log.jsonl": "98efe3e9b4e48dd191cbacf8ca06917ab605434a2e3a5d5b98ae4363dbb3989c"
+      },
+      "id": "intact-other-witness",
+      "logSignaturesVerify": true,
+      "path": "cases/intact-other-witness"
+    },
+    {
+      "change": "the log is cut after layer 3: no closing record, every signature verifies",
+      "expected": {
+        "decision": "rejected",
+        "reason": "log_truncated"
+      },
+      "files": {
+        "case.json": "e30f60de19f45b3c5b4fa4eda73bf2c52cf1b0c5cc4e58ec9fd47ff11cfef3e7",
+        "job.gcode": "a755d81ce7225964db510dbe56333454b81455c2da259f79bb2ad91109af00fb",
+        "log.jsonl": "d7ff076f610761f14527e0da990041053745de3981e9b18653e8a3096c4f860d"
+      },
+      "id": "log-stops-early",
+      "logSignaturesVerify": true,
+      "pairsWith": "intact",
+      "path": "cases/log-stops-early"
+    },
+    {
+      "change": "the witness signed a closing record that says the print stopped at layer 3",
+      "expected": {
+        "decision": "rejected",
+        "reason": "print_not_finished"
+      },
+      "files": {
+        "case.json": "e30f60de19f45b3c5b4fa4eda73bf2c52cf1b0c5cc4e58ec9fd47ff11cfef3e7",
+        "job.gcode": "a755d81ce7225964db510dbe56333454b81455c2da259f79bb2ad91109af00fb",
+        "log.jsonl": "4975c8bc75478236a9f9d66b03f9ba5a395913fb6ff56806c3b01cd9cd8874f2"
+      },
+      "id": "log-closes-early",
+      "logSignaturesVerify": true,
+      "pairsWith": "intact",
+      "path": "cases/log-closes-early"
+    },
+    {
+      "change": "the G-code beside the log is not the file the witness signed: infill 10% not 15%",
+      "expected": {
+        "decision": "rejected",
+        "reason": "gcode_altered"
+      },
+      "files": {
+        "case.json": "e30f60de19f45b3c5b4fa4eda73bf2c52cf1b0c5cc4e58ec9fd47ff11cfef3e7",
+        "job.gcode": "34eee88f2266ea6ac4dec0ca48d0ab1f891fc91197ee996047168de43132cd0d",
+        "log.jsonl": "e6ba88f5058fcf31e17bcbd5d5b9d60c9882980c97a9434ef811a20542500b21"
+      },
+      "id": "gcode-changed-after-signing",
+      "logSignaturesVerify": true,
+      "pairsWith": "intact",
+      "path": "cases/gcode-changed-after-signing"
+    },
+    {
+      "change": "the witness took in and printed a different job from the one the consumer ordered",
+      "expected": {
+        "decision": "rejected",
+        "reason": "gcode_not_ordered"
+      },
+      "files": {
+        "case.json": "e30f60de19f45b3c5b4fa4eda73bf2c52cf1b0c5cc4e58ec9fd47ff11cfef3e7",
+        "job.gcode": "a24aaed935ca64bd57e99b30fa76316637a258e51ca32b7b272bfcdfd7fa7c8b",
+        "log.jsonl": "bc8b65bbac574255bfc2cc7e037b96c7c592c56164dc0c48e7cb3594423875d7"
+      },
+      "id": "gcode-not-ordered",
+      "logSignaturesVerify": true,
+      "pairsWith": "intact",
+      "path": "cases/gcode-not-ordered"
+    },
+    {
+      "change": "witness a took in the G-code and witness b signed the log: both keys are trusted and every signature verifies",
+      "expected": {
+        "decision": "rejected",
+        "reason": "witness_changed"
+      },
+      "files": {
+        "case.json": "e30f60de19f45b3c5b4fa4eda73bf2c52cf1b0c5cc4e58ec9fd47ff11cfef3e7",
+        "job.gcode": "a755d81ce7225964db510dbe56333454b81455c2da259f79bb2ad91109af00fb",
+        "log.jsonl": "b80cb31d01e84f994d53b9708f66cc034c09210af95d84900ea7f486fa70e011"
+      },
+      "id": "witness-changed-mid-print",
+      "logSignaturesVerify": true,
+      "pairsWith": "intact-other-witness",
+      "path": "cases/witness-changed-mid-print"
+    },
+    {
+      "change": "the whole log is signed by a witness the consumer does not trust",
+      "expected": {
+        "decision": "rejected",
+        "reason": "signature_invalid"
+      },
+      "files": {
+        "case.json": "e30f60de19f45b3c5b4fa4eda73bf2c52cf1b0c5cc4e58ec9fd47ff11cfef3e7",
+        "job.gcode": "a755d81ce7225964db510dbe56333454b81455c2da259f79bb2ad91109af00fb",
+        "log.jsonl": "cb79bc9ad98a02c94bb039d02141aab2e5decd600f129d5e1d264149d120bacb"
+      },
+      "id": "untrusted-witness",
+      "logSignaturesVerify": false,
+      "pairsWith": "intact-other-witness",
+      "path": "cases/untrusted-witness"
+    },
+    {
+      "change": "the nozzle temperature of layer 3 edited after signing, old signature kept",
+      "expected": {
+        "decision": "rejected",
+        "reason": "signature_invalid"
+      },
+      "files": {
+        "case.json": "e30f60de19f45b3c5b4fa4eda73bf2c52cf1b0c5cc4e58ec9fd47ff11cfef3e7",
+        "job.gcode": "a755d81ce7225964db510dbe56333454b81455c2da259f79bb2ad91109af00fb",
+        "log.jsonl": "4e1e0d1e7dd44db3cbaaf55a9b1880ff1c94b31434a4e86f20ae89a951635545"
+      },
+      "id": "log-record-edited",
+      "logSignaturesVerify": false,
+      "pairsWith": "intact",
+      "path": "cases/log-record-edited"
+    },
+    {
+      "change": "layers 3 to 5 and the close come from another job the same witness ran, relinked: every signature and every link verifies",
+      "expected": {
+        "decision": "rejected",
+        "reason": "job_mismatch"
+      },
+      "files": {
+        "case.json": "e30f60de19f45b3c5b4fa4eda73bf2c52cf1b0c5cc4e58ec9fd47ff11cfef3e7",
+        "job.gcode": "a755d81ce7225964db510dbe56333454b81455c2da259f79bb2ad91109af00fb",
+        "log.jsonl": "fb0d60c0839dc854680d1d5ed3096ee7888d2d2842e7afc06ad419f9f74097d5"
+      },
+      "id": "log-from-other-print",
+      "logSignaturesVerify": true,
+      "pairsWith": "intact",
+      "path": "cases/log-from-other-print"
+    },
+    {
+      "change": "the records of layers 2 and 3 swapped: every signature verifies",
+      "expected": {
+        "decision": "rejected",
+        "reason": "chain_link_broken"
+      },
+      "files": {
+        "case.json": "e30f60de19f45b3c5b4fa4eda73bf2c52cf1b0c5cc4e58ec9fd47ff11cfef3e7",
+        "job.gcode": "a755d81ce7225964db510dbe56333454b81455c2da259f79bb2ad91109af00fb",
+        "log.jsonl": "31c327208b5f2f42ab7987e6bcc411708e66724cb75f8a1f448577b9e13f1cb9"
+      },
+      "id": "log-reordered",
+      "logSignaturesVerify": true,
+      "pairsWith": "intact",
+      "path": "cases/log-reordered"
+    },
+    {
+      "change": "the intake record removed: the log never says which G-code the witness saw",
+      "expected": {
+        "decision": "rejected",
+        "reason": "intake_missing"
+      },
+      "files": {
+        "case.json": "e30f60de19f45b3c5b4fa4eda73bf2c52cf1b0c5cc4e58ec9fd47ff11cfef3e7",
+        "job.gcode": "a755d81ce7225964db510dbe56333454b81455c2da259f79bb2ad91109af00fb",
+        "log.jsonl": "227ebd948ae66fdba6320566ca16d44c4d65b8bd53f079ae0f0c1aee984c246e"
+      },
+      "id": "log-without-intake",
+      "logSignaturesVerify": true,
+      "pairsWith": "intact",
+      "path": "cases/log-without-intake"
+    }
+  ],
+  "verifierContract": "verifier case.json --json; exit 0 verified, 1 rejected"
+}

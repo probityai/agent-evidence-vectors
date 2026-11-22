@@ -39,6 +39,12 @@ import threading
 from collections.abc import Iterator
 from typing import Any
 
+if __package__ in (None, ""):
+    # The controls run this file by path as a child process: make the package importable.
+    sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
+from agent_evidence_vectors import strictjson  # noqa: E402
+
 RUN_SCHEMA = "agent-evidence-vectors/heldout-run/v1"
 SEALED_SCHEMA = "agent-evidence-vectors/heldout-sealed/v1"
 SUITE_SCHEMA = "agent-evidence-vectors/heldout-suite/v1"
@@ -83,7 +89,7 @@ def load_suite(name_or_path: str) -> dict[str, Any]:
             f"no suite named {name_or_path!r}; shipped suites: {', '.join(suite_names())}"
         )
     raw = _read(path)
-    suite: dict[str, Any] = json.loads(raw)
+    suite: dict[str, Any] = strictjson.loads(raw)
     if suite.get("schema") != SUITE_SCHEMA:
         raise RunnerError(f"{path} is not a {SUITE_SCHEMA} descriptor")
     corpus = suite["corpus"]
@@ -99,7 +105,7 @@ def load_suite(name_or_path: str) -> dict[str, Any]:
 
 def load_public(suite: dict[str, Any]) -> tuple[list[dict[str, Any]], dict[str, Any], str]:
     """Every published member, the manifest, and the corpus digest recomputed."""
-    manifest = json.loads(_read(os.path.join(suite["_dir"], "MANIFEST.json")))
+    manifest = strictjson.loads(_read(os.path.join(suite["_dir"], "MANIFEST.json")))
     if manifest.get("suite") != suite["suite"]:
         raise RunnerError(
             f"{suite['_dir']} holds suite {manifest.get('suite')!r}, "
@@ -110,7 +116,7 @@ def load_public(suite: dict[str, Any]) -> tuple[list[dict[str, Any]], dict[str, 
     for entry in manifest["vectors"]:
         raw = _read(os.path.join(suite["_dir"], entry["file"]))
         blob.update(raw)
-        document = json.loads(raw)
+        document = strictjson.loads(raw)
         members.append(_member(document, "public"))
     return members, manifest, blob.hexdigest()
 
@@ -271,7 +277,7 @@ def write_sealed(sealed: dict[str, Any], out_dir: str) -> str:
 
 
 def load_sealed(path: str, suite: dict[str, Any]) -> tuple[list[dict[str, Any]], dict[str, Any]]:
-    sealed = json.loads(_read(path))
+    sealed = strictjson.loads(_read(path))
     if sealed.get("schema") != SEALED_SCHEMA or sealed.get("suite") != suite["suite"]:
         raise RunnerError(f"{path} is not a sealed slice of {suite['suite']}")
     members = []
@@ -397,7 +403,7 @@ def judge(
     if line is None:
         return {**row, "pass": False, "stopReason": stop}
     try:
-        answer = json.loads(line)
+        answer = strictjson.loads(line)
     except ValueError:
         return {**row, "pass": False, "stopReason": "answer-not-json"}
     if not isinstance(answer, dict) or answer.get("verdict") not in suite["verdicts"]:
@@ -549,7 +555,7 @@ def control_main(kind: str, suite_name: str) -> int:
         )
         table[key] = member["expected"]
     for raw in sys.stdin:
-        question = json.loads(raw)["question"]
+        question = strictjson.loads(raw)["question"]
         if kind == "deny":
             answer: dict[str, Any] = {"verdict": "deny", "code": None}
         else:
@@ -571,7 +577,7 @@ def self_test(suite_name: str = "acs-core") -> int:
     seed = b"self-test seed, public on purpose, never a steward's seed"
     with tempfile.TemporaryDirectory() as tmp:
         sealed_path = write_sealed(seal(suite, seed, 1), tmp)
-        sealed = json.loads(_read(sealed_path))
+        sealed = strictjson.loads(_read(sealed_path))
 
         def control(kind: str) -> dict[str, Any]:
             argv = [sys.executable, os.path.abspath(__file__), "_control", kind, suite_name]
@@ -672,7 +678,7 @@ def _dispatch(args: argparse.Namespace) -> int:
     if args.command == "self-test":
         return self_test(args.suite)
     if args.command == "verify":
-        problems = verify_record(json.loads(_read(args.record)), args.transcript)
+        problems = verify_record(strictjson.loads(_read(args.record)), args.transcript)
         for line in problems:
             print(f"FAIL {line}", file=sys.stderr)
         print("record verifies" if not problems else "record does not verify")
@@ -687,7 +693,7 @@ def _dispatch(args: argparse.Namespace) -> int:
         )
         return 0
     if args.command == "reveal":
-        problems = reveal(suite, read_seed(args.seed_file), json.loads(_read(args.sealed)))
+        problems = reveal(suite, read_seed(args.seed_file), strictjson.loads(_read(args.sealed)))
         for line in problems:
             print(f"FAIL {line}", file=sys.stderr)
         print(

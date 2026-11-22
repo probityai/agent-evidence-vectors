@@ -1,7 +1,6 @@
 package corpusreaders
 
 import (
-	"encoding/json"
 	"fmt"
 	"path/filepath"
 	"reflect"
@@ -30,25 +29,29 @@ func init() { register(approvalBinding{}) }
 //     approval_not_granted;
 //  8. the record's enforcement is enforce: approval_not_enforced;
 //  9. the identifier was not consumed already: approval_replayed;
-//  10. no replacement accepted at or before the use has taken the approval's
+//  10. every transition naming the approval carries the status proposed or
+//     accepted; another status is refused, never read as not accepted:
+//     transition_status_unknown;
+//  11. no replacement accepted at or before the use has taken the approval's
 //     place: approval_superseded;
-//  11. a use that claims authorityForm renewed has a transition into this
+//  12. a use that claims authorityForm renewed has a transition into this
 //     approval accepted at or before the use: renewal_transition_missing;
-//  12. that transition resolves exactly one presented predecessor, cites its
+//  13. that transition resolves exactly one presented predecessor, cites its
 //     recorded decision, the successor's decision is distinct, and the bounds
 //     are equal: renewal_binding_invalid;
-//  13. the approval's keyId is the approver's trusted key or a key listed for
+//  14. the approval's keyId is the approver's trusted key or a key listed for
 //     the approver in retiredKeys: key_not_bound;
-//  14. a retired key signed the approval before its retiredAt: key_retired;
-//  15. the use's principal is the approval's principal: principal_mismatch;
-//  16. the use's event and phase are the approved ones: event_phase_mismatch;
-//  17. the used tool, target and bytes are the approved ones: payload_mismatch;
-//  18. usedAt is inside the approval's validity window:
+//  15. a retired key signed the approval before the earliest retiredAt any
+//     entry naming it gives: key_retired;
+//  16. the use's principal is the approval's principal: principal_mismatch;
+//  17. the use's event and phase are the approved ones: event_phase_mismatch;
+//  18. the used tool, target and bytes are the approved ones: payload_mismatch;
+//  19. usedAt is inside the approval's validity window:
 //     approval_outside_validity;
-//  19. the effect the use names is not CONSUMED or UNCERTAIN_CLOSE:
+//  20. the effect the use names is not CONSUMED or UNCERTAIN_CLOSE:
 //     effect_already_closed;
-//  20. the policy release lookup answered: comparison_unavailable;
-//  21. the release was served at the decision time, allowing the grace period:
+//  21. the policy release lookup answered: comparison_unavailable;
+//  22. the release was served at the decision time, allowing the grace period:
 //     release_not_served_at_decision.
 type approvalBinding struct{}
 
@@ -105,13 +108,13 @@ var abBoundFields = []string{"event", "payloadSha256", "phase", "principal", "ta
 
 func (approvalBinding) Judge(dir string, raw []byte) (*Result, error) {
 	var manifest scManifest
-	if err := json.Unmarshal(raw, &manifest); err != nil {
+	if err := strictUnmarshal(raw, &manifest); err != nil {
 		return nil, fmt.Errorf("%s/MANIFEST.json does not parse: %w", dir, err)
 	}
 	result := &Result{}
 	for _, entry := range manifest.Vectors {
 		var v abVector
-		if err := json.Unmarshal(entry, &v); err != nil {
+		if err := strictUnmarshal(entry, &v); err != nil {
 			result.Findings = append(result.Findings, fmt.Sprintf("a manifest row does not parse: %v", err))
 			continue
 		}
@@ -228,15 +231,32 @@ func abCompletedTwice(r abRecord) bool {
 	})
 }
 
-// abRetiredAt is the retirement instant of the approval's key when the approver
-// listed it as retired, and whether it was listed.
-func abRetiredAt(r abRecord) (string, bool) {
+// abRetiredAt is the earliest instant any retiredKeys entry naming the
+// approval's key retires it, and whether one names it. Every entry is read, so
+// a later entry that retires the key earlier is not hidden behind the first.
+func abRetiredAt(r abRecord, clock *atdClock) (time.Time, bool) {
+	var earliest time.Time
+	found := false
 	for _, entry := range r.RetiredKeys[abField(r, "approver")] {
-		if entry.KeyID == abField(r, "keyId") {
-			return entry.RetiredAt, true
+		if entry.KeyID != abField(r, "keyId") {
+			continue
+		}
+		if at := clock.at(entry.RetiredAt); !found || at.Before(earliest) {
+			earliest, found = at, true
 		}
 	}
-	return "", false
+	return earliest, found
+}
+
+// abStatusUnknown is whether a transition naming the approval carries a status
+// the contract does not define; such a status is refused, never read as not
+// accepted.
+func abStatusUnknown(r abRecord) bool {
+	id := abField(r, "approvalId")
+	return slices.ContainsFunc(r.Transitions, func(t abTransition) bool {
+		return t.Status != "proposed" && t.Status != "accepted" &&
+			(t.PredecessorApproval == id || t.SuccessorApproval == id)
+	})
 }
 
 func abEffectClosed(r abRecord) bool {
@@ -253,11 +273,7 @@ func abDecide(r abRecord, matches bool) (scDecision, error) {
 	first, last := clock.at(r.Release.FirstServedAt), clock.at(r.Release.LastServedAt)
 	grace := time.Duration(r.Release.GraceSeconds) * time.Second
 	key, known := r.TrustedKeys[abField(r, "approver")]
-	retiredAt, retired := abRetiredAt(r)
-	retiredInstant := issued
-	if retired {
-		retiredInstant = clock.at(retiredAt)
-	}
+	retiredInstant, retired := abRetiredAt(r, &clock)
 	outcome := abField(r, "outcome")
 	checks := []struct {
 		reason string
@@ -272,6 +288,7 @@ func abDecide(r abRecord, matches bool) (scDecision, error) {
 		{"approval_not_granted", outcome != "approved" && outcome != "approved-with-corrections"},
 		{"approval_not_enforced", r.Enforcement != "enforce"},
 		{"approval_replayed", slices.Contains(r.Consumed, abField(r, "approvalId"))},
+		{"transition_status_unknown", abStatusUnknown(r)},
 		{"approval_superseded", abSuperseded(r, &clock)},
 		{"renewal_transition_missing", abRenewed(r) && len(abAcceptedInto(r, &clock)) == 0},
 		{"renewal_binding_invalid", abRenewalInvalid(r, &clock)},

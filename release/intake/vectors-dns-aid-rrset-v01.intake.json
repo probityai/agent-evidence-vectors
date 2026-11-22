@@ -1,0 +1,775 @@
+{
+  "aggregate": {
+    "counts": {
+      "accept": 4,
+      "reject": 7
+    },
+    "line": "verdict: every member behaves as MANIFEST.json declares",
+    "total": 11
+  },
+  "anchor": {
+    "kind": "digest-list-line",
+    "manifest": "vectors-dns-aid-rrset-v01/MANIFEST.json",
+    "reference": {
+      "path": "release/CORPUS-DIGESTS.txt",
+      "uri": "https://github.com/probityai/agent-evidence-vectors/blob/main/release/CORPUS-DIGESTS.txt"
+    },
+    "routine": "corpus_digest in corpora/vectors-dns-aid-rrset-v01/gen_vectors.py",
+    "routine-file": "corpora/vectors-dns-aid-rrset-v01/gen_vectors.py",
+    "serialization": "corpus-routine",
+    "sha256": "e4b706b02bec52dd9b6059d707686658ea7a2c5a45ec1b0b82cd5f136c07b2f2",
+    "verdicts": {
+      "availability-failure": "inconclusive",
+      "integrity-failure": "fail"
+    }
+  },
+  "artifacts": [
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "f949203f99f5b98c3615b3f0bd366270c082a4059aaae7bd537d954788a620af"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "f949203f99f5b98c3615b3f0bd366270c082a4059aaae7bd537d954788a620af"
+        },
+        "swapped-in": "c2ef70a06e1a27b17d987e1c0b57567486b12df91ff5356c6326b34576a7a01d",
+        "test": "swap-and-re-pin"
+      },
+      "path": "corpora/vectors-dns-aid-rrset-v01/INDEX.md",
+      "serialization": "bytes",
+      "sha256": "12df6485fb8e1b482872acc3b55ad29e309d59a553b77f3426fb5ffc4889558a"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "f949203f99f5b98c3615b3f0bd366270c082a4059aaae7bd537d954788a620af"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "f949203f99f5b98c3615b3f0bd366270c082a4059aaae7bd537d954788a620af"
+        },
+        "swapped-in": "a6c70a84f969be566e1845dfe725de1722d55d2f5e28fcccf9276476f30fddbb",
+        "test": "swap-and-re-pin"
+      },
+      "path": "corpora/vectors-dns-aid-rrset-v01/check_vectors.py",
+      "serialization": "bytes",
+      "sha256": "0e1388c4c1e657f3df7c6f6be3b801493905b6ff46d0b49d0e298bb3bdb7c2e7"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "f949203f99f5b98c3615b3f0bd366270c082a4059aaae7bd537d954788a620af"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "f949203f99f5b98c3615b3f0bd366270c082a4059aaae7bd537d954788a620af"
+        },
+        "swapped-in": "5087812ca90dd7c57e77ba44b3c989f201d520fa744873a113852fe4db1b0095",
+        "test": "swap-and-re-pin"
+      },
+      "path": "corpora/vectors-dns-aid-rrset-v01/gen_vectors.py",
+      "serialization": "bytes",
+      "sha256": "54236ee0d0ce8c395aeec817bec0287774a5e2c77de0e06086acd003f0cacd31"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "f949203f99f5b98c3615b3f0bd366270c082a4059aaae7bd537d954788a620af"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "f949203f99f5b98c3615b3f0bd366270c082a4059aaae7bd537d954788a620af"
+        },
+        "swapped-in": "b634c317cd256e6381d11fbd5d9c9f7b702e490fa3c820d8ea84dd86e29ce6a5",
+        "test": "swap-and-re-pin"
+      },
+      "path": "corpora/vectors-dns-aid-rrset-v01/tests/test_corpus.py",
+      "serialization": "bytes",
+      "sha256": "f4675601128291b247eb3068ca534b5d91d079c2dbd338654dd4ef83969809dd"
+    }
+  ],
+  "boundary": {
+    "complete": true,
+    "member-locations": [
+      {
+        "dir": "cases",
+        "recursive": false,
+        "suffix": ".json"
+      }
+    ],
+    "root": "corpora/vectors-dns-aid-rrset-v01"
+  },
+  "byte-identity": {
+    "pins": 11,
+    "serialization": "bytes"
+  },
+  "canonicalization": {
+    "encoding": "jcs-sha256"
+  },
+  "checker": {
+    "commands": [
+      "go build -o aee-verify ./cmd/aee-verify",
+      "aee-verify -json corpora/vectors-dns-aid-rrset-v01",
+      "aee-verify -json corpora/vectors-dns-aid-rrset-v01",
+      "aee-verify corpora/vectors-dns-aid-rrset-v01"
+    ],
+    "dependencies": [
+      {
+        "path": "go.mod",
+        "serialization": "bytes",
+        "sha256": "c9f5a67159789ead4e2879e86805505c6ba22150b04bef360e6b3333125fb1c2"
+      },
+      {
+        "path": "go.work",
+        "serialization": "bytes",
+        "sha256": "61a9b151174d1aca21dd4b851b7d9a88784c4e6674ba4550a01a36a22f165e47"
+      }
+    ],
+    "helpers": [],
+    "name": "aee-verify",
+    "relationship": "same-implementation",
+    "revision": {
+      "kind": "source-listing",
+      "paths": [
+        "aee/admission.go",
+        "aee/carried_base64.go",
+        "aee/codes.go",
+        "aee/commitments.go",
+        "aee/jcs.go",
+        "aee/merkle.go",
+        "aee/pae.go",
+        "aee/recompute.go",
+        "aee/runbinding.go",
+        "aee/statement.go",
+        "aee/tier.go",
+        "aee/types.go",
+        "aee/validity.go",
+        "aee/verify.go",
+        "cmd/aee-verify/corpus.go",
+        "cmd/aee-verify/main.go",
+        "corpusreaders/a2ajcs.go",
+        "corpusreaders/aci.go",
+        "corpusreaders/acscore.go",
+        "corpusreaders/admission.go",
+        "corpusreaders/aeecorpus.go",
+        "corpusreaders/agentaction.go",
+        "corpusreaders/agentaction_chain.go",
+        "corpusreaders/agentdecision.go",
+        "corpusreaders/agenticprocess.go",
+        "corpusreaders/aggregateaccounting.go",
+        "corpusreaders/aigeneration.go",
+        "corpusreaders/anchoredchain.go",
+        "corpusreaders/anchorstream.go",
+        "corpusreaders/approvalbinding.go",
+        "corpusreaders/artifactbinding.go",
+        "corpusreaders/auditrecord.go",
+        "corpusreaders/auditrecord_consumption.go",
+        "corpusreaders/auditrecord_datasubject.go",
+        "corpusreaders/auditrecord_dating.go",
+        "corpusreaders/auditrecord_principal.go",
+        "corpusreaders/auditrecord_sequence.go",
+        "corpusreaders/authoritydispatch.go",
+        "corpusreaders/badgevc.go",
+        "corpusreaders/budgetlineage.go",
+        "corpusreaders/canonical_base64.go",
+        "corpusreaders/capabilityrequirement.go",
+        "corpusreaders/cardreceipt.go",
+        "corpusreaders/catalogtrust.go",
+        "corpusreaders/changeadmission.go",
+        "corpusreaders/chunkedexport.go",
+        "corpusreaders/common.go",
+        "corpusreaders/completionconfirmation.go",
+        "corpusreaders/connectorscope.go",
+        "corpusreaders/containmentjournal.go",
+        "corpusreaders/contextdiscovery.go",
+        "corpusreaders/controldecision.go",
+        "corpusreaders/convertedargs.go",
+        "corpusreaders/decisionclient.go",
+        "corpusreaders/delegationlifecycle.go",
+        "corpusreaders/delegatorright.go",
+        "corpusreaders/dispatchfence.go",
+        "corpusreaders/dnsaid.go",
+        "corpusreaders/doneargv.go",
+        "corpusreaders/donechecks.go",
+        "corpusreaders/donerecords.go",
+        "corpusreaders/donerun.go",
+        "corpusreaders/emptyinterval.go",
+        "corpusreaders/evidencecell.go",
+        "corpusreaders/evidencestate.go",
+        "corpusreaders/executionbilling.go",
+        "corpusreaders/gradefloor.go",
+        "corpusreaders/htxcases.go",
+        "corpusreaders/identitybinding.go",
+        "corpusreaders/ietfagentrecord.go",
+        "corpusreaders/keydirectory.go",
+        "corpusreaders/keyrevocation.go",
+        "corpusreaders/lifecyclebinding.go",
+        "corpusreaders/mcpauthz.go",
+        "corpusreaders/mcpowasp.go",
+        "corpusreaders/mcprecord.go",
+        "corpusreaders/mcpresponsephase.go",
+        "corpusreaders/monitorcoverage.go",
+        "corpusreaders/observedeffect.go",
+        "corpusreaders/openweight.go",
+        "corpusreaders/paymentmandate.go",
+        "corpusreaders/principalbinding.go",
+        "corpusreaders/printwitness.go",
+        "corpusreaders/propagationstep.go",
+        "corpusreaders/pyjson.go",
+        "corpusreaders/receiptchainend.go",
+        "corpusreaders/receiptsignature.go",
+        "corpusreaders/recorded.go",
+        "corpusreaders/refundconnected.go",
+        "corpusreaders/refundconnected_aps.go",
+        "corpusreaders/refundconnected_run.go",
+        "corpusreaders/refundconnected_steps.go",
+        "corpusreaders/refundconnected_trust.go",
+        "corpusreaders/refundconnected_value.go",
+        "corpusreaders/refusalreason.go",
+        "corpusreaders/registry.go",
+        "corpusreaders/responsibilityescalation.go",
+        "corpusreaders/restartrecords.go",
+        "corpusreaders/rsadigestinfo.go",
+        "corpusreaders/rulecorpus.go",
+        "corpusreaders/runmetrics.go",
+        "corpusreaders/scittcose.go",
+        "corpusreaders/selfreported.go",
+        "corpusreaders/signaturecoverage.go",
+        "corpusreaders/sourcecoverage.go",
+        "corpusreaders/strictjson.go",
+        "corpusreaders/telemetryevidence.go",
+        "corpusreaders/traceanchor.go",
+        "corpusreaders/uncertaineffect.go",
+        "corpusreaders/w3cintake.go",
+        "corpusreaders/w3cjcs.go",
+        "corpusreaders/w3creport.go",
+        "corpusreaders/x402join.go",
+        "go.mod"
+      ],
+      "serialization": "sha256-listing-v1",
+      "sha256": "2558d3c3540ca75832aa22684a055fc39afda0c8de8907410e00d642becedc70"
+    },
+    "runtime": {
+      "name": "go",
+      "version": "1.26"
+    },
+    "shared-verification-code": [
+      "aee/admission.go",
+      "aee/carried_base64.go",
+      "aee/codes.go",
+      "aee/commitments.go",
+      "aee/jcs.go",
+      "aee/merkle.go",
+      "aee/pae.go",
+      "aee/recompute.go",
+      "aee/runbinding.go",
+      "aee/statement.go",
+      "aee/tier.go",
+      "aee/types.go",
+      "aee/validity.go",
+      "aee/verify.go",
+      "cmd/aee-verify/corpus.go",
+      "cmd/aee-verify/main.go",
+      "corpusreaders/a2ajcs.go",
+      "corpusreaders/aci.go",
+      "corpusreaders/acscore.go",
+      "corpusreaders/admission.go",
+      "corpusreaders/aeecorpus.go",
+      "corpusreaders/agentaction.go",
+      "corpusreaders/agentaction_chain.go",
+      "corpusreaders/agentdecision.go",
+      "corpusreaders/agenticprocess.go",
+      "corpusreaders/aggregateaccounting.go",
+      "corpusreaders/aigeneration.go",
+      "corpusreaders/anchoredchain.go",
+      "corpusreaders/anchorstream.go",
+      "corpusreaders/approvalbinding.go",
+      "corpusreaders/artifactbinding.go",
+      "corpusreaders/auditrecord.go",
+      "corpusreaders/auditrecord_consumption.go",
+      "corpusreaders/auditrecord_datasubject.go",
+      "corpusreaders/auditrecord_dating.go",
+      "corpusreaders/auditrecord_principal.go",
+      "corpusreaders/auditrecord_sequence.go",
+      "corpusreaders/authoritydispatch.go",
+      "corpusreaders/badgevc.go",
+      "corpusreaders/budgetlineage.go",
+      "corpusreaders/canonical_base64.go",
+      "corpusreaders/capabilityrequirement.go",
+      "corpusreaders/cardreceipt.go",
+      "corpusreaders/catalogtrust.go",
+      "corpusreaders/changeadmission.go",
+      "corpusreaders/chunkedexport.go",
+      "corpusreaders/common.go",
+      "corpusreaders/completionconfirmation.go",
+      "corpusreaders/connectorscope.go",
+      "corpusreaders/containmentjournal.go",
+      "corpusreaders/contextdiscovery.go",
+      "corpusreaders/controldecision.go",
+      "corpusreaders/convertedargs.go",
+      "corpusreaders/decisionclient.go",
+      "corpusreaders/delegationlifecycle.go",
+      "corpusreaders/delegatorright.go",
+      "corpusreaders/dispatchfence.go",
+      "corpusreaders/dnsaid.go",
+      "corpusreaders/doneargv.go",
+      "corpusreaders/donechecks.go",
+      "corpusreaders/donerecords.go",
+      "corpusreaders/donerun.go",
+      "corpusreaders/emptyinterval.go",
+      "corpusreaders/evidencecell.go",
+      "corpusreaders/evidencestate.go",
+      "corpusreaders/executionbilling.go",
+      "corpusreaders/gradefloor.go",
+      "corpusreaders/htxcases.go",
+      "corpusreaders/identitybinding.go",
+      "corpusreaders/ietfagentrecord.go",
+      "corpusreaders/keydirectory.go",
+      "corpusreaders/keyrevocation.go",
+      "corpusreaders/lifecyclebinding.go",
+      "corpusreaders/mcpauthz.go",
+      "corpusreaders/mcpowasp.go",
+      "corpusreaders/mcprecord.go",
+      "corpusreaders/mcpresponsephase.go",
+      "corpusreaders/monitorcoverage.go",
+      "corpusreaders/observedeffect.go",
+      "corpusreaders/openweight.go",
+      "corpusreaders/paymentmandate.go",
+      "corpusreaders/principalbinding.go",
+      "corpusreaders/printwitness.go",
+      "corpusreaders/propagationstep.go",
+      "corpusreaders/pyjson.go",
+      "corpusreaders/receiptchainend.go",
+      "corpusreaders/receiptsignature.go",
+      "corpusreaders/recorded.go",
+      "corpusreaders/refundconnected.go",
+      "corpusreaders/refundconnected_aps.go",
+      "corpusreaders/refundconnected_run.go",
+      "corpusreaders/refundconnected_steps.go",
+      "corpusreaders/refundconnected_trust.go",
+      "corpusreaders/refundconnected_value.go",
+      "corpusreaders/refusalreason.go",
+      "corpusreaders/registry.go",
+      "corpusreaders/responsibilityescalation.go",
+      "corpusreaders/restartrecords.go",
+      "corpusreaders/rsadigestinfo.go",
+      "corpusreaders/rulecorpus.go",
+      "corpusreaders/runmetrics.go",
+      "corpusreaders/scittcose.go",
+      "corpusreaders/selfreported.go",
+      "corpusreaders/signaturecoverage.go",
+      "corpusreaders/sourcecoverage.go",
+      "corpusreaders/strictjson.go",
+      "corpusreaders/telemetryevidence.go",
+      "corpusreaders/traceanchor.go",
+      "corpusreaders/uncertaineffect.go",
+      "corpusreaders/w3cintake.go",
+      "corpusreaders/w3cjcs.go",
+      "corpusreaders/w3creport.go",
+      "corpusreaders/x402join.go",
+      "go.mod"
+    ]
+  },
+  "checks": [
+    {
+      "check": "after-delete-sibling-kept",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "after-delete-sibling-lost",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "draft-02-example-rrset",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "draft-newer-00-example-rrset",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "duplicate-protocol-record",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "one-record-after-overwrite",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "transport-only-record",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "two-protocols-one-alpn",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "two-protocols-one-proto",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "two-records-bare-alpn",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "unpublished-protocol-record",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    }
+  ],
+  "corpus-digest": {
+    "serialization": "sha256-listing-v1",
+    "sha256": "3e5a6824d488b95f68ddfa1ed9a7a477eb3246f5de69cd6a92687f18b0b2d28b"
+  },
+  "exit-code": 0,
+  "exit-rule": "zero-iff-every-check-passes",
+  "exposure": "visible",
+  "faults": [],
+  "format": "public-agent-conformance/intake-record/v2",
+  "manifest": {
+    "closed": true,
+    "ids": [
+      "two-records-bare-alpn",
+      "draft-02-example-rrset",
+      "draft-newer-00-example-rrset",
+      "one-record-after-overwrite",
+      "two-protocols-one-alpn",
+      "two-protocols-one-proto",
+      "transport-only-record",
+      "duplicate-protocol-record",
+      "unpublished-protocol-record",
+      "after-delete-sibling-kept",
+      "after-delete-sibling-lost"
+    ],
+    "path": "corpora/vectors-dns-aid-rrset-v01/MANIFEST.json",
+    "sha256": "3fa1e40d4f9bff16854e0ff15be9e4938c30620d5f3e80b165a6c37bdd5d482c"
+  },
+  "members": [
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-dns-aid-rrset-v01/cases/two-records-bare-alpn.json",
+          "sha256": "ad4af4c1dba007d26a6461931523ac2ef31b413a23fcfadc11e7cee8fda69180"
+        }
+      ],
+      "id": "two-records-bare-alpn"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-dns-aid-rrset-v01/cases/draft-02-example-rrset.json",
+          "sha256": "1b3e38dbe03459e600d47a4d241514ba0bc544596cdc2631ea81c0a944b8beb2"
+        }
+      ],
+      "id": "draft-02-example-rrset"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-dns-aid-rrset-v01/cases/draft-newer-00-example-rrset.json",
+          "sha256": "f65ff09ec75691d702f655f91c021b31cadd631bee62a6c748cb4e1a49d2189a"
+        }
+      ],
+      "id": "draft-newer-00-example-rrset"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-dns-aid-rrset-v01/cases/one-record-after-overwrite.json",
+          "sha256": "90e3848025a5526202d90523d5e82c95527ee6c68953c168718f879afa9fb64d"
+        }
+      ],
+      "id": "one-record-after-overwrite"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-dns-aid-rrset-v01/cases/two-protocols-one-alpn.json",
+          "sha256": "044e3115657ec82db303dda0198147483ea2ba1fef745a438f43158ebfd59b5a"
+        }
+      ],
+      "id": "two-protocols-one-alpn"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-dns-aid-rrset-v01/cases/two-protocols-one-proto.json",
+          "sha256": "92f9c6f240b83ffb5da1d96aa34c137c61be30f4524c81f1b4f45175277d0bae"
+        }
+      ],
+      "id": "two-protocols-one-proto"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-dns-aid-rrset-v01/cases/transport-only-record.json",
+          "sha256": "c48e6740b0a179ea4e0eb5aa5509c22307db120dba93fd1b5fd28be149402609"
+        }
+      ],
+      "id": "transport-only-record"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-dns-aid-rrset-v01/cases/duplicate-protocol-record.json",
+          "sha256": "d8c9b69068fe7f6455f6d0f395a9b3b77f57dd20d411c25d65ba4dd88baf7e37"
+        }
+      ],
+      "id": "duplicate-protocol-record"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-dns-aid-rrset-v01/cases/unpublished-protocol-record.json",
+          "sha256": "e7686fe5574c7c47081baef83deb4e3af153e184c3b3ccb8c7e1480655f6feb0"
+        }
+      ],
+      "id": "unpublished-protocol-record"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-dns-aid-rrset-v01/cases/after-delete-sibling-kept.json",
+          "sha256": "954a4e7a08014b5852028325e61bcf79c3684f54d2feb64566d64da4baf58dd3"
+        }
+      ],
+      "id": "after-delete-sibling-kept"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-dns-aid-rrset-v01/cases/after-delete-sibling-lost.json",
+          "sha256": "60b54aaedccbc5185a3368891bde6762f6029293b797f9a0789c1d214deae509"
+        }
+      ],
+      "id": "after-delete-sibling-lost"
+    }
+  ],
+  "native": {
+    "cases": "native-json",
+    "format": "corpus-result-json-v1",
+    "process-status": {
+      "exit-code": 0
+    },
+    "summary": "native-text"
+  },
+  "non-author-runs": [],
+  "observations": [
+    {
+      "carry": "referenced",
+      "id": "native-json",
+      "reference": {
+        "path": "release/intake/native/vectors-dns-aid-rrset-v01.json",
+        "serialization": "bytes",
+        "sha256": "f949203f99f5b98c3615b3f0bd366270c082a4059aaae7bd537d954788a620af"
+      }
+    },
+    {
+      "carry": "referenced",
+      "id": "native-text",
+      "reference": {
+        "path": "release/intake/native/vectors-dns-aid-rrset-v01.txt",
+        "serialization": "bytes",
+        "sha256": "a1344df51a764711e5fcda1d1b6d826735c9b9ba4bb180bf25f4480aa5fc32cb"
+      }
+    },
+    {
+      "carried": "",
+      "carry": "carried",
+      "id": "stderr"
+    }
+  ],
+  "pin-serialization": "bytes",
+  "refusal-verdicts": [
+    "contradicted",
+    "failed",
+    "must-reject",
+    "reject",
+    "rejected"
+  ],
+  "refusals": [
+    {
+      "check": "after-delete-sibling-lost",
+      "inputs": [
+        "member:after-delete-sibling-lost",
+        "check:after-delete-sibling-lost"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"codes\":[\"protocol-record-missing\"],\"verdict\":\"invalid\"}}"
+    },
+    {
+      "check": "duplicate-protocol-record",
+      "inputs": [
+        "member:duplicate-protocol-record",
+        "check:duplicate-protocol-record"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"codes\":[\"protocol-record-duplicated\"],\"verdict\":\"invalid\"}}"
+    },
+    {
+      "check": "one-record-after-overwrite",
+      "inputs": [
+        "member:one-record-after-overwrite",
+        "check:one-record-after-overwrite"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"codes\":[\"protocol-record-missing\"],\"verdict\":\"invalid\"}}"
+    },
+    {
+      "check": "transport-only-record",
+      "inputs": [
+        "member:transport-only-record",
+        "check:transport-only-record"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"codes\":[\"record-names-no-protocol\"],\"verdict\":\"invalid\"}}"
+    },
+    {
+      "check": "two-protocols-one-alpn",
+      "inputs": [
+        "member:two-protocols-one-alpn",
+        "check:two-protocols-one-alpn"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"codes\":[\"record-names-two-protocols\"],\"verdict\":\"invalid\"}}"
+    },
+    {
+      "check": "two-protocols-one-proto",
+      "inputs": [
+        "member:two-protocols-one-proto",
+        "check:two-protocols-one-proto"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"codes\":[\"record-names-two-protocols\"],\"verdict\":\"invalid\"}}"
+    },
+    {
+      "check": "unpublished-protocol-record",
+      "inputs": [
+        "member:unpublished-protocol-record",
+        "check:unpublished-protocol-record"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"codes\":[\"protocol-record-unexpected\"],\"verdict\":\"invalid\"}}"
+    }
+  ],
+  "relaxed-controls": [],
+  "replay-stability": {
+    "cause": null,
+    "ordering": "emission-order",
+    "runs": [
+      {
+        "process": "run-1",
+        "sha256": "f949203f99f5b98c3615b3f0bd366270c082a4059aaae7bd537d954788a620af"
+      },
+      {
+        "process": "run-2",
+        "sha256": "f949203f99f5b98c3615b3f0bd366270c082a4059aaae7bd537d954788a620af"
+      }
+    ],
+    "seed": null,
+    "state": "stable"
+  },
+  "scope": {
+    "does-not-claim": [
+      "whole-attack-surface",
+      "implementation-ranking",
+      "threats-outside-corpus",
+      "action-occurred-or-authority"
+    ],
+    "establishes": [
+      "aee-verify, at the source listing named here, judges each of the 11 pinned members of dns-aid-rrset/v1 as its manifest declares"
+    ],
+    "leaves-open": [
+      "whether an implementation written from the specification, run by someone other than an author, reaches the same verdicts",
+      "whether release/CORPUS-DIGESTS.txt is a list a release signed: the signature beside it does not verify over these bytes, so the anchor is a located line, not a verified one",
+      "whether a re-run by someone other than an author on these exact bytes agrees; none is on the record for them"
+    ]
+  },
+  "selector": {
+    "expression": "*",
+    "language": "id-glob",
+    "matched": 11,
+    "require": "at-least-one",
+    "selected": [
+      "two-records-bare-alpn",
+      "draft-02-example-rrset",
+      "draft-newer-00-example-rrset",
+      "one-record-after-overwrite",
+      "two-protocols-one-alpn",
+      "two-protocols-one-proto",
+      "transport-only-record",
+      "duplicate-protocol-record",
+      "unpublished-protocol-record",
+      "after-delete-sibling-kept",
+      "after-delete-sibling-lost"
+    ]
+  },
+  "specification-readers": [],
+  "state": "pass",
+  "suite": "dns-aid-rrset/v1"
+}

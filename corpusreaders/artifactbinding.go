@@ -105,7 +105,7 @@ func (o *bindingOutcome) has(code string) bool {
 
 func (a artifactBinding) Judge(dir string, raw []byte) (*Result, error) {
 	var m bindingManifest
-	if err := json.Unmarshal(raw, &m); err != nil {
+	if err := strictUnmarshal(raw, &m); err != nil {
 		return nil, fmt.Errorf("%s/MANIFEST.json does not parse: %w", dir, err)
 	}
 	publicKey, err := hex.DecodeString(m.PublicKey)
@@ -173,7 +173,7 @@ func (artifactBinding) checkCorpus(m *bindingManifest, raw []byte, verdicts map[
 	var vectorsRaw struct {
 		Vectors json.RawMessage `json:"vectors"`
 	}
-	if json.Unmarshal(raw, &vectorsRaw) != nil {
+	if strictUnmarshal(raw, &vectorsRaw) != nil {
 		return findings
 	}
 	canonical, err := aee.Canonicalize(vectorsRaw.Vectors)
@@ -303,7 +303,7 @@ func (a artifactBinding) verify(dir string, v bindingVector, m *bindingManifest,
 // contract version.
 func (artifactBinding) checkEncoding(raw []byte, out *bindingOutcome) map[string]any {
 	var record map[string]any
-	if err := json.Unmarshal(raw, &record); err != nil {
+	if err := strictUnmarshal(raw, &record); err != nil {
 		out.note("manifest-unparseable", "the manifest is not a JSON object")
 		return nil
 	}
@@ -524,7 +524,7 @@ func (artifactBinding) checkATIF(trial string, record map[string]any, out *bindi
 		return
 	}
 	var payload map[string]any
-	if json.Unmarshal(body, &payload) != nil {
+	if strictUnmarshal(body, &payload) != nil {
 		return
 	}
 	if fmt.Sprintf("%v", atif["trajectory_id"]) != fmt.Sprintf("%v", payload["trajectory_id"]) {
@@ -573,7 +573,7 @@ func (artifactBinding) checkPublishedKey(dir string, vectors []bindingVector, pu
 	}
 	var record map[string]any
 	var named any
-	if json.Unmarshal(body, &record) == nil {
+	if strictUnmarshal(body, &record) == nil {
 		named = record["signer_key_id"]
 	}
 	expected := sha(publicKey)
@@ -593,7 +593,7 @@ func (artifactBinding) checkLineage(dir string, v bindingVector, out *Member) {
 		return
 	}
 	var record map[string]any
-	if json.Unmarshal(body, &record) != nil {
+	if strictUnmarshal(body, &record) != nil {
 		out.Findings = append(out.Findings, "the regrade record is not a JSON object")
 		return
 	}
@@ -608,7 +608,7 @@ func (artifactBinding) checkLineage(dir string, v bindingVector, out *Member) {
 		return
 	}
 	var parent map[string]any
-	if json.Unmarshal(sourceBody, &parent) != nil {
+	if strictUnmarshal(sourceBody, &parent) != nil {
 		out.Findings = append(out.Findings, "the source record is not a JSON object")
 		return
 	}

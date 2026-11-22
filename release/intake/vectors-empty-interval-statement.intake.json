@@ -1,0 +1,940 @@
+{
+  "aggregate": {
+    "counts": {
+      "cross_federation_unsynchronised": 1,
+      "not_recorded": 4,
+      "query_failed": 1,
+      "recorded": 2,
+      "undetermined": 8
+    },
+    "line": "verdict: every member behaves as MANIFEST.json declares",
+    "total": 16
+  },
+  "anchor": {
+    "kind": "digest-list-line",
+    "manifest": "vectors-empty-interval-statement/MANIFEST.json",
+    "reference": {
+      "path": "release/CORPUS-DIGESTS.txt",
+      "uri": "https://github.com/probityai/agent-evidence-vectors/blob/main/release/CORPUS-DIGESTS.txt"
+    },
+    "routine": "corpus_digest in corpora/vectors-empty-interval-statement/gen_vectors.py",
+    "routine-file": "corpora/vectors-empty-interval-statement/gen_vectors.py",
+    "serialization": "corpus-routine",
+    "sha256": "1fe67f2406e75a05a2df2bdf340521a306b90eaa865a8c8e7f17fb911b70e3cf",
+    "verdicts": {
+      "availability-failure": "inconclusive",
+      "integrity-failure": "fail"
+    }
+  },
+  "artifacts": [
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "9f584e5c0842c8560538a978202f0084f4bfc05938a6040adec2377cc9a26441"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "9f584e5c0842c8560538a978202f0084f4bfc05938a6040adec2377cc9a26441"
+        },
+        "swapped-in": "64a5fd8c193491eb772cd7a5221c2c32bc62cb3f63e5f3c36f7695d432276836",
+        "test": "swap-and-re-pin"
+      },
+      "path": "corpora/vectors-empty-interval-statement/README.md",
+      "serialization": "bytes",
+      "sha256": "57dd90a504b137509dc10c1aae3358df2b0babb851751c9ef86e03538b67f437"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "9f584e5c0842c8560538a978202f0084f4bfc05938a6040adec2377cc9a26441"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "9f584e5c0842c8560538a978202f0084f4bfc05938a6040adec2377cc9a26441"
+        },
+        "swapped-in": "7e717a9cf17e39389aea024316e87372ac3d5ce58eeaa518ac0da2be52d7d60d",
+        "test": "swap-and-re-pin"
+      },
+      "path": "corpora/vectors-empty-interval-statement/check_vectors.py",
+      "serialization": "bytes",
+      "sha256": "6d34d4675f95fc3ea345f55098e6d7a7c2d0576a94978f0a8c310198441d8f36"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "9f584e5c0842c8560538a978202f0084f4bfc05938a6040adec2377cc9a26441"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "9f584e5c0842c8560538a978202f0084f4bfc05938a6040adec2377cc9a26441"
+        },
+        "swapped-in": "2ffceae2068adfccac0ab3ef3f0ea7f9c2aa531ce1c2998bde92c927c017cff4",
+        "test": "swap-and-re-pin"
+      },
+      "path": "corpora/vectors-empty-interval-statement/gen_vectors.py",
+      "serialization": "bytes",
+      "sha256": "b5f2a133ba01e63ddcb9004f8cc487206e208d64f330bf06d3adcddd790df8a2"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "9f584e5c0842c8560538a978202f0084f4bfc05938a6040adec2377cc9a26441"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "9f584e5c0842c8560538a978202f0084f4bfc05938a6040adec2377cc9a26441"
+        },
+        "swapped-in": "719008cfc56e24af323c13bf30a6bdfc3b3ca215ad1a0b883643c76504b7e6aa",
+        "test": "swap-and-re-pin"
+      },
+      "path": "corpora/vectors-empty-interval-statement/tests/test_corpus.py",
+      "serialization": "bytes",
+      "sha256": "74c0d57d60561080445a795f610dc3b6c6e38fb6bf66ea10bbaedcbcec3f212a"
+    }
+  ],
+  "boundary": {
+    "complete": true,
+    "member-locations": [
+      {
+        "dir": "cases",
+        "recursive": true,
+        "suffix": ""
+      }
+    ],
+    "root": "corpora/vectors-empty-interval-statement"
+  },
+  "byte-identity": {
+    "pins": 47,
+    "serialization": "bytes"
+  },
+  "canonicalization": {
+    "encoding": "jcs-sha256"
+  },
+  "checker": {
+    "commands": [
+      "go build -o aee-verify ./cmd/aee-verify",
+      "aee-verify -json corpora/vectors-empty-interval-statement",
+      "aee-verify -json corpora/vectors-empty-interval-statement",
+      "aee-verify corpora/vectors-empty-interval-statement"
+    ],
+    "dependencies": [
+      {
+        "path": "go.mod",
+        "serialization": "bytes",
+        "sha256": "c9f5a67159789ead4e2879e86805505c6ba22150b04bef360e6b3333125fb1c2"
+      },
+      {
+        "path": "go.work",
+        "serialization": "bytes",
+        "sha256": "61a9b151174d1aca21dd4b851b7d9a88784c4e6674ba4550a01a36a22f165e47"
+      }
+    ],
+    "helpers": [],
+    "name": "aee-verify",
+    "relationship": "same-implementation",
+    "revision": {
+      "kind": "source-listing",
+      "paths": [
+        "aee/admission.go",
+        "aee/carried_base64.go",
+        "aee/codes.go",
+        "aee/commitments.go",
+        "aee/jcs.go",
+        "aee/merkle.go",
+        "aee/pae.go",
+        "aee/recompute.go",
+        "aee/runbinding.go",
+        "aee/statement.go",
+        "aee/tier.go",
+        "aee/types.go",
+        "aee/validity.go",
+        "aee/verify.go",
+        "cmd/aee-verify/corpus.go",
+        "cmd/aee-verify/main.go",
+        "corpusreaders/a2ajcs.go",
+        "corpusreaders/aci.go",
+        "corpusreaders/acscore.go",
+        "corpusreaders/admission.go",
+        "corpusreaders/aeecorpus.go",
+        "corpusreaders/agentaction.go",
+        "corpusreaders/agentaction_chain.go",
+        "corpusreaders/agentdecision.go",
+        "corpusreaders/agenticprocess.go",
+        "corpusreaders/aggregateaccounting.go",
+        "corpusreaders/aigeneration.go",
+        "corpusreaders/anchoredchain.go",
+        "corpusreaders/anchorstream.go",
+        "corpusreaders/approvalbinding.go",
+        "corpusreaders/artifactbinding.go",
+        "corpusreaders/auditrecord.go",
+        "corpusreaders/auditrecord_consumption.go",
+        "corpusreaders/auditrecord_datasubject.go",
+        "corpusreaders/auditrecord_dating.go",
+        "corpusreaders/auditrecord_principal.go",
+        "corpusreaders/auditrecord_sequence.go",
+        "corpusreaders/authoritydispatch.go",
+        "corpusreaders/badgevc.go",
+        "corpusreaders/budgetlineage.go",
+        "corpusreaders/canonical_base64.go",
+        "corpusreaders/capabilityrequirement.go",
+        "corpusreaders/cardreceipt.go",
+        "corpusreaders/catalogtrust.go",
+        "corpusreaders/changeadmission.go",
+        "corpusreaders/chunkedexport.go",
+        "corpusreaders/common.go",
+        "corpusreaders/completionconfirmation.go",
+        "corpusreaders/connectorscope.go",
+        "corpusreaders/containmentjournal.go",
+        "corpusreaders/contextdiscovery.go",
+        "corpusreaders/controldecision.go",
+        "corpusreaders/convertedargs.go",
+        "corpusreaders/decisionclient.go",
+        "corpusreaders/delegationlifecycle.go",
+        "corpusreaders/delegatorright.go",
+        "corpusreaders/dispatchfence.go",
+        "corpusreaders/dnsaid.go",
+        "corpusreaders/doneargv.go",
+        "corpusreaders/donechecks.go",
+        "corpusreaders/donerecords.go",
+        "corpusreaders/donerun.go",
+        "corpusreaders/emptyinterval.go",
+        "corpusreaders/evidencecell.go",
+        "corpusreaders/evidencestate.go",
+        "corpusreaders/executionbilling.go",
+        "corpusreaders/gradefloor.go",
+        "corpusreaders/htxcases.go",
+        "corpusreaders/identitybinding.go",
+        "corpusreaders/ietfagentrecord.go",
+        "corpusreaders/keydirectory.go",
+        "corpusreaders/keyrevocation.go",
+        "corpusreaders/lifecyclebinding.go",
+        "corpusreaders/mcpauthz.go",
+        "corpusreaders/mcpowasp.go",
+        "corpusreaders/mcprecord.go",
+        "corpusreaders/mcpresponsephase.go",
+        "corpusreaders/monitorcoverage.go",
+        "corpusreaders/observedeffect.go",
+        "corpusreaders/openweight.go",
+        "corpusreaders/paymentmandate.go",
+        "corpusreaders/principalbinding.go",
+        "corpusreaders/printwitness.go",
+        "corpusreaders/propagationstep.go",
+        "corpusreaders/pyjson.go",
+        "corpusreaders/receiptchainend.go",
+        "corpusreaders/receiptsignature.go",
+        "corpusreaders/recorded.go",
+        "corpusreaders/refundconnected.go",
+        "corpusreaders/refundconnected_aps.go",
+        "corpusreaders/refundconnected_run.go",
+        "corpusreaders/refundconnected_steps.go",
+        "corpusreaders/refundconnected_trust.go",
+        "corpusreaders/refundconnected_value.go",
+        "corpusreaders/refusalreason.go",
+        "corpusreaders/registry.go",
+        "corpusreaders/responsibilityescalation.go",
+        "corpusreaders/restartrecords.go",
+        "corpusreaders/rsadigestinfo.go",
+        "corpusreaders/rulecorpus.go",
+        "corpusreaders/runmetrics.go",
+        "corpusreaders/scittcose.go",
+        "corpusreaders/selfreported.go",
+        "corpusreaders/signaturecoverage.go",
+        "corpusreaders/sourcecoverage.go",
+        "corpusreaders/strictjson.go",
+        "corpusreaders/telemetryevidence.go",
+        "corpusreaders/traceanchor.go",
+        "corpusreaders/uncertaineffect.go",
+        "corpusreaders/w3cintake.go",
+        "corpusreaders/w3cjcs.go",
+        "corpusreaders/w3creport.go",
+        "corpusreaders/x402join.go",
+        "go.mod"
+      ],
+      "serialization": "sha256-listing-v1",
+      "sha256": "2558d3c3540ca75832aa22684a055fc39afda0c8de8907410e00d642becedc70"
+    },
+    "runtime": {
+      "name": "go",
+      "version": "1.26"
+    },
+    "shared-verification-code": [
+      "aee/admission.go",
+      "aee/carried_base64.go",
+      "aee/codes.go",
+      "aee/commitments.go",
+      "aee/jcs.go",
+      "aee/merkle.go",
+      "aee/pae.go",
+      "aee/recompute.go",
+      "aee/runbinding.go",
+      "aee/statement.go",
+      "aee/tier.go",
+      "aee/types.go",
+      "aee/validity.go",
+      "aee/verify.go",
+      "cmd/aee-verify/corpus.go",
+      "cmd/aee-verify/main.go",
+      "corpusreaders/a2ajcs.go",
+      "corpusreaders/aci.go",
+      "corpusreaders/acscore.go",
+      "corpusreaders/admission.go",
+      "corpusreaders/aeecorpus.go",
+      "corpusreaders/agentaction.go",
+      "corpusreaders/agentaction_chain.go",
+      "corpusreaders/agentdecision.go",
+      "corpusreaders/agenticprocess.go",
+      "corpusreaders/aggregateaccounting.go",
+      "corpusreaders/aigeneration.go",
+      "corpusreaders/anchoredchain.go",
+      "corpusreaders/anchorstream.go",
+      "corpusreaders/approvalbinding.go",
+      "corpusreaders/artifactbinding.go",
+      "corpusreaders/auditrecord.go",
+      "corpusreaders/auditrecord_consumption.go",
+      "corpusreaders/auditrecord_datasubject.go",
+      "corpusreaders/auditrecord_dating.go",
+      "corpusreaders/auditrecord_principal.go",
+      "corpusreaders/auditrecord_sequence.go",
+      "corpusreaders/authoritydispatch.go",
+      "corpusreaders/badgevc.go",
+      "corpusreaders/budgetlineage.go",
+      "corpusreaders/canonical_base64.go",
+      "corpusreaders/capabilityrequirement.go",
+      "corpusreaders/cardreceipt.go",
+      "corpusreaders/catalogtrust.go",
+      "corpusreaders/changeadmission.go",
+      "corpusreaders/chunkedexport.go",
+      "corpusreaders/common.go",
+      "corpusreaders/completionconfirmation.go",
+      "corpusreaders/connectorscope.go",
+      "corpusreaders/containmentjournal.go",
+      "corpusreaders/contextdiscovery.go",
+      "corpusreaders/controldecision.go",
+      "corpusreaders/convertedargs.go",
+      "corpusreaders/decisionclient.go",
+      "corpusreaders/delegationlifecycle.go",
+      "corpusreaders/delegatorright.go",
+      "corpusreaders/dispatchfence.go",
+      "corpusreaders/dnsaid.go",
+      "corpusreaders/doneargv.go",
+      "corpusreaders/donechecks.go",
+      "corpusreaders/donerecords.go",
+      "corpusreaders/donerun.go",
+      "corpusreaders/emptyinterval.go",
+      "corpusreaders/evidencecell.go",
+      "corpusreaders/evidencestate.go",
+      "corpusreaders/executionbilling.go",
+      "corpusreaders/gradefloor.go",
+      "corpusreaders/htxcases.go",
+      "corpusreaders/identitybinding.go",
+      "corpusreaders/ietfagentrecord.go",
+      "corpusreaders/keydirectory.go",
+      "corpusreaders/keyrevocation.go",
+      "corpusreaders/lifecyclebinding.go",
+      "corpusreaders/mcpauthz.go",
+      "corpusreaders/mcpowasp.go",
+      "corpusreaders/mcprecord.go",
+      "corpusreaders/mcpresponsephase.go",
+      "corpusreaders/monitorcoverage.go",
+      "corpusreaders/observedeffect.go",
+      "corpusreaders/openweight.go",
+      "corpusreaders/paymentmandate.go",
+      "corpusreaders/principalbinding.go",
+      "corpusreaders/printwitness.go",
+      "corpusreaders/propagationstep.go",
+      "corpusreaders/pyjson.go",
+      "corpusreaders/receiptchainend.go",
+      "corpusreaders/receiptsignature.go",
+      "corpusreaders/recorded.go",
+      "corpusreaders/refundconnected.go",
+      "corpusreaders/refundconnected_aps.go",
+      "corpusreaders/refundconnected_run.go",
+      "corpusreaders/refundconnected_steps.go",
+      "corpusreaders/refundconnected_trust.go",
+      "corpusreaders/refundconnected_value.go",
+      "corpusreaders/refusalreason.go",
+      "corpusreaders/registry.go",
+      "corpusreaders/responsibilityescalation.go",
+      "corpusreaders/restartrecords.go",
+      "corpusreaders/rsadigestinfo.go",
+      "corpusreaders/rulecorpus.go",
+      "corpusreaders/runmetrics.go",
+      "corpusreaders/scittcose.go",
+      "corpusreaders/selfreported.go",
+      "corpusreaders/signaturecoverage.go",
+      "corpusreaders/sourcecoverage.go",
+      "corpusreaders/strictjson.go",
+      "corpusreaders/telemetryevidence.go",
+      "corpusreaders/traceanchor.go",
+      "corpusreaders/uncertaineffect.go",
+      "corpusreaders/w3cintake.go",
+      "corpusreaders/w3cjcs.go",
+      "corpusreaders/w3creport.go",
+      "corpusreaders/x402join.go",
+      "go.mod"
+    ]
+  },
+  "checks": [
+    {
+      "check": "interval-empty-not-recorded",
+      "native": {
+        "reasons": [],
+        "verdict": "not_recorded"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "interval-holds-revocation",
+      "native": {
+        "reasons": [],
+        "verdict": "recorded"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "statement-omits-recorded-event",
+      "native": {
+        "reasons": [],
+        "verdict": "recorded"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "other-credential-revoked-in-interval",
+      "native": {
+        "reasons": [],
+        "verdict": "not_recorded"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "revocation-outside-interval",
+      "native": {
+        "reasons": [],
+        "verdict": "not_recorded"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "query-failed",
+      "native": {
+        "reasons": [],
+        "verdict": "query_failed"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "cross-federation-unsynchronised",
+      "native": {
+        "reasons": [],
+        "verdict": "cross_federation_unsynchronised"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "cross-federation-synchronised",
+      "native": {
+        "reasons": [],
+        "verdict": "not_recorded"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "forged-statement-signature",
+      "native": {
+        "reasons": [],
+        "verdict": "undetermined"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "statement-for-other-credential",
+      "native": {
+        "reasons": [],
+        "verdict": "undetermined"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "forged-checkpoint-signature",
+      "native": {
+        "reasons": [],
+        "verdict": "undetermined"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "checkpoint-without-time",
+      "native": {
+        "reasons": [],
+        "verdict": "undetermined"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "checkpoint-stops-short",
+      "native": {
+        "reasons": [],
+        "verdict": "undetermined"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "event-edited-in-place",
+      "native": {
+        "reasons": [],
+        "verdict": "undetermined"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "event-deleted-from-interval",
+      "native": {
+        "reasons": [],
+        "verdict": "undetermined"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "ledger-rolled-back-to-abandoned-branch",
+      "native": {
+        "reasons": [],
+        "verdict": "undetermined"
+      },
+      "state": "pass"
+    }
+  ],
+  "corpus-digest": {
+    "serialization": "sha256-listing-v1",
+    "sha256": "92e8aba96d6d7fc77655dbc21c37e749887446f03b3ff75dbaccba4bde3955bc"
+  },
+  "exit-code": 0,
+  "exit-rule": "zero-iff-every-check-passes",
+  "exposure": "visible",
+  "faults": [],
+  "format": "public-agent-conformance/intake-record/v2",
+  "manifest": {
+    "closed": true,
+    "ids": [
+      "interval-empty-not-recorded",
+      "interval-holds-revocation",
+      "statement-omits-recorded-event",
+      "other-credential-revoked-in-interval",
+      "revocation-outside-interval",
+      "query-failed",
+      "cross-federation-unsynchronised",
+      "cross-federation-synchronised",
+      "forged-statement-signature",
+      "statement-for-other-credential",
+      "forged-checkpoint-signature",
+      "checkpoint-without-time",
+      "checkpoint-stops-short",
+      "event-edited-in-place",
+      "event-deleted-from-interval",
+      "ledger-rolled-back-to-abandoned-branch"
+    ],
+    "path": "corpora/vectors-empty-interval-statement/MANIFEST.json",
+    "sha256": "48022e42c99048112469375adaf37c966dedc5d5cda2c7ef746891f180eb381a"
+  },
+  "members": [
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-empty-interval-statement/cases/interval-empty-not-recorded/case.json",
+          "sha256": "b68c49ef0a8eff9ba63d922a6a6602eb251e547f5b34db7860bfa9fd7bc307b2"
+        },
+        {
+          "path": "corpora/vectors-empty-interval-statement/cases/interval-empty-not-recorded/ledger.jsonl",
+          "sha256": "423157c84f1931bb289cb52dd387a5ae8badc7b963d1bdc68e1057c8da6ba25c"
+        },
+        {
+          "path": "corpora/vectors-empty-interval-statement/cases/interval-empty-not-recorded/statement.json",
+          "sha256": "88d819d0f8e56c708cab4e9e13f4de54c4857561901e05cea152a70f02330bfc"
+        }
+      ],
+      "id": "interval-empty-not-recorded"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-empty-interval-statement/cases/interval-holds-revocation/case.json",
+          "sha256": "b68c49ef0a8eff9ba63d922a6a6602eb251e547f5b34db7860bfa9fd7bc307b2"
+        },
+        {
+          "path": "corpora/vectors-empty-interval-statement/cases/interval-holds-revocation/ledger.jsonl",
+          "sha256": "346c5b12cc15f54e3bcd2cf0729944ab288784da1f56c6ea1f59b2b918f4777f"
+        },
+        {
+          "path": "corpora/vectors-empty-interval-statement/cases/interval-holds-revocation/statement.json",
+          "sha256": "1a4863f56560133bb92f74e75f18d84de9123220d9c6aa6100a16992964e3f06"
+        }
+      ],
+      "id": "interval-holds-revocation"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-empty-interval-statement/cases/statement-omits-recorded-event/case.json",
+          "sha256": "b68c49ef0a8eff9ba63d922a6a6602eb251e547f5b34db7860bfa9fd7bc307b2"
+        },
+        {
+          "path": "corpora/vectors-empty-interval-statement/cases/statement-omits-recorded-event/ledger.jsonl",
+          "sha256": "346c5b12cc15f54e3bcd2cf0729944ab288784da1f56c6ea1f59b2b918f4777f"
+        },
+        {
+          "path": "corpora/vectors-empty-interval-statement/cases/statement-omits-recorded-event/statement.json",
+          "sha256": "b85765c4af6f6757559305835eb084ec58b63720c8b824f83733dfa70d7a5971"
+        }
+      ],
+      "id": "statement-omits-recorded-event"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-empty-interval-statement/cases/other-credential-revoked-in-interval/case.json",
+          "sha256": "b68c49ef0a8eff9ba63d922a6a6602eb251e547f5b34db7860bfa9fd7bc307b2"
+        },
+        {
+          "path": "corpora/vectors-empty-interval-statement/cases/other-credential-revoked-in-interval/ledger.jsonl",
+          "sha256": "13d709a849ef100b5f455e97138b0e4c7cf1331d4fdf41e4ecf11c448c23a16f"
+        },
+        {
+          "path": "corpora/vectors-empty-interval-statement/cases/other-credential-revoked-in-interval/statement.json",
+          "sha256": "21267a483b5c9d5d3eb3e454f646281252945e6dd630e73fe9613c0902a659ac"
+        }
+      ],
+      "id": "other-credential-revoked-in-interval"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-empty-interval-statement/cases/revocation-outside-interval/case.json",
+          "sha256": "b68c49ef0a8eff9ba63d922a6a6602eb251e547f5b34db7860bfa9fd7bc307b2"
+        },
+        {
+          "path": "corpora/vectors-empty-interval-statement/cases/revocation-outside-interval/ledger.jsonl",
+          "sha256": "70a16227534102322bcb5a2c147b5c04862397c376761a793ec42b86594268be"
+        },
+        {
+          "path": "corpora/vectors-empty-interval-statement/cases/revocation-outside-interval/statement.json",
+          "sha256": "2fc337b31729f4230f9a78bd8f8f06311bc8844d8b2fb4fd91fe19bb1dbbf708"
+        }
+      ],
+      "id": "revocation-outside-interval"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-empty-interval-statement/cases/query-failed/case.json",
+          "sha256": "d592fc23a3c39c5d9b5736dbc5b65edff8385894d0fddba045b8c49a4049c525"
+        },
+        {
+          "path": "corpora/vectors-empty-interval-statement/cases/query-failed/ledger.jsonl",
+          "sha256": "423157c84f1931bb289cb52dd387a5ae8badc7b963d1bdc68e1057c8da6ba25c"
+        }
+      ],
+      "id": "query-failed"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-empty-interval-statement/cases/cross-federation-unsynchronised/case.json",
+          "sha256": "ad52fa7195bd8010b0326b357f41c8f3abe708d132376736d2d61c92d3dd18ad"
+        },
+        {
+          "path": "corpora/vectors-empty-interval-statement/cases/cross-federation-unsynchronised/ledger.jsonl",
+          "sha256": "423157c84f1931bb289cb52dd387a5ae8badc7b963d1bdc68e1057c8da6ba25c"
+        },
+        {
+          "path": "corpora/vectors-empty-interval-statement/cases/cross-federation-unsynchronised/statement.json",
+          "sha256": "88d819d0f8e56c708cab4e9e13f4de54c4857561901e05cea152a70f02330bfc"
+        }
+      ],
+      "id": "cross-federation-unsynchronised"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-empty-interval-statement/cases/cross-federation-synchronised/case.json",
+          "sha256": "acebd58400f43aa80da2aff250653a132937a7486fe90f1778de833198f51a42"
+        },
+        {
+          "path": "corpora/vectors-empty-interval-statement/cases/cross-federation-synchronised/ledger.jsonl",
+          "sha256": "423157c84f1931bb289cb52dd387a5ae8badc7b963d1bdc68e1057c8da6ba25c"
+        },
+        {
+          "path": "corpora/vectors-empty-interval-statement/cases/cross-federation-synchronised/statement.json",
+          "sha256": "88d819d0f8e56c708cab4e9e13f4de54c4857561901e05cea152a70f02330bfc"
+        }
+      ],
+      "id": "cross-federation-synchronised"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-empty-interval-statement/cases/forged-statement-signature/case.json",
+          "sha256": "b68c49ef0a8eff9ba63d922a6a6602eb251e547f5b34db7860bfa9fd7bc307b2"
+        },
+        {
+          "path": "corpora/vectors-empty-interval-statement/cases/forged-statement-signature/ledger.jsonl",
+          "sha256": "423157c84f1931bb289cb52dd387a5ae8badc7b963d1bdc68e1057c8da6ba25c"
+        },
+        {
+          "path": "corpora/vectors-empty-interval-statement/cases/forged-statement-signature/statement.json",
+          "sha256": "d6d812897f72d348dab23fd8cc1af2feb9a59541528ab00084453bb68d37f496"
+        }
+      ],
+      "id": "forged-statement-signature"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-empty-interval-statement/cases/statement-for-other-credential/case.json",
+          "sha256": "b68c49ef0a8eff9ba63d922a6a6602eb251e547f5b34db7860bfa9fd7bc307b2"
+        },
+        {
+          "path": "corpora/vectors-empty-interval-statement/cases/statement-for-other-credential/ledger.jsonl",
+          "sha256": "423157c84f1931bb289cb52dd387a5ae8badc7b963d1bdc68e1057c8da6ba25c"
+        },
+        {
+          "path": "corpora/vectors-empty-interval-statement/cases/statement-for-other-credential/statement.json",
+          "sha256": "1a46bde8a3feb4354329716e073884add985f8ce2dfffa047cd514c4d25d6701"
+        }
+      ],
+      "id": "statement-for-other-credential"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-empty-interval-statement/cases/forged-checkpoint-signature/case.json",
+          "sha256": "b68c49ef0a8eff9ba63d922a6a6602eb251e547f5b34db7860bfa9fd7bc307b2"
+        },
+        {
+          "path": "corpora/vectors-empty-interval-statement/cases/forged-checkpoint-signature/ledger.jsonl",
+          "sha256": "423157c84f1931bb289cb52dd387a5ae8badc7b963d1bdc68e1057c8da6ba25c"
+        },
+        {
+          "path": "corpora/vectors-empty-interval-statement/cases/forged-checkpoint-signature/statement.json",
+          "sha256": "596aed1598f721701c15f70b783d8ccfe24e008e2f2b8febb6ede9bb7b926703"
+        }
+      ],
+      "id": "forged-checkpoint-signature"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-empty-interval-statement/cases/checkpoint-without-time/case.json",
+          "sha256": "b68c49ef0a8eff9ba63d922a6a6602eb251e547f5b34db7860bfa9fd7bc307b2"
+        },
+        {
+          "path": "corpora/vectors-empty-interval-statement/cases/checkpoint-without-time/ledger.jsonl",
+          "sha256": "423157c84f1931bb289cb52dd387a5ae8badc7b963d1bdc68e1057c8da6ba25c"
+        },
+        {
+          "path": "corpora/vectors-empty-interval-statement/cases/checkpoint-without-time/statement.json",
+          "sha256": "a9b04a2269234d85d2574021e8bf08e691a62247472d9b51b88709c5f8dc5de4"
+        }
+      ],
+      "id": "checkpoint-without-time"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-empty-interval-statement/cases/checkpoint-stops-short/case.json",
+          "sha256": "b68c49ef0a8eff9ba63d922a6a6602eb251e547f5b34db7860bfa9fd7bc307b2"
+        },
+        {
+          "path": "corpora/vectors-empty-interval-statement/cases/checkpoint-stops-short/ledger.jsonl",
+          "sha256": "423157c84f1931bb289cb52dd387a5ae8badc7b963d1bdc68e1057c8da6ba25c"
+        },
+        {
+          "path": "corpora/vectors-empty-interval-statement/cases/checkpoint-stops-short/statement.json",
+          "sha256": "89ba6a68ea072ed1d34a8a305933bbbe2743b325ddf311e89936264cabe3a01c"
+        }
+      ],
+      "id": "checkpoint-stops-short"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-empty-interval-statement/cases/event-edited-in-place/case.json",
+          "sha256": "b68c49ef0a8eff9ba63d922a6a6602eb251e547f5b34db7860bfa9fd7bc307b2"
+        },
+        {
+          "path": "corpora/vectors-empty-interval-statement/cases/event-edited-in-place/ledger.jsonl",
+          "sha256": "badfd30b8cc8f78e4717739be810ca1ce61e9531c8be42318509839b8f264e4e"
+        },
+        {
+          "path": "corpora/vectors-empty-interval-statement/cases/event-edited-in-place/statement.json",
+          "sha256": "b85765c4af6f6757559305835eb084ec58b63720c8b824f83733dfa70d7a5971"
+        }
+      ],
+      "id": "event-edited-in-place"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-empty-interval-statement/cases/event-deleted-from-interval/case.json",
+          "sha256": "b68c49ef0a8eff9ba63d922a6a6602eb251e547f5b34db7860bfa9fd7bc307b2"
+        },
+        {
+          "path": "corpora/vectors-empty-interval-statement/cases/event-deleted-from-interval/ledger.jsonl",
+          "sha256": "eeb0dfec66709d8564b8fd0375ba76ba8a4d442ff11a49fc574ba7fb1377a348"
+        },
+        {
+          "path": "corpora/vectors-empty-interval-statement/cases/event-deleted-from-interval/statement.json",
+          "sha256": "b85765c4af6f6757559305835eb084ec58b63720c8b824f83733dfa70d7a5971"
+        }
+      ],
+      "id": "event-deleted-from-interval"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-empty-interval-statement/cases/ledger-rolled-back-to-abandoned-branch/case.json",
+          "sha256": "b68c49ef0a8eff9ba63d922a6a6602eb251e547f5b34db7860bfa9fd7bc307b2"
+        },
+        {
+          "path": "corpora/vectors-empty-interval-statement/cases/ledger-rolled-back-to-abandoned-branch/ledger.jsonl",
+          "sha256": "b8bedf8ae4fbaedf8ab70116429f92806b7e1dcf5a2e4690bbbce2b1903bf408"
+        },
+        {
+          "path": "corpora/vectors-empty-interval-statement/cases/ledger-rolled-back-to-abandoned-branch/statement.json",
+          "sha256": "88d819d0f8e56c708cab4e9e13f4de54c4857561901e05cea152a70f02330bfc"
+        }
+      ],
+      "id": "ledger-rolled-back-to-abandoned-branch"
+    }
+  ],
+  "native": {
+    "cases": "native-json",
+    "format": "corpus-result-json-v1",
+    "process-status": {
+      "exit-code": 0
+    },
+    "summary": "native-text"
+  },
+  "non-author-runs": [],
+  "observations": [
+    {
+      "carry": "referenced",
+      "id": "native-json",
+      "reference": {
+        "path": "release/intake/native/vectors-empty-interval-statement.json",
+        "serialization": "bytes",
+        "sha256": "9f584e5c0842c8560538a978202f0084f4bfc05938a6040adec2377cc9a26441"
+      }
+    },
+    {
+      "carry": "referenced",
+      "id": "native-text",
+      "reference": {
+        "path": "release/intake/native/vectors-empty-interval-statement.txt",
+        "serialization": "bytes",
+        "sha256": "e764ea57e9cc48786b6aed21a395002ef963c874f92d06fe416a30cd5fe03485"
+      }
+    },
+    {
+      "carried": "",
+      "carry": "carried",
+      "id": "stderr"
+    }
+  ],
+  "pin-serialization": "bytes",
+  "refusal-verdicts": [
+    "contradicted",
+    "failed",
+    "must-reject",
+    "reject",
+    "rejected"
+  ],
+  "refusals": [],
+  "relaxed-controls": [],
+  "replay-stability": {
+    "cause": null,
+    "ordering": "emission-order",
+    "runs": [
+      {
+        "process": "run-1",
+        "sha256": "9f584e5c0842c8560538a978202f0084f4bfc05938a6040adec2377cc9a26441"
+      },
+      {
+        "process": "run-2",
+        "sha256": "9f584e5c0842c8560538a978202f0084f4bfc05938a6040adec2377cc9a26441"
+      }
+    ],
+    "seed": null,
+    "state": "stable"
+  },
+  "scope": {
+    "does-not-claim": [
+      "whole-attack-surface",
+      "implementation-ranking",
+      "threats-outside-corpus",
+      "action-occurred-or-authority"
+    ],
+    "establishes": [
+      "aee-verify, at the source listing named here, judges each of the 16 pinned members of empty-interval-statement/v1 as its manifest declares"
+    ],
+    "leaves-open": [
+      "whether an implementation written from the specification, run by someone other than an author, reaches the same verdicts",
+      "whether release/CORPUS-DIGESTS.txt is a list a release signed: the signature beside it does not verify over these bytes, so the anchor is a located line, not a verified one",
+      "whether a re-run by someone other than an author on these exact bytes agrees; none is on the record for them"
+    ]
+  },
+  "selector": {
+    "expression": "*",
+    "language": "id-glob",
+    "matched": 16,
+    "require": "at-least-one",
+    "selected": [
+      "interval-empty-not-recorded",
+      "interval-holds-revocation",
+      "statement-omits-recorded-event",
+      "other-credential-revoked-in-interval",
+      "revocation-outside-interval",
+      "query-failed",
+      "cross-federation-unsynchronised",
+      "cross-federation-synchronised",
+      "forged-statement-signature",
+      "statement-for-other-credential",
+      "forged-checkpoint-signature",
+      "checkpoint-without-time",
+      "checkpoint-stops-short",
+      "event-edited-in-place",
+      "event-deleted-from-interval",
+      "ledger-rolled-back-to-abandoned-branch"
+    ]
+  },
+  "specification-readers": [],
+  "state": "pass",
+  "suite": "empty-interval-statement/v1"
+}

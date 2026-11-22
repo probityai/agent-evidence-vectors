@@ -1,0 +1,1423 @@
+{
+  "aggregate": {
+    "counts": {
+      "accept": 3,
+      "reject": 30
+    },
+    "line": "verdict: every member behaves as MANIFEST.json declares",
+    "total": 33
+  },
+  "anchor": {
+    "kind": "digest-list-line",
+    "manifest": "vectors-dns-aid-sig-v01/MANIFEST.json",
+    "reference": {
+      "path": "release/CORPUS-DIGESTS.txt",
+      "uri": "https://github.com/probityai/agent-evidence-vectors/blob/main/release/CORPUS-DIGESTS.txt"
+    },
+    "routine": "corpus_digest in corpora/vectors-dns-aid-sig-v01/digest.py",
+    "routine-file": "corpora/vectors-dns-aid-sig-v01/digest.py",
+    "serialization": "corpus-routine",
+    "sha256": "b85cffefc7f2aa9e37cf47b9422f3337198298558510c6425e23d1d4bb8ffd6b",
+    "verdicts": {
+      "availability-failure": "inconclusive",
+      "integrity-failure": "fail"
+    }
+  },
+  "artifacts": [
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "ee0219d4fd6a25823e6a78f71d2393c2a226af7d1f38812e9bfab71b6b3cebf0"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "ee0219d4fd6a25823e6a78f71d2393c2a226af7d1f38812e9bfab71b6b3cebf0"
+        },
+        "swapped-in": "784dfdc8da2c0f07d260027cb943d9670427d81dbd76e0533f3c3a3c77f8f449",
+        "test": "swap-and-re-pin"
+      },
+      "path": "corpora/vectors-dns-aid-sig-v01/INDEX.md",
+      "serialization": "bytes",
+      "sha256": "d40903abb77a8fc6ed573361b17d61a587e70dfb4d0173d7db3753a33e911022"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "ee0219d4fd6a25823e6a78f71d2393c2a226af7d1f38812e9bfab71b6b3cebf0"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "ee0219d4fd6a25823e6a78f71d2393c2a226af7d1f38812e9bfab71b6b3cebf0"
+        },
+        "swapped-in": "e67f92092c03ce4f4d8c89f407c056efc5b94f98a9fd088f208b1b6eac4163b2",
+        "test": "swap-and-re-pin"
+      },
+      "path": "corpora/vectors-dns-aid-sig-v01/check_vectors.py",
+      "serialization": "bytes",
+      "sha256": "099290eee5dbce8944358a0dcd330aa79867bdca37563880f0455e545b883ff2"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "ee0219d4fd6a25823e6a78f71d2393c2a226af7d1f38812e9bfab71b6b3cebf0"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "ee0219d4fd6a25823e6a78f71d2393c2a226af7d1f38812e9bfab71b6b3cebf0"
+        },
+        "swapped-in": "89a124961eb2f4c615f89247d6cae4a55f3071cc482ae5f5f10bed4dd5ed6010",
+        "test": "swap-and-re-pin"
+      },
+      "path": "corpora/vectors-dns-aid-sig-v01/digest.py",
+      "serialization": "bytes",
+      "sha256": "4b00ced72776c6fe3f8fbb68df7500b857fee6b32bce98a233170287e9005558"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "ee0219d4fd6a25823e6a78f71d2393c2a226af7d1f38812e9bfab71b6b3cebf0"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "ee0219d4fd6a25823e6a78f71d2393c2a226af7d1f38812e9bfab71b6b3cebf0"
+        },
+        "swapped-in": "4df9495fde82283cd17fb033cf363c1a3bdc558a0450ed1a26e0a342beff948d",
+        "test": "swap-and-re-pin"
+      },
+      "path": "corpora/vectors-dns-aid-sig-v01/gen_vectors.py",
+      "serialization": "bytes",
+      "sha256": "1464953a79a624a4287630ccc24786c595072a5fd4fc976149f77b60c3183f8d"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "ee0219d4fd6a25823e6a78f71d2393c2a226af7d1f38812e9bfab71b6b3cebf0"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "ee0219d4fd6a25823e6a78f71d2393c2a226af7d1f38812e9bfab71b6b3cebf0"
+        },
+        "swapped-in": "889fd0887a8764f46ed26b8f7c93d4795adf57a1c5bbe0d652ccfafc4b5d4fa6",
+        "test": "swap-and-re-pin"
+      },
+      "path": "corpora/vectors-dns-aid-sig-v01/gen_vectors_independent.py",
+      "serialization": "bytes",
+      "sha256": "cdc0890fd608940c552e82db55f2ebe4d5535ba978cf5edd42b82a6de519dd36"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "ee0219d4fd6a25823e6a78f71d2393c2a226af7d1f38812e9bfab71b6b3cebf0"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "ee0219d4fd6a25823e6a78f71d2393c2a226af7d1f38812e9bfab71b6b3cebf0"
+        },
+        "swapped-in": "082bef0d7134aea898b9455aad7e82b20d147b5ef2887aedc7ec5abef4e9e958",
+        "test": "swap-and-re-pin"
+      },
+      "path": "corpora/vectors-dns-aid-sig-v01/tests/test_corpus.py",
+      "serialization": "bytes",
+      "sha256": "0962234c96abf2076ea765d09694603c0d93f8d5a1801439756a39ad59b030f0"
+    }
+  ],
+  "boundary": {
+    "complete": true,
+    "member-locations": [
+      {
+        "dir": "cases",
+        "recursive": false,
+        "suffix": ".json"
+      }
+    ],
+    "root": "corpora/vectors-dns-aid-sig-v01"
+  },
+  "byte-identity": {
+    "pins": 33,
+    "serialization": "bytes"
+  },
+  "canonicalization": {
+    "encoding": "jcs-sha256"
+  },
+  "checker": {
+    "commands": [
+      "go build -o aee-verify ./cmd/aee-verify",
+      "aee-verify -json corpora/vectors-dns-aid-sig-v01",
+      "aee-verify -json corpora/vectors-dns-aid-sig-v01",
+      "aee-verify corpora/vectors-dns-aid-sig-v01"
+    ],
+    "dependencies": [
+      {
+        "path": "go.mod",
+        "serialization": "bytes",
+        "sha256": "c9f5a67159789ead4e2879e86805505c6ba22150b04bef360e6b3333125fb1c2"
+      },
+      {
+        "path": "go.work",
+        "serialization": "bytes",
+        "sha256": "61a9b151174d1aca21dd4b851b7d9a88784c4e6674ba4550a01a36a22f165e47"
+      }
+    ],
+    "helpers": [],
+    "name": "aee-verify",
+    "relationship": "same-implementation",
+    "revision": {
+      "kind": "source-listing",
+      "paths": [
+        "aee/admission.go",
+        "aee/carried_base64.go",
+        "aee/codes.go",
+        "aee/commitments.go",
+        "aee/jcs.go",
+        "aee/merkle.go",
+        "aee/pae.go",
+        "aee/recompute.go",
+        "aee/runbinding.go",
+        "aee/statement.go",
+        "aee/tier.go",
+        "aee/types.go",
+        "aee/validity.go",
+        "aee/verify.go",
+        "cmd/aee-verify/corpus.go",
+        "cmd/aee-verify/main.go",
+        "corpusreaders/a2ajcs.go",
+        "corpusreaders/aci.go",
+        "corpusreaders/acscore.go",
+        "corpusreaders/admission.go",
+        "corpusreaders/aeecorpus.go",
+        "corpusreaders/agentaction.go",
+        "corpusreaders/agentaction_chain.go",
+        "corpusreaders/agentdecision.go",
+        "corpusreaders/agenticprocess.go",
+        "corpusreaders/aggregateaccounting.go",
+        "corpusreaders/aigeneration.go",
+        "corpusreaders/anchoredchain.go",
+        "corpusreaders/anchorstream.go",
+        "corpusreaders/approvalbinding.go",
+        "corpusreaders/artifactbinding.go",
+        "corpusreaders/auditrecord.go",
+        "corpusreaders/auditrecord_consumption.go",
+        "corpusreaders/auditrecord_datasubject.go",
+        "corpusreaders/auditrecord_dating.go",
+        "corpusreaders/auditrecord_principal.go",
+        "corpusreaders/auditrecord_sequence.go",
+        "corpusreaders/authoritydispatch.go",
+        "corpusreaders/badgevc.go",
+        "corpusreaders/budgetlineage.go",
+        "corpusreaders/canonical_base64.go",
+        "corpusreaders/capabilityrequirement.go",
+        "corpusreaders/cardreceipt.go",
+        "corpusreaders/catalogtrust.go",
+        "corpusreaders/changeadmission.go",
+        "corpusreaders/chunkedexport.go",
+        "corpusreaders/common.go",
+        "corpusreaders/completionconfirmation.go",
+        "corpusreaders/connectorscope.go",
+        "corpusreaders/containmentjournal.go",
+        "corpusreaders/contextdiscovery.go",
+        "corpusreaders/controldecision.go",
+        "corpusreaders/convertedargs.go",
+        "corpusreaders/decisionclient.go",
+        "corpusreaders/delegationlifecycle.go",
+        "corpusreaders/delegatorright.go",
+        "corpusreaders/dispatchfence.go",
+        "corpusreaders/dnsaid.go",
+        "corpusreaders/doneargv.go",
+        "corpusreaders/donechecks.go",
+        "corpusreaders/donerecords.go",
+        "corpusreaders/donerun.go",
+        "corpusreaders/emptyinterval.go",
+        "corpusreaders/evidencecell.go",
+        "corpusreaders/evidencestate.go",
+        "corpusreaders/executionbilling.go",
+        "corpusreaders/gradefloor.go",
+        "corpusreaders/htxcases.go",
+        "corpusreaders/identitybinding.go",
+        "corpusreaders/ietfagentrecord.go",
+        "corpusreaders/keydirectory.go",
+        "corpusreaders/keyrevocation.go",
+        "corpusreaders/lifecyclebinding.go",
+        "corpusreaders/mcpauthz.go",
+        "corpusreaders/mcpowasp.go",
+        "corpusreaders/mcprecord.go",
+        "corpusreaders/mcpresponsephase.go",
+        "corpusreaders/monitorcoverage.go",
+        "corpusreaders/observedeffect.go",
+        "corpusreaders/openweight.go",
+        "corpusreaders/paymentmandate.go",
+        "corpusreaders/principalbinding.go",
+        "corpusreaders/printwitness.go",
+        "corpusreaders/propagationstep.go",
+        "corpusreaders/pyjson.go",
+        "corpusreaders/receiptchainend.go",
+        "corpusreaders/receiptsignature.go",
+        "corpusreaders/recorded.go",
+        "corpusreaders/refundconnected.go",
+        "corpusreaders/refundconnected_aps.go",
+        "corpusreaders/refundconnected_run.go",
+        "corpusreaders/refundconnected_steps.go",
+        "corpusreaders/refundconnected_trust.go",
+        "corpusreaders/refundconnected_value.go",
+        "corpusreaders/refusalreason.go",
+        "corpusreaders/registry.go",
+        "corpusreaders/responsibilityescalation.go",
+        "corpusreaders/restartrecords.go",
+        "corpusreaders/rsadigestinfo.go",
+        "corpusreaders/rulecorpus.go",
+        "corpusreaders/runmetrics.go",
+        "corpusreaders/scittcose.go",
+        "corpusreaders/selfreported.go",
+        "corpusreaders/signaturecoverage.go",
+        "corpusreaders/sourcecoverage.go",
+        "corpusreaders/strictjson.go",
+        "corpusreaders/telemetryevidence.go",
+        "corpusreaders/traceanchor.go",
+        "corpusreaders/uncertaineffect.go",
+        "corpusreaders/w3cintake.go",
+        "corpusreaders/w3cjcs.go",
+        "corpusreaders/w3creport.go",
+        "corpusreaders/x402join.go",
+        "go.mod"
+      ],
+      "serialization": "sha256-listing-v1",
+      "sha256": "2558d3c3540ca75832aa22684a055fc39afda0c8de8907410e00d642becedc70"
+    },
+    "runtime": {
+      "name": "go",
+      "version": "1.26"
+    },
+    "shared-verification-code": [
+      "aee/admission.go",
+      "aee/carried_base64.go",
+      "aee/codes.go",
+      "aee/commitments.go",
+      "aee/jcs.go",
+      "aee/merkle.go",
+      "aee/pae.go",
+      "aee/recompute.go",
+      "aee/runbinding.go",
+      "aee/statement.go",
+      "aee/tier.go",
+      "aee/types.go",
+      "aee/validity.go",
+      "aee/verify.go",
+      "cmd/aee-verify/corpus.go",
+      "cmd/aee-verify/main.go",
+      "corpusreaders/a2ajcs.go",
+      "corpusreaders/aci.go",
+      "corpusreaders/acscore.go",
+      "corpusreaders/admission.go",
+      "corpusreaders/aeecorpus.go",
+      "corpusreaders/agentaction.go",
+      "corpusreaders/agentaction_chain.go",
+      "corpusreaders/agentdecision.go",
+      "corpusreaders/agenticprocess.go",
+      "corpusreaders/aggregateaccounting.go",
+      "corpusreaders/aigeneration.go",
+      "corpusreaders/anchoredchain.go",
+      "corpusreaders/anchorstream.go",
+      "corpusreaders/approvalbinding.go",
+      "corpusreaders/artifactbinding.go",
+      "corpusreaders/auditrecord.go",
+      "corpusreaders/auditrecord_consumption.go",
+      "corpusreaders/auditrecord_datasubject.go",
+      "corpusreaders/auditrecord_dating.go",
+      "corpusreaders/auditrecord_principal.go",
+      "corpusreaders/auditrecord_sequence.go",
+      "corpusreaders/authoritydispatch.go",
+      "corpusreaders/badgevc.go",
+      "corpusreaders/budgetlineage.go",
+      "corpusreaders/canonical_base64.go",
+      "corpusreaders/capabilityrequirement.go",
+      "corpusreaders/cardreceipt.go",
+      "corpusreaders/catalogtrust.go",
+      "corpusreaders/changeadmission.go",
+      "corpusreaders/chunkedexport.go",
+      "corpusreaders/common.go",
+      "corpusreaders/completionconfirmation.go",
+      "corpusreaders/connectorscope.go",
+      "corpusreaders/containmentjournal.go",
+      "corpusreaders/contextdiscovery.go",
+      "corpusreaders/controldecision.go",
+      "corpusreaders/convertedargs.go",
+      "corpusreaders/decisionclient.go",
+      "corpusreaders/delegationlifecycle.go",
+      "corpusreaders/delegatorright.go",
+      "corpusreaders/dispatchfence.go",
+      "corpusreaders/dnsaid.go",
+      "corpusreaders/doneargv.go",
+      "corpusreaders/donechecks.go",
+      "corpusreaders/donerecords.go",
+      "corpusreaders/donerun.go",
+      "corpusreaders/emptyinterval.go",
+      "corpusreaders/evidencecell.go",
+      "corpusreaders/evidencestate.go",
+      "corpusreaders/executionbilling.go",
+      "corpusreaders/gradefloor.go",
+      "corpusreaders/htxcases.go",
+      "corpusreaders/identitybinding.go",
+      "corpusreaders/ietfagentrecord.go",
+      "corpusreaders/keydirectory.go",
+      "corpusreaders/keyrevocation.go",
+      "corpusreaders/lifecyclebinding.go",
+      "corpusreaders/mcpauthz.go",
+      "corpusreaders/mcpowasp.go",
+      "corpusreaders/mcprecord.go",
+      "corpusreaders/mcpresponsephase.go",
+      "corpusreaders/monitorcoverage.go",
+      "corpusreaders/observedeffect.go",
+      "corpusreaders/openweight.go",
+      "corpusreaders/paymentmandate.go",
+      "corpusreaders/principalbinding.go",
+      "corpusreaders/printwitness.go",
+      "corpusreaders/propagationstep.go",
+      "corpusreaders/pyjson.go",
+      "corpusreaders/receiptchainend.go",
+      "corpusreaders/receiptsignature.go",
+      "corpusreaders/recorded.go",
+      "corpusreaders/refundconnected.go",
+      "corpusreaders/refundconnected_aps.go",
+      "corpusreaders/refundconnected_run.go",
+      "corpusreaders/refundconnected_steps.go",
+      "corpusreaders/refundconnected_trust.go",
+      "corpusreaders/refundconnected_value.go",
+      "corpusreaders/refusalreason.go",
+      "corpusreaders/registry.go",
+      "corpusreaders/responsibilityescalation.go",
+      "corpusreaders/restartrecords.go",
+      "corpusreaders/rsadigestinfo.go",
+      "corpusreaders/rulecorpus.go",
+      "corpusreaders/runmetrics.go",
+      "corpusreaders/scittcose.go",
+      "corpusreaders/selfreported.go",
+      "corpusreaders/signaturecoverage.go",
+      "corpusreaders/sourcecoverage.go",
+      "corpusreaders/strictjson.go",
+      "corpusreaders/telemetryevidence.go",
+      "corpusreaders/traceanchor.go",
+      "corpusreaders/uncertaineffect.go",
+      "corpusreaders/w3cintake.go",
+      "corpusreaders/w3cjcs.go",
+      "corpusreaders/w3creport.go",
+      "corpusreaders/x402join.go",
+      "go.mod"
+    ]
+  },
+  "checks": [
+    {
+      "check": "alg-none",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "bap-empty-injected",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "crit-empty-list",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "crit-names-registered-header",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "crit-unknown-extension",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "dup-member-fqdn",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "endpoint-only",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "endpoint-tamper-target",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "expired",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "foreign-key-no-provenance",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "foreign-key-pinned-owner",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "foreign-key-wrong-host",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "full-coverage-valid",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "header-duplicate-alg",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "iat-future",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "key-authority-dnssec-chain",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "key-set-without-ec-key",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "malformed-header-base64url",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "owner-key-pinned-control",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "param-tamper-cap-sha256",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "payload-array",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "port-float",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "proto-field-agent-protocol",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "realm-empty-injected",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "realm-value-injected",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "record-without-zone",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "sig-bitflip",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "signature-base64url-non-canonical",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "signature-truncated",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "svcb1-field-boundary",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "svcb1-newline-in-signed-value",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "svcb1-without-domain-prefix",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "wrong-key",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    }
+  ],
+  "corpus-digest": {
+    "serialization": "sha256-listing-v1",
+    "sha256": "7f2e42bb6ad8bbeeb10a64c4cb8cab48ce661eef4f5a2d310edaf4e6c1114ce4"
+  },
+  "exit-code": 0,
+  "exit-rule": "zero-iff-every-check-passes",
+  "exposure": "visible",
+  "faults": [],
+  "format": "public-agent-conformance/intake-record/v2",
+  "manifest": {
+    "closed": true,
+    "ids": [
+      "full-coverage-valid",
+      "endpoint-only",
+      "param-tamper-cap-sha256",
+      "endpoint-tamper-target",
+      "expired",
+      "wrong-key",
+      "alg-none",
+      "sig-bitflip",
+      "svcb1-field-boundary",
+      "dup-member-fqdn",
+      "port-float",
+      "iat-future",
+      "foreign-key-no-provenance",
+      "foreign-key-wrong-host",
+      "foreign-key-pinned-owner",
+      "owner-key-pinned-control",
+      "crit-unknown-extension",
+      "crit-empty-list",
+      "crit-names-registered-header",
+      "proto-field-agent-protocol",
+      "malformed-header-base64url",
+      "realm-empty-injected",
+      "realm-value-injected",
+      "bap-empty-injected",
+      "svcb1-without-domain-prefix",
+      "svcb1-newline-in-signed-value",
+      "header-duplicate-alg",
+      "signature-truncated",
+      "key-set-without-ec-key",
+      "payload-array",
+      "record-without-zone",
+      "key-authority-dnssec-chain",
+      "signature-base64url-non-canonical"
+    ],
+    "path": "corpora/vectors-dns-aid-sig-v01/MANIFEST.json",
+    "sha256": "efa7af792d314d4bd5eac1c1c111bb1268074c039a00da44b4ec8d70eebe3e19"
+  },
+  "members": [
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-dns-aid-sig-v01/cases/full-coverage-valid.json",
+          "sha256": "d29a1987308ae5e305dff0a0736a1f1f5770cd63ea315b400af14f170d3c87fd"
+        }
+      ],
+      "id": "full-coverage-valid"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-dns-aid-sig-v01/cases/endpoint-only.json",
+          "sha256": "151dd43663bf68c733b9d5ecce2e6f245f90ee143d61d10f874120d2b73fb410"
+        }
+      ],
+      "id": "endpoint-only"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-dns-aid-sig-v01/cases/param-tamper-cap-sha256.json",
+          "sha256": "1f42508b8705a8c10d732cef416b39c436d268ba0bdb0377d5bb2f7bffcf80d9"
+        }
+      ],
+      "id": "param-tamper-cap-sha256"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-dns-aid-sig-v01/cases/endpoint-tamper-target.json",
+          "sha256": "df26d0e0b2e6ce5bb051d718111ea8a5cca49e390231485d05ab0ebf7bdf0c36"
+        }
+      ],
+      "id": "endpoint-tamper-target"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-dns-aid-sig-v01/cases/expired.json",
+          "sha256": "51504f429fbac498ca4e0d0bc28176bf9a1b99a968fa1e2a926e12ce6da0a4aa"
+        }
+      ],
+      "id": "expired"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-dns-aid-sig-v01/cases/wrong-key.json",
+          "sha256": "cc3d48f8b64acb60b5293c9c9ed1ecc0ccd52b28f1ac4a8f124677e07090c904"
+        }
+      ],
+      "id": "wrong-key"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-dns-aid-sig-v01/cases/alg-none.json",
+          "sha256": "79adbb40f6fc8753683444feee3fbb3324837330ed1755969d70b781c6447f0c"
+        }
+      ],
+      "id": "alg-none"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-dns-aid-sig-v01/cases/sig-bitflip.json",
+          "sha256": "fd8e746fd86ab1d9e7fbf4e12b45afae5f4131d52161ac3191c2196511355fc1"
+        }
+      ],
+      "id": "sig-bitflip"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-dns-aid-sig-v01/cases/svcb1-field-boundary.json",
+          "sha256": "d4b2a6eb671347b5e351fd5e3b3aa070da7448f395e2b80bbc719604f5cea496"
+        }
+      ],
+      "id": "svcb1-field-boundary"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-dns-aid-sig-v01/cases/dup-member-fqdn.json",
+          "sha256": "23d239cbae38ccc9a7b67d5e4933074f7828e3f67ec4e2b4d2c4f9e6c1d526bc"
+        }
+      ],
+      "id": "dup-member-fqdn"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-dns-aid-sig-v01/cases/port-float.json",
+          "sha256": "7ddf700147f0971a296045c8d6a98986a9722fb5e51c06d6e96a97aa4aca5ad2"
+        }
+      ],
+      "id": "port-float"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-dns-aid-sig-v01/cases/iat-future.json",
+          "sha256": "eab749dfc3994f0a232391db304989e9575a928f926afce03c08ae34ee36db23"
+        }
+      ],
+      "id": "iat-future"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-dns-aid-sig-v01/cases/foreign-key-no-provenance.json",
+          "sha256": "e1a3edbbc4de85a2be54776501b4ebf3787b286954c148be935113564c1e1c3d"
+        }
+      ],
+      "id": "foreign-key-no-provenance"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-dns-aid-sig-v01/cases/foreign-key-wrong-host.json",
+          "sha256": "bced1ccbdb8f14697db727fd05979ea7bd3191cf3034f11ff4eb2c98736d954b"
+        }
+      ],
+      "id": "foreign-key-wrong-host"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-dns-aid-sig-v01/cases/foreign-key-pinned-owner.json",
+          "sha256": "2d1ee912f7ea4e5f36778a631b7d2f0c9c8ff0e84a55955ea21cc350ae3c42d6"
+        }
+      ],
+      "id": "foreign-key-pinned-owner"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-dns-aid-sig-v01/cases/owner-key-pinned-control.json",
+          "sha256": "d3cca092f26c5511b9d41809a4fba14720fe17ab2d4717841400126ef82a7c8f"
+        }
+      ],
+      "id": "owner-key-pinned-control"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-dns-aid-sig-v01/cases/crit-unknown-extension.json",
+          "sha256": "8a2f0c60848d274bf5f8653eb84d240eb5a29cd9978223e678adc59b673ae57b"
+        }
+      ],
+      "id": "crit-unknown-extension"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-dns-aid-sig-v01/cases/crit-empty-list.json",
+          "sha256": "c552278620cec6a90038063402f84f2bafba3c9a9216e334b0ad431ee82fbeb3"
+        }
+      ],
+      "id": "crit-empty-list"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-dns-aid-sig-v01/cases/crit-names-registered-header.json",
+          "sha256": "58b2e26345dadd8845e3b70b964cd5268f51e1f957b7489222a99596e0d451e9"
+        }
+      ],
+      "id": "crit-names-registered-header"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-dns-aid-sig-v01/cases/proto-field-agent-protocol.json",
+          "sha256": "0220a6a1d80749975c519ee44a703af625ea71d1a61d58f3dae2e0ca596360f6"
+        }
+      ],
+      "id": "proto-field-agent-protocol"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-dns-aid-sig-v01/cases/malformed-header-base64url.json",
+          "sha256": "67f97cbd945acecc29c50470eee43181ee067df5027ba534dfdcc866d7e493ce"
+        }
+      ],
+      "id": "malformed-header-base64url"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-dns-aid-sig-v01/cases/realm-empty-injected.json",
+          "sha256": "66cc69303cfeb642addda8a64736f5fd932456add872a41481a1df5cb244f504"
+        }
+      ],
+      "id": "realm-empty-injected"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-dns-aid-sig-v01/cases/realm-value-injected.json",
+          "sha256": "8478e7eebd54f8dc5c5b22f6913de5e45c99a30659151a447fe90e350db5d8bd"
+        }
+      ],
+      "id": "realm-value-injected"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-dns-aid-sig-v01/cases/bap-empty-injected.json",
+          "sha256": "3f3584f524d6c51980a0d7b98aa8e408786cfbda8fd949e2b80f2cbc34e55328"
+        }
+      ],
+      "id": "bap-empty-injected"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-dns-aid-sig-v01/cases/svcb1-without-domain-prefix.json",
+          "sha256": "1b8523d9f3719d5ec4ac399afa40ec1aba697b95a08e599424dc9aabfe11928c"
+        }
+      ],
+      "id": "svcb1-without-domain-prefix"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-dns-aid-sig-v01/cases/svcb1-newline-in-signed-value.json",
+          "sha256": "3c785e8d9e4da4f5ce16f5012c5faf3a1df6d4ed3de2dd3817f1f9e77890b898"
+        }
+      ],
+      "id": "svcb1-newline-in-signed-value"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-dns-aid-sig-v01/cases/header-duplicate-alg.json",
+          "sha256": "2bc4040f2710c8735dab071cfd6b9593a6118641c62517162932a6471f7bd4c9"
+        }
+      ],
+      "id": "header-duplicate-alg"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-dns-aid-sig-v01/cases/signature-truncated.json",
+          "sha256": "dcc2e6412ae3f53dbe1b97a650af9f0d4e67afe192b82ddae0cded61efb66d78"
+        }
+      ],
+      "id": "signature-truncated"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-dns-aid-sig-v01/cases/key-set-without-ec-key.json",
+          "sha256": "caf8bc0911d7f86344b99fbfb3cd9d703c620b0723b58946860b54847b3a0cbb"
+        }
+      ],
+      "id": "key-set-without-ec-key"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-dns-aid-sig-v01/cases/payload-array.json",
+          "sha256": "db3f48aad1ad87e92f464b018fc10877a7eb0fed4bca60308aa36b747d644fee"
+        }
+      ],
+      "id": "payload-array"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-dns-aid-sig-v01/cases/record-without-zone.json",
+          "sha256": "eed7cb2ee2cb1a98de434db9a4120afe7dd04421c54ada58d3c563c61693136c"
+        }
+      ],
+      "id": "record-without-zone"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-dns-aid-sig-v01/cases/key-authority-dnssec-chain.json",
+          "sha256": "113f7c7698517c5b48a0e26a33214e629fcf2fad57a876c2968d6cf73e7e3ed5"
+        }
+      ],
+      "id": "key-authority-dnssec-chain"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-dns-aid-sig-v01/cases/signature-base64url-non-canonical.json",
+          "sha256": "e8a5d4151300ae8a5509eca5d6fc934c9d8ec23e29b4eac0ea27de297051e36c"
+        }
+      ],
+      "id": "signature-base64url-non-canonical"
+    }
+  ],
+  "native": {
+    "cases": "native-json",
+    "format": "corpus-result-json-v1",
+    "process-status": {
+      "exit-code": 0
+    },
+    "summary": "native-text"
+  },
+  "non-author-runs": [],
+  "observations": [
+    {
+      "carry": "referenced",
+      "id": "native-json",
+      "reference": {
+        "path": "release/intake/native/vectors-dns-aid-sig-v01.json",
+        "serialization": "bytes",
+        "sha256": "ee0219d4fd6a25823e6a78f71d2393c2a226af7d1f38812e9bfab71b6b3cebf0"
+      }
+    },
+    {
+      "carry": "referenced",
+      "id": "native-text",
+      "reference": {
+        "path": "release/intake/native/vectors-dns-aid-sig-v01.txt",
+        "serialization": "bytes",
+        "sha256": "77508d3be8af780ae3aeff66b1f19e42cbe45366135a39af4bd622704ffa82c3"
+      }
+    },
+    {
+      "carried": "",
+      "carry": "carried",
+      "id": "stderr"
+    }
+  ],
+  "pin-serialization": "bytes",
+  "refusal-verdicts": [
+    "contradicted",
+    "failed",
+    "must-reject",
+    "reject",
+    "rejected"
+  ],
+  "refusals": [
+    {
+      "check": "alg-none",
+      "inputs": [
+        "member:alg-none",
+        "check:alg-none"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"codes\":[\"alg-not-es256\"],\"decision\":\"contradicted\",\"verdict\":\"invalid\"}}"
+    },
+    {
+      "check": "bap-empty-injected",
+      "inputs": [
+        "member:bap-empty-injected",
+        "check:bap-empty-injected"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"codes\":[\"svcb1-digest-mismatch\"],\"decision\":\"contradicted\",\"verdict\":\"invalid\"}}"
+    },
+    {
+      "check": "crit-empty-list",
+      "inputs": [
+        "member:crit-empty-list",
+        "check:crit-empty-list"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"codes\":[\"crit-refused\"],\"decision\":\"contradicted\",\"verdict\":\"invalid\"}}"
+    },
+    {
+      "check": "crit-names-registered-header",
+      "inputs": [
+        "member:crit-names-registered-header",
+        "check:crit-names-registered-header"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"codes\":[\"crit-refused\"],\"decision\":\"contradicted\",\"verdict\":\"invalid\"}}"
+    },
+    {
+      "check": "crit-unknown-extension",
+      "inputs": [
+        "member:crit-unknown-extension",
+        "check:crit-unknown-extension"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"codes\":[\"crit-refused\"],\"decision\":\"contradicted\",\"verdict\":\"invalid\"}}"
+    },
+    {
+      "check": "dup-member-fqdn",
+      "inputs": [
+        "member:dup-member-fqdn",
+        "check:dup-member-fqdn"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"codes\":[\"payload-duplicate-member\"],\"decision\":\"contradicted\",\"verdict\":\"invalid\"}}"
+    },
+    {
+      "check": "endpoint-only",
+      "inputs": [
+        "member:endpoint-only",
+        "check:endpoint-only"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"codes\":[\"svcb-claim-absent\"],\"decision\":\"cannot-tell\",\"verdict\":\"invalid\"}}"
+    },
+    {
+      "check": "endpoint-tamper-target",
+      "inputs": [
+        "member:endpoint-tamper-target",
+        "check:endpoint-tamper-target"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"codes\":[\"endpoint-mismatch\"],\"decision\":\"contradicted\",\"verdict\":\"invalid\"}}"
+    },
+    {
+      "check": "expired",
+      "inputs": [
+        "member:expired",
+        "check:expired"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"codes\":[\"expired\"],\"decision\":\"contradicted\",\"verdict\":\"invalid\"}}"
+    },
+    {
+      "check": "foreign-key-no-provenance",
+      "inputs": [
+        "member:foreign-key-no-provenance",
+        "check:foreign-key-no-provenance"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"codes\":[\"key-authority-absent\"],\"decision\":\"cannot-tell\",\"verdict\":\"invalid\"}}"
+    },
+    {
+      "check": "foreign-key-pinned-owner",
+      "inputs": [
+        "member:foreign-key-pinned-owner",
+        "check:foreign-key-pinned-owner"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"codes\":[\"key-set-not-pinned\"],\"decision\":\"contradicted\",\"verdict\":\"invalid\"}}"
+    },
+    {
+      "check": "foreign-key-wrong-host",
+      "inputs": [
+        "member:foreign-key-wrong-host",
+        "check:foreign-key-wrong-host"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"codes\":[\"jwks-host-not-zone\"],\"decision\":\"contradicted\",\"verdict\":\"invalid\"}}"
+    },
+    {
+      "check": "header-duplicate-alg",
+      "inputs": [
+        "member:header-duplicate-alg",
+        "check:header-duplicate-alg"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"codes\":[\"header-duplicate-member\"],\"decision\":\"contradicted\",\"verdict\":\"invalid\"}}"
+    },
+    {
+      "check": "iat-future",
+      "inputs": [
+        "member:iat-future",
+        "check:iat-future"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"codes\":[\"iat-in-future\"],\"decision\":\"cannot-tell\",\"verdict\":\"invalid\"}}"
+    },
+    {
+      "check": "key-authority-dnssec-chain",
+      "inputs": [
+        "member:key-authority-dnssec-chain",
+        "check:key-authority-dnssec-chain"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"codes\":[\"key-authority-kind-unread\"],\"decision\":\"cannot-tell\",\"verdict\":\"invalid\"}}"
+    },
+    {
+      "check": "key-set-without-ec-key",
+      "inputs": [
+        "member:key-set-without-ec-key",
+        "check:key-set-without-ec-key"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"codes\":[\"key-unusable\"],\"decision\":\"cannot-tell\",\"verdict\":\"invalid\"}}"
+    },
+    {
+      "check": "malformed-header-base64url",
+      "inputs": [
+        "member:malformed-header-base64url",
+        "check:malformed-header-base64url"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"codes\":[\"jws-malformed\"],\"decision\":\"contradicted\",\"verdict\":\"invalid\"}}"
+    },
+    {
+      "check": "param-tamper-cap-sha256",
+      "inputs": [
+        "member:param-tamper-cap-sha256",
+        "check:param-tamper-cap-sha256"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"codes\":[\"svcb1-digest-mismatch\"],\"decision\":\"contradicted\",\"verdict\":\"invalid\"}}"
+    },
+    {
+      "check": "payload-array",
+      "inputs": [
+        "member:payload-array",
+        "check:payload-array"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"codes\":[\"payload-not-object\"],\"decision\":\"contradicted\",\"verdict\":\"invalid\"}}"
+    },
+    {
+      "check": "port-float",
+      "inputs": [
+        "member:port-float",
+        "check:port-float"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"codes\":[\"payload-integer-required\"],\"decision\":\"contradicted\",\"verdict\":\"invalid\"}}"
+    },
+    {
+      "check": "realm-empty-injected",
+      "inputs": [
+        "member:realm-empty-injected",
+        "check:realm-empty-injected"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"codes\":[\"svcb1-digest-mismatch\"],\"decision\":\"contradicted\",\"verdict\":\"invalid\"}}"
+    },
+    {
+      "check": "realm-value-injected",
+      "inputs": [
+        "member:realm-value-injected",
+        "check:realm-value-injected"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"codes\":[\"svcb1-digest-mismatch\"],\"decision\":\"contradicted\",\"verdict\":\"invalid\"}}"
+    },
+    {
+      "check": "record-without-zone",
+      "inputs": [
+        "member:record-without-zone",
+        "check:record-without-zone"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"codes\":[\"zone-absent\"],\"decision\":\"cannot-tell\",\"verdict\":\"invalid\"}}"
+    },
+    {
+      "check": "sig-bitflip",
+      "inputs": [
+        "member:sig-bitflip",
+        "check:sig-bitflip"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"codes\":[\"signature-invalid\"],\"decision\":\"contradicted\",\"verdict\":\"invalid\"}}"
+    },
+    {
+      "check": "signature-base64url-non-canonical",
+      "inputs": [
+        "member:signature-base64url-non-canonical",
+        "check:signature-base64url-non-canonical"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"codes\":[\"base64url-non-canonical\"],\"decision\":\"contradicted\",\"verdict\":\"invalid\"}}"
+    },
+    {
+      "check": "signature-truncated",
+      "inputs": [
+        "member:signature-truncated",
+        "check:signature-truncated"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"codes\":[\"signature-length\"],\"decision\":\"contradicted\",\"verdict\":\"invalid\"}}"
+    },
+    {
+      "check": "svcb1-field-boundary",
+      "inputs": [
+        "member:svcb1-field-boundary",
+        "check:svcb1-field-boundary"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"codes\":[\"svcb1-digest-mismatch\"],\"decision\":\"contradicted\",\"verdict\":\"invalid\"}}"
+    },
+    {
+      "check": "svcb1-newline-in-signed-value",
+      "inputs": [
+        "member:svcb1-newline-in-signed-value",
+        "check:svcb1-newline-in-signed-value"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"codes\":[\"svcb1-digest-mismatch\"],\"decision\":\"contradicted\",\"verdict\":\"invalid\"}}"
+    },
+    {
+      "check": "svcb1-without-domain-prefix",
+      "inputs": [
+        "member:svcb1-without-domain-prefix",
+        "check:svcb1-without-domain-prefix"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"codes\":[\"svcb1-digest-mismatch\"],\"decision\":\"contradicted\",\"verdict\":\"invalid\"}}"
+    },
+    {
+      "check": "wrong-key",
+      "inputs": [
+        "member:wrong-key",
+        "check:wrong-key"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"codes\":[\"signature-invalid\"],\"decision\":\"contradicted\",\"verdict\":\"invalid\"}}"
+    }
+  ],
+  "relaxed-controls": [],
+  "replay-stability": {
+    "cause": null,
+    "ordering": "emission-order",
+    "runs": [
+      {
+        "process": "run-1",
+        "sha256": "ee0219d4fd6a25823e6a78f71d2393c2a226af7d1f38812e9bfab71b6b3cebf0"
+      },
+      {
+        "process": "run-2",
+        "sha256": "ee0219d4fd6a25823e6a78f71d2393c2a226af7d1f38812e9bfab71b6b3cebf0"
+      }
+    ],
+    "seed": null,
+    "state": "stable"
+  },
+  "scope": {
+    "does-not-claim": [
+      "whole-attack-surface",
+      "implementation-ranking",
+      "threats-outside-corpus",
+      "action-occurred-or-authority"
+    ],
+    "establishes": [
+      "aee-verify, at the source listing named here, judges each of the 33 pinned members of dns-aid-sig-binding/v1 as its manifest declares"
+    ],
+    "leaves-open": [
+      "whether an implementation written from the specification, run by someone other than an author, reaches the same verdicts",
+      "whether release/CORPUS-DIGESTS.txt is a list a release signed: the signature beside it does not verify over these bytes, so the anchor is a located line, not a verified one",
+      "whether a re-run by someone other than an author on these exact bytes agrees; none is on the record for them"
+    ]
+  },
+  "selector": {
+    "expression": "*",
+    "language": "id-glob",
+    "matched": 33,
+    "require": "at-least-one",
+    "selected": [
+      "full-coverage-valid",
+      "endpoint-only",
+      "param-tamper-cap-sha256",
+      "endpoint-tamper-target",
+      "expired",
+      "wrong-key",
+      "alg-none",
+      "sig-bitflip",
+      "svcb1-field-boundary",
+      "dup-member-fqdn",
+      "port-float",
+      "iat-future",
+      "foreign-key-no-provenance",
+      "foreign-key-wrong-host",
+      "foreign-key-pinned-owner",
+      "owner-key-pinned-control",
+      "crit-unknown-extension",
+      "crit-empty-list",
+      "crit-names-registered-header",
+      "proto-field-agent-protocol",
+      "malformed-header-base64url",
+      "realm-empty-injected",
+      "realm-value-injected",
+      "bap-empty-injected",
+      "svcb1-without-domain-prefix",
+      "svcb1-newline-in-signed-value",
+      "header-duplicate-alg",
+      "signature-truncated",
+      "key-set-without-ec-key",
+      "payload-array",
+      "record-without-zone",
+      "key-authority-dnssec-chain",
+      "signature-base64url-non-canonical"
+    ]
+  },
+  "specification-readers": [],
+  "state": "pass",
+  "suite": "dns-aid-sig-binding/v1"
+}

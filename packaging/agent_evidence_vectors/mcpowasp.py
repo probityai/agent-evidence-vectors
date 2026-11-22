@@ -29,6 +29,8 @@ from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any
 
+from . import strictjson
+
 SUITE = "owasp-mcp-verification-draft"
 
 _HERE = Path(__file__).resolve().parent
@@ -69,7 +71,7 @@ class _FloatToken(float):
 
 def load_record(raw: bytes | str) -> Any:
     """Parse a record as the Go reader holds it: each float keeps its token."""
-    return json.loads(raw, parse_float=_FloatToken)
+    return strictjson.loads(raw, parse_float=_FloatToken)
 
 
 def _refuse_floats(value: Any) -> None:
@@ -481,8 +483,8 @@ def _check_coverage(
 def judge(directory: str | Path = ROOT) -> Judged:
     root = Path(directory)
     judged = Judged()
-    manifest = json.loads((root / "MANIFEST.json").read_text(encoding="utf-8"))
-    registry = json.loads((root / manifest["registry"]).read_text(encoding="utf-8"))
+    manifest = strictjson.loads((root / "MANIFEST.json").read_text(encoding="utf-8"))
+    registry = strictjson.loads((root / manifest["registry"]).read_text(encoding="utf-8"))
     requirements, threats = _check_registry(registry, judged)
     if manifest.get("suite") != SUITE:
         judged.findings.append(f"suite is {manifest.get('suite')!r}, not {SUITE!r}")

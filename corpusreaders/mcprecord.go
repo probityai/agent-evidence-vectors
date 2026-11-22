@@ -59,7 +59,7 @@ type mcpExpected struct {
 
 func (m mcpRecordContract) Judge(dir string, raw []byte) (*Result, error) {
 	var manifest mcpManifest
-	if err := json.Unmarshal(raw, &manifest); err != nil {
+	if err := strictUnmarshal(raw, &manifest); err != nil {
 		return nil, fmt.Errorf("%s/MANIFEST.json does not parse: %w", dir, err)
 	}
 	result := &Result{}
@@ -140,7 +140,7 @@ func (m mcpRecordContract) judgeMember(dir string, manifest *mcpManifest, v mcpV
 		return
 	}
 	var declared map[string]json.RawMessage
-	if err := json.Unmarshal(v.Expected, &declared); err != nil {
+	if err := strictUnmarshal(v.Expected, &declared); err != nil {
 		out.Findings = append(out.Findings, "the expected block does not parse: "+err.Error())
 		return
 	}
@@ -155,7 +155,7 @@ func (m mcpRecordContract) judgeMember(dir string, manifest *mcpManifest, v mcpV
 		return
 	}
 	var expected mcpExpected
-	if err := json.Unmarshal(v.Expected, &expected); err != nil {
+	if err := strictUnmarshal(v.Expected, &expected); err != nil {
 		out.Findings = append(out.Findings, "the expected block does not parse: "+err.Error())
 		return
 	}
@@ -209,7 +209,7 @@ func (mcpRecordContract) checkAgainstCriterion(dir string, v mcpVector, expected
 		return
 	}
 	var record map[string]any
-	if err := json.Unmarshal(body, &record); err != nil {
+	if err := strictUnmarshal(body, &record); err != nil {
 		out.Findings = append(out.Findings, "the record does not parse: "+err.Error())
 		return
 	}

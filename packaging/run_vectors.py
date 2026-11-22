@@ -137,7 +137,10 @@ from agent_evidence_vectors import (
     auditrecord,
     authoritydispatch,
     badgevc,
+    budgetlineage,
+    capabilityrequirement,
     cardreceipt,
+    catalogtrust,
     changeadmission,
     chunkedexport,
     completionconfirmation,
@@ -149,30 +152,42 @@ from agent_evidence_vectors import (
     delegatorright,
     dispatchfence,
     donerun,
+    emptyinterval,
     evidencecell,
     evidencestate,
+    executionbilling,
     gradefloor,
+    htxcases,
     identitybinding,
+    keydirectory,
+    lifecyclebinding,
     keyrevocation,
     mcpowasp,
     monitorcoverage,
     observedeffect,
     openweight,
     paymentmandate,
+    principalbinding,
+    printwitness,
     propagationstep,
     receiptchainend,
     receiptsignature,
     recorded,
     refundconnected,
     refusalreason,
+    responsibilityescalation,
+    rsadigestinfo,
     selfreportedrecord,
     signaturecoverage,
     sourcecoverage,
     starhint,
+    strictjson,
+    telemetryevidence,
     traceanchor,
     uncertaineffect,
     w3cintake,
     w3creport,
+    x402join,
 )
 
 AEE_PREDICATE_TYPE = "https://in-toto.io/attestation/adversarial-execution-evidence/v0.7"
@@ -613,6 +628,7 @@ def parse_json_value(raw: bytes) -> Any:
             text,
             object_pairs_hook=_reject_dup_pairs,
             parse_float=_safe_integer_literal,
+            parse_constant=strictjson.refuse_constant,
         )
     except IJsonError:
         raise
@@ -884,7 +900,7 @@ def _statement_strict_fault(raw: bytes) -> bool:
         return dict(pairs)
 
     try:
-        json.loads(text, object_pairs_hook=hook)
+        json.loads(text, object_pairs_hook=hook, parse_constant=strictjson.refuse_constant)
     except (ValueError, RecursionError):
         # Bytes that are not a parseable JSON text at all are a malformed
         # statement, which is the same answer the Go rail and both consumer
@@ -3013,7 +3029,7 @@ def parse_external(
             ]
         )
     try:
-        parsed = json.loads(lines[-1])
+        parsed = strictjson.loads(lines[-1])
     except ValueError as e:
         # This was `except ValueError: pass`. The parse failure then vanished and
         # the verdict stood on the exit status alone, so a rail emitting broken
@@ -3116,7 +3132,7 @@ def load_manifest(suite_dir: str) -> dict[str, Any] | None:
     if not os.path.isfile(path):
         return None
     with open(path, encoding="utf-8") as f:
-        data: dict[str, Any] = json.load(f)
+        data: dict[str, Any] = strictjson.load(f)
         return data
 
 
@@ -3908,15 +3924,20 @@ def _run_non_reference_suite(
         auditrecord.SUITE,
         sourcecoverage.SUITE,
         anchoredchain.SUITE,
+        principalbinding.SUITE,
+        printwitness.SUITE,
+        emptyinterval.SUITE,
         keyrevocation.SUITE,
         openweight.SUITE,
         receiptchainend.SUITE,
         identitybinding.SUITE,
+        keydirectory.SUITE,
         authoritydispatch.SUITE,
         approvalbinding.SUITE,
         dispatchfence.SUITE,
         refundconnected.SUITE,
         aggregateaccounting.SUITE,
+        budgetlineage.SUITE,
         uncertaineffect.SUITE,
         monitorcoverage.SUITE,
         signaturecoverage.SUITE,
@@ -3925,8 +3946,16 @@ def _run_non_reference_suite(
         propagationstep.SUITE,
         containmentjournal.SUITE,
         decisionclient.SUITE,
+        capabilityrequirement.SUITE,
         refusalreason.SUITE,
+        responsibilityescalation.SUITE,
+        htxcases.SUITE,
+        telemetryevidence.SUITE,
+        lifecyclebinding.SUITE,
+        rsadigestinfo.SUITE,
+        executionbilling.SUITE,
         *cardreceipt.SUITES,
+        catalogtrust.SUITE,
         convertedargs.SUITE,
         delegatorright.SUITE,
         badgevc.SUITE,
@@ -3938,6 +3967,7 @@ def _run_non_reference_suite(
         gradefloor.SUITE,
         connectorscope.SUITE,
         paymentmandate.SUITE,
+        x402join.SUITE,
         recorded.SUITE,
         changeadmission.SUITE,
         agenticprocess.SUITE,
@@ -3959,15 +3989,20 @@ def _run_non_reference_suite(
     # contract their README states, so every case is answered or the run fails.
     full_reader = {
         anchoredchain.SUITE: anchoredchain.run,
+        principalbinding.SUITE: principalbinding.run,
+        printwitness.SUITE: printwitness.run,
+        emptyinterval.SUITE: emptyinterval.run,
         keyrevocation.SUITE: keyrevocation.run,
         openweight.SUITE: openweight.run,
         receiptchainend.SUITE: receiptchainend.run,
         identitybinding.SUITE: identitybinding.run,
+        keydirectory.SUITE: keydirectory.run,
         authoritydispatch.SUITE: authoritydispatch.run,
         approvalbinding.SUITE: approvalbinding.run,
         dispatchfence.SUITE: dispatchfence.run,
         refundconnected.SUITE: refundconnected.run,
         aggregateaccounting.SUITE: aggregateaccounting.run,
+        budgetlineage.SUITE: budgetlineage.run,
         uncertaineffect.SUITE: uncertaineffect.run,
         monitorcoverage.SUITE: monitorcoverage.run,
         signaturecoverage.SUITE: signaturecoverage.run,
@@ -3976,8 +4011,16 @@ def _run_non_reference_suite(
         propagationstep.SUITE: propagationstep.run,
         containmentjournal.SUITE: containmentjournal.run,
         decisionclient.SUITE: decisionclient.run,
+        capabilityrequirement.SUITE: capabilityrequirement.run,
         refusalreason.SUITE: refusalreason.run,
+        responsibilityescalation.SUITE: responsibilityescalation.run,
+        htxcases.SUITE: htxcases.run,
+        telemetryevidence.SUITE: telemetryevidence.run,
+        lifecyclebinding.SUITE: lifecyclebinding.run,
+        rsadigestinfo.SUITE: rsadigestinfo.run,
+        executionbilling.SUITE: executionbilling.run,
         **{suite: cardreceipt.runner(suite) for suite in cardreceipt.SUITES},
+        catalogtrust.SUITE: catalogtrust.runner(catalogtrust.SUITE),
         convertedargs.SUITE: convertedargs.run,
         delegatorright.SUITE: delegatorright.run,
         badgevc.SUITE: badgevc.run,
@@ -3988,6 +4031,7 @@ def _run_non_reference_suite(
         gradefloor.SUITE: gradefloor.run,
         connectorscope.SUITE: connectorscope.run,
         paymentmandate.SUITE: paymentmandate.run,
+        x402join.SUITE: x402join.run,
         recorded.SUITE: recorded.run,
         changeadmission.SUITE: changeadmission.run,
         agenticprocess.SUITE: agenticprocess.run,
@@ -3996,12 +4040,19 @@ def _run_non_reference_suite(
     }.get(suite)
     if full_reader is not None:
         return full_reader(suite_dir, external_cmd, report_path, rail_note)
-    if external_cmd is not None and suite == receiptsignature.SUITE:
-        return receiptsignature.run_external(suite_dir, external_cmd, report_path, rail_note)
-    # The admission corpus writes down a contract of its own: the policy path in
-    # AEE_CONSUMER_POLICY, and exit 0 exactly when the statement is admitted.
-    if external_cmd is not None and suite == admission.SUITE:
-        return admission.run_external(suite_dir, external_cmd, report_path, rail_note)
+    # These corpora write a contract of their own for a named verifier: the
+    # receipt-signature corpus its external-verifier contract, the admission
+    # corpus the policy path in AEE_CONSUMER_POLICY and exit 0 exactly when the
+    # statement is admitted, and the agent audit record corpus, in its README,
+    # one member file per call, a verdict, the codes, and the tier, set and
+    # dating results its members declare.
+    own_contract = {
+        receiptsignature.SUITE: receiptsignature.run_external,
+        admission.SUITE: admission.run_external,
+        auditrecord.SUITE: auditrecord.run_external,
+    }.get(suite)
+    if external_cmd is not None and own_contract is not None:
+        return own_contract(suite_dir, external_cmd, report_path, rail_note)
     if external_cmd is not None:
         return refuse_verifier(
             f"the verifier {shlex.join(external_cmd)!r} {DID_NOT_RUN}: the corpus "
@@ -4359,11 +4410,11 @@ def _load_statement(raw: bytes) -> tuple[Any, bool]:
     is no value at all and the verifier answers from the bytes alone.
     """
     try:
-        return json.loads(raw.decode("utf-8")), True
+        return strictjson.loads(raw.decode("utf-8")), True
     except (UnicodeDecodeError, ValueError):
         pass
     try:
-        return json.loads(raw.decode("utf-8", "replace")), False
+        return strictjson.loads(raw.decode("utf-8", "replace")), False
     except ValueError:
         return None, False
 
@@ -4847,7 +4898,7 @@ def corpus_provenance(suite_dir: str) -> dict[str, Any]:
             "manifestSha256": None,
         }
     try:
-        manifest = json.loads(raw)
+        manifest = strictjson.loads(raw)
     except ValueError:
         manifest = None
     if not isinstance(manifest, dict):
@@ -4934,7 +4985,7 @@ def verifier_result_header(suite_dir: str) -> dict[str, Any]:
     """Package, version, input digest and corpus revision of one run."""
     try:
         with open(os.path.join(suite_dir, "MANIFEST.json"), "rb") as handle:
-            manifest = json.loads(handle.read())
+            manifest = strictjson.loads(handle.read())
     except (OSError, ValueError):
         manifest = None
     if not isinstance(manifest, dict):
@@ -4976,7 +5027,7 @@ def stamp_report(path: str, suite_dir: str, before: tuple[int, int] | None) -> b
         return False
     try:
         with open(path, encoding="utf-8") as handle:
-            report = json.load(handle)
+            report = strictjson.load(handle)
     except (OSError, ValueError):
         return False
     if not isinstance(report, dict):
@@ -5641,12 +5692,15 @@ def runtime_main(argv: list[str]) -> int:
     from agent_evidence_vectors import (
         decisionclient,
         decisionclient_runtime,
+        executionbilling,
+        executionbilling_runtime,
         uncertaineffect_runtime,
     )
 
     runners = {
         uncertaineffect.SUITE: uncertaineffect_runtime.run_runtime,
         decisionclient.SUITE: decisionclient_runtime.run_runtime,
+        executionbilling.SUITE: executionbilling_runtime.run_runtime,
     }
     parser = argparse.ArgumentParser(
         prog="agent-evidence-vectors runtime",
@@ -5677,7 +5731,7 @@ def runtime_main(argv: list[str]) -> int:
 def _read_manifest_suite(root: str) -> str | None:
     try:
         with open(os.path.join(root, "MANIFEST.json"), encoding="utf-8") as handle:
-            suite = json.load(handle).get("suite")
+            suite = strictjson.load(handle).get("suite")
     except (OSError, ValueError, AttributeError):
         return None
     return suite if isinstance(suite, str) else None
@@ -5794,7 +5848,7 @@ def rail_main() -> int:
 def _emit_w3c(args: argparse.Namespace) -> None:
     """Write the v0.1 report beside the harness report, from the harness report."""
     with open(args.report_written, encoding="utf-8") as handle:
-        harness = json.load(handle)
+        harness = strictjson.load(handle)
     with open(args.emit_w3c_report, "w", encoding="utf-8") as handle:
         json.dump(w3creport.emit(harness), handle, indent=2, sort_keys=True)
         handle.write("\n")

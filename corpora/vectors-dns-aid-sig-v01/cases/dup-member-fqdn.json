@@ -1,0 +1,39 @@
+{
+ "case": "dup-member-fqdn",
+ "jwks": {
+  "keys": [
+   {
+    "crv": "P-256",
+    "kid": "k1",
+    "kty": "EC",
+    "x": "_fPaJ3wIDb-i1RoWB2R9ZdiU5l6iF9DbXZnTmK-axjs",
+    "y": "hdSyd3lQHn35Jcf1OZ3MG6cJcF2dMcBjF25FuOKDfKc"
+   }
+  ]
+ },
+ "jwks_url": "https://dns-aid.example.com/.well-known/dns-aid-jwks.json",
+ "key_authority": {
+  "jwks_fingerprint": "GxXN0GXH4jzK1C-li4-pLdtufD7kCXTVdLXtwp6tGUk",
+  "kind": "pin"
+ },
+ "now": 1790000000,
+ "record": {
+  "alpn": "a2a",
+  "fqdn": "_chat._a2a._agents.example.com",
+  "params": {
+   "bap": null,
+   "cap": "https://chat.example.com/.well-known/agent-cap.json",
+   "cap-sha256": "47DEQpj8HBSa-_TImW-5JCeuQeRkm5NMpJWZG3hSuFU",
+   "connect-class": null,
+   "connect-meta": null,
+   "enroll-uri": null,
+   "policy": "https://example.com/agent-policy",
+   "realm": "prod",
+   "well-known": null
+  },
+  "port": 443,
+  "target": "chat.example.com",
+  "zone": "example.com"
+ },
+ "sig": "eyJhbGciOiJFUzI1NiIsImtpZCI6ImsxIiwidHlwIjoiSldUIn0.eyJmcWRuIjoiX3guX2EyYS5fYWdlbnRzLmV2aWwuZXhhbXBsZSIsImFscG4iOiJhMmEiLCJleHAiOjE3OTAwODY0MDAsImZxZG4iOiJfY2hhdC5fYTJhLl9hZ2VudHMuZXhhbXBsZS5jb20iLCJpYXQiOjE3ODk5OTk5NDAsInBvcnQiOjQ0Mywic3ZjYiI6Im5hY0Q4Q1ZmNF95dHRCZlo3T0VPYV9iaTRIeWZBM0hXdjc2VTc0SWJYTXciLCJ0YXJnZXQiOiJjaGF0LmV4YW1wbGUuY29tIn0.H2smNoB4MToUCxO979Si-hdyWRxLo1_FQZkypELwhJrx8pzzHdJTWtxfR_Z6QWju8_FrSbk5k8u3OgwkDSGclw"
+}

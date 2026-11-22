@@ -73,13 +73,13 @@ const acGenesis = "0000000000000000000000000000000000000000000000000000000000000
 
 func (anchoredChain) Judge(dir string, raw []byte) (*Result, error) {
 	var manifest scManifest
-	if err := json.Unmarshal(raw, &manifest); err != nil {
+	if err := strictUnmarshal(raw, &manifest); err != nil {
 		return nil, fmt.Errorf("%s/MANIFEST.json does not parse: %w", dir, err)
 	}
 	result := &Result{}
 	for _, entry := range manifest.Vectors {
 		var v acVector
-		if err := json.Unmarshal(entry, &v); err != nil {
+		if err := strictUnmarshal(entry, &v); err != nil {
 			result.Findings = append(result.Findings, fmt.Sprintf("a manifest row does not parse: %v", err))
 			continue
 		}
@@ -141,9 +141,17 @@ func acDecide(caseDir string) (scDecision, bool, error) {
 	if err != nil {
 		return scDecision{}, false, fmt.Errorf("%s cannot be read: %w", c.Store, err)
 	}
+	anchorBytes, err := readIn(caseDir, c.Anchor)
+	if err != nil {
+		return scDecision{}, false, fmt.Errorf("%s cannot be read: %w", c.Anchor, err)
+	}
+	if !acStrict(anchorBytes) || !acStoreStrict(store) {
+		// Before every named check: the order is defined over lines a reader can read once.
+		return scDecision{"rejected", "store_not_strict_json"}, false, nil
+	}
 	var anchor acEnvelope
-	if err := scReadJSON(caseDir, c.Anchor, &anchor); err != nil {
-		return scDecision{}, false, err
+	if err := json.Unmarshal(anchorBytes, &anchor); err != nil {
+		return scDecision{}, false, fmt.Errorf("%s does not parse: %w", c.Anchor, err)
 	}
 	lines, envs, err := acParseStore(store)
 	if err != nil {
@@ -156,6 +164,22 @@ func acDecide(caseDir string) (scDecision, bool, error) {
 	return acFirstFailure(c, lines, envs, anchor, anchorKey, clean), clean, nil
 }
 
+// acStrict reports whether data is JSON with no repeated object member: a
+// repeated member is refused, never resolved, because a keep-the-last reader
+// and a keep-the-first reader would read two different records.
+func acStrict(data []byte) bool {
+	return bvNoDuplicates(json.NewDecoder(bytes.NewReader(data))) == nil
+}
+
+func acStoreStrict(store []byte) bool {
+	for _, line := range bytes.Split(store, []byte("\n")) {
+		if len(line) > 0 && !acStrict(line) {
+			return false
+		}
+	}
+	return true
+}
+
 func acParseStore(store []byte) ([][]byte, []acEnvelope, error) {
 	var lines [][]byte
 	var envs []acEnvelope
@@ -164,7 +188,7 @@ func acParseStore(store []byte) ([][]byte, []acEnvelope, error) {
 			continue
 		}
 		var env acEnvelope
-		if err := json.Unmarshal(line, &env); err != nil {
+		if err := strictUnmarshal(line, &env); err != nil {
 			return nil, nil, fmt.Errorf("a stored line does not parse: %w", err)
 		}
 		lines, envs = append(lines, line), append(envs, env)
@@ -178,12 +202,12 @@ func acFirstFailure(c acCase, lines [][]byte, envs []acEnvelope, anchor acEnvelo
 		return scDecision{"rejected", "signature_invalid"}
 	}
 	var body acAnchorBody
-	if !acSigned(anchor.Anchor, anchor.Sig, anchorKey) || json.Unmarshal(anchor.Anchor, &body) != nil {
+	if !acSigned(anchor.Anchor, anchor.Sig, anchorKey) || strictUnmarshal(anchor.Anchor, &body) != nil {
 		return scDecision{"rejected", "anchor_signature_invalid"}
 	}
 	records := make([]acRecord, len(envs))
 	for i, env := range envs {
-		if json.Unmarshal(env.Record, &records[i]) != nil || records[i].Chain != c.Chain {
+		if strictUnmarshal(env.Record, &records[i]) != nil || records[i].Chain != c.Chain {
 			return scDecision{"rejected", "record_from_other_chain"}
 		}
 	}
@@ -214,7 +238,7 @@ func acSigned(body json.RawMessage, sig string, key []byte) bool {
 	if len(body) == 0 || len(key) != ed25519.PublicKeySize {
 		return false
 	}
-	raw, err := base64.StdEncoding.DecodeString(sig)
+	raw, err := decodeCanonical(base64.StdEncoding, sig)
 	if err != nil {
 		return false
 	}

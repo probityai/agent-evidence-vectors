@@ -117,6 +117,23 @@ regexTarget = "match"
 regexes = ['''token"?\s*[:=]\s*"eyJhbGciOiJub25lIn0\.e30\."''']
 
 [[allowlists]]
+description = "Signed UMA for Agents terms agreements in the principal-binding corpus"
+# Each binding.jws is a compact JWS that an agent test key signs. The seeds are
+# the SHA-256 of published labels (gen_vectors.py), so the keys and the tokens
+# are public by construction, and the payloads carry terms, not credentials.
+# AND: only binding.jws files of that corpus, and only a token whose header names
+# one of the two published test keys (the agent and the other agent), so a JWS
+# with any other header is still reported.
+targetRules = ["jwt"]
+condition = "AND"
+paths = ['''^corpora/vectors-principal-binding/cases/[^/]+/binding\.jws$''']
+regexTarget = "match"
+regexes = [
+  '''^eyJhbGciOiJFZERTQSIsImp3ayI6eyJjcnYiOiJFZDI1NTE5Iiwia3R5IjoiT0tQIiwieCI6IlhzQVg4d2Z2SkpSRGhzeDZvcmpOWVVFLWE3dE1UVXdxVm5uV1U4SWhGRGcifX0\.''',
+  '''^eyJhbGciOiJFZERTQSIsImp3ayI6eyJjcnYiOiJFZDI1NTE5Iiwia3R5IjoiT0tQIiwieCI6Ik9hMzBSblFUVHJONWJ5MGlGbHRoS040UmJaZTQ5MUJWZHdKUUtpb1NOYzgifX0\.''',
+]
+
+[[allowlists]]
 description = "The ignore file lists commit:file:rule:line fingerprints, which read as high-entropy values"
 paths = ['''^\.gitleaksignore$''']
 
@@ -148,3 +165,42 @@ condition = "AND"
 paths = ['''^(corpora/)?vectors-badge-vc-verify/cases/[^/]+/case\.json$''']
 regexTarget = "match"
 regexes = ['''eyJ[A-Za-z0-9_-]+\.[A-Za-z0-9_-]+\.[A-Za-z0-9_-]*''']
+
+[[allowlists]]
+# vectors-catalog-trust-manifest carries one detached JWS stored WITH its payload
+# segment (case reject-jws-attached-payload), so it has the three-segment shape of
+# a JWT. It is signed by a test key whose scalar is the SHA-256 of a public label in
+# gen_vectors.py. AND: only the trust manifest signature member of that one case.
+description = "the attached-payload JWS fixture of vectors-catalog-trust-manifest (public test key)"
+targetRules = ["jwt"]
+condition = "AND"
+paths = ['''^corpora/vectors-catalog-trust-manifest/cases/reject-jws-attached-payload/catalog\.json$''']
+regexTarget = "match"
+regexes = ['''eyJ[A-Za-z0-9_-]+\.[A-Za-z0-9_-]+\.[A-Za-z0-9_-]*''']
+
+[[allowlists]]
+description = "Test signatures and key material in a dns-aid-sig case, from public test labels"
+# Each sig is a compact JWS over a fictional example.com SVCB record, signed with a
+# P-256 key whose scalar is the SHA-256 of a public label (gen_vectors.py), so the
+# key and every signature are public by construction. AND: only a dns-aid-sig case
+# file, and only a compact JWS or a 43-character base64url value in the x, y or
+# jwks_fingerprint member.
+targetRules = ["jwt", "generic-api-key"]
+condition = "AND"
+paths = ['''^(corpora/)?vectors-dns-aid-sig-v01/cases/[^/]+\.json$''']
+regexTarget = "match"
+regexes = ['''eyJ[A-Za-z0-9_-]+\.[A-Za-z0-9_-]*\.[A-Za-z0-9_-]*''', '''"(x|y|jwks_fingerprint)"\s*:\s*"[A-Za-z0-9_-]{43}"''']
+
+[[allowlists]]
+description = "Base64 Ed25519 public keys naming the assessor in a capability-requirement case"
+# The suite's requirement names the held-out assessor by public key (assessorKey). The
+# signing seeds are SHA-256 of public labels (gen_vectors.py), so the keys are public by
+# construction. AND: only a capability-requirement case file, and only the two published
+# test keys (the assessor and the other key a case swaps in). A base64 shape cannot tell a
+# public key from a secret, so the values are pinned: any other assessorKey value is still
+# reported.
+targetRules = ["generic-api-key"]
+condition = "AND"
+paths = ['''^(corpora/)?vectors-capability-requirement/cases/[^/]+/record\.json$''']
+regexTarget = "match"
+regexes = ['''assessorKey"\s*:\s*"(xCAlDc\+XkJ6JNf3j8F80rmvh8MwS3WQSV9YyXmyTcWE|7CkOHtB4Qly2Q/YX/OkMPba7HJwNRcVwmNmTr3A/6Hk)="''']

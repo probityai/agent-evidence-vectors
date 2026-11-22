@@ -1,0 +1,4861 @@
+{
+  "aggregate": {
+    "counts": {
+      "accept": 28,
+      "reject": 87
+    },
+    "line": "verdict: every member behaves as MANIFEST.json declares",
+    "total": 115
+  },
+  "anchor": {
+    "kind": "digest-list-line",
+    "manifest": "vectors-catalog-trust-manifest/MANIFEST.json",
+    "reference": {
+      "path": "release/CORPUS-DIGESTS.txt",
+      "uri": "https://github.com/probityai/agent-evidence-vectors/blob/main/release/CORPUS-DIGESTS.txt"
+    },
+    "routine": "corpus_digest in corpora/vectors-catalog-trust-manifest/digest.py",
+    "routine-file": "corpora/vectors-catalog-trust-manifest/digest.py",
+    "serialization": "corpus-routine",
+    "sha256": "d5fb983e61a8ae732badf116a2183a8bdc52b95677a7cf89cdc475422a57bb4f",
+    "verdicts": {
+      "availability-failure": "inconclusive",
+      "integrity-failure": "fail"
+    }
+  },
+  "artifacts": [
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "e318d7d046805b3f211227ce96a5abf1d6a35566a340e60f9b302a5e073e610a"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "e318d7d046805b3f211227ce96a5abf1d6a35566a340e60f9b302a5e073e610a"
+        },
+        "swapped-in": "1572b2b2d7a82a467cf5b326e36571448848217a6729101c98104cd6691ae9de",
+        "test": "swap-and-re-pin"
+      },
+      "path": "corpora/vectors-catalog-trust-manifest/CASES.json",
+      "serialization": "bytes",
+      "sha256": "b546ddb2265889421a735e33acea82a96cdf1ae4e86fc838e247f80c2a6d29aa"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "e318d7d046805b3f211227ce96a5abf1d6a35566a340e60f9b302a5e073e610a"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "e318d7d046805b3f211227ce96a5abf1d6a35566a340e60f9b302a5e073e610a"
+        },
+        "swapped-in": "8799748abe139a6a626debc80dea1f0d6147fee8e0d08cd2e9c2c1b4907e5a7b",
+        "test": "swap-and-re-pin"
+      },
+      "path": "corpora/vectors-catalog-trust-manifest/README.md",
+      "serialization": "bytes",
+      "sha256": "1ab7581148489ff173d730c1f9a529c4bd37c3300820c130c117bbfc380a603b"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "e318d7d046805b3f211227ce96a5abf1d6a35566a340e60f9b302a5e073e610a"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "e318d7d046805b3f211227ce96a5abf1d6a35566a340e60f9b302a5e073e610a"
+        },
+        "swapped-in": "4b2bda6ae0c4b0f0c5f05bc5fbffd9c85a6b7c422c132492e0fcf5ff97a05021",
+        "test": "swap-and-re-pin"
+      },
+      "path": "corpora/vectors-catalog-trust-manifest/digest.py",
+      "serialization": "bytes",
+      "sha256": "3f5fe7719f06e1d0bcc942da81e43d6962b2be7583dd38e1fe4ca25c2470c7e2"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "e318d7d046805b3f211227ce96a5abf1d6a35566a340e60f9b302a5e073e610a"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "e318d7d046805b3f211227ce96a5abf1d6a35566a340e60f9b302a5e073e610a"
+        },
+        "swapped-in": "dc3185f0e25be86fce53894e69cfaf0d9960978b54c6b4c3208a9f723af0d8aa",
+        "test": "swap-and-re-pin"
+      },
+      "path": "corpora/vectors-catalog-trust-manifest/gen_vectors.py",
+      "serialization": "bytes",
+      "sha256": "83d71768cb608134980c576984daa4591a4e51f3c8dd6d708b5c97ed8114df0a"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "e318d7d046805b3f211227ce96a5abf1d6a35566a340e60f9b302a5e073e610a"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "e318d7d046805b3f211227ce96a5abf1d6a35566a340e60f9b302a5e073e610a"
+        },
+        "swapped-in": "2b4bd413d1bac8ed6cd8c3b255f3785859e2f0326be4b176275a8994d7656794",
+        "test": "swap-and-re-pin"
+      },
+      "path": "corpora/vectors-catalog-trust-manifest/gen_vectors_independent.py",
+      "serialization": "bytes",
+      "sha256": "512d2769dae4bb355ead590200784304b96d0888051c81839a6e9bb370a60fda"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "e318d7d046805b3f211227ce96a5abf1d6a35566a340e60f9b302a5e073e610a"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "e318d7d046805b3f211227ce96a5abf1d6a35566a340e60f9b302a5e073e610a"
+        },
+        "swapped-in": "8a52b4720db0c4ed2848e7a945f3df33a68e1ada05acbf474c6907f30e9a9dcc",
+        "test": "swap-and-re-pin"
+      },
+      "path": "corpora/vectors-catalog-trust-manifest/tests/test_catalog_trust_manifest.py",
+      "serialization": "bytes",
+      "sha256": "fcdcf44b6ec82b0d0da37789e520504a56c14a0c349b2a254411884a1e074d68"
+    }
+  ],
+  "boundary": {
+    "complete": true,
+    "member-locations": [
+      {
+        "dir": "cases",
+        "recursive": true,
+        "suffix": ""
+      }
+    ],
+    "root": "corpora/vectors-catalog-trust-manifest"
+  },
+  "byte-identity": {
+    "pins": 471,
+    "serialization": "bytes"
+  },
+  "canonicalization": {
+    "encoding": "jcs-sha256"
+  },
+  "checker": {
+    "commands": [
+      "go build -o aee-verify ./cmd/aee-verify",
+      "aee-verify -json corpora/vectors-catalog-trust-manifest",
+      "aee-verify -json corpora/vectors-catalog-trust-manifest",
+      "aee-verify corpora/vectors-catalog-trust-manifest"
+    ],
+    "dependencies": [
+      {
+        "path": "go.mod",
+        "serialization": "bytes",
+        "sha256": "c9f5a67159789ead4e2879e86805505c6ba22150b04bef360e6b3333125fb1c2"
+      },
+      {
+        "path": "go.work",
+        "serialization": "bytes",
+        "sha256": "61a9b151174d1aca21dd4b851b7d9a88784c4e6674ba4550a01a36a22f165e47"
+      }
+    ],
+    "helpers": [],
+    "name": "aee-verify",
+    "relationship": "same-implementation",
+    "revision": {
+      "kind": "source-listing",
+      "paths": [
+        "aee/admission.go",
+        "aee/carried_base64.go",
+        "aee/codes.go",
+        "aee/commitments.go",
+        "aee/jcs.go",
+        "aee/merkle.go",
+        "aee/pae.go",
+        "aee/recompute.go",
+        "aee/runbinding.go",
+        "aee/statement.go",
+        "aee/tier.go",
+        "aee/types.go",
+        "aee/validity.go",
+        "aee/verify.go",
+        "cmd/aee-verify/corpus.go",
+        "cmd/aee-verify/main.go",
+        "corpusreaders/a2ajcs.go",
+        "corpusreaders/aci.go",
+        "corpusreaders/acscore.go",
+        "corpusreaders/admission.go",
+        "corpusreaders/aeecorpus.go",
+        "corpusreaders/agentaction.go",
+        "corpusreaders/agentaction_chain.go",
+        "corpusreaders/agentdecision.go",
+        "corpusreaders/agenticprocess.go",
+        "corpusreaders/aggregateaccounting.go",
+        "corpusreaders/aigeneration.go",
+        "corpusreaders/anchoredchain.go",
+        "corpusreaders/anchorstream.go",
+        "corpusreaders/approvalbinding.go",
+        "corpusreaders/artifactbinding.go",
+        "corpusreaders/auditrecord.go",
+        "corpusreaders/auditrecord_consumption.go",
+        "corpusreaders/auditrecord_datasubject.go",
+        "corpusreaders/auditrecord_dating.go",
+        "corpusreaders/auditrecord_principal.go",
+        "corpusreaders/auditrecord_sequence.go",
+        "corpusreaders/authoritydispatch.go",
+        "corpusreaders/badgevc.go",
+        "corpusreaders/budgetlineage.go",
+        "corpusreaders/canonical_base64.go",
+        "corpusreaders/capabilityrequirement.go",
+        "corpusreaders/cardreceipt.go",
+        "corpusreaders/catalogtrust.go",
+        "corpusreaders/changeadmission.go",
+        "corpusreaders/chunkedexport.go",
+        "corpusreaders/common.go",
+        "corpusreaders/completionconfirmation.go",
+        "corpusreaders/connectorscope.go",
+        "corpusreaders/containmentjournal.go",
+        "corpusreaders/contextdiscovery.go",
+        "corpusreaders/controldecision.go",
+        "corpusreaders/convertedargs.go",
+        "corpusreaders/decisionclient.go",
+        "corpusreaders/delegationlifecycle.go",
+        "corpusreaders/delegatorright.go",
+        "corpusreaders/dispatchfence.go",
+        "corpusreaders/dnsaid.go",
+        "corpusreaders/doneargv.go",
+        "corpusreaders/donechecks.go",
+        "corpusreaders/donerecords.go",
+        "corpusreaders/donerun.go",
+        "corpusreaders/emptyinterval.go",
+        "corpusreaders/evidencecell.go",
+        "corpusreaders/evidencestate.go",
+        "corpusreaders/executionbilling.go",
+        "corpusreaders/gradefloor.go",
+        "corpusreaders/htxcases.go",
+        "corpusreaders/identitybinding.go",
+        "corpusreaders/ietfagentrecord.go",
+        "corpusreaders/keydirectory.go",
+        "corpusreaders/keyrevocation.go",
+        "corpusreaders/lifecyclebinding.go",
+        "corpusreaders/mcpauthz.go",
+        "corpusreaders/mcpowasp.go",
+        "corpusreaders/mcprecord.go",
+        "corpusreaders/mcpresponsephase.go",
+        "corpusreaders/monitorcoverage.go",
+        "corpusreaders/observedeffect.go",
+        "corpusreaders/openweight.go",
+        "corpusreaders/paymentmandate.go",
+        "corpusreaders/principalbinding.go",
+        "corpusreaders/printwitness.go",
+        "corpusreaders/propagationstep.go",
+        "corpusreaders/pyjson.go",
+        "corpusreaders/receiptchainend.go",
+        "corpusreaders/receiptsignature.go",
+        "corpusreaders/recorded.go",
+        "corpusreaders/refundconnected.go",
+        "corpusreaders/refundconnected_aps.go",
+        "corpusreaders/refundconnected_run.go",
+        "corpusreaders/refundconnected_steps.go",
+        "corpusreaders/refundconnected_trust.go",
+        "corpusreaders/refundconnected_value.go",
+        "corpusreaders/refusalreason.go",
+        "corpusreaders/registry.go",
+        "corpusreaders/responsibilityescalation.go",
+        "corpusreaders/restartrecords.go",
+        "corpusreaders/rsadigestinfo.go",
+        "corpusreaders/rulecorpus.go",
+        "corpusreaders/runmetrics.go",
+        "corpusreaders/scittcose.go",
+        "corpusreaders/selfreported.go",
+        "corpusreaders/signaturecoverage.go",
+        "corpusreaders/sourcecoverage.go",
+        "corpusreaders/strictjson.go",
+        "corpusreaders/telemetryevidence.go",
+        "corpusreaders/traceanchor.go",
+        "corpusreaders/uncertaineffect.go",
+        "corpusreaders/w3cintake.go",
+        "corpusreaders/w3cjcs.go",
+        "corpusreaders/w3creport.go",
+        "corpusreaders/x402join.go",
+        "go.mod"
+      ],
+      "serialization": "sha256-listing-v1",
+      "sha256": "2558d3c3540ca75832aa22684a055fc39afda0c8de8907410e00d642becedc70"
+    },
+    "runtime": {
+      "name": "go",
+      "version": "1.26"
+    },
+    "shared-verification-code": [
+      "aee/admission.go",
+      "aee/carried_base64.go",
+      "aee/codes.go",
+      "aee/commitments.go",
+      "aee/jcs.go",
+      "aee/merkle.go",
+      "aee/pae.go",
+      "aee/recompute.go",
+      "aee/runbinding.go",
+      "aee/statement.go",
+      "aee/tier.go",
+      "aee/types.go",
+      "aee/validity.go",
+      "aee/verify.go",
+      "cmd/aee-verify/corpus.go",
+      "cmd/aee-verify/main.go",
+      "corpusreaders/a2ajcs.go",
+      "corpusreaders/aci.go",
+      "corpusreaders/acscore.go",
+      "corpusreaders/admission.go",
+      "corpusreaders/aeecorpus.go",
+      "corpusreaders/agentaction.go",
+      "corpusreaders/agentaction_chain.go",
+      "corpusreaders/agentdecision.go",
+      "corpusreaders/agenticprocess.go",
+      "corpusreaders/aggregateaccounting.go",
+      "corpusreaders/aigeneration.go",
+      "corpusreaders/anchoredchain.go",
+      "corpusreaders/anchorstream.go",
+      "corpusreaders/approvalbinding.go",
+      "corpusreaders/artifactbinding.go",
+      "corpusreaders/auditrecord.go",
+      "corpusreaders/auditrecord_consumption.go",
+      "corpusreaders/auditrecord_datasubject.go",
+      "corpusreaders/auditrecord_dating.go",
+      "corpusreaders/auditrecord_principal.go",
+      "corpusreaders/auditrecord_sequence.go",
+      "corpusreaders/authoritydispatch.go",
+      "corpusreaders/badgevc.go",
+      "corpusreaders/budgetlineage.go",
+      "corpusreaders/canonical_base64.go",
+      "corpusreaders/capabilityrequirement.go",
+      "corpusreaders/cardreceipt.go",
+      "corpusreaders/catalogtrust.go",
+      "corpusreaders/changeadmission.go",
+      "corpusreaders/chunkedexport.go",
+      "corpusreaders/common.go",
+      "corpusreaders/completionconfirmation.go",
+      "corpusreaders/connectorscope.go",
+      "corpusreaders/containmentjournal.go",
+      "corpusreaders/contextdiscovery.go",
+      "corpusreaders/controldecision.go",
+      "corpusreaders/convertedargs.go",
+      "corpusreaders/decisionclient.go",
+      "corpusreaders/delegationlifecycle.go",
+      "corpusreaders/delegatorright.go",
+      "corpusreaders/dispatchfence.go",
+      "corpusreaders/dnsaid.go",
+      "corpusreaders/doneargv.go",
+      "corpusreaders/donechecks.go",
+      "corpusreaders/donerecords.go",
+      "corpusreaders/donerun.go",
+      "corpusreaders/emptyinterval.go",
+      "corpusreaders/evidencecell.go",
+      "corpusreaders/evidencestate.go",
+      "corpusreaders/executionbilling.go",
+      "corpusreaders/gradefloor.go",
+      "corpusreaders/htxcases.go",
+      "corpusreaders/identitybinding.go",
+      "corpusreaders/ietfagentrecord.go",
+      "corpusreaders/keydirectory.go",
+      "corpusreaders/keyrevocation.go",
+      "corpusreaders/lifecyclebinding.go",
+      "corpusreaders/mcpauthz.go",
+      "corpusreaders/mcpowasp.go",
+      "corpusreaders/mcprecord.go",
+      "corpusreaders/mcpresponsephase.go",
+      "corpusreaders/monitorcoverage.go",
+      "corpusreaders/observedeffect.go",
+      "corpusreaders/openweight.go",
+      "corpusreaders/paymentmandate.go",
+      "corpusreaders/principalbinding.go",
+      "corpusreaders/printwitness.go",
+      "corpusreaders/propagationstep.go",
+      "corpusreaders/pyjson.go",
+      "corpusreaders/receiptchainend.go",
+      "corpusreaders/receiptsignature.go",
+      "corpusreaders/recorded.go",
+      "corpusreaders/refundconnected.go",
+      "corpusreaders/refundconnected_aps.go",
+      "corpusreaders/refundconnected_run.go",
+      "corpusreaders/refundconnected_steps.go",
+      "corpusreaders/refundconnected_trust.go",
+      "corpusreaders/refundconnected_value.go",
+      "corpusreaders/refusalreason.go",
+      "corpusreaders/registry.go",
+      "corpusreaders/responsibilityescalation.go",
+      "corpusreaders/restartrecords.go",
+      "corpusreaders/rsadigestinfo.go",
+      "corpusreaders/rulecorpus.go",
+      "corpusreaders/runmetrics.go",
+      "corpusreaders/scittcose.go",
+      "corpusreaders/selfreported.go",
+      "corpusreaders/signaturecoverage.go",
+      "corpusreaders/sourcecoverage.go",
+      "corpusreaders/strictjson.go",
+      "corpusreaders/telemetryevidence.go",
+      "corpusreaders/traceanchor.go",
+      "corpusreaders/uncertaineffect.go",
+      "corpusreaders/w3cintake.go",
+      "corpusreaders/w3cjcs.go",
+      "corpusreaders/w3creport.go",
+      "corpusreaders/x402join.go",
+      "go.mod"
+    ]
+  },
+  "checks": [
+    {
+      "check": "accept-draft-es256",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "accept-draft-eddsa",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "accept-draft-b64-false-with-crit",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "accept-draft-utf16-member-order",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "accept-field-whole-entry",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "accept-cross-origin-url-bound",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "accept-attestations-dsse-bound",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "accept-aic-publisher",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "accept-aic-assessor-as-contributor",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "accept-aic-publisher-beside-assessor",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "accept-aic-nested-signature-kept",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "accept-aic-additional-signatures-ignored",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "accept-snapshot",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "contradict-draft-signed-under-ard-draft-bu-00",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "contradict-draft-signed-under-field-whole-entry",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "contradict-draft-signed-under-ai-catalog-2026-11",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "contradict-draft-signed-under-ai-catalog-snapshot",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "contradict-whole-entry-signed-under-ard-draft-bu-00",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "contradict-whole-entry-signed-under-field-whole-entry",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "contradict-whole-entry-signed-under-ai-catalog-2026-11",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "contradict-whole-entry-signed-under-ai-catalog-snapshot",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "reject-construction-unknown",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "reject-duplicate-identifier",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "reject-unsigned",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "reject-jws-attached-payload",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "reject-jws-padded-base64url",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "reject-aic-typ-missing",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "reject-snapshot-typ-of-manifest",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "reject-alg-none",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "reject-aic-eddsa",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "reject-key-source-jku",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "reject-key-source-jwk",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "reject-key-source-x5u",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "reject-key-source-x5c",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "reject-aic-b64",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "reject-crit-unknown",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "reject-b64-without-crit",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "reject-kid-not-under-identity",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "reject-did-document-not-identity",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "reject-kid-not-in-did-document",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "reject-key-not-assertion-method",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "reject-alg-key-mismatch",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "reject-number-not-interoperable",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "reject-lone-surrogate",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "reject-signature-invalid",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "reject-aic-signer-not-contributor",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "reject-subject-missing",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "reject-subject-version-absent",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "reject-manifest-moved-to-other-release",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "reject-entry-digest-missing-for-url",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "reject-artifact-digest-mismatch",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "reject-url-origin-unbound",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "reject-attestation-digest-mismatch",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "reject-attestation-unsigned",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "reject-attestation-transplanted",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "reject-aic-www-signer",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "reject-draft-www-signer",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "reject-assessor-presented-as-publisher",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "reject-issued-in-future",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "reject-manifest-expired",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "reject-role-unknown",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "reject-catalog-not-json",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "reject-b64-not-boolean",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "reject-aic-profile-unsupported",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "reject-aic-profile-absent",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "reject-snapshot-profile-unsupported",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "reject-aic-signer-path-did",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "reject-aic-signer-uppercase-domain",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "reject-aic-signer-port",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "reject-aic-signer-ipv4",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "reject-aic-signer-numeric-tld",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "reject-aic-signer-domain-past-253-octets",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "reject-snapshot-signer-path-did",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "reject-verification-method-ambiguous",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "reject-aic-method-controller-other",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "reject-jwk-use-enc",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "reject-jwk-private-member",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "reject-jwk-alg-other",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "reject-jwk-key-ops-sign-only",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "reject-jwk-x-33-octets",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "reject-aic-issued-absent",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "reject-issued-not-a-date",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "reject-expires-not-after-issued",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "reject-draft-identifier-absent",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "reject-attestation-signer-document-not-identity",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "accept-assertion-method-relative-reference",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "reject-draft-url-and-data",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "reject-draft-neither-url-nor-data",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "accept-kid-fragment-with-colon",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "reject-kid-fragment-bad-escape",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "accept-issued-with-fraction",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "accept-issued-with-offset",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "accept-draft-inline-data",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "reject-draft-inline-data-swapped",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "accept-dsse-url-safe-base64",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "accept-dsse-der-signature",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "reject-dsse-der-non-minimal",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "reject-dsse-payload-newline",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "reject-attestation-file-not-one-segment",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "accept-nesting-at-the-limit",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "reject-nesting-past-the-limit",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "accept-context-entry-integral-number",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "reject-context-entry-negative",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "reject-context-entry-boolean",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "reject-issued-second-60-not-leap",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "reject-issued-second-60-offset-not-leap",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "accept-issued-on-a-leap-second",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "accept-issued-on-a-leap-second-with-offset",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "accept-url-origin-case-and-default-port",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "reject-url-userinfo",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "reject-aic-url-and-data",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "reject-aic-neither-url-nor-data",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "reject-issued-one-second-in-future",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "accept-checked-at-the-issued-instant",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "reject-url-other-port",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    }
+  ],
+  "corpus-digest": {
+    "serialization": "sha256-listing-v1",
+    "sha256": "ddf12691ed77d5345afc46bbf1f52873e267c9ab80bca6b4d9ca1fa5b5b99bd0"
+  },
+  "exit-code": 0,
+  "exit-rule": "zero-iff-every-check-passes",
+  "exposure": "visible",
+  "faults": [],
+  "format": "public-agent-conformance/intake-record/v2",
+  "manifest": {
+    "closed": true,
+    "ids": [
+      "accept-draft-es256",
+      "accept-draft-eddsa",
+      "accept-draft-b64-false-with-crit",
+      "accept-draft-utf16-member-order",
+      "accept-field-whole-entry",
+      "accept-cross-origin-url-bound",
+      "accept-attestations-dsse-bound",
+      "accept-aic-publisher",
+      "accept-aic-assessor-as-contributor",
+      "accept-aic-publisher-beside-assessor",
+      "accept-aic-nested-signature-kept",
+      "accept-aic-additional-signatures-ignored",
+      "accept-snapshot",
+      "contradict-draft-signed-under-ard-draft-bu-00",
+      "contradict-draft-signed-under-field-whole-entry",
+      "contradict-draft-signed-under-ai-catalog-2026-11",
+      "contradict-draft-signed-under-ai-catalog-snapshot",
+      "contradict-whole-entry-signed-under-ard-draft-bu-00",
+      "contradict-whole-entry-signed-under-field-whole-entry",
+      "contradict-whole-entry-signed-under-ai-catalog-2026-11",
+      "contradict-whole-entry-signed-under-ai-catalog-snapshot",
+      "reject-construction-unknown",
+      "reject-duplicate-identifier",
+      "reject-unsigned",
+      "reject-jws-attached-payload",
+      "reject-jws-padded-base64url",
+      "reject-aic-typ-missing",
+      "reject-snapshot-typ-of-manifest",
+      "reject-alg-none",
+      "reject-aic-eddsa",
+      "reject-key-source-jku",
+      "reject-key-source-jwk",
+      "reject-key-source-x5u",
+      "reject-key-source-x5c",
+      "reject-aic-b64",
+      "reject-crit-unknown",
+      "reject-b64-without-crit",
+      "reject-kid-not-under-identity",
+      "reject-did-document-not-identity",
+      "reject-kid-not-in-did-document",
+      "reject-key-not-assertion-method",
+      "reject-alg-key-mismatch",
+      "reject-number-not-interoperable",
+      "reject-lone-surrogate",
+      "reject-signature-invalid",
+      "reject-aic-signer-not-contributor",
+      "reject-subject-missing",
+      "reject-subject-version-absent",
+      "reject-manifest-moved-to-other-release",
+      "reject-entry-digest-missing-for-url",
+      "reject-artifact-digest-mismatch",
+      "reject-url-origin-unbound",
+      "reject-attestation-digest-mismatch",
+      "reject-attestation-unsigned",
+      "reject-attestation-transplanted",
+      "reject-aic-www-signer",
+      "reject-draft-www-signer",
+      "reject-assessor-presented-as-publisher",
+      "reject-issued-in-future",
+      "reject-manifest-expired",
+      "reject-role-unknown",
+      "reject-catalog-not-json",
+      "reject-b64-not-boolean",
+      "reject-aic-profile-unsupported",
+      "reject-aic-profile-absent",
+      "reject-snapshot-profile-unsupported",
+      "reject-aic-signer-path-did",
+      "reject-aic-signer-uppercase-domain",
+      "reject-aic-signer-port",
+      "reject-aic-signer-ipv4",
+      "reject-aic-signer-numeric-tld",
+      "reject-aic-signer-domain-past-253-octets",
+      "reject-snapshot-signer-path-did",
+      "reject-verification-method-ambiguous",
+      "reject-aic-method-controller-other",
+      "reject-jwk-use-enc",
+      "reject-jwk-private-member",
+      "reject-jwk-alg-other",
+      "reject-jwk-key-ops-sign-only",
+      "reject-jwk-x-33-octets",
+      "reject-aic-issued-absent",
+      "reject-issued-not-a-date",
+      "reject-expires-not-after-issued",
+      "reject-draft-identifier-absent",
+      "reject-attestation-signer-document-not-identity",
+      "accept-assertion-method-relative-reference",
+      "reject-draft-url-and-data",
+      "reject-draft-neither-url-nor-data",
+      "accept-kid-fragment-with-colon",
+      "reject-kid-fragment-bad-escape",
+      "accept-issued-with-fraction",
+      "accept-issued-with-offset",
+      "accept-draft-inline-data",
+      "reject-draft-inline-data-swapped",
+      "accept-dsse-url-safe-base64",
+      "accept-dsse-der-signature",
+      "reject-dsse-der-non-minimal",
+      "reject-dsse-payload-newline",
+      "reject-attestation-file-not-one-segment",
+      "accept-nesting-at-the-limit",
+      "reject-nesting-past-the-limit",
+      "accept-context-entry-integral-number",
+      "reject-context-entry-negative",
+      "reject-context-entry-boolean",
+      "reject-issued-second-60-not-leap",
+      "reject-issued-second-60-offset-not-leap",
+      "accept-issued-on-a-leap-second",
+      "accept-issued-on-a-leap-second-with-offset",
+      "accept-url-origin-case-and-default-port",
+      "reject-url-userinfo",
+      "reject-aic-url-and-data",
+      "reject-aic-neither-url-nor-data",
+      "reject-issued-one-second-in-future",
+      "accept-checked-at-the-issued-instant",
+      "reject-url-other-port"
+    ],
+    "path": "corpora/vectors-catalog-trust-manifest/MANIFEST.json",
+    "sha256": "ed74879e7d9589031946764fd2aeb978ea25133456a30e68a844dbc74496d52e"
+  },
+  "members": [
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/accept-draft-es256/artifact.json",
+          "sha256": "5346c3b356f1b2db025b97d464d73a62442ca39ad1480549e23daff147f35ef1"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/accept-draft-es256/catalog.json",
+          "sha256": "2133928a4dde8ea9c151197b8603a6f3f30f6e0394b4369ca5121c755571b100"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/accept-draft-es256/context.json",
+          "sha256": "06cb286f62c546c49571afedf5d9d0246cf61df15b74e60c79b973d0096b4920"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/accept-draft-es256/did-documents.json",
+          "sha256": "8b49c5d7a3dad753d337a8879ad50ea41947883460bf47e3bf3353f41a28c3fe"
+        }
+      ],
+      "id": "accept-draft-es256"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/accept-draft-eddsa/artifact.json",
+          "sha256": "5346c3b356f1b2db025b97d464d73a62442ca39ad1480549e23daff147f35ef1"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/accept-draft-eddsa/catalog.json",
+          "sha256": "c1c42f1e17db9c8f57814f270ae590332b9c2af09eee83e70a5edec78b7d650a"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/accept-draft-eddsa/context.json",
+          "sha256": "06cb286f62c546c49571afedf5d9d0246cf61df15b74e60c79b973d0096b4920"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/accept-draft-eddsa/did-documents.json",
+          "sha256": "8b49c5d7a3dad753d337a8879ad50ea41947883460bf47e3bf3353f41a28c3fe"
+        }
+      ],
+      "id": "accept-draft-eddsa"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/accept-draft-b64-false-with-crit/artifact.json",
+          "sha256": "5346c3b356f1b2db025b97d464d73a62442ca39ad1480549e23daff147f35ef1"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/accept-draft-b64-false-with-crit/catalog.json",
+          "sha256": "145d523684ce1a12ca34931ba9e168ae86c038611cfc8a5dfdf832eaf2122440"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/accept-draft-b64-false-with-crit/context.json",
+          "sha256": "06cb286f62c546c49571afedf5d9d0246cf61df15b74e60c79b973d0096b4920"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/accept-draft-b64-false-with-crit/did-documents.json",
+          "sha256": "8b49c5d7a3dad753d337a8879ad50ea41947883460bf47e3bf3353f41a28c3fe"
+        }
+      ],
+      "id": "accept-draft-b64-false-with-crit"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/accept-draft-utf16-member-order/artifact.json",
+          "sha256": "5346c3b356f1b2db025b97d464d73a62442ca39ad1480549e23daff147f35ef1"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/accept-draft-utf16-member-order/catalog.json",
+          "sha256": "7cf1f31859d7519f500b0d6728e3842332f5eb2ce6df67b4ef7d6cfb0757c0f8"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/accept-draft-utf16-member-order/context.json",
+          "sha256": "06cb286f62c546c49571afedf5d9d0246cf61df15b74e60c79b973d0096b4920"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/accept-draft-utf16-member-order/did-documents.json",
+          "sha256": "8b49c5d7a3dad753d337a8879ad50ea41947883460bf47e3bf3353f41a28c3fe"
+        }
+      ],
+      "id": "accept-draft-utf16-member-order"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/accept-field-whole-entry/artifact.json",
+          "sha256": "5346c3b356f1b2db025b97d464d73a62442ca39ad1480549e23daff147f35ef1"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/accept-field-whole-entry/catalog.json",
+          "sha256": "9ace4267326e0bb45a1c9ef744e61e94c943751a0d48fbcca0f2c4f04ee7564c"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/accept-field-whole-entry/context.json",
+          "sha256": "722e7857e4c55ada6d4717f44a9423abe2446da361a08488ab3e049e4f14ce6d"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/accept-field-whole-entry/did-documents.json",
+          "sha256": "8b49c5d7a3dad753d337a8879ad50ea41947883460bf47e3bf3353f41a28c3fe"
+        }
+      ],
+      "id": "accept-field-whole-entry"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/accept-cross-origin-url-bound/artifact.json",
+          "sha256": "52d6ec2eddafaf83b89f01e56c89f686b55909b5f3d8f93a97183cbc05a806f7"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/accept-cross-origin-url-bound/catalog.json",
+          "sha256": "8476f173a9bfd53b95e3f12f171f5ea5610d37d1eb5c36999e1f2d25e7502fed"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/accept-cross-origin-url-bound/context.json",
+          "sha256": "06cb286f62c546c49571afedf5d9d0246cf61df15b74e60c79b973d0096b4920"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/accept-cross-origin-url-bound/did-documents.json",
+          "sha256": "8b49c5d7a3dad753d337a8879ad50ea41947883460bf47e3bf3353f41a28c3fe"
+        }
+      ],
+      "id": "accept-cross-origin-url-bound"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/accept-attestations-dsse-bound/artifact.json",
+          "sha256": "5346c3b356f1b2db025b97d464d73a62442ca39ad1480549e23daff147f35ef1"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/accept-attestations-dsse-bound/attestation-0.dsse.json",
+          "sha256": "ae9aadf1bbaf4491202a108830a17024a1a45d94db8977db1f66a49f5e60467b"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/accept-attestations-dsse-bound/attestation-1.dsse.json",
+          "sha256": "4e3ea99bb1b3eb1f437d4c74a17005b1ed36a234aaecb5b26877d67abadd431d"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/accept-attestations-dsse-bound/catalog.json",
+          "sha256": "de7bfeed28e778a36486eed1f798505611604079f371f16f57621ffed569db51"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/accept-attestations-dsse-bound/context.json",
+          "sha256": "dde17bcbc97673275e01d305377e1ad0763b726b877fa0d8b0923b2b7aad8b3f"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/accept-attestations-dsse-bound/did-documents.json",
+          "sha256": "8b49c5d7a3dad753d337a8879ad50ea41947883460bf47e3bf3353f41a28c3fe"
+        }
+      ],
+      "id": "accept-attestations-dsse-bound"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/accept-aic-publisher/artifact.json",
+          "sha256": "5346c3b356f1b2db025b97d464d73a62442ca39ad1480549e23daff147f35ef1"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/accept-aic-publisher/catalog.json",
+          "sha256": "fe7aaee6d11350c4c54fef665c8ea41bee65f5c56066ff7210b2082cb848262b"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/accept-aic-publisher/context.json",
+          "sha256": "1c46a20b6b1fa27b14ff5896143f4d22d9f8085bb7998ac90145133a8b88c1c7"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/accept-aic-publisher/did-documents.json",
+          "sha256": "8b49c5d7a3dad753d337a8879ad50ea41947883460bf47e3bf3353f41a28c3fe"
+        }
+      ],
+      "id": "accept-aic-publisher"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/accept-aic-assessor-as-contributor/artifact.json",
+          "sha256": "5346c3b356f1b2db025b97d464d73a62442ca39ad1480549e23daff147f35ef1"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/accept-aic-assessor-as-contributor/catalog.json",
+          "sha256": "7f013a155bf4ccd3859be19e29a2ab4a555d9e11e3a62da729476788521106b3"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/accept-aic-assessor-as-contributor/context.json",
+          "sha256": "5ff46e50637a5b545a01adbad959b32734c94cc0973a973cdd7cc5ff99e9a101"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/accept-aic-assessor-as-contributor/did-documents.json",
+          "sha256": "8b49c5d7a3dad753d337a8879ad50ea41947883460bf47e3bf3353f41a28c3fe"
+        }
+      ],
+      "id": "accept-aic-assessor-as-contributor"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/accept-aic-publisher-beside-assessor/artifact.json",
+          "sha256": "5346c3b356f1b2db025b97d464d73a62442ca39ad1480549e23daff147f35ef1"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/accept-aic-publisher-beside-assessor/catalog.json",
+          "sha256": "7f013a155bf4ccd3859be19e29a2ab4a555d9e11e3a62da729476788521106b3"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/accept-aic-publisher-beside-assessor/context.json",
+          "sha256": "1c46a20b6b1fa27b14ff5896143f4d22d9f8085bb7998ac90145133a8b88c1c7"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/accept-aic-publisher-beside-assessor/did-documents.json",
+          "sha256": "8b49c5d7a3dad753d337a8879ad50ea41947883460bf47e3bf3353f41a28c3fe"
+        }
+      ],
+      "id": "accept-aic-publisher-beside-assessor"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/accept-aic-nested-signature-kept/artifact.json",
+          "sha256": "5346c3b356f1b2db025b97d464d73a62442ca39ad1480549e23daff147f35ef1"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/accept-aic-nested-signature-kept/catalog.json",
+          "sha256": "d4da8c184b68ef70451748a72c3f4a168e69b0ba763118fc4d95f81fed4c5f9f"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/accept-aic-nested-signature-kept/context.json",
+          "sha256": "1c46a20b6b1fa27b14ff5896143f4d22d9f8085bb7998ac90145133a8b88c1c7"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/accept-aic-nested-signature-kept/did-documents.json",
+          "sha256": "8b49c5d7a3dad753d337a8879ad50ea41947883460bf47e3bf3353f41a28c3fe"
+        }
+      ],
+      "id": "accept-aic-nested-signature-kept"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/accept-aic-additional-signatures-ignored/artifact.json",
+          "sha256": "5346c3b356f1b2db025b97d464d73a62442ca39ad1480549e23daff147f35ef1"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/accept-aic-additional-signatures-ignored/catalog.json",
+          "sha256": "2930ad63080f613d842386e5694d3d51cddd8253080d4ec40ae8998fc4f042fb"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/accept-aic-additional-signatures-ignored/context.json",
+          "sha256": "1c46a20b6b1fa27b14ff5896143f4d22d9f8085bb7998ac90145133a8b88c1c7"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/accept-aic-additional-signatures-ignored/did-documents.json",
+          "sha256": "8b49c5d7a3dad753d337a8879ad50ea41947883460bf47e3bf3353f41a28c3fe"
+        }
+      ],
+      "id": "accept-aic-additional-signatures-ignored"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/accept-snapshot/artifact.json",
+          "sha256": "5346c3b356f1b2db025b97d464d73a62442ca39ad1480549e23daff147f35ef1"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/accept-snapshot/catalog.json",
+          "sha256": "417c1a733069338444dc2b37ed789a18c2358e902545e799f7fa48a938775683"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/accept-snapshot/context.json",
+          "sha256": "b9fc6b826c846eb6da969911bab34829a867bac1b7fb3275f5061e45025f437c"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/accept-snapshot/did-documents.json",
+          "sha256": "8b49c5d7a3dad753d337a8879ad50ea41947883460bf47e3bf3353f41a28c3fe"
+        }
+      ],
+      "id": "accept-snapshot"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/contradict-draft-signed-under-ard-draft-bu-00/artifact.json",
+          "sha256": "5346c3b356f1b2db025b97d464d73a62442ca39ad1480549e23daff147f35ef1"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/contradict-draft-signed-under-ard-draft-bu-00/catalog.json",
+          "sha256": "2133928a4dde8ea9c151197b8603a6f3f30f6e0394b4369ca5121c755571b100"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/contradict-draft-signed-under-ard-draft-bu-00/context.json",
+          "sha256": "06cb286f62c546c49571afedf5d9d0246cf61df15b74e60c79b973d0096b4920"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/contradict-draft-signed-under-ard-draft-bu-00/did-documents.json",
+          "sha256": "8b49c5d7a3dad753d337a8879ad50ea41947883460bf47e3bf3353f41a28c3fe"
+        }
+      ],
+      "id": "contradict-draft-signed-under-ard-draft-bu-00"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/contradict-draft-signed-under-field-whole-entry/artifact.json",
+          "sha256": "5346c3b356f1b2db025b97d464d73a62442ca39ad1480549e23daff147f35ef1"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/contradict-draft-signed-under-field-whole-entry/catalog.json",
+          "sha256": "2133928a4dde8ea9c151197b8603a6f3f30f6e0394b4369ca5121c755571b100"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/contradict-draft-signed-under-field-whole-entry/context.json",
+          "sha256": "722e7857e4c55ada6d4717f44a9423abe2446da361a08488ab3e049e4f14ce6d"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/contradict-draft-signed-under-field-whole-entry/did-documents.json",
+          "sha256": "8b49c5d7a3dad753d337a8879ad50ea41947883460bf47e3bf3353f41a28c3fe"
+        }
+      ],
+      "id": "contradict-draft-signed-under-field-whole-entry"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/contradict-draft-signed-under-ai-catalog-2026-11/artifact.json",
+          "sha256": "5346c3b356f1b2db025b97d464d73a62442ca39ad1480549e23daff147f35ef1"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/contradict-draft-signed-under-ai-catalog-2026-11/catalog.json",
+          "sha256": "2133928a4dde8ea9c151197b8603a6f3f30f6e0394b4369ca5121c755571b100"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/contradict-draft-signed-under-ai-catalog-2026-11/context.json",
+          "sha256": "1c46a20b6b1fa27b14ff5896143f4d22d9f8085bb7998ac90145133a8b88c1c7"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/contradict-draft-signed-under-ai-catalog-2026-11/did-documents.json",
+          "sha256": "8b49c5d7a3dad753d337a8879ad50ea41947883460bf47e3bf3353f41a28c3fe"
+        }
+      ],
+      "id": "contradict-draft-signed-under-ai-catalog-2026-11"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/contradict-draft-signed-under-ai-catalog-snapshot/artifact.json",
+          "sha256": "5346c3b356f1b2db025b97d464d73a62442ca39ad1480549e23daff147f35ef1"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/contradict-draft-signed-under-ai-catalog-snapshot/catalog.json",
+          "sha256": "2133928a4dde8ea9c151197b8603a6f3f30f6e0394b4369ca5121c755571b100"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/contradict-draft-signed-under-ai-catalog-snapshot/context.json",
+          "sha256": "b9fc6b826c846eb6da969911bab34829a867bac1b7fb3275f5061e45025f437c"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/contradict-draft-signed-under-ai-catalog-snapshot/did-documents.json",
+          "sha256": "8b49c5d7a3dad753d337a8879ad50ea41947883460bf47e3bf3353f41a28c3fe"
+        }
+      ],
+      "id": "contradict-draft-signed-under-ai-catalog-snapshot"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/contradict-whole-entry-signed-under-ard-draft-bu-00/artifact.json",
+          "sha256": "5346c3b356f1b2db025b97d464d73a62442ca39ad1480549e23daff147f35ef1"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/contradict-whole-entry-signed-under-ard-draft-bu-00/catalog.json",
+          "sha256": "9ace4267326e0bb45a1c9ef744e61e94c943751a0d48fbcca0f2c4f04ee7564c"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/contradict-whole-entry-signed-under-ard-draft-bu-00/context.json",
+          "sha256": "06cb286f62c546c49571afedf5d9d0246cf61df15b74e60c79b973d0096b4920"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/contradict-whole-entry-signed-under-ard-draft-bu-00/did-documents.json",
+          "sha256": "8b49c5d7a3dad753d337a8879ad50ea41947883460bf47e3bf3353f41a28c3fe"
+        }
+      ],
+      "id": "contradict-whole-entry-signed-under-ard-draft-bu-00"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/contradict-whole-entry-signed-under-field-whole-entry/artifact.json",
+          "sha256": "5346c3b356f1b2db025b97d464d73a62442ca39ad1480549e23daff147f35ef1"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/contradict-whole-entry-signed-under-field-whole-entry/catalog.json",
+          "sha256": "9ace4267326e0bb45a1c9ef744e61e94c943751a0d48fbcca0f2c4f04ee7564c"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/contradict-whole-entry-signed-under-field-whole-entry/context.json",
+          "sha256": "722e7857e4c55ada6d4717f44a9423abe2446da361a08488ab3e049e4f14ce6d"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/contradict-whole-entry-signed-under-field-whole-entry/did-documents.json",
+          "sha256": "8b49c5d7a3dad753d337a8879ad50ea41947883460bf47e3bf3353f41a28c3fe"
+        }
+      ],
+      "id": "contradict-whole-entry-signed-under-field-whole-entry"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/contradict-whole-entry-signed-under-ai-catalog-2026-11/artifact.json",
+          "sha256": "5346c3b356f1b2db025b97d464d73a62442ca39ad1480549e23daff147f35ef1"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/contradict-whole-entry-signed-under-ai-catalog-2026-11/catalog.json",
+          "sha256": "9ace4267326e0bb45a1c9ef744e61e94c943751a0d48fbcca0f2c4f04ee7564c"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/contradict-whole-entry-signed-under-ai-catalog-2026-11/context.json",
+          "sha256": "1c46a20b6b1fa27b14ff5896143f4d22d9f8085bb7998ac90145133a8b88c1c7"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/contradict-whole-entry-signed-under-ai-catalog-2026-11/did-documents.json",
+          "sha256": "8b49c5d7a3dad753d337a8879ad50ea41947883460bf47e3bf3353f41a28c3fe"
+        }
+      ],
+      "id": "contradict-whole-entry-signed-under-ai-catalog-2026-11"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/contradict-whole-entry-signed-under-ai-catalog-snapshot/artifact.json",
+          "sha256": "5346c3b356f1b2db025b97d464d73a62442ca39ad1480549e23daff147f35ef1"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/contradict-whole-entry-signed-under-ai-catalog-snapshot/catalog.json",
+          "sha256": "9ace4267326e0bb45a1c9ef744e61e94c943751a0d48fbcca0f2c4f04ee7564c"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/contradict-whole-entry-signed-under-ai-catalog-snapshot/context.json",
+          "sha256": "b9fc6b826c846eb6da969911bab34829a867bac1b7fb3275f5061e45025f437c"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/contradict-whole-entry-signed-under-ai-catalog-snapshot/did-documents.json",
+          "sha256": "8b49c5d7a3dad753d337a8879ad50ea41947883460bf47e3bf3353f41a28c3fe"
+        }
+      ],
+      "id": "contradict-whole-entry-signed-under-ai-catalog-snapshot"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-construction-unknown/artifact.json",
+          "sha256": "5346c3b356f1b2db025b97d464d73a62442ca39ad1480549e23daff147f35ef1"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-construction-unknown/catalog.json",
+          "sha256": "2133928a4dde8ea9c151197b8603a6f3f30f6e0394b4369ca5121c755571b100"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-construction-unknown/context.json",
+          "sha256": "5fd64c5fefeed0cd8bbd3ef7c2d54e2323fd9fa78add6b710caf4bf3a691832b"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-construction-unknown/did-documents.json",
+          "sha256": "8b49c5d7a3dad753d337a8879ad50ea41947883460bf47e3bf3353f41a28c3fe"
+        }
+      ],
+      "id": "reject-construction-unknown"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-duplicate-identifier/artifact.json",
+          "sha256": "5346c3b356f1b2db025b97d464d73a62442ca39ad1480549e23daff147f35ef1"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-duplicate-identifier/catalog.json",
+          "sha256": "cdacfffc137e3d09fbf12fd360b8b837a0f443a3a645c84346f056d1b76f8761"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-duplicate-identifier/context.json",
+          "sha256": "06cb286f62c546c49571afedf5d9d0246cf61df15b74e60c79b973d0096b4920"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-duplicate-identifier/did-documents.json",
+          "sha256": "8b49c5d7a3dad753d337a8879ad50ea41947883460bf47e3bf3353f41a28c3fe"
+        }
+      ],
+      "id": "reject-duplicate-identifier"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-unsigned/artifact.json",
+          "sha256": "5346c3b356f1b2db025b97d464d73a62442ca39ad1480549e23daff147f35ef1"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-unsigned/catalog.json",
+          "sha256": "bc83eeb6ad1001a5a89a299ee48174fd8f991681313bd2736f0cae3c4dc66045"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-unsigned/context.json",
+          "sha256": "06cb286f62c546c49571afedf5d9d0246cf61df15b74e60c79b973d0096b4920"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-unsigned/did-documents.json",
+          "sha256": "8b49c5d7a3dad753d337a8879ad50ea41947883460bf47e3bf3353f41a28c3fe"
+        }
+      ],
+      "id": "reject-unsigned"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-jws-attached-payload/artifact.json",
+          "sha256": "5346c3b356f1b2db025b97d464d73a62442ca39ad1480549e23daff147f35ef1"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-jws-attached-payload/catalog.json",
+          "sha256": "6d3378686faab46e7850b8526360efae783d972e98253a21abf390331176f359"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-jws-attached-payload/context.json",
+          "sha256": "06cb286f62c546c49571afedf5d9d0246cf61df15b74e60c79b973d0096b4920"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-jws-attached-payload/did-documents.json",
+          "sha256": "8b49c5d7a3dad753d337a8879ad50ea41947883460bf47e3bf3353f41a28c3fe"
+        }
+      ],
+      "id": "reject-jws-attached-payload"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-jws-padded-base64url/artifact.json",
+          "sha256": "5346c3b356f1b2db025b97d464d73a62442ca39ad1480549e23daff147f35ef1"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-jws-padded-base64url/catalog.json",
+          "sha256": "0a585b489edcbc5763d772597104b1fe9287c26eca9f1a46909b24810c43a534"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-jws-padded-base64url/context.json",
+          "sha256": "06cb286f62c546c49571afedf5d9d0246cf61df15b74e60c79b973d0096b4920"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-jws-padded-base64url/did-documents.json",
+          "sha256": "8b49c5d7a3dad753d337a8879ad50ea41947883460bf47e3bf3353f41a28c3fe"
+        }
+      ],
+      "id": "reject-jws-padded-base64url"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-aic-typ-missing/artifact.json",
+          "sha256": "5346c3b356f1b2db025b97d464d73a62442ca39ad1480549e23daff147f35ef1"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-aic-typ-missing/catalog.json",
+          "sha256": "1dd48e2f9781d10e97c010f868273232a41a51c76c3600cc1582b48fb3a859f9"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-aic-typ-missing/context.json",
+          "sha256": "1c46a20b6b1fa27b14ff5896143f4d22d9f8085bb7998ac90145133a8b88c1c7"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-aic-typ-missing/did-documents.json",
+          "sha256": "8b49c5d7a3dad753d337a8879ad50ea41947883460bf47e3bf3353f41a28c3fe"
+        }
+      ],
+      "id": "reject-aic-typ-missing"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-snapshot-typ-of-manifest/artifact.json",
+          "sha256": "5346c3b356f1b2db025b97d464d73a62442ca39ad1480549e23daff147f35ef1"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-snapshot-typ-of-manifest/catalog.json",
+          "sha256": "df4cfbce4a8fa18b556e83f02e7c8d1377748381c017b367d6fef90c991f882a"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-snapshot-typ-of-manifest/context.json",
+          "sha256": "b9fc6b826c846eb6da969911bab34829a867bac1b7fb3275f5061e45025f437c"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-snapshot-typ-of-manifest/did-documents.json",
+          "sha256": "8b49c5d7a3dad753d337a8879ad50ea41947883460bf47e3bf3353f41a28c3fe"
+        }
+      ],
+      "id": "reject-snapshot-typ-of-manifest"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-alg-none/artifact.json",
+          "sha256": "5346c3b356f1b2db025b97d464d73a62442ca39ad1480549e23daff147f35ef1"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-alg-none/catalog.json",
+          "sha256": "0117ebb2ae70f1c09401e9c7efdfb4c7133decaa7587fa645d55136ff4faf00d"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-alg-none/context.json",
+          "sha256": "06cb286f62c546c49571afedf5d9d0246cf61df15b74e60c79b973d0096b4920"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-alg-none/did-documents.json",
+          "sha256": "8b49c5d7a3dad753d337a8879ad50ea41947883460bf47e3bf3353f41a28c3fe"
+        }
+      ],
+      "id": "reject-alg-none"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-aic-eddsa/artifact.json",
+          "sha256": "5346c3b356f1b2db025b97d464d73a62442ca39ad1480549e23daff147f35ef1"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-aic-eddsa/catalog.json",
+          "sha256": "8aa024a8b3db2685edca0672af65fce534e0c7327eb33b62822793d56e849d71"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-aic-eddsa/context.json",
+          "sha256": "1c46a20b6b1fa27b14ff5896143f4d22d9f8085bb7998ac90145133a8b88c1c7"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-aic-eddsa/did-documents.json",
+          "sha256": "8b49c5d7a3dad753d337a8879ad50ea41947883460bf47e3bf3353f41a28c3fe"
+        }
+      ],
+      "id": "reject-aic-eddsa"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-key-source-jku/artifact.json",
+          "sha256": "5346c3b356f1b2db025b97d464d73a62442ca39ad1480549e23daff147f35ef1"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-key-source-jku/catalog.json",
+          "sha256": "e72fd7f75ddaf52c3fa054d761acb51aaea1a46a1a79cc3e35e3f4f1b55b27cb"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-key-source-jku/context.json",
+          "sha256": "1c46a20b6b1fa27b14ff5896143f4d22d9f8085bb7998ac90145133a8b88c1c7"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-key-source-jku/did-documents.json",
+          "sha256": "8b49c5d7a3dad753d337a8879ad50ea41947883460bf47e3bf3353f41a28c3fe"
+        }
+      ],
+      "id": "reject-key-source-jku"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-key-source-jwk/artifact.json",
+          "sha256": "5346c3b356f1b2db025b97d464d73a62442ca39ad1480549e23daff147f35ef1"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-key-source-jwk/catalog.json",
+          "sha256": "2c941df6ea39b87a4e1400392fe13bb2c6ce73a6702c9ea24b519f0d41e7c96c"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-key-source-jwk/context.json",
+          "sha256": "1c46a20b6b1fa27b14ff5896143f4d22d9f8085bb7998ac90145133a8b88c1c7"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-key-source-jwk/did-documents.json",
+          "sha256": "8b49c5d7a3dad753d337a8879ad50ea41947883460bf47e3bf3353f41a28c3fe"
+        }
+      ],
+      "id": "reject-key-source-jwk"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-key-source-x5u/artifact.json",
+          "sha256": "5346c3b356f1b2db025b97d464d73a62442ca39ad1480549e23daff147f35ef1"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-key-source-x5u/catalog.json",
+          "sha256": "fd4b0903b6451bf1d399b590ef8459c079dbf5e42c1b74bcfd6081f44571b39b"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-key-source-x5u/context.json",
+          "sha256": "1c46a20b6b1fa27b14ff5896143f4d22d9f8085bb7998ac90145133a8b88c1c7"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-key-source-x5u/did-documents.json",
+          "sha256": "8b49c5d7a3dad753d337a8879ad50ea41947883460bf47e3bf3353f41a28c3fe"
+        }
+      ],
+      "id": "reject-key-source-x5u"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-key-source-x5c/artifact.json",
+          "sha256": "5346c3b356f1b2db025b97d464d73a62442ca39ad1480549e23daff147f35ef1"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-key-source-x5c/catalog.json",
+          "sha256": "36917c37c6b9442eb869adc293c2c60b58178bfa52b172507d3faf09c083dbbb"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-key-source-x5c/context.json",
+          "sha256": "1c46a20b6b1fa27b14ff5896143f4d22d9f8085bb7998ac90145133a8b88c1c7"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-key-source-x5c/did-documents.json",
+          "sha256": "8b49c5d7a3dad753d337a8879ad50ea41947883460bf47e3bf3353f41a28c3fe"
+        }
+      ],
+      "id": "reject-key-source-x5c"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-aic-b64/artifact.json",
+          "sha256": "5346c3b356f1b2db025b97d464d73a62442ca39ad1480549e23daff147f35ef1"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-aic-b64/catalog.json",
+          "sha256": "d5060f0769d19c482c5d203279dddc8941595e7643cf8f00aa3c302440c91c56"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-aic-b64/context.json",
+          "sha256": "1c46a20b6b1fa27b14ff5896143f4d22d9f8085bb7998ac90145133a8b88c1c7"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-aic-b64/did-documents.json",
+          "sha256": "8b49c5d7a3dad753d337a8879ad50ea41947883460bf47e3bf3353f41a28c3fe"
+        }
+      ],
+      "id": "reject-aic-b64"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-crit-unknown/artifact.json",
+          "sha256": "5346c3b356f1b2db025b97d464d73a62442ca39ad1480549e23daff147f35ef1"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-crit-unknown/catalog.json",
+          "sha256": "9debf9a3628a5cd7a26e97afd3227e0118bf2b5565878e7ca4f80f50d607e020"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-crit-unknown/context.json",
+          "sha256": "06cb286f62c546c49571afedf5d9d0246cf61df15b74e60c79b973d0096b4920"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-crit-unknown/did-documents.json",
+          "sha256": "8b49c5d7a3dad753d337a8879ad50ea41947883460bf47e3bf3353f41a28c3fe"
+        }
+      ],
+      "id": "reject-crit-unknown"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-b64-without-crit/artifact.json",
+          "sha256": "5346c3b356f1b2db025b97d464d73a62442ca39ad1480549e23daff147f35ef1"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-b64-without-crit/catalog.json",
+          "sha256": "05fcfa287dd625428e282a8b5b34c758b0cff94f74007a49cc88a72f03900a59"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-b64-without-crit/context.json",
+          "sha256": "06cb286f62c546c49571afedf5d9d0246cf61df15b74e60c79b973d0096b4920"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-b64-without-crit/did-documents.json",
+          "sha256": "8b49c5d7a3dad753d337a8879ad50ea41947883460bf47e3bf3353f41a28c3fe"
+        }
+      ],
+      "id": "reject-b64-without-crit"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-kid-not-under-identity/artifact.json",
+          "sha256": "5346c3b356f1b2db025b97d464d73a62442ca39ad1480549e23daff147f35ef1"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-kid-not-under-identity/catalog.json",
+          "sha256": "38839e465737f7b3a1d95ded1325edff2d7df475cff2c69a49c4038b9fbf002b"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-kid-not-under-identity/context.json",
+          "sha256": "06cb286f62c546c49571afedf5d9d0246cf61df15b74e60c79b973d0096b4920"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-kid-not-under-identity/did-documents.json",
+          "sha256": "8b49c5d7a3dad753d337a8879ad50ea41947883460bf47e3bf3353f41a28c3fe"
+        }
+      ],
+      "id": "reject-kid-not-under-identity"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-did-document-not-identity/artifact.json",
+          "sha256": "5346c3b356f1b2db025b97d464d73a62442ca39ad1480549e23daff147f35ef1"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-did-document-not-identity/catalog.json",
+          "sha256": "2133928a4dde8ea9c151197b8603a6f3f30f6e0394b4369ca5121c755571b100"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-did-document-not-identity/context.json",
+          "sha256": "06cb286f62c546c49571afedf5d9d0246cf61df15b74e60c79b973d0096b4920"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-did-document-not-identity/did-documents.json",
+          "sha256": "2f20fb08c52f3f88d3f6fa9ecbdb77e33aca3d687b883e0317ddf457d47cf6ea"
+        }
+      ],
+      "id": "reject-did-document-not-identity"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-kid-not-in-did-document/artifact.json",
+          "sha256": "5346c3b356f1b2db025b97d464d73a62442ca39ad1480549e23daff147f35ef1"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-kid-not-in-did-document/catalog.json",
+          "sha256": "e2cd8e0e9dc5e0f2d627c6843d8f3a4898444c5fc8f5fe5e1be5b151558e183a"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-kid-not-in-did-document/context.json",
+          "sha256": "06cb286f62c546c49571afedf5d9d0246cf61df15b74e60c79b973d0096b4920"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-kid-not-in-did-document/did-documents.json",
+          "sha256": "8b49c5d7a3dad753d337a8879ad50ea41947883460bf47e3bf3353f41a28c3fe"
+        }
+      ],
+      "id": "reject-kid-not-in-did-document"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-key-not-assertion-method/artifact.json",
+          "sha256": "5346c3b356f1b2db025b97d464d73a62442ca39ad1480549e23daff147f35ef1"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-key-not-assertion-method/catalog.json",
+          "sha256": "fe7aaee6d11350c4c54fef665c8ea41bee65f5c56066ff7210b2082cb848262b"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-key-not-assertion-method/context.json",
+          "sha256": "1c46a20b6b1fa27b14ff5896143f4d22d9f8085bb7998ac90145133a8b88c1c7"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-key-not-assertion-method/did-documents.json",
+          "sha256": "2555bf94127afba6c6a257f4a490b175cef5e5734e6e8b50b7a554891a8b4b23"
+        }
+      ],
+      "id": "reject-key-not-assertion-method"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-alg-key-mismatch/artifact.json",
+          "sha256": "5346c3b356f1b2db025b97d464d73a62442ca39ad1480549e23daff147f35ef1"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-alg-key-mismatch/catalog.json",
+          "sha256": "3f12fa134cf5c8783cd34dbb3b5f4ba4d3b2ec192078c2345dec8ef78b55d1d6"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-alg-key-mismatch/context.json",
+          "sha256": "06cb286f62c546c49571afedf5d9d0246cf61df15b74e60c79b973d0096b4920"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-alg-key-mismatch/did-documents.json",
+          "sha256": "8b49c5d7a3dad753d337a8879ad50ea41947883460bf47e3bf3353f41a28c3fe"
+        }
+      ],
+      "id": "reject-alg-key-mismatch"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-number-not-interoperable/artifact.json",
+          "sha256": "5346c3b356f1b2db025b97d464d73a62442ca39ad1480549e23daff147f35ef1"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-number-not-interoperable/catalog.json",
+          "sha256": "1deea784299cce0ae096db9d49666c361a887eb877d0959aeb641238e52a4909"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-number-not-interoperable/context.json",
+          "sha256": "06cb286f62c546c49571afedf5d9d0246cf61df15b74e60c79b973d0096b4920"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-number-not-interoperable/did-documents.json",
+          "sha256": "8b49c5d7a3dad753d337a8879ad50ea41947883460bf47e3bf3353f41a28c3fe"
+        }
+      ],
+      "id": "reject-number-not-interoperable"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-lone-surrogate/artifact.json",
+          "sha256": "5346c3b356f1b2db025b97d464d73a62442ca39ad1480549e23daff147f35ef1"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-lone-surrogate/catalog.json",
+          "sha256": "00b66f1b41b101593b679aca75911f30fd74a99c527877f72ef4454ba080cbfc"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-lone-surrogate/context.json",
+          "sha256": "06cb286f62c546c49571afedf5d9d0246cf61df15b74e60c79b973d0096b4920"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-lone-surrogate/did-documents.json",
+          "sha256": "8b49c5d7a3dad753d337a8879ad50ea41947883460bf47e3bf3353f41a28c3fe"
+        }
+      ],
+      "id": "reject-lone-surrogate"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-signature-invalid/artifact.json",
+          "sha256": "5346c3b356f1b2db025b97d464d73a62442ca39ad1480549e23daff147f35ef1"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-signature-invalid/catalog.json",
+          "sha256": "06f5e161296286e75637800433ea8130a604c5d10376e6936b5b0bbd9fca9689"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-signature-invalid/context.json",
+          "sha256": "06cb286f62c546c49571afedf5d9d0246cf61df15b74e60c79b973d0096b4920"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-signature-invalid/did-documents.json",
+          "sha256": "8b49c5d7a3dad753d337a8879ad50ea41947883460bf47e3bf3353f41a28c3fe"
+        }
+      ],
+      "id": "reject-signature-invalid"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-aic-signer-not-contributor/artifact.json",
+          "sha256": "5346c3b356f1b2db025b97d464d73a62442ca39ad1480549e23daff147f35ef1"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-aic-signer-not-contributor/catalog.json",
+          "sha256": "7e4f1c64b2d3814d64a9938a28df5d1ae4f321e262c9f7b0d2ab1c570ff8c1df"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-aic-signer-not-contributor/context.json",
+          "sha256": "1c46a20b6b1fa27b14ff5896143f4d22d9f8085bb7998ac90145133a8b88c1c7"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-aic-signer-not-contributor/did-documents.json",
+          "sha256": "8b49c5d7a3dad753d337a8879ad50ea41947883460bf47e3bf3353f41a28c3fe"
+        }
+      ],
+      "id": "reject-aic-signer-not-contributor"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-subject-missing/artifact.json",
+          "sha256": "5346c3b356f1b2db025b97d464d73a62442ca39ad1480549e23daff147f35ef1"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-subject-missing/catalog.json",
+          "sha256": "6edfe16a4d5c35c5331622cd17c8285efb3066429dbe828e62ce3587b4e1f389"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-subject-missing/context.json",
+          "sha256": "06cb286f62c546c49571afedf5d9d0246cf61df15b74e60c79b973d0096b4920"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-subject-missing/did-documents.json",
+          "sha256": "8b49c5d7a3dad753d337a8879ad50ea41947883460bf47e3bf3353f41a28c3fe"
+        }
+      ],
+      "id": "reject-subject-missing"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-subject-version-absent/artifact.json",
+          "sha256": "5346c3b356f1b2db025b97d464d73a62442ca39ad1480549e23daff147f35ef1"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-subject-version-absent/catalog.json",
+          "sha256": "23da19fd755bd705b81eafd60476c5c9af0d6463f2db8a36162811ae6123e1db"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-subject-version-absent/context.json",
+          "sha256": "1c46a20b6b1fa27b14ff5896143f4d22d9f8085bb7998ac90145133a8b88c1c7"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-subject-version-absent/did-documents.json",
+          "sha256": "8b49c5d7a3dad753d337a8879ad50ea41947883460bf47e3bf3353f41a28c3fe"
+        }
+      ],
+      "id": "reject-subject-version-absent"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-manifest-moved-to-other-release/artifact.json",
+          "sha256": "5346c3b356f1b2db025b97d464d73a62442ca39ad1480549e23daff147f35ef1"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-manifest-moved-to-other-release/catalog.json",
+          "sha256": "cfd358970cfc88079c428dcf1e2f6c5acd1172fbc00f286cb0d2d8ea8681ecc3"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-manifest-moved-to-other-release/context.json",
+          "sha256": "d547e8a3f28877d3f60e903b6041e6a396716e3c98b96b83a03dccba02730e82"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-manifest-moved-to-other-release/did-documents.json",
+          "sha256": "8b49c5d7a3dad753d337a8879ad50ea41947883460bf47e3bf3353f41a28c3fe"
+        }
+      ],
+      "id": "reject-manifest-moved-to-other-release"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-entry-digest-missing-for-url/artifact.json",
+          "sha256": "5346c3b356f1b2db025b97d464d73a62442ca39ad1480549e23daff147f35ef1"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-entry-digest-missing-for-url/catalog.json",
+          "sha256": "704c694cc5e4b9b0354a2bf1182a49b76f6c46bd4f0154ff889109e08b43ee79"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-entry-digest-missing-for-url/context.json",
+          "sha256": "06cb286f62c546c49571afedf5d9d0246cf61df15b74e60c79b973d0096b4920"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-entry-digest-missing-for-url/did-documents.json",
+          "sha256": "8b49c5d7a3dad753d337a8879ad50ea41947883460bf47e3bf3353f41a28c3fe"
+        }
+      ],
+      "id": "reject-entry-digest-missing-for-url"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-artifact-digest-mismatch/artifact.json",
+          "sha256": "c7317b80be4237d101087dc00a7cdda4fc26456cfe79e6e84ab8863a327787e0"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-artifact-digest-mismatch/catalog.json",
+          "sha256": "fe7aaee6d11350c4c54fef665c8ea41bee65f5c56066ff7210b2082cb848262b"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-artifact-digest-mismatch/context.json",
+          "sha256": "1c46a20b6b1fa27b14ff5896143f4d22d9f8085bb7998ac90145133a8b88c1c7"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-artifact-digest-mismatch/did-documents.json",
+          "sha256": "8b49c5d7a3dad753d337a8879ad50ea41947883460bf47e3bf3353f41a28c3fe"
+        }
+      ],
+      "id": "reject-artifact-digest-mismatch"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-url-origin-unbound/artifact.json",
+          "sha256": "5346c3b356f1b2db025b97d464d73a62442ca39ad1480549e23daff147f35ef1"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-url-origin-unbound/catalog.json",
+          "sha256": "324ea60f34e92ee0cf2842c84e5704a956e140605675db8eabfbe4539008fe10"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-url-origin-unbound/context.json",
+          "sha256": "06cb286f62c546c49571afedf5d9d0246cf61df15b74e60c79b973d0096b4920"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-url-origin-unbound/did-documents.json",
+          "sha256": "8b49c5d7a3dad753d337a8879ad50ea41947883460bf47e3bf3353f41a28c3fe"
+        }
+      ],
+      "id": "reject-url-origin-unbound"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-attestation-digest-mismatch/artifact.json",
+          "sha256": "5346c3b356f1b2db025b97d464d73a62442ca39ad1480549e23daff147f35ef1"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-attestation-digest-mismatch/attestation-0.dsse.json",
+          "sha256": "10448575c90aa340c3e5ff2a79fcf22e9b936825f6898714a9a333f099ed2687"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-attestation-digest-mismatch/catalog.json",
+          "sha256": "a3d6de10bd87e5d812bd88a05d77d10579d75545698fbb367b4ea11239f71954"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-attestation-digest-mismatch/context.json",
+          "sha256": "9a12352d99580fa7aef85f1f9a5a58029692f2b013b905be2989e473cc7f60d5"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-attestation-digest-mismatch/did-documents.json",
+          "sha256": "8b49c5d7a3dad753d337a8879ad50ea41947883460bf47e3bf3353f41a28c3fe"
+        }
+      ],
+      "id": "reject-attestation-digest-mismatch"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-attestation-unsigned/artifact.json",
+          "sha256": "5346c3b356f1b2db025b97d464d73a62442ca39ad1480549e23daff147f35ef1"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-attestation-unsigned/attestation-0.sarif.json",
+          "sha256": "2f218390ae01a24d2af95f9b3801f069a2a16ddc8cab08cfe37daef28b8b1942"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-attestation-unsigned/catalog.json",
+          "sha256": "c153f6b7884be0b8f0ceb984c91758b61f5655e42f71b81b80e639bb626c2e67"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-attestation-unsigned/context.json",
+          "sha256": "b102ea048c14d3ef8d8e207275a926b71dc7f079df0739da8b5196710bc1dc14"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-attestation-unsigned/did-documents.json",
+          "sha256": "8b49c5d7a3dad753d337a8879ad50ea41947883460bf47e3bf3353f41a28c3fe"
+        }
+      ],
+      "id": "reject-attestation-unsigned"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-attestation-transplanted/artifact.json",
+          "sha256": "5346c3b356f1b2db025b97d464d73a62442ca39ad1480549e23daff147f35ef1"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-attestation-transplanted/attestation-0.dsse.json",
+          "sha256": "691b1211f270ac24a19aaab7a1149a364482f40477d5f3b3625949a635b4fb07"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-attestation-transplanted/catalog.json",
+          "sha256": "a64c82e4bcdcf9605e3b7266c5a3330ad7e9e57a53e1ca279fdc661e416cbb83"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-attestation-transplanted/context.json",
+          "sha256": "9a12352d99580fa7aef85f1f9a5a58029692f2b013b905be2989e473cc7f60d5"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-attestation-transplanted/did-documents.json",
+          "sha256": "8b49c5d7a3dad753d337a8879ad50ea41947883460bf47e3bf3353f41a28c3fe"
+        }
+      ],
+      "id": "reject-attestation-transplanted"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-aic-www-signer/artifact.json",
+          "sha256": "5346c3b356f1b2db025b97d464d73a62442ca39ad1480549e23daff147f35ef1"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-aic-www-signer/catalog.json",
+          "sha256": "304dd6ca012dacc6bef90daf697cff712b6e3d262fe7ef35933f3b8f2f562fe4"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-aic-www-signer/context.json",
+          "sha256": "1c46a20b6b1fa27b14ff5896143f4d22d9f8085bb7998ac90145133a8b88c1c7"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-aic-www-signer/did-documents.json",
+          "sha256": "8b49c5d7a3dad753d337a8879ad50ea41947883460bf47e3bf3353f41a28c3fe"
+        }
+      ],
+      "id": "reject-aic-www-signer"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-draft-www-signer/artifact.json",
+          "sha256": "5346c3b356f1b2db025b97d464d73a62442ca39ad1480549e23daff147f35ef1"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-draft-www-signer/catalog.json",
+          "sha256": "ad3b3e638ff6dcf1b6f7a42dbc9a872ef593203e000f6519685f65b592621a35"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-draft-www-signer/context.json",
+          "sha256": "06cb286f62c546c49571afedf5d9d0246cf61df15b74e60c79b973d0096b4920"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-draft-www-signer/did-documents.json",
+          "sha256": "8b49c5d7a3dad753d337a8879ad50ea41947883460bf47e3bf3353f41a28c3fe"
+        }
+      ],
+      "id": "reject-draft-www-signer"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-assessor-presented-as-publisher/artifact.json",
+          "sha256": "5346c3b356f1b2db025b97d464d73a62442ca39ad1480549e23daff147f35ef1"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-assessor-presented-as-publisher/catalog.json",
+          "sha256": "7f013a155bf4ccd3859be19e29a2ab4a555d9e11e3a62da729476788521106b3"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-assessor-presented-as-publisher/context.json",
+          "sha256": "9734762ac87edc2ce7bf63b7793051e31ef2f12f3651494fc60259518ab2954f"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-assessor-presented-as-publisher/did-documents.json",
+          "sha256": "8b49c5d7a3dad753d337a8879ad50ea41947883460bf47e3bf3353f41a28c3fe"
+        }
+      ],
+      "id": "reject-assessor-presented-as-publisher"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-issued-in-future/artifact.json",
+          "sha256": "5346c3b356f1b2db025b97d464d73a62442ca39ad1480549e23daff147f35ef1"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-issued-in-future/catalog.json",
+          "sha256": "fe7aaee6d11350c4c54fef665c8ea41bee65f5c56066ff7210b2082cb848262b"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-issued-in-future/context.json",
+          "sha256": "6e0c06681a91aabf0180c709090c31c08ee4c3da9d85af35b81294fc96072ef4"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-issued-in-future/did-documents.json",
+          "sha256": "8b49c5d7a3dad753d337a8879ad50ea41947883460bf47e3bf3353f41a28c3fe"
+        }
+      ],
+      "id": "reject-issued-in-future"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-manifest-expired/artifact.json",
+          "sha256": "5346c3b356f1b2db025b97d464d73a62442ca39ad1480549e23daff147f35ef1"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-manifest-expired/catalog.json",
+          "sha256": "2133928a4dde8ea9c151197b8603a6f3f30f6e0394b4369ca5121c755571b100"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-manifest-expired/context.json",
+          "sha256": "a122d2482c20af797c011f649c1c45b61a4eb28b7d85897faabf86eb21ec662e"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-manifest-expired/did-documents.json",
+          "sha256": "8b49c5d7a3dad753d337a8879ad50ea41947883460bf47e3bf3353f41a28c3fe"
+        }
+      ],
+      "id": "reject-manifest-expired"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-role-unknown/artifact.json",
+          "sha256": "5346c3b356f1b2db025b97d464d73a62442ca39ad1480549e23daff147f35ef1"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-role-unknown/catalog.json",
+          "sha256": "7f013a155bf4ccd3859be19e29a2ab4a555d9e11e3a62da729476788521106b3"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-role-unknown/context.json",
+          "sha256": "196315c42ac0e4160ba060a4dfa4327d35d1bde78c625c627ca4d7e4231f3d2b"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-role-unknown/did-documents.json",
+          "sha256": "8b49c5d7a3dad753d337a8879ad50ea41947883460bf47e3bf3353f41a28c3fe"
+        }
+      ],
+      "id": "reject-role-unknown"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-catalog-not-json/artifact.json",
+          "sha256": "5346c3b356f1b2db025b97d464d73a62442ca39ad1480549e23daff147f35ef1"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-catalog-not-json/catalog.json",
+          "sha256": "e2232ed13212e386ccde47b5543807c8d43eeb1d89a3cb77001b808f9ffe10fa"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-catalog-not-json/context.json",
+          "sha256": "06cb286f62c546c49571afedf5d9d0246cf61df15b74e60c79b973d0096b4920"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-catalog-not-json/did-documents.json",
+          "sha256": "8b49c5d7a3dad753d337a8879ad50ea41947883460bf47e3bf3353f41a28c3fe"
+        }
+      ],
+      "id": "reject-catalog-not-json"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-b64-not-boolean/artifact.json",
+          "sha256": "5346c3b356f1b2db025b97d464d73a62442ca39ad1480549e23daff147f35ef1"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-b64-not-boolean/catalog.json",
+          "sha256": "44aca2e185f0a12c247f7036d353aca2ba4fdc492586cdb88461452cea79357f"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-b64-not-boolean/context.json",
+          "sha256": "06cb286f62c546c49571afedf5d9d0246cf61df15b74e60c79b973d0096b4920"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-b64-not-boolean/did-documents.json",
+          "sha256": "8b49c5d7a3dad753d337a8879ad50ea41947883460bf47e3bf3353f41a28c3fe"
+        }
+      ],
+      "id": "reject-b64-not-boolean"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-aic-profile-unsupported/artifact.json",
+          "sha256": "5346c3b356f1b2db025b97d464d73a62442ca39ad1480549e23daff147f35ef1"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-aic-profile-unsupported/catalog.json",
+          "sha256": "22a88fbfdf83c555e9fbdf0280f5f8757d3417dd0aa35c0c1f4cb28ad5c53680"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-aic-profile-unsupported/context.json",
+          "sha256": "1c46a20b6b1fa27b14ff5896143f4d22d9f8085bb7998ac90145133a8b88c1c7"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-aic-profile-unsupported/did-documents.json",
+          "sha256": "8b49c5d7a3dad753d337a8879ad50ea41947883460bf47e3bf3353f41a28c3fe"
+        }
+      ],
+      "id": "reject-aic-profile-unsupported"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-aic-profile-absent/artifact.json",
+          "sha256": "5346c3b356f1b2db025b97d464d73a62442ca39ad1480549e23daff147f35ef1"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-aic-profile-absent/catalog.json",
+          "sha256": "9968aa461451473a2b69d3b5620e783b45d8cc666140b0d980cb3993530ad89d"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-aic-profile-absent/context.json",
+          "sha256": "1c46a20b6b1fa27b14ff5896143f4d22d9f8085bb7998ac90145133a8b88c1c7"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-aic-profile-absent/did-documents.json",
+          "sha256": "8b49c5d7a3dad753d337a8879ad50ea41947883460bf47e3bf3353f41a28c3fe"
+        }
+      ],
+      "id": "reject-aic-profile-absent"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-snapshot-profile-unsupported/artifact.json",
+          "sha256": "5346c3b356f1b2db025b97d464d73a62442ca39ad1480549e23daff147f35ef1"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-snapshot-profile-unsupported/catalog.json",
+          "sha256": "347dad115a0cb2f10dd77cc2a63614ae2ccf1d16d4c00edd4e8ae63118cd7035"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-snapshot-profile-unsupported/context.json",
+          "sha256": "b9fc6b826c846eb6da969911bab34829a867bac1b7fb3275f5061e45025f437c"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-snapshot-profile-unsupported/did-documents.json",
+          "sha256": "8b49c5d7a3dad753d337a8879ad50ea41947883460bf47e3bf3353f41a28c3fe"
+        }
+      ],
+      "id": "reject-snapshot-profile-unsupported"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-aic-signer-path-did/artifact.json",
+          "sha256": "5346c3b356f1b2db025b97d464d73a62442ca39ad1480549e23daff147f35ef1"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-aic-signer-path-did/catalog.json",
+          "sha256": "59aee1d8e17d4b7a8031ed8c117118abf28c9ef0e4b58637d8145e05a37e6196"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-aic-signer-path-did/context.json",
+          "sha256": "90f394c10afb9b3eab76b71a8ca8066955161cb6e31e014deedcada8f11262a6"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-aic-signer-path-did/did-documents.json",
+          "sha256": "f3207ba65ef492029def2f3a39d96d1976c14b688fee32f383dea69c95f8b3dd"
+        }
+      ],
+      "id": "reject-aic-signer-path-did"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-aic-signer-uppercase-domain/artifact.json",
+          "sha256": "5346c3b356f1b2db025b97d464d73a62442ca39ad1480549e23daff147f35ef1"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-aic-signer-uppercase-domain/catalog.json",
+          "sha256": "3b9171a266a611a00ed93117efb5cbee9956476cc1da60d8e0bd9a71d05a7c83"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-aic-signer-uppercase-domain/context.json",
+          "sha256": "90f394c10afb9b3eab76b71a8ca8066955161cb6e31e014deedcada8f11262a6"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-aic-signer-uppercase-domain/did-documents.json",
+          "sha256": "abdb76b7fa5c195b21900b77d6844e396c0ace396fa1729d1fed126dfbbe4600"
+        }
+      ],
+      "id": "reject-aic-signer-uppercase-domain"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-aic-signer-port/artifact.json",
+          "sha256": "5346c3b356f1b2db025b97d464d73a62442ca39ad1480549e23daff147f35ef1"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-aic-signer-port/catalog.json",
+          "sha256": "c73adae0119179ba6e34227765c7a895ab557908dff6d0f405a758831dec96e3"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-aic-signer-port/context.json",
+          "sha256": "90f394c10afb9b3eab76b71a8ca8066955161cb6e31e014deedcada8f11262a6"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-aic-signer-port/did-documents.json",
+          "sha256": "55272e09210908a8a865e6da09d1e929659f9babe217dd613bed8363df64a59b"
+        }
+      ],
+      "id": "reject-aic-signer-port"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-aic-signer-ipv4/artifact.json",
+          "sha256": "5346c3b356f1b2db025b97d464d73a62442ca39ad1480549e23daff147f35ef1"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-aic-signer-ipv4/catalog.json",
+          "sha256": "0bff6057e7e18f14af780713fb0aed48e923e6befac1b46c07b28ada35340685"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-aic-signer-ipv4/context.json",
+          "sha256": "90f394c10afb9b3eab76b71a8ca8066955161cb6e31e014deedcada8f11262a6"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-aic-signer-ipv4/did-documents.json",
+          "sha256": "b33e5bea20852aefac49f9576d9059381e5ec5f27cf71b36e94dc50d71e1000e"
+        }
+      ],
+      "id": "reject-aic-signer-ipv4"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-aic-signer-numeric-tld/artifact.json",
+          "sha256": "5346c3b356f1b2db025b97d464d73a62442ca39ad1480549e23daff147f35ef1"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-aic-signer-numeric-tld/catalog.json",
+          "sha256": "133d55dd7739696e347e1b8eebf8e3605ab74fe4ced78866ed3b550028c4374b"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-aic-signer-numeric-tld/context.json",
+          "sha256": "90f394c10afb9b3eab76b71a8ca8066955161cb6e31e014deedcada8f11262a6"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-aic-signer-numeric-tld/did-documents.json",
+          "sha256": "575f730e785821f81e988e40ec64cffdb35df67f360e126030947634fc07415e"
+        }
+      ],
+      "id": "reject-aic-signer-numeric-tld"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-aic-signer-domain-past-253-octets/artifact.json",
+          "sha256": "5346c3b356f1b2db025b97d464d73a62442ca39ad1480549e23daff147f35ef1"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-aic-signer-domain-past-253-octets/catalog.json",
+          "sha256": "e85c392b06de0e25c79b4c6e940b1184289ddc75a785e072cd48fb50520d75b4"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-aic-signer-domain-past-253-octets/context.json",
+          "sha256": "90f394c10afb9b3eab76b71a8ca8066955161cb6e31e014deedcada8f11262a6"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-aic-signer-domain-past-253-octets/did-documents.json",
+          "sha256": "3eb0b137c1c2db942705d3e3e1d2a0f3d78d353727a68008835909c856733699"
+        }
+      ],
+      "id": "reject-aic-signer-domain-past-253-octets"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-snapshot-signer-path-did/artifact.json",
+          "sha256": "5346c3b356f1b2db025b97d464d73a62442ca39ad1480549e23daff147f35ef1"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-snapshot-signer-path-did/catalog.json",
+          "sha256": "52cf1fc7c116820192c44b76412208bc397ed91c9d5d08f07909219e82c8dbed"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-snapshot-signer-path-did/context.json",
+          "sha256": "b9fc6b826c846eb6da969911bab34829a867bac1b7fb3275f5061e45025f437c"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-snapshot-signer-path-did/did-documents.json",
+          "sha256": "f3207ba65ef492029def2f3a39d96d1976c14b688fee32f383dea69c95f8b3dd"
+        }
+      ],
+      "id": "reject-snapshot-signer-path-did"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-verification-method-ambiguous/artifact.json",
+          "sha256": "5346c3b356f1b2db025b97d464d73a62442ca39ad1480549e23daff147f35ef1"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-verification-method-ambiguous/catalog.json",
+          "sha256": "61fed6d924da545f48b095c0d8a4a31adbf1113d3262bffa2a04584ddda8c042"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-verification-method-ambiguous/context.json",
+          "sha256": "1c46a20b6b1fa27b14ff5896143f4d22d9f8085bb7998ac90145133a8b88c1c7"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-verification-method-ambiguous/did-documents.json",
+          "sha256": "e4e0839479bacbefcd98629b81ad85faf6c6a72e3264a23846bdaaa66afdb83c"
+        }
+      ],
+      "id": "reject-verification-method-ambiguous"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-aic-method-controller-other/artifact.json",
+          "sha256": "5346c3b356f1b2db025b97d464d73a62442ca39ad1480549e23daff147f35ef1"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-aic-method-controller-other/catalog.json",
+          "sha256": "fe7aaee6d11350c4c54fef665c8ea41bee65f5c56066ff7210b2082cb848262b"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-aic-method-controller-other/context.json",
+          "sha256": "1c46a20b6b1fa27b14ff5896143f4d22d9f8085bb7998ac90145133a8b88c1c7"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-aic-method-controller-other/did-documents.json",
+          "sha256": "bf57b11507b17fc67bf629c24a5220e885e336e38efd18f2315082e1d9115f1f"
+        }
+      ],
+      "id": "reject-aic-method-controller-other"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-jwk-use-enc/artifact.json",
+          "sha256": "5346c3b356f1b2db025b97d464d73a62442ca39ad1480549e23daff147f35ef1"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-jwk-use-enc/catalog.json",
+          "sha256": "fe7aaee6d11350c4c54fef665c8ea41bee65f5c56066ff7210b2082cb848262b"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-jwk-use-enc/context.json",
+          "sha256": "1c46a20b6b1fa27b14ff5896143f4d22d9f8085bb7998ac90145133a8b88c1c7"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-jwk-use-enc/did-documents.json",
+          "sha256": "6f8d68e5795276c7f9f1bca41d688ce75d27c8957edf3371dd723a811e4087ec"
+        }
+      ],
+      "id": "reject-jwk-use-enc"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-jwk-private-member/artifact.json",
+          "sha256": "5346c3b356f1b2db025b97d464d73a62442ca39ad1480549e23daff147f35ef1"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-jwk-private-member/catalog.json",
+          "sha256": "fe7aaee6d11350c4c54fef665c8ea41bee65f5c56066ff7210b2082cb848262b"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-jwk-private-member/context.json",
+          "sha256": "1c46a20b6b1fa27b14ff5896143f4d22d9f8085bb7998ac90145133a8b88c1c7"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-jwk-private-member/did-documents.json",
+          "sha256": "01146a89f25d5a47782d804d557217df286070748158543b31ffa54d8da8ca68"
+        }
+      ],
+      "id": "reject-jwk-private-member"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-jwk-alg-other/artifact.json",
+          "sha256": "5346c3b356f1b2db025b97d464d73a62442ca39ad1480549e23daff147f35ef1"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-jwk-alg-other/catalog.json",
+          "sha256": "fe7aaee6d11350c4c54fef665c8ea41bee65f5c56066ff7210b2082cb848262b"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-jwk-alg-other/context.json",
+          "sha256": "1c46a20b6b1fa27b14ff5896143f4d22d9f8085bb7998ac90145133a8b88c1c7"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-jwk-alg-other/did-documents.json",
+          "sha256": "766a709956d3845f945c96d3e7403604bd86683063088b73e393551f566a2484"
+        }
+      ],
+      "id": "reject-jwk-alg-other"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-jwk-key-ops-sign-only/artifact.json",
+          "sha256": "5346c3b356f1b2db025b97d464d73a62442ca39ad1480549e23daff147f35ef1"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-jwk-key-ops-sign-only/catalog.json",
+          "sha256": "fe7aaee6d11350c4c54fef665c8ea41bee65f5c56066ff7210b2082cb848262b"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-jwk-key-ops-sign-only/context.json",
+          "sha256": "1c46a20b6b1fa27b14ff5896143f4d22d9f8085bb7998ac90145133a8b88c1c7"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-jwk-key-ops-sign-only/did-documents.json",
+          "sha256": "3f56200206927e1228be26cff0c30a74c388cb37cbdcf35dc85f8c8045bb45b1"
+        }
+      ],
+      "id": "reject-jwk-key-ops-sign-only"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-jwk-x-33-octets/artifact.json",
+          "sha256": "5346c3b356f1b2db025b97d464d73a62442ca39ad1480549e23daff147f35ef1"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-jwk-x-33-octets/catalog.json",
+          "sha256": "fe7aaee6d11350c4c54fef665c8ea41bee65f5c56066ff7210b2082cb848262b"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-jwk-x-33-octets/context.json",
+          "sha256": "1c46a20b6b1fa27b14ff5896143f4d22d9f8085bb7998ac90145133a8b88c1c7"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-jwk-x-33-octets/did-documents.json",
+          "sha256": "971e401ed8b07117199a35d0bb0a42e043107c8414bcd7eceef3b074ed9ebc26"
+        }
+      ],
+      "id": "reject-jwk-x-33-octets"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-aic-issued-absent/artifact.json",
+          "sha256": "5346c3b356f1b2db025b97d464d73a62442ca39ad1480549e23daff147f35ef1"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-aic-issued-absent/catalog.json",
+          "sha256": "2837d686dbb859cd731c97c3d85813ccf7dd6cb230a3d8e299dbf87e5360dbeb"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-aic-issued-absent/context.json",
+          "sha256": "1c46a20b6b1fa27b14ff5896143f4d22d9f8085bb7998ac90145133a8b88c1c7"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-aic-issued-absent/did-documents.json",
+          "sha256": "8b49c5d7a3dad753d337a8879ad50ea41947883460bf47e3bf3353f41a28c3fe"
+        }
+      ],
+      "id": "reject-aic-issued-absent"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-issued-not-a-date/artifact.json",
+          "sha256": "5346c3b356f1b2db025b97d464d73a62442ca39ad1480549e23daff147f35ef1"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-issued-not-a-date/catalog.json",
+          "sha256": "2e56a4a63ff5e25ee3501b72743b5e671b4000efc50020d62dc7038bfa6f2cec"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-issued-not-a-date/context.json",
+          "sha256": "1c46a20b6b1fa27b14ff5896143f4d22d9f8085bb7998ac90145133a8b88c1c7"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-issued-not-a-date/did-documents.json",
+          "sha256": "8b49c5d7a3dad753d337a8879ad50ea41947883460bf47e3bf3353f41a28c3fe"
+        }
+      ],
+      "id": "reject-issued-not-a-date"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-expires-not-after-issued/artifact.json",
+          "sha256": "5346c3b356f1b2db025b97d464d73a62442ca39ad1480549e23daff147f35ef1"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-expires-not-after-issued/catalog.json",
+          "sha256": "1734237fdc8ce346a0681ebf955a0f62deb64d445ac42b9a01d4ee5884bef531"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-expires-not-after-issued/context.json",
+          "sha256": "1c46a20b6b1fa27b14ff5896143f4d22d9f8085bb7998ac90145133a8b88c1c7"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-expires-not-after-issued/did-documents.json",
+          "sha256": "8b49c5d7a3dad753d337a8879ad50ea41947883460bf47e3bf3353f41a28c3fe"
+        }
+      ],
+      "id": "reject-expires-not-after-issued"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-draft-identifier-absent/artifact.json",
+          "sha256": "5346c3b356f1b2db025b97d464d73a62442ca39ad1480549e23daff147f35ef1"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-draft-identifier-absent/catalog.json",
+          "sha256": "137d6b17acc3a8c8c9728273a0b065b854e2e1413fb399e64d0abdbc9fffd215"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-draft-identifier-absent/context.json",
+          "sha256": "02e869d008af28fcff533bdaa1680258894acf18d0b735e26f7d27a23acaddf5"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-draft-identifier-absent/did-documents.json",
+          "sha256": "8b49c5d7a3dad753d337a8879ad50ea41947883460bf47e3bf3353f41a28c3fe"
+        }
+      ],
+      "id": "reject-draft-identifier-absent"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-attestation-signer-document-not-identity/artifact.json",
+          "sha256": "5346c3b356f1b2db025b97d464d73a62442ca39ad1480549e23daff147f35ef1"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-attestation-signer-document-not-identity/attestation-0.dsse.json",
+          "sha256": "ae9aadf1bbaf4491202a108830a17024a1a45d94db8977db1f66a49f5e60467b"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-attestation-signer-document-not-identity/catalog.json",
+          "sha256": "a3d6de10bd87e5d812bd88a05d77d10579d75545698fbb367b4ea11239f71954"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-attestation-signer-document-not-identity/context.json",
+          "sha256": "9a12352d99580fa7aef85f1f9a5a58029692f2b013b905be2989e473cc7f60d5"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-attestation-signer-document-not-identity/did-documents.json",
+          "sha256": "bc9865310ca973a9585f3308bdd2df4dc07e995056ba4c8b96d99bdb78d0d52c"
+        }
+      ],
+      "id": "reject-attestation-signer-document-not-identity"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/accept-assertion-method-relative-reference/artifact.json",
+          "sha256": "5346c3b356f1b2db025b97d464d73a62442ca39ad1480549e23daff147f35ef1"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/accept-assertion-method-relative-reference/catalog.json",
+          "sha256": "fe7aaee6d11350c4c54fef665c8ea41bee65f5c56066ff7210b2082cb848262b"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/accept-assertion-method-relative-reference/context.json",
+          "sha256": "1c46a20b6b1fa27b14ff5896143f4d22d9f8085bb7998ac90145133a8b88c1c7"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/accept-assertion-method-relative-reference/did-documents.json",
+          "sha256": "231742026b20c408fadcb52b35208c13adb0018aa156d0301344e91ded8360b5"
+        }
+      ],
+      "id": "accept-assertion-method-relative-reference"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-draft-url-and-data/artifact.json",
+          "sha256": "5346c3b356f1b2db025b97d464d73a62442ca39ad1480549e23daff147f35ef1"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-draft-url-and-data/catalog.json",
+          "sha256": "f72ec5f155c08d76c7d85efc4f6434d432c75475c0a7d7178a73d6703a8d21ae"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-draft-url-and-data/context.json",
+          "sha256": "06cb286f62c546c49571afedf5d9d0246cf61df15b74e60c79b973d0096b4920"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-draft-url-and-data/did-documents.json",
+          "sha256": "8b49c5d7a3dad753d337a8879ad50ea41947883460bf47e3bf3353f41a28c3fe"
+        }
+      ],
+      "id": "reject-draft-url-and-data"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-draft-neither-url-nor-data/artifact.json",
+          "sha256": "5346c3b356f1b2db025b97d464d73a62442ca39ad1480549e23daff147f35ef1"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-draft-neither-url-nor-data/catalog.json",
+          "sha256": "a6bc227534df2ed1122013d16b345babf306ab19735a4d84941833eae5914850"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-draft-neither-url-nor-data/context.json",
+          "sha256": "06cb286f62c546c49571afedf5d9d0246cf61df15b74e60c79b973d0096b4920"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-draft-neither-url-nor-data/did-documents.json",
+          "sha256": "8b49c5d7a3dad753d337a8879ad50ea41947883460bf47e3bf3353f41a28c3fe"
+        }
+      ],
+      "id": "reject-draft-neither-url-nor-data"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/accept-kid-fragment-with-colon/artifact.json",
+          "sha256": "5346c3b356f1b2db025b97d464d73a62442ca39ad1480549e23daff147f35ef1"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/accept-kid-fragment-with-colon/catalog.json",
+          "sha256": "c8bf351ebf9fd9cabf257bfc6e884aa20d982a86029442b80676304e709acdc5"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/accept-kid-fragment-with-colon/context.json",
+          "sha256": "1c46a20b6b1fa27b14ff5896143f4d22d9f8085bb7998ac90145133a8b88c1c7"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/accept-kid-fragment-with-colon/did-documents.json",
+          "sha256": "7b579bdc9518d542f77ce3ba7831671f721b7c1343773afa17d8afb9fe814682"
+        }
+      ],
+      "id": "accept-kid-fragment-with-colon"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-kid-fragment-bad-escape/artifact.json",
+          "sha256": "5346c3b356f1b2db025b97d464d73a62442ca39ad1480549e23daff147f35ef1"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-kid-fragment-bad-escape/catalog.json",
+          "sha256": "93b10083e3922150e60c2752af2a9eabd0b8b791b26452a2bcd55ee7a96baaf4"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-kid-fragment-bad-escape/context.json",
+          "sha256": "1c46a20b6b1fa27b14ff5896143f4d22d9f8085bb7998ac90145133a8b88c1c7"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-kid-fragment-bad-escape/did-documents.json",
+          "sha256": "780d514191c38ac7821228b84892def9a4c750036e00a4f1d664e1165b32cfa3"
+        }
+      ],
+      "id": "reject-kid-fragment-bad-escape"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/accept-issued-with-fraction/artifact.json",
+          "sha256": "5346c3b356f1b2db025b97d464d73a62442ca39ad1480549e23daff147f35ef1"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/accept-issued-with-fraction/catalog.json",
+          "sha256": "520370b446eabd00514539e70377a1b08d36e1d5b1eb2ab60cd8f53e762b015c"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/accept-issued-with-fraction/context.json",
+          "sha256": "1c46a20b6b1fa27b14ff5896143f4d22d9f8085bb7998ac90145133a8b88c1c7"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/accept-issued-with-fraction/did-documents.json",
+          "sha256": "8b49c5d7a3dad753d337a8879ad50ea41947883460bf47e3bf3353f41a28c3fe"
+        }
+      ],
+      "id": "accept-issued-with-fraction"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/accept-issued-with-offset/artifact.json",
+          "sha256": "5346c3b356f1b2db025b97d464d73a62442ca39ad1480549e23daff147f35ef1"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/accept-issued-with-offset/catalog.json",
+          "sha256": "a735090eac7a8c92e215b2e2778767a690e76d91debabb567a998b797e65f04d"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/accept-issued-with-offset/context.json",
+          "sha256": "1c46a20b6b1fa27b14ff5896143f4d22d9f8085bb7998ac90145133a8b88c1c7"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/accept-issued-with-offset/did-documents.json",
+          "sha256": "8b49c5d7a3dad753d337a8879ad50ea41947883460bf47e3bf3353f41a28c3fe"
+        }
+      ],
+      "id": "accept-issued-with-offset"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/accept-draft-inline-data/artifact.json",
+          "sha256": "5346c3b356f1b2db025b97d464d73a62442ca39ad1480549e23daff147f35ef1"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/accept-draft-inline-data/catalog.json",
+          "sha256": "8b186d84e5bfe66951f7d8007fef69017da810d68332a51fae491d8d1f4b7560"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/accept-draft-inline-data/context.json",
+          "sha256": "06cb286f62c546c49571afedf5d9d0246cf61df15b74e60c79b973d0096b4920"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/accept-draft-inline-data/did-documents.json",
+          "sha256": "8b49c5d7a3dad753d337a8879ad50ea41947883460bf47e3bf3353f41a28c3fe"
+        }
+      ],
+      "id": "accept-draft-inline-data"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-draft-inline-data-swapped/artifact.json",
+          "sha256": "5346c3b356f1b2db025b97d464d73a62442ca39ad1480549e23daff147f35ef1"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-draft-inline-data-swapped/catalog.json",
+          "sha256": "63aef991b91fc4608cf05680f6a2ec1eca6c5689037a1ebd97c0ceee54480d4b"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-draft-inline-data-swapped/context.json",
+          "sha256": "06cb286f62c546c49571afedf5d9d0246cf61df15b74e60c79b973d0096b4920"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-draft-inline-data-swapped/did-documents.json",
+          "sha256": "8b49c5d7a3dad753d337a8879ad50ea41947883460bf47e3bf3353f41a28c3fe"
+        }
+      ],
+      "id": "reject-draft-inline-data-swapped"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/accept-dsse-url-safe-base64/artifact.json",
+          "sha256": "5346c3b356f1b2db025b97d464d73a62442ca39ad1480549e23daff147f35ef1"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/accept-dsse-url-safe-base64/attestation-0.dsse.json",
+          "sha256": "b839f4eada6e1e2b745b514dab1cfc0a90fd67e754f685c6b6fe3a2d60a7c393"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/accept-dsse-url-safe-base64/catalog.json",
+          "sha256": "90389557cf19058c329b6d612f497aa8c2485f9a8909bfd2164a618e881e008c"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/accept-dsse-url-safe-base64/context.json",
+          "sha256": "9a12352d99580fa7aef85f1f9a5a58029692f2b013b905be2989e473cc7f60d5"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/accept-dsse-url-safe-base64/did-documents.json",
+          "sha256": "8b49c5d7a3dad753d337a8879ad50ea41947883460bf47e3bf3353f41a28c3fe"
+        }
+      ],
+      "id": "accept-dsse-url-safe-base64"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/accept-dsse-der-signature/artifact.json",
+          "sha256": "5346c3b356f1b2db025b97d464d73a62442ca39ad1480549e23daff147f35ef1"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/accept-dsse-der-signature/attestation-0.dsse.json",
+          "sha256": "004e412001f480897cb2e37f9391fd1109bcc06a9063ce2b0a50ee358b613fa5"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/accept-dsse-der-signature/catalog.json",
+          "sha256": "a4473e3db1c5eef0e271c997a3e9070ed91bfa28764caf790f9e0793c5d1c605"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/accept-dsse-der-signature/context.json",
+          "sha256": "9a12352d99580fa7aef85f1f9a5a58029692f2b013b905be2989e473cc7f60d5"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/accept-dsse-der-signature/did-documents.json",
+          "sha256": "8b49c5d7a3dad753d337a8879ad50ea41947883460bf47e3bf3353f41a28c3fe"
+        }
+      ],
+      "id": "accept-dsse-der-signature"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-dsse-der-non-minimal/artifact.json",
+          "sha256": "5346c3b356f1b2db025b97d464d73a62442ca39ad1480549e23daff147f35ef1"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-dsse-der-non-minimal/attestation-0.dsse.json",
+          "sha256": "46e0554498b1152229121fa6f40f97f081dcbaa0a5a2ce32e74061f87c148223"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-dsse-der-non-minimal/catalog.json",
+          "sha256": "4f8d959c87656753280e71dc52d6c05a03974f24e9cff89b1b603f1778b61e2b"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-dsse-der-non-minimal/context.json",
+          "sha256": "9a12352d99580fa7aef85f1f9a5a58029692f2b013b905be2989e473cc7f60d5"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-dsse-der-non-minimal/did-documents.json",
+          "sha256": "8b49c5d7a3dad753d337a8879ad50ea41947883460bf47e3bf3353f41a28c3fe"
+        }
+      ],
+      "id": "reject-dsse-der-non-minimal"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-dsse-payload-newline/artifact.json",
+          "sha256": "5346c3b356f1b2db025b97d464d73a62442ca39ad1480549e23daff147f35ef1"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-dsse-payload-newline/attestation-0.dsse.json",
+          "sha256": "2ad0273453d326421c76d2fbe003dcb3d123e02fc77f664246496acc72ae7491"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-dsse-payload-newline/catalog.json",
+          "sha256": "b72574fb81a7e40698a927b3a7dcdb94f7eb1307a1fa32b81689aa7e9ecbcb49"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-dsse-payload-newline/context.json",
+          "sha256": "9a12352d99580fa7aef85f1f9a5a58029692f2b013b905be2989e473cc7f60d5"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-dsse-payload-newline/did-documents.json",
+          "sha256": "8b49c5d7a3dad753d337a8879ad50ea41947883460bf47e3bf3353f41a28c3fe"
+        }
+      ],
+      "id": "reject-dsse-payload-newline"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-attestation-file-not-one-segment/artifact.json",
+          "sha256": "5346c3b356f1b2db025b97d464d73a62442ca39ad1480549e23daff147f35ef1"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-attestation-file-not-one-segment/attestation-0.dsse.json",
+          "sha256": "1684e05d36c3f11a0283df5b712e87bb9d1c119e6d20f79b2f7452cd44b4e728"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-attestation-file-not-one-segment/catalog.json",
+          "sha256": "15e8a9ea3bfd5c0d0c2f11039827499073f7dea270bfb0fb486cc56c8cac30c1"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-attestation-file-not-one-segment/context.json",
+          "sha256": "446983d184955df2af583dfc22384bd8a628aab1a5c562dee2c6e116dd69809b"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-attestation-file-not-one-segment/did-documents.json",
+          "sha256": "8b49c5d7a3dad753d337a8879ad50ea41947883460bf47e3bf3353f41a28c3fe"
+        }
+      ],
+      "id": "reject-attestation-file-not-one-segment"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/accept-nesting-at-the-limit/artifact.json",
+          "sha256": "5346c3b356f1b2db025b97d464d73a62442ca39ad1480549e23daff147f35ef1"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/accept-nesting-at-the-limit/catalog.json",
+          "sha256": "264d6f40be526a48cbb99ff4de71340b7ec42e5c8aca6f5a6f8389c1fc3dabb7"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/accept-nesting-at-the-limit/context.json",
+          "sha256": "06cb286f62c546c49571afedf5d9d0246cf61df15b74e60c79b973d0096b4920"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/accept-nesting-at-the-limit/did-documents.json",
+          "sha256": "8b49c5d7a3dad753d337a8879ad50ea41947883460bf47e3bf3353f41a28c3fe"
+        }
+      ],
+      "id": "accept-nesting-at-the-limit"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-nesting-past-the-limit/artifact.json",
+          "sha256": "5346c3b356f1b2db025b97d464d73a62442ca39ad1480549e23daff147f35ef1"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-nesting-past-the-limit/catalog.json",
+          "sha256": "3ab9dbad88d63f8a354857d23de3e9cef91a8ae9e7bac34ccd77e1aff3b389e6"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-nesting-past-the-limit/context.json",
+          "sha256": "06cb286f62c546c49571afedf5d9d0246cf61df15b74e60c79b973d0096b4920"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-nesting-past-the-limit/did-documents.json",
+          "sha256": "8b49c5d7a3dad753d337a8879ad50ea41947883460bf47e3bf3353f41a28c3fe"
+        }
+      ],
+      "id": "reject-nesting-past-the-limit"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/accept-context-entry-integral-number/artifact.json",
+          "sha256": "7aad0135e23de1278ca7546137b2ccbba5d3e606a869917cdd28225535360c02"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/accept-context-entry-integral-number/catalog.json",
+          "sha256": "31b62ad4dceb96fb60cf9bd279ce6842147a025f9cabc79b5419dbbcffd5fe2d"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/accept-context-entry-integral-number/context.json",
+          "sha256": "61c8634c56ca66de0f9ff11bdfbaf0d7677bd5429449d539496829d0973f7329"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/accept-context-entry-integral-number/did-documents.json",
+          "sha256": "8b49c5d7a3dad753d337a8879ad50ea41947883460bf47e3bf3353f41a28c3fe"
+        }
+      ],
+      "id": "accept-context-entry-integral-number"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-context-entry-negative/artifact.json",
+          "sha256": "5346c3b356f1b2db025b97d464d73a62442ca39ad1480549e23daff147f35ef1"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-context-entry-negative/catalog.json",
+          "sha256": "2133928a4dde8ea9c151197b8603a6f3f30f6e0394b4369ca5121c755571b100"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-context-entry-negative/context.json",
+          "sha256": "8f738be28b816be04694dbfa9fa70332acb2ed5363ff4923e015e1fa52ec9f85"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-context-entry-negative/did-documents.json",
+          "sha256": "8b49c5d7a3dad753d337a8879ad50ea41947883460bf47e3bf3353f41a28c3fe"
+        }
+      ],
+      "id": "reject-context-entry-negative"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-context-entry-boolean/artifact.json",
+          "sha256": "7aad0135e23de1278ca7546137b2ccbba5d3e606a869917cdd28225535360c02"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-context-entry-boolean/catalog.json",
+          "sha256": "31b62ad4dceb96fb60cf9bd279ce6842147a025f9cabc79b5419dbbcffd5fe2d"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-context-entry-boolean/context.json",
+          "sha256": "a93fefd4db2df29f1f6620254b2ac329e95fb9cc146c879b2d0dcdeb1b544731"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-context-entry-boolean/did-documents.json",
+          "sha256": "8b49c5d7a3dad753d337a8879ad50ea41947883460bf47e3bf3353f41a28c3fe"
+        }
+      ],
+      "id": "reject-context-entry-boolean"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-issued-second-60-not-leap/artifact.json",
+          "sha256": "5346c3b356f1b2db025b97d464d73a62442ca39ad1480549e23daff147f35ef1"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-issued-second-60-not-leap/catalog.json",
+          "sha256": "26d6ed187ea7de9701395cabc745ee6a88e95b08782e1f6145c6fc8619196e3f"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-issued-second-60-not-leap/context.json",
+          "sha256": "1c46a20b6b1fa27b14ff5896143f4d22d9f8085bb7998ac90145133a8b88c1c7"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-issued-second-60-not-leap/did-documents.json",
+          "sha256": "8b49c5d7a3dad753d337a8879ad50ea41947883460bf47e3bf3353f41a28c3fe"
+        }
+      ],
+      "id": "reject-issued-second-60-not-leap"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-issued-second-60-offset-not-leap/artifact.json",
+          "sha256": "5346c3b356f1b2db025b97d464d73a62442ca39ad1480549e23daff147f35ef1"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-issued-second-60-offset-not-leap/catalog.json",
+          "sha256": "7a0cb6b323e5e36dc78dae1fac762f044ef14af91753c05de0589f43dc29866f"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-issued-second-60-offset-not-leap/context.json",
+          "sha256": "1c46a20b6b1fa27b14ff5896143f4d22d9f8085bb7998ac90145133a8b88c1c7"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-issued-second-60-offset-not-leap/did-documents.json",
+          "sha256": "8b49c5d7a3dad753d337a8879ad50ea41947883460bf47e3bf3353f41a28c3fe"
+        }
+      ],
+      "id": "reject-issued-second-60-offset-not-leap"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/accept-issued-on-a-leap-second/artifact.json",
+          "sha256": "5346c3b356f1b2db025b97d464d73a62442ca39ad1480549e23daff147f35ef1"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/accept-issued-on-a-leap-second/catalog.json",
+          "sha256": "cc6e93a04bd451233fd24b56d8aa9c216f7a848b9597b1f5e225bf3429b67761"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/accept-issued-on-a-leap-second/context.json",
+          "sha256": "1c46a20b6b1fa27b14ff5896143f4d22d9f8085bb7998ac90145133a8b88c1c7"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/accept-issued-on-a-leap-second/did-documents.json",
+          "sha256": "8b49c5d7a3dad753d337a8879ad50ea41947883460bf47e3bf3353f41a28c3fe"
+        }
+      ],
+      "id": "accept-issued-on-a-leap-second"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/accept-issued-on-a-leap-second-with-offset/artifact.json",
+          "sha256": "5346c3b356f1b2db025b97d464d73a62442ca39ad1480549e23daff147f35ef1"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/accept-issued-on-a-leap-second-with-offset/catalog.json",
+          "sha256": "288d64d7e7294d91f4453e9069dc87f93425bff5c05f886e9e0e559c76434f69"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/accept-issued-on-a-leap-second-with-offset/context.json",
+          "sha256": "1c46a20b6b1fa27b14ff5896143f4d22d9f8085bb7998ac90145133a8b88c1c7"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/accept-issued-on-a-leap-second-with-offset/did-documents.json",
+          "sha256": "8b49c5d7a3dad753d337a8879ad50ea41947883460bf47e3bf3353f41a28c3fe"
+        }
+      ],
+      "id": "accept-issued-on-a-leap-second-with-offset"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/accept-url-origin-case-and-default-port/artifact.json",
+          "sha256": "5346c3b356f1b2db025b97d464d73a62442ca39ad1480549e23daff147f35ef1"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/accept-url-origin-case-and-default-port/catalog.json",
+          "sha256": "a739f9d92c6590dc576d88d2210dea6c9e3705a1029ec788f309dc9e80c1b1c9"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/accept-url-origin-case-and-default-port/context.json",
+          "sha256": "06cb286f62c546c49571afedf5d9d0246cf61df15b74e60c79b973d0096b4920"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/accept-url-origin-case-and-default-port/did-documents.json",
+          "sha256": "8b49c5d7a3dad753d337a8879ad50ea41947883460bf47e3bf3353f41a28c3fe"
+        }
+      ],
+      "id": "accept-url-origin-case-and-default-port"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-url-userinfo/artifact.json",
+          "sha256": "5346c3b356f1b2db025b97d464d73a62442ca39ad1480549e23daff147f35ef1"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-url-userinfo/catalog.json",
+          "sha256": "e56bb66a0154eac4af371a6105c0657f12b7e2f7d76fc081ff9c8bc63d82dd52"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-url-userinfo/context.json",
+          "sha256": "06cb286f62c546c49571afedf5d9d0246cf61df15b74e60c79b973d0096b4920"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-url-userinfo/did-documents.json",
+          "sha256": "8b49c5d7a3dad753d337a8879ad50ea41947883460bf47e3bf3353f41a28c3fe"
+        }
+      ],
+      "id": "reject-url-userinfo"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-aic-url-and-data/artifact.json",
+          "sha256": "5346c3b356f1b2db025b97d464d73a62442ca39ad1480549e23daff147f35ef1"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-aic-url-and-data/catalog.json",
+          "sha256": "eda80a1c3a7642fcdb7d3074008beba4a2b57d8e70a13817d6d57065ac9fe758"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-aic-url-and-data/context.json",
+          "sha256": "1c46a20b6b1fa27b14ff5896143f4d22d9f8085bb7998ac90145133a8b88c1c7"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-aic-url-and-data/did-documents.json",
+          "sha256": "8b49c5d7a3dad753d337a8879ad50ea41947883460bf47e3bf3353f41a28c3fe"
+        }
+      ],
+      "id": "reject-aic-url-and-data"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-aic-neither-url-nor-data/artifact.json",
+          "sha256": "5346c3b356f1b2db025b97d464d73a62442ca39ad1480549e23daff147f35ef1"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-aic-neither-url-nor-data/catalog.json",
+          "sha256": "3cd65afd2724e570196aca7d4f3b9b47bee7e75b3aebc4628a33fc82d8073d05"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-aic-neither-url-nor-data/context.json",
+          "sha256": "1c46a20b6b1fa27b14ff5896143f4d22d9f8085bb7998ac90145133a8b88c1c7"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-aic-neither-url-nor-data/did-documents.json",
+          "sha256": "8b49c5d7a3dad753d337a8879ad50ea41947883460bf47e3bf3353f41a28c3fe"
+        }
+      ],
+      "id": "reject-aic-neither-url-nor-data"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-issued-one-second-in-future/artifact.json",
+          "sha256": "5346c3b356f1b2db025b97d464d73a62442ca39ad1480549e23daff147f35ef1"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-issued-one-second-in-future/catalog.json",
+          "sha256": "fe7aaee6d11350c4c54fef665c8ea41bee65f5c56066ff7210b2082cb848262b"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-issued-one-second-in-future/context.json",
+          "sha256": "3672c2928267bac1aba4105e3e663ea5a9e61924b100926da1ea96a986d9f159"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-issued-one-second-in-future/did-documents.json",
+          "sha256": "8b49c5d7a3dad753d337a8879ad50ea41947883460bf47e3bf3353f41a28c3fe"
+        }
+      ],
+      "id": "reject-issued-one-second-in-future"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/accept-checked-at-the-issued-instant/artifact.json",
+          "sha256": "5346c3b356f1b2db025b97d464d73a62442ca39ad1480549e23daff147f35ef1"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/accept-checked-at-the-issued-instant/catalog.json",
+          "sha256": "fe7aaee6d11350c4c54fef665c8ea41bee65f5c56066ff7210b2082cb848262b"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/accept-checked-at-the-issued-instant/context.json",
+          "sha256": "316e8e873c480bfa8b2931d2c9506c52f8431c7bf448bdd3edda4a53dd619e4e"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/accept-checked-at-the-issued-instant/did-documents.json",
+          "sha256": "8b49c5d7a3dad753d337a8879ad50ea41947883460bf47e3bf3353f41a28c3fe"
+        }
+      ],
+      "id": "accept-checked-at-the-issued-instant"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-url-other-port/artifact.json",
+          "sha256": "5346c3b356f1b2db025b97d464d73a62442ca39ad1480549e23daff147f35ef1"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-url-other-port/catalog.json",
+          "sha256": "18932d62cfba25793869898c1a25fdbe6bfcc6a45c42104f42cf880c40fb21a8"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-url-other-port/context.json",
+          "sha256": "06cb286f62c546c49571afedf5d9d0246cf61df15b74e60c79b973d0096b4920"
+        },
+        {
+          "path": "corpora/vectors-catalog-trust-manifest/cases/reject-url-other-port/did-documents.json",
+          "sha256": "8b49c5d7a3dad753d337a8879ad50ea41947883460bf47e3bf3353f41a28c3fe"
+        }
+      ],
+      "id": "reject-url-other-port"
+    }
+  ],
+  "native": {
+    "cases": "native-json",
+    "format": "corpus-result-json-v1",
+    "process-status": {
+      "exit-code": 0
+    },
+    "summary": "native-text"
+  },
+  "non-author-runs": [],
+  "observations": [
+    {
+      "carry": "referenced",
+      "id": "native-json",
+      "reference": {
+        "path": "release/intake/native/vectors-catalog-trust-manifest.json",
+        "serialization": "bytes",
+        "sha256": "e318d7d046805b3f211227ce96a5abf1d6a35566a340e60f9b302a5e073e610a"
+      }
+    },
+    {
+      "carry": "referenced",
+      "id": "native-text",
+      "reference": {
+        "path": "release/intake/native/vectors-catalog-trust-manifest.txt",
+        "serialization": "bytes",
+        "sha256": "770dafe2cdf4b31fe85c17b97753f8ecbdfa0131f38e1709478434055c9a1e6c"
+      }
+    },
+    {
+      "carried": "",
+      "carry": "carried",
+      "id": "stderr"
+    }
+  ],
+  "pin-serialization": "bytes",
+  "refusal-verdicts": [
+    "contradicted",
+    "failed",
+    "must-reject",
+    "reject",
+    "rejected"
+  ],
+  "refusals": [
+    {
+      "check": "contradict-draft-signed-under-field-whole-entry",
+      "inputs": [
+        "member:contradict-draft-signed-under-field-whole-entry",
+        "check:contradict-draft-signed-under-field-whole-entry"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"reject\",\"reason\":\"signature_invalid\"}}"
+    },
+    {
+      "check": "contradict-draft-signed-under-ai-catalog-2026-11",
+      "inputs": [
+        "member:contradict-draft-signed-under-ai-catalog-2026-11",
+        "check:contradict-draft-signed-under-ai-catalog-2026-11"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"reject\",\"reason\":\"signature_missing\"}}"
+    },
+    {
+      "check": "contradict-draft-signed-under-ai-catalog-snapshot",
+      "inputs": [
+        "member:contradict-draft-signed-under-ai-catalog-snapshot",
+        "check:contradict-draft-signed-under-ai-catalog-snapshot"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"reject\",\"reason\":\"signature_missing\"}}"
+    },
+    {
+      "check": "contradict-whole-entry-signed-under-ard-draft-bu-00",
+      "inputs": [
+        "member:contradict-whole-entry-signed-under-ard-draft-bu-00",
+        "check:contradict-whole-entry-signed-under-ard-draft-bu-00"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"reject\",\"reason\":\"signature_invalid\"}}"
+    },
+    {
+      "check": "contradict-whole-entry-signed-under-ai-catalog-2026-11",
+      "inputs": [
+        "member:contradict-whole-entry-signed-under-ai-catalog-2026-11",
+        "check:contradict-whole-entry-signed-under-ai-catalog-2026-11"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"reject\",\"reason\":\"signature_missing\"}}"
+    },
+    {
+      "check": "contradict-whole-entry-signed-under-ai-catalog-snapshot",
+      "inputs": [
+        "member:contradict-whole-entry-signed-under-ai-catalog-snapshot",
+        "check:contradict-whole-entry-signed-under-ai-catalog-snapshot"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"reject\",\"reason\":\"signature_missing\"}}"
+    },
+    {
+      "check": "reject-construction-unknown",
+      "inputs": [
+        "member:reject-construction-unknown",
+        "check:reject-construction-unknown"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"reject\",\"reason\":\"construction_unknown\"}}"
+    },
+    {
+      "check": "reject-duplicate-identifier",
+      "inputs": [
+        "member:reject-duplicate-identifier",
+        "check:reject-duplicate-identifier"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"reject\",\"reason\":\"duplicate_member\"}}"
+    },
+    {
+      "check": "reject-unsigned",
+      "inputs": [
+        "member:reject-unsigned",
+        "check:reject-unsigned"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"reject\",\"reason\":\"signature_missing\"}}"
+    },
+    {
+      "check": "reject-jws-attached-payload",
+      "inputs": [
+        "member:reject-jws-attached-payload",
+        "check:reject-jws-attached-payload"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"reject\",\"reason\":\"jws_malformed\"}}"
+    },
+    {
+      "check": "reject-jws-padded-base64url",
+      "inputs": [
+        "member:reject-jws-padded-base64url",
+        "check:reject-jws-padded-base64url"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"reject\",\"reason\":\"jws_malformed\"}}"
+    },
+    {
+      "check": "reject-aic-typ-missing",
+      "inputs": [
+        "member:reject-aic-typ-missing",
+        "check:reject-aic-typ-missing"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"reject\",\"reason\":\"typ_missing_or_mismatched\"}}"
+    },
+    {
+      "check": "reject-snapshot-typ-of-manifest",
+      "inputs": [
+        "member:reject-snapshot-typ-of-manifest",
+        "check:reject-snapshot-typ-of-manifest"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"reject\",\"reason\":\"typ_missing_or_mismatched\"}}"
+    },
+    {
+      "check": "reject-alg-none",
+      "inputs": [
+        "member:reject-alg-none",
+        "check:reject-alg-none"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"reject\",\"reason\":\"alg_not_allowed_for_profile\"}}"
+    },
+    {
+      "check": "reject-aic-eddsa",
+      "inputs": [
+        "member:reject-aic-eddsa",
+        "check:reject-aic-eddsa"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"reject\",\"reason\":\"alg_not_allowed_for_profile\"}}"
+    },
+    {
+      "check": "reject-key-source-jku",
+      "inputs": [
+        "member:reject-key-source-jku",
+        "check:reject-key-source-jku"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"reject\",\"reason\":\"key_source_in_header\"}}"
+    },
+    {
+      "check": "reject-key-source-jwk",
+      "inputs": [
+        "member:reject-key-source-jwk",
+        "check:reject-key-source-jwk"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"reject\",\"reason\":\"key_source_in_header\"}}"
+    },
+    {
+      "check": "reject-key-source-x5u",
+      "inputs": [
+        "member:reject-key-source-x5u",
+        "check:reject-key-source-x5u"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"reject\",\"reason\":\"key_source_in_header\"}}"
+    },
+    {
+      "check": "reject-key-source-x5c",
+      "inputs": [
+        "member:reject-key-source-x5c",
+        "check:reject-key-source-x5c"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"reject\",\"reason\":\"key_source_in_header\"}}"
+    },
+    {
+      "check": "reject-aic-b64",
+      "inputs": [
+        "member:reject-aic-b64",
+        "check:reject-aic-b64"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"reject\",\"reason\":\"b64_forbidden_for_profile\"}}"
+    },
+    {
+      "check": "reject-crit-unknown",
+      "inputs": [
+        "member:reject-crit-unknown",
+        "check:reject-crit-unknown"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"reject\",\"reason\":\"jws_crit_unsupported\"}}"
+    },
+    {
+      "check": "reject-b64-without-crit",
+      "inputs": [
+        "member:reject-b64-without-crit",
+        "check:reject-b64-without-crit"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"reject\",\"reason\":\"b64_without_crit\"}}"
+    },
+    {
+      "check": "reject-kid-not-under-identity",
+      "inputs": [
+        "member:reject-kid-not-under-identity",
+        "check:reject-kid-not-under-identity"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"reject\",\"reason\":\"kid_not_under_identity\"}}"
+    },
+    {
+      "check": "reject-did-document-not-identity",
+      "inputs": [
+        "member:reject-did-document-not-identity",
+        "check:reject-did-document-not-identity"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"reject\",\"reason\":\"did_document_not_identity\"}}"
+    },
+    {
+      "check": "reject-kid-not-in-did-document",
+      "inputs": [
+        "member:reject-kid-not-in-did-document",
+        "check:reject-kid-not-in-did-document"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"reject\",\"reason\":\"kid_not_in_did_document\"}}"
+    },
+    {
+      "check": "reject-key-not-assertion-method",
+      "inputs": [
+        "member:reject-key-not-assertion-method",
+        "check:reject-key-not-assertion-method"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"reject\",\"reason\":\"key_not_assertion_method\"}}"
+    },
+    {
+      "check": "reject-alg-key-mismatch",
+      "inputs": [
+        "member:reject-alg-key-mismatch",
+        "check:reject-alg-key-mismatch"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"reject\",\"reason\":\"alg_key_mismatch\"}}"
+    },
+    {
+      "check": "reject-number-not-interoperable",
+      "inputs": [
+        "member:reject-number-not-interoperable",
+        "check:reject-number-not-interoperable"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"reject\",\"reason\":\"number_not_interoperable\"}}"
+    },
+    {
+      "check": "reject-lone-surrogate",
+      "inputs": [
+        "member:reject-lone-surrogate",
+        "check:reject-lone-surrogate"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"reject\",\"reason\":\"no_canonical_form\"}}"
+    },
+    {
+      "check": "reject-signature-invalid",
+      "inputs": [
+        "member:reject-signature-invalid",
+        "check:reject-signature-invalid"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"reject\",\"reason\":\"signature_invalid\"}}"
+    },
+    {
+      "check": "reject-aic-signer-not-contributor",
+      "inputs": [
+        "member:reject-aic-signer-not-contributor",
+        "check:reject-aic-signer-not-contributor"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"reject\",\"reason\":\"signer_not_contributor\"}}"
+    },
+    {
+      "check": "reject-subject-missing",
+      "inputs": [
+        "member:reject-subject-missing",
+        "check:reject-subject-missing"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"reject\",\"reason\":\"subject_missing\"}}"
+    },
+    {
+      "check": "reject-subject-version-absent",
+      "inputs": [
+        "member:reject-subject-version-absent",
+        "check:reject-subject-version-absent"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"reject\",\"reason\":\"subject_entry_mismatch\"}}"
+    },
+    {
+      "check": "reject-manifest-moved-to-other-release",
+      "inputs": [
+        "member:reject-manifest-moved-to-other-release",
+        "check:reject-manifest-moved-to-other-release"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"reject\",\"reason\":\"subject_entry_mismatch\"}}"
+    },
+    {
+      "check": "reject-entry-digest-missing-for-url",
+      "inputs": [
+        "member:reject-entry-digest-missing-for-url",
+        "check:reject-entry-digest-missing-for-url"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"reject\",\"reason\":\"entry_digest_missing_for_url\"}}"
+    },
+    {
+      "check": "reject-artifact-digest-mismatch",
+      "inputs": [
+        "member:reject-artifact-digest-mismatch",
+        "check:reject-artifact-digest-mismatch"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"reject\",\"reason\":\"artifact_digest_mismatch\"}}"
+    },
+    {
+      "check": "reject-url-origin-unbound",
+      "inputs": [
+        "member:reject-url-origin-unbound",
+        "check:reject-url-origin-unbound"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"reject\",\"reason\":\"url_origin_unbound\"}}"
+    },
+    {
+      "check": "reject-attestation-digest-mismatch",
+      "inputs": [
+        "member:reject-attestation-digest-mismatch",
+        "check:reject-attestation-digest-mismatch"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"reject\",\"reason\":\"attestation_digest_mismatch\"}}"
+    },
+    {
+      "check": "reject-attestation-unsigned",
+      "inputs": [
+        "member:reject-attestation-unsigned",
+        "check:reject-attestation-unsigned"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"reject\",\"reason\":\"attestation_unsigned\"}}"
+    },
+    {
+      "check": "reject-attestation-transplanted",
+      "inputs": [
+        "member:reject-attestation-transplanted",
+        "check:reject-attestation-transplanted"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"reject\",\"reason\":\"attestation_transplanted\"}}"
+    },
+    {
+      "check": "reject-aic-www-signer",
+      "inputs": [
+        "member:reject-aic-www-signer",
+        "check:reject-aic-www-signer"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"reject\",\"reason\":\"publisher_not_signer\"}}"
+    },
+    {
+      "check": "reject-draft-www-signer",
+      "inputs": [
+        "member:reject-draft-www-signer",
+        "check:reject-draft-www-signer"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"reject\",\"reason\":\"publisher_authorization_absent\"}}"
+    },
+    {
+      "check": "reject-assessor-presented-as-publisher",
+      "inputs": [
+        "member:reject-assessor-presented-as-publisher",
+        "check:reject-assessor-presented-as-publisher"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"reject\",\"reason\":\"publisher_not_signer\"}}"
+    },
+    {
+      "check": "reject-issued-in-future",
+      "inputs": [
+        "member:reject-issued-in-future",
+        "check:reject-issued-in-future"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"reject\",\"reason\":\"issued_in_future\"}}"
+    },
+    {
+      "check": "reject-manifest-expired",
+      "inputs": [
+        "member:reject-manifest-expired",
+        "check:reject-manifest-expired"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"reject\",\"reason\":\"manifest_expired\"}}"
+    },
+    {
+      "check": "reject-role-unknown",
+      "inputs": [
+        "member:reject-role-unknown",
+        "check:reject-role-unknown"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"reject\",\"reason\":\"role_unknown\"}}"
+    },
+    {
+      "check": "reject-catalog-not-json",
+      "inputs": [
+        "member:reject-catalog-not-json",
+        "check:reject-catalog-not-json"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"reject\",\"reason\":\"json_invalid\"}}"
+    },
+    {
+      "check": "reject-b64-not-boolean",
+      "inputs": [
+        "member:reject-b64-not-boolean",
+        "check:reject-b64-not-boolean"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"reject\",\"reason\":\"jws_malformed\"}}"
+    },
+    {
+      "check": "reject-aic-profile-unsupported",
+      "inputs": [
+        "member:reject-aic-profile-unsupported",
+        "check:reject-aic-profile-unsupported"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"reject\",\"reason\":\"profile_unsupported\"}}"
+    },
+    {
+      "check": "reject-aic-profile-absent",
+      "inputs": [
+        "member:reject-aic-profile-absent",
+        "check:reject-aic-profile-absent"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"reject\",\"reason\":\"profile_unsupported\"}}"
+    },
+    {
+      "check": "reject-snapshot-profile-unsupported",
+      "inputs": [
+        "member:reject-snapshot-profile-unsupported",
+        "check:reject-snapshot-profile-unsupported"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"reject\",\"reason\":\"profile_unsupported\"}}"
+    },
+    {
+      "check": "reject-aic-signer-path-did",
+      "inputs": [
+        "member:reject-aic-signer-path-did",
+        "check:reject-aic-signer-path-did"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"reject\",\"reason\":\"signer_not_root_did_web\"}}"
+    },
+    {
+      "check": "reject-aic-signer-uppercase-domain",
+      "inputs": [
+        "member:reject-aic-signer-uppercase-domain",
+        "check:reject-aic-signer-uppercase-domain"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"reject\",\"reason\":\"signer_not_root_did_web\"}}"
+    },
+    {
+      "check": "reject-aic-signer-port",
+      "inputs": [
+        "member:reject-aic-signer-port",
+        "check:reject-aic-signer-port"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"reject\",\"reason\":\"signer_not_root_did_web\"}}"
+    },
+    {
+      "check": "reject-aic-signer-ipv4",
+      "inputs": [
+        "member:reject-aic-signer-ipv4",
+        "check:reject-aic-signer-ipv4"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"reject\",\"reason\":\"signer_not_root_did_web\"}}"
+    },
+    {
+      "check": "reject-aic-signer-numeric-tld",
+      "inputs": [
+        "member:reject-aic-signer-numeric-tld",
+        "check:reject-aic-signer-numeric-tld"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"reject\",\"reason\":\"signer_not_root_did_web\"}}"
+    },
+    {
+      "check": "reject-aic-signer-domain-past-253-octets",
+      "inputs": [
+        "member:reject-aic-signer-domain-past-253-octets",
+        "check:reject-aic-signer-domain-past-253-octets"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"reject\",\"reason\":\"signer_not_root_did_web\"}}"
+    },
+    {
+      "check": "reject-snapshot-signer-path-did",
+      "inputs": [
+        "member:reject-snapshot-signer-path-did",
+        "check:reject-snapshot-signer-path-did"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"reject\",\"reason\":\"signer_not_root_did_web\"}}"
+    },
+    {
+      "check": "reject-verification-method-ambiguous",
+      "inputs": [
+        "member:reject-verification-method-ambiguous",
+        "check:reject-verification-method-ambiguous"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"reject\",\"reason\":\"verification_method_ambiguous\"}}"
+    },
+    {
+      "check": "reject-aic-method-controller-other",
+      "inputs": [
+        "member:reject-aic-method-controller-other",
+        "check:reject-aic-method-controller-other"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"reject\",\"reason\":\"method_controller_mismatch\"}}"
+    },
+    {
+      "check": "reject-jwk-use-enc",
+      "inputs": [
+        "member:reject-jwk-use-enc",
+        "check:reject-jwk-use-enc"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"reject\",\"reason\":\"jwk_not_signing_key\"}}"
+    },
+    {
+      "check": "reject-jwk-private-member",
+      "inputs": [
+        "member:reject-jwk-private-member",
+        "check:reject-jwk-private-member"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"reject\",\"reason\":\"jwk_not_signing_key\"}}"
+    },
+    {
+      "check": "reject-jwk-alg-other",
+      "inputs": [
+        "member:reject-jwk-alg-other",
+        "check:reject-jwk-alg-other"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"reject\",\"reason\":\"jwk_not_signing_key\"}}"
+    },
+    {
+      "check": "reject-jwk-key-ops-sign-only",
+      "inputs": [
+        "member:reject-jwk-key-ops-sign-only",
+        "check:reject-jwk-key-ops-sign-only"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"reject\",\"reason\":\"jwk_not_signing_key\"}}"
+    },
+    {
+      "check": "reject-jwk-x-33-octets",
+      "inputs": [
+        "member:reject-jwk-x-33-octets",
+        "check:reject-jwk-x-33-octets"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"reject\",\"reason\":\"jwk_not_signing_key\"}}"
+    },
+    {
+      "check": "reject-aic-issued-absent",
+      "inputs": [
+        "member:reject-aic-issued-absent",
+        "check:reject-aic-issued-absent"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"reject\",\"reason\":\"timestamp_invalid\"}}"
+    },
+    {
+      "check": "reject-issued-not-a-date",
+      "inputs": [
+        "member:reject-issued-not-a-date",
+        "check:reject-issued-not-a-date"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"reject\",\"reason\":\"timestamp_invalid\"}}"
+    },
+    {
+      "check": "reject-expires-not-after-issued",
+      "inputs": [
+        "member:reject-expires-not-after-issued",
+        "check:reject-expires-not-after-issued"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"reject\",\"reason\":\"timestamp_invalid\"}}"
+    },
+    {
+      "check": "reject-draft-identifier-absent",
+      "inputs": [
+        "member:reject-draft-identifier-absent",
+        "check:reject-draft-identifier-absent"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"reject\",\"reason\":\"subject_entry_mismatch\"}}"
+    },
+    {
+      "check": "reject-attestation-signer-document-not-identity",
+      "inputs": [
+        "member:reject-attestation-signer-document-not-identity",
+        "check:reject-attestation-signer-document-not-identity"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"reject\",\"reason\":\"attestation_unsigned\"}}"
+    },
+    {
+      "check": "reject-draft-url-and-data",
+      "inputs": [
+        "member:reject-draft-url-and-data",
+        "check:reject-draft-url-and-data"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"reject\",\"reason\":\"entry_delivery_not_one\"}}"
+    },
+    {
+      "check": "reject-draft-neither-url-nor-data",
+      "inputs": [
+        "member:reject-draft-neither-url-nor-data",
+        "check:reject-draft-neither-url-nor-data"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"reject\",\"reason\":\"entry_delivery_not_one\"}}"
+    },
+    {
+      "check": "reject-kid-fragment-bad-escape",
+      "inputs": [
+        "member:reject-kid-fragment-bad-escape",
+        "check:reject-kid-fragment-bad-escape"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"reject\",\"reason\":\"kid_not_under_identity\"}}"
+    },
+    {
+      "check": "reject-draft-inline-data-swapped",
+      "inputs": [
+        "member:reject-draft-inline-data-swapped",
+        "check:reject-draft-inline-data-swapped"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"reject\",\"reason\":\"artifact_digest_mismatch\"}}"
+    },
+    {
+      "check": "reject-dsse-der-non-minimal",
+      "inputs": [
+        "member:reject-dsse-der-non-minimal",
+        "check:reject-dsse-der-non-minimal"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"reject\",\"reason\":\"attestation_unsigned\"}}"
+    },
+    {
+      "check": "reject-dsse-payload-newline",
+      "inputs": [
+        "member:reject-dsse-payload-newline",
+        "check:reject-dsse-payload-newline"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"reject\",\"reason\":\"attestation_unsigned\"}}"
+    },
+    {
+      "check": "reject-attestation-file-not-one-segment",
+      "inputs": [
+        "member:reject-attestation-file-not-one-segment",
+        "check:reject-attestation-file-not-one-segment"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"reject\",\"reason\":\"attestation_digest_mismatch\"}}"
+    },
+    {
+      "check": "reject-nesting-past-the-limit",
+      "inputs": [
+        "member:reject-nesting-past-the-limit",
+        "check:reject-nesting-past-the-limit"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"reject\",\"reason\":\"json_invalid\"}}"
+    },
+    {
+      "check": "reject-context-entry-negative",
+      "inputs": [
+        "member:reject-context-entry-negative",
+        "check:reject-context-entry-negative"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"reject\",\"reason\":\"signature_missing\"}}"
+    },
+    {
+      "check": "reject-context-entry-boolean",
+      "inputs": [
+        "member:reject-context-entry-boolean",
+        "check:reject-context-entry-boolean"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"reject\",\"reason\":\"signature_missing\"}}"
+    },
+    {
+      "check": "reject-issued-second-60-not-leap",
+      "inputs": [
+        "member:reject-issued-second-60-not-leap",
+        "check:reject-issued-second-60-not-leap"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"reject\",\"reason\":\"timestamp_invalid\"}}"
+    },
+    {
+      "check": "reject-issued-second-60-offset-not-leap",
+      "inputs": [
+        "member:reject-issued-second-60-offset-not-leap",
+        "check:reject-issued-second-60-offset-not-leap"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"reject\",\"reason\":\"timestamp_invalid\"}}"
+    },
+    {
+      "check": "reject-url-userinfo",
+      "inputs": [
+        "member:reject-url-userinfo",
+        "check:reject-url-userinfo"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"reject\",\"reason\":\"url_origin_unbound\"}}"
+    },
+    {
+      "check": "reject-aic-url-and-data",
+      "inputs": [
+        "member:reject-aic-url-and-data",
+        "check:reject-aic-url-and-data"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"reject\",\"reason\":\"entry_delivery_not_one\"}}"
+    },
+    {
+      "check": "reject-aic-neither-url-nor-data",
+      "inputs": [
+        "member:reject-aic-neither-url-nor-data",
+        "check:reject-aic-neither-url-nor-data"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"reject\",\"reason\":\"entry_delivery_not_one\"}}"
+    },
+    {
+      "check": "reject-issued-one-second-in-future",
+      "inputs": [
+        "member:reject-issued-one-second-in-future",
+        "check:reject-issued-one-second-in-future"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"reject\",\"reason\":\"issued_in_future\"}}"
+    },
+    {
+      "check": "reject-url-other-port",
+      "inputs": [
+        "member:reject-url-other-port",
+        "check:reject-url-other-port"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"reject\",\"reason\":\"url_origin_unbound\"}}"
+    }
+  ],
+  "relaxed-controls": [],
+  "replay-stability": {
+    "cause": null,
+    "ordering": "emission-order",
+    "runs": [
+      {
+        "process": "run-1",
+        "sha256": "e318d7d046805b3f211227ce96a5abf1d6a35566a340e60f9b302a5e073e610a"
+      },
+      {
+        "process": "run-2",
+        "sha256": "e318d7d046805b3f211227ce96a5abf1d6a35566a340e60f9b302a5e073e610a"
+      }
+    ],
+    "seed": null,
+    "state": "stable"
+  },
+  "scope": {
+    "does-not-claim": [
+      "whole-attack-surface",
+      "implementation-ranking",
+      "threats-outside-corpus",
+      "action-occurred-or-authority"
+    ],
+    "establishes": [
+      "aee-verify, at the source listing named here, judges each of the 115 pinned members of catalog-trust-manifest/v1 as its manifest declares"
+    ],
+    "leaves-open": [
+      "whether an implementation written from the specification, run by someone other than an author, reaches the same verdicts",
+      "whether release/CORPUS-DIGESTS.txt is a list a release signed: the signature beside it does not verify over these bytes, so the anchor is a located line, not a verified one",
+      "whether a re-run by someone other than an author on these exact bytes agrees; none is on the record for them"
+    ]
+  },
+  "selector": {
+    "expression": "*",
+    "language": "id-glob",
+    "matched": 115,
+    "require": "at-least-one",
+    "selected": [
+      "accept-draft-es256",
+      "accept-draft-eddsa",
+      "accept-draft-b64-false-with-crit",
+      "accept-draft-utf16-member-order",
+      "accept-field-whole-entry",
+      "accept-cross-origin-url-bound",
+      "accept-attestations-dsse-bound",
+      "accept-aic-publisher",
+      "accept-aic-assessor-as-contributor",
+      "accept-aic-publisher-beside-assessor",
+      "accept-aic-nested-signature-kept",
+      "accept-aic-additional-signatures-ignored",
+      "accept-snapshot",
+      "contradict-draft-signed-under-ard-draft-bu-00",
+      "contradict-draft-signed-under-field-whole-entry",
+      "contradict-draft-signed-under-ai-catalog-2026-11",
+      "contradict-draft-signed-under-ai-catalog-snapshot",
+      "contradict-whole-entry-signed-under-ard-draft-bu-00",
+      "contradict-whole-entry-signed-under-field-whole-entry",
+      "contradict-whole-entry-signed-under-ai-catalog-2026-11",
+      "contradict-whole-entry-signed-under-ai-catalog-snapshot",
+      "reject-construction-unknown",
+      "reject-duplicate-identifier",
+      "reject-unsigned",
+      "reject-jws-attached-payload",
+      "reject-jws-padded-base64url",
+      "reject-aic-typ-missing",
+      "reject-snapshot-typ-of-manifest",
+      "reject-alg-none",
+      "reject-aic-eddsa",
+      "reject-key-source-jku",
+      "reject-key-source-jwk",
+      "reject-key-source-x5u",
+      "reject-key-source-x5c",
+      "reject-aic-b64",
+      "reject-crit-unknown",
+      "reject-b64-without-crit",
+      "reject-kid-not-under-identity",
+      "reject-did-document-not-identity",
+      "reject-kid-not-in-did-document",
+      "reject-key-not-assertion-method",
+      "reject-alg-key-mismatch",
+      "reject-number-not-interoperable",
+      "reject-lone-surrogate",
+      "reject-signature-invalid",
+      "reject-aic-signer-not-contributor",
+      "reject-subject-missing",
+      "reject-subject-version-absent",
+      "reject-manifest-moved-to-other-release",
+      "reject-entry-digest-missing-for-url",
+      "reject-artifact-digest-mismatch",
+      "reject-url-origin-unbound",
+      "reject-attestation-digest-mismatch",
+      "reject-attestation-unsigned",
+      "reject-attestation-transplanted",
+      "reject-aic-www-signer",
+      "reject-draft-www-signer",
+      "reject-assessor-presented-as-publisher",
+      "reject-issued-in-future",
+      "reject-manifest-expired",
+      "reject-role-unknown",
+      "reject-catalog-not-json",
+      "reject-b64-not-boolean",
+      "reject-aic-profile-unsupported",
+      "reject-aic-profile-absent",
+      "reject-snapshot-profile-unsupported",
+      "reject-aic-signer-path-did",
+      "reject-aic-signer-uppercase-domain",
+      "reject-aic-signer-port",
+      "reject-aic-signer-ipv4",
+      "reject-aic-signer-numeric-tld",
+      "reject-aic-signer-domain-past-253-octets",
+      "reject-snapshot-signer-path-did",
+      "reject-verification-method-ambiguous",
+      "reject-aic-method-controller-other",
+      "reject-jwk-use-enc",
+      "reject-jwk-private-member",
+      "reject-jwk-alg-other",
+      "reject-jwk-key-ops-sign-only",
+      "reject-jwk-x-33-octets",
+      "reject-aic-issued-absent",
+      "reject-issued-not-a-date",
+      "reject-expires-not-after-issued",
+      "reject-draft-identifier-absent",
+      "reject-attestation-signer-document-not-identity",
+      "accept-assertion-method-relative-reference",
+      "reject-draft-url-and-data",
+      "reject-draft-neither-url-nor-data",
+      "accept-kid-fragment-with-colon",
+      "reject-kid-fragment-bad-escape",
+      "accept-issued-with-fraction",
+      "accept-issued-with-offset",
+      "accept-draft-inline-data",
+      "reject-draft-inline-data-swapped",
+      "accept-dsse-url-safe-base64",
+      "accept-dsse-der-signature",
+      "reject-dsse-der-non-minimal",
+      "reject-dsse-payload-newline",
+      "reject-attestation-file-not-one-segment",
+      "accept-nesting-at-the-limit",
+      "reject-nesting-past-the-limit",
+      "accept-context-entry-integral-number",
+      "reject-context-entry-negative",
+      "reject-context-entry-boolean",
+      "reject-issued-second-60-not-leap",
+      "reject-issued-second-60-offset-not-leap",
+      "accept-issued-on-a-leap-second",
+      "accept-issued-on-a-leap-second-with-offset",
+      "accept-url-origin-case-and-default-port",
+      "reject-url-userinfo",
+      "reject-aic-url-and-data",
+      "reject-aic-neither-url-nor-data",
+      "reject-issued-one-second-in-future",
+      "accept-checked-at-the-issued-instant",
+      "reject-url-other-port"
+    ]
+  },
+  "specification-readers": [],
+  "state": "pass",
+  "suite": "catalog-trust-manifest/v1"
+}
