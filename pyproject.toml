@@ -189,7 +189,9 @@ only-include = [
     "corpora/vectors-execution-billing-finality",
     "corpora/vectors-grade-floor",
     "corpora/vectors-grader-isolation",
+    "corpora/vectors-holder-bound-credential",
     "corpora/vectors-htx-cases",
+    "corpora/vectors-identity-assurance",
     "corpora/vectors-identity-binding",
     "corpora/vectors-ietf-agent-record-drafts",
     "corpora/vectors-incident-evidence-cell",
@@ -293,7 +295,9 @@ exclude = [
     "corpora/vectors-execution-billing-finality/**/*.py",
     "corpora/vectors-grade-floor/**/*.py",
     "corpora/vectors-grader-isolation/**/*.py",
+    "corpora/vectors-holder-bound-credential/**/*.py",
     "corpora/vectors-htx-cases/**/*.py",
+    "corpora/vectors-identity-assurance/**/*.py",
     "corpora/vectors-identity-binding/**/*.py",
     "corpora/vectors-ietf-agent-record-drafts/**/*.py",
     "corpora/vectors-incident-evidence-cell/**/*.py",
@@ -396,7 +400,9 @@ exclude = [
 "corpora/vectors-execution-billing-finality" = "agent_evidence_vectors/corpora/vectors-execution-billing-finality"
 "corpora/vectors-grade-floor" = "agent_evidence_vectors/corpora/vectors-grade-floor"
 "corpora/vectors-grader-isolation" = "agent_evidence_vectors/corpora/vectors-grader-isolation"
+"corpora/vectors-holder-bound-credential" = "agent_evidence_vectors/corpora/vectors-holder-bound-credential"
 "corpora/vectors-htx-cases" = "agent_evidence_vectors/corpora/vectors-htx-cases"
+"corpora/vectors-identity-assurance" = "agent_evidence_vectors/corpora/vectors-identity-assurance"
 "corpora/vectors-identity-binding" = "agent_evidence_vectors/corpora/vectors-identity-binding"
 "corpora/vectors-ietf-agent-record-drafts" = "agent_evidence_vectors/corpora/vectors-ietf-agent-record-drafts"
 "corpora/vectors-incident-evidence-cell" = "agent_evidence_vectors/corpora/vectors-incident-evidence-cell"
@@ -574,7 +580,9 @@ only-include = [
     "corpora/vectors-execution-billing-finality",
     "corpora/vectors-grade-floor",
     "corpora/vectors-grader-isolation",
+    "corpora/vectors-holder-bound-credential",
     "corpora/vectors-htx-cases",
+    "corpora/vectors-identity-assurance",
     "corpora/vectors-identity-binding",
     "corpora/vectors-ietf-agent-record-drafts",
     "corpora/vectors-incident-evidence-cell",

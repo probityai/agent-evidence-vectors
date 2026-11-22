@@ -125,7 +125,17 @@ SCITT = "vectors-scitt-cose"
 DELEGATION = "vectors-delegation-chain"
 REGISTRATION = "vectors-agent-registration-classification"
 #: Corpora whose checker is a Python script in the corpus directory, not aee-verify.
-PYTHON_CHECKERS = (SCITT, DELEGATION, REGISTRATION)
+HOLDER_BOUND = "vectors-holder-bound-credential"
+ASSURANCE = "vectors-identity-assurance"
+PYTHON_CHECKERS = (SCITT, DELEGATION, REGISTRATION, HOLDER_BOUND, ASSURANCE)
+#: Python checkers whose text run prints one "answered N of M cases" line, with the
+#: manifest count keys that name their accept and reject totals. A missing key is a
+#: malformed manifest and stops the run; it is never read as zero cases.
+ANSWERED_LINE_CHECKERS = {
+    DELEGATION: ("allow", "deny"),
+    HOLDER_BOUND: ("accept", "reject"),
+    ASSURANCE: ("accept", "reject"),
+}
 PYTHON_DEPENDENCIES = ["pyproject.toml", "uv.lock"]
 
 REFUSAL_VERDICTS = ["contradicted", "failed", "must-reject", "reject", "rejected"]
@@ -543,13 +553,20 @@ SCITT_LINE = re.compile(r"^OK (\d+) accept, (\d+) reject, (\d+) indeterminate, "
 
 def aggregate_of(directory: str, text: Run) -> dict[str, Any]:
     output = text.stdout.decode("utf-8")
-    if directory == DELEGATION:
+    if directory in ANSWERED_LINE_CHECKERS:
         line = output.rstrip("\n")
         match = DELEGATION_LINE.match(line)
         if match is None:
-            raise SystemExit(f"FAIL: {DELEGATION} printed no summary line: {output!r}")
-        declared = json.loads(read(f"{where(DELEGATION)}/MANIFEST.json"))["counts"]
-        counts = {"accept": declared["allow"], "reject": declared["deny"]}
+            raise SystemExit(f"FAIL: {directory} printed no summary line: {output!r}")
+        declared = json.loads(read(f"{where(directory)}/MANIFEST.json"))["counts"]
+        accept_key, reject_key = ANSWERED_LINE_CHECKERS[directory]
+        if accept_key not in declared or reject_key not in declared:
+            raise SystemExit(f"FAIL: {directory} manifest counts lack {accept_key!r} or "
+                             f"{reject_key!r}: {declared!r}")
+        counts = {"accept": declared[accept_key], "reject": declared[reject_key]}
+        if int(match[1]) != sum(counts.values()):
+            raise SystemExit(f"FAIL: {directory} summary counts {match[1]} cases, "
+                             f"its manifest declares {sum(counts.values())}")
         return {"line": line, "total": int(match[1]), "counts": counts}
     if directory == REGISTRATION:
         line = output.rstrip("\n")
