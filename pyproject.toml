@@ -197,6 +197,7 @@ only-include = [
     "corpora/vectors-principal-binding",
     "corpora/vectors-print-witness",
     "corpora/vectors-physical-completion",
+    "corpora/vectors-principal-action",
     "corpora/vectors-propagation-step",
     "corpora/vectors-receipt-chain-end",
     "corpora/vectors-receipt-signature",
@@ -286,6 +287,7 @@ exclude = [
     "corpora/vectors-principal-binding/**/*.py",
     "corpora/vectors-print-witness/**/*.py",
     "corpora/vectors-physical-completion/**/*.py",
+    "corpora/vectors-principal-action/**/*.py",
     "corpora/vectors-propagation-step/**/*.py",
     "corpora/vectors-receipt-chain-end/**/*.py",
     "corpora/vectors-receipt-signature/**/*.py",
@@ -374,6 +376,7 @@ exclude = [
 "corpora/vectors-principal-binding" = "agent_evidence_vectors/corpora/vectors-principal-binding"
 "corpora/vectors-print-witness" = "agent_evidence_vectors/corpora/vectors-print-witness"
 "corpora/vectors-physical-completion" = "agent_evidence_vectors/corpora/vectors-physical-completion"
+"corpora/vectors-principal-action" = "agent_evidence_vectors/corpora/vectors-principal-action"
 "corpora/vectors-propagation-step" = "agent_evidence_vectors/corpora/vectors-propagation-step"
 "corpora/vectors-receipt-chain-end" = "agent_evidence_vectors/corpora/vectors-receipt-chain-end"
 "corpora/vectors-receipt-signature" = "agent_evidence_vectors/corpora/vectors-receipt-signature"
@@ -537,6 +540,7 @@ only-include = [
     "corpora/vectors-principal-binding",
     "corpora/vectors-print-witness",
     "corpora/vectors-physical-completion",
+    "corpora/vectors-principal-action",
     "corpora/vectors-propagation-step",
     "corpora/vectors-receipt-chain-end",
     "corpora/vectors-receipt-signature",

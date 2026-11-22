@@ -532,5 +532,7 @@ each day. Each document is the authority for its type.
   `corpora/vectors-credential-release/`.
 - `token-grant-receipt`: `spec/predicates/token-grant-receipt.md`, checked by the
   `token_grant_receipt/v1` claim type of `agent-evidence-verify`; no corpus yet.
+- `principal-action`: `spec/predicates/principal-action.md`, corpus
+  `corpora/vectors-principal-action/`.
 
 `spec/predicates/done-records.md` defines the records both read and no type URI.

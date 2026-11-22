@@ -1,0 +1,20 @@
+{
+  "envelope": "envelope.json",
+  "pins": {
+    "https://example-workforce.okta.com/oauth2/default": [
+      "2JFCpXypGET41GrDYynvRBRkd_ziGzxamxg83AlfD9I",
+      "itZGuBTFH2iN7TAx4CLh-f7EnCp4diblFGIYy3fcFFc"
+    ],
+    "https://idp.example.com/realms/agents": [
+      "HbnmRD-kwDuLgwsnXYjGCrTMoEXFKNYEOsH4bZxZ4pI"
+    ],
+    "https://login.example.org/tenant": [
+      "c8Y1nN6xBCUkk5xErJpvaZAUiI64ewkByJ4Nq2u3Qlo"
+    ],
+    "https://login.microsoftonline.com/00000000-0000-4000-8000-000000000001/v2.0": [
+      "c8Y1nN6xBCUkk5xErJpvaZAUiI64ewkByJ4Nq2u3Qlo"
+    ]
+  },
+  "producerKey": "pWbiKVTpr34PRZmWAPP9o3EYfVOvGvRJ09qC4DLx9ew=",
+  "schema_version": "principal-action-case/v1"
+}
