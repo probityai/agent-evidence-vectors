@@ -545,10 +545,11 @@ var cjEventMembers = map[string][]cjMember{
 		{"reasonCode", "word"}},
 }
 
-// cjToolCallOptional are the revision 1.1 members a tool call may carry;
+// cjToolCallOptional are the members a tool call may carry (revision 1.1,
+// authorityChainDigest and grantChainDigest as revision 1.3 defines them);
 // refusalReason is present exactly when refused is true.
 var cjToolCallOptional = []cjMember{{"refused", "bool"}, {"refusalReason", "text"},
-	{"grantChainDigest", "digest"}}
+	{"authorityChainDigest", "digest"}, {"grantChainDigest", "digest"}}
 
 var cjTopOptional = []cjMember{{"componentProfileDigest", "digest"}, {"snapshotRoot", "digest"}}
 
@@ -1178,7 +1179,7 @@ func cjClaimsFailure(record cjObject, entries []cjObject) string {
 	}
 	if cjBool(claims, "authorityChainChecked") {
 		for _, entry := range entries {
-			if _, bound := entry["grantChainDigest"]; cjUnrefused(entry) && !bound {
+			if _, bound := entry["authorityChainDigest"]; cjUnrefused(entry) && !bound {
 				return "tool_call_authority_unbound"
 			}
 		}

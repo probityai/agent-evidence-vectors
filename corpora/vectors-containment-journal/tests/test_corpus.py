@@ -233,7 +233,16 @@ def _too_deep(record: dict[str, Any]) -> None:
 
 
 def _unbound(record: dict[str, Any]) -> None:
-    del record["entries"][3]["grantChainDigest"]
+    del record["entries"][3]["authorityChainDigest"]
+
+
+def _authority_as_grant_chain(record: dict[str, Any]) -> None:
+    """The revision 1.2 spelling: the guard's walk under the grant-chain member."""
+    record["entries"][3]["grantChainDigest"] = record["entries"][3].pop("authorityChainDigest")
+
+
+def _bad_grant_chain(record: dict[str, Any]) -> None:
+    record["entries"][3]["grantChainDigest"] = "sha256:00"
 
 
 def _bad_profile(record: dict[str, Any]) -> None:
@@ -241,12 +250,14 @@ def _bad_profile(record: dict[str, Any]) -> None:
 
 
 # Each attempt to get an isolated agent's call, an unattested document or an unbound
-# call past the 1.1 rules, and the reason the reader must give.
+# call past the 1.1 and 1.3 rules, and the reason the reader must give.
 BYPASSES = [
     (REFUSED, _unrefuse, "tool_call_by_isolated_agent"),
     (REFUSED, _refused_false, "tool_call_by_isolated_agent"),
     (REFUSED, _reason_only, "record_malformed"),
     (REFUSED, _unbound, "tool_call_authority_unbound"),
+    (REFUSED, _authority_as_grant_chain, "tool_call_authority_unbound"),
+    (REFUSED, _bad_grant_chain, "record_malformed"),
     (REFUSED, _bad_profile, "record_malformed"),
     (ATTESTED, _no_root, "retrieval_admitted_outside_snapshot"),
     (ATTESTED, _outside, "retrieval_admitted_outside_snapshot"),
