@@ -87,8 +87,12 @@ def _scoring_cases(entries: list[dict[str, Any]]) -> list[str]:
     normative, parity = auditrecord.contract_findings(dated, answer)
     if normative or not parity:
         out.append(f"{dated['draftId']}: dating codes scored ({normative}) or not reported")
-    if auditrecord.text_status(by_id["CS18"]) != "proposed":
-        out.append("CS18 should be proposed")
+    for entry in entries:
+        want = "proposed" if "proposed" in entry else "published"
+        if auditrecord.text_status(entry) != want:
+            out.append(f"{entry['draftId']} should be {want}")
+    if auditrecord.text_status({**by_id["CS18"], "proposed": "next revision"}) != "proposed":
+        out.append("a member carrying proposed is not read as proposed")
     return out
 
 

@@ -2850,7 +2850,11 @@ def answer_member(path: str) -> dict[str, Any]:
         doc = strictjson.loads(raw)
     except ValueError:
         doc = None
-    if isinstance(doc, dict) and "records" in doc:
+    # The contract names a set member by its place: a file under ``sets/``.
+    # Its shape cannot say so, because a set whose ``records`` member is
+    # missing or misnamed is still a set member, and malformed as one.
+    in_sets = os.path.basename(os.path.dirname(os.path.abspath(path))) == "sets"
+    if in_sets or (isinstance(doc, dict) and "records" in doc):
         reports, joint = verify_set(raw, policy)
         try:
             limits = [within_limit(strictjson.loads(_envelope_payload(env)[1])["predicate"])
