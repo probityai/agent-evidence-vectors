@@ -973,6 +973,18 @@ standards = ["in-toto"]
 shapes = ["missing-binding", "malformed-input", "stale-authority"]
 
 [[corpus]]
+id = "vectors-revocation-list"
+path = "corpora/vectors-revocation-list"
+wheel = true
+sdist = true
+title = "Revocation list"
+summary = "A verifier pinning its root keys must refuse a signed revocation list that is malformed, signed by a key it does not pin, forked, rolled back, gapped, issued out of order or shrunk, and must hold the list in force exactly."
+record_class = "chain"
+domains = ["identity", "authority"]
+standards = ["rfc8785"]
+shapes = ["stale-authority", "forged-signature", "replay"]
+
+[[corpus]]
 id = "vectors-rsa-digestinfo"
 path = "corpora/vectors-rsa-digestinfo"
 wheel = true

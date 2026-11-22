@@ -222,6 +222,7 @@ RECOMPUTERS: dict[str, Callable[[Path, dict[str, Any]], str]] = {
     "vectors-agentic-process-evidence": _recompute_from_generator,
     "vectors-delegation-lifecycle": _recompute_from_generator,
     "vectors-restart-records": _recompute_from_generator,
+    "vectors-revocation-list": _recompute_from_generator,
     "vectors-recorded": _recompute_from_generator,
     "vectors-mcp-owasp": _recompute_from_generator,
     "vectors-w3c-report": _recompute_from_generator,

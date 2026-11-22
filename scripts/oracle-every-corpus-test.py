@@ -103,6 +103,7 @@ RUNS_A_VERIFIER = (
 #: package's), whose expectations the external contract cannot carry.
 REFUSES_A_VERIFIER = (
     "vectors-restart-records",
+    "vectors-revocation-list",
     "vectors-aci",
     "vectors-acs-core",
     "vectors-agent-decision",
