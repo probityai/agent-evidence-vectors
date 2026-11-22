@@ -1,0 +1,79 @@
+{
+  "cites": "no answer at all under the same posture: the case the posture exists for, proceeding with the failure recorded.",
+  "coverage": "observed",
+  "doesNotAssert": "that proceeding was the right posture for the deployment",
+  "evidenceBasis": "substrate",
+  "expected": {
+    "code": null,
+    "codeValue": null,
+    "unmeasurableBecause": null,
+    "verdict": "allow"
+  },
+  "family": "acs-f-22",
+  "id": "v68c001f9cf40b8ea",
+  "kind": "accept",
+  "payload": {
+    "audit_events": [
+      {
+        "event": "acs.decision.failure",
+        "failure_class": "timeout",
+        "posture": "proceed"
+      }
+    ],
+    "guardian_response": null,
+    "on_decision_failure": "proceed",
+    "request": {
+      "acs": "0.1",
+      "metadata": {
+        "session_id": "s-0001",
+        "turn_id": "t-0001"
+      },
+      "method": "hooks/toolCallRequest",
+      "params": {
+        "tool": {
+          "arguments": {
+            "id": "c-1"
+          },
+          "name": "records.lookup"
+        }
+      },
+      "request_id": "11111111-1111-4111-8111-111111111111",
+      "signature": {
+        "algorithm": "HMAC-SHA256",
+        "key_id": "k1",
+        "value": "AAAA"
+      },
+      "timestamp": "2026-09-09T12:00:00Z"
+    },
+    "step_outcome": "proceeded"
+  },
+  "requirementText": [
+    {
+      "id": "ACS-R-024",
+      "line": 77,
+      "sentence": "A Guardian that answers with a refusal (`SESSION_REFUSED`, `UNSUPPORTED_VERSION`, `PROVENANCE_REQUIRED`) has decided; the startup posture applies only when no answer arrives.",
+      "upstreamCommit": "9d4a9daa996fa2557b9959baeecad106f581fd62",
+      "upstreamPath": "docs/spec/instrument/specification.md",
+      "upstreamRepo": "GenAI-Security-Project/agent-control-standard",
+      "upstreamStatus": "upstream",
+      "vendored": "spec-vendored/specification-9d4a9da.md"
+    },
+    {
+      "id": "ACS-R-070",
+      "line": 202,
+      "sentence": "Every decision failure MUST be recorded as an audit event, under either posture.",
+      "upstreamCommit": "61993cbfc44f858cf46e047c3c4915b3b0bbf387",
+      "upstreamPath": "docs/spec/instrument/specification.md",
+      "upstreamRepo": "GenAI-Security-Project/agent-control-standard",
+      "upstreamStatus": "upstream",
+      "vendored": "spec-vendored/specification-61993cb.md"
+    }
+  ],
+  "requirements": [
+    "ACS-R-024",
+    "ACS-R-070"
+  ],
+  "specVersion": "0.1.0",
+  "suite": "acs-core-negative-conformance",
+  "witnessScope": "SELF"
+}
