@@ -550,7 +550,7 @@ them.
 Types defined in this directory with a URI under
 `https://w3id.org/agent-evidence/predicate/v1/` are served from a persistent identifier
 namespace that is not this repository. The site build here publishes no page for
-them, and the scan in `scripts/predicate-uri-gate.py` does not cover that host.
+them, and `scripts/identifier-pages-gate.py` reads each one against `pages/` instead.
 `scripts/build_predicate_pages.py` writes their pages under `pages/predicate/v1/`,
 the organisation Pages site serves those pages at the targets of the w3id.org
 rules, and `scripts/check_uris_resolve.py --network` requests every one of them

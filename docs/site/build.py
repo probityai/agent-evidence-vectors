@@ -679,7 +679,8 @@ def schema_documents() -> list[tuple[str, str, Path]]:
 def schema_routes(name: str) -> tuple[Path, Path]:
     """The two files that serve ``schema/<name>``: a sibling ``.html`` and a directory index."""
     base = Path("schema") / name
-    return base.with_suffix(".html"), base / "index.html"
+    # Not with_suffix: a version such as v0.5 would lose its ".5".
+    return Path(f"{base.as_posix()}.html"), base / "index.html"
 
 
 def schema_pages(tag: str) -> dict[Path, str]:

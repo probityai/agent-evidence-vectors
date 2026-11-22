@@ -2218,14 +2218,21 @@ jobs:
         run: |
           uv run --locked --extra generators python corpora/vectors-self-reported-record/check_vectors.py
           uv run --locked --extra generators python corpora/vectors-self-reported-record/mutation_check.py
-      # A predicate type URI sits inside bytes a third party signs, and a 404
+      # An identifier sits inside bytes a third party signs or reads, and a 404
       # on one reads as a withdrawn type. predicate/v1/self-reported-record was
       # named in every signed member of its corpus and 404ed, because nothing
       # held the named URIs to the registry the site is built from.
-      - name: every predicate URI the tree names has a page on the site
+      # The public probity repository emits identifiers under this host too (its record
+      # packages), so its tracked files are scanned with ours.
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          repository: probityai/probity
+          path: probity-public
+          persist-credentials: false
+      - name: every identifier the tree names has a page on a site that serves it
         run: |
-          uv run python scripts/predicate-uri-gate.py
-          uv run python scripts/predicate-uri-gate-test.py
+          uv run python scripts/identifier-pages-gate.py --also probity-public
+          IDENTIFIER_GATE_ALSO=probity-public uv run python scripts/identifier-pages-gate-test.py
 
   # What the corpus FORCES, held as a tighten-only ratchet. A vector count is an
   # upper bound on forcing and never a measurement of it: a vector declaring

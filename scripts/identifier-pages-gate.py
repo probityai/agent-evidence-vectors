@@ -134,6 +134,18 @@ def own_path(uri: str) -> str | None:
     return uri.removeprefix(prefix) if uri.startswith(prefix) else None
 
 
+def pages_dir_serves(uri: str) -> bool:
+    """True for an identifier the organisation site serves from this repository's ``pages/``.
+
+    ``pages/`` holds the identifier pages of ``agent-evidence/predicate/v1/``, which the organisation
+    site copies; a page present there is a page served.
+    """
+    prefix = f"{ORIGIN}/agent-evidence/"
+    if not uri.startswith(prefix):
+        return False
+    return (ROOT / "pages" / uri.removeprefix(prefix) / "index.html").is_file()
+
+
 def hermetic(roots: list[Path]) -> list[str]:
     refs = referenced(roots)
     if not refs:
@@ -155,6 +167,8 @@ def hermetic(roots: list[Path]) -> list[str]:
                 continue
             if uri in elsewhere:
                 continue
+            if pages_dir_serves(uri):
+                continue
             rel = own_path(uri)
             if rel is None:
                 failures.append(
@@ -163,7 +177,9 @@ def hermetic(roots: list[Path]) -> list[str]:
                     "spec/identifiers-unresolved.txt"
                 )
                 continue
-            for route in (f"{rel}.html", f"{rel}/index.html"):
+            # A family listing (predicate/v1) is a directory page; an identifier has both routings.
+            routes = (f"{rel}/index.html",) if rel.count("/") < 2 else (f"{rel}.html", f"{rel}/index.html")
+            for route in routes:
                 if not (Path(tmp) / route).is_file():
                     failures.append(
                         f"{uri} is named in {len(where)} file(s) ({', '.join(where[:3])}) and the site "
@@ -194,10 +210,28 @@ def status(url: str) -> int | str:
         return f"the request did not complete ({err})"
 
 
+def built_identifiers() -> set[str]:
+    """Every identifier-family URL in the sitemap of the site this tree builds."""
+    with tempfile.TemporaryDirectory() as tmp:
+        build = subprocess.run(
+            [sys.executable, str(ROOT / "docs" / "site" / "build.py"), "--out", tmp],
+            capture_output=True,
+            text=True,
+            check=False,
+        )
+        if build.returncode != 0:
+            raise SystemExit(f"FAIL: the site build failed: {build.stderr.strip()[-400:]}")
+        sitemap = (Path(tmp) / "sitemap.xml").read_text(encoding="utf-8")
+    family = "|".join(FAMILIES)
+    pattern = re.escape(f"{ORIGIN}/{SITE}/") + rf"(?:{family})/[^<\s]+"
+    return {clean(u.rstrip("/")) for u in re.findall(pattern, sitemap)}
+
+
 def live(roots: list[Path]) -> list[str]:
     failures = []
     unresolved = listed(UNRESOLVED)
-    for uri in sorted(set(referenced(roots)) | listed(SERVED_ELSEWHERE) | unresolved):
+    wanted = set(referenced(roots)) | listed(SERVED_ELSEWHERE) | unresolved | built_identifiers()
+    for uri in sorted(wanted):
         got = status(uri)
         want = 404 if uri in unresolved else 200
         print(f"{got} {uri}")

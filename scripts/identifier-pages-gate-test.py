@@ -1,12 +1,14 @@
 #!/usr/bin/env python3
-"""The predicate URI gate passes on this tree and refuses an unregistered URI.
+"""The identifier gate passes on this tree and refuses an identifier with no page.
 
 The refusal is proved on a copy of the tree: a URI is removed from the
-registry, and separately a new URI is planted only inside a base64 payload,
-where a text search cannot see it. Both must fail, and the tree as committed
-must pass.
+registry, a schema identifier is planted with no schema behind it, and a new
+URI is planted only inside a base64 payload, where a text search cannot see
+it. Each must fail, and the tree as committed must pass. Set
+IDENTIFIER_GATE_ALSO to a checkout of the public probity repository, which
+the gate scans with this one.
 
-    python3 scripts/predicate-uri-gate-test.py
+    python3 scripts/identifier-pages-gate-test.py
 """
 
 from __future__ import annotations
@@ -21,13 +23,13 @@ import tempfile
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-GATE = ROOT / "scripts" / "predicate-uri-gate.py"
+GATE = ROOT / "scripts" / "identifier-pages-gate.py"
 HOST = "https://probityai.github.io/agent-evidence-vectors"
 
 
-def gate(root: Path) -> tuple[int, str]:
+def gate(root: Path, *extra: str) -> tuple[int, str]:
     proc = subprocess.run(
-        [sys.executable, str(GATE), "--root", str(root)],
+        [sys.executable, str(root / "scripts" / "identifier-pages-gate.py"), *extra],
         capture_output=True,
         text=True,
         check=False,
@@ -59,7 +61,7 @@ def stage(work: Path) -> Path:
     shutil.copytree(
         ROOT,
         copy,
-        ignore=shutil.ignore_patterns(".git", ".venv", "node_modules", "_site"),
+        ignore=shutil.ignore_patterns(".git", ".venv", "node_modules", "_site", "probity-public"),
         copy_function=_link_or_copy,
     )
     subprocess.run(["git", "init", "-q", str(copy)], check=True, capture_output=True)
@@ -72,11 +74,13 @@ def commit_all(repo: Path) -> None:
 
 def main() -> int:
     failures = []
-    code, out = gate(ROOT)
+    also = os.environ.get("IDENTIFIER_GATE_ALSO")
+    extra = ("--also", str(ROOT / also)) if also else ()
+    code, out = gate(ROOT, *extra)
     if code != 0:
         failures.append(f"the committed tree fails the gate:\n{out}")
     else:
-        print("PASS the committed tree resolves every predicate URI it names")
+        print("PASS the committed tree resolves every identifier it names")
 
     with tempfile.TemporaryDirectory(dir=ROOT.parent) as tmp:
         repo = stage(Path(tmp))
@@ -105,6 +109,18 @@ def main() -> int:
             failures.append(f"a URI inside a base64 payload was not found (exit {code}):\n{out}")
         else:
             print("PASS control: a URI only inside a signed payload is found and refused")
+
+    with tempfile.TemporaryDirectory(dir=ROOT.parent) as tmp:
+        repo = stage(Path(tmp))
+        (repo / "docs" / "planted-schema.md").write_text(
+            f"A record names {HOST}/schema/ghost-schema/v1 and no schema backs it.\n", encoding="utf-8"
+        )
+        commit_all(repo)
+        code, out = gate(repo)
+        if code != 1 or "schema/ghost-schema/v1" not in out:
+            failures.append(f"a schema identifier with no schema was not refused (exit {code}):\n{out}")
+        else:
+            print("PASS control: a schema identifier no schema backs is refused")
 
     for failure in failures:
         print(f"FAIL {failure}")
