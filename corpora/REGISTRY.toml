@@ -253,6 +253,18 @@ standards = ["ap2"]
 shapes = ["missing-binding", "tampering", "scope-overreach"]
 
 [[corpus]]
+id = "vectors-agent-request-proof"
+path = "corpora/vectors-agent-request-proof"
+wheel = true
+sdist = true
+title = "Agent request proof"
+summary = "A recorded per-request RS256 agent proof must bind its typ, alg, registered key thumbprint, issuer, method, path, body digest, lifetime and single-use jti to the request the recorder received."
+record_class = "record"
+domains = ["identity", "provenance"]
+standards = ["in-toto", "rfc8785"]
+shapes = ["missing-binding", "forged-signature", "replay"]
+
+[[corpus]]
 id = "vectors-agentic-process-evidence"
 path = "corpora/vectors-agentic-process-evidence"
 wheel = true

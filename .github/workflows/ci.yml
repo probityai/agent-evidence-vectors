@@ -1873,6 +1873,8 @@ jobs:
         run: uv run --extra dev pytest corpora/vectors-execution-billing-finality/tests -q
       - name: capability-requirement cases regenerate, force every check and refuse one verdict for a hosted endpoint
         run: uv run --extra dev pytest corpora/vectors-capability-requirement/tests -q
+      - name: agent-request-proof cases regenerate, force every check and refuse a proof-signature-only verifier
+        run: uv run --extra dev pytest corpora/vectors-agent-request-proof/tests -q
       - name: agent-card-receipt cases regenerate and force every check
         run: uv run --extra dev pytest corpora/vectors-agent-card-receipt/tests -q
       - name: credential-release cases regenerate and force every check
