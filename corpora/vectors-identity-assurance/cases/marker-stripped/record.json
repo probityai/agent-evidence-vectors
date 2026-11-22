@@ -1,0 +1,30 @@
+{
+  "contractId": "https://probityai.github.io/agent-evidence-vectors/predicate/v1/identity-assurance-levels",
+  "findings": [
+    {
+      "decision": "accept",
+      "evidence": {
+        "corpus": "vectors-principal-binding",
+        "file": "binding.jws",
+        "member": "uma-bound",
+        "sha256": "b0e70d2b95bb1b49bc7e1dfaf065b7730deef2af8c99a2e4f5ffac0711bcd951"
+      },
+      "reason": "agent_bound",
+      "subject": "agent:planner",
+      "suite": "agent-principal-binding/v1"
+    },
+    {
+      "decision": "reject",
+      "evidence": {
+        "corpus": "vectors-actor-marker-survival",
+        "file": "record.json",
+        "member": "own-marker-stripped",
+        "sha256": "115bf701e16f738e7e11267bc2372a5023cefddd246a4f7ec0345494ff362cd1"
+      },
+      "reason": "marker_stripped",
+      "subject": "agent:planner",
+      "suite": "actor-marker-survival/v1"
+    }
+  ],
+  "subject": "agent:planner"
+}

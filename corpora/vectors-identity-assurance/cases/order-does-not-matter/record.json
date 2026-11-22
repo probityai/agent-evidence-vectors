@@ -1,0 +1,79 @@
+{
+  "contractId": "https://probityai.github.io/agent-evidence-vectors/predicate/v1/identity-assurance-levels",
+  "findings": [
+    {
+      "decision": "accept",
+      "evidence": {
+        "corpus": "vectors-grade-floor",
+        "file": "case.json",
+        "member": "e2-enforced",
+        "sha256": "1b8e62037e0ed946842b3a6819d3714ce118fa69b450d51b6f72d3b1fa0edb65"
+      },
+      "reason": "grade_derived",
+      "rung": "E2",
+      "subject": "agent:planner",
+      "suite": "evidence-grade-floor/v1"
+    },
+    {
+      "decision": "accept",
+      "evidence": {
+        "corpus": "vectors-credential-reachability",
+        "file": "envelope.json",
+        "member": "contained",
+        "sha256": "050b0bb3688d734aefdaf19c99c1e69687512d9bcbc39c4c95a8690ab24337c2"
+      },
+      "reason": "contained_verified",
+      "subject": "agent:planner",
+      "suite": "credential-reachability/v1"
+    },
+    {
+      "decision": "accept",
+      "evidence": {
+        "corpus": "vectors-delegator-right",
+        "file": "record.json",
+        "member": "allow-entitled-delegator",
+        "sha256": "6449442dd62599283430cac82998692746264f235437278a81182639c80eef6e"
+      },
+      "reason": "entitled",
+      "subject": "agent:planner",
+      "suite": "delegator-right/v1"
+    },
+    {
+      "decision": "accept",
+      "evidence": {
+        "corpus": "vectors-holder-bound-credential",
+        "file": "record.json",
+        "member": "accept-single-presentation",
+        "sha256": "53542d3824855216076f8acb8e2b1360c1a26dbe88721815e65ea07379aa2b68"
+      },
+      "reason": "holder_bound",
+      "subject": "agent:planner",
+      "suite": "holder-bound-credential/v1"
+    },
+    {
+      "decision": "accept",
+      "evidence": {
+        "corpus": "vectors-actor-marker-survival",
+        "file": "record.json",
+        "member": "accept-two-hop",
+        "sha256": "04a5a5f9b8a459596ca55b77982b7a13be3ee4a76407240675961eeab87b371a"
+      },
+      "reason": "marker_survives",
+      "subject": "agent:planner",
+      "suite": "actor-marker-survival/v1"
+    },
+    {
+      "decision": "accept",
+      "evidence": {
+        "corpus": "vectors-principal-binding",
+        "file": "binding.jws",
+        "member": "uma-bound",
+        "sha256": "b0e70d2b95bb1b49bc7e1dfaf065b7730deef2af8c99a2e4f5ffac0711bcd951"
+      },
+      "reason": "agent_bound",
+      "subject": "agent:planner",
+      "suite": "agent-principal-binding/v1"
+    }
+  ],
+  "subject": "agent:planner"
+}
