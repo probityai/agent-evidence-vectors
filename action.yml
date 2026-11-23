@@ -219,6 +219,10 @@ inputs:
     description: "For `policy`: `execution-evidence`, `agent-change-admission` or `verifier-isolation`."
     required: false
     default: execution-evidence
+  digest-severity:
+    description: "For `digest` on an ARD or AI Catalog document: `fail` (the default) refuses an entry delivered by `url` that carries attestations and no `digest` of its own (`entry_digest_missing_for_url`) and an unsigned attestation (`attestation_unsigned`); `warn` reports both and admits."
+    required: false
+    default: fail
   rule-set:
     description: "For `admit`: `ijson`, `ijson-integer-only`, `audit-freshness`, `catalog-attestations`, `mcp-authz` or `co-signed-receipt`."
     required: false
@@ -696,13 +700,14 @@ runs:
         RULES: ${{ inputs.rules }}
         PINS: ${{ inputs.pins }}
         REQUIRED: ${{ inputs.required }}
+        DIGEST_SEVERITY: ${{ inputs.digest-severity }}
         RULE_SET: ${{ inputs.rule-set }}
         RULE_OPTIONS: ${{ inputs.rule-options }}
         WARN: ${{ inputs.warn }}
       run: |
         set -euo pipefail
         case "$CHECK" in
-          digest) python3 "$SCRIPT" digest --python "$CHECKER_PYTHON" --document "$DOCUMENT" --artifact "$ARTIFACTS" ;;
+          digest) python3 "$SCRIPT" digest --python "$CHECKER_PYTHON" --document "$DOCUMENT" --artifact "$ARTIFACTS" --severity "$DIGEST_SEVERITY" ;;
           coverage) python3 "$SCRIPT" coverage --document "$DOCUMENT" --required "$REQUIRED" ;;
           admit)
             args=(admit --rule-set "$RULE_SET" --document "$DOCUMENT")
