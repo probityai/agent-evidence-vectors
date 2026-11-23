@@ -37,6 +37,7 @@ import subprocess
 from pathlib import Path
 from typing import Any
 
+from agent_evidence_vectors import strictjson
 from agent_evidence_vectors.anchoredchain import _rail
 from agent_evidence_vectors.monitorcoverage import (
     _fixture_error,
@@ -141,7 +142,7 @@ def _wire(line: str, profile: dict[str, Any]) -> str:
     if member is None:
         return line
     try:
-        value = json.loads(line)
+        value = strictjson.loads(line)
     except ValueError as exc:
         raise Malformed("line is not JSON") from exc
     if not isinstance(value, dict) or not isinstance(value.get(member), str):
@@ -251,8 +252,8 @@ def judge_stream(  # noqa: C901
 
 def verify(case_path: Path, skip: frozenset[str] = frozenset()) -> dict[str, str]:
     """The reference reader's decision for one case file."""
-    case = json.loads(case_path.read_text(encoding="utf-8"))
-    profile = json.loads((case_path.parent / case["profile"]).read_text(encoding="utf-8"))
+    case = strictjson.loads(case_path.read_text(encoding="utf-8"))
+    profile = strictjson.loads((case_path.parent / case["profile"]).read_text(encoding="utf-8"))
     lines = [
         x.strip()
         for x in (case_path.parent / case["chain"]).read_text("ascii").splitlines()
@@ -273,7 +274,7 @@ def external_answer(command: list[str], path: Path) -> tuple[bool, dict[str, Any
     except (OSError, subprocess.TimeoutExpired) as exc:
         return False, f"verifier did not run: {exc}"
     try:
-        answer = json.loads(result.stdout)
+        answer = strictjson.loads(result.stdout)
         observed = {key: answer[key] for key in ("decision", "reason")}
     except (ValueError, KeyError, TypeError):
         return True, f"verifier returned no decision (exit {result.returncode})"
@@ -288,7 +289,7 @@ def check(
     """Check every case through the named verifier or the reference reader."""
     try:
         entries, manifest_error = _validated_entries(root, SUITE)
-        pinned = json.loads((root / "MANIFEST.json").read_text(encoding="utf-8"))["profile"][
+        pinned = strictjson.loads((root / "MANIFEST.json").read_text(encoding="utf-8"))["profile"][
             "sha256"
         ]
         profile_ok = hashlib.sha256((root / "profile.json").read_bytes()).hexdigest() == pinned

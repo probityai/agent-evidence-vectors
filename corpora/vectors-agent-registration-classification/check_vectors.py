@@ -6,7 +6,15 @@ from pathlib import Path
 import contract
 from contract import classify,classify_bytes,canonical
 ROOT=Path(__file__).resolve().parent
-manifest=json.loads((ROOT/'MANIFEST.json').read_text())
+def _pairs(items):
+    out={}
+    for k,v in items:
+        if k in out: raise ValueError('repeated member '+repr(k))
+        out[k]=v
+    return out
+def _no_constant(name): raise ValueError('non-finite constant '+name)
+def _strict(text): return json.loads(text,object_pairs_hook=_pairs,parse_constant=_no_constant)
+manifest=_strict((ROOT/'MANIFEST.json').read_text())
 
 def corpus_json():
     """Print every case's reading as one JSON object, for the intake record."""
@@ -61,8 +69,8 @@ for entry in manifest['vectors']:
     expected=entry['expected']
     assert result == (expected['registration_credit'],expected['reason']),(entry['id'],result,expected)
 # Tests that a checker which accepts everything or believes a boolean consent alone is insufficient.
-positive=json.loads((ROOT/'cases/valid-new-registration/record.json').read_text())
-ctx=json.loads((ROOT/'cases/valid-new-registration/context.json').read_text())
+positive=_strict((ROOT/'cases/valid-new-registration/record.json').read_text())
+ctx=_strict((ROOT/'cases/valid-new-registration/context.json').read_text())
 # Absent and explicit members must canonicalize to different bytes. The
 # signed cases already pin a None-dropping encoder (the positive core carries
 # parent_agent_id null), but nothing signed carries consent false or an empty
@@ -89,8 +97,8 @@ assert classify(positive,mutantctx)[0] is False
 # Forcing: each case below must be credited by a reader without the rule it
 # pins, so the case fails that reader instead of passing either way.
 def lenient(case):
-    return classify(json.loads((ROOT/'cases'/case/'record.json').read_text()),
-                    json.loads((ROOT/'cases'/case/'context.json').read_text()))
+    return classify(_strict((ROOT/'cases'/case/'record.json').read_text()),
+                    _strict((ROOT/'cases'/case/'context.json').read_text()))
 forced=0
 assert lenient('duplicate-consent-scope') == (True,'registration_evidence_sufficient_for_fixture'); forced+=1
 strict_types=contract.required_types_hold

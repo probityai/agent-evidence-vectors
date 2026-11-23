@@ -153,7 +153,7 @@ def load_claim_context(path: str) -> dict[str, Any] | None:
     rule pins the profile and the case sets a record is judged under; the
     published profiles are always available, ``profiles`` adds others.
     """
-    document = json.loads(Path(path).read_text(encoding="utf-8"))
+    document = strictjson.loads(Path(path).read_text(encoding="utf-8"))
     block = document.get("evaluationClaim") if isinstance(document, dict) else None
     if block is None:
         return None
