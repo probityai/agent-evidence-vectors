@@ -35,11 +35,22 @@ case "every commit resolves" would be a statement about a clone that could see
 nothing. The workflow that runs this checks out with full history, which
 fetches every branch and every tag.
 
+An outside implementation that records the suite commit of each of its runs can
+be checked the same way. ``--index PATH_OR_URL`` (repeatable) reads such a file,
+the shape of ``reports/INDEX.json`` in an implementation's repository: a
+``records`` list whose rows carry ``suiteCommit`` and, for a record made before
+the rewrite, ``suiteCommitBeforeRewrite``. Every non-null ``suiteCommit`` must
+pass the same reachability test, and when a row also names its pre-rewrite ID,
+the tag ``cited/<first seven characters of that ID>``, if it exists, must point
+at the row's ``suiteCommit``, so a cited tag that was moved is refused. An index
+that cannot be read or has no ``records`` list is a gate that did not run (exit
+2), never an empty pass.
+
 What it does not catch: a commit ID cited somewhere this repository does not
 record. The map lists the IDs found in public records when it was written, and
 a record found later has to be added to it by hand.
 
-Usage: python3 scripts/suite-commit-gate.py [--repo DIR]
+Usage: python3 scripts/suite-commit-gate.py [--repo DIR] [--index PATH_OR_URL]...
 Exit 0 when every cited commit is reachable, 1 when one is not, 2 when the
 clone cannot answer.
 """
@@ -52,6 +63,7 @@ import os
 import re
 import subprocess
 import sys
+import urllib.request
 from pathlib import Path
 from typing import Any
 
@@ -160,7 +172,48 @@ def load(repo: Path, rel: Path) -> dict[str, Any]:
     return loaded
 
 
-def check(repo: Path) -> int:
+def read_index(source: str) -> list[dict[str, Any]]:
+    """The rows of an outside implementation's INDEX.json, from a path or a URL."""
+    try:
+        if "://" in source:
+            with urllib.request.urlopen(source, timeout=30) as response:  # noqa: S310
+                raw = response.read().decode("utf-8")
+        else:
+            raw = Path(source).read_text(encoding="utf-8")
+        loaded = json.loads(raw)
+    except (OSError, ValueError) as why:
+        raise CannotAnswer(f"index {source} cannot be read: {why}") from why
+    rows = loaded.get("records") if isinstance(loaded, dict) else None
+    if not isinstance(rows, list) or not rows:
+        raise CannotAnswer(f"index {source} has no records list")
+    return [row for row in rows if isinstance(row, dict)]
+
+
+def index_failures(repo: Path, source: str) -> tuple[int, list[str]]:
+    """Failures of every suiteCommit in one index, and how many were checked."""
+    failures: list[str] = []
+    checked = 0
+    for position, row in enumerate(read_index(source)):
+        if row.get("suiteCommit") is None:
+            continue
+        checked += 1
+        where = f"{source} records[{position}] ({row.get('file', 'no file name')})"
+        full, failure = commit_failure(repo, where, row["suiteCommit"])
+        if failure:
+            failures.append(failure)
+            continue
+        old = row.get("suiteCommitBeforeRewrite")
+        if full is not None and isinstance(old, str) and HEX.match(old):
+            tag = f"cited/{old[:7]}"
+            exists = git(repo, "rev-parse", "-q", "--verify", f"refs/tags/{tag}^{{commit}}")
+            if exists.returncode == 0 and exists.stdout.strip() != full:
+                failures.append(
+                    f"{where}: tag {tag} points at {exists.stdout.strip()}, not {full}"
+                )
+    return checked, failures
+
+
+def check(repo: Path, indexes: list[str] | None = None) -> int:
     try:
         check_clone(repo)
         ledger = load(repo, LEDGER)
@@ -168,10 +221,16 @@ def check(repo: Path) -> int:
         cited = ledger_commits(ledger)
         failures = [f for where, c in cited for f in [commit_failure(repo, where, c)[1]] if f]
         mapped, more = map_failures(repo, rewrite_map)
+        indexed = 0
+        index_more: list[str] = []
+        for source in indexes or []:
+            count, found = index_failures(repo, source)
+            indexed += count
+            index_more += found
     except CannotAnswer as why:
         print(f"suite-commit gate did not run: {why}", file=sys.stderr)
         return 2
-    failures += more
+    failures += more + index_more
     if failures:
         print("\n".join(failures), file=sys.stderr)
         return 1
@@ -179,6 +238,8 @@ def check(repo: Path) -> int:
         f"OK: {len(cited)} suite commit(s) in the run ledger and {mapped} rewritten "
         f"commit(s) in the rewrite map are each reachable from the default branch or a tag."
     )
+    if indexes:
+        print(f"OK: {indexed} suite commit(s) in {len(indexes)} index file(s) are each reachable.")
     return 0
 
 
@@ -187,7 +248,12 @@ def main(argv: list[str]) -> int:
         description="Refuse a cited commit that a fresh clone does not carry."
     )
     parser.add_argument("--repo", type=Path, default=REPO_ROOT)
-    return check(parser.parse_args(argv).repo)
+    parser.add_argument(
+        "--index", action="append", default=[], metavar="PATH_OR_URL",
+        help="an implementation's INDEX.json whose suiteCommit values must be reachable too",
+    )
+    args = parser.parse_args(argv)
+    return check(args.repo, args.index)
 
 
 if __name__ == "__main__":

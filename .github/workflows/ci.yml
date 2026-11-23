@@ -1438,6 +1438,12 @@ jobs:
         run: |
           python3 scripts/suite-commit-gate.py
           python3 scripts/suite-commit-gate-test.py
+      # An outside implementation that publishes an index of its runs names a suite
+      # commit per record. The same question applies to each: would a fresh clone of
+      # this repository carry it, and does its cited tag still point where the
+      # record says. An index that cannot be fetched exits 2 and fails the step.
+      - name: every suite commit an outside index cites is reachable in a clone
+        run: python3 scripts/suite-commit-gate.py --index https://raw.githubusercontent.com/Rul1an/aee-checker/main/reports/INDEX.json
       # The two files that decide how this corpus is cited carried an author, an
       # address and an identifier that nothing read back. They were correct when
       # written and checked by nothing afterwards, which is indistinguishable

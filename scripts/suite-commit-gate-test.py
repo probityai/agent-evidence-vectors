@@ -95,7 +95,7 @@ class World:
         )
 
 
-Setup = Callable[[World, Path], Path]
+Setup = Callable[[World, Path], Path | tuple[Path, list[str]]]
 # name, how to build the repository under test, expected exit, words the output must carry
 Case = tuple[str, Setup, int, str]
 
@@ -109,6 +109,35 @@ def ledger(commits: Callable[[World], list[str]], rows: Rows) -> Setup:
         return world.clone
 
     return setup
+
+
+def index_case(
+    rows: Callable[[World], list[dict[str, object]]], as_url: bool = False,
+    tags: Callable[[World], dict[str, str]] | None = None,
+) -> Setup:
+    """A clean ledger and map, plus one INDEX.json whose rows the case chooses."""
+
+    def setup(world: World, tmp: Path) -> tuple[Path, list[str]]:
+        world.write(world.clone, [world.head], [])
+        for name, target in (tags(world) if tags else {}).items():
+            git(world.clone, "tag", name, target)
+        path = tmp / "INDEX.json"
+        path.write_text(json.dumps({"records": rows(world)}), encoding="utf-8")
+        return world.clone, ["--index", path.as_uri() if as_url else str(path)]
+
+    return setup
+
+
+def index_unreadable(world: World, tmp: Path) -> tuple[Path, list[str]]:
+    world.write(world.clone, [world.head], [])
+    return world.clone, ["--index", str(tmp / "absent.json")]
+
+
+def index_without_records(world: World, tmp: Path) -> tuple[Path, list[str]]:
+    world.write(world.clone, [world.head], [])
+    path = tmp / "INDEX.json"
+    path.write_text(json.dumps({"records": []}), encoding="utf-8")
+    return world.clone, ["--index", str(path)]
 
 
 def shallow(world: World, tmp: Path) -> Path:
@@ -137,6 +166,9 @@ def tag_row(tag: str, target: Callable[[World], str]) -> Rows:
     return lambda w: [{"rewritten": target(w), "tag": tag}]
 
 
+OLD = "abcdef0123456789abcdef0123456789abcdef01"
+
+
 def NO_ROWS(_world: World) -> list[dict[str, object]]:
     return []
 
@@ -158,6 +190,29 @@ CASES: list[Case] = [
      ledger(lambda w: [], tag_row("cited/tagged", lambda w: w.head)), 1, "points at"),
     ("a map row whose tag does not exist",
      ledger(lambda w: [], tag_row("cited/absent", lambda w: w.head)), 1, "does not exist"),
+    ("an index whose commits the default branch and a cited tag reach",
+     index_case(lambda w: [
+         {"file": "a.json", "suiteCommit": w.head},
+         {"file": "b.json", "suiteCommit": w.tagged, "suiteCommitBeforeRewrite": OLD},
+         {"file": "c.json", "suiteCommit": None}],
+        tags=lambda w: {"cited/abcdef0": w.tagged}),
+     0, "2 suite commit(s) in 1 index"),
+    ("an index read from a URL",
+     index_case(lambda w: [{"file": "a.json", "suiteCommit": w.head}], as_url=True),
+     0, "1 suite commit(s) in 1 index"),
+    ("an index row naming a commit no ref reaches",
+     index_case(lambda w: [{"file": "a.json", "suiteCommit": w.dangling}]),
+     1, "a.json"),
+    ("an index row naming a commit only a side branch reaches",
+     index_case(lambda w: [{"file": "a.json", "suiteCommit": w.side}]),
+     1, "neither the default branch nor any tag"),
+    ("an index row whose cited tag points at another commit",
+     index_case(lambda w: [{"file": "a.json", "suiteCommit": w.head,
+                            "suiteCommitBeforeRewrite": OLD}],
+                tags=lambda w: {"cited/abcdef0": w.first}),
+     1, "points at"),
+    ("an index file that cannot be read", index_unreadable, 2, "cannot be read"),
+    ("an index with no records", index_without_records, 2, "no records list"),
     ("a shallow clone", shallow, 2, "shallow"),
     ("a clone without the default branch's ref", no_default_ref, 2, "does not resolve"),
     ("a clone without the run ledger", no_ledger, 2, "is missing"),
@@ -170,6 +225,10 @@ MUTANTS = [
      "    if not reachable(repo, full):\n", "    if False:\n"),
     ("a shallow clone is walked anyway",
      '    if shallow.stdout.strip() != "false":\n', "    if False:\n"),
+    ("an index is read and never checked",
+     "        for source in indexes or []:\n", "        for source in []:\n"),
+    ("a moved cited tag is accepted",
+     "exists.stdout.strip() != full:", "False:"),
     ("any branch counts as holding the commit",
      '"--format=%(refname)", DEFAULT_REF, "refs/tags",', '"--format=%(refname)", "refs/",'),
 ]
@@ -179,9 +238,10 @@ def run_case(gate: Path, case: Case) -> str | None:
     name, setup, want, words = case
     with tempfile.TemporaryDirectory() as raw:
         tmp = Path(raw)
-        repo = setup(World(tmp), tmp)
+        built = setup(World(tmp), tmp)
+        repo, extra = built if isinstance(built, tuple) else (built, [])
         done = subprocess.run(
-            [sys.executable, str(gate), "--repo", str(repo)],
+            [sys.executable, str(gate), "--repo", str(repo), *extra],
             capture_output=True, text=True, env=ENV,
         )
     output = done.stdout + done.stderr
