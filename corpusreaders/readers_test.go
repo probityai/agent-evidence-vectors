@@ -78,6 +78,9 @@ var corpusCases = []corpusCase{
 	// A member of the decision-record corpus is one attachment, the decision
 	// record beside it and what the relying party holds, in one file.
 	{dir: "vectors-decision-record", memberFileKey: "path"},
+	// A member of the OCSF decision corpus is one JSON object in one file: the
+	// records' exact text, the relying party's key set and heads, and a profile.
+	{dir: "vectors-ocsf-decision", memberFileKey: "path"},
 }
 
 // corpusPath is where a corpus sits in this repository: under corpora/<id>/,

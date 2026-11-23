@@ -164,6 +164,7 @@ RECOMPUTERS: dict[str, Callable[[Path, dict[str, Any]], str]] = {
     "vectors-observed-effect": _recompute_from_generator,
     "vectors-principal-binding": _recompute_from_generator,
     "vectors-print-witness": _recompute_from_generator,
+    "vectors-ocsf-decision": _recompute_from_generator,
     "vectors-receipt-signature": _recompute_from_generator,
     "vectors-admission": _recompute_from_generator,
     "vectors-scitt-cose": _recompute_from_generator,
