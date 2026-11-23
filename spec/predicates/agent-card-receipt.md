@@ -55,12 +55,16 @@ card carrying signatures and the same card without them have one digest. The exc
 is that one member and it is not recursive: a member named `signatures` inside an extension
 or any other nested value is digested as served, and no other top-level member is excluded,
 including an `additionalSignatures` member that some catalog formats reserve and A2A does
-not. Rule 1 of that
+not. The member is identified in the parsed card, not in its text: a name written with JSON
+escapes (`signatur\u0065s`) is the `signatures` member and is excluded. Rule 1 of that
 section, which decides whether a member the card omits is treated as present at its
 default, is open in a2aproject/A2A issue 2122 and is not applied here: the digest is over
-the card as it is served. A card that is not an I-JSON object, carries a duplicate member
-or an integer of magnitude 2^53 or more, or has no RFC 8785 form, has no digest, and a
-receipt for it is refused.
+the card as it is served. A card that is not an I-JSON object, carries a duplicate member,
+an integer of magnitude 2^53 or more or a string with an unpaired surrogate escape, or has
+no RFC 8785 form, has no digest, and a receipt for it is refused. A verifier whose parser
+replaces an unpaired surrogate with U+FFFD must refuse the card instead: the replaced card
+has a digest, and a receipt minted over it would otherwise be accepted for bytes the card
+does not carry.
 
 The **predicate** is the evaluation result:
 

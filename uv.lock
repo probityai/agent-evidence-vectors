@@ -89,7 +89,7 @@ requires-dist = [
 provides-extras = ["generators", "artifact-binding", "dev"]
 
 [package.metadata.requires-dev]
-crosscheck = [{ name = "agent-evidence-verify", marker = "python_full_version >= '3.12'", specifier = "==0.5.0" }]
+crosscheck = [{ name = "agent-evidence-verify", marker = "python_full_version >= '3.12'", specifier = "==0.6.0" }]
 dev = [
     { name = "jsonschema", specifier = "==4.26.0" },
     { name = "packaging", specifier = "==26.3" },
@@ -99,16 +99,16 @@ dev = [
 
 [[package]]
 name = "agent-evidence-verify"
-version = "0.5.0"
+version = "0.6.0"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "agent-evidence-vocabulary" },
     { name = "cryptography" },
     { name = "pyyaml" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/e0/a3/0f261c1e76bd26fabfb6e69afafa22b007466f8a66452979fd4f5f032a6e/agent_evidence_verify-0.5.0.tar.gz", hash = "sha256:80d6c3b717a38711a102a112f6753e4937347c978347149c5c0a5246b4ffc1a9", size = 968173, upload-time = "2026-11-07T00:26:33.514Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/58/ef/31a6d5d9aeac1536f5ba90bc3d043855c27a2ebfff34bfa8622b223152d2/agent_evidence_verify-0.6.0.tar.gz", hash = "sha256:15d546123c1f78f51700d3bccce358c1108b343bf19d79da51f733d2dda9c368", size = 1196021, upload-time = "2026-11-20T04:07:42.541Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/89/bb/bc85970efa900d2dcbdd7d712fb482d5fe4a36c31ffcf4353925e1357c3f/agent_evidence_verify-0.5.0-py3-none-any.whl", hash = "sha256:9132d649a0b5cd570bdf3b0e0373d8b4933eadf0f587ee31c885a26dbad9a2d2", size = 175489, upload-time = "2026-11-07T00:26:31.682Z" },
+    { url = "https://files.pythonhosted.org/packages/50/58/471c0f1f2a3c3f9f5f488b9bfde93ac5a777f2efaeb7e3e1b281fe320e28/agent_evidence_verify-0.6.0-py3-none-any.whl", hash = "sha256:c3600fc53e35b8b3d11ac20454efd45129bc83b2f4e8b706cd0b7c166c2f27c8", size = 266906, upload-time = "2026-11-20T04:07:41.062Z" },
 ]
 
 [[package]]

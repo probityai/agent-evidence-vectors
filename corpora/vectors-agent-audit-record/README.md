@@ -184,7 +184,7 @@ The first reader from outside this repository is Mayur Agnihotri's
 written from the draft, RFC 8785, RFC 7493 and DSSE and sharing no code with the
 reference reader. It agreed on 47 of 47 members of v0.16.0, the revision 01
 corpus. Our rerun of it, pinned by digest, is in
-[`interop/wimse-agent-audit-record-reader-2026-10-01`](../interop/wimse-agent-audit-record-reader-2026-10-01/README.md).
+[`interop/wimse-agent-audit-record-reader-2026-10-01`](../../interop/wimse-agent-audit-record-reader-2026-10-01/README.md).
 Lars Kersten Kroehl of MolTrust ran all 68 members of v0.18.1, the revision 02
 corpus, with the reference reader and reproduced every declared verdict
 ([AUDIT list, 21 October 2026](https://mailarchive.ietf.org/arch/msg/audit/Wdv-fOIodjvF3z9OUFNfXLGP0ts)).
@@ -203,7 +203,7 @@ write equals `afterRoot`; and a record with no write carries equal roots. Each
 comparison has its own reject member: `E4` breaks only the start, `E2` a link
 between two writes, `E5` only the end, and `E6` is the empty case. Appendix B
 has a row for `E2` only, so `E4`, `E5` and `E6` are Section 5.3 members.
-[`scripts/write-chain-replay-test.py`](../scripts/write-chain-replay-test.py)
+[`scripts/write-chain-replay-test.py`](../../scripts/write-chain-replay-test.py)
 drops each comparison from the reference reader in turn and requires the judge
 to catch exactly that member.
 

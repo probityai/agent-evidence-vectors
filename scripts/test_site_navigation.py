@@ -71,9 +71,18 @@ EXPECTED_HTML = (
         for suffix in (".html", "/index.html")
     }
 )
-# Sitemap entries other than the predicate pages: the companions, the start,
-# index, runs, distribution and codes pages, and the predicate indexes.
-SITEMAP_BASE = 21
+# The index page of each identifier family the site serves besides the predicates.
+FAMILY_INDEXES = {Path(f"{family}/index.html") for family in ("contract", "schema", "evaluator")}
+# Sitemap entries other than the predicate and schema pages: the companions, the start,
+# index, runs, distribution and codes pages, the predicate indexes and the three family indexes.
+SITEMAP_BASE = 24
+
+
+def schema_pages() -> set[Path]:
+    """The pages the schemas in the patched tree are served at, both routings of each."""
+    return {
+        route for _, name, _ in site.schema_documents() for route in site.schema_routes(name)
+    }
 SEGMENT = st.text(alphabet=string.ascii_letters + string.digits + "_-", min_size=1, max_size=12)
 URL_PART = st.text(alphabet=string.ascii_letters + string.digits + "-_%+", max_size=20)
 
@@ -182,6 +191,7 @@ def repository(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> Path:
         "corpora/vectors-actor-marker-survival/README.md",
         "spec/predicates/credential-reachability.md",
         "corpora/vectors-credential-reachability/README.md",
+        "corpora/vectors-cbor-receipt-chain/README.md",
         "corpora/vectors-monitor-coverage/README.md",
         "corpora/vectors-signature-coverage/README.md",
         "corpora/vectors-evidence-state/README.md",
@@ -359,7 +369,7 @@ class TestSiteNavigation:
         def test_companion_routes_and_existing_routes_are_published(self, built_site: Path) -> None:
             assert {
                 path.relative_to(built_site) for path in built_site.rglob("*.html")
-            } == EXPECTED_HTML
+            } == EXPECTED_HTML | FAMILY_INDEXES | schema_pages()
 
         @pytest.mark.parametrize("relative", sorted(EXPECTED_HTML))
         def test_navigation_reaches_root_pages(self, built_site: Path, relative: Path) -> None:
@@ -454,7 +464,9 @@ class TestSiteNavigation:
             root = fromstring((built_site / "sitemap.xml").read_bytes())
             namespace = {"s": "http://www.sitemaps.org/schemas/sitemap/0.9"}
             urls = [node.text for node in root.findall("s:url/s:loc", namespace)]
-            assert len(urls) == len(set(urls)) == SITEMAP_BASE + len(PREDICATES)
+            assert len(urls) == len(set(urls)) == SITEMAP_BASE + len(PREDICATES) + len(
+                site.schema_documents()
+            )
             assert root.find("s:url/s:lastmod", namespace) is None
 
         def test_local_image_loads_repository_bytes(self, repository: Path) -> None:

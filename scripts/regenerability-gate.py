@@ -117,6 +117,10 @@ GENERATORS = (
     # vendored AVE snapshots; the generator refuses one the checker does not
     # answer as declared, and builds its own manifest and index.
     "corpora/vectors-ave-id-resolution/gen_vectors.py",
+    # The decision-record action-binding corpus. Members are the format's published
+    # binding cases with their patches applied, its signed attachments, and strict
+    # members signed with a published test key; it builds its own manifest and index.
+    "corpora/vectors-decision-record/gen_vectors.py",
     # The W3C intake-criteria corpus. Every member is an intake record whose
     # digests are taken over fixture trees the generator writes beside it, and
     # the generator refuses a member the checker does not answer as claimed.
@@ -143,6 +147,7 @@ GENERATORS = (
     # key recipe rather than copied, so the generator is the only place their
     # bytes come from.
     "corpora/vectors-print-witness/gen_vectors.py",
+    "corpora/vectors-assertion-grade/gen_vectors.py",
     "corpora/vectors-receipt-signature/gen_vectors.py",
     "corpora/vectors-source-coverage/gen_vectors.py",
     "corpora/vectors-open-weight-art53/gen_vectors.py",
@@ -183,6 +188,7 @@ GENERATORS = (
     "corpora/vectors-agent-request-proof/gen_vectors.py",
     "corpora/vectors-physical-completion/gen_vectors.py",
     "corpora/vectors-actor-marker-survival/gen_vectors.py",
+    "corpora/vectors-cbor-receipt-chain/gen_vectors.py",
     "corpora/vectors-agent-card-receipt/gen_vectors.py",
     "corpora/vectors-credential-reachability/gen_vectors.py",
     "corpora/vectors-credential-release/gen_vectors.py",
@@ -201,6 +207,7 @@ GENERATORS = (
     "corpora/vectors-done-probes/gen_vectors.py",
     "corpora/vectors-trace-anchor/gen_vectors.py",
     "corpora/vectors-grade-floor/gen_vectors.py",
+    "corpora/vectors-ocsf-decision/gen_vectors.py",
     "corpora/vectors-connector-scope/gen_vectors.py",
     "corpora/vectors-mcp-authz/gen_vectors.py",
     "corpora/vectors-agent-payment-mandate/gen_vectors.py",
@@ -290,6 +297,12 @@ OWNED = (
     ("corpora/vectors-observed-effect/statements", "v*.json"),
     ("corpora/vectors-observed-effect", "MANIFEST.json"),
     ("corpora/vectors-observed-effect", "INDEX.md"),
+    # The OCSF decision-record corpus. Members are the format's published sample records,
+    # a chain this generator emits over them with a published test key, and the ways a
+    # stream breaks; it builds its own manifest and index.
+    ("corpora/vectors-ocsf-decision/members", "*.json"),
+    ("corpora/vectors-ocsf-decision", "MANIFEST.json"),
+    ("corpora/vectors-ocsf-decision", "INDEX.md"),
     ("examples/mcp-receipts/chain", "*.json"),
     ("examples/mcp-receipts/fanout", "*.json"),
     ("examples/mcp-receipts", "authority.json"),
@@ -334,6 +347,9 @@ OWNED = (
     ("corpora/vectors-grade-floor", "MANIFEST.json"),
     ("corpora/vectors-grade-floor", "INDEX.md"),
     ("corpora/vectors-grade-floor/cases", "**/case.json"),
+    ("corpora/vectors-assertion-grade", "MANIFEST.json"),
+    ("corpora/vectors-assertion-grade", "INDEX.md"),
+    ("corpora/vectors-assertion-grade/cases", "**/case.json"),
     ("corpora/vectors-connector-scope", "MANIFEST.json"),
     ("corpora/vectors-connector-scope", "INDEX.md"),
     ("corpora/vectors-connector-scope", "profile.json"),
@@ -459,6 +475,10 @@ OWNED = (
     ("corpora/vectors-actor-marker-survival", "MANIFEST.json"),
     ("corpora/vectors-actor-marker-survival", "TRUST.json"),
     ("corpora/vectors-actor-marker-survival/cases", "**/*"),
+    ("corpora/vectors-cbor-receipt-chain", "MANIFEST.json"),
+    ("corpora/vectors-cbor-receipt-chain", "profile.json"),
+    ("corpora/vectors-cbor-receipt-chain/cases", "**/case.json"),
+    ("corpora/vectors-cbor-receipt-chain/cases", "**/chain.jsonl"),
     ("corpora/vectors-agent-card-receipt", "MANIFEST.json"),
     ("corpora/vectors-credential-reachability", "MANIFEST.json"),
     ("corpora/vectors-credential-reachability/cases", "**/case.json"),
@@ -530,6 +550,9 @@ OWNED = (
     ("corpora/vectors-ave-id-resolution/cases", "*/output.*"),
     ("corpora/vectors-ave-id-resolution", "MANIFEST.json"),
     ("corpora/vectors-ave-id-resolution", "INDEX.md"),
+    ("corpora/vectors-decision-record/members", "*.json"),
+    ("corpora/vectors-decision-record", "MANIFEST.json"),
+    ("corpora/vectors-decision-record", "INDEX.md"),
     ("corpora/vectors-w3c-intake/vectors", "v*.json"),
     # Every fixture file carries an extension and no fixture directory does, so
     # this names the files under trees/ and never a directory the gate would

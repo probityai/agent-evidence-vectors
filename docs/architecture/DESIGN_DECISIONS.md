@@ -96,6 +96,9 @@ gate will not invent one.
 | `corpusreaders/actormarker.go` `amDecode` | 24 | Decode of one token into its subject and ordered actors: one guarded step per claim, with the nested `act` chain walked iteratively and every malformed shape refused with the same error, as the Python checker does. |
 | `aee/revocationlist.go` `readRevEntry` | 20 | One guarded read per member of a revocation entry, in the order the format names them, each failure naming the member it refused; strict JSON means every member needs its own type and range check. |
 | `aee/revocationlist.go` `readRevBody` | 19 | One guarded read per member of the seven-member body, in the order the format names them, each failure naming the member it refused. |
+| `corpusreaders/cborreceiptchain.go` `(*crcDecoder).item` | 29 | A CBOR decoder's item read: dispatch over the eight major types and the additional-information encodings of length, with the depth and size budget refusals. One arm per CBOR item kind, the RFC 8949 grammar itself. |
+| `corpusreaders/cborreceiptchain.go` `crcJudgeStream` | 29 | The seven ordered checks of `cbor-receipt-chain/v1` (shape, signature, pinned signer, duplicate, single use, chain order, head anchor) and the three not-established outcomes, first failure wins, mirroring the Python `judge_stream`. |
+| `corpusreaders/cborreceiptchain.go` `crcParse` | 21 | Parse of one receipt under the pinned format profile: the four-member map, each member's CBOR type, and the profile's field names for signer, previous digest, proof and outcome, each with its own refusal. |
 
 The Python generators' functions carrying `# noqa: C901` are explained in
 [`docs/complexity-rationales.toml`](../complexity-rationales.toml), and

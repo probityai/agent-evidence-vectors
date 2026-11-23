@@ -54,12 +54,12 @@ class Mutations(unittest.TestCase):
         )
         self.assertTrue(self.add_workflow("x.yml", body))
 
-    def test_manual_trigger_on_release_refused(self) -> None:
+    def test_scheduled_trigger_on_release_refused(self) -> None:
         self.assertTrue(
             self.mutate(
                 "release.yml",
                 "  release:\n    types: [published]\n",
-                "  release:\n    types: [published]\n  workflow_dispatch:\n",
+                "  release:\n    types: [published]\n  schedule:\n    - cron: '0 0 * * *'\n",
             )
         )
 

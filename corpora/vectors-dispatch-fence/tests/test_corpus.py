@@ -190,3 +190,13 @@ class TestDispatchFenceCorpus:
         def test_the_hold_expires_at_its_latest_renewal(self) -> None:
             record = self._record("allow-renewed-hold-covers-effect")
             assert dispatchfence.hold_expiry(record) == dispatchfence._when(generator.at(360))
+
+        def test_the_hold_is_half_open_at_its_expiry(self) -> None:
+            """An effect ending at the expiry is inside the hold; a commit at it is outside."""
+            record = self._record()
+            record["effect"]["endedAt"] = generator.at(120)
+            record["commit"]["at"] = generator.at(119)
+            assert _first(record) is None
+            record["commit"]["at"] = generator.at(120)
+            assert _first(record) == "commit_after_hold_expired"
+            assert not dispatchfence.hold_covers_commit(record)

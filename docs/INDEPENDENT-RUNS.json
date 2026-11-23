@@ -705,6 +705,32 @@
       "immutableRelease": "https://github.com/Laurent-Lemonnier/dps-scitt-decision-layer/tree/fdc5f6352795fc713309cd25ac2669d22840e0cc/interop/gilda",
       "date": "2026-11-01",
       "pin": "fdc5f6352795fc713309cd25ac2669d22840e0cc"
+    },
+    {
+      "runner": "telleroutlook",
+      "implementation": "the open-agent-audit independent reader (Python, standard library only), written from docs/INPUT-CONTRACT.md; its source is not in telleroutlook/agent-evidence-cold-readers",
+      "corpus": "request-effect-join-fixture/v1 (kuangmi-bit/agent-evidence at 878c7cc)",
+      "label": "independent",
+      "evidence": "a blind pass by its author's label, written from the contract alone with no code copied or imported from run_contract.py, 10 of 10 cases match expected.json; not reproduced here because the reader's source is not published",
+      "posting": "https://github.com/probityai/agent-evidence-vectors/issues/352#issuecomment-6591390190",
+      "consentThread": "https://github.com/probityai/agent-evidence-vectors/issues/352",
+      "consent": "posted-publicly",
+      "immutableRelease": null,
+      "date": "2026-11-02",
+      "pin": null
+    },
+    {
+      "runner": "telleroutlook",
+      "implementation": "the open-agent-audit independent verifier (Python, standard library only), written from corpora/vectors-uncertain-effect/README.md; its source is not in telleroutlook/agent-evidence-cold-readers",
+      "corpus": "vectors-uncertain-effect",
+      "label": "independent",
+      "evidence": "a blind pass by its author's label, at agent-evidence-vectors==0.31.0, written from the corpus README alone, 27 of 27 cases match MANIFEST.json on decision and reason; not reproduced here because the verifier's source is not published",
+      "posting": "https://github.com/probityai/agent-evidence-vectors/issues/352#issuecomment-6591465531",
+      "consentThread": "https://github.com/probityai/agent-evidence-vectors/issues/352",
+      "consent": "posted-publicly",
+      "immutableRelease": null,
+      "date": "2026-11-02",
+      "pin": "agent-evidence-vectors==0.31.0"
     }
   ]
 }

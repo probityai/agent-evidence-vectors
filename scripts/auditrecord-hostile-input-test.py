@@ -160,6 +160,33 @@ class ProfileTests(unittest.TestCase):
         )
 
 
+class TypeConfusionTests(unittest.TestCase):
+    """A member of the wrong JSON type, judged past the signature (``disabled="signature"``)."""
+
+    def judged(self, change: Any) -> tuple[str, list[str]]:
+        envelope = json.loads(member("A1"))
+        statement = json.loads(base64.b64decode(envelope["payload"]))
+        change(statement["predicate"])
+        raw = json.dumps(envelope_of(auditrecord.canonical_bytes(statement))).encode()
+        report = auditrecord.verify(raw, POLICY, disabled="signature")
+        return report.verdict, report.codes
+
+    def test_an_object_or_array_in_a_closed_vocabulary_is_outside_it(self) -> None:
+        outside = ("malformed", ["value-outside-vocabulary"])
+        for value in ([], {}, ["wimse-wpt"]):
+            for change in (
+                lambda p, v=value: p["agent"].update(authentication=v),
+                lambda p, v=value: p.update(tier=v),
+                lambda p, v=value: p["fieldEvidence"].update(agent=v),
+            ):
+                self.assertEqual(self.judged(change), outside, value)
+
+    def test_the_catch_all_code_names_no_python_exception(self) -> None:
+        # The Go rail's recover() reports the same code, so the two rails agree on it.
+        found = self.judged(lambda p: p["effect"].update(pathScope=None))
+        self.assertEqual(found, ("malformed", ["unhandled-shape"]))
+
+
 class RetainedTests(unittest.TestCase):
     def dated(self, bundle: dict[str, Any]) -> tuple[str, list[str], str, list[str]]:
         report, dating = auditrecord.verify_retained(json.dumps(bundle).encode(), POLICY, HEADS)

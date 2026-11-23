@@ -7,6 +7,7 @@ import (
 	"path/filepath"
 	"strings"
 	"testing"
+	"time"
 )
 
 const arCorpusDir = "../corpora/vectors-agent-audit-record"
@@ -343,9 +344,10 @@ func TestAuditRecordClosedSetsAreForced(t *testing.T) {
 }
 
 // TestAuditRecordFreshness pins the Section 5.4 sentences one at a time: an age
-// equal to maxAge is fresh and one second more is stale, an input never held is
-// unavailable, a lastResult up to the skew tolerance after reportedAt is fresh
-// and one second past it is malformed, and maxAge is a non-negative integer.
+// one second less than maxAge is fresh and an age equal to it is stale, an input
+// never held is unavailable, a lastResult up to the skew tolerance after the
+// reference time is fresh and one second past it is malformed, and maxAge is a
+// non-negative integer.
 func TestAuditRecordFreshness(t *testing.T) {
 	reportedAt, err := arInstant("2026-09-19T11:04:02Z")
 	if err != nil {
@@ -357,8 +359,9 @@ func TestAuditRecordFreshness(t *testing.T) {
 		unavailable bool
 		code        string
 	}{
-		{"2026-09-19T10:04:02Z", 3600, false, ""},
-		{"2026-09-19T10:04:01Z", 3600, true, ""},
+		{"2026-09-19T10:04:03Z", 3600, false, ""},
+		{"2026-09-19T10:04:02Z", 3600, true, ""},
+		{"2026-09-19T11:04:02Z", 0, true, ""},
 		{arNeverHeld, 3600, true, ""},
 		{"2026-09-19T11:09:02Z", 0, false, ""},
 		{"2026-09-19T11:09:03Z", 3600, false, "evaluation-result-after-decision"},
@@ -427,6 +430,41 @@ func TestAuditRecordProposedMembersScoreOnTheirOwnBytes(t *testing.T) {
 	for _, id := range differs {
 		if !arContains(proposed, id) {
 			t.Errorf("%s fails with every proposed member scored, and it is not proposed", id)
+// TestAuditRecordReferenceTime pins the reference time of revision 04:
+// decision.reportedAt when no evaluatedAt is carried, decision.evaluatedAt when
+// one is, an evaluatedAt up to the skew tolerance after reportedAt accepted and
+// one second past it malformed, and an evaluatedAt that is not a date-time
+// malformed.
+func TestAuditRecordReferenceTime(t *testing.T) {
+	const reportedAt = "2026-09-19T11:04:02Z"
+	cases := []struct {
+		evaluatedAt any
+		want        string
+		code        string
+	}{
+		{nil, reportedAt, ""},
+		{"2026-09-19T10:34:02Z", "2026-09-19T10:34:02Z", ""},
+		{"2026-09-19T11:09:02Z", "2026-09-19T11:09:02Z", ""},
+		{"2026-09-19T11:09:03Z", "", "evaluation-result-after-decision"},
+		{"yesterday", "", "timestamp-malformed"},
+		{json.Number("1"), "", "timestamp-malformed"},
+	}
+	for _, c := range cases {
+		decision := map[string]any{"reportedAt": reportedAt}
+		if c.evaluatedAt != nil {
+			decision["evaluatedAt"] = c.evaluatedAt
+		}
+		got, err := arReferenceTime(map[string]any{"decision": decision})
+		code := ""
+		if err != nil {
+			code = err.Error()
+		}
+		if code != c.code {
+			t.Errorf("evaluatedAt %v: refusal %q, want %q", c.evaluatedAt, code, c.code)
+			continue
+		}
+		if c.code == "" && got.Format(time.RFC3339) != c.want {
+			t.Errorf("evaluatedAt %v: reference %s, want %s", c.evaluatedAt, got.Format(time.RFC3339), c.want)
 		}
 	}
 }

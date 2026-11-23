@@ -1792,7 +1792,7 @@
             "trustManifest",
             "x-count"
           ],
-          "value": 9007199254740991
+          "value": 9007199254740992
         }
       ],
       "context": {
@@ -1805,7 +1805,7 @@
       },
       "contextAfter": [],
       "dids": [],
-      "edit": "the record carries 9007199254740993; the signature covers 9007199254740991",
+      "edit": "the record carries 9007199254740993; the signature covers 9007199254740992, the double a parser reads it as",
       "expected": {
         "decision": "reject",
         "reason": "number_not_interoperable"
@@ -2108,7 +2108,29 @@
         }
       ],
       "artifact": [],
-      "artifactAfter": [],
+      "artifactAfter": [
+        {
+          "op": "set",
+          "path": [
+            "description"
+          ],
+          "value": "The billing agent."
+        },
+        {
+          "op": "set",
+          "path": [
+            "name"
+          ],
+          "value": "billing agent"
+        },
+        {
+          "op": "set",
+          "path": [
+            "url"
+          ],
+          "value": "https://publisher.example/agents/billing"
+        }
+      ],
       "assessor": false,
       "attestationAfter": [],
       "attestations": [],
@@ -2123,7 +2145,7 @@
       },
       "contextAfter": [],
       "dids": [],
-      "edit": "a valid manifest moved to an entry with the same identifier and another digest",
+      "edit": "a valid manifest moved to an entry with the same identifier and another digest, whose artifact it names is served",
       "expected": {
         "decision": "reject",
         "reason": "subject_entry_mismatch"

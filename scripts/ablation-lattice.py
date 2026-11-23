@@ -34,6 +34,12 @@ Each rule is reported with the cases it is sufficient for (it alone moves them) 
 it is necessary for (switched off alone, the answer differs from the full reader's: the
 single-removal question, kept so the two views sit in one table).
 
+* Coverage. A rule that is in no case's minimal sufficient kept sets and necessary for no
+  case FAILS the run: no case notices whether it is on, so a reader that drops it, or a
+  ``RULES`` entry that names a check the reader never consults, passes every case. (Kept
+  sets are monotone, so a rule outside every minimal set never decides whether a case moves,
+  and not being necessary means it never decides the answer either.)
+
 Some rules narrow a check instead of adding one: switched off alone, the reader refuses a
 case the full reader accepts (a rule that limits a gate check to the gates the policy
 requires is one). Such a rule is reported as an exemption, with the cases it admits, and
@@ -42,8 +48,12 @@ an exemption is not a check.
 
 A reader with at most ``--exhaustive`` rules (default 12) is run on every subset: ``2**n``
 kept sets per case. A larger one is run on ``--chains`` seeded random maximal chains from the
-empty set to the full set (default 16, seed 0); its minimal sets are the smallest sets those
-chains met. The seed and the chain count are printed, so a finding is reproducible.
+empty set to the full set (default 16, seed 0), and on every kept set of size 2, ``n - 1``
+and ``n - 2``, so the monotonicity of every edge from one rule to two and from all-but-two
+to all-but-one is checked whatever the chains met: a rule that returns early when exactly
+one other rule ran is the interference a few random chains miss. Its minimal sets are the
+smallest sets those kept sets met. The seed and the chain count are printed, so a finding
+is reproducible.
 
 The corpora read here are the ones whose reference reader takes the switched-off rules as a
 set: ``verify(case_path, skip: frozenset[str])`` beside a ``RULES`` tuple. A corpus whose
@@ -110,11 +120,12 @@ class Lattice:
     nonmonotone: list[str] = field(default_factory=list)
     moved_unmoved: list[str] = field(default_factory=list)
     wrong_full: list[str] = field(default_factory=list)
+    untested: list[str] = field(default_factory=list)
     kept_sets_run: int = 0
 
     def failures(self) -> list[str]:
         """Return each finding that fails the run."""
-        return [*self.wrong_full, *self.nonmonotone, *self.moved_unmoved]
+        return [*self.wrong_full, *self.nonmonotone, *self.moved_unmoved, *self.untested]
 
     def to_json(self) -> dict[str, Any]:
         sufficient: dict[str, list[str]] = {rule: [] for rule in self.rules}
@@ -206,6 +217,11 @@ def _walks(
         order = list(rules)
         generator.shuffle(order)
         walks.append([frozenset(order[:size]) for size in range(len(order) + 1)])
+    every = frozenset(rules)
+    pairs = [frozenset(pair) for pair in itertools.combinations(rules, 2)]
+    walks.append(pairs)
+    walks.append([every - {rule} for rule in rules])
+    walks.append([every - pair for pair in pairs])
     return walks
 
 
@@ -322,6 +338,16 @@ def run_lattice(
             _moved(lattice, probe, CaseResult(case_id=case_id, expected=expected, full=full), walks)
     lattice.nonmonotone = sorted(set(lattice.nonmonotone))
     lattice.moved_unmoved = sorted(set(lattice.moved_unmoved))
+    exercised = {
+        rule
+        for case in lattice.cases
+        for rule in [*case.necessary, *itertools.chain.from_iterable(case.minimal_sufficient)]
+    }
+    lattice.untested = [
+        f"{corpus}: rule {rule} decides no case (in no minimal kept set, necessary for none)"
+        for rule in kept_rules
+        if rule not in exercised
+    ]
     return lattice
 
 

@@ -89,8 +89,8 @@ jobs:
     timeout-minutes: 10
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-      - name: every predicate type URI answers 200 from the published host
-        run: python3 scripts/predicate-uri-gate.py --live
+      - name: every identifier answers as listed from the published host (200 served, 404 negative vector)
+        run: python3 scripts/identifier-pages-gate.py --live
 
   # Tells IndexNow engines which pages are new or carry a newer lastmod than the sitemap that was
   # live before this deploy (the build job diffed them and kept the list). The key file lives at the

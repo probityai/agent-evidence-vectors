@@ -195,3 +195,22 @@ under the producer key, statement shape, each principal in turn, then the act
 chain naming the agent. Each step ends in its own rejection reason and the order
 is the rule, so it is a decision list rather than tangled control flow.
 """
+
+["packaging/agent_evidence_vectors/cborreceiptchain.py::_item"]
+complexity = 14
+rationale = """
+_item reads one CBOR data item: it dispatches over the major types and the
+additional-information length encodings RFC 8949 defines, with the depth and
+size budget refusals. One branch per item kind is the grammar itself; splitting
+it would only spread the dispatch across helpers.
+"""
+
+["packaging/agent_evidence_vectors/cborreceiptchain.py::judge_stream"]
+complexity = 22
+rationale = """
+judge_stream runs the seven checks of cbor-receipt-chain/v1 in their stated
+order (shape, signature, pinned signer, duplicate, single use, chain order,
+head anchor), first failure wins, then picks among three not-established
+outcomes. Each check can be skipped for the load-bearing sweep. The order is
+the rule, and the Go reader mirrors it arm for arm.
+"""

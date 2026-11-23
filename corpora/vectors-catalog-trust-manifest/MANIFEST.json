@@ -1,5 +1,5 @@
 {
-  "corpusDigest": "d5fb983e61a8ae732badf116a2183a8bdc52b95677a7cf89cdc475422a57bb4f",
+  "corpusDigest": "04f647bf141ae53e48b35e78f6411a5c1134055aec7e6abfa40b6a3eb5c68848",
   "counts": {
     "accept": 28,
     "reject": 87
@@ -639,14 +639,14 @@
       "path": "cases/reject-alg-key-mismatch"
     },
     {
-      "edit": "the record carries 9007199254740993; the signature covers 9007199254740991",
+      "edit": "the record carries 9007199254740993; the signature covers 9007199254740992, the double a parser reads it as",
       "expected": {
         "decision": "reject",
         "reason": "number_not_interoperable"
       },
       "files": {
         "artifact.json": "5346c3b356f1b2db025b97d464d73a62442ca39ad1480549e23daff147f35ef1",
-        "catalog.json": "1deea784299cce0ae096db9d49666c361a887eb877d0959aeb641238e52a4909",
+        "catalog.json": "511446e1e7825c311c3491cfbd435666af5fba4be7ece52b06d53a29cab73505",
         "context.json": "06cb286f62c546c49571afedf5d9d0246cf61df15b74e60c79b973d0096b4920",
         "did-documents.json": "8b49c5d7a3dad753d337a8879ad50ea41947883460bf47e3bf3353f41a28c3fe"
       },
@@ -729,13 +729,13 @@
       "path": "cases/reject-subject-version-absent"
     },
     {
-      "edit": "a valid manifest moved to an entry with the same identifier and another digest",
+      "edit": "a valid manifest moved to an entry with the same identifier and another digest, whose artifact it names is served",
       "expected": {
         "decision": "reject",
         "reason": "subject_entry_mismatch"
       },
       "files": {
-        "artifact.json": "5346c3b356f1b2db025b97d464d73a62442ca39ad1480549e23daff147f35ef1",
+        "artifact.json": "7aad0135e23de1278ca7546137b2ccbba5d3e606a869917cdd28225535360c02",
         "catalog.json": "cfd358970cfc88079c428dcf1e2f6c5acd1172fbc00f286cb0d2d8ea8681ecc3",
         "context.json": "d547e8a3f28877d3f60e903b6041e6a396716e3c98b96b83a03dccba02730e82",
         "did-documents.json": "8b49c5d7a3dad753d337a8879ad50ea41947883460bf47e3bf3353f41a28c3fe"

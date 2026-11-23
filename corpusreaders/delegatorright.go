@@ -132,6 +132,9 @@ func drDecide(record map[string]any) scDecision {
 			return scDecision{"deny", check.reason}
 		}
 	}
+	if drWithinLimit(p) {
+		return scDecision{"allow", "within_propagation_limit"}
+	}
 	return scDecision{"allow", "entitled"}
 }
 
@@ -338,6 +341,30 @@ func drScopeRemoved(p drParsed) bool {
 	for _, hop := range p.chain {
 		for _, n := range hop.narrowings {
 			if n.operation == p.operation && drReached(p, n.at) {
+				return true
+			}
+		}
+	}
+	return false
+}
+
+// drPending reports a removal already effective at the source that the
+// propagation limit has not yet carried to enforcement.
+func drPending(p drParsed, effective time.Time) bool {
+	return !effective.After(p.decided) && !drReached(p, effective)
+}
+
+// drWithinLimit reports an allow that rests on such a removal: the limit is a
+// tolerance for cached state, not an entitlement.
+func drWithinLimit(p drParsed) bool {
+	for _, hop := range drDelegating(p) {
+		if right := drEntitlement(p, hop); right != nil && right.until != nil && drPending(p, *right.until) {
+			return true
+		}
+	}
+	for _, hop := range p.chain {
+		for _, n := range hop.narrowings {
+			if n.operation == p.operation && drPending(p, n.at) {
 				return true
 			}
 		}

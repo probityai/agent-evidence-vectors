@@ -278,3 +278,16 @@ condition = "AND"
 paths = ['''^(corpora/)?vectors-actor-marker-survival/TRUST\.json$''']
 regexTarget = "match"
 regexes = ['''key"\s*:\s*"(6u-4h_FKsEp4zItPdJFa_DrmaHVAiVt4frww42pfudo|ojuNdiZ-Y96TCP8fLPW86JL89c2LQIFtm_bZoaJ1BJQ|eYH24yhsIF5f8QY2d_So64YHeJAx6grKd2TYcL9SLpQ|XIot846rHq3eno56PetnXmHJ3bsYDHeIPoNlkoFDFvg|mbrVmGamyI0XZ8R3fGQ8LYe5s5NwXhncyipcsliO21g|A1FDEw7pxa9CGhe1FAxhV9WrJliSRNgUl0SgL2_U3Ko|ywcgKBs8VG84u-mviUvpzfop7iadzd42m8A6ermMk1Y|Pu8FJnMUFaC6MDLFlZEgBsWHUPcyVcriltHq7UZTxuM)"''']
+
+[[allowlists]]
+description = "Published demo provenance keys in the ocsf-audit sample output"
+# SAMPLE-OUTPUT-PROVENANCE.md is the upstream sink's published sample, copied
+# unchanged and pinned by SHA-256. Its two `provenance_key` lines carry the
+# base64 of the plain labels "AiIdentity-demo-provenance-key-2026-10-01-a" and
+# "-b", published so a reader can recompute the sample digests. AND: only this
+# file and only a line naming provenance_key; every other line is still scanned.
+targetRules = ["generic-api-key"]
+condition = "AND"
+paths = ['''(^|/)corpora/vectors-ocsf-decision/source/SAMPLE-OUTPUT-PROVENANCE\.md$''']
+regexTarget = "line"
+regexes = ['''// verify: provenance_key(_rotated)? += QWlJZGVudGl0eS1kZW1vLXByb3ZlbmFuY2Uta2V5LTIwMjYtMTAtMDEt(YQ|Yg)==$''']

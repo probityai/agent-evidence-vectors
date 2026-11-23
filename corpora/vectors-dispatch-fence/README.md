@@ -18,7 +18,7 @@ check saw, and a hold that lapses while the tool runs lets a second dispatch in.
 | allow-state-event-after-fence | allow, `exclusive` |
 | allow-renewed-hold-covers-effect | allow, `exclusive` |
 | allow-same-proposal-second-hop | allow, `exclusive` |
-| allow-effect-ends-at-expiry | allow, `exclusive` |
+| allow-commit-before-expiry | allow, `exclusive` |
 | contract-id-missing | deny, `contract_id_missing` |
 | contract-id-unknown | deny, `contract_id_unknown` |
 | fence-rereads-state | deny, `fence_not_bound_to_check` |
@@ -27,12 +27,16 @@ check saw, and a hold that lapses while the tool runs lets a second dispatch in.
 | tool-outlives-hold | deny, `hold_expired_before_effect_ended` |
 | second-dispatch-after-expiry | deny, `concurrent_dispatch_admitted` |
 | commit-after-own-hold-expired | deny, `commit_after_hold_expired` |
+| commit-at-expiry | deny, `commit_after_hold_expired` |
 
 Each denied case is built so the check it names is the first that fails and
 every earlier check passes. The allowed cases are controls: a label raised after
 the fence was appended, a hold renewed to cover a long effect, a second attempt
-carrying the same proposal identifier, and an effect that ends exactly at the
-hold's expiry (the boundary is inclusive).
+carrying the same proposal identifier, and a commit one second
+before the hold's expiry. The hold is a half-open window, start inclusive and
+expiry exclusive: a running effect that ends exactly at the expiry is inside it,
+and a commit exactly at the expiry is outside it, so a successor hold taken at
+the expiry never overlaps the first holder's commit.
 
 ## What a record holds
 
@@ -65,7 +69,7 @@ A verifier names the first check that fails.
 7. No attempt with a different `proposalId` was admitted with `beganAt` from
    `fence.acquiredAt` to `effect.endedAt` inclusive
    (`concurrent_dispatch_admitted`).
-8. `commit.at` is at or before the hold's expiry (`commit_after_hold_expired`).
+8. `commit.at` is before the hold's expiry (`commit_after_hold_expired`).
    The first dispatch must withhold its result.
 
 A record that passes every check is `allow` with reason `exclusive`.

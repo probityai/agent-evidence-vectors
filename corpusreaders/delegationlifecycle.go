@@ -41,7 +41,10 @@ func init() { register(delegationLifecycle{}) }
 //     standing, whose effective_at is at or before observed_at
 //     (revocation_incomplete when it states no grounds,
 //     grant_revoked_dispute_open while an affected principal's dispute has no
-//     resolution with standing, grant_revoked otherwise);
+//     resolution with standing, grant_revoked_retroactively when the revocation
+//     was issued after observed_at and states an earlier effective_at, so the
+//     refusal is containment and not proof the grant was revoked when presented,
+//     grant_revoked otherwise);
 //  7. every recovery record that names the presenter as its new identifier is
 //     signed by the registry and the Responsible entity
 //     (signature_invalid:recovery), and the registry registered both identifiers
@@ -815,6 +818,9 @@ func (s *dlState) refusal(r *dlRecord, standing, affected map[string]bool, obser
 	}
 	if !s.off("dispute") && s.disputeOpen(r.str("revocation_id"), standing, affected, observed) {
 		return "grant_revoked_dispute_open"
+	}
+	if r.times["issued_at"].After(observed) {
+		return "grant_revoked_retroactively"
 	}
 	return "grant_revoked"
 }

@@ -1,8 +1,8 @@
 {
-  "corpusDigest": "61fabad404bd0dbe5d1c51a37c8bf9ca67b70820b711e1059f1e0fdd178c5978",
+  "corpusDigest": "4eab50c32869d9795d6ae93d9e1d3a0a929b87211fd9262b2ddb5938ad4e8e18",
   "counts": {
-    "accept": 12,
-    "reject": 35
+    "accept": 13,
+    "reject": 36
   },
   "suite": "agent-card-receipt/v1",
   "vectors": [
@@ -95,6 +95,21 @@
       },
       "id": "accept-unknown-member-kept",
       "path": "cases/accept-unknown-member-kept"
+    },
+    {
+      "edit": "control: the card writes its signatures member's name with a JSON escape, signatur\\u0065s; the exclusion applies to the parsed member, so a verifier that strips the literal text keeps it and fails",
+      "expected": {
+        "decision": "accept",
+        "reason": "receipt_current"
+      },
+      "files": {
+        "card.json": "9782ce1a5345de8aed2c6cf30c52df9154572cdb32b4bb5a9a430311e404c583",
+        "context.json": "d78977902b24db601b2e0c3f62891ad8bf9fd72fb6e2abac121c1ea7d708026c",
+        "revocations.json": "fd7ee8682d7e8bc827ce604a05e7ee84d1388a041bf884cc1aa291fddd022446",
+        "statement.json": "094c78e4622639a35cdcf57613ccf3dfc6f85b0d287bd10dd262446355932258"
+      },
+      "id": "accept-signatures-name-escaped",
+      "path": "cases/accept-signatures-name-escaped"
     },
     {
       "edit": "control: only the top-level signatures member is excluded; a signatures member inside an extension and a top-level additionalSignatures member are hashed as served",
@@ -440,6 +455,21 @@
       },
       "id": "card-not-an-object",
       "path": "cases/card-not-an-object"
+    },
+    {
+      "edit": "the card's name ends in an unpaired surrogate escape, which I-JSON forbids; the receipt digest is over the card with U+FFFD in its place, which a parser that substitutes instead of refusing would accept",
+      "expected": {
+        "decision": "reject",
+        "reason": "card_malformed"
+      },
+      "files": {
+        "card.json": "ec22b4efddf032f6a8fb114e62f36ab437d88b69f02594a67c416e4629ee21ac",
+        "context.json": "d78977902b24db601b2e0c3f62891ad8bf9fd72fb6e2abac121c1ea7d708026c",
+        "revocations.json": "fd7ee8682d7e8bc827ce604a05e7ee84d1388a041bf884cc1aa291fddd022446",
+        "statement.json": "0913371205594e2a1cf581ed564580cd98fb094d59a5304c3d296403dabceafa"
+      },
+      "id": "card-lone-surrogate",
+      "path": "cases/card-lone-surrogate"
     },
     {
       "edit": "an extension parameter is 2 to the 53rd, outside the I-JSON range RFC 8785 requires",
