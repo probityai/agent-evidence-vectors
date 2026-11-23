@@ -45,7 +45,7 @@
       },
       "path": "corpora/vectors-incident-evidence-cell/README.md",
       "serialization": "bytes",
-      "sha256": "0ae40658f2d9a29e69e411bcbe71ca2ea4a85fe1687700aee4eac9e3f2185464"
+      "sha256": "b67a9fcaa88a9833397638085ccffcd71b263846b04e1f03d5a66a9771d533e1"
     },
     {
       "consumed": "unconsumed",
@@ -185,6 +185,7 @@
         "corpusreaders/agentaction_chain.go",
         "corpusreaders/agentdecision.go",
         "corpusreaders/agenticprocess.go",
+        "corpusreaders/agentrequestproof.go",
         "corpusreaders/aggregateaccounting.go",
         "corpusreaders/aigeneration.go",
         "corpusreaders/anchoredchain.go",
@@ -198,6 +199,7 @@
         "corpusreaders/auditrecord_principal.go",
         "corpusreaders/auditrecord_sequence.go",
         "corpusreaders/authoritydispatch.go",
+        "corpusreaders/aveidresolution.go",
         "corpusreaders/badgevc.go",
         "corpusreaders/budgetlineage.go",
         "corpusreaders/canonical_base64.go",
@@ -238,9 +240,12 @@
         "corpusreaders/mcprecord.go",
         "corpusreaders/mcpresponsephase.go",
         "corpusreaders/monitorcoverage.go",
+        "corpusreaders/oasfrecord.go",
         "corpusreaders/observedeffect.go",
         "corpusreaders/openweight.go",
         "corpusreaders/paymentmandate.go",
+        "corpusreaders/physicalcompletion.go",
+        "corpusreaders/principalaction.go",
         "corpusreaders/principalbinding.go",
         "corpusreaders/printwitness.go",
         "corpusreaders/propagationstep.go",
@@ -269,6 +274,7 @@
         "corpusreaders/telemetryevidence.go",
         "corpusreaders/traceanchor.go",
         "corpusreaders/uncertaineffect.go",
+        "corpusreaders/verdictlines.go",
         "corpusreaders/w3cintake.go",
         "corpusreaders/w3cjcs.go",
         "corpusreaders/w3creport.go",
@@ -276,7 +282,7 @@
         "go.mod"
       ],
       "serialization": "sha256-listing-v1",
-      "sha256": "2558d3c3540ca75832aa22684a055fc39afda0c8de8907410e00d642becedc70"
+      "sha256": "9f8df87013f03cbc4eadacc123106258586958177fa2e7c9bd59fd8118fe0f9a"
     },
     "runtime": {
       "name": "go",
@@ -308,6 +314,7 @@
       "corpusreaders/agentaction_chain.go",
       "corpusreaders/agentdecision.go",
       "corpusreaders/agenticprocess.go",
+      "corpusreaders/agentrequestproof.go",
       "corpusreaders/aggregateaccounting.go",
       "corpusreaders/aigeneration.go",
       "corpusreaders/anchoredchain.go",
@@ -321,6 +328,7 @@
       "corpusreaders/auditrecord_principal.go",
       "corpusreaders/auditrecord_sequence.go",
       "corpusreaders/authoritydispatch.go",
+      "corpusreaders/aveidresolution.go",
       "corpusreaders/badgevc.go",
       "corpusreaders/budgetlineage.go",
       "corpusreaders/canonical_base64.go",
@@ -361,9 +369,12 @@
       "corpusreaders/mcprecord.go",
       "corpusreaders/mcpresponsephase.go",
       "corpusreaders/monitorcoverage.go",
+      "corpusreaders/oasfrecord.go",
       "corpusreaders/observedeffect.go",
       "corpusreaders/openweight.go",
       "corpusreaders/paymentmandate.go",
+      "corpusreaders/physicalcompletion.go",
+      "corpusreaders/principalaction.go",
       "corpusreaders/principalbinding.go",
       "corpusreaders/printwitness.go",
       "corpusreaders/propagationstep.go",
@@ -392,6 +403,7 @@
       "corpusreaders/telemetryevidence.go",
       "corpusreaders/traceanchor.go",
       "corpusreaders/uncertaineffect.go",
+      "corpusreaders/verdictlines.go",
       "corpusreaders/w3cintake.go",
       "corpusreaders/w3cjcs.go",
       "corpusreaders/w3creport.go",
@@ -651,7 +663,7 @@
   ],
   "corpus-digest": {
     "serialization": "sha256-listing-v1",
-    "sha256": "c9ebe9c5a5e91a7a9de262c5f7d1cfe7f970edb27b3dccc27e4a074fbe6a82e8"
+    "sha256": "3243c83de9fe838ac6f2ca25e0d9b17c80b35f06649d9e9b65ec29265ab83082"
   },
   "exit-code": 0,
   "exit-rule": "zero-iff-every-check-passes",

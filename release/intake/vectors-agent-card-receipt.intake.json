@@ -1,11 +1,11 @@
 {
   "aggregate": {
     "counts": {
-      "accept": 11,
-      "reject": 33
+      "accept": 12,
+      "reject": 35
     },
     "line": "verdict: every member behaves as MANIFEST.json declares",
-    "total": 44
+    "total": 47
   },
   "anchor": {
     "kind": "digest-list-line",
@@ -17,7 +17,7 @@
     "routine": "corpus_digest in corpora/vectors-agent-card-receipt/digest.py",
     "routine-file": "corpora/vectors-agent-card-receipt/digest.py",
     "serialization": "corpus-routine",
-    "sha256": "99c46fa19029691a1bdfb9f78f80c457639d9df985bf05e9609255006f07dd6e",
+    "sha256": "61fabad404bd0dbe5d1c51a37c8bf9ca67b70820b711e1059f1e0fdd178c5978",
     "verdicts": {
       "availability-failure": "inconclusive",
       "integrity-failure": "fail"
@@ -29,7 +29,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "71a4069f51814a14d9b3a51bdb6bbbe13118e06bade7782c0b337188ac571423"
+          "sha256": "d3ddece5204f08d7888a63232c4e5bf97637bd04d24fdcaa03724fe26f2dd557"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [],
@@ -38,21 +38,21 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "71a4069f51814a14d9b3a51bdb6bbbe13118e06bade7782c0b337188ac571423"
+          "sha256": "d3ddece5204f08d7888a63232c4e5bf97637bd04d24fdcaa03724fe26f2dd557"
         },
         "swapped-in": "eba230da6846e1725c9eaa913a35a89ea76fb0ba597f1cb491f4c2fab890b27f",
         "test": "swap-and-re-pin"
       },
       "path": "corpora/vectors-agent-card-receipt/README.md",
       "serialization": "bytes",
-      "sha256": "868762ee0568408187ca3febd7c40a9b4215034cceb465dc5926806941198771"
+      "sha256": "ce7602c69e86d56d983ab92411ae3cf2bcec743cb9eb0aef288478cd690a5513"
     },
     {
       "consumed": "unconsumed",
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "71a4069f51814a14d9b3a51bdb6bbbe13118e06bade7782c0b337188ac571423"
+          "sha256": "d3ddece5204f08d7888a63232c4e5bf97637bd04d24fdcaa03724fe26f2dd557"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [],
@@ -61,7 +61,7 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "71a4069f51814a14d9b3a51bdb6bbbe13118e06bade7782c0b337188ac571423"
+          "sha256": "d3ddece5204f08d7888a63232c4e5bf97637bd04d24fdcaa03724fe26f2dd557"
         },
         "swapped-in": "c07d9101931ceba56cf84745d943fd1680a851836ef974dd341a06177d420721",
         "test": "swap-and-re-pin"
@@ -75,7 +75,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "71a4069f51814a14d9b3a51bdb6bbbe13118e06bade7782c0b337188ac571423"
+          "sha256": "d3ddece5204f08d7888a63232c4e5bf97637bd04d24fdcaa03724fe26f2dd557"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [],
@@ -84,7 +84,7 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "71a4069f51814a14d9b3a51bdb6bbbe13118e06bade7782c0b337188ac571423"
+          "sha256": "d3ddece5204f08d7888a63232c4e5bf97637bd04d24fdcaa03724fe26f2dd557"
         },
         "swapped-in": "787ef2ac9f992feab10d40ff4dfc9c010d33d2430c3a27b9fa99c0071dfb1ffd",
         "test": "swap-and-re-pin"
@@ -98,7 +98,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "71a4069f51814a14d9b3a51bdb6bbbe13118e06bade7782c0b337188ac571423"
+          "sha256": "d3ddece5204f08d7888a63232c4e5bf97637bd04d24fdcaa03724fe26f2dd557"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [],
@@ -107,21 +107,21 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "71a4069f51814a14d9b3a51bdb6bbbe13118e06bade7782c0b337188ac571423"
+          "sha256": "d3ddece5204f08d7888a63232c4e5bf97637bd04d24fdcaa03724fe26f2dd557"
         },
         "swapped-in": "751624baadc7567a92341d573b143a732195b30ba69afa0f0ff2c2fb2c9fe041",
         "test": "swap-and-re-pin"
       },
       "path": "corpora/vectors-agent-card-receipt/gen_vectors.py",
       "serialization": "bytes",
-      "sha256": "80fec4de9875514cbb8aedefb05bae327634cd9eaeddce12c9310476e4c51c07"
+      "sha256": "a413d0aa33b8e3e344eff3020d986ecdcb1b8c9847bc6a2759121c3424e12d67"
     },
     {
       "consumed": "unconsumed",
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "71a4069f51814a14d9b3a51bdb6bbbe13118e06bade7782c0b337188ac571423"
+          "sha256": "d3ddece5204f08d7888a63232c4e5bf97637bd04d24fdcaa03724fe26f2dd557"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [],
@@ -130,7 +130,7 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "71a4069f51814a14d9b3a51bdb6bbbe13118e06bade7782c0b337188ac571423"
+          "sha256": "d3ddece5204f08d7888a63232c4e5bf97637bd04d24fdcaa03724fe26f2dd557"
         },
         "swapped-in": "45a5e9468e734e27a45abc66f50ac29474d05bc73bff59bb22baf0933cb4fc3a",
         "test": "swap-and-re-pin"
@@ -152,7 +152,7 @@
     "root": "corpora/vectors-agent-card-receipt"
   },
   "byte-identity": {
-    "pins": 175,
+    "pins": 187,
     "serialization": "bytes"
   },
   "canonicalization": {
@@ -208,6 +208,7 @@
         "corpusreaders/agentaction_chain.go",
         "corpusreaders/agentdecision.go",
         "corpusreaders/agenticprocess.go",
+        "corpusreaders/agentrequestproof.go",
         "corpusreaders/aggregateaccounting.go",
         "corpusreaders/aigeneration.go",
         "corpusreaders/anchoredchain.go",
@@ -221,6 +222,7 @@
         "corpusreaders/auditrecord_principal.go",
         "corpusreaders/auditrecord_sequence.go",
         "corpusreaders/authoritydispatch.go",
+        "corpusreaders/aveidresolution.go",
         "corpusreaders/badgevc.go",
         "corpusreaders/budgetlineage.go",
         "corpusreaders/canonical_base64.go",
@@ -261,9 +263,12 @@
         "corpusreaders/mcprecord.go",
         "corpusreaders/mcpresponsephase.go",
         "corpusreaders/monitorcoverage.go",
+        "corpusreaders/oasfrecord.go",
         "corpusreaders/observedeffect.go",
         "corpusreaders/openweight.go",
         "corpusreaders/paymentmandate.go",
+        "corpusreaders/physicalcompletion.go",
+        "corpusreaders/principalaction.go",
         "corpusreaders/principalbinding.go",
         "corpusreaders/printwitness.go",
         "corpusreaders/propagationstep.go",
@@ -292,6 +297,7 @@
         "corpusreaders/telemetryevidence.go",
         "corpusreaders/traceanchor.go",
         "corpusreaders/uncertaineffect.go",
+        "corpusreaders/verdictlines.go",
         "corpusreaders/w3cintake.go",
         "corpusreaders/w3cjcs.go",
         "corpusreaders/w3creport.go",
@@ -299,7 +305,7 @@
         "go.mod"
       ],
       "serialization": "sha256-listing-v1",
-      "sha256": "2558d3c3540ca75832aa22684a055fc39afda0c8de8907410e00d642becedc70"
+      "sha256": "9f8df87013f03cbc4eadacc123106258586958177fa2e7c9bd59fd8118fe0f9a"
     },
     "runtime": {
       "name": "go",
@@ -331,6 +337,7 @@
       "corpusreaders/agentaction_chain.go",
       "corpusreaders/agentdecision.go",
       "corpusreaders/agenticprocess.go",
+      "corpusreaders/agentrequestproof.go",
       "corpusreaders/aggregateaccounting.go",
       "corpusreaders/aigeneration.go",
       "corpusreaders/anchoredchain.go",
@@ -344,6 +351,7 @@
       "corpusreaders/auditrecord_principal.go",
       "corpusreaders/auditrecord_sequence.go",
       "corpusreaders/authoritydispatch.go",
+      "corpusreaders/aveidresolution.go",
       "corpusreaders/badgevc.go",
       "corpusreaders/budgetlineage.go",
       "corpusreaders/canonical_base64.go",
@@ -384,9 +392,12 @@
       "corpusreaders/mcprecord.go",
       "corpusreaders/mcpresponsephase.go",
       "corpusreaders/monitorcoverage.go",
+      "corpusreaders/oasfrecord.go",
       "corpusreaders/observedeffect.go",
       "corpusreaders/openweight.go",
       "corpusreaders/paymentmandate.go",
+      "corpusreaders/physicalcompletion.go",
+      "corpusreaders/principalaction.go",
       "corpusreaders/principalbinding.go",
       "corpusreaders/printwitness.go",
       "corpusreaders/propagationstep.go",
@@ -415,6 +426,7 @@
       "corpusreaders/telemetryevidence.go",
       "corpusreaders/traceanchor.go",
       "corpusreaders/uncertaineffect.go",
+      "corpusreaders/verdictlines.go",
       "corpusreaders/w3cintake.go",
       "corpusreaders/w3cjcs.go",
       "corpusreaders/w3creport.go",
@@ -465,6 +477,14 @@
     },
     {
       "check": "accept-unknown-member-kept",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "accept-exclusion-top-level-only",
       "native": {
         "reasons": [],
         "verdict": "accept"
@@ -672,6 +692,22 @@
       "state": "pass"
     },
     {
+      "check": "digest-signatures-removed-recursively",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "digest-additional-signatures-excluded",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
       "check": "digest-not-rfc8785",
       "native": {
         "reasons": [],
@@ -778,7 +814,7 @@
   ],
   "corpus-digest": {
     "serialization": "sha256-listing-v1",
-    "sha256": "9c8a2aee457e60baa5f6e2bdc423c0deb23b60f26a2becd5eed849d0835dc586"
+    "sha256": "0ec9f22688252018164d3cca4d4e99fea81edd8edf82a66b18f1637ad66f3d48"
   },
   "exit-code": 0,
   "exit-rule": "zero-iff-every-check-passes",
@@ -794,6 +830,7 @@
       "accept-rfc8785-edges",
       "accept-receipt-extension-declared",
       "accept-unknown-member-kept",
+      "accept-exclusion-top-level-only",
       "accept-agent-key-thumbprints",
       "accept-result-degraded",
       "accept-other-receipt-revoked",
@@ -819,6 +856,8 @@
       "card-integer-outside-i-json",
       "digest-defaults-pruned",
       "digest-signatures-included",
+      "digest-signatures-removed-recursively",
+      "digest-additional-signatures-excluded",
       "digest-not-rfc8785",
       "card-changed-after-receipt",
       "receipt-not-yet-valid",
@@ -834,7 +873,7 @@
       "receipt-revoked"
     ],
     "path": "corpora/vectors-agent-card-receipt/MANIFEST.json",
-    "sha256": "0741332fc86bded57f4f98424a0dbf45e2233951c50ff960723e83cf1198789e"
+    "sha256": "953830a6b930f048d62e5b75e60cb0f6d7125173c824c81f8b5e68c0ef587730"
   },
   "members": [
     {
@@ -962,6 +1001,27 @@
         }
       ],
       "id": "accept-unknown-member-kept"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-agent-card-receipt/cases/accept-exclusion-top-level-only/card.json",
+          "sha256": "2aafe3e06941ac9440bc988c013714393d914d9c9b95deec4bc348e81f962f0f"
+        },
+        {
+          "path": "corpora/vectors-agent-card-receipt/cases/accept-exclusion-top-level-only/context.json",
+          "sha256": "d78977902b24db601b2e0c3f62891ad8bf9fd72fb6e2abac121c1ea7d708026c"
+        },
+        {
+          "path": "corpora/vectors-agent-card-receipt/cases/accept-exclusion-top-level-only/revocations.json",
+          "sha256": "fd7ee8682d7e8bc827ce604a05e7ee84d1388a041bf884cc1aa291fddd022446"
+        },
+        {
+          "path": "corpora/vectors-agent-card-receipt/cases/accept-exclusion-top-level-only/statement.json",
+          "sha256": "b9dc3d463703b437f08c1a5cb5420cfd95d795c87896ab8240d896f630fdd600"
+        }
+      ],
+      "id": "accept-exclusion-top-level-only"
     },
     {
       "files": [
@@ -1491,6 +1551,48 @@
     {
       "files": [
         {
+          "path": "corpora/vectors-agent-card-receipt/cases/digest-signatures-removed-recursively/card.json",
+          "sha256": "2aafe3e06941ac9440bc988c013714393d914d9c9b95deec4bc348e81f962f0f"
+        },
+        {
+          "path": "corpora/vectors-agent-card-receipt/cases/digest-signatures-removed-recursively/context.json",
+          "sha256": "d78977902b24db601b2e0c3f62891ad8bf9fd72fb6e2abac121c1ea7d708026c"
+        },
+        {
+          "path": "corpora/vectors-agent-card-receipt/cases/digest-signatures-removed-recursively/revocations.json",
+          "sha256": "fd7ee8682d7e8bc827ce604a05e7ee84d1388a041bf884cc1aa291fddd022446"
+        },
+        {
+          "path": "corpora/vectors-agent-card-receipt/cases/digest-signatures-removed-recursively/statement.json",
+          "sha256": "8820e84b7291b8846b22811d73e84fff539d6ffd5ea20b5989a6b897688e649f"
+        }
+      ],
+      "id": "digest-signatures-removed-recursively"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-agent-card-receipt/cases/digest-additional-signatures-excluded/card.json",
+          "sha256": "2aafe3e06941ac9440bc988c013714393d914d9c9b95deec4bc348e81f962f0f"
+        },
+        {
+          "path": "corpora/vectors-agent-card-receipt/cases/digest-additional-signatures-excluded/context.json",
+          "sha256": "d78977902b24db601b2e0c3f62891ad8bf9fd72fb6e2abac121c1ea7d708026c"
+        },
+        {
+          "path": "corpora/vectors-agent-card-receipt/cases/digest-additional-signatures-excluded/revocations.json",
+          "sha256": "fd7ee8682d7e8bc827ce604a05e7ee84d1388a041bf884cc1aa291fddd022446"
+        },
+        {
+          "path": "corpora/vectors-agent-card-receipt/cases/digest-additional-signatures-excluded/statement.json",
+          "sha256": "0f526d9ca5842d5c32df972ac0d68ebb3ca30cc2d657e2ef46c0efccb4b3f166"
+        }
+      ],
+      "id": "digest-additional-signatures-excluded"
+    },
+    {
+      "files": [
+        {
           "path": "corpora/vectors-agent-card-receipt/cases/digest-not-rfc8785/card.json",
           "sha256": "6985626269cc92b14a652717880d6531d793243a8ba33f5ec8983e6b3f2f4cc5"
         },
@@ -1774,7 +1876,7 @@
       "reference": {
         "path": "release/intake/native/vectors-agent-card-receipt.json",
         "serialization": "bytes",
-        "sha256": "71a4069f51814a14d9b3a51bdb6bbbe13118e06bade7782c0b337188ac571423"
+        "sha256": "d3ddece5204f08d7888a63232c4e5bf97637bd04d24fdcaa03724fe26f2dd557"
       }
     },
     {
@@ -1783,7 +1885,7 @@
       "reference": {
         "path": "release/intake/native/vectors-agent-card-receipt.txt",
         "serialization": "bytes",
-        "sha256": "4e5c560f70080a24f633d51188776f4104774d349c41a1650624be5f2dd616a7"
+        "sha256": "c73e74890ef07f886b861b84d3896a934720578939366a587bbe8f5f9646cdcb"
       }
     },
     {
@@ -1962,6 +2064,22 @@
       "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"reject\",\"reason\":\"card_digest_mismatch\"}}"
     },
     {
+      "check": "digest-signatures-removed-recursively",
+      "inputs": [
+        "member:digest-signatures-removed-recursively",
+        "check:digest-signatures-removed-recursively"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"reject\",\"reason\":\"card_digest_mismatch\"}}"
+    },
+    {
+      "check": "digest-additional-signatures-excluded",
+      "inputs": [
+        "member:digest-additional-signatures-excluded",
+        "check:digest-additional-signatures-excluded"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"reject\",\"reason\":\"card_digest_mismatch\"}}"
+    },
+    {
       "check": "digest-not-rfc8785",
       "inputs": [
         "member:digest-not-rfc8785",
@@ -2073,11 +2191,11 @@
     "runs": [
       {
         "process": "run-1",
-        "sha256": "71a4069f51814a14d9b3a51bdb6bbbe13118e06bade7782c0b337188ac571423"
+        "sha256": "d3ddece5204f08d7888a63232c4e5bf97637bd04d24fdcaa03724fe26f2dd557"
       },
       {
         "process": "run-2",
-        "sha256": "71a4069f51814a14d9b3a51bdb6bbbe13118e06bade7782c0b337188ac571423"
+        "sha256": "d3ddece5204f08d7888a63232c4e5bf97637bd04d24fdcaa03724fe26f2dd557"
       }
     ],
     "seed": null,
@@ -2091,7 +2209,7 @@
       "action-occurred-or-authority"
     ],
     "establishes": [
-      "aee-verify, at the source listing named here, judges each of the 44 pinned members of agent-card-receipt/v1 as its manifest declares"
+      "aee-verify, at the source listing named here, judges each of the 47 pinned members of agent-card-receipt/v1 as its manifest declares"
     ],
     "leaves-open": [
       "whether an implementation written from the specification, run by someone other than an author, reaches the same verdicts",
@@ -2102,7 +2220,7 @@
   "selector": {
     "expression": "*",
     "language": "id-glob",
-    "matched": 44,
+    "matched": 47,
     "require": "at-least-one",
     "selected": [
       "accept-card-without-signatures",
@@ -2111,6 +2229,7 @@
       "accept-rfc8785-edges",
       "accept-receipt-extension-declared",
       "accept-unknown-member-kept",
+      "accept-exclusion-top-level-only",
       "accept-agent-key-thumbprints",
       "accept-result-degraded",
       "accept-other-receipt-revoked",
@@ -2136,6 +2255,8 @@
       "card-integer-outside-i-json",
       "digest-defaults-pruned",
       "digest-signatures-included",
+      "digest-signatures-removed-recursively",
+      "digest-additional-signatures-excluded",
       "digest-not-rfc8785",
       "card-changed-after-receipt",
       "receipt-not-yet-valid",

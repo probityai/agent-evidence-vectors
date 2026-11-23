@@ -1,7 +1,7 @@
 {
   "verifier": "https://probityai.github.io/probity/verifiers/agent-evidence-verify",
   "checked": 734,
-  "total": 3606,
+  "total": 3796,
   "corpora": [
     {
       "id": "vectors",
@@ -24,7 +24,7 @@
     {
       "id": "vectors-acs-core",
       "checked": 0,
-      "total": 166,
+      "total": 178,
       "disagreements": 0
     },
     {
@@ -42,13 +42,13 @@
     {
       "id": "vectors-agent-audit-record",
       "checked": 0,
-      "total": 235,
+      "total": 251,
       "disagreements": 0
     },
     {
       "id": "vectors-agent-card-receipt",
       "checked": 0,
-      "total": 44,
+      "total": 47,
       "disagreements": 0
     },
     {
@@ -67,6 +67,12 @@
       "id": "vectors-agent-payment-mandate",
       "checked": 0,
       "total": 21,
+      "disagreements": 0
+    },
+    {
+      "id": "vectors-agent-request-proof",
+      "checked": 0,
+      "total": 22,
       "disagreements": 0
     },
     {
@@ -121,6 +127,12 @@
       "id": "vectors-authority-at-dispatch",
       "checked": 0,
       "total": 14,
+      "disagreements": 0
+    },
+    {
+      "id": "vectors-ave-id-resolution",
+      "checked": 0,
+      "total": 13,
       "disagreements": 0
     },
     {
@@ -346,6 +358,12 @@
       "disagreements": 0
     },
     {
+      "id": "vectors-oasf-record",
+      "checked": 0,
+      "total": 43,
+      "disagreements": 0
+    },
+    {
       "id": "vectors-observed-effect",
       "checked": 0,
       "total": 80,
@@ -355,6 +373,18 @@
       "id": "vectors-open-weight-art53",
       "checked": 0,
       "total": 16,
+      "disagreements": 0
+    },
+    {
+      "id": "vectors-physical-completion",
+      "checked": 0,
+      "total": 48,
+      "disagreements": 0
+    },
+    {
+      "id": "vectors-principal-action",
+      "checked": 0,
+      "total": 33,
       "disagreements": 0
     },
     {

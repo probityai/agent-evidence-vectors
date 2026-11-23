@@ -1,30 +1,30 @@
 {
-  "cites": "a step that proceeded under the fail-open posture after the Guardian answered 403 to the caller's credential. The Guardian replied, so no answer is missing and the posture has nothing to apply to; an error that reads as a decision failure turns a withdrawn credential into an allow. The failure is recorded, so a checker that reads only the log passes it",
+  "cites": "the same refusal under the same posture, with the step blocked and the refusal recorded as the decision.",
   "coverage": "effective",
-  "doesNotAssert": "that the specification names the status codes; it fixes only that an answer is a decision",
+  "doesNotAssert": "the shape of the record beyond its presence",
   "evidenceBasis": "substrate",
   "expected": {
     "code": null,
     "codeValue": null,
     "unmeasurableBecause": null,
-    "verdict": "deny"
+    "verdict": "allow"
   },
-  "family": "acs-f-22",
-  "id": "vb44e10c53cd81861",
-  "kind": "reject",
+  "family": "acs-f-23",
+  "id": "v574c98ecb2134e95",
+  "kind": "accept",
   "payload": {
     "audit_events": [
       {
-        "event": "acs.decision.failure",
-        "failure_class": "transport",
-        "posture": "proceed"
+        "decision": "deny",
+        "event": "acs.decision",
+        "reason": "credential_revoked"
       }
     ],
     "guardian_response": {
       "body": {
-        "error": "credential not authorized"
+        "error": "credential revoked"
       },
-      "transport_status": 403
+      "transport_status": 401
     },
     "on_decision_failure": "proceed",
     "request": {
@@ -50,7 +50,7 @@
       },
       "timestamp": "2026-09-09T12:00:00Z"
     },
-    "step_outcome": "proceeded"
+    "step_outcome": "blocked"
   },
   "requirementText": [
     {

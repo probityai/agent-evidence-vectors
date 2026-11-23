@@ -1,12 +1,12 @@
 {
   "aggregate": {
     "counts": {
-      "ambiguous": 13,
-      "conformant": 15,
-      "nonconformant": 16
+      "ambiguous": 14,
+      "conformant": 17,
+      "nonconformant": 17
     },
     "line": "verdict: every member behaves as MANIFEST.json declares",
-    "total": 44
+    "total": 48
   },
   "anchor": {
     "kind": "digest-list-line",
@@ -18,7 +18,7 @@
     "routine": "corpus_digest in corpora/vectors-physical-completion/gen_vectors.py",
     "routine-file": "corpora/vectors-physical-completion/gen_vectors.py",
     "serialization": "corpus-routine",
-    "sha256": "c96efa91ee478597e2fb0d42fb71e98e6a9bf8d5ba30674ec73ebac6ccb6d270",
+    "sha256": "09939a5bf7c2752538c0452769c2135972dc3ab658e018f2b4fb1f2bc82876c2",
     "verdicts": {
       "availability-failure": "inconclusive",
       "integrity-failure": "fail"
@@ -30,7 +30,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "f7e70d2a7fc3757e211f3384fd6a6fcefb80e004634887d20fc92507d4dda578"
+          "sha256": "41692fab36ce5a6ff1c2555871ed2ad6d317c641ec39153c20b97e7fc096525e"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [],
@@ -39,21 +39,21 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "f7e70d2a7fc3757e211f3384fd6a6fcefb80e004634887d20fc92507d4dda578"
+          "sha256": "41692fab36ce5a6ff1c2555871ed2ad6d317c641ec39153c20b97e7fc096525e"
         },
         "swapped-in": "7bc6293b9eb1cbd5b1ca68d28f61976634415894e7026d3eb926a9c7b1698831",
         "test": "swap-and-re-pin"
       },
       "path": "corpora/vectors-physical-completion/README.md",
       "serialization": "bytes",
-      "sha256": "9eebfab56d605927a2e4a8aca63481788e05529921a8d7da3fa7142f8a8553f7"
+      "sha256": "0d27d30415315b12f12f53620758aab66898924e77d6ca693d36c02f98e59536"
     },
     {
       "consumed": "unconsumed",
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "f7e70d2a7fc3757e211f3384fd6a6fcefb80e004634887d20fc92507d4dda578"
+          "sha256": "41692fab36ce5a6ff1c2555871ed2ad6d317c641ec39153c20b97e7fc096525e"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [],
@@ -62,7 +62,7 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "f7e70d2a7fc3757e211f3384fd6a6fcefb80e004634887d20fc92507d4dda578"
+          "sha256": "41692fab36ce5a6ff1c2555871ed2ad6d317c641ec39153c20b97e7fc096525e"
         },
         "swapped-in": "852d70907dbed5fb9f18815662e1158544fcd3b8db6210a5d829868b92b10618",
         "test": "swap-and-re-pin"
@@ -76,7 +76,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "f7e70d2a7fc3757e211f3384fd6a6fcefb80e004634887d20fc92507d4dda578"
+          "sha256": "41692fab36ce5a6ff1c2555871ed2ad6d317c641ec39153c20b97e7fc096525e"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [],
@@ -85,21 +85,21 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "f7e70d2a7fc3757e211f3384fd6a6fcefb80e004634887d20fc92507d4dda578"
+          "sha256": "41692fab36ce5a6ff1c2555871ed2ad6d317c641ec39153c20b97e7fc096525e"
         },
         "swapped-in": "8751e728f558eaec30f8eb579a0dd300f277325e1d391a7b009e5fed536a24b5",
         "test": "swap-and-re-pin"
       },
       "path": "corpora/vectors-physical-completion/gen_vectors.py",
       "serialization": "bytes",
-      "sha256": "b8a12dbbe0ea680bc76d18311cf76fbc0ea3ac74b86582633ab169b2d44093fc"
+      "sha256": "6ff7e356efb06a4f35f8b69712fbcc8c97af3dc23c1373baad7a4a401787728f"
     },
     {
       "consumed": "unconsumed",
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "f7e70d2a7fc3757e211f3384fd6a6fcefb80e004634887d20fc92507d4dda578"
+          "sha256": "41692fab36ce5a6ff1c2555871ed2ad6d317c641ec39153c20b97e7fc096525e"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [],
@@ -108,14 +108,14 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "f7e70d2a7fc3757e211f3384fd6a6fcefb80e004634887d20fc92507d4dda578"
+          "sha256": "41692fab36ce5a6ff1c2555871ed2ad6d317c641ec39153c20b97e7fc096525e"
         },
         "swapped-in": "4af8a6fe011f6aebb8056b4233a7e21b8a891f06111dce10c6002987c3ccd5ec",
         "test": "swap-and-re-pin"
       },
       "path": "corpora/vectors-physical-completion/tests/test_corpus.py",
       "serialization": "bytes",
-      "sha256": "1e80a9bc49c2e1f3608716a0993996ca5c93198caccc0df5434ba35d42fc7627"
+      "sha256": "80ef186c4bf23cf8970541e7ccdaa1a5f22a3b029db67dad9787acf1ed03fc9d"
     }
   ],
   "boundary": {
@@ -130,7 +130,7 @@
     "root": "corpora/vectors-physical-completion"
   },
   "byte-identity": {
-    "pins": 44,
+    "pins": 48,
     "serialization": "bytes"
   },
   "canonicalization": {
@@ -161,22 +161,254 @@
     "revision": {
       "kind": "source-listing",
       "paths": [
-        "aee",
-        "cmd/aee-verify",
-        "corpusreaders",
+        "aee/admission.go",
+        "aee/carried_base64.go",
+        "aee/codes.go",
+        "aee/commitments.go",
+        "aee/jcs.go",
+        "aee/merkle.go",
+        "aee/pae.go",
+        "aee/recompute.go",
+        "aee/runbinding.go",
+        "aee/statement.go",
+        "aee/tier.go",
+        "aee/types.go",
+        "aee/validity.go",
+        "aee/verify.go",
+        "cmd/aee-verify/corpus.go",
+        "cmd/aee-verify/main.go",
+        "corpusreaders/a2ajcs.go",
+        "corpusreaders/aci.go",
+        "corpusreaders/acscore.go",
+        "corpusreaders/admission.go",
+        "corpusreaders/aeecorpus.go",
+        "corpusreaders/agentaction.go",
+        "corpusreaders/agentaction_chain.go",
+        "corpusreaders/agentdecision.go",
+        "corpusreaders/agenticprocess.go",
+        "corpusreaders/agentrequestproof.go",
+        "corpusreaders/aggregateaccounting.go",
+        "corpusreaders/aigeneration.go",
+        "corpusreaders/anchoredchain.go",
+        "corpusreaders/anchorstream.go",
+        "corpusreaders/approvalbinding.go",
+        "corpusreaders/artifactbinding.go",
+        "corpusreaders/auditrecord.go",
+        "corpusreaders/auditrecord_consumption.go",
+        "corpusreaders/auditrecord_datasubject.go",
+        "corpusreaders/auditrecord_dating.go",
+        "corpusreaders/auditrecord_principal.go",
+        "corpusreaders/auditrecord_sequence.go",
+        "corpusreaders/authoritydispatch.go",
+        "corpusreaders/aveidresolution.go",
+        "corpusreaders/badgevc.go",
+        "corpusreaders/budgetlineage.go",
+        "corpusreaders/canonical_base64.go",
+        "corpusreaders/capabilityrequirement.go",
+        "corpusreaders/cardreceipt.go",
+        "corpusreaders/catalogtrust.go",
+        "corpusreaders/changeadmission.go",
+        "corpusreaders/chunkedexport.go",
+        "corpusreaders/common.go",
+        "corpusreaders/completionconfirmation.go",
+        "corpusreaders/connectorscope.go",
+        "corpusreaders/containmentjournal.go",
+        "corpusreaders/contextdiscovery.go",
+        "corpusreaders/controldecision.go",
+        "corpusreaders/convertedargs.go",
+        "corpusreaders/decisionclient.go",
+        "corpusreaders/delegationlifecycle.go",
+        "corpusreaders/delegatorright.go",
+        "corpusreaders/dispatchfence.go",
+        "corpusreaders/dnsaid.go",
+        "corpusreaders/doneargv.go",
+        "corpusreaders/donechecks.go",
+        "corpusreaders/donerecords.go",
+        "corpusreaders/donerun.go",
+        "corpusreaders/emptyinterval.go",
+        "corpusreaders/evidencecell.go",
+        "corpusreaders/evidencestate.go",
+        "corpusreaders/executionbilling.go",
+        "corpusreaders/gradefloor.go",
+        "corpusreaders/htxcases.go",
+        "corpusreaders/identitybinding.go",
+        "corpusreaders/ietfagentrecord.go",
+        "corpusreaders/keydirectory.go",
+        "corpusreaders/keyrevocation.go",
+        "corpusreaders/lifecyclebinding.go",
+        "corpusreaders/mcpauthz.go",
+        "corpusreaders/mcpowasp.go",
+        "corpusreaders/mcprecord.go",
+        "corpusreaders/mcpresponsephase.go",
+        "corpusreaders/monitorcoverage.go",
+        "corpusreaders/oasfrecord.go",
+        "corpusreaders/observedeffect.go",
+        "corpusreaders/openweight.go",
+        "corpusreaders/paymentmandate.go",
+        "corpusreaders/physicalcompletion.go",
+        "corpusreaders/principalaction.go",
+        "corpusreaders/principalbinding.go",
+        "corpusreaders/printwitness.go",
+        "corpusreaders/propagationstep.go",
+        "corpusreaders/pyjson.go",
+        "corpusreaders/receiptchainend.go",
+        "corpusreaders/receiptsignature.go",
+        "corpusreaders/recorded.go",
+        "corpusreaders/refundconnected.go",
+        "corpusreaders/refundconnected_aps.go",
+        "corpusreaders/refundconnected_run.go",
+        "corpusreaders/refundconnected_steps.go",
+        "corpusreaders/refundconnected_trust.go",
+        "corpusreaders/refundconnected_value.go",
+        "corpusreaders/refusalreason.go",
+        "corpusreaders/registry.go",
+        "corpusreaders/responsibilityescalation.go",
+        "corpusreaders/restartrecords.go",
+        "corpusreaders/rsadigestinfo.go",
+        "corpusreaders/rulecorpus.go",
+        "corpusreaders/runmetrics.go",
+        "corpusreaders/scittcose.go",
+        "corpusreaders/selfreported.go",
+        "corpusreaders/signaturecoverage.go",
+        "corpusreaders/sourcecoverage.go",
+        "corpusreaders/strictjson.go",
+        "corpusreaders/telemetryevidence.go",
+        "corpusreaders/traceanchor.go",
+        "corpusreaders/uncertaineffect.go",
+        "corpusreaders/verdictlines.go",
+        "corpusreaders/w3cintake.go",
+        "corpusreaders/w3cjcs.go",
+        "corpusreaders/w3creport.go",
+        "corpusreaders/x402join.go",
         "go.mod"
       ],
       "serialization": "sha256-listing-v1",
-      "sha256": "e434e5085259d2b370df9d422566b5508a36f8fee907345b092f01a67b044722"
+      "sha256": "9f8df87013f03cbc4eadacc123106258586958177fa2e7c9bd59fd8118fe0f9a"
     },
     "runtime": {
       "name": "go",
       "version": "1.26"
     },
     "shared-verification-code": [
-      "aee",
-      "cmd/aee-verify",
-      "corpusreaders",
+      "aee/admission.go",
+      "aee/carried_base64.go",
+      "aee/codes.go",
+      "aee/commitments.go",
+      "aee/jcs.go",
+      "aee/merkle.go",
+      "aee/pae.go",
+      "aee/recompute.go",
+      "aee/runbinding.go",
+      "aee/statement.go",
+      "aee/tier.go",
+      "aee/types.go",
+      "aee/validity.go",
+      "aee/verify.go",
+      "cmd/aee-verify/corpus.go",
+      "cmd/aee-verify/main.go",
+      "corpusreaders/a2ajcs.go",
+      "corpusreaders/aci.go",
+      "corpusreaders/acscore.go",
+      "corpusreaders/admission.go",
+      "corpusreaders/aeecorpus.go",
+      "corpusreaders/agentaction.go",
+      "corpusreaders/agentaction_chain.go",
+      "corpusreaders/agentdecision.go",
+      "corpusreaders/agenticprocess.go",
+      "corpusreaders/agentrequestproof.go",
+      "corpusreaders/aggregateaccounting.go",
+      "corpusreaders/aigeneration.go",
+      "corpusreaders/anchoredchain.go",
+      "corpusreaders/anchorstream.go",
+      "corpusreaders/approvalbinding.go",
+      "corpusreaders/artifactbinding.go",
+      "corpusreaders/auditrecord.go",
+      "corpusreaders/auditrecord_consumption.go",
+      "corpusreaders/auditrecord_datasubject.go",
+      "corpusreaders/auditrecord_dating.go",
+      "corpusreaders/auditrecord_principal.go",
+      "corpusreaders/auditrecord_sequence.go",
+      "corpusreaders/authoritydispatch.go",
+      "corpusreaders/aveidresolution.go",
+      "corpusreaders/badgevc.go",
+      "corpusreaders/budgetlineage.go",
+      "corpusreaders/canonical_base64.go",
+      "corpusreaders/capabilityrequirement.go",
+      "corpusreaders/cardreceipt.go",
+      "corpusreaders/catalogtrust.go",
+      "corpusreaders/changeadmission.go",
+      "corpusreaders/chunkedexport.go",
+      "corpusreaders/common.go",
+      "corpusreaders/completionconfirmation.go",
+      "corpusreaders/connectorscope.go",
+      "corpusreaders/containmentjournal.go",
+      "corpusreaders/contextdiscovery.go",
+      "corpusreaders/controldecision.go",
+      "corpusreaders/convertedargs.go",
+      "corpusreaders/decisionclient.go",
+      "corpusreaders/delegationlifecycle.go",
+      "corpusreaders/delegatorright.go",
+      "corpusreaders/dispatchfence.go",
+      "corpusreaders/dnsaid.go",
+      "corpusreaders/doneargv.go",
+      "corpusreaders/donechecks.go",
+      "corpusreaders/donerecords.go",
+      "corpusreaders/donerun.go",
+      "corpusreaders/emptyinterval.go",
+      "corpusreaders/evidencecell.go",
+      "corpusreaders/evidencestate.go",
+      "corpusreaders/executionbilling.go",
+      "corpusreaders/gradefloor.go",
+      "corpusreaders/htxcases.go",
+      "corpusreaders/identitybinding.go",
+      "corpusreaders/ietfagentrecord.go",
+      "corpusreaders/keydirectory.go",
+      "corpusreaders/keyrevocation.go",
+      "corpusreaders/lifecyclebinding.go",
+      "corpusreaders/mcpauthz.go",
+      "corpusreaders/mcpowasp.go",
+      "corpusreaders/mcprecord.go",
+      "corpusreaders/mcpresponsephase.go",
+      "corpusreaders/monitorcoverage.go",
+      "corpusreaders/oasfrecord.go",
+      "corpusreaders/observedeffect.go",
+      "corpusreaders/openweight.go",
+      "corpusreaders/paymentmandate.go",
+      "corpusreaders/physicalcompletion.go",
+      "corpusreaders/principalaction.go",
+      "corpusreaders/principalbinding.go",
+      "corpusreaders/printwitness.go",
+      "corpusreaders/propagationstep.go",
+      "corpusreaders/pyjson.go",
+      "corpusreaders/receiptchainend.go",
+      "corpusreaders/receiptsignature.go",
+      "corpusreaders/recorded.go",
+      "corpusreaders/refundconnected.go",
+      "corpusreaders/refundconnected_aps.go",
+      "corpusreaders/refundconnected_run.go",
+      "corpusreaders/refundconnected_steps.go",
+      "corpusreaders/refundconnected_trust.go",
+      "corpusreaders/refundconnected_value.go",
+      "corpusreaders/refusalreason.go",
+      "corpusreaders/registry.go",
+      "corpusreaders/responsibilityescalation.go",
+      "corpusreaders/restartrecords.go",
+      "corpusreaders/rsadigestinfo.go",
+      "corpusreaders/rulecorpus.go",
+      "corpusreaders/runmetrics.go",
+      "corpusreaders/scittcose.go",
+      "corpusreaders/selfreported.go",
+      "corpusreaders/signaturecoverage.go",
+      "corpusreaders/sourcecoverage.go",
+      "corpusreaders/strictjson.go",
+      "corpusreaders/telemetryevidence.go",
+      "corpusreaders/traceanchor.go",
+      "corpusreaders/uncertaineffect.go",
+      "corpusreaders/verdictlines.go",
+      "corpusreaders/w3cintake.go",
+      "corpusreaders/w3cjcs.go",
+      "corpusreaders/w3creport.go",
+      "corpusreaders/x402join.go",
       "go.mod"
     ]
   },
@@ -295,6 +527,22 @@
     },
     {
       "check": "conformant-conflict-failure-against-met",
+      "native": {
+        "reasons": [],
+        "verdict": "conformant"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "conformant-criterion-missing-indeterminate",
+      "native": {
+        "reasons": [],
+        "verdict": "conformant"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "conformant-criterion-null-against-controller-success",
       "native": {
         "reasons": [],
         "verdict": "conformant"
@@ -430,6 +678,14 @@
       "state": "pass"
     },
     {
+      "check": "nonconformant-null-criterion-read-as-not-satisfied",
+      "native": {
+        "reasons": [],
+        "verdict": "nonconformant"
+      },
+      "state": "pass"
+    },
+    {
       "check": "open-bare-receipt-not-claimed",
       "native": {
         "reasons": [],
@@ -532,11 +788,19 @@
         "verdict": "ambiguous"
       },
       "state": "pass"
+    },
+    {
+      "check": "open-criterion-missing-proven",
+      "native": {
+        "reasons": [],
+        "verdict": "ambiguous"
+      },
+      "state": "pass"
     }
   ],
   "corpus-digest": {
     "serialization": "sha256-listing-v1",
-    "sha256": "ef41006f34242c1046689188bc2f312332e5d8a521f19e39836673a10ea8197a"
+    "sha256": "aeb4b85df4bf04af44321d60d1dbdf44a0a2ebff09e785174a7c29cd56b9c04d"
   },
   "exit-code": 0,
   "exit-rule": "zero-iff-every-check-passes",
@@ -561,6 +825,8 @@
       "conformant-ack-lost-not-provided",
       "conformant-conflict-success-against-unmet",
       "conformant-conflict-failure-against-met",
+      "conformant-criterion-missing-indeterminate",
+      "conformant-criterion-null-against-controller-success",
       "nonconformant-contract-id-missing",
       "nonconformant-contract-id-unknown",
       "nonconformant-result-member-absent",
@@ -577,6 +843,7 @@
       "nonconformant-controller-failure-read-as-not-satisfied",
       "nonconformant-absence-read-as-indeterminate",
       "nonconformant-absence-read-as-not-applicable",
+      "nonconformant-null-criterion-read-as-not-satisfied",
       "open-bare-receipt-not-claimed",
       "open-stale-witness-proven",
       "open-replayed-observation-proven",
@@ -589,10 +856,11 @@
       "open-settled-witness-indeterminate",
       "open-conflict-erased-to-proven",
       "open-conflict-erased-to-not-satisfied",
-      "open-conflict-drops-a-claim"
+      "open-conflict-drops-a-claim",
+      "open-criterion-missing-proven"
     ],
     "path": "corpora/vectors-physical-completion/MANIFEST.json",
-    "sha256": "7f54210e503945dbbb2685988520e019418f00caa36c6ba900657838b678c2fa"
+    "sha256": "3e4ef4606383d3da8cef0b21ba00695a81eba0c6158c06045b91c4b952084bcc"
   },
   "members": [
     {
@@ -729,6 +997,24 @@
         }
       ],
       "id": "conformant-conflict-failure-against-met"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-physical-completion/cases/conformant-criterion-missing-indeterminate/record.json",
+          "sha256": "f6982d703f27dd43502609a5b91e997086f0f3507533ff2bf87942f3e1017a51"
+        }
+      ],
+      "id": "conformant-criterion-missing-indeterminate"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-physical-completion/cases/conformant-criterion-null-against-controller-success/record.json",
+          "sha256": "a5518564873ad0c20c6fb2e4d51f25f8ce4a8d407bee76e8d9785c019321af09"
+        }
+      ],
+      "id": "conformant-criterion-null-against-controller-success"
     },
     {
       "files": [
@@ -877,6 +1163,15 @@
     {
       "files": [
         {
+          "path": "corpora/vectors-physical-completion/cases/nonconformant-null-criterion-read-as-not-satisfied/record.json",
+          "sha256": "8bca37dc1e66e379afdb009fa58179aa8160e516d9321f9bdd5e884c3b7ee438"
+        }
+      ],
+      "id": "nonconformant-null-criterion-read-as-not-satisfied"
+    },
+    {
+      "files": [
+        {
           "path": "corpora/vectors-physical-completion/cases/open-bare-receipt-not-claimed/record.json",
           "sha256": "85c2201be8576dc2686713fddd838f4c7f0e7a29ff5bcd177e43a3e60ac069f6"
         }
@@ -990,6 +1285,15 @@
         }
       ],
       "id": "open-conflict-drops-a-claim"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-physical-completion/cases/open-criterion-missing-proven/record.json",
+          "sha256": "14aa70f9ba0bd3720f3e77c1019f732ac98e1a16d704f4895db55f7daa05749a"
+        }
+      ],
+      "id": "open-criterion-missing-proven"
     }
   ],
   "native": {
@@ -1008,7 +1312,7 @@
       "reference": {
         "path": "release/intake/native/vectors-physical-completion.json",
         "serialization": "bytes",
-        "sha256": "f7e70d2a7fc3757e211f3384fd6a6fcefb80e004634887d20fc92507d4dda578"
+        "sha256": "41692fab36ce5a6ff1c2555871ed2ad6d317c641ec39153c20b97e7fc096525e"
       }
     },
     {
@@ -1017,7 +1321,7 @@
       "reference": {
         "path": "release/intake/native/vectors-physical-completion.txt",
         "serialization": "bytes",
-        "sha256": "a464222cb3737f9d4656ecc0dfacc508d5bd93cec43c67a8110dd5541af0a334"
+        "sha256": "1f80d6d3eb15a1e2defbaf5066068acdf1225518b0c26781fb29b61ec8d7a675"
       }
     },
     {
@@ -1042,11 +1346,11 @@
     "runs": [
       {
         "process": "run-1",
-        "sha256": "f7e70d2a7fc3757e211f3384fd6a6fcefb80e004634887d20fc92507d4dda578"
+        "sha256": "41692fab36ce5a6ff1c2555871ed2ad6d317c641ec39153c20b97e7fc096525e"
       },
       {
         "process": "run-2",
-        "sha256": "f7e70d2a7fc3757e211f3384fd6a6fcefb80e004634887d20fc92507d4dda578"
+        "sha256": "41692fab36ce5a6ff1c2555871ed2ad6d317c641ec39153c20b97e7fc096525e"
       }
     ],
     "seed": null,
@@ -1060,7 +1364,7 @@
       "action-occurred-or-authority"
     ],
     "establishes": [
-      "aee-verify, at the source listing named here, judges each of the 44 pinned members of physical-completion/v1 as its manifest declares"
+      "aee-verify, at the source listing named here, judges each of the 48 pinned members of physical-completion/v1 as its manifest declares"
     ],
     "leaves-open": [
       "whether an implementation written from the specification, run by someone other than an author, reaches the same verdicts",
@@ -1071,7 +1375,7 @@
   "selector": {
     "expression": "*",
     "language": "id-glob",
-    "matched": 44,
+    "matched": 48,
     "require": "at-least-one",
     "selected": [
       "conformant-receipt-alone-not-provided",
@@ -1089,6 +1393,8 @@
       "conformant-ack-lost-not-provided",
       "conformant-conflict-success-against-unmet",
       "conformant-conflict-failure-against-met",
+      "conformant-criterion-missing-indeterminate",
+      "conformant-criterion-null-against-controller-success",
       "nonconformant-contract-id-missing",
       "nonconformant-contract-id-unknown",
       "nonconformant-result-member-absent",
@@ -1105,6 +1411,7 @@
       "nonconformant-controller-failure-read-as-not-satisfied",
       "nonconformant-absence-read-as-indeterminate",
       "nonconformant-absence-read-as-not-applicable",
+      "nonconformant-null-criterion-read-as-not-satisfied",
       "open-bare-receipt-not-claimed",
       "open-stale-witness-proven",
       "open-replayed-observation-proven",
@@ -1117,7 +1424,8 @@
       "open-settled-witness-indeterminate",
       "open-conflict-erased-to-proven",
       "open-conflict-erased-to-not-satisfied",
-      "open-conflict-drops-a-claim"
+      "open-conflict-drops-a-claim",
+      "open-criterion-missing-proven"
     ]
   },
   "specification-readers": [],

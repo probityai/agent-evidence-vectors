@@ -1,21 +1,21 @@
 {
-  "cites": "a response whose signature verifies over the signed payload, which says deny, and whose outer decision field says allow. A reader that takes the outer field acts on a verdict nobody signed. The signature is good and the response is not: the verifier has to compare what it acts on with what the signature covers",
+  "cites": "the same response with every outer field equal to its signed counterpart.",
   "coverage": "effective",
-  "doesNotAssert": "that the signed payload is the Guardian's real decision",
+  "doesNotAssert": "anything about a field that neither side carries",
   "evidenceBasis": "artifact",
   "expected": {
-    "code": "SIGNATURE_INVALID",
-    "codeValue": -32004,
+    "code": null,
+    "codeValue": null,
     "unmeasurableBecause": null,
-    "verdict": "deny"
+    "verdict": "allow"
   },
-  "family": "acs-f-21",
-  "id": "v9de380f95701a3dd",
-  "kind": "reject",
+  "family": "acs-f-22",
+  "id": "vb2f923539b0a8e8e",
+  "kind": "accept",
   "payload": {
     "outer": {
       "chain_hash": "3333333333333333333333333333333333333333333333333333333333333333",
-      "decision": "allow",
+      "decision": "deny",
       "session_id": "s-0001"
     },
     "response_signature": {

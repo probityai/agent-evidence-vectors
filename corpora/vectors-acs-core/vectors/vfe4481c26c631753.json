@@ -1,20 +1,20 @@
 {
-  "cites": "the same response with every outer field equal to its signed counterpart.",
+  "cites": "the outer chain_hash differs from the signed one. The chain head is the only thing that ties this step to the steps before it, so a head beside the signature that the signature does not cover lets a reader follow a chain the Guardian never signed",
   "coverage": "effective",
-  "doesNotAssert": "anything about a field that neither side carries",
+  "doesNotAssert": "which of the two heads, if either, is the session's real head",
   "evidenceBasis": "artifact",
   "expected": {
-    "code": null,
-    "codeValue": null,
+    "code": "CHAIN_MISMATCH",
+    "codeValue": -32007,
     "unmeasurableBecause": null,
-    "verdict": "allow"
+    "verdict": "deny"
   },
-  "family": "acs-f-21",
-  "id": "v66adccea7c8cf3b2",
-  "kind": "accept",
+  "family": "acs-f-22",
+  "id": "vfe4481c26c631753",
+  "kind": "reject",
   "payload": {
     "outer": {
-      "chain_hash": "3333333333333333333333333333333333333333333333333333333333333333",
+      "chain_hash": "4444444444444444444444444444444444444444444444444444444444444444",
       "decision": "deny",
       "session_id": "s-0001"
     },

@@ -1,0 +1,1044 @@
+{
+  "aggregate": {
+    "counts": {
+      "fails": 9,
+      "no-ids": 1,
+      "resolves": 3
+    },
+    "line": "verdict: every member behaves as MANIFEST.json declares",
+    "total": 13
+  },
+  "anchor": {
+    "kind": "digest-list-line",
+    "manifest": "vectors-ave-id-resolution/MANIFEST.json",
+    "reference": {
+      "path": "release/CORPUS-DIGESTS.txt",
+      "uri": "https://github.com/probityai/agent-evidence-vectors/blob/main/release/CORPUS-DIGESTS.txt"
+    },
+    "routine": "corpus_digest in corpora/vectors-ave-id-resolution/gen_vectors.py",
+    "routine-file": "corpora/vectors-ave-id-resolution/gen_vectors.py",
+    "serialization": "corpus-routine",
+    "sha256": "5e3741be300ea425c4180ade6636531bd3b73361a7f4d3a99e9faef546c0c8fe",
+    "verdicts": {
+      "availability-failure": "inconclusive",
+      "integrity-failure": "fail"
+    }
+  },
+  "artifacts": [
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "567bfdb75d43a0c43b2c2e90f2e1c3ccee0ce2afdfcdae9d83484b4255de0a6b"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "567bfdb75d43a0c43b2c2e90f2e1c3ccee0ce2afdfcdae9d83484b4255de0a6b"
+        },
+        "swapped-in": "35713b6638e2fa59cf05ea1bc09c04f3ae96d261ab7f138295a9beeb7fc38e5d",
+        "test": "swap-and-re-pin"
+      },
+      "path": "corpora/vectors-ave-id-resolution/INDEX.md",
+      "serialization": "bytes",
+      "sha256": "e929884f9c287d044b5c243373caf704ae0b78b0843baee5176362daa36f1c06"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "567bfdb75d43a0c43b2c2e90f2e1c3ccee0ce2afdfcdae9d83484b4255de0a6b"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "567bfdb75d43a0c43b2c2e90f2e1c3ccee0ce2afdfcdae9d83484b4255de0a6b"
+        },
+        "swapped-in": "1dc8215d55eda7fa1dd83bbdc6de1a81bfe7d0d87a6c968c6162b45598ea23ed",
+        "test": "swap-and-re-pin"
+      },
+      "path": "corpora/vectors-ave-id-resolution/README.md",
+      "serialization": "bytes",
+      "sha256": "5908bbef0a7fd4736f6a1b5d4d6b76308a471f0a32137e9a38dc929c18b8565c"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "567bfdb75d43a0c43b2c2e90f2e1c3ccee0ce2afdfcdae9d83484b4255de0a6b"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "567bfdb75d43a0c43b2c2e90f2e1c3ccee0ce2afdfcdae9d83484b4255de0a6b"
+        },
+        "swapped-in": "cceccd0bb08a034280463e809ee192239d60af368c57919c9f3c47b38def4e95",
+        "test": "swap-and-re-pin"
+      },
+      "path": "corpora/vectors-ave-id-resolution/check_vectors.py",
+      "serialization": "bytes",
+      "sha256": "02953fb030efa9bdb42edb5c3eb3cfb72928c04f1ca27dbb430e3cab25668c64"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "567bfdb75d43a0c43b2c2e90f2e1c3ccee0ce2afdfcdae9d83484b4255de0a6b"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "567bfdb75d43a0c43b2c2e90f2e1c3ccee0ce2afdfcdae9d83484b4255de0a6b"
+        },
+        "swapped-in": "1349780dc7150c2c2d028740613901a6c7a8d3c664aa385ecf0242b21a060e00",
+        "test": "swap-and-re-pin"
+      },
+      "path": "corpora/vectors-ave-id-resolution/gen_vectors.py",
+      "serialization": "bytes",
+      "sha256": "733bfb512c0ef108c0412957a8b32b64929d5f755c533ff7009d15e3388826b8"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "567bfdb75d43a0c43b2c2e90f2e1c3ccee0ce2afdfcdae9d83484b4255de0a6b"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "567bfdb75d43a0c43b2c2e90f2e1c3ccee0ce2afdfcdae9d83484b4255de0a6b"
+        },
+        "swapped-in": "5bdcd104f441e2bc62fe3ff6693f2670af70fccc548ab6a1549f0246314198b0",
+        "test": "swap-and-re-pin"
+      },
+      "path": "corpora/vectors-ave-id-resolution/resolve_ids.py",
+      "serialization": "bytes",
+      "sha256": "6217c611b860f4365a926ac70a791b05b0326df4678ab55786ca041974c73dd1"
+    },
+    {
+      "consumed": "consumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "567bfdb75d43a0c43b2c2e90f2e1c3ccee0ce2afdfcdae9d83484b4255de0a6b"
+        },
+        "corpus-digest": "not recomputable over the swapped bytes (ValueError)",
+        "pins-moved": [
+          "corpora/vectors-ave-id-resolution/MANIFEST.json"
+        ],
+        "swapped": {
+          "exit-code": 1,
+          "sha256": "1d3ba0e679b44257cbf842ff1461daec68275c5c598bc075be6bc0faccd38129"
+        },
+        "swapped-in": "afbe3c92b545f195014d0493f2298abd03b2322517cb9e4823e058d585d34d23",
+        "test": "swap-and-re-pin"
+      },
+      "path": "corpora/vectors-ave-id-resolution/snapshots/v1.2.0/SHA256SUMS",
+      "serialization": "bytes",
+      "sha256": "5b42a63899a599362435b49c8f3cb526fa5a0d72c2d844f6166fa3f14cd63a9f"
+    },
+    {
+      "consumed": "consumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "567bfdb75d43a0c43b2c2e90f2e1c3ccee0ce2afdfcdae9d83484b4255de0a6b"
+        },
+        "corpus-digest": "not recomputable over the swapped bytes (ValueError)",
+        "pins-moved": [
+          "corpora/vectors-ave-id-resolution/MANIFEST.json",
+          "corpora/vectors-ave-id-resolution/README.md",
+          "corpora/vectors-ave-id-resolution/cases/active-resolves-json/output.json",
+          "corpora/vectors-ave-id-resolution/cases/malformed-id-json/output.json",
+          "corpora/vectors-ave-id-resolution/cases/unknown-id-json/output.json",
+          "corpora/vectors-ave-id-resolution/gen_vectors.py",
+          "corpora/vectors-ave-id-resolution/snapshots/v1.2.0/SHA256SUMS",
+          "corpora/vectors-ave-id-resolution/snapshots/v1.2.0/ave-records.manifest.json"
+        ],
+        "swapped": {
+          "exit-code": 1,
+          "sha256": "26a84c30cf4d60244e7d6550d23fc88926c49a7b0335ca1e617bb08a704b9678"
+        },
+        "swapped-in": "afced8317a10c9972a0c140768d32667ab1ed846bc5f18d03c08f12730ca419a",
+        "test": "swap-and-re-pin"
+      },
+      "path": "corpora/vectors-ave-id-resolution/snapshots/v1.2.0/ave-records.json",
+      "serialization": "bytes",
+      "sha256": "92e002e98cdd10f5de36e0ccfa80696b623cdadf302cc4d884f2a33b7fd94390"
+    },
+    {
+      "consumed": "consumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "567bfdb75d43a0c43b2c2e90f2e1c3ccee0ce2afdfcdae9d83484b4255de0a6b"
+        },
+        "corpus-digest": "not recomputable over the swapped bytes (ValueError)",
+        "pins-moved": [
+          "corpora/vectors-ave-id-resolution/MANIFEST.json",
+          "corpora/vectors-ave-id-resolution/snapshots/v1.2.0/SHA256SUMS"
+        ],
+        "swapped": {
+          "exit-code": 1,
+          "sha256": "5506658621ddcfdbe2357b0d8c0b715ed5bc841aa49eb8b03741c1f95aa66e7c"
+        },
+        "swapped-in": "3357ca144f86704663e07188c77404536642e3f7c4aceae711bc33a2417a5a64",
+        "test": "swap-and-re-pin"
+      },
+      "path": "corpora/vectors-ave-id-resolution/snapshots/v1.2.0/ave-records.manifest.json",
+      "serialization": "bytes",
+      "sha256": "8df489a37ebb079a22cf6a8d918ac88c9620669106ec387745716a5a582b86e0"
+    },
+    {
+      "consumed": "consumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "567bfdb75d43a0c43b2c2e90f2e1c3ccee0ce2afdfcdae9d83484b4255de0a6b"
+        },
+        "corpus-digest": "not recomputable over the swapped bytes (ValueError)",
+        "pins-moved": [
+          "corpora/vectors-ave-id-resolution/MANIFEST.json"
+        ],
+        "swapped": {
+          "exit-code": 1,
+          "sha256": "62ca553f099e03136a7ce84126afc02307f0ab9aa82f8d6ca02d9e1c02f8ef0f"
+        },
+        "swapped-in": "bae0171fb1b55520c93e2cb4c69dbcbc666cb1abb20acd28abed3ad3a3ce52a9",
+        "test": "swap-and-re-pin"
+      },
+      "path": "corpora/vectors-ave-id-resolution/snapshots/v1.3.0/SHA256SUMS",
+      "serialization": "bytes",
+      "sha256": "b7398be4738aab08c3bde859c6e668d6c46212e1a55280b63b597f78242eabed"
+    },
+    {
+      "consumed": "consumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "567bfdb75d43a0c43b2c2e90f2e1c3ccee0ce2afdfcdae9d83484b4255de0a6b"
+        },
+        "corpus-digest": "not recomputable over the swapped bytes (ValueError)",
+        "pins-moved": [
+          "corpora/vectors-ave-id-resolution/MANIFEST.json",
+          "corpora/vectors-ave-id-resolution/cases/not-active-json/output.json",
+          "corpora/vectors-ave-id-resolution/cases/run-names-other-snapshot-sarif/output.sarif",
+          "corpora/vectors-ave-id-resolution/gen_vectors.py",
+          "corpora/vectors-ave-id-resolution/snapshots/v1.3.0/SHA256SUMS",
+          "corpora/vectors-ave-id-resolution/snapshots/v1.3.0/ave-records.manifest.json"
+        ],
+        "swapped": {
+          "exit-code": 1,
+          "sha256": "9d73b82b6025dbfab936caec42705203adb5572625879f980a6e30de52b01419"
+        },
+        "swapped-in": "2f13f51e910dfca74f47e58f45a3350b20c68ad8913b400c52e8ec44f8662241",
+        "test": "swap-and-re-pin"
+      },
+      "path": "corpora/vectors-ave-id-resolution/snapshots/v1.3.0/ave-records.json",
+      "serialization": "bytes",
+      "sha256": "7d3284314f7ea19af096df2b20e9d715b628a398cf88391d97be90a1ae074e74"
+    },
+    {
+      "consumed": "consumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "567bfdb75d43a0c43b2c2e90f2e1c3ccee0ce2afdfcdae9d83484b4255de0a6b"
+        },
+        "corpus-digest": "not recomputable over the swapped bytes (ValueError)",
+        "pins-moved": [
+          "corpora/vectors-ave-id-resolution/MANIFEST.json",
+          "corpora/vectors-ave-id-resolution/snapshots/v1.3.0/SHA256SUMS"
+        ],
+        "swapped": {
+          "exit-code": 1,
+          "sha256": "4b9cfbc6c0c52d07116023d5b6225c94e01dc45878b2b6c5a7827dbccd31e84f"
+        },
+        "swapped-in": "286248f24d73cd8fca502a01945f39126df0396a1cad3709a717d63b39c65755",
+        "test": "swap-and-re-pin"
+      },
+      "path": "corpora/vectors-ave-id-resolution/snapshots/v1.3.0/ave-records.manifest.json",
+      "serialization": "bytes",
+      "sha256": "d60969077ce76f9ceee1d984fcdc2f49af60fbf79340d69794bd8256c0aca951"
+    },
+    {
+      "consumed": "consumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "567bfdb75d43a0c43b2c2e90f2e1c3ccee0ce2afdfcdae9d83484b4255de0a6b"
+        },
+        "corpus-digest": "not recomputable over the swapped bytes (ValueError)",
+        "pins-moved": [
+          "corpora/vectors-ave-id-resolution/MANIFEST.json",
+          "corpora/vectors-ave-id-resolution/snapshots/v1.3.0/SHA256SUMS"
+        ],
+        "swapped": {
+          "exit-code": 1,
+          "sha256": "4b9cfbc6c0c52d07116023d5b6225c94e01dc45878b2b6c5a7827dbccd31e84f"
+        },
+        "swapped-in": "ca8bb757fca54e64c8e24f84c244c0e4a7d4d1bec7fc835bdbcbc74e9e8fd1bf",
+        "test": "swap-and-re-pin"
+      },
+      "path": "corpora/vectors-ave-id-resolution/snapshots/v1.3.0/ave-taxonomy.json",
+      "serialization": "bytes",
+      "sha256": "6bda1d2ce21fe56730eec37c1e3a14988e4a200af88ad95eb7011af57120facc"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "567bfdb75d43a0c43b2c2e90f2e1c3ccee0ce2afdfcdae9d83484b4255de0a6b"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "567bfdb75d43a0c43b2c2e90f2e1c3ccee0ce2afdfcdae9d83484b4255de0a6b"
+        },
+        "swapped-in": "c8a734a17f635a41a02f83ab1d969e62b637d7ab1653e4dbe740b9ef1a3cf507",
+        "test": "swap-and-re-pin"
+      },
+      "path": "corpora/vectors-ave-id-resolution/tests/test_corpus.py",
+      "serialization": "bytes",
+      "sha256": "42048cf5f1f7ce31eee9f0843c6f9570da65911b028d249c57714b283220cf90"
+    }
+  ],
+  "boundary": {
+    "complete": true,
+    "member-locations": [
+      {
+        "dir": "cases/active-resolves-json",
+        "recursive": false,
+        "suffix": ".json"
+      },
+      {
+        "dir": "cases/active-resolves-sarif",
+        "recursive": false,
+        "suffix": ".sarif"
+      },
+      {
+        "dir": "cases/malformed-id-json",
+        "recursive": false,
+        "suffix": ".json"
+      },
+      {
+        "dir": "cases/malformed-id-sarif",
+        "recursive": false,
+        "suffix": ".sarif"
+      },
+      {
+        "dir": "cases/no-ave-id-sarif",
+        "recursive": false,
+        "suffix": ".sarif"
+      },
+      {
+        "dir": "cases/not-active-json",
+        "recursive": false,
+        "suffix": ".json"
+      },
+      {
+        "dir": "cases/not-active-sarif",
+        "recursive": false,
+        "suffix": ".sarif"
+      },
+      {
+        "dir": "cases/not-active-sarif-under-v1.2.0",
+        "recursive": false,
+        "suffix": ".sarif"
+      },
+      {
+        "dir": "cases/one-unknown-among-active-sarif",
+        "recursive": false,
+        "suffix": ".sarif"
+      },
+      {
+        "dir": "cases/property-id-not-active-sarif",
+        "recursive": false,
+        "suffix": ".sarif"
+      },
+      {
+        "dir": "cases/run-names-other-snapshot-sarif",
+        "recursive": false,
+        "suffix": ".sarif"
+      },
+      {
+        "dir": "cases/unknown-id-json",
+        "recursive": false,
+        "suffix": ".json"
+      },
+      {
+        "dir": "cases/unknown-id-sarif",
+        "recursive": false,
+        "suffix": ".sarif"
+      }
+    ],
+    "root": "corpora/vectors-ave-id-resolution"
+  },
+  "byte-identity": {
+    "pins": 13,
+    "serialization": "bytes"
+  },
+  "canonicalization": {
+    "encoding": "jcs-sha256"
+  },
+  "checker": {
+    "commands": [
+      "go build -o aee-verify ./cmd/aee-verify",
+      "aee-verify -json corpora/vectors-ave-id-resolution",
+      "aee-verify -json corpora/vectors-ave-id-resolution",
+      "aee-verify corpora/vectors-ave-id-resolution"
+    ],
+    "dependencies": [
+      {
+        "path": "go.mod",
+        "serialization": "bytes",
+        "sha256": "c9f5a67159789ead4e2879e86805505c6ba22150b04bef360e6b3333125fb1c2"
+      },
+      {
+        "path": "go.work",
+        "serialization": "bytes",
+        "sha256": "61a9b151174d1aca21dd4b851b7d9a88784c4e6674ba4550a01a36a22f165e47"
+      }
+    ],
+    "helpers": [],
+    "name": "aee-verify",
+    "relationship": "same-implementation",
+    "revision": {
+      "kind": "source-listing",
+      "paths": [
+        "aee/admission.go",
+        "aee/carried_base64.go",
+        "aee/codes.go",
+        "aee/commitments.go",
+        "aee/jcs.go",
+        "aee/merkle.go",
+        "aee/pae.go",
+        "aee/recompute.go",
+        "aee/runbinding.go",
+        "aee/statement.go",
+        "aee/tier.go",
+        "aee/types.go",
+        "aee/validity.go",
+        "aee/verify.go",
+        "cmd/aee-verify/corpus.go",
+        "cmd/aee-verify/main.go",
+        "corpusreaders/a2ajcs.go",
+        "corpusreaders/aci.go",
+        "corpusreaders/acscore.go",
+        "corpusreaders/admission.go",
+        "corpusreaders/aeecorpus.go",
+        "corpusreaders/agentaction.go",
+        "corpusreaders/agentaction_chain.go",
+        "corpusreaders/agentdecision.go",
+        "corpusreaders/agenticprocess.go",
+        "corpusreaders/agentrequestproof.go",
+        "corpusreaders/aggregateaccounting.go",
+        "corpusreaders/aigeneration.go",
+        "corpusreaders/anchoredchain.go",
+        "corpusreaders/anchorstream.go",
+        "corpusreaders/approvalbinding.go",
+        "corpusreaders/artifactbinding.go",
+        "corpusreaders/auditrecord.go",
+        "corpusreaders/auditrecord_consumption.go",
+        "corpusreaders/auditrecord_datasubject.go",
+        "corpusreaders/auditrecord_dating.go",
+        "corpusreaders/auditrecord_principal.go",
+        "corpusreaders/auditrecord_sequence.go",
+        "corpusreaders/authoritydispatch.go",
+        "corpusreaders/aveidresolution.go",
+        "corpusreaders/badgevc.go",
+        "corpusreaders/budgetlineage.go",
+        "corpusreaders/canonical_base64.go",
+        "corpusreaders/capabilityrequirement.go",
+        "corpusreaders/cardreceipt.go",
+        "corpusreaders/catalogtrust.go",
+        "corpusreaders/changeadmission.go",
+        "corpusreaders/chunkedexport.go",
+        "corpusreaders/common.go",
+        "corpusreaders/completionconfirmation.go",
+        "corpusreaders/connectorscope.go",
+        "corpusreaders/containmentjournal.go",
+        "corpusreaders/contextdiscovery.go",
+        "corpusreaders/controldecision.go",
+        "corpusreaders/convertedargs.go",
+        "corpusreaders/decisionclient.go",
+        "corpusreaders/delegationlifecycle.go",
+        "corpusreaders/delegatorright.go",
+        "corpusreaders/dispatchfence.go",
+        "corpusreaders/dnsaid.go",
+        "corpusreaders/doneargv.go",
+        "corpusreaders/donechecks.go",
+        "corpusreaders/donerecords.go",
+        "corpusreaders/donerun.go",
+        "corpusreaders/emptyinterval.go",
+        "corpusreaders/evidencecell.go",
+        "corpusreaders/evidencestate.go",
+        "corpusreaders/executionbilling.go",
+        "corpusreaders/gradefloor.go",
+        "corpusreaders/htxcases.go",
+        "corpusreaders/identitybinding.go",
+        "corpusreaders/ietfagentrecord.go",
+        "corpusreaders/keydirectory.go",
+        "corpusreaders/keyrevocation.go",
+        "corpusreaders/lifecyclebinding.go",
+        "corpusreaders/mcpauthz.go",
+        "corpusreaders/mcpowasp.go",
+        "corpusreaders/mcprecord.go",
+        "corpusreaders/mcpresponsephase.go",
+        "corpusreaders/monitorcoverage.go",
+        "corpusreaders/oasfrecord.go",
+        "corpusreaders/observedeffect.go",
+        "corpusreaders/openweight.go",
+        "corpusreaders/paymentmandate.go",
+        "corpusreaders/physicalcompletion.go",
+        "corpusreaders/principalaction.go",
+        "corpusreaders/principalbinding.go",
+        "corpusreaders/printwitness.go",
+        "corpusreaders/propagationstep.go",
+        "corpusreaders/pyjson.go",
+        "corpusreaders/receiptchainend.go",
+        "corpusreaders/receiptsignature.go",
+        "corpusreaders/recorded.go",
+        "corpusreaders/refundconnected.go",
+        "corpusreaders/refundconnected_aps.go",
+        "corpusreaders/refundconnected_run.go",
+        "corpusreaders/refundconnected_steps.go",
+        "corpusreaders/refundconnected_trust.go",
+        "corpusreaders/refundconnected_value.go",
+        "corpusreaders/refusalreason.go",
+        "corpusreaders/registry.go",
+        "corpusreaders/responsibilityescalation.go",
+        "corpusreaders/restartrecords.go",
+        "corpusreaders/rsadigestinfo.go",
+        "corpusreaders/rulecorpus.go",
+        "corpusreaders/runmetrics.go",
+        "corpusreaders/scittcose.go",
+        "corpusreaders/selfreported.go",
+        "corpusreaders/signaturecoverage.go",
+        "corpusreaders/sourcecoverage.go",
+        "corpusreaders/strictjson.go",
+        "corpusreaders/telemetryevidence.go",
+        "corpusreaders/traceanchor.go",
+        "corpusreaders/uncertaineffect.go",
+        "corpusreaders/verdictlines.go",
+        "corpusreaders/w3cintake.go",
+        "corpusreaders/w3cjcs.go",
+        "corpusreaders/w3creport.go",
+        "corpusreaders/x402join.go",
+        "go.mod"
+      ],
+      "serialization": "sha256-listing-v1",
+      "sha256": "9f8df87013f03cbc4eadacc123106258586958177fa2e7c9bd59fd8118fe0f9a"
+    },
+    "runtime": {
+      "name": "go",
+      "version": "1.26"
+    },
+    "shared-verification-code": [
+      "aee/admission.go",
+      "aee/carried_base64.go",
+      "aee/codes.go",
+      "aee/commitments.go",
+      "aee/jcs.go",
+      "aee/merkle.go",
+      "aee/pae.go",
+      "aee/recompute.go",
+      "aee/runbinding.go",
+      "aee/statement.go",
+      "aee/tier.go",
+      "aee/types.go",
+      "aee/validity.go",
+      "aee/verify.go",
+      "cmd/aee-verify/corpus.go",
+      "cmd/aee-verify/main.go",
+      "corpusreaders/a2ajcs.go",
+      "corpusreaders/aci.go",
+      "corpusreaders/acscore.go",
+      "corpusreaders/admission.go",
+      "corpusreaders/aeecorpus.go",
+      "corpusreaders/agentaction.go",
+      "corpusreaders/agentaction_chain.go",
+      "corpusreaders/agentdecision.go",
+      "corpusreaders/agenticprocess.go",
+      "corpusreaders/agentrequestproof.go",
+      "corpusreaders/aggregateaccounting.go",
+      "corpusreaders/aigeneration.go",
+      "corpusreaders/anchoredchain.go",
+      "corpusreaders/anchorstream.go",
+      "corpusreaders/approvalbinding.go",
+      "corpusreaders/artifactbinding.go",
+      "corpusreaders/auditrecord.go",
+      "corpusreaders/auditrecord_consumption.go",
+      "corpusreaders/auditrecord_datasubject.go",
+      "corpusreaders/auditrecord_dating.go",
+      "corpusreaders/auditrecord_principal.go",
+      "corpusreaders/auditrecord_sequence.go",
+      "corpusreaders/authoritydispatch.go",
+      "corpusreaders/aveidresolution.go",
+      "corpusreaders/badgevc.go",
+      "corpusreaders/budgetlineage.go",
+      "corpusreaders/canonical_base64.go",
+      "corpusreaders/capabilityrequirement.go",
+      "corpusreaders/cardreceipt.go",
+      "corpusreaders/catalogtrust.go",
+      "corpusreaders/changeadmission.go",
+      "corpusreaders/chunkedexport.go",
+      "corpusreaders/common.go",
+      "corpusreaders/completionconfirmation.go",
+      "corpusreaders/connectorscope.go",
+      "corpusreaders/containmentjournal.go",
+      "corpusreaders/contextdiscovery.go",
+      "corpusreaders/controldecision.go",
+      "corpusreaders/convertedargs.go",
+      "corpusreaders/decisionclient.go",
+      "corpusreaders/delegationlifecycle.go",
+      "corpusreaders/delegatorright.go",
+      "corpusreaders/dispatchfence.go",
+      "corpusreaders/dnsaid.go",
+      "corpusreaders/doneargv.go",
+      "corpusreaders/donechecks.go",
+      "corpusreaders/donerecords.go",
+      "corpusreaders/donerun.go",
+      "corpusreaders/emptyinterval.go",
+      "corpusreaders/evidencecell.go",
+      "corpusreaders/evidencestate.go",
+      "corpusreaders/executionbilling.go",
+      "corpusreaders/gradefloor.go",
+      "corpusreaders/htxcases.go",
+      "corpusreaders/identitybinding.go",
+      "corpusreaders/ietfagentrecord.go",
+      "corpusreaders/keydirectory.go",
+      "corpusreaders/keyrevocation.go",
+      "corpusreaders/lifecyclebinding.go",
+      "corpusreaders/mcpauthz.go",
+      "corpusreaders/mcpowasp.go",
+      "corpusreaders/mcprecord.go",
+      "corpusreaders/mcpresponsephase.go",
+      "corpusreaders/monitorcoverage.go",
+      "corpusreaders/oasfrecord.go",
+      "corpusreaders/observedeffect.go",
+      "corpusreaders/openweight.go",
+      "corpusreaders/paymentmandate.go",
+      "corpusreaders/physicalcompletion.go",
+      "corpusreaders/principalaction.go",
+      "corpusreaders/principalbinding.go",
+      "corpusreaders/printwitness.go",
+      "corpusreaders/propagationstep.go",
+      "corpusreaders/pyjson.go",
+      "corpusreaders/receiptchainend.go",
+      "corpusreaders/receiptsignature.go",
+      "corpusreaders/recorded.go",
+      "corpusreaders/refundconnected.go",
+      "corpusreaders/refundconnected_aps.go",
+      "corpusreaders/refundconnected_run.go",
+      "corpusreaders/refundconnected_steps.go",
+      "corpusreaders/refundconnected_trust.go",
+      "corpusreaders/refundconnected_value.go",
+      "corpusreaders/refusalreason.go",
+      "corpusreaders/registry.go",
+      "corpusreaders/responsibilityescalation.go",
+      "corpusreaders/restartrecords.go",
+      "corpusreaders/rsadigestinfo.go",
+      "corpusreaders/rulecorpus.go",
+      "corpusreaders/runmetrics.go",
+      "corpusreaders/scittcose.go",
+      "corpusreaders/selfreported.go",
+      "corpusreaders/signaturecoverage.go",
+      "corpusreaders/sourcecoverage.go",
+      "corpusreaders/strictjson.go",
+      "corpusreaders/telemetryevidence.go",
+      "corpusreaders/traceanchor.go",
+      "corpusreaders/uncertaineffect.go",
+      "corpusreaders/verdictlines.go",
+      "corpusreaders/w3cintake.go",
+      "corpusreaders/w3cjcs.go",
+      "corpusreaders/w3creport.go",
+      "corpusreaders/x402join.go",
+      "go.mod"
+    ]
+  },
+  "checks": [
+    {
+      "check": "active-resolves-json",
+      "native": {
+        "reasons": [],
+        "verdict": "resolves"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "active-resolves-sarif",
+      "native": {
+        "reasons": [],
+        "verdict": "resolves"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "unknown-id-json",
+      "native": {
+        "reasons": [],
+        "verdict": "fails"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "unknown-id-sarif",
+      "native": {
+        "reasons": [],
+        "verdict": "fails"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "malformed-id-json",
+      "native": {
+        "reasons": [],
+        "verdict": "fails"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "malformed-id-sarif",
+      "native": {
+        "reasons": [],
+        "verdict": "fails"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "not-active-json",
+      "native": {
+        "reasons": [],
+        "verdict": "fails"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "not-active-sarif",
+      "native": {
+        "reasons": [],
+        "verdict": "fails"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "not-active-sarif-under-v1.2.0",
+      "native": {
+        "reasons": [],
+        "verdict": "resolves"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "property-id-not-active-sarif",
+      "native": {
+        "reasons": [],
+        "verdict": "fails"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "one-unknown-among-active-sarif",
+      "native": {
+        "reasons": [],
+        "verdict": "fails"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "run-names-other-snapshot-sarif",
+      "native": {
+        "reasons": [],
+        "verdict": "fails"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "no-ave-id-sarif",
+      "native": {
+        "reasons": [],
+        "verdict": "no-ids"
+      },
+      "state": "pass"
+    }
+  ],
+  "corpus-digest": {
+    "serialization": "sha256-listing-v1",
+    "sha256": "5f53c465e44683b162f5aa967fbc47ebff0e92039e7a393728bc9c6b9743f0d2"
+  },
+  "exit-code": 0,
+  "exit-rule": "zero-iff-every-check-passes",
+  "exposure": "visible",
+  "faults": [],
+  "format": "public-agent-conformance/intake-record/v2",
+  "manifest": {
+    "closed": true,
+    "ids": [
+      "active-resolves-json",
+      "active-resolves-sarif",
+      "unknown-id-json",
+      "unknown-id-sarif",
+      "malformed-id-json",
+      "malformed-id-sarif",
+      "not-active-json",
+      "not-active-sarif",
+      "not-active-sarif-under-v1.2.0",
+      "property-id-not-active-sarif",
+      "one-unknown-among-active-sarif",
+      "run-names-other-snapshot-sarif",
+      "no-ave-id-sarif"
+    ],
+    "path": "corpora/vectors-ave-id-resolution/MANIFEST.json",
+    "sha256": "40d6d048ad0770855e47b37471a3e6f4597b53ddd4764968dd91b07babd3ae50"
+  },
+  "members": [
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-ave-id-resolution/cases/active-resolves-json/output.json",
+          "sha256": "70b84a11ed01d8b8b57821d3e57d7da9f470eb67655ec58806978882c3d051f3"
+        }
+      ],
+      "id": "active-resolves-json"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-ave-id-resolution/cases/active-resolves-sarif/output.sarif",
+          "sha256": "505bb4faa9bac72aa7b34203acb3826c7f6c506e78ea803174952a31d1c08bd8"
+        }
+      ],
+      "id": "active-resolves-sarif"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-ave-id-resolution/cases/unknown-id-json/output.json",
+          "sha256": "0b2cf683bd16ce34b74295d4f64299cb22da2cd3dcf96efdfc94b6ccbf30f27c"
+        }
+      ],
+      "id": "unknown-id-json"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-ave-id-resolution/cases/unknown-id-sarif/output.sarif",
+          "sha256": "5b464115d7eb2bee5f67875c6e01e9e8dee7f9282136e93a5fd605d0b1215d17"
+        }
+      ],
+      "id": "unknown-id-sarif"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-ave-id-resolution/cases/malformed-id-json/output.json",
+          "sha256": "585c566e7a29f429e16a7bfb10119ec54b751943e9e155d5d95fe102584111ea"
+        }
+      ],
+      "id": "malformed-id-json"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-ave-id-resolution/cases/malformed-id-sarif/output.sarif",
+          "sha256": "c72947d81e3da1fb7364d6d8d3ae4cd17261331bd772296264ffaf8a50786693"
+        }
+      ],
+      "id": "malformed-id-sarif"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-ave-id-resolution/cases/not-active-json/output.json",
+          "sha256": "cffe12037855316f633a3ebf2fd848df7dc3543c4cd23f7f7f37385798ea1762"
+        }
+      ],
+      "id": "not-active-json"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-ave-id-resolution/cases/not-active-sarif/output.sarif",
+          "sha256": "f3c833ce02be49cde5fffc09dafbccbf7eab7cee52968fa77467cbfff1be5f96"
+        }
+      ],
+      "id": "not-active-sarif"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-ave-id-resolution/cases/not-active-sarif-under-v1.2.0/output.sarif",
+          "sha256": "f3c833ce02be49cde5fffc09dafbccbf7eab7cee52968fa77467cbfff1be5f96"
+        }
+      ],
+      "id": "not-active-sarif-under-v1.2.0"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-ave-id-resolution/cases/property-id-not-active-sarif/output.sarif",
+          "sha256": "cc0260d5d6c46c43477be3a59ab580d7f20b402c9a0796a59ebe62c8c03e85fb"
+        }
+      ],
+      "id": "property-id-not-active-sarif"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-ave-id-resolution/cases/one-unknown-among-active-sarif/output.sarif",
+          "sha256": "2ed87648d48a97ab64006e46d602ac292956f5182ec29374bc01a6c55de86688"
+        }
+      ],
+      "id": "one-unknown-among-active-sarif"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-ave-id-resolution/cases/run-names-other-snapshot-sarif/output.sarif",
+          "sha256": "43e39bd07bf62accf57edfd785be8666f566236425197f6d5be8fafab505779d"
+        }
+      ],
+      "id": "run-names-other-snapshot-sarif"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-ave-id-resolution/cases/no-ave-id-sarif/output.sarif",
+          "sha256": "6d0bf48f1835a9f340e024d1b71327a136813b82432b1c6a36c46a10e3b240af"
+        }
+      ],
+      "id": "no-ave-id-sarif"
+    }
+  ],
+  "native": {
+    "cases": "native-json",
+    "format": "corpus-result-json-v1",
+    "process-status": {
+      "exit-code": 0
+    },
+    "summary": "native-text"
+  },
+  "non-author-runs": [],
+  "observations": [
+    {
+      "carry": "referenced",
+      "id": "native-json",
+      "reference": {
+        "path": "release/intake/native/vectors-ave-id-resolution.json",
+        "serialization": "bytes",
+        "sha256": "567bfdb75d43a0c43b2c2e90f2e1c3ccee0ce2afdfcdae9d83484b4255de0a6b"
+      }
+    },
+    {
+      "carry": "referenced",
+      "id": "native-text",
+      "reference": {
+        "path": "release/intake/native/vectors-ave-id-resolution.txt",
+        "serialization": "bytes",
+        "sha256": "b82634978f620865657bf0ccd978cbb2d594dbb5cad3f9e2d4a469a0827b6414"
+      }
+    },
+    {
+      "carried": "",
+      "carry": "carried",
+      "id": "stderr"
+    }
+  ],
+  "pin-serialization": "bytes",
+  "refusal-verdicts": [
+    "contradicted",
+    "failed",
+    "must-reject",
+    "reject",
+    "rejected"
+  ],
+  "refusals": [],
+  "relaxed-controls": [],
+  "replay-stability": {
+    "cause": null,
+    "ordering": "emission-order",
+    "runs": [
+      {
+        "process": "run-1",
+        "sha256": "567bfdb75d43a0c43b2c2e90f2e1c3ccee0ce2afdfcdae9d83484b4255de0a6b"
+      },
+      {
+        "process": "run-2",
+        "sha256": "567bfdb75d43a0c43b2c2e90f2e1c3ccee0ce2afdfcdae9d83484b4255de0a6b"
+      }
+    ],
+    "seed": null,
+    "state": "stable"
+  },
+  "scope": {
+    "does-not-claim": [
+      "whole-attack-surface",
+      "implementation-ranking",
+      "threats-outside-corpus",
+      "action-occurred-or-authority"
+    ],
+    "establishes": [
+      "aee-verify, at the source listing named here, judges each of the 13 pinned members of ave-id-resolution/v1 as its manifest declares"
+    ],
+    "leaves-open": [
+      "whether an implementation written from the specification, run by someone other than an author, reaches the same verdicts",
+      "whether release/CORPUS-DIGESTS.txt is a list a release signed: the signature beside it does not verify over these bytes, so the anchor is a located line, not a verified one",
+      "whether a re-run by someone other than an author on these exact bytes agrees; none is on the record for them"
+    ]
+  },
+  "selector": {
+    "expression": "*",
+    "language": "id-glob",
+    "matched": 13,
+    "require": "at-least-one",
+    "selected": [
+      "active-resolves-json",
+      "active-resolves-sarif",
+      "unknown-id-json",
+      "unknown-id-sarif",
+      "malformed-id-json",
+      "malformed-id-sarif",
+      "not-active-json",
+      "not-active-sarif",
+      "not-active-sarif-under-v1.2.0",
+      "property-id-not-active-sarif",
+      "one-unknown-among-active-sarif",
+      "run-names-other-snapshot-sarif",
+      "no-ave-id-sarif"
+    ]
+  },
+  "specification-readers": [],
+  "state": "pass",
+  "suite": "ave-id-resolution/v1"
+}

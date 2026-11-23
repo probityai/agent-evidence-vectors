@@ -1,25 +1,18 @@
 {
-  "cites": "a session whose seal verifies and whose sealed claim, step 3 blocked, is contradicted by a tool log the sealer did not write, which shows the tool ran. A seal shows the record is unchanged since sealing; it does not show the record was right when written. Only the Observed Agent knows the applied outcome, so the check reads a record from a second writer",
-  "coverage": "observed",
-  "doesNotAssert": "which side, the sealed claim or the tool log, is mistaken",
-  "evidenceBasis": "substrate",
+  "cites": "the same sealed session with no independent record to check it against.",
+  "coverage": "supported",
+  "evidenceBasis": "artifact",
   "expected": {
     "code": null,
     "codeValue": null,
-    "unmeasurableBecause": null,
-    "verdict": "deny"
+    "unmeasurableBecause": "no record from a second writer was supplied, so the sealed claim can be shown unchanged and cannot be checked against anything. A verifier that scores it as a pass reads the seal as evidence of the fact.",
+    "verdict": "unmeasurable"
   },
-  "family": "acs-f-23",
-  "id": "vf553d3f35a1688b1",
-  "kind": "reject",
+  "family": "acs-f-24",
+  "id": "vfcb605410cbbbd68",
+  "kind": "indeterminate",
   "payload": {
-    "observed_record": {
-      "source": "host-side tool log",
-      "st-0003": {
-        "tool_executed": true
-      },
-      "writer": "not the sealer"
-    },
+    "observed_record": null,
     "sealed_session": {
       "chain_hash": "3333333333333333333333333333333333333333333333333333333333333333",
       "claims": {
@@ -59,5 +52,5 @@
   ],
   "specVersion": "0.1.0",
   "suite": "acs-core-negative-conformance",
-  "witnessScope": "PEER"
+  "witnessScope": "SELF"
 }

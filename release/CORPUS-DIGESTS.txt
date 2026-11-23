@@ -3,14 +3,15 @@
 # Every digest is recomputed from the vector files on disk, never copied from the manifest.
 29b3f2c5a9c2e6b07dc7e925b13c81563e2efd407a62ce05df513fca04e9361c  vectors-a2a-jcs-v01/MANIFEST.json  a2a-agent-card-canonicalization-conformance  vectors=57  no-suiteRevision
 aa8deffa934df48d43f228e48e299be2a136aef32ff5a55d18a2ef99e0286740  vectors-aci/MANIFEST.json  aci  vectors=26  no-suiteRevision
-e3ba6c8fadd42568c24ab38e01fb46848b8e3f5c29a604a16e13cdf95ad70735  vectors-acs-core/MANIFEST.json  acs-core-negative-conformance  vectors=166  no-suiteRevision
+8740bd4d85feddf7b3cc3c77a6345f9f22d1d0cb30efdcec93697eb53e2d1554  vectors-acs-core/MANIFEST.json  acs-core-negative-conformance  vectors=178  no-suiteRevision
 3f4bf1ae704a35b247e2292a98d861cdc082ec8fac50d275efc43436bbbe419f  vectors-acs-decision-record/MANIFEST.json  control-decision-conformance  vectors=15  no-suiteRevision
 17caeb3817557d779266de29ba9a65ebf553f7503925de7e7b5a01126ede5446  vectors-admission/MANIFEST.json  adversarial-execution-evidence-admission  vectors=22  no-suiteRevision
-bb94f0aba314bcc901872a8fe81f2f00266bf631572d3c66601e679e08697621  vectors-agent-audit-record/MANIFEST.json  agent-audit-record-conformance  vectors=235  no-suiteRevision
+57dc02f7e2f4eeecc118d8c67e3e39321b31cbe841e37e1a842082e5d5c670ce  vectors-agent-audit-record/MANIFEST.json  agent-audit-record-conformance  vectors=251  no-suiteRevision
 61fabad404bd0dbe5d1c51a37c8bf9ca67b70820b711e1059f1e0fdd178c5978  vectors-agent-card-receipt/MANIFEST.json  agent-card-receipt/v1  vectors=47  no-suiteRevision
 27623d6a4a10f4cd0aedc1145182c276456e619c3ae771ec646746ef823f5ec4  vectors-agent-change-admission/MANIFEST.json  agent-change-admission/v1  vectors=35  no-suiteRevision
 a2674abfcf5b0edfaa8fe0f68be393066d962aee95c24362e00ea45ddbed1efc  vectors-agent-decision/MANIFEST.json  agent-decision-conformance  vectors=41  no-suiteRevision
 4280659456899e8b0c939e054f1351b3f16eb1f5f88ef191c230b66c4ca36850  vectors-agent-payment-mandate/MANIFEST.json  agent-payment-mandate/v1  vectors=21  no-suiteRevision
+0e7b5cf14e78a86af6ee68b38cdc788cd38aca135f1345e47f55d976d78738cd  vectors-agent-request-proof/MANIFEST.json  agent-request-proof/v1  vectors=22  no-suiteRevision
 17bb6d15a07170b85caf4d06e70f4b3571590c4c1083e5834b9158a5cd621ff9  vectors-agentic-process-evidence/MANIFEST.json  agentic-process-evidence/v0.1  vectors=52  no-suiteRevision
 856596834a5cd59aa4629802d27aecd9087ba7b20718bdffdf2ead85f82ff23b  vectors-aggregate-accounting/MANIFEST.json  aggregate-accounting/v1  vectors=19  no-suiteRevision
 36ab3447ae8a037ca30576209591cb0d0223b0539e64513c9c97ee0ed87288b5  vectors-ai-agent-action/MANIFEST.json  ai-agent-action-conformance  vectors=75  no-suiteRevision
@@ -61,6 +62,8 @@ e1a00bfbe68b7b629303d2a4dcbdfae4c90368f4d358010b32e2d15b64b08e51  vectors-monito
 1ec7eec314a2d98df13be892af77514a0854c4d633c073f9b02f6a39d57dd5e8  vectors-oasf-record/MANIFEST.json  oasf-record/v1  vectors=43  no-suiteRevision
 06f0b24339bc33826f2ad88eeaab8f2ed203d79bca429c2a68c6393169fa2b1d  vectors-observed-effect/MANIFEST.json  observed-effect-conformance  vectors=80  no-suiteRevision
 ed7da273f2629a6a3ae08bd0227ab3201c1d481e37f66c63998bca766982eb5d  vectors-open-weight-art53/MANIFEST.json  open-weight-art53/v1  vectors=16  no-suiteRevision
+09939a5bf7c2752538c0452769c2135972dc3ab658e018f2b4fb1f2bc82876c2  vectors-physical-completion/MANIFEST.json  physical-completion/v1  vectors=48  no-suiteRevision
+db30b58a7ca32c8b8c31135b4b09ed75d16c9c5c757562ba553b9eefbacf7225  vectors-principal-action/MANIFEST.json  principal-action/v1  vectors=33  no-suiteRevision
 1f703765f8f45fb634bd38530fad063c939e1223bb0e4d3fec7c9d8bcd8686d5  vectors-principal-binding/MANIFEST.json  agent-principal-binding/v1  vectors=18  no-suiteRevision
 c4a4e7e9486da01099af900dedda951dcabffdde05c42ef0dd95c997bb073fd9  vectors-print-witness/MANIFEST.json  print-witness/v1  vectors=12  no-suiteRevision
 f915bb42e8f77b0d8cd0a775d500318bbc87f600635fd5bb9e3ec2d389f73efd  vectors-propagation-step/MANIFEST.json  propagation-step/v1  vectors=12  no-suiteRevision

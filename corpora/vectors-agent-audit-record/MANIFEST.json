@@ -93,11 +93,11 @@
       }
     ]
   },
-  "corpusDigest": "bb94f0aba314bcc901872a8fe81f2f00266bf631572d3c66601e679e08697621",
+  "corpusDigest": "57dc02f7e2f4eeecc118d8c67e3e39321b31cbe841e37e1a842082e5d5c670ce",
   "counts": {
-    "accept": 105,
+    "accept": 113,
     "indeterminate": 2,
-    "reject": 128
+    "reject": 136
   },
   "draft": "draft-gilda-audit-agent-audit-record-04",
   "emptyTree": {
@@ -149,7 +149,7 @@
   "skewTolerance": 300,
   "suite": "agent-audit-record-conformance",
   "textCounts": {
-    "proposed": 0,
+    "proposed": 16,
     "published": 235
   },
   "vectors": [
@@ -3972,6 +3972,318 @@
       "parentDraftId": "PR1",
       "row": "principal carrying the raw token in a member this document does not define",
       "slug": "pr11-principal-member-unknown"
+    },
+    {
+      "draftId": "PR12",
+      "expected": {
+        "codes": [],
+        "derivedTier": "authoritative",
+        "verdict": "valid"
+      },
+      "file": "statements/vb49f0606c23539b2.json",
+      "id": "vb49f0606c23539b2",
+      "kind": "accept",
+      "parent": "v25048425b3cf4235",
+      "parentDraftId": "PR1",
+      "proposed": {
+        "revision": "draft-gilda-audit-agent-audit-record-05",
+        "text": "docs/proposals/audit-record-04-principal.md"
+      },
+      "row": "PR1 whose token expired at 11:00:02, four minutes before decision.reportedAt and within the skew tolerance",
+      "slug": "pr12-principal-expired-within-skew"
+    },
+    {
+      "draftId": "PR13",
+      "expected": {
+        "codes": [],
+        "derivedTier": "authoritative",
+        "verdict": "valid"
+      },
+      "file": "statements/vf7325eb15572e6e0.json",
+      "id": "vf7325eb15572e6e0",
+      "kind": "accept",
+      "parent": "v25048425b3cf4235",
+      "parentDraftId": "PR1",
+      "proposed": {
+        "revision": "draft-gilda-audit-agent-audit-record-05",
+        "text": "docs/proposals/audit-record-04-principal.md"
+      },
+      "row": "PR1 whose token was issued at 11:08:02, four minutes after decision.reportedAt and within the skew tolerance",
+      "slug": "pr13-principal-issued-within-skew"
+    },
+    {
+      "draftId": "PR14",
+      "expected": {
+        "codes": [
+          "principal-expired"
+        ],
+        "verdict": "malformed"
+      },
+      "file": "statements/v7c684b4e9bf52257.json",
+      "id": "v7c684b4e9bf52257",
+      "kind": "reject",
+      "parent": "v25048425b3cf4235",
+      "parentDraftId": "PR1",
+      "proposed": {
+        "revision": "draft-gilda-audit-agent-audit-record-05",
+        "text": "docs/proposals/audit-record-04-principal.md"
+      },
+      "row": "PR1 whose token expired at 10:59:01, 301 seconds before decision.reportedAt: one second past the skew tolerance",
+      "slug": "pr14-principal-expired-past-skew"
+    },
+    {
+      "draftId": "PR15",
+      "expected": {
+        "codes": [
+          "principal-not-yet-valid"
+        ],
+        "verdict": "malformed"
+      },
+      "file": "statements/vdec92f24acb52644.json",
+      "id": "vdec92f24acb52644",
+      "kind": "reject",
+      "parent": "v25048425b3cf4235",
+      "parentDraftId": "PR1",
+      "proposed": {
+        "revision": "draft-gilda-audit-agent-audit-record-05",
+        "text": "docs/proposals/audit-record-04-principal.md"
+      },
+      "row": "PR1 whose token was issued at 11:09:03, 301 seconds after decision.reportedAt: one second past the skew tolerance",
+      "slug": "pr15-principal-issued-past-skew"
+    },
+    {
+      "draftId": "PR16",
+      "expected": {
+        "codes": [],
+        "derivedTier": "authoritative",
+        "verdict": "valid"
+      },
+      "file": "statements/vcd1aa59f3085f0ad.json",
+      "id": "vcd1aa59f3085f0ad",
+      "kind": "accept",
+      "parent": "v717e1bb82abc81e9",
+      "parentDraftId": "PR2",
+      "proposed": {
+        "revision": "draft-gilda-audit-agent-audit-record-05",
+        "text": "docs/proposals/audit-record-04-principal.md"
+      },
+      "row": "PR2 where the principal's subject is the issuer's own identifier for the client, not its client_id, as RFC 9068 Section 2.2 allows: valid, a verifier does not compare them",
+      "slug": "pr16-principal-system-subject-not-client-id"
+    },
+    {
+      "draftId": "PR17",
+      "expected": {
+        "codes": [],
+        "derivedTier": "authoritative",
+        "verdict": "valid"
+      },
+      "file": "statements/vc4e4ad35a6a3310c.json",
+      "id": "vc4e4ad35a6a3310c",
+      "kind": "accept",
+      "parent": "v25048425b3cf4235",
+      "parentDraftId": "PR1",
+      "proposed": {
+        "revision": "draft-gilda-audit-agent-audit-record-05",
+        "text": "docs/proposals/audit-record-04-principal.md"
+      },
+      "row": "PR1 from an Okta org issuer, identityProvider okta: the declared value agrees with the provider the issuer's host names",
+      "slug": "pr12-principal-provider-derived"
+    },
+    {
+      "draftId": "PR18",
+      "expected": {
+        "codes": [
+          "principal-provider-mismatch"
+        ],
+        "verdict": "malformed"
+      },
+      "file": "statements/v9a48f965d616037b.json",
+      "id": "v9a48f965d616037b",
+      "kind": "reject",
+      "parent": "vc4e4ad35a6a3310c",
+      "parentDraftId": "PR17",
+      "proposed": {
+        "revision": "draft-gilda-audit-agent-audit-record-05",
+        "text": "docs/proposals/audit-record-04-principal.md"
+      },
+      "row": "PR17 declaring identityProvider auth0 for an issuer whose host names Okta",
+      "slug": "pr13-principal-provider-contradicts-issuer"
+    },
+    {
+      "draftId": "PR19",
+      "expected": {
+        "codes": [],
+        "derivedTier": "authoritative",
+        "verdict": "valid"
+      },
+      "file": "statements/v65c8c31f78a03e4c.json",
+      "id": "v65c8c31f78a03e4c",
+      "kind": "accept",
+      "parent": "v25048425b3cf4235",
+      "parentDraftId": "PR1",
+      "proposed": {
+        "revision": "draft-gilda-audit-agent-audit-record-05",
+        "text": "docs/proposals/audit-record-04-principal.md"
+      },
+      "row": "PR1, whose issuer is a custom domain no host or path rule names, with identityProvider okta: accepted as declared, not derived",
+      "slug": "pr14-principal-provider-declared-custom-domain"
+    },
+    {
+      "draftId": "PR20",
+      "expected": {
+        "codes": [],
+        "derivedTier": "authoritative",
+        "verdict": "valid"
+      },
+      "file": "statements/v50d0022729a064de.json",
+      "id": "v50d0022729a064de",
+      "kind": "accept",
+      "parent": "v25048425b3cf4235",
+      "parentDraftId": "PR1",
+      "proposed": {
+        "revision": "draft-gilda-audit-agent-audit-record-05",
+        "text": "docs/proposals/audit-record-04-principal.md"
+      },
+      "row": "PR1 with identityProvider self_issued: the deploying party runs the issuer, so no third party vouches for the principal",
+      "slug": "pr15-principal-provider-self-issued"
+    },
+    {
+      "draftId": "PR21",
+      "expected": {
+        "codes": [
+          "principal-provider-mismatch"
+        ],
+        "verdict": "malformed"
+      },
+      "file": "statements/v3daa568aa4b0447b.json",
+      "id": "v3daa568aa4b0447b",
+      "kind": "reject",
+      "parent": "v50d0022729a064de",
+      "parentDraftId": "PR20",
+      "proposed": {
+        "revision": "draft-gilda-audit-agent-audit-record-05",
+        "text": "docs/proposals/audit-record-04-principal.md"
+      },
+      "row": "PR20 from the OpenID self-issued issuer declaring identityProvider okta: a self-issued principal cannot be presented as vouched for by a third party",
+      "slug": "pr16-principal-self-issued-declared-third-party"
+    },
+    {
+      "draftId": "PR22",
+      "expected": {
+        "codes": [],
+        "derivedTier": "authoritative",
+        "verdict": "valid"
+      },
+      "file": "statements/v92bdf3a4f0126cba.json",
+      "id": "v92bdf3a4f0126cba",
+      "kind": "accept",
+      "parent": "v25048425b3cf4235",
+      "parentDraftId": "PR1",
+      "proposed": {
+        "revision": "draft-gilda-audit-agent-audit-record-05",
+        "text": "docs/proposals/audit-record-04-principal.md"
+      },
+      "row": "PR1 with pinnedThumbprint equal to keyThumbprint: the client pinned the issuer's key before its first call",
+      "slug": "pr17-principal-key-pinned"
+    },
+    {
+      "draftId": "PR23",
+      "expected": {
+        "codes": [
+          "principal-pin-mismatch"
+        ],
+        "verdict": "malformed"
+      },
+      "file": "statements/v2b236598931a7aa6.json",
+      "id": "v2b236598931a7aa6",
+      "kind": "reject",
+      "parent": "v92bdf3a4f0126cba",
+      "parentDraftId": "PR22",
+      "proposed": {
+        "revision": "draft-gilda-audit-agent-audit-record-05",
+        "text": "docs/proposals/audit-record-04-principal.md"
+      },
+      "row": "PR22 whose pinnedThumbprint is the thumbprint of the issuer's Ed25519 key while key is its P-256 key: the pin does not hold",
+      "slug": "pr18-principal-pin-mismatch"
+    },
+    {
+      "draftId": "PR24",
+      "expected": {
+        "codes": [
+          "principal-malformed"
+        ],
+        "verdict": "malformed"
+      },
+      "file": "statements/vcbdf2b412525be4d.json",
+      "id": "vcbdf2b412525be4d",
+      "kind": "reject",
+      "parent": "v92bdf3a4f0126cba",
+      "parentDraftId": "PR22",
+      "proposed": {
+        "revision": "draft-gilda-audit-agent-audit-record-05",
+        "text": "docs/proposals/audit-record-04-principal.md"
+      },
+      "row": "PR22 whose pinnedThumbprint carries base64 padding: not an RFC 7638 thumbprint in base64url without padding",
+      "slug": "pr19-principal-pin-malformed"
+    },
+    {
+      "draftId": "PR25",
+      "expected": {
+        "codes": [
+          "principal-malformed"
+        ],
+        "verdict": "malformed"
+      },
+      "file": "statements/v486f4b19f1ca0713.json",
+      "id": "v486f4b19f1ca0713",
+      "kind": "reject",
+      "parent": "v65c8c31f78a03e4c",
+      "parentDraftId": "PR19",
+      "proposed": {
+        "revision": "draft-gilda-audit-agent-audit-record-05",
+        "text": "docs/proposals/audit-record-04-principal.md"
+      },
+      "row": "PR19 with identityProvider google, a value the closed set does not name",
+      "slug": "pr20-principal-provider-unregistered"
+    },
+    {
+      "draftId": "PR26",
+      "expected": {
+        "codes": [],
+        "derivedTier": "authoritative",
+        "verdict": "valid"
+      },
+      "file": "statements/vcf322ae71fe5361e.json",
+      "id": "vcf322ae71fe5361e",
+      "kind": "accept",
+      "parent": "v25048425b3cf4235",
+      "parentDraftId": "PR1",
+      "proposed": {
+        "revision": "draft-gilda-audit-agent-audit-record-05",
+        "text": "docs/proposals/audit-record-04-principal.md"
+      },
+      "row": "PR1 from a Microsoft Entra issuer with identityProvider entra and the key pinned: both members present",
+      "slug": "pr21-principal-entra-pinned"
+    },
+    {
+      "draftId": "PR27",
+      "expected": {
+        "codes": [
+          "principal-provider-mismatch"
+        ],
+        "verdict": "malformed"
+      },
+      "file": "statements/vfac2b6a41b33b12d.json",
+      "id": "vfac2b6a41b33b12d",
+      "kind": "reject",
+      "parent": "vc4e4ad35a6a3310c",
+      "parentDraftId": "PR17",
+      "proposed": {
+        "revision": "draft-gilda-audit-agent-audit-record-05",
+        "text": "docs/proposals/audit-record-04-principal.md"
+      },
+      "row": "PR17 from a Keycloak realm issuer declaring identityProvider other: other cannot replace the provider the issuer's path names",
+      "slug": "pr22-principal-provider-other-hides-derived"
     },
     {
       "draftId": "DS1",
