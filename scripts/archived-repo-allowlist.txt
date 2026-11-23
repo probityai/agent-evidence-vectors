@@ -37,3 +37,4 @@ crates/jcs-admit/interop/go-jcs/test_check.py  # test: asserts a manifest does n
 tests/test_registry_links.py  # test fixtures: the archived repository names the registry-link check must refuse
 tests/test_release_links.py  # test fixtures: the archived repository names the release-link check must refuse
 corpora/vectors-agent-audit-record/spec-vendored/draft-gilda-audit-agent-audit-record-00.txt  # the posted draft text, vendored byte for byte and pinned by sha256 in its intake record; the line names the vocabulary repository as the draft did
+tools/independent-mint/vectors-chunked-export.py  # second generator that re-mints the chunked-export corpus byte for byte, so it writes the same source thread URL into the manifest as the corpus generator above
