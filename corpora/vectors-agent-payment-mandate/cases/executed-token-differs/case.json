@@ -18,7 +18,7 @@
     "signature": {
       "alg": "ed25519",
       "key_id": "issuer-key-1",
-      "value_sha256": "03026baf6b319251b83ac5cbdf6c0fa0c7a49db354aa9933805105c25a95b832"
+      "value": "a63687daecb3ffaee58ca55411b52ec06d911cab216a1122e33b9a6c3a6f54a53cf2d7229ddbaad51ad561b0e8bc1900ba7150ab4b5a0226445795dd87adae04"
     },
     "terms": {
       "currency": "USD",
@@ -42,7 +42,12 @@
   "receipt": {
     "execution_digest": "af1b966dc76bb01844ed8b1ac69f195f037ac4a6f0f887bb800a4f15d801ccc9",
     "mandate_digest": "d6703e9a9a42c9128798cb4565705485915a6cef99985660ef280395c61fb25b",
-    "receipt_id": "rcpt-0001"
+    "receipt_id": "rcpt-0001",
+    "signature": {
+      "alg": "ed25519",
+      "key_id": "witness-key-1",
+      "value": "4bcb238fc83d9321d87f33adbe5d1ff96500d229e2c0b3c7c37095c49e304aa3a62ad1ea077c6f8cad1b489cdd16a175fcbb09dc01005d5c9a480684fcb45e07"
+    }
   },
   "schema": "agent-payment-mandate-record/v1",
   "scheme": "stripe-shared-payment-token"

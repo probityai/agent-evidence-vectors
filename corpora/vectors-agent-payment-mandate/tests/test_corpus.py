@@ -51,6 +51,7 @@ def test_regeneration_is_byte_identical(tmp_path: Path) -> None:
             ROOT / "MANIFEST.json",
             ROOT / "INDEX.md",
             ROOT / "profile.json",
+            ROOT / "policy.json",
             *(ROOT / "cases").rglob("*"),
         ]
         if p.is_file()
@@ -110,3 +111,41 @@ def test_a_tampered_case_is_refused(tmp_path: Path) -> None:
     target.write_text(target.read_text() + " ", encoding="utf-8")
     _, errors = paymentmandate.check(root=work)
     assert errors
+
+
+def _case(name: str) -> dict:
+    return json.loads((ROOT / "cases" / name / "case.json").read_text())
+
+
+def test_keyless_holder_cannot_raise_the_ceiling() -> None:
+    """Regression for the 15 Nov 2026 counter-example: before the fix this was accepted."""
+    r = _case("charge-over-limit")
+    r["mandate"]["terms"]["max_amount_minor"] = 10**9
+    r["mandate"]["digest"] = paymentmandate.digest_of(r["mandate"]["terms"])
+    r["credential"]["mandate_digest"] = r["mandate"]["digest"]
+    r["receipt"]["mandate_digest"] = r["mandate"]["digest"]
+    r["receipt"]["execution_digest"] = paymentmandate.digest_of(r["execution"])
+    r["mandate"]["signature"]["value"] = "ab" * 64
+    assert paymentmandate.decide(r) == {"decision": "rejected", "reason": "mandate_signature_invalid"}
+
+
+def test_keyless_holder_cannot_launder_the_charge() -> None:
+    r = _case("charge-over-limit")
+    r["execution"]["amount_minor"] = r["mandate"]["terms"]["max_amount_minor"]
+    r["receipt"]["execution_digest"] = paymentmandate.digest_of(r["execution"])
+    assert paymentmandate.decide(r) == {"decision": "rejected", "reason": "receipt_signature_invalid"}
+
+
+def test_a_policy_the_record_carries_is_never_read() -> None:
+    """A producer that ships its own trust root inside the pack is still judged on the pinned one."""
+    r = _case("mandate-ceiling-raised-without-key")
+    r["policy"] = {"issuer_keys": {"issuer-key-1": "00" * 32}, "witness_keys": {}}
+    assert paymentmandate.decide(r)["reason"] == "mandate_signature_invalid"
+    accepted = _case("authorized-ap2-cart")
+    accepted["policy"] = {"issuer_keys": {}, "witness_keys": {}}
+    assert paymentmandate.decide(accepted)["decision"] == "accepted"
+
+
+def test_another_relying_party_policy_refuses_the_corpus_keys() -> None:
+    other = {"issuer_keys": {"issuer-key-1": "00" * 32}, "witness_keys": {"witness-key-1": "00" * 32}}
+    assert paymentmandate.decide(_case("authorized-ap2-cart"), policy=other)["decision"] == "rejected"
