@@ -27,7 +27,7 @@
   "keyNote": "PUBLISHED TEST KEY, derived from a fixed seed in gen_vectors.py. It signs the strict members; the baseline members carry the format's own published test signatures.",
   "counts": {
     "accept": 38,
-    "reject": 110
+    "reject": 124
   },
   "vectors": [
     {
@@ -2847,6 +2847,45 @@
       "shows": "a policy listing one public key under two references is refused, and the seal with it"
     },
     {
+      "id": "baseline-sig-key-superseded-before-sealing",
+      "path": "members/baseline-sig-key-superseded-before-sealing.json",
+      "profile": "baseline",
+      "expected": {
+        "verdict": "reject",
+        "code": "issuer_signature:failed",
+        "dimensions": {
+          "issuer_signature": "failed"
+        }
+      },
+      "shows": "a key the policy supersedes the day before the stated sealing time"
+    },
+    {
+      "id": "baseline-sig-key-expired-before-sealing",
+      "path": "members/baseline-sig-key-expired-before-sealing.json",
+      "profile": "baseline",
+      "expected": {
+        "verdict": "reject",
+        "code": "issuer_signature:failed",
+        "dimensions": {
+          "issuer_signature": "failed"
+        }
+      },
+      "shows": "a key whose validity in the policy ended before the stated sealing time"
+    },
+    {
+      "id": "baseline-sig-key-in-another-role",
+      "path": "members/baseline-sig-key-in-another-role.json",
+      "profile": "baseline",
+      "expected": {
+        "verdict": "reject",
+        "code": "issuer_signature:failed",
+        "dimensions": {
+          "issuer_signature": "failed"
+        }
+      },
+      "shows": "a key the policy lists for a person, presented as the organisation's seal"
+    },
+    {
       "id": "baseline-sig-member-named-twice",
       "path": "members/baseline-sig-member-named-twice.json",
       "profile": "baseline",
@@ -3019,7 +3058,172 @@
         }
       },
       "shows": "the attachment presented with its issuer signature removed"
+    },
+    {
+      "id": "strict-approved-by-requester",
+      "path": "members/strict-approved-by-requester.json",
+      "profile": "strict",
+      "expected": {
+        "verdict": "reject",
+        "code": "approver_independence:failed",
+        "dimensions": {
+          "strict": {
+            "approver_independence": "failed"
+          }
+        }
+      },
+      "shows": "the service that requested the action reviews and approves it"
+    },
+    {
+      "id": "strict-authority-granted-for-another-charter",
+      "path": "members/strict-authority-granted-for-another-charter.json",
+      "profile": "strict",
+      "expected": {
+        "verdict": "reject",
+        "code": "authority_independent:failed",
+        "dimensions": {
+          "strict": {
+            "authority_independent": "failed"
+          }
+        }
+      },
+      "shows": "the approver holds a grant, but under another charter than the one the approval cites"
+    },
+    {
+      "id": "strict-identity-source-says-failed",
+      "path": "members/strict-identity-source-says-failed.json",
+      "profile": "strict",
+      "expected": {
+        "verdict": "reject",
+        "code": "identity_independent:failed",
+        "dimensions": {
+          "strict": {
+            "identity_independent": "failed"
+          }
+        }
+      },
+      "shows": "the relying party's identity source reports the approver as failed"
+    },
+    {
+      "id": "strict-person-absent-from-identity-source",
+      "path": "members/strict-person-absent-from-identity-source.json",
+      "profile": "strict",
+      "expected": {
+        "verdict": "reject",
+        "code": "identity_independent:failed",
+        "dimensions": {
+          "strict": {
+            "identity_independent": "failed"
+          }
+        }
+      },
+      "shows": "the approver named is unknown to the relying party's identity source"
+    },
+    {
+      "id": "strict-approval-observed-after-execution",
+      "path": "members/strict-approval-observed-after-execution.json",
+      "profile": "strict",
+      "expected": {
+        "verdict": "reject",
+        "code": "time_independent:failed",
+        "dimensions": {
+          "strict": {
+            "time_independent": "failed"
+          }
+        }
+      },
+      "shows": "the issuer dates the approval before the attempt; the independent clock puts it after the attempt ran"
+    },
+    {
+      "id": "strict-no-identity-source",
+      "path": "members/strict-no-identity-source.json",
+      "profile": "strict",
+      "expected": {
+        "verdict": "reject",
+        "code": "identity_independent:not_checked",
+        "dimensions": {
+          "strict": {
+            "identity_independent": "not_checked"
+          }
+        }
+      },
+      "shows": "the relying party holds no identity source, so the approver's identity was never observed"
+    },
+    {
+      "id": "strict-no-authority-source",
+      "path": "members/strict-no-authority-source.json",
+      "profile": "strict",
+      "expected": {
+        "verdict": "reject",
+        "code": "authority_independent:not_checked",
+        "dimensions": {
+          "strict": {
+            "authority_independent": "not_checked"
+          }
+        }
+      },
+      "shows": "the relying party holds no authority source, so no grant was observed"
+    },
+    {
+      "id": "strict-no-independent-clock",
+      "path": "members/strict-no-independent-clock.json",
+      "profile": "strict",
+      "expected": {
+        "verdict": "reject",
+        "code": "time_independent:not_checked",
+        "dimensions": {
+          "strict": {
+            "time_independent": "not_checked"
+          }
+        }
+      },
+      "shows": "the relying party holds no independent observation of when the stages happened"
+    },
+    {
+      "id": "strict-latest-attachment-unknown",
+      "path": "members/strict-latest-attachment-unknown.json",
+      "profile": "strict",
+      "expected": {
+        "verdict": "reject",
+        "code": "latest_attachment:not_checked",
+        "dimensions": {
+          "strict": {
+            "latest_attachment": "not_checked"
+          }
+        }
+      },
+      "shows": "the relying party holds no record of which attachment of the decision is the latest"
+    },
+    {
+      "id": "strict-no-trust-policy",
+      "path": "members/strict-no-trust-policy.json",
+      "profile": "strict",
+      "expected": {
+        "verdict": "reject",
+        "code": "signature_required:failed",
+        "dimensions": {
+          "strict": {
+            "signature_required": "failed"
+          }
+        }
+      },
+      "shows": "a signed attachment read with no trust policy, so no key is held for its signature"
+    },
+    {
+      "id": "strict-seal-key-compromised-backdated",
+      "path": "members/strict-seal-key-compromised-backdated.json",
+      "profile": "strict",
+      "expected": {
+        "verdict": "reject",
+        "code": "signature_required:failed",
+        "dimensions": {
+          "strict": {
+            "signature_required": "failed"
+          }
+        }
+      },
+      "shows": "a key later revoked as compromised signs a time before the revocation; only an independent timestamp can say when it signed, and none is read"
     }
   ],
-  "corpusDigest": "fbbb3e626a83f3192887c7f24e002331839b1d4778fa9d72adb31ac51d0e7250"
+  "corpusDigest": "f00cd10dd87032162271bc91aa4393d546dbaec344a309ee91942c70352bf1b5"
 }

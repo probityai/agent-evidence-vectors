@@ -1,13 +1,13 @@
 {
   "contractId": "https://probityai.github.io/agent-evidence-vectors/predicate/v1/containment-journal",
-  "corpusDigest": "dcb4c76819d71c7323ee099279e4690ddf28c800aaaccabe6447f76fb96a8a83",
+  "corpusDigest": "72b9353f04ac40d890a720df6f7da44217575b0cc6a0cd59cc490d3bad685e90",
   "counts": {
-    "allow": 17,
-    "deny": 46
+    "allow": 20,
+    "deny": 53
   },
   "receiptContractId": "https://probityai.github.io/agent-evidence-vectors/predicate/v1/blast-radius-receipt",
   "suite": "containment-journal/v1",
-  "suiteRevision": 4,
+  "suiteRevision": 5,
   "synthetic": true,
   "vectors": [
     {
@@ -1208,6 +1208,214 @@
           "delivery": 1,
           "tool_call": 2,
           "topology": 1
+        }
+      }
+    },
+    {
+      "edit": "control: every write that ran names its principals and the value its permit bound, each read names the last writer of its key, and agent-a's value reaches agent-b, whose read was not refused, but not agent-c, whose was",
+      "expected": {
+        "decision": "allow",
+        "reason": "blast_radius_consistent"
+      },
+      "files": {
+        "receipt.json": "23e84c0a18a393b07a538cc1d0a6171284772b3260bfded554d68295d3bd84ea",
+        "record.json": "b65756680c527a51ba17455aa8d2313454b6c4d4484444f0f118bac2f41abc7c"
+      },
+      "id": "allow-write-attributed-and-read-back",
+      "path": "cases/allow-write-attributed-and-read-back",
+      "retained": {
+        "enforcement": "enforced",
+        "entries": 7,
+        "events": {
+          "store_read": 3,
+          "topology": 1,
+          "write": 3
+        }
+      }
+    },
+    {
+      "edit": "control: agent-d overwrote agent-c's value before agent-b read the key, so agent-c reached no one",
+      "expected": {
+        "decision": "allow",
+        "reason": "blast_radius_consistent"
+      },
+      "files": {
+        "receipt.json": "75003e0ffe5103f9beaf858ea2c67169acd4f113cf79f98f7826485b1659a566",
+        "record.json": "5b1094166712381ca23114125c0126f26ae4fefc5a7d84d945444e57b24a3b9a"
+      },
+      "id": "allow-blast-radius-store-overwritten-by-clean-writer",
+      "path": "cases/allow-blast-radius-store-overwritten-by-clean-writer",
+      "retained": {
+        "enforcement": "enforced",
+        "entries": 4,
+        "events": {
+          "store_read": 1,
+          "topology": 1,
+          "write": 2
+        }
+      }
+    },
+    {
+      "edit": "control: a run that claims no attribution may write and read back with no principals",
+      "expected": {
+        "decision": "allow",
+        "reason": "containment_consistent"
+      },
+      "files": {
+        "record.json": "972d2d939e3532b16c95ebe6a90aa8189b3098f1ee1a0d732f0d40afb94b21ae"
+      },
+      "id": "allow-write-unattributed-without-claim",
+      "path": "cases/allow-write-unattributed-without-claim",
+      "retained": {
+        "enforcement": "enforced",
+        "entries": 3,
+        "events": {
+          "store_read": 1,
+          "topology": 1,
+          "write": 1
+        }
+      }
+    },
+    {
+      "edit": "the write's principals digest is not the digest of its agent, user and chain",
+      "expected": {
+        "decision": "deny",
+        "reason": "write_principals_digest_mismatch"
+      },
+      "files": {
+        "record.json": "451e49968bd90c5612b3be20fe68b77d167b37d78d9aff8add3c714ecc5a8161"
+      },
+      "id": "reject-write-principals-digest-mismatch",
+      "path": "cases/reject-write-principals-digest-mismatch",
+      "retained": {
+        "enforcement": "enforced",
+        "entries": 2,
+        "events": {
+          "topology": 1,
+          "write": 1
+        }
+      }
+    },
+    {
+      "edit": "agent-a's permit bound one value and another was written",
+      "expected": {
+        "decision": "deny",
+        "reason": "write_value_not_permitted"
+      },
+      "files": {
+        "record.json": "f10720f93b400e566f1acd8faf8b434448410f6598e10ef03f8c4c21dcd85657"
+      },
+      "id": "reject-write-value-not-permitted",
+      "path": "cases/reject-write-value-not-permitted",
+      "retained": {
+        "enforcement": "enforced",
+        "entries": 2,
+        "events": {
+          "topology": 1,
+          "write": 1
+        }
+      }
+    },
+    {
+      "edit": "agent-c is isolated, and its write to the shared store still runs",
+      "expected": {
+        "decision": "deny",
+        "reason": "write_by_isolated_agent"
+      },
+      "files": {
+        "record.json": "c438e2fef92e4bf2e088d439b87cdca70ad7adb768e0d7ca2c84a75ac1db1e68"
+      },
+      "id": "reject-write-by-isolated-agent",
+      "path": "cases/reject-write-by-isolated-agent",
+      "retained": {
+        "enforcement": "enforced",
+        "entries": 3,
+        "events": {
+          "decision": 1,
+          "topology": 1,
+          "write": 1
+        }
+      }
+    },
+    {
+      "edit": "agent-b reads back a value no write put under the key",
+      "expected": {
+        "decision": "deny",
+        "reason": "read_value_unwritten"
+      },
+      "files": {
+        "record.json": "6867f3acdca6f9091e510fa0f33c58bbbb006fae82acf12c0e938ad22c7d3a8a"
+      },
+      "id": "reject-read-value-unwritten",
+      "path": "cases/reject-read-value-unwritten",
+      "retained": {
+        "enforcement": "enforced",
+        "entries": 3,
+        "events": {
+          "store_read": 1,
+          "topology": 1,
+          "write": 1
+        }
+      }
+    },
+    {
+      "edit": "agent-b reads agent-a's value back under agent-d's name",
+      "expected": {
+        "decision": "deny",
+        "reason": "read_writer_mismatch"
+      },
+      "files": {
+        "record.json": "d05ddfe41beba60e6364238c7b8eb3f158265b1fce9736d627b2dbfe76ed7f3d"
+      },
+      "id": "reject-read-writer-mismatch",
+      "path": "cases/reject-read-writer-mismatch",
+      "retained": {
+        "enforcement": "enforced",
+        "entries": 3,
+        "events": {
+          "store_read": 1,
+          "topology": 1,
+          "write": 1
+        }
+      }
+    },
+    {
+      "edit": "the run claims every write names its principals, and agent-a's write names none",
+      "expected": {
+        "decision": "deny",
+        "reason": "write_principals_missing"
+      },
+      "files": {
+        "record.json": "91c7ada2b7e3edcaaba73e55bd47a65acaeb7f08afee8fd7b736bdd77c457ed4"
+      },
+      "id": "reject-write-principals-missing",
+      "path": "cases/reject-write-principals-missing",
+      "retained": {
+        "enforcement": "enforced",
+        "entries": 2,
+        "events": {
+          "topology": 1,
+          "write": 1
+        }
+      }
+    },
+    {
+      "edit": "the run claims every write ran under a permit, and agent-a's names no permitted value",
+      "expected": {
+        "decision": "deny",
+        "reason": "write_unpermitted"
+      },
+      "files": {
+        "record.json": "2380339a8c002bc72ee73649b2b3fe732c7aa6fca548fb6ede0003debc2519ef"
+      },
+      "id": "reject-write-unpermitted",
+      "path": "cases/reject-write-unpermitted",
+      "retained": {
+        "enforcement": "enforced",
+        "entries": 2,
+        "events": {
+          "topology": 1,
+          "write": 1
         }
       }
     },

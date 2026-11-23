@@ -146,6 +146,7 @@ only-include = [
     "corpora/vectors-agent-change-admission",
     "corpora/vectors-agent-decision",
     "corpora/vectors-agent-payment-mandate",
+    "corpora/vectors-agent-registration-classification",
     "corpora/vectors-agent-request-proof",
     "corpora/vectors-agentic-process-evidence",
     "corpora/vectors-aggregate-accounting",
@@ -171,8 +172,8 @@ only-include = [
     "corpora/vectors-credential-reachability",
     "corpora/vectors-credential-release",
     "corpora/vectors-decision-client-failure-modes",
-    "corpora/vectors-delegation-chain",
     "corpora/vectors-decision-record",
+    "corpora/vectors-delegation-chain",
     "corpora/vectors-delegation-lifecycle",
     "corpora/vectors-delegator-right",
     "corpora/vectors-dependency-selection",
@@ -247,6 +248,7 @@ exclude = [
     "corpora/vectors-agent-change-admission/**/*.py",
     "corpora/vectors-agent-decision/**/*.py",
     "corpora/vectors-agent-payment-mandate/**/*.py",
+    "corpora/vectors-agent-registration-classification/**/*.py",
     "corpora/vectors-agent-request-proof/**/*.py",
     "corpora/vectors-agentic-process-evidence/**/*.py",
     "corpora/vectors-aggregate-accounting/**/*.py",
@@ -272,8 +274,8 @@ exclude = [
     "corpora/vectors-credential-reachability/**/*.py",
     "corpora/vectors-credential-release/**/*.py",
     "corpora/vectors-decision-client-failure-modes/**/*.py",
-    "corpora/vectors-delegation-chain/**/*.py",
     "corpora/vectors-decision-record/**/*.py",
+    "corpora/vectors-delegation-chain/**/*.py",
     "corpora/vectors-delegation-lifecycle/**/*.py",
     "corpora/vectors-delegator-right/**/*.py",
     "corpora/vectors-dependency-selection/**/*.py",
@@ -347,6 +349,7 @@ exclude = [
 "corpora/vectors-agent-change-admission" = "agent_evidence_vectors/corpora/vectors-agent-change-admission"
 "corpora/vectors-agent-decision" = "agent_evidence_vectors/corpora/vectors-agent-decision"
 "corpora/vectors-agent-payment-mandate" = "agent_evidence_vectors/corpora/vectors-agent-payment-mandate"
+"corpora/vectors-agent-registration-classification" = "agent_evidence_vectors/corpora/vectors-agent-registration-classification"
 "corpora/vectors-agent-request-proof" = "agent_evidence_vectors/corpora/vectors-agent-request-proof"
 "corpora/vectors-agentic-process-evidence" = "agent_evidence_vectors/corpora/vectors-agentic-process-evidence"
 "corpora/vectors-aggregate-accounting" = "agent_evidence_vectors/corpora/vectors-aggregate-accounting"
@@ -372,8 +375,8 @@ exclude = [
 "corpora/vectors-credential-reachability" = "agent_evidence_vectors/corpora/vectors-credential-reachability"
 "corpora/vectors-credential-release" = "agent_evidence_vectors/corpora/vectors-credential-release"
 "corpora/vectors-decision-client-failure-modes" = "agent_evidence_vectors/corpora/vectors-decision-client-failure-modes"
-"corpora/vectors-delegation-chain" = "agent_evidence_vectors/corpora/vectors-delegation-chain"
 "corpora/vectors-decision-record" = "agent_evidence_vectors/corpora/vectors-decision-record"
+"corpora/vectors-delegation-chain" = "agent_evidence_vectors/corpora/vectors-delegation-chain"
 "corpora/vectors-delegation-lifecycle" = "agent_evidence_vectors/corpora/vectors-delegation-lifecycle"
 "corpora/vectors-delegator-right" = "agent_evidence_vectors/corpora/vectors-delegator-right"
 "corpora/vectors-dependency-selection" = "agent_evidence_vectors/corpora/vectors-dependency-selection"
@@ -522,6 +525,7 @@ only-include = [
     "corpora/vectors-agent-change-admission",
     "corpora/vectors-agent-decision",
     "corpora/vectors-agent-payment-mandate",
+    "corpora/vectors-agent-registration-classification",
     "corpora/vectors-agent-request-proof",
     "corpora/vectors-agentic-process-evidence",
     "corpora/vectors-aggregate-accounting",
@@ -547,8 +551,8 @@ only-include = [
     "corpora/vectors-credential-reachability",
     "corpora/vectors-credential-release",
     "corpora/vectors-decision-client-failure-modes",
-    "corpora/vectors-delegation-chain",
     "corpora/vectors-decision-record",
+    "corpora/vectors-delegation-chain",
     "corpora/vectors-delegation-lifecycle",
     "corpora/vectors-delegator-right",
     "corpora/vectors-dependency-selection",
