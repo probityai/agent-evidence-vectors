@@ -14,8 +14,8 @@
       "path": "release/CORPUS-DIGESTS.txt",
       "uri": "https://github.com/probityai/agent-evidence-vectors/blob/main/release/CORPUS-DIGESTS.txt"
     },
-    "routine": "corpus_digest in corpora/vectors-delegation-chain/gen_vectors.py",
-    "routine-file": "corpora/vectors-delegation-chain/gen_vectors.py",
+    "routine": "corpus_digest in corpora/vectors-delegation-chain/digest.py",
+    "routine-file": "corpora/vectors-delegation-chain/digest.py",
     "serialization": "corpus-routine",
     "sha256": "25218b83bb9118b118ba505c5d251c09175cbabefa640caa9b4d9edace2c27f0",
     "verdicts": {
@@ -45,7 +45,7 @@
       },
       "path": "corpora/vectors-delegation-chain/README.md",
       "serialization": "bytes",
-      "sha256": "d4f4c2eaf7a15dd91229abaac6d950acaa155a85a3316266dbdfd3e73ec1f081"
+      "sha256": "476471c7d2dd679994f79a567ad57ffbd4ef5e7ce743403aece0089a4d2db9f7"
     },
     {
       "consumed": "consumed",
@@ -65,7 +65,30 @@
       },
       "path": "corpora/vectors-delegation-chain/check_vectors.py",
       "serialization": "bytes",
-      "sha256": "19d3b7c8f8e27fd117b49e62e8a36c8d5afe3020372afb8e473dc74d14da74e0"
+      "sha256": "b612110899b2664a739841966cd8724010645f23bc1900d5d51de3622ea39966"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "21e48fd6520f91baeef7b88d934166fd691e51b08f9fdade001d584c0e696bff"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "21e48fd6520f91baeef7b88d934166fd691e51b08f9fdade001d584c0e696bff"
+        },
+        "swapped-in": "4c647bde6030be825701869886b80cd7a95f0982dc3b5df26184b626f946214a",
+        "test": "swap-and-re-pin"
+      },
+      "path": "corpora/vectors-delegation-chain/digest.py",
+      "serialization": "bytes",
+      "sha256": "dab9f86a16866b72fd19386ab7cd4760071612a8424a25cc8afbbf4fc96bb03e"
     },
     {
       "consumed": "unconsumed",
@@ -88,7 +111,7 @@
       },
       "path": "corpora/vectors-delegation-chain/gen_vectors.py",
       "serialization": "bytes",
-      "sha256": "13940b51ee0202700d521dc52dae6f94fb5a7eb5d35c3a080b5478dd83995096"
+      "sha256": "68730e4419bdcc188c817025c39f6c3e5d8cece9faf08f743906f2d5b876ba2e"
     },
     {
       "consumed": "unconsumed",
@@ -111,7 +134,7 @@
       },
       "path": "corpora/vectors-delegation-chain/tests/test_corpus.py",
       "serialization": "bytes",
-      "sha256": "04ec39257050b56ac8b78ae2163973596588d87902f21d3736afce602679e7e6"
+      "sha256": "d51b9811d9a5db5cb12953899124f5a613ab54715f8089caab393af66cc77a1f"
     }
   ],
   "boundary": {
@@ -160,7 +183,7 @@
         "corpora/vectors-delegation-chain/check_vectors.py"
       ],
       "serialization": "sha256-listing-v1",
-      "sha256": "61eaed507c25bcf623b765c6c4e678a71779236f197011d9f78867048238221f"
+      "sha256": "f88ae16464855488115b0f51e8a6b8bd917374b333b6c38886ae45df276fe3d3"
     },
     "runtime": {
       "name": "cpython",
@@ -334,7 +357,7 @@
   ],
   "corpus-digest": {
     "serialization": "sha256-listing-v1",
-    "sha256": "1a70ee679f3164ce193bec34bee820410205d63c4ff0140b8255fe4f935379e3"
+    "sha256": "9bc435b17a8cdf00d58edb1f08e43e4fadce4690e6799f0062082aa2c01d2cdc"
   },
   "exit-code": 0,
   "exit-rule": "zero-iff-every-check-passes",

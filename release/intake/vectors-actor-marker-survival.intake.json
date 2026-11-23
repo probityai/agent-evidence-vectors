@@ -14,10 +14,10 @@
       "path": "release/CORPUS-DIGESTS.txt",
       "uri": "https://github.com/probityai/agent-evidence-vectors/blob/main/release/CORPUS-DIGESTS.txt"
     },
-    "routine": "corpus_digest in corpora/vectors-actor-marker-survival/gen_vectors.py",
-    "routine-file": "corpora/vectors-actor-marker-survival/gen_vectors.py",
+    "routine": "corpus_digest in corpora/vectors-actor-marker-survival/digest.py",
+    "routine-file": "corpora/vectors-actor-marker-survival/digest.py",
     "serialization": "corpus-routine",
-    "sha256": "60a3faae47e59096b55c0268270e431bd8b25f8c6db364fa30e146be8bd4e719",
+    "sha256": "3652a5f9d522dd944f2b225fac13c086704b2af1e7d6ce1e94d0795469d3d334",
     "verdicts": {
       "availability-failure": "inconclusive",
       "integrity-failure": "fail"
@@ -45,7 +45,7 @@
       },
       "path": "corpora/vectors-actor-marker-survival/README.md",
       "serialization": "bytes",
-      "sha256": "06f59efdbc5e4b97524a9fd6311ea0831d0f0e66f821ea0780017cdf404bd926"
+      "sha256": "592feb377cf5ccd097a4ccbea2d46e521d869a32fd609ec0e85db6b9f13df334"
     },
     {
       "consumed": "consumed",
@@ -108,12 +108,35 @@
           "exit-code": 0,
           "sha256": "a371ab7a235a6144d0bc7576f09745ccd88600d463308c49b9cf20090f808749"
         },
+        "swapped-in": "f515bcea9f6c43db45b62ab494b07eab2c2b5c737c1748b2bd1ad25c3d79e3c1",
+        "test": "swap-and-re-pin"
+      },
+      "path": "corpora/vectors-actor-marker-survival/digest.py",
+      "serialization": "bytes",
+      "sha256": "dab9f86a16866b72fd19386ab7cd4760071612a8424a25cc8afbbf4fc96bb03e"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "a371ab7a235a6144d0bc7576f09745ccd88600d463308c49b9cf20090f808749"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "a371ab7a235a6144d0bc7576f09745ccd88600d463308c49b9cf20090f808749"
+        },
         "swapped-in": "45f0062b81184427cd9146d5aaec75851e5cda8cfecdcb0ff6b4bf8cce544479",
         "test": "swap-and-re-pin"
       },
       "path": "corpora/vectors-actor-marker-survival/gen_vectors.py",
       "serialization": "bytes",
-      "sha256": "287842d07404923cfb93668bb0990f6f5155abc78d801d88b9ae3a09f64a9d1d"
+      "sha256": "4312ad5ae06258205379dc0ab90becc2e22552780aa91e845f1e9ac088c4e33f"
     },
     {
       "consumed": "unconsumed",
@@ -677,7 +700,7 @@
   ],
   "corpus-digest": {
     "serialization": "sha256-listing-v1",
-    "sha256": "4556975b2587dce045310cdf8fec1301b1e264acd8de6ada3b1ac8da7f0df77f"
+    "sha256": "18329d4b53771f9ec994e9a35896462e28abb04a999cbb0647105dbc338dc01c"
   },
   "exit-code": 0,
   "exit-rule": "zero-iff-every-check-passes",
@@ -719,7 +742,7 @@
       "user-alone-without-presence"
     ],
     "path": "corpora/vectors-actor-marker-survival/MANIFEST.json",
-    "sha256": "6235fc899170e81f9b80dd1c2160dc2e77762e9def472b4359c2cdc5b1db0bf3"
+    "sha256": "24f9a468a91d680c4dfea5c63aea9cd5d0cb80063cea244ce1d276dfec524508"
   },
   "members": [
     {
@@ -927,7 +950,7 @@
       "files": [
         {
           "path": "corpora/vectors-actor-marker-survival/cases/contract-id-unknown/record.json",
-          "sha256": "d660f4e49cf3e037581eb654df0d64079fd25850b9bdb5b8509fbe15f02e0457"
+          "sha256": "494f4ac66fc84d90b8a5e289405e5393a42eed0fa83c32e0b0a47fd428104023"
         },
         {
           "path": "corpora/vectors-actor-marker-survival/cases/contract-id-unknown/signing-input-0.jcs",
