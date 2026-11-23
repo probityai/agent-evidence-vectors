@@ -109,7 +109,7 @@ Runs one of the [admission rule sets](../packages/admission/docs/RULE-SETS.md) o
 | `warn` | refusal codes to report as warnings, one per line; a check that could not run refuses under a `*-not-evaluated` code unless it is listed here |
 
 ```yaml
-- uses: probityai/agent-evidence-vectors@v0.37.1
+- uses: probityai/agent-evidence-vectors@v0.38.0
   with:
     check: admit
     rule-set: catalog-attestations
