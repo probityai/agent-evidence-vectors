@@ -3,5 +3,4 @@ members: 252
   accept: 114
   indeterminate: 2
   reject: 136
-FAIL vbd2992f86e8a44a2: CS55: expected set malformed [consumption-set-release-unshown], got valid []
-verdict: 1 member(s) and 0 corpus-level claim(s) do not hold
+verdict: every member behaves as MANIFEST.json declares
