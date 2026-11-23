@@ -18,7 +18,7 @@
     "routine": "corpus_digest in corpora/vectors-delegation-lifecycle/digest.py",
     "routine-file": "corpora/vectors-delegation-lifecycle/digest.py",
     "serialization": "corpus-routine",
-    "sha256": "84ba70d6a54bfc1badf80a54655814c089bd220e9d81637d2262ac84e2a63442",
+    "sha256": "9ca18b93dfa3b02d331c6831b994bf0b176bc87d587754c7f7a3716d6ed6ad0f",
     "verdicts": {
       "availability-failure": "inconclusive",
       "integrity-failure": "fail"
@@ -46,7 +46,7 @@
       },
       "path": "corpora/vectors-delegation-lifecycle/INDEX.md",
       "serialization": "bytes",
-      "sha256": "776843a0b0a54b907e5bb8de97ae5ba6b3dd813d8213f595b87896c3f9527101"
+      "sha256": "90fbfc3df58d60c9ba1d41f3794628660a14a23ee2a76f5cad80ae9c0a222fe7"
     },
     {
       "consumed": "unconsumed",
@@ -69,7 +69,7 @@
       },
       "path": "corpora/vectors-delegation-lifecycle/README.md",
       "serialization": "bytes",
-      "sha256": "f60cab04963f7aaa189b11d5b5f16f60e34b63dd9effdbc45d0c45f93aaa23d9"
+      "sha256": "e92362a3485378b8727d37531e4578552beadc27ae174ae48c321f11c300686d"
     },
     {
       "consumed": "unconsumed",
@@ -115,7 +115,7 @@
       },
       "path": "corpora/vectors-delegation-lifecycle/gen_vectors.py",
       "serialization": "bytes",
-      "sha256": "2f3347ce2b554e86e63e9b24d9793d723870b369764ea77fba6a2472f3ec70cc"
+      "sha256": "4307e4669fa6632fe2755890acf7be889beb17c30fcf05143ff49c6ba027554d"
     },
     {
       "consumed": "unconsumed",
@@ -207,7 +207,7 @@
       },
       "path": "corpora/vectors-delegation-lifecycle/tests/test_python_reader.py",
       "serialization": "bytes",
-      "sha256": "118aceabd8b882839006f77a08c54d57b1b6ca1aa48d4559e7c540ef06dd4ef2"
+      "sha256": "abbc564eec8b43a440a81cc1eb2a47f892d8bf5804714af579f69d5e3637d4ad"
     }
   ],
   "boundary": {
@@ -261,6 +261,7 @@
         "aee/merkle.go",
         "aee/pae.go",
         "aee/recompute.go",
+        "aee/revocationlist.go",
         "aee/runbinding.go",
         "aee/statement.go",
         "aee/tier.go",
@@ -272,6 +273,7 @@
         "corpusreaders/a2ajcs.go",
         "corpusreaders/aci.go",
         "corpusreaders/acscore.go",
+        "corpusreaders/actormarker.go",
         "corpusreaders/admission.go",
         "corpusreaders/aeecorpus.go",
         "corpusreaders/agentaction.go",
@@ -285,6 +287,7 @@
         "corpusreaders/anchorstream.go",
         "corpusreaders/approvalbinding.go",
         "corpusreaders/artifactbinding.go",
+        "corpusreaders/assertiongrade.go",
         "corpusreaders/auditrecord.go",
         "corpusreaders/auditrecord_consumption.go",
         "corpusreaders/auditrecord_datasubject.go",
@@ -299,6 +302,7 @@
         "corpusreaders/capabilityrequirement.go",
         "corpusreaders/cardreceipt.go",
         "corpusreaders/catalogtrust.go",
+        "corpusreaders/cborreceiptchain.go",
         "corpusreaders/changeadmission.go",
         "corpusreaders/chunkedexport.go",
         "corpusreaders/common.go",
@@ -308,7 +312,13 @@
         "corpusreaders/contextdiscovery.go",
         "corpusreaders/controldecision.go",
         "corpusreaders/convertedargs.go",
+        "corpusreaders/credreach.go",
         "corpusreaders/decisionclient.go",
+        "corpusreaders/decisionrecord.go",
+        "corpusreaders/decisionrecord_binding.go",
+        "corpusreaders/decisionrecord_json.go",
+        "corpusreaders/decisionrecord_read.go",
+        "corpusreaders/delegationchain.go",
         "corpusreaders/delegationlifecycle.go",
         "corpusreaders/delegatorright.go",
         "corpusreaders/dispatchfence.go",
@@ -320,6 +330,7 @@
         "corpusreaders/emptyinterval.go",
         "corpusreaders/evidencecell.go",
         "corpusreaders/evidencestate.go",
+        "corpusreaders/evmsig.go",
         "corpusreaders/executionbilling.go",
         "corpusreaders/gradefloor.go",
         "corpusreaders/htxcases.go",
@@ -335,6 +346,10 @@
         "corpusreaders/monitorcoverage.go",
         "corpusreaders/oasfrecord.go",
         "corpusreaders/observedeffect.go",
+        "corpusreaders/ocsfdecision.go",
+        "corpusreaders/ocsfjson.go",
+        "corpusreaders/ocsfrecord.go",
+        "corpusreaders/ocsfstream.go",
         "corpusreaders/openweight.go",
         "corpusreaders/paymentmandate.go",
         "corpusreaders/physicalcompletion.go",
@@ -356,6 +371,7 @@
         "corpusreaders/registry.go",
         "corpusreaders/responsibilityescalation.go",
         "corpusreaders/restartrecords.go",
+        "corpusreaders/revocationlist.go",
         "corpusreaders/rsadigestinfo.go",
         "corpusreaders/rulecorpus.go",
         "corpusreaders/runmetrics.go",
@@ -363,6 +379,7 @@
         "corpusreaders/selfreported.go",
         "corpusreaders/signaturecoverage.go",
         "corpusreaders/sourcecoverage.go",
+        "corpusreaders/statusreceipt.go",
         "corpusreaders/strictjson.go",
         "corpusreaders/telemetryevidence.go",
         "corpusreaders/traceanchor.go",
@@ -375,7 +392,7 @@
         "go.mod"
       ],
       "serialization": "sha256-listing-v1",
-      "sha256": "d652a002f76f6c5679d1e78aa26b223d15aef2508ad64243c187881ba16e0ee9"
+      "sha256": "de1e0dc5c9ff2166f5d33feb2d7a82a8705b0fae8e1c0f667318df2dcf779075"
     },
     "runtime": {
       "name": "go",
@@ -390,6 +407,7 @@
       "aee/merkle.go",
       "aee/pae.go",
       "aee/recompute.go",
+      "aee/revocationlist.go",
       "aee/runbinding.go",
       "aee/statement.go",
       "aee/tier.go",
@@ -401,6 +419,7 @@
       "corpusreaders/a2ajcs.go",
       "corpusreaders/aci.go",
       "corpusreaders/acscore.go",
+      "corpusreaders/actormarker.go",
       "corpusreaders/admission.go",
       "corpusreaders/aeecorpus.go",
       "corpusreaders/agentaction.go",
@@ -414,6 +433,7 @@
       "corpusreaders/anchorstream.go",
       "corpusreaders/approvalbinding.go",
       "corpusreaders/artifactbinding.go",
+      "corpusreaders/assertiongrade.go",
       "corpusreaders/auditrecord.go",
       "corpusreaders/auditrecord_consumption.go",
       "corpusreaders/auditrecord_datasubject.go",
@@ -428,6 +448,7 @@
       "corpusreaders/capabilityrequirement.go",
       "corpusreaders/cardreceipt.go",
       "corpusreaders/catalogtrust.go",
+      "corpusreaders/cborreceiptchain.go",
       "corpusreaders/changeadmission.go",
       "corpusreaders/chunkedexport.go",
       "corpusreaders/common.go",
@@ -437,7 +458,13 @@
       "corpusreaders/contextdiscovery.go",
       "corpusreaders/controldecision.go",
       "corpusreaders/convertedargs.go",
+      "corpusreaders/credreach.go",
       "corpusreaders/decisionclient.go",
+      "corpusreaders/decisionrecord.go",
+      "corpusreaders/decisionrecord_binding.go",
+      "corpusreaders/decisionrecord_json.go",
+      "corpusreaders/decisionrecord_read.go",
+      "corpusreaders/delegationchain.go",
       "corpusreaders/delegationlifecycle.go",
       "corpusreaders/delegatorright.go",
       "corpusreaders/dispatchfence.go",
@@ -449,6 +476,7 @@
       "corpusreaders/emptyinterval.go",
       "corpusreaders/evidencecell.go",
       "corpusreaders/evidencestate.go",
+      "corpusreaders/evmsig.go",
       "corpusreaders/executionbilling.go",
       "corpusreaders/gradefloor.go",
       "corpusreaders/htxcases.go",
@@ -464,6 +492,10 @@
       "corpusreaders/monitorcoverage.go",
       "corpusreaders/oasfrecord.go",
       "corpusreaders/observedeffect.go",
+      "corpusreaders/ocsfdecision.go",
+      "corpusreaders/ocsfjson.go",
+      "corpusreaders/ocsfrecord.go",
+      "corpusreaders/ocsfstream.go",
       "corpusreaders/openweight.go",
       "corpusreaders/paymentmandate.go",
       "corpusreaders/physicalcompletion.go",
@@ -485,6 +517,7 @@
       "corpusreaders/registry.go",
       "corpusreaders/responsibilityescalation.go",
       "corpusreaders/restartrecords.go",
+      "corpusreaders/revocationlist.go",
       "corpusreaders/rsadigestinfo.go",
       "corpusreaders/rulecorpus.go",
       "corpusreaders/runmetrics.go",
@@ -492,6 +525,7 @@
       "corpusreaders/selfreported.go",
       "corpusreaders/signaturecoverage.go",
       "corpusreaders/sourcecoverage.go",
+      "corpusreaders/statusreceipt.go",
       "corpusreaders/strictjson.go",
       "corpusreaders/telemetryevidence.go",
       "corpusreaders/traceanchor.go",
@@ -940,7 +974,7 @@
   ],
   "corpus-digest": {
     "serialization": "sha256-listing-v1",
-    "sha256": "c5c16b6f04889b36f2cac9b38b9f52a82fe9542d7bc67f7490b418a4a288eb30"
+    "sha256": "17f00ad76234d80678c1cd5362831a9a37bf9fb7c889403e874997a60d1d3d6e"
   },
   "exit-code": 0,
   "exit-rule": "zero-iff-every-check-passes",
@@ -1006,7 +1040,7 @@
       "subagent-respawn-unrecorded"
     ],
     "path": "corpora/vectors-delegation-lifecycle/MANIFEST.json",
-    "sha256": "ed5cf480d22ff731f97f574b2d9da1a705d3bf2735cd5dd36865e778f60d0a1b"
+    "sha256": "f644aaf582244ceebb3857c9957730652d6a679062b497f774d82170c967251e"
   },
   "members": [
     {
@@ -3821,7 +3855,7 @@
         "member:tree-revocation-backdated",
         "check:tree-revocation-backdated"
       ],
-      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"reject\",\"reason\":\"grant_revoked\"}}"
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"reject\",\"reason\":\"grant_revoked_retroactively\"}}"
     },
     {
       "check": "tree-revocation-incomplete",

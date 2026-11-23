@@ -2,10 +2,10 @@
   "aggregate": {
     "counts": {
       "allow": 10,
-      "deny": 21
+      "deny": 22
     },
     "line": "verdict: every member behaves as MANIFEST.json declares",
-    "total": 31
+    "total": 32
   },
   "anchor": {
     "kind": "digest-list-line",
@@ -17,7 +17,7 @@
     "routine": "corpus_digest in corpora/vectors-execution-billing-finality/gen_vectors.py",
     "routine-file": "corpora/vectors-execution-billing-finality/gen_vectors.py",
     "serialization": "corpus-routine",
-    "sha256": "6dfc9c130e4bf13c8b69591acbba2ebf363fa5960a2f5f31d9100c35a34722e3",
+    "sha256": "2d17ec29a8a81736b780aebd4a11e4cb1e306927078a9050d380fe1572360b4c",
     "verdicts": {
       "availability-failure": "inconclusive",
       "integrity-failure": "fail"
@@ -29,7 +29,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "c5e5e1a2bd357dea8a1490dd52ef715538b9e9f8c88bdac9ed23013ed9ac538f"
+          "sha256": "56044c45c484db70505c3adb6b2392279a0bcbec8215c0e38fc2b55bf5b39d4e"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [],
@@ -38,21 +38,21 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "c5e5e1a2bd357dea8a1490dd52ef715538b9e9f8c88bdac9ed23013ed9ac538f"
+          "sha256": "56044c45c484db70505c3adb6b2392279a0bcbec8215c0e38fc2b55bf5b39d4e"
         },
         "swapped-in": "9bf1ebd8d85585e98321c04a81118c28ec01dcce19ca36c1539ba776122a5d7a",
         "test": "swap-and-re-pin"
       },
       "path": "corpora/vectors-execution-billing-finality/README.md",
       "serialization": "bytes",
-      "sha256": "c3e6e3ad60dcb1233727ac773b84a3230ad7f552dd2e86a72315fb17907d0a84"
+      "sha256": "3a9488f0a239f27f6fbcda02f77bcea5b9f353fba1a4d22ac608da64b11d4e41"
     },
     {
       "consumed": "unconsumed",
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "c5e5e1a2bd357dea8a1490dd52ef715538b9e9f8c88bdac9ed23013ed9ac538f"
+          "sha256": "56044c45c484db70505c3adb6b2392279a0bcbec8215c0e38fc2b55bf5b39d4e"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [],
@@ -61,7 +61,7 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "c5e5e1a2bd357dea8a1490dd52ef715538b9e9f8c88bdac9ed23013ed9ac538f"
+          "sha256": "56044c45c484db70505c3adb6b2392279a0bcbec8215c0e38fc2b55bf5b39d4e"
         },
         "swapped-in": "d58759ce2d4ef7d1f5dc9e3c9e940137e50000ba83f4b9d51312bfdd0be30d9d",
         "test": "swap-and-re-pin"
@@ -75,7 +75,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "c5e5e1a2bd357dea8a1490dd52ef715538b9e9f8c88bdac9ed23013ed9ac538f"
+          "sha256": "56044c45c484db70505c3adb6b2392279a0bcbec8215c0e38fc2b55bf5b39d4e"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [],
@@ -84,21 +84,21 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "c5e5e1a2bd357dea8a1490dd52ef715538b9e9f8c88bdac9ed23013ed9ac538f"
+          "sha256": "56044c45c484db70505c3adb6b2392279a0bcbec8215c0e38fc2b55bf5b39d4e"
         },
         "swapped-in": "373f13d25ce79a5560376b2cfff14dfd46135f6257304e4d8838a2ef36053e76",
         "test": "swap-and-re-pin"
       },
       "path": "corpora/vectors-execution-billing-finality/gen_vectors.py",
       "serialization": "bytes",
-      "sha256": "d1ff2985bb182cb13530df08f18577c75dfab846ec608b65dfbc9cc10384c5a9"
+      "sha256": "d03edfc9da14c65d0fc5db4892c513566ebf1121680b5f0a1bf083e67ac360ad"
     },
     {
       "consumed": "unconsumed",
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "c5e5e1a2bd357dea8a1490dd52ef715538b9e9f8c88bdac9ed23013ed9ac538f"
+          "sha256": "56044c45c484db70505c3adb6b2392279a0bcbec8215c0e38fc2b55bf5b39d4e"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [],
@@ -107,7 +107,7 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "c5e5e1a2bd357dea8a1490dd52ef715538b9e9f8c88bdac9ed23013ed9ac538f"
+          "sha256": "56044c45c484db70505c3adb6b2392279a0bcbec8215c0e38fc2b55bf5b39d4e"
         },
         "swapped-in": "bf4b616e225f321b7acf4974e089bb00e5801688493af9610d4d57d790a1a852",
         "test": "swap-and-re-pin"
@@ -121,7 +121,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "c5e5e1a2bd357dea8a1490dd52ef715538b9e9f8c88bdac9ed23013ed9ac538f"
+          "sha256": "56044c45c484db70505c3adb6b2392279a0bcbec8215c0e38fc2b55bf5b39d4e"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [],
@@ -130,7 +130,7 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "c5e5e1a2bd357dea8a1490dd52ef715538b9e9f8c88bdac9ed23013ed9ac538f"
+          "sha256": "56044c45c484db70505c3adb6b2392279a0bcbec8215c0e38fc2b55bf5b39d4e"
         },
         "swapped-in": "26242cf5412ada30bf1caa6ad8f9b1bd2101f60ce72e5710bebe5a2b7e982958",
         "test": "swap-and-re-pin"
@@ -144,7 +144,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "c5e5e1a2bd357dea8a1490dd52ef715538b9e9f8c88bdac9ed23013ed9ac538f"
+          "sha256": "56044c45c484db70505c3adb6b2392279a0bcbec8215c0e38fc2b55bf5b39d4e"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [],
@@ -153,7 +153,7 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "c5e5e1a2bd357dea8a1490dd52ef715538b9e9f8c88bdac9ed23013ed9ac538f"
+          "sha256": "56044c45c484db70505c3adb6b2392279a0bcbec8215c0e38fc2b55bf5b39d4e"
         },
         "swapped-in": "30a3a4251b067fbc61c78a39313d16ac2a5aeec99c543eef614bb1224401ca82",
         "test": "swap-and-re-pin"
@@ -167,7 +167,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "c5e5e1a2bd357dea8a1490dd52ef715538b9e9f8c88bdac9ed23013ed9ac538f"
+          "sha256": "56044c45c484db70505c3adb6b2392279a0bcbec8215c0e38fc2b55bf5b39d4e"
         },
         "corpus-digest": "not recomputable over the swapped bytes (ValueError)",
         "pins-moved": [
@@ -196,7 +196,7 @@
         ],
         "swapped": {
           "exit-code": 1,
-          "sha256": "2f045bf3627115ef7b14eeb06297747e947e1de6c90dcabf40bc5a5ae0cc98d9"
+          "sha256": "08725e5a28490a7be574c5f85f762fab7be765facb1768fc345fea3e633ab5e1"
         },
         "swapped-in": "6d261b2986e068103483ad0ccc4e22cf74580e7c89343a2c5fac7a5486f3106e",
         "test": "swap-and-re-pin"
@@ -210,7 +210,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "c5e5e1a2bd357dea8a1490dd52ef715538b9e9f8c88bdac9ed23013ed9ac538f"
+          "sha256": "56044c45c484db70505c3adb6b2392279a0bcbec8215c0e38fc2b55bf5b39d4e"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [],
@@ -219,14 +219,14 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "c5e5e1a2bd357dea8a1490dd52ef715538b9e9f8c88bdac9ed23013ed9ac538f"
+          "sha256": "56044c45c484db70505c3adb6b2392279a0bcbec8215c0e38fc2b55bf5b39d4e"
         },
         "swapped-in": "e3d0508c9234fbad172ec9a38484eb7b4fe2b50a2882da32938263db80ee021b",
         "test": "swap-and-re-pin"
       },
       "path": "corpora/vectors-execution-billing-finality/tests/test_corpus.py",
       "serialization": "bytes",
-      "sha256": "165c1d8cfbf629e9f87b62c84783c6b71ea885e947999a66cdd52fd99440ae13"
+      "sha256": "522bc6853e2ef6b55a340082629e62cecf6987ee6024160bdedb8618d9a52ecc"
     }
   ],
   "boundary": {
@@ -241,7 +241,7 @@
     "root": "corpora/vectors-execution-billing-finality"
   },
   "byte-identity": {
-    "pins": 31,
+    "pins": 32,
     "serialization": "bytes"
   },
   "canonicalization": {
@@ -280,6 +280,7 @@
         "aee/merkle.go",
         "aee/pae.go",
         "aee/recompute.go",
+        "aee/revocationlist.go",
         "aee/runbinding.go",
         "aee/statement.go",
         "aee/tier.go",
@@ -291,6 +292,7 @@
         "corpusreaders/a2ajcs.go",
         "corpusreaders/aci.go",
         "corpusreaders/acscore.go",
+        "corpusreaders/actormarker.go",
         "corpusreaders/admission.go",
         "corpusreaders/aeecorpus.go",
         "corpusreaders/agentaction.go",
@@ -304,6 +306,7 @@
         "corpusreaders/anchorstream.go",
         "corpusreaders/approvalbinding.go",
         "corpusreaders/artifactbinding.go",
+        "corpusreaders/assertiongrade.go",
         "corpusreaders/auditrecord.go",
         "corpusreaders/auditrecord_consumption.go",
         "corpusreaders/auditrecord_datasubject.go",
@@ -318,6 +321,7 @@
         "corpusreaders/capabilityrequirement.go",
         "corpusreaders/cardreceipt.go",
         "corpusreaders/catalogtrust.go",
+        "corpusreaders/cborreceiptchain.go",
         "corpusreaders/changeadmission.go",
         "corpusreaders/chunkedexport.go",
         "corpusreaders/common.go",
@@ -327,7 +331,13 @@
         "corpusreaders/contextdiscovery.go",
         "corpusreaders/controldecision.go",
         "corpusreaders/convertedargs.go",
+        "corpusreaders/credreach.go",
         "corpusreaders/decisionclient.go",
+        "corpusreaders/decisionrecord.go",
+        "corpusreaders/decisionrecord_binding.go",
+        "corpusreaders/decisionrecord_json.go",
+        "corpusreaders/decisionrecord_read.go",
+        "corpusreaders/delegationchain.go",
         "corpusreaders/delegationlifecycle.go",
         "corpusreaders/delegatorright.go",
         "corpusreaders/dispatchfence.go",
@@ -339,6 +349,7 @@
         "corpusreaders/emptyinterval.go",
         "corpusreaders/evidencecell.go",
         "corpusreaders/evidencestate.go",
+        "corpusreaders/evmsig.go",
         "corpusreaders/executionbilling.go",
         "corpusreaders/gradefloor.go",
         "corpusreaders/htxcases.go",
@@ -354,6 +365,10 @@
         "corpusreaders/monitorcoverage.go",
         "corpusreaders/oasfrecord.go",
         "corpusreaders/observedeffect.go",
+        "corpusreaders/ocsfdecision.go",
+        "corpusreaders/ocsfjson.go",
+        "corpusreaders/ocsfrecord.go",
+        "corpusreaders/ocsfstream.go",
         "corpusreaders/openweight.go",
         "corpusreaders/paymentmandate.go",
         "corpusreaders/physicalcompletion.go",
@@ -375,6 +390,7 @@
         "corpusreaders/registry.go",
         "corpusreaders/responsibilityescalation.go",
         "corpusreaders/restartrecords.go",
+        "corpusreaders/revocationlist.go",
         "corpusreaders/rsadigestinfo.go",
         "corpusreaders/rulecorpus.go",
         "corpusreaders/runmetrics.go",
@@ -382,6 +398,7 @@
         "corpusreaders/selfreported.go",
         "corpusreaders/signaturecoverage.go",
         "corpusreaders/sourcecoverage.go",
+        "corpusreaders/statusreceipt.go",
         "corpusreaders/strictjson.go",
         "corpusreaders/telemetryevidence.go",
         "corpusreaders/traceanchor.go",
@@ -394,7 +411,7 @@
         "go.mod"
       ],
       "serialization": "sha256-listing-v1",
-      "sha256": "d652a002f76f6c5679d1e78aa26b223d15aef2508ad64243c187881ba16e0ee9"
+      "sha256": "de1e0dc5c9ff2166f5d33feb2d7a82a8705b0fae8e1c0f667318df2dcf779075"
     },
     "runtime": {
       "name": "go",
@@ -409,6 +426,7 @@
       "aee/merkle.go",
       "aee/pae.go",
       "aee/recompute.go",
+      "aee/revocationlist.go",
       "aee/runbinding.go",
       "aee/statement.go",
       "aee/tier.go",
@@ -420,6 +438,7 @@
       "corpusreaders/a2ajcs.go",
       "corpusreaders/aci.go",
       "corpusreaders/acscore.go",
+      "corpusreaders/actormarker.go",
       "corpusreaders/admission.go",
       "corpusreaders/aeecorpus.go",
       "corpusreaders/agentaction.go",
@@ -433,6 +452,7 @@
       "corpusreaders/anchorstream.go",
       "corpusreaders/approvalbinding.go",
       "corpusreaders/artifactbinding.go",
+      "corpusreaders/assertiongrade.go",
       "corpusreaders/auditrecord.go",
       "corpusreaders/auditrecord_consumption.go",
       "corpusreaders/auditrecord_datasubject.go",
@@ -447,6 +467,7 @@
       "corpusreaders/capabilityrequirement.go",
       "corpusreaders/cardreceipt.go",
       "corpusreaders/catalogtrust.go",
+      "corpusreaders/cborreceiptchain.go",
       "corpusreaders/changeadmission.go",
       "corpusreaders/chunkedexport.go",
       "corpusreaders/common.go",
@@ -456,7 +477,13 @@
       "corpusreaders/contextdiscovery.go",
       "corpusreaders/controldecision.go",
       "corpusreaders/convertedargs.go",
+      "corpusreaders/credreach.go",
       "corpusreaders/decisionclient.go",
+      "corpusreaders/decisionrecord.go",
+      "corpusreaders/decisionrecord_binding.go",
+      "corpusreaders/decisionrecord_json.go",
+      "corpusreaders/decisionrecord_read.go",
+      "corpusreaders/delegationchain.go",
       "corpusreaders/delegationlifecycle.go",
       "corpusreaders/delegatorright.go",
       "corpusreaders/dispatchfence.go",
@@ -468,6 +495,7 @@
       "corpusreaders/emptyinterval.go",
       "corpusreaders/evidencecell.go",
       "corpusreaders/evidencestate.go",
+      "corpusreaders/evmsig.go",
       "corpusreaders/executionbilling.go",
       "corpusreaders/gradefloor.go",
       "corpusreaders/htxcases.go",
@@ -483,6 +511,10 @@
       "corpusreaders/monitorcoverage.go",
       "corpusreaders/oasfrecord.go",
       "corpusreaders/observedeffect.go",
+      "corpusreaders/ocsfdecision.go",
+      "corpusreaders/ocsfjson.go",
+      "corpusreaders/ocsfrecord.go",
+      "corpusreaders/ocsfstream.go",
       "corpusreaders/openweight.go",
       "corpusreaders/paymentmandate.go",
       "corpusreaders/physicalcompletion.go",
@@ -504,6 +536,7 @@
       "corpusreaders/registry.go",
       "corpusreaders/responsibilityescalation.go",
       "corpusreaders/restartrecords.go",
+      "corpusreaders/revocationlist.go",
       "corpusreaders/rsadigestinfo.go",
       "corpusreaders/rulecorpus.go",
       "corpusreaders/runmetrics.go",
@@ -511,6 +544,7 @@
       "corpusreaders/selfreported.go",
       "corpusreaders/signaturecoverage.go",
       "corpusreaders/sourcecoverage.go",
+      "corpusreaders/statusreceipt.go",
       "corpusreaders/strictjson.go",
       "corpusreaders/telemetryevidence.go",
       "corpusreaders/traceanchor.go",
@@ -685,6 +719,14 @@
       "state": "pass"
     },
     {
+      "check": "f05-stuck-hold-after-final-invoice",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
       "check": "f03-guard-removed-redispatch",
       "native": {
         "reasons": [],
@@ -775,7 +817,7 @@
   ],
   "corpus-digest": {
     "serialization": "sha256-listing-v1",
-    "sha256": "482538ca00cf8550b3aef4cec9710530185e5ed15ff4f4257125ff57a4a8e6c8"
+    "sha256": "04a4d06ef4ed1499af2c66ba576f6e022d4974a7ace5f33d3ccf5c257d19edcc"
   },
   "exit-code": 0,
   "exit-rule": "zero-iff-every-check-passes",
@@ -805,6 +847,7 @@
       "reopen-changed-state",
       "f04-invoice-implies-execution",
       "f01-success-releases-reservation",
+      "f05-stuck-hold-after-final-invoice",
       "f03-guard-removed-redispatch",
       "f04-final-billing-redispatch",
       "x1-invoice-opens-dispatch",
@@ -818,7 +861,7 @@
       "x4-outcome-reset-to-unknown"
     ],
     "path": "corpora/vectors-execution-billing-finality/MANIFEST.json",
-    "sha256": "2a9622976a8a38c5163144a050d8c5f09ac54a2192513486a80479b8850879f5"
+    "sha256": "b83c281fbb5f54e3d1b9ade9b8a9debb7b0c7dbe955de957f3274048d052742a"
   },
   "members": [
     {
@@ -1004,6 +1047,15 @@
     {
       "files": [
         {
+          "path": "corpora/vectors-execution-billing-finality/cases/f05-stuck-hold-after-final-invoice/record.json",
+          "sha256": "aab1e3c56e967c3cb89a280a87a192b65993abc3e273c4040eaf13a4a9678003"
+        }
+      ],
+      "id": "f05-stuck-hold-after-final-invoice"
+    },
+    {
+      "files": [
+        {
           "path": "corpora/vectors-execution-billing-finality/cases/f03-guard-removed-redispatch/record.json",
           "sha256": "c327e1b3c2fac501c62ee4551f4f9ad1a35b866e510d7e75195753409b4d968e"
         }
@@ -1117,7 +1169,7 @@
       "reference": {
         "path": "release/intake/native/vectors-execution-billing-finality.json",
         "serialization": "bytes",
-        "sha256": "c5e5e1a2bd357dea8a1490dd52ef715538b9e9f8c88bdac9ed23013ed9ac538f"
+        "sha256": "56044c45c484db70505c3adb6b2392279a0bcbec8215c0e38fc2b55bf5b39d4e"
       }
     },
     {
@@ -1126,7 +1178,7 @@
       "reference": {
         "path": "release/intake/native/vectors-execution-billing-finality.txt",
         "serialization": "bytes",
-        "sha256": "ff4018c1512387acd9812404e64cb005d6aca5afe937b9f4320e3d9a09e55e14"
+        "sha256": "aef8a4ea5420c196fb9b442376f182bfe78a5905956eeeb78e7b169eba9c4c20"
       }
     },
     {
@@ -1151,11 +1203,11 @@
     "runs": [
       {
         "process": "run-1",
-        "sha256": "c5e5e1a2bd357dea8a1490dd52ef715538b9e9f8c88bdac9ed23013ed9ac538f"
+        "sha256": "56044c45c484db70505c3adb6b2392279a0bcbec8215c0e38fc2b55bf5b39d4e"
       },
       {
         "process": "run-2",
-        "sha256": "c5e5e1a2bd357dea8a1490dd52ef715538b9e9f8c88bdac9ed23013ed9ac538f"
+        "sha256": "56044c45c484db70505c3adb6b2392279a0bcbec8215c0e38fc2b55bf5b39d4e"
       }
     ],
     "seed": null,
@@ -1169,7 +1221,7 @@
       "action-occurred-or-authority"
     ],
     "establishes": [
-      "aee-verify, at the source listing named here, judges each of the 31 pinned members of execution-billing-finality/v1 as its manifest declares"
+      "aee-verify, at the source listing named here, judges each of the 32 pinned members of execution-billing-finality/v1 as its manifest declares"
     ],
     "leaves-open": [
       "whether an implementation written from the specification, run by someone other than an author, reaches the same verdicts",
@@ -1180,7 +1232,7 @@
   "selector": {
     "expression": "*",
     "language": "id-glob",
-    "matched": 31,
+    "matched": 32,
     "require": "at-least-one",
     "selected": [
       "allow-f01-success-reservation-held",
@@ -1203,6 +1255,7 @@
       "reopen-changed-state",
       "f04-invoice-implies-execution",
       "f01-success-releases-reservation",
+      "f05-stuck-hold-after-final-invoice",
       "f03-guard-removed-redispatch",
       "f04-final-billing-redispatch",
       "x1-invoice-opens-dispatch",

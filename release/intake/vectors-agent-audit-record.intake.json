@@ -1,12 +1,12 @@
 {
   "aggregate": {
     "counts": {
-      "accept": 114,
-      "indeterminate": 2,
-      "reject": 136
+      "accept": 117,
+      "indeterminate": 1,
+      "reject": 141
     },
     "line": "verdict: every member behaves as MANIFEST.json declares",
-    "total": 252
+    "total": 259
   },
   "anchor": {
     "kind": "digest-list-line",
@@ -18,7 +18,7 @@
     "routine": "corpus_digest in corpora/vectors-agent-audit-record/digest.py",
     "routine-file": "corpora/vectors-agent-audit-record/digest.py",
     "serialization": "corpus-routine",
-    "sha256": "e2d42859deabc516b1defac323cb5023e463ff31beef37ea6a88bd5d2778f281",
+    "sha256": "935ec284837de18f91e0bf12f4f10517b8527961c9edbfe324fc134a853f1d1b",
     "verdicts": {
       "availability-failure": "inconclusive",
       "integrity-failure": "fail"
@@ -30,7 +30,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "d32e3738294821e9cb4af468688a6e682a8c9d1be3d4f674c191601501e782c6"
+          "sha256": "5e4d4f70a00180d5356c9fcdbacf09fc35beb7bc56224466abb90d7ac20856ca"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [],
@@ -39,7 +39,7 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "d32e3738294821e9cb4af468688a6e682a8c9d1be3d4f674c191601501e782c6"
+          "sha256": "5e4d4f70a00180d5356c9fcdbacf09fc35beb7bc56224466abb90d7ac20856ca"
         },
         "swapped-in": "ee181acd3e75eb3326e9bec186fa701544b5537e7885e83a0848f67633c15711",
         "test": "swap-and-re-pin"
@@ -53,7 +53,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "d32e3738294821e9cb4af468688a6e682a8c9d1be3d4f674c191601501e782c6"
+          "sha256": "5e4d4f70a00180d5356c9fcdbacf09fc35beb7bc56224466abb90d7ac20856ca"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [],
@@ -62,21 +62,21 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "d32e3738294821e9cb4af468688a6e682a8c9d1be3d4f674c191601501e782c6"
+          "sha256": "5e4d4f70a00180d5356c9fcdbacf09fc35beb7bc56224466abb90d7ac20856ca"
         },
         "swapped-in": "856976b53e0398f58f0d56270e38fc677791247c6cf34ca44b7397ff6e0743bb",
         "test": "swap-and-re-pin"
       },
       "path": "corpora/vectors-agent-audit-record/INDEX.md",
       "serialization": "bytes",
-      "sha256": "f3ca8264c2fa7781fc7528b5000c53c89e6a79b40744ae1302e5ac61c7f18b7f"
+      "sha256": "c844d8264b57069363b6c083eb6834bc191898db94e326e24b4815e9fc41f5eb"
     },
     {
       "consumed": "unconsumed",
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "d32e3738294821e9cb4af468688a6e682a8c9d1be3d4f674c191601501e782c6"
+          "sha256": "5e4d4f70a00180d5356c9fcdbacf09fc35beb7bc56224466abb90d7ac20856ca"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [],
@@ -85,21 +85,21 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "d32e3738294821e9cb4af468688a6e682a8c9d1be3d4f674c191601501e782c6"
+          "sha256": "5e4d4f70a00180d5356c9fcdbacf09fc35beb7bc56224466abb90d7ac20856ca"
         },
         "swapped-in": "db98115b37430d8465de3a1b1c9f85a9e832ab9e15b8a375f741c4d656a94aad",
         "test": "swap-and-re-pin"
       },
       "path": "corpora/vectors-agent-audit-record/README.md",
       "serialization": "bytes",
-      "sha256": "3033044d5d14b64147e85d5d1d9a5e11a0c8af69e8891dfdfd1b71aebac64127"
+      "sha256": "9086f483e89d4774784d0de84db7b0984e0d2b174087018034bce465bd6dec25"
     },
     {
       "consumed": "unconsumed",
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "d32e3738294821e9cb4af468688a6e682a8c9d1be3d4f674c191601501e782c6"
+          "sha256": "5e4d4f70a00180d5356c9fcdbacf09fc35beb7bc56224466abb90d7ac20856ca"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [],
@@ -108,7 +108,7 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "d32e3738294821e9cb4af468688a6e682a8c9d1be3d4f674c191601501e782c6"
+          "sha256": "5e4d4f70a00180d5356c9fcdbacf09fc35beb7bc56224466abb90d7ac20856ca"
         },
         "swapped-in": "79c713ca368ba656c7e7fe9bff5dd1187332160832ebc9661dd4783cf27d4dbe",
         "test": "swap-and-re-pin"
@@ -122,7 +122,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "d32e3738294821e9cb4af468688a6e682a8c9d1be3d4f674c191601501e782c6"
+          "sha256": "5e4d4f70a00180d5356c9fcdbacf09fc35beb7bc56224466abb90d7ac20856ca"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [],
@@ -131,7 +131,7 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "d32e3738294821e9cb4af468688a6e682a8c9d1be3d4f674c191601501e782c6"
+          "sha256": "5e4d4f70a00180d5356c9fcdbacf09fc35beb7bc56224466abb90d7ac20856ca"
         },
         "swapped-in": "efa2ac7ca3307bb740e22713a643c48d64b8bb70a995c1dc3d1a03d106a50750",
         "test": "swap-and-re-pin"
@@ -145,7 +145,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "d32e3738294821e9cb4af468688a6e682a8c9d1be3d4f674c191601501e782c6"
+          "sha256": "5e4d4f70a00180d5356c9fcdbacf09fc35beb7bc56224466abb90d7ac20856ca"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [],
@@ -154,21 +154,21 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "d32e3738294821e9cb4af468688a6e682a8c9d1be3d4f674c191601501e782c6"
+          "sha256": "5e4d4f70a00180d5356c9fcdbacf09fc35beb7bc56224466abb90d7ac20856ca"
         },
         "swapped-in": "02e98b2bda5352b1bd4bf5ec9b050d20374c51bb0b4b2db841b09dd5206744a1",
         "test": "swap-and-re-pin"
       },
       "path": "corpora/vectors-agent-audit-record/check_vectors.py",
       "serialization": "bytes",
-      "sha256": "bfecfcd5b15f129ab20aebd00ac40c7f5dbaba97af65513ec146b598d47d3207"
+      "sha256": "1a05c22f1dbb0cc65cb262bab3854d3c0a0283930d3ed888d718055a52bf3760"
     },
     {
       "consumed": "unconsumed",
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "d32e3738294821e9cb4af468688a6e682a8c9d1be3d4f674c191601501e782c6"
+          "sha256": "5e4d4f70a00180d5356c9fcdbacf09fc35beb7bc56224466abb90d7ac20856ca"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [],
@@ -177,7 +177,7 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "d32e3738294821e9cb4af468688a6e682a8c9d1be3d4f674c191601501e782c6"
+          "sha256": "5e4d4f70a00180d5356c9fcdbacf09fc35beb7bc56224466abb90d7ac20856ca"
         },
         "swapped-in": "0ca0695c55320091581b928ccb82146043df4c2ba864fa1432e0d4cfa03d69f2",
         "test": "swap-and-re-pin"
@@ -191,7 +191,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "d32e3738294821e9cb4af468688a6e682a8c9d1be3d4f674c191601501e782c6"
+          "sha256": "5e4d4f70a00180d5356c9fcdbacf09fc35beb7bc56224466abb90d7ac20856ca"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [],
@@ -200,21 +200,21 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "d32e3738294821e9cb4af468688a6e682a8c9d1be3d4f674c191601501e782c6"
+          "sha256": "5e4d4f70a00180d5356c9fcdbacf09fc35beb7bc56224466abb90d7ac20856ca"
         },
         "swapped-in": "f20fa7e2324807333e826c8023127fdaefd7823918e04cc37fbd1c693ee13480",
         "test": "swap-and-re-pin"
       },
       "path": "corpora/vectors-agent-audit-record/gen_vectors.py",
       "serialization": "bytes",
-      "sha256": "aae8b8ef9f5181bd5916c30cc88e3671a424300283197f0a9e1f06829d85c0cb"
+      "sha256": "99e211b3b6df8931bafba1cc3aaf141ad7ca44561986cf1688546cee801ecd87"
     },
     {
       "consumed": "unconsumed",
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "d32e3738294821e9cb4af468688a6e682a8c9d1be3d4f674c191601501e782c6"
+          "sha256": "5e4d4f70a00180d5356c9fcdbacf09fc35beb7bc56224466abb90d7ac20856ca"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [
@@ -226,7 +226,7 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "d32e3738294821e9cb4af468688a6e682a8c9d1be3d4f674c191601501e782c6"
+          "sha256": "5e4d4f70a00180d5356c9fcdbacf09fc35beb7bc56224466abb90d7ac20856ca"
         },
         "swapped-in": "c4d0aa56f99d02e791145d423a67f8f0b64370f3f82d01fa1ad9c7a73f7cab11",
         "test": "swap-and-re-pin"
@@ -240,7 +240,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "d32e3738294821e9cb4af468688a6e682a8c9d1be3d4f674c191601501e782c6"
+          "sha256": "5e4d4f70a00180d5356c9fcdbacf09fc35beb7bc56224466abb90d7ac20856ca"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [
@@ -252,7 +252,7 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "d32e3738294821e9cb4af468688a6e682a8c9d1be3d4f674c191601501e782c6"
+          "sha256": "5e4d4f70a00180d5356c9fcdbacf09fc35beb7bc56224466abb90d7ac20856ca"
         },
         "swapped-in": "1f1e29b5fc3425dcae2e5e82a5e92ba897adf224fa065ba062073bb1a2c1c2c2",
         "test": "swap-and-re-pin"
@@ -266,7 +266,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "d32e3738294821e9cb4af468688a6e682a8c9d1be3d4f674c191601501e782c6"
+          "sha256": "5e4d4f70a00180d5356c9fcdbacf09fc35beb7bc56224466abb90d7ac20856ca"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [
@@ -278,7 +278,7 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "d32e3738294821e9cb4af468688a6e682a8c9d1be3d4f674c191601501e782c6"
+          "sha256": "5e4d4f70a00180d5356c9fcdbacf09fc35beb7bc56224466abb90d7ac20856ca"
         },
         "swapped-in": "a17b1fb7ebb4cade033531b291626dab252132b559f11ed30ecd1642126c5ad4",
         "test": "swap-and-re-pin"
@@ -292,7 +292,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "d32e3738294821e9cb4af468688a6e682a8c9d1be3d4f674c191601501e782c6"
+          "sha256": "5e4d4f70a00180d5356c9fcdbacf09fc35beb7bc56224466abb90d7ac20856ca"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [
@@ -304,7 +304,7 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "d32e3738294821e9cb4af468688a6e682a8c9d1be3d4f674c191601501e782c6"
+          "sha256": "5e4d4f70a00180d5356c9fcdbacf09fc35beb7bc56224466abb90d7ac20856ca"
         },
         "swapped-in": "670fa27d90ab0c23d86176678868a24115f131d7f18be1e151afa520f4c91a10",
         "test": "swap-and-re-pin"
@@ -318,7 +318,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "d32e3738294821e9cb4af468688a6e682a8c9d1be3d4f674c191601501e782c6"
+          "sha256": "5e4d4f70a00180d5356c9fcdbacf09fc35beb7bc56224466abb90d7ac20856ca"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [
@@ -330,7 +330,7 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "d32e3738294821e9cb4af468688a6e682a8c9d1be3d4f674c191601501e782c6"
+          "sha256": "5e4d4f70a00180d5356c9fcdbacf09fc35beb7bc56224466abb90d7ac20856ca"
         },
         "swapped-in": "7007caeb57a2bf199db28a05cc8629c862374458eddbb9181b1b0e93e669c95b",
         "test": "swap-and-re-pin"
@@ -344,7 +344,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "d32e3738294821e9cb4af468688a6e682a8c9d1be3d4f674c191601501e782c6"
+          "sha256": "5e4d4f70a00180d5356c9fcdbacf09fc35beb7bc56224466abb90d7ac20856ca"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [],
@@ -353,7 +353,7 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "d32e3738294821e9cb4af468688a6e682a8c9d1be3d4f674c191601501e782c6"
+          "sha256": "5e4d4f70a00180d5356c9fcdbacf09fc35beb7bc56224466abb90d7ac20856ca"
         },
         "swapped-in": "831d65079750ecb08df37b9c65137d7dfd8101336fc5c9102d2df74a118fdb13",
         "test": "swap-and-re-pin"
@@ -385,7 +385,7 @@
     "root": "corpora/vectors-agent-audit-record"
   },
   "byte-identity": {
-    "pins": 252,
+    "pins": 259,
     "serialization": "bytes"
   },
   "canonicalization": {
@@ -424,6 +424,7 @@
         "aee/merkle.go",
         "aee/pae.go",
         "aee/recompute.go",
+        "aee/revocationlist.go",
         "aee/runbinding.go",
         "aee/statement.go",
         "aee/tier.go",
@@ -435,6 +436,7 @@
         "corpusreaders/a2ajcs.go",
         "corpusreaders/aci.go",
         "corpusreaders/acscore.go",
+        "corpusreaders/actormarker.go",
         "corpusreaders/admission.go",
         "corpusreaders/aeecorpus.go",
         "corpusreaders/agentaction.go",
@@ -448,6 +450,7 @@
         "corpusreaders/anchorstream.go",
         "corpusreaders/approvalbinding.go",
         "corpusreaders/artifactbinding.go",
+        "corpusreaders/assertiongrade.go",
         "corpusreaders/auditrecord.go",
         "corpusreaders/auditrecord_consumption.go",
         "corpusreaders/auditrecord_datasubject.go",
@@ -462,6 +465,7 @@
         "corpusreaders/capabilityrequirement.go",
         "corpusreaders/cardreceipt.go",
         "corpusreaders/catalogtrust.go",
+        "corpusreaders/cborreceiptchain.go",
         "corpusreaders/changeadmission.go",
         "corpusreaders/chunkedexport.go",
         "corpusreaders/common.go",
@@ -471,7 +475,13 @@
         "corpusreaders/contextdiscovery.go",
         "corpusreaders/controldecision.go",
         "corpusreaders/convertedargs.go",
+        "corpusreaders/credreach.go",
         "corpusreaders/decisionclient.go",
+        "corpusreaders/decisionrecord.go",
+        "corpusreaders/decisionrecord_binding.go",
+        "corpusreaders/decisionrecord_json.go",
+        "corpusreaders/decisionrecord_read.go",
+        "corpusreaders/delegationchain.go",
         "corpusreaders/delegationlifecycle.go",
         "corpusreaders/delegatorright.go",
         "corpusreaders/dispatchfence.go",
@@ -483,6 +493,7 @@
         "corpusreaders/emptyinterval.go",
         "corpusreaders/evidencecell.go",
         "corpusreaders/evidencestate.go",
+        "corpusreaders/evmsig.go",
         "corpusreaders/executionbilling.go",
         "corpusreaders/gradefloor.go",
         "corpusreaders/htxcases.go",
@@ -498,6 +509,10 @@
         "corpusreaders/monitorcoverage.go",
         "corpusreaders/oasfrecord.go",
         "corpusreaders/observedeffect.go",
+        "corpusreaders/ocsfdecision.go",
+        "corpusreaders/ocsfjson.go",
+        "corpusreaders/ocsfrecord.go",
+        "corpusreaders/ocsfstream.go",
         "corpusreaders/openweight.go",
         "corpusreaders/paymentmandate.go",
         "corpusreaders/physicalcompletion.go",
@@ -519,6 +534,7 @@
         "corpusreaders/registry.go",
         "corpusreaders/responsibilityescalation.go",
         "corpusreaders/restartrecords.go",
+        "corpusreaders/revocationlist.go",
         "corpusreaders/rsadigestinfo.go",
         "corpusreaders/rulecorpus.go",
         "corpusreaders/runmetrics.go",
@@ -526,6 +542,7 @@
         "corpusreaders/selfreported.go",
         "corpusreaders/signaturecoverage.go",
         "corpusreaders/sourcecoverage.go",
+        "corpusreaders/statusreceipt.go",
         "corpusreaders/strictjson.go",
         "corpusreaders/telemetryevidence.go",
         "corpusreaders/traceanchor.go",
@@ -538,7 +555,7 @@
         "go.mod"
       ],
       "serialization": "sha256-listing-v1",
-      "sha256": "d652a002f76f6c5679d1e78aa26b223d15aef2508ad64243c187881ba16e0ee9"
+      "sha256": "de1e0dc5c9ff2166f5d33feb2d7a82a8705b0fae8e1c0f667318df2dcf779075"
     },
     "runtime": {
       "name": "go",
@@ -553,6 +570,7 @@
       "aee/merkle.go",
       "aee/pae.go",
       "aee/recompute.go",
+      "aee/revocationlist.go",
       "aee/runbinding.go",
       "aee/statement.go",
       "aee/tier.go",
@@ -564,6 +582,7 @@
       "corpusreaders/a2ajcs.go",
       "corpusreaders/aci.go",
       "corpusreaders/acscore.go",
+      "corpusreaders/actormarker.go",
       "corpusreaders/admission.go",
       "corpusreaders/aeecorpus.go",
       "corpusreaders/agentaction.go",
@@ -577,6 +596,7 @@
       "corpusreaders/anchorstream.go",
       "corpusreaders/approvalbinding.go",
       "corpusreaders/artifactbinding.go",
+      "corpusreaders/assertiongrade.go",
       "corpusreaders/auditrecord.go",
       "corpusreaders/auditrecord_consumption.go",
       "corpusreaders/auditrecord_datasubject.go",
@@ -591,6 +611,7 @@
       "corpusreaders/capabilityrequirement.go",
       "corpusreaders/cardreceipt.go",
       "corpusreaders/catalogtrust.go",
+      "corpusreaders/cborreceiptchain.go",
       "corpusreaders/changeadmission.go",
       "corpusreaders/chunkedexport.go",
       "corpusreaders/common.go",
@@ -600,7 +621,13 @@
       "corpusreaders/contextdiscovery.go",
       "corpusreaders/controldecision.go",
       "corpusreaders/convertedargs.go",
+      "corpusreaders/credreach.go",
       "corpusreaders/decisionclient.go",
+      "corpusreaders/decisionrecord.go",
+      "corpusreaders/decisionrecord_binding.go",
+      "corpusreaders/decisionrecord_json.go",
+      "corpusreaders/decisionrecord_read.go",
+      "corpusreaders/delegationchain.go",
       "corpusreaders/delegationlifecycle.go",
       "corpusreaders/delegatorright.go",
       "corpusreaders/dispatchfence.go",
@@ -612,6 +639,7 @@
       "corpusreaders/emptyinterval.go",
       "corpusreaders/evidencecell.go",
       "corpusreaders/evidencestate.go",
+      "corpusreaders/evmsig.go",
       "corpusreaders/executionbilling.go",
       "corpusreaders/gradefloor.go",
       "corpusreaders/htxcases.go",
@@ -627,6 +655,10 @@
       "corpusreaders/monitorcoverage.go",
       "corpusreaders/oasfrecord.go",
       "corpusreaders/observedeffect.go",
+      "corpusreaders/ocsfdecision.go",
+      "corpusreaders/ocsfjson.go",
+      "corpusreaders/ocsfrecord.go",
+      "corpusreaders/ocsfstream.go",
       "corpusreaders/openweight.go",
       "corpusreaders/paymentmandate.go",
       "corpusreaders/physicalcompletion.go",
@@ -648,6 +680,7 @@
       "corpusreaders/registry.go",
       "corpusreaders/responsibilityescalation.go",
       "corpusreaders/restartrecords.go",
+      "corpusreaders/revocationlist.go",
       "corpusreaders/rsadigestinfo.go",
       "corpusreaders/rulecorpus.go",
       "corpusreaders/runmetrics.go",
@@ -655,6 +688,7 @@
       "corpusreaders/selfreported.go",
       "corpusreaders/signaturecoverage.go",
       "corpusreaders/sourcecoverage.go",
+      "corpusreaders/statusreceipt.go",
       "corpusreaders/strictjson.go",
       "corpusreaders/telemetryevidence.go",
       "corpusreaders/traceanchor.go",
@@ -1152,7 +1186,7 @@
       "check": "vb2d65dfff88bebcf",
       "native": {
         "reasons": [],
-        "verdict": "accept"
+        "verdict": "reject"
       },
       "state": "pass"
     },
@@ -1582,6 +1616,62 @@
     },
     {
       "check": "v1fe964af5ec88f9a",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v60d638129b92fda4",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v6ab6d120fb63f7cf",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v0fce851ecdb6eca5",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v6bd353d5c0c3a2ee",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v1adad24a3576858f",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v4b4a73f73eee6cb5",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v9f9440961ddc78fe",
       "native": {
         "reasons": [],
         "verdict": "reject"
@@ -2216,7 +2306,7 @@
       "check": "v12896bcb35edd1b1",
       "native": {
         "reasons": [],
-        "verdict": "indeterminate"
+        "verdict": "accept"
       },
       "state": "pass"
     },
@@ -2687,7 +2777,7 @@
   ],
   "corpus-digest": {
     "serialization": "sha256-listing-v1",
-    "sha256": "d466664cb1d5ccc19879fbce1340e91bf0bd1478db7f8bef69cd9c1a4314673d"
+    "sha256": "5b71c0896eecc4824c998d96861d4a117ad80da640022b5ba8bcfe12c7f87332"
   },
   "exit-code": 0,
   "exit-rule": "zero-iff-every-check-passes",
@@ -2812,6 +2902,13 @@
       "v7eb62c3c7df1a8b7",
       "vaad17bc9d25a70eb",
       "v1fe964af5ec88f9a",
+      "v60d638129b92fda4",
+      "v6ab6d120fb63f7cf",
+      "v0fce851ecdb6eca5",
+      "v6bd353d5c0c3a2ee",
+      "v1adad24a3576858f",
+      "v4b4a73f73eee6cb5",
+      "v9f9440961ddc78fe",
       "vd831202c1ad2f50c",
       "v6cc2e68d93e92dda",
       "v10ba3fc4188f0e39",
@@ -2951,7 +3048,7 @@
       "v425531073d0c4bd6"
     ],
     "path": "corpora/vectors-agent-audit-record/MANIFEST.json",
-    "sha256": "7d6b19dd7d1f39dc275fd963f735b69246b1f2f654621da8c8b6efda644f9d85"
+    "sha256": "512fde253baec0193d719452b0e789d28c168a10ef54714504cde18f4f765685"
   },
   "members": [
     {
@@ -3988,6 +4085,69 @@
         }
       ],
       "id": "v1fe964af5ec88f9a"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-agent-audit-record/statements/v60d638129b92fda4.json",
+          "sha256": "60d638129b92fda405b62108d537b97755b34b7cba57a3118e9d6144d4e25e87"
+        }
+      ],
+      "id": "v60d638129b92fda4"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-agent-audit-record/statements/v6ab6d120fb63f7cf.json",
+          "sha256": "6ab6d120fb63f7cffcc57a5e6a55d9aceda6756f1ae536aff1c160695235128c"
+        }
+      ],
+      "id": "v6ab6d120fb63f7cf"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-agent-audit-record/statements/v0fce851ecdb6eca5.json",
+          "sha256": "0fce851ecdb6eca5c3a4007a3a1454594a1204e1db446848c568deceacbd4630"
+        }
+      ],
+      "id": "v0fce851ecdb6eca5"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-agent-audit-record/statements/v6bd353d5c0c3a2ee.json",
+          "sha256": "6bd353d5c0c3a2ee9814c5232febd62c50f05463ccc9a3d214125e9df2dd5a2d"
+        }
+      ],
+      "id": "v6bd353d5c0c3a2ee"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-agent-audit-record/statements/v1adad24a3576858f.json",
+          "sha256": "1adad24a3576858fe9fef91ec1d33bcfdb3488bf93243a8bef191b90a8130a32"
+        }
+      ],
+      "id": "v1adad24a3576858f"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-agent-audit-record/statements/v4b4a73f73eee6cb5.json",
+          "sha256": "4b4a73f73eee6cb51e2ba0d5892594c12195a7d9628d1a59f3ba11504975621c"
+        }
+      ],
+      "id": "v4b4a73f73eee6cb5"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-agent-audit-record/statements/v9f9440961ddc78fe.json",
+          "sha256": "9f9440961ddc78fea069c7d4fd4d155b4c92b886d9d397673a36c7b8797446fa"
+        }
+      ],
+      "id": "v9f9440961ddc78fe"
     },
     {
       "files": [
@@ -5257,7 +5417,7 @@
       "reference": {
         "path": "release/intake/native/vectors-agent-audit-record.json",
         "serialization": "bytes",
-        "sha256": "d32e3738294821e9cb4af468688a6e682a8c9d1be3d4f674c191601501e782c6"
+        "sha256": "5e4d4f70a00180d5356c9fcdbacf09fc35beb7bc56224466abb90d7ac20856ca"
       }
     },
     {
@@ -5266,7 +5426,7 @@
       "reference": {
         "path": "release/intake/native/vectors-agent-audit-record.txt",
         "serialization": "bytes",
-        "sha256": "81d9a34d6df2e8df1469720bed93d6d5e6cf8975baea23eb9118b695a2fbaf37"
+        "sha256": "55396c7c67e26d6062053e6caf534aabb330aa2631650530b561a17ce48acbe6"
       }
     },
     {
@@ -5597,6 +5757,14 @@
       "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"codes\":[\"field-evidence-self-substrate\"],\"verdict\":\"malformed\"}}"
     },
     {
+      "check": "vb2d65dfff88bebcf",
+      "inputs": [
+        "member:vb2d65dfff88bebcf",
+        "check:vb2d65dfff88bebcf"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"codes\":[\"evaluation-inconsistent\"],\"verdict\":\"malformed\"}}"
+    },
+    {
       "check": "vb58784bb5ae72b86",
       "inputs": [
         "member:vb58784bb5ae72b86",
@@ -5883,6 +6051,38 @@
         "check:v1fe964af5ec88f9a"
       ],
       "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"codes\":[\"evaluation-inconsistent\"],\"verdict\":\"malformed\"}}"
+    },
+    {
+      "check": "v6ab6d120fb63f7cf",
+      "inputs": [
+        "member:v6ab6d120fb63f7cf",
+        "check:v6ab6d120fb63f7cf"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"codes\":[\"evaluation-inconsistent\"],\"verdict\":\"malformed\"}}"
+    },
+    {
+      "check": "v6bd353d5c0c3a2ee",
+      "inputs": [
+        "member:v6bd353d5c0c3a2ee",
+        "check:v6bd353d5c0c3a2ee"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"codes\":[\"evaluation-inconsistent\"],\"verdict\":\"malformed\"}}"
+    },
+    {
+      "check": "v1adad24a3576858f",
+      "inputs": [
+        "member:v1adad24a3576858f",
+        "check:v1adad24a3576858f"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"codes\":[\"evaluation-result-after-decision\"],\"verdict\":\"malformed\"}}"
+    },
+    {
+      "check": "v9f9440961ddc78fe",
+      "inputs": [
+        "member:v9f9440961ddc78fe",
+        "check:v9f9440961ddc78fe"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"codes\":[\"evaluation-result-after-decision\"],\"verdict\":\"malformed\"}}"
     },
     {
       "check": "v10ba3fc4188f0e39",
@@ -6380,11 +6580,11 @@
     "runs": [
       {
         "process": "run-1",
-        "sha256": "d32e3738294821e9cb4af468688a6e682a8c9d1be3d4f674c191601501e782c6"
+        "sha256": "5e4d4f70a00180d5356c9fcdbacf09fc35beb7bc56224466abb90d7ac20856ca"
       },
       {
         "process": "run-2",
-        "sha256": "d32e3738294821e9cb4af468688a6e682a8c9d1be3d4f674c191601501e782c6"
+        "sha256": "5e4d4f70a00180d5356c9fcdbacf09fc35beb7bc56224466abb90d7ac20856ca"
       }
     ],
     "seed": null,
@@ -6398,7 +6598,7 @@
       "action-occurred-or-authority"
     ],
     "establishes": [
-      "aee-verify, at the source listing named here, judges each of the 252 pinned members of agent-audit-record-conformance as its manifest declares"
+      "aee-verify, at the source listing named here, judges each of the 259 pinned members of agent-audit-record-conformance as its manifest declares"
     ],
     "leaves-open": [
       "whether an implementation written from the specification, run by someone other than an author, reaches the same verdicts",
@@ -6409,7 +6609,7 @@
   "selector": {
     "expression": "*",
     "language": "id-glob",
-    "matched": 252,
+    "matched": 259,
     "require": "at-least-one",
     "selected": [
       "v22ea7615379eecca",
@@ -6527,6 +6727,13 @@
       "v7eb62c3c7df1a8b7",
       "vaad17bc9d25a70eb",
       "v1fe964af5ec88f9a",
+      "v60d638129b92fda4",
+      "v6ab6d120fb63f7cf",
+      "v0fce851ecdb6eca5",
+      "v6bd353d5c0c3a2ee",
+      "v1adad24a3576858f",
+      "v4b4a73f73eee6cb5",
+      "v9f9440961ddc78fe",
       "vd831202c1ad2f50c",
       "v6cc2e68d93e92dda",
       "v10ba3fc4188f0e39",
