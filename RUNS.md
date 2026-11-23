@@ -277,6 +277,50 @@ commit, run over the corpus at `0a4fef2c7` with `--admission-state` set to each
 run's `admission/state.json`, returned the same ten verdicts and
 `REFUSED:PIC_ARGS_NOT_PAYLOAD` for both `n1a-pic-args` vectors.
 
+### giskard09, `giskard09/argentum-core`, the authority-at-dispatch corpus
+
+The first run of `vectors-authority-at-dispatch` by a mapper this repository did
+not write. His `map_authority_at_dispatch.py` reads the corpus through the
+installed package and assigns each of the eight reasons one of four outcomes
+against the execution-join reference in his repository. It scores an
+accounting of what his reference models, not an accept or reject verdict per
+vector, so the figure is a 3/3/2/2 split and not a pass count. It is not a row
+of the ledger below.
+
+| | |
+| --- | --- |
+| Reporter | `giskard09` |
+| Implementation | [`giskard09/argentum-core`](https://github.com/giskard09/argentum-core/commit/369dc33820e59cc266e8c5cf7a27d6d39954029f) at merge commit `369dc33820e59cc266e8c5cf7a27d6d39954029f`, path `examples/conformance/execution-join-ref/`, Python, importing `agent_evidence_vectors.authoritydispatch` |
+| Posted at | [#349, comment of 2026-11-09](https://github.com/probityai/agent-evidence-vectors/issues/349#issuecomment-6754503151), and [the earlier comment of the same day](https://github.com/probityai/agent-evidence-vectors/issues/349#issuecomment-6741522613) carries the same split |
+| Corpus | `vectors-authority-at-dispatch`, read from the installed package `agent-evidence-vectors==0.35.0` in a fresh venv |
+| Result | `verify.py` 20/20, exit 0. `map_authority_at_dispatch.py`, exit 0: 3 `dispatch_not_approved` mapped to `EFFECTIVE_CALL_REBINDING_FAILED`; 3 `AUDITABLE_VIA_NAMED_AUTHORITY` (`grant_revoked`, `authority_evidence_stale`, `evidence_age_inconsistent`); 2 `PARTIALLY_MODELED` (`scope_amplified`, `grant_expired`); 2 `NOT_MODELED` (`contract_id_missing`, `contract_id_unknown`) |
+| Label, by its author | none given |
+
+What `AUDITABLE_VIA_NAMED_AUTHORITY` claims, in his words:
+
+> the new fields let you check an *order* relationship (authority checked
+> before the action was taken), not that this verifier can independently confirm
+> a grant was actually revoked or evidence actually stale
+
+The figure was reproduced here before this row was written, at two releases. The
+repository was checked out at `369dc33` and the example's `verify.py` and
+`map_authority_at_dispatch.py` were run in a fresh venv with
+`agent-evidence-vectors==0.35.0` and in another with `==0.38.0`. `verify.py`
+gave 20/20 on both. The mapper gave the same split on both, and the two output
+files are identical byte for byte: the six `[OK]` lines and the same 3, 3, 2 and
+2 accounting his comment shows. So the corpus change between 0.35.0 and 0.38.0
+moves none of the eight reasons across an outcome in this mapper.
+
+It is not a cold-start result. The mapper was written against this repository's
+table of reasons, and his merge for this cell extended the reference: the three
+`AUDITABLE_VIA_NAMED_AUTHORITY` rows exist because of invariant 8 in his
+version 1.3 of the reference, which he merged for this cell. What it shows is
+that three reasons the corpus names can be bound to a named authority and
+checked for order in an outside implementation, that two are partly modelled,
+and that two are not modelled at all, which his table says is deliberate. The
+conformance example pins this package and carries its Dependabot entry, so each
+release re-runs the mapper in his CI.
+
 ## Runs of this repository's code on another operator's host
 
 The rows above are runs of implementations this repository did not write. The
