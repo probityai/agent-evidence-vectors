@@ -93,9 +93,9 @@
       }
     ]
   },
-  "corpusDigest": "57dc02f7e2f4eeecc118d8c67e3e39321b31cbe841e37e1a842082e5d5c670ce",
+  "corpusDigest": "e2d42859deabc516b1defac323cb5023e463ff31beef37ea6a88bd5d2778f281",
   "counts": {
-    "accept": 113,
+    "accept": 114,
     "indeterminate": 2,
     "reject": 136
   },
@@ -149,7 +149,7 @@
   "skewTolerance": 300,
   "suite": "agent-audit-record-conformance",
   "textCounts": {
-    "proposed": 16,
+    "proposed": 17,
     "published": 235
   },
   "vectors": [
@@ -3199,6 +3199,34 @@
       "kind": "accept",
       "row": "CS53 where the later record is dated at the permit's deadline: each record valid, the set valid",
       "slug": "cs54-set-zero-settlement-released-at-the-deadline"
+    },
+    {
+      "draftId": "CS55",
+      "draftSection": "5.9",
+      "expected": {
+        "codes": [],
+        "derivedTier": "authoritative",
+        "set": {
+          "codes": [
+            "consumption-set-release-unshown"
+          ],
+          "verdict": "malformed",
+          "withinLimit": [
+            true,
+            true
+          ]
+        },
+        "verdict": "valid"
+      },
+      "file": "sets/vbd2992f86e8a44a2.json",
+      "id": "vbd2992f86e8a44a2",
+      "kind": "accept",
+      "proposed": {
+        "revision": "draft-gilda-audit-agent-audit-record-05",
+        "text": "docs/proposals/audit-record-05-deadline-boundary.md"
+      },
+      "row": "CS53 where the later record is dated at the permit's deadline: each record valid, the set malformed, under the proposed reading that a record must be dated after the deadline to release the hold",
+      "slug": "cs55-set-zero-settlement-released-at-deadline-proposed"
     },
     {
       "draftId": "A21",
