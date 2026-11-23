@@ -1232,9 +1232,28 @@ type arVector struct {
 	Readings []struct {
 		Verdict string `json:"verdict"`
 	} `json:"readings"`
+	// Proposed is present on a member that tests a rule only text proposed for
+	// the next revision states. No published revision supports its verdict, so
+	// this reader, written from the published text, is not scored on it.
+	Proposed json.RawMessage `json:"proposed"`
 }
 
+// proposed reports whether the member tests proposed text rather than a
+// published revision.
+func (v arVector) proposed() bool { return len(v.Proposed) > 0 }
+
+// Judge scores every published member on this reader's verdict and every
+// proposed member on what the corpus claims of it whatever its text: a known
+// accept parent, readable bytes and an identifier that recomputes from them.
 func (auditRecord) Judge(dir string, raw []byte) (*Result, error) {
+	return arJudge(dir, raw, func(arVector) bool { return false })
+}
+
+// arJudge is Judge with the proposed members whose verdict is scored named by
+// scoreProposed. A weakening test scores the proposed members this reader
+// already reads as declared, so a reading that only they exercise is still
+// shown to be load bearing.
+func arJudge(dir string, raw []byte, scoreProposed func(arVector) bool) (*Result, error) {
 	var manifest arManifest
 	if err := strictUnmarshal(raw, &manifest); err != nil {
 		return nil, fmt.Errorf("%s/MANIFEST.json does not parse: %w", dir, err)
@@ -1254,14 +1273,15 @@ func (auditRecord) Judge(dir string, raw []byte) (*Result, error) {
 		}
 		seen[v.ID] = true
 		ids, files = append(ids, v.ID), append(files, v.File)
-		member.Findings = append(member.Findings, arJudgeMember(dir, &manifest, v, byID)...)
+		scored := !v.proposed() || scoreProposed(v)
+		member.Findings = append(member.Findings, arJudgeMember(dir, &manifest, v, byID, scored)...)
 		result.Members = append(result.Members, member)
 	}
 	result.Findings = arCorpusFindings(dir, &manifest, ids, files)
 	return result, nil
 }
 
-func arJudgeMember(dir string, manifest *arManifest, v arVector, byID map[string]arVector) []string {
+func arJudgeMember(dir string, manifest *arManifest, v arVector, byID map[string]arVector, scored bool) []string {
 	label := v.DraftID
 	var findings []string
 	if v.Kind == "reject" && byID[v.Parent].Kind != "accept" {
@@ -1273,6 +1293,9 @@ func arJudgeMember(dir string, manifest *arManifest, v arVector, byID map[string
 	}
 	if idFromBytes(body) != v.ID {
 		findings = append(findings, label+": identifier does not recompute from the member's own bytes")
+	}
+	if !scored {
+		return findings
 	}
 	if v.Expected.Dating != nil {
 		report, dated := arVerifyRetained(body, manifest.typeFor(v), manifest.Keys.Observer.PublicKey,

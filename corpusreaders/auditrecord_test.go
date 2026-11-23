@@ -281,7 +281,18 @@ func TestAuditRecordIssuedAtRule(t *testing.T) {
 // member with a finding, in manifest order.
 func arFailingDraftIDs(t *testing.T) []string {
 	t.Helper()
-	result, err := Judge(arCorpusDir)
+	return arFailingWith(t, func(arVector) bool { return false })
+}
+
+// arFailingWith is arFailingDraftIDs with the proposed members whose verdict is
+// scored named by scoreProposed.
+func arFailingWith(t *testing.T, scoreProposed func(arVector) bool) []string {
+	t.Helper()
+	raw, err := os.ReadFile(filepath.Join(arCorpusDir, ManifestName))
+	if err != nil {
+		t.Fatal(err)
+	}
+	result, err := arJudge(arCorpusDir, raw, scoreProposed)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -374,6 +385,48 @@ func TestAuditRecordFreshness(t *testing.T) {
 	} {
 		if _, ok := arMaxAge(c.value); ok != c.ok {
 			t.Errorf("maxAge %#v: accepted %v, want %v", c.value, ok, c.ok)
+		}
+	}
+}
+
+// arAgreeingProposed is the proposed members this reader, unweakened, already
+// reads as declared. A weakening that moves one of them shows the reading it
+// removed is load bearing; a proposed member the reader differs on from the
+// start cannot show a weakening, only the difference it was proposed to settle.
+func arAgreeingProposed(t *testing.T) func(arVector) bool {
+	t.Helper()
+	differs := map[string]bool{}
+	for _, id := range arFailingWith(t, arVector.proposed) {
+		differs[id] = true
+	}
+	return func(v arVector) bool { return v.proposed() && !differs[v.DraftID] }
+}
+
+// TestAuditRecordProposedMembersScoreOnTheirOwnBytes: Judge leaves a proposed
+// member's verdict unscored, and the weakening helper scores exactly the
+// proposed members this reader already agrees with.
+func TestAuditRecordProposedMembersScoreOnTheirOwnBytes(t *testing.T) {
+	manifest, _ := arLoad(t)
+	var proposed []string
+	for _, v := range manifest.Vectors {
+		if v.proposed() {
+			proposed = append(proposed, v.DraftID)
+		}
+	}
+	if len(proposed) == 0 {
+		t.Fatal("the corpus carries no proposed member, so this case proves nothing")
+	}
+	if got := arFailingDraftIDs(t); len(got) != 0 {
+		t.Fatalf("Judge scored a proposed member's verdict or a published member fails: %v", got)
+	}
+	agree := arAgreeingProposed(t)
+	if got := arFailingWith(t, agree); len(got) != 0 {
+		t.Fatalf("a proposed member the reader agrees with fails when scored: %v", got)
+	}
+	differs := arFailingWith(t, arVector.proposed)
+	for _, id := range differs {
+		if !arContains(proposed, id) {
+			t.Errorf("%s fails with every proposed member scored, and it is not proposed", id)
 		}
 	}
 }
