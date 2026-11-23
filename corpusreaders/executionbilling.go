@@ -49,7 +49,9 @@ func init() { register(executionBilling{}) }
 //     final_billing_reversed;
 //  14. SUCCEEDED and FAILED hold in every later state, and NOT_DISPATCHED
 //     leaves only for UNKNOWN in a CONFLICT state:
-//     terminal_outcome_overwritten.
+//     terminal_outcome_overwritten;
+//  15. once billing is final nothing is held for the attempt:
+//     held_after_final_billing.
 //
 // The reader also recomputes each member's retained scenario, axes and
 // dispatch states.
@@ -177,6 +179,7 @@ func ebDecide(r ebObj) scDecision {
 		{"known_spend_decreased", ebKnownDecreased},
 		{"final_billing_reversed", ebBillingReversed},
 		{"terminal_outcome_overwritten", ebOutcomeOverwritten},
+		{"held_after_final_billing", ebHeldAfterFinal},
 	}
 	for _, c := range checks {
 		if c.fail(r) {
@@ -422,6 +425,15 @@ func ebHeldReleased(r ebObj) bool {
 			want.SetInt64(0)
 		}
 		if ebInt(state["heldMicroUsd"]).Cmp(want) != 0 {
+			return true
+		}
+	}
+	return false
+}
+
+func ebHeldAfterFinal(r ebObj) bool {
+	for _, state := range ebAllStates(r) {
+		if state["billingFinality"] == "FINAL" && ebInt(state["heldMicroUsd"]).Sign() != 0 {
 			return true
 		}
 	}
