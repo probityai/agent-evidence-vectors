@@ -3525,6 +3525,11 @@ MASKS = tuple(
         # unaccounted the moment the revision counter reached that value.
         r"U\+[0-9A-Fa-f]{4,6}",  # Unicode code points: U+0020
         r"\\u[0-9A-Fa-f]{4}",  # escaped code points:
+        # A POSIX octal escape, `\177` or the two bytes `\303\251` of U+00E9,
+        # spells one byte and counts nothing. It surfaced when the audit-record
+        # corpus reached 251 vectors and the w3c-report INDEX's printf recipe,
+        # which writes every non-ASCII leaf byte that way, read as that total.
+        r"\\[0-7]{3}",
         # A numbered rule of a registered corpus, `Rule 22` or `rule 29`, names a
         # row of that corpus's requirement table. It is an identifier, and the
         # W3C reader's docstrings spell every rule that way, so its numbers

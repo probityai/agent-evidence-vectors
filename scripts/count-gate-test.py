@@ -1120,6 +1120,28 @@ def every_claim_label() -> tuple[str, ...]:
     return tuple(sorted({claim.label for claim in gate.claims(gate.load_sources())}))
 
 
+def octal_escape_failures() -> list[str]:
+    """A POSIX octal escape is masked whole, and the same digits bare are not.
+
+    In process, against the census masks, so it holds whatever the live totals
+    are: `\\303\\251` must leave no digit for the census to read, and `303 251`
+    must leave both integers, or the mask is hiding counts it was not written for.
+    """
+    gate = load_gate(REPO_ROOT)
+    import countcensus as cc
+
+    failures: list[str] = []
+    escaped = "U+007F is `\\177` and U+00E9 is `\\303\\251`"
+    left = re.findall(r"\d+", cc.mask(gate.CENSUS, escaped))
+    if left:
+        failures.append(f"octal escapes: the census still reads {left} in {escaped!r}")
+    bare = "the run killed 303 and kept 251"
+    kept = re.findall(r"\d+", cc.mask(gate.CENSUS, bare))
+    if kept != ["303", "251"]:
+        failures.append(f"octal escapes: the mask took bare integers, leaving {kept} of {bare!r}")
+    return failures
+
+
 def measure_scope_failures() -> list[str]:
     """On the tree as it stands, a measure context takes out no counted integer.
 
@@ -1407,8 +1429,9 @@ def main() -> int:
     # The one case that reads the real tree rather than a staged copy: no integer
     # a measure context removes is one the tree accounts for as a count.
     failures.extend(measure_scope_failures())
+    failures.extend(octal_escape_failures())
     accepting = sum(len(cases) for _, cases, want_refusal in groups if not want_refusal)
-    total = staged + 1
+    total = staged + 2
     if failures:
         print(f"FAIL: {len(failures)} of {total} case(s) do not hold:", file=sys.stderr)
         for failure in failures:
