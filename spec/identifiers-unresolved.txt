@@ -1,0 +1,23 @@
+# Negative vectors: identifiers a test case names so a reader refuses them as unknown.
+# Each must never resolve (the live check expects 404) and each is named by a case of a corpus
+# (contract-id-unknown and its relatives) or of a package's test data. One identifier per line.
+https://probityai.github.io/agent-evidence-observer/contract/aggregate-accounting/v0
+https://probityai.github.io/agent-evidence-observer/contract/authority-at-dispatch/v0
+https://probityai.github.io/agent-evidence-observer/contract/budget-lineage/v0
+https://probityai.github.io/agent-evidence-observer/contract/converted-argument-binding/v0
+https://probityai.github.io/agent-evidence-observer/contract/dispatch-fence/v0
+https://probityai.github.io/agent-evidence-vectors/contract/approval-binding/v0
+https://probityai.github.io/agent-evidence-vectors/contract/badge-vc-verify/v0
+https://probityai.github.io/agent-evidence-vectors/contract/chunked-export/v0
+https://probityai.github.io/agent-evidence-vectors/contract/completion-confirmation/v0
+https://probityai.github.io/agent-evidence-vectors/contract/delegator-right/v0
+https://probityai.github.io/agent-evidence-vectors/contract/v0/blast-radius-receipt
+https://probityai.github.io/agent-evidence-vectors/contract/v0/capability-requirement
+https://probityai.github.io/agent-evidence-vectors/contract/v0/containment-journal
+https://probityai.github.io/agent-evidence-vectors/contract/v0/evidence-state
+https://probityai.github.io/agent-evidence-vectors/contract/v0/monitor-coverage
+https://probityai.github.io/agent-evidence-vectors/contract/v0/propagation-step
+https://probityai.github.io/agent-evidence-vectors/contract/v0/refusal-reason-priority
+https://probityai.github.io/agent-evidence-vectors/contract/v0/signature-coverage
+https://probityai.github.io/agent-evidence-vectors/contract/v0/uncertain-effect
+https://probityai.github.io/agent-evidence-vectors/predicate/v1/actor-marker-survivax
