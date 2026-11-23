@@ -830,9 +830,11 @@ func drecReadCases(dir string) (map[string]map[string]any, error) {
 	return out, nil
 }
 
-// drecMemberInput reads a member file as Python's json.loads does and lifts out what the reader takes.
+// drecMemberInput reads a member file and lifts out what the reader takes. A member
+// file is read strictly: a member named twice is refused here, because the last-wins
+// reading of json.loads would let a repeated member ride a valid seal unseen.
 func drecMemberInput(body []byte) (drecInput, string, error) {
-	parsed, err := drecParse(body, drecLenient)
+	parsed, err := drecParse(body, drecBounds)
 	if err != nil {
 		return drecInput{}, "", fmt.Errorf("the member does not parse: %w", err)
 	}
