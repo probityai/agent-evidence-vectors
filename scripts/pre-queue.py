@@ -15,6 +15,15 @@ its job and its step name, so the pre-queue run and the batch run cannot drift a
 A renamed or removed step is refused here and in scripts/pre-queue-test.py, never
 skipped.
 
+One check is run in its lenient form. The batch step refuses any derived file that
+is not what a run writes now; here the same command runs with `--stale-ok` in place
+of `--check`, which passes a derived file that is only stale (with a notice) and
+still refuses one that no generator run wrote, such as a hand edit or a hand-resolved
+merge. A pull request goes stale whenever it touches a corpus or a checker, or merges
+main; the batch run regenerates it (merge-train, before the queue) and the merge
+group stays strict, so main is always exact. The derived check judges the committed
+HEAD, not uncommitted edits.
+
     python3 scripts/pre-queue.py            run every check, past failures
     python3 scripts/pre-queue.py --list     print the checks and the step each one runs
 
@@ -24,6 +33,7 @@ Exit 0 when every check passed; 1 when any failed or any step could not be found
 from __future__ import annotations
 
 import os
+import shlex
 import subprocess
 import sys
 from pathlib import Path
@@ -60,6 +70,11 @@ CHECKS: tuple[tuple[str, str, str, str | None], ...] = (
 DEPENDABOT = "dependabot[bot]"
 SUBJECT_CHECK = "merge subject"
 
+#: The check that runs in its pull-request form: the step's trailing STRICT flag is
+#: replaced by --stale-ok against the base branch (see the module docstring).
+DERIVED_CHECK = "derived files"
+STRICT = "--check"
+
 
 class MissingStep(Exception):
     """A check names a step the workflow does not carry."""
@@ -88,6 +103,18 @@ def find_command(jobs: dict[str, Any], job: str, step: str, only: str | None) ->
     return "\n".join(lines) + "\n"
 
 
+def stale_ok_command(command: str, env: dict[str, str] | None) -> str:
+    """The strict derived-file step as a plain pull request runs it.
+
+    A stale file passes with a notice; a hand-made one still fails.
+    """
+    text = command.strip()
+    if "\n" in text or not text.endswith(" " + STRICT):
+        raise MissingStep(f"the derived-file step no longer ends in {STRICT}: {text!r}")
+    base = (env or {}).get("GITHUB_BASE_REF") or "main"
+    return text[: -len(STRICT)] + "--stale-ok " + shlex.quote("origin/" + base) + "\n"
+
+
 def run_checks(jobs: dict[str, Any], env: dict[str, str] | None = None) -> list[tuple[str, int]]:
     """Run every check past failures and return (label, exit status) for each."""
     results: list[tuple[str, int]] = []
@@ -101,6 +128,8 @@ def run_checks(jobs: dict[str, Any], env: dict[str, str] | None = None) -> list[
             continue
         try:
             command = find_command(jobs, job, step, only)
+            if label == DERIVED_CHECK:
+                command = stale_ok_command(command, env)
         except MissingStep as exc:
             print(f"pre-queue: {label}: {exc}", file=sys.stderr)
             results.append((label, 2))
@@ -121,7 +150,8 @@ def main(argv: list[str]) -> int:
     jobs = load_jobs()
     if argv == ["--list"]:
         for label, job, step, only in CHECKS:
-            print(f"{label}: {job} / {step}" + (f" (lines with {only})" if only else ""))
+            lenient = f" ({STRICT} run as --stale-ok)" if label == DERIVED_CHECK else ""
+            print(f"{label}: {job} / {step}" + (f" (lines with {only})" if only else "") + lenient)
         return 0
     if argv:
         print(__doc__, file=sys.stderr)
