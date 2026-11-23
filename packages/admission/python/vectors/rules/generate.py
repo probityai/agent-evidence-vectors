@@ -130,13 +130,15 @@ REPORTED = "2026-09-19T11:04:02Z"
 
 
 def audit_statement(inputs: list[dict[str, Any]], status: str = "evaluated", unavailable: list[str] | None = None,
-                    reported: str | None = REPORTED) -> dict[str, Any]:
+                    reported: str | None = REPORTED, evaluated: str | None = None) -> dict[str, Any]:
     evaluation: dict[str, Any] = {"inputs": inputs, "status": status}
     if unavailable is not None:
         evaluation["unavailableInput"] = unavailable
     decision: dict[str, Any] = {"action": "write", "reported": "permit"}
     if reported is not None:
         decision["reportedAt"] = reported
+    if evaluated is not None:
+        decision["evaluatedAt"] = evaluated
     return {
         "_type": "https://in-toto.io/Statement/v1",
         "subject": [{"name": "record", "digest": {"sha256": "0" * 64}}],
@@ -177,8 +179,33 @@ def audit_cases() -> list[dict[str, Any]]:
         case("fr1-every-input-fresh", "admit", None, "three entries, each inside its maxAge",
              text=dumps(audit_statement(entries()))),
         case("fr1-in-dsse", "admit", None, "the same record as a DSSE payload", text=envelope(dumps(audit_statement(entries())).encode())),
-        case("fr2-age-equal-to-max-age", "admit", None, "an age equal to maxAge is fresh",
+        case("fr2-age-equal-to-max-age", "refuse", "evaluation-inconsistent",
+             "an age equal to maxAge is stale, recorded as evaluated",
              text=dumps(audit_statement(entries(standing="2026-09-19T10:04:02Z")))),
+        case("age-max-age-minus-1ns", "admit", None, "one nanosecond under maxAge is still fresh",
+             text=dumps(audit_statement(entries(standing="2026-09-19T10:04:02.000000001Z")))),
+        case("fr21-fresh-at-evaluated-at", "admit", None,
+             "evaluatedAt 1800 s before reportedAt: fresh when the decision was made, stale by the time it was reported",
+             text=dumps(audit_statement([{"input": "standing-source", "lastResult": "2026-09-19T10:30:00Z", "maxAge": 3600}],
+                                        evaluated="2026-09-19T10:34:02Z"))),
+        case("fr23-one-second-under-max-age-at-evaluated-at", "admit", None,
+             "an age one second under maxAge at evaluatedAt, stale at reportedAt",
+             text=dumps(audit_statement([{"input": "standing-source", "lastResult": "2026-09-19T10:00:01Z", "maxAge": 3600}],
+                                        evaluated="2026-09-19T11:00:00Z"))),
+        case("fr24-max-age-at-evaluated-at", "refuse", "evaluation-inconsistent",
+             "an age equal to maxAge at evaluatedAt, recorded as evaluated",
+             text=dumps(audit_statement([{"input": "standing-source", "lastResult": "2026-09-19T10:00:00Z", "maxAge": 3600}],
+                                        evaluated="2026-09-19T11:00:00Z"))),
+        case("fr25-evaluated-at-301-after-reported-at", "refuse", "evaluation-result-after-decision",
+             "evaluatedAt 301 s after reportedAt: a decision is not reported before it is evaluated",
+             text=dumps(audit_statement(entries(), evaluated="2026-09-19T11:09:03Z"))),
+        case("fr26-evaluated-at-300-after-reported-at", "admit", None, "evaluatedAt exactly the skew tolerance after reportedAt",
+             text=dumps(audit_statement([{"input": "policy-source", "lastResult": "2026-09-19T10:00:00Z", "maxAge": 86400}],
+                                        evaluated="2026-09-19T11:09:02Z"))),
+        case("fr27-result-301-after-evaluated-at", "refuse", "evaluation-result-after-decision",
+             "a lastResult 301 s after evaluatedAt and before reportedAt",
+             text=dumps(audit_statement([{"input": "standing-source", "lastResult": "2026-09-19T11:05:01Z", "maxAge": 3600}],
+                                        evaluated="2026-09-19T11:00:00Z"))),
         case("fr8-evaluated-beside-stale", "refuse", "evaluation-inconsistent", "one second past maxAge, recorded as evaluated",
              text=dumps(audit_statement(entries(standing=stale)))),
         case("fr3-not-evaluated-names-stale", "admit", None, "the stale input named as unavailable",
