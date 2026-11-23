@@ -9,6 +9,7 @@ this corpus, and the format is the neutral profile in ``profile.json``. Every me
 from __future__ import annotations
 
 import hashlib
+import importlib.util
 import json
 import shutil
 import sys
@@ -23,6 +24,22 @@ sys.path.insert(0, str(ROOT))
 import receipt_builder as rb  # noqa: E402
 from agent_evidence_vectors import cborreceiptchain as reader  # noqa: E402
 
+
+def _load_digest() -> Any:
+    """The preimage lives in digest.py beside this file, loaded by path.
+
+    By path rather than by module name, because every corpus that owns a stdlib preimage names its
+    module digest.py, and an import by name reaches whichever of them is first on the search path.
+    """
+    spec = importlib.util.spec_from_file_location("cbor_receipt_chain_digest", ROOT / "digest.py")
+    if spec is None or spec.loader is None:
+        raise SystemExit("FAIL: digest.py beside this generator cannot be loaded")
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    return module
+
+
+corpus_digest = _load_digest().corpus_digest
 SUITE = reader.SUITE
 KEY, OTHER = rb.seed_key("corpus-signer"), rb.seed_key("corpus-unpinned")
 PROFILE = rb.NEUTRAL
@@ -254,24 +271,6 @@ def _case(
         pinned = receipts if pin == KEEP else original
         case.update(head=_sha(pinned[-1]), count=len(pinned))
     return case
-
-
-def corpus_digest(manifest: dict[str, Any], root: str) -> str:
-    """Recompute the digest from the committed files, not their declared hashes."""
-    base_dir = Path(root)
-    if _sha((base_dir / "profile.json").read_bytes()) != manifest["profile"]["sha256"]:
-        raise ValueError("profile digest mismatch")
-    entries = []
-    for entry in manifest["vectors"]:
-        directory = base_dir / entry["path"]
-        declared = entry["files"]
-        if {p.name for p in directory.iterdir() if p.is_file()} != set(declared):
-            raise ValueError(f"{entry['id']}: file set changed")
-        files = {name: _sha((directory / name).read_bytes()) for name in declared}
-        if files != declared:
-            raise ValueError(f"{entry['id']}: file digest mismatch")
-        entries.append({**entry, "files": files})
-    return _sha(_json(entries))
 
 
 def generate(root: Path = ROOT) -> dict[str, Any]:
