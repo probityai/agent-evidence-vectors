@@ -321,6 +321,104 @@ and that two are not modelled at all, which his table says is deliberate. The
 conformance example pins this package and carries its Dependabot entry, so each
 release re-runs the mapper in his CI.
 
+### kuangmi-bit, `kuangmi-bit/agent-evidence-cold-readers`, the refund-connected corpus, `input_pic` layer
+
+The first run of the `input_pic` layer of `vectors-refund-connected` by a reader
+this repository did not write. It covers one layer of six, stated as a contract in
+[`docs/reference/refund-connected-input-pic.md`](docs/reference/refund-connected-input-pic.md),
+and says nothing about `input_aps`, `admission`, `signature_trust`, `execution`
+or `observed_effect`. Like the other rows of this corpus it is not a row of the
+ledger below.
+
+| | |
+| --- | --- |
+| Reporter | `kuangmi-bit` |
+| Implementation | [`kuangmi-bit/agent-evidence-cold-readers`](https://github.com/kuangmi-bit/agent-evidence-cold-readers/tree/680ad55b2893d03590a31aaf264bb1f639384fca/refund-connected-input-pic) at commit `680ad55b2893d03590a31aaf264bb1f639384fca`, path `refund-connected-input-pic/`, Python with `cryptography` |
+| Contract | `docs/reference/refund-connected-input-pic.md` at `250de75575a945d00211415d7af41894d15427fa` |
+| Posted at | [#352, comment of 2026-11-15](https://github.com/probityai/agent-evidence-vectors/issues/352#issuecomment-6886608633) |
+| Corpus | `vectors-refund-connected`, corpus digest `1588224056bb6f7f5971386164b4a737c422ec6b16bcdea3ca8dc559adb5f9a5` |
+| Result | All twelve scored vectors match: `j01`, `n1b-aps-payload`, `n3-reissue`, `n3b-old-pic` and `n4-lost-ack` `ESTABLISHED`, `n1a-pic-args` `REFUSED:PIC_ARGS_DIGEST`, in both runs `r1` and `r2` |
+| Label, by its author | **directed** |
+
+His reading statement, which is the part of the posting that decides how the
+figure is read:
+
+> The reader was written from `docs/reference/refund-connected-input-pic.md` alone (steps 0a–20 plus the runner-allowed rule) and had already scored 12/12 before I opened `packaging/agent_evidence_vectors/refundconnected.py`. After that point I used the packaged reader as the oracle for the probe comparison below, so the run is directed, not blind
+
+The figure was reproduced here before this row was written, at release 0.38.0:
+his `run_corpus.py` at that commit, run over the `vectors-refund-connected`
+corpus installed with the package, prints `12/12 scored vectors match`, and the
+corpus digest is the one he pinned.
+
+The 12/12 says the text is implementable and that the two codes the corpus
+exercises are determinate. It says nothing about the sixteen codes the bytes
+never reach. He probed those with 53 one-field variants of `j01` through both
+readers: 51 agree and two do not, and he reported both against the contract
+text. One is that `att.expires_at` has no type at step 2, so a `null` there is
+`ESTABLISHED` for the layer and then raises in `input_aps`. The other is that a
+lone surrogate in the claim text has no UTF-8 form, so `JCS` of it has no value
+and the packaged reader raises where his refuses with `PIC_CLAIM`. Both stay
+open in the contract text.
+
+### giskard09, `giskard09/argentum-core`, the receipt-signature corpus
+
+The first run of `vectors-receipt-signature` through the GitHub Action by a
+verifier this repository did not write. The corpus carries the
+`farley-receipt-signature` vectors of `argentum-core`, so the verifier checks a
+corpus that includes his own members.
+
+| | |
+| --- | --- |
+| Reporter | `giskard09` |
+| Implementation | [`giskard09/argentum-core`](https://github.com/giskard09/argentum-core/tree/80579e5/examples/conformance/farley-receipt-signature) at `80579e5`, `examples/conformance/farley-receipt-signature/vector_verifier.py`, Python, sharing only `jcs.py` with this repository |
+| Posted at | [#352, comment of 2026-11-15](https://github.com/probityai/agent-evidence-vectors/issues/352#issuecomment-6897334205), with [the CI run](https://github.com/giskard09/argentum-core/actions/runs/43733303359) |
+| Corpus | `vectors-receipt-signature`, corpus digest `54c2d588c2bcb52c2056f5d6faab6c48d059517301e87c84c4115e866d88e330`, through the Action at `v0.36.3` |
+| Result | 29 vectors, 29 pass, 0 not honouring a SHOULD, 0 closing a gap, 0 fail; "ran on 29 of 29 vectors" |
+| Label, by its author | **directed** |
+
+In his words:
+
+> The expected verdicts were visible while I wrote it, so the run is directed, not blind. It shares only `jcs.py` with this repository and no code from your reference reader; it is not an independent implementation in the sense of your RUNS.md.
+
+Two things he put on the record: the first CI run was red on 4 of 29 because the
+Action installs its own Python after the job's, which a separate venv fixed, and
+both runs stay visible on `argentum-core#159`; and his own regex sweep found
+that a `$`-anchored pattern for `previousReceiptHash` accepts a trailing line
+feed, which no corpus member exercises, so the verifier now refuses it.
+
+The figure was reproduced here before this row was written, at release 0.38.0:
+his verifier at `80579e5`, run through `agent-evidence-vectors --corpus
+vectors-receipt-signature --verifier`, gives 29 vectors, 29 pass, and the digest
+above.
+
+### chopmob-cloud, `chopmob-cloud/algovoi-evidence-readers`, the uncertain-effect corpus
+
+A second implementation of the fifteen ordered checks of `vectors-uncertain-effect`,
+run through the corpus's own external-verifier contract.
+
+| | |
+| --- | --- |
+| Reporter | `chopmob-cloud` |
+| Implementation | [`uncertain-effect/`](https://github.com/chopmob-cloud/algovoi-evidence-readers/tree/e1b23f25e3a403415480a419210aea7ac6b6e069/uncertain-effect) in `chopmob-cloud/algovoi-evidence-readers`, Python; the record is `RUN-2026-11-20.md` |
+| Posted at | [#352, comment of 2026-11-20](https://github.com/probityai/agent-evidence-vectors/issues/352#issuecomment-7047567763) |
+| Corpus | `corpora/vectors-uncertain-effect` at `6ba08cbe9d7f2819e3c47c84adee2fa65390e123`, 54 cases, corpus digest `81e840e8585c20b07bf86394e2d0976f5b7db7801609ca7dc4af3c385d226bca`, harness `agent-evidence-vectors==0.37.1` |
+| Result | 54 of 54 answered, 0 disagreements, with the corpus's reference rail also at 54 of 54 in the same run |
+| Label, by its author | **directed**, in his words: "We had read the reference readers before writing ours, so this shows the checks are implementable by a second pair of hands. It does not show either text is determinate from a cold start." |
+
+The posting reports what a revision change did to the same reader, which is
+what a corpus is for. The reader was written against the ten checks at `c588c8a`.
+Run unchanged at `6ba08cb` it answered all 54 and disagreed on thirteen, in four
+families: `worker_crashed` missing from its set of replies that leave the outcome
+unknown (4 cases), no trigger-key check (3), `ownerEffects` compared against one
+rather than against the attempts that could have produced an effect (2), and the
+`stop` block never read (4). The five missing checks were then implemented from
+the README and the earlier ones renumbered to the corpus's order.
+
+The figure was reproduced here before this row was written, at release 0.38.0:
+his reader at the commit above, run through `agent-evidence-vectors --corpus
+vectors-uncertain-effect --verifier`, answers 54 of 54 with 0 disagreements, and
+the corpus digest is the one he posted.
+
 ## Runs of this repository's code on another operator's host
 
 The rows above are runs of implementations this repository did not write. The
