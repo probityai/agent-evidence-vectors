@@ -104,7 +104,10 @@ def find_command(jobs: dict[str, Any], job: str, step: str, only: str | None) ->
 
 
 def stale_ok_command(command: str, env: dict[str, str] | None) -> str:
-    """The strict derived-file step as a plain pull request runs it: stale passes, hand-made fails."""
+    """The strict derived-file step as a plain pull request runs it.
+
+    A stale file passes with a notice; a hand-made one still fails.
+    """
     text = command.strip()
     if "\n" in text or not text.endswith(" " + STRICT):
         raise MissingStep(f"the derived-file step no longer ends in {STRICT}: {text!r}")
