@@ -39,12 +39,12 @@ func TestExecutionBillingCommittedCorpusIsClean(t *testing.T) {
 	if err != nil {
 		t.Fatalf("judge: %v", err)
 	}
-	if !result.OK() || len(result.Members) != 31 {
+	if !result.OK() || len(result.Members) != 32 {
 		t.Fatalf("findings: %v %v", result.Findings, result.Members)
 	}
 	counts := result.CountsByVerdict()
-	if counts["allow"] != 10 || counts["deny"] != 21 {
-		t.Fatalf("want 10 allow and 21 deny: %v", counts)
+	if counts["allow"] != 10 || counts["deny"] != 22 {
+		t.Fatalf("want 10 allow and 22 deny: %v", counts)
 	}
 }
 
@@ -60,6 +60,7 @@ func TestExecutionBillingEachCheckMovesTheVerdict(t *testing.T) {
 		"reopen-changed-state":                     "reopen_changed_state",
 		"f04-invoice-implies-execution":            "execution_outcome_without_observation",
 		"f01-success-releases-reservation":         "held_released_before_final_billing",
+		"f05-stuck-hold-after-final-invoice":       "held_after_final_billing",
 		"f03-guard-removed-redispatch":             "same_attempt_redispatched",
 		"f04-final-billing-redispatch":             "same_attempt_redispatched",
 		"x1-invoice-opens-dispatch":                "same_attempt_redispatched",

@@ -52,7 +52,7 @@ def test_regeneration_is_byte_identical(tmp_path: Path) -> None:
 def test_reference_reader_agrees_with_every_case() -> None:
     answered, errors = reader.check()
     assert errors == []
-    assert answered == len(MANIFEST["vectors"]) == 31
+    assert answered == len(MANIFEST["vectors"]) == 32
 
 
 def test_corpus_digest_routine_recomputes_the_manifest() -> None:
@@ -103,6 +103,7 @@ def test_mutation_table_matches_the_published_classification() -> None:
         "M5-M3-plus-M4": ["X1", "X3"],
         "success-releases-exposure": ["F01", "F05", "X4"],
         "invoice-implies-execution": ["F04", "X1", "X3"],
+        "stuck-hold-after-final-invoice": ["F04", "F05", "X1", "X3"],
         "R1-replay-reported-new": ["X1"],
         "R2-low-invoice-erases-known-spend": ["X2"],
         "R3-non-dispatch-ignores-cost": [],
@@ -117,6 +118,7 @@ def test_mutation_table_matches_the_published_classification() -> None:
     assert reasons["R2-low-invoice-erases-known-spend"] == {"known_spend_decreased"}
     assert reasons["R4-cost-above-final-bill-accepted"] == {"final_billing_reversed"}
     assert reasons["R5-terminal-outcome-overwritten"] == {"terminal_outcome_overwritten"}
+    assert reasons["stuck-hold-after-final-invoice"] == {"held_after_final_billing"}
 
 
 @pytest.mark.parametrize("check", ["known_spend_decreased", "final_billing_reversed",

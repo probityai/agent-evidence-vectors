@@ -1,9 +1,9 @@
 {
   "contractId": "https://probityai.github.io/agent-evidence-vectors/predicate/v1/execution-billing-finality",
-  "corpusDigest": "6dfc9c130e4bf13c8b69591acbba2ebf363fa5960a2f5f31d9100c35a34722e3",
+  "corpusDigest": "2d17ec29a8a81736b780aebd4a11e4cb1e306927078a9050d380fe1572360b4c",
   "counts": {
     "allow": 10,
-    "deny": 21
+    "deny": 22
   },
   "mutants": [
     {
@@ -84,6 +84,19 @@
       "summary": "a final invoice also marks the execution SUCCEEDED"
     },
     {
+      "credit": "mohammedmessaoudene-cmd",
+      "equivalent": false,
+      "id": "stuck-hold-after-final-invoice",
+      "killedBy": {
+        "F04": "held_after_final_billing",
+        "F05": "held_after_final_billing",
+        "X1": "held_after_final_billing",
+        "X3": "held_after_final_billing"
+      },
+      "sha256": "346f8515348f6fe40165f8d4eb5f33fb57fe59d6424dca4d74546efbdc20cf53",
+      "summary": "a final invoice settles the bill but the remainder of the reservation stays held"
+    },
+    {
       "credit": "piiiico",
       "equivalent": false,
       "id": "R1-replay-reported-new",
@@ -137,18 +150,19 @@
     "contributedBy": [
       {
         "name": "mohammedmessaoudene-cmd",
-        "role": "P04 ledger, the F01, F03, F04, F05 and F14 scenarios, the input contract, and the decision that dispatch_state is a required output",
+        "role": "P04 ledger, the F01, F03, F04, F05 and F14 scenarios, the input contract, the decision that dispatch_state is a required output, and the finding that a hold left open after a final invoice passed every check",
         "url": "https://github.com/mohammedmessaoudene-cmd"
       },
       {
         "name": "piiiico (Agent Errata)",
-        "role": "the X1 scenario, the three dispatch_start mutants and the M4 observation; the R1 to R5 mutants and the X2, X3 and X4 scenarios that showed known spend, a final bill and a terminal outcome could each be overwritten",
+        "role": "the X1 scenario, the three dispatch_start mutants and the M4 observation; the R1 to R5 mutants and the X2, X3 and X4 scenarios that showed known spend, a final bill and a terminal outcome could each be overwritten; the reproduction of the stuck hold and the check that closes it",
         "url": "https://github.com/piiiico"
       }
     ],
     "issues": [
       "https://github.com/probityai/agent-evidence-vectors/issues/435",
-      "https://github.com/probityai/agent-evidence-vectors/issues/485"
+      "https://github.com/probityai/agent-evidence-vectors/issues/485",
+      "https://github.com/probityai/agent-evidence-vectors/pull/553"
     ],
     "ledger": {
       "gitBlob": "3b9599c4fa1063156b28aea0588634f9ca04cefe",
@@ -902,6 +916,32 @@
         "invariant": "Success is not final billing",
         "p04Case": "F01",
         "variant": "success-releases-exposure"
+      }
+    },
+    {
+      "edit": "a final invoice settles the bill and the unit left over from the reservation stays held, so the next reservation is refused",
+      "expected": {
+        "decision": "deny",
+        "reason": "held_after_final_billing"
+      },
+      "files": {
+        "record.json": "aab1e3c56e967c3cb89a280a87a192b65993abc3e273c4040eaf13a4a9678003"
+      },
+      "id": "f05-stuck-hold-after-final-invoice",
+      "path": "cases/f05-stuck-hold-after-final-invoice",
+      "retained": {
+        "billingFinality": "FINAL",
+        "dispatchState": "POSSIBLE",
+        "endDispatchState": "POSSIBLE",
+        "executionOutcome": "SUCCEEDED",
+        "heldMicroUsd": 1,
+        "knownSpendMicroUsd": 1,
+        "scenario": "F05"
+      },
+      "source": {
+        "invariant": "Real invoice releases only the remainder",
+        "p04Case": "F05",
+        "variant": "stuck-hold-after-final-invoice"
       }
     },
     {

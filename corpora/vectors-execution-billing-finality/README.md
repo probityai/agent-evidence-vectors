@@ -68,6 +68,7 @@ The reader names the first check a record fails:
 | 12 | `known_spend_decreased` | known spend is lower in a state than in the one before it |
 | 13 | `final_billing_reversed` | after a `FINAL` state the next is neither `FINAL` with the same known spend nor `CONFLICT`, a `CONFLICT` state is followed by another value, or a frozen account reads unfrozen |
 | 14 | `terminal_outcome_overwritten` | `SUCCEEDED` or `FAILED` changes in a later state, or `NOT_DISPATCHED` leaves for anything but `UNKNOWN` under `CONFLICT` |
+| 15 | `held_after_final_billing` | billing is final and a state still holds money for the attempt |
 
 Checks 12 to 14 read each pair of consecutive states, so a runtime that overwrites
 settled state without raising is caught even when its last state looks well formed. A
@@ -106,7 +107,8 @@ removed is killed by F03, F04 and X1; settled billing bypassing the guard by F04
 the invoice no longer writing `POSSIBLE` by X1 and X3 through check 10; that write and
 the billing clause dropped together by X1 through check 9 and X3 through check 10; a
 success releasing the reservation by F01, F05 and X4; an invoice marking the execution
-by F04, X1 and X3. The R
+by F04, X1 and X3; a final invoice that leaves the remainder of the reservation held, by
+F04, F05, X1 and X3 through check 15. The R
 mutants accept what the ledger refuses: a replayed event reported as new (killed by X1
 through check 11), a low invoice lowering known spend (X2, check 12), a cost above a
 final bill raising it (X3, check 13), and a contradictory outcome replacing the first
