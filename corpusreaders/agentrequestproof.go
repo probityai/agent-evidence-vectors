@@ -137,11 +137,11 @@ func arpB64url(s string) ([]byte, error) {
 
 func arpDecode(raw []byte) arpRecord {
 	var r arpRecord
-	if json.Unmarshal(raw, &r.env) != nil {
+	if strictUnmarshal(raw, &r.env) != nil {
 		return r
 	}
 	payload, err := base64.StdEncoding.DecodeString(r.env.Payload)
-	if err != nil || json.Unmarshal(payload, &r.stmt) != nil {
+	if err != nil || strictUnmarshal(payload, &r.stmt) != nil {
 		return r
 	}
 	if !arpStatementShaped(r.stmt) {
@@ -330,7 +330,7 @@ func arpLoad(caseDir string) (arpCase, error) {
 		return c, err
 	}
 	var cf arpCaseFile
-	if err := json.Unmarshal(raw, &cf); err != nil {
+	if err := strictUnmarshal(raw, &cf); err != nil {
 		return c, fmt.Errorf("case.json does not parse: %w", err)
 	}
 	key, err := base64.StdEncoding.DecodeString(cf.RecorderKey)
@@ -386,13 +386,13 @@ func arpJudgeMember(caseDir string, v arpVector) []string {
 
 func (agentRequestProof) Judge(dir string, raw []byte) (*Result, error) {
 	var manifest scManifest
-	if err := json.Unmarshal(raw, &manifest); err != nil {
+	if err := strictUnmarshal(raw, &manifest); err != nil {
 		return nil, fmt.Errorf("%s/MANIFEST.json does not parse: %w", dir, err)
 	}
 	result := &Result{}
 	for _, entry := range manifest.Vectors {
 		var v arpVector
-		if err := json.Unmarshal(entry, &v); err != nil {
+		if err := strictUnmarshal(entry, &v); err != nil {
 			result.Findings = append(result.Findings, fmt.Sprintf("a manifest row does not parse: %v", err))
 			continue
 		}

@@ -328,7 +328,7 @@ func paApprovalOK(v any) (string, bool) {
 // paStatement decodes and shape-checks the statement; ok is false when malformed.
 func paStatement(payload []byte) (map[string]any, map[string]any, []string, bool) {
 	var stmt map[string]any
-	if json.Unmarshal(payload, &stmt) != nil || stmt == nil {
+	if strictUnmarshal(payload, &stmt) != nil || stmt == nil {
 		return nil, nil, nil, false
 	}
 	if stmt["_type"] != paStatementType || stmt["predicateType"] != paPredicateType {
@@ -381,7 +381,7 @@ func paStatement(payload []byte) (map[string]any, map[string]any, []string, bool
 func paDecide(raw []byte, producer ed25519.PublicKey, pins map[string][]string) paExpected {
 	reject := func(r string) paExpected { return paExpected{Decision: "rejected", Reason: r} }
 	var env paEnvelope
-	if json.Unmarshal(raw, &env) != nil {
+	if strictUnmarshal(raw, &env) != nil {
 		return reject("statement_malformed")
 	}
 	payload, err := base64.StdEncoding.Strict().DecodeString(env.Payload)
@@ -472,7 +472,7 @@ func paJudgeMember(caseDir string, v paVector) []string {
 		return append(findings, err.Error())
 	}
 	var cf paCaseFile
-	if err := json.Unmarshal(raw, &cf); err != nil {
+	if err := strictUnmarshal(raw, &cf); err != nil {
 		return append(findings, fmt.Sprintf("case.json does not parse: %v", err))
 	}
 	key, err := base64.StdEncoding.DecodeString(cf.ProducerKey)
@@ -492,13 +492,13 @@ func paJudgeMember(caseDir string, v paVector) []string {
 
 func (principalAction) Judge(dir string, raw []byte) (*Result, error) {
 	var manifest scManifest
-	if err := json.Unmarshal(raw, &manifest); err != nil {
+	if err := strictUnmarshal(raw, &manifest); err != nil {
 		return nil, fmt.Errorf("%s/MANIFEST.json does not parse: %w", dir, err)
 	}
 	result := &Result{}
 	for _, entry := range manifest.Vectors {
 		var v paVector
-		if err := json.Unmarshal(entry, &v); err != nil {
+		if err := strictUnmarshal(entry, &v); err != nil {
 			result.Findings = append(result.Findings, fmt.Sprintf("a manifest row does not parse: %v", err))
 			continue
 		}
