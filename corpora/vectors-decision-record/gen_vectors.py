@@ -147,6 +147,7 @@ def signature_members(cases: dict, vectors: dict) -> list[dict]:
                 "expected": {"verdict": "reject", "code": "structural_validity:failed",
                              "dimensions": {"structural_validity": "failed"}},
                 "shows": "decision_id named twice: not read, though a reader keeping the last member verifies the seal"})
+    out.append(nested_member_named_twice(vectors))
     return out
 
 
@@ -176,13 +177,44 @@ def sign(doc: dict, sealed_at: str = "2026-10-01T10:00:00Z") -> str:
     doc["issuer_signature"] = {"algorithm": "Ed25519", "key_ref": KEY_REF,
                                "signed_bytes_ref": "dps-signatures 0.2.0 organisation_seal",
                                "sealed_at": sealed_at, "value_b64": placeholder}
-    text = compact(doc)
+    return seal_text(compact(doc), doc["decision_id"], sealed_at)
+
+
+def seal_text(text: str, decision_id: str, sealed_at: str = "2026-10-01T10:00:00Z") -> str:
+    """Sign ``text`` as it stands, its seal copy's ``value_b64`` still the 88-character placeholder."""
+    placeholder = "A" * 88
     sealed = hashlib.sha256(text.encode("utf-8")).digest()
     fields = [b"dps-signatures", b"0.2.0", b"organisation_seal", KEY_REF.encode(), b"attachment",
-              doc["decision_id"].encode(), sealed, sealed_at.encode()]
+              decision_id.encode(), sealed, sealed_at.encode()]
     signed = b"DPS-SIG\x00" + b"".join(lp(f) for f in fields)
     value = base64.b64encode(corpus_key().sign(signed)).decode("ascii")
     return text.replace(f'"value_b64":"{placeholder}"', f'"value_b64":"{value}"')
+
+
+def nested_member_named_twice(vectors: dict) -> dict:
+    """A0 under this corpus's seal, its result stage naming ``observed`` twice: ``failed``, then ``succeeded``
+    at the tail of the stage. The seal covers these exact bytes, so a reader that keeps the last member
+    verifies it and reads a success; one that keeps the first reads a failure. Neither reading is the record."""
+    doc = copy.deepcopy(vectors["attachments"]["A0"])
+    doc["issuer_signature"] = {"algorithm": "Ed25519", "key_ref": KEY_REF,
+                               "signed_bytes_ref": "dps-signatures 0.2.0 organisation_seal",
+                               "sealed_at": "2026-10-01T10:00:00Z", "value_b64": "A" * 88}
+    text = compact(doc)
+    tail = '"evidence_ref":"urn:example:payment-confirmation:101-1"}'
+    once = '"observed":"succeeded","basis":"target_response",' + tail
+    if text.count(once) != 1:
+        raise SystemExit("the A0 result stage no longer has the form this member rewrites")
+    twice = '"observed":"failed","basis":"target_response",' + tail[:-1] + ',"observed":"succeeded"}'
+    text = seal_text(text.replace(once, twice), doc["decision_id"])
+    return {"slug": "baseline-sig-nested-member-named-twice-tail",
+            "member": {"attachment": text, "record": None, "trust_policy": corpus_policy(),
+                       "profile": "baseline"},
+            "source_case": None,
+            "expected": {"verdict": "reject", "code": "structural_validity:failed",
+                         "dimensions": {"structural_validity": "failed"}},
+            "shows": "a result stage names observed twice, failed then succeeded at its tail, under a seal "
+                     "over those bytes: not read, though a reader keeping the last member verifies the seal "
+                     "and reads a success"}
 
 
 def relying_party(doc: dict, text: str) -> dict:

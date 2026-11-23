@@ -27,7 +27,7 @@
   "keyNote": "PUBLISHED TEST KEY, derived from a fixed seed in gen_vectors.py. It signs the strict members; the baseline members carry the format's own published test signatures.",
   "counts": {
     "accept": 38,
-    "reject": 109
+    "reject": 110
   },
   "vectors": [
     {
@@ -2860,6 +2860,19 @@
       "shows": "decision_id named twice: not read, though a reader keeping the last member verifies the seal"
     },
     {
+      "id": "baseline-sig-nested-member-named-twice-tail",
+      "path": "members/baseline-sig-nested-member-named-twice-tail.json",
+      "profile": "baseline",
+      "expected": {
+        "verdict": "reject",
+        "code": "structural_validity:failed",
+        "dimensions": {
+          "structural_validity": "failed"
+        }
+      },
+      "shows": "a result stage names observed twice, failed then succeeded at its tail, under a seal over those bytes: not read, though a reader keeping the last member verifies the seal and reads a success"
+    },
+    {
       "id": "strict-all-sources-confirm",
       "path": "members/strict-all-sources-confirm.json",
       "profile": "strict",
@@ -3008,5 +3021,5 @@
       "shows": "the attachment presented with its issuer signature removed"
     }
   ],
-  "corpusDigest": "dcd499eaffc2e4ad6f9aaab8f3012e485c7518eb042cb4fa730b393ec8bbf4e2"
+  "corpusDigest": "fbbb3e626a83f3192887c7f24e002331839b1d4778fa9d72adb31ac51d0e7250"
 }
