@@ -933,12 +933,12 @@ func (x *asgAssertion) included() (*asgCheckpoint, error) {
 		return nil, nil
 	}
 	c, okC := asgInt(ref["checkpoint"])
-	if c > math.MaxInt32 {
-		c = math.MaxInt32
+	if !okC || c > math.MaxInt32 {
+		return nil, errAsgMalformed
 	}
 	x.cpIndex = int(c)
 	cp := x.ctx.checkpoint(x.cpIndex)
-	if !okC || cp == nil {
+	if cp == nil {
 		return nil, errAsgMalformed
 	}
 	if !cp.logOK {
