@@ -28,7 +28,7 @@ defaults:
 
 env:
   CARGO_TERM_COLOR: always
-  # The checkout root go.work (go 1.26.0) would capture this crate's Go modules.
+  # The checkout root go.work (go 1.26.4) would capture this crate's Go modules.
   GOWORK: "off"
   MSRV: "1.74"
   UV_VERSION: "0.12.8"
