@@ -122,8 +122,9 @@ def go_source(root: Path = REPO) -> list[str]:
 GO_DEPENDENCIES = ["go.mod", "go.work"]
 SCITT = "vectors-scitt-cose"
 DELEGATION = "vectors-delegation-chain"
+REGISTRATION = "vectors-agent-registration-classification"
 #: Corpora whose checker is a Python script in the corpus directory, not aee-verify.
-PYTHON_CHECKERS = (SCITT, DELEGATION)
+PYTHON_CHECKERS = (SCITT, DELEGATION, REGISTRATION)
 PYTHON_DEPENDENCIES = ["pyproject.toml", "uv.lock"]
 
 REFUSAL_VERDICTS = ["contradicted", "failed", "must-reject", "reject", "rejected"]
@@ -535,6 +536,7 @@ def refused_by(document: dict[str, Any], farm: Farm) -> None:
 
 
 DELEGATION_LINE = re.compile(r"^answered (\d+) of (\d+) cases$")
+REGISTRATION_LINE = re.compile(r"^CLASSIFICATION_PASS (\d+) generated cases; ")
 SCITT_LINE = re.compile(r"^OK (\d+) accept, (\d+) reject, (\d+) indeterminate, ")
 
 
@@ -547,6 +549,18 @@ def aggregate_of(directory: str, text: Run) -> dict[str, Any]:
             raise SystemExit(f"FAIL: {DELEGATION} printed no summary line: {output!r}")
         declared = json.loads(read(f"{where(DELEGATION)}/MANIFEST.json"))["counts"]
         counts = {"accept": declared["allow"], "reject": declared["deny"]}
+        return {"line": line, "total": int(match[1]), "counts": counts}
+    if directory == REGISTRATION:
+        line = output.rstrip("\n")
+        match = REGISTRATION_LINE.match(line)
+        if match is None:
+            raise SystemExit(f"FAIL: {REGISTRATION} printed no summary line: {output!r}")
+        declared = json.loads(read(f"{where(REGISTRATION)}/MANIFEST.json"))["counts"]
+        counts = {"accept": declared["registration_credit"],
+                  "reject": declared["no_registration_credit"]}
+        if int(match[1]) != sum(counts.values()):
+            raise SystemExit(f"FAIL: {REGISTRATION} summary counts {match[1]} cases, "
+                             f"its manifest declares {sum(counts.values())}")
         return {"line": line, "total": int(match[1]), "counts": counts}
     if directory == SCITT:
         line = output.rstrip("\n")

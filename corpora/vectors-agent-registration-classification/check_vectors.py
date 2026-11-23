@@ -1,12 +1,29 @@
 #!/usr/bin/env python3
 """Validate generated digests, case-by-case verdicts, then negative controls."""
 from __future__ import annotations
-import copy,hashlib,json
+import copy,hashlib,json,sys
 from pathlib import Path
 import contract
 from contract import classify,classify_bytes,canonical
 ROOT=Path(__file__).resolve().parent
 manifest=json.loads((ROOT/'MANIFEST.json').read_text())
+
+def corpus_json():
+    """Print every case's reading as one JSON object, for the intake record."""
+    members=[]
+    for entry in sorted(manifest['vectors'],key=lambda e:e['id']):
+        path=ROOT/entry['path']
+        credit,reason=classify_bytes((path/'record.json').read_bytes(),(path/'context.json').read_bytes())
+        member={'id':entry['id'],'kind':'accept' if credit else 'reject'}
+        expected=entry['expected']
+        if (credit,reason)!=(expected['registration_credit'],expected['reason']):
+            member['findings']=['reads as '+str(credit)+' '+reason+', manifest says '+str(expected['registration_credit'])+' '+expected['reason']]
+        members.append(member)
+    print(json.dumps({'suite':manifest['suite'],'dir':ROOT.name,'members':members},sort_keys=True,separators=(',',':')))
+
+if sys.argv[1:]==['--json']:
+    corpus_json()
+    raise SystemExit(0)
 
 def validate_manifest(document):
     paths = []
