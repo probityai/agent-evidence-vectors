@@ -65,8 +65,8 @@ name: release
 # <prefix>-v<version> publishes one unit of release.toml through trusted
 # publishing: today the jcs-admit npm package (tag jcs-admit-npm-v<version>,
 # environment npm). The two paths cannot meet: the corpus jobs run on a pushed
-# tag matching v*, and never on a release event; the unit jobs run on a release
-# event only, and resolve refuses a tag whose unit is not in release.toml, whose
+# tag matching v*, and never on a release or dispatch event; the unit jobs run on a release
+# event or a dispatch (release-on-bump.yml), and resolve refuses a tag whose unit is not in release.toml, whose
 # version differs from the manifest, or whose commit is not on main. A bare
 # v<version> release resolves to registry "none" and no unit job runs for it.
 
@@ -75,6 +75,15 @@ on:
     tags: ['v*']
   release:
     types: [published]
+  # A release created with the workflow token fires no release event, so
+  # release-on-bump.yml starts a unit release by dispatching this file on the
+  # tag it just created. The unit jobs read the tag from inputs.tag.
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: unit release tag <prefix>-v<version>, run from that tag
+        required: true
+        type: string
 
 # Least privilege at the top; the publish jobs alone add id-token, which is what
 # the registries verify the workflow identity with.
@@ -82,12 +91,12 @@ permissions:
   contents: read
 
 concurrency:
-  group: release-${{ github.event.release.tag_name || github.ref_name }}
+  group: release-${{ inputs.tag || github.event.release.tag_name || github.ref_name }}
   cancel-in-progress: false
 
 jobs:
   verify:
-    if: ${{ github.event_name != 'release' }}
+    if: ${{ github.event_name == 'push' }}
     runs-on: ubuntu-latest
     steps:
       # Full history and tags, because scripts/release-gate.py --tag compares the
@@ -235,7 +244,7 @@ jobs:
   # job below use these bytes.
   build-corpus:
     needs: verify
-    if: ${{ github.event_name != 'release' && startsWith(github.ref, 'refs/tags/v') }}
+    if: ${{ github.event_name == 'push' && startsWith(github.ref, 'refs/tags/v') }}
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -317,7 +326,7 @@ jobs:
   # distribution cannot be installed beside (scripts/family_pin_guard.py).
   family-pin-guard-corpus:
     needs: build-corpus
-    if: ${{ github.event_name != 'release' && startsWith(github.ref, 'refs/tags/v') }}
+    if: ${{ github.event_name == 'push' && startsWith(github.ref, 'refs/tags/v') }}
     uses: ./.github/workflows/family-pin-guard.yml
     with:
       distribution: agent-evidence-vectors
@@ -333,7 +342,7 @@ jobs:
   # attaches PEP 740 provenance to every uploaded distribution.
   publish:
     needs: [verify, build-corpus, family-pin-guard-corpus]
-    if: ${{ github.event_name != 'release' && startsWith(github.ref, 'refs/tags/v') }}
+    if: ${{ github.event_name == 'push' && startsWith(github.ref, 'refs/tags/v') }}
     runs-on: ubuntu-latest
     # The owner's approval of the release, which covers the PyPI wheel and the
     # Hugging Face dataset together: both are published by this one job.
@@ -489,7 +498,7 @@ jobs:
   # release Latest itself (demoting does not hand Latest back), and fails if
   # releases/latest is still not that tag.
   keep-latest-on-corpus:
-    if: ${{ github.event_name == 'release' && !startsWith(github.event.release.tag_name, 'v') }}
+    if: ${{ github.event_name != 'push' && !startsWith(inputs.tag || github.event.release.tag_name, 'v') }}
     runs-on: ubuntu-24.04
     timeout-minutes: 5
     permissions:
@@ -503,7 +512,7 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
           GH_REPO: ${{ github.repository }}
-          TAG: ${{ github.event.release.tag_name }}
+          TAG: ${{ inputs.tag || github.event.release.tag_name }}
         run: gh release edit "$TAG" --latest=false
       - name: the newest corpus release is Latest
         env:
@@ -531,7 +540,7 @@ jobs:
         run: python3 scripts/check-latest-release.py "$GITHUB_REPOSITORY"
 
   resolve:
-    if: ${{ github.event_name == 'release' && !github.event.release.prerelease }}
+    if: ${{ github.event_name != 'push' && !github.event.release.prerelease }}
     runs-on: ubuntu-24.04
     timeout-minutes: 5
     outputs:
@@ -547,12 +556,14 @@ jobs:
           persist-credentials: false
       - id: target
         env:
-          TAG: ${{ github.event.release.tag_name }}
+          TAG: ${{ inputs.tag || github.event.release.tag_name }}
           # release-target checks every repository link in the manifest
           # against the GitHub API; anonymous reads share 60 an hour per runner.
           GH_TOKEN: ${{ github.token }}
         run: |
           set -euo pipefail
+          # A dispatch runs on the ref it was started from; the unit must be released from its own tag.
+          [ "$GITHUB_EVENT_NAME" != workflow_dispatch ] || [ "$GITHUB_REF" = "refs/tags/$TAG" ]
           git merge-base --is-ancestor "$GITHUB_SHA" origin/main
           python3 scripts/workspace.py release-target "$TAG" > target.json
           cat target.json
@@ -946,11 +957,11 @@ jobs:
           path: built
       - name: verify the seven wheels and the sdist, and stage them
         env:
-          TAG: ${{ github.event.release.tag_name }}
+          TAG: ${{ inputs.tag || github.event.release.tag_name }}
         run: python3 scripts/check-jcs-admit-python-release.py built --tag "$TAG" --out upload
       - name: install the staged files alone and import them
         env:
-          TAG: ${{ github.event.release.tag_name }}
+          TAG: ${{ inputs.tag || github.event.release.tag_name }}
         run: |
           python3 -m venv "$RUNNER_TEMP/venv"
           "$RUNNER_TEMP/venv/bin/pip" install --no-index --only-binary :all: --find-links upload jcs-admit
