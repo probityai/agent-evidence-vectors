@@ -10,6 +10,7 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	"math"
 	"math/big"
 	"path/filepath"
 	"reflect"
@@ -932,6 +933,9 @@ func (x *asgAssertion) included() (*asgCheckpoint, error) {
 		return nil, nil
 	}
 	c, okC := asgInt(ref["checkpoint"])
+	if c > math.MaxInt32 {
+		c = math.MaxInt32
+	}
 	x.cpIndex = int(c)
 	cp := x.ctx.checkpoint(x.cpIndex)
 	if !okC || cp == nil {

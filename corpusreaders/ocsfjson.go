@@ -208,7 +208,7 @@ func (p *ocsfParser) hex4(at int) (rune, bool) {
 	if at+4 > len(p.s) {
 		return 0, false
 	}
-	n, err := strconv.ParseUint(p.s[at:at+4], 16, 32)
+	n, err := strconv.ParseUint(p.s[at:at+4], 16, 16)
 	if err != nil {
 		return 0, false
 	}
@@ -369,7 +369,7 @@ func ocsfDecompose(token string) (ocsfDecimal, bool) {
 	whole, frac, _ := strings.Cut(mantissa, ".")
 	exp := 0
 	if hasExp {
-		n, err := strconv.ParseInt(strings.TrimPrefix(expText, "+"), 10, 64)
+		n, err := strconv.ParseInt(strings.TrimPrefix(expText, "+"), 10, 32)
 		if err != nil {
 			if allZero(whole + frac) {
 				return ocsfDecimal{}, true

@@ -232,7 +232,7 @@ func drecHex4(b []byte) (rune, bool) {
 	if len(b) < 4 {
 		return 0, false
 	}
-	n, err := strconv.ParseUint(string(b[:4]), 16, 32)
+	n, err := strconv.ParseUint(string(b[:4]), 16, 16)
 	if err != nil {
 		return 0, false
 	}
