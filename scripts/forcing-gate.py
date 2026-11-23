@@ -394,8 +394,8 @@ def score(
                 "verdict, which is the point of it."
             )
         observed = as_observed(line)
-        findings = selfchk.get(vid) if kind in ("reject", "indeterminate") else None
-        ok, gates, reasons = rv.evaluate_vector(kind, entry, observed, findings)
+        second_fault = selfchk.get(vid) if kind in ("reject", "indeterminate") else None
+        ok, gates, reasons = rv.evaluate_vector(kind, entry, observed, second_fault)
         rows[vid] = {
             "status": "PASS" if ok else "FAIL",
             "gates": gates,
@@ -714,7 +714,9 @@ def classify(
             "detail": record.get("detail", ""),
         }
     rows = score(record["lines"], index, selfchk)
-    killers, corpus_killers, changed = [], [], []
+    killers: list[str] = []
+    corpus_killers: list[str] = []
+    changed: list[str] = []
     for vid, row in rows.items():
         base = base_rows[vid]
         if base["status"] == "PASS" and row["status"] == "FAIL":

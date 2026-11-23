@@ -766,6 +766,7 @@
         "corpusreaders/convertedargs.go",
         "corpusreaders/credreach.go",
         "corpusreaders/decisionclient.go",
+        "corpusreaders/delegationchain.go",
         "corpusreaders/delegationlifecycle.go",
         "corpusreaders/delegatorright.go",
         "corpusreaders/dispatchfence.go",
@@ -830,7 +831,7 @@
         "go.mod"
       ],
       "serialization": "sha256-listing-v1",
-      "sha256": "cea7cbb1971635fddeb19e2b0570e1e5cfe8f8dee627f2eb1aa344d65a3be9c6"
+      "sha256": "a22faeb930ca2e6c08f90bdd5d325674539996965a78cc446cbd2f3cf9eab12f"
     },
     "runtime": {
       "name": "go",
@@ -894,6 +895,7 @@
       "corpusreaders/convertedargs.go",
       "corpusreaders/credreach.go",
       "corpusreaders/decisionclient.go",
+      "corpusreaders/delegationchain.go",
       "corpusreaders/delegationlifecycle.go",
       "corpusreaders/delegatorright.go",
       "corpusreaders/dispatchfence.go",

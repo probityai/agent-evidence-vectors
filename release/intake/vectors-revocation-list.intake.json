@@ -17,7 +17,7 @@
     "routine": "corpus_digest in corpora/vectors-revocation-list/gen_vectors.py",
     "routine-file": "corpora/vectors-revocation-list/gen_vectors.py",
     "serialization": "corpus-routine",
-    "sha256": "3d79b9cab22ba3bdbbfa2899ca2514554da78872731bbb3064837b4ed7c7dd4c",
+    "sha256": "87dfad7dbf20b990cad89a83c05a0d76cd1c8d31cfa613b71c739e436d89be95",
     "verdicts": {
       "availability-failure": "inconclusive",
       "integrity-failure": "fail"
@@ -68,7 +68,7 @@
       },
       "path": "corpora/vectors-revocation-list/gen_vectors.py",
       "serialization": "bytes",
-      "sha256": "97ba4e0e0bc63af403efcbf9cc4257c18876c6893844e495a856114d933a39c7"
+      "sha256": "d9cd99ef268546b8e9415cb78a8f2c8e625a13a32a0f993c8bedf26e3139dbf5"
     },
     {
       "consumed": "unconsumed",
@@ -194,6 +194,7 @@
         "corpusreaders/convertedargs.go",
         "corpusreaders/credreach.go",
         "corpusreaders/decisionclient.go",
+        "corpusreaders/delegationchain.go",
         "corpusreaders/delegationlifecycle.go",
         "corpusreaders/delegatorright.go",
         "corpusreaders/dispatchfence.go",
@@ -258,7 +259,7 @@
         "go.mod"
       ],
       "serialization": "sha256-listing-v1",
-      "sha256": "cea7cbb1971635fddeb19e2b0570e1e5cfe8f8dee627f2eb1aa344d65a3be9c6"
+      "sha256": "a22faeb930ca2e6c08f90bdd5d325674539996965a78cc446cbd2f3cf9eab12f"
     },
     "runtime": {
       "name": "go",
@@ -322,6 +323,7 @@
       "corpusreaders/convertedargs.go",
       "corpusreaders/credreach.go",
       "corpusreaders/decisionclient.go",
+      "corpusreaders/delegationchain.go",
       "corpusreaders/delegationlifecycle.go",
       "corpusreaders/delegatorright.go",
       "corpusreaders/dispatchfence.go",
@@ -1086,7 +1088,7 @@
   ],
   "corpus-digest": {
     "serialization": "sha256-listing-v1",
-    "sha256": "e5358cce6f92f508db8fbc8504678bd59e85521ef3c1f7b38c6b706ca074997b"
+    "sha256": "7e09baf314524c4a5ad4c504c013e6734103b464e9ab3ebf5e18aba27f6ef67b"
   },
   "exit-code": 0,
   "exit-rule": "zero-iff-every-check-passes",
@@ -1185,7 +1187,7 @@
       "m-two-lists-in-force"
     ],
     "path": "corpora/vectors-revocation-list/MANIFEST.json",
-    "sha256": "d0626412b82b324c7c72d63e0225da16eb5dffaebd0789e8388ea4d14aa90e3f"
+    "sha256": "e39ff3a974558df50652fbbb4a5bb2ab3d30a3cc7cfd030d64a8aadb3fb45c81"
   },
   "members": [
     {
@@ -2043,7 +2045,7 @@
       "files": [
         {
           "path": "corpora/vectors-revocation-list/cases/m-issuer-key-31-bytes/list-01.json",
-          "sha256": "277188f7ca4ed355b4e93f8a8e3dbad318938a25c01ab9153ca6e62c5e1b067e"
+          "sha256": "f9887442c680ca035573850887cf9d25ca597dcfd764285b9ad3fbea77632984"
         },
         {
           "path": "corpora/vectors-revocation-list/cases/m-issuer-key-31-bytes/roots.json",
@@ -2056,7 +2058,7 @@
       "files": [
         {
           "path": "corpora/vectors-revocation-list/cases/m-issuer-key-line-break/list-01.json",
-          "sha256": "d6274b9563d0b00b773105be4f1d29df577d2c9c971c25fb280f8cbf4e06e872"
+          "sha256": "ef796d16f8be3f8b0713487e2e32aa9bc49e708ced9f043417075f3108c9fff0"
         },
         {
           "path": "corpora/vectors-revocation-list/cases/m-issuer-key-line-break/roots.json",
@@ -2909,7 +2911,7 @@
         "member:m-issuer-key-31-bytes",
         "check:m-issuer-key-31-bytes"
       ],
-      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"reject\",\"index\":0,\"listDigests\":[\"sha256:ca45420fa3a9ebb4bc36b911ab8ec4b4a1ec8df60a816bba1d07ad0cbe8f252f\"],\"reason\":\"revocation_list_shape:issuerKey_not_an_ed25519_key\",\"state\":{\"head\":\"\",\"issuedAt\":\"\",\"listId\":\"\",\"revoked\":{\"agent\":[],\"build\":[],\"grant\":[],\"key\":[],\"permit\":[],\"sponsor\":[],\"stream\":[]},\"roots\":[\"5cdae7157d6a446da75f27eb1a20216c26f03e64c923c38eb91131f6453be4e8\"],\"seq\":0}}}"
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"reject\",\"index\":0,\"listDigests\":[\"sha256:ed5f8d3988c77e7d690628142c40f16f0d916156fad5a48dedb81d8c74112956\"],\"reason\":\"revocation_list_shape:issuerKey_not_an_ed25519_key\",\"state\":{\"head\":\"\",\"issuedAt\":\"\",\"listId\":\"\",\"revoked\":{\"agent\":[],\"build\":[],\"grant\":[],\"key\":[],\"permit\":[],\"sponsor\":[],\"stream\":[]},\"roots\":[\"5cdae7157d6a446da75f27eb1a20216c26f03e64c923c38eb91131f6453be4e8\"],\"seq\":0}}}"
     },
     {
       "check": "m-issuer-key-line-break",
@@ -2917,7 +2919,7 @@
         "member:m-issuer-key-line-break",
         "check:m-issuer-key-line-break"
       ],
-      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"reject\",\"index\":0,\"listDigests\":[\"sha256:8441198257aaaafe95c6ba4993d557940fa1933b398489caa5f9a4b2da045a9c\"],\"reason\":\"revocation_list_shape:issuerKey_not_canonical_base64\",\"state\":{\"head\":\"\",\"issuedAt\":\"\",\"listId\":\"\",\"revoked\":{\"agent\":[],\"build\":[],\"grant\":[],\"key\":[],\"permit\":[],\"sponsor\":[],\"stream\":[]},\"roots\":[\"5cdae7157d6a446da75f27eb1a20216c26f03e64c923c38eb91131f6453be4e8\"],\"seq\":0}}}"
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"reject\",\"index\":0,\"listDigests\":[\"sha256:5bea7e304e01c1dddeba56454b6905e0e828226a211b26cf193fc57e36fdf768\"],\"reason\":\"revocation_list_shape:issuerKey_not_canonical_base64\",\"state\":{\"head\":\"\",\"issuedAt\":\"\",\"listId\":\"\",\"revoked\":{\"agent\":[],\"build\":[],\"grant\":[],\"key\":[],\"permit\":[],\"sponsor\":[],\"stream\":[]},\"roots\":[\"5cdae7157d6a446da75f27eb1a20216c26f03e64c923c38eb91131f6453be4e8\"],\"seq\":0}}}"
     },
     {
       "check": "m-signature-line-break",
