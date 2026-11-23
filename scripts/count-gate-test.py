@@ -908,6 +908,24 @@ SOURCE_CASES: list[Case] = [
 
 CENSUS_CASES.append(
     (
+        "a heading number with no section dot is still read as a count",
+        lambda root: append(root, "BUILD-NOTES.md", f"\n## {TOTAL} vectors in the corpus\n"),
+        (f"'{TOTAL}'",),
+    )
+)
+
+CENSUS_CASES.append(
+    (
+        "a two-term ratio beside a slash chain is still a ratio",
+        lambda root: append(
+            root, "BUILD-NOTES.md", "\nThe rail scored 200/200 on records 1/3/4.\n"
+        ),
+        ("'200/200' is a ratio",),
+    )
+)
+
+CENSUS_CASES.append(
+    (
         "a registered corpus's per-kind count typed beside a count noun",
         lambda root: append(
             root,
@@ -1277,6 +1295,33 @@ ACCEPT_CASES: list[Case] = [
             root,
             "BUILD-NOTES.md",
             f"\nUpstream pull request {REGISTERED_COUNT} reworded the sentence.\n",
+        ),
+        ("are accounted for",),
+    ),
+    (
+        "a slash chain of three integers is a list of positions, not a ratio",
+        lambda root: append(
+            root,
+            "BUILD-NOTES.md",
+            f"\nThe sample digest covers records 1/{TOTAL}/4 of the log.\n",
+        ),
+        ("are accounted for",),
+    ),
+    (
+        "a length in code points is a measurement, not a count",
+        lambda root: append(
+            root,
+            "BUILD-NOTES.md",
+            f"\nThe title is exactly {TOTAL} code points long.\n",
+        ),
+        ("are accounted for",),
+    ),
+    (
+        "the number of a numbered section in a heading is a position, not a count",
+        lambda root: append(
+            root,
+            "BUILD-NOTES.md",
+            f"\n## {TOTAL}. Members that change verdict\n",
         ),
         ("are accounted for",),
     ),

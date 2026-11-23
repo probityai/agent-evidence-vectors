@@ -1780,6 +1780,35 @@ FROZEN: tuple[Frozen, ...] = (
         'decodes. It is not a corpus count, and met the acs-core corpus total by coincidence '
         'when that corpus reached 140.',
     ),
+    Frozen(
+        '.github/workflows/pr-title.yml',
+        'the queued titles that ran past the length limit on 18 November 2026',
+        '(18 Nov 2026: 17 of 29',
+        'A past event, not a count of the live corpus: how many of the queued pull request '
+        'titles the HEADGREEN grouping had to rebuild behind on that day. It records the '
+        'incident the workflow comment gives as its reason and must not track this corpus.',
+    ),
+    Frozen(
+        'RUNS.md',
+        "an outside author's reported request-effect join result",
+        '10 of 10 match `expected.json`',
+        'A result an outside implementer reported for a past run against his own case set. It '
+        'records that report as posted and must not track this corpus.',
+    ),
+    Frozen(
+        'RUNS.md',
+        "an outside author's reported uncertain-effect result",
+        '27 of 27 match `MANIFEST.json`',
+        'A result an outside implementer reported for a past run at agent-evidence-vectors '
+        '0.31.0. It records that report as posted and must not track this corpus.',
+    ),
+    Frozen(
+        'scripts/ablation-lattice-test.py',
+        'the ordered starts a two-rule cancellation sits on in a 20-rule chain',
+        'sits on 2 of 380 ordered starts',
+        'Arithmetic about a 20-rule test fixture (20 x 19 ordered pairs), written in a comment '
+        'that explains why the seeded chains missed a bug. It is not a corpus count.',
+    ),
     # ---- an outside implementer's reported results, recorded as posted.
     Frozen(
         'RUNS.md',
@@ -3527,6 +3556,16 @@ MASKS = tuple(
         # links to twice in one sentence; a per-site freeze would have to be
         # rewritten every time a count walked onto another issue number, which
         # is the argument the w3c rule-id mask gives against freezing an id.
+        # A SLASH CHAIN of three or more integers, `records 1/3/4`, is a list of
+        # positions and never a ratio: a ratio has exactly two terms, a score
+        # over a corpus size. It surfaced inside an audit-record sample's
+        # provenance note naming the three log records its bytes cover, where
+        # the first two terms read as a score of 1 over 3.
+        r"(?<![\w/.])\d+(?:/\d+){2,}(?![\w/])",
+        # The number of a numbered SECTION in a Markdown heading, `## 5. Members
+        # that change verdict`. The trailing dot is required, so `## 80 vectors`,
+        # a heading that does carry a count, is still read.
+        r"(?m)^#{1,6}[ \t]+\d+(?:\.\d+)*\.(?=\s)",
         r"https?://github\.com/[\w.-]+/[\w.-]+/(?:issues|pull|discussions)/\d+",
         r"#\d+",  # upstream issue and pull-request numbers
         # The same identifier written as words, `issue 184`, in link text, a table
@@ -3766,7 +3805,10 @@ MASKS = tuple(
 # refused until something accounts for it, because "the full 64" may be a length
 # and may be a count and only its writer knows which. Two such sentences are
 # frozen above with what each one measures.
-MEASURE_UNIT = r"(?:hex(?:adecimal)?|bits?|bytes?|octets?|nibbles?|char(?:acter)?s?|digits?)"
+MEASURE_UNIT = (
+    r"(?:hex(?:adecimal)?|bits?|bytes?|octets?|nibbles?|char(?:acter)?s?|digits?"
+    r"|code[-\s]+points?)"
+)
 # Words that may sit between the integer and its unit without changing what is
 # measured: `64 lowercase hex characters`, `<64 lowercase hex>`.
 MEASURE_MODIFIER = r"(?:lower-?case|upper-?case|ascii|raw|hex(?:adecimal)?)"
