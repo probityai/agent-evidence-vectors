@@ -184,9 +184,13 @@ observation is absent or not fresh, and a diagnostic read neither authorizes nor
 Records are from draft-li-rttp-iqa-addressing-02 sections 6.1, 7.2, 8.1 and 8.2.
 
 - Envelope: a bare JSON record (`contractId`, `recordId`, `facts`, `response`), not an in-toto Statement.
-- Field semantics: the closed refusal set and its order are normative in draft-li-rttp-iqa-addressing-02,
-  owned by Aicent-com, who confirmed revision 02 (sha256 `02491c5a`) on 7 Nov 2026 in
-  [#492](https://github.com/probityai/agent-evidence-vectors/issues/492#issuecomment-6710136659).
+- Field semantics: the closed refusal set and its order are normative in draft-li-rttp-iqa-addressing-02
+  and draft-li-rttp-iqa-addressing-03, owned by Aicent-com, who confirmed revision 02 (sha256 `02491c5a`)
+  on 7 Nov 2026 in
+  [#492](https://github.com/probityai/agent-evidence-vectors/issues/492#issuecomment-6710136659)
+  and revision 03 (sha256 `73470850`, the set, the order and the section 8.1 anchor sentence unchanged) on
+  21 Nov 2026 in
+  [#492](https://github.com/probityai/agent-evidence-vectors/issues/492#issuecomment-7060025107).
   A later revision that keeps the set and the order is a new confirmation; any change to either is a new URI.
 - Example: `corpora/vectors-refusal-reason-priority/cases/conformant-expiry-over-revocation/record.json`.
 
