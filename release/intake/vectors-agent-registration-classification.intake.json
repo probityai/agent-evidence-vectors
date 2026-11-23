@@ -114,7 +114,7 @@
       },
       "path": "corpora/vectors-agent-registration-classification/adversarial_probe.py",
       "serialization": "bytes",
-      "sha256": "5ce51cd1d74b2da9933fb1826e95243d13b43ecd31f65c1254e1d627c5495ca3"
+      "sha256": "de7b5c86e40c0a531c943fde0d3cb3b57ad4488055dff878671de792e4143c24"
     },
     {
       "consumed": "consumed",
@@ -134,7 +134,7 @@
       },
       "path": "corpora/vectors-agent-registration-classification/check_vectors.py",
       "serialization": "bytes",
-      "sha256": "641ffb25cbf270afd058f6848b6ce9f71b29f7dd92c4e8a83715ed9088768761"
+      "sha256": "607ae0714476e2699788448c32b34ca14d15551ded2579dc3c7290a275bc6491"
     },
     {
       "consumed": "consumed",
@@ -154,7 +154,7 @@
       },
       "path": "corpora/vectors-agent-registration-classification/contract.py",
       "serialization": "bytes",
-      "sha256": "fc0dfbddcedb8988d4aa2d59e164795c5287782cb34e20a52fa1302f8a44ae96"
+      "sha256": "9f10efcdc075473f93f1cfd6f0fc3e295d892a0e609d9e6cbca7170afb5e79ed"
     },
     {
       "consumed": "unconsumed",
@@ -200,7 +200,7 @@
       },
       "path": "corpora/vectors-agent-registration-classification/gen_vectors.py",
       "serialization": "bytes",
-      "sha256": "fe2d2a0fc92427502eb5e33981669dcc75b609c4ee30c7dd2fd70d1419d52dcb"
+      "sha256": "b5f5831c7bbd6e847d9f213884d68de32ea2eb31ca34d1f37ecb8b33c1ac63f3"
     }
   ],
   "boundary": {
@@ -249,7 +249,7 @@
         "corpora/vectors-agent-registration-classification/check_vectors.py"
       ],
       "serialization": "sha256-listing-v1",
-      "sha256": "f6e2e0ea114c6c5a4d520b8a4291ea5f999cac58f7a1431773bf7a81553f1604"
+      "sha256": "ddbd708cfed3c315fd92693ec2698f5623448bdcaa02de624f13645ff23c6748"
     },
     "runtime": {
       "name": "cpython",
@@ -455,7 +455,7 @@
   ],
   "corpus-digest": {
     "serialization": "sha256-listing-v1",
-    "sha256": "c43152af71d9de16d408615ccb6360880b30d73c674b1d212366c6bdb8ca85be"
+    "sha256": "15b5e5a21a7031c37a948263ecac798e8f34580e5c53c544cedbd6e1d2b6be1a"
   },
   "exit-code": 0,
   "exit-rule": "zero-iff-every-check-passes",

@@ -91,7 +91,7 @@
       },
       "path": "corpora/vectors-ocsf-decision/check_vectors.py",
       "serialization": "bytes",
-      "sha256": "5e767315b54bbe4977150423437f33c51e714e57a2f13cc87dd704b8b399efad"
+      "sha256": "b107056588fec12c474ce2fecf35095fe7ddbc9e2b9e2c0d6decd76255a9b0c2"
     },
     {
       "consumed": "unconsumed",
@@ -137,7 +137,7 @@
       },
       "path": "corpora/vectors-ocsf-decision/gen_vectors.py",
       "serialization": "bytes",
-      "sha256": "f7c41d7cb712578722204d6bfa1720e778dab71647cc978507e266319b334680"
+      "sha256": "1a5672073a7ec65ed68eecf7a113614ac30c2f9a58bdda15f2e75b7715315ba6"
     },
     {
       "consumed": "consumed",
@@ -299,6 +299,7 @@
         "corpusreaders/agentaction_chain.go",
         "corpusreaders/agentdecision.go",
         "corpusreaders/agenticprocess.go",
+        "corpusreaders/agentregistrationclassification.go",
         "corpusreaders/agentrequestproof.go",
         "corpusreaders/aggregateaccounting.go",
         "corpusreaders/aigeneration.go",
@@ -411,7 +412,7 @@
         "go.mod"
       ],
       "serialization": "sha256-listing-v1",
-      "sha256": "de1e0dc5c9ff2166f5d33feb2d7a82a8705b0fae8e1c0f667318df2dcf779075"
+      "sha256": "30fe0670824c00face8a6cc971de798e84d38fde9e4170410b2cf91e17f87502"
     },
     "runtime": {
       "name": "go",
@@ -445,6 +446,7 @@
       "corpusreaders/agentaction_chain.go",
       "corpusreaders/agentdecision.go",
       "corpusreaders/agenticprocess.go",
+      "corpusreaders/agentregistrationclassification.go",
       "corpusreaders/agentrequestproof.go",
       "corpusreaders/aggregateaccounting.go",
       "corpusreaders/aigeneration.go",
@@ -825,7 +827,7 @@
   ],
   "corpus-digest": {
     "serialization": "sha256-listing-v1",
-    "sha256": "0693aceb0adf4155a016d83db1218f80495fd5b693bc970824cd7797fc2b6904"
+    "sha256": "ef03199a74859e1c705dbaf1475e7def9487e96db2bc4ec9988be1ba45bd8ee8"
   },
   "exit-code": 0,
   "exit-rule": "zero-iff-every-check-passes",
