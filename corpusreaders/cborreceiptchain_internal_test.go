@@ -84,7 +84,7 @@ func TestCrcParseReadsOneReceiptAndNamesEachDefect(t *testing.T) {
 	profile := crcTProfile()
 	good := crcTReceipt{key: crcTKey(), version: 1, payload: crcTBody(nil)}
 	r, kind := crcParse(good.hex(profile), profile)
-	if kind != crcOK || r.prev != nil || r.outcome != "allow" || r.signer == "" || r.hasProf {
+	if kind != crcOK || r.prev != nil || r.outcome != "allow" || r.signer == "" || !r.hasProf {
 		t.Fatalf("a well formed receipt: kind %v, receipt %+v", kind, r)
 	}
 	linked := crcTReceipt{key: crcTKey(), version: 1, payload: crcTBody(make([]byte, 32))}
