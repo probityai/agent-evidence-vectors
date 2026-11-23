@@ -81,6 +81,7 @@ The predicate carries one signed structure: the source as readers see it with re
 kept, the signed payload with its signature, the keys declared outside the signature, and
 the paths a consumer reads. The signature input must determine everything a reader can
 read: two records that read differently may not share one.
+
 ### `predicate/v1/evidence-state`
 
 - Document: `corpora/vectors-evidence-state/README.md`
@@ -202,6 +203,24 @@ when the verifier pins them, the proof's audience, kid and tenant claims, and
 refuses a jti the recorder already recorded for the same issuer. The principal block
 is a verified principal binding, the field an audit record needs in place of a reported
 authentication method.
+### `predicate/v1/actor-marker-survival`
+
+- Document: `corpora/vectors-actor-marker-survival/README.md`
+- Corpus: `corpora/vectors-actor-marker-survival/`, suite `actor-marker-survival/v1`
+- Rails: `corpusreaders/actormarker.go`, `packaging/agent_evidence_vectors/actormarker.py`
+
+The predicate carries one delegated request as a chain of signed statements: the origin
+issuer's statement of the token it sent, then one statement per hop of the token it received
+and the token it sent, each in its protocol's native form (RFC 8693 nested `act` claims, or the
+A2A `actorChain` member proposed in a2aproject/A2A issue 2028). The acting-agent marker must
+survive every hop: an agent appends itself, a relay forwards unchanged, and a verifier refuses a
+stripped, replaced, reordered, inserted or truncated actor, a downgrade to the user alone, a
+marker carried only in an unsigned header, a deferred dispatch without the stored principals,
+and a token acted on despite an unknown critical header parameter (RFC 7515 section 4.1.11).
+
+- Envelope: a bare JSON record (`contractId`, `statements`), each statement Ed25519-signed over
+  its RFC 8785 bytes under a writer key and role taken from a trust bundle the verifier holds.
+- Example: `corpora/vectors-actor-marker-survival/cases/accept-protocol-change/record.json`.
 
 ### `predicate/v1/refusal-reason-priority`
 
@@ -241,6 +260,7 @@ restate the matrix on the W3C public-agent-identity list, October 2026 (messages
 - Envelope: a bare JSON record (`contractId`, `recordId`, `decision`, `authority`, `escalation`, `evaluatedAt`), not an in-toto Statement.
 - Field semantics: defined here, as a proposal; the outcome tokens `established`, `partial`, `unresolved` and `not_established` are not an agreed text of any group.
 - Example: `corpora/vectors-responsibility-escalation/cases/h09-clean-path-closed-on-time/record.json`.
+
 ### `predicate/v1/execution-billing-finality`
 
 - Document: `corpora/vectors-execution-billing-finality/README.md`
@@ -255,6 +275,7 @@ invoice is not an execution, settled billing never reopens the same attempt's di
 gate, and the dispatch state is a required output that leaves RESERVED once billing
 settles. Scenarios are from the P04 execution and billing candidate (agent-evidence-lab at
 8db9989), with X1 and the dispatch-guard mutants from a non-author run of it.
+
 ### `predicate/v1/capability-requirement`
 
 - Document: `corpora/vectors-capability-requirement/README.md`
@@ -287,6 +308,21 @@ name the trust configuration behind any proof, must not turn a gap or a lost ack
 into a negative finding, and keeps the four absence results apart. Its vocabulary spells the
 results the draft names and does not tokenise: PROVEN_TO_POLICY, NOT_SATISFIED and CONFLICT.
 Records are from draft-noa-scitt-ai-agent-receipt-01 sections 1.5, 2 and 8.1 to 8.4.
+### `predicate/v1/credential-reachability`
+
+- Document: `spec/predicates/credential-reachability.md`
+- Corpus: `corpora/vectors-credential-reachability/`, suite `credential-reachability/v1`
+- Rails: `corpusreaders/credreach.go`, `packaging/agent_evidence_vectors/credreach.py`
+
+The predicate carries the result of a probe that ran inside an AI agent's environment,
+with the agent's own identity and view, over a closed list of ambient credential
+classes: SSH agent sockets and key files, cloud metadata endpoints, cloud and registry
+credential files, browser cookie stores, environment tokens, cluster service-account
+tokens, git credential helpers and host keyrings. Each class is `reachable`,
+`not_reachable` or `could_not_test`, and a probe that did not run is never
+`not_reachable`. A key outside the agent's reach signs the result, bound to the
+environment's contract, a verifier's challenge and an audience, so a consumer refuses a
+record the agent could have signed or replayed. The record carries no credential value.
 
 ### `predicate/v1/evaluation-claim`
 
@@ -373,6 +409,21 @@ bytes of the context the decision point judged, the digests of the policy manife
 bundle it ran, and the verdict as the runtime returned it. A consumer replays the disclosed
 context and policy itself, and a record whose digests or verdict the replay does not
 reproduce is refused.
+
+### `predicate/v1/revocation-list`
+
+- Document: `corpora/vectors-revocation-list/README.md`
+- Corpus: `corpora/vectors-revocation-list/`, suite `revocation-list/v1`
+- Rails: `aee/revocationlist.go`, `corpusreaders/revocationlist.go`
+
+The predicate carries one signed, cumulative revocation list: a body of seven members, chained to
+the previous list by sequence number and digest, signed by a root key the verifier pins out of
+band. An entry, once published, stays in every later list byte for byte, and a verifier refuses a
+list that drops, rewrites or reorders an earlier entry, breaks the chain, or is signed by a key it
+does not pin.
+
+- Envelope: `{"body": BODY, "sig": base64(Ed25519 over "probity-revocation-v1\0" || JCS(BODY))}`.
+- Example: `aee/testdata/revocation-list.json`.
 
 ## Registered here
 

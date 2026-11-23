@@ -165,7 +165,7 @@ from gen_manifest import corpus_files, table_rows  # noqa: E402
 # builds a handful of trees and a 150 MB copy per variant would dominate the
 # run. The reference control below is what makes the subset safe to use: if the
 # subset ever stopped reproducing the repository's own replay, the run stops.
-STAGED = ("go.mod", "aee", "cmd")
+STAGED = ("go.mod", "aee", "corpusreaders", "observedeffect", "cmd")
 # Present in some checkouts and not others; the core module carries no external
 # dependency. Named rather than globbed so a member that stops being copied is a
 # deliberate edit here instead of a silent build difference.

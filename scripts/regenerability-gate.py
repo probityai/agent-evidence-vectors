@@ -153,6 +153,9 @@ GENERATORS = (
     "corpora/vectors-receipt-chain-end/gen_vectors.py",
     "corpora/vectors-identity-binding/gen_vectors.py",
     "corpora/vectors-key-directory-observation/gen_vectors.py",
+    "corpora/vectors-status-receipt-binding/gen_vectors.py",
+    "corpora/vectors-delegation-chain/gen_vectors.py",
+    "corpora/vectors-revocation-list/gen_vectors.py",
     "corpora/vectors-authority-at-dispatch/gen_vectors.py",
     "corpora/vectors-approval-binding/gen_vectors.py",
     "corpora/vectors-dispatch-fence/gen_vectors.py",
@@ -179,7 +182,9 @@ GENERATORS = (
     "corpora/vectors-execution-billing-finality/gen_vectors.py",
     "corpora/vectors-agent-request-proof/gen_vectors.py",
     "corpora/vectors-physical-completion/gen_vectors.py",
+    "corpora/vectors-actor-marker-survival/gen_vectors.py",
     "corpora/vectors-agent-card-receipt/gen_vectors.py",
+    "corpora/vectors-credential-reachability/gen_vectors.py",
     "corpora/vectors-credential-release/gen_vectors.py",
     "corpora/vectors-converted-argument-binding/gen_vectors.py",
     "corpora/vectors-delegator-right/gen_vectors.py",
@@ -385,6 +390,12 @@ OWNED = (
     ("corpora/vectors-key-directory-observation", "MANIFEST.json"),
     ("corpora/vectors-key-directory-observation/cases", "**/case.json"),
     ("corpora/vectors-key-directory-observation/cases", "**/response.body"),
+    ("corpora/vectors-status-receipt-binding", "MANIFEST.json"),
+    ("corpora/vectors-status-receipt-binding/cases", "**/*.json"),
+    ("corpora/vectors-delegation-chain", "MANIFEST.json"),
+    ("corpora/vectors-delegation-chain/cases", "**/*.json"),
+    ("corpora/vectors-revocation-list", "MANIFEST.json"),
+    ("corpora/vectors-revocation-list/cases", "**/*.json"),
     ("corpora/vectors-authority-at-dispatch", "MANIFEST.json"),
     ("corpora/vectors-authority-at-dispatch/cases", "**/record.json"),
     ("corpora/vectors-authority-at-dispatch/cases", "**/dispatched.bin"),
@@ -445,7 +456,13 @@ OWNED = (
     ("corpora/vectors-agent-request-proof/cases", "**/*.json"),
     ("corpora/vectors-physical-completion", "MANIFEST.json"),
     ("corpora/vectors-physical-completion/cases", "**/record.json"),
+    ("corpora/vectors-actor-marker-survival", "MANIFEST.json"),
+    ("corpora/vectors-actor-marker-survival", "TRUST.json"),
+    ("corpora/vectors-actor-marker-survival/cases", "**/*"),
     ("corpora/vectors-agent-card-receipt", "MANIFEST.json"),
+    ("corpora/vectors-credential-reachability", "MANIFEST.json"),
+    ("corpora/vectors-credential-reachability/cases", "**/case.json"),
+    ("corpora/vectors-credential-reachability/cases", "**/envelope.json"),
     ("corpora/vectors-credential-release", "MANIFEST.json"),
     ("corpora/vectors-agent-card-receipt/cases", "**/card.json"),
     ("corpora/vectors-agent-card-receipt/cases", "**/context.json"),
@@ -615,7 +632,8 @@ def owned_files(root: Path) -> dict[str, Path]:
     found: dict[str, Path] = {}
     for directory, pattern in OWNED:
         for path in sorted((root / directory).glob(pattern)):
-            found[str(path.relative_to(root))] = path
+            if path.is_file():
+                found[str(path.relative_to(root))] = path
     return found
 
 

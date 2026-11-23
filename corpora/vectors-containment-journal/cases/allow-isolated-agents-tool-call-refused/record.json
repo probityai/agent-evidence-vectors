@@ -156,8 +156,8 @@
     {
       "agent": "agent-a",
       "at": "2026-11-03T09:00:30Z",
+      "authorityChainDigest": "sha256:dadb7db18d5b1890ab330157b07f4add6a0fe5fedd86b9c42e26c7c4d8c231c5",
       "event": "tool_call",
-      "grantChainDigest": "sha256:27bbd56de4a34e14457751a16a496b91ff0042329cdb7c145de812776c986273",
       "prev": "sha256:58af6724af21c30a13d256a546e6508bb29f548ba134a04470ff067284f2b366",
       "seq": 3,
       "tool": "search"
@@ -166,7 +166,7 @@
       "agent": "agent-c",
       "at": "2026-11-03T09:00:40Z",
       "event": "tool_call",
-      "prev": "sha256:40b7777aaf10079cd25dc2968a5f5633ce259b42048a8a624543c55bcb6a7b18",
+      "prev": "sha256:4bc15a16af1832cee5a7424ebf4e703aef16438004770a19b5a5fca8d15c011a",
       "refusalReason": "no permit for an isolated agent",
       "refused": true,
       "seq": 4,

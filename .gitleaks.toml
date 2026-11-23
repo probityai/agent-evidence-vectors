@@ -21,6 +21,22 @@ regexes = [
 ]
 
 [[allowlists]]
+description = "Ed25519 public keys in the revocation vectors: issuerKey and successor members hold canonical base64 of a raw 32-byte public key"
+targetRules = ["generic-api-key"]
+regexTarget = "match"
+regexes = [
+  '''(issuerKey|successor)"\s*:\s*"[A-Za-z0-9+/]{43}="''',
+]
+
+[[allowlists]]
+description = "Raw Ed25519 public keys, 32 bytes in standard base64 (44 characters), in the holderKey and issuerKey of a delegation-chain grant"
+# The keys come from fixed published seeds (vectors-delegation-chain/gen_vectors.py), so each is public by
+# construction. The shape is pinned to one 44-character value ending in "=", in these two field names only.
+targetRules = ["generic-api-key"]
+regexTarget = "match"
+regexes = ['''(holderKey|issuerKey)"\s*:\s*"[A-Za-z0-9+/]{43}="''']
+
+[[allowlists]]
 description = "RFC 7638 thumbprints of public JWKs: a SHA-256 digest in base64url, 43 characters (audit-record principal members)"
 targetRules = ["generic-api-key"]
 regexTarget = "match"
@@ -235,3 +251,30 @@ condition = "AND"
 paths = ['''^corpora/vectors-agent-request-proof/cases/[^/]+/case\.json$''']
 regexTarget = "match"
 regexes = ['''recorderKey"\s*:\s*"BMA4qFpSvSiLzOhNuhs1bmui/v29XYS9mMxGqVEfCwg="''']
+
+[[allowlists]]
+description = "SHA-256 digests of case files in the status-receipt-binding manifest"
+# MANIFEST.json lists each case file with the SHA-256 of its bytes. The generic rule
+# reads the 64-hex value after "credential.json" as a key. All ten distinct values
+# were checked to equal the digest of a file in the corpus, so they are digests and
+# not secrets. AND: only this one manifest path, and only a file-name member whose
+# value is 64 hex characters.
+targetRules = ["generic-api-key"]
+condition = "AND"
+paths = ['''^corpora/vectors-status-receipt-binding/MANIFEST\.json$''']
+regexTarget = "match"
+regexes = ['''credential\.json"\s*:\s*"[0-9a-f]{64}"''']
+
+[[allowlists]]
+description = "Base64url Ed25519 public keys in the actor-marker-survival trust bundle"
+# TRUST.json gives the verifier each writer's public key under writers.<name>.key.
+# Each signing seed is the SHA-256 of "actor-marker-survival/v1 test key " plus the
+# writer's name (gen_vectors.py, key()), so the keys are public by construction.
+# A base64url shape cannot tell a public key from a 32-byte secret, so the eight
+# values are pinned: AND, only that one file, and only these exact members. A new
+# writer, a changed key or the same value anywhere else is still reported.
+targetRules = ["generic-api-key"]
+condition = "AND"
+paths = ['''^(corpora/)?vectors-actor-marker-survival/TRUST\.json$''']
+regexTarget = "match"
+regexes = ['''key"\s*:\s*"(6u-4h_FKsEp4zItPdJFa_DrmaHVAiVt4frww42pfudo|ojuNdiZ-Y96TCP8fLPW86JL89c2LQIFtm_bZoaJ1BJQ|eYH24yhsIF5f8QY2d_So64YHeJAx6grKd2TYcL9SLpQ|XIot846rHq3eno56PetnXmHJ3bsYDHeIPoNlkoFDFvg|mbrVmGamyI0XZ8R3fGQ8LYe5s5NwXhncyipcsliO21g|A1FDEw7pxa9CGhe1FAxhV9WrJliSRNgUl0SgL2_U3Ko|ywcgKBs8VG84u-mviUvpzfop7iadzd42m8A6ermMk1Y|Pu8FJnMUFaC6MDLFlZEgBsWHUPcyVcriltHq7UZTxuM)"''']

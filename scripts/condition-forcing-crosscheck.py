@@ -156,6 +156,23 @@ def killer_sets(baseline: dict[str, Any], known: frozenset[str]) -> list[frozens
     return sets
 
 
+def corpus_only_kills(baseline: dict[str, Any]) -> int:
+    """KILLED sites forced only through a corpus-channel member.
+
+    Such a site names no vector of the conformance manifest, so it has no killer
+    set to project, and condition-forcing-gate.py skips it for the same reason.
+    It still counts toward the KILLED total the baseline records.
+    """
+    return sum(
+        1
+        for site in baseline["sites"].values()
+        if isinstance(site, dict)
+        and site.get("class") == "KILLED"
+        and not site.get("killers")
+        and site.get("corpusKillers")
+    )
+
+
 def project(
     by_condition: dict[str, frozenset[str]], kills: list[frozenset[str]]
 ) -> tuple[list[str], list[str], list[str], dict[str, int]]:
@@ -494,9 +511,10 @@ def main() -> int:
         "sites": len(baseline["sites"]),
         "killed": len(kills) if not isinstance(counts, dict) else int(counts.get("KILLED", 0)),
     }
-    if len(kills) != computed["killed"]:
+    attributed = len(kills) + corpus_only_kills(baseline)
+    if attributed != computed["killed"]:
         disagree(
-            f"{BASELINE} counts {computed['killed']} KILLED but carries {len(kills)} sites "
+            f"{BASELINE} counts {computed['killed']} KILLED but carries {attributed} sites "
             f"with killers"
         )
 

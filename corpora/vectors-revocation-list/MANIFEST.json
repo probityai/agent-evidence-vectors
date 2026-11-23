@@ -1,0 +1,3548 @@
+{
+  "corpusDigest": "87dfad7dbf20b990cad89a83c05a0d76cd1c8d31cfa613b71c739e436d89be95",
+  "counts": {
+    "accept": 9,
+    "reject": 78
+  },
+  "suite": "revocation-list/v1",
+  "vectors": [
+    {
+      "description": "an empty first list is in force",
+      "expected": {
+        "decision": "accept",
+        "index": null,
+        "listDigests": [
+          "sha256:ed6588d126f86b6fdfd9ed683c4e541ce5b30e5924d9d510a10c611ac9a083f7"
+        ],
+        "reason": "in_force",
+        "state": {
+          "head": "sha256:ed6588d126f86b6fdfd9ed683c4e541ce5b30e5924d9d510a10c611ac9a083f7",
+          "issuedAt": "2026-06-01T00:00:00Z",
+          "listId": "probity-revocations",
+          "revoked": {
+            "agent": [],
+            "build": [],
+            "grant": [],
+            "key": [],
+            "permit": [],
+            "sponsor": [],
+            "stream": []
+          },
+          "roots": [
+            "66e0964922229d08455f3b8961827ac11e766a0cba43ee5a5b5dc2cd78870bf2"
+          ],
+          "seq": 1
+        }
+      },
+      "files": {
+        "list-01.json": "bc5d7b980a66efbcd1c976705c272db9c36f889ca57eee9fb429dca60afee10c",
+        "roots.json": "4bc2c8414995a830a9db7553db4de56e71010f526d757c0eab0295e4666e0da4"
+      },
+      "id": "rl01-empty-first-list",
+      "lists": [
+        "list-01.json"
+      ],
+      "path": "cases/rl01-empty-first-list",
+      "source": "shared:RL01"
+    },
+    {
+      "description": "a chain of three lists naming every kind",
+      "expected": {
+        "decision": "accept",
+        "index": null,
+        "listDigests": [
+          "sha256:ed6588d126f86b6fdfd9ed683c4e541ce5b30e5924d9d510a10c611ac9a083f7",
+          "sha256:3088aa34b5c81141c9970d6d43e4f55ccdec72e5d0f0bbf45e978cb14661f303",
+          "sha256:5362028615e46a0b3d9286daacf21f7529b3b1db41b90106c6cbac70f4e67998"
+        ],
+        "reason": "in_force",
+        "state": {
+          "head": "sha256:5362028615e46a0b3d9286daacf21f7529b3b1db41b90106c6cbac70f4e67998",
+          "issuedAt": "2026-06-03T00:00:00Z",
+          "listId": "probity-revocations",
+          "revoked": {
+            "agent": [
+              "agent:alpha",
+              "agent:one"
+            ],
+            "build": [
+              "build:one"
+            ],
+            "grant": [
+              "1362c039c94e673a9abbf8b742aca7c0b7224e81772949ba38991962ecb20e32"
+            ],
+            "key": [
+              "1362c039c94e673a9abbf8b742aca7c0b7224e81772949ba38991962ecb20e32"
+            ],
+            "permit": [
+              "1362c039c94e673a9abbf8b742aca7c0b7224e81772949ba38991962ecb20e32"
+            ],
+            "sponsor": [
+              "sponsor:one"
+            ],
+            "stream": [
+              "stream-7",
+              "stream:one"
+            ]
+          },
+          "roots": [
+            "66e0964922229d08455f3b8961827ac11e766a0cba43ee5a5b5dc2cd78870bf2"
+          ],
+          "seq": 3
+        }
+      },
+      "files": {
+        "list-01.json": "bc5d7b980a66efbcd1c976705c272db9c36f889ca57eee9fb429dca60afee10c",
+        "list-02.json": "3671d9142d4c4dd2ce01f016b0d33b94ef71eb53fb361786402c4203120d0090",
+        "list-03.json": "68f05e0eedcb6f28636434855e9bd0f608f928bc35f183cb7c36e301491d8614",
+        "roots.json": "4bc2c8414995a830a9db7553db4de56e71010f526d757c0eab0295e4666e0da4"
+      },
+      "id": "rl02-three-lists-in-force",
+      "lists": [
+        "list-01.json",
+        "list-02.json",
+        "list-03.json"
+      ],
+      "path": "cases/rl02-three-lists-in-force",
+      "source": "shared:RL02"
+    },
+    {
+      "description": "a root rotates to its successor, which signs the next list",
+      "expected": {
+        "decision": "accept",
+        "index": null,
+        "listDigests": [
+          "sha256:26c0fe9197ee1f46ebea2b0ee010fb45485ac6ef99c39d722f90b193e10188f0",
+          "sha256:dc3bbe24bd52a5b988f7604f22961f15f6373a86403341dfdfc775b0c6d0ef20"
+        ],
+        "reason": "in_force",
+        "state": {
+          "head": "sha256:dc3bbe24bd52a5b988f7604f22961f15f6373a86403341dfdfc775b0c6d0ef20",
+          "issuedAt": "2026-06-02T00:00:00Z",
+          "listId": "probity-revocations",
+          "revoked": {
+            "agent": [],
+            "build": [],
+            "grant": [],
+            "key": [
+              "66e0964922229d08455f3b8961827ac11e766a0cba43ee5a5b5dc2cd78870bf2"
+            ],
+            "permit": [],
+            "sponsor": [],
+            "stream": []
+          },
+          "roots": [
+            "524227d0dbab017d1cfcd44aa540f82de137afcbeea296e92fcc768fd2daaef6"
+          ],
+          "seq": 2
+        }
+      },
+      "files": {
+        "list-01.json": "22fd0e685451eb5e147b03e4430131f3a71d25bdacf4ca59d99a4fb695efcc29",
+        "list-02.json": "c733d2bb2cccf8baa73a3f8ea504bd076ee8781b351afbe4d5187ec24b2d0592",
+        "roots.json": "4bc2c8414995a830a9db7553db4de56e71010f526d757c0eab0295e4666e0da4"
+      },
+      "id": "rl03-root-rotation-in-force",
+      "lists": [
+        "list-01.json",
+        "list-02.json"
+      ],
+      "path": "cases/rl03-root-rotation-in-force",
+      "source": "shared:RL03"
+    },
+    {
+      "description": "a reason outside the BMP canonicalises the same in every reader",
+      "expected": {
+        "decision": "accept",
+        "index": null,
+        "listDigests": [
+          "sha256:868add311d26e815a45ed4050e50c71b9429fafa79112c13d66320f588b4987c"
+        ],
+        "reason": "in_force",
+        "state": {
+          "head": "sha256:868add311d26e815a45ed4050e50c71b9429fafa79112c13d66320f588b4987c",
+          "issuedAt": "2026-06-01T00:00:00Z",
+          "listId": "probity-revocations",
+          "revoked": {
+            "agent": [],
+            "build": [],
+            "grant": [],
+            "key": [],
+            "permit": [],
+            "sponsor": [
+              "sponsor:acme"
+            ],
+            "stream": []
+          },
+          "roots": [
+            "66e0964922229d08455f3b8961827ac11e766a0cba43ee5a5b5dc2cd78870bf2"
+          ],
+          "seq": 1
+        }
+      },
+      "files": {
+        "list-01.json": "cda72045f779d17bb5f46587c1a6e5cf3d4cd9a87925e550738890226cef0201",
+        "roots.json": "4bc2c8414995a830a9db7553db4de56e71010f526d757c0eab0295e4666e0da4"
+      },
+      "id": "rl04-single-list-in-force",
+      "lists": [
+        "list-01.json"
+      ],
+      "path": "cases/rl04-single-list-in-force",
+      "source": "shared:RL04"
+    },
+    {
+      "description": "an unknown kind is refused even when signed",
+      "expected": {
+        "decision": "reject",
+        "index": 0,
+        "listDigests": [
+          "sha256:e179a945ad11a2b8c79a9a8f24ed22cec01f6347e69acbf5b5db37c6cf79cd07"
+        ],
+        "reason": "revocation_list_shape:entry_kind_unknown",
+        "state": {
+          "head": "",
+          "issuedAt": "",
+          "listId": "",
+          "revoked": {
+            "agent": [],
+            "build": [],
+            "grant": [],
+            "key": [],
+            "permit": [],
+            "sponsor": [],
+            "stream": []
+          },
+          "roots": [
+            "66e0964922229d08455f3b8961827ac11e766a0cba43ee5a5b5dc2cd78870bf2"
+          ],
+          "seq": 0
+        }
+      },
+      "files": {
+        "list-01.json": "edace7120f5972b5c00e87285e0a6a5d79809ef0391f9abdf40487dd2ce26ddc",
+        "roots.json": "4bc2c8414995a830a9db7553db4de56e71010f526d757c0eab0295e4666e0da4"
+      },
+      "id": "rl05-unknown-kind",
+      "lists": [
+        "list-01.json"
+      ],
+      "path": "cases/rl05-unknown-kind",
+      "source": "shared:RL05"
+    },
+    {
+      "description": "entries out of order are refused",
+      "expected": {
+        "decision": "reject",
+        "index": 0,
+        "listDigests": [
+          "sha256:e97f02bf308465a8786e85fb033dd1cbb9020e55240f6cdfc2eed3d2643f4b02"
+        ],
+        "reason": "revocation_list_shape:entries_not_strictly_ascending",
+        "state": {
+          "head": "",
+          "issuedAt": "",
+          "listId": "",
+          "revoked": {
+            "agent": [],
+            "build": [],
+            "grant": [],
+            "key": [],
+            "permit": [],
+            "sponsor": [],
+            "stream": []
+          },
+          "roots": [
+            "66e0964922229d08455f3b8961827ac11e766a0cba43ee5a5b5dc2cd78870bf2"
+          ],
+          "seq": 0
+        }
+      },
+      "files": {
+        "list-01.json": "7bf82a8d339c78d46b8ae9f2b5d84b064dddb0a1454366fd17ea009fff34b9a7",
+        "roots.json": "4bc2c8414995a830a9db7553db4de56e71010f526d757c0eab0295e4666e0da4"
+      },
+      "id": "rl06-entries-out-of-order",
+      "lists": [
+        "list-01.json"
+      ],
+      "path": "cases/rl06-entries-out-of-order",
+      "source": "shared:RL06"
+    },
+    {
+      "description": "a duplicate entry is refused",
+      "expected": {
+        "decision": "reject",
+        "index": 0,
+        "listDigests": [
+          "sha256:5f75852785f7776f1fc61438ff70106799873488c376c96b5378b44fa996b457"
+        ],
+        "reason": "revocation_list_shape:entries_not_strictly_ascending",
+        "state": {
+          "head": "",
+          "issuedAt": "",
+          "listId": "",
+          "revoked": {
+            "agent": [],
+            "build": [],
+            "grant": [],
+            "key": [],
+            "permit": [],
+            "sponsor": [],
+            "stream": []
+          },
+          "roots": [
+            "66e0964922229d08455f3b8961827ac11e766a0cba43ee5a5b5dc2cd78870bf2"
+          ],
+          "seq": 0
+        }
+      },
+      "files": {
+        "list-01.json": "ddc9c98d46d99e476b69b5fc3e25af609615184b6d7accaf666641e7866af848",
+        "roots.json": "4bc2c8414995a830a9db7553db4de56e71010f526d757c0eab0295e4666e0da4"
+      },
+      "id": "rl07-duplicate-entry",
+      "lists": [
+        "list-01.json"
+      ],
+      "path": "cases/rl07-duplicate-entry",
+      "source": "shared:RL07"
+    },
+    {
+      "description": "a non-ASCII identifier is refused",
+      "expected": {
+        "decision": "reject",
+        "index": 0,
+        "listDigests": [
+          "sha256:fe9ad4769a324c8c849fa00bdea3c0eddbc669f3ae5bf996febfb26f3021ec04"
+        ],
+        "reason": "revocation_list_shape:entry_id_form:agent",
+        "state": {
+          "head": "",
+          "issuedAt": "",
+          "listId": "",
+          "revoked": {
+            "agent": [],
+            "build": [],
+            "grant": [],
+            "key": [],
+            "permit": [],
+            "sponsor": [],
+            "stream": []
+          },
+          "roots": [
+            "66e0964922229d08455f3b8961827ac11e766a0cba43ee5a5b5dc2cd78870bf2"
+          ],
+          "seq": 0
+        }
+      },
+      "files": {
+        "list-01.json": "53113db86dab05cc2a80ca1def466193bbd72b082e0236ac022491352275d67e",
+        "roots.json": "4bc2c8414995a830a9db7553db4de56e71010f526d757c0eab0295e4666e0da4"
+      },
+      "id": "rl08-identifier-not-ascii",
+      "lists": [
+        "list-01.json"
+      ],
+      "path": "cases/rl08-identifier-not-ascii",
+      "source": "shared:RL08"
+    },
+    {
+      "description": "an identifier with a space is refused",
+      "expected": {
+        "decision": "reject",
+        "index": 0,
+        "listDigests": [
+          "sha256:c2298d392c27886bce587c3eca386b313aec6dd81f5f8807788d406bf8283c44"
+        ],
+        "reason": "revocation_list_shape:entry_id_form:agent",
+        "state": {
+          "head": "",
+          "issuedAt": "",
+          "listId": "",
+          "revoked": {
+            "agent": [],
+            "build": [],
+            "grant": [],
+            "key": [],
+            "permit": [],
+            "sponsor": [],
+            "stream": []
+          },
+          "roots": [
+            "66e0964922229d08455f3b8961827ac11e766a0cba43ee5a5b5dc2cd78870bf2"
+          ],
+          "seq": 0
+        }
+      },
+      "files": {
+        "list-01.json": "1106da29454d8bbed97fde7839e5c7f4c17ae72707d83f86be7d0d63f44362d0",
+        "roots.json": "4bc2c8414995a830a9db7553db4de56e71010f526d757c0eab0295e4666e0da4"
+      },
+      "id": "rl09-identifier-with-space",
+      "lists": [
+        "list-01.json"
+      ],
+      "path": "cases/rl09-identifier-with-space",
+      "source": "shared:RL09"
+    },
+    {
+      "description": "an identifier of 513 characters is refused",
+      "expected": {
+        "decision": "reject",
+        "index": 0,
+        "listDigests": [
+          "sha256:14dd113f0f74536da4b1ce76eacb7250af2b3f8cd3e3cb462c3e54975de35fc9"
+        ],
+        "reason": "revocation_list_shape:entry_id_form:agent",
+        "state": {
+          "head": "",
+          "issuedAt": "",
+          "listId": "",
+          "revoked": {
+            "agent": [],
+            "build": [],
+            "grant": [],
+            "key": [],
+            "permit": [],
+            "sponsor": [],
+            "stream": []
+          },
+          "roots": [
+            "66e0964922229d08455f3b8961827ac11e766a0cba43ee5a5b5dc2cd78870bf2"
+          ],
+          "seq": 0
+        }
+      },
+      "files": {
+        "list-01.json": "790706d272fd85e581b2e7ffd2e381aa2aa7999ce8793dab756136e3c6835fb5",
+        "roots.json": "4bc2c8414995a830a9db7553db4de56e71010f526d757c0eab0295e4666e0da4"
+      },
+      "id": "rl10-identifier-513-characters",
+      "lists": [
+        "list-01.json"
+      ],
+      "path": "cases/rl10-identifier-513-characters",
+      "source": "shared:RL10"
+    },
+    {
+      "description": "an extra body member is refused",
+      "expected": {
+        "decision": "reject",
+        "index": 0,
+        "listDigests": [
+          "sha256:0f9e7b3d69f03bd771710a68ae1fcedbc1e0849a4e7c5035ac2a7b1cedc8750e"
+        ],
+        "reason": "revocation_list_shape:body_members",
+        "state": {
+          "head": "",
+          "issuedAt": "",
+          "listId": "",
+          "revoked": {
+            "agent": [],
+            "build": [],
+            "grant": [],
+            "key": [],
+            "permit": [],
+            "sponsor": [],
+            "stream": []
+          },
+          "roots": [
+            "66e0964922229d08455f3b8961827ac11e766a0cba43ee5a5b5dc2cd78870bf2"
+          ],
+          "seq": 0
+        }
+      },
+      "files": {
+        "list-01.json": "edf5e76b2497a9302aec673ad4b9cffc0fa217c6d83f2793abe0e2cefba4f5fb",
+        "roots.json": "4bc2c8414995a830a9db7553db4de56e71010f526d757c0eab0295e4666e0da4"
+      },
+      "id": "rl11-extra-body-member",
+      "lists": [
+        "list-01.json"
+      ],
+      "path": "cases/rl11-extra-body-member",
+      "source": "shared:RL11"
+    },
+    {
+      "description": "a boolean seq is refused",
+      "expected": {
+        "decision": "reject",
+        "index": 0,
+        "listDigests": [
+          "sha256:b935e97135cbfea31ea1ac8d2bc81a2a9b27ceffa5a85e6cfcfa6bad25e935a3"
+        ],
+        "reason": "revocation_list_shape:seq_not_a_positive_exact_integer",
+        "state": {
+          "head": "",
+          "issuedAt": "",
+          "listId": "",
+          "revoked": {
+            "agent": [],
+            "build": [],
+            "grant": [],
+            "key": [],
+            "permit": [],
+            "sponsor": [],
+            "stream": []
+          },
+          "roots": [
+            "66e0964922229d08455f3b8961827ac11e766a0cba43ee5a5b5dc2cd78870bf2"
+          ],
+          "seq": 0
+        }
+      },
+      "files": {
+        "list-01.json": "2b1700dc8ae6e7c9379a89e6dbe05a99b3d09b13685a2a36542a43eb3de1ea73",
+        "roots.json": "4bc2c8414995a830a9db7553db4de56e71010f526d757c0eab0295e4666e0da4"
+      },
+      "id": "rl12-seq-boolean",
+      "lists": [
+        "list-01.json"
+      ],
+      "path": "cases/rl12-seq-boolean",
+      "source": "shared:RL12"
+    },
+    {
+      "description": "a seq beyond 2^53-1 is refused",
+      "expected": {
+        "decision": "reject",
+        "index": 0,
+        "listDigests": [
+          null
+        ],
+        "reason": "revocation_list_shape:signed_list_unreadable",
+        "state": {
+          "head": "",
+          "issuedAt": "",
+          "listId": "",
+          "revoked": {
+            "agent": [],
+            "build": [],
+            "grant": [],
+            "key": [],
+            "permit": [],
+            "sponsor": [],
+            "stream": []
+          },
+          "roots": [
+            "66e0964922229d08455f3b8961827ac11e766a0cba43ee5a5b5dc2cd78870bf2"
+          ],
+          "seq": 0
+        }
+      },
+      "files": {
+        "list-01.json": "2731202ca364f542bf0f56d9df42831c2589173d2ae284099339bd030740ff0c",
+        "roots.json": "4bc2c8414995a830a9db7553db4de56e71010f526d757c0eab0295e4666e0da4"
+      },
+      "id": "rl13-seq-beyond-exact-integers",
+      "lists": [
+        "list-01.json"
+      ],
+      "path": "cases/rl13-seq-beyond-exact-integers",
+      "source": "shared:RL13"
+    },
+    {
+      "description": "a timestamp with an offset is refused",
+      "expected": {
+        "decision": "reject",
+        "index": 0,
+        "listDigests": [
+          "sha256:f528bf730c78bc898c3007c65dbe8500fb3f23400b5e9e316b91c0209fff3fd1"
+        ],
+        "reason": "revocation_list_shape:issuedAt_not_a_utc_second",
+        "state": {
+          "head": "",
+          "issuedAt": "",
+          "listId": "",
+          "revoked": {
+            "agent": [],
+            "build": [],
+            "grant": [],
+            "key": [],
+            "permit": [],
+            "sponsor": [],
+            "stream": []
+          },
+          "roots": [
+            "66e0964922229d08455f3b8961827ac11e766a0cba43ee5a5b5dc2cd78870bf2"
+          ],
+          "seq": 0
+        }
+      },
+      "files": {
+        "list-01.json": "278a47c88487fd4da248fa164965868e6bca402ddd0a273f2e687387da84b45e",
+        "roots.json": "4bc2c8414995a830a9db7553db4de56e71010f526d757c0eab0295e4666e0da4"
+      },
+      "id": "rl14-time-with-offset",
+      "lists": [
+        "list-01.json"
+      ],
+      "path": "cases/rl14-time-with-offset",
+      "source": "shared:RL14"
+    },
+    {
+      "description": "a timestamp that is not a calendar day is refused",
+      "expected": {
+        "decision": "reject",
+        "index": 0,
+        "listDigests": [
+          "sha256:ba23eddca9cb0820d488323a7cebe198a8060da54a583aec5815545093c1655c"
+        ],
+        "reason": "revocation_list_shape:issuedAt_not_a_calendar_instant",
+        "state": {
+          "head": "",
+          "issuedAt": "",
+          "listId": "",
+          "revoked": {
+            "agent": [],
+            "build": [],
+            "grant": [],
+            "key": [],
+            "permit": [],
+            "sponsor": [],
+            "stream": []
+          },
+          "roots": [
+            "66e0964922229d08455f3b8961827ac11e766a0cba43ee5a5b5dc2cd78870bf2"
+          ],
+          "seq": 0
+        }
+      },
+      "files": {
+        "list-01.json": "cc996e4fa0d1cfb087278a9d977e8a7feae58f4f203bb73637f485b991f301a0",
+        "roots.json": "4bc2c8414995a830a9db7553db4de56e71010f526d757c0eab0295e4666e0da4"
+      },
+      "id": "rl15-time-not-a-calendar-day",
+      "lists": [
+        "list-01.json"
+      ],
+      "path": "cases/rl15-time-not-a-calendar-day",
+      "source": "shared:RL15"
+    },
+    {
+      "description": "an issuer key in non-canonical base64 is refused",
+      "expected": {
+        "decision": "reject",
+        "index": 0,
+        "listDigests": [
+          "sha256:f3c7a4ebe4262c823f51bf3a290d64c16fb56036287cae51cd9931f8534153c9"
+        ],
+        "reason": "revocation_list_shape:issuerKey_not_base64",
+        "state": {
+          "head": "",
+          "issuedAt": "",
+          "listId": "",
+          "revoked": {
+            "agent": [],
+            "build": [],
+            "grant": [],
+            "key": [],
+            "permit": [],
+            "sponsor": [],
+            "stream": []
+          },
+          "roots": [
+            "66e0964922229d08455f3b8961827ac11e766a0cba43ee5a5b5dc2cd78870bf2"
+          ],
+          "seq": 0
+        }
+      },
+      "files": {
+        "list-01.json": "9d60c240585edacd399ba4ec326bb854365db98c2c0d77e8599994fc97da73b0",
+        "roots.json": "4bc2c8414995a830a9db7553db4de56e71010f526d757c0eab0295e4666e0da4"
+      },
+      "id": "rl16-issuer-key-noncanonical-base64",
+      "lists": [
+        "list-01.json"
+      ],
+      "path": "cases/rl16-issuer-key-noncanonical-base64",
+      "source": "shared:RL16"
+    },
+    {
+      "description": "an upper-case grant digest is refused",
+      "expected": {
+        "decision": "reject",
+        "index": 0,
+        "listDigests": [
+          "sha256:29b6e5405b2c284d1babf95c04bb44c31a9d7185db0b62575930c5cba9949be8"
+        ],
+        "reason": "revocation_list_shape:entry_id_form:grant",
+        "state": {
+          "head": "",
+          "issuedAt": "",
+          "listId": "",
+          "revoked": {
+            "agent": [],
+            "build": [],
+            "grant": [],
+            "key": [],
+            "permit": [],
+            "sponsor": [],
+            "stream": []
+          },
+          "roots": [
+            "66e0964922229d08455f3b8961827ac11e766a0cba43ee5a5b5dc2cd78870bf2"
+          ],
+          "seq": 0
+        }
+      },
+      "files": {
+        "list-01.json": "21f54929f8ca0508415483f2cf67e2afc4e889778fd28ce63913b219206225e4",
+        "roots.json": "4bc2c8414995a830a9db7553db4de56e71010f526d757c0eab0295e4666e0da4"
+      },
+      "id": "rl17-grant-digest-upper-case",
+      "lists": [
+        "list-01.json"
+      ],
+      "path": "cases/rl17-grant-digest-upper-case",
+      "source": "shared:RL17"
+    },
+    {
+      "description": "a successor on an agent entry is refused",
+      "expected": {
+        "decision": "reject",
+        "index": 0,
+        "listDigests": [
+          "sha256:b0b6752849dcc2bef40375136e02e223da7c26865dfc148b8983058d47e03772"
+        ],
+        "reason": "revocation_list_shape:successor_on_non_key_entry",
+        "state": {
+          "head": "",
+          "issuedAt": "",
+          "listId": "",
+          "revoked": {
+            "agent": [],
+            "build": [],
+            "grant": [],
+            "key": [],
+            "permit": [],
+            "sponsor": [],
+            "stream": []
+          },
+          "roots": [
+            "66e0964922229d08455f3b8961827ac11e766a0cba43ee5a5b5dc2cd78870bf2"
+          ],
+          "seq": 0
+        }
+      },
+      "files": {
+        "list-01.json": "f33c6aca1c7a6d19fd3fce95510a6c4bc2328cbbe8ba92aaf36c1c7637ffa539",
+        "roots.json": "4bc2c8414995a830a9db7553db4de56e71010f526d757c0eab0295e4666e0da4"
+      },
+      "id": "rl18-successor-on-agent-entry",
+      "lists": [
+        "list-01.json"
+      ],
+      "path": "cases/rl18-successor-on-agent-entry",
+      "source": "shared:RL18"
+    },
+    {
+      "description": "a signed list with an extra top-level member is refused",
+      "expected": {
+        "decision": "reject",
+        "index": 0,
+        "listDigests": [
+          "sha256:ed6588d126f86b6fdfd9ed683c4e541ce5b30e5924d9d510a10c611ac9a083f7"
+        ],
+        "reason": "revocation_list_shape:signed_list_members",
+        "state": {
+          "head": "",
+          "issuedAt": "",
+          "listId": "",
+          "revoked": {
+            "agent": [],
+            "build": [],
+            "grant": [],
+            "key": [],
+            "permit": [],
+            "sponsor": [],
+            "stream": []
+          },
+          "roots": [
+            "66e0964922229d08455f3b8961827ac11e766a0cba43ee5a5b5dc2cd78870bf2"
+          ],
+          "seq": 0
+        }
+      },
+      "files": {
+        "list-01.json": "82bd5ef4a29640cedc6361afc1dae2a79d4c814277b2b1ff6e8560d4093cbcd7",
+        "roots.json": "4bc2c8414995a830a9db7553db4de56e71010f526d757c0eab0295e4666e0da4"
+      },
+      "id": "rl19-extra-top-level-member",
+      "lists": [
+        "list-01.json"
+      ],
+      "path": "cases/rl19-extra-top-level-member",
+      "source": "shared:RL19"
+    },
+    {
+      "description": "another type is refused",
+      "expected": {
+        "decision": "reject",
+        "index": 0,
+        "listDigests": [
+          "sha256:70dda1e96d8a569c49fd6c5f9a5a1523a634e9eef5b0e3d03f56a94069dbcd54"
+        ],
+        "reason": "revocation_list_shape:type",
+        "state": {
+          "head": "",
+          "issuedAt": "",
+          "listId": "",
+          "revoked": {
+            "agent": [],
+            "build": [],
+            "grant": [],
+            "key": [],
+            "permit": [],
+            "sponsor": [],
+            "stream": []
+          },
+          "roots": [
+            "66e0964922229d08455f3b8961827ac11e766a0cba43ee5a5b5dc2cd78870bf2"
+          ],
+          "seq": 0
+        }
+      },
+      "files": {
+        "list-01.json": "7060d9dd3e2d5eb0942e37468dded40d4c118b8c5d8ebcee83ffefd3e3c5c6b0",
+        "roots.json": "4bc2c8414995a830a9db7553db4de56e71010f526d757c0eab0295e4666e0da4"
+      },
+      "id": "rl20-another-type",
+      "lists": [
+        "list-01.json"
+      ],
+      "path": "cases/rl20-another-type",
+      "source": "shared:RL20"
+    },
+    {
+      "description": "a list from a key that is not a pinned root is refused",
+      "expected": {
+        "decision": "reject",
+        "index": 0,
+        "listDigests": [
+          "sha256:7f1a3fd19ae919ba9736e7ecc6a98f49a75ec893b30733587912dd022a1ef7d8"
+        ],
+        "reason": "revocation_list_signer_not_a_root",
+        "state": {
+          "head": "",
+          "issuedAt": "",
+          "listId": "",
+          "revoked": {
+            "agent": [],
+            "build": [],
+            "grant": [],
+            "key": [],
+            "permit": [],
+            "sponsor": [],
+            "stream": []
+          },
+          "roots": [
+            "66e0964922229d08455f3b8961827ac11e766a0cba43ee5a5b5dc2cd78870bf2"
+          ],
+          "seq": 0
+        }
+      },
+      "files": {
+        "list-01.json": "d4680831c62e0aac55a2da7eceb359d0aca1611c7cf6e66886b90e1e0410ff48",
+        "roots.json": "4bc2c8414995a830a9db7553db4de56e71010f526d757c0eab0295e4666e0da4"
+      },
+      "id": "rl21-signer-not-a-root",
+      "lists": [
+        "list-01.json"
+      ],
+      "path": "cases/rl21-signer-not-a-root",
+      "source": "shared:RL21"
+    },
+    {
+      "description": "a list whose entries were edited after signing is refused",
+      "expected": {
+        "decision": "reject",
+        "index": 0,
+        "listDigests": [
+          "sha256:3099fd91bd7379dae0aa88a99821cc1b4a028f73fcd97ebd040b3ca19ced21ea"
+        ],
+        "reason": "revocation_list_signature_unverified",
+        "state": {
+          "head": "",
+          "issuedAt": "",
+          "listId": "",
+          "revoked": {
+            "agent": [],
+            "build": [],
+            "grant": [],
+            "key": [],
+            "permit": [],
+            "sponsor": [],
+            "stream": []
+          },
+          "roots": [
+            "66e0964922229d08455f3b8961827ac11e766a0cba43ee5a5b5dc2cd78870bf2"
+          ],
+          "seq": 0
+        }
+      },
+      "files": {
+        "list-01.json": "8e05e616958ffede6788b25f0ee1f63b5f3ee83557474ba6a85d97c8149faf74",
+        "roots.json": "4bc2c8414995a830a9db7553db4de56e71010f526d757c0eab0295e4666e0da4"
+      },
+      "id": "rl22-entries-edited-after-signing",
+      "lists": [
+        "list-01.json"
+      ],
+      "path": "cases/rl22-entries-edited-after-signing",
+      "source": "shared:RL22"
+    },
+    {
+      "description": "a pinned issuer key over another key's signature is refused",
+      "expected": {
+        "decision": "reject",
+        "index": 0,
+        "listDigests": [
+          "sha256:ed6588d126f86b6fdfd9ed683c4e541ce5b30e5924d9d510a10c611ac9a083f7"
+        ],
+        "reason": "revocation_list_signature_unverified",
+        "state": {
+          "head": "",
+          "issuedAt": "",
+          "listId": "",
+          "revoked": {
+            "agent": [],
+            "build": [],
+            "grant": [],
+            "key": [],
+            "permit": [],
+            "sponsor": [],
+            "stream": []
+          },
+          "roots": [
+            "66e0964922229d08455f3b8961827ac11e766a0cba43ee5a5b5dc2cd78870bf2"
+          ],
+          "seq": 0
+        }
+      },
+      "files": {
+        "list-01.json": "b8b2fc5140df4a193a3695f1e9e3e0dfbf47dac5599e2fb307a71d2cdc2da4e8",
+        "roots.json": "4bc2c8414995a830a9db7553db4de56e71010f526d757c0eab0295e4666e0da4"
+      },
+      "id": "rl23-root-key-over-another-signature",
+      "lists": [
+        "list-01.json"
+      ],
+      "path": "cases/rl23-root-key-over-another-signature",
+      "source": "shared:RL23"
+    },
+    {
+      "description": "a signature with one bit flipped is refused",
+      "expected": {
+        "decision": "reject",
+        "index": 0,
+        "listDigests": [
+          "sha256:ed6588d126f86b6fdfd9ed683c4e541ce5b30e5924d9d510a10c611ac9a083f7"
+        ],
+        "reason": "revocation_list_signature_unverified",
+        "state": {
+          "head": "",
+          "issuedAt": "",
+          "listId": "",
+          "revoked": {
+            "agent": [],
+            "build": [],
+            "grant": [],
+            "key": [],
+            "permit": [],
+            "sponsor": [],
+            "stream": []
+          },
+          "roots": [
+            "66e0964922229d08455f3b8961827ac11e766a0cba43ee5a5b5dc2cd78870bf2"
+          ],
+          "seq": 0
+        }
+      },
+      "files": {
+        "list-01.json": "90c3caaf2d662041922526eb23afb933d7f6713f23f1894fabc112af588913b4",
+        "roots.json": "4bc2c8414995a830a9db7553db4de56e71010f526d757c0eab0295e4666e0da4"
+      },
+      "id": "rl24-signature-bit-flipped",
+      "lists": [
+        "list-01.json"
+      ],
+      "path": "cases/rl24-signature-bit-flipped",
+      "source": "shared:RL24"
+    },
+    {
+      "description": "a signature in non-canonical base64 is refused",
+      "expected": {
+        "decision": "reject",
+        "index": 0,
+        "listDigests": [
+          "sha256:ed6588d126f86b6fdfd9ed683c4e541ce5b30e5924d9d510a10c611ac9a083f7"
+        ],
+        "reason": "revocation_list_signature_unverified",
+        "state": {
+          "head": "",
+          "issuedAt": "",
+          "listId": "",
+          "revoked": {
+            "agent": [],
+            "build": [],
+            "grant": [],
+            "key": [],
+            "permit": [],
+            "sponsor": [],
+            "stream": []
+          },
+          "roots": [
+            "66e0964922229d08455f3b8961827ac11e766a0cba43ee5a5b5dc2cd78870bf2"
+          ],
+          "seq": 0
+        }
+      },
+      "files": {
+        "list-01.json": "83cd6efb1d64169bda99cd2f0ebcce27df6c8a020a5a4d9a8f7b010bc75c7d45",
+        "roots.json": "4bc2c8414995a830a9db7553db4de56e71010f526d757c0eab0295e4666e0da4"
+      },
+      "id": "rl25-signature-noncanonical-base64",
+      "lists": [
+        "list-01.json"
+      ],
+      "path": "cases/rl25-signature-noncanonical-base64",
+      "source": "shared:RL25"
+    },
+    {
+      "description": "a list from another chain is refused",
+      "expected": {
+        "decision": "reject",
+        "index": 1,
+        "listDigests": [
+          "sha256:ed6588d126f86b6fdfd9ed683c4e541ce5b30e5924d9d510a10c611ac9a083f7",
+          "sha256:c82e6310bfabfa371ba174476cc799e919a589b68128ee1ed0046c4ee98eba27"
+        ],
+        "reason": "revocation_list_other_chain",
+        "state": {
+          "head": "sha256:ed6588d126f86b6fdfd9ed683c4e541ce5b30e5924d9d510a10c611ac9a083f7",
+          "issuedAt": "2026-06-01T00:00:00Z",
+          "listId": "probity-revocations",
+          "revoked": {
+            "agent": [],
+            "build": [],
+            "grant": [],
+            "key": [],
+            "permit": [],
+            "sponsor": [],
+            "stream": []
+          },
+          "roots": [
+            "66e0964922229d08455f3b8961827ac11e766a0cba43ee5a5b5dc2cd78870bf2"
+          ],
+          "seq": 1
+        }
+      },
+      "files": {
+        "list-01.json": "bc5d7b980a66efbcd1c976705c272db9c36f889ca57eee9fb429dca60afee10c",
+        "list-02.json": "3db3bda196c97897235fe8d0fa55e809873db62130c5e0cebdd09bc188409def",
+        "roots.json": "4bc2c8414995a830a9db7553db4de56e71010f526d757c0eab0295e4666e0da4"
+      },
+      "id": "rl26-another-chain",
+      "lists": [
+        "list-01.json",
+        "list-02.json"
+      ],
+      "path": "cases/rl26-another-chain",
+      "source": "shared:RL26"
+    },
+    {
+      "description": "the list in force replayed is refused",
+      "expected": {
+        "decision": "reject",
+        "index": 2,
+        "listDigests": [
+          "sha256:ed6588d126f86b6fdfd9ed683c4e541ce5b30e5924d9d510a10c611ac9a083f7",
+          "sha256:3088aa34b5c81141c9970d6d43e4f55ccdec72e5d0f0bbf45e978cb14661f303",
+          "sha256:3088aa34b5c81141c9970d6d43e4f55ccdec72e5d0f0bbf45e978cb14661f303"
+        ],
+        "reason": "revocation_list_rollback:2<=2",
+        "state": {
+          "head": "sha256:3088aa34b5c81141c9970d6d43e4f55ccdec72e5d0f0bbf45e978cb14661f303",
+          "issuedAt": "2026-06-02T00:00:00Z",
+          "listId": "probity-revocations",
+          "revoked": {
+            "agent": [
+              "agent:alpha"
+            ],
+            "build": [],
+            "grant": [],
+            "key": [],
+            "permit": [],
+            "sponsor": [],
+            "stream": [
+              "stream-7"
+            ]
+          },
+          "roots": [
+            "66e0964922229d08455f3b8961827ac11e766a0cba43ee5a5b5dc2cd78870bf2"
+          ],
+          "seq": 2
+        }
+      },
+      "files": {
+        "list-01.json": "bc5d7b980a66efbcd1c976705c272db9c36f889ca57eee9fb429dca60afee10c",
+        "list-02.json": "3671d9142d4c4dd2ce01f016b0d33b94ef71eb53fb361786402c4203120d0090",
+        "list-03.json": "3671d9142d4c4dd2ce01f016b0d33b94ef71eb53fb361786402c4203120d0090",
+        "roots.json": "4bc2c8414995a830a9db7553db4de56e71010f526d757c0eab0295e4666e0da4"
+      },
+      "id": "rl27-list-in-force-replayed",
+      "lists": [
+        "list-01.json",
+        "list-02.json",
+        "list-03.json"
+      ],
+      "path": "cases/rl27-list-in-force-replayed",
+      "source": "shared:RL27"
+    },
+    {
+      "description": "a rollback to an earlier list is refused",
+      "expected": {
+        "decision": "reject",
+        "index": 2,
+        "listDigests": [
+          "sha256:ed6588d126f86b6fdfd9ed683c4e541ce5b30e5924d9d510a10c611ac9a083f7",
+          "sha256:3088aa34b5c81141c9970d6d43e4f55ccdec72e5d0f0bbf45e978cb14661f303",
+          "sha256:ed6588d126f86b6fdfd9ed683c4e541ce5b30e5924d9d510a10c611ac9a083f7"
+        ],
+        "reason": "revocation_list_rollback:1<=2",
+        "state": {
+          "head": "sha256:3088aa34b5c81141c9970d6d43e4f55ccdec72e5d0f0bbf45e978cb14661f303",
+          "issuedAt": "2026-06-02T00:00:00Z",
+          "listId": "probity-revocations",
+          "revoked": {
+            "agent": [
+              "agent:alpha"
+            ],
+            "build": [],
+            "grant": [],
+            "key": [],
+            "permit": [],
+            "sponsor": [],
+            "stream": [
+              "stream-7"
+            ]
+          },
+          "roots": [
+            "66e0964922229d08455f3b8961827ac11e766a0cba43ee5a5b5dc2cd78870bf2"
+          ],
+          "seq": 2
+        }
+      },
+      "files": {
+        "list-01.json": "bc5d7b980a66efbcd1c976705c272db9c36f889ca57eee9fb429dca60afee10c",
+        "list-02.json": "3671d9142d4c4dd2ce01f016b0d33b94ef71eb53fb361786402c4203120d0090",
+        "list-03.json": "bc5d7b980a66efbcd1c976705c272db9c36f889ca57eee9fb429dca60afee10c",
+        "roots.json": "4bc2c8414995a830a9db7553db4de56e71010f526d757c0eab0295e4666e0da4"
+      },
+      "id": "rl28-rollback",
+      "lists": [
+        "list-01.json",
+        "list-02.json",
+        "list-03.json"
+      ],
+      "path": "cases/rl28-rollback",
+      "source": "shared:RL28"
+    },
+    {
+      "description": "a list from the future (a seq gap) is refused",
+      "expected": {
+        "decision": "reject",
+        "index": 1,
+        "listDigests": [
+          "sha256:ed6588d126f86b6fdfd9ed683c4e541ce5b30e5924d9d510a10c611ac9a083f7",
+          "sha256:5362028615e46a0b3d9286daacf21f7529b3b1db41b90106c6cbac70f4e67998"
+        ],
+        "reason": "revocation_list_gap:3>2",
+        "state": {
+          "head": "sha256:ed6588d126f86b6fdfd9ed683c4e541ce5b30e5924d9d510a10c611ac9a083f7",
+          "issuedAt": "2026-06-01T00:00:00Z",
+          "listId": "probity-revocations",
+          "revoked": {
+            "agent": [],
+            "build": [],
+            "grant": [],
+            "key": [],
+            "permit": [],
+            "sponsor": [],
+            "stream": []
+          },
+          "roots": [
+            "66e0964922229d08455f3b8961827ac11e766a0cba43ee5a5b5dc2cd78870bf2"
+          ],
+          "seq": 1
+        }
+      },
+      "files": {
+        "list-01.json": "bc5d7b980a66efbcd1c976705c272db9c36f889ca57eee9fb429dca60afee10c",
+        "list-02.json": "68f05e0eedcb6f28636434855e9bd0f608f928bc35f183cb7c36e301491d8614",
+        "roots.json": "4bc2c8414995a830a9db7553db4de56e71010f526d757c0eab0295e4666e0da4"
+      },
+      "id": "rl29-seq-gap",
+      "lists": [
+        "list-01.json",
+        "list-02.json"
+      ],
+      "path": "cases/rl29-seq-gap",
+      "source": "shared:RL29"
+    },
+    {
+      "description": "a fresh reader refuses a first list past seq 1",
+      "expected": {
+        "decision": "reject",
+        "index": 0,
+        "listDigests": [
+          "sha256:3088aa34b5c81141c9970d6d43e4f55ccdec72e5d0f0bbf45e978cb14661f303"
+        ],
+        "reason": "revocation_list_gap:2>1",
+        "state": {
+          "head": "",
+          "issuedAt": "",
+          "listId": "",
+          "revoked": {
+            "agent": [],
+            "build": [],
+            "grant": [],
+            "key": [],
+            "permit": [],
+            "sponsor": [],
+            "stream": []
+          },
+          "roots": [
+            "66e0964922229d08455f3b8961827ac11e766a0cba43ee5a5b5dc2cd78870bf2"
+          ],
+          "seq": 0
+        }
+      },
+      "files": {
+        "list-01.json": "3671d9142d4c4dd2ce01f016b0d33b94ef71eb53fb361786402c4203120d0090",
+        "roots.json": "4bc2c8414995a830a9db7553db4de56e71010f526d757c0eab0295e4666e0da4"
+      },
+      "id": "rl30-fresh-reader-past-seq-1",
+      "lists": [
+        "list-01.json"
+      ],
+      "path": "cases/rl30-fresh-reader-past-seq-1",
+      "source": "shared:RL30"
+    },
+    {
+      "description": "a fork (seq right, previous wrong) is refused",
+      "expected": {
+        "decision": "reject",
+        "index": 2,
+        "listDigests": [
+          "sha256:ed6588d126f86b6fdfd9ed683c4e541ce5b30e5924d9d510a10c611ac9a083f7",
+          "sha256:3088aa34b5c81141c9970d6d43e4f55ccdec72e5d0f0bbf45e978cb14661f303",
+          "sha256:7e9654a57a437bfbdc7158e4132063fb7a748fc51456df85dacb3595043a579e"
+        ],
+        "reason": "revocation_list_previous_mismatch",
+        "state": {
+          "head": "sha256:3088aa34b5c81141c9970d6d43e4f55ccdec72e5d0f0bbf45e978cb14661f303",
+          "issuedAt": "2026-06-02T00:00:00Z",
+          "listId": "probity-revocations",
+          "revoked": {
+            "agent": [
+              "agent:alpha"
+            ],
+            "build": [],
+            "grant": [],
+            "key": [],
+            "permit": [],
+            "sponsor": [],
+            "stream": [
+              "stream-7"
+            ]
+          },
+          "roots": [
+            "66e0964922229d08455f3b8961827ac11e766a0cba43ee5a5b5dc2cd78870bf2"
+          ],
+          "seq": 2
+        }
+      },
+      "files": {
+        "list-01.json": "bc5d7b980a66efbcd1c976705c272db9c36f889ca57eee9fb429dca60afee10c",
+        "list-02.json": "3671d9142d4c4dd2ce01f016b0d33b94ef71eb53fb361786402c4203120d0090",
+        "list-03.json": "63a79d85b9d98d90a3a021c08bb0c7c2074763dedc7d084c1ab5941dd41c60ef",
+        "roots.json": "4bc2c8414995a830a9db7553db4de56e71010f526d757c0eab0295e4666e0da4"
+      },
+      "id": "rl31-fork",
+      "lists": [
+        "list-01.json",
+        "list-02.json",
+        "list-03.json"
+      ],
+      "path": "cases/rl31-fork",
+      "source": "shared:RL31"
+    },
+    {
+      "description": "a list issued before the list in force is refused",
+      "expected": {
+        "decision": "reject",
+        "index": 2,
+        "listDigests": [
+          "sha256:ed6588d126f86b6fdfd9ed683c4e541ce5b30e5924d9d510a10c611ac9a083f7",
+          "sha256:3088aa34b5c81141c9970d6d43e4f55ccdec72e5d0f0bbf45e978cb14661f303",
+          "sha256:6fe0c89ec59091035e18d8f6692ca7cdfbd9deb25dc6589cacb12bde12838c69"
+        ],
+        "reason": "revocation_list_time_reversed",
+        "state": {
+          "head": "sha256:3088aa34b5c81141c9970d6d43e4f55ccdec72e5d0f0bbf45e978cb14661f303",
+          "issuedAt": "2026-06-02T00:00:00Z",
+          "listId": "probity-revocations",
+          "revoked": {
+            "agent": [
+              "agent:alpha"
+            ],
+            "build": [],
+            "grant": [],
+            "key": [],
+            "permit": [],
+            "sponsor": [],
+            "stream": [
+              "stream-7"
+            ]
+          },
+          "roots": [
+            "66e0964922229d08455f3b8961827ac11e766a0cba43ee5a5b5dc2cd78870bf2"
+          ],
+          "seq": 2
+        }
+      },
+      "files": {
+        "list-01.json": "bc5d7b980a66efbcd1c976705c272db9c36f889ca57eee9fb429dca60afee10c",
+        "list-02.json": "3671d9142d4c4dd2ce01f016b0d33b94ef71eb53fb361786402c4203120d0090",
+        "list-03.json": "34badedebde2c9197b106acb16f39ce0885c8385334304f56784981578c12ef4",
+        "roots.json": "4bc2c8414995a830a9db7553db4de56e71010f526d757c0eab0295e4666e0da4"
+      },
+      "id": "rl32-issued-before-list-in-force",
+      "lists": [
+        "list-01.json",
+        "list-02.json",
+        "list-03.json"
+      ],
+      "path": "cases/rl32-issued-before-list-in-force",
+      "source": "shared:RL32"
+    },
+    {
+      "description": "an entry revoked after the list's issue time is refused",
+      "expected": {
+        "decision": "reject",
+        "index": 0,
+        "listDigests": [
+          "sha256:03cc307fd7467ac537014859bd2336de6091547e31eb28eb4227a13850dc90c4"
+        ],
+        "reason": "revocation_entry_from_future",
+        "state": {
+          "head": "",
+          "issuedAt": "",
+          "listId": "",
+          "revoked": {
+            "agent": [],
+            "build": [],
+            "grant": [],
+            "key": [],
+            "permit": [],
+            "sponsor": [],
+            "stream": []
+          },
+          "roots": [
+            "66e0964922229d08455f3b8961827ac11e766a0cba43ee5a5b5dc2cd78870bf2"
+          ],
+          "seq": 0
+        }
+      },
+      "files": {
+        "list-01.json": "69577141e9dae69229c40712119e2373269a95cad6c14065fe0d4d14999b6be7",
+        "roots.json": "4bc2c8414995a830a9db7553db4de56e71010f526d757c0eab0295e4666e0da4"
+      },
+      "id": "rl33-entry-from-future",
+      "lists": [
+        "list-01.json"
+      ],
+      "path": "cases/rl33-entry-from-future",
+      "source": "shared:RL33"
+    },
+    {
+      "description": "a list that drops an entry (shrinks) is refused",
+      "expected": {
+        "decision": "reject",
+        "index": 2,
+        "listDigests": [
+          "sha256:ed6588d126f86b6fdfd9ed683c4e541ce5b30e5924d9d510a10c611ac9a083f7",
+          "sha256:3088aa34b5c81141c9970d6d43e4f55ccdec72e5d0f0bbf45e978cb14661f303",
+          "sha256:4422689264b5cbe4979b872b5260208cecd8f8b05fc100ba3bfad15d7bc1a9a8"
+        ],
+        "reason": "revocation_list_drops_entry:agent:agent:alpha",
+        "state": {
+          "head": "sha256:3088aa34b5c81141c9970d6d43e4f55ccdec72e5d0f0bbf45e978cb14661f303",
+          "issuedAt": "2026-06-02T00:00:00Z",
+          "listId": "probity-revocations",
+          "revoked": {
+            "agent": [
+              "agent:alpha"
+            ],
+            "build": [],
+            "grant": [],
+            "key": [],
+            "permit": [],
+            "sponsor": [],
+            "stream": [
+              "stream-7"
+            ]
+          },
+          "roots": [
+            "66e0964922229d08455f3b8961827ac11e766a0cba43ee5a5b5dc2cd78870bf2"
+          ],
+          "seq": 2
+        }
+      },
+      "files": {
+        "list-01.json": "bc5d7b980a66efbcd1c976705c272db9c36f889ca57eee9fb429dca60afee10c",
+        "list-02.json": "3671d9142d4c4dd2ce01f016b0d33b94ef71eb53fb361786402c4203120d0090",
+        "list-03.json": "85d245faf3ab71427a94e7c904405fe88122877ceeb220342ec4d62df4de3c06",
+        "roots.json": "4bc2c8414995a830a9db7553db4de56e71010f526d757c0eab0295e4666e0da4"
+      },
+      "id": "rl34-list-drops-entry",
+      "lists": [
+        "list-01.json",
+        "list-02.json",
+        "list-03.json"
+      ],
+      "path": "cases/rl34-list-drops-entry",
+      "source": "shared:RL34"
+    },
+    {
+      "description": "a list that edits an entry is refused",
+      "expected": {
+        "decision": "reject",
+        "index": 2,
+        "listDigests": [
+          "sha256:ed6588d126f86b6fdfd9ed683c4e541ce5b30e5924d9d510a10c611ac9a083f7",
+          "sha256:3088aa34b5c81141c9970d6d43e4f55ccdec72e5d0f0bbf45e978cb14661f303",
+          "sha256:38ad8b8d09a83532e4a13f41dbe0d3eb7e6915109f60b0ffa5fe3b65318c2e63"
+        ],
+        "reason": "revocation_list_drops_entry:agent:agent:alpha",
+        "state": {
+          "head": "sha256:3088aa34b5c81141c9970d6d43e4f55ccdec72e5d0f0bbf45e978cb14661f303",
+          "issuedAt": "2026-06-02T00:00:00Z",
+          "listId": "probity-revocations",
+          "revoked": {
+            "agent": [
+              "agent:alpha"
+            ],
+            "build": [],
+            "grant": [],
+            "key": [],
+            "permit": [],
+            "sponsor": [],
+            "stream": [
+              "stream-7"
+            ]
+          },
+          "roots": [
+            "66e0964922229d08455f3b8961827ac11e766a0cba43ee5a5b5dc2cd78870bf2"
+          ],
+          "seq": 2
+        }
+      },
+      "files": {
+        "list-01.json": "bc5d7b980a66efbcd1c976705c272db9c36f889ca57eee9fb429dca60afee10c",
+        "list-02.json": "3671d9142d4c4dd2ce01f016b0d33b94ef71eb53fb361786402c4203120d0090",
+        "list-03.json": "594d1c17c5e4475e1c9e3dd343f8e29242cf2020fcfb021f98b670ae83f6c2b2",
+        "roots.json": "4bc2c8414995a830a9db7553db4de56e71010f526d757c0eab0295e4666e0da4"
+      },
+      "id": "rl35-list-edits-entry",
+      "lists": [
+        "list-01.json",
+        "list-02.json",
+        "list-03.json"
+      ],
+      "path": "cases/rl35-list-edits-entry",
+      "source": "shared:RL35"
+    },
+    {
+      "description": "after rotation the old root's next list is refused",
+      "expected": {
+        "decision": "reject",
+        "index": 1,
+        "listDigests": [
+          "sha256:26c0fe9197ee1f46ebea2b0ee010fb45485ac6ef99c39d722f90b193e10188f0",
+          "sha256:ca048ddc49f5f4107eb6349cb0cfeb9fb5f52478ce1ccdaf88a80711bbd59591"
+        ],
+        "reason": "revocation_list_signer_not_a_root",
+        "state": {
+          "head": "sha256:26c0fe9197ee1f46ebea2b0ee010fb45485ac6ef99c39d722f90b193e10188f0",
+          "issuedAt": "2026-06-01T00:00:00Z",
+          "listId": "probity-revocations",
+          "revoked": {
+            "agent": [],
+            "build": [],
+            "grant": [],
+            "key": [
+              "66e0964922229d08455f3b8961827ac11e766a0cba43ee5a5b5dc2cd78870bf2"
+            ],
+            "permit": [],
+            "sponsor": [],
+            "stream": []
+          },
+          "roots": [
+            "524227d0dbab017d1cfcd44aa540f82de137afcbeea296e92fcc768fd2daaef6"
+          ],
+          "seq": 1
+        }
+      },
+      "files": {
+        "list-01.json": "22fd0e685451eb5e147b03e4430131f3a71d25bdacf4ca59d99a4fb695efcc29",
+        "list-02.json": "99bdb2db17fadb1c69764bba5d5ed96e3e022059b244c2b04bfff5442a300b99",
+        "roots.json": "4bc2c8414995a830a9db7553db4de56e71010f526d757c0eab0295e4666e0da4"
+      },
+      "id": "rl36-old-root-after-rotation",
+      "lists": [
+        "list-01.json",
+        "list-02.json"
+      ],
+      "path": "cases/rl36-old-root-after-rotation",
+      "source": "shared:RL36"
+    },
+    {
+      "description": "a root revoked without a successor ends the chain",
+      "expected": {
+        "decision": "reject",
+        "index": 1,
+        "listDigests": [
+          "sha256:38a92067ce8f44a46eb1ae065106cd8900a288e38e2a03dc0ba32c5fa890bfdb",
+          "sha256:6c8ae05c7924273297bc080c3b509927fdeb645d868c259438b1f8e305e031b0"
+        ],
+        "reason": "revocation_list_signer_not_a_root",
+        "state": {
+          "head": "sha256:38a92067ce8f44a46eb1ae065106cd8900a288e38e2a03dc0ba32c5fa890bfdb",
+          "issuedAt": "2026-06-01T00:00:00Z",
+          "listId": "probity-revocations",
+          "revoked": {
+            "agent": [],
+            "build": [],
+            "grant": [],
+            "key": [
+              "66e0964922229d08455f3b8961827ac11e766a0cba43ee5a5b5dc2cd78870bf2"
+            ],
+            "permit": [],
+            "sponsor": [],
+            "stream": []
+          },
+          "roots": [],
+          "seq": 1
+        }
+      },
+      "files": {
+        "list-01.json": "0d27a15ac0d5371d21afd9be805eb30ea49f36be081dd71e88bbf54ddc98baf3",
+        "list-02.json": "31857e62acf90fc9e67fdebe190b3923eaabbdef600b9485c06ba0a34e81d4a6",
+        "roots.json": "4bc2c8414995a830a9db7553db4de56e71010f526d757c0eab0295e4666e0da4"
+      },
+      "id": "rl37-root-revoked-without-successor",
+      "lists": [
+        "list-01.json",
+        "list-02.json"
+      ],
+      "path": "cases/rl37-root-revoked-without-successor",
+      "source": "shared:RL37"
+    },
+    {
+      "description": "a root revoked with a successor that the same list revokes ends the chain (successor id sorts before)",
+      "expected": {
+        "decision": "reject",
+        "index": 1,
+        "listDigests": [
+          "sha256:6a1d75e82e170970f5af37c025226a96f80fccab60b01660f44880c68ab3ae4c",
+          "sha256:532da0cfb70ef1747b6111537b8f0ee8e6b74a94c5d6d41718383c57c61e240a"
+        ],
+        "reason": "revocation_list_signer_not_a_root",
+        "state": {
+          "head": "sha256:6a1d75e82e170970f5af37c025226a96f80fccab60b01660f44880c68ab3ae4c",
+          "issuedAt": "2026-06-01T00:00:00Z",
+          "listId": "probity-revocations",
+          "revoked": {
+            "agent": [],
+            "build": [],
+            "grant": [],
+            "key": [
+              "524227d0dbab017d1cfcd44aa540f82de137afcbeea296e92fcc768fd2daaef6",
+              "66e0964922229d08455f3b8961827ac11e766a0cba43ee5a5b5dc2cd78870bf2"
+            ],
+            "permit": [],
+            "sponsor": [],
+            "stream": []
+          },
+          "roots": [],
+          "seq": 1
+        }
+      },
+      "files": {
+        "list-01.json": "e305b4bab1423ec0cc05e4bdfc31722956c6b6c2d06da2924ae1fa5f1e8622f3",
+        "list-02.json": "ab9f9d65f6e50adac1441077a85fa0b353c6df488f0c24f7e28e57ac145b2364",
+        "roots.json": "4bc2c8414995a830a9db7553db4de56e71010f526d757c0eab0295e4666e0da4"
+      },
+      "id": "rl38-successor-revoked-sorting-before",
+      "lists": [
+        "list-01.json",
+        "list-02.json"
+      ],
+      "path": "cases/rl38-successor-revoked-sorting-before",
+      "source": "shared:RL38"
+    },
+    {
+      "description": "a root revoked with a successor that the same list revokes ends the chain (successor id sorts after)",
+      "expected": {
+        "decision": "reject",
+        "index": 1,
+        "listDigests": [
+          "sha256:8badfe4be0d762837b0d20084016aec6df5aeba1ae5f288be337b4e632e6a95a",
+          "sha256:a790ad87be8f0be7b170b00daccb973b1fc743ec1d27fb5096982f3fe703dbea"
+        ],
+        "reason": "revocation_list_signer_not_a_root",
+        "state": {
+          "head": "sha256:8badfe4be0d762837b0d20084016aec6df5aeba1ae5f288be337b4e632e6a95a",
+          "issuedAt": "2026-06-01T00:00:00Z",
+          "listId": "probity-revocations",
+          "revoked": {
+            "agent": [],
+            "build": [],
+            "grant": [],
+            "key": [
+              "66e0964922229d08455f3b8961827ac11e766a0cba43ee5a5b5dc2cd78870bf2",
+              "d0e39b4807fadb584973def8c7578eb1791129e860ed6fd2b195ad12b91a2adf"
+            ],
+            "permit": [],
+            "sponsor": [],
+            "stream": []
+          },
+          "roots": [],
+          "seq": 1
+        }
+      },
+      "files": {
+        "list-01.json": "a64a68d0cbf8c0b75fa339b7cac02c70f2fbe2b7d1b0f2d118fd12116eea9f9a",
+        "list-02.json": "e5dd1f14dda89be562e4fde5246e85198dcb0268f1fe1ac0efed97e1cc318de6",
+        "roots.json": "4bc2c8414995a830a9db7553db4de56e71010f526d757c0eab0295e4666e0da4"
+      },
+      "id": "rl39-successor-revoked-sorting-after",
+      "lists": [
+        "list-01.json",
+        "list-02.json"
+      ],
+      "path": "cases/rl39-successor-revoked-sorting-after",
+      "source": "shared:RL39"
+    },
+    {
+      "description": "a signed list that is an array",
+      "expected": {
+        "decision": "reject",
+        "index": 0,
+        "listDigests": [
+          null
+        ],
+        "reason": "revocation_list_shape:signed_list_members",
+        "state": {
+          "head": "",
+          "issuedAt": "",
+          "listId": "",
+          "revoked": {
+            "agent": [],
+            "build": [],
+            "grant": [],
+            "key": [],
+            "permit": [],
+            "sponsor": [],
+            "stream": []
+          },
+          "roots": [
+            "5cdae7157d6a446da75f27eb1a20216c26f03e64c923c38eb91131f6453be4e8"
+          ],
+          "seq": 0
+        }
+      },
+      "files": {
+        "list-01.json": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+        "roots.json": "5e0e3289b1e1960d60bfff02fa58fada41921be247bd00df353c54f5b08c09aa"
+      },
+      "id": "m-signed-list-array",
+      "lists": [
+        "list-01.json"
+      ],
+      "path": "cases/m-signed-list-array",
+      "source": "minted"
+    },
+    {
+      "description": "a signed list with no body member",
+      "expected": {
+        "decision": "reject",
+        "index": 0,
+        "listDigests": [
+          null
+        ],
+        "reason": "revocation_list_shape:signed_list_members",
+        "state": {
+          "head": "",
+          "issuedAt": "",
+          "listId": "",
+          "revoked": {
+            "agent": [],
+            "build": [],
+            "grant": [],
+            "key": [],
+            "permit": [],
+            "sponsor": [],
+            "stream": []
+          },
+          "roots": [
+            "5cdae7157d6a446da75f27eb1a20216c26f03e64c923c38eb91131f6453be4e8"
+          ],
+          "seq": 0
+        }
+      },
+      "files": {
+        "list-01.json": "deef46e8cc006a9eee1501729e2299863867bd29a968bc34e1040ab2ae393824",
+        "roots.json": "5e0e3289b1e1960d60bfff02fa58fada41921be247bd00df353c54f5b08c09aa"
+      },
+      "id": "m-signed-list-without-body",
+      "lists": [
+        "list-01.json"
+      ],
+      "path": "cases/m-signed-list-without-body",
+      "source": "minted"
+    },
+    {
+      "description": "a signed list with no sig member",
+      "expected": {
+        "decision": "reject",
+        "index": 0,
+        "listDigests": [
+          "sha256:c7978535b5dfc3b79c48ab2f0bdd2ce92c453692b558dedb9b33115b14b67576"
+        ],
+        "reason": "revocation_list_shape:signed_list_members",
+        "state": {
+          "head": "",
+          "issuedAt": "",
+          "listId": "",
+          "revoked": {
+            "agent": [],
+            "build": [],
+            "grant": [],
+            "key": [],
+            "permit": [],
+            "sponsor": [],
+            "stream": []
+          },
+          "roots": [
+            "5cdae7157d6a446da75f27eb1a20216c26f03e64c923c38eb91131f6453be4e8"
+          ],
+          "seq": 0
+        }
+      },
+      "files": {
+        "list-01.json": "e7773c77d9a23635bdc006e781309a5af7b12272868478f79c3b86f4bad0079a",
+        "roots.json": "5e0e3289b1e1960d60bfff02fa58fada41921be247bd00df353c54f5b08c09aa"
+      },
+      "id": "m-signed-list-without-sig",
+      "lists": [
+        "list-01.json"
+      ],
+      "path": "cases/m-signed-list-without-sig",
+      "source": "minted"
+    },
+    {
+      "description": "a body that is an array",
+      "expected": {
+        "decision": "reject",
+        "index": 0,
+        "listDigests": [
+          "sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        ],
+        "reason": "revocation_list_shape:body_members",
+        "state": {
+          "head": "",
+          "issuedAt": "",
+          "listId": "",
+          "revoked": {
+            "agent": [],
+            "build": [],
+            "grant": [],
+            "key": [],
+            "permit": [],
+            "sponsor": [],
+            "stream": []
+          },
+          "roots": [
+            "5cdae7157d6a446da75f27eb1a20216c26f03e64c923c38eb91131f6453be4e8"
+          ],
+          "seq": 0
+        }
+      },
+      "files": {
+        "list-01.json": "085557cf3b0b91946bfe15e1fa5bc524c2c0d05ef7dfefd86c8c60cd5aa4aca1",
+        "roots.json": "5e0e3289b1e1960d60bfff02fa58fada41921be247bd00df353c54f5b08c09aa"
+      },
+      "id": "m-body-array",
+      "lists": [
+        "list-01.json"
+      ],
+      "path": "cases/m-body-array",
+      "source": "minted"
+    },
+    {
+      "description": "a body with seven members, one misnamed",
+      "expected": {
+        "decision": "reject",
+        "index": 0,
+        "listDigests": [
+          "sha256:243c5e43f88021eac898ca9b6a15b451a119cd0a70aa1ac08dd8563d9af41d34"
+        ],
+        "reason": "revocation_list_shape:body_members",
+        "state": {
+          "head": "",
+          "issuedAt": "",
+          "listId": "",
+          "revoked": {
+            "agent": [],
+            "build": [],
+            "grant": [],
+            "key": [],
+            "permit": [],
+            "sponsor": [],
+            "stream": []
+          },
+          "roots": [
+            "5cdae7157d6a446da75f27eb1a20216c26f03e64c923c38eb91131f6453be4e8"
+          ],
+          "seq": 0
+        }
+      },
+      "files": {
+        "list-01.json": "c8d4077f6841d00922e4edabbc67b25468cd2f93e40f794bc672129b59b706d3",
+        "roots.json": "5e0e3289b1e1960d60bfff02fa58fada41921be247bd00df353c54f5b08c09aa"
+      },
+      "id": "m-body-member-misnamed",
+      "lists": [
+        "list-01.json"
+      ],
+      "path": "cases/m-body-member-misnamed",
+      "source": "minted"
+    },
+    {
+      "description": "an empty list id",
+      "expected": {
+        "decision": "reject",
+        "index": 0,
+        "listDigests": [
+          "sha256:fd92780f71e3f7b85eadf5aa98ae54eab826c1fe8f4aad34d7daae1c832685f5"
+        ],
+        "reason": "revocation_list_shape:list_id_form",
+        "state": {
+          "head": "",
+          "issuedAt": "",
+          "listId": "",
+          "revoked": {
+            "agent": [],
+            "build": [],
+            "grant": [],
+            "key": [],
+            "permit": [],
+            "sponsor": [],
+            "stream": []
+          },
+          "roots": [
+            "5cdae7157d6a446da75f27eb1a20216c26f03e64c923c38eb91131f6453be4e8"
+          ],
+          "seq": 0
+        }
+      },
+      "files": {
+        "list-01.json": "da9ae572561a455c65cc132b4e08c8f5578f30bf8ccefeee7f5fd3a3c5b5a622",
+        "roots.json": "5e0e3289b1e1960d60bfff02fa58fada41921be247bd00df353c54f5b08c09aa"
+      },
+      "id": "m-list-id-empty",
+      "lists": [
+        "list-01.json"
+      ],
+      "path": "cases/m-list-id-empty",
+      "source": "minted"
+    },
+    {
+      "description": "a list id with a space",
+      "expected": {
+        "decision": "reject",
+        "index": 0,
+        "listDigests": [
+          "sha256:31ba6c47f3239ea2918a44909c131667625babc03a34d843b859f06f1cb641c0"
+        ],
+        "reason": "revocation_list_shape:list_id_form",
+        "state": {
+          "head": "",
+          "issuedAt": "",
+          "listId": "",
+          "revoked": {
+            "agent": [],
+            "build": [],
+            "grant": [],
+            "key": [],
+            "permit": [],
+            "sponsor": [],
+            "stream": []
+          },
+          "roots": [
+            "5cdae7157d6a446da75f27eb1a20216c26f03e64c923c38eb91131f6453be4e8"
+          ],
+          "seq": 0
+        }
+      },
+      "files": {
+        "list-01.json": "e13c0eede639611f312fcf3c9b2f13b0334c41286a1a87aa894c0b948b0628b8",
+        "roots.json": "5e0e3289b1e1960d60bfff02fa58fada41921be247bd00df353c54f5b08c09aa"
+      },
+      "id": "m-list-id-with-space",
+      "lists": [
+        "list-01.json"
+      ],
+      "path": "cases/m-list-id-with-space",
+      "source": "minted"
+    },
+    {
+      "description": "seq zero",
+      "expected": {
+        "decision": "reject",
+        "index": 0,
+        "listDigests": [
+          "sha256:d3f0ec814928cf820226e055be6a78f1e32b133775f3f2913e07c1737e80cfa1"
+        ],
+        "reason": "revocation_list_shape:seq_not_a_positive_exact_integer",
+        "state": {
+          "head": "",
+          "issuedAt": "",
+          "listId": "",
+          "revoked": {
+            "agent": [],
+            "build": [],
+            "grant": [],
+            "key": [],
+            "permit": [],
+            "sponsor": [],
+            "stream": []
+          },
+          "roots": [
+            "5cdae7157d6a446da75f27eb1a20216c26f03e64c923c38eb91131f6453be4e8"
+          ],
+          "seq": 0
+        }
+      },
+      "files": {
+        "list-01.json": "2a90625001e62a2cc1a3053462f037ef1bc61d06b2d3e586255693d00904da65",
+        "roots.json": "5e0e3289b1e1960d60bfff02fa58fada41921be247bd00df353c54f5b08c09aa"
+      },
+      "id": "m-seq-zero",
+      "lists": [
+        "list-01.json"
+      ],
+      "path": "cases/m-seq-zero",
+      "source": "minted"
+    },
+    {
+      "description": "a first list that names a previous list",
+      "expected": {
+        "decision": "reject",
+        "index": 0,
+        "listDigests": [
+          "sha256:7225a6a4f38c180da8422bc3246f4d2071cea2ecd90760cdc58cfd1ee1cc186d"
+        ],
+        "reason": "revocation_list_shape:previous_form",
+        "state": {
+          "head": "",
+          "issuedAt": "",
+          "listId": "",
+          "revoked": {
+            "agent": [],
+            "build": [],
+            "grant": [],
+            "key": [],
+            "permit": [],
+            "sponsor": [],
+            "stream": []
+          },
+          "roots": [
+            "5cdae7157d6a446da75f27eb1a20216c26f03e64c923c38eb91131f6453be4e8"
+          ],
+          "seq": 0
+        }
+      },
+      "files": {
+        "list-01.json": "5f038384835b48fda454e57362ffde8ae6264db9607b8e83fe1237b47b9f430f",
+        "roots.json": "5e0e3289b1e1960d60bfff02fa58fada41921be247bd00df353c54f5b08c09aa"
+      },
+      "id": "m-first-list-with-previous",
+      "lists": [
+        "list-01.json"
+      ],
+      "path": "cases/m-first-list-with-previous",
+      "source": "minted"
+    },
+    {
+      "description": "entries that are an object",
+      "expected": {
+        "decision": "reject",
+        "index": 0,
+        "listDigests": [
+          "sha256:a86364d51df1f784673059487cb3bab4fe3e22f6e8fda49212b3ac1c20d15231"
+        ],
+        "reason": "revocation_list_shape:entries_not_a_list",
+        "state": {
+          "head": "",
+          "issuedAt": "",
+          "listId": "",
+          "revoked": {
+            "agent": [],
+            "build": [],
+            "grant": [],
+            "key": [],
+            "permit": [],
+            "sponsor": [],
+            "stream": []
+          },
+          "roots": [
+            "5cdae7157d6a446da75f27eb1a20216c26f03e64c923c38eb91131f6453be4e8"
+          ],
+          "seq": 0
+        }
+      },
+      "files": {
+        "list-01.json": "84c5cf6f60fa27b15afc67d65f68f0ed444e7d2fb1961ac0cd6e9c30577ad6dc",
+        "roots.json": "5e0e3289b1e1960d60bfff02fa58fada41921be247bd00df353c54f5b08c09aa"
+      },
+      "id": "m-entries-object",
+      "lists": [
+        "list-01.json"
+      ],
+      "path": "cases/m-entries-object",
+      "source": "minted"
+    },
+    {
+      "description": "an entry that is a number",
+      "expected": {
+        "decision": "reject",
+        "index": 0,
+        "listDigests": [
+          "sha256:bb695bb322dde74de42fec5aa682c9329dc57e7ffb43b9620b7e01b0c45d0d6f"
+        ],
+        "reason": "revocation_list_shape:entry_not_an_object",
+        "state": {
+          "head": "",
+          "issuedAt": "",
+          "listId": "",
+          "revoked": {
+            "agent": [],
+            "build": [],
+            "grant": [],
+            "key": [],
+            "permit": [],
+            "sponsor": [],
+            "stream": []
+          },
+          "roots": [
+            "5cdae7157d6a446da75f27eb1a20216c26f03e64c923c38eb91131f6453be4e8"
+          ],
+          "seq": 0
+        }
+      },
+      "files": {
+        "list-01.json": "799b817e48e6d8d64f75caa10551b30643c4220f32a00cdba0b6f8f09bf93028",
+        "roots.json": "5e0e3289b1e1960d60bfff02fa58fada41921be247bd00df353c54f5b08c09aa"
+      },
+      "id": "m-entry-number",
+      "lists": [
+        "list-01.json"
+      ],
+      "path": "cases/m-entry-number",
+      "source": "minted"
+    },
+    {
+      "description": "an entry with a member the format does not define",
+      "expected": {
+        "decision": "reject",
+        "index": 0,
+        "listDigests": [
+          "sha256:3d22b9c891e40b34d2860efd829f909370c5547474a8a71fd8df2c531107c85b"
+        ],
+        "reason": "revocation_list_shape:entry_members",
+        "state": {
+          "head": "",
+          "issuedAt": "",
+          "listId": "",
+          "revoked": {
+            "agent": [],
+            "build": [],
+            "grant": [],
+            "key": [],
+            "permit": [],
+            "sponsor": [],
+            "stream": []
+          },
+          "roots": [
+            "5cdae7157d6a446da75f27eb1a20216c26f03e64c923c38eb91131f6453be4e8"
+          ],
+          "seq": 0
+        }
+      },
+      "files": {
+        "list-01.json": "e2cfff6f0e3b34f34a1d7e568967486276e7554eb3ba036e5c5f551e377b6216",
+        "roots.json": "5e0e3289b1e1960d60bfff02fa58fada41921be247bd00df353c54f5b08c09aa"
+      },
+      "id": "m-entry-unknown-member",
+      "lists": [
+        "list-01.json"
+      ],
+      "path": "cases/m-entry-unknown-member",
+      "source": "minted"
+    },
+    {
+      "description": "an entry with no kind",
+      "expected": {
+        "decision": "reject",
+        "index": 0,
+        "listDigests": [
+          "sha256:cc8619bdacd0ef280ae43522b531194dc995a111997aa6673193ebdf39f17336"
+        ],
+        "reason": "revocation_list_shape:entry_members",
+        "state": {
+          "head": "",
+          "issuedAt": "",
+          "listId": "",
+          "revoked": {
+            "agent": [],
+            "build": [],
+            "grant": [],
+            "key": [],
+            "permit": [],
+            "sponsor": [],
+            "stream": []
+          },
+          "roots": [
+            "5cdae7157d6a446da75f27eb1a20216c26f03e64c923c38eb91131f6453be4e8"
+          ],
+          "seq": 0
+        }
+      },
+      "files": {
+        "list-01.json": "cacf6d21e098890ae0227c13d72b2d6943078f3876d2a3703ff09a35dbde2cc7",
+        "roots.json": "5e0e3289b1e1960d60bfff02fa58fada41921be247bd00df353c54f5b08c09aa"
+      },
+      "id": "m-entry-without-kind",
+      "lists": [
+        "list-01.json"
+      ],
+      "path": "cases/m-entry-without-kind",
+      "source": "minted"
+    },
+    {
+      "description": "an entry with no id",
+      "expected": {
+        "decision": "reject",
+        "index": 0,
+        "listDigests": [
+          "sha256:c41ff61f834abf24d01e399616f35e7360d381867394a81687d5da00d9c3893b"
+        ],
+        "reason": "revocation_list_shape:entry_members",
+        "state": {
+          "head": "",
+          "issuedAt": "",
+          "listId": "",
+          "revoked": {
+            "agent": [],
+            "build": [],
+            "grant": [],
+            "key": [],
+            "permit": [],
+            "sponsor": [],
+            "stream": []
+          },
+          "roots": [
+            "5cdae7157d6a446da75f27eb1a20216c26f03e64c923c38eb91131f6453be4e8"
+          ],
+          "seq": 0
+        }
+      },
+      "files": {
+        "list-01.json": "4f2e2d1b3774615175506086a2db3f3cbdbee81962269d3bad8f1dc09f1632e0",
+        "roots.json": "5e0e3289b1e1960d60bfff02fa58fada41921be247bd00df353c54f5b08c09aa"
+      },
+      "id": "m-entry-without-id",
+      "lists": [
+        "list-01.json"
+      ],
+      "path": "cases/m-entry-without-id",
+      "source": "minted"
+    },
+    {
+      "description": "an entry with no revokedAt",
+      "expected": {
+        "decision": "reject",
+        "index": 0,
+        "listDigests": [
+          "sha256:edfaab9ff770fa516d0bb4ca9ac9f4cb42cffbd0c8f0ec456a55a954c968dbd4"
+        ],
+        "reason": "revocation_list_shape:entry_members",
+        "state": {
+          "head": "",
+          "issuedAt": "",
+          "listId": "",
+          "revoked": {
+            "agent": [],
+            "build": [],
+            "grant": [],
+            "key": [],
+            "permit": [],
+            "sponsor": [],
+            "stream": []
+          },
+          "roots": [
+            "5cdae7157d6a446da75f27eb1a20216c26f03e64c923c38eb91131f6453be4e8"
+          ],
+          "seq": 0
+        }
+      },
+      "files": {
+        "list-01.json": "6e21b192d3c4ecafef3a9bb3b788da0104a2ef7d9c8b2b5cf9dc14e1813a05a9",
+        "roots.json": "5e0e3289b1e1960d60bfff02fa58fada41921be247bd00df353c54f5b08c09aa"
+      },
+      "id": "m-entry-without-revoked-at",
+      "lists": [
+        "list-01.json"
+      ],
+      "path": "cases/m-entry-without-revoked-at",
+      "source": "minted"
+    },
+    {
+      "description": "an entry reason that is a number",
+      "expected": {
+        "decision": "reject",
+        "index": 0,
+        "listDigests": [
+          "sha256:ce34948bc3c449fc665135ed2aadfe19af78a59cdb90539005805d66290e04d3"
+        ],
+        "reason": "revocation_list_shape:entry_reason_not_text",
+        "state": {
+          "head": "",
+          "issuedAt": "",
+          "listId": "",
+          "revoked": {
+            "agent": [],
+            "build": [],
+            "grant": [],
+            "key": [],
+            "permit": [],
+            "sponsor": [],
+            "stream": []
+          },
+          "roots": [
+            "5cdae7157d6a446da75f27eb1a20216c26f03e64c923c38eb91131f6453be4e8"
+          ],
+          "seq": 0
+        }
+      },
+      "files": {
+        "list-01.json": "10a27e7fb6dda476de119b6e247b95040e806a3ce00533216e713858580fffa2",
+        "roots.json": "5e0e3289b1e1960d60bfff02fa58fada41921be247bd00df353c54f5b08c09aa"
+      },
+      "id": "m-entry-reason-number",
+      "lists": [
+        "list-01.json"
+      ],
+      "path": "cases/m-entry-reason-number",
+      "source": "minted"
+    },
+    {
+      "description": "an upper-case permit digest",
+      "expected": {
+        "decision": "reject",
+        "index": 0,
+        "listDigests": [
+          "sha256:674d59041b343ad5d04e558f91c649f76bdc2ba2acb47cb088a9799aa35241e3"
+        ],
+        "reason": "revocation_list_shape:entry_id_form:permit",
+        "state": {
+          "head": "",
+          "issuedAt": "",
+          "listId": "",
+          "revoked": {
+            "agent": [],
+            "build": [],
+            "grant": [],
+            "key": [],
+            "permit": [],
+            "sponsor": [],
+            "stream": []
+          },
+          "roots": [
+            "5cdae7157d6a446da75f27eb1a20216c26f03e64c923c38eb91131f6453be4e8"
+          ],
+          "seq": 0
+        }
+      },
+      "files": {
+        "list-01.json": "d03ac740798498b545f3e25e6004ac0f0e7554e3fe1da8a1456cd868e1798109",
+        "roots.json": "5e0e3289b1e1960d60bfff02fa58fada41921be247bd00df353c54f5b08c09aa"
+      },
+      "id": "m-permit-id-upper-case",
+      "lists": [
+        "list-01.json"
+      ],
+      "path": "cases/m-permit-id-upper-case",
+      "source": "minted"
+    },
+    {
+      "description": "a key id that is not a digest",
+      "expected": {
+        "decision": "reject",
+        "index": 0,
+        "listDigests": [
+          "sha256:1db675365b8e80c90b2f4f0c20a040f687d501329104b8f4dfe6187ff4543f93"
+        ],
+        "reason": "revocation_list_shape:entry_id_form:key",
+        "state": {
+          "head": "",
+          "issuedAt": "",
+          "listId": "",
+          "revoked": {
+            "agent": [],
+            "build": [],
+            "grant": [],
+            "key": [],
+            "permit": [],
+            "sponsor": [],
+            "stream": []
+          },
+          "roots": [
+            "5cdae7157d6a446da75f27eb1a20216c26f03e64c923c38eb91131f6453be4e8"
+          ],
+          "seq": 0
+        }
+      },
+      "files": {
+        "list-01.json": "92d78522e511f0357272e10fb8bf7c788a9962e9d4ff8da64000713d633cf544",
+        "roots.json": "5e0e3289b1e1960d60bfff02fa58fada41921be247bd00df353c54f5b08c09aa"
+      },
+      "id": "m-key-id-not-a-digest",
+      "lists": [
+        "list-01.json"
+      ],
+      "path": "cases/m-key-id-not-a-digest",
+      "source": "minted"
+    },
+    {
+      "description": "a successor that is not base64",
+      "expected": {
+        "decision": "reject",
+        "index": 0,
+        "listDigests": [
+          "sha256:f0cc3a633d869a2bd617c8a2ff038fd5ee46166582acb28a552f4966450e4550"
+        ],
+        "reason": "revocation_list_shape:successor_not_base64",
+        "state": {
+          "head": "",
+          "issuedAt": "",
+          "listId": "",
+          "revoked": {
+            "agent": [],
+            "build": [],
+            "grant": [],
+            "key": [],
+            "permit": [],
+            "sponsor": [],
+            "stream": []
+          },
+          "roots": [
+            "5cdae7157d6a446da75f27eb1a20216c26f03e64c923c38eb91131f6453be4e8"
+          ],
+          "seq": 0
+        }
+      },
+      "files": {
+        "list-01.json": "736f6bee787e6a00a5a194ce00e081403424a01dfb7cf603c28526bf4064c701",
+        "roots.json": "5e0e3289b1e1960d60bfff02fa58fada41921be247bd00df353c54f5b08c09aa"
+      },
+      "id": "m-successor-not-base64",
+      "lists": [
+        "list-01.json"
+      ],
+      "path": "cases/m-successor-not-base64",
+      "source": "minted"
+    },
+    {
+      "description": "an issuer key that is a number",
+      "expected": {
+        "decision": "reject",
+        "index": 0,
+        "listDigests": [
+          "sha256:5310d667b88b1ce1175eaaf654a6cd914422ade41a6a3fb3310a1943babe93af"
+        ],
+        "reason": "revocation_list_shape:issuerKey_not_base64",
+        "state": {
+          "head": "",
+          "issuedAt": "",
+          "listId": "",
+          "revoked": {
+            "agent": [],
+            "build": [],
+            "grant": [],
+            "key": [],
+            "permit": [],
+            "sponsor": [],
+            "stream": []
+          },
+          "roots": [
+            "5cdae7157d6a446da75f27eb1a20216c26f03e64c923c38eb91131f6453be4e8"
+          ],
+          "seq": 0
+        }
+      },
+      "files": {
+        "list-01.json": "ab182acb0af1196bd96846cc8e469d26f99d426cbf09a2cd8e298dc01d615815",
+        "roots.json": "5e0e3289b1e1960d60bfff02fa58fada41921be247bd00df353c54f5b08c09aa"
+      },
+      "id": "m-issuer-key-number",
+      "lists": [
+        "list-01.json"
+      ],
+      "path": "cases/m-issuer-key-number",
+      "source": "minted"
+    },
+    {
+      "description": "an issuer key of 31 bytes",
+      "expected": {
+        "decision": "reject",
+        "index": 0,
+        "listDigests": [
+          "sha256:ed5f8d3988c77e7d690628142c40f16f0d916156fad5a48dedb81d8c74112956"
+        ],
+        "reason": "revocation_list_shape:issuerKey_not_an_ed25519_key",
+        "state": {
+          "head": "",
+          "issuedAt": "",
+          "listId": "",
+          "revoked": {
+            "agent": [],
+            "build": [],
+            "grant": [],
+            "key": [],
+            "permit": [],
+            "sponsor": [],
+            "stream": []
+          },
+          "roots": [
+            "5cdae7157d6a446da75f27eb1a20216c26f03e64c923c38eb91131f6453be4e8"
+          ],
+          "seq": 0
+        }
+      },
+      "files": {
+        "list-01.json": "f9887442c680ca035573850887cf9d25ca597dcfd764285b9ad3fbea77632984",
+        "roots.json": "5e0e3289b1e1960d60bfff02fa58fada41921be247bd00df353c54f5b08c09aa"
+      },
+      "id": "m-issuer-key-31-bytes",
+      "lists": [
+        "list-01.json"
+      ],
+      "path": "cases/m-issuer-key-31-bytes",
+      "source": "minted"
+    },
+    {
+      "description": "an issuer key with a line break, which a base64 decoder skips",
+      "expected": {
+        "decision": "reject",
+        "index": 0,
+        "listDigests": [
+          "sha256:5bea7e304e01c1dddeba56454b6905e0e828226a211b26cf193fc57e36fdf768"
+        ],
+        "reason": "revocation_list_shape:issuerKey_not_canonical_base64",
+        "state": {
+          "head": "",
+          "issuedAt": "",
+          "listId": "",
+          "revoked": {
+            "agent": [],
+            "build": [],
+            "grant": [],
+            "key": [],
+            "permit": [],
+            "sponsor": [],
+            "stream": []
+          },
+          "roots": [
+            "5cdae7157d6a446da75f27eb1a20216c26f03e64c923c38eb91131f6453be4e8"
+          ],
+          "seq": 0
+        }
+      },
+      "files": {
+        "list-01.json": "ef796d16f8be3f8b0713487e2e32aa9bc49e708ced9f043417075f3108c9fff0",
+        "roots.json": "5e0e3289b1e1960d60bfff02fa58fada41921be247bd00df353c54f5b08c09aa"
+      },
+      "id": "m-issuer-key-line-break",
+      "lists": [
+        "list-01.json"
+      ],
+      "path": "cases/m-issuer-key-line-break",
+      "source": "minted"
+    },
+    {
+      "description": "a genuine signature with a line break inside its base64",
+      "expected": {
+        "decision": "reject",
+        "index": 0,
+        "listDigests": [
+          "sha256:c7978535b5dfc3b79c48ab2f0bdd2ce92c453692b558dedb9b33115b14b67576"
+        ],
+        "reason": "revocation_list_signature_unverified",
+        "state": {
+          "head": "",
+          "issuedAt": "",
+          "listId": "",
+          "revoked": {
+            "agent": [],
+            "build": [],
+            "grant": [],
+            "key": [],
+            "permit": [],
+            "sponsor": [],
+            "stream": []
+          },
+          "roots": [
+            "5cdae7157d6a446da75f27eb1a20216c26f03e64c923c38eb91131f6453be4e8"
+          ],
+          "seq": 0
+        }
+      },
+      "files": {
+        "list-01.json": "c95041da6fd615828c3a959d9f72b486710d95c327b492a5e2bd826215bbd059",
+        "roots.json": "5e0e3289b1e1960d60bfff02fa58fada41921be247bd00df353c54f5b08c09aa"
+      },
+      "id": "m-signature-line-break",
+      "lists": [
+        "list-01.json"
+      ],
+      "path": "cases/m-signature-line-break",
+      "source": "minted"
+    },
+    {
+      "description": "a second entry of an unknown kind",
+      "expected": {
+        "decision": "reject",
+        "index": 0,
+        "listDigests": [
+          "sha256:a864fbe19c7a86b7741d8d7e69a6b384ea54481a17e34bb5a20ae66dbda8acc7"
+        ],
+        "reason": "revocation_list_shape:entry_kind_unknown",
+        "state": {
+          "head": "",
+          "issuedAt": "",
+          "listId": "",
+          "revoked": {
+            "agent": [],
+            "build": [],
+            "grant": [],
+            "key": [],
+            "permit": [],
+            "sponsor": [],
+            "stream": []
+          },
+          "roots": [
+            "5cdae7157d6a446da75f27eb1a20216c26f03e64c923c38eb91131f6453be4e8"
+          ],
+          "seq": 0
+        }
+      },
+      "files": {
+        "list-01.json": "999512de2f0d4357553fde31b3687f0e886aa22d88bb4d0e583a7431e836b713",
+        "roots.json": "5e0e3289b1e1960d60bfff02fa58fada41921be247bd00df353c54f5b08c09aa"
+      },
+      "id": "m-second-entry-unknown-kind",
+      "lists": [
+        "list-01.json"
+      ],
+      "path": "cases/m-second-entry-unknown-kind",
+      "source": "minted"
+    },
+    {
+      "description": "a second entry revoked after the list's issue time",
+      "expected": {
+        "decision": "reject",
+        "index": 0,
+        "listDigests": [
+          "sha256:58dcefc7bd972a834d98b5333ea931546a0c23abb1239408860b0eef5f755562"
+        ],
+        "reason": "revocation_entry_from_future",
+        "state": {
+          "head": "",
+          "issuedAt": "",
+          "listId": "",
+          "revoked": {
+            "agent": [],
+            "build": [],
+            "grant": [],
+            "key": [],
+            "permit": [],
+            "sponsor": [],
+            "stream": []
+          },
+          "roots": [
+            "5cdae7157d6a446da75f27eb1a20216c26f03e64c923c38eb91131f6453be4e8"
+          ],
+          "seq": 0
+        }
+      },
+      "files": {
+        "list-01.json": "eb244cf61c7fc9f7aface375863148ec78630c5c1cfdc42be6e3e9c16bd2c619",
+        "roots.json": "5e0e3289b1e1960d60bfff02fa58fada41921be247bd00df353c54f5b08c09aa"
+      },
+      "id": "m-second-entry-from-future",
+      "lists": [
+        "list-01.json"
+      ],
+      "path": "cases/m-second-entry-from-future",
+      "source": "minted"
+    },
+    {
+      "description": "an entry revokedAt that is not a time",
+      "expected": {
+        "decision": "reject",
+        "index": 0,
+        "listDigests": [
+          "sha256:dfb4c9b22e118ec1e68c020d8b01659efd36c4dbd692f6811b19540d98c2e08f"
+        ],
+        "reason": "revocation_list_shape:revokedAt_not_a_utc_second",
+        "state": {
+          "head": "",
+          "issuedAt": "",
+          "listId": "",
+          "revoked": {
+            "agent": [],
+            "build": [],
+            "grant": [],
+            "key": [],
+            "permit": [],
+            "sponsor": [],
+            "stream": []
+          },
+          "roots": [
+            "5cdae7157d6a446da75f27eb1a20216c26f03e64c923c38eb91131f6453be4e8"
+          ],
+          "seq": 0
+        }
+      },
+      "files": {
+        "list-01.json": "d72f2b78b4a9b60e03265459db6890340196939fb7ad13778d78ddd7e7c1423f",
+        "roots.json": "5e0e3289b1e1960d60bfff02fa58fada41921be247bd00df353c54f5b08c09aa"
+      },
+      "id": "m-revoked-at-not-a-time",
+      "lists": [
+        "list-01.json"
+      ],
+      "path": "cases/m-revoked-at-not-a-time",
+      "source": "minted"
+    },
+    {
+      "description": "a revoked grant whose id equals a root key id leaves the root pinned",
+      "expected": {
+        "decision": "accept",
+        "index": null,
+        "listDigests": [
+          "sha256:afc4566c0867480f175103e06c18b8da129020be2cb3a815718d192749eddea2"
+        ],
+        "reason": "in_force",
+        "state": {
+          "head": "sha256:afc4566c0867480f175103e06c18b8da129020be2cb3a815718d192749eddea2",
+          "issuedAt": "2026-06-01T00:00:00Z",
+          "listId": "example-revocations",
+          "revoked": {
+            "agent": [],
+            "build": [],
+            "grant": [
+              "5cdae7157d6a446da75f27eb1a20216c26f03e64c923c38eb91131f6453be4e8"
+            ],
+            "key": [],
+            "permit": [],
+            "sponsor": [],
+            "stream": []
+          },
+          "roots": [
+            "5cdae7157d6a446da75f27eb1a20216c26f03e64c923c38eb91131f6453be4e8"
+          ],
+          "seq": 1
+        }
+      },
+      "files": {
+        "list-01.json": "ec9ba521e5d7f653f169774571ed45f97345fde11b43a98315990d297f95344c",
+        "roots.json": "5e0e3289b1e1960d60bfff02fa58fada41921be247bd00df353c54f5b08c09aa"
+      },
+      "id": "m-grant-id-equals-root",
+      "lists": [
+        "list-01.json"
+      ],
+      "path": "cases/m-grant-id-equals-root",
+      "source": "minted"
+    },
+    {
+      "description": "a revoked key that is not a root brings in no successor",
+      "expected": {
+        "decision": "accept",
+        "index": null,
+        "listDigests": [
+          "sha256:d4ab2f6ee10446c2e723602d19502e475b31a23e93fa1deb790fa7277fd553d5"
+        ],
+        "reason": "in_force",
+        "state": {
+          "head": "sha256:d4ab2f6ee10446c2e723602d19502e475b31a23e93fa1deb790fa7277fd553d5",
+          "issuedAt": "2026-06-01T00:00:00Z",
+          "listId": "example-revocations",
+          "revoked": {
+            "agent": [],
+            "build": [],
+            "grant": [],
+            "key": [
+              "24bae3b5b4cd9d845772d57bae38c285fb51524f8ffbc489159e2d42f79ca1b0"
+            ],
+            "permit": [],
+            "sponsor": [],
+            "stream": []
+          },
+          "roots": [
+            "5cdae7157d6a446da75f27eb1a20216c26f03e64c923c38eb91131f6453be4e8"
+          ],
+          "seq": 1
+        }
+      },
+      "files": {
+        "list-01.json": "f3e41355a670b9a9a6611d2894e90dfdd8d5b338d931d9cf8897789f0935fe78",
+        "roots.json": "5e0e3289b1e1960d60bfff02fa58fada41921be247bd00df353c54f5b08c09aa"
+      },
+      "id": "m-successor-of-non-root",
+      "lists": [
+        "list-01.json"
+      ],
+      "path": "cases/m-successor-of-non-root",
+      "source": "minted"
+    },
+    {
+      "description": "a root pinned twice is held once",
+      "expected": {
+        "decision": "accept",
+        "index": null,
+        "listDigests": [
+          "sha256:c7978535b5dfc3b79c48ab2f0bdd2ce92c453692b558dedb9b33115b14b67576"
+        ],
+        "reason": "in_force",
+        "state": {
+          "head": "sha256:c7978535b5dfc3b79c48ab2f0bdd2ce92c453692b558dedb9b33115b14b67576",
+          "issuedAt": "2026-06-01T00:00:00Z",
+          "listId": "example-revocations",
+          "revoked": {
+            "agent": [],
+            "build": [],
+            "grant": [],
+            "key": [],
+            "permit": [],
+            "sponsor": [],
+            "stream": []
+          },
+          "roots": [
+            "5cdae7157d6a446da75f27eb1a20216c26f03e64c923c38eb91131f6453be4e8"
+          ],
+          "seq": 1
+        }
+      },
+      "files": {
+        "list-01.json": "9c717f58dbc38e8b002f7dd5d87fd873ccff7a44943714b1fef354ea6248c145",
+        "roots.json": "d149d4031618635d61159a9936246ac09c93b1f0620680ddcfd15f69fec6422b"
+      },
+      "id": "m-root-pinned-twice",
+      "lists": [
+        "list-01.json"
+      ],
+      "path": "cases/m-root-pinned-twice",
+      "source": "minted"
+    },
+    {
+      "description": "one entry of every kind",
+      "expected": {
+        "decision": "accept",
+        "index": null,
+        "listDigests": [
+          "sha256:cc74ea9b8db5f9be8a2bb5911ca8238e3a53911be2a78d23408814b5a853e5eb"
+        ],
+        "reason": "in_force",
+        "state": {
+          "head": "sha256:cc74ea9b8db5f9be8a2bb5911ca8238e3a53911be2a78d23408814b5a853e5eb",
+          "issuedAt": "2026-06-01T00:00:00Z",
+          "listId": "example-revocations",
+          "revoked": {
+            "agent": [
+              "agent:a"
+            ],
+            "build": [
+              "build:a"
+            ],
+            "grant": [
+              "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+            ],
+            "key": [
+              "24bae3b5b4cd9d845772d57bae38c285fb51524f8ffbc489159e2d42f79ca1b0"
+            ],
+            "permit": [
+              "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+            ],
+            "sponsor": [
+              "sponsor:a"
+            ],
+            "stream": [
+              "stream:a"
+            ]
+          },
+          "roots": [
+            "5cdae7157d6a446da75f27eb1a20216c26f03e64c923c38eb91131f6453be4e8"
+          ],
+          "seq": 1
+        }
+      },
+      "files": {
+        "list-01.json": "1f82ae47ddb59848c1bd681a78548ed7a12d8c128f7bfc8cae34a1d66e3446cf",
+        "roots.json": "5e0e3289b1e1960d60bfff02fa58fada41921be247bd00df353c54f5b08c09aa"
+      },
+      "id": "m-every-kind",
+      "lists": [
+        "list-01.json"
+      ],
+      "path": "cases/m-every-kind",
+      "source": "minted"
+    },
+    {
+      "description": "issuedAt '2026-06-01T00:00:00ZZ'",
+      "expected": {
+        "decision": "reject",
+        "index": 0,
+        "listDigests": [
+          "sha256:23b55119ba4039f1f1cbe2e84dd3bfeaf5e0bf8eb56a25403fd997a677185175"
+        ],
+        "reason": "revocation_list_shape:issuedAt_not_a_utc_second",
+        "state": {
+          "head": "",
+          "issuedAt": "",
+          "listId": "",
+          "revoked": {
+            "agent": [],
+            "build": [],
+            "grant": [],
+            "key": [],
+            "permit": [],
+            "sponsor": [],
+            "stream": []
+          },
+          "roots": [
+            "5cdae7157d6a446da75f27eb1a20216c26f03e64c923c38eb91131f6453be4e8"
+          ],
+          "seq": 0
+        }
+      },
+      "files": {
+        "list-01.json": "bed53c139e3114737f3bc61c963e1e8cf53d1623b25b6aa5988bbb2cf2faa11b",
+        "roots.json": "5e0e3289b1e1960d60bfff02fa58fada41921be247bd00df353c54f5b08c09aa"
+      },
+      "id": "m-time-len-21",
+      "lists": [
+        "list-01.json"
+      ],
+      "path": "cases/m-time-len-21",
+      "source": "minted"
+    },
+    {
+      "description": "issuedAt '2O26-06-01T00:00:00Z'",
+      "expected": {
+        "decision": "reject",
+        "index": 0,
+        "listDigests": [
+          "sha256:84d1d2d034b0d57576d812ac585898103b0c7fae8e01befa1e835618a86be9c7"
+        ],
+        "reason": "revocation_list_shape:issuedAt_not_a_utc_second",
+        "state": {
+          "head": "",
+          "issuedAt": "",
+          "listId": "",
+          "revoked": {
+            "agent": [],
+            "build": [],
+            "grant": [],
+            "key": [],
+            "permit": [],
+            "sponsor": [],
+            "stream": []
+          },
+          "roots": [
+            "5cdae7157d6a446da75f27eb1a20216c26f03e64c923c38eb91131f6453be4e8"
+          ],
+          "seq": 0
+        }
+      },
+      "files": {
+        "list-01.json": "5f727bba02a63fbe0084819716e78f6b6f442d7679cd3a20bbc636b01916b3f5",
+        "roots.json": "5e0e3289b1e1960d60bfff02fa58fada41921be247bd00df353c54f5b08c09aa"
+      },
+      "id": "m-time-year-letter",
+      "lists": [
+        "list-01.json"
+      ],
+      "path": "cases/m-time-year-letter",
+      "source": "minted"
+    },
+    {
+      "description": "issuedAt '2026_06-01T00:00:00Z'",
+      "expected": {
+        "decision": "reject",
+        "index": 0,
+        "listDigests": [
+          "sha256:02ec94ecc5639cd1570611c85ed4b6900cb6a002db68c91b51ca9100c5c85bc0"
+        ],
+        "reason": "revocation_list_shape:issuedAt_not_a_utc_second",
+        "state": {
+          "head": "",
+          "issuedAt": "",
+          "listId": "",
+          "revoked": {
+            "agent": [],
+            "build": [],
+            "grant": [],
+            "key": [],
+            "permit": [],
+            "sponsor": [],
+            "stream": []
+          },
+          "roots": [
+            "5cdae7157d6a446da75f27eb1a20216c26f03e64c923c38eb91131f6453be4e8"
+          ],
+          "seq": 0
+        }
+      },
+      "files": {
+        "list-01.json": "8f889ddec0c1045afc62c56fa2f68c3b8dd2a894b09da63ba81d99477d21e3f5",
+        "roots.json": "5e0e3289b1e1960d60bfff02fa58fada41921be247bd00df353c54f5b08c09aa"
+      },
+      "id": "m-time-dash-4",
+      "lists": [
+        "list-01.json"
+      ],
+      "path": "cases/m-time-dash-4",
+      "source": "minted"
+    },
+    {
+      "description": "issuedAt '2026-0x-01T00:00:00Z'",
+      "expected": {
+        "decision": "reject",
+        "index": 0,
+        "listDigests": [
+          "sha256:848a45838f479ec995ae92e1903e316b0867d21db9843bd7ad19ed2433635fc4"
+        ],
+        "reason": "revocation_list_shape:issuedAt_not_a_utc_second",
+        "state": {
+          "head": "",
+          "issuedAt": "",
+          "listId": "",
+          "revoked": {
+            "agent": [],
+            "build": [],
+            "grant": [],
+            "key": [],
+            "permit": [],
+            "sponsor": [],
+            "stream": []
+          },
+          "roots": [
+            "5cdae7157d6a446da75f27eb1a20216c26f03e64c923c38eb91131f6453be4e8"
+          ],
+          "seq": 0
+        }
+      },
+      "files": {
+        "list-01.json": "088118a5c74c28f66562b21c5e6c19c281c03239aad433fa20d3d6e904d79b20",
+        "roots.json": "5e0e3289b1e1960d60bfff02fa58fada41921be247bd00df353c54f5b08c09aa"
+      },
+      "id": "m-time-month-letter",
+      "lists": [
+        "list-01.json"
+      ],
+      "path": "cases/m-time-month-letter",
+      "source": "minted"
+    },
+    {
+      "description": "issuedAt '2026-06_01T00:00:00Z'",
+      "expected": {
+        "decision": "reject",
+        "index": 0,
+        "listDigests": [
+          "sha256:815a65af56404a2f84f7aaa3d0aafc18c68be85c642bc60dc0ab8b5dbed69db0"
+        ],
+        "reason": "revocation_list_shape:issuedAt_not_a_utc_second",
+        "state": {
+          "head": "",
+          "issuedAt": "",
+          "listId": "",
+          "revoked": {
+            "agent": [],
+            "build": [],
+            "grant": [],
+            "key": [],
+            "permit": [],
+            "sponsor": [],
+            "stream": []
+          },
+          "roots": [
+            "5cdae7157d6a446da75f27eb1a20216c26f03e64c923c38eb91131f6453be4e8"
+          ],
+          "seq": 0
+        }
+      },
+      "files": {
+        "list-01.json": "a7773b825910fbcdf6f102341fda0c5703b52fc5e425a4dc2d760e8e00b4519d",
+        "roots.json": "5e0e3289b1e1960d60bfff02fa58fada41921be247bd00df353c54f5b08c09aa"
+      },
+      "id": "m-time-dash-7",
+      "lists": [
+        "list-01.json"
+      ],
+      "path": "cases/m-time-dash-7",
+      "source": "minted"
+    },
+    {
+      "description": "issuedAt '2026-06-0xT00:00:00Z'",
+      "expected": {
+        "decision": "reject",
+        "index": 0,
+        "listDigests": [
+          "sha256:efc08e55d53c2c65be69bcf4f47a7a3e0f00fb7c6be7fa1b30266b1156d431f8"
+        ],
+        "reason": "revocation_list_shape:issuedAt_not_a_utc_second",
+        "state": {
+          "head": "",
+          "issuedAt": "",
+          "listId": "",
+          "revoked": {
+            "agent": [],
+            "build": [],
+            "grant": [],
+            "key": [],
+            "permit": [],
+            "sponsor": [],
+            "stream": []
+          },
+          "roots": [
+            "5cdae7157d6a446da75f27eb1a20216c26f03e64c923c38eb91131f6453be4e8"
+          ],
+          "seq": 0
+        }
+      },
+      "files": {
+        "list-01.json": "956bc98611cfd7d2b762aee0db1e61dbf84a5a8016896dce9a352e0cfe845637",
+        "roots.json": "5e0e3289b1e1960d60bfff02fa58fada41921be247bd00df353c54f5b08c09aa"
+      },
+      "id": "m-time-day-letter",
+      "lists": [
+        "list-01.json"
+      ],
+      "path": "cases/m-time-day-letter",
+      "source": "minted"
+    },
+    {
+      "description": "issuedAt '2026-06-01t00:00:00Z'",
+      "expected": {
+        "decision": "reject",
+        "index": 0,
+        "listDigests": [
+          "sha256:cd7c0a44de020cda23443a450eef05cbf4d3d03ba44535a38051b51a52341775"
+        ],
+        "reason": "revocation_list_shape:issuedAt_not_a_utc_second",
+        "state": {
+          "head": "",
+          "issuedAt": "",
+          "listId": "",
+          "revoked": {
+            "agent": [],
+            "build": [],
+            "grant": [],
+            "key": [],
+            "permit": [],
+            "sponsor": [],
+            "stream": []
+          },
+          "roots": [
+            "5cdae7157d6a446da75f27eb1a20216c26f03e64c923c38eb91131f6453be4e8"
+          ],
+          "seq": 0
+        }
+      },
+      "files": {
+        "list-01.json": "4d633a3bb877e84630978f978ef5fe8ba6f06b50df8e8cd6513003e2fd857068",
+        "roots.json": "5e0e3289b1e1960d60bfff02fa58fada41921be247bd00df353c54f5b08c09aa"
+      },
+      "id": "m-time-t-lower-case",
+      "lists": [
+        "list-01.json"
+      ],
+      "path": "cases/m-time-t-lower-case",
+      "source": "minted"
+    },
+    {
+      "description": "issuedAt '2026-06-01T0x:00:00Z'",
+      "expected": {
+        "decision": "reject",
+        "index": 0,
+        "listDigests": [
+          "sha256:9a3af54ce6cdb392abb6c009025250dad4df7d8531ad0413bd40b7cf900dd102"
+        ],
+        "reason": "revocation_list_shape:issuedAt_not_a_utc_second",
+        "state": {
+          "head": "",
+          "issuedAt": "",
+          "listId": "",
+          "revoked": {
+            "agent": [],
+            "build": [],
+            "grant": [],
+            "key": [],
+            "permit": [],
+            "sponsor": [],
+            "stream": []
+          },
+          "roots": [
+            "5cdae7157d6a446da75f27eb1a20216c26f03e64c923c38eb91131f6453be4e8"
+          ],
+          "seq": 0
+        }
+      },
+      "files": {
+        "list-01.json": "cc7f2c62121e3d76b7c64461cde6a9641ab26d9bbc04a15aa281f5a236e53703",
+        "roots.json": "5e0e3289b1e1960d60bfff02fa58fada41921be247bd00df353c54f5b08c09aa"
+      },
+      "id": "m-time-hour-letter",
+      "lists": [
+        "list-01.json"
+      ],
+      "path": "cases/m-time-hour-letter",
+      "source": "minted"
+    },
+    {
+      "description": "issuedAt '2026-06-01T00_00:00Z'",
+      "expected": {
+        "decision": "reject",
+        "index": 0,
+        "listDigests": [
+          "sha256:b64ff73f38c8cf52cd9cdde8c2a728b0c12150e0e61b77a5f48284a4bee8da81"
+        ],
+        "reason": "revocation_list_shape:issuedAt_not_a_utc_second",
+        "state": {
+          "head": "",
+          "issuedAt": "",
+          "listId": "",
+          "revoked": {
+            "agent": [],
+            "build": [],
+            "grant": [],
+            "key": [],
+            "permit": [],
+            "sponsor": [],
+            "stream": []
+          },
+          "roots": [
+            "5cdae7157d6a446da75f27eb1a20216c26f03e64c923c38eb91131f6453be4e8"
+          ],
+          "seq": 0
+        }
+      },
+      "files": {
+        "list-01.json": "c2bb144ca927374b27d6862d62e1cc5cf0289ded8e7c10572dd5cd8a54dfe8be",
+        "roots.json": "5e0e3289b1e1960d60bfff02fa58fada41921be247bd00df353c54f5b08c09aa"
+      },
+      "id": "m-time-colon-13",
+      "lists": [
+        "list-01.json"
+      ],
+      "path": "cases/m-time-colon-13",
+      "source": "minted"
+    },
+    {
+      "description": "issuedAt '2026-06-01T00:0x:00Z'",
+      "expected": {
+        "decision": "reject",
+        "index": 0,
+        "listDigests": [
+          "sha256:c55cdff2103d4ea284416ee10772f8b9b6595061086528fd9fb625378d5f39d1"
+        ],
+        "reason": "revocation_list_shape:issuedAt_not_a_utc_second",
+        "state": {
+          "head": "",
+          "issuedAt": "",
+          "listId": "",
+          "revoked": {
+            "agent": [],
+            "build": [],
+            "grant": [],
+            "key": [],
+            "permit": [],
+            "sponsor": [],
+            "stream": []
+          },
+          "roots": [
+            "5cdae7157d6a446da75f27eb1a20216c26f03e64c923c38eb91131f6453be4e8"
+          ],
+          "seq": 0
+        }
+      },
+      "files": {
+        "list-01.json": "72b8aebc83705c3879794d30eb24a6902f1bde5532e3f87faf7f5840c66ef820",
+        "roots.json": "5e0e3289b1e1960d60bfff02fa58fada41921be247bd00df353c54f5b08c09aa"
+      },
+      "id": "m-time-minute-letter",
+      "lists": [
+        "list-01.json"
+      ],
+      "path": "cases/m-time-minute-letter",
+      "source": "minted"
+    },
+    {
+      "description": "issuedAt '2026-06-01T00:00_00Z'",
+      "expected": {
+        "decision": "reject",
+        "index": 0,
+        "listDigests": [
+          "sha256:a276b262bed8afcff09dc028d7a07c5c3720aed0a0ca8edf9002a0fcfff232ea"
+        ],
+        "reason": "revocation_list_shape:issuedAt_not_a_utc_second",
+        "state": {
+          "head": "",
+          "issuedAt": "",
+          "listId": "",
+          "revoked": {
+            "agent": [],
+            "build": [],
+            "grant": [],
+            "key": [],
+            "permit": [],
+            "sponsor": [],
+            "stream": []
+          },
+          "roots": [
+            "5cdae7157d6a446da75f27eb1a20216c26f03e64c923c38eb91131f6453be4e8"
+          ],
+          "seq": 0
+        }
+      },
+      "files": {
+        "list-01.json": "6903f70590c1bfa42ca6d0b7970ac3132c88a49f4d1e78e808ab387d23bc4a11",
+        "roots.json": "5e0e3289b1e1960d60bfff02fa58fada41921be247bd00df353c54f5b08c09aa"
+      },
+      "id": "m-time-colon-16",
+      "lists": [
+        "list-01.json"
+      ],
+      "path": "cases/m-time-colon-16",
+      "source": "minted"
+    },
+    {
+      "description": "issuedAt '2026-06-01T00:00:0/Z'",
+      "expected": {
+        "decision": "reject",
+        "index": 0,
+        "listDigests": [
+          "sha256:7378f5f48cd5332ea639e34b300875554086e989e906f2101b5949414d780805"
+        ],
+        "reason": "revocation_list_shape:issuedAt_not_a_utc_second",
+        "state": {
+          "head": "",
+          "issuedAt": "",
+          "listId": "",
+          "revoked": {
+            "agent": [],
+            "build": [],
+            "grant": [],
+            "key": [],
+            "permit": [],
+            "sponsor": [],
+            "stream": []
+          },
+          "roots": [
+            "5cdae7157d6a446da75f27eb1a20216c26f03e64c923c38eb91131f6453be4e8"
+          ],
+          "seq": 0
+        }
+      },
+      "files": {
+        "list-01.json": "0014e9159929b768a48fd1a2361c28cd239560114a09f4035fcad80ce04f0262",
+        "roots.json": "5e0e3289b1e1960d60bfff02fa58fada41921be247bd00df353c54f5b08c09aa"
+      },
+      "id": "m-time-second-slash",
+      "lists": [
+        "list-01.json"
+      ],
+      "path": "cases/m-time-second-slash",
+      "source": "minted"
+    },
+    {
+      "description": "issuedAt '2026-06-01T00:00:00z'",
+      "expected": {
+        "decision": "reject",
+        "index": 0,
+        "listDigests": [
+          "sha256:bac33b0c36b8a531b125dbd458b8bc338a08d08e8f1a8b9049351dbff48b6dc2"
+        ],
+        "reason": "revocation_list_shape:issuedAt_not_a_utc_second",
+        "state": {
+          "head": "",
+          "issuedAt": "",
+          "listId": "",
+          "revoked": {
+            "agent": [],
+            "build": [],
+            "grant": [],
+            "key": [],
+            "permit": [],
+            "sponsor": [],
+            "stream": []
+          },
+          "roots": [
+            "5cdae7157d6a446da75f27eb1a20216c26f03e64c923c38eb91131f6453be4e8"
+          ],
+          "seq": 0
+        }
+      },
+      "files": {
+        "list-01.json": "6aa14f3ee800e0d40dd757074b8b17fd993be0a39c099679858a804642af67ec",
+        "roots.json": "5e0e3289b1e1960d60bfff02fa58fada41921be247bd00df353c54f5b08c09aa"
+      },
+      "id": "m-time-z-lower-case",
+      "lists": [
+        "list-01.json"
+      ],
+      "path": "cases/m-time-z-lower-case",
+      "source": "minted"
+    },
+    {
+      "description": "issuedAt '0000-06-01T00:00:00Z'",
+      "expected": {
+        "decision": "reject",
+        "index": 0,
+        "listDigests": [
+          "sha256:0a3832c850ead8f34a4ab54c0a44d9458b1ed2741fde2eb45042631a56fe9524"
+        ],
+        "reason": "revocation_list_shape:issuedAt_not_a_calendar_instant",
+        "state": {
+          "head": "",
+          "issuedAt": "",
+          "listId": "",
+          "revoked": {
+            "agent": [],
+            "build": [],
+            "grant": [],
+            "key": [],
+            "permit": [],
+            "sponsor": [],
+            "stream": []
+          },
+          "roots": [
+            "5cdae7157d6a446da75f27eb1a20216c26f03e64c923c38eb91131f6453be4e8"
+          ],
+          "seq": 0
+        }
+      },
+      "files": {
+        "list-01.json": "6f025f7727f4193fefee246ae99d2d6dc3ce15f0c270b8627e4d29c9a0a53e55",
+        "roots.json": "5e0e3289b1e1960d60bfff02fa58fada41921be247bd00df353c54f5b08c09aa"
+      },
+      "id": "m-time-year-zero",
+      "lists": [
+        "list-01.json"
+      ],
+      "path": "cases/m-time-year-zero",
+      "source": "minted"
+    },
+    {
+      "description": "a second list whose previous is null",
+      "expected": {
+        "decision": "reject",
+        "index": 1,
+        "listDigests": [
+          "sha256:c7978535b5dfc3b79c48ab2f0bdd2ce92c453692b558dedb9b33115b14b67576",
+          "sha256:8de5a21b0fa5bbb44e976aa85153368b480363da4b46f6b29df8345eef14dbf4"
+        ],
+        "reason": "revocation_list_shape:previous_form",
+        "state": {
+          "head": "sha256:c7978535b5dfc3b79c48ab2f0bdd2ce92c453692b558dedb9b33115b14b67576",
+          "issuedAt": "2026-06-01T00:00:00Z",
+          "listId": "example-revocations",
+          "revoked": {
+            "agent": [],
+            "build": [],
+            "grant": [],
+            "key": [],
+            "permit": [],
+            "sponsor": [],
+            "stream": []
+          },
+          "roots": [
+            "5cdae7157d6a446da75f27eb1a20216c26f03e64c923c38eb91131f6453be4e8"
+          ],
+          "seq": 1
+        }
+      },
+      "files": {
+        "list-01.json": "9c717f58dbc38e8b002f7dd5d87fd873ccff7a44943714b1fef354ea6248c145",
+        "list-02.json": "3448dd1429ae0fb6452353465c89779315feb7d7000cc456bc7d435dbfd0fd9d",
+        "roots.json": "5e0e3289b1e1960d60bfff02fa58fada41921be247bd00df353c54f5b08c09aa"
+      },
+      "id": "m-second-list-null-previous",
+      "lists": [
+        "list-01.json",
+        "list-02.json"
+      ],
+      "path": "cases/m-second-list-null-previous",
+      "source": "minted"
+    },
+    {
+      "description": "a second list whose previous is not a list digest",
+      "expected": {
+        "decision": "reject",
+        "index": 1,
+        "listDigests": [
+          "sha256:c7978535b5dfc3b79c48ab2f0bdd2ce92c453692b558dedb9b33115b14b67576",
+          "sha256:ebee409affaeb5c1beb31d256f6d465607fdec3e54074f43cb4cf344bc0b1a09"
+        ],
+        "reason": "revocation_list_shape:previous_form",
+        "state": {
+          "head": "sha256:c7978535b5dfc3b79c48ab2f0bdd2ce92c453692b558dedb9b33115b14b67576",
+          "issuedAt": "2026-06-01T00:00:00Z",
+          "listId": "example-revocations",
+          "revoked": {
+            "agent": [],
+            "build": [],
+            "grant": [],
+            "key": [],
+            "permit": [],
+            "sponsor": [],
+            "stream": []
+          },
+          "roots": [
+            "5cdae7157d6a446da75f27eb1a20216c26f03e64c923c38eb91131f6453be4e8"
+          ],
+          "seq": 1
+        }
+      },
+      "files": {
+        "list-01.json": "9c717f58dbc38e8b002f7dd5d87fd873ccff7a44943714b1fef354ea6248c145",
+        "list-02.json": "3cc68cff65902826468d16edb305f207b845700e3d987d934a388a79862b4b33",
+        "roots.json": "5e0e3289b1e1960d60bfff02fa58fada41921be247bd00df353c54f5b08c09aa"
+      },
+      "id": "m-previous-not-a-digest",
+      "lists": [
+        "list-01.json",
+        "list-02.json"
+      ],
+      "path": "cases/m-previous-not-a-digest",
+      "source": "minted"
+    },
+    {
+      "description": "a list that drops the second of two held entries",
+      "expected": {
+        "decision": "reject",
+        "index": 1,
+        "listDigests": [
+          "sha256:874c85b2e100532f8a3050a55d93f3c411117d882331463c4ef45e08ce1f2b36",
+          "sha256:36a72793c935c565c9821dff31aa928a9224044b52d4c1d9aeb9acaed060c25b"
+        ],
+        "reason": "revocation_list_drops_entry:agent:agent:b",
+        "state": {
+          "head": "sha256:874c85b2e100532f8a3050a55d93f3c411117d882331463c4ef45e08ce1f2b36",
+          "issuedAt": "2026-06-01T00:00:00Z",
+          "listId": "example-revocations",
+          "revoked": {
+            "agent": [
+              "agent:a",
+              "agent:b"
+            ],
+            "build": [],
+            "grant": [],
+            "key": [],
+            "permit": [],
+            "sponsor": [],
+            "stream": []
+          },
+          "roots": [
+            "5cdae7157d6a446da75f27eb1a20216c26f03e64c923c38eb91131f6453be4e8"
+          ],
+          "seq": 1
+        }
+      },
+      "files": {
+        "list-01.json": "3e3d5f0f3a4aa342ecab15e01e5df1dc87a965a265d4667c2b5cf24f16c3f19a",
+        "list-02.json": "77c6590569139a94eb5705e8fe000ef88eadc123be6700c6a22898c06e3028c2",
+        "roots.json": "5e0e3289b1e1960d60bfff02fa58fada41921be247bd00df353c54f5b08c09aa"
+      },
+      "id": "m-drops-second-held-entry",
+      "lists": [
+        "list-01.json",
+        "list-02.json"
+      ],
+      "path": "cases/m-drops-second-held-entry",
+      "source": "minted"
+    },
+    {
+      "description": "two lists in force",
+      "expected": {
+        "decision": "accept",
+        "index": null,
+        "listDigests": [
+          "sha256:c7978535b5dfc3b79c48ab2f0bdd2ce92c453692b558dedb9b33115b14b67576",
+          "sha256:8c632f207984dfe3bc7333bc33b30207db462f3495cd97c6407c93d77618af2f"
+        ],
+        "reason": "in_force",
+        "state": {
+          "head": "sha256:8c632f207984dfe3bc7333bc33b30207db462f3495cd97c6407c93d77618af2f",
+          "issuedAt": "2026-06-02T00:00:00Z",
+          "listId": "example-revocations",
+          "revoked": {
+            "agent": [],
+            "build": [],
+            "grant": [],
+            "key": [],
+            "permit": [],
+            "sponsor": [],
+            "stream": []
+          },
+          "roots": [
+            "5cdae7157d6a446da75f27eb1a20216c26f03e64c923c38eb91131f6453be4e8"
+          ],
+          "seq": 2
+        }
+      },
+      "files": {
+        "list-01.json": "9c717f58dbc38e8b002f7dd5d87fd873ccff7a44943714b1fef354ea6248c145",
+        "list-02.json": "17e62cae0b10b2c46a82470b39ebf94f8f5144866e855c9a06745260d66afca8",
+        "roots.json": "5e0e3289b1e1960d60bfff02fa58fada41921be247bd00df353c54f5b08c09aa"
+      },
+      "id": "m-two-lists-in-force",
+      "lists": [
+        "list-01.json",
+        "list-02.json"
+      ],
+      "path": "cases/m-two-lists-in-force",
+      "source": "minted"
+    }
+  ],
+  "verifierContract": "aee-verify <corpus-dir>"
+}

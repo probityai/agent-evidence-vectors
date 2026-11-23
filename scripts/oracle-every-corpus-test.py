@@ -78,7 +78,9 @@ RUNS_A_VERIFIER = (
     "vectors-execution-billing-finality",
     "vectors-agent-request-proof",
     "vectors-physical-completion",
+    "vectors-actor-marker-survival",
     "vectors-agent-card-receipt",
+    "vectors-credential-reachability",
     "vectors-credential-release",
     "vectors-chunked-export",
     "vectors-converted-argument-binding",
@@ -91,6 +93,8 @@ RUNS_A_VERIFIER = (
     "vectors-x402-evidence-join",
     "vectors-identity-binding",
     "vectors-key-directory-observation",
+    "vectors-status-receipt-binding",
+    "vectors-delegation-chain",
     "vectors-receipt-chain-end",
     "vectors-receipt-signature",
     "vectors-scitt-cose",
@@ -104,6 +108,7 @@ RUNS_A_VERIFIER = (
 #: package's), whose expectations the external contract cannot carry.
 REFUSES_A_VERIFIER = (
     "vectors-restart-records",
+    "vectors-revocation-list",
     "vectors-aci",
     "vectors-acs-core",
     "vectors-agent-decision",

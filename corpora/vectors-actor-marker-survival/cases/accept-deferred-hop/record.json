@@ -1,0 +1,154 @@
+{
+  "contractId": "https://probityai.github.io/agent-evidence-vectors/predicate/v1/actor-marker-survival",
+  "statements": [
+    {
+      "signature": "B4Bed3PTg-IyXSaf4P7O6zanr7hieOv-8pMh7v56XZtHeWHYg9Y-h_aIAHmeGpKLKe2gH3_dqPgoL_dTZTXsBg",
+      "statement": {
+        "humanEvidence": {
+          "at": "2026-11-22T14:59:30Z",
+          "method": "user-presence"
+        },
+        "kind": "origin",
+        "sent": {
+          "at": "2026-11-22T15:00:00Z",
+          "protocol": "rfc8693",
+          "to": "agent:planner",
+          "token": {
+            "claims": {
+              "exp": 1795363200,
+              "sub": "user:alice@example.com"
+            },
+            "header": {
+              "typ": "JWT"
+            }
+          }
+        },
+        "writer": "idp.example"
+      }
+    },
+    {
+      "signature": "y0naqplG7xAF28wTq522nbgNs2Ey6KdL8BBF5P7VMimnj1k3Oitk09IiM6G-zVc4KRrvGDRXO4LAfV64YAZ2BA",
+      "statement": {
+        "kind": "hop",
+        "prev": "8e1be1529e0153160cc4c2c523eaa6fea7c5b2586ea15de8237fd171053fddd1",
+        "received": {
+          "at": "2026-11-22T15:00:10Z",
+          "protocol": "rfc8693",
+          "token": {
+            "claims": {
+              "exp": 1795363200,
+              "sub": "user:alice@example.com"
+            },
+            "header": {
+              "typ": "JWT"
+            }
+          }
+        },
+        "sent": {
+          "at": "2026-11-22T15:00:11Z",
+          "protocol": "rfc8693",
+          "to": "queue:jobs",
+          "token": {
+            "claims": {
+              "act": {
+                "sub": "agent:planner"
+              },
+              "exp": 1795363200,
+              "sub": "user:alice@example.com"
+            },
+            "header": {
+              "typ": "JWT"
+            }
+          }
+        },
+        "writer": "agent:planner"
+      }
+    },
+    {
+      "signature": "Dm6RdAkLbTCo3kPQW1z8LKda6NEUYI5CPjC5QVXP4ytPv8NXDjcEuOCTPt5lrdND4cG_Arb-IUdDTRS9VFaFAw",
+      "statement": {
+        "deferred": {
+          "dispatchedAt": "2026-11-22T15:10:20Z",
+          "enqueuedAt": "2026-11-22T15:00:20Z"
+        },
+        "kind": "hop",
+        "prev": "ce1d304493ab0760ad2f4511dc93912bd95adfb1d5dc2a3ffdd3cc74ad8f5c3e",
+        "received": {
+          "at": "2026-11-22T15:00:21Z",
+          "protocol": "rfc8693",
+          "token": {
+            "claims": {
+              "act": {
+                "sub": "agent:planner"
+              },
+              "exp": 1795363200,
+              "sub": "user:alice@example.com"
+            },
+            "header": {
+              "typ": "JWT"
+            }
+          }
+        },
+        "sent": {
+          "at": "2026-11-22T15:10:20Z",
+          "protocol": "rfc8693",
+          "to": "gateway:edge",
+          "token": {
+            "claims": {
+              "act": {
+                "sub": "agent:planner"
+              },
+              "exp": 1795363200,
+              "sub": "user:alice@example.com"
+            },
+            "header": {
+              "typ": "JWT"
+            }
+          }
+        },
+        "writer": "queue:jobs"
+      }
+    },
+    {
+      "signature": "_Brx_fbYSh7oKIOC7MCCCFbVRCXya0n6IOQ1OrQK0EQbj3WmpX8I7UZEII8r-fE12dQlzWjinlIUZrQDt3T3Aw",
+      "statement": {
+        "kind": "hop",
+        "prev": "fbd2bf283deede2726c90c19e84a3b8ceb0f18b50b640de062e24207e336c97e",
+        "received": {
+          "at": "2026-11-22T15:10:30Z",
+          "protocol": "rfc8693",
+          "token": {
+            "claims": {
+              "act": {
+                "sub": "agent:planner"
+              },
+              "exp": 1795363200,
+              "sub": "user:alice@example.com"
+            },
+            "header": {
+              "typ": "JWT"
+            }
+          }
+        },
+        "sent": {
+          "at": "2026-11-22T15:10:31Z",
+          "protocol": "rfc8693",
+          "to": "api.example",
+          "token": {
+            "claims": {
+              "act": {
+                "sub": "agent:planner"
+              },
+              "exp": 1795363200,
+              "sub": "user:alice@example.com"
+            },
+            "header": {
+              "typ": "JWT"
+            }
+          }
+        },
+        "writer": "gateway:edge"
+      }
+    }
+  ]
+}

@@ -1857,6 +1857,10 @@ jobs:
         run: uv run --extra dev pytest corpora/vectors-identity-binding/tests -q
       - name: key-directory observation cases regenerate and keep cache apart from evidence
         run: uv run --extra dev pytest corpora/vectors-key-directory-observation/tests -q
+      - name: status-receipt-binding cases regenerate and refuse a receipt matched by identifier
+        run: uv run --extra dev pytest corpora/vectors-status-receipt-binding/tests -q
+      - name: revocation-list cases regenerate from the shared vectors and the minted refusals
+        run: uv run --extra dev pytest corpora/vectors-revocation-list/tests -q
       - name: authority-at-dispatch cases regenerate and force every check
         run: uv run --extra dev pytest corpora/vectors-authority-at-dispatch/tests -q
       - name: approval-binding cases regenerate and force every check
@@ -1907,8 +1911,12 @@ jobs:
         run: uv run --extra dev pytest corpora/vectors-physical-completion/tests -q
       - name: principal-action cases regenerate, force every check and flip when a check is removed
         run: uv run --extra dev pytest corpora/vectors-principal-action/tests -q
+      - name: actor-marker-survival cases regenerate, force every check and replay the reference hop
+        run: uv run --extra dev --extra generators pytest corpora/vectors-actor-marker-survival/tests -q
       - name: agent-card-receipt cases regenerate and force every check
         run: uv run --extra dev pytest corpora/vectors-agent-card-receipt/tests -q
+      - name: credential-reachability cases regenerate, force every check and refuse a result signed by a key the agent holds
+        run: uv run --extra dev pytest corpora/vectors-credential-reachability/tests -q
       - name: credential-release cases regenerate and force every check
         run: uv run --extra dev pytest corpora/vectors-credential-release/tests -q
       - name: converted-argument-binding cases regenerate and force every check
@@ -1921,6 +1929,10 @@ jobs:
         run: uv run --extra dev pytest corpora/vectors-delegator-right/tests -q
       - name: oasf-record cases regenerate and force every check
         run: uv run --extra dev pytest corpora/vectors-oasf-record/tests -q
+      - name: delegation-chain cases regenerate and force every check
+        run: uv run --extra dev pytest corpora/vectors-delegation-chain/tests -q
+      - name: the delegation-chain corpus is judged by its own checker
+        run: uv run --extra generators python corpora/vectors-delegation-chain/check_vectors.py
       - name: badge-vc-verify cases regenerate and force every check
         run: uv run --extra dev pytest corpora/vectors-badge-vc-verify/tests -q
       - name: catalog-trust-manifest cases regenerate, re-mint from a second generator and force every check
@@ -2297,7 +2309,7 @@ jobs:
   # run, by class and count, on every run.
   #
   # MEASURED on a 16-worker workstation, in CPU-seconds because that is the number
-  # that carries between machines: 470 of 928 sites and ~1670 CPU-seconds there, against
+  # that carries between machines: 615 of 1079 sites and ~1670 CPU-seconds there, against
   # ~3370 for the full sweep. Wall time on that box was 88-110s at 8-16 workers. Both
   # CPU-second figures were taken while the sweep was smaller, before the quantifier
   # operator was added, and are not re-measured here: restating a figure for a machine

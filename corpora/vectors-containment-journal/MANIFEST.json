@@ -1,13 +1,13 @@
 {
   "contractId": "https://probityai.github.io/agent-evidence-vectors/predicate/v1/containment-journal",
-  "corpusDigest": "bf2608f9751be7f192c08a4356b36454cc538ceb709ca04c15c8c3f35a77d261",
+  "corpusDigest": "dcb4c76819d71c7323ee099279e4690ddf28c800aaaccabe6447f76fb96a8a83",
   "counts": {
-    "allow": 16,
+    "allow": 17,
     "deny": 46
   },
   "receiptContractId": "https://probityai.github.io/agent-evidence-vectors/predicate/v1/blast-radius-receipt",
   "suite": "containment-journal/v1",
-  "suiteRevision": 3,
+  "suiteRevision": 4,
   "synthetic": true,
   "vectors": [
     {
@@ -17,8 +17,8 @@
         "reason": "blast_radius_consistent"
       },
       "files": {
-        "receipt.json": "7d044da5dddbe7a2c015e9ef48dfc16606d4bd4898151862c44787852cba7073",
-        "record.json": "ab57b544114ca6d044b8256a6e89f47f1f33fb61ba4c74ce928cb1d27b3690db"
+        "receipt.json": "b11e093b2398af3731f32a9abe7ebce4eb5377fe610c45a6fad45c7311613bf6",
+        "record.json": "b76da2b8b78cf4d43433ca9bdc3ae06fd39102fb3800fb5d288465a415b93f5e"
       },
       "id": "allow-isolated-agents-tool-call-refused",
       "path": "cases/allow-isolated-agents-tool-call-refused",
@@ -1168,7 +1168,7 @@
       }
     },
     {
-      "edit": "the run claims every tool call's authority chain was checked, and agent-a's call names no grant chain",
+      "edit": "the run claims every tool call's authority chain was checked, and agent-a's call names no authority chain",
       "expected": {
         "decision": "deny",
         "reason": "tool_call_authority_unbound"
@@ -1178,6 +1178,28 @@
       },
       "id": "reject-tool-call-authority-unbound",
       "path": "cases/reject-tool-call-authority-unbound",
+      "retained": {
+        "enforcement": "enforced",
+        "entries": 5,
+        "events": {
+          "decision": 1,
+          "delivery": 1,
+          "tool_call": 2,
+          "topology": 1
+        }
+      }
+    },
+    {
+      "edit": "control: agent-a's call names the authority chain the guard walked and the capability grant chain it was delegated under",
+      "expected": {
+        "decision": "allow",
+        "reason": "containment_consistent"
+      },
+      "files": {
+        "record.json": "5fb6ed7486c8e6dcc9cd0b3bdfe9511cebc6669643a837c73e636ca550ffe036"
+      },
+      "id": "allow-tool-call-names-authority-and-grant-chains",
+      "path": "cases/allow-tool-call-names-authority-and-grant-chains",
       "retained": {
         "enforcement": "enforced",
         "entries": 5,

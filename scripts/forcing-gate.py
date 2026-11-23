@@ -148,6 +148,12 @@ from _lockfile import single_instance  # noqa: E402
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
 VECTORS = REPO_ROOT / "vectors"
+# The corpus channel: corpora whose reader sits in the rail but outside aee.Verify,
+# replayed by cmd/mutrun through corpusreaders.Judge -- the path cmd/aee-verify takes
+# on a corpus directory. A member that stops behaving as its manifest declares kills
+# the mutant exactly as a vector going PASS -> FAIL does, and is recorded apart, in
+# `corpusKillers`, because it names no vector of the conformance manifest.
+CORPUS_CHANNEL = (REPO_ROOT / "corpora" / "vectors-revocation-list",)
 DEFAULT_BASELINE = REPO_ROOT / "docs" / "FORCING-BASELINE.json"
 RAIL_PKG = REPO_ROOT / "aee"
 
@@ -237,6 +243,22 @@ def corpus_fingerprint(root: Path) -> str:
     return hashed.hexdigest()
 
 
+def campaign_fingerprint() -> str:
+    """The conformance corpus and every corpus-channel file, digested together."""
+    hashed = hashlib.sha256(corpus_fingerprint(VECTORS).encode("ascii"))
+    for root in CORPUS_CHANNEL:
+        for path in sorted(
+            p for p in root.rglob("*") if p.is_file() and "__pycache__" not in p.parts
+        ):
+            hashed.update(path.relative_to(REPO_ROOT).as_posix().encode("utf-8") + b"\0")
+            hashed.update(hashlib.sha256(path.read_bytes()).digest())
+    return hashed.hexdigest()
+
+
+def channel_args() -> list[str]:
+    return [str(root) for root in CORPUS_CHANNEL]
+
+
 def refuse_moved_corpus(before: str, after: str) -> None:
     """A sweep taken across two corpora is a measurement of neither.
 
@@ -320,8 +342,14 @@ def as_observed(line: dict[str, Any]) -> Observation:
     }
     observed["absent"] = sorted(
         name
-        for name in ("codes", "primaryCode", "result", "tiers_with_key",
-                     "tiers_without_key", "result_without_key")
+        for name in (
+            "codes",
+            "primaryCode",
+            "result",
+            "tiers_with_key",
+            "tiers_without_key",
+            "result_without_key",
+        )
         if not observed[name]
     )
     return observed
@@ -340,6 +368,17 @@ def score(
     rows: dict[str, Row] = {}
     for line in lines:
         vid = line["id"]
+        if "corpus" in line:
+            # A corpus-channel member: it passes when it behaves as its manifest
+            # declares, which is what cmd/aee-verify reports for that corpus.
+            findings = list(line.get("findings") or [])
+            rows[vid] = {
+                "status": "FAIL" if findings else "PASS",
+                "gates": {},
+                "observed": {"findings": findings},
+                "reasons": findings,
+            }
+            continue
         entry = index.get(vid)
         # The kind comes from the manifest entry, and its absence is refused
         # rather than guessed. This line used to fall back to reading the
@@ -355,8 +394,8 @@ def score(
                 "verdict, which is the point of it."
             )
         observed = as_observed(line)
-        findings = selfchk.get(vid) if kind in ("reject", "indeterminate") else None
-        ok, gates, reasons = rv.evaluate_vector(kind, entry, observed, findings)
+        second_fault = selfchk.get(vid) if kind in ("reject", "indeterminate") else None
+        ok, gates, reasons = rv.evaluate_vector(kind, entry, observed, second_fault)
         rows[vid] = {
             "status": "PASS" if ok else "FAIL",
             "gates": gates,
@@ -368,8 +407,11 @@ def score(
     # readings would replay green and be recorded as a rule the corpus does not
     # force -- which is precisely the claim the family exists to refuse.
     _, coherence = rv.family_coherence_failures(
-        index, [{"id": vid, "kind": (index.get(vid) or {}).get("kind"), "observed": row["observed"]}
-                for vid, row in rows.items()]
+        index,
+        [
+            {"id": vid, "kind": (index.get(vid) or {}).get("kind"), "observed": row["observed"]}
+            for vid, row in rows.items()
+        ],
     )
     if coherence:
         for vid, row in rows.items():
@@ -381,6 +423,8 @@ def score(
 
 def observation_key(observed: Observation) -> tuple[Any, ...]:
     """Everything the harness can see about one vector, as a comparable value."""
+    if "findings" in observed:
+        return ("corpus", tuple(observed["findings"]))
     return (
         observed["verdict"],
         tuple(sorted(observed["codes"])),
@@ -435,7 +479,9 @@ class Workspace:
     def replay(self) -> None:
         started = time.monotonic()
         proc = subprocess.run(
-            [self.mutrun, str(VECTORS), self.keys], capture_output=True, timeout=900
+            [self.mutrun, str(VECTORS), self.keys, *channel_args()],
+            capture_output=True,
+            timeout=900,
         )
         self.replay_seconds = time.monotonic() - started
         if proc.returncode != 0:
@@ -463,9 +509,7 @@ def truth_observations(
     return out
 
 
-def compare_observations(
-    fast: dict[str, Observation], truth: dict[str, Observation]
-) -> list[str]:
+def compare_observations(fast: dict[str, Observation], truth: dict[str, Observation]) -> list[str]:
     errors: list[str] = []
     for vid in sorted(set(fast) | set(truth)):
         mine, theirs = fast.get(vid), truth.get(vid)
@@ -475,8 +519,7 @@ def compare_observations(
         for field in sorted(theirs):
             if mine.get(field) != theirs[field]:
                 errors.append(
-                    f"{vid}.{field}: in-process {mine.get(field)!r} != "
-                    f"real CLI {theirs[field]!r}"
+                    f"{vid}.{field}: in-process {mine.get(field)!r} != real CLI {theirs[field]!r}"
                 )
     return errors
 
@@ -491,9 +534,7 @@ def compare_report(rows: dict[str, Row], report: dict[str, Any]) -> list[str]:
             errors.append(f"{vid}: scored by the harness, missing from the in-process replay")
             continue
         if mine["status"] != entry["status"]:
-            errors.append(
-                f"{vid}.status: in-process {mine['status']} != harness {entry['status']}"
-            )
+            errors.append(f"{vid}.status: in-process {mine['status']} != harness {entry['status']}")
         if mine["gates"] != entry["gates"]:
             errors.append(f"{vid}.gates: in-process {mine['gates']} != harness {entry['gates']}")
         observed = entry.get("observed") or {}
@@ -502,9 +543,42 @@ def compare_report(rows: dict[str, Row], report: dict[str, Any]) -> list[str]:
                 f"{vid}.codes: in-process {sorted(mine['observed']['codes'])} != "
                 f"harness {sorted(observed.get('codes') or [])}"
             )
-    extra = set(rows) - {e["id"] for e in report.get("vectors", [])}
+    extra = {vid for vid, row in rows.items() if "findings" not in row["observed"]} - {
+        e["id"] for e in report.get("vectors", [])
+    }
     if extra:
         errors.append(f"replayed but never scored by the harness: {sorted(extra)}")
+    return errors
+
+
+def channel_truth_errors(verify: str, rows: dict[str, Row]) -> list[str]:
+    """The corpus channel against the real CLI: `aee-verify -json <corpus-dir>`.
+
+    Every member must also PASS on the unmutated rail. A corpus that does not hold
+    unmutated has no PASS to lose, so every mutant would be scored DEAD against it.
+    """
+    errors: list[str] = []
+    for root in CORPUS_CHANNEL:
+        proc = subprocess.run([verify, "-json", str(root)], capture_output=True, timeout=900)
+        lines = proc.stdout.decode("utf-8").strip().splitlines()
+        if not lines:
+            errors.append(f"{root.name}: cmd/aee-verify printed no report ({proc.returncode})")
+            continue
+        report = json.loads(lines[-1])
+        truth = {
+            f"{root.name}/{m['id']}": sorted(m.get("findings") or []) for m in report["members"]
+        }
+        truth[f"{root.name}/#corpus"] = sorted(report.get("findings") or [])
+        mine = {
+            vid: sorted(row["observed"]["findings"])
+            for vid, row in rows.items()
+            if vid.startswith(root.name + "/")
+        }
+        for vid in sorted(set(truth) | set(mine)):
+            if truth.get(vid) != mine.get(vid):
+                errors.append(f"{vid}: in-process {mine.get(vid)!r} != real CLI {truth.get(vid)!r}")
+            elif truth[vid]:
+                errors.append(f"{vid}: does not hold on the unmutated rail: {truth[vid]}")
     return errors
 
 
@@ -512,8 +586,9 @@ def ground_truth_gate(
     ws: Workspace, index: dict[str, dict[str, Any]], rows: dict[str, Row]
 ) -> None:
     """Block until the fast path is proven to answer what the real one answers."""
-    fast = {line["id"]: as_observed(line) for line in ws.baseline_lines}
+    fast = {line["id"]: as_observed(line) for line in ws.baseline_lines if "corpus" not in line}
     errors = compare_observations(fast, truth_observations(ws.verify, ws.keys, index))
+    errors += channel_truth_errors(ws.verify, rows)
 
     report_path = ws.work / "ground-truth.json"
     subprocess.run(
@@ -611,7 +686,9 @@ def run_mutant(tree: Path, site: dict[str, Any], ws: Workspace) -> dict[str, Any
             return record | {"outcome": "BUILDFAIL", "detail": build.stderr.decode()[:400].strip()}
         try:
             run = subprocess.run(
-                [binary, str(VECTORS), ws.keys], capture_output=True, timeout=ws.timeout
+                [binary, str(VECTORS), ws.keys, *channel_args()],
+                capture_output=True,
+                timeout=ws.timeout,
             )
         except subprocess.TimeoutExpired:
             return record | {"outcome": "TIMEOUT", "detail": f"exceeded {ws.timeout:.0f}s"}
@@ -637,15 +714,22 @@ def classify(
             "detail": record.get("detail", ""),
         }
     rows = score(record["lines"], index, selfchk)
-    killers, changed = [], []
+    killers: list[str] = []
+    corpus_killers: list[str] = []
+    changed: list[str] = []
     for vid, row in rows.items():
         base = base_rows[vid]
         if base["status"] == "PASS" and row["status"] == "FAIL":
-            killers.append(vid)
+            (corpus_killers if "findings" in row["observed"] else killers).append(vid)
         if observation_key(row["observed"]) != observation_key(base["observed"]):
             changed.append(vid)
-    if killers:
-        return {"key": record["key"], "class": "KILLED", "killers": sorted(killers)}
+    if killers or corpus_killers:
+        return {
+            "key": record["key"],
+            "class": "KILLED",
+            "killers": sorted(killers),
+            "corpusKillers": sorted(corpus_killers),
+        }
     if changed:
         return {"key": record["key"], "class": "SILENT", "changed": sorted(changed)}
     return {"key": record["key"], "class": "DEAD"}
@@ -708,7 +792,7 @@ def coverage_blocks(ws: Workspace) -> dict[str, list[tuple[int, int, int]]]:
     covdir.mkdir(exist_ok=True)
     go_build("./cmd/mutrun", ws.mutrun_cover, REPO_ROOT, cover=True)
     subprocess.run(
-        [ws.mutrun_cover, str(VECTORS), ws.keys],
+        [ws.mutrun_cover, str(VECTORS), ws.keys, *channel_args()],
         capture_output=True,
         env=dict(os.environ, GOCOVERDIR=str(covdir)),
         timeout=900,
@@ -789,7 +873,10 @@ def site_row(site: dict[str, Any], result: dict[str, Any], taken: str | None) ->
     """
     row: Row = {"class": result["class"], "snippet": site["snippet"]}
     if result["class"] == "KILLED":
-        row["killers"] = result["killers"]
+        if result["killers"]:
+            row["killers"] = result["killers"]
+        if result.get("corpusKillers"):
+            row["corpusKillers"] = result["corpusKillers"]
     if result["class"] == "INCONCLUSIVE":
         row["reason"] = result["reason"]
     if result["class"] in ("DEAD", "SILENT") and taken is not None:
@@ -924,10 +1011,14 @@ def ratchet_errors(baseline: dict[str, Any], results: dict[str, dict[str, Any]])
             continue
         if recorded["class"] != result["class"]:
             verdict.drift.append(f"{key}: recorded {recorded['class']}, measured {result['class']}")
-        elif result["class"] == "KILLED" and recorded.get("killers") != result["killers"]:
+        elif result["class"] == "KILLED" and (
+            recorded.get("killers", []) != result["killers"]
+            or recorded.get("corpusKillers", []) != result.get("corpusKillers", [])
+        ):
             verdict.drift.append(
                 f"{key}: the vectors that force it changed, "
-                f"{recorded.get('killers')} -> {result['killers']}"
+                f"{recorded.get('killers')} {recorded.get('corpusKillers')} -> "
+                f"{result['killers']} {result.get('corpusKillers')}"
             )
     return verdict
 
@@ -994,9 +1085,15 @@ def select_sites(
     sites already known to generate, build, run and terminate, so a subset run
     cannot be held open by a non-terminating mutant.
     """
-    chosen = sites if scope == "all" else [
-        site for site in sites if baseline["sites"].get(site["key"], {}).get("class") == "KILLED"
-    ]
+    chosen = (
+        sites
+        if scope == "all"
+        else [
+            site
+            for site in sites
+            if baseline["sites"].get(site["key"], {}).get("class") == "KILLED"
+        ]
+    )
     if not only:
         return chosen
     wanted = {key for key in only.split(",") if key}
@@ -1023,9 +1120,9 @@ def require_nonempty(chosen: list[dict[str, Any]], scope: str, only: str) -> Non
     )
 
 
-def measure(ws: Workspace, args: argparse.Namespace, baseline: dict[str, Any]) -> tuple[
-    dict[str, dict[str, Any]], dict[str, list[tuple[int, int, int]]]
-]:
+def measure(
+    ws: Workspace, args: argparse.Namespace, baseline: dict[str, Any]
+) -> tuple[dict[str, dict[str, Any]], dict[str, list[tuple[int, int, int]]]]:
     index = rv.manifest_index(rv.load_manifest(str(VECTORS)))
     selfchk = self_check_cache(index)
     base_rows = score(ws.baseline_lines, index, selfchk)
@@ -1179,10 +1276,10 @@ def run(args: argparse.Namespace) -> int:
         # Taken before the unmutated replay that every mutant is diffed against,
         # and checked again after the last one, so the whole campaign is held to
         # one corpus rather than to whatever was on disk at each moment.
-        corpus_before = corpus_fingerprint(VECTORS)
+        corpus_before = campaign_fingerprint()
         ws.replay()
         results, blocks = measure(ws, args, baseline)
-        refuse_moved_corpus(corpus_before, corpus_fingerprint(VECTORS))
+        refuse_moved_corpus(corpus_before, campaign_fingerprint())
 
         structural = structural_errors(baseline, ws.sites)
         if args.sync:

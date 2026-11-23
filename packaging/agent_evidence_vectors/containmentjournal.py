@@ -24,8 +24,9 @@ every such event is an entry of one hash-chained journal:
   rests on by digest;
 - ``response``: a decision to act, continue or escalate after an alert;
 - ``tool_call``: an agent called a tool, and, from revision 1.1, whether the
-  call was refused (with its reason) and the digest of the grant chain it ran
-  under;
+  call was refused (with its reason); from revision 1.3 the digest of the
+  authority chain the guard walked for it (``authorityChainDigest``) and of the
+  capability grant chain it was delegated under (``grantChainDigest``);
 - ``refusal`` (revision 1.1): the router refused one message over an edge in
   force, named by a neutral registered code (``budget_exhausted``,
   ``purpose_out_of_scope``, ``permit_revoked``, ``authority_chain_violation``);
@@ -92,7 +93,7 @@ from agent_evidence_vectors.monitorcoverage import (
 )
 
 SUITE = "containment-journal/v1"
-SUITE_REVISION = 3  # revision 1.2 of the predicate; CHANGES.md carries the ledger
+SUITE_REVISION = 4  # revision 1.3 of the predicate; CHANGES.md carries the ledger
 _BASE = "https://probityai.github.io/agent-evidence-vectors/predicate/v1/"
 CONTRACT_ID = _BASE + "containment-journal"
 RECEIPT_CONTRACT_ID = _BASE + "blast-radius-receipt"
@@ -158,8 +159,10 @@ EVENT_MEMBERS = {
     "refusal": {"sender": "agent", "receiver": "agent", "bodyDigest": "digest",
                 "reasonCode": "word"},
 }
-# Revision 1.1 members a tool call may carry; refusalReason exactly when refused is true.
-TOOL_CALL_OPTIONAL = {"refused": "bool", "refusalReason": "text", "grantChainDigest": "digest"}
+# Members a tool call may carry: refused and refusalReason (revision 1.1; the reason exactly when
+# refused is true), authorityChainDigest and grantChainDigest (as revision 1.3 defines them).
+TOOL_CALL_OPTIONAL = {"refused": "bool", "refusalReason": "text", "authorityChainDigest": "digest",
+                      "grantChainDigest": "digest"}
 DETECTOR_MEMBERS = {"riskEstimates": "estimates", "detectorInputs": "words"}
 CLAIM_KINDS = {"channelsClosed": "bool", "restorationGated": "bool",
                "defendedThroughout": "bool", "detectorDriven": "bool",
@@ -563,7 +566,7 @@ def _claims_failure(record: Record, skip: frozenset[str]) -> str | None:
             len(set(e["riskEstimates"].values())) > 1 for e in detector),
         "tool_call_authority_unbound": bool(claims.get("authorityChainChecked")) and any(
             e["event"] == "tool_call" and e.get("refused") is not True
-            and "grantChainDigest" not in e for e in entries),
+            and "authorityChainDigest" not in e for e in entries),
     }
     return next((name for name, failed in failures.items() if failed and name not in skip),
                 None)

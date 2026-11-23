@@ -3,8 +3,10 @@ package main
 import (
 	"bytes"
 	"encoding/json"
+	"go/ast"
 	"go/parser"
 	"go/token"
+	"go/types"
 	"os"
 	"path/filepath"
 	"strings"
@@ -683,5 +685,79 @@ func TestApplyRefusesAnUnreachableNode(t *testing.T) {
 	}
 	if err := apply(other, expr); err == nil {
 		t.Fatal("apply reported success for a node the file does not contain")
+	}
+}
+
+// A type switch whose bound symbol only one arm reads. Deleting that arm used to
+// leave `p` declared and unused, a mutant Go refuses to build; the campaign then
+// recorded the site as INCONCLUSIVE and it could never be measured.
+const typeSwitchFixture = `package rail
+
+func Previous(v any, seq int) (string, bool) {
+	switch p := v.(type) {
+	case nil:
+		if seq != 1 {
+			return "", false
+		}
+	case string:
+		if seq == 1 {
+			return "", false
+		}
+		return p, true
+	default:
+		return "", false
+	}
+	return "", true
+}
+`
+
+func typecheck(t *testing.T, src string) error {
+	t.Helper()
+	fset := token.NewFileSet()
+	f, err := parser.ParseFile(fset, "rail.go", src, 0)
+	if err != nil {
+		return err
+	}
+	_, err = (&types.Config{}).Check("rail", fset, []*ast.File{f}, nil)
+	return err
+}
+
+func TestEveryCaseDelMutantOfATypeSwitchTypechecks(t *testing.T) {
+	if err := typecheck(t, typeSwitchFixture); err != nil {
+		t.Fatalf("the unmutated fixture must typecheck: %v", err)
+	}
+	dir := t.TempDir()
+	if err := os.WriteFile(filepath.Join(dir, "rail.go"), []byte(typeSwitchFixture), 0o600); err != nil {
+		t.Fatal(err)
+	}
+	var deleted []string
+	for _, s := range listSites(t, dir) {
+		if s.Op != "CASE_DEL" {
+			continue
+		}
+		var out, errs bytes.Buffer
+		if code := run([]string{"-pkg", dir, "-apply", s.Key}, &out, &errs); code != 0 {
+			t.Fatalf("-apply %s exited %d: %s", s.Key, code, errs.String())
+		}
+		if err := typecheck(t, out.String()); err != nil {
+			t.Errorf("CASE_DEL %q does not typecheck: %v\n%s", s.Snippet, err, out.String())
+		}
+		deleted = append(deleted, out.String())
+	}
+	if len(deleted) != 2 {
+		t.Fatalf("want the two value arms deleted one at a time, got %d mutants", len(deleted))
+	}
+	// The binding goes only when no remaining arm reads it.
+	var unbound, kept int
+	for _, src := range deleted {
+		switch {
+		case strings.Contains(src, "switch v.(type)"):
+			unbound++
+		case strings.Contains(src, "switch p := v.(type)"):
+			kept++
+		}
+	}
+	if unbound != 1 || kept != 1 {
+		t.Fatalf("want one mutant unbound (string arm gone) and one still bound (nil arm gone), got %d and %d", unbound, kept)
 	}
 }

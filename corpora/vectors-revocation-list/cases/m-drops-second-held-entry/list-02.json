@@ -1,0 +1,18 @@
+{
+  "body": {
+    "entries": [
+      {
+        "id": "agent:a",
+        "kind": "agent",
+        "revokedAt": "2026-06-01T00:00:00Z"
+      }
+    ],
+    "issuedAt": "2026-06-02T00:00:00Z",
+    "issuerKey": "kp3RZCvnuLUpYfUr5H0YV73FyfJjoz1dptFYYIL/Ys0=",
+    "listId": "example-revocations",
+    "previous": "sha256:874c85b2e100532f8a3050a55d93f3c411117d882331463c4ef45e08ce1f2b36",
+    "seq": 2,
+    "type": "https://probityai.github.io/agent-evidence-vectors/predicate/v1/revocation-list"
+  },
+  "sig": "XWtpOawYaSwWoEItNbyC88ePGoQMfPa5WqNcxTzzKA2JmjSzu2uc1SelsvWfv3GWI6lr9CemGY2qag2iKRRQDQ=="
+}

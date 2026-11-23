@@ -4,12 +4,15 @@ Type URI: https://probityai.github.io/agent-evidence-vectors/predicate/v1/contai
 
 Receipt type URI: https://probityai.github.io/agent-evidence-vectors/predicate/v1/blast-radius-receipt
 
-Version: 1.2 (corpus suite `containment-journal/v1`, `suiteRevision` 3)
+Version: 1.3 (corpus suite `containment-journal/v1`, `suiteRevision` 4)
 
 > Status: DRAFT, issued under a self-hosted `predicateType` URI. The URIs will not move once
 > a signed statement carries them. Revision 1.1 adds optional members only: a journal written
 > to revision 1.0 keeps its shape, and its verdict changes only where it records a tool call by
-> an agent that was isolated at the time (`tool_call_by_isolated_agent`).
+> an agent that was isolated at the time (`tool_call_by_isolated_agent`). Revision 1.3 splits a
+> tool call's chain digest in two: the authority chain the guard walked is `authorityChainDigest`,
+> and `grantChainDigest` is the capability grant chain the call was delegated under (see "The two
+> chain digests").
 
 ## Purpose
 
@@ -50,8 +53,8 @@ Optional members (revision 1.1):
 `claims` members, each optional: `channelsClosed`, `restorationGated`, `defendedThroughout`,
 `detectorDriven` (booleans), `responseBoundSeconds` (integer at least 0), and from revision
 1.1 `retrievalAttested` (every admitted retrieval is inside `snapshotRoot`) and
-`authorityChainChecked` (every tool call that ran was checked against a grant chain, whose
-digest it carries).
+`authorityChainChecked` (every tool call that ran was checked against an authority chain,
+whose digest it carries as `authorityChainDigest`).
 
 Every entry carries `seq`, `prev` (entry 0 cites `sha256:` and 64 zeros), `at`, `event` and
 exactly the event's members. Edge lists are sorted unique `[from, to]` pairs of listed agents
@@ -67,7 +70,7 @@ with `from` different from `to`.
 | `assessment` | `agent`, `score` (0 to 10 or null), `availability`, `witness` |
 | `restoration` | `agent`, `admitted`, `threshold`, `evidence` (entry digests), `ruleDigest` |
 | `response` | `decision`, `alertAt`, `authority`, `reason`; `act` adds `actedAt` |
-| `tool_call` | `agent`, `tool`; optional (1.1) `refused` (boolean), `refusalReason` (present exactly when `refused` is true), `grantChainDigest` |
+| `tool_call` | `agent`, `tool`; optional (1.1) `refused` (boolean), `refusalReason` (present exactly when `refused` is true); optional (1.3) `authorityChainDigest`, `grantChainDigest` |
 | `refusal` (1.1) | `sender`, `receiver`, `bodyDigest`, `reasonCode` (one of the registered codes, below) |
 | `retrieval` (1.1) | `agent`, `documentDigest`, `admitted` (boolean), `proof` (at most 64 steps, each `["left" or "right", digest]`) |
 
@@ -91,7 +94,7 @@ The registered `reasonCode` values are:
 | `budget_exhausted` | the sender's budget is spent |
 | `purpose_out_of_scope` | the message falls outside the purpose the sender was granted |
 | `permit_revoked` | the sender's permit is no longer valid: a revocation floor after a compromise epoch, or an agent on probation that holds a narrower permit class |
-| `authority_chain_violation` | the delivery's grant chain crosses a data role, for example retrieved text or tool output acting as an instruction |
+| `authority_chain_violation` | the delivery's authority chain crosses a data role, for example retrieved text or tool output acting as an instruction |
 
 The verdict does not depend on which registered code appears: any registered code gives the
 same result on the same journal, and a code the reader does not know is the only one it
@@ -100,6 +103,21 @@ reader denies only the codes it does not know and never infers a verdict from th
 a known one. `authority_chain_violation` is for deliveries only; a refused `tool_call`
 carries its reason in `refusalReason`, as free text. A refusal of a write belongs to the
 write event of the next major revision of this predicate and is not recorded by this event.
+
+### The two chain digests (1.3)
+
+- `authorityChainDigest`: the digest of the authority chain the guard reconstructed for the call,
+  walking signed records from the action back to the principal's task grant. The document hashed
+  is `{"chain": [...], "data_roles": [...]}`: the records walked, root first, and the digests of
+  the data-role inputs the walk reached. Until revision 1.2 this value was carried as `grantChainDigest`.
+- `grantChainDigest`: the digest of the capability grant chain the call was delegated under:
+  `sha256:` and the lowercase hex SHA-256 of the RFC 8785 bytes of the list of the links' grant
+  digests, root first. A party holding the grant digests recomputes it without the grant bodies.
+
+The two are different objects and never substitute for each other. A revision 1.2 journal that
+named its authority chain as `grantChainDigest` fails closed under 1.3: with
+`authorityChainChecked` claimed it is denied `tool_call_authority_unbound`, and its value never
+equals the grant chain digest a consumer computes.
 
 ### The inclusion path
 
@@ -154,7 +172,8 @@ reason `containment_consistent`.
 8. Run-level claims, after the walk: `advisory_claimed_as_enforced`,
    `defended_claim_after_fail_open`, `detector_output_uninformative`, and (1.1)
    `tool_call_authority_unbound` when `authorityChainChecked` is claimed and a tool call that
-   was not refused carries no `grantChainDigest`.
+   was not refused carries no `authorityChainDigest` (1.3; a `grantChainDigest` never stands in
+   for it).
 
 ## The blast-radius receipt
 
@@ -174,8 +193,9 @@ in order: `receipt_contract_id_missing`, `receipt_contract_id_unknown`, `receipt
 That the defence recorded every event, that a call it marks refused did not run, that its
 snapshot root is the attested corpus, or that its detector is any good. A journal that names
 no snapshot and claims no attestation says nothing about its retrievals, and one that does not
-claim `authorityChainChecked` says nothing about grant chains: a consumer that relies on either
-requires the claim.
+claim `authorityChainChecked` says nothing about authority chains: a consumer that relies on
+either requires the claim. The reader checks only the shape of `grantChainDigest`; a consumer
+that relies on delegation recomputes it from the grant chain it holds and compares.
 
 ## Verifier contract
 

@@ -22,6 +22,16 @@
       "seller the token is scoped to": "mandate.terms.merchant",
       "token identifier": "credential.token_id",
       "what ran": "execution"
+    },
+    "x402-exact-evm-eip3009": {
+      "nonces the token contract had consumed before": "execution.nonces_used_before",
+      "the network, token and payee the user allowed": "mandate.terms.network, mandate.terms.currency, mandate.terms.merchant",
+      "what moved on the ledger": "execution.transfer, execution.authorization_used",
+      "what the agent's wallet signed": "credential.facilitator_request.paymentPayload.payload.authorization",
+      "what the facilitator reported": "receipt.settlement_response",
+      "what the resource server required": "credential.facilitator_request.paymentRequirements",
+      "which wallet the user let the agent pay from": "mandate.terms.agent_payer",
+      "who signed it": "recovered from paymentPayload.payload.signature, never read"
     }
   },
   "note": "Maps what each scheme binds to the receipt-side record fields this suite checks. Source side is a concept, not an upstream field name.",

@@ -139,6 +139,7 @@ only-include = [
     "corpora/vectors-aci",
     "corpora/vectors-acs-core",
     "corpora/vectors-acs-decision-record",
+    "corpora/vectors-actor-marker-survival",
     "corpora/vectors-admission",
     "corpora/vectors-agent-audit-record",
     "corpora/vectors-agent-card-receipt",
@@ -165,8 +166,10 @@ only-include = [
     "corpora/vectors-connector-scope",
     "corpora/vectors-containment-journal",
     "corpora/vectors-converted-argument-binding",
+    "corpora/vectors-credential-reachability",
     "corpora/vectors-credential-release",
     "corpora/vectors-decision-client-failure-modes",
+    "corpora/vectors-delegation-chain",
     "corpora/vectors-delegation-lifecycle",
     "corpora/vectors-delegator-right",
     "corpora/vectors-dependency-selection",
@@ -208,12 +211,14 @@ only-include = [
     "corpora/vectors-refusal-reason-priority",
     "corpora/vectors-responsibility-escalation",
     "corpora/vectors-restart-records",
+    "corpora/vectors-revocation-list",
     "corpora/vectors-rsa-digestinfo",
     "corpora/vectors-scitt-cose",
     "corpora/vectors-self-reported-record",
     "corpora/vectors-signature-coverage",
     "corpora/vectors-source-coverage",
     "corpora/vectors-spoofed-tool-output",
+    "corpora/vectors-status-receipt-binding",
     "corpora/vectors-telemetry-evidence",
     "corpora/vectors-test-tampering",
     "corpora/vectors-trace-anchor",
@@ -231,6 +236,7 @@ exclude = [
     "corpora/vectors-aci/**/*.py",
     "corpora/vectors-acs-core/**/*.py",
     "corpora/vectors-acs-decision-record/**/*.py",
+    "corpora/vectors-actor-marker-survival/**/*.py",
     "corpora/vectors-admission/**/*.py",
     "corpora/vectors-agent-audit-record/**/*.py",
     "corpora/vectors-agent-card-receipt/**/*.py",
@@ -257,8 +263,10 @@ exclude = [
     "corpora/vectors-connector-scope/**/*.py",
     "corpora/vectors-containment-journal/**/*.py",
     "corpora/vectors-converted-argument-binding/**/*.py",
+    "corpora/vectors-credential-reachability/**/*.py",
     "corpora/vectors-credential-release/**/*.py",
     "corpora/vectors-decision-client-failure-modes/**/*.py",
+    "corpora/vectors-delegation-chain/**/*.py",
     "corpora/vectors-delegation-lifecycle/**/*.py",
     "corpora/vectors-delegator-right/**/*.py",
     "corpora/vectors-dependency-selection/**/*.py",
@@ -300,12 +308,14 @@ exclude = [
     "corpora/vectors-refusal-reason-priority/**/*.py",
     "corpora/vectors-responsibility-escalation/**/*.py",
     "corpora/vectors-restart-records/**/*.py",
+    "corpora/vectors-revocation-list/**/*.py",
     "corpora/vectors-rsa-digestinfo/**/*.py",
     "corpora/vectors-scitt-cose/**/*.py",
     "corpora/vectors-self-reported-record/**/*.py",
     "corpora/vectors-signature-coverage/**/*.py",
     "corpora/vectors-source-coverage/**/*.py",
     "corpora/vectors-spoofed-tool-output/**/*.py",
+    "corpora/vectors-status-receipt-binding/**/*.py",
     "corpora/vectors-telemetry-evidence/**/*.py",
     "corpora/vectors-test-tampering/**/*.py",
     "corpora/vectors-trace-anchor/**/*.py",
@@ -322,6 +332,7 @@ exclude = [
 "corpora/vectors-aci" = "agent_evidence_vectors/corpora/vectors-aci"
 "corpora/vectors-acs-core" = "agent_evidence_vectors/corpora/vectors-acs-core"
 "corpora/vectors-acs-decision-record" = "agent_evidence_vectors/corpora/vectors-acs-decision-record"
+"corpora/vectors-actor-marker-survival" = "agent_evidence_vectors/corpora/vectors-actor-marker-survival"
 "corpora/vectors-admission" = "agent_evidence_vectors/corpora/vectors-admission"
 "corpora/vectors-agent-audit-record" = "agent_evidence_vectors/corpora/vectors-agent-audit-record"
 "corpora/vectors-agent-card-receipt" = "agent_evidence_vectors/corpora/vectors-agent-card-receipt"
@@ -348,8 +359,10 @@ exclude = [
 "corpora/vectors-connector-scope" = "agent_evidence_vectors/corpora/vectors-connector-scope"
 "corpora/vectors-containment-journal" = "agent_evidence_vectors/corpora/vectors-containment-journal"
 "corpora/vectors-converted-argument-binding" = "agent_evidence_vectors/corpora/vectors-converted-argument-binding"
+"corpora/vectors-credential-reachability" = "agent_evidence_vectors/corpora/vectors-credential-reachability"
 "corpora/vectors-credential-release" = "agent_evidence_vectors/corpora/vectors-credential-release"
 "corpora/vectors-decision-client-failure-modes" = "agent_evidence_vectors/corpora/vectors-decision-client-failure-modes"
+"corpora/vectors-delegation-chain" = "agent_evidence_vectors/corpora/vectors-delegation-chain"
 "corpora/vectors-delegation-lifecycle" = "agent_evidence_vectors/corpora/vectors-delegation-lifecycle"
 "corpora/vectors-delegator-right" = "agent_evidence_vectors/corpora/vectors-delegator-right"
 "corpora/vectors-dependency-selection" = "agent_evidence_vectors/corpora/vectors-dependency-selection"
@@ -391,12 +404,14 @@ exclude = [
 "corpora/vectors-refusal-reason-priority" = "agent_evidence_vectors/corpora/vectors-refusal-reason-priority"
 "corpora/vectors-responsibility-escalation" = "agent_evidence_vectors/corpora/vectors-responsibility-escalation"
 "corpora/vectors-restart-records" = "agent_evidence_vectors/corpora/vectors-restart-records"
+"corpora/vectors-revocation-list" = "agent_evidence_vectors/corpora/vectors-revocation-list"
 "corpora/vectors-rsa-digestinfo" = "agent_evidence_vectors/corpora/vectors-rsa-digestinfo"
 "corpora/vectors-scitt-cose" = "agent_evidence_vectors/corpora/vectors-scitt-cose"
 "corpora/vectors-self-reported-record" = "agent_evidence_vectors/corpora/vectors-self-reported-record"
 "corpora/vectors-signature-coverage" = "agent_evidence_vectors/corpora/vectors-signature-coverage"
 "corpora/vectors-source-coverage" = "agent_evidence_vectors/corpora/vectors-source-coverage"
 "corpora/vectors-spoofed-tool-output" = "agent_evidence_vectors/corpora/vectors-spoofed-tool-output"
+"corpora/vectors-status-receipt-binding" = "agent_evidence_vectors/corpora/vectors-status-receipt-binding"
 "corpora/vectors-telemetry-evidence" = "agent_evidence_vectors/corpora/vectors-telemetry-evidence"
 "corpora/vectors-test-tampering" = "agent_evidence_vectors/corpora/vectors-test-tampering"
 "corpora/vectors-trace-anchor" = "agent_evidence_vectors/corpora/vectors-trace-anchor"
@@ -488,6 +503,7 @@ only-include = [
     "corpora/vectors-aci",
     "corpora/vectors-acs-core",
     "corpora/vectors-acs-decision-record",
+    "corpora/vectors-actor-marker-survival",
     "corpora/vectors-admission",
     "corpora/vectors-agent-audit-record",
     "corpora/vectors-agent-card-receipt",
@@ -514,8 +530,10 @@ only-include = [
     "corpora/vectors-connector-scope",
     "corpora/vectors-containment-journal",
     "corpora/vectors-converted-argument-binding",
+    "corpora/vectors-credential-reachability",
     "corpora/vectors-credential-release",
     "corpora/vectors-decision-client-failure-modes",
+    "corpora/vectors-delegation-chain",
     "corpora/vectors-delegation-lifecycle",
     "corpora/vectors-delegator-right",
     "corpora/vectors-dependency-selection",
@@ -557,12 +575,14 @@ only-include = [
     "corpora/vectors-refusal-reason-priority",
     "corpora/vectors-responsibility-escalation",
     "corpora/vectors-restart-records",
+    "corpora/vectors-revocation-list",
     "corpora/vectors-rsa-digestinfo",
     "corpora/vectors-scitt-cose",
     "corpora/vectors-self-reported-record",
     "corpora/vectors-signature-coverage",
     "corpora/vectors-source-coverage",
     "corpora/vectors-spoofed-tool-output",
+    "corpora/vectors-status-receipt-binding",
     "corpora/vectors-telemetry-evidence",
     "corpora/vectors-test-tampering",
     "corpora/vectors-trace-anchor",

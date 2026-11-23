@@ -1,0 +1,65 @@
+{
+  "contractId": "https://probityai.github.io/agent-evidence-vectors/predicate/v1/actor-marker-survival",
+  "statements": [
+    {
+      "signature": "DTth5kWDhMCJUf84XUyL75tpXm94NOJbdY6cFmG2LLZxn0CHosk3o_9vLgwq4Z-b0hp4OzOFxWGzMMgg6Vz0Bw",
+      "statement": {
+        "humanEvidence": {
+          "at": "2026-11-22T14:59:30Z",
+          "method": "user-presence"
+        },
+        "kind": "origin",
+        "sent": {
+          "at": "2026-11-22T15:00:00Z",
+          "protocol": "rfc8693",
+          "to": "gateway:edge",
+          "token": {
+            "claims": {
+              "exp": 1795363200,
+              "sub": "user:alice@example.com"
+            },
+            "header": {
+              "typ": "JWT"
+            }
+          }
+        },
+        "writer": "idp.example"
+      }
+    },
+    {
+      "signature": "U1EY6Qzi14_lGPu4q6GZleJq7XK9KOlKH3g6VSUWR4C1Qxx5imnQ2oiolMGElIPe1AjOiV-QRXqxyNCa1sT0AQ",
+      "statement": {
+        "kind": "hop",
+        "prev": "0cec4d1b921cc9360b061e9cbdfec110d32d2d88f6e9ff42e65bde02210fee7d",
+        "received": {
+          "at": "2026-11-22T15:00:10Z",
+          "protocol": "rfc8693",
+          "token": {
+            "claims": {
+              "exp": 1795363200,
+              "sub": "user:alice@example.com"
+            },
+            "header": {
+              "typ": "JWT"
+            }
+          }
+        },
+        "sent": {
+          "at": "2026-11-22T15:00:11Z",
+          "protocol": "rfc8693",
+          "to": "api.example",
+          "token": {
+            "claims": {
+              "exp": 1795363200,
+              "sub": "user:alice@example.com"
+            },
+            "header": {
+              "typ": "JWT"
+            }
+          }
+        },
+        "writer": "gateway:edge"
+      }
+    }
+  ]
+}
