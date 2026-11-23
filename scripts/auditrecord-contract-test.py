@@ -4,7 +4,8 @@
 Three runs of packaging/run_vectors.py over corpora/vectors-agent-audit-record:
 
 1. The reference reader, answering through the contract, must conform on every
-   member: exit 0 and a report whose totals show every member executed.
+   published member: exit 0 and a report whose totals show every member executed.
+   A proposed member it differs on is a note (proposedDiffer), never a failure.
 2. The oracle verifier with one verdict flipped must fail, naming that member.
 3. The oracle verifier with its exit status inverted must fail on every member,
    because the exit status and the verdict disagree.
@@ -96,6 +97,48 @@ def _scoring_cases(entries: list[dict[str, Any]]) -> list[str]:
     return out
 
 
+def _totals_findings(totals: dict[str, int], entries: list[dict[str, Any]]) -> list[str]:
+    """The reference reader's totals: every published member conforms and none fails.
+
+    A proposed member tests a rule no published revision states, so the reader's
+    difference on it is a note (proposedDiffer), not a failure, exactly as the
+    harness scores it. Its bytes and aggregation still bind it: those land in
+    fail. Only proposed members may be exempt, and never more than the corpus
+    holds.
+    """
+    proposed = sum(1 for e in entries if "proposed" in e)
+    differ = totals.get("proposedDiffer", 0)
+    out: list[str] = []
+    if totals.get("fail", 0) != 0:
+        out.append(f"reference reader totals {totals}: {totals['fail']} member(s) failed")
+    if differ > proposed or totals.get("proposed", 0) != proposed:
+        out.append(f"reference reader totals {totals}: {differ} proposed member(s) differ, "
+                   f"but the corpus proposes {proposed}")
+    if totals.get("conform", 0) != len(entries) - differ:
+        out.append(f"reference reader totals {totals}, expected "
+                   f"{len(entries) - differ} conforming ({differ} proposed differ)")
+    return out
+
+
+def _totals_cases(entries: list[dict[str, Any]]) -> list[str]:
+    """_totals_findings exempts a proposed member's difference and nothing else."""
+    n, proposed = len(entries), sum(1 for e in entries if "proposed" in e)
+    base = {"vectors": n, "conform": n, "fail": 0, "proposed": proposed, "proposedDiffer": 0}
+    out: list[str] = []
+    if _totals_findings(base, entries):
+        out.append("totals with every member conforming were refused")
+    if proposed and _totals_findings({**base, "conform": n - 1, "proposedDiffer": 1}, entries):
+        out.append("a proposed member's difference was scored as a failure")
+    if not _totals_findings({**base, "conform": n - 1}, entries):
+        out.append("a published member that does not conform was not caught")
+    if not _totals_findings({**base, "conform": n - 1, "fail": 1}, entries):
+        out.append("a failed member was not caught")
+    over = proposed + 1
+    if not _totals_findings({**base, "conform": n - over, "proposedDiffer": over}, entries):
+        out.append("more proposed differences than proposed members were not caught")
+    return out
+
+
 def main() -> int:
     manifest = json.loads((CORPUS / "MANIFEST.json").read_text(encoding="utf-8"))
     entries = manifest["vectors"]
@@ -114,10 +157,7 @@ def main() -> int:
             )
         else:
             totals = json.loads(report.read_text(encoding="utf-8"))["totals"]
-            if totals["conform"] != len(entries) or totals["fail"] != 0:
-                failures.append(
-                    f"reference reader totals {totals}, expected {len(entries)} conforming"
-                )
+            failures.extend(_totals_findings(totals, entries))
 
         stem = Path(str(accept["file"])).name
         flip = Path(tmp) / "flip.py"
@@ -147,6 +187,7 @@ def main() -> int:
             )
 
     failures.extend(_scoring_cases(entries))
+    failures.extend(_totals_cases(entries))
     for failure in failures:
         print(f"FAIL {failure}")
     if failures:
