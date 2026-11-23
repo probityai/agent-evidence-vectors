@@ -1,9 +1,9 @@
 {
   "contractId": "https://probityai.github.io/agent-evidence-observer/contract/dispatch-fence/v1",
-  "corpusDigest": "958421c39dcd872edd0f877572a9c60fcf98442b8800e7e3aa7b048b92c794b5",
+  "corpusDigest": "dca334323b0fb1b178692ef0f6c6179fc598be7594df36aae4e0390c1d1abcce",
   "counts": {
     "allow": 5,
-    "deny": 8
+    "deny": 9
   },
   "suite": "dispatch-fence/v1",
   "vectors": [
@@ -60,17 +60,17 @@
       "path": "cases/allow-same-proposal-second-hop"
     },
     {
-      "edit": "control: the effect and the commit land exactly at the hold's expiry",
+      "edit": "control: the effect and the commit land one second before the hold's expiry",
       "expected": {
         "decision": "allow",
         "reason": "exclusive"
       },
       "files": {
-        "record.json": "5e350727a0b2a59db2967e8816b1310d58dfadfbd90c456c8f61ab120c031722"
+        "record.json": "d389564501c3e9f38b65ba579ac3bbe3775168bd580e08b026807e6ffee4442c"
       },
       "holdCoversCommit": true,
-      "id": "allow-effect-ends-at-expiry",
-      "path": "cases/allow-effect-ends-at-expiry"
+      "id": "allow-commit-before-expiry",
+      "path": "cases/allow-commit-before-expiry"
     },
     {
       "edit": "the record names no contract",
@@ -175,6 +175,19 @@
       "holdCoversCommit": false,
       "id": "commit-after-own-hold-expired",
       "path": "cases/commit-after-own-hold-expired"
+    },
+    {
+      "edit": "the effect ended exactly at the expiry, which is inside the half-open hold, and the commit landed exactly at the expiry, which is outside it",
+      "expected": {
+        "decision": "deny",
+        "reason": "commit_after_hold_expired"
+      },
+      "files": {
+        "record.json": "df2ead3c66398b847a85d7e90b5aedbfdb9aab55b435aa2e851cda12e6cc6e06"
+      },
+      "holdCoversCommit": false,
+      "id": "commit-at-expiry",
+      "path": "cases/commit-at-expiry"
     }
   ],
   "verifierContract": "verifier record.json --json; exit 0 allow, 1 deny"

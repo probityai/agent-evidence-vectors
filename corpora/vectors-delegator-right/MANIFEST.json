@@ -1,6 +1,6 @@
 {
   "contractId": "https://probityai.github.io/agent-evidence-vectors/contract/delegator-right/v1",
-  "corpusDigest": "57dbef274d278c7ffafb4214ff10079dd0ef4467e1135d22cd69b540045c76aa",
+  "corpusDigest": "255ee8c8f4a42f860b1c3690fcff9ac222fb6dc0395923e91fabeaeb579ad1ed",
   "counts": {
     "allow": 7,
     "deny": 19
@@ -35,7 +35,7 @@
       "edit": "control: the entitlement ended one second inside the propagation limit",
       "expected": {
         "decision": "allow",
-        "reason": "entitled"
+        "reason": "within_propagation_limit"
       },
       "files": {
         "record.json": "114ba2278d7b1604288158bca0bb326196fdd50056d31c3db542bbeda2282abb"
@@ -59,7 +59,7 @@
       "edit": "control: the operation was removed from the parent grant one second inside the limit",
       "expected": {
         "decision": "allow",
-        "reason": "entitled"
+        "reason": "within_propagation_limit"
       },
       "files": {
         "record.json": "711217bab83dd4814af61cdd5c1ad458a9848ad3cca8beb3141ad1ca7ce8faa6"

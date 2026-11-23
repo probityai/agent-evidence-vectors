@@ -199,3 +199,10 @@ def test_a_non_canonical_r_is_refused_as_the_go_reader_refuses_it() -> None:
     }
     assert verdicts and any(valid for _, valid in verdicts.values())
     assert {k: got for k, (got, _) in verdicts.items()} == {k: v for k, (_, v) in verdicts.items()}
+
+
+def test_a_revocation_issued_after_the_presentation_is_refused_as_retroactive(
+    tmp_path: Path,
+) -> None:
+    case = _copy(tmp_path, "tree-revocation-backdated")
+    assert _decide(case) == ("reject", "grant_revoked_retroactively")
