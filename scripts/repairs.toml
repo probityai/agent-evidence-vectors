@@ -131,6 +131,17 @@ module's embedded copy follows through scripts/gen-jcsvectors-data.py.
 """
 
 [[gate]]
+ident = "dsse-pae-vectors"
+argv = ["python3", "scripts/gen-dsse-pae-vectors.py", "--check"]
+fix = ["python3", "scripts/gen-dsse-pae-vectors.py"]
+why = """
+interop/dsse-pae-vectors/cases.json is written by the generator, with every
+expected pre-authentication encoding built from the DSSE rule rather than from
+the code under test. --check refuses when the committed file differs from what a
+run writes; a bare invocation rewrites it.
+"""
+
+[[gate]]
 ident = "mcp-owasp-vectors"
 argv = ["uv", "run", "python", "corpora/vectors-mcp-owasp/gen_vectors.py", "--check"]
 fix = ["uv", "run", "python", "corpora/vectors-mcp-owasp/gen_vectors.py"]
