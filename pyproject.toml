@@ -153,6 +153,7 @@ only-include = [
     "corpora/vectors-anchored-chain",
     "corpora/vectors-approval-binding",
     "corpora/vectors-artifact-binding",
+    "corpora/vectors-assertion-grade",
     "corpora/vectors-authority-at-dispatch",
     "corpora/vectors-badge-vc-verify",
     "corpora/vectors-budget-lineage",
@@ -241,6 +242,7 @@ exclude = [
     "corpora/vectors-anchored-chain/**/*.py",
     "corpora/vectors-approval-binding/**/*.py",
     "corpora/vectors-artifact-binding/**/*.py",
+    "corpora/vectors-assertion-grade/**/*.py",
     "corpora/vectors-authority-at-dispatch/**/*.py",
     "corpora/vectors-badge-vc-verify/**/*.py",
     "corpora/vectors-budget-lineage/**/*.py",
@@ -328,6 +330,7 @@ exclude = [
 "corpora/vectors-anchored-chain" = "agent_evidence_vectors/corpora/vectors-anchored-chain"
 "corpora/vectors-approval-binding" = "agent_evidence_vectors/corpora/vectors-approval-binding"
 "corpora/vectors-artifact-binding" = "agent_evidence_vectors/corpora/vectors-artifact-binding"
+"corpora/vectors-assertion-grade" = "agent_evidence_vectors/corpora/vectors-assertion-grade"
 "corpora/vectors-authority-at-dispatch" = "agent_evidence_vectors/corpora/vectors-authority-at-dispatch"
 "corpora/vectors-badge-vc-verify" = "agent_evidence_vectors/corpora/vectors-badge-vc-verify"
 "corpora/vectors-budget-lineage" = "agent_evidence_vectors/corpora/vectors-budget-lineage"
@@ -490,6 +493,7 @@ only-include = [
     "corpora/vectors-anchored-chain",
     "corpora/vectors-approval-binding",
     "corpora/vectors-artifact-binding",
+    "corpora/vectors-assertion-grade",
     "corpora/vectors-authority-at-dispatch",
     "corpora/vectors-badge-vc-verify",
     "corpora/vectors-budget-lineage",

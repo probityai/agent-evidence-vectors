@@ -143,6 +143,7 @@ GENERATORS = (
     # key recipe rather than copied, so the generator is the only place their
     # bytes come from.
     "corpora/vectors-print-witness/gen_vectors.py",
+    "corpora/vectors-assertion-grade/gen_vectors.py",
     "corpora/vectors-receipt-signature/gen_vectors.py",
     "corpora/vectors-source-coverage/gen_vectors.py",
     "corpora/vectors-open-weight-art53/gen_vectors.py",
@@ -329,6 +330,9 @@ OWNED = (
     ("corpora/vectors-grade-floor", "MANIFEST.json"),
     ("corpora/vectors-grade-floor", "INDEX.md"),
     ("corpora/vectors-grade-floor/cases", "**/case.json"),
+    ("corpora/vectors-assertion-grade", "MANIFEST.json"),
+    ("corpora/vectors-assertion-grade", "INDEX.md"),
+    ("corpora/vectors-assertion-grade/cases", "**/case.json"),
     ("corpora/vectors-connector-scope", "MANIFEST.json"),
     ("corpora/vectors-connector-scope", "INDEX.md"),
     ("corpora/vectors-connector-scope", "profile.json"),
