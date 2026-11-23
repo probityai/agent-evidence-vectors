@@ -113,6 +113,10 @@ GENERATORS = (
     # disclosed context and policy, read from the recorded ACS run; it builds its
     # own manifest and index.
     "corpora/vectors-acs-decision-record/gen_vectors.py",
+    # The decision-record action-binding corpus. Members are the format's published
+    # binding cases with their patches applied, its signed attachments, and strict
+    # members signed with a published test key; it builds its own manifest and index.
+    "corpora/vectors-decision-record/gen_vectors.py",
     # The W3C intake-criteria corpus. Every member is an intake record whose
     # digests are taken over fixture trees the generator writes beside it, and
     # the generator refuses a member the checker does not answer as claimed.
@@ -493,6 +497,9 @@ OWNED = (
     ("corpora/vectors-acs-decision-record/members", "*.json"),
     ("corpora/vectors-acs-decision-record", "MANIFEST.json"),
     ("corpora/vectors-acs-decision-record", "INDEX.md"),
+    ("corpora/vectors-decision-record/members", "*.json"),
+    ("corpora/vectors-decision-record", "MANIFEST.json"),
+    ("corpora/vectors-decision-record", "INDEX.md"),
     ("corpora/vectors-w3c-intake/vectors", "v*.json"),
     # Every fixture file carries an extension and no fixture directory does, so
     # this names the files under trees/ and never a directory the gate would
