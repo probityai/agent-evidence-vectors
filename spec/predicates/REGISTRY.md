@@ -419,6 +419,8 @@ reproduce is refused.
 - Document: `corpora/vectors-revocation-list/README.md`
 - Corpus: `corpora/vectors-revocation-list/`, suite `revocation-list/v1`
 - Rails: `aee/revocationlist.go`, `corpusreaders/revocationlist.go`
+- Emitter: the `probity-records` package, [`revocation.py`](https://github.com/probityai/probity/blob/main/packages/probity-records/src/probity_records/revocation.py), which emits and verifies it.
+- Status: current. The URI will not move, because a record carries it inside the bytes its producer signed.
 
 The predicate carries one signed, cumulative revocation list: a body of seven members, chained to
 the previous list by sequence number and digest, signed by a root key the verifier pins out of
@@ -629,12 +631,6 @@ when the record, its signature and the JWKS are judged offline.
 
 - Predicate body: One step of a governance workflow (intake, risk routing, approval, attestation, sign-off) written as a journal statement.
 - Document: the `probity-records` package, [`governance.py`](https://github.com/probityai/probity/blob/main/packages/probity-records/src/probity_records/governance.py), which emits and verifies it.
-- Status: current. The URI will not move, because a record carries it inside the bytes its producer signed.
-
-### `predicate/v1/revocation-list`
-
-- Predicate body: A signed, append-only revocation list for keys, permits and grants, chained by sequence number and the digest of the prior list, with root rotation by a named successor.
-- Document: the `probity-records` package, [`revocation.py`](https://github.com/probityai/probity/blob/main/packages/probity-records/src/probity_records/revocation.py), which emits and verifies it.
 - Status: current. The URI will not move, because a record carries it inside the bytes its producer signed.
 
 The entries in this section are registrations, not specifications. Their field

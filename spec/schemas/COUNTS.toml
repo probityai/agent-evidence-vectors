@@ -54,3 +54,8 @@ expect = { samples = 25, positive = 12, negative = 13, mutants = 1523, mutants_r
 schema = "spec/schemas/verifier-result-v1.schema.json"
 samples = ["spec/schemas/samples/verifier-result-v1/*.json"]
 expect = { samples = 9, positive = 4, negative = 5, mutants = 64, mutants_rejected = 64 }
+
+[[schema]]
+schema = "spec/schemas/verdict-line-v1.schema.json"
+samples = ["spec/schemas/samples/verdict-line-v1/*.json"]
+expect = { samples = 7, positive = 3, negative = 4, mutants = 58, mutants_rejected = 54 }

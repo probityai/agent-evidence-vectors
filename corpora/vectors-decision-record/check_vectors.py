@@ -13,6 +13,7 @@ not run: absence is never a pass.
 
 from __future__ import annotations
 
+import importlib
 import json
 import sys
 from pathlib import Path
@@ -37,7 +38,9 @@ def declared_differences(report: dict, declared: dict) -> list[str]:
 
 def main() -> int:
     try:
-        from agent_evidence_verify import decision_record
+        # Loaded by name: the package is installed only where this check runs
+        # (CI pins it), so the type gate must not resolve it from the repo env.
+        decision_record = importlib.import_module("agent_evidence_verify.decision_record")
     except ImportError:
         print("decision-record: NOT RUN: agent-evidence-verify is not installed")
         return 2

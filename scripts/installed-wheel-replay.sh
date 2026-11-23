@@ -45,6 +45,9 @@ while read -r corpus; do
     elif [ "$corpus" = vectors-delegation-chain ] && [ "$directory_rc" = 2 ] && \
        grep -q 'its only reader is the Python reference reader' "directory-$corpus.txt"; then
       echo "$corpus: judged by its Python reference reader, refused by name here"
+    elif [ "$corpus" = vectors-agent-registration-classification ] && [ "$directory_rc" = 2 ] && \
+       grep -q 'no reader in this binary judges it' "directory-$corpus.txt"; then
+      echo "$corpus: judged by its own check_vectors.py, refused by name here"
     else
       cat "directory-$corpus.txt"
       echo "::error::installed directory route for $corpus exited $directory_rc"

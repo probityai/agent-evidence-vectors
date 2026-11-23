@@ -1,0 +1,12 @@
+{
+  "schema": "https://example.invalid/verdict-line/v1",
+  "suite": "synthetic-example/v1",
+  "corpusDigest": "0000000000000000000000000000000000000000000000000000000000000000",
+  "vector": "v01",
+  "verdict": "accept",
+  "reason": "",
+  "verifier": {
+    "name": "agent-evidence-vectors",
+    "version": "0.38.0"
+  }
+}

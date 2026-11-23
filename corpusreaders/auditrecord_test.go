@@ -430,6 +430,10 @@ func TestAuditRecordProposedMembersScoreOnTheirOwnBytes(t *testing.T) {
 	for _, id := range differs {
 		if !arContains(proposed, id) {
 			t.Errorf("%s fails with every proposed member scored, and it is not proposed", id)
+		}
+	}
+}
+
 // TestAuditRecordReferenceTime pins the reference time of revision 04:
 // decision.reportedAt when no evaluatedAt is carried, decision.evaluatedAt when
 // one is, an evaluatedAt up to the skew tolerance after reportedAt accepted and

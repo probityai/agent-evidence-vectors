@@ -1,0 +1,15 @@
+{
+  "schema": "https://probityai.github.io/agent-evidence-vectors/schema/verdict-line/v1",
+  "suite": "synthetic-example/v1",
+  "corpusDigest": "0000000000000000000000000000000000000000000000000000000000000000",
+  "vector": "v01",
+  "verdict": "reject",
+  "reason": "signature-invalid",
+  "verifier": {
+    "name": "agent-evidence-vectors",
+    "version": "0.38.0"
+  },
+  "result": {
+    "rule": "signature-invalid"
+  }
+}
