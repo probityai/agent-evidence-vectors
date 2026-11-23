@@ -299,6 +299,23 @@ var cjEdits = []cjEdit{
 	{"allow-isolated-agents-tool-call-refused", "record.json", `["componentProfileDigest"]`, `"x"`, "record_malformed"},
 	{"allow-isolated-agents-tool-call-refused", "record.json", `["claims","authorityChainChecked"]`, `"yes"`, "record_malformed"},
 	{"allow-isolated-agents-tool-call-refused", "receipt.json", `["reached","toolCalls"]`, `2`, "blast_radius_overstated"},
+	{"allow-write-attributed-and-read-back", "record.json", `["entries",1,"principals","user"]`, `""`, "record_malformed"},
+	{"allow-write-attributed-and-read-back", "record.json", `["entries",1,"principals","extra"]`, `true`, "record_malformed"},
+	{"allow-write-attributed-and-read-back", "record.json", `["entries",1,"principals"]`, `"agent-a"`, "record_malformed"},
+	{"allow-write-attributed-and-read-back", "record.json", `["entries",1,"refusalReason"]`, `"x"`, "record_malformed"},
+	{"allow-write-attributed-and-read-back", "record.json", `["entries",1,"permitValueDigest"]`, `"x"`, "record_malformed"},
+	{"allow-write-attributed-and-read-back", "record.json", `["entries",2,"refused"]`, `false`, "record_malformed"},
+	{"allow-write-attributed-and-read-back", "record.json", `["entries",4,"refused"]`, `false`, "record_malformed"},
+	{"allow-write-attributed-and-read-back", "record.json", `["entries",3,"writer","agent"]`, `"agent-z"`, "record_malformed"},
+	{"allow-write-attributed-and-read-back", "record.json", `["entries",3,"writer"]`, `{"agent":"agent-a","user":"x"}`, "record_malformed"},
+	{"allow-write-attributed-and-read-back", "record.json", `["entries",3,"writer","extra"]`, `true`, "record_malformed"},
+	{"allow-write-attributed-and-read-back", "record.json", `["claims","writesBound"]`, `"yes"`, "record_malformed"},
+	{"allow-write-attributed-and-read-back", "record.json", `["entries",6,"writer","user"]`, `"another principal"`, "read_writer_mismatch"},
+	{"allow-write-attributed-and-read-back", "record.json", `["entries",6,"writer"]`, `{"agent":"agent-d"}`, "read_writer_mismatch"},
+	{"allow-write-attributed-and-read-back", "record.json", `["entries",6,"valueDigest"]`, `"sha256:0000000000000000000000000000000000000000000000000000000000000000"`, "read_value_unwritten"},
+	{"allow-write-attributed-and-read-back", "record.json", `["entries",6,"keyDigest"]`, `"sha256:0000000000000000000000000000000000000000000000000000000000000000"`, "read_value_unwritten"},
+	{"allow-write-attributed-and-read-back", "receipt.json", `["reached","agents"]`, `[]`, "blast_radius_understated"},
+	{"allow-write-attributed-and-read-back", "receipt.json", `["reached","agents"]`, `["agent-b","agent-c"]`, "blast_radius_overstated"},
 	{"allow-retrieval-inside-snapshot", "record.json", `["snapshotRoot"]`, `"sha256:0000000000000000000000000000000000000000000000000000000000000000"`, "retrieval_admitted_outside_snapshot"},
 	{"allow-retrieval-inside-snapshot", "record.json", `["snapshotRoot"]`, `"x"`, "record_malformed"},
 	{"allow-refusal-over-present-edge", "record.json", `["entries",1,"reasonCode"]`, `"private_policy_rule_7"`, "closed_vocabulary_violation"},
@@ -365,6 +382,47 @@ func TestContainmentJournalStructuredEditsGiveTheirReasons(t *testing.T) {
 			path, _ := cjJSON(t, edit.path).([]any)
 			files := map[string][]byte{edit.file: cjEncode(t, cjSet(t, root, path, cjJSON(t, edit.value)))}
 			if got := cjDerivedFor(t, edit.member, files); !strings.Contains(got, "/"+edit.want+",") {
+				t.Fatalf("want %s, got %q", edit.want, got)
+			}
+		})
+	}
+}
+
+// A refused read still names the last write to its key, and that is checked. The
+// withheld read is entry 4 of the read-back case; the journal is cut after it, so it
+// is the head and the edit leaves the hash chain intact.
+func TestContainmentJournalWithheldReadNamesTheLastWriter(t *testing.T) {
+	const member = "allow-write-attributed-and-read-back"
+	edits := []struct{ path, value, want string }{
+		{`["writer"]`, `{"agent":"agent-d"}`, "read_writer_mismatch"},
+		{`["writer","user"]`, `"another principal"`, "read_writer_mismatch"},
+		{`["keyDigest"]`, `"sha256:0000000000000000000000000000000000000000000000000000000000000000"`, "read_value_unwritten"},
+		{`["valueDigest"]`, `"sha256:0000000000000000000000000000000000000000000000000000000000000000"`, "allowed"},
+	}
+	for _, edit := range edits {
+		t.Run(edit.path+"="+edit.value, func(t *testing.T) {
+			record := cjDecodeRecord(t, cjFile(t, member, "record.json"))
+			entries, _ := record["entries"].([]any)
+			withheld, _ := entries[4].(map[string]any)
+			if withheld["event"] != "store_read" || withheld["refused"] != true {
+				t.Fatalf("entry 4 of %s is not the withheld read: %v", member, withheld)
+			}
+			record["entries"] = entries[:5]
+			path, _ := cjJSON(t, edit.path).([]any)
+			cjSet(t, withheld, path, cjJSON(t, edit.value))
+			staged := cjStage(t, member, map[string][]byte{"record.json": cjEncode(t, record)})
+			// The receipt binds the uncut journal's head; the cut journal is judged without it.
+			if err := os.Remove(filepath.Join(staged, "cases", member, "receipt.json")); err != nil {
+				t.Fatal(err)
+			}
+			got := scDerived(t, staged, member)
+			if edit.want == "allowed" {
+				if !strings.Contains(got, "derived allow/") {
+					t.Fatalf("want an allow, got %q", got)
+				}
+				return
+			}
+			if !strings.Contains(got, "/"+edit.want+",") {
 				t.Fatalf("want %s, got %q", edit.want, got)
 			}
 		})

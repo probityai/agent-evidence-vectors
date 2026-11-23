@@ -33,12 +33,25 @@ every such event is an entry of one hash-chained journal:
   is denied; it is not a delivery, so it is not a drop over a present edge;
 - ``retrieval`` (revision 1.1): an agent asked for a document, whether it was
   admitted, and the Merkle inclusion path from the document's digest to the
-  run's ``snapshotRoot``.
+  run's ``snapshotRoot``;
+- ``write`` (revision 2.0): an agent wrote a value to a shared store (key and
+  value by digest), run or refused, with the value digest its permit bound and,
+  when attributed, its ``principals``: the user, the delegation chain digest and
+  the digest of the (agent, user, chain) document;
+- ``store_read`` (revision 2.0): an agent read a value back, naming the writer
+  of the last write that ran to the key; the walk checks that writer for every
+  read, and for a read the reader did not refuse, that the value is the one that
+  write wrote.
+
+A reader of revision 1.x denies a journal that carries either revision 2.0 event
+(``closed_vocabulary_violation``), which is the correct answer for a reader that
+cannot judge them; a journal with neither keeps its bytes and its verdict.
 
 The journal also states the defence's claims (``channelsClosed``,
 ``restorationGated``, ``defendedThroughout``, ``detectorDriven``,
 ``responseBoundSeconds``; from revision 1.1 ``retrievalAttested`` and
-``authorityChainChecked``), and, from revision 1.1, may name the attested
+``authorityChainChecked``; from revision 2.0 ``writesAttributed`` and
+``writesBound``), and, from revision 1.1, may name the attested
 corpus (``snapshotRoot``) and the component profile it ran under
 (``componentProfileDigest``). Every revision 1.1 member is optional, so a
 revision 1.0 journal keeps its shape. The reader checks the rules below in order and names
@@ -52,7 +65,9 @@ each decision's deltas and estimates, each fallback's posture, each restart's
 configuration digests, each assessment's availability, each admitted
 restoration's cited evidence, each response's authority and timing, each
 admitted retrieval's inclusion in the snapshot, each tool call against the
-graph in force); and the run-level claims. The reason codes are the tuple ``CHECKS``.
+graph in force, each write's principals digest, permitted value and writer, each
+read's value and writer against the last write to its key); and the run-level
+claims. The reason codes are the tuple ``CHECKS``.
 
 An entry's digest is ``sha256:`` and the hex SHA-256 of the entry's canonical
 bytes. Under the canonical-form rule those bytes are
@@ -92,7 +107,7 @@ from agent_evidence_vectors.monitorcoverage import (
 )
 
 SUITE = "containment-journal/v1"
-SUITE_REVISION = 3  # revision 1.2 of the predicate; CHANGES.md carries the ledger
+SUITE_REVISION = 4  # revision 2.0 of the predicate; CHANGES.md carries the ledger
 _BASE = "https://probityai.github.io/agent-evidence-vectors/predicate/v1/"
 CONTRACT_ID = _BASE + "containment-journal"
 RECEIPT_CONTRACT_ID = _BASE + "blast-radius-receipt"
@@ -114,8 +129,11 @@ CHECKS = (
     "restoration_evidence_self_witnessed", "restoration_evidence_above_threshold",
     "decision_without_authority", "response_time_inverted", "response_bound_exceeded",
     "retrieval_admitted_outside_snapshot", "tool_call_by_isolated_agent",
+    "write_principals_digest_mismatch", "write_value_not_permitted", "write_by_isolated_agent",
+    "read_value_unwritten", "read_writer_mismatch",
     "advisory_claimed_as_enforced", "defended_claim_after_fail_open",
     "detector_output_uninformative", "tool_call_authority_unbound",
+    "write_principals_missing", "write_unpermitted",
 )
 RECEIPT_CHECKS = (
     "receipt_contract_id_missing", "receipt_contract_id_unknown", "receipt_malformed",
@@ -124,7 +142,8 @@ RECEIPT_CHECKS = (
 CLOSED = {
     "enforcement": ("advisory", "enforced"),
     "event": ("topology", "delivery", "decision", "fallback", "restart", "assessment",
-              "restoration", "response", "tool_call", "retrieval", "refusal"),
+              "restoration", "response", "tool_call", "retrieval", "refusal", "write",
+              "store_read"),
     "basis": ("detector_online_label", "detector_no_label", "random_rate_matched",
               "ground_truth_oracle", "fixed_schedule", "evidence_gate"),
     "responseFunction": ("restriction", "isolation", "restoration"),
@@ -157,20 +176,31 @@ EVENT_MEMBERS = {
                   "proof": "proof"},
     "refusal": {"sender": "agent", "receiver": "agent", "bodyDigest": "digest",
                 "reasonCode": "word"},
+    "write": {"agent": "agent", "store": "text", "keyDigest": "digest", "valueDigest": "digest",
+              "refused": "bool"},
+    "store_read": {"agent": "agent", "store": "text", "keyDigest": "digest",
+                   "valueDigest": "digest", "writer": "writer"},
 }
 # Revision 1.1 members a tool call may carry; refusalReason exactly when refused is true.
 TOOL_CALL_OPTIONAL = {"refused": "bool", "refusalReason": "text", "grantChainDigest": "digest"}
+# Revision 2.0 members a write may carry (refusalReason exactly when refused is true), and a read.
+WRITE_OPTIONAL = {"refusalReason": "text", "permitValueDigest": "digest",
+                  "principals": "principals"}
+READ_OPTIONAL = {"refused": "bool", "refusalReason": "text"}
+# The optional members of each event that has them; refusalReason is present exactly when
+# refused is true.
+OPTIONAL = {"tool_call": TOOL_CALL_OPTIONAL, "write": WRITE_OPTIONAL, "store_read": READ_OPTIONAL}
 DETECTOR_MEMBERS = {"riskEstimates": "estimates", "detectorInputs": "words"}
 CLAIM_KINDS = {"channelsClosed": "bool", "restorationGated": "bool",
                "defendedThroughout": "bool", "detectorDriven": "bool",
                "responseBoundSeconds": "count", "retrievalAttested": "bool",
-               "authorityChainChecked": "bool"}
+               "authorityChainChecked": "bool", "writesAttributed": "bool", "writesBound": "bool"}
 TOP_MEMBERS = {"contractId", "runId", "agents", "enforcement", "messageFields", "claims",
                "entries"}
 TOP_OPTIONAL = {"snapshotRoot": "digest", "componentProfileDigest": "digest"}
 PROOF_DEPTH = 64
 __all__ = ["ALLOW", "CONTRACT_ID", "DENY", "EXIT_FOR", "RECEIPT_CONTRACT_ID", "SUITE",
-           "check", "digest", "main", "merkle_root", "verify"]
+           "check", "digest", "main", "merkle_root", "principals_digest", "verify"]
 _HERE = Path(__file__).resolve().parent
 ROOT = (_HERE / "corpora" / "vectors-containment-journal" if (_HERE / "corpora").exists()
         else _HERE.parents[1] / "corpora" / "vectors-containment-journal")
@@ -265,6 +295,25 @@ def _edge(value: Any, agents: set[str]) -> bool:
             and all(_shape_ok("agent", end, agents) for end in value))
 
 
+def _principals(value: Any) -> bool:
+    """A write's principals: the user, the chain digest, and the digest of the three."""
+    return (isinstance(value, dict) and set(value) == {"user", "chainDigest", "digest"}
+            and isinstance(value["user"], str) and 0 < len(value["user"]) <= 300
+            and _shape_ok("digest", value["chainDigest"], set())
+            and _shape_ok("digest", value["digest"], set()))
+
+
+def _writer(value: Any, agents: set[str]) -> bool:
+    """The writer a read names: a listed agent, with its user and chain digest or with neither."""
+    shapes = ({"agent"}, {"agent", "user", "chainDigest"})
+    if not isinstance(value, dict) or set(value) not in shapes:
+        return False
+    if not _shape_ok("agent", value["agent"], agents):
+        return False
+    return "user" not in value or (isinstance(value["user"], str) and 0 < len(value["user"]) <= 300
+                                   and _shape_ok("digest", value["chainDigest"], set()))
+
+
 def _estimates(value: Any, agents: set[str]) -> bool:
     return (isinstance(value, dict) and set(value) == agents
             and all(isinstance(v, str) and _DECIMAL.fullmatch(v) for v in value.values()))
@@ -288,6 +337,8 @@ _SHAPES: dict[str, Any] = {
     "edges": lambda v, agents: isinstance(v, list)
     and all(_edge(item, agents) for item in v) and _sorted_unique(v),
     "estimates": _estimates,
+    "principals": lambda v, _: _principals(v),
+    "writer": _writer,
     "proof": lambda v, _: isinstance(v, list) and len(v) <= PROOF_DEPTH
     and all(isinstance(step, list) and len(step) == 2 and isinstance(step[0], str)
             and _shape_ok("digest", step[1], set()) for step in v),
@@ -311,8 +362,8 @@ def _entry_malformed(entry: Any, agents: set[str]) -> bool:
         members.update(DETECTOR_MEMBERS)
     if entry["event"] == "response" and entry.get("decision") == "act":
         members["actedAt"] = "time"
-    if entry["event"] == "tool_call":
-        members.update({k: v for k, v in TOOL_CALL_OPTIONAL.items() if k in entry})
+    if entry["event"] in OPTIONAL:
+        members.update({k: v for k, v in OPTIONAL[entry["event"]].items() if k in entry})
         if ("refusalReason" in entry) != (entry.get("refused") is True):
             return True
     if entry["event"] in EVENT_MEMBERS and set(entry) != set(base) | set(members):
@@ -404,6 +455,7 @@ class _Walk:
         self.graph = _edges(self.entries[0]["edges"])
         self.isolated_at = {agent: 0 for agent in _isolated(self.agents, self.graph)}
         self.admitted: dict[str, list[int]] = {}
+        self.written: dict[tuple[str, str], Record] = {}  # (store, key) -> the last write that ran
         self.by_digest = {digest(entry): index for index, entry in enumerate(self.entries)}
 
     def run(self) -> None:
@@ -535,6 +587,46 @@ class _Walk:
         if entry.get("refused") is not True and entry["agent"] not in {s for s, _ in self.graph}:
             self.fail("tool_call_by_isolated_agent")
 
+    def _write(self, _: int, entry: Record) -> None:
+        principals = entry.get("principals")
+        if principals is not None and principals["digest"] != principals_digest(
+                entry["agent"], principals["user"], principals["chainDigest"]):
+            self.fail("write_principals_digest_mismatch")
+        if entry["refused"]:
+            return
+        if entry.get("permitValueDigest", entry["valueDigest"]) != entry["valueDigest"]:
+            self.fail("write_value_not_permitted")
+        if entry["agent"] not in {s for s, _ in self.graph}:
+            self.fail("write_by_isolated_agent")
+        self.written[(entry["store"], entry["keyDigest"])] = entry
+
+    def _store_read(self, _: int, entry: Record) -> None:
+        # A read names the last write that ran to its key, refused or not: a reader that
+        # withheld the value still states who wrote the key, and that statement is checked.
+        last = self.written.get((entry["store"], entry["keyDigest"]))
+        refused = entry.get("refused") is True
+        if last is None or (not refused and last["valueDigest"] != entry["valueDigest"]):
+            self.fail("read_value_unwritten")
+            return
+        if entry["writer"] != writer_of(last):
+            self.fail("read_writer_mismatch")
+
+
+def principals_digest(agent: str, user: str, chain: str) -> str:
+    """The digest of a write's principals: sha256 over the canonical (agent, user, chain)
+    document."""
+    return digest({"agent": agent, "chainDigest": chain, "user": user})
+
+
+def writer_of(write: Record) -> Record:
+    """The writer a read of this write's value names: its agent, and its user and chain when the
+    write is attributed."""
+    principals = write.get("principals")
+    if principals is None:
+        return {"agent": write["agent"]}
+    return {"agent": write["agent"], "user": principals["user"],
+            "chainDigest": principals["chainDigest"]}
+
 
 def merkle_root(document: str, proof: list[list[str]]) -> str:
     """The root an inclusion path leads to, hashed as RFC 9162 section 2.1 does.
@@ -564,6 +656,12 @@ def _claims_failure(record: Record, skip: frozenset[str]) -> str | None:
         "tool_call_authority_unbound": bool(claims.get("authorityChainChecked")) and any(
             e["event"] == "tool_call" and e.get("refused") is not True
             and "grantChainDigest" not in e for e in entries),
+        "write_principals_missing": bool(claims.get("writesAttributed")) and any(
+            e["event"] == "write" and not e["refused"] and "principals" not in e
+            for e in entries),
+        "write_unpermitted": bool(claims.get("writesBound")) and any(
+            e["event"] == "write" and not e["refused"] and "permitValueDigest" not in e
+            for e in entries),
     }
     return next((name for name, failed in failures.items() if failed and name not in skip),
                 None)
@@ -593,14 +691,29 @@ def judge_journal(record: Any, not_canonical: bool,
 
 
 def reach(record: Record, subject: str, from_seq: int) -> dict[str, Any]:
-    """The agents, deliveries and tool calls a subject reached from one entry on."""
+    """The agents, deliveries and tool calls a subject reached from one entry on.
+
+    From revision 2.0 a shared store carries taint too: a value a tainted agent wrote (a write
+    that ran) is tainted until an untainted agent overwrites it, and an agent that reads a
+    tainted value back (a read not refused) is tainted. Neither is counted as a delivery.
+    """
     tainted, deliveries, tools = {subject}, 0, 0
+    values: set[tuple[str, str]] = set()  # store keys whose last value a tainted agent wrote
     for entry in record["entries"][from_seq:]:
         if entry["event"] == "delivery" and not entry["dropped"] and entry["sender"] in tainted:
             tainted.add(entry["receiver"])
             deliveries += 1
         elif entry["event"] == "tool_call" and entry["agent"] in tainted:
             tools += 1
+        elif entry["event"] == "write" and not entry["refused"]:
+            key = (entry["store"], entry["keyDigest"])
+            if entry["agent"] in tainted:
+                values.add(key)
+            else:
+                values.discard(key)
+        elif (entry["event"] == "store_read" and entry.get("refused") is not True
+              and (entry["store"], entry["keyDigest"]) in values):
+            tainted.add(entry["agent"])
     return {"agents": sorted(tainted - {subject}), "deliveries": deliveries, "toolCalls": tools}
 
 

@@ -38,7 +38,10 @@ func init() { register(containmentJournal{}) }
 //  6. the walk over the entries with the graph in force: each delivery, each
 //     decision's deltas and detector estimates, each fallback's posture, each
 //     restart, assessment and admitted restoration, each response, each
-//     admitted retrieval's inclusion in the snapshot and each tool call;
+//     admitted retrieval's inclusion in the snapshot, each tool call, each
+//     write (revision 2.0: its principals digest, the value its permit bound,
+//     its agent against the graph) and each read back (the value and the
+//     writer it names against the last write that ran to its key);
 //  7. the run-level claims.
 //
 // A receipt is judged only when the journal is allowed, and the reach it
@@ -510,16 +513,44 @@ func init() {
 			_, valid := cjAt(s)
 			return ok && valid
 		},
-		"digests":   cjDigestsShape,
-		"agents":    func(v any, agents cjAgents) bool { return cjListing("agent", v, agents) },
-		"words":     func(v any, agents cjAgents) bool { return cjListing("word", v, agents) },
-		"edges":     cjEdgesShape,
-		"estimates": cjEstimatesShape,
-		"proof":     cjProofShape,
+		"digests":    cjDigestsShape,
+		"agents":     func(v any, agents cjAgents) bool { return cjListing("agent", v, agents) },
+		"words":      func(v any, agents cjAgents) bool { return cjListing("word", v, agents) },
+		"edges":      cjEdgesShape,
+		"estimates":  cjEstimatesShape,
+		"proof":      cjProofShape,
+		"principals": cjPrincipalsShape,
+		"writer":     cjWriterShape,
 	}
 }
 
 func cjShape(kind string, v any, agents cjAgents) bool { return cjShapes[kind](v, agents) }
+
+func cjUser(v any) bool { s, ok := v.(string); return ok && len(s) > 0 && len(s) <= 300 }
+
+// cjPrincipalsShape is a write's principals: the user, the chain digest and
+// the digest of the three.
+func cjPrincipalsShape(v any, _ cjAgents) bool {
+	p, ok := v.(cjObject)
+	return ok && cjSameStrings(cjKeys(p), []string{"chainDigest", "digest", "user"}) && cjUser(p["user"]) &&
+		cjShape("digest", p["chainDigest"], nil) && cjShape("digest", p["digest"], nil)
+}
+
+// cjWriterShape is the writer a read names: a listed agent, with its user and
+// chain digest or with neither.
+func cjWriterShape(v any, agents cjAgents) bool {
+	w, ok := v.(cjObject)
+	if !ok || !cjShape("agent", w["agent"], agents) {
+		return false
+	}
+	switch keys := cjKeys(w); {
+	case cjSameStrings(keys, []string{"agent"}):
+		return true
+	case cjSameStrings(keys, []string{"agent", "chainDigest", "user"}):
+		return cjUser(w["user"]) && cjShape("digest", w["chainDigest"], nil)
+	}
+	return false
+}
 
 type cjMember struct{ name, kind string }
 
@@ -543,6 +574,10 @@ var cjEventMembers = map[string][]cjMember{
 		{"proof", "proof"}},
 	"refusal": {{"sender", "agent"}, {"receiver", "agent"}, {"bodyDigest", "digest"},
 		{"reasonCode", "word"}},
+	"write": {{"agent", "agent"}, {"store", "text"}, {"keyDigest", "digest"}, {"valueDigest", "digest"},
+		{"refused", "bool"}},
+	"store_read": {{"agent", "agent"}, {"store", "text"}, {"keyDigest", "digest"},
+		{"valueDigest", "digest"}, {"writer", "writer"}},
 }
 
 // cjToolCallOptional are the revision 1.1 members a tool call may carry;
@@ -550,13 +585,23 @@ var cjEventMembers = map[string][]cjMember{
 var cjToolCallOptional = []cjMember{{"refused", "bool"}, {"refusalReason", "text"},
 	{"grantChainDigest", "digest"}}
 
+// cjOptional are the optional members of each event that has them (revision
+// 1.1 for a tool call, 2.0 for a write and a read); refusalReason is present
+// exactly when refused is true.
+var cjOptional = map[string][]cjMember{
+	"tool_call":  cjToolCallOptional,
+	"write":      {{"refusalReason", "text"}, {"permitValueDigest", "digest"}, {"principals", "principals"}},
+	"store_read": {{"refused", "bool"}, {"refusalReason", "text"}},
+}
+
 var cjTopOptional = []cjMember{{"componentProfileDigest", "digest"}, {"snapshotRoot", "digest"}}
 
 var cjBaseMembers = []cjMember{{"seq", "count"}, {"prev", "digest"}, {"at", "time"}, {"event", "word"}}
 
 var cjClaimKinds = map[string]string{"channelsClosed": "bool", "restorationGated": "bool",
 	"defendedThroughout": "bool", "detectorDriven": "bool", "responseBoundSeconds": "count",
-	"retrievalAttested": "bool", "authorityChainChecked": "bool"}
+	"retrievalAttested": "bool", "authorityChainChecked": "bool", "writesAttributed": "bool",
+	"writesBound": "bool"}
 
 var cjTopMembers = []string{"agents", "claims", "contractId", "enforcement", "entries",
 	"messageFields", "runId"}
@@ -597,8 +642,8 @@ func cjEntryMalformed(v any, agents cjAgents) bool {
 	if event == "response" && cjStr(entry, "decision") == "act" {
 		members = append(members, cjMember{"actedAt", "time"})
 	}
-	if event == "tool_call" {
-		for _, m := range cjToolCallOptional {
+	if optional, has := cjOptional[event]; has {
+		for _, m := range optional {
 			if _, present := entry[m.name]; present {
 				members = append(members, m)
 			}
@@ -674,7 +719,7 @@ func cjMalformed(record cjObject) bool {
 
 var cjClosed = map[string][]string{
 	"event": {"topology", "delivery", "decision", "fallback", "restart", "assessment",
-		"restoration", "response", "tool_call", "retrieval", "refusal"},
+		"restoration", "response", "tool_call", "retrieval", "refusal", "write", "store_read"},
 	"basis": {"detector_online_label", "detector_no_label", "random_rate_matched",
 		"ground_truth_oracle", "fixed_schedule", "evidence_gate"},
 	"responseFunction": {"restriction", "isolation", "restoration"},
@@ -823,11 +868,12 @@ type cjWalk struct {
 	isolatedAt map[string]int
 	admitted   map[string][]int
 	byDigest   map[string]int
+	written    map[[2]string]cjObject // (store, key) -> the last write that ran
 }
 
 func newCJWalk(record cjObject, entries []cjObject) *cjWalk {
 	w := &cjWalk{record: record, entries: entries, agents: cjStrings(record["agents"]),
-		admitted: map[string][]int{}, byDigest: map[string]int{}}
+		admitted: map[string][]int{}, byDigest: map[string]int{}, written: map[[2]string]cjObject{}}
 	w.claims, _ = record["claims"].(cjObject)
 	w.graph = cjEdgeSet(entries[0]["edges"])
 	w.isolatedAt = map[string]int{}
@@ -865,6 +911,10 @@ func (w *cjWalk) run() string {
 			failure = w.retrieval(entry)
 		case "tool_call":
 			failure = w.toolCall(entry)
+		case "write":
+			failure = w.write(entry)
+		case "store_read":
+			failure = w.storeRead(entry)
 		}
 		if failure != "" {
 			return failure
@@ -1139,16 +1189,75 @@ func cjMerkleRoot(document string, proof any) string {
 // toolCall refuses a tool call that ran for an agent with no outgoing edge in
 // the graph in force.
 func (w *cjWalk) toolCall(entry cjObject) string {
-	if !cjUnrefused(entry) {
+	if !cjUnrefused(entry) || w.sends(cjStr(entry, "agent")) {
 		return ""
 	}
-	agent := cjStr(entry, "agent")
+	return "tool_call_by_isolated_agent"
+}
+
+// sends is whether an agent has an outgoing edge in the graph in force.
+func (w *cjWalk) sends(agent string) bool {
 	for edge := range w.graph {
 		if edge[0] == agent {
-			return ""
+			return true
 		}
 	}
-	return "tool_call_by_isolated_agent"
+	return false
+}
+
+// cjPrincipalsDigest is the digest of a write's principals: sha256 over the
+// canonical (agent, user, chain) document.
+func cjPrincipalsDigest(agent, user, chain string) string {
+	return cjDigest(cjObject{"agent": agent, "chainDigest": chain, "user": user})
+}
+
+// write refuses principals whose digest does not recompute, and, for a write
+// that ran, a value other than the one its permit bound or an agent with no
+// outgoing edge in the graph in force.
+func (w *cjWalk) write(entry cjObject) string {
+	agent := cjStr(entry, "agent")
+	if p, named := entry["principals"].(cjObject); named &&
+		cjStr(p, "digest") != cjPrincipalsDigest(agent, cjStr(p, "user"), cjStr(p, "chainDigest")) {
+		return "write_principals_digest_mismatch"
+	}
+	if cjBool(entry, "refused") {
+		return ""
+	}
+	if bound, present := entry["permitValueDigest"]; present && bound != entry["valueDigest"] {
+		return "write_value_not_permitted"
+	}
+	if !w.sends(agent) {
+		return "write_by_isolated_agent"
+	}
+	w.written[[2]string{cjStr(entry, "store"), cjStr(entry, "keyDigest")}] = entry
+	return ""
+}
+
+// cjWriterOf is the writer a read of this write's value names: its agent, and
+// its user and chain when the write is attributed.
+func cjWriterOf(write cjObject) cjObject {
+	p, named := write["principals"].(cjObject)
+	if !named {
+		return cjObject{"agent": write["agent"]}
+	}
+	return cjObject{"agent": write["agent"], "user": p["user"], "chainDigest": p["chainDigest"]}
+}
+
+// storeRead refuses a read of a key no write ran to, a value read back (and not
+// refused by its reader) that is not the value last written to its key, and a
+// read, refused or not, that names another writer than that last write's.
+func (w *cjWalk) storeRead(entry cjObject) string {
+	last, written := w.written[[2]string{cjStr(entry, "store"), cjStr(entry, "keyDigest")}]
+	if !written || (!cjBool(entry, "refused") && last["valueDigest"] != entry["valueDigest"]) {
+		return "read_value_unwritten"
+	}
+	named, _ := entry["writer"].(cjObject)
+	got, gerr := pythonCompactJSON(named)
+	want, werr := pythonCompactJSON(cjWriterOf(last))
+	if gerr != nil || werr != nil || !bytes.Equal(got, want) {
+		return "read_writer_mismatch"
+	}
+	return ""
 }
 
 func cjUnrefused(entry cjObject) bool {
@@ -1183,6 +1292,20 @@ func cjClaimsFailure(record cjObject, entries []cjObject) string {
 			}
 		}
 	}
+	for _, rule := range []struct{ claim, member, code string }{
+		{"writesAttributed", "principals", "write_principals_missing"},
+		{"writesBound", "permitValueDigest", "write_unpermitted"},
+	} {
+		if !cjBool(claims, rule.claim) {
+			continue
+		}
+		for _, entry := range entries {
+			_, named := entry[rule.member]
+			if cjStr(entry, "event") == "write" && !cjBool(entry, "refused") && !named {
+				return rule.code
+			}
+		}
+	}
 	return ""
 }
 
@@ -1194,10 +1317,17 @@ type cjReach struct {
 	toolCalls  int64
 }
 
+// cjReachFrom recomputes a subject's reach from one entry on. From revision
+// 2.0 a shared store carries taint: a value a tainted agent wrote (a write that
+// ran) stays tainted until an untainted agent overwrites it, and an agent that
+// reads a tainted value back (a read not refused) is tainted; neither counts as
+// a delivery.
 func cjReachFrom(entries []cjObject, subject string, fromSeq int64) cjReach {
 	tainted := map[string]bool{subject: true}
+	values := map[[2]string]bool{}
 	var found cjReach
 	for _, entry := range entries[fromSeq:] {
+		key := [2]string{cjStr(entry, "store"), cjStr(entry, "keyDigest")}
 		switch cjStr(entry, "event") {
 		case "delivery":
 			if !cjBool(entry, "dropped") && tainted[cjStr(entry, "sender")] {
@@ -1207,6 +1337,14 @@ func cjReachFrom(entries []cjObject, subject string, fromSeq int64) cjReach {
 		case "tool_call":
 			if tainted[cjStr(entry, "agent")] {
 				found.toolCalls++
+			}
+		case "write":
+			if !cjBool(entry, "refused") {
+				values[key] = tainted[cjStr(entry, "agent")]
+			}
+		case "store_read":
+			if !cjBool(entry, "refused") && values[key] {
+				tainted[cjStr(entry, "agent")] = true
 			}
 		}
 	}
