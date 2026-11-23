@@ -29,7 +29,7 @@ func TestAuditRecordThumbprintMatchesRFC7638(t *testing.T) {
 func TestAuditRecordPrincipalSentencesAreLoadBearing(t *testing.T) {
 	want := map[string]string{
 		"unknown": "PR11", "subject": "PR8", "credential": "PR6", "not-yet-valid": "PR10,PR15",
-		"expired": "PR5,PR14", "kid": "PR9", "thumbprint": "PR4", "provider": "PR18", "pin": "PR23",
+		"expired": "PR5,PR14", "kid": "PR9", "thumbprint": "PR4", "provider": "PR18,PR21,PR27", "pin": "PR23",
 	}
 	for name, member := range want {
 		drop := func() func() {

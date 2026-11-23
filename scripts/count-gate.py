@@ -2333,6 +2333,22 @@ FROZEN: tuple[Frozen, ...] = (
         "The generator source of the appendix sentence above, frozen for the same reason and "
         "asserted separately so the two cannot drift apart without one of them failing.",
     ),
+    # The same figure where the paragraph derives it: of the 269 entries carrying
+    # expected.codes at that tag, how many hold exactly one code.
+    Frozen(
+        "docs/W3C-V01-CONFORMANCE-APPENDIX.md",
+        "the one-code entries at tag v0.11.1",
+        "252 of those hold exactly one code",
+        "A count over the manifests at a past tag, re-derived from that tag by the command the "
+        "sentence prints. It describes v0.11.1 and must not track the current corpus.",
+    ),
+    Frozen(
+        "scripts/gen-w3c-appendix.py",
+        "the one-code entries at tag v0.11.1, in the appendix generator",
+        "252 of those hold exactly one code",
+        "The generator source of the appendix sentence above, frozen for the same reason and "
+        "asserted separately so the two cannot drift apart without one of them failing.",
+    ),
     Frozen(
         "scripts/gen-w3c-appendix.py",
         "the disensor disagreement figure in the appendix generator",
