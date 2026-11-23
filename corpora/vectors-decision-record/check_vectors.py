@@ -40,16 +40,29 @@ def _no_constant(name: str) -> object:
 def _strict(text: str | bytes) -> Any:
     """Parse one JSON text, refusing a repeated member and NaN, Infinity or -Infinity."""
     return json.loads(text, object_pairs_hook=_pairs, parse_constant=_no_constant)
-BINDING = ("specification_digests", "specification_statements", "record_statements", "action_binding",
-           "stage_order", "authorisation_recheck", "observed_results", "rationale_provenance")
+
+
+BINDING = (
+    "specification_digests",
+    "specification_statements",
+    "record_statements",
+    "action_binding",
+    "stage_order",
+    "authorisation_recheck",
+    "observed_results",
+    "rationale_provenance",
+)
 
 
 def declared_differences(report: dict, declared: dict) -> list[str]:
     out = []
     for name, want in declared.items():
         if name == "strict":
-            out += [f"strict.{k}: declared {v}, read {report['strict'][k]['status']}"
-                    for k, v in want.items() if report["strict"][k]["status"] != v]
+            out += [
+                f"strict.{k}: declared {v}, read {report['strict'][k]['status']}"
+                for k, v in want.items()
+                if report["strict"][k]["status"] != v
+            ]
         elif report[name]["status"] != want:
             out.append(f"{name}: declared {want}, read {report[name]['status']}")
     return out
@@ -64,22 +77,32 @@ def main() -> int:
         print("decision-record: NOT RUN: agent-evidence-verify is not installed")
         return 2
     manifest = _strict((HERE / "MANIFEST.json").read_text(encoding="utf-8"))
-    cases = {c["id"]: c for c in _strict((HERE / "source" / "cases.json").read_bytes())["binding_cases"]}
+    cases = {
+        c["id"]: c for c in _strict((HERE / "source" / "cases.json").read_bytes())["binding_cases"]
+    }
     failures = []
     for entry in manifest["vectors"]:
         member = _strict((HERE / entry["path"]).read_bytes())
         report, verdict, code = decision_record.read_member(member)
         want = entry["expected"]
         if (verdict, code) != (want["verdict"], want["code"]):
-            failures.append(f"{entry['id']}: read {verdict} {code}, declared {want['verdict']} {want['code']}")
-        failures += [f"{entry['id']}: {d}" for d in declared_differences(report, want["dimensions"])]
+            failures.append(
+                f"{entry['id']}: read {verdict} {code}, declared {want['verdict']} {want['code']}"
+            )
+        failures += [
+            f"{entry['id']}: {d}" for d in declared_differences(report, want["dimensions"])
+        ]
         if "sourceCase" in entry:
             published = cases[entry["sourceCase"]]["expected"]
             derived = {name: published.get(name, "verified") for name in BINDING}
             if derived != want["dimensions"]:
-                failures.append(f"{entry['id']}: declared dimensions are not case {entry['sourceCase']}'s")
-            failures += [f"{entry['id']}: {d}" for d in decision_record.expected_differences(
-                cases[entry["sourceCase"]], report)]
+                failures.append(
+                    f"{entry['id']}: declared dimensions are not case {entry['sourceCase']}'s"
+                )
+            failures += [
+                f"{entry['id']}: {d}"
+                for d in decision_record.expected_differences(cases[entry["sourceCase"]], report)
+            ]
     if corpus_digest(manifest, str(HERE)) != manifest["corpusDigest"]:
         failures.append("corpusDigest does not recompute")
     for line in failures:

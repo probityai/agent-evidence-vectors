@@ -63,9 +63,7 @@ def copy_of_packaging(work: Path) -> Path:
     return target
 
 
-def run(
-    argv: list[str], cwd: Path, harness: Path
-) -> subprocess.CompletedProcess[str]:
+def run(argv: list[str], cwd: Path, harness: Path) -> subprocess.CompletedProcess[str]:
     return subprocess.run(
         [sys.executable, str(harness), *argv],
         cwd=cwd,
@@ -111,7 +109,9 @@ def case_naming_the_committed_report_asks_for_it(work: Path) -> None:
     proc = run(
         ["--vectors", str(CORPUS), "--report", str(tracked)], packaging, harness_path(packaging)
     )
-    assert proc.returncode == 0, f"an explicit report path exited {proc.returncode}: {proc.stderr[-400:]}"
+    assert proc.returncode == 0, (
+        f"an explicit report path exited {proc.returncode}: {proc.stderr[-400:]}"
+    )
     report = json.loads(tracked.read_text(encoding="utf-8"))
     assert report.get("totals", {}).get("vectors", 0) > 0, (
         "naming the committed report did not write it"
@@ -127,7 +127,9 @@ def case_runtime_mode_obeys_the_same_rule(work: Path) -> None:
         packaging,
         harness_path(packaging),
     )
-    assert proc.returncode == 2, f"runtime mode aimed at the committed file exited {proc.returncode}"
+    assert proc.returncode == 2, (
+        f"runtime mode aimed at the committed file exited {proc.returncode}"
+    )
     assert "--report" in proc.stderr, (
         f"runtime mode refused for another reason than the committed report: {proc.stderr!r}"
     )
@@ -167,7 +169,9 @@ def case_old_default_goes_red(work: Path) -> None:
         text=True,
         check=False,
     )
-    assert proc.returncode != 0, "this test stayed green against a harness that writes beside itself"
+    assert proc.returncode != 0, (
+        "this test stayed green against a harness that writes beside itself"
+    )
 
 
 CASES: list[Callable[[Path], None]] = [

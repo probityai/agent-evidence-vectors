@@ -1788,7 +1788,7 @@ def verify(raw: bytes, policy: Policy, *, disabled: str | None = None) -> Report
                 rule(state)
     except Malformed as exc:
         return Report("malformed", [exc.code], state.derived_tier)
-    except (KeyError, TypeError, AttributeError, IndexError) as exc:
+    except (KeyError, TypeError, AttributeError, IndexError):
         return Report("malformed", ["unhandled-shape"])
     return Report("valid", [], state.derived_tier)
 
@@ -3086,8 +3086,10 @@ def answer_member(path: str) -> dict[str, Any]:
     if in_sets or (isinstance(doc, dict) and "records" in doc):
         reports, joint = verify_set(raw, policy)
         try:
-            limits = [within_limit(strictjson.loads(_envelope_payload(env)[1])["predicate"])
-                      for env in set_records(raw)]
+            limits = [
+                within_limit(strictjson.loads(_envelope_payload(env)[1])["predicate"])
+                for env in set_records(raw)
+            ]
         except (Malformed, ValueError, KeyError, TypeError):
             limits = []
         unsound = not reports or any(r.verdict != "valid" for r in reports)
@@ -3096,16 +3098,27 @@ def answer_member(path: str) -> dict[str, Any]:
             "verdict": verdict,
             "codes": [code for report in reports for code in report.codes],
             "derivedTier": reports[0].derived_tier if reports else "",
-            "set": {"verdict": joint.verdict, "codes": joint.codes,
-                    "missing": joint.missing, "withinLimit": limits},
+            "set": {
+                "verdict": joint.verdict,
+                "codes": joint.codes,
+                "missing": joint.missing,
+                "withinLimit": limits,
+            },
         }
     if isinstance(doc, dict) and ("envelope" in doc or "retention" in doc):
         report, dated = verify_retained(raw, policy, tree_heads(manifest))
-        return {"verdict": report.verdict, "codes": report.codes,
-                "derivedTier": report.derived_tier, "dating": dating_dict(dated)}
+        return {
+            "verdict": report.verdict,
+            "codes": report.codes,
+            "derivedTier": report.derived_tier,
+            "dating": dating_dict(dated),
+        }
     report = verify(raw, policy)
-    out: dict[str, Any] = {"verdict": report.verdict, "codes": report.codes,
-                           "derivedTier": report.derived_tier}
+    out: dict[str, Any] = {
+        "verdict": report.verdict,
+        "codes": report.codes,
+        "derivedTier": report.derived_tier,
+    }
     try:
         out["withinLimit"] = within_limit(strictjson.loads(_envelope_payload(raw)[1])["predicate"])
     except (Malformed, KeyError, TypeError, ValueError):
@@ -3202,8 +3215,9 @@ def contract_findings(entry: dict[str, Any], answer: dict[str, Any]) -> tuple[li
 
 def _external_answer(command: list[str], path: str) -> tuple[bool, dict[str, Any] | str]:
     try:
-        result = subprocess.run([*command, path, "--json"], capture_output=True,
-                                text=True, timeout=90, check=False)
+        result = subprocess.run(
+            [*command, path, "--json"], capture_output=True, text=True, timeout=90, check=False
+        )
     except (OSError, subprocess.TimeoutExpired) as exc:
         return False, f"verifier did not run: {exc}"
     lines = [line for line in result.stdout.splitlines() if line.strip()]
@@ -3260,34 +3274,49 @@ def run_external(root: str, verifier: list[str], report_path: str, rail_note: st
         if text == "proposed":
             proposed_differ += int(bool(normative))
             notes.extend(f"{label} (proposed text, not scored): {finding}" for finding in normative)
-        rows.append({"id": entry.get("id"), "draftId": entry.get("draftId"),
-                     "kind": entry.get("kind"), "text": text,
-                     "conformance": "conform" if not (own or normative) else (
-                         "fail" if findings else "differs-from-proposed"),
-                     "conformanceReasons": own + normative, "reasonParityFindings": parity,
-                     "status": "pass" if not findings else "fail"})
+        rows.append(
+            {
+                "id": entry.get("id"),
+                "draftId": entry.get("draftId"),
+                "kind": entry.get("kind"),
+                "text": text,
+                "conformance": "conform"
+                if not (own or normative)
+                else ("fail" if findings else "differs-from-proposed"),
+                "conformanceReasons": own + normative,
+                "reasonParityFindings": parity,
+                "status": "pass" if not findings else "fail",
+            }
+        )
     for failure in failures:
         print(failure)
     for note in notes:
         print(f"note (codes, not scored): {note}")
     total = len(entries)
-    print(f"{SUITE}: {shlex.join(verifier)} answered {answered} of {total} members, "
-          f"{len(failures)} disagreement(s)")
+    print(
+        f"{SUITE}: {shlex.join(verifier)} answered {answered} of {total} members, "
+        f"{len(failures)} disagreement(s)"
+    )
     if not answered or not total:
         print("no report written: no member was answered")
         return 2
     failed = sum(1 for row in rows if row["status"] == "fail")
     report = {
-        "suite": SUITE, "contract": CONTRACT_ID, "rail": "external",
+        "suite": SUITE,
+        "contract": CONTRACT_ID,
+        "rail": "external",
         "verifier": {"command": verifier, "vectorsExecuted": answered, "note": rail_note},
         "corpusDigest": manifest.get("corpusDigest"),
-        "totals": {"vectors": total,
-                   "conform": sum(1 for row in rows if row["conformance"] == "conform"),
-                   "fail": failed,
-                   "published": sum(1 for row in rows if row["text"] == "published"),
-                   "proposed": sum(1 for row in rows if row["text"] == "proposed"),
-                   "proposedDiffer": proposed_differ,
-                   "reasonParityMismatch": parity_mismatch, "suiteRefusals": 0},
+        "totals": {
+            "vectors": total,
+            "conform": sum(1 for row in rows if row["conformance"] == "conform"),
+            "fail": failed,
+            "published": sum(1 for row in rows if row["text"] == "published"),
+            "proposed": sum(1 for row in rows if row["text"] == "proposed"),
+            "proposedDiffer": proposed_differ,
+            "reasonParityMismatch": parity_mismatch,
+            "suiteRefusals": 0,
+        },
         "rows": rows,
         "failures": failures,
         "reasonParityNotes": notes,
@@ -3304,10 +3333,16 @@ def main(argv: list[str] | None = None) -> int:
         "draft-gilda-audit-agent-audit-record-00 and the five rows of revision 01 "
         "(TI6, V4, V5, FR14, FR15)",
     )
-    parser.add_argument("directory", help="a corpus directory carrying MANIFEST.json, or one "
-                        "member file to answer under the external-verifier contract (with --json)")
-    parser.add_argument("--json", action="store_true",
-                        help="answer one member file as one JSON object; exit 0 valid, 1 malformed")
+    parser.add_argument(
+        "directory",
+        help="a corpus directory carrying MANIFEST.json, or one "
+        "member file to answer under the external-verifier contract (with --json)",
+    )
+    parser.add_argument(
+        "--json",
+        action="store_true",
+        help="answer one member file as one JSON object; exit 0 valid, 1 malformed",
+    )
     args = parser.parse_args(argv)
     if os.path.isfile(args.directory):
         answer = answer_member(args.directory)
