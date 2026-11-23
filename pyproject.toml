@@ -195,6 +195,7 @@ only-include = [
     "corpora/vectors-source-coverage",
     "corpora/vectors-spoofed-tool-output",
     "corpora/vectors-test-tampering",
+    "corpora/vectors-tool-descriptor-digest",
     "corpora/vectors-trace-anchor",
     "corpora/vectors-uncertain-effect",
     "corpora/vectors-w3c-intake",
@@ -265,6 +266,7 @@ exclude = [
     "corpora/vectors-source-coverage/**/*.py",
     "corpora/vectors-spoofed-tool-output/**/*.py",
     "corpora/vectors-test-tampering/**/*.py",
+    "corpora/vectors-tool-descriptor-digest/**/*.py",
     "corpora/vectors-trace-anchor/**/*.py",
     "corpora/vectors-uncertain-effect/**/*.py",
     "corpora/vectors-w3c-intake/**/*.py",
@@ -334,6 +336,7 @@ exclude = [
 "corpora/vectors-source-coverage" = "agent_evidence_vectors/corpora/vectors-source-coverage"
 "corpora/vectors-spoofed-tool-output" = "agent_evidence_vectors/corpora/vectors-spoofed-tool-output"
 "corpora/vectors-test-tampering" = "agent_evidence_vectors/corpora/vectors-test-tampering"
+"corpora/vectors-tool-descriptor-digest" = "agent_evidence_vectors/corpora/vectors-tool-descriptor-digest"
 "corpora/vectors-trace-anchor" = "agent_evidence_vectors/corpora/vectors-trace-anchor"
 "corpora/vectors-uncertain-effect" = "agent_evidence_vectors/corpora/vectors-uncertain-effect"
 "corpora/vectors-w3c-intake" = "agent_evidence_vectors/corpora/vectors-w3c-intake"
@@ -478,6 +481,7 @@ only-include = [
     "corpora/vectors-source-coverage",
     "corpora/vectors-spoofed-tool-output",
     "corpora/vectors-test-tampering",
+    "corpora/vectors-tool-descriptor-digest",
     "corpora/vectors-trace-anchor",
     "corpora/vectors-uncertain-effect",
     "corpora/vectors-w3c-intake",

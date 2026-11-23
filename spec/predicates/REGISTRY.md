@@ -172,6 +172,26 @@ Records are from draft-li-rttp-iqa-addressing-02 sections 6.1, 7.2, 8.1 and 8.2.
   A later revision that keeps the set and the order is a new confirmation; any change to either is a new URI.
 - Example: `corpora/vectors-refusal-reason-priority/cases/conformant-expiry-over-revocation/record.json`.
 
+### `predicate/v1/tool-descriptor-digest`
+
+- Document: `corpora/vectors-tool-descriptor-digest/README.md`
+- Corpus: `corpora/vectors-tool-descriptor-digest/`, suite `tool-descriptor-digest/v1`
+- Rails: `corpusreaders/descriptordigest.go`, `packaging/agent_evidence_vectors/descriptordigest.py`
+
+The predicate carries one pin and one observation of an MCP tool descriptor, each a
+profile, a digest and the descriptor the digest was computed from. A pin and an
+observation are compared only when both carry a profile and the two profiles are equal;
+profiles that differ, or a missing profile, are a gap and never a contradiction. A stated
+digest must equal the one recomputed from its descriptor under its own profile. Three
+profiles are closed: name, description and inputSchema; those plus outputSchema with an
+absent description written as the empty string; and every member but `_meta`. A digest is
+`sha256-` and the base64 of the SHA-256 of the RFC 8785 bytes of the covered members.
+
+- Envelope: a bare JSON record (`contractId`, `recordId`, `pin`, `observation`), not an in-toto Statement.
+- Field semantics: the comparability rule is OWASP Agentic-Evidence issue 4 and its triage; this
+  repository defines the three profile identifiers and the verdict words. A new profile is a new URI.
+- Example: `corpora/vectors-tool-descriptor-digest/cases/gap-same-descriptor-two-profiles/record.json`.
+
 ### `predicate/v1/evaluation-claim`
 
 - Document: `spec/predicates/evaluation-claim.md`

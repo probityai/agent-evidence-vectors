@@ -853,6 +853,18 @@ standards = []
 shapes = ["tampering", "coverage-gap"]
 
 [[corpus]]
+id = "vectors-tool-descriptor-digest"
+path = "corpora/vectors-tool-descriptor-digest"
+wheel = true
+sdist = true
+title = "Tool descriptor digest"
+summary = "A pin and an observation of a tool descriptor are compared only when both carry a profile and the profiles are equal; profiles that differ or are missing are a gap, a stated digest the descriptor does not give is refused."
+record_class = "record"
+domains = ["provenance", "approval"]
+standards = ["owasp"]
+shapes = ["missing-binding", "self-report"]
+
+[[corpus]]
 id = "vectors-trace-anchor"
 path = "corpora/vectors-trace-anchor"
 wheel = true
