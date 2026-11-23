@@ -2315,6 +2315,24 @@ FROZEN: tuple[Frozen, ...] = (
         "The generator source of the appendix sentence above, frozen for the same reason and "
         "asserted separately so the two cannot drift apart without one of them failing.",
     ),
+    # The figure the appendix attributes to a named run at tag v0.11.1. It
+    # describes that tag, re-derived by the command the same paragraph prints,
+    # and equals the audit-record corpus total by coincidence since that corpus
+    # reached 252 members.
+    Frozen(
+        "docs/W3C-V01-CONFORMANCE-APPENDIX.md",
+        "the attributed figure at tag v0.11.1",
+        "Sankalp's 252 at v0.11.1",
+        "A figure at a past tag, attributed to its author and re-derived from that tag by the "
+        "command the paragraph prints. It describes v0.11.1 and must not track the current corpus.",
+    ),
+    Frozen(
+        "scripts/gen-w3c-appendix.py",
+        "the attributed figure at tag v0.11.1, in the appendix generator",
+        "Sankalp's 252 at v0.11.1",
+        "The generator source of the appendix sentence above, frozen for the same reason and "
+        "asserted separately so the two cannot drift apart without one of them failing.",
+    ),
     Frozen(
         "scripts/gen-w3c-appendix.py",
         "the disensor disagreement figure in the appendix generator",
