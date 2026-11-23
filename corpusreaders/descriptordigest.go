@@ -200,7 +200,7 @@ func ddNotRecomputed(r ddRecord) bool {
 		if side.Profile == nil || !ddKnown(*side.Profile) || side.Descriptor == nil {
 			continue
 		}
-		if got, err := ddDigest(side.Descriptor, *side.Profile); err == nil && got != side.Digest {
+		if got, err := ddDigest(side.Descriptor, *side.Profile); err != nil || got != side.Digest {
 			return true
 		}
 	}

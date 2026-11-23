@@ -175,11 +175,17 @@ def _uncanonicalizable(record: Record) -> bool:
     return False
 
 
+def _recomputed_differs(side: dict[str, Any]) -> bool:
+    """True when the side's digest is not what its descriptor gives, or cannot be recomputed."""
+    try:
+        return digest(side["descriptor"], side["profile"]) != side.get("digest")
+    except NotCanonicalizable:
+        return True
+
+
 def _not_recomputed(record: Record) -> bool:
     return any(
-        side.get("profile") in PROFILES
-        and "descriptor" in side
-        and digest(side["descriptor"], side["profile"]) != side.get("digest")
+        side.get("profile") in PROFILES and "descriptor" in side and _recomputed_differs(side)
         for side in _sides(record)
     )
 
