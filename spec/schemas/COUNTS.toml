@@ -49,3 +49,8 @@ schema = "spec/schemas/observed-effect-invocation-binding-v0.9.schema.json"
 samples = ["interop/observed-invocation-binding-candidate/fixtures/*.json"]
 decode = "dsse"
 expect = { samples = 25, positive = 12, negative = 13, mutants = 1523, mutants_rejected = 54 }
+
+[[schema]]
+schema = "spec/schemas/verifier-result-v1.schema.json"
+samples = ["spec/schemas/samples/verifier-result-v1/*.json"]
+expect = { samples = 9, positive = 4, negative = 5, mutants = 64, mutants_rejected = 64 }

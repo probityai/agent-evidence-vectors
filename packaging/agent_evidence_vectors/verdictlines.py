@@ -38,6 +38,8 @@ import sys
 from dataclasses import dataclass, field
 from typing import Any
 
+from . import strictjson
+
 SCHEMA_ID = "https://probityai.github.io/agent-evidence-vectors/schema/verdict-line/v1"
 VERDICTS = ("accept", "reject", "not-applicable", "error")
 ANSWERED = frozenset({"accept", "reject"})
@@ -163,7 +165,7 @@ def load_corpus(path: str) -> Corpus:
     """
     try:
         with open(os.path.join(path, "MANIFEST.json"), encoding="utf-8") as handle:
-            manifest = json.load(handle)
+            manifest = strictjson.load(handle)
     except (OSError, ValueError) as exc:
         raise CorpusError(f"{path}: MANIFEST.json unreadable: {exc}") from exc
     suite, digest = manifest.get("suite"), manifest.get("corpusDigest")
@@ -261,7 +263,7 @@ def parse_lines(text: str) -> tuple[list[Any], list[str]]:
         if not raw.strip():
             continue
         try:
-            parsed.append(json.loads(raw))
+            parsed.append(strictjson.loads(raw))
         except ValueError:
             bad.append(f"line {number}: not JSON")
     return parsed, bad

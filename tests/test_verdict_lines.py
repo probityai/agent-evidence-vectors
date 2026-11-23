@@ -58,7 +58,7 @@ def test_schema_id_matches_module() -> None:
 
 def test_rail_answers_every_member_as_the_manifest_expects(corpora, rail_lines) -> None:
     total = sum(len(c.members) for c in corpora)
-    assert len(rail_lines) == total == 288 + 45 + 54
+    assert len(rail_lines) == total == 288 + 47 + 54
     for line in rail_lines:
         jsonschema.validate(line, SCHEMA)
         assert verdictlines.validate_line(line) == []

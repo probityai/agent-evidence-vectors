@@ -18,7 +18,6 @@ Its last non-empty stdout line is one JSON object carrying ``verdict`` and
 from __future__ import annotations
 
 import argparse
-import json
 import shlex
 import subprocess
 import sys
@@ -29,6 +28,9 @@ HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(HERE))
 import resolve_ids  # noqa: E402
 from gen_vectors import corpus_digest  # noqa: E402
+
+sys.path.insert(0, str(HERE.parents[1] / "packaging"))
+from agent_evidence_vectors import strictjson  # noqa: E402
 
 
 def answer(verifier: str | None, output: Path, snapshot: Path, pin: str) -> tuple[str, list[str]]:
@@ -43,7 +45,7 @@ def answer(verifier: str | None, output: Path, snapshot: Path, pin: str) -> tupl
     )
     lines = [line for line in done.stdout.splitlines() if line.strip()]
     try:
-        report = json.loads(lines[-1])
+        report = strictjson.loads(lines[-1])
         verdict, codes = report["verdict"], sorted(report.get("codes", []))
     except (IndexError, ValueError, KeyError, TypeError):
         return "errored", []
@@ -55,7 +57,7 @@ def answer(verifier: str | None, output: Path, snapshot: Path, pin: str) -> tupl
 def check(
     verifier: str | None, root: Path = HERE, decision_only: bool = False
 ) -> tuple[int, list[str]]:
-    manifest: dict[str, Any] = json.loads((root / "MANIFEST.json").read_text(encoding="utf-8"))
+    manifest: dict[str, Any] = strictjson.loads((root / "MANIFEST.json").read_text(encoding="utf-8"))
     failures, seen = [], set()
     try:
         if corpus_digest(manifest, str(root)) != manifest["corpusDigest"]:

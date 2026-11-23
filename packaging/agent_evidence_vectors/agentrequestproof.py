@@ -77,6 +77,8 @@ from datetime import datetime
 from pathlib import Path
 from typing import Any
 
+from . import strictjson
+
 SUITE = "agent-request-proof/v1"
 PREDICATE_TYPE = (
     "https://probityai.github.io/agent-evidence-vectors/predicate/v1/agent-request-proof"
@@ -197,7 +199,7 @@ class _Record:
         self.proof_sig = b""
         self.body = b""
         try:
-            self.statement = json.loads(base64.b64decode(str(envelope["payload"]), validate=True))
+            self.statement = strictjson.loads(base64.b64decode(str(envelope["payload"]), validate=True))
         except (KeyError, ValueError, TypeError):
             return
         try:
@@ -205,8 +207,8 @@ class _Record:
             parts = str(pred["proof"]["jws"]).split(".")
             if len(parts) != 3:
                 raise ValueError("compact JWS has three parts")
-            self.header = json.loads(b64url_decode(parts[0]))
-            self.claims = json.loads(b64url_decode(parts[1]))
+            self.header = strictjson.loads(b64url_decode(parts[0]))
+            self.claims = strictjson.loads(b64url_decode(parts[1]))
             self.signing_input = f"{parts[0]}.{parts[1]}".encode("ascii")
             self.proof_sig = b64url_decode(parts[2])
             self.body = base64.b64decode(str(pred["request"]["bodyBase64"]), validate=True)
@@ -328,10 +330,10 @@ class _Record:
 
 
 def _load(case_path: Path) -> tuple[bytes, list[_Record], dict[str, Any]]:
-    case = json.loads(case_path.read_text(encoding="utf-8"))
+    case = strictjson.loads(case_path.read_text(encoding="utf-8"))
     recorder = base64.b64decode(str(case["recorderKey"]), validate=True)
     records = [
-        _Record(json.loads((case_path.parent / name).read_text(encoding="utf-8")))
+        _Record(strictjson.loads((case_path.parent / name).read_text(encoding="utf-8")))
         for name in case["envelopes"]
     ]
     return recorder, records, dict(case.get("pins", {}))
@@ -408,7 +410,7 @@ def _fixture_error(directory: Path, entry: dict[str, Any]) -> str | None:
 
 
 def _validated_entries(root: Path) -> tuple[list[dict[str, Any]], str | None]:
-    manifest = json.loads((root / "MANIFEST.json").read_text(encoding="utf-8"))
+    manifest = strictjson.loads((root / "MANIFEST.json").read_text(encoding="utf-8"))
     entries = manifest["vectors"]
     if _sha(_json(entries)) != manifest["corpusDigest"]:
         return [], "manifest digest mismatch"
@@ -436,7 +438,7 @@ def _external_answer(command: list[str], case_path: Path) -> tuple[bool, dict[st
     except (OSError, subprocess.TimeoutExpired) as exc:
         return False, f"verifier did not run: {exc}"
     try:
-        answer = json.loads(result.stdout)
+        answer = strictjson.loads(result.stdout)
         observed = {key: answer[key] for key in ("decision", "reason")}
     except (ValueError, KeyError, TypeError):
         return True, f"verifier returned no decision (exit {result.returncode})"
@@ -494,7 +496,7 @@ def run(root: str, verifier: list[str] | None, report_path: str, rail_note: str)
     directory = Path(root)
     answered, errors = check(verifier, directory)
     try:
-        manifest = json.loads((directory / "MANIFEST.json").read_text(encoding="utf-8"))
+        manifest = strictjson.loads((directory / "MANIFEST.json").read_text(encoding="utf-8"))
         total = len(manifest["vectors"])
     except (OSError, ValueError, KeyError, TypeError):
         manifest, total = {}, 0
@@ -541,7 +543,7 @@ def main(argv: list[str] | None = None) -> int:
     answered, errors = check(args.verifier)
     for error in errors:
         print(error)
-    total = len(json.loads((ROOT / "MANIFEST.json").read_text(encoding="utf-8"))["vectors"])
+    total = len(strictjson.loads((ROOT / "MANIFEST.json").read_text(encoding="utf-8"))["vectors"])
     print(f"answered {answered} of {total} cases")
     return 1 if errors or answered != total else 0
 

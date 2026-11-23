@@ -5737,7 +5737,7 @@ def corpus_verdict_lines(path: str, verifier: tuple[str, str]) -> list[dict[str,
 
     corpus = verdictlines.load_corpus(path)
     with open(os.path.join(path, "MANIFEST.json"), encoding="utf-8") as handle:
-        entries = {e["id"]: e for e in json.load(handle)["vectors"]}
+        entries = {e["id"]: e for e in strictjson.load(handle)["vectors"]}
     lines = []
     bare = ReferenceVerifier([])
     readers = {approvalbinding.SUITE: approvalbinding, uncertaineffect.SUITE: uncertaineffect}

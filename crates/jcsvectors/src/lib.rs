@@ -246,6 +246,8 @@ struct ByteCases {
     depth_cases: Vec<DepthCase>,
     refusal_cases: Vec<RefusalCase>,
     #[serde(default)]
+    invalid_input_cases: Vec<RefusalCase>,
+    #[serde(default)]
     noncharacter_cases: Vec<CanonicalCase>,
 }
 
@@ -409,7 +411,7 @@ fn load_bytes() -> Result<Split, Error> {
         .filter(|c| c.jcs_error.as_deref().is_some_and(|e| !e.is_empty()))
         .map(|c| byte_vector(c.id, c.input, None))
         .collect();
-    for c in cases.refusal_cases {
+    for c in cases.refusal_cases.into_iter().chain(cases.invalid_input_cases) {
         reject.push(refusal_vector(c)?);
     }
     Ok((accept, reject))
