@@ -19,11 +19,13 @@ func init() { register(authorityDispatch{}) }
 //  3. evidenceAgeSeconds is the decision time minus the observation time:
 //     evidence_age_inconsistent;
 //  4. that age is within the freshness limit: authority_evidence_stale;
-//  5. no grant in the chain was revoked at or before the decision:
+//  5. a record with a restore block consulted its authority evidence at or
+//     after restore.restoredAt: restore_authority_not_rechecked;
+//  6. no grant in the chain was revoked at or before the decision:
 //     grant_revoked;
-//  6. the decision falls inside every grant's window: grant_expired;
-//  7. each hop's scope is a subset of the hop before: scope_amplified;
-//  8. the dispatched tool, target and bytes are the approved ones and the tool
+//  7. the decision falls inside every grant's window: grant_expired;
+//  8. each hop's scope is a subset of the hop before: scope_amplified;
+//  9. the dispatched tool, target and bytes are the approved ones and the tool
 //     is in the last hop's scope: dispatch_not_approved.
 //
 // The reader also recomputes each member's declared dispatchMatchesApproval,
@@ -62,7 +64,13 @@ type atdRecord struct {
 		PayloadFile  string `json:"payloadFile"`
 	} `json:"dispatch"`
 	Delegation []atdHop `json:"delegation"`
-	Evidence   struct {
+	Restore    *struct {
+		Path         string `json:"path"`
+		CheckpointAt string `json:"checkpointAt"`
+		RestoredAt   string `json:"restoredAt"`
+		Worker       string `json:"worker"`
+	} `json:"restore"`
+	Evidence struct {
 		AgeSeconds    float64 `json:"evidenceAgeSeconds"`
 		MaxAgeSeconds float64 `json:"maxAgeSeconds"`
 		ObservedAt    string  `json:"observedAt"`
@@ -150,6 +158,8 @@ func atdDecide(r atdRecord, matches bool) (scDecision, error) {
 		{"contract_id_unknown", r.ContractID != nil && *r.ContractID != atdContractID},
 		{"evidence_age_inconsistent", r.Evidence.AgeSeconds != age},
 		{"authority_evidence_stale", r.Evidence.AgeSeconds > r.Evidence.MaxAgeSeconds},
+		{"restore_authority_not_rechecked", r.Restore != nil &&
+			clock.at(r.Evidence.ObservedAt).Before(clock.at(r.Restore.RestoredAt))},
 		{"grant_revoked", atdRevoked(r, decided, &clock)},
 		{"grant_expired", atdExpired(r, decided, &clock)},
 		{"scope_amplified", atdAmplified(r.Delegation)},

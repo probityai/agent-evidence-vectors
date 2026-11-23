@@ -4,7 +4,7 @@ An approval answers whether someone once agreed to an action. It does not answer
 whether the authority behind it still held when the action left: a grant can be
 revoked or expire between approval and dispatch, the evidence consulted can be
 older than the deployment accepts, a later delegation hop can claim more than it
-was given, and the bytes dispatched can differ from the bytes approved. Seven of
+was given, and the bytes dispatched can differ from the bytes approved. Most of
 this corpus's denied records dispatch exactly the approved bytes; only the
 authority evidence decides them.
 
@@ -18,15 +18,19 @@ in a fixed order and names the first check that fails:
    observation time (``evidence_age_inconsistent``);
 4. that age does not exceed the declared freshness limit
    (``authority_evidence_stale``);
-5. no grant in the delegation chain was revoked at or before the decision
+5. a record that carries a ``restore`` block (a session resumed, restored on
+   another worker, retried from a queue or rebuilt from a checkpoint) consulted
+   its authority evidence at or after ``restore.restoredAt``, so a restore never
+   carries the authority a checkpoint held (``restore_authority_not_rechecked``);
+6. no grant in the delegation chain was revoked at or before the decision
    time (``grant_revoked``);
-6. the decision time falls inside every grant's validity window
+7. the decision time falls inside every grant's validity window
    (``grant_expired``);
-7. each hop's scope is a subset of the hop before it (``scope_amplified``);
-8. the dispatched tool, target and bytes are the approved ones, and the tool is
+8. each hop's scope is a subset of the hop before it (``scope_amplified``);
+9. the dispatched tool, target and bytes are the approved ones, and the tool is
    in the last hop's scope (``dispatch_not_approved``).
 
-A record that passes all eight is ``allow`` with reason ``authorized``.
+A record that passes all nine is ``allow`` with reason ``authorized``.
 
 The external-verifier contract: ``<verifier> <case-dir>/record.json --json``
 prints one JSON object carrying ``decision`` and ``reason``, and exits 0 for
@@ -58,6 +62,7 @@ CHECKS = (
     "contract_id_unknown",
     "evidence_age_inconsistent",
     "authority_evidence_stale",
+    "restore_authority_not_rechecked",
     "grant_revoked",
     "grant_expired",
     "scope_amplified",
@@ -84,6 +89,12 @@ def _when(value: Any) -> datetime:
 def _age_seconds(record: dict[str, Any]) -> float:
     evidence = record["authorityEvidence"]
     return (_when(record["decisionTime"]) - _when(evidence["observedAt"])).total_seconds()
+
+
+def _restore_not_rechecked(record: dict[str, Any]) -> bool:
+    restore = record.get("restore")
+    return restore is not None and (_when(record["authorityEvidence"]["observedAt"])
+                                    < _when(restore["restoredAt"]))
 
 
 def _revoked(record: dict[str, Any]) -> bool:
@@ -133,6 +144,7 @@ def _first_failure(record: dict[str, Any], dispatched: bytes,
             record),
         "authority_evidence_stale": lambda: evidence["evidenceAgeSeconds"] > evidence[
             "maxAgeSeconds"],
+        "restore_authority_not_rechecked": lambda: _restore_not_rechecked(record),
         "grant_revoked": lambda: _revoked(record),
         "grant_expired": lambda: _expired(record),
         "scope_amplified": lambda: _amplified(record),

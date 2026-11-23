@@ -57,17 +57,44 @@ A verifier names the first check that fails.
    fresher than its own timestamps say.
 4. That age does not exceed `maxAgeSeconds` (`authority_evidence_stale`).
    Evidence exactly as old as the limit is fresh.
-5. No grant in the chain was revoked at or before `decisionTime`
+5. A record that carries a `restore` block read its authority evidence at or
+   after `restore.restoredAt` (`restore_authority_not_rechecked`). A restored
+   session never carries the authority a checkpoint held; see
+   [Restored sessions](#restored-sessions).
+6. No grant in the chain was revoked at or before `decisionTime`
    (`grant_revoked`). A revocation that takes effect after dispatch does not
    reach back.
-6. `decisionTime` is at or after each grant's `notBefore` and before its
+7. `decisionTime` is at or after each grant's `notBefore` and before its
    `expiresAt` (`grant_expired`).
-7. Each hop's scope is a subset of the scope of the hop before it
+8. Each hop's scope is a subset of the scope of the hop before it
    (`scope_amplified`).
-8. The dispatched tool, target and bytes are the approved ones, and the tool is
+9. The dispatched tool, target and bytes are the approved ones, and the tool is
    in the last hop's scope (`dispatch_not_approved`).
 
-A record that passes all eight is `allow` with reason `authorized`.
+A record that passes all nine is `allow` with reason `authorized`.
+
+## Restored sessions
+
+A session can come back with authority it no longer holds: it was suspended
+and resumed, its worker was killed and it was restored on another worker, a
+queued retry or scheduled wake ran after the grant was revoked, or a
+checkpoint from before the revocation was restored and fresh tool authority
+was requested. A record for such a dispatch carries a `restore` block with
+`path` (one of `suspend-resume`, `restored-on-other-worker`, `queued-retry`,
+`checkpoint-fresh-tool-authority`), `checkpointAt`, `restoredAt` and `worker`.
+The rule is one sentence: the evidence consulted for a restored dispatch was
+observed at or after `restoredAt`.
+
+Each path has two cases. The `-rechecked-denied` case reads authority again
+after the restore, sees the revocation that landed between the checkpoint and
+the restore, and is denied with `grant_revoked`. The `-not-rechecked` case
+reuses the checkpoint's evidence, which predates the revocation and is still
+inside the freshness limit, so it lists no revocation; only
+`restore_authority_not_rechecked` denies it. `allow-restore-rechecked` is the
+control: a restored session that read its authority again and has nothing
+revoked is allowed. Nothing in the original contract text names a `restore`
+block, so a verifier that ignores it allows every `-not-rechecked` case, and
+these cases fail it.
 
 ## Beside the delegation-lifecycle cases
 

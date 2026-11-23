@@ -5,10 +5,10 @@
     "file": "interop/authority-unreachable-2026-10-03/CONTRACT.md",
     "repository": "https://github.com/probityai/agent-evidence-observer"
   },
-  "corpusDigest": "6ca7ba7ec5a425f4b9e4c4b4a03be5fcfb4354760339e9f0b37be53b3b6f2dff",
+  "corpusDigest": "0811447cc6e57f233da15cc70bff458e92d503e4a2b00bd2e380fe5ee72dad12",
   "counts": {
-    "allow": 4,
-    "deny": 10
+    "allow": 5,
+    "deny": 18
   },
   "suite": "authority-at-dispatch/v1",
   "vectors": [
@@ -207,6 +207,132 @@
       },
       "id": "evidence-age-inconsistent",
       "path": "cases/evidence-age-inconsistent"
+    },
+    {
+      "dispatchMatchesApproval": true,
+      "edit": "the session was suspended and resumed; authority was read again after the restore and the revocation blocks it",
+      "expected": {
+        "decision": "deny",
+        "reason": "grant_revoked"
+      },
+      "files": {
+        "dispatched.bin": "881f8088cb1c39e383485cc8d0adf03e510cae2e5594e2ab6cf414d5c30b297e",
+        "record.json": "c591fc039d832ece8e31e996b23b63bcce12a2aa25044b08db00be60c00edb40"
+      },
+      "id": "restore-suspend-resume-rechecked-denied",
+      "path": "cases/restore-suspend-resume-rechecked-denied"
+    },
+    {
+      "dispatchMatchesApproval": true,
+      "edit": "the session was suspended and resumed; the restored session reuses the checkpoint's authority evidence, which predates the revocation and is still inside the freshness limit",
+      "expected": {
+        "decision": "deny",
+        "reason": "restore_authority_not_rechecked"
+      },
+      "files": {
+        "dispatched.bin": "881f8088cb1c39e383485cc8d0adf03e510cae2e5594e2ab6cf414d5c30b297e",
+        "record.json": "1dbdbde3c01eedf8d447f78075ee11242f79282ababb6275a48e03e6abe5e379"
+      },
+      "id": "restore-suspend-resume-not-rechecked",
+      "path": "cases/restore-suspend-resume-not-rechecked"
+    },
+    {
+      "dispatchMatchesApproval": true,
+      "edit": "the worker was killed and its session restored on another worker; authority was read again after the restore and the revocation blocks it",
+      "expected": {
+        "decision": "deny",
+        "reason": "grant_revoked"
+      },
+      "files": {
+        "dispatched.bin": "881f8088cb1c39e383485cc8d0adf03e510cae2e5594e2ab6cf414d5c30b297e",
+        "record.json": "40f13161954cd29f6b0e737fbd01db82085ac5103c26df20f4882aa70100f178"
+      },
+      "id": "restore-restored-on-other-worker-rechecked-denied",
+      "path": "cases/restore-restored-on-other-worker-rechecked-denied"
+    },
+    {
+      "dispatchMatchesApproval": true,
+      "edit": "the worker was killed and its session restored on another worker; the restored session reuses the checkpoint's authority evidence, which predates the revocation and is still inside the freshness limit",
+      "expected": {
+        "decision": "deny",
+        "reason": "restore_authority_not_rechecked"
+      },
+      "files": {
+        "dispatched.bin": "881f8088cb1c39e383485cc8d0adf03e510cae2e5594e2ab6cf414d5c30b297e",
+        "record.json": "166a593c6df9975fb0dff0f105ef95b154eec30e8158bbb24383317fe79bcb33"
+      },
+      "id": "restore-restored-on-other-worker-not-rechecked",
+      "path": "cases/restore-restored-on-other-worker-not-rechecked"
+    },
+    {
+      "dispatchMatchesApproval": true,
+      "edit": "a queued retry ran after the grant was revoked; authority was read again after the restore and the revocation blocks it",
+      "expected": {
+        "decision": "deny",
+        "reason": "grant_revoked"
+      },
+      "files": {
+        "dispatched.bin": "881f8088cb1c39e383485cc8d0adf03e510cae2e5594e2ab6cf414d5c30b297e",
+        "record.json": "65889a5fbcc1891e0bf1940f85d7b8166d5dbe47b06596d61fb73ddc1cffff08"
+      },
+      "id": "restore-queued-retry-rechecked-denied",
+      "path": "cases/restore-queued-retry-rechecked-denied"
+    },
+    {
+      "dispatchMatchesApproval": true,
+      "edit": "a queued retry ran after the grant was revoked; the restored session reuses the checkpoint's authority evidence, which predates the revocation and is still inside the freshness limit",
+      "expected": {
+        "decision": "deny",
+        "reason": "restore_authority_not_rechecked"
+      },
+      "files": {
+        "dispatched.bin": "881f8088cb1c39e383485cc8d0adf03e510cae2e5594e2ab6cf414d5c30b297e",
+        "record.json": "181abc304610deb5f39b1f8e3693774afadd4a67e4c71aa2ae6dc6d51627cd17"
+      },
+      "id": "restore-queued-retry-not-rechecked",
+      "path": "cases/restore-queued-retry-not-rechecked"
+    },
+    {
+      "dispatchMatchesApproval": true,
+      "edit": "a pre-revocation checkpoint was restored and fresh tool authority requested; authority was read again after the restore and the revocation blocks it",
+      "expected": {
+        "decision": "deny",
+        "reason": "grant_revoked"
+      },
+      "files": {
+        "dispatched.bin": "881f8088cb1c39e383485cc8d0adf03e510cae2e5594e2ab6cf414d5c30b297e",
+        "record.json": "8e7923789668a57ab823e6d6a9ac3a53adfb85c28778049c13d9c37d65a3a27b"
+      },
+      "id": "restore-checkpoint-fresh-tool-authority-rechecked-denied",
+      "path": "cases/restore-checkpoint-fresh-tool-authority-rechecked-denied"
+    },
+    {
+      "dispatchMatchesApproval": true,
+      "edit": "a pre-revocation checkpoint was restored and fresh tool authority requested; the restored session reuses the checkpoint's authority evidence, which predates the revocation and is still inside the freshness limit",
+      "expected": {
+        "decision": "deny",
+        "reason": "restore_authority_not_rechecked"
+      },
+      "files": {
+        "dispatched.bin": "881f8088cb1c39e383485cc8d0adf03e510cae2e5594e2ab6cf414d5c30b297e",
+        "record.json": "55fba32c1a72f5233cce7ca0481b42d99170a98db393276fd7cbf8807bf46084"
+      },
+      "id": "restore-checkpoint-fresh-tool-authority-not-rechecked",
+      "path": "cases/restore-checkpoint-fresh-tool-authority-not-rechecked"
+    },
+    {
+      "dispatchMatchesApproval": true,
+      "edit": "control: a restored session reads its authority again after the restore and nothing was revoked",
+      "expected": {
+        "decision": "allow",
+        "reason": "authorized"
+      },
+      "files": {
+        "dispatched.bin": "881f8088cb1c39e383485cc8d0adf03e510cae2e5594e2ab6cf414d5c30b297e",
+        "record.json": "929b5c6adfd50f640d986d24c2fed862a3567d3103fedaf81c0e79b30aee487f"
+      },
+      "id": "allow-restore-rechecked",
+      "path": "cases/allow-restore-rechecked"
     }
   ],
   "verifierContract": "verifier record.json --json; exit 0 allow, 1 deny"

@@ -32,7 +32,11 @@ from agent_evidence_vectors import authoritydispatch  # noqa: E402
 APPROVED_BYTES_DENIED = {"revoked-before-dispatch", "stale-authority-evidence",
                          "scope-amplified-across-hops", "grant-expired",
                          "contract-id-missing", "contract-id-unknown",
-                         "evidence-age-inconsistent"}
+                         "evidence-age-inconsistent"} | {
+    f"restore-{path}-{kind}"
+    for path in ("suspend-resume", "restored-on-other-worker", "queued-retry",
+                 "checkpoint-fresh-tool-authority")
+    for kind in ("rechecked-denied", "not-rechecked")}
 
 
 def _stub(tmp_path: Path, skip: tuple[str, ...]) -> str:
@@ -123,6 +127,23 @@ class TestAuthorityAtDispatchCorpus:
             _, errors = corpus.check(f"{sys.executable} {script}")
             assert {"allow-direct", "allow-two-hop-narrowing", "allow-revoked-after-dispatch",
                     "allow-evidence-age-at-limit"} <= _failed(errors)
+
+        def test_verifier_that_ignores_the_restore_block_fails_every_unchecked_restore(
+            self, tmp_path: Path
+        ) -> None:
+            _, errors = corpus.check(_stub(tmp_path, ("restore_authority_not_rechecked",)))
+            assert _failed(errors) == {
+                f"restore-{path}-not-rechecked"
+                for path in ("suspend-resume", "restored-on-other-worker", "queued-retry",
+                             "checkpoint-fresh-tool-authority")}
+
+        def test_unchecked_restores_carry_evidence_inside_the_freshness_limit(self) -> None:
+            for name, record in _records().items():
+                if name.endswith("-not-rechecked"):
+                    evidence = record["authorityEvidence"]
+                    assert evidence["evidenceAgeSeconds"] <= evidence["maxAgeSeconds"], name
+                    assert evidence["revokedGrants"] == [], name
+                    assert evidence["observedAt"] < record["restore"]["restoredAt"], name
 
         def test_missing_verifier_does_not_count_as_answered(self, tmp_path: Path) -> None:
             answered, errors = corpus.check(str(tmp_path / "no-such-verifier"))

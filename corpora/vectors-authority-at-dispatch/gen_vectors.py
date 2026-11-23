@@ -61,8 +61,8 @@ TWO_HOPS = [*ONE_HOP, hop("grant-2", "agent:planner", "agent:dispatcher", ["tick
 def record(name: str, *, delegation: list[dict[str, Any]] | None = None,
            observed: str = "2026-10-03T11:59:30Z", age: int | None = None,
            revoked: list[dict[str, str]] | None = None, tool: str = "ticket.create",
-           target: str = "queue/support", contract: str | None = reader.CONTRACT_ID
-           ) -> dict[str, Any]:
+           target: str = "queue/support", contract: str | None = reader.CONTRACT_ID,
+           restore: dict[str, str] | None = None) -> dict[str, Any]:
     """One dispatch record; every argument is a departure from the allowed record."""
     body: dict[str, Any] = {
         "approvedAction": {"approvedAt": "2026-10-03T11:55:00Z", "payloadSha256": _sha(APPROVED),
@@ -78,7 +78,56 @@ def record(name: str, *, delegation: list[dict[str, Any]] | None = None,
     }
     if contract is not None:
         body["contractId"] = contract
+    if restore is not None:
+        body["restore"] = restore
     return body
+
+
+def restore_block(path: str, worker: str = "worker-1") -> dict[str, str]:
+    """A restore at 11:59:20, from a checkpoint taken at 11:58:00; the grant is
+    revoked at 11:58:40, between the two."""
+    return {"checkpointAt": "2026-10-03T11:58:00Z", "path": path,
+            "restoredAt": "2026-10-03T11:59:20Z", "worker": worker}
+
+
+REVOKED_IN_BETWEEN = [{"grantId": "grant-1", "revokedAt": "2026-10-03T11:58:40Z"}]
+RESTORE_PATHS = (
+    ("suspend-resume", "worker-1", "the session was suspended and resumed"),
+    ("restored-on-other-worker", "worker-2",
+     "the worker was killed and its session restored on another worker"),
+    ("queued-retry", "worker-1", "a queued retry ran after the grant was revoked"),
+    ("checkpoint-fresh-tool-authority", "worker-1",
+     "a pre-revocation checkpoint was restored and fresh tool authority requested"),
+)
+
+
+def restore_cases() -> list[Case]:
+    """Per restore path, the record that re-checks authority after the restore
+    and the record that carries the checkpoint's authority across it."""
+    out: list[Case] = []
+    for path, worker, what in RESTORE_PATHS:
+        out.append((
+            f"restore-{path}-rechecked-denied",
+            record(f"restore-{path}-rechecked-denied", delegation=TWO_HOPS,
+                   revoked=REVOKED_IN_BETWEEN, observed="2026-10-03T11:59:30Z",
+                   restore=restore_block(path, worker)),
+            APPROVED, "deny", "grant_revoked",
+            f"{what}; authority was read again after the restore and the revocation blocks it"))
+        out.append((
+            f"restore-{path}-not-rechecked",
+            record(f"restore-{path}-not-rechecked", delegation=TWO_HOPS,
+                   observed="2026-10-03T11:58:00Z", restore=restore_block(path, worker)),
+            APPROVED, "deny", "restore_authority_not_rechecked",
+            f"{what}; the restored session reuses the checkpoint's authority evidence, which "
+            "predates the revocation and is still inside the freshness limit"))
+    out.append((
+        "allow-restore-rechecked",
+        record("allow-restore-rechecked", delegation=TWO_HOPS, observed="2026-10-03T11:59:30Z",
+               restore=restore_block("suspend-resume")),
+        APPROVED, "allow", "authorized",
+        "control: a restored session reads its authority again after the restore and nothing "
+        "was revoked"))
+    return out
 
 
 Case = tuple[str, dict[str, Any], bytes, str, str, str]
@@ -144,6 +193,7 @@ def cases() -> list[Case]:
          APPROVED, "deny", "evidence_age_inconsistent",
          "the record states an age of 30 seconds for evidence observed 600 seconds "
          "before the decision"),
+        *restore_cases(),
     ]
 
 

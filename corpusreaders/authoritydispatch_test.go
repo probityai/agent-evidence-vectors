@@ -51,7 +51,10 @@ func TestAuthorityDispatchCommittedCorpusIsClean(t *testing.T) {
 func TestAuthorityDispatchEachCheckMovesTheVerdict(t *testing.T) {
 	reasons := []string{"contract-id-missing", "contract-id-unknown", "evidence-age-inconsistent",
 		"stale-authority-evidence", "revoked-before-dispatch", "grant-expired",
-		"scope-amplified-across-hops", "dispatched-object-differs", "dispatched-action-differs"}
+		"scope-amplified-across-hops", "dispatched-object-differs", "dispatched-action-differs",
+		"restore-suspend-resume-not-rechecked", "restore-queued-retry-not-rechecked",
+		"restore-restored-on-other-worker-not-rechecked",
+		"restore-checkpoint-fresh-tool-authority-not-rechecked"}
 	for _, from := range reasons {
 		t.Run("allow-direct with the record of "+from, func(t *testing.T) {
 			dir := atdStage(t, "allow-direct", "record.json", atdRead(t, from, "record.json"))
