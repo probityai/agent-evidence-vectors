@@ -107,7 +107,7 @@ package = false
 # every done member through the released package, pinned by version and locked with
 # hashes in uv.lock. A dependency group, so it never reaches the published package's
 # metadata.
-crosscheck = ["agent-evidence-verify==0.5.0; python_full_version >= '3.12'"]
+crosscheck = ["agent-evidence-verify==0.6.0; python_full_version >= '3.12'"]
 # The repository tools of the imported parts (scripts/workspace.py and the other
 # tests under tests/). The packages under packages/ are standalone projects built
 # by directory (`uv build packages/<name>`); none of them has a runtime dependency. Their ruff run

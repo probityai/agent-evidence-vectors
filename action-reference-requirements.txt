@@ -3,18 +3,18 @@
 # --only-binary into a venv of their own, so nothing here reaches the interpreter
 # the candidate verifier uses, and the package's own metadata names none of it.
 #
-# agent-evidence-verify 0.5.0 is the release whose wheel sha256 is
-# 9132d649a0b5cd570bdf3b0e0373d8b4933eadf0f587ee31c885a26dbad9a2d2 and whose
-# sdist sha256 is 80d6c3b717a38711a102a112f6753e4937347c978347149c5c0a5246b4ffc1a9.
+# agent-evidence-verify 0.6.0 is the release whose wheel sha256 is
+# c3600fc53e35b8b3d11ac20454efd45129bc83b2f4e8b706cd0b7c166c2f27c8 and whose
+# sdist sha256 is 15d546123c1f78f51700d3bccce358c1108b343bf19d79da51f733d2dda9c368.
 # scripts/action-reference-stage-test.py checks both. To move the lock, change the
 # version in the input and regenerate:
 #
 #   printf 'agent-evidence-verify==X.Y.Z\n' > /tmp/in.txt
 #   uv pip compile /tmp/in.txt --generate-hashes --universal --python-version 3.13 --no-header
 #
-agent-evidence-verify==0.5.0 \
-    --hash=sha256:80d6c3b717a38711a102a112f6753e4937347c978347149c5c0a5246b4ffc1a9 \
-    --hash=sha256:9132d649a0b5cd570bdf3b0e0373d8b4933eadf0f587ee31c885a26dbad9a2d2
+agent-evidence-verify==0.6.0 \
+    --hash=sha256:15d546123c1f78f51700d3bccce358c1108b343bf19d79da51f733d2dda9c368 \
+    --hash=sha256:c3600fc53e35b8b3d11ac20454efd45129bc83b2f4e8b706cd0b7c166c2f27c8
     # via -r in.txt
 agent-evidence-vocabulary==0.9.0 \
     --hash=sha256:9958330e3f67a25d9625395078c8335af61b716ca897090386e597d1134a9c9f \
