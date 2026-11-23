@@ -71,7 +71,7 @@ def apply_patch(doc: Any, patch: list[dict]) -> Any:
     """The published cases' patch operations: set, insert, remove, move."""
     for op in patch:
         if "set" in op or "insert" in op:
-            node, key = pointer(doc, op.get("set", op.get("insert")))
+            node, key = pointer(doc, op["set"] if "set" in op else op["insert"])
             if isinstance(node, list) and "insert" in op:
                 node.insert(len(node) if key == "-" else int(key), op["value"])
             elif isinstance(node, list):

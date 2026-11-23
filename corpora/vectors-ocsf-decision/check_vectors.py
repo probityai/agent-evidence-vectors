@@ -16,10 +16,29 @@ import importlib
 import json
 import sys
 from pathlib import Path
+from typing import Any
 
 from digest import corpus_digest
 
 HERE = Path(__file__).resolve().parent
+
+
+def _pairs(items: list[tuple[str, object]]) -> dict[str, object]:
+    out: dict[str, object] = {}
+    for key, value in items:
+        if key in out:
+            raise ValueError(f"repeated member {key!r}")
+        out[key] = value
+    return out
+
+
+def _no_constant(name: str) -> object:
+    raise ValueError(f"non-finite constant {name}")
+
+
+def _strict(text: str | bytes) -> Any:
+    """Parse one JSON text, refusing a repeated member and NaN, Infinity or -Infinity."""
+    return json.loads(text, object_pairs_hook=_pairs, parse_constant=_no_constant)
 
 
 def declared_differences(report: dict, declared: dict) -> list[str]:
@@ -41,10 +60,10 @@ def main() -> int:
     except ImportError:
         print("ocsf-decision: NOT RUN: agent-evidence-verify with the ocsf_decision reader is not installed")
         return 2
-    manifest = json.loads((HERE / "MANIFEST.json").read_text(encoding="utf-8"))
+    manifest = _strict((HERE / "MANIFEST.json").read_text(encoding="utf-8"))
     failures = []
     for entry in manifest["vectors"]:
-        member = json.loads((HERE / entry["path"]).read_bytes())
+        member = _strict((HERE / entry["path"]).read_bytes())
         report, verdict, code = ocsf_decision.read_member(member)
         want = entry["expected"]
         if (verdict, code) != (want["verdict"], want["code"]):

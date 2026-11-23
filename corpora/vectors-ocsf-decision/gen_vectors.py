@@ -131,7 +131,9 @@ def seal(event: dict, signer: ec.EllipticCurvePrivateKey | None, kid: str | None
     return event
 
 
-def emit(bodies: list[dict], signer=CORPUS, kid: str | None = "corpus-key-1") -> list[dict]:
+def emit(
+    bodies: list[dict], signer: ec.EllipticCurvePrivateKey | None = CORPUS, kid: str | None = "corpus-key-1"
+) -> list[dict]:
     out: list[dict] = []
     for i, body in enumerate(bodies):
         event = copy.deepcopy(body)
@@ -139,7 +141,7 @@ def emit(bodies: list[dict], signer=CORPUS, kid: str | None = "corpus-key-1") ->
         profiles = event["metadata"].setdefault("profiles", [])
         if "record_integrity" not in profiles:
             profiles.append("record_integrity")
-        att = {"uid": f"{CHAIN_UID}-att-{i:06d}", "chain_uid": CHAIN_UID, "authority_uid": AUTHORITY}
+        att: dict[str, Any] = {"uid": f"{CHAIN_UID}-att-{i:06d}", "chain_uid": CHAIN_UID, "authority_uid": AUTHORITY}
         if out:
             att["prev_event"] = {"uid": out[-1]["metadata"]["uid"], "type_uid": out[-1]["type_uid"],
                                  "fingerprint": copy.deepcopy(out[-1]["attestation_list"][0]["fingerprint"])}
