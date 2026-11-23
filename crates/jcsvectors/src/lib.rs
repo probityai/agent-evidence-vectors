@@ -411,7 +411,11 @@ fn load_bytes() -> Result<Split, Error> {
         .filter(|c| c.jcs_error.as_deref().is_some_and(|e| !e.is_empty()))
         .map(|c| byte_vector(c.id, c.input, None))
         .collect();
-    for c in cases.refusal_cases.into_iter().chain(cases.invalid_input_cases) {
+    for c in cases
+        .refusal_cases
+        .into_iter()
+        .chain(cases.invalid_input_cases)
+    {
         reject.push(refusal_vector(c)?);
     }
     Ok((accept, reject))
