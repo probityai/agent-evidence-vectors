@@ -1,0 +1,51 @@
+name: pr-title
+
+# Lints a pull request's title as the merge queue will write it: the queue
+# squashes each pull request into one commit whose subject is the title plus
+# " (#N)", and the range lint in the merge group refuses that commit when the
+# subject breaks a commit-message rule. Under the HEADGREEN grouping a refused
+# pull request at the head of the queue is kept while every group behind it is
+# built, so one bad title cost a build of the whole queue (18 Nov 2026: 17 of 29
+# queued titles ran past 72 characters). The CI workflow's own title step runs
+# only in batches, so this cheap check runs on every pull request instead, and
+# merge-train leaves a pull request with a failed check out of the queue.
+#
+# It runs on pull_request_target so the hook judging the title comes from the
+# base branch; nothing from the pull request is checked out or run. Dependabot
+# titles are exempt here: the range lint exempts its commits from the length
+# rule alone (LENGTH_EXEMPT_AUTHORS in .githooks/commit-msg).
+
+on:
+  pull_request_target:
+    types: [opened, edited, synchronize, reopened]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+jobs:
+  title:
+    if: github.event.pull_request.user.login != 'dependabot[bot]'
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+          sparse-checkout: .githooks
+      - name: Lint the prospective squash subject
+        env:
+          PR_TITLE: ${{ github.event.pull_request.title }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+        run: |
+          set -euo pipefail
+          export LC_ALL=C
+          if [[ ! "$PR_NUMBER" =~ ^[1-9][0-9]*$ ]] \
+             || [[ "$PR_TITLE" == *$'\n'* || "$PR_TITLE" == *$'\r'* ]]; then
+            echo 'Expected a single-line PR title and a positive PR number.' >&2
+            exit 1
+          fi
+          .githooks/commit-msg --check-title "$PR_TITLE" "$PR_NUMBER"
