@@ -112,6 +112,7 @@ body:
         - "corpora/vectors-self-reported-record/"
         - "corpora/vectors-w3c-intake/"
         - "corpora/vectors-w3c-report/"
+        - "corpora/vectors-ave-id-resolution/"
     validations:
       required: true
   - type: input

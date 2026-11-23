@@ -365,7 +365,7 @@ func aveJudge(doc any, statuses map[string]aveStatus, pinned string) (string, []
 		}
 	}
 	for _, digest := range declared {
-		if strings.ToLower(digest) != strings.ToLower(pinned) {
+		if !strings.EqualFold(digest, pinned) {
 			codes["run-snapshot-differs"] = true
 		}
 	}
