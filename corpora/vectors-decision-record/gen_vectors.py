@@ -29,6 +29,7 @@ import base64
 import copy
 import hashlib
 import json
+from collections.abc import Sequence
 from pathlib import Path
 from typing import Any
 
@@ -651,7 +652,7 @@ def _strict_rows(cases: dict, vectors: dict) -> list[tuple]:
     ]
 
 
-def _apply_change(change: tuple | None, doc: dict, party: dict, policy: dict) -> None:
+def _apply_change(change: Sequence[Any] | None, doc: dict, party: dict, policy: dict) -> None:
     """Edit the relying party or the trust policy for one strict row's change kind."""
     if change and change[0] == "identity":
         party["identities"][change[1]] = {
