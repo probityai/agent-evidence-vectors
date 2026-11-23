@@ -1895,6 +1895,8 @@ jobs:
         run: uv run --extra dev pytest corpora/vectors-delegator-right/tests -q
       - name: delegation-chain cases regenerate and force every check
         run: uv run --extra dev pytest corpora/vectors-delegation-chain/tests -q
+      - name: the delegation-chain corpus is judged by its own checker
+        run: uv run --extra generators python corpora/vectors-delegation-chain/check_vectors.py
       - name: badge-vc-verify cases regenerate and force every check
         run: uv run --extra dev pytest corpora/vectors-badge-vc-verify/tests -q
       - name: catalog-trust-manifest cases regenerate, re-mint from a second generator and force every check
