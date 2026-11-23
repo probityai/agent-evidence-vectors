@@ -200,9 +200,15 @@ Rule = Callable[[Any], None]
 class _Freshness:
     """The freshness sentences of Section 5.4 as a reader might take them."""
 
-    reference: str = "reportedAt"
-    inclusive: bool = True
+    #: "reference" is decision.evaluatedAt when carried and decision.reportedAt
+    #: otherwise; "reportedAt" ignores evaluatedAt; "issuedAt" is the seal time.
+    reference: str = "reference"
+    stale_at_bound: bool = True
     skew: datetime.timedelta | None = auditrecord.SKEW_TOLERANCE
+    #: The skew of a lastResult measured to the reference time, or to reportedAt.
+    skew_to_reported: bool = False
+    #: How far evaluatedAt may follow reportedAt; None accepts it however late.
+    evaluated_skew: datetime.timedelta | None = auditrecord.SKEW_TOLERANCE
     never_held_unavailable: bool = True
     refuse_negative: bool = True
     refuse_extra: bool = True
@@ -220,25 +226,41 @@ class _Freshness:
             raise auditrecord.Malformed("evaluation-input-repeated")
         seen.add(entry["input"])
 
-    def unavailable(self, entry: dict[str, Any], reported_at: datetime.datetime) -> bool:
+    def unavailable(
+        self, entry: dict[str, Any], moment: datetime.datetime, skew_from: datetime.datetime
+    ) -> bool:
         if entry["lastResult"] == auditrecord.NEVER_HELD:
             return self.never_held_unavailable
         produced = auditrecord._instant(entry["lastResult"])
-        if self.skew is not None and produced - reported_at > self.skew:
+        if self.skew is not None and produced - skew_from > self.skew:
             raise auditrecord.Malformed("evaluation-result-after-decision")
-        age = (reported_at - produced).total_seconds()
-        return age > entry["maxAge"] or (not self.inclusive and age == entry["maxAge"])
+        age = (moment - produced).total_seconds()
+        return age > entry["maxAge"] or (self.stale_at_bound and age == entry["maxAge"])
+
+    def reference_time(self, pred: dict[str, Any]) -> datetime.datetime:
+        decision = pred["decision"]
+        reported_at = auditrecord._instant(decision["reportedAt"])
+        if self.reference == "issuedAt":
+            return auditrecord._instant(pred["issuedAt"])
+        if "evaluatedAt" not in decision:
+            return reported_at
+        evaluated_at = auditrecord._instant(decision["evaluatedAt"])
+        if self.evaluated_skew is not None and evaluated_at - reported_at > self.evaluated_skew:
+            raise auditrecord.Malformed("evaluation-result-after-decision")
+        return reported_at if self.reference == "reportedAt" else evaluated_at
 
     def derive(self, pred: dict[str, Any], predicate_type: str) -> list[str]:
-        moment = (
-            pred["issuedAt"] if self.reference == "issuedAt" else pred["decision"]["reportedAt"]
+        moment = self.reference_time(pred)
+        skew_from = (
+            auditrecord._instant(pred["decision"]["reportedAt"])
+            if self.skew_to_reported
+            else moment
         )
-        reported_at = auditrecord._instant(moment)
         seen: set[str] = set()
         out: list[str] = []
         for entry in pred["evaluation"]["inputs"]:
             self.shape(entry, seen, predicate_type)
-            if self.unavailable(entry, reported_at):
+            if self.unavailable(entry, moment, skew_from):
                 out.append(entry["input"])
         return out
 
@@ -597,7 +619,7 @@ SECTION_READINGS: list[tuple[str, Callable[[], contextlib.AbstractContextManager
     (
         "the v2 URI read with the v1 input set",
         _v2_without_extension,
-        "PS1,PS3,PS4,PS5",
+        "PS1,PS1b,PS3,PS4,PS5",
     ),
     (
         "agent.authentication without api-key",
@@ -653,22 +675,42 @@ SECTION_READINGS: list[tuple[str, Callable[[], contextlib.AbstractContextManager
         "EV8,EV9,EV10",
     ),
     (
-        "an age measured to issuedAt rather than decision.reportedAt",
+        "an age measured to issuedAt rather than the reference time",
         lambda: _freshness(reference="issuedAt"),
-        "FR2,FR9",
+        "FR9,FR21,FR22,FR23,FR25",
     ),
     (
-        "an age equal to maxAge read as stale",
-        lambda: _freshness(inclusive=False),
-        "FR2",
+        "an age equal to maxAge read as fresh, the boundary of revisions 00 to 03",
+        lambda: _freshness(stale_at_bound=False),
+        "FR2,FR24,PS1b",
     ),
     (
-        "a lastResult after decision.reportedAt accepted however late",
+        "decision.evaluatedAt ignored, every age measured to decision.reportedAt",
+        lambda: _freshness(reference="reportedAt"),
+        "FR21,FR22,FR23",
+    ),
+    (
+        "a decision.evaluatedAt after decision.reportedAt accepted however late",
+        lambda: _freshness(evaluated_skew=None),
+        "FR25",
+    ),
+    (
+        "a decision.evaluatedAt after decision.reportedAt refused with no skew tolerance",
+        lambda: _freshness(evaluated_skew=datetime.timedelta(0)),
+        "FR26",
+    ),
+    (
+        "a lastResult's skew measured to decision.reportedAt rather than the reference time",
+        lambda: _freshness(skew_to_reported=True),
+        "FR27",
+    ),
+    (
+        "a lastResult after the reference time accepted however late",
         lambda: _freshness(skew=None),
-        "FR9",
+        "FR9,FR27",
     ),
     (
-        "a lastResult after decision.reportedAt refused with no skew tolerance",
+        "a lastResult after the reference time refused with no skew tolerance",
         lambda: _freshness(skew=datetime.timedelta(0)),
         "FR18",
     ),
@@ -695,12 +737,12 @@ SECTION_READINGS: list[tuple[str, Callable[[], contextlib.AbstractContextManager
     (
         "unavailableInput not matched against the entries",
         lambda: _swapped_rule("evaluation", _evaluation_reading(match_entries=False)),
-        "FR7",
+        "FR7,FR22",
     ),
     (
         "evaluated not checked against the entries",
         lambda: _swapped_rule("evaluation", _evaluation_reading(evaluated_by_entries=False)),
-        "FR8,FR17c,FR15",
+        "FR2,FR8,FR17c,FR15,FR24",
     ),
     (
         "an evaluation member the draft does not define accepted",

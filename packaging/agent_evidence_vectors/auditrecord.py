@@ -33,8 +33,11 @@ accept: under the ``v2`` URI of revision 03 it also holds
 PS2). A manifest entry carrying ``predicateType`` is judged under that URI.
 
 ``evaluation.inputs`` is required under both statuses, each entry's age runs
-from its ``lastResult`` to ``decision.reportedAt``, and the unavailable inputs
-are derived from the entries, so a record shaped for revision 02 is malformed.
+from its ``lastResult`` to the reference time, and the unavailable inputs are
+derived from the entries, so a record shaped for revision 02 is malformed. The
+reference time is ``decision.evaluatedAt`` when the record carries it and
+``decision.reportedAt`` otherwise, and an input is fresh only while its age is
+less than its ``maxAge`` (revision 05, FR2 and FR21 to FR27).
 Rows R1 to R9 are retained records: the envelope beside the retention entry of
 Section 4.7, judged twice, once for the record's verdict and once by the dating
 check of Section 4.7.1, whose result is reported beside the verdict.
@@ -688,15 +691,33 @@ def _rule_closed_vocabularies(state: _State) -> None:
             raise Malformed("value-outside-vocabulary")
 
 
-def _entry_unavailable(entry: dict[str, Any], reported_at: datetime.datetime) -> bool:
-    """Stale or never established at ``reported_at``; an age equal to maxAge is fresh."""
+def _entry_unavailable(entry: dict[str, Any], reference: datetime.datetime) -> bool:
+    """Stale or never established at ``reference``. An input is fresh while its
+    age is less than maxAge, so an age equal to maxAge is stale (FR2, FR24); a
+    lastResult later than ``reference`` by more than the skew tolerance is
+    malformed (FR9, FR27)."""
     if entry["lastResult"] == NEVER_HELD:
         return True
     produced = _instant(entry["lastResult"])
-    if produced - reported_at > SKEW_TOLERANCE:
+    if produced - reference > SKEW_TOLERANCE:
         raise Malformed("evaluation-result-after-decision")
-    age = (reported_at - produced).total_seconds()
-    return bool(age > entry["maxAge"])
+    age = (reference - produced).total_seconds()
+    return bool(age >= entry["maxAge"])
+
+
+def reference_time(pred: dict[str, Any]) -> datetime.datetime:
+    """The time every evaluation entry's age is measured to: ``decision.evaluatedAt``
+    when the record carries it, ``decision.reportedAt`` otherwise (revision 05).
+    A decision is not reported before it is evaluated, so an evaluatedAt later
+    than reportedAt by more than the skew tolerance is malformed (FR25), and one
+    exactly at the tolerance is not (FR26)."""
+    reported_at = _instant(pred["decision"]["reportedAt"])
+    if "evaluatedAt" not in pred["decision"]:
+        return reported_at
+    evaluated_at = _instant(pred["decision"]["evaluatedAt"])
+    if evaluated_at - reported_at > SKEW_TOLERANCE:
+        raise Malformed("evaluation-result-after-decision")
+    return evaluated_at
 
 
 def _entry_shape(entry: Any, inputs: frozenset[str] | None = None) -> None:
@@ -724,8 +745,8 @@ def aggregate_values(values: list[dict[str, Any]]) -> dict[str, Any]:
     ``none`` and maxAge the smallest bound among the values never held.
     Otherwise the pair is the one whose lastResult plus maxAge is earliest, and
     of two such pairs the one with the earlier lastResult. At one reference time
-    every held value is fresh exactly when that time is at most the earliest
-    expiry, so the entry is fresh exactly when every value is. Taking the oldest
+    every held value is fresh exactly when that time is earlier than the
+    earliest expiry, so the entry is fresh exactly when every value is. Taking the oldest
     lastResult from one value and the smallest maxAge from another, as revision
     00 did, can report two fresh values as one stale input (FR15).
 
@@ -756,12 +777,13 @@ def aggregate_values(values: list[dict[str, Any]]) -> dict[str, Any]:
 def derive_unavailable(pred: dict[str, Any], predicate_type: str = PREDICATE_TYPE_V1) -> list[str]:
     """The inputs a verifier derives as unavailable from ``evaluation.inputs``,
     in entry order, after holding every entry to its shape (FR5, FR6, FR9 to FR13)
-    and its input to the set ``predicate_type`` names."""
+    and its input to the set ``predicate_type`` names, each measured to the
+    reference time (FR21 to FR27)."""
     allowed = evaluation_inputs(predicate_type)
     entries = pred["evaluation"]["inputs"]
     if not isinstance(entries, list):
         raise Malformed("evaluation-entry-malformed")
-    reported_at = _instant(pred["decision"]["reportedAt"])
+    reference = reference_time(pred)
     seen: set[str] = set()
     unavailable: list[str] = []
     for entry in entries:
@@ -769,7 +791,7 @@ def derive_unavailable(pred: dict[str, Any], predicate_type: str = PREDICATE_TYP
         if entry["input"] in seen:
             raise Malformed("evaluation-input-repeated")
         seen.add(entry["input"])
-        if _entry_unavailable(entry, reported_at):
+        if _entry_unavailable(entry, reference):
             unavailable.append(entry["input"])
     return unavailable
 
