@@ -3585,6 +3585,10 @@ MASKS = tuple(
         # surfaced when the ACS-Core corpus cited an upstream pull request whose
         # number equals the W3C report corpus total.
         r"\b[Pp]ull\s+requests?\s+\d+\b",
+        # And `PR 236`, the abbreviation with a space before the number. It
+        # surfaced when the audit-record corpus total reached the number of the
+        # pull request an appendix check cites.
+        r"\bPR\s+\d+\b",
         # A numbered article of a law, `Article 53(2)`, names a provision and
         # counts nothing. It surfaced when the ACS-Core accept count reached the
         # article number in the title of the open-weight release corpus.
