@@ -57,7 +57,9 @@ def answer(verifier: str | None, output: Path, snapshot: Path, pin: str) -> tupl
 def check(
     verifier: str | None, root: Path = HERE, decision_only: bool = False
 ) -> tuple[int, list[str]]:
-    manifest: dict[str, Any] = strictjson.loads((root / "MANIFEST.json").read_text(encoding="utf-8"))
+    manifest: dict[str, Any] = strictjson.loads(
+        (root / "MANIFEST.json").read_text(encoding="utf-8")
+    )
     failures, seen = [], set()
     try:
         if corpus_digest(manifest, str(root)) != manifest["corpusDigest"]:

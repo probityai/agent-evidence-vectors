@@ -199,7 +199,9 @@ class _Record:
         self.proof_sig = b""
         self.body = b""
         try:
-            self.statement = strictjson.loads(base64.b64decode(str(envelope["payload"]), validate=True))
+            self.statement = strictjson.loads(
+                base64.b64decode(str(envelope["payload"]), validate=True)
+            )
         except (KeyError, ValueError, TypeError):
             return
         try:

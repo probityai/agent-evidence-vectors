@@ -163,7 +163,7 @@ def _memoize_rail() -> None:
     """
     if str(PACKAGING) not in sys.path:
         sys.path.insert(0, str(PACKAGING))
-    rail = importlib.import_module("run_vectors")
+    rail: Any = importlib.import_module("run_vectors")
     original = rail.ed25519_verify
     if getattr(original, "cache_info", None) is None:
         rail.ed25519_verify = functools.lru_cache(maxsize=None)(original)
@@ -363,7 +363,7 @@ def report(lattice: Lattice) -> list[str]:
 
 
 def main(argv: Sequence[str] | None = None) -> int:
-    parser = argparse.ArgumentParser(description=__doc__.splitlines()[0])
+    parser = argparse.ArgumentParser(description=(__doc__ or "").splitlines()[0])
     parser.add_argument("corpora", nargs="*", help="corpus ids (default: every gate corpus)")
     parser.add_argument("--exhaustive", type=int, default=12, help="most rules run on every subset")
     parser.add_argument("--chains", type=int, default=16, help="random chains for a larger reader")

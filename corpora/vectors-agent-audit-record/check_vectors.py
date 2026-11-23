@@ -46,7 +46,6 @@ import base64
 import contextlib
 import dataclasses
 import datetime
-import hashlib
 import json
 import os
 import sys
@@ -965,20 +964,9 @@ def _proposed(entry: dict[str, object]) -> bool:
 
 
 def _own_findings(entry: dict[str, object], raw: bytes) -> list[str]:
-    """What the corpus claims of a member whatever text it tests: its bytes hash to
-    its identifier, and a plain member's aggregation block reproduces. These are
-    the findings ``auditrecord.judge`` keeps for every member; the rest are verdicts
-    of the published reader."""
-    findings = []
-    recomputed = "v" + hashlib.sha256(raw).hexdigest()[:16]
-    if recomputed != entry["id"]:
-        findings.append(
-            f"file bytes hash to {recomputed} and the manifest calls this member {entry['id']}"
-        )
-    expected = entry.get("expected")
-    if not (isinstance(expected, dict) and ("dating" in expected or "set" in expected)):
-        findings.extend(auditrecord.aggregation_findings(entry, raw))
-    return findings
+    """What the corpus claims of a member whatever text it tests; the rest of what
+    ``auditrecord.judge`` reports is verdicts of the published reader."""
+    return auditrecord.own_findings(entry, raw)
 
 
 def _score_published_text(

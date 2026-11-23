@@ -158,7 +158,7 @@ def census(corpora: Path = CORPORA, minted: Sequence[str] = ()) -> tuple[int, in
 
 
 def main(argv: Sequence[str] | None = None) -> int:
-    parser = argparse.ArgumentParser(description=__doc__.splitlines()[0])
+    parser = argparse.ArgumentParser(description=(__doc__ or "").splitlines()[0])
     parser.add_argument("corpora", nargs="*", help="corpus ids (default: every minter)")
     parser.add_argument(
         "--list-missing", action="store_true", help="name every corpus with no second generator"

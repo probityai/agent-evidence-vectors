@@ -2937,9 +2937,48 @@ def judge(directory: str) -> Judged:
         return judged
     heads = tree_heads(manifest)
     for entry in entries:
-        judged.members.append(_judge_member(directory, entry, policy_for(manifest, entry), heads))
+        identifier, kind, findings = _judge_member(
+            directory, entry, policy_for(manifest, entry), heads
+        )
+        if text_status(entry) == "proposed":
+            # A proposed member tests a rule no published revision states, so a
+            # verifier of the published text that differs on it has not failed:
+            # its verdicts are notes. The corpus's own claims bind whatever the
+            # text: the member's bytes and its aggregation block.
+            own = own_findings(entry, _member_bytes(directory, entry))
+            judged.notes.extend(
+                f"{identifier} (proposed text, not scored): {finding}"
+                for finding in findings
+                if finding not in own
+            )
+            findings = [finding for finding in findings if finding in own]
+        judged.members.append((identifier, kind, findings))
     judged.findings.extend(_corpus_findings(directory, manifest))
     return judged
+
+
+def _member_bytes(directory: str, entry: dict[str, Any]) -> bytes:
+    try:
+        with open(os.path.join(directory, str(entry.get("file", ""))), "rb") as handle:
+            return handle.read()
+    except OSError:
+        return b""
+
+
+def own_findings(entry: dict[str, Any], raw: bytes) -> list[str]:
+    """What the corpus claims of a member whatever text it tests: its bytes hash
+    to its identifier, and a plain member's aggregation block reproduces. The
+    rest of what ``judge`` reports is the published reader's verdicts."""
+    findings = []
+    recomputed = "v" + hashlib.sha256(raw).hexdigest()[:16]
+    if recomputed != entry["id"]:
+        findings.append(
+            f"file bytes hash to {recomputed} and the manifest calls this member {entry['id']}"
+        )
+    expected = entry.get("expected")
+    if not (isinstance(expected, dict) and ("dating" in expected or "set" in expected)):
+        findings.extend(aggregation_findings(entry, raw))
+    return findings
 
 
 def render(judged: Judged, suite: str) -> str:
