@@ -1,0 +1,16 @@
+{
+  "implementation": "aos-standard/catalog anchors_verify.py at anchors-verify-v0.12 (df8b9ee)",
+  "why this file exists": "Same purpose as aos-anchors-verify.json, for the wording of anchors-verify-v0.12. That build rewords one stop: a position binding that names no witness repository now stops with 'position binding at line N: names no witness repository' where earlier tags said 'binding names no witness repo'. The maintainer kept his diagnostic wording and asked that the comparison use verdict, exit code and normalized failure class instead, so the map follows the build and the build does not follow the map. Every other needle is the one aos-anchors-verify.json carries.",
+  "matchedAgainst": "the first line of the message the verifier emits, lowercased",
+  "reasons": {
+    "digest-mismatch": "digest mismatch",
+    "sidecar-coverage": "sidecar does not cover",
+    "witness-unreachable": "not reachable",
+    "malformed-row": "malformed row",
+    "unknown-rule-version": "unknown rule_version",
+    "invalid-line-count": "invalid line_count",
+    "invalid-byte-length": "invalid byte_length",
+    "binding-repo-absent": "names no witness repo",
+    "truncation": "truncation"
+  }
+}
