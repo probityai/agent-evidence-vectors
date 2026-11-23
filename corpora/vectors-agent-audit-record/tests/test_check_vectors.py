@@ -64,7 +64,10 @@ def test_proposed_member_still_fails_on_its_bytes(tmp_path: Path, monkeypatch: A
         (
             "vdeadbeefdeadbeef",
             "reject",
-            [f"file bytes hash to {recomputed} and the manifest calls this member vdeadbeefdeadbeef"],
+            [
+                f"file bytes hash to {recomputed} and the manifest calls this member "
+                "vdeadbeefdeadbeef"
+            ],
         )
     ]
     assert not scored.ok()

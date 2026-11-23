@@ -4066,8 +4066,8 @@ def define_principal_provider_and_pin() -> None:
         (
             "PR19",
             "pr14-principal-provider-declared-custom-domain",
-            "PR1, whose issuer is a custom domain no host or path rule names, with identityProvider "
-            "okta: accepted as declared, not derived",
+            "PR1, whose issuer is a custom domain no host or path rule names, with "
+            "identityProvider okta: accepted as declared, not derived",
             _principal_members(identityProvider="okta"),
         ),
         (
@@ -4087,8 +4087,8 @@ def define_principal_provider_and_pin() -> None:
         (
             "PR26",
             "pr21-principal-entra-pinned",
-            "PR1 from a Microsoft Entra issuer with identityProvider entra and the key pinned: both "
-            "members present",
+            "PR1 from a Microsoft Entra issuer with identityProvider entra and the key pinned: "
+            "both members present",
             _principal_members(
                 issuer=ENTRA_ISSUER,
                 identityProvider="entra",
@@ -4128,8 +4128,8 @@ def define_principal_provider_and_pin() -> None:
             "PR23",
             "pr18-principal-pin-mismatch",
             "PR22",
-            "PR22 whose pinnedThumbprint is the thumbprint of the issuer's Ed25519 key while key is "
-            "its P-256 key: the pin does not hold",
+            "PR22 whose pinnedThumbprint is the thumbprint of the issuer's Ed25519 key while key "
+            "is its P-256 key: the pin does not hold",
             _principal_edit("pinnedThumbprint", jwk_thumbprint(_ed25519_jwk())),
             "principal-pin-mismatch",
         ),
@@ -5440,7 +5440,8 @@ ORDER = (
     "A21 SQ1 SQ2 SQ3 SQ4 SQ5 "
     "R10 R11 R12 R13 R14 R15 R16 R19 R20 R21 R22 R23 R24 "
     "IS1 IS2 PS1 PS2 PS1b PS3 PS4 PS5 "
-    "PR1 PR2 PR3 PR4 PR5 PR6 PR7 PR8 PR9 PR10 PR11 PR12 PR13 PR14 PR15 PR16 PR17 PR18 PR19 PR20 PR21 PR22 PR23 PR24 PR25 PR26 PR27 "
+    "PR1 PR2 PR3 PR4 PR5 PR6 PR7 PR8 PR9 PR10 PR11 PR12 PR13 PR14 PR15 PR16 "
+    "PR17 PR18 PR19 PR20 PR21 PR22 PR23 PR24 PR25 PR26 PR27 "
     "DS1 DS2 DS3 DS4 DS5 DS6 DS7 DS8 DS9 DS10 "
     "X1 X2 X3 X4 X5 X6 X7 X8 X9 X10 X11 X12 X13 X14 X15 X16 X17 X18"
 ).split()

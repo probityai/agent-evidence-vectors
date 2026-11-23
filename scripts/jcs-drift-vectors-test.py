@@ -131,7 +131,7 @@ class InvalidInputFamily(unittest.TestCase):
         for case in CORPUS["invalidInputCases"]:
             raw = bytes.fromhex(case["inputHex"])
             with self.subTest(case["id"]):
-                with self.assertRaises(Exception):
+                with self.assertRaises(ValueError):
                     a2ajcs.canonicalize(a2ajcs.parse(raw.decode("utf-8")))
 
 

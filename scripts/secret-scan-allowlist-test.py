@@ -94,7 +94,8 @@ PRINCIPAL = "corpora/vectors-principal-action/cases/basic-user-agent-act-absent/
         (DNS_AID,
          f'{{\n "jwks": {{"keys": [{{"x": "{DNS_AID_X}"}}]}},\n'
          f' "sig": "{DNS_AID_SIG}"\n}}\n'),
-        (PRINCIPAL, f'{{\n  "producerKey": "{PRODUCER_KEY}",\n  "now": "2026-11-10T12:00:00Z"\n}}\n'),
+        (PRINCIPAL,
+         f'{{\n  "producerKey": "{PRODUCER_KEY}",\n  "now": "2026-11-10T12:00:00Z"\n}}\n'),
     ],
 )
 def test_the_fixture_shapes_scan_clean(tmp_path: Path, relpath: str, text: str) -> None:
