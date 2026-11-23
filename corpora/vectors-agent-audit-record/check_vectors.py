@@ -46,6 +46,7 @@ import base64
 import contextlib
 import dataclasses
 import datetime
+import hashlib
 import json
 import os
 import sys
@@ -955,11 +956,65 @@ def _dating_sweep(manifest: dict[str, object]) -> list[str]:
     return findings
 
 
+def _proposed(entry: dict[str, object]) -> bool:
+    """A member carrying ``proposed`` tests a rule only text proposed for the next
+    revision states. No published revision supports its verdict, so the published
+    reader is not scored on it: the generator's own rule, and the one
+    ``auditrecord.verify_external`` already applies to a named verifier."""
+    return auditrecord.text_status(entry) == "proposed"
+
+
+def _own_findings(entry: dict[str, object], raw: bytes) -> list[str]:
+    """What the corpus claims of a member whatever text it tests: its bytes hash to
+    its identifier, and a plain member's aggregation block reproduces. These are
+    the findings ``auditrecord.judge`` keeps for every member; the rest are verdicts
+    of the published reader."""
+    findings = []
+    recomputed = "v" + hashlib.sha256(raw).hexdigest()[:16]
+    if recomputed != entry["id"]:
+        findings.append(
+            f"file bytes hash to {recomputed} and the manifest calls this member {entry['id']}"
+        )
+    expected = entry.get("expected")
+    if not (isinstance(expected, dict) and ("dating" in expected or "set" in expected)):
+        findings.extend(auditrecord.aggregation_findings(entry, raw))
+    return findings
+
+
+def _score_published_text(
+    judged: auditrecord.Judged, manifest: dict[str, object]
+) -> auditrecord.Judged:
+    """Each proposed member's published-reader verdict becomes a note, not a
+    failure, so the run still prints what the published reader says about the
+    proposed text. The member keeps what the corpus claims of it whatever its
+    text, so a proposed member still fails on its bytes or its aggregation."""
+    entries = manifest["vectors"]
+    assert isinstance(entries, list)
+    by_id = {str(entry["id"]): entry for entry in entries}
+    scored = auditrecord.Judged()
+    scored.findings = list(judged.findings)
+    scored.notes = list(judged.notes)
+    for identifier, kind, findings in judged.members:
+        entry = by_id.get(identifier)
+        if entry is None or not _proposed(entry):
+            scored.members.append((identifier, kind, findings))
+            continue
+        own = _own_findings(entry, _raw(entry))
+        verdicts = [finding for finding in findings if finding not in own]
+        scored.notes.extend(
+            f"{identifier} (proposed text, not scored): {finding}" for finding in verdicts
+        )
+        scored.members.append((identifier, kind, own))
+    return scored
+
+
 def _failing(manifest: dict[str, object]) -> str:
     entries = manifest["vectors"]
     assert isinstance(entries, list)
     failing = []
     for entry in entries:
+        if _proposed(entry):
+            continue  # not scored on the published text, see _score_published_text
         if _fails(entry, auditrecord.policy_for(manifest, entry)):
             failing.append(str(entry["draftId"]))
     return ",".join(failing)
@@ -1024,9 +1079,9 @@ def _set_bundle_profile() -> list[str]:
 
 
 def main() -> int:
-    judged = auditrecord.judge(HERE)
-    sys.stdout.write(auditrecord.render(judged, auditrecord.SUITE))
     manifest = _manifest()
+    judged = _score_published_text(auditrecord.judge(HERE), manifest)
+    sys.stdout.write(auditrecord.render(judged, auditrecord.SUITE))
     swept, notes = _mutation_sweep(manifest)
     findings = (
         _second_signature_path(manifest)
