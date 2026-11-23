@@ -93,9 +93,9 @@
       }
     ]
   },
-  "corpusDigest": "bb94f0aba314bcc901872a8fe81f2f00266bf631572d3c66601e679e08697621",
+  "corpusDigest": "c75d5f1974363415ae2324578c430b950ae6958f7d1b7c3d159b184cf612857f",
   "counts": {
-    "accept": 105,
+    "accept": 106,
     "indeterminate": 2,
     "reject": 128
   },
@@ -150,7 +150,7 @@
   "suite": "agent-audit-record-conformance",
   "textCounts": {
     "proposed": 0,
-    "published": 235
+    "published": 236
   },
   "vectors": [
     {
@@ -3788,6 +3788,24 @@
       "predicateType": "https://probityai.github.io/agent-evidence-vectors/predicate/v2/agent-audit-record",
       "row": "the commitment current and the proof missing or not verifying against it: the commitment does not establish standing, and the record is evaluated with deny as PS4, never not-evaluated, its entry the commitment's as-of time",
       "slug": "ps5-principal-standing-commitment-proof-missing"
+    },
+    {
+      "draftId": "PS6",
+      "draftRevision": "draft-gilda-audit-agent-audit-record-04",
+      "draftSection": "5.4",
+      "expected": {
+        "codes": [],
+        "derivedTier": "authoritative",
+        "verdict": "valid"
+      },
+      "file": "statements/v3d6a338735efa881.json",
+      "id": "v3d6a338735efa881",
+      "kind": "accept",
+      "parent": "vb381c43905c8cb8b",
+      "parentDraftId": "PS5",
+      "predicateType": "https://probityai.github.io/agent-evidence-vectors/predicate/v2/agent-audit-record",
+      "row": "the proof built against a commitment from a publisher outside the relying party's pin: that commitment is never an input, the entry carries the as-of time of the pinned publisher's commitment the decision point held, and the record is evaluated with deny as PS5 (none held from the pinned publisher is PS3)",
+      "slug": "ps6-principal-standing-commitment-publisher-not-pinned"
     },
     {
       "draftId": "PR1",

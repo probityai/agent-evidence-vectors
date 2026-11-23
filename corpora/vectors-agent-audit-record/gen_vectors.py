@@ -3584,9 +3584,19 @@ TWO_READINGS_PS1B = [
 #   and deny, never not-evaluated, because the input the decision depended on,
 #   the commitment, was current. Its entry carries the same as-of time; the
 #   record is its own (recordId differs, so its commitment is sealed again).
+# * PS6, beside the three rows, tests the paragraph of Section 5.4 of
+#   revision 04 they follow (the relying party pins the publisher): the
+#   presenter proves standing against a commitment from a publisher outside
+#   the relying party's pin. That commitment is never an input; the entry
+#   carries the as-of time of the pinned publisher's commitment the decision
+#   point held, and the record is PS5's: evaluated and deny. Holding none from
+#   the pinned publisher is PS3. No entry member names a publisher, so PS6
+#   differs from PS5 only in the case it states and its recordId (its
+#   commitment is sealed again); a later revision that adds one makes an entry
+#   naming a publisher outside the pin PS6's reject companion.
 # ---------------------------------------------------------------------------
 
-#: The as-of time of the current commitment in PS4 and PS5, read when issuer
+#: The as-of time of the current commitment in PS4 to PS6, read when issuer
 #: standing is read and well inside the hour PS1 pins for principal standing.
 COMMITMENT_AS_OF = "2026-09-19T11:00:00Z"
 
@@ -3649,6 +3659,20 @@ def define_principal_standing_commitment() -> None:
         lambda: build_principal_standing_denied("proof-not-established"),
         "valid",
         tier="authoritative",
+        predicate_type=PREDICATE_TYPE_V2,
+    )
+    member(
+        "PS6",
+        "ps6-principal-standing-commitment-publisher-not-pinned",
+        "PS5",
+        "the proof built against a commitment from a publisher outside the relying "
+        "party's pin: that commitment is never an input, the entry carries the as-of "
+        "time of the pinned publisher's commitment the decision point held, and the "
+        "record is evaluated with deny as PS5 (none held from the pinned publisher is PS3)",
+        lambda: build_principal_standing_denied("publisher-not-pinned"),
+        "valid",
+        tier="authoritative",
+        section="5.4",
         predicate_type=PREDICATE_TYPE_V2,
     )
 
@@ -5191,7 +5215,7 @@ ORDER = (
     "CS41 CS42 CS43 CS44 CS45 CS46 CS47 CS48 CS49 CS50 CS51 CS52 CS53 CS54 "
     "A21 SQ1 SQ2 SQ3 SQ4 SQ5 "
     "R10 R11 R12 R13 R14 R15 R16 R19 R20 R21 R22 R23 R24 "
-    "IS1 IS2 PS1 PS2 PS1b PS3 PS4 PS5 "
+    "IS1 IS2 PS1 PS2 PS1b PS3 PS4 PS5 PS6 "
     "PR1 PR2 PR3 PR4 PR5 PR6 PR7 PR8 PR9 PR10 PR11 "
     "DS1 DS2 DS3 DS4 DS5 DS6 DS7 DS8 DS9 DS10 "
     "X1 X2 X3 X4 X5 X6 X7 X8 X9 X10 X11 X12 X13 X14 X15 X16 X17 X18"
@@ -5260,6 +5284,7 @@ SECTION_REVISION: dict[str, str] = {
     "PS1b": "03",
     **{d: "03" for d in ("X2", "X3", "X8", "X9", "X10", "X11", "X12", "X13", "X14")},
     **{d: "03" for d in ("X15", "X16")},
+    "PS6": "04",
 }
 
 

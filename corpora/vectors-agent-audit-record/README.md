@@ -14,7 +14,7 @@ bind consumption state with an operation key, then the rows written for
 revision 02: `A21` (an `api-key` agent authentication), `SQ1` to `SQ5` (the
 `sequence` member and record identity) and `R10` to `R16` (OpenTimestamps
 anchors and the delegation root), then the rows written for revision 03:
-`IS1` and `IS2`, a record issued before its interval was sealed, and `PS1` and `PS2`, principal standing under the `v2` predicate type URI (below), then the rows written for revision 04: `CS41` to `CS49`, the payee and the settled terms of a paid call, and `PR1` to `PR11`, the authenticated principal, and `DS1` to `DS10`, whose data a call touched and for what purpose, and `PS3` to `PS5`, principal standing established from a published commitment (below). Each carries `draftRevision` and the
+`IS1` and `IS2`, a record issued before its interval was sealed, and `PS1` and `PS2`, principal standing under the `v2` predicate type URI (below), then the rows written for revision 04: `CS41` to `CS49`, the payee and the settled terms of a paid call, and `PR1` to `PR11`, the authenticated principal, and `DS1` to `DS10`, whose data a call touched and for what purpose, and `PS3` to `PS5`, principal standing established from a published commitment (below), with `PS6` beside them for a sentence of Section 5.4 of -04 that Appendix B has no row for. Each carries `draftRevision` and the
 identifier the draft prints. After them come `X1` to `X18`, each an existing member with one field changed that reaches a refusal code no earlier member produced: the JSON profile (`X1`, `X2`), `issuedAt` without an offset (`X3`), the statement and predicate types (`X4`, `X5`), consumption shape and the operation key (`X6`, `X7`), the first subject (`X8`), an envelope and a statement that cannot be read (`X9`, `X10`), a retention entry that is malformed or names another envelope or an unexpected or unreadable delegation root (`X11` to `X14`), a retained member whose record or entry cannot be read (`X15`, `X16`), and a set that cannot be read or whose records are malformed (`X17`, `X18`). [`INDEX.md`](INDEX.md) lists every member beside its
 file.
 
@@ -32,7 +32,7 @@ to `X16` are -03 members that -04 prints). A proposed member carries
 `proposed`, naming the next revision its rule is proposed for and the proposed
 text under [`docs/proposals/`](../../docs/proposals/), and no `draftRevision`,
 because no published revision states the rule it tests. `textCounts` gives the
-split: 235 published and 0 proposed at this commit.
+split: 236 published and 0 proposed at this commit.
 
 [Revision 04](https://datatracker.ietf.org/doc/draft-gilda-audit-agent-audit-record/04/)
 was published on 19 November 2026, and its Appendix B prints all 68 members
@@ -51,7 +51,8 @@ the row, and a proposed member whose text is missing.
 
 | Release | Draft revision the corpus tests | Members |
 | --- | --- | --- |
-| v0.38.0 | `draft-gilda-audit-agent-audit-record-04` | all 235 members: every member the row below lists, with the 68 rows -04 first prints labelled -04 |
+| After v0.38.0 | `draft-gilda-audit-agent-audit-record-04` | all 236 members: every member the row below lists, and `PS6`, labelled -04 from Section 5.4 |
+| v0.38.0 | `draft-gilda-audit-agent-audit-record-04` | 235 members: every member the row below lists, with the 68 rows -04 first prints labelled -04 |
 | After v0.28.0, before v0.38.0 | `draft-gilda-audit-agent-audit-record-03`, and rows of `-04` | every member the v0.28.0 row lists, rows `IS1`, `IS2`, `PS1` and `PS2` of -03 and the open member `PS1b` beside them, and rows `CS41` to `CS54` written for -04 |
 | v0.28.0 | `draft-gilda-audit-agent-audit-record-02` | the 99 Appendix B rows of -00, 7 Section 5.4 members, 22 rows of -01 and 13 rows of -02 |
 | v0.27.0 | `draft-gilda-audit-agent-audit-record-00`, and 22 rows of `-01` | the 99 Appendix B rows, 7 Section 5.4 members and 22 rows of -01 |
@@ -92,7 +93,7 @@ uv run --extra generators python vectors-agent-audit-record/check_vectors.py
 To score your own verifier, run it over each `statements/<id>.json` with the
 observer public key from `keys.observer.publicKey`, configured to accept the
 manifest's `predicateType`, or the member's own `predicateType` where the member
-carries one (`PS1`, `PS1b` and `PS3` to `PS5` carry the `v2` URI), then score each verdict:
+carries one (`PS1`, `PS1b` and `PS3` to `PS6` carry the `v2` URI), then score each verdict:
 
 - an accept or reject member conforms when your verdict equals
   `expected.verdict`;
@@ -524,9 +525,9 @@ generator reproduces his bytes and file identifiers.
 
 `check_vectors.py` holds both sides: a reader that applies the extended set
 under the `v1` URI as well fails exactly `PS2`, and a reader that accepts the
-`v2` URI with the `v1` set fails exactly `PS1` and `PS3` to `PS5` (below).
+`v2` URI with the `v1` set fails exactly `PS1` and `PS3` to `PS6` (below).
 
-## Principal standing from a published commitment: `PS3` to `PS5`
+## Principal standing from a published commitment: `PS3` to `PS6`
 
 Some deployments establish principal standing without a lookup by identifier:
 the source publishes a signed standing commitment, the presenter proves standing
@@ -553,6 +554,22 @@ built on `PS1` and judged under the `v2` URI.
   naming it unavailable fails the recompute of Section 4.6. No member of the
   record says why a decision denied, so `PS5` differs from `PS4` in the case it
   states and in its own `recordId`, not in the shape a verifier checks.
+
+`PS6` tests the paragraph of Section 5.4 of -04 that the three rows follow,
+under which the relying party pins the publisher. Appendix B has no row for it,
+so it carries `draftSection` 5.4. It comes from
+[#402](https://github.com/probityai/agent-evidence-vectors/issues/402) and is
+built on `PS5`.
+
+- `PS6`: the presenter proves standing against a commitment from a publisher
+  outside the relying party's pin. That commitment is never an input: the entry
+  carries the as-of time of the pinned publisher's commitment the decision point
+  held, and the record is `evaluated` with `deny`, as `PS5`. Holding no
+  commitment from the pinned publisher is `PS3`. No entry member names a
+  publisher, so `PS6` differs from `PS5` only in the case it states and in its
+  own `recordId`. If a later revision adds an entry member that names the
+  publisher, an entry naming a publisher outside the pin becomes the reject
+  companion of `PS6`.
 
 `check_vectors.py` holds `PS3` to the sentence that a `lastResult` of `none` is
 never established, beside `A18`, `A20` and `FR4`.
