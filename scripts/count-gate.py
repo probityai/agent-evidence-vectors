@@ -1663,6 +1663,20 @@ _DRAFT_1105_SPANS = (
 
 FROZEN: tuple[Frozen, ...] = (
     Frozen(
+        'corpora/vectors-acs-core/README.md',
+        'the family identifier acs-f-17',
+        '`acs-f-16` and `acs-f-17` take',
+        'A family identifier, a name, not a count: the 17 is the ordinal of one family and '
+        'it met the annotated-site count by coincidence.',
+    ),
+    Frozen(
+        'corpora/vectors-ai-agent-action/README.md',
+        'the condition identifier aia-c-17',
+        '`aia-c-17`: every statement in a segment',
+        'A condition identifier, a name, not a count: the 17 is the ordinal of one condition '
+        'and it met the annotated-site count by coincidence.',
+    ),
+    Frozen(
         'scripts/archived-repos.toml',
         'the issue numbers that stayed in the archived agent-evidence repository',
         'untransferred_issues = [30, 31, 32, 35]',

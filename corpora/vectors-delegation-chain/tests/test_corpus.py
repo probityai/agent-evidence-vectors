@@ -28,7 +28,12 @@ generator = _load("delegation_chain_generator", ROOT / "gen_vectors.py")
 from agent_evidence_vectors import delegationchain  # noqa: E402
 
 # The checks a verifier that reads only the grant signatures would run.
-SIGNATURE_ONLY = ("contract_id_missing", "contract_id_unknown", "malformed_record", "signature_invalid")
+SIGNATURE_ONLY = (
+    "contract_id_missing",
+    "contract_id_unknown",
+    "malformed_record",
+    "signature_invalid",
+)
 
 
 def _stub(tmp_path: Path, skip: tuple[str, ...]) -> str:
@@ -58,11 +63,14 @@ class TestDelegatorRightCorpus:
     class TestPassingCases:
         def test_regeneration_is_byte_identical(self, tmp_path: Path) -> None:
             generator.generate(tmp_path)
-            committed = {p.relative_to(ROOT): p.read_bytes()
-                         for p in [ROOT / "MANIFEST.json", *(ROOT / "cases").rglob("*")]
-                         if p.is_file()}
-            regenerated = {p.relative_to(tmp_path): p.read_bytes()
-                           for p in tmp_path.rglob("*") if p.is_file()}
+            committed = {
+                p.relative_to(ROOT): p.read_bytes()
+                for p in [ROOT / "MANIFEST.json", *(ROOT / "cases").rglob("*")]
+                if p.is_file()
+            }
+            regenerated = {
+                p.relative_to(tmp_path): p.read_bytes() for p in tmp_path.rglob("*") if p.is_file()
+            }
             assert regenerated == committed
 
         def test_reference_reader_agrees_with_every_case(self) -> None:
@@ -80,8 +88,11 @@ class TestDelegatorRightCorpus:
             assert _manifest()["contractId"] == CONTRACT_ID
 
         def test_every_denial_reason_is_a_check(self) -> None:
-            reasons = {e["expected"]["reason"] for e in _manifest()["vectors"]
-                       if e["expected"]["decision"] == "deny"}
+            reasons = {
+                e["expected"]["reason"]
+                for e in _manifest()["vectors"]
+                if e["expected"]["decision"] == "deny"
+            }
             assert reasons == set(delegationchain.CHECKS)
 
     class TestFailingCases:
@@ -90,9 +101,12 @@ class TestDelegatorRightCorpus:
         ) -> None:
             skip = tuple(c for c in delegationchain.CHECKS if c not in SIGNATURE_ONLY)
             _, errors = corpus.check(_stub(tmp_path, skip))
-            expected = {e["id"] for e in _manifest()["vectors"]
-                        if e["expected"]["decision"] == "deny"
-                        and e["expected"]["reason"] not in SIGNATURE_ONLY}
+            expected = {
+                e["id"]
+                for e in _manifest()["vectors"]
+                if e["expected"]["decision"] == "deny"
+                and e["expected"]["reason"] not in SIGNATURE_ONLY
+            }
             assert _failed(errors) == expected
 
         @pytest.mark.parametrize("name", delegationchain.CHECKS)
@@ -106,33 +120,40 @@ class TestDelegatorRightCorpus:
             for entry in _manifest()["vectors"]:
                 reason = entry["expected"]["reason"]
                 if entry["expected"]["decision"] != "deny" or reason in (
-                        "malformed_record", "contract_id_missing", "contract_id_unknown"):
+                    "malformed_record",
+                    "contract_id_missing",
+                    "contract_id_unknown",
+                ):
                     continue
                 answer = delegationchain.verify(
-                    ROOT / entry["path"] / "record.json", frozenset({reason}))
+                    ROOT / entry["path"] / "record.json", frozenset({reason})
+                )
                 assert answer == {"decision": "allow", "reason": "chain_valid"}, entry["id"]
 
-        def test_verifier_that_denies_everything_fails_the_controls(
-            self, tmp_path: Path
-        ) -> None:
+        def test_verifier_that_denies_everything_fails_the_controls(self, tmp_path: Path) -> None:
             script = tmp_path / "deny.py"
-            script.write_text('import json, sys\nprint(json.dumps({"decision": "deny", '
-                              '"reason": "widens_tools"}))\nsys.exit(1)\n',
-                              encoding="ascii")
+            script.write_text(
+                'import json, sys\nprint(json.dumps({"decision": "deny", '
+                '"reason": "widens_tools"}))\nsys.exit(1)\n',
+                encoding="ascii",
+            )
             _, errors = corpus.check(f"{sys.executable} {script}")
-            controls = {e["id"] for e in _manifest()["vectors"]
-                        if e["expected"]["decision"] == "allow"}
+            controls = {
+                e["id"] for e in _manifest()["vectors"] if e["expected"]["decision"] == "allow"
+            }
             assert controls and controls <= _failed(errors)
 
-        def test_verifier_that_allows_everything_fails_every_denial(
-            self, tmp_path: Path
-        ) -> None:
+        def test_verifier_that_allows_everything_fails_every_denial(self, tmp_path: Path) -> None:
             script = tmp_path / "allow.py"
-            script.write_text('import json, sys\nprint(json.dumps({"decision": "allow", '
-                              '"reason": "chain_valid"}))\nsys.exit(0)\n', encoding="ascii")
+            script.write_text(
+                'import json, sys\nprint(json.dumps({"decision": "allow", '
+                '"reason": "chain_valid"}))\nsys.exit(0)\n',
+                encoding="ascii",
+            )
             _, errors = corpus.check(f"{sys.executable} {script}")
-            denied = {e["id"] for e in _manifest()["vectors"]
-                      if e["expected"]["decision"] == "deny"}
+            denied = {
+                e["id"] for e in _manifest()["vectors"] if e["expected"]["decision"] == "deny"
+            }
             assert _failed(errors) == denied
 
         def test_missing_verifier_does_not_count_as_answered(self, tmp_path: Path) -> None:

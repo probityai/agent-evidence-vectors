@@ -363,6 +363,21 @@ bundle it ran, and the verdict as the runtime returned it. A consumer replays th
 context and policy itself, and a record whose digests or verdict the replay does not
 reproduce is refused.
 
+### `predicate/v1/revocation-list`
+
+- Document: `corpora/vectors-revocation-list/README.md`
+- Corpus: `corpora/vectors-revocation-list/`, suite `revocation-list/v1`
+- Rails: `aee/revocationlist.go`, `corpusreaders/revocationlist.go`
+
+The predicate carries one signed, cumulative revocation list: a body of seven members, chained to
+the previous list by sequence number and digest, signed by a root key the verifier pins out of
+band. An entry, once published, stays in every later list byte for byte, and a verifier refuses a
+list that drops, rewrites or reorders an earlier entry, breaks the chain, or is signed by a key it
+does not pin.
+
+- Envelope: `{"body": BODY, "sig": base64(Ed25519 over "probity-revocation-v1\0" || JCS(BODY))}`.
+- Example: `aee/testdata/revocation-list.json`.
+
 ## Registered here
 
 ### `predicate/v1/kernel-substrate`

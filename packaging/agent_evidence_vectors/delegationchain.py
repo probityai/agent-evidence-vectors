@@ -1,13 +1,19 @@
 """Judge a signed delegation chain handed from agent to agent.
 
-A chain is a list of signed grants. The first is issued by a trusted root key to the first agent; every
-later grant is issued by the previous grant's holder to the next agent, and may only narrow what it was
-given. A verifier that checks each signature and nothing else accepts a chain whose third hop quietly
-widened the tools, the argument values, the audience, the expiry, the budget or the remaining depth, a chain
-spliced from two tasks, a chain whose middle link was signed by an agent that never held the grant above
+A chain is a list of signed grants. The first is issued by a trusted root key to the first agent;
+every
+later grant is issued by the previous grant's holder to the next agent, and may only narrow what it
+was
+given. A verifier that checks each signature and nothing else accepts a chain whose third hop
+quietly
+widened the tools, the argument values, the audience, the expiry, the budget or the remaining depth,
+a chain
+spliced from two tasks, a chain whose middle link was signed by an agent that never held the grant
+above
 it, and a chain with an ancestor that was revoked after the task began.
 
-The record carries the chain, the trusted root key ids, the instant the chain is judged at, the agent
+The record carries the chain, the trusted root key ids, the instant the chain is judged at, the
+agent
 receiving the last grant, and the digests of revoked grants. A grant body is::
 
     {"grantId", "issuerKey", "holderKey", "parent", "notBefore", "expiresAt", "maxDepth",
@@ -15,8 +21,10 @@ receiving the last grant, and the digests of revoked grants. A grant body is::
      "tools": {tool: {"args": {name: {"type": "one_of", "values": [...]}}}},
      "budget": {"uses": integer}}
 
-A signature is Ed25519 over ``b"probity-grant-v1\\x00"`` followed by the RFC 8785 form of the body; a key id
-is the SHA-256 of the raw public key; a grant digest is the SHA-256 of the RFC 8785 form of the body.
+A signature is Ed25519 over ``b"probity-grant-v1\\x00"`` followed by the RFC 8785 form of the body;
+a key id
+is the SHA-256 of the raw public key; a grant digest is the SHA-256 of the RFC 8785 form of the
+body.
 
 The reader checks in a fixed order and names the first check that fails:
 
@@ -25,15 +33,19 @@ The reader checks in a fixed order and names the first check that fails:
 3. the record has the fields and types the contract names, and every time carries a UTC offset
    (``malformed_record``);
 4. every signature verifies under the grant's own ``issuerKey`` (``signature_invalid``);
-5. the first grant's issuer is a trusted root and each later grant's issuer is the holder of the grant above it
+5. the first grant's issuer is a trusted root and each later grant's issuer is the holder of the
+   grant above it
    (``issuer_not_authorised``);
-6. the first grant has no parent and each later grant's ``parent`` is the digest of the grant above it
+6. the first grant has no parent and each later grant's ``parent`` is the digest of the grant above
+   it
    (``parent_mismatch``);
 7. the judging instant is inside every grant's window (``grant_not_in_window``);
-8. each grant allows one more level than the grant below it, so ``maxDepth`` falls by at least one per hop
+8. each grant allows one more level than the grant below it, so ``maxDepth`` falls by at least one
+   per hop
    (``depth_exceeded``);
 9. each grant's tools are inside its parent's (``widens_tools``);
-10. each tool's arguments are inside the parent's, name by name and value by value (``widens_arguments``);
+10. each tool's arguments are inside the parent's, name by name and value by value
+    (``widens_arguments``);
 11. each grant's audience is inside its parent's (``widens_audience``);
 12. each grant expires no later than its parent (``widens_expiry``);
 13. each grant's budget is no larger than its parent's (``widens_budget``);
@@ -42,7 +54,8 @@ The reader checks in a fixed order and names the first check that fails:
 
 A record that passes all fifteen is ``allow`` with reason ``chain_valid``.
 
-The external-verifier contract: ``<verifier> <case-dir>/record.json --json`` prints one JSON object carrying
+The external-verifier contract: ``<verifier> <case-dir>/record.json --json`` prints one JSON object
+carrying
 ``decision`` and ``reason``, and exits 0 for ``allow`` and 1 for ``deny``.
 """
 
@@ -89,15 +102,21 @@ CHECKS = (
     "receiver_outside_audience",
 )
 _HERE = Path(__file__).resolve().parent
-ROOT = (_HERE / "corpora" / "vectors-delegation-chain" if
-        (_HERE / "corpora").exists() else _HERE.parents[1] / "corpora" / "vectors-delegation-chain")
+ROOT = (
+    _HERE / "corpora" / "vectors-delegation-chain"
+    if (_HERE / "corpora").exists()
+    else _HERE.parents[1] / "corpora" / "vectors-delegation-chain"
+)
 _RAIL_NAMES = ("agent_evidence_vectors.run_vectors", "run_vectors", "__main__")
 _RAIL_PRIMITIVES = ("ed25519_verify", "jcs_dumps")
 _OFFSET = re.compile(r"(Z|[+-]\d{2}:\d{2})$")
 
 
 def _rail() -> Any:
-    """The rail module, resolved at call time: the rail imports this module, so a module-level import is a cycle."""
+    """The rail module, resolved at call time.
+
+    The rail imports this module, so a module-level import is a cycle.
+    """
     for name in _RAIL_NAMES:
         module = sys.modules.get(name)
         if module is not None and all(hasattr(module, p) for p in _RAIL_PRIMITIVES):
@@ -141,9 +160,13 @@ def _count(value: Any) -> bool:
 
 
 def _one_of(value: Any) -> bool:
-    return (isinstance(value, dict) and value.get("type") == "one_of"
-            and isinstance(value.get("values"), list) and bool(value["values"])
-            and all(isinstance(v, str) for v in value["values"]))
+    return (
+        isinstance(value, dict)
+        and value.get("type") == "one_of"
+        and isinstance(value.get("values"), list)
+        and bool(value["values"])
+        and all(isinstance(v, str) for v in value["values"])
+    )
 
 
 def _body_malformed(body: Any) -> bool:
@@ -164,8 +187,11 @@ def _body_malformed(body: Any) -> bool:
     if not (isinstance(tools, dict) and tools):
         return True
     for spec in tools.values():
-        if not (isinstance(spec, dict) and isinstance(spec.get("args"), dict)
-                and all(_one_of(c) for c in spec["args"].values())):
+        if not (
+            isinstance(spec, dict)
+            and isinstance(spec.get("args"), dict)
+            and all(_one_of(c) for c in spec["args"].values())
+        ):
             return True
     return False
 
@@ -173,16 +199,22 @@ def _body_malformed(body: Any) -> bool:
 def _malformed(record: dict[str, Any]) -> bool:
     chain: Any = record.get("chain")
     shape = (
-        isinstance(record.get("at"), str) and _is_text(record.get("receiver"))
-        and isinstance(chain, list) and bool(chain)
-        and isinstance(record.get("rootKeyIds"), list) and bool(record["rootKeyIds"])
+        isinstance(record.get("at"), str)
+        and _is_text(record.get("receiver"))
+        and isinstance(chain, list)
+        and bool(chain)
+        and isinstance(record.get("rootKeyIds"), list)
+        and bool(record["rootKeyIds"])
         and all(isinstance(k, str) for k in record["rootKeyIds"])
-        and isinstance(record.get("revoked"), list) and all(isinstance(d, str) for d in record["revoked"])
+        and isinstance(record.get("revoked"), list)
+        and all(isinstance(d, str) for d in record["revoked"])
     )
     if not shape:
         return True
     for link in chain:
-        if not (isinstance(link, dict) and isinstance(link.get("sig"), str)) or _body_malformed(link.get("body")):
+        if not (isinstance(link, dict) and isinstance(link.get("sig"), str)) or _body_malformed(
+            link.get("body")
+        ):
             return True
     try:
         _when(record["at"])
@@ -261,8 +293,10 @@ def _widens_arguments(record: dict[str, Any]) -> bool:
 
 
 def _widens_audience(record: dict[str, Any]) -> bool:
-    return any(not set(c["context"]["audience"]["values"]) <= set(p["context"]["audience"]["values"])
-               for p, c in _pairs(record))
+    return any(
+        not set(c["context"]["audience"]["values"]) <= set(p["context"]["audience"]["values"])
+        for p, c in _pairs(record)
+    )
 
 
 def _widens_expiry(record: dict[str, Any]) -> bool:
@@ -289,8 +323,10 @@ def _load(record_path: Path) -> dict[str, Any]:
 def _first_failure(record: dict[str, Any], skip: frozenset[str]) -> str | None:
     """Name the first check in ``CHECKS`` the record fails, or None.
 
-    ``skip`` switches named checks off so the corpus's own tests can prove each check is forced by some member;
-    a verifier never sets it. The checks after ``malformed_record`` read a record only once it has passed.
+    ``skip`` switches named checks off so the corpus's own tests can prove each check is forced by
+    some member;
+    a verifier never sets it. The checks after ``malformed_record`` read a record only once it has
+    passed.
     """
     failures: dict[str, Callable[[], bool]] = {
         "contract_id_missing": lambda: "contractId" not in record,
@@ -326,6 +362,8 @@ def verify(record_path: Path, skip: frozenset[str] = frozenset()) -> dict[str, s
     if failure is not None:
         return {"decision": DENY, "reason": failure}
     return {"decision": ALLOW, "reason": ALLOWED}
+
+
 def _fixture_error(directory: Path, entry: dict[str, Any]) -> str | None:
     files = entry["files"]
     actual = {path.name for path in directory.iterdir() if path.is_file()}
@@ -355,8 +393,9 @@ def _validated_entries(root: Path) -> tuple[list[dict[str, Any]], str | None]:
 
 def _external_answer(command: list[str], path: Path) -> tuple[bool, dict[str, Any] | str]:
     try:
-        result = subprocess.run([*command, str(path), "--json"], capture_output=True,
-                                text=True, timeout=90, check=False)
+        result = subprocess.run(
+            [*command, str(path), "--json"], capture_output=True, text=True, timeout=90, check=False
+        )
     except (OSError, subprocess.TimeoutExpired) as exc:
         return False, f"verifier did not run: {exc}"
     try:
@@ -370,7 +409,8 @@ def _external_answer(command: list[str], path: Path) -> tuple[bool, dict[str, An
 
 
 def check(
-    verifier: str | list[str] | None = None, root: Path = ROOT,
+    verifier: str | list[str] | None = None,
+    root: Path = ROOT,
     skip: frozenset[str] = frozenset(),
 ) -> tuple[int, list[str]]:
     """Check every record, through the named verifier or the reference reader.
@@ -425,29 +465,37 @@ def run(root: str, verifier: list[str] | None, report_path: str, rail_note: str)
         print("no report written: no case was answered")
         return 2
     report = {
-        "suite": SUITE, "rail": "own-reader" if verifier is None else "external",
+        "suite": SUITE,
+        "rail": "own-reader" if verifier is None else "external",
         "verifier": {"command": verifier, "vectorsExecuted": answered, "note": rail_note},
         "corpusDigest": manifest["corpusDigest"],
-        "totals": {"vectors": total, "conform": total - len(errors), "fail": len(errors),
-                   "suiteRefusals": 0},
+        "totals": {
+            "vectors": total,
+            "conform": total - len(errors),
+            "fail": len(errors),
+            "suiteRefusals": 0,
+        },
         "failures": errors,
     }
-    Path(report_path).write_text(json.dumps(report, indent=2, sort_keys=True) + "\n",
-                                 encoding="utf-8")
+    Path(report_path).write_text(
+        json.dumps(report, indent=2, sort_keys=True) + "\n", encoding="utf-8"
+    )
     return 1 if errors or answered != total else 0
 
 
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description=(__doc__ or SUITE).splitlines()[0])
-    parser.add_argument("record", nargs="?",
-                        help="judge one record.json with the reference reader")
+    parser.add_argument("record", nargs="?", help="judge one record.json with the reference reader")
     parser.add_argument("--json", action="store_true", help="print the decision as JSON")
     parser.add_argument("--verifier", help="run every record through this verifier instead")
     args = parser.parse_args(argv)
     if args.record:
         answer = verify(Path(args.record))
-        print(json.dumps(answer, sort_keys=True) if args.json else
-              f"{answer['decision']} {answer['reason']}")
+        print(
+            json.dumps(answer, sort_keys=True)
+            if args.json
+            else f"{answer['decision']} {answer['reason']}"
+        )
         return EXIT_FOR[answer["decision"]]
     answered, errors = check(args.verifier)
     for error in errors:

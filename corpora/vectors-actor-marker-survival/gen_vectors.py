@@ -18,6 +18,7 @@ from __future__ import annotations
 
 import copy
 import hashlib
+import importlib.util
 import json
 import shutil
 import sys
@@ -29,6 +30,24 @@ from cryptography.hazmat.primitives.asymmetric.ed25519 import Ed25519PrivateKey
 from cryptography.hazmat.primitives.serialization import Encoding, PublicFormat
 
 ROOT = Path(__file__).resolve().parent
+
+
+def _load_digest() -> Any:
+    """The preimage lives in digest.py beside this file, loaded by path.
+
+    By path rather than by module name, because every corpus that owns a stdlib preimage names its
+    module digest.py, and an import by name reaches whichever of them is first on the search path.
+    """
+    spec = importlib.util.spec_from_file_location("actor_marker_digest", ROOT / "digest.py")
+    if spec is None or spec.loader is None:
+        raise SystemExit("FAIL: digest.py beside this generator cannot be loaded")
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    return module
+
+
+_DIGEST = _load_digest()
+corpus_digest = _DIGEST.corpus_digest
 sys.path.insert(0, str(ROOT.parents[1] / "packaging"))
 
 from agent_evidence_vectors import actormarker as reader  # noqa: E402
@@ -441,7 +460,10 @@ def cases() -> list[Case]:
         ),
         (
             "contract-id-unknown",
-            record(seal(build(two_hop())), contract=reader.CONTRACT_ID[:-1] + "x"),
+            record(
+                seal(build(two_hop())),
+                contract=reader.CONTRACT_ID.replace("/predicate/v1/", "/predicate-unknown/v1/"),
+            ),
             r,
             "contract_id_unknown",
             "the record names another contract",
@@ -669,22 +691,6 @@ def _protocol_unknown() -> list[dict[str, Any]]:
     return seal(entries)
 
 
-def corpus_digest(manifest: dict[str, Any], root: str) -> str:
-    """Recompute the digest from the committed files, not their declared hashes."""
-    base = Path(root)
-    entries = []
-    for entry in manifest["vectors"]:
-        directory = base / entry["path"]
-        declared = entry["files"]
-        if {p.name for p in directory.iterdir() if p.is_file()} != set(declared):
-            raise ValueError(f"{entry['id']}: file set changed")
-        files = {name: _sha((directory / name).read_bytes()) for name in declared}
-        if files != declared:
-            raise ValueError(f"{entry['id']}: file digest mismatch")
-        entries.append({**entry, "files": files})
-    return _sha(_json(entries))
-
-
 def generate(root: Path = ROOT) -> dict[str, Any]:
     """Write TRUST.json, every case and the manifest, and return the manifest."""
     if (root / "cases").exists():
@@ -722,7 +728,7 @@ def generate(root: Path = ROOT) -> dict[str, Any]:
     words = [e["expected"]["decision"] for e in entries]
     manifest = {
         "contractId": reader.CONTRACT_ID,
-        "corpusDigest": _sha(_json(entries)),
+        "corpusDigest": _DIGEST.entries_digest(entries),
         "counts": {w: words.count(w) for w in sorted(set(words))},
         "sources": SOURCES,
         "suite": SUITE,

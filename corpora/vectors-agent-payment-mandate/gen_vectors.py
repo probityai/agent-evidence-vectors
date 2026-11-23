@@ -23,6 +23,7 @@ ROOT = Path(__file__).resolve().parent
 sys.path.insert(0, str(ROOT.parents[1] / "packaging"))
 
 from agent_evidence_vectors import evmsig  # noqa: E402
+
 SUITE = "agent-payment-mandate/v1"
 SCHEMA = "agent-payment-mandate-record/v1"
 ACCEPT_REASON = "mandate_chain_holds"
@@ -719,7 +720,8 @@ MEMBERS: tuple[tuple[str, str, Callable[[dict[str, Any]], None] | None, str, str
      "authorization valid on its own but settled after the mandate expired",
      "x402-exact-evm-settled-once"),
     ("x402-signature-high-s", "x402", _x_high_s, "signature_not_canonical",
-     "the same signature with s above n/2, which recovers to the payer", "x402-exact-evm-settled-once"),
+     "the same signature with s above n/2, which recovers to the payer",
+     "x402-exact-evm-settled-once"),
     ("x402-signed-by-other-key", "x402", _x_other_key, "payer_not_authorization_signer",
      "authorization from the agent wallet, signed by another key", "x402-exact-evm-settled-once"),
     ("x402-verifying-key-from-unsigned-selector", "x402", _x_selector,
@@ -739,9 +741,11 @@ MEMBERS: tuple[tuple[str, str, Callable[[dict[str, Any]], None] | None, str, str
      "settlement_not_the_authorization", "the ledger transfer moved another value than was signed",
      "x402-exact-evm-settled-once"),
     ("x402-nonce-already-used", "x402", _x_nonce_used, "single_use_token_replayed",
-     "the authorization's nonce was consumed before this settlement", "x402-exact-evm-settled-once"),
+     "the authorization's nonce was consumed before this settlement",
+     "x402-exact-evm-settled-once"),
     ("x402-settlement-response-other-payer", "x402", _x_response_other_payer,
-     "receipt_not_bound_to_execution", "the facilitator's response names a payer other than the signer",
+     "receipt_not_bound_to_execution",
+     "the facilitator's response names a payer other than the signer",
      "x402-exact-evm-settled-once"),
 )  # fmt: skip
 

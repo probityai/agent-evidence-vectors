@@ -813,7 +813,10 @@ def build() -> dict[str, bytes]:
         subprocess.run(["go", "build", "-o", binary, "./cmd/aee-verify"], cwd=REPO, check=True)
         out: dict[str, bytes] = {}
         for directory, suite, digest in corpora():
-            runs = python_runs(directory) if directory in PYTHON_CHECKERS else go_runs(binary, directory)
+            if directory in PYTHON_CHECKERS:
+                runs = python_runs(directory)
+            else:
+                runs = go_runs(binary, directory)
             manifest = json.loads(read(f"{where(directory)}/MANIFEST.json"))
             paths = artifact_paths(directory, population(directory, manifest))
             natives = {f"{NATIVE}/{directory}.json": runs[0].stdout,
