@@ -1,0 +1,614 @@
+{
+  "contractId": "https://probityai.github.io/agent-evidence-vectors/predicate/v1/tool-descriptor-digest",
+  "corpusDigest": "af3a722fe13f03bb2b944cba6cb027cf2c0a58f5103aae20ab3872a720dc8c81",
+  "counts": {
+    "contradicted": 5,
+    "gap": 6,
+    "match": 6,
+    "refused": 5
+  },
+  "profiles": [
+    "name-description-inputschema.omit-absent.jcs",
+    "name-description-inputschema-outputschema.empty-description.jcs",
+    "whole-descriptor.omit-absent.jcs"
+  ],
+  "provenance": {
+    "issue": "https://github.com/OWASP/Agentic-Evidence/issues/4",
+    "note": "Synthetic members are written for this corpus. Two members carry the tool descriptors of one recorded change in a published dataset of MCP tool-list changes, exactly as the dataset serves them; source/histor-change-5206.json holds both tool lists and gen_vectors.py recomputes their set digests first.",
+    "real": {
+      "change": 5206,
+      "dataset": "https://doi.org/10.5281/zenodo.23512760"
+    },
+    "source": "OWASP Agentic-Evidence issue 4; Zenodo 10.5281/zenodo.23512760"
+  },
+  "suite": "tool-descriptor-digest/v1",
+  "synthetic": false,
+  "vectors": [
+    {
+      "anchor": {
+        "quote": "A pin and an observation are compared only when both carry a profile and the two profiles are equal. A mismatch is a gap, not contradicted.",
+        "section": "issue 4"
+      },
+      "basis": [
+        "issue 4"
+      ],
+      "edit": "control: one profile on both sides and the descriptor did not change",
+      "expected": {
+        "decision": "match",
+        "reason": "descriptor_unchanged"
+      },
+      "files": {
+        "record.json": "7171973a64672158aaf25c6dce5eedf3a36d4fc923e216372cd1f7d64adb7ff3"
+      },
+      "id": "match-descriptor-unchanged",
+      "pair": "description",
+      "path": "cases/match-descriptor-unchanged",
+      "retained": {
+        "digestsEqual": "true",
+        "observation": "name-description-inputschema.omit-absent.jcs",
+        "pin": "name-description-inputschema.omit-absent.jcs"
+      },
+      "rule": "R-COMPARE",
+      "source": "synthetic"
+    },
+    {
+      "anchor": {
+        "quote": "MTL/1 digests exactly name, description, inputSchema and outputSchema, dropping title, annotations and _meta. agentavow.mcp-tool-definition.v1 includes title and annotations in the same digest.",
+        "section": "issue 4"
+      },
+      "basis": [
+        "issue 4"
+      ],
+      "edit": "control: the annotations changed and the profile does not cover them, so the digests are equal; a verifier that hashes the whole descriptor calls this contradicted",
+      "expected": {
+        "decision": "match",
+        "reason": "descriptor_unchanged"
+      },
+      "files": {
+        "record.json": "51e1973b8e199f293dff34749ee57ac0b85896ad963855a10ce0148b6a0be2ca"
+      },
+      "id": "match-annotation-change-outside-the-profile",
+      "pair": "annotations",
+      "path": "cases/match-annotation-change-outside-the-profile",
+      "retained": {
+        "digestsEqual": "true",
+        "observation": "name-description-inputschema.omit-absent.jcs",
+        "pin": "name-description-inputschema.omit-absent.jcs"
+      },
+      "rule": "R-COVERAGE",
+      "source": "synthetic"
+    },
+    {
+      "anchor": {
+        "quote": "MTL/1 digests exactly name, description, inputSchema and outputSchema, dropping title, annotations and _meta. agentavow.mcp-tool-definition.v1 includes title and annotations in the same digest.",
+        "section": "issue 4"
+      },
+      "basis": [
+        "issue 4"
+      ],
+      "edit": "control: the _meta member differs and no profile covers it",
+      "expected": {
+        "decision": "match",
+        "reason": "descriptor_unchanged"
+      },
+      "files": {
+        "record.json": "ce0272f662619b78b129b0d6ef0e58c8ce518f2a846be33b1d0166a506d3ae01"
+      },
+      "id": "match-whole-descriptor-ignores-meta",
+      "path": "cases/match-whole-descriptor-ignores-meta",
+      "retained": {
+        "digestsEqual": "true",
+        "observation": "whole-descriptor.omit-absent.jcs",
+        "pin": "whole-descriptor.omit-absent.jcs"
+      },
+      "rule": "R-COVERAGE",
+      "source": "synthetic"
+    },
+    {
+      "anchor": {
+        "quote": "MTL/1 writes a missing or non-string description as the empty string. AgentAvow omits a missing member. Same descriptor, two digests.",
+        "section": "issue 4"
+      },
+      "basis": [
+        "issue 4"
+      ],
+      "edit": "control: no description on either side and one absent-member rule, which writes the empty string",
+      "expected": {
+        "decision": "match",
+        "reason": "descriptor_unchanged"
+      },
+      "files": {
+        "record.json": "c50ab1afa3bf69845758ef7b0cd5e7282d8b110aa1eb500047814b07f4778fba"
+      },
+      "id": "match-absent-description-one-rule",
+      "path": "cases/match-absent-description-one-rule",
+      "retained": {
+        "digestsEqual": "true",
+        "observation": "name-description-inputschema-outputschema.empty-description.jcs",
+        "pin": "name-description-inputschema-outputschema.empty-description.jcs"
+      },
+      "rule": "R-ABSENT",
+      "source": "synthetic"
+    },
+    {
+      "anchor": {
+        "quote": "A pin and an observation are compared only when both carry a profile and the two profiles are equal. A mismatch is a gap, not contradicted.",
+        "section": "issue 4"
+      },
+      "basis": [
+        "issue 4"
+      ],
+      "edit": "control: the schema has one property key above the Basic Multilingual Plane and one below it, and RFC 8785 sorts them by UTF-16 code unit, which is the opposite of code point order; a canonicalizer that sorts by code point recomputes another digest and fails the stated one",
+      "expected": {
+        "decision": "match",
+        "reason": "descriptor_unchanged"
+      },
+      "files": {
+        "record.json": "0af3a84aeab9ab6da1b64b566c3269ae2fb4d5a26780945a5b60dd4f4bf6f721"
+      },
+      "id": "match-utf16-key-order",
+      "path": "cases/match-utf16-key-order",
+      "retained": {
+        "digestsEqual": "true",
+        "observation": "name-description-inputschema.omit-absent.jcs",
+        "pin": "name-description-inputschema.omit-absent.jcs"
+      },
+      "rule": "R-JCS",
+      "source": "synthetic"
+    },
+    {
+      "anchor": {
+        "quote": "A pin and an observation are compared only when both carry a profile and the two profiles are equal. A mismatch is a gap, not contradicted.",
+        "section": "issue 4"
+      },
+      "basis": [
+        "issue 4"
+      ],
+      "edit": "the description was rewritten under the same name and the profile covers it",
+      "expected": {
+        "decision": "contradicted",
+        "reason": "descriptor_changed"
+      },
+      "files": {
+        "record.json": "3009e3bce3b751aa11413d01456cf8fd7db84935332f647b3d38a312b68b5798"
+      },
+      "id": "contradicted-description-rewritten",
+      "pair": "description",
+      "path": "cases/contradicted-description-rewritten",
+      "retained": {
+        "digestsEqual": "false",
+        "observation": "name-description-inputschema.omit-absent.jcs",
+        "pin": "name-description-inputschema.omit-absent.jcs"
+      },
+      "rule": "R-COMPARE",
+      "source": "synthetic"
+    },
+    {
+      "anchor": {
+        "quote": "A pin and an observation are compared only when both carry a profile and the two profiles are equal. A mismatch is a gap, not contradicted.",
+        "section": "issue 4"
+      },
+      "basis": [
+        "issue 4"
+      ],
+      "edit": "a property was added to the input schema, which the profile covers",
+      "expected": {
+        "decision": "contradicted",
+        "reason": "descriptor_changed"
+      },
+      "files": {
+        "record.json": "2986e112f09147a1f8627feb6bd22b3f079ab4eb41d2373874d86f79f361e84b"
+      },
+      "id": "contradicted-input-schema-widened",
+      "path": "cases/contradicted-input-schema-widened",
+      "retained": {
+        "digestsEqual": "false",
+        "observation": "name-description-inputschema.omit-absent.jcs",
+        "pin": "name-description-inputschema.omit-absent.jcs"
+      },
+      "rule": "R-COMPARE",
+      "source": "synthetic"
+    },
+    {
+      "anchor": {
+        "quote": "MTL/1 digests exactly name, description, inputSchema and outputSchema, dropping title, annotations and _meta. agentavow.mcp-tool-definition.v1 includes title and annotations in the same digest.",
+        "section": "issue 4"
+      },
+      "basis": [
+        "issue 4"
+      ],
+      "edit": "the output schema changed type and this profile covers it; the narrower profile would not see it",
+      "expected": {
+        "decision": "contradicted",
+        "reason": "descriptor_changed"
+      },
+      "files": {
+        "record.json": "145594d505582409f8ff70d4e5890743c6b29ce317b463cc33acbd88800154c5"
+      },
+      "id": "contradicted-output-schema-retyped",
+      "path": "cases/contradicted-output-schema-retyped",
+      "retained": {
+        "digestsEqual": "false",
+        "observation": "name-description-inputschema-outputschema.empty-description.jcs",
+        "pin": "name-description-inputschema-outputschema.empty-description.jcs"
+      },
+      "rule": "R-COVERAGE",
+      "source": "synthetic"
+    },
+    {
+      "anchor": {
+        "quote": "MTL/1 digests exactly name, description, inputSchema and outputSchema, dropping title, annotations and _meta. agentavow.mcp-tool-definition.v1 includes title and annotations in the same digest.",
+        "section": "issue 4"
+      },
+      "basis": [
+        "issue 4"
+      ],
+      "edit": "the same annotation change as the narrow-profile control, under the profile that covers annotations",
+      "expected": {
+        "decision": "contradicted",
+        "reason": "descriptor_changed"
+      },
+      "files": {
+        "record.json": "c536b7590a489f45e4c8b697490d452ea8e7906781c8b13177439548eecd700c"
+      },
+      "id": "contradicted-annotation-change-whole-descriptor",
+      "pair": "annotations",
+      "path": "cases/contradicted-annotation-change-whole-descriptor",
+      "retained": {
+        "digestsEqual": "false",
+        "observation": "whole-descriptor.omit-absent.jcs",
+        "pin": "whole-descriptor.omit-absent.jcs"
+      },
+      "rule": "R-COVERAGE",
+      "source": "synthetic"
+    },
+    {
+      "anchor": {
+        "quote": "A pin and an observation are compared only when both carry a profile and the two profiles are equal. A mismatch is a gap, not contradicted.",
+        "section": "issue 4"
+      },
+      "basis": [
+        "issue 4"
+      ],
+      "edit": "a tool's description rewritten under the same name, from a recorded change (change 5206, observed 2026-09-28T11:24:25Z); the before and after declarations are the dataset's, unedited",
+      "expected": {
+        "decision": "contradicted",
+        "reason": "descriptor_changed"
+      },
+      "files": {
+        "record.json": "7d4aa5ae80976e498d84f837f4cbe8f262933d22e529d9a2999fb1f1c3352d8a"
+      },
+      "id": "contradicted-recorded-description-rewrite",
+      "pair": "recorded",
+      "path": "cases/contradicted-recorded-description-rewrite",
+      "real": true,
+      "retained": {
+        "digestsEqual": "false",
+        "observation": "name-description-inputschema-outputschema.empty-description.jcs",
+        "pin": "name-description-inputschema-outputschema.empty-description.jcs"
+      },
+      "rule": "R-COMPARE",
+      "source": "recorded change 5206"
+    },
+    {
+      "anchor": {
+        "quote": "A pin and an observation are compared only when both carry a profile and the two profiles are equal. A mismatch is a gap, not contradicted.",
+        "section": "issue 4"
+      },
+      "basis": [
+        "issue 4"
+      ],
+      "edit": "the unchanged twin from the same recorded change (change 5206, observed 2026-09-28T11:24:25Z): another tool of the same server, identical before and after",
+      "expected": {
+        "decision": "match",
+        "reason": "descriptor_unchanged"
+      },
+      "files": {
+        "record.json": "a4237ba952ea18939bd51b33564ea3a97d929d71258a915d741690f81a655859"
+      },
+      "id": "match-recorded-tool-unchanged",
+      "pair": "recorded",
+      "path": "cases/match-recorded-tool-unchanged",
+      "real": true,
+      "retained": {
+        "digestsEqual": "true",
+        "observation": "name-description-inputschema-outputschema.empty-description.jcs",
+        "pin": "name-description-inputschema-outputschema.empty-description.jcs"
+      },
+      "rule": "R-COMPARE",
+      "source": "recorded change 5206"
+    },
+    {
+      "anchor": {
+        "quote": "A pin and an observation are compared only when both carry a profile and the two profiles are equal. A mismatch is a gap, not contradicted.",
+        "section": "issue 4"
+      },
+      "basis": [
+        "issue 4"
+      ],
+      "edit": "one descriptor that never changed, digested under two profiles by two producers; the digest strings differ and the honest answer is a gap, not contradicted",
+      "expected": {
+        "decision": "gap",
+        "reason": "profiles_differ"
+      },
+      "files": {
+        "record.json": "02f31c8bb7c41ae428b3a0deb25f13a8b1dc8414797bc5a728eb265574f8565c"
+      },
+      "id": "gap-same-descriptor-two-profiles",
+      "pair": "two-profiles",
+      "path": "cases/gap-same-descriptor-two-profiles",
+      "retained": {
+        "digestsEqual": "false",
+        "observation": "name-description-inputschema-outputschema.empty-description.jcs",
+        "pin": "name-description-inputschema.omit-absent.jcs"
+      },
+      "rule": "R-COMPARE",
+      "source": "synthetic"
+    },
+    {
+      "anchor": {
+        "quote": "MTL/1 digests exactly name, description, inputSchema and outputSchema, dropping title, annotations and _meta. agentavow.mcp-tool-definition.v1 includes title and annotations in the same digest.",
+        "section": "issue 4"
+      },
+      "basis": [
+        "issue 4"
+      ],
+      "edit": "the same descriptor under the profile that drops title and annotations and the one that keeps them",
+      "expected": {
+        "decision": "gap",
+        "reason": "profiles_differ"
+      },
+      "files": {
+        "record.json": "e170cd2f566649149557a9e80a08226787c132b0048570ae7acafc075104b3cc"
+      },
+      "id": "gap-annotation-profile-versus-narrow-profile",
+      "pair": "two-profiles",
+      "path": "cases/gap-annotation-profile-versus-narrow-profile",
+      "retained": {
+        "digestsEqual": "false",
+        "observation": "whole-descriptor.omit-absent.jcs",
+        "pin": "name-description-inputschema-outputschema.empty-description.jcs"
+      },
+      "rule": "R-COVERAGE",
+      "source": "synthetic"
+    },
+    {
+      "anchor": {
+        "quote": "MTL/1 writes a missing or non-string description as the empty string. AgentAvow omits a missing member. Same descriptor, two digests.",
+        "section": "issue 4"
+      },
+      "basis": [
+        "issue 4"
+      ],
+      "edit": "the descriptor has no description; one profile omits the member and the other writes the empty string, so the digests differ",
+      "expected": {
+        "decision": "gap",
+        "reason": "profiles_differ"
+      },
+      "files": {
+        "record.json": "e625a76ff730a6943e8e8c66d1011b4f8b44842f9586059155742a8985f45569"
+      },
+      "id": "gap-absent-description-two-rules",
+      "path": "cases/gap-absent-description-two-rules",
+      "retained": {
+        "digestsEqual": "false",
+        "observation": "name-description-inputschema-outputschema.empty-description.jcs",
+        "pin": "name-description-inputschema.omit-absent.jcs"
+      },
+      "rule": "R-ABSENT",
+      "source": "synthetic"
+    },
+    {
+      "anchor": {
+        "quote": "A pin and an observation are compared only when both carry a profile and the two profiles are equal. A mismatch is a gap, not contradicted.",
+        "section": "issue 4"
+      },
+      "basis": [
+        "issue 4"
+      ],
+      "edit": "the descriptor has only the three members both profiles cover, so the two digests are equal strings; they were produced under different rules, and equal strings under different profiles are still not a match",
+      "expected": {
+        "decision": "gap",
+        "reason": "profiles_differ"
+      },
+      "files": {
+        "record.json": "1c9892ed1e50706bfe58e5c09202d319fa8b401b43f62e2da41705fadc561a47"
+      },
+      "id": "gap-profiles-differ-digests-coincide",
+      "pair": "two-profiles",
+      "path": "cases/gap-profiles-differ-digests-coincide",
+      "retained": {
+        "digestsEqual": "true",
+        "observation": "name-description-inputschema-outputschema.empty-description.jcs",
+        "pin": "name-description-inputschema.omit-absent.jcs"
+      },
+      "rule": "R-COMPARE",
+      "source": "synthetic"
+    },
+    {
+      "anchor": {
+        "quote": "A pin and an observation are compared only when both carry a profile and the two profiles are equal. A mismatch is a gap, not contradicted.",
+        "section": "issue 4"
+      },
+      "basis": [
+        "issue 4"
+      ],
+      "edit": "the pin is a bare digest string and says nothing about which bytes it covers",
+      "expected": {
+        "decision": "gap",
+        "reason": "profile_absent"
+      },
+      "files": {
+        "record.json": "bcaf1f946f2beef37e77568a9e114c9f89e658c4e101ac7786b7f8ae720447d4"
+      },
+      "id": "gap-pin-without-profile",
+      "pair": "no-profile",
+      "path": "cases/gap-pin-without-profile",
+      "retained": {
+        "digestsEqual": "true",
+        "observation": "name-description-inputschema.omit-absent.jcs",
+        "pin": "absent"
+      },
+      "rule": "R-COMPARE",
+      "source": "synthetic"
+    },
+    {
+      "anchor": {
+        "quote": "A pin and an observation are compared only when both carry a profile and the two profiles are equal. A mismatch is a gap, not contradicted.",
+        "section": "issue 4"
+      },
+      "basis": [
+        "issue 4"
+      ],
+      "edit": "the observation is a bare digest and the descriptor behind it did change; without a profile the two are not comparable, so there is no verdict either way",
+      "expected": {
+        "decision": "gap",
+        "reason": "profile_absent"
+      },
+      "files": {
+        "record.json": "61c3b64ce677505ea1c357926816969b96bd22e3bbc89016a0d41f5e3256f2ed"
+      },
+      "id": "gap-observation-without-profile",
+      "pair": "no-profile",
+      "path": "cases/gap-observation-without-profile",
+      "retained": {
+        "digestsEqual": "false",
+        "observation": "absent",
+        "pin": "name-description-inputschema.omit-absent.jcs"
+      },
+      "rule": "R-COMPARE",
+      "source": "synthetic"
+    },
+    {
+      "anchor": {
+        "quote": "The record names the contract it is written against, as every record of this repository's decision corpora does.",
+        "section": "n/a"
+      },
+      "basis": [
+        "n/a"
+      ],
+      "edit": "the record does not name the contract it is written against",
+      "expected": {
+        "decision": "refused",
+        "reason": "contract_id_missing"
+      },
+      "files": {
+        "record.json": "79aa98c97670710e1563cefec6463e5f1f3de6ee7ef8cbfadcc425aabe052346"
+      },
+      "id": "refused-contract-id-missing",
+      "path": "cases/refused-contract-id-missing",
+      "retained": {
+        "digestsEqual": "true",
+        "observation": "name-description-inputschema.omit-absent.jcs",
+        "pin": "name-description-inputschema.omit-absent.jcs"
+      },
+      "rule": "R-ENVELOPE",
+      "source": "synthetic"
+    },
+    {
+      "anchor": {
+        "quote": "The record names the contract it is written against, as every record of this repository's decision corpora does.",
+        "section": "n/a"
+      },
+      "basis": [
+        "n/a"
+      ],
+      "edit": "the record names a contract this suite does not define",
+      "expected": {
+        "decision": "refused",
+        "reason": "contract_id_unknown"
+      },
+      "files": {
+        "record.json": "1ea8481c90c52a161c0c239c764f6b8bab470a9619c4db94dda089f20a3bd976"
+      },
+      "id": "refused-contract-id-unknown",
+      "path": "cases/refused-contract-id-unknown",
+      "retained": {
+        "digestsEqual": "true",
+        "observation": "name-description-inputschema.omit-absent.jcs",
+        "pin": "name-description-inputschema.omit-absent.jcs"
+      },
+      "rule": "R-ENVELOPE",
+      "source": "synthetic"
+    },
+    {
+      "anchor": {
+        "quote": "A pin and an observation are compared only when both carry a profile and the two profiles are equal. A mismatch is a gap, not contradicted.",
+        "section": "issue 4"
+      },
+      "basis": [
+        "issue 4"
+      ],
+      "edit": "a profile that is not one of the three and cannot be recomputed",
+      "expected": {
+        "decision": "refused",
+        "reason": "profile_unknown"
+      },
+      "files": {
+        "record.json": "eaaa440d192c60992455877f393dc3375af3982bce603c83b68c6e2bdcf86575"
+      },
+      "id": "refused-profile-unknown",
+      "path": "cases/refused-profile-unknown",
+      "retained": {
+        "digestsEqual": "true",
+        "observation": "name-description-inputschema.omit-absent.jcs",
+        "pin": "sha256-over-the-whole-descriptor"
+      },
+      "rule": "R-PROFILES",
+      "source": "synthetic"
+    },
+    {
+      "anchor": {
+        "quote": "A pin and an observation are compared only when both carry a profile and the two profiles are equal. A mismatch is a gap, not contradicted.",
+        "section": "issue 4"
+      },
+      "basis": [
+        "issue 4"
+      ],
+      "edit": "the input schema carries a non-integer number, which this suite has no RFC 8785 form for; the digest cannot be recomputed and is refused rather than trusted",
+      "expected": {
+        "decision": "refused",
+        "reason": "descriptor_not_canonicalizable"
+      },
+      "files": {
+        "record.json": "0b39474e3d6c716c0cc6d19f17c997794548b029e8e93e816d4272c3c53b7037"
+      },
+      "id": "refused-descriptor-not-canonicalizable",
+      "path": "cases/refused-descriptor-not-canonicalizable",
+      "retained": {
+        "digestsEqual": "true",
+        "observation": "name-description-inputschema.omit-absent.jcs",
+        "pin": "name-description-inputschema.omit-absent.jcs"
+      },
+      "rule": "R-RECOMPUTE",
+      "source": "synthetic"
+    },
+    {
+      "anchor": {
+        "quote": "A pin and an observation are compared only when both carry a profile and the two profiles are equal. A mismatch is a gap, not contradicted.",
+        "section": "issue 4"
+      },
+      "basis": [
+        "issue 4"
+      ],
+      "edit": "the pin states the narrow profile and carries the digest of another one: the stated digest is not what the descriptor gives under the stated profile",
+      "expected": {
+        "decision": "refused",
+        "reason": "digest_not_recomputed"
+      },
+      "files": {
+        "record.json": "8b665aee145926d7530393f6184d5c0e6ac3c2955c09be87a9e82e7ebfa4712c"
+      },
+      "id": "refused-digest-not-recomputed",
+      "path": "cases/refused-digest-not-recomputed",
+      "retained": {
+        "digestsEqual": "false",
+        "observation": "name-description-inputschema.omit-absent.jcs",
+        "pin": "name-description-inputschema.omit-absent.jcs"
+      },
+      "rule": "R-RECOMPUTE",
+      "source": "synthetic"
+    }
+  ],
+  "verifierContract": "verifier record.json --json; exit 0 match, 1 contradicted, 2 gap, 3 refused"
+}

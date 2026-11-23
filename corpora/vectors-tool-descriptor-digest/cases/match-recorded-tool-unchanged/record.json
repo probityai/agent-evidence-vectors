@@ -1,0 +1,112 @@
+{
+  "contractId": "https://probityai.github.io/agent-evidence-vectors/predicate/v1/tool-descriptor-digest",
+  "observation": {
+    "descriptor": {
+      "description": "Use this tool only for a shop that is already in the Timeplex catalog but cannot be booked online yet: a search_shops result with bookable=false, or a newly joined shop whose menu is not registered yet (get_shop_services says so). It submits a booking request for that shop \u2014 Timeplex concierge staff contact the shop directly and reply to the customer. Share the returned link with the user. Do not use this tool for a shop name that search_shops could not find (shop_name_not_found), and not for generic searches with no matching results \u2014 in both cases tell the user it is not on Timeplex instead. For bookable shops use get_shop_services -> search_availability -> start_booking instead.",
+      "inputSchema": {
+        "additionalProperties": false,
+        "properties": {
+          "lang": {
+            "description": "Customer language (optional)",
+            "maxLength": 10,
+            "type": "string"
+          },
+          "venue_name": {
+            "description": "Name of the shop the customer wants to book",
+            "maxLength": 255,
+            "type": "string"
+          }
+        },
+        "required": [
+          "venue_name"
+        ],
+        "type": "object"
+      },
+      "name": "request_booking",
+      "outputSchema": {
+        "properties": {
+          "instruction": {
+            "type": "string"
+          },
+          "link_label": {
+            "type": "string"
+          },
+          "link_markdown": {
+            "description": "Put this into the reply as-is (never expose the raw URL)",
+            "type": "string"
+          },
+          "next_step_url": {
+            "description": "Concierge chat where the customer completes the request",
+            "type": "string"
+          },
+          "recorded": {
+            "description": "true \u2014 the demand was logged",
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "recorded",
+          "next_step_url"
+        ],
+        "type": "object"
+      }
+    },
+    "digest": "sha256-dIhsuyjhwJOkTHLI9g1u069GzvfsGrWWK/l30L7OuDY=",
+    "profile": "name-description-inputschema-outputschema.empty-description.jcs"
+  },
+  "pin": {
+    "descriptor": {
+      "description": "Use this tool only for a shop that is already in the Timeplex catalog but cannot be booked online yet: a search_shops result with bookable=false, or a newly joined shop whose menu is not registered yet (get_shop_services says so). It submits a booking request for that shop \u2014 Timeplex concierge staff contact the shop directly and reply to the customer. Share the returned link with the user. Do not use this tool for a shop name that search_shops could not find (shop_name_not_found), and not for generic searches with no matching results \u2014 in both cases tell the user it is not on Timeplex instead. For bookable shops use get_shop_services -> search_availability -> start_booking instead.",
+      "inputSchema": {
+        "additionalProperties": false,
+        "properties": {
+          "lang": {
+            "description": "Customer language (optional)",
+            "maxLength": 10,
+            "type": "string"
+          },
+          "venue_name": {
+            "description": "Name of the shop the customer wants to book",
+            "maxLength": 255,
+            "type": "string"
+          }
+        },
+        "required": [
+          "venue_name"
+        ],
+        "type": "object"
+      },
+      "name": "request_booking",
+      "outputSchema": {
+        "properties": {
+          "instruction": {
+            "type": "string"
+          },
+          "link_label": {
+            "type": "string"
+          },
+          "link_markdown": {
+            "description": "Put this into the reply as-is (never expose the raw URL)",
+            "type": "string"
+          },
+          "next_step_url": {
+            "description": "Concierge chat where the customer completes the request",
+            "type": "string"
+          },
+          "recorded": {
+            "description": "true \u2014 the demand was logged",
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "recorded",
+          "next_step_url"
+        ],
+        "type": "object"
+      }
+    },
+    "digest": "sha256-dIhsuyjhwJOkTHLI9g1u069GzvfsGrWWK/l30L7OuDY=",
+    "profile": "name-description-inputschema-outputschema.empty-description.jcs"
+  },
+  "recordId": "record-match-recorded-tool-unchanged"
+}

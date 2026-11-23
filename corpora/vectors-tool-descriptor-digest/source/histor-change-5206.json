@@ -1,0 +1,1268 @@
+{
+  "change": {
+    "fromToolSetDigest": "sha256-+3jzQHLX1G0HXCYk83xll3f6B4LQtUYmIIqiZXtq/C0=",
+    "id": 5206,
+    "labelId": "urn:uuid:294cc7a8-8e6d-471e-a228-0f0fbc34abdf",
+    "observedAt": "2026-09-28T11:24:25Z",
+    "serverId": "5ad2ae73f23ea45c",
+    "toToolSetDigest": "sha256-/KbwP1YaqdsYrZfAN5o3kEoc7Z2fvNSMLoKuMzFqs9Q="
+  },
+  "dataset": {
+    "doi": "10.5281/zenodo.23512760",
+    "files": {
+      "changes.jsonl.gz": "8df3d75824a2505014422c63583f1b2d987c21509e218a662c4ece26e6147a6f",
+      "toolsets.jsonl.gz": "9d5f8493910741c084a4e8315375d6bba918d5a0fad8d7bbc02f1e216773e2a2"
+    }
+  },
+  "note": "The two tool lists exactly as the dataset's toolsets file carries them for the two digests of change 5206. The set digest is sha256- and the base64 of the SHA-256 of the RFC 8785 bytes of the tool list array, which gen_vectors.py recomputes before using either list.",
+  "toolsets": {
+    "after": {
+      "digest": "sha256-/KbwP1YaqdsYrZfAN5o3kEoc7Z2fvNSMLoKuMzFqs9Q=",
+      "tools": [
+        {
+          "description": "Get the services, prices, durations, weekly business hours and bookable staff or seats of one specific TimePlex shop (slug from search_shops).\nUSE THIS TOOL WHEN: a shop has been identified and the user asks what it offers, prices, durations or staff; to match requirements (a 60-minute head spa, a budget, two guests at once); or before search_availability / start_booking, which need the service ids and booking_model returned here.\nDO NOT USE IT FOR: general discovery or recommendations (search_shops), real-time availability (search_availability), or building a booking link (start_booking).\nSERVICE DATA: describe only the services returned here \u2014 never invent names, prices, durations, staff or options, and never assume a service exists because similar shops offer it. Services that cannot be booked online are already excluded. If the requested service is not in the list, say so; do not silently substitute another. Never present medical procedures as TimePlex services.\nRESOURCES & HOURS: a staff member or seat existing, or the shop being open, does NOT mean it is free at the requested time \u2014 only search_availability confirms a slot.\nNEXT: if the user asked for availability or to book, continue to search_availability with the returned service ids and booking_model instead of stopping at the menu or business hours. If they only asked about the menu, prices or durations, answer from this result and do not check availability or build a booking link unless they ask. A date or time mentioned earlier does not by itself require a slot check.\nPass lang to receive the content translated into the customer's language.",
+          "inputSchema": {
+            "additionalProperties": false,
+            "properties": {
+              "lang": {
+                "description": "Customer language (optional): ko|en|ja|zh|th. Defaults to the original text (ko).",
+                "type": "string"
+              },
+              "slug": {
+                "description": "Shop slug returned by search_shops",
+                "type": "string"
+              }
+            },
+            "required": [
+              "slug"
+            ],
+            "type": "object"
+          },
+          "name": "get_shop_services",
+          "outputSchema": {
+            "properties": {
+              "booking_model": {
+                "description": "How this shop books: 'designated' \u2014 pass items as [{service_id, resource_id}]; 'capacity' \u2014 pass items as [{service_id, qty}]. Use this for search_availability and start_booking.",
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "lang": {
+                "type": "string"
+              },
+              "note": {
+                "type": "string"
+              },
+              "resources": {
+                "description": "Staff to designate (designated-staff shops) or seats (capacity-based shops).",
+                "items": {
+                  "properties": {
+                    "id": {
+                      "type": "string"
+                    },
+                    "name": {
+                      "type": "string"
+                    },
+                    "service_ids": {
+                      "description": "Services this staff/seat handles. Empty = handles every service. Pass this resource only for a service in this list.",
+                      "items": {
+                        "type": "string"
+                      },
+                      "type": "array"
+                    }
+                  },
+                  "type": "object"
+                },
+                "type": "array"
+              },
+              "services": {
+                "items": {
+                  "properties": {
+                    "currency": {
+                      "type": "string"
+                    },
+                    "duration_min": {
+                      "type": [
+                        "integer",
+                        "null"
+                      ]
+                    },
+                    "id": {
+                      "description": "Pass as items[].service_id to search_availability / start_booking",
+                      "type": "string"
+                    },
+                    "name": {
+                      "type": "string"
+                    },
+                    "price": {
+                      "type": [
+                        "number",
+                        "string",
+                        "null"
+                      ]
+                    }
+                  },
+                  "type": "object"
+                },
+                "type": "array"
+              },
+              "shop": {
+                "properties": {
+                  "address": {
+                    "type": "string"
+                  },
+                  "business_hours": {
+                    "description": "Weekly hours, index 0 = Sunday: [{open:\"10:30\", close:\"21:00\", closed:false} \u00d7 7]",
+                    "items": {
+                      "properties": {
+                        "close": {
+                          "type": [
+                            "string",
+                            "null"
+                          ]
+                        },
+                        "closed": {
+                          "description": "true = closed that weekday",
+                          "type": "boolean"
+                        },
+                        "open": {
+                          "type": [
+                            "string",
+                            "null"
+                          ]
+                        }
+                      },
+                      "type": "object"
+                    },
+                    "type": [
+                      "array",
+                      "null"
+                    ]
+                  },
+                  "business_type": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  },
+                  "map_url": {
+                    "type": "string"
+                  },
+                  "name": {
+                    "type": "string"
+                  },
+                  "slug": {
+                    "type": "string"
+                  }
+                },
+                "type": "object"
+              }
+            },
+            "required": [
+              "shop",
+              "services"
+            ],
+            "type": "object"
+          }
+        },
+        {
+          "description": "Use this tool only for a shop that is already in the Timeplex catalog but cannot be booked online yet: a search_shops result with bookable=false, or a newly joined shop whose menu is not registered yet (get_shop_services says so). It submits a booking request for that shop \u2014 Timeplex concierge staff contact the shop directly and reply to the customer. Share the returned link with the user. Do not use this tool for a shop name that search_shops could not find (shop_name_not_found), and not for generic searches with no matching results \u2014 in both cases tell the user it is not on Timeplex instead. For bookable shops use get_shop_services -> search_availability -> start_booking instead.",
+          "inputSchema": {
+            "additionalProperties": false,
+            "properties": {
+              "lang": {
+                "description": "Customer language (optional)",
+                "maxLength": 10,
+                "type": "string"
+              },
+              "venue_name": {
+                "description": "Name of the shop the customer wants to book",
+                "maxLength": 255,
+                "type": "string"
+              }
+            },
+            "required": [
+              "venue_name"
+            ],
+            "type": "object"
+          },
+          "name": "request_booking",
+          "outputSchema": {
+            "properties": {
+              "instruction": {
+                "type": "string"
+              },
+              "link_label": {
+                "type": "string"
+              },
+              "link_markdown": {
+                "description": "Put this into the reply as-is (never expose the raw URL)",
+                "type": "string"
+              },
+              "next_step_url": {
+                "description": "Concierge chat where the customer completes the request",
+                "type": "string"
+              },
+              "recorded": {
+                "description": "true \u2014 the demand was logged",
+                "type": "boolean"
+              }
+            },
+            "required": [
+              "recorded",
+              "next_step_url"
+            ],
+            "type": "object"
+          }
+        },
+        {
+          "description": "Check real-time appointment availability for one TimePlex shop (slug from search_shops, items from get_shop_services) on a date, optionally at a time. All times are Korea Standard Time (KST).\nUSE THIS TOOL WHEN: the user asks whether an appointment is available, asks for open slots or possible times, asks for shops that are actually available on a date / at a time / for a party size (\"10\uc6d4 1\uc77c \uac15\ub0a8 \ud5e4\ub4dc\uc2a4\ud30c \uc608\uc57d \uac00\ub2a5\ud55c \uacf3\", \"any head spa open at 5 PM?\", \"somewhere I can book tomorrow afternoon for two\"), asks for alternatives to an unavailable time, or wants to book (check the slot before start_booking).\nDO NOT USE IT FOR: find / recommend / compare requests. A date or time alone is not availability intent \u2014 \"recommend a head spa in Gangnam for October 1\" stays a search_shops request unless the user asks whether a slot is open.\nREAL-TIME RULE: only this tool establishes that a slot is open. Never infer availability from bookable=true, business hours, the shop being open, a service or staff member existing, web search, maps, social media, third-party sites or earlier answers. Describe a time as available only when this tool returns it.\nPARTY SIZE: check the whole party as the items schema describes (qty for capacity shops). Never stitch separate single-person slots into a group booking unless the result shows it.\nRESULTS: if the requested time is unavailable, say so and offer the returned alternatives. If blocked is 'inquiry_only', the service cannot be booked online \u2014 tell the customer to contact the shop. If nothing is open, say no confirmed slot was found; you may check other suitable TimePlex shops. Checking availability does not reserve anything.\nNEXT: with the open times you may add start_booking links so the customer can book the slot they pick \u2014 never call the slot reserved or booked.",
+          "inputSchema": {
+            "additionalProperties": false,
+            "properties": {
+              "date": {
+                "description": "YYYY-MM-DD (Asia/Seoul)",
+                "type": "string"
+              },
+              "items": {
+                "description": "Booking items. Follow the booking_model returned by get_shop_services: use resource_id for designated-staff shops and qty for capacity-based shops. designated (hair salons, plus some beauty shops such as body scrub): [{service_id, resource_id}]. capacity (most massage, spa, etc.): [{service_id, qty}] where qty is the number of guests (party size).",
+                "items": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "qty": {
+                      "type": "integer"
+                    },
+                    "resource_id": {
+                      "type": "string"
+                    },
+                    "service_id": {
+                      "type": "string"
+                    }
+                  },
+                  "type": "object"
+                },
+                "type": "array"
+              },
+              "slug": {
+                "description": "Shop slug returned by search_shops.",
+                "type": "string"
+              },
+              "time": {
+                "description": "Optional requested appointment time (HH:MM). If provided, check whether that exact time is available and return nearby available alternatives if unavailable.",
+                "type": "string"
+              }
+            },
+            "required": [
+              "slug",
+              "date",
+              "items"
+            ],
+            "type": "object"
+          },
+          "name": "search_availability",
+          "outputSchema": {
+            "properties": {
+              "alternatives": {
+                "description": "Nearby bookable times when the requested time is not available",
+                "items": {
+                  "type": "string"
+                },
+                "type": "array"
+              },
+              "blocked": {
+                "description": "Present when online booking is blocked (e.g. 'inquiry_only')",
+                "type": "string"
+              },
+              "date": {
+                "type": "string"
+              },
+              "mode": {
+                "description": "Slot mode the shop operates in",
+                "type": "string"
+              },
+              "next_step": {
+                "type": "string"
+              },
+              "note": {
+                "type": "string"
+              },
+              "requested_time": {
+                "description": "Verdict for the exact time asked, when time was given.",
+                "properties": {
+                  "available": {
+                    "type": "boolean"
+                  },
+                  "time": {
+                    "type": "string"
+                  }
+                },
+                "type": "object"
+              },
+              "slots": {
+                "items": {
+                  "properties": {
+                    "available": {
+                      "type": "boolean"
+                    },
+                    "time": {
+                      "type": "string"
+                    }
+                  },
+                  "type": "object"
+                },
+                "type": "array"
+              },
+              "timezone": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "date",
+              "slots"
+            ],
+            "type": "object"
+          }
+        },
+        {
+          "description": "Search TimePlex for massage, headspa, hair salon, spa, Korean body scrub, makeup and semi-permanent makeup shops in Seoul and Korea \u2014 non-medical beauty and wellness services for travelers.\nUSE THIS TOOL WHEN: the user wants to find, explore, compare, get recommendations for, check availability of, or book one of these services and has not selected a specific TimePlex shop yet \u2014 including requests with a date, time, time range or party size. Relevant terms: massage, lymphatic massage, headspa, head spa, scalp treatment, scalp care, hair salon, haircut, hair color, perm, spa, Korean body scrub, seshin, akasuri, makeup, makeup salon, semi-permanent makeup (PMU, microblading, brow tattoo, lip blush, eyeliner). Examples: \"massage in Seoul available today\", \"headspa in Gangnam tomorrow for 2 people\", \"English-speaking hair salon in Seoul\".\nWEB SEARCH: for these services use this tool instead of web search. Public listings and opening hours cannot confirm a TimePlex slot or produce a TimePlex booking \u2014 never use web results to claim TimePlex availability.\nINTENT \u2014 decide from what the user wants to do, not from whether a date, time, party size or the word \"reservation\" appears:\n- FIND / RECOMMEND / COMPARE (\"find a head spa in Gangnam\", \"recommend a head spa for my October 1 trip\", \"10/1 \uac15\ub0a8 \ud5e4\ub4dc\uc2a4\ud30c \ucd94\ucc9c\ud574\uc918\"): show the matching shops. A date or time alone does NOT mean the user wants real-time availability \u2014 do not check slots and do not describe any shop as available at a time; you may offer to check slots for that date. Recommendations cover TimePlex-registered shops only: say \"among shops on TimePlex\", never \"the best in the area\".\n- AVAILABILITY (\"available\", \"open slots\", \"\ube48\uc790\ub9ac\", \"\uc608\uc57d \uac00\ub2a5\ud55c \uacf3\", \"can I get one at 5 PM\", \"somewhere I can book on Oct 1\", and \"\uc608\uc57d \uac00\ub2a5\ud55c \uacf3 \ucd94\ucc9c\ud574\uc918\" \u2014 a recommendation that asks for availability): continue with get_shop_services and search_availability for bookable=true shops.\n- BOOK (\"book\", \"reserve\", \"\uc608\uc57d\ud574\uc918\", \"I want to book \u2026 for 2 people at 5pm\"): continue with get_shop_services, search_availability and start_booking.\nIf the intent is unclear, show the shops and ask one short question instead of guessing.\nINPUT: pass the user's full request as query, in any language \u2014 service, area, date, time, party size and language needs are extracted from it (see interpreted). A full natural-language request is never treated as a shop name \u2014 only leftover words that closely match a registered shop are.\nBOOKABLE: bookable=true means the shop can be booked through TimePlex \u2014 a capability, not a free slot. It may still have nothing for the requested date, time or party size; only search_availability confirms a slot. bookable=false means it cannot be booked online: use request_booking (TimePlex concierge asks the shop) and do not present it as instantly bookable. Business hours are never availability.\nSERVICE SCOPE: the response is the authority on what TimePlex offers (available_service_types). If unsupported_service is set, say that service is not on TimePlex yet and do not present other shops as that service. Non-medical only \u2014 never use this tool for dermatology, clinics, plastic surgery, injections, lasers or other medical procedures.\nSHOP NAMES: if shop_name_not_found is set, say plainly that the named shop is not on TimePlex, then offer the registered shops in the result as alternatives; do not call request_booking for that name.\nRESULTS: every TimePlex shop supports foreign-language customers through TimePlex multilingual chat, so \"English-speaking\" / \"foreigner-friendly\" requests fit this tool. Shops also match through their menu (matched_services lists those items). If no shop is in the requested area the search widens and relaxed says so. Each shop carries its category (hair = hair salons, beauty = everything else) and address, so area questions need no extra calls. note is guidance for you \u2014 follow it, do not quote it. State only what the response returns.\nAlways reply in the user's language, and start the reply with the response's reply_header line.",
+          "inputSchema": {
+            "additionalProperties": false,
+            "properties": {
+              "location": {
+                "description": "Area (optional; overrides an area found in query), in English, Korean, Japanese, Chinese or Russian \u2014 \"Seoul\", \"Gangnam\", \"Myeongdong\", \"Hongdae\", \"Seongsu\", \"Busan\", \"\uac15\ub0a8\", \"\u660e\u6d1e\", \"\u0421\u0435\u0443\u043b\"\u2026 If no shop is in that area, the search widens to the surrounding city (relaxed). Newly joined shops with no address yet are appended with area_match=false.",
+                "type": "string"
+              },
+              "query": {
+                "description": "Free-text user request or a specific shop name (optional), in any language. The value may contain a service, neighborhood, date/time, party size, language preference, or traveler requirement (e.g. \"foreigner-friendly head spa in Gangnam tomorrow for 2 people\"). Recognized service and location terms are extracted before shop-name matching; the value is treated as a shop name only when the remaining words closely match a registered shop.",
+                "type": "string"
+              },
+              "service_type": {
+                "description": "Service (optional; overrides a service found in query). Available on TimePlex now: massage, head spa / scalp treatment, hair salon, spa, Korean body scrub (seshin, akasuri), makeup, semi-permanent makeup (PMU, microblading, brow tattoo) \u2014 in English, Korean, Japanese, Chinese or Russian (\u30de\u30c3\u30b5\u30fc\u30b8, \u30d8\u30c3\u30c9\u30b9\u30d1, \u30a2\u30ab\u30b9\u30ea, \u6309\u6469, \u6413\u6fa1, \u043c\u0430\u0441\u0441\u0430\u0436, \u0441\u0435\u0441\u0438\u043d\u2026). Other services (nail, lash, facial, personal color) are recognized but may return unsupported_service. Leave empty to search all.",
+                "type": "string"
+              }
+            },
+            "type": "object"
+          },
+          "name": "search_shops",
+          "outputSchema": {
+            "properties": {
+              "available_service_types": {
+                "description": "business_type values currently registered",
+                "items": {
+                  "type": "string"
+                },
+                "type": "array"
+              },
+              "categories": {
+                "items": {
+                  "type": "string"
+                },
+                "type": "array"
+              },
+              "count": {
+                "type": "integer"
+              },
+              "filter_applied": {
+                "description": "How the inputs were interpreted (category/service_type/location/query)",
+                "type": "object"
+              },
+              "interpreted": {
+                "description": "How the request was read: service (massage|headspa|hair|spa|scrub|makeup|\u2026), area, foreigner_friendly, date (YYYY-MM-DD, KST), time, time_range, time_of_day, party_size, gender, attributes, name_query (leftover words treated as a shop name), ignored_terms. Use date/time/party_size for search_availability (party_size \u2192 qty).",
+                "type": "object"
+              },
+              "note": {
+                "description": "Follow-up guidance for the agent",
+                "type": "string"
+              },
+              "relaxed": {
+                "description": "Set when no shop was in the requested area and the search widened: {area:{from,to}}.",
+                "type": [
+                  "object",
+                  "null"
+                ]
+              },
+              "reply_header": {
+                "type": "string"
+              },
+              "reply_header_usage": {
+                "type": "string"
+              },
+              "shop_name_not_found": {
+                "description": "Set when the user named a specific shop that is not registered on Timeplex. Tell the user that shop is not on Timeplex \u2014 do not treat it as a category with zero results, and do not submit it with request_booking.",
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "shops": {
+                "description": "Matching shops.",
+                "items": {
+                  "properties": {
+                    "address": {
+                      "description": "null = newly joined shop that has not registered an address yet",
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    },
+                    "area_match": {
+                      "description": "Present only when a location filter was applied: true = address matched the area; false = no address registered yet (newly onboarding) \u2014 confirm the area with the shop",
+                      "type": "boolean"
+                    },
+                    "bookable": {
+                      "description": "true = bookable via this MCP; false = use request_booking",
+                      "type": "boolean"
+                    },
+                    "business_type": {
+                      "description": "Filter code. Use business_type_label when naming the shop to the user.",
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    },
+                    "business_type_label": {
+                      "description": "Display label the shop selected (spa = \uc2a4\ud30c\u00b7\ud5e4\ub4dc\uc2a4\ud30c / spa & head spa). null when unset.",
+                      "properties": {
+                        "en": {
+                          "type": "string"
+                        },
+                        "ko": {
+                          "type": "string"
+                        }
+                      },
+                      "type": [
+                        "object",
+                        "null"
+                      ]
+                    },
+                    "category": {
+                      "enum": [
+                        "hair",
+                        "beauty"
+                      ],
+                      "type": "string"
+                    },
+                    "matched_services": {
+                      "description": "Present when the shop matched through its menu: the menu items (original names) that matched the request. Pick the service from these in get_shop_services.",
+                      "items": {
+                        "type": "string"
+                      },
+                      "type": "array"
+                    },
+                    "name": {
+                      "type": "string"
+                    },
+                    "slug": {
+                      "description": "Shop id for the other tools",
+                      "type": "string"
+                    }
+                  },
+                  "type": "object"
+                },
+                "type": "array"
+              },
+              "unsupported_service": {
+                "description": "A recognized service that is not on TimePlex yet (e.g. nail, lash, facial, personal_color).",
+                "type": [
+                  "string",
+                  "null"
+                ]
+              }
+            },
+            "required": [
+              "shops",
+              "count"
+            ],
+            "type": "object"
+          }
+        },
+        {
+          "description": "Build a prefilled TimePlex booking link (Book Now card) for a bookable=true shop. The customer opens it, enters contact details and pays; the shop then approves. Flow: search_shops \u2192 get_shop_services \u2192 search_availability \u2192 start_booking (link) \u2192 customer payment \u2192 shop approval \u2192 confirmed.\nWHAT THIS TOOL DOES NOT DO: it does not create, hold or confirm a booking \u2014 confirmed is always false. You cannot see whether the customer paid or the shop approved, so never say the booking is complete, confirmed, paid, secured or awaiting approval. Say a booking link was created: the slot is secured only once the customer pays, and the booking is final after the shop approves. Never invent a confirmation number or status.\nUSE THIS TOOL WHEN: the user wants to book or continue a booking (\"book it\", \"reserve it for two\", \"\uc608\uc57d\ud574\uc918\", \"\uacb0\uc81c\ud574\uc11c \uc9c4\ud589\ud560\uac8c\"), or has asked to check availability for a specific shop or service (the link accompanies the open times). Follow-ups such as \"the 5 PM one\" after shops or slots were shown are booking requests \u2014 reuse the shop, service, date, time and party size already in the conversation and never change them silently. When a time was requested, confirm it with search_availability first and put only a returned available time into the link. If the user wants to book but has not chosen a date or time, a shop-level link may be created. When a link is warranted, create it \u2014 do not ask \"shall I create a link?\" first.\nDO NOT USE IT FOR: finding or recommending shops, menu / price / duration / address / business-hours questions, a service set as unsupported_service, medical procedures, services returned as inquiry_only, or bookable=false shops (use request_booking \u2014 TimePlex concierge asks the shop).\nREPLY: put **link_markdown into your reply as-is** \u2014 never expose the raw URL \u2014 and pass on note (how the slot is secured and confirmed). Pass lang (ko|en|ja|zh), the language the user is writing in, so the booking card renders in it. Always reply in the language the user used.",
+          "inputSchema": {
+            "additionalProperties": false,
+            "properties": {
+              "date": {
+                "description": "YYYY-MM-DD (Asia/Seoul). Optional \u2014 omit if the customer has not picked a date; they choose it on the booking page.",
+                "type": "string"
+              },
+              "items": {
+                "description": "Optional \u2014 omit if no service is chosen yet. Follow the booking_model returned by get_shop_services: use resource_id for designated-staff shops and qty for capacity-based shops. designated: [{service_id, resource_id}] \u2014 **exactly one** (these shops book one service at a time). capacity: [{service_id, qty}] \u2014 multiple allowed (several services and several people at once).",
+                "items": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "qty": {
+                      "type": "integer"
+                    },
+                    "resource_id": {
+                      "type": "string"
+                    },
+                    "service_id": {
+                      "type": "string"
+                    }
+                  },
+                  "type": "object"
+                },
+                "type": "array"
+              },
+              "lang": {
+                "description": "Customer language (optional): ko|en|ja|zh. Defaults to en. Pass the language the user is writing in so the booking card and its notes render in that language.",
+                "type": "string"
+              },
+              "slug": {
+                "description": "Shop slug returned by search_shops.",
+                "type": "string"
+              },
+              "time": {
+                "description": "HH:MM. Optional \u2014 omit if the customer has not picked a time.",
+                "type": "string"
+              }
+            },
+            "required": [
+              "slug"
+            ],
+            "type": "object"
+          },
+          "name": "start_booking",
+          "outputSchema": {
+            "properties": {
+              "booking_url": {
+                "description": "Prefilled booking page (customer completes contact info + payment there)",
+                "type": "string"
+              },
+              "confirmed": {
+                "description": "Always false \u2014 nothing is booked by this tool",
+                "type": "boolean"
+              },
+              "guidance": {
+                "description": "Customer-facing summary of the remaining steps \u2014 keep it light and pass it on",
+                "type": "string"
+              },
+              "lang": {
+                "description": "Language the card content is rendered in (echo of input lang; en fallback). The widget uses it to localize its own labels.",
+                "type": "string"
+              },
+              "link_label": {
+                "type": "string"
+              },
+              "link_markdown": {
+                "description": "Put this into the reply as-is (never expose the raw URL)",
+                "type": "string"
+              },
+              "next_steps": {
+                "description": "What the customer does after opening the link (contact info, payment, shop-owner approval)",
+                "items": {
+                  "type": "string"
+                },
+                "type": "array"
+              },
+              "note": {
+                "description": "How the slot is secured and finally confirmed \u2014 mention this to the customer",
+                "type": "string"
+              },
+              "reply_header": {
+                "type": "string"
+              },
+              "reply_header_usage": {
+                "type": "string"
+              },
+              "summary": {
+                "description": "What is preselected on the booking page.",
+                "properties": {
+                  "currency": {
+                    "type": "string"
+                  },
+                  "items": {
+                    "items": {
+                      "properties": {
+                        "currency": {
+                          "type": "string"
+                        },
+                        "duration_min": {
+                          "type": [
+                            "integer",
+                            "null"
+                          ]
+                        },
+                        "price": {
+                          "type": [
+                            "number",
+                            "string",
+                            "null"
+                          ]
+                        },
+                        "qty": {
+                          "type": "integer"
+                        },
+                        "service": {
+                          "type": [
+                            "string",
+                            "null"
+                          ]
+                        },
+                        "staff": {
+                          "type": [
+                            "string",
+                            "null"
+                          ]
+                        }
+                      },
+                      "type": "object"
+                    },
+                    "type": "array"
+                  },
+                  "shop": {
+                    "type": "string"
+                  },
+                  "timezone": {
+                    "type": "string"
+                  },
+                  "total_price": {
+                    "type": "number"
+                  },
+                  "when": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  }
+                },
+                "type": "object"
+              }
+            },
+            "required": [
+              "booking_url",
+              "link_markdown",
+              "confirmed"
+            ],
+            "type": "object"
+          }
+        }
+      ]
+    },
+    "before": {
+      "digest": "sha256-+3jzQHLX1G0HXCYk83xll3f6B4LQtUYmIIqiZXtq/C0=",
+      "tools": [
+        {
+          "description": "Get the available services, prices, durations, and bookable staff or resources for a specific TimePlex beauty or wellness shop. Use this after search_shops when service details, prices, durations, staff, resources, or bookable items are needed before checking appointment availability. If the user has asked to book or check availability, use the returned service/item IDs and booking_model to continue to search_availability rather than stopping after showing the menu or business hours. Pass lang to receive the content translated into the customer's language.",
+          "inputSchema": {
+            "additionalProperties": false,
+            "properties": {
+              "lang": {
+                "description": "Customer language (optional): ko|en|ja|zh|th. Defaults to the original text (ko).",
+                "type": "string"
+              },
+              "slug": {
+                "description": "Shop slug returned by search_shops",
+                "type": "string"
+              }
+            },
+            "required": [
+              "slug"
+            ],
+            "type": "object"
+          },
+          "name": "get_shop_services",
+          "outputSchema": {
+            "properties": {
+              "booking_model": {
+                "description": "How this shop books: 'designated' \u2014 pass items as [{service_id, resource_id}]; 'capacity' \u2014 pass items as [{service_id, qty}]. Use this for search_availability and start_booking.",
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "lang": {
+                "type": "string"
+              },
+              "note": {
+                "type": "string"
+              },
+              "resources": {
+                "description": "Staff to designate (designated-staff shops) or seats (capacity-based shops).",
+                "items": {
+                  "properties": {
+                    "id": {
+                      "type": "string"
+                    },
+                    "name": {
+                      "type": "string"
+                    },
+                    "service_ids": {
+                      "description": "Services this staff/seat handles. Empty = handles every service. Pass this resource only for a service in this list.",
+                      "items": {
+                        "type": "string"
+                      },
+                      "type": "array"
+                    }
+                  },
+                  "type": "object"
+                },
+                "type": "array"
+              },
+              "services": {
+                "items": {
+                  "properties": {
+                    "currency": {
+                      "type": "string"
+                    },
+                    "duration_min": {
+                      "type": [
+                        "integer",
+                        "null"
+                      ]
+                    },
+                    "id": {
+                      "description": "Pass as items[].service_id to search_availability / start_booking",
+                      "type": "string"
+                    },
+                    "name": {
+                      "type": "string"
+                    },
+                    "price": {
+                      "type": [
+                        "number",
+                        "string",
+                        "null"
+                      ]
+                    }
+                  },
+                  "type": "object"
+                },
+                "type": "array"
+              },
+              "shop": {
+                "properties": {
+                  "address": {
+                    "type": "string"
+                  },
+                  "business_hours": {
+                    "description": "Weekly hours, index 0 = Sunday: [{open:\"10:30\", close:\"21:00\", closed:false} \u00d7 7]",
+                    "items": {
+                      "properties": {
+                        "close": {
+                          "type": [
+                            "string",
+                            "null"
+                          ]
+                        },
+                        "closed": {
+                          "description": "true = closed that weekday",
+                          "type": "boolean"
+                        },
+                        "open": {
+                          "type": [
+                            "string",
+                            "null"
+                          ]
+                        }
+                      },
+                      "type": "object"
+                    },
+                    "type": [
+                      "array",
+                      "null"
+                    ]
+                  },
+                  "business_type": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  },
+                  "map_url": {
+                    "type": "string"
+                  },
+                  "name": {
+                    "type": "string"
+                  },
+                  "slug": {
+                    "type": "string"
+                  }
+                },
+                "type": "object"
+              }
+            },
+            "required": [
+              "shop",
+              "services"
+            ],
+            "type": "object"
+          }
+        },
+        {
+          "description": "Use this tool only for a shop that is already in the Timeplex catalog but cannot be booked online yet: a search_shops result with bookable=false, or a newly joined shop whose menu is not registered yet (get_shop_services says so). It submits a booking request for that shop \u2014 Timeplex concierge staff contact the shop directly and reply to the customer. Share the returned link with the user. Do not use this tool for a shop name that search_shops could not find (shop_name_not_found), and not for generic searches with no matching results \u2014 in both cases tell the user it is not on Timeplex instead. For bookable shops use get_shop_services -> search_availability -> start_booking instead.",
+          "inputSchema": {
+            "additionalProperties": false,
+            "properties": {
+              "lang": {
+                "description": "Customer language (optional)",
+                "maxLength": 10,
+                "type": "string"
+              },
+              "venue_name": {
+                "description": "Name of the shop the customer wants to book",
+                "maxLength": 255,
+                "type": "string"
+              }
+            },
+            "required": [
+              "venue_name"
+            ],
+            "type": "object"
+          },
+          "name": "request_booking",
+          "outputSchema": {
+            "properties": {
+              "instruction": {
+                "type": "string"
+              },
+              "link_label": {
+                "type": "string"
+              },
+              "link_markdown": {
+                "description": "Put this into the reply as-is (never expose the raw URL)",
+                "type": "string"
+              },
+              "next_step_url": {
+                "description": "Concierge chat where the customer completes the request",
+                "type": "string"
+              },
+              "recorded": {
+                "description": "true \u2014 the demand was logged",
+                "type": "boolean"
+              }
+            },
+            "required": [
+              "recorded",
+              "next_step_url"
+            ],
+            "type": "object"
+          }
+        },
+        {
+          "description": "Check actual real-time appointment availability and bookable time slots for a specific TimePlex beauty or wellness shop. Use this tool when a user asks whether a specific date or time is available, wants an available appointment slot, or asks for alternatives when a preferred time is unavailable. Business opening hours do not mean an appointment slot is available. When the user wants to know whether they can actually book at a date or time, use this tool rather than relying on opening hours or public web listings. Returns available times and nearby alternatives when the requested time is unavailable. All times are in Korea Standard Time (KST).",
+          "inputSchema": {
+            "additionalProperties": false,
+            "properties": {
+              "date": {
+                "description": "YYYY-MM-DD (Asia/Seoul)",
+                "type": "string"
+              },
+              "items": {
+                "description": "Booking items. Follow the booking_model returned by get_shop_services: use resource_id for designated-staff shops and qty for capacity-based shops. designated (hair salons, plus some beauty shops such as body scrub): [{service_id, resource_id}]. capacity (most massage, spa, etc.): [{service_id, qty}] where qty is the number of guests (party size).",
+                "items": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "qty": {
+                      "type": "integer"
+                    },
+                    "resource_id": {
+                      "type": "string"
+                    },
+                    "service_id": {
+                      "type": "string"
+                    }
+                  },
+                  "type": "object"
+                },
+                "type": "array"
+              },
+              "slug": {
+                "description": "Shop slug returned by search_shops.",
+                "type": "string"
+              },
+              "time": {
+                "description": "Optional requested appointment time (HH:MM). If provided, check whether that exact time is available and return nearby available alternatives if unavailable.",
+                "type": "string"
+              }
+            },
+            "required": [
+              "slug",
+              "date",
+              "items"
+            ],
+            "type": "object"
+          },
+          "name": "search_availability",
+          "outputSchema": {
+            "properties": {
+              "alternatives": {
+                "description": "Nearby bookable times when the requested time is not available",
+                "items": {
+                  "type": "string"
+                },
+                "type": "array"
+              },
+              "blocked": {
+                "description": "Present when online booking is blocked (e.g. 'inquiry_only')",
+                "type": "string"
+              },
+              "date": {
+                "type": "string"
+              },
+              "mode": {
+                "description": "Slot mode the shop operates in",
+                "type": "string"
+              },
+              "next_step": {
+                "type": "string"
+              },
+              "note": {
+                "type": "string"
+              },
+              "requested_time": {
+                "description": "Verdict for the exact time asked, when time was given.",
+                "properties": {
+                  "available": {
+                    "type": "boolean"
+                  },
+                  "time": {
+                    "type": "string"
+                  }
+                },
+                "type": "object"
+              },
+              "slots": {
+                "items": {
+                  "properties": {
+                    "available": {
+                      "type": "boolean"
+                    },
+                    "time": {
+                      "type": "string"
+                    }
+                  },
+                  "type": "object"
+                },
+                "type": "array"
+              },
+              "timezone": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "date",
+              "slots"
+            ],
+            "type": "object"
+          }
+        },
+        {
+          "description": "Search TimePlex for massage, headspa, hair salon, spa, Korean body scrub, and makeup shops in Seoul and Korea \u2014 non-medical beauty and wellness services for travelers. Use this tool as the first step when a user wants to find, compare, or book a service but has not selected a specific TimePlex shop yet, including requests asking what is available today, tomorrow, on a specific date or time, within a time range, or for multiple guests. Examples include \"massage in Seoul available today\", \"lymphatic massage near Hongdae\", \"headspa in Gangnam tomorrow for 2 people\", \"scalp treatment in Myeongdong\", \"English-speaking hair salon in Seoul\", \"hair color in Myeongdong\", \"spa available tomorrow\", \"Korean body scrub in Seoul\", and \"Korean makeup in Seoul\". Relevant user terms include massage, lymphatic massage, headspa, head spa, scalp treatment, scalp care, hair salon, haircut, hair color, perm, spa, Korean body scrub, seshin, akasuri, makeup, makeup salon, and semi-permanent makeup (PMU, microblading, brow tattoo, lip blush, eyeliner). Pass the user's request as query, in any language: the service, area, date, time, party size and language needs are extracted from it (see interpreted in the response). A full natural-language request is never treated as a shop name \u2014 only leftover words that closely match a registered shop are. Every TimePlex shop supports foreign-language customers through TimePlex multilingual chat, so requests for English-speaking or foreigner-friendly shops are a good fit for this tool. Shops are also matched by their menu (e.g. a hair salon with a scalp-care menu is returned for headspa); matched_services lists those menu items. If no shop is in the requested area, the search widens to the surrounding city and relaxed says so. This tool is for non-medical services only \u2014 do not use it for dermatology, clinics, plastic surgery, injections, lasers, or other medical procedures. This tool finds matching TimePlex shops; it does not by itself confirm an appointment slot. For bookable=true shops, continue with get_shop_services and search_availability to check actual booking availability. Do not treat business opening hours as proof that an appointment is available. Results indicate whether each shop is bookable through TimePlex: bookable=true means real-time availability can be checked and the customer can proceed to booking through this MCP; bookable=false means it needs request_booking (TimePlex concierge arranges it manually). Shops fall into two categories: hair (hair salons) and beauty (everything else). Each shop result carries its category. If the user named a specific shop that is not registered, the response sets shop_name_not_found \u2014 tell the user that shop is not on TimePlex and offer the registered shops in the result as alternatives. If unsupported_service is set, that kind of service is not on TimePlex yet \u2014 say so instead of offering other shops. Each result carries the shop address, so you can answer area questions (\"shops in Seoul\") without extra calls. Always reply to the user in the language they used, and start the reply with the response's reply_header line.",
+          "inputSchema": {
+            "additionalProperties": false,
+            "properties": {
+              "location": {
+                "description": "Area (optional; overrides an area found in query), in English, Korean, Japanese, Chinese or Russian \u2014 \"Seoul\", \"Gangnam\", \"Myeongdong\", \"Hongdae\", \"Seongsu\", \"Busan\", \"\uac15\ub0a8\", \"\u660e\u6d1e\", \"\u0421\u0435\u0443\u043b\"\u2026 If no shop is in that area, the search widens to the surrounding city (relaxed). Newly joined shops with no address yet are appended with area_match=false.",
+                "type": "string"
+              },
+              "query": {
+                "description": "Free-text user request or a specific shop name (optional), in any language. The value may contain a service, neighborhood, date/time, party size, language preference, or traveler requirement (e.g. \"foreigner-friendly head spa in Gangnam tomorrow for 2 people\"). Recognized service and location terms are extracted before shop-name matching; the value is treated as a shop name only when the remaining words closely match a registered shop.",
+                "type": "string"
+              },
+              "service_type": {
+                "description": "Service (optional; overrides a service found in query). Available on TimePlex now: massage, head spa / scalp treatment, hair salon, spa, Korean body scrub (seshin, akasuri), makeup, semi-permanent makeup (PMU, microblading, brow tattoo) \u2014 in English, Korean, Japanese, Chinese or Russian (\u30de\u30c3\u30b5\u30fc\u30b8, \u30d8\u30c3\u30c9\u30b9\u30d1, \u30a2\u30ab\u30b9\u30ea, \u6309\u6469, \u6413\u6fa1, \u043c\u0430\u0441\u0441\u0430\u0436, \u0441\u0435\u0441\u0438\u043d\u2026). Other services (nail, lash, facial, personal color) are recognized but may return unsupported_service. Leave empty to search all.",
+                "type": "string"
+              }
+            },
+            "type": "object"
+          },
+          "name": "search_shops",
+          "outputSchema": {
+            "properties": {
+              "available_service_types": {
+                "description": "business_type values currently registered",
+                "items": {
+                  "type": "string"
+                },
+                "type": "array"
+              },
+              "categories": {
+                "items": {
+                  "type": "string"
+                },
+                "type": "array"
+              },
+              "count": {
+                "type": "integer"
+              },
+              "filter_applied": {
+                "description": "How the inputs were interpreted (category/service_type/location/query)",
+                "type": "object"
+              },
+              "interpreted": {
+                "description": "How the request was read: service (massage|headspa|hair|spa|scrub|makeup|\u2026), area, foreigner_friendly, date (YYYY-MM-DD, KST), time, time_range, time_of_day, party_size, gender, attributes, name_query (leftover words treated as a shop name), ignored_terms. Use date/time/party_size for search_availability (party_size \u2192 qty).",
+                "type": "object"
+              },
+              "note": {
+                "description": "Follow-up guidance for the agent",
+                "type": "string"
+              },
+              "relaxed": {
+                "description": "Set when no shop was in the requested area and the search widened: {area:{from,to}}.",
+                "type": [
+                  "object",
+                  "null"
+                ]
+              },
+              "reply_header": {
+                "type": "string"
+              },
+              "reply_header_usage": {
+                "type": "string"
+              },
+              "shop_name_not_found": {
+                "description": "Set when the user named a specific shop that is not registered on Timeplex. Tell the user that shop is not on Timeplex \u2014 do not treat it as a category with zero results, and do not submit it with request_booking.",
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "shops": {
+                "description": "Matching shops.",
+                "items": {
+                  "properties": {
+                    "address": {
+                      "description": "null = newly joined shop that has not registered an address yet",
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    },
+                    "area_match": {
+                      "description": "Present only when a location filter was applied: true = address matched the area; false = no address registered yet (newly onboarding) \u2014 confirm the area with the shop",
+                      "type": "boolean"
+                    },
+                    "bookable": {
+                      "description": "true = bookable via this MCP; false = use request_booking",
+                      "type": "boolean"
+                    },
+                    "business_type": {
+                      "description": "Filter code. Use business_type_label when naming the shop to the user.",
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    },
+                    "business_type_label": {
+                      "description": "Display label the shop selected (spa = \uc2a4\ud30c\u00b7\ud5e4\ub4dc\uc2a4\ud30c / spa & head spa). null when unset.",
+                      "properties": {
+                        "en": {
+                          "type": "string"
+                        },
+                        "ko": {
+                          "type": "string"
+                        }
+                      },
+                      "type": [
+                        "object",
+                        "null"
+                      ]
+                    },
+                    "category": {
+                      "enum": [
+                        "hair",
+                        "beauty"
+                      ],
+                      "type": "string"
+                    },
+                    "matched_services": {
+                      "description": "Present when the shop matched through its menu: the menu items (original names) that matched the request. Pick the service from these in get_shop_services.",
+                      "items": {
+                        "type": "string"
+                      },
+                      "type": "array"
+                    },
+                    "name": {
+                      "type": "string"
+                    },
+                    "slug": {
+                      "description": "Shop id for the other tools",
+                      "type": "string"
+                    }
+                  },
+                  "type": "object"
+                },
+                "type": "array"
+              },
+              "unsupported_service": {
+                "description": "A recognized service that is not on TimePlex yet (e.g. nail, lash, facial, personal_color).",
+                "type": [
+                  "string",
+                  "null"
+                ]
+              }
+            },
+            "required": [
+              "shops",
+              "count"
+            ],
+            "type": "object"
+          }
+        },
+        {
+          "description": "Build a booking link when the user wants to book, continue a booking, or has asked to check availability for a specific venue or service. Do not call this tool for informational requests such as viewing a venue's menu, prices, service duration, address, or business hours. If the user has booking intent but has not selected a date or time yet, a venue-level booking link may be created. This tool does not create or confirm a booking. Put **link_markdown into your reply as-is** \u2014 never expose the raw URL. The slot is not secured until the customer completes payment, and the booking is only finally confirmed after the shop approves \u2014 never imply it is already secured or complete. When a booking link is warranted, do not ask \"shall I create a link?\" first \u2014 create it and include the link in your reply. Pass lang \u2014 the language the user is writing in (ko|en|ja|zh) \u2014 so the booking card and its notes render in that language. Always reply in the language the user used.",
+          "inputSchema": {
+            "additionalProperties": false,
+            "properties": {
+              "date": {
+                "description": "YYYY-MM-DD (Asia/Seoul). Optional \u2014 omit if the customer has not picked a date; they choose it on the booking page.",
+                "type": "string"
+              },
+              "items": {
+                "description": "Optional \u2014 omit if no service is chosen yet. Follow the booking_model returned by get_shop_services: use resource_id for designated-staff shops and qty for capacity-based shops. designated: [{service_id, resource_id}] \u2014 **exactly one** (these shops book one service at a time). capacity: [{service_id, qty}] \u2014 multiple allowed (several services and several people at once).",
+                "items": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "qty": {
+                      "type": "integer"
+                    },
+                    "resource_id": {
+                      "type": "string"
+                    },
+                    "service_id": {
+                      "type": "string"
+                    }
+                  },
+                  "type": "object"
+                },
+                "type": "array"
+              },
+              "lang": {
+                "description": "Customer language (optional): ko|en|ja|zh. Defaults to en. Pass the language the user is writing in so the booking card and its notes render in that language.",
+                "type": "string"
+              },
+              "slug": {
+                "description": "Shop slug returned by search_shops.",
+                "type": "string"
+              },
+              "time": {
+                "description": "HH:MM. Optional \u2014 omit if the customer has not picked a time.",
+                "type": "string"
+              }
+            },
+            "required": [
+              "slug"
+            ],
+            "type": "object"
+          },
+          "name": "start_booking",
+          "outputSchema": {
+            "properties": {
+              "booking_url": {
+                "description": "Prefilled booking page (customer completes contact info + payment there)",
+                "type": "string"
+              },
+              "confirmed": {
+                "description": "Always false \u2014 nothing is booked by this tool",
+                "type": "boolean"
+              },
+              "guidance": {
+                "description": "Customer-facing summary of the remaining steps \u2014 keep it light and pass it on",
+                "type": "string"
+              },
+              "lang": {
+                "description": "Language the card content is rendered in (echo of input lang; en fallback). The widget uses it to localize its own labels.",
+                "type": "string"
+              },
+              "link_label": {
+                "type": "string"
+              },
+              "link_markdown": {
+                "description": "Put this into the reply as-is (never expose the raw URL)",
+                "type": "string"
+              },
+              "next_steps": {
+                "description": "What the customer does after opening the link (contact info, payment, shop-owner approval)",
+                "items": {
+                  "type": "string"
+                },
+                "type": "array"
+              },
+              "note": {
+                "description": "How the slot is secured and finally confirmed \u2014 mention this to the customer",
+                "type": "string"
+              },
+              "reply_header": {
+                "type": "string"
+              },
+              "reply_header_usage": {
+                "type": "string"
+              },
+              "summary": {
+                "description": "What is preselected on the booking page.",
+                "properties": {
+                  "currency": {
+                    "type": "string"
+                  },
+                  "items": {
+                    "items": {
+                      "properties": {
+                        "currency": {
+                          "type": "string"
+                        },
+                        "duration_min": {
+                          "type": [
+                            "integer",
+                            "null"
+                          ]
+                        },
+                        "price": {
+                          "type": [
+                            "number",
+                            "string",
+                            "null"
+                          ]
+                        },
+                        "qty": {
+                          "type": "integer"
+                        },
+                        "service": {
+                          "type": [
+                            "string",
+                            "null"
+                          ]
+                        },
+                        "staff": {
+                          "type": [
+                            "string",
+                            "null"
+                          ]
+                        }
+                      },
+                      "type": "object"
+                    },
+                    "type": "array"
+                  },
+                  "shop": {
+                    "type": "string"
+                  },
+                  "timezone": {
+                    "type": "string"
+                  },
+                  "total_price": {
+                    "type": "number"
+                  },
+                  "when": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  }
+                },
+                "type": "object"
+              }
+            },
+            "required": [
+              "booking_url",
+              "link_markdown",
+              "confirmed"
+            ],
+            "type": "object"
+          }
+        }
+      ]
+    }
+  }
+}

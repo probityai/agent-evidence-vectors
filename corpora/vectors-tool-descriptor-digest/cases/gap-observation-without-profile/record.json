@@ -1,0 +1,67 @@
+{
+  "contractId": "https://probityai.github.io/agent-evidence-vectors/predicate/v1/tool-descriptor-digest",
+  "observation": {
+    "descriptor": {
+      "annotations": {
+        "readOnlyHint": true
+      },
+      "description": "Changed text.",
+      "inputSchema": {
+        "additionalProperties": false,
+        "properties": {
+          "invoice_id": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "invoice_id"
+        ],
+        "type": "object"
+      },
+      "name": "get_invoice",
+      "outputSchema": {
+        "properties": {
+          "total_cents": {
+            "type": "integer"
+          }
+        },
+        "type": "object"
+      },
+      "title": "Get invoice"
+    },
+    "digest": "sha256-VNLlkIP3iS9FLQp+0lStrdIryF9UBrs181CGqWxmL10="
+  },
+  "pin": {
+    "descriptor": {
+      "annotations": {
+        "readOnlyHint": true
+      },
+      "description": "Return one invoice by its identifier.",
+      "inputSchema": {
+        "additionalProperties": false,
+        "properties": {
+          "invoice_id": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "invoice_id"
+        ],
+        "type": "object"
+      },
+      "name": "get_invoice",
+      "outputSchema": {
+        "properties": {
+          "total_cents": {
+            "type": "integer"
+          }
+        },
+        "type": "object"
+      },
+      "title": "Get invoice"
+    },
+    "digest": "sha256-HBANsV6PWI0DBErXP8iHdCmUUO4+YxTvx6wX1o0yEJg=",
+    "profile": "name-description-inputschema.omit-absent.jcs"
+  },
+  "recordId": "record-gap-observation-without-profile"
+}

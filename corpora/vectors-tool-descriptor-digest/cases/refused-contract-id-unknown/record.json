@@ -1,0 +1,68 @@
+{
+  "contractId": "https://example.org/some-other-contract",
+  "observation": {
+    "descriptor": {
+      "annotations": {
+        "readOnlyHint": true
+      },
+      "description": "Return one invoice by its identifier.",
+      "inputSchema": {
+        "additionalProperties": false,
+        "properties": {
+          "invoice_id": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "invoice_id"
+        ],
+        "type": "object"
+      },
+      "name": "get_invoice",
+      "outputSchema": {
+        "properties": {
+          "total_cents": {
+            "type": "integer"
+          }
+        },
+        "type": "object"
+      },
+      "title": "Get invoice"
+    },
+    "digest": "sha256-HBANsV6PWI0DBErXP8iHdCmUUO4+YxTvx6wX1o0yEJg=",
+    "profile": "name-description-inputschema.omit-absent.jcs"
+  },
+  "pin": {
+    "descriptor": {
+      "annotations": {
+        "readOnlyHint": true
+      },
+      "description": "Return one invoice by its identifier.",
+      "inputSchema": {
+        "additionalProperties": false,
+        "properties": {
+          "invoice_id": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "invoice_id"
+        ],
+        "type": "object"
+      },
+      "name": "get_invoice",
+      "outputSchema": {
+        "properties": {
+          "total_cents": {
+            "type": "integer"
+          }
+        },
+        "type": "object"
+      },
+      "title": "Get invoice"
+    },
+    "digest": "sha256-HBANsV6PWI0DBErXP8iHdCmUUO4+YxTvx6wX1o0yEJg=",
+    "profile": "name-description-inputschema.omit-absent.jcs"
+  },
+  "recordId": "record-refused-contract-id-unknown"
+}

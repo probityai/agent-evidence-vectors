@@ -1,0 +1,44 @@
+{
+  "contractId": "https://probityai.github.io/agent-evidence-vectors/predicate/v1/tool-descriptor-digest",
+  "observation": {
+    "descriptor": {
+      "description": "Return one invoice by its identifier.",
+      "inputSchema": {
+        "additionalProperties": false,
+        "properties": {
+          "invoice_id": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "invoice_id"
+        ],
+        "type": "object"
+      },
+      "name": "get_invoice"
+    },
+    "digest": "sha256-HBANsV6PWI0DBErXP8iHdCmUUO4+YxTvx6wX1o0yEJg=",
+    "profile": "name-description-inputschema-outputschema.empty-description.jcs"
+  },
+  "pin": {
+    "descriptor": {
+      "description": "Return one invoice by its identifier.",
+      "inputSchema": {
+        "additionalProperties": false,
+        "properties": {
+          "invoice_id": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "invoice_id"
+        ],
+        "type": "object"
+      },
+      "name": "get_invoice"
+    },
+    "digest": "sha256-HBANsV6PWI0DBErXP8iHdCmUUO4+YxTvx6wX1o0yEJg=",
+    "profile": "name-description-inputschema.omit-absent.jcs"
+  },
+  "recordId": "record-gap-profiles-differ-digests-coincide"
+}

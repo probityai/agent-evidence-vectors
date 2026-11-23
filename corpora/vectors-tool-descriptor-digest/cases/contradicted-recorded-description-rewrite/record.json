@@ -1,0 +1,306 @@
+{
+  "contractId": "https://probityai.github.io/agent-evidence-vectors/predicate/v1/tool-descriptor-digest",
+  "observation": {
+    "descriptor": {
+      "description": "Get the services, prices, durations, weekly business hours and bookable staff or seats of one specific TimePlex shop (slug from search_shops).\nUSE THIS TOOL WHEN: a shop has been identified and the user asks what it offers, prices, durations or staff; to match requirements (a 60-minute head spa, a budget, two guests at once); or before search_availability / start_booking, which need the service ids and booking_model returned here.\nDO NOT USE IT FOR: general discovery or recommendations (search_shops), real-time availability (search_availability), or building a booking link (start_booking).\nSERVICE DATA: describe only the services returned here \u2014 never invent names, prices, durations, staff or options, and never assume a service exists because similar shops offer it. Services that cannot be booked online are already excluded. If the requested service is not in the list, say so; do not silently substitute another. Never present medical procedures as TimePlex services.\nRESOURCES & HOURS: a staff member or seat existing, or the shop being open, does NOT mean it is free at the requested time \u2014 only search_availability confirms a slot.\nNEXT: if the user asked for availability or to book, continue to search_availability with the returned service ids and booking_model instead of stopping at the menu or business hours. If they only asked about the menu, prices or durations, answer from this result and do not check availability or build a booking link unless they ask. A date or time mentioned earlier does not by itself require a slot check.\nPass lang to receive the content translated into the customer's language.",
+      "inputSchema": {
+        "additionalProperties": false,
+        "properties": {
+          "lang": {
+            "description": "Customer language (optional): ko|en|ja|zh|th. Defaults to the original text (ko).",
+            "type": "string"
+          },
+          "slug": {
+            "description": "Shop slug returned by search_shops",
+            "type": "string"
+          }
+        },
+        "required": [
+          "slug"
+        ],
+        "type": "object"
+      },
+      "name": "get_shop_services",
+      "outputSchema": {
+        "properties": {
+          "booking_model": {
+            "description": "How this shop books: 'designated' \u2014 pass items as [{service_id, resource_id}]; 'capacity' \u2014 pass items as [{service_id, qty}]. Use this for search_availability and start_booking.",
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "lang": {
+            "type": "string"
+          },
+          "note": {
+            "type": "string"
+          },
+          "resources": {
+            "description": "Staff to designate (designated-staff shops) or seats (capacity-based shops).",
+            "items": {
+              "properties": {
+                "id": {
+                  "type": "string"
+                },
+                "name": {
+                  "type": "string"
+                },
+                "service_ids": {
+                  "description": "Services this staff/seat handles. Empty = handles every service. Pass this resource only for a service in this list.",
+                  "items": {
+                    "type": "string"
+                  },
+                  "type": "array"
+                }
+              },
+              "type": "object"
+            },
+            "type": "array"
+          },
+          "services": {
+            "items": {
+              "properties": {
+                "currency": {
+                  "type": "string"
+                },
+                "duration_min": {
+                  "type": [
+                    "integer",
+                    "null"
+                  ]
+                },
+                "id": {
+                  "description": "Pass as items[].service_id to search_availability / start_booking",
+                  "type": "string"
+                },
+                "name": {
+                  "type": "string"
+                },
+                "price": {
+                  "type": [
+                    "number",
+                    "string",
+                    "null"
+                  ]
+                }
+              },
+              "type": "object"
+            },
+            "type": "array"
+          },
+          "shop": {
+            "properties": {
+              "address": {
+                "type": "string"
+              },
+              "business_hours": {
+                "description": "Weekly hours, index 0 = Sunday: [{open:\"10:30\", close:\"21:00\", closed:false} \u00d7 7]",
+                "items": {
+                  "properties": {
+                    "close": {
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    },
+                    "closed": {
+                      "description": "true = closed that weekday",
+                      "type": "boolean"
+                    },
+                    "open": {
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    }
+                  },
+                  "type": "object"
+                },
+                "type": [
+                  "array",
+                  "null"
+                ]
+              },
+              "business_type": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "map_url": {
+                "type": "string"
+              },
+              "name": {
+                "type": "string"
+              },
+              "slug": {
+                "type": "string"
+              }
+            },
+            "type": "object"
+          }
+        },
+        "required": [
+          "shop",
+          "services"
+        ],
+        "type": "object"
+      }
+    },
+    "digest": "sha256-1xgc+x/nO2zBG9mX/OTbQ+v3TkNrVl/2qypFI+FdU+s=",
+    "profile": "name-description-inputschema-outputschema.empty-description.jcs"
+  },
+  "pin": {
+    "descriptor": {
+      "description": "Get the available services, prices, durations, and bookable staff or resources for a specific TimePlex beauty or wellness shop. Use this after search_shops when service details, prices, durations, staff, resources, or bookable items are needed before checking appointment availability. If the user has asked to book or check availability, use the returned service/item IDs and booking_model to continue to search_availability rather than stopping after showing the menu or business hours. Pass lang to receive the content translated into the customer's language.",
+      "inputSchema": {
+        "additionalProperties": false,
+        "properties": {
+          "lang": {
+            "description": "Customer language (optional): ko|en|ja|zh|th. Defaults to the original text (ko).",
+            "type": "string"
+          },
+          "slug": {
+            "description": "Shop slug returned by search_shops",
+            "type": "string"
+          }
+        },
+        "required": [
+          "slug"
+        ],
+        "type": "object"
+      },
+      "name": "get_shop_services",
+      "outputSchema": {
+        "properties": {
+          "booking_model": {
+            "description": "How this shop books: 'designated' \u2014 pass items as [{service_id, resource_id}]; 'capacity' \u2014 pass items as [{service_id, qty}]. Use this for search_availability and start_booking.",
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "lang": {
+            "type": "string"
+          },
+          "note": {
+            "type": "string"
+          },
+          "resources": {
+            "description": "Staff to designate (designated-staff shops) or seats (capacity-based shops).",
+            "items": {
+              "properties": {
+                "id": {
+                  "type": "string"
+                },
+                "name": {
+                  "type": "string"
+                },
+                "service_ids": {
+                  "description": "Services this staff/seat handles. Empty = handles every service. Pass this resource only for a service in this list.",
+                  "items": {
+                    "type": "string"
+                  },
+                  "type": "array"
+                }
+              },
+              "type": "object"
+            },
+            "type": "array"
+          },
+          "services": {
+            "items": {
+              "properties": {
+                "currency": {
+                  "type": "string"
+                },
+                "duration_min": {
+                  "type": [
+                    "integer",
+                    "null"
+                  ]
+                },
+                "id": {
+                  "description": "Pass as items[].service_id to search_availability / start_booking",
+                  "type": "string"
+                },
+                "name": {
+                  "type": "string"
+                },
+                "price": {
+                  "type": [
+                    "number",
+                    "string",
+                    "null"
+                  ]
+                }
+              },
+              "type": "object"
+            },
+            "type": "array"
+          },
+          "shop": {
+            "properties": {
+              "address": {
+                "type": "string"
+              },
+              "business_hours": {
+                "description": "Weekly hours, index 0 = Sunday: [{open:\"10:30\", close:\"21:00\", closed:false} \u00d7 7]",
+                "items": {
+                  "properties": {
+                    "close": {
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    },
+                    "closed": {
+                      "description": "true = closed that weekday",
+                      "type": "boolean"
+                    },
+                    "open": {
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    }
+                  },
+                  "type": "object"
+                },
+                "type": [
+                  "array",
+                  "null"
+                ]
+              },
+              "business_type": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "map_url": {
+                "type": "string"
+              },
+              "name": {
+                "type": "string"
+              },
+              "slug": {
+                "type": "string"
+              }
+            },
+            "type": "object"
+          }
+        },
+        "required": [
+          "shop",
+          "services"
+        ],
+        "type": "object"
+      }
+    },
+    "digest": "sha256-sGAydy61KA1PzdiNc7oOlFkUV1eVeofs7MmS+LRRv+I=",
+    "profile": "name-description-inputschema-outputschema.empty-description.jcs"
+  },
+  "recordId": "record-contradicted-recorded-description-rewrite"
+}
