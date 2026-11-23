@@ -149,6 +149,7 @@ GENERATORS = (
     "corpora/vectors-identity-binding/gen_vectors.py",
     "corpora/vectors-key-directory-observation/gen_vectors.py",
     "corpora/vectors-status-receipt-binding/gen_vectors.py",
+    "corpora/vectors-delegation-chain/gen_vectors.py",
     "corpora/vectors-revocation-list/gen_vectors.py",
     "corpora/vectors-authority-at-dispatch/gen_vectors.py",
     "corpora/vectors-approval-binding/gen_vectors.py",
@@ -380,6 +381,8 @@ OWNED = (
     ("corpora/vectors-key-directory-observation/cases", "**/response.body"),
     ("corpora/vectors-status-receipt-binding", "MANIFEST.json"),
     ("corpora/vectors-status-receipt-binding/cases", "**/*.json"),
+    ("corpora/vectors-delegation-chain", "MANIFEST.json"),
+    ("corpora/vectors-delegation-chain/cases", "**/*.json"),
     ("corpora/vectors-revocation-list", "MANIFEST.json"),
     ("corpora/vectors-revocation-list/cases", "**/*.json"),
     ("corpora/vectors-authority-at-dispatch", "MANIFEST.json"),
@@ -609,7 +612,8 @@ def owned_files(root: Path) -> dict[str, Path]:
     found: dict[str, Path] = {}
     for directory, pattern in OWNED:
         for path in sorted((root / directory).glob(pattern)):
-            found[str(path.relative_to(root))] = path
+            if path.is_file():
+                found[str(path.relative_to(root))] = path
     return found
 
 

@@ -90,6 +90,7 @@ RUNS_A_VERIFIER = (
     "vectors-identity-binding",
     "vectors-key-directory-observation",
     "vectors-status-receipt-binding",
+    "vectors-delegation-chain",
     "vectors-receipt-chain-end",
     "vectors-receipt-signature",
     "vectors-scitt-cose",
