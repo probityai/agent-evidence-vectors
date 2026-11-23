@@ -159,6 +159,7 @@ only-include = [
     "corpora/vectors-budget-lineage",
     "corpora/vectors-capability-requirement",
     "corpora/vectors-catalog-trust-manifest",
+    "corpora/vectors-cbor-receipt-chain",
     "corpora/vectors-chunked-export",
     "corpora/vectors-completion-confirmation",
     "corpora/vectors-connector-scope",
@@ -248,6 +249,7 @@ exclude = [
     "corpora/vectors-budget-lineage/**/*.py",
     "corpora/vectors-capability-requirement/**/*.py",
     "corpora/vectors-catalog-trust-manifest/**/*.py",
+    "corpora/vectors-cbor-receipt-chain/**/*.py",
     "corpora/vectors-chunked-export/**/*.py",
     "corpora/vectors-completion-confirmation/**/*.py",
     "corpora/vectors-connector-scope/**/*.py",
@@ -336,6 +338,7 @@ exclude = [
 "corpora/vectors-budget-lineage" = "agent_evidence_vectors/corpora/vectors-budget-lineage"
 "corpora/vectors-capability-requirement" = "agent_evidence_vectors/corpora/vectors-capability-requirement"
 "corpora/vectors-catalog-trust-manifest" = "agent_evidence_vectors/corpora/vectors-catalog-trust-manifest"
+"corpora/vectors-cbor-receipt-chain" = "agent_evidence_vectors/corpora/vectors-cbor-receipt-chain"
 "corpora/vectors-chunked-export" = "agent_evidence_vectors/corpora/vectors-chunked-export"
 "corpora/vectors-completion-confirmation" = "agent_evidence_vectors/corpora/vectors-completion-confirmation"
 "corpora/vectors-connector-scope" = "agent_evidence_vectors/corpora/vectors-connector-scope"
@@ -499,6 +502,7 @@ only-include = [
     "corpora/vectors-budget-lineage",
     "corpora/vectors-capability-requirement",
     "corpora/vectors-catalog-trust-manifest",
+    "corpora/vectors-cbor-receipt-chain",
     "corpora/vectors-chunked-export",
     "corpora/vectors-completion-confirmation",
     "corpora/vectors-connector-scope",

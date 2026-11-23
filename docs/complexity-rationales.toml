@@ -176,3 +176,22 @@ Each is a separate fault domain that must report on its own, so the branches
 are independent rather than nested. A shared helper would couple checks that
 the manifest records separately.
 """
+
+["packaging/agent_evidence_vectors/cborreceiptchain.py::_item"]
+complexity = 14
+rationale = """
+_item reads one CBOR data item: it dispatches over the major types and the
+additional-information length encodings RFC 8949 defines, with the depth and
+size budget refusals. One branch per item kind is the grammar itself; splitting
+it would only spread the dispatch across helpers.
+"""
+
+["packaging/agent_evidence_vectors/cborreceiptchain.py::judge_stream"]
+complexity = 22
+rationale = """
+judge_stream runs the seven checks of cbor-receipt-chain/v1 in their stated
+order (shape, signature, pinned signer, duplicate, single use, chain order,
+head anchor), first failure wins, then picks among three not-established
+outcomes. Each check can be skipped for the load-bearing sweep. The order is
+the rule, and the Go reader mirrors it arm for arm.
+"""
