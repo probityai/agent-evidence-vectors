@@ -117,6 +117,8 @@ REFUSES_A_VERIFIER = (
     "vectors-acs-decision-record",
     "vectors-ave-id-resolution",
     "vectors-decision-record",
+    "vectors-agent-registration-classification",
+    "vectors-principal-action",
     "vectors-ai-generation",
     "vectors-anchor-stream",
     "vectors-artifact-binding",
