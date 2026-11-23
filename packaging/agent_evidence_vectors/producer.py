@@ -10,7 +10,10 @@ the producer's output instead:
    class, the same reader the corpus judge holds to the published vectors. For
    a v0.1 per-check report that is the reading table and the rejection rows in
    ``w3creport``; for a run record it is the interoperability-evidence
-   criterion in ``corpora/vectors-mcp-record-contract/check_run_record.py``.
+   criterion in ``corpora/vectors-mcp-record-contract/check_run_record.py``;
+   for an evaluation claim it is ``claim_record.reader.verify`` under the
+   acceptance rule the pins file names (the relying party's rule, never the
+   producer's), with the case sets and any extra profiles it names.
 2. When the producer pins its output, each record is held to those pins:
    SHA-256 and size of the file, and for a v0.1 report the check count and the
    declared check-set root. A pinned record that was not produced, and a
@@ -124,13 +127,90 @@ def _run_record(raw: bytes) -> list[str]:
     return lines
 
 
+def _claim_without_rule(raw: bytes) -> list[str]:
+    raise ValueError(
+        "an evaluation claim is judged under an acceptance rule, and the pins file names "
+        "none: add `evaluationClaim.rule` (see docs/guides/producer-mode.md)"
+    )
+
+
 READERS: dict[str, Reader] = {
     "w3c-report": _subject_reader("report"),
     "agent-run-metrics": _subject_reader("agent-run-metrics"),
     "llm-context-discovery": _subject_reader("llm-context-discovery"),
     "run-record": _run_record,
+    "evaluation-claim": _claim_without_rule,
 }
 RECORD_CLASSES = tuple(READERS)
+CLAIM_CLASS = "evaluation-claim"
+
+
+def load_claim_context(path: str) -> dict[str, Any] | None:
+    """The ``evaluationClaim`` block of a pins file, its paths resolved, or None.
+
+    ``{"evaluationClaim": {"rule": "<file>", "caseSets": ["<file>", ...],
+    "profiles": ["<file>", ...]}}``. Paths are relative to the pins file. The
+    rule pins the profile and the case sets a record is judged under; the
+    published profiles are always available, ``profiles`` adds others.
+    """
+    document = json.loads(Path(path).read_text(encoding="utf-8"))
+    block = document.get("evaluationClaim") if isinstance(document, dict) else None
+    if block is None:
+        return None
+    base = Path(path).resolve().parent
+    if not isinstance(block, dict) or not isinstance(block.get("rule"), str):
+        raise ValueError(
+            "`evaluationClaim` is an object whose `rule` names the acceptance rule file"
+        )
+    lists = {}
+    for key in ("caseSets", "profiles"):
+        value = block.get(key, [])
+        if not isinstance(value, list) or not all(isinstance(v, str) for v in value):
+            raise ValueError(f"`evaluationClaim.{key}` is a list of file paths")
+        lists[key] = [str(base / v) for v in value]
+    return {"rule": str(base / block["rule"]), **lists}
+
+
+def claim_reader(context: dict[str, Any]) -> tuple[Reader, dict[str, Any]]:
+    """The evaluation-claim reader under the rule a pins file names, and what it was given."""
+    from agent_evidence_vectors.claim_record.reader import (
+        check_case_set,
+        check_profile,
+        index_by_digest,
+        parse_strict,
+        verify,
+    )
+    from agent_evidence_vectors.claim_record.run import packaged_profiles
+
+    def read_file(name: str) -> Any:
+        return parse_strict(Path(name).read_bytes())
+
+    rule = read_file(context["rule"])
+    case_sets = index_by_digest(check_case_set(read_file(p)) for p in context["caseSets"])
+    profiles = {
+        **packaged_profiles(),
+        **index_by_digest(check_profile(read_file(p)) for p in context["profiles"]),
+    }
+
+    def read(raw: bytes) -> list[str]:
+        outcome = verify(parse_strict(raw), rule, profiles, case_sets)
+        lines = [f"{r['code']} at {r['at']}: {r['detail']}" for r in outcome["reasons"]]
+        if not lines and outcome["verdict"] != "pass":
+            lines.append(
+                f"admitted with verdict {outcome['verdict']}: the record is well formed and "
+                "its claim is not a pass"
+            )
+        return lines
+
+    binding = {
+        "rule": {
+            "path": context["rule"],
+            "sha256": hashlib.sha256(Path(context["rule"]).read_bytes()).hexdigest(),
+        },
+        "caseSets": sorted(case_sets),
+        "profiles": sorted(profiles),
+    }
+    return read, binding
 
 
 def expand(patterns: list[str]) -> list[str]:
@@ -173,7 +253,9 @@ def pin_mismatches(observed: dict[str, Any], pin: dict[str, Any]) -> list[str]:
     return out
 
 
-def judge_record(record_class: str, path: str, pin: dict[str, Any] | None) -> dict[str, Any]:
+def judge_record(
+    record_class: str, path: str, pin: dict[str, Any] | None, reader: Reader | None = None
+) -> dict[str, Any]:
     """One record's entry in the receipt."""
     entry: dict[str, Any] = {"path": path}
     try:
@@ -185,7 +267,7 @@ def judge_record(record_class: str, path: str, pin: dict[str, Any] | None) -> di
     entry["size"] = len(raw)
     entry.update(_declared(record_class, raw))
     try:
-        findings = READERS[record_class](raw)
+        findings = (reader or READERS[record_class])(raw)
         entry["verdict"] = CONFORMS if not findings else DOES_NOT_CONFORM
     except Exception as exc:  # noqa: BLE001 - a crash is no verdict, never a rejection
         findings = [f"the reader failed: {exc!r}"]
@@ -208,7 +290,7 @@ EXPECTED_KEYS = {
 SINGLE = "*"
 
 
-def load_pins(path: str) -> dict[str, dict[str, Any]]:
+def load_pins(path: str) -> dict[str, dict[str, Any]] | None:
     """The pins file, in either of two shapes.
 
     ``{"records": {"<path>": {"sha256", "size", "count", "declared", "checkSetRoot"}}}``
@@ -221,6 +303,9 @@ def load_pins(path: str) -> dict[str, dict[str, Any]]:
         flat = {EXPECTED_KEYS[k]: v for k, v in document.items() if k in EXPECTED_KEYS}
         if flat:
             return {SINGLE: flat}
+        if "evaluationClaim" in document:
+            # A pins file that only names the acceptance rule pins no record bytes.
+            return None
     records = document.get("records") if isinstance(document, dict) else None
     if not isinstance(records, dict) or not all(isinstance(v, dict) for v in records.values()):
         raise ValueError(
@@ -247,11 +332,15 @@ def build_receipt(
     paths: list[str],
     pins: dict[str, dict[str, Any]] | None,
     producer: dict[str, str] | None = None,
+    reader: Reader | None = None,
+    binding: dict[str, Any] | None = None,
 ) -> dict[str, Any]:
     """The receipt over every produced record, with its result."""
     pins = bind_single(pins, paths)
     records = [
-        judge_record(record_class, p, None if pins is None else pins.get(os.path.normpath(p), {}))
+        judge_record(
+            record_class, p, None if pins is None else pins.get(os.path.normpath(p), {}), reader
+        )
         for p in paths
     ]
     unproduced = sorted(set(pins or {}) - {os.path.normpath(p) for p in paths})
@@ -289,6 +378,8 @@ def build_receipt(
     }
     if producer:
         receipt["producer"] = producer
+    if binding:
+        receipt["acceptance"] = binding
     return receipt
 
 
@@ -353,10 +444,15 @@ def main(argv: list[str] | None = None) -> int:
         )
         return NO_VERDICT
     pins = None
+    reader: Reader | None = None
+    binding: dict[str, Any] | None = None
     if args.pins:
         try:
             pins = load_pins(args.pins)
-        except (OSError, ValueError) as exc:
+            context = load_claim_context(args.pins) if args.record_class == CLAIM_CLASS else None
+            if context is not None:
+                reader, binding = claim_reader(context)
+        except Exception as exc:  # noqa: BLE001 - an unreadable rule or pins file is no verdict
             print(f"no verdict: the pins file {args.pins} cannot be read: {exc}", file=sys.stderr)
             return NO_VERDICT
     producer = {
@@ -365,7 +461,7 @@ def main(argv: list[str] | None = None) -> int:
     paths = expand(args.records)
     if not paths:
         print(f"no verdict: no file matched {args.records}", file=sys.stderr)
-    receipt = build_receipt(args.record_class, paths, pins, producer or None)
+    receipt = build_receipt(args.record_class, paths, pins, producer or None, reader, binding)
     Path(args.receipt).write_text(json.dumps(receipt, indent=2) + "\n", encoding="utf-8")
     for entry in receipt["records"]:
         print(f"{entry['path']}: {entry['verdict']}")
