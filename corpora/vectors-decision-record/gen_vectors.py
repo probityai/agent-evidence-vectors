@@ -14,7 +14,9 @@ action-binding format (``dps-action-binding`` 0.3.0), after checking them agains
   relying party holds, where exactly one strict check refuses. Each is one case the format's text
   accepts and a relying party should not: an approval by the drafting role or the executor, one
   request observed to succeed twice, an unconfirmed person, an authority no source grants,
-  consistently backdated stages, an older attachment, and a removed signature.
+  consistently backdated stages, an older attachment, and a removed signature; and the shapes of a
+  missing or mismatched observation (a source the relying party does not hold reads ``not_checked``
+  and the strict profile refuses it; a key's retirement is read against the stated sealing time).
 
 Writes ``members/*.json``, ``MANIFEST.json`` and ``INDEX.md``; the same sources give the same bytes.
 
@@ -121,6 +123,11 @@ def signature_members(cases: dict, vectors: dict) -> list[dict]:
     twice = copy.deepcopy(policy)
     seal = next(k for k in twice["keys"] if k["key_ref"] == "org-seal-1")
     twice["keys"].append({**seal, "key_ref": "org-seal-1-listed-again"})
+    def with_key(**changes: str) -> dict:
+        changed = copy.deepcopy(policy)
+        next(k for k in changed["keys"] if k["key_ref"] == "org-seal-1").update(changes)
+        return changed
+
     rows = [
         ("baseline-sig-a0-stated-time", a0, policy, "verified", None,
          "the published signed attachment, its seal checked on the stated time under the published policy"),
@@ -132,6 +139,13 @@ def signature_members(cases: dict, vectors: dict) -> list[dict]:
          "a key the relying party's policy does not list"),
         ("baseline-sig-policy-lists-key-twice", a0, twice, "failed", "issuer_signature:failed",
          "a policy listing one public key under two references is refused, and the seal with it"),
+        ("baseline-sig-key-superseded-before-sealing", a0,
+         with_key(revoked_at="2026-09-30T00:00:00Z", revocation_reason="superseded"),
+         "failed", "issuer_signature:failed", "a key the policy supersedes the day before the stated sealing time"),
+        ("baseline-sig-key-expired-before-sealing", a0, with_key(not_after="2026-09-30T23:59:59Z"),
+         "failed", "issuer_signature:failed", "a key whose validity in the policy ended before the stated sealing time"),
+        ("baseline-sig-key-in-another-role", a0, with_key(role="person"),
+         "failed", "issuer_signature:failed", "a key the policy lists for a person, presented as the organisation's seal"),
     ]
     out = []
     for slug, text, pol, status, code, shows in rows:
@@ -250,6 +264,7 @@ def _strict_rows(cases: dict, vectors: dict) -> list[tuple]:
     second[1]["value"]["spec_digest"] = vectors["attachments"]["A0"]["stages"][0]["spec_digest"]
     drafting = "urn:example:role:payables-drafting"
     executor = "urn:example:service:payment-executor"
+    requester = "urn:example:service:payables"
     l69 = next(c for c in cases["binding_cases"] if c["id"] == "L69")
     return [
         ("strict-all-sources-confirm", [], [], None, None, "verified",
@@ -277,6 +292,31 @@ def _strict_rows(cases: dict, vectors: dict) -> list[tuple]:
          "an attachment of the decision older than the one the relying party holds"),
         ("strict-signature-removed", [], [], ("unsigned", None), "signature_required", "failed",
          "the attachment presented with its issuer signature removed"),
+        ("strict-approved-by-requester",
+         [{"set": "/stages/1/reviewer_ref", "value": requester}, {"set": "/stages/2/actor_ref", "value": requester}],
+         [{"set": "/affirmation_record/actor_identity", "value": requester}], None,
+         "approver_independence", "failed", "the service that requested the action reviews and approves it"),
+        ("strict-authority-granted-for-another-charter", [], [], ("grants-other", None), "authority_independent",
+         "failed", "the approver holds a grant, but under another charter than the one the approval cites"),
+        ("strict-identity-source-says-failed", [], [], ("identity", "owner-example-1", "failed"),
+         "identity_independent", "failed", "the relying party's identity source reports the approver as failed"),
+        ("strict-person-absent-from-identity-source", [], [], ("identity-absent", "owner-example-1"),
+         "identity_independent", "failed", "the approver named is unknown to the relying party's identity source"),
+        ("strict-approval-observed-after-execution", [], [], ("approved-late", "o1"), "time_independent", "failed",
+         "the issuer dates the approval before the attempt; the independent clock puts it after the attempt ran"),
+        ("strict-no-identity-source", [], [], ("drop", "identities"), "identity_independent", "not_checked",
+         "the relying party holds no identity source, so the approver's identity was never observed"),
+        ("strict-no-authority-source", [], [], ("drop", "authority_grants"), "authority_independent",
+         "not_checked", "the relying party holds no authority source, so no grant was observed"),
+        ("strict-no-independent-clock", [], [], ("drop", "independent_times"), "time_independent",
+         "not_checked", "the relying party holds no independent observation of when the stages happened"),
+        ("strict-latest-attachment-unknown", [], [], ("drop", "latest"), "latest_attachment", "not_checked",
+         "the relying party holds no record of which attachment of the decision is the latest"),
+        ("strict-no-trust-policy", [], [], ("no-policy", None), "signature_required", "failed",
+         "a signed attachment read with no trust policy, so no key is held for its signature"),
+        ("strict-seal-key-compromised-backdated", [], [], ("key-compromised", None), "signature_required",
+         "failed", "a key later revoked as compromised signs a time before the revocation; only an independent "
+                   "timestamp can say when it signed, and none is read"),
     ]
 
 
@@ -288,8 +328,22 @@ def strict_members(cases: dict, vectors: dict) -> list[dict]:
         record = compact(apply_patch(json.loads(cases["records"]["R0"]), record_patch))
         text = compact(doc) if change and change[0] == "unsigned" else sign(doc)
         party = relying_party(doc, text)
+        policy = corpus_policy()
         if change and change[0] == "identity":
-            party["identities"][change[1]] = {"status": "not_verified", "source": "urn:example:directory:corpus"}
+            party["identities"][change[1]] = {"status": change[2] if len(change) > 2 else "not_verified",
+                                              "source": "urn:example:directory:corpus"}
+        elif change and change[0] == "identity-absent":
+            del party["identities"][change[1]]
+        elif change and change[0] == "grants-other":
+            party["authority_grants"] = [{**g, "authority_ref": g["authority_ref"] + "-other"}
+                                         for g in party["authority_grants"]]
+        elif change and change[0] == "approved-late":
+            party["independent_times"]["tolerance_seconds"] = 3600
+            party["independent_times"]["observed"][change[1]] = "2026-10-01T09:40:00Z"
+        elif change and change[0] == "drop":
+            del party[change[1]]
+        elif change and change[0] == "key-compromised":
+            policy["keys"][0].update({"revoked_at": "2026-10-01T12:00:00Z", "revocation_reason": "compromised"})
         elif change and change[0] == "grants":
             party["authority_grants"] = [g for g in party["authority_grants"]
                                          if g["actor_ref"] == "owner-example-1"]
@@ -297,8 +351,10 @@ def strict_members(cases: dict, vectors: dict) -> list[dict]:
             party["independent_times"]["observed"][change[1]] = "2026-10-01T11:16:05Z"
         elif change and change[0] == "latest":
             party["latest"] = {doc["decision_id"]: hashlib.sha256(b"a later attachment").hexdigest()}
-        member = {"attachment": text, "record": record, "trust_policy": corpus_policy(),
+        member = {"attachment": text, "record": record, "trust_policy": policy,
                   "relying_party": party, "profile": "strict"}
+        if change and change[0] == "no-policy":
+            del member["trust_policy"]
         code = None if dimension is None else f"{dimension}:{status}"
         dims = {"strict": {dimension: status}} if dimension else {"strict": {}}
         out.append({"slug": slug, "member": member, "source_case": None,
