@@ -1008,12 +1008,31 @@ def _score_published_text(
     return scored
 
 
-def _failing(manifest: dict[str, object]) -> str:
+def _agreeing_proposed(manifest: dict[str, object]) -> frozenset[str]:
+    """The proposed members the reader, as it stands, already reads as declared.
+
+    A weakening that moves one of them shows the reading it removed is load
+    bearing, whatever revision the member's text belongs to, so the section
+    sweep counts them. A proposed member the reader disagrees with at the start
+    (the published reader's own verdict differs) stays out: it cannot show a
+    weakening, only the disagreement it was proposed to settle."""
+    entries = manifest["vectors"]
+    assert isinstance(entries, list)
+    return frozenset(
+        str(entry["draftId"])
+        for entry in entries
+        if _proposed(entry) and not _fails(entry, auditrecord.policy_for(manifest, entry))
+    )
+
+
+def _failing(manifest: dict[str, object], counted: frozenset[str] = frozenset()) -> str:
+    """The members a reader fails, published members always and a proposed
+    member only when ``counted`` names it."""
     entries = manifest["vectors"]
     assert isinstance(entries, list)
     failing = []
     for entry in entries:
-        if _proposed(entry):
+        if _proposed(entry) and str(entry["draftId"]) not in counted:
             continue  # not scored on the published text, see _score_published_text
         if _fails(entry, auditrecord.policy_for(manifest, entry)):
             failing.append(str(entry["draftId"]))
@@ -1051,11 +1070,12 @@ def _fails(entry: dict[str, object], policy: auditrecord.Policy) -> bool:
 
 def _section_sweep(manifest: dict[str, object]) -> list[str]:
     findings = []
-    if _failing(manifest):
+    counted = _agreeing_proposed(manifest)
+    if _failing(manifest, counted):
         return ["the section sweep needs a clean corpus to start from"]
     for label, weaken, want in SECTION_READINGS:
         with weaken():
-            got = _failing(manifest)
+            got = _failing(manifest, counted)
         if got != want:
             findings.append(f"{label}: caught by [{got}], want [{want}]")
     return findings

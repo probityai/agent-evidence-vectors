@@ -5,6 +5,7 @@ from __future__ import annotations
 
 import hashlib
 import importlib.util
+import sys
 from pathlib import Path
 from typing import Any
 
@@ -17,6 +18,9 @@ def _load(name: str, path: Path) -> Any:
     spec = importlib.util.spec_from_file_location(name, path)
     assert spec and spec.loader
     module = importlib.util.module_from_spec(spec)
+    # A dataclass resolves its module through sys.modules while the class body
+    # runs, so the module is registered before it executes.
+    sys.modules[name] = module
     spec.loader.exec_module(module)
     return module
 
@@ -92,3 +96,22 @@ def test_failing_leaves_proposed_members_out_of_the_section_sweep(monkeypatch: A
         ]
     }
     assert corpus._failing(manifest) == "CS54"
+
+
+def test_section_sweep_counts_a_proposed_member_the_reader_already_agrees_with(
+    monkeypatch: Any,
+) -> None:
+    manifest = {
+        "vectors": [
+            {"draftId": "PR12", "expected": {"verdict": "valid"}, "proposed": PROPOSED},
+            {"draftId": "CS55", "expected": {"set": {}}, "proposed": PROPOSED},
+        ]
+    }
+    monkeypatch.setattr(corpus.auditrecord, "policy_for", lambda manifest, entry: None)
+    monkeypatch.setattr(corpus, "_fails", lambda entry, policy: entry["draftId"] == "CS55")
+    counted = corpus._agreeing_proposed(manifest)
+    assert counted == frozenset({"PR12"})
+    assert corpus._failing(manifest, counted) == ""
+    monkeypatch.setattr(corpus, "_fails", lambda entry, policy: True)
+    assert corpus._failing(manifest, counted) == "PR12"
+    assert corpus._failing(manifest) == ""
