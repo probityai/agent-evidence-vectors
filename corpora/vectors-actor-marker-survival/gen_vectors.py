@@ -243,14 +243,14 @@ def seal(
     entries: list[dict[str, Any]], signers: dict[int, str] | None = None
 ) -> list[dict[str, Any]]:
     """Link each hop to the statement before it and sign every statement."""
-    signers = signers or {}
+    chosen: dict[int, str] = signers or {}
     out = []
     for index, entry in enumerate(entries):
         entry = copy.deepcopy(entry)
         statement = entry["statement"]
         if index:
             statement["prev"] = _sha(reader.signing_input(out[index - 1]["statement"]))
-        signer = signers.get(index, statement["writer"])
+        signer: str = chosen.get(index) or str(statement["writer"])
         signature = key(signer).sign(reader.signing_input(statement))
         entry["signature"] = reader.b64url(signature)
         out.append(entry)
