@@ -329,6 +329,7 @@ def _load(name: str, relative: str) -> ModuleType:
     spec = importlib.util.spec_from_file_location(name, path)
     assert spec and spec.loader
     module = importlib.util.module_from_spec(spec)
+    sys.modules[name] = module
     sys.path.insert(0, str(path.parent))
     try:
         spec.loader.exec_module(module)

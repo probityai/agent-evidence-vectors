@@ -24,7 +24,7 @@ from cryptography.exceptions import InvalidSignature
 from cryptography.hazmat.primitives.asymmetric.ed25519 import Ed25519PublicKey
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "packaging"))
-from agent_evidence_vectors.identifiers import identifier, same_identifier  # noqa: E402
+from agent_evidence_vectors.identifiers import IDENTIFIER_HOST, identifier, same_identifier  # noqa: E402
 
 PAYLOAD_TYPE = "application/vnd.in-toto+json"
 STATEMENT_TYPE = "https://in-toto.io/Statement/v1"

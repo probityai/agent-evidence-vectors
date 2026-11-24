@@ -20,12 +20,12 @@ from collections.abc import Callable
 from pathlib import Path
 from typing import Any
 
-from agent_evidence_vectors.identifiers import IDENTIFIER_HOST  # noqa: E402
 from cryptography.hazmat.primitives.asymmetric.ed25519 import Ed25519PrivateKey
 from cryptography.hazmat.primitives.serialization import Encoding, PublicFormat
 from digest import corpus_digest
 from record import (
     ACCEPTED,
+    IDENTIFIER_HOST,
     PAYLOAD_TYPE,
     PREDICATE_TYPE,
     RULES,
