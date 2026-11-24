@@ -48,12 +48,15 @@ from pathlib import Path
 from typing import Any
 
 ROOT = Path(__file__).resolve().parents[1]
-ORIGIN = "https://probityai.github.io"
+sys.path.insert(0, str(ROOT / "packaging"))
+from agent_evidence_vectors.identifiers import IDENTIFIER_HOST, RECOGNISED_HOSTS, canonical_identifier  # noqa: E402
+
+ORIGIN = f"https://{IDENTIFIER_HOST}"
 SITE = "agent-evidence-vectors"
 FAMILIES = ("predicate", "contract", "schema", "evaluator", "verifiers")
 SEGMENT = r"[A-Za-z0-9][A-Za-z0-9._-]*"
 URI_RE = re.compile(
-    re.escape(ORIGIN)
+    "https://(?:" + "|".join(re.escape(host) for host in RECOGNISED_HOSTS) + ")"
     + r"/(?:agent-evidence-vectors|agent-evidence-observer|agent-evidence|probity)/(?:"
     + "|".join(FAMILIES)
     + r")(?:/"
@@ -105,7 +108,7 @@ def uris_in(path: Path) -> set[str]:
         text = path.read_text(encoding="utf-8")
     except (UnicodeDecodeError, OSError):
         return set()
-    found = {clean(u) for u in URI_RE.findall(text)}
+    found = {canonical_identifier(clean(u)) for u in URI_RE.findall(text)}
     if path.suffix in (".json", ".jsonl"):
         for line in text.splitlines() if path.suffix == ".jsonl" else [text]:
             try:
@@ -121,7 +124,7 @@ def uris_in(path: Path) -> set[str]:
                     decoded = base64.b64decode(payload, validate=True).decode("utf-8", "replace")
                 except (binascii.Error, ValueError):
                     continue
-                found |= {clean(u) for u in URI_RE.findall(decoded)}
+                found |= {canonical_identifier(clean(u)) for u in URI_RE.findall(decoded)}
     return found
 
 

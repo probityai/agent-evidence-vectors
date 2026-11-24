@@ -30,10 +30,24 @@ sys.path.insert(0, str(HERE))
 
 from canonical import canonical_bytes  # noqa: E402
 
+#: The host this profile's identifiers are written under, and the hosts they are read under.
+#: A local copy of agent_evidence_vectors.identifiers (spec/identifiers/HOSTS.md), so this
+#: directory runs on its own; tests/test_identifier_hosts.py holds the two equal.
+IDENTIFIER_HOST = "probityai.github.io"
+RECOGNISED_HOSTS = ("probityai.github.io", "probityai.org")
+
+
+def canonical_identifier(value: Any) -> Any:
+    """``value`` with a recognised host spelled as ``IDENTIFIER_HOST``; anything else as it was."""
+    if isinstance(value, str):
+        for host in RECOGNISED_HOSTS:
+            if value.startswith(f"https://{host}/"):
+                return f"https://{IDENTIFIER_HOST}/{value[len(host) + 9:]}"
+    return value
+
+
 PROFILE = "tag:govops,2026:trace-v1"
-PREDICATE_TYPE = (
-    "https://probityai.github.io/agent-evidence-vectors/predicate/v1/govops-trace-record"
-)
+PREDICATE_TYPE = f"https://{IDENTIFIER_HOST}/agent-evidence-vectors/predicate/v1/govops-trace-record"
 STATEMENT_TYPE = "https://in-toto.io/Statement/v1"
 PAYLOAD_TYPE = "application/vnd.in-toto+json"
 GENESIS = "sha256:" + "0" * 64
@@ -262,7 +276,8 @@ def _dsse(text: str, registry: dict[str, Any], on: set[str]) -> tuple[dict[str, 
         if not ok:
             raise Refusal("dsse-bad-signature")
     if "predicate-type-mismatch" in on and (
-        statement.get("_type") != STATEMENT_TYPE or statement.get("predicateType") != PREDICATE_TYPE
+        statement.get("_type") != STATEMENT_TYPE
+        or canonical_identifier(statement.get("predicateType")) != PREDICATE_TYPE
     ):
         raise Refusal("predicate-type-mismatch")
     want = content_digest(record)[len("sha256:") :]

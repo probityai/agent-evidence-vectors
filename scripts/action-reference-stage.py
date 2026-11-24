@@ -51,6 +51,8 @@ from pathlib import Path
 from typing import Any
 
 HERE = Path(__file__).resolve().parent
+sys.path.insert(0, str(HERE.parent / "packaging"))
+from agent_evidence_vectors.identifiers import RECOGNISED_HOSTS  # noqa: E402
 CROSSCHECK = HERE.parent / "corpora" / "vectors-done-receipt" / "crosscheck_probity_verify.py"
 MAX_ROWS = 20
 
@@ -210,8 +212,10 @@ def aee_tally(entries: list[dict[str, Any]], root: Path) -> tuple[int, int, list
 # verifier's agent_audit_record/v1 claim type under the corpus manifest as the
 # trust document, and is counted in N only when the check carries every field the
 # member declares. A reference verifier without that claim type reads 0 of M.
-AUDIT_RECORD_PREDICATES = (
-    "https://probityai.github.io/agent-evidence-vectors/predicate/v1/agent-audit-record",
+# The type is spelled under each recognised host, so a record signed under either
+# is routed alike; the record's own bytes are still what the stage reports.
+AUDIT_RECORD_PREDICATES = tuple(
+    f"https://{host}/agent-evidence-vectors/predicate/v1/agent-audit-record" for host in RECOGNISED_HOSTS
 )
 AUDIT_RECORD_CLAIM = "agent_audit_record/v1"
 

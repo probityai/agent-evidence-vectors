@@ -146,6 +146,21 @@ def main() -> int:
         else:
             print("PASS control: a schema identifier no schema backs is refused")
 
+    with tempfile.TemporaryDirectory(dir=ROOT.parent) as tmp:
+        repo = stage(Path(tmp))
+        new_host = "https://probityai.org/agent-evidence-vectors"
+        planted = (f"{new_host}/predicate/v9/only-under-the-new-host\n"
+                   f"{new_host}/predicate/v1/observed-effect\n"
+                   "http://probityai.org/agent-evidence-vectors/predicate/v9/not-a-recognised-spelling\n")
+        (repo / "docs" / "planted-new-host.txt").write_text(planted, encoding="utf-8")
+        commit_all(repo)
+        code, out = gate(repo)
+        if (code != 1 or "predicate/v9/only-under-the-new-host" not in out
+                or "not-a-recognised-spelling" in out or "observed-effect is named" in out):
+            failures.append(f"the new host was not read as ours (exit {code}):\n{out}")
+        else:
+            print("PASS control: a URI under the new host is checked like one under the old host")
+
     for failure in failures:
         print(f"FAIL {failure}")
     return 1 if failures else 0

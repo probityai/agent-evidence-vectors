@@ -40,6 +40,7 @@ from __future__ import annotations
 import base64
 import hashlib
 import json
+import sys
 from pathlib import Path
 from typing import Any
 
@@ -47,15 +48,16 @@ from canonical import jcs
 from cryptography.hazmat.primitives.asymmetric.ed25519 import Ed25519PrivateKey
 from digest import corpus_digest
 
+sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "packaging"))
+from agent_evidence_vectors.identifiers import identifier  # noqa: E402
+
 HERE = Path(__file__).resolve().parent
 STATEMENTS = HERE / "statements"
 
 SUITE = "self-reported-record-conformance"
 CONTRACT_REL = "spec/self-reported-record/v1.md"
 STATEMENT_TYPE = "https://in-toto.io/Statement/v1"
-PREDICATE_TYPE = (
-    "https://probityai.github.io/agent-evidence-vectors/predicate/v1/self-reported-record"
-)
+PREDICATE_TYPE = identifier("agent-evidence-vectors/predicate/v1/self-reported-record")
 TURN_CONTEXT = "agent-evidence/self-reported-record/v1/turn"
 FIELD_CONTEXT = "agent-evidence/self-reported-record/v1/field"
 

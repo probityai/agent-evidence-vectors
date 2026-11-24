@@ -35,11 +35,12 @@ sys.path.insert(0, str(ROOT.parents[1] / "packaging"))
 import run_vectors as rail  # noqa: E402
 from agent_evidence_vectors import catalogtrust as reader  # noqa: E402
 from agent_evidence_vectors import p256  # noqa: E402
+from agent_evidence_vectors.identifiers import identifier  # noqa: E402
 
 PUB, ASSESSOR = "did:web:publisher.example", "did:web:assessor.example"
 WWW, OTHER = "did:web:www.publisher.example", "did:web:other.example"
 CARD_RECEIPT = "https://w3id.org/agent-evidence/predicate/v1/agent-card-receipt"
-OBSERVED = "https://probityai.github.io/agent-evidence-vectors/predicate/v1/observed-effect"
+OBSERVED = identifier("agent-evidence-vectors/predicate/v1/observed-effect")
 KEYS = {  # name: (DID, fragment, algorithm, label)
     "publisher": (PUB, "es256", "ES256", "catalog-trust-manifest publisher es256"),
     "publisher-ed": (PUB, "ed25519", "EdDSA", "catalog-trust-manifest publisher ed25519"),

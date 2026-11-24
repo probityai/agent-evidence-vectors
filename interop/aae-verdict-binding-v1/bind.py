@@ -22,6 +22,7 @@ import base64
 import binascii
 import hashlib
 import importlib.util
+import sys
 from functools import cache
 from pathlib import Path
 from types import ModuleType
@@ -36,9 +37,10 @@ from strict_json import load_json, refuse
 HERE = Path(__file__).resolve().parent
 REPOSITORY = HERE.parent.parent
 EVIDENCE_VERIFIER = REPOSITORY / "corpora" / "vectors-observed-effect" / "check_vectors.py"
-OBSERVED_EFFECT_TYPE = (
-    "https://probityai.github.io/agent-evidence-vectors/predicate/v1/observed-effect"
-)
+sys.path.insert(0, str(REPOSITORY / "packaging"))
+from agent_evidence_vectors.identifiers import identifier, same_identifier  # noqa: E402
+
+OBSERVED_EFFECT_TYPE = identifier("agent-evidence-vectors/predicate/v1/observed-effect")
 BINDING_FIELD = "predicate.authorityDigest"
 COMPLETENESS_REASON = (
     "A verdict record states what the issuer asserted at issuance. Neither it nor one "
@@ -139,7 +141,8 @@ def evidence_claim(raw: bytes) -> tuple[dict[str, Any], str]:
         refuse("the evidence payload is not base64")
     statement = load_json(payload)
     predicate = statement.get("predicate")
-    if statement.get("predicateType") != OBSERVED_EFFECT_TYPE or not isinstance(predicate, dict):
+    if (not same_identifier(statement.get("predicateType"), OBSERVED_EFFECT_TYPE)
+            or not isinstance(predicate, dict)):
         refuse("the evidence record is not an observed-effect statement")
     cited = predicate.get("authorityDigest")
     if not isinstance(cited, str) or len(cited) != 64 or set(cited) - set("0123456789abcdef"):

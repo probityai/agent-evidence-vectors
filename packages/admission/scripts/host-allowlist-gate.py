@@ -48,8 +48,10 @@ ALLOWED_HOSTS = frozenset(
         "example.okta.com",
         "login.microsoftonline.com",
         "github.com",
-        # the host the done receipt predicate type is minted on
+        # the hosts the done receipt predicate type is minted on, before and after the
+        # identifier host moves (spec/identifiers/HOSTS.md in agent-evidence-vectors)
         "probityai.github.io",
+        "probityai.org",
         "raw.githubusercontent.com",
         "doi.org",
         "orcid.org",

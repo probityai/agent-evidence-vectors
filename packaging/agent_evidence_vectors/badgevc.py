@@ -68,9 +68,10 @@ from pathlib import Path
 from typing import Any
 
 from . import strictb64, strictjson
+from .identifiers import identifier, same_identifier
 
 SUITE = "badge-vc-verify/v1"
-CONTRACT_ID = "https://probityai.github.io/agent-evidence-vectors/contract/badge-vc-verify/v1"
+CONTRACT_ID = identifier("agent-evidence-vectors/contract/badge-vc-verify/v1")
 ALLOW, DENY = "allow", "deny"
 PASS_REASON = "verified"
 EXIT_FOR = {ALLOW: 0, DENY: 1}
@@ -319,7 +320,8 @@ def _first_failure(case: dict[str, Any], skip: frozenset[str]) -> str | None:
 
     failures: dict[str, Callable[[], bool]] = {
         "contract_id_missing": lambda: "contractId" not in case,
-        "contract_id_unknown": lambda: case.get("contractId", CONTRACT_ID) != CONTRACT_ID,
+        "contract_id_unknown": lambda: not same_identifier(
+            case.get("contractId", CONTRACT_ID), CONTRACT_ID),
         "malformed_case": lambda: _case_malformed(case),
         "jws_malformed": lambda: _jws_malformed(case),
         "credential_malformed": lambda: _credential_malformed(case),

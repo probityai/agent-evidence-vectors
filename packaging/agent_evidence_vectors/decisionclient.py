@@ -60,10 +60,11 @@ from pathlib import Path
 from typing import Any
 
 from . import strictjson
+from .identifiers import identifier, same_identifier
 
 SUITE = "decision-client-failure-modes/v1"
-CONTRACT_ID = (
-    "https://probityai.github.io/agent-evidence-vectors/predicate/v1/decision-client-failure-modes"
+CONTRACT_ID = identifier(
+    "agent-evidence-vectors/predicate/v1/decision-client-failure-modes"
 )
 ALLOW, DENY = "allow", "deny"
 ALLOWED_REASON = "decision_sound"
@@ -213,7 +214,8 @@ def _first_failure(record: Record, skip: frozenset[str]) -> str | None:
     decision = record.get("decision") or {}
     failures: dict[str, Callable[[], bool]] = {
         "contract_id_missing": lambda: "contractId" not in record,
-        "contract_id_unknown": lambda: record.get("contractId", CONTRACT_ID) != CONTRACT_ID,
+        "contract_id_unknown": lambda: not same_identifier(
+            record.get("contractId", CONTRACT_ID), CONTRACT_ID),
         "record_malformed": lambda: _malformed(record),
         "condition_misclassified": lambda: (
             decision["condition"] != derived_condition(record["exchange"])

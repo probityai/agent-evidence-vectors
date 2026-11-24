@@ -52,9 +52,10 @@ from agent_evidence_vectors.monitorcoverage import (
 )
 
 from . import strictjson
+from .identifiers import identifier, same_identifier
 
 SUITE = "propagation-step/v1"
-CONTRACT_ID = "https://probityai.github.io/agent-evidence-vectors/predicate/v1/propagation-step"
+CONTRACT_ID = identifier("agent-evidence-vectors/predicate/v1/propagation-step")
 ALLOWED_REASON = "attribution_supported"
 ATTRIBUTIONS = ("propagation", "common_cause", "not_established")
 CHECKS = (
@@ -131,7 +132,8 @@ def _first_failure(record: Record, skip: frozenset[str]) -> str | None:
     hop = record["hop"]
     failures: dict[str, Callable[[], bool]] = {
         "contract_id_missing": lambda: "contractId" not in record,
-        "contract_id_unknown": lambda: record.get("contractId", CONTRACT_ID) != CONTRACT_ID,
+        "contract_id_unknown": lambda: not same_identifier(
+            record.get("contractId", CONTRACT_ID), CONTRACT_ID),
         "hop_endpoints_missing": lambda: (not hop.get("from") or not hop.get("to")
                                           or hop["from"] == hop["to"]),
         "chain_digest_mismatch": lambda: _digest_mismatch(record),

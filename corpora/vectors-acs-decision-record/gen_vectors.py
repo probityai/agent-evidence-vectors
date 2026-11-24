@@ -25,6 +25,7 @@ from cryptography.hazmat.primitives.serialization import Encoding, PublicFormat
 from digest import corpus_digest
 from record import (
     ACCEPTED,
+    IDENTIFIER_HOST,
     PAYLOAD_TYPE,
     PREDICATE_TYPE,
     RULES,
@@ -136,7 +137,7 @@ def wrong_predicate_type(stmt: dict[str, Any], _disc: dict[str, Any]) -> None:
     # A type the reader does not accept, on a host nobody can register. A wrong type
     # under this repository's own /predicate/ prefix would be a type URI written into
     # signed bytes that no page answers for, which scripts/identifier-pages-gate.py refuses.
-    stmt["predicateType"] = PREDICATE_TYPE.replace("probityai.github.io", "example.invalid")
+    stmt["predicateType"] = PREDICATE_TYPE.replace(IDENTIFIER_HOST, "example.invalid")
 
 
 #: slug, case, edit (None for an accept member), code, what the member shows.
