@@ -16,6 +16,7 @@ from __future__ import annotations
 
 import base64
 import hashlib
+import json
 import os
 import shutil
 import subprocess
@@ -76,6 +77,13 @@ def _scan(tmp_path: Path, relpath: str, text: str) -> int:
 
 CTX = "corpora/vectors-agent-card-receipt/cases/accept-x/context.json"
 STMT = "corpora/vectors-credential-release/cases/credential-carries-secret/statement.json"
+JWS_PATH = "corpora/vectors-principal-binding/cases/uma-bound/binding.jws"
+# The committed agreement: a JWS whose header names the published agent test key.
+AGREEMENT = (ROOT / JWS_PATH).read_text()
+DNS_AID = "corpora/vectors-dns-aid-sig-v01/cases/full-coverage-valid.json"
+_DNS_AID_CASE = json.loads((ROOT / DNS_AID).read_text(encoding="utf-8"))
+DNS_AID_SIG = _DNS_AID_CASE["sig"]
+DNS_AID_X = _DNS_AID_CASE["jwks"]["keys"][0]["x"]
 
 
 @pytest.mark.parametrize(
@@ -97,6 +105,10 @@ STMT = "corpora/vectors-credential-release/cases/credential-carries-secret/state
         ("interop/x/fixtures/w.json", f'{{\n  "signer_public_{KEY}_hex": "{HEX_32}"\n}}\n'),
         ("packages/admission/rego/corpus_vectors.json", f'{{"embeddedVerification{KEY.title()}": "{HEX_32}"}}\n'),
         (TRUST, f'{{"writers": {{"agent": {{\n  "{KEY}": "{B64URL_32}",\n  "role": "agent"}}}}}}\n'),
+        (JWS_PATH, AGREEMENT),
+        (DNS_AID,
+         f'{{\n "jwks": {{"keys": [{{"x": "{DNS_AID_X}"}}]}},\n'
+         f' "sig": "{DNS_AID_SIG}"\n}}\n'),
     ],
 )
 def test_the_fixture_shapes_scan_clean(tmp_path: Path, relpath: str, text: str) -> None:
@@ -121,7 +133,10 @@ def test_the_fixture_shapes_scan_clean(tmp_path: Path, relpath: str, text: str) 
         ("scripts/probe-test.py", f'OTHER_{KEY.upper()} = "{HEX_32}"\n'),
         (STMT, f'{{\n  "credential": {{\n    "token": "{REAL_JWT}"\n  }}\n}}\n'),
         ("src/client.py", f'cred = dict(token="{EMPTY_JWT}")\n'),
+        ("src/record.json", f'{{\n "sig": "{DNS_AID_SIG}"\n}}\n'),
         ("src/client.py", 'api_key = "%s"\n' % ("ghp_" + "a1B2c3D4e5F6g7H8i9J0" * 2)),
+        (JWS_PATH, REAL_JWT + "\n"),
+        ("src/agreement.jws", AGREEMENT),
     ],
 )
 def test_a_realistic_secret_or_a_misplaced_fixture_still_fails(

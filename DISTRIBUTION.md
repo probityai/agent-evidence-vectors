@@ -4,7 +4,7 @@ Use this page to choose an installation route or identify the corpus you ran. Fo
 
 ## The tag to cite
 
-`v0.37.1`, the published version named by the preferred citation in [CITATION.cff](CITATION.cff). Cite its signed tag or full source commit and corpus digest when reporting a result.
+`v0.38.0`, the published version named by the preferred citation in [CITATION.cff](CITATION.cff). Cite its signed tag or full source commit and corpus digest when reporting a result.
 
 The installation examples are pinned to the version above. The corpus table
 describes this checkout; a release tag or installed wheel identifies its own
@@ -12,8 +12,8 @@ population.
 
 This checkout prepares an unreleased source version with package metadata and
 criterion-document repairs. Those changes are not part of the published release.
-For a release run, select the matching [GitHub release](https://github.com/probityai/agent-evidence-vectors/releases/tag/v0.37.1) and
-[PyPI wheel and source archive](https://pypi.org/project/agent-evidence-vectors/0.37.1/).
+For a release run, select the matching [GitHub release](https://github.com/probityai/agent-evidence-vectors/releases/tag/v0.38.0) and
+[PyPI wheel and source archive](https://pypi.org/project/agent-evidence-vectors/0.38.0/).
 Use the installation route below or build from a reviewed source checkout.
 The [source-wheel recipe](README.md#try-it) builds the verifier and harness
 from a reviewed checkout, then runs the installed harness outside it. Record
@@ -26,15 +26,15 @@ unchanged as historical evidence.
 Install matching published versions:
 
 ```bash
-go install github.com/probityai/agent-evidence-vectors/cmd/aee-verify@v0.37.1
-uvx agent-evidence-vectors==0.37.1 --verifier "aee-verify -validity-only -json"
+go install github.com/probityai/agent-evidence-vectors/cmd/aee-verify@v0.38.0
+uvx agent-evidence-vectors==0.38.0 --verifier "aee-verify -validity-only -json"
 ```
 
 Run the same harness from the published release checkout:
 
 ```bash
 git clone https://github.com/probityai/agent-evidence-vectors
-cd agent-evidence-vectors && git checkout v0.37.1
+cd agent-evidence-vectors && git checkout v0.38.0
 python3 packaging/run_vectors.py --verifier "aee-verify -validity-only -json"
 ```
 
@@ -48,7 +48,7 @@ Recompute the corpus digests, then check the signature and timestamp proofs:
 
 ```bash
 git clone https://github.com/probityai/agent-evidence-vectors && cd agent-evidence-vectors
-git checkout v0.37.1
+git checkout v0.38.0
 
 # 1. the digest list is what the vector files on disk hash to, recomputed
 python3 scripts/release-digests.py --check
@@ -98,12 +98,14 @@ Choose a corpus for the format your verifier supports. Each has its own manifest
 | `corpora/vectors-admission/` | `adversarial-execution-evidence-admission` | the admission answer a verifier reports for an Adversarial Execution Evidence statement under a consumer's policy: every pin supplied or declined by name, the subject matched by the digest an observer bound, a fail result refused, and time bounded against an observer-signed instant |
 | `corpora/vectors-scitt-cose/` | `scitt-cose-carriage-conformance` | carriage of the predicate over SCITT and COSE receipts |
 | `corpora/vectors-anchored-chain/` | `anchored-record-chain/v1` | signed agent memory records whose head is anchored outside the store: the storage-level edits of draft-khandelwal-bmwg-agent-memory-integrity, including the ones that pass every signature check and fail only against the chain links or the anchor |
+| `corpora/vectors-empty-interval-statement/` | `empty-interval-statement/v1` | a revocation ledger's signed statement that a credential has no revocation between two positions: an empty interval over an unbroken, signed and timestamped chain, a recorded revocation the statement omits, a failed query, a ledger in an unsynchronised federation, and every statement that fails to verify read as undetermined |
 | `corpora/vectors-receipt-chain-end/` | `receipt-chain-end/v1` | signed agent action receipt chains in the ActionReceipt v1 wire format, judged on whether the chain held is the whole chain: tail cuts, forks, re-rooted rotations and stale heads that keep every signature and link valid, and the close or retained head that proves the end |
 | `corpora/vectors-trace-anchor/` | `trace-registry-anchor/v1` | the TRACE Level 2 anchor check, Registry Anchor Format v1 with trace-spec#533: a missing or malformed registry entry, a receipt that anchors itself, and receipt fields that lie about the entry, graded against TRACE's own TR-ANC-002 at pinned commits |
 | `corpora/vectors-grade-floor/` | `evidence-grade-floor/v1` | the E0-E4 evidence ladder of AAIF Observability WG issue #37, with the grade derived by the consumer: a producer-declared grade or integrity boolean never raises it, and an operationally-conformant claim needs E3 and no contradiction |
 | `corpora/vectors-connector-scope/` | `connector-scope-record/v1` | A health-system connector's scope record: what it can read, what it can change and what it refused, with synthetic PHI-free fixtures, refusing a change under a read grant, an unlisted action that ran, a permitted action refused as out of scope and a refusal with no recorded reason |
 | `corpora/vectors-mcp-authz/` | `mcp-authz-observation/v1` | what an MCP server publishes about its OAuth protection, read from outside: Protected Resource Metadata, Authorization Server metadata, the Bearer challenge on an unauthenticated request and the settings behind them, each case carrying the verdict and finding codes a verifier must return |
 | `corpora/vectors-agent-payment-mandate/` | `agent-payment-mandate/v1` | An agent-initiated payment judged from its own dispute evidence pack: the mandate the user signed, the credential presented, the charge that ran and the receipt that binds them, refused when the charge leaves the mandate in amount, currency, merchant, time or token or a single-use token is replayed or the post-checkout actions are not all recorded |
+| `corpora/vectors-x402-evidence-join/` | `x402-evidence-join/v1` | One x402 evidence package judged from its own record: the seller key bound to the resource domain, the signed offer, the payment construction, the facilitator settlement against a ledger read, the delivered body and the fulfilment evaluation, rejected when the evidence contradicts the offer-to-settlement join and indeterminate when the evidence needed to establish it is absent |
 | `corpora/vectors-agent-change-admission/` | `agent-change-admission/v1` | signed decisions that admit or reject a change to an AI agent's harness, in a bare DSSE carriage and an in-toto Statement carriage: pinned keys, the predicate's required fields, the gate record against the admitted flag, and stored reports against the digests the decision names |
 | `corpora/vectors-agentic-process-evidence/` | `agentic-process-evidence/v0.1` | signed in-toto Statements carrying the Agentic Process Evidence predicate proposed in in-toto/attestation#609: provider stacks, result, accountable owner, timestamps, session logs, tools and context artifacts, each field rule taken from the predicate's own specification |
 | `corpora/vectors-delegation-lifecycle/` | `delegation-lifecycle/v1` | signed grants, revocations, disputes and identifier links, each case asking whether a presenter holds delegated authority when the relying party observed it: revocation across a delegation tree, a disputed revocation, re-registration of an agent under a new identifier, recovery after a lost or compromised key, and sub-agents bound to the parent's lifespan |
@@ -115,20 +117,34 @@ Choose a corpus for the format your verifier supports. Each has its own manifest
 | `corpora/vectors-evidence-state/` | `evidence-state/v1` | an evidence state, ES0 to ES8, derived from the record's own observations: a declared state higher or lower than they reach is refused, and so is a silence declared clean over unmeasured coverage |
 | `corpora/vectors-monitor-coverage/` | `monitor-coverage/v1` | a monitor verdict over a window: clean refused on a self-reported count, on incomplete collector coverage, outside the monitor's vantage or beside an observed effect, and a defence credited with reducing harm with zero effective actions |
 | `corpora/vectors-signature-coverage/` | `signature-coverage/v1` | a signature and what a reader of the record reads, including a repeated key flattened before signing |
+| `corpora/vectors-principal-binding/` | `agent-principal-binding/v1` | a binding of an agent to its principal and scope in its native record (UMA for Agents terms agreement, HCP grant), recomputed from its bytes and refused when the agent, principal or scope changes or the record was edited after signing |
+| `corpora/vectors-print-witness/` | `print-witness/v1` | a machine-job log signed by a witness between the controlling agent and the machine: a log that stops early, a job file changed after the witness signed it, and a log signed by a different witness than the one that took the job in, each refused while every record verifies under a trusted key |
 | `corpora/vectors-propagation-step/` | `propagation-step/v1` | one hop between agents: propagation attributed only through a message digest chain that reaches the receiver before it acted, and a common-cause exposure with no edge refused as propagation |
 | `corpora/vectors-containment-journal/` | `containment-journal/v1` | a multi-agent defence's containment recomputed from its hash-chained journal: a cut edge that still delivers under an enforcing router, a detector that reads fields the router never writes or isolates on uniform risk, a return without an external score below its threshold, a closure claimed over an advisory topology, an isolated agent's tool call that was not refused, an admitted document outside the attested snapshot, and a blast-radius receipt that misstates an agent's reach |
 | `corpora/vectors-refusal-reason-priority/` | `refusal-reason-priority/v1` | an attestation answer's refusal reason against the closed five-value vocabulary of draft-li-rttp-iqa-addressing-02: the first applicable value and not a later one, no reason when no condition applies, null as the only permit, a diagnostic read that does not authorize, and the lease instant as a declared convention, with three questions the draft leaves open scored ambiguous |
+| `corpora/vectors-responsibility-escalation/` | `responsibility-escalation/v1` | an agent's authority read at the decision or referral instant and its escalation to a designated human role: a referral without evidenced receipt, acknowledgement without acceptance, an unanswered escalation, an unavailable or current-record reference, a step by the wrong role, and closure on time or late, each scored established, partial, unresolved or not established |
+| `corpora/vectors-htx-cases/` | `htx-cases/v1` | case pairs for requirements of the Trust over IP HTX patterns, each reject differing from its accept control by one field: a changed beneficiary, amount, currency or scope after a confirmation (P18.01 section 6), an unconfirmed request, and a disclosure beyond the fields, purpose or recipient the person agreed to |
+| `corpora/vectors-telemetry-evidence/` | `telemetry-evidence/v1` | a digest manifest against the copies a consumer reads (N of N, a declared canonical form, a repeated member, a self-carried key, 0 of 0 never a pass) and an event log against a retained signed head (drop, swap, status flip, link rewrite, body edit, tail cut) |
+| `corpora/vectors-dns-aid-rrset-v01/` | `dns-aid-rrset/v1` | a DNS-AID SVCB RRset accepted only when it holds one record per published agent protocol, the protocol read from proto or from the alpn tokens that are not transports: a record lost to an overwrite, a record naming two protocols, a malformed record |
+| `corpora/vectors-dns-aid-sig-v01/` | `dns-aid-sig-binding/v1` | a DNS-AID SVCB record's ES256 signature, agreeing only when it binds the endpoint and the params under a key the zone owner is known to hold: tampered params or target, an expired or future claim, a wrong key, alg none, a repeated payload member, and cannot-tell when nothing ties the key set to the zone |
+| `corpora/vectors-lifecycle-binding/` | `lifecycle-binding/v1` | decision, control and execution records grouped by decision and instruction, in five states: a shared identity never resolved by order, revocation required, domain-separated pre-images, absent evidence never a match |
+| `corpora/vectors-rsa-digestinfo/` | `rsa-digestinfo/v1` | RSA PKCS#1 v1.5 SHA-256 signatures judged by the whole recovered block: four blocks ending in the right digest are refused, and the NULL-less DigestInfo is left to the consumer's profile |
+| `corpora/vectors-execution-billing-finality/` | `execution-billing-finality/v1` | one runtime's observation of a spend ledger through one scenario: a success that is not a final bill, a final invoice that is not an execution, settled billing that never reopens the same attempt's dispatch gate, and the dispatch state as a required output once billing settles, with a runtime contract and the mutants each scenario kills |
+| `corpora/vectors-capability-requirement/` | `capability-requirement/v1` | a capability requirement signed before any model swap (the capability apart from any model, pinned pass thresholds, an evaluation set digest and an assessor-attested held-out commitment), a hosted-endpoint report that keeps `model identity: unproven` apart from behaviour on the pinned set, and drift as two signed runs compared |
 | `corpora/vectors-decision-client-failure-modes/` | `decision-client-failure-modes/v1` | one decision a client took when it asked a decision point whether to act: an unreachable point, a timeout, an HTTP error, an unparseable body, an unknown or a missing verdict each read as an allow or recorded as a policy decision, a verdict not followed and a halt not honoured, each scenario played against a stub decision point and a counting effect sink under the client's default and strict modes |
 | `corpora/vectors-uncertain-effect/` | `uncertain-effect/v1` | one operation whose reply may have been lost: a retry after an unknown outcome, an idempotency key reused with changed arguments, a dispatch beyond the worker's lease, an unknown released at reservation expiry and an outcome reported without the effect owner's answer, each paired with a runtime scenario a counting effect owner plays |
 | `corpora/vectors-aggregate-accounting/` | `aggregate-accounting/v1` | the decisions an accounting authority took against one budget shared by a principal and its delegation subtrees: concurrent requests admitted inside the budget, racing requests that cannot both be admitted, an unknown-outcome reservation that stays charged past its expiry, a request past the latency bound refused or held, and the principal, subtree, budget, action and counts retained |
+| `corpora/vectors-budget-lineage/` | `budget-lineage/v1` | one principal's delegation tree and every charge booked for its agents, whatever budget each names: a grant without the delegate's acceptance, a delegator outside the tree, a member past the depth limit, a carve wider than its parent, a member charged on a budget nobody delegated, and spend across subtrees or inside a carve past its limit |
 | `corpora/vectors-agent-card-receipt/` | `agent-card-receipt/v1` | a receipt for an A2A Agent Card judged from the card, the receipt statement, the issuer's signed revocation list and the time of the check: the card digest over RFC 8785 without its signatures, the validity window, a list that is absent, malformed, signed by another key, stale or naming the receipt |
 | `corpora/vectors-credential-release/` | `credential-release/v1` | a broker's record of a credential released against an agent-card receipt: the receipt's digest, copied fields, subject, result and currency at release, a credential that must not outlive the receipt, a closed credential object with no field for a secret, and the revocation list consulted |
+| `corpora/vectors-catalog-trust-manifest/` | `catalog-trust-manifest/v1` | a signed ARD or AI Catalog object judged under one of four named constructions: header rules, DID key authority, signing input, subject-to-entry binding, artifact and attestation digests, and publisher rule; CI re-mints the corpus from a second generator that shares no code |
 | `corpora/vectors-converted-argument-binding/` | `converted-argument-binding/v1` | an approved tool call whose shown, approved, rebuilt and executed arguments must agree under RFC 8785, with the approval naming the shown bytes and the call unchanged after approval; the rule inspect_ai adopted in UKGovernmentBEIS/inspect_ai#5652 |
 | `corpora/vectors-delegator-right/` | `delegator-right/v1` | a delegated request refused when the delegating principal did not hold the right to pass the operation on: never entitled, entitlement removed at the source, an ancestor grant narrowed, or a scope wider than the delegator's, with a stated propagation limit |
 | `corpora/vectors-badge-vc-verify/` | `badge-vc-verify/v1` | an agent badge issued as a W3C Verifiable Credential in a compact JWS (EdDSA): the issuer named in the credential bound to the key that signed it, the signature over the exact signed bytes, the validity window at the verification time, and the revocation status the issuer holds rather than the copy the holder presents |
 | `corpora/vectors-completion-confirmation/` | `completion-confirmation/v1` | a completion claim refused when no confirmation record is bound to the task: none, another task or arguments, the acting agent's own, a reused one, one outside the authorization window, or an unresolved or absent outcome |
 | `corpora/vectors-chunked-export/` | `chunked-export/v1` | an export gate's decision on each chunk of a chunked export whose every step is reversible on its own: a count or a set-of-chunks reconstruction rule committed before the first chunk, and a seal that must state the composed class rather than the maximum of the per-step labels |
 | `corpora/vectors-identity-binding/` | `agent-did-identity-binding/v1` | DSSE-signed agent records whose subject is a did:web or did:wba DID, bound to the signing key through resolved DID documents, including rejected records whose signature verifies |
+| `corpora/vectors-key-directory-observation/` | `web-bot-auth-key-directory-observation/v1` | one fetch of a Web Bot Auth key directory and what it lets a verifier conclude: a directory that resolves without the key evicts it, while a 404, a 503, a failed connection, a redirect or an error page served with 200 keeps the cached keys, and a `kid` at the well-known URI that is not the key's RFC 7638 thumbprint is dropped |
 | `corpora/vectors-done-contract/` | `done-contract/v2` | sealed contracts for a coding agent's task, valid and invalid, each invalid one under the code of the rule it breaks |
 | `corpora/vectors-done-receipt/` | `done-receipt/v2` | whole runs of a task in each corner of the receipt's two verdicts and the receipts for them, honest and forged, with a defect for every receipt and record rule |
 | `corpora/vectors-spoofed-tool-output/` | `spoofed-tool-output/v2` | an agent that prints a passing run and never runs it, or claims done without one, against the observer's record, with the near misses |

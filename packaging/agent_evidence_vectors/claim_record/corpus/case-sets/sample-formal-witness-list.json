@@ -1,0 +1,22 @@
+{
+  "schema": "aev-claim-case-set/v1",
+  "name": "sample-formal-model-witness-not-an-id",
+  "revision": "1",
+  "cases": [
+    {
+      "id": "w1",
+      "requirement": "required",
+      "expect": "verified",
+      "quantifier": "exists-trace"
+    },
+    {
+      "id": "p1",
+      "requirement": "required",
+      "expect": "verified",
+      "quantifier": "all-traces",
+      "witness": [
+        "w1"
+      ]
+    }
+  ]
+}

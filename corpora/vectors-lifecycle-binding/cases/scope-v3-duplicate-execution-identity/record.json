@@ -1,0 +1,22 @@
+{
+  "bindings": {
+    "executor": {
+      "public_key_hex": "b8c9a5d2c954db35b69594dacddb171e79a846d5180f57fae82c7eededce6835",
+      "suite": "ed25519"
+    },
+    "governor": {
+      "public_key_hex": "4a719cafb405e8b4a04799afcef900bd7d05d4a0a052075875da3bea1a6501e8",
+      "suite": "ed25519"
+    }
+  },
+  "does_not_establish": "that the executed bytes themselves were observed: the claim is about records, and an execution record is the executor's own report",
+  "records_text": "[{\"lifecycle_version\": \"v1\", \"artifact_type\": \"decision\", \"record_id\": \"d-1\", \"producer\": \"governor\", \"integrity\": {\"current\": \"sha256:7bbf04d35706273f7a97a89647654c1c26fa4018c5b36369a2e86b134b42f51a\", \"signature\": {\"alg\": \"ed25519\", \"value\": \"b5b2541fa87317ea324bd865c6a5784e5a0a826d87be2edee19170cb46670434717ae66d8f3467ddd5c110d10d1b4bc917c89ee65ebaad96321e6ee3b0ad4905\"}}, \"verb\": \"release\"}, {\"lifecycle_version\": \"v1\", \"artifact_type\": \"control\", \"record_id\": \"c-issuer\", \"producer\": \"governor\", \"integrity\": {\"current\": \"sha256:73b17c7e90a99b410398ff6b84cacbb871fa0523cc80b3f0bed2b28a3847a700\", \"signature\": {\"alg\": \"ed25519\", \"value\": \"18fcb9524c7b081a717a3c0b9c4c0606212424979373e33072e82c5cc530c8d8c8ef33e35fa085feed6ebde2fcda4a8cc5ca9c1168221c3c14a1e9fcf9ed1006\"}}, \"decision_ref\": {\"record_id\": \"d-1\"}, \"instruction_id\": \"pause-1\", \"boundary_side\": \"issuer\", \"authorized_action_digest\": \"sha256:0fc9e887d931d9b026dd57fcc6e59ad7e7d04f3c8fc1c863d42bc3f0ef28adf0\"}, {\"lifecycle_version\": \"v1\", \"artifact_type\": \"control\", \"record_id\": \"c-receiver\", \"producer\": \"executor\", \"integrity\": {\"current\": \"sha256:2ca0134cdd4268ce965fa7a37cbe6dee6ae0b3b962a07c4e1694662ca2c727eb\", \"signature\": {\"alg\": \"ed25519\", \"value\": \"e67d00df76201cc96b9b56cfdffa2718b55629232fbad65f7d830ea41a836740adb5ab7750414547fedcca3c3c824de089f460ad882505a9a1e68aec41c31702\"}}, \"decision_ref\": {\"record_id\": \"d-1\"}, \"instruction_id\": \"pause-1\", \"boundary_side\": \"receiver\", \"authorized_action_digest\": \"sha256:0fc9e887d931d9b026dd57fcc6e59ad7e7d04f3c8fc1c863d42bc3f0ef28adf0\"}, {\"lifecycle_version\": \"v1\", \"artifact_type\": \"execution\", \"record_id\": \"e-1\", \"producer\": \"executor\", \"integrity\": {\"current\": \"sha256:706f836c775f431f5e2f10991562db963d65e2991710b256a25ead6c0cb053b2\", \"signature\": {\"alg\": \"ed25519\", \"value\": \"51e4a19b3f51257e493c8d81a16314b8d339308926dbdda92e6f08035633c3d2e1f6b654fafce41049fea71024033ca938f001ef1c7a07342728a70da2125d0c\"}}, \"decision_ref\": {\"record_id\": \"d-1\"}, \"instruction_id\": \"pause-1\", \"executed_action_digest\": \"sha256:0fc9e887d931d9b026dd57fcc6e59ad7e7d04f3c8fc1c863d42bc3f0ef28adf0\"}, {\"lifecycle_version\": \"v1\", \"artifact_type\": \"execution\", \"record_id\": \"e-1\", \"producer\": \"executor\", \"integrity\": {\"current\": \"sha256:5e810783bbf1fbf19c2b07c36f4e0afcd54e2b23e91c357ed34b9e8798fef35a\", \"signature\": {\"alg\": \"ed25519\", \"value\": \"ecea8efc2cef551efa4a56b8d459dc8beba5cc7824f9d1770a92fa77d672cb86a830a3e6caf44d7961fbe823601ecce282d979617b9659b434bfea5038aae20a\"}}, \"decision_ref\": {\"record_id\": \"d-1\"}, \"instruction_id\": \"pause-1\", \"executed_action_digest\": \"sha256:1de6f27b1a9e9fe826732c6dc2adcf6e3d702b78f1646304b3122ba5ab5369ba\"}]",
+  "revocation": {
+    "executor": {
+      "state": "active"
+    },
+    "governor": {
+      "state": "active"
+    }
+  }
+}

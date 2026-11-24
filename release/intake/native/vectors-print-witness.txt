@@ -1,0 +1,5 @@
+suite: print-witness/v1
+members: 12
+  rejected: 10
+  verified: 2
+verdict: every member behaves as MANIFEST.json declares

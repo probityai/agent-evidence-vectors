@@ -41,8 +41,11 @@ B58 = "123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz"
 WBA_CONTEXT = ["https://www.w3.org/ns/did/v1", "https://w3id.org/security/data-integrity/v2",
                "https://w3id.org/security/multikey/v1"]
 WEB_CONTEXT = ["https://www.w3.org/ns/did/v1", "https://w3id.org/security/suites/jws-2020/v1"]
-JAN, MAR, JUN, JUL = ("2026-01-05T09:00:00Z", "2026-03-10T12:00:00Z",
-                      "2026-06-01T00:00:00Z", "2026-07-14T16:30:00Z")
+JAN, MAR, APR, JUN, JUL = ("2026-01-05T09:00:00Z", "2026-03-10T12:00:00Z", "2026-04-02T08:00:00Z",
+                           "2026-06-01T00:00:00Z", "2026-07-14T16:30:00Z")
+# ``provenAt`` for a record anchored when it was signed: a transparency-log inclusion or a checked
+# timestamp a minute after ``signedAt``.
+ANCHORED = {MAR: "2026-03-10T12:01:00Z", JUL: "2026-07-14T16:31:00Z"}
 
 
 def _seed(label: str) -> bytes:
@@ -158,56 +161,77 @@ ALICE_WBA_SUPERSEDED = resolution(
 # e1_ segment is the thumbprint of Alice's key, so the binding refuses it.
 ALICE_WBA_SUBSTITUTED = resolution(WBA_ALICE, (wba_document(WBA_ALICE, "wba-mallory"), JAN))
 
-Case = tuple[str, str, bytes, dict[str, dict[str, Any]], str, str, bool, str]
+Case = tuple[str, str, bytes, dict[str, dict[str, Any]], str, str, bool, str, str | None]
 
 
 def cases() -> list[Case]:
     """Every case: id, DID method, envelope, resolutions, expected decision and
-    reason, whether the signature verifies under the named key, and the edit."""
+    reason, whether the signature verifies under the named key, the edit, and
+    ``provenAt`` (None when the case states none)."""
     alice1 = f"{WEB_ALICE}#key-1"
     wba1 = f"{WBA_ALICE}#key-1"
     return [
         ("web-verified", "web", envelope(WEB_ALICE, MAR, alice1, "web-alice"),
          {"alice": ALICE_WEB}, "verified", "subject_bound", True,
-         "control: did:web subject, signed by a key its document authorises"),
+         "control: did:web subject, signed by a key its document authorises", ANCHORED[MAR]),
         ("wba-verified", "wba", envelope(WBA_ALICE, JUL, wba1, "wba-alice"),
          {"alice": ALICE_WBA}, "verified", "subject_bound", True,
-         "control: did:wba path DID, signed by the binding key its e1_ segment names"),
+         "control: did:wba path DID, signed by the binding key its e1_ segment names",
+         ANCHORED[JUL]),
         ("web-signed-before-rotation", "web", envelope(WEB_ALICE, MAR, alice1, "web-alice"),
          {"alice": ALICE_WEB_ROTATING}, "verified", "subject_bound", True,
-         "control: signed in March by a key rotated out in June; the March version decides"),
+         "control: signed in March and proven to exist in April by a key rotated out in June; "
+         "the key held from signing through proof", APR),
         ("key-not-in-authentication", "web",
          envelope(WEB_ALICE, MAR, f"{WEB_ALICE}#key-2", "web-alice-invoke"),
          {"alice": ALICE_WEB}, "rejected", "key_not_authorized", True,
-         "signed by a key the document lists only under capabilityInvocation"),
+         "signed by a key the document lists only under capabilityInvocation", ANCHORED[MAR]),
         ("key-absent-from-document", "web",
          envelope(WEB_ALICE, MAR, f"{WEB_ALICE}#key-9", "web-mallory"),
          {"alice": ALICE_WEB}, "rejected", "key_not_authorized", False,
-         "signed by a key the subject's document does not carry, under a keyid it invented"),
+         "signed by a key the subject's document does not carry, under a keyid it invented",
+         ANCHORED[MAR]),
         ("did-unresolvable", "wba", envelope(WBA_CAROL, JUL, f"{WBA_CAROL}#key-1", "wba-carol"),
          {}, "rejected", "did_unresolvable", False,
-         "no DID document is supplied for the subject"),
+         "no DID document is supplied for the subject", ANCHORED[JUL]),
         ("web-key-rotated-out", "web", envelope(WEB_ALICE, JUL, alice1, "web-alice"),
          {"alice": ALICE_WEB_ROTATING}, "rejected", "key_rotated_out", True,
-         "signed in July by a key the June version of the document no longer carries"),
+         "signed in July by a key the June version of the document no longer carries",
+         ANCHORED[JUL]),
         ("wba-deactivated-before-signing", "wba", envelope(WBA_ALICE, JUL, wba1, "wba-alice"),
          {"alice": ALICE_WBA_SUPERSEDED}, "rejected", "key_rotated_out", True,
          "signed in July by the binding key of a did:wba DID deactivated in June, with "
-         "successorDid naming the DID of the new key"),
+         "successorDid naming the DID of the new key", ANCHORED[JUL]),
         ("subject-swap", "web", envelope(WEB_BOB, MAR, alice1, "web-alice"),
          {"alice": ALICE_WEB, "bob": BOB_WEB}, "rejected", "signer_not_subject", True,
-         "Alice's key signs a record whose subject is Bob; both documents resolve"),
+         "Alice's key signs a record whose subject is Bob; both documents resolve", ANCHORED[MAR]),
         ("did-malformed", "wba", envelope(MALFORMED, JUL, f"{MALFORMED}#key-1", "wba-alice"),
          {}, "rejected", "did_malformed", False,
-         "the subject uses slashes where the did:wba syntax requires colons"),
+         "the subject uses slashes where the did:wba syntax requires colons", ANCHORED[JUL]),
         ("wba-fingerprint-mismatch", "wba", envelope(WBA_ALICE, JUL, wba1, "wba-mallory"),
          {"alice": ALICE_WBA_SUBSTITUTED}, "rejected", "binding_fingerprint_mismatch", True,
-         "a document served under Alice's path DID lists another key, which signed"),
+         "a document served under Alice's path DID lists another key, which signed", ANCHORED[JUL]),
         ("payload-altered", "web",
          envelope(WEB_ALICE, MAR, alice1, "web-alice",
                   served="Closed ticket 4411 without a reply."),
          {"alice": ALICE_WEB}, "rejected", "signature_invalid", False,
-         "the record's statement was changed after signing"),
+         "the record's statement was changed after signing", ANCHORED[MAR]),
+        ("web-backdated-after-rotation", "web", envelope(WEB_ALICE, MAR, alice1, "web-alice"),
+         {"alice": ALICE_WEB_ROTATING}, "rejected", "key_rotated_out", True,
+         "says it was signed in March, but first proven to exist in July, after the June "
+         "version dropped the key: indistinguishable from a signature backdated by its holder",
+         JUL),
+        ("wba-deactivated-after-signing", "wba", envelope(WBA_ALICE, MAR, wba1, "wba-alice"),
+         {"alice": ALICE_WBA_SUPERSEDED}, "rejected", "key_rotated_out", True,
+         "signed in March, but first proven to exist in July, after the DID was deactivated "
+         "in June", JUL),
+        ("web-signing-time-unproven", "web", envelope(WEB_ALICE, MAR, alice1, "web-alice"),
+         {"alice": ALICE_WEB}, "rejected", "signing_time_unproven", True,
+         "the verifier states no time at which it can prove the record existed, so only the "
+         "signer's word dates it", None),
+        ("web-forward-dated", "web", envelope(WEB_ALICE, JUL, alice1, "web-alice"),
+         {"alice": ALICE_WEB}, "rejected", "signing_time_unproven", True,
+         "says it was signed in July, but was proven to exist in March", ANCHORED[MAR]),
     ]
 
 
@@ -230,13 +254,15 @@ def corpus_digest(manifest: dict[str, Any], root: str) -> str:
 def generate(root: Path = ROOT) -> dict[str, Any]:
     """Write every case and the manifest, and return the manifest."""
     entries = []
-    for name, method, env, resolutions, decision, reason, signed, edit in cases():
+    for name, method, env, resolutions, decision, reason, signed, edit, proven in cases():
         directory = root / "cases" / name
         directory.mkdir(parents=True, exist_ok=True)
         case = {"envelope": "envelope.json",
                 "resolutions": {res["did"]: f"did-{label}.json"
                                 for label, res in sorted(resolutions.items())},
-                "schema_version": "agent-did-identity-binding-case/v1"}
+                "schema_version": "agent-did-identity-binding-case/v2"}
+        if proven is not None:
+            case["provenAt"] = proven
         files = {"case.json": _json(case), "envelope.json": env}
         files.update({f"did-{label}.json": _json(res) for label, res in resolutions.items()})
         for filename, data in files.items():

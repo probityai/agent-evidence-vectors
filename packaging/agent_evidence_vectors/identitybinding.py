@@ -3,30 +3,38 @@
 A record signed by an agent names its subject by DID. A verifier that checks the
 DSSE signature and nothing else learns that some key signed the bytes; it does
 not learn that the key belongs to the DID the record is about. The corpus this
-module reads separates those questions. Five of its rejected records carry a
+module reads separates those questions. Most of its rejected records carry a
 signature that verifies under the key the envelope names, and are still wrong:
 the key belongs to a different DID, was rotated out before the record was
 signed, was never authorised for authentication or assertion, or is served
 under a did:wba path whose binding fingerprint names a different key.
 
 Each case ships the DID documents a resolver would return, as resolution
-fixtures with their version history, so no network is read. The reader checks
-in a fixed order and names the first check that fails:
+fixtures with their version history, so no network is read, and ``provenAt``:
+the earliest time the verifier itself can prove the record existed (the time of
+a transparency-log inclusion or a timestamp it checked, or else its own clock
+when it decides). ``signedAt`` is the signer's word; a key that was rotated out
+or a DID that was deactivated before ``provenAt`` cannot be told apart from a
+signature backdated to before the change, so the key must hold from
+``signedAt`` through ``provenAt``. The reader checks in a fixed order and names
+the first check that fails:
 
 1. the subject DID and the signer DID are well formed did:web or did:wba
    strings (``did_malformed``);
 2. the DID the signing key belongs to is the record's subject
    (``signer_not_subject``);
 3. a resolution fixture exists for that DID (``did_unresolvable``);
-4. a did:wba path DID's final ``e1_`` segment is the RFC 7638 thumbprint of an
+4. the case states ``provenAt`` and ``signedAt`` is not later than it
+   (``signing_time_unproven``);
+5. a did:wba path DID's final ``e1_`` segment is the RFC 7638 thumbprint of an
    Ed25519 Multikey its document authorises for authentication
    (``binding_fingerprint_mismatch``);
-5. the document version in effect at the record's signing time still carries
-   the key, and the DID is not deactivated by then, where an earlier version
-   carried it (``key_rotated_out``);
-6. that version lists the key under ``authentication`` or ``assertionMethod``
-   (``key_not_authorized``);
-7. the DSSE signature verifies under that key (``signature_invalid``).
+6. every document version in effect from the signing time through ``provenAt``
+   still carries the key, and the DID is not deactivated in that span, where a
+   version at or before the signing time carried it (``key_rotated_out``);
+7. the version in effect at signing lists the key under ``authentication`` or
+   ``assertionMethod`` (``key_not_authorized``);
+8. the DSSE signature verifies under that key (``signature_invalid``).
 
 A record that passes all seven is ``verified`` with reason ``subject_bound``.
 
@@ -62,6 +70,7 @@ CHECKS = (
     "did_malformed",
     "signer_not_subject",
     "did_unresolvable",
+    "signing_time_unproven",
     "binding_fingerprint_mismatch",
     "key_rotated_out",
     "key_not_authorized",
@@ -197,6 +206,7 @@ class _Case:
     keyid: str
     signer: str
     resolution: dict[str, Any] | None
+    proven_at: datetime | None
 
     def versions(self) -> list[dict[str, Any]]:
         return list(self.resolution["versions"]) if self.resolution else []
@@ -208,6 +218,13 @@ class _Case:
             if _when(version["didDocumentMetadata"]["updated"]) <= self.signed_at:
                 current = version
         return current
+
+    def until_proven(self) -> list[dict[str, Any]]:
+        """The versions that took effect after signing and no later than ``provenAt``."""
+        if self.proven_at is None:
+            return []
+        return [v for v in self.versions()
+                if self.signed_at < _when(v["didDocumentMetadata"]["updated"]) <= self.proven_at]
 
     def method(self) -> dict[str, Any] | None:
         """The verification method keyid names, from any version of the document."""
@@ -235,8 +252,9 @@ def _load(case_path: Path) -> _Case:
     resolution = None
     if name is not None and (base / name).is_file():
         resolution = strictjson.loads((base / name).read_text(encoding="utf-8"))
+    proven = case.get("provenAt")
     return _Case(envelope, str(record["subject"]["id"]), _when(record["signedAt"]),
-                 keyid, signer, resolution)
+                 keyid, signer, resolution, _when(proven) if isinstance(proven, str) else None)
 
 
 def _fingerprint_mismatch(c: _Case) -> bool:
@@ -263,10 +281,13 @@ def _rotated_out(c: _Case) -> bool:
                if _when(v["didDocumentMetadata"]["updated"]) <= c.signed_at]
     if version is None or not any(authorised(v["didDocument"], c.keyid) for v in reached):
         return False
-    doc, meta = version["didDocument"], version["didDocumentMetadata"]
-    if doc.get("deactivated") is True or meta.get("deactivated") is True:
-        return True
-    return not authorised(doc, c.keyid)
+    for held in (version, *c.until_proven()):
+        doc, meta = held["didDocument"], held["didDocumentMetadata"]
+        if doc.get("deactivated") is True or meta.get("deactivated") is True:
+            return True
+        if not authorised(doc, c.keyid):
+            return True
+    return False
 
 
 def _not_authorised(c: _Case) -> bool:
@@ -300,6 +321,7 @@ def _first_failure(c: _Case, skip: frozenset[str]) -> str | None:
         "did_malformed": lambda: not (well_formed(c.subject) and well_formed(c.signer)),
         "signer_not_subject": lambda: c.signer != c.subject,
         "did_unresolvable": lambda: c.resolution is None,
+        "signing_time_unproven": lambda: c.proven_at is None or c.signed_at > c.proven_at,
         "binding_fingerprint_mismatch": lambda: _fingerprint_mismatch(c),
         "key_rotated_out": lambda: _rotated_out(c),
         "key_not_authorized": lambda: _not_authorised(c),
