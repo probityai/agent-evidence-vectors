@@ -113,7 +113,7 @@ def _same(a: object, b: object) -> bool:
     return a == b
 
 
-def _kind(r: Any) -> Any:
+def _kind(r: Any) -> object:
     return _get(r, "binding.kind")
 
 
