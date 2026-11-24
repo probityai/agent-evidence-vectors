@@ -2,7 +2,7 @@
   "$comment": "What the conformance corpus FORCES, measured by mutation rather than counted. Each row is one single-site weakening of the Go rail in aee/, replayed over the whole corpus: KILLED means some vector goes PASS->FAIL and the corpus forces the rule; SILENT means the corpus sees the rail change and stays green; DEAD means nothing in the corpus depends on the rule; INCONCLUSIVE means the mutant did not build, crash-free, terminate, and nothing is asserted about it. `annotations` records the sites where 'unforced' would be the wrong word -- `unkillable` for a true equivalent mutant no vector can ever kill, `masked` for a real rule an earlier check reaches first, which is unmintable rather than unminted. Both are claims this gate falsifies: an annotated site that is ever KILLED fails it. scripts/forcing-gate.py holds every KILLED row as a tighten-only ratchet and rewrites this file with --scope all --sync.",
   "suite": "adversarial-execution-evidence-conformance",
   "counts": {
-    "KILLED": 615,
+    "KILLED": 617,
     "SILENT": 36,
     "DEAD": 423,
     "INCONCLUSIVE": 5
@@ -9946,9 +9946,63 @@
         "vectors-revocation-list/m-previous-not-a-digest"
       ]
     },
-    "revocationlist.go::isLowerHex::IF_OFF::60db0fbc83b1": {
+    "revocationlist.go::isLowerHex::IF_CONJ::1febf223ca8f": {
       "class": "KILLED",
-      "snippet": "if c := s[i]; !(c >= '0' && c <= '9' || c >= 'a' && c <= 'f') { return false }",
+      "snippet": "(c < '0' || c > '9')",
+      "corpusKillers": [
+        "vectors-revocation-list/m-drops-second-held-entry",
+        "vectors-revocation-list/m-every-kind",
+        "vectors-revocation-list/m-grant-id-equals-root",
+        "vectors-revocation-list/m-successor-not-base64",
+        "vectors-revocation-list/m-successor-of-non-root",
+        "vectors-revocation-list/m-two-lists-in-force",
+        "vectors-revocation-list/rl02-three-lists-in-force",
+        "vectors-revocation-list/rl03-root-rotation-in-force",
+        "vectors-revocation-list/rl26-another-chain",
+        "vectors-revocation-list/rl27-list-in-force-replayed",
+        "vectors-revocation-list/rl28-rollback",
+        "vectors-revocation-list/rl29-seq-gap",
+        "vectors-revocation-list/rl30-fresh-reader-past-seq-1",
+        "vectors-revocation-list/rl31-fork",
+        "vectors-revocation-list/rl32-issued-before-list-in-force",
+        "vectors-revocation-list/rl34-list-drops-entry",
+        "vectors-revocation-list/rl35-list-edits-entry",
+        "vectors-revocation-list/rl36-old-root-after-rotation",
+        "vectors-revocation-list/rl37-root-revoked-without-successor",
+        "vectors-revocation-list/rl38-successor-revoked-sorting-before",
+        "vectors-revocation-list/rl39-successor-revoked-sorting-after"
+      ]
+    },
+    "revocationlist.go::isLowerHex::IF_CONJ::fe2f6ba914f2": {
+      "class": "KILLED",
+      "snippet": "(c < 'a' || c > 'f')",
+      "corpusKillers": [
+        "vectors-revocation-list/m-drops-second-held-entry",
+        "vectors-revocation-list/m-every-kind",
+        "vectors-revocation-list/m-grant-id-equals-root",
+        "vectors-revocation-list/m-successor-not-base64",
+        "vectors-revocation-list/m-successor-of-non-root",
+        "vectors-revocation-list/m-two-lists-in-force",
+        "vectors-revocation-list/rl02-three-lists-in-force",
+        "vectors-revocation-list/rl03-root-rotation-in-force",
+        "vectors-revocation-list/rl26-another-chain",
+        "vectors-revocation-list/rl27-list-in-force-replayed",
+        "vectors-revocation-list/rl28-rollback",
+        "vectors-revocation-list/rl29-seq-gap",
+        "vectors-revocation-list/rl30-fresh-reader-past-seq-1",
+        "vectors-revocation-list/rl31-fork",
+        "vectors-revocation-list/rl32-issued-before-list-in-force",
+        "vectors-revocation-list/rl34-list-drops-entry",
+        "vectors-revocation-list/rl35-list-edits-entry",
+        "vectors-revocation-list/rl36-old-root-after-rotation",
+        "vectors-revocation-list/rl37-root-revoked-without-successor",
+        "vectors-revocation-list/rl38-successor-revoked-sorting-before",
+        "vectors-revocation-list/rl39-successor-revoked-sorting-after"
+      ]
+    },
+    "revocationlist.go::isLowerHex::IF_OFF::72c4d8568dc7": {
+      "class": "KILLED",
+      "snippet": "if c := s[i]; (c < '0' || c > '9') && (c < 'a' || c > 'f') { return false }",
       "corpusKillers": [
         "vectors-revocation-list/m-permit-id-upper-case",
         "vectors-revocation-list/m-previous-not-a-digest",

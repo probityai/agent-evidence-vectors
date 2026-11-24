@@ -1320,11 +1320,16 @@ with (out/'large-native.bin').open('wb') as stream:
         self.assertIn("secret", clean.stdout)
         self.assertFalse((self.root / ".build/fixture").exists())
         # A workflow actionlint rejects refuses the push.
+        workflow = self.root / ".github/workflows/ci.yml"
+        workflow.parent.mkdir(parents=True)
+        workflow.write_text("on: push\n")
+        self.commit()
         self.executable("actionlint", "#!/bin/sh\necho bad workflow\nexit 1\n")
-        bad_workflow = push(first)
+        bad_workflow = push(self.call("rev-parse", "HEAD"))
         self.assertEqual(bad_workflow.returncode, 1, bad_workflow.stderr)
         self.assertIn("carries a workflow GitHub would refuse to start", bad_workflow.stderr)
         self.executable("actionlint", "#!/bin/sh\nexit 0\n")
+        self.call("reset", "--hard", "-q", first)
         # A token-shaped value in the pushed range is refused by the same
         # gitleaks command the secret-scan workflow runs.
         token = "Zq8vT3nW9x" + "Lp2Rk7Bf4Ys6Hd1Mc5Ja0E"
