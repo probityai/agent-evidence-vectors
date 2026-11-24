@@ -1,0 +1,252 @@
+{
+  "contractId": "https://probityai.github.io/agent-evidence-vectors/contract/delegation-chain/v1",
+  "corpusDigest": "25218b83bb9118b118ba505c5d251c09175cbabefa640caa9b4d9edace2c27f0",
+  "counts": {
+    "allow": 3,
+    "deny": 17
+  },
+  "suite": "delegation-chain/v1",
+  "vectors": [
+    {
+      "edit": "control: four grants a to d, each narrower than the one above, receiver d",
+      "expected": {
+        "decision": "allow",
+        "reason": "chain_valid"
+      },
+      "files": {
+        "record.json": "dd5e0a37346107bc50506b6fd8e8c08bbc302978ce9f4ac9f917ff43a94e24d3"
+      },
+      "id": "allow-three-hop-chain",
+      "path": "cases/allow-three-hop-chain"
+    },
+    {
+      "edit": "control: tools, arguments, expiry and budget are held equal down the chain; only depth falls",
+      "expected": {
+        "decision": "allow",
+        "reason": "chain_valid"
+      },
+      "files": {
+        "record.json": "11cc919c32bce82933792c7232b9530e7f18945832a3f9032c21bb31ba0f9525"
+      },
+      "id": "allow-equal-grant-at-every-axis-but-depth",
+      "path": "cases/allow-equal-grant-at-every-axis-but-depth"
+    },
+    {
+      "edit": "control: the last grant expires at the same instant as its parent",
+      "expected": {
+        "decision": "allow",
+        "reason": "chain_valid"
+      },
+      "files": {
+        "record.json": "5b0aedc84c00ba87e726d297c1980a470ae234f6b5bc19ea9d62a2f3d0ee192d"
+      },
+      "id": "allow-expiry-at-the-parent-instant",
+      "path": "cases/allow-expiry-at-the-parent-instant"
+    },
+    {
+      "edit": "the second delegation adds a tool its parent did not hold; the last grant narrows again",
+      "expected": {
+        "decision": "deny",
+        "reason": "widens_tools"
+      },
+      "files": {
+        "record.json": "5df15873a81000e15918cfbf4c5399379b015155400b7fd5b44291c0adab68d5"
+      },
+      "id": "reject-widened-tools-in-the-middle",
+      "path": "cases/reject-widened-tools-in-the-middle"
+    },
+    {
+      "edit": "the last delegation allows a region its parent excluded",
+      "expected": {
+        "decision": "deny",
+        "reason": "widens_arguments"
+      },
+      "files": {
+        "record.json": "77489b28487e4d5aa8d8f59fb9cf8de9b94c23285bb0adea98801b19d7b41daf"
+      },
+      "id": "reject-widened-arguments",
+      "path": "cases/reject-widened-arguments"
+    },
+    {
+      "edit": "the second delegation names an agent its parent did not",
+      "expected": {
+        "decision": "deny",
+        "reason": "widens_audience"
+      },
+      "files": {
+        "record.json": "5b6ac2059f5a7d5950f8f853eb0b20e5d4ce9b6148ad0879f5c95a622360be19"
+      },
+      "id": "reject-widened-audience",
+      "path": "cases/reject-widened-audience"
+    },
+    {
+      "edit": "the last grant outlives its parent",
+      "expected": {
+        "decision": "deny",
+        "reason": "widens_expiry"
+      },
+      "files": {
+        "record.json": "805b5316eaf795beb75258bc71ed095f7ab7f2450aaf7357244e55cfc424d7ed"
+      },
+      "id": "reject-widened-expiry",
+      "path": "cases/reject-widened-expiry"
+    },
+    {
+      "edit": "the second delegation allows more uses than its parent",
+      "expected": {
+        "decision": "deny",
+        "reason": "widens_budget"
+      },
+      "files": {
+        "record.json": "f8aa69fef8623471d17567cba3e87559ee63c78b7a11813bbf84a673347c18ab"
+      },
+      "id": "reject-widened-budget",
+      "path": "cases/reject-widened-budget"
+    },
+    {
+      "edit": "the last grant allows as many further delegations as its parent",
+      "expected": {
+        "decision": "deny",
+        "reason": "depth_exceeded"
+      },
+      "files": {
+        "record.json": "88cd5b34c3a782c8f866d971cc94616316fd1301a7460050f1275498827ddc39"
+      },
+      "id": "reject-depth-not-falling",
+      "path": "cases/reject-depth-not-falling"
+    },
+    {
+      "edit": "the third grant is signed by an agent that never held the grant above it",
+      "expected": {
+        "decision": "deny",
+        "reason": "issuer_not_authorised"
+      },
+      "files": {
+        "record.json": "038ab31b97ea21b6b0182bdd42c91322a5dc03aac612adf30678ebbfcdf8c4f6"
+      },
+      "id": "reject-issuer-swapped",
+      "path": "cases/reject-issuer-swapped"
+    },
+    {
+      "edit": "the third grant names the digest of a grant from another task as its parent",
+      "expected": {
+        "decision": "deny",
+        "reason": "parent_mismatch"
+      },
+      "files": {
+        "record.json": "04702b25904bc208a5c6fd6b3acc0cc50785af7c2a6b39b73e647866d0ce9d88"
+      },
+      "id": "reject-spliced-chain",
+      "path": "cases/reject-spliced-chain"
+    },
+    {
+      "edit": "the second grant is on the revocation list while the chain below it is intact",
+      "expected": {
+        "decision": "deny",
+        "reason": "ancestor_revoked"
+      },
+      "files": {
+        "record.json": "7e9a48542355ee9f36bee983c7b919732bac7d16aade694692c6368029bff397"
+      },
+      "id": "reject-revoked-ancestor",
+      "path": "cases/reject-revoked-ancestor"
+    },
+    {
+      "edit": "a grant expiry is written without a UTC offset and is refused, never compared",
+      "expected": {
+        "decision": "deny",
+        "reason": "malformed_record"
+      },
+      "files": {
+        "record.json": "c4f4954be29c4ddbd8399a41bd48b2b7c17d4d7ecd13a7e4cc38a4abbdce05e6"
+      },
+      "id": "reject-offsetless-timestamp",
+      "path": "cases/reject-offsetless-timestamp"
+    },
+    {
+      "edit": "the last grant carries the signature of the grant above it",
+      "expected": {
+        "decision": "deny",
+        "reason": "signature_invalid"
+      },
+      "files": {
+        "record.json": "a68d7fcc3c123f365944495238428f12a8b9abbb5a8571b88ea25daa497d3370"
+      },
+      "id": "reject-signature-from-another-grant",
+      "path": "cases/reject-signature-from-another-grant"
+    },
+    {
+      "edit": "the judging instant is after the last grant's expiry",
+      "expected": {
+        "decision": "deny",
+        "reason": "grant_not_in_window"
+      },
+      "files": {
+        "record.json": "d92164ae48b5056f78c457ee7495f34e3b1d454baad604276e9f37503cb766a7"
+      },
+      "id": "reject-expired-link",
+      "path": "cases/reject-expired-link"
+    },
+    {
+      "edit": "the receiving agent is not in the last grant's audience",
+      "expected": {
+        "decision": "deny",
+        "reason": "receiver_outside_audience"
+      },
+      "files": {
+        "record.json": "6d073462ef629b883e4155239f0faa223e4d6dc15b8211b1c4ce1bf9cd71cfb2"
+      },
+      "id": "reject-receiver-outside-audience",
+      "path": "cases/reject-receiver-outside-audience"
+    },
+    {
+      "edit": "the chain holds no grants",
+      "expected": {
+        "decision": "deny",
+        "reason": "malformed_record"
+      },
+      "files": {
+        "record.json": "1cc2418d4ad9b97492ff454807d2dce508447e9494c8b775f799b9a581f46f72"
+      },
+      "id": "malformed-chain-empty",
+      "path": "cases/malformed-chain-empty"
+    },
+    {
+      "edit": "a grant's use budget is text",
+      "expected": {
+        "decision": "deny",
+        "reason": "malformed_record"
+      },
+      "files": {
+        "record.json": "4e23037f4738423bbae6d4d2650102af16e4dc357d2d6618cf5e14988558b0cd"
+      },
+      "id": "malformed-uses-not-integer",
+      "path": "cases/malformed-uses-not-integer"
+    },
+    {
+      "edit": "the record names no contract",
+      "expected": {
+        "decision": "deny",
+        "reason": "contract_id_missing"
+      },
+      "files": {
+        "record.json": "2b9d0eb7f39f43faa131c352857ae4ae507c74fe87063430bdd2112592eb717d"
+      },
+      "id": "contract-id-missing",
+      "path": "cases/contract-id-missing"
+    },
+    {
+      "edit": "the record names a contract version that does not exist",
+      "expected": {
+        "decision": "deny",
+        "reason": "contract_id_unknown"
+      },
+      "files": {
+        "record.json": "1e6c443234e4184e33c28b10ebca973127a201aa7103fb93663b9337c0e23703"
+      },
+      "id": "contract-id-unknown",
+      "path": "cases/contract-id-unknown"
+    }
+  ],
+  "verifierContract": "verifier record.json --json; exit 0 allow, 1 deny"
+}

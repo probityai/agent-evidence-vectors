@@ -14,7 +14,7 @@ bind consumption state with an operation key, then the rows written for
 revision 02: `A21` (an `api-key` agent authentication), `SQ1` to `SQ5` (the
 `sequence` member and record identity) and `R10` to `R16` (OpenTimestamps
 anchors and the delegation root), then the rows written for revision 03:
-`IS1` and `IS2`, a record issued before its interval was sealed, and `PS1` and `PS2`, principal standing under the `v2` predicate type URI (below), then the rows written for revision 04: `CS41` to `CS49`, the payee and the settled terms of a paid call, and `PR1` to `PR11`, the authenticated principal, and `DS1` to `DS10`, whose data a call touched and for what purpose, and `PS3` to `PS5`, principal standing established from a published commitment (below). Each carries `draftRevision` and the
+`IS1` and `IS2`, a record issued before its interval was sealed, and `PS1` and `PS2`, principal standing under the `v2` predicate type URI (below), then the rows written for revision 04: `CS41` to `CS49`, the payee and the settled terms of a paid call, and `PR1` to `PR27`, the authenticated principal, its identity provider and its issuer key pin ([proposed text](../../docs/proposals/audit-record-04-principal.md)), and `DS1` to `DS10`, whose data a call touched and for what purpose ([proposed text](../../docs/proposals/audit-record-04-data-subject.md)), and `PS3` to `PS5`, principal standing established from a published commitment (below). Each carries `draftRevision` and the
 identifier the draft prints. After them come `X1` to `X18`, each an existing member with one field changed that reaches a refusal code no earlier member produced: the JSON profile (`X1`, `X2`), `issuedAt` without an offset (`X3`), the statement and predicate types (`X4`, `X5`), consumption shape and the operation key (`X6`, `X7`), the first subject (`X8`), an envelope and a statement that cannot be read (`X9`, `X10`), a retention entry that is malformed or names another envelope or an unexpected or unreadable delegation root (`X11` to `X14`), a retained member whose record or entry cannot be read (`X15`, `X16`), and a set that cannot be read or whose records are malformed (`X17`, `X18`). [`INDEX.md`](INDEX.md) lists every member beside its
 file.
 
@@ -184,7 +184,7 @@ The first reader from outside this repository is Mayur Agnihotri's
 written from the draft, RFC 8785, RFC 7493 and DSSE and sharing no code with the
 reference reader. It agreed on 47 of 47 members of v0.16.0, the revision 01
 corpus. Our rerun of it, pinned by digest, is in
-[`interop/wimse-agent-audit-record-reader-2026-10-01`](../interop/wimse-agent-audit-record-reader-2026-10-01/README.md).
+[`interop/wimse-agent-audit-record-reader-2026-10-01`](../../interop/wimse-agent-audit-record-reader-2026-10-01/README.md).
 Lars Kersten Kroehl of MolTrust ran all 68 members of v0.18.1, the revision 02
 corpus, with the reference reader and reproduced every declared verdict
 ([AUDIT list, 21 October 2026](https://mailarchive.ietf.org/arch/msg/audit/Wdv-fOIodjvF3z9OUFNfXLGP0ts)).
@@ -203,7 +203,7 @@ write equals `afterRoot`; and a record with no write carries equal roots. Each
 comparison has its own reject member: `E4` breaks only the start, `E2` a link
 between two writes, `E5` only the end, and `E6` is the empty case. Appendix B
 has a row for `E2` only, so `E4`, `E5` and `E6` are Section 5.3 members.
-[`scripts/write-chain-replay-test.py`](../scripts/write-chain-replay-test.py)
+[`scripts/write-chain-replay-test.py`](../../scripts/write-chain-replay-test.py)
 drops each comparison from the reference reader in turn and requires the judge
 to catch exactly that member.
 
@@ -481,8 +481,9 @@ by its id alone fails `CS39`, dropping each payee and settled check fails `CS42`
 amount rather than the settled one fails `CS48` and `CS54`, refusing an empty transaction at
 an amount of 0 fails `CS50`, `CS53` and `CS54`, accepting one at any other amount
 fails `CS51`, not requiring the deadline fails `CS52`, dropping the hold's set
-check fails `CS53` alone, and ending the hold only after the deadline, not at it,
-fails `CS54`. The Go rail in `corpora/` runs
+check fails `CS53` alone, ending the hold only after the deadline, not at it,
+fails `CS54`, and allowing no skew tolerance on the issue or the expiry side of a
+principal's token fails `PR13` or `PR12`. The Go rail in `corpora/` runs
 the same sweep.
 
 ## Principal standing and the v2 URI: `PS1`, `PS2` and `PS1b`

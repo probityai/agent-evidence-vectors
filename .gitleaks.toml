@@ -21,10 +21,26 @@ regexes = [
 ]
 
 [[allowlists]]
+description = "Ed25519 public keys in the revocation vectors: issuerKey and successor members hold canonical base64 of a raw 32-byte public key"
+targetRules = ["generic-api-key"]
+regexTarget = "match"
+regexes = [
+  '''(issuerKey|successor)"\s*:\s*"[A-Za-z0-9+/]{43}="''',
+]
+
+[[allowlists]]
+description = "Raw Ed25519 public keys, 32 bytes in standard base64 (44 characters), in the holderKey and issuerKey of a delegation-chain grant"
+# The keys come from fixed published seeds (vectors-delegation-chain/gen_vectors.py), so each is public by
+# construction. The shape is pinned to one 44-character value ending in "=", in these two field names only.
+targetRules = ["generic-api-key"]
+regexTarget = "match"
+regexes = ['''(holderKey|issuerKey)"\s*:\s*"[A-Za-z0-9+/]{43}="''']
+
+[[allowlists]]
 description = "RFC 7638 thumbprints of public JWKs: a SHA-256 digest in base64url, 43 characters (audit-record principal members)"
 targetRules = ["generic-api-key"]
 regexTarget = "match"
-regexes = ['''keyThumbprint"\s*:\s*"[A-Za-z0-9_-]{43}"''']
+regexes = ['''(keyThumbprint|pinnedThumbprint)"\s*:\s*"[A-Za-z0-9_-]{43}"''']
 
 [[allowlists]]
 description = "HKDF outputs from the ACS specification's published example secret (vectors-acs-core)"
@@ -104,6 +120,19 @@ condition = "AND"
 paths = ['''(^|/)vectors-[a-z-]+/cases/[^/]+/context\.json$''']
 regexTarget = "match"
 regexes = ['''issuerKey"\s*:\s*"Ob6mHCtjckbIra26o4A/wgoaPfjBID6naeJBKAYZc5E="''']
+
+[[allowlists]]
+description = "Base64 Ed25519 public key in a principal-action case (producerKey)"
+# Each principal-action case hands the reader the producer's public key as base64.
+# The signing seed is the SHA-256 of a public label (gen_vectors.py, label
+# "producer"), so the key is public by construction. AND: only the producerKey
+# member of a principal-action case file, and only the one published producer
+# key. The value is pinned: any other producerKey value is still reported.
+targetRules = ["generic-api-key"]
+condition = "AND"
+paths = ['''^(corpora/)?vectors-principal-action/cases/[^/]+/case\.json$''']
+regexTarget = "match"
+regexes = ['''producerKey"\s*:\s*"pWbiKVTpr34PRZmWAPP9o3EYfVOvGvRJ09qC4DLx9ew="''']
 
 [[allowlists]]
 description = "The unsigned empty JWT used as the credential placeholder in the credential-release suite"
@@ -204,3 +233,61 @@ condition = "AND"
 paths = ['''^(corpora/)?vectors-capability-requirement/cases/[^/]+/record\.json$''']
 regexTarget = "match"
 regexes = ['''assessorKey"\s*:\s*"(xCAlDc\+XkJ6JNf3j8F80rmvh8MwS3WQSV9YyXmyTcWE|7CkOHtB4Qly2Q/YX/OkMPba7HJwNRcVwmNmTr3A/6Hk)="''']
+
+[[allowlists]]
+description = "Test proof JWTs inside the agent request-proof corpus envelopes"
+# Every proof is signed by a key derived from a published label in the corpus
+# generator, or is the upstream SDK's own golden fixture; they grant nothing.
+# Scoped to the jwt rule and this corpus's envelopes only.
+targetRules = ["jwt"]
+paths = ['''^corpora/vectors-agent-request-proof/cases/[^/]+/envelope-[0-9]+\.json$''']
+
+[[allowlists]]
+description = "The public recorder key of the agent request-proof corpus"
+# An Ed25519 PUBLIC key derived from a published seed label; the pattern names
+# that exact value, so any other value is still reported.
+targetRules = ["generic-api-key"]
+condition = "AND"
+paths = ['''^corpora/vectors-agent-request-proof/cases/[^/]+/case\.json$''']
+regexTarget = "match"
+regexes = ['''recorderKey"\s*:\s*"BMA4qFpSvSiLzOhNuhs1bmui/v29XYS9mMxGqVEfCwg="''']
+
+[[allowlists]]
+description = "SHA-256 digests of case files in the status-receipt-binding manifest"
+# MANIFEST.json lists each case file with the SHA-256 of its bytes. The generic rule
+# reads the 64-hex value after "credential.json" as a key. All ten distinct values
+# were checked to equal the digest of a file in the corpus, so they are digests and
+# not secrets. AND: only this one manifest path, and only a file-name member whose
+# value is 64 hex characters.
+targetRules = ["generic-api-key"]
+condition = "AND"
+paths = ['''^corpora/vectors-status-receipt-binding/MANIFEST\.json$''']
+regexTarget = "match"
+regexes = ['''credential\.json"\s*:\s*"[0-9a-f]{64}"''']
+
+[[allowlists]]
+description = "Base64url Ed25519 public keys in the actor-marker-survival trust bundle"
+# TRUST.json gives the verifier each writer's public key under writers.<name>.key.
+# Each signing seed is the SHA-256 of "actor-marker-survival/v1 test key " plus the
+# writer's name (gen_vectors.py, key()), so the keys are public by construction.
+# A base64url shape cannot tell a public key from a 32-byte secret, so the eight
+# values are pinned: AND, only that one file, and only these exact members. A new
+# writer, a changed key or the same value anywhere else is still reported.
+targetRules = ["generic-api-key"]
+condition = "AND"
+paths = ['''^(corpora/)?vectors-actor-marker-survival/TRUST\.json$''']
+regexTarget = "match"
+regexes = ['''key"\s*:\s*"(6u-4h_FKsEp4zItPdJFa_DrmaHVAiVt4frww42pfudo|ojuNdiZ-Y96TCP8fLPW86JL89c2LQIFtm_bZoaJ1BJQ|eYH24yhsIF5f8QY2d_So64YHeJAx6grKd2TYcL9SLpQ|XIot846rHq3eno56PetnXmHJ3bsYDHeIPoNlkoFDFvg|mbrVmGamyI0XZ8R3fGQ8LYe5s5NwXhncyipcsliO21g|A1FDEw7pxa9CGhe1FAxhV9WrJliSRNgUl0SgL2_U3Ko|ywcgKBs8VG84u-mviUvpzfop7iadzd42m8A6ermMk1Y|Pu8FJnMUFaC6MDLFlZEgBsWHUPcyVcriltHq7UZTxuM)"''']
+
+[[allowlists]]
+description = "Published demo provenance keys in the ocsf-audit sample output"
+# SAMPLE-OUTPUT-PROVENANCE.md is the upstream sink's published sample, copied
+# unchanged and pinned by SHA-256. Its two `provenance_key` lines carry the
+# base64 of the plain labels "AiIdentity-demo-provenance-key-2026-10-01-a" and
+# "-b", published so a reader can recompute the sample digests. AND: only this
+# file and only a line naming provenance_key; every other line is still scanned.
+targetRules = ["generic-api-key"]
+condition = "AND"
+paths = ['''(^|/)corpora/vectors-ocsf-decision/source/SAMPLE-OUTPUT-PROVENANCE\.md$''']
+regexTarget = "line"
+regexes = ['''// verify: provenance_key(_rotated)? += QWlJZGVudGl0eS1kZW1vLXByb3ZlbmFuY2Uta2V5LTIwMjYtMTAtMDEt(YQ|Yg)==$''']

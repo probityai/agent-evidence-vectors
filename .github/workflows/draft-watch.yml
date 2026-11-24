@@ -1,0 +1,61 @@
+name: draft-watch
+
+# Every IETF Internet-Draft this repository pins in .github/draft-tracking.json, against the
+# Datatracker. `pins` (offline) fails when a file below cites a revision of a draft that no pin
+# covers. `watch` follows renames and keeps one tracking issue current; a draft it could not
+# read is reported UNREAD and the issue is left alone that run. Bump a pin in the pull request
+# that brings the repository in line with the new revision. It never runs on a pull request:
+# CI here runs once per batch.
+
+on:
+  schedule:
+    - cron: "13 6 * * *"
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - ".github/draft-tracking.json"
+      - ".github/workflows/draft-watch.yml"
+      - "corpora/*/MANIFEST.json"
+      - "interop/*/INPUTS.json"
+      - "interop/*/MANIFEST.json"
+      - "interop/*/source-lock.json"
+
+permissions:
+  contents: read
+
+concurrency:
+  # A newer push to the same branch supersedes the older run.
+  # Main and tags never cancel: each main push keeps its own group by sha.
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || (github.ref == 'refs/heads/main' && github.sha) || github.ref }}
+
+jobs:
+  pins:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: Every cited draft is pinned
+        uses: probityai/.github/actions/draft-watch@8238ef5184e690a09c3f2ba261823e9b64e01b31 # main
+        with:
+          command: check
+          require-pinned: corpora/*/MANIFEST.json interop/*/INPUTS.json interop/*/MANIFEST.json interop/*/source-lock.json
+
+  watch:
+    needs: pins
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    permissions:
+      contents: read
+      issues: write
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: Datatracker state of every pin
+        uses: probityai/.github/actions/draft-watch@8238ef5184e690a09c3f2ba261823e9b64e01b31 # main
+        with:
+          command: watch
+          token: ${{ github.token }}

@@ -1295,6 +1295,9 @@ with (out/'large-native.bin').open('wb') as stream:
         # ambient interpreter would each leave a distinct observable failure.
         self.executable("python3", "#!/bin/sh\nexit 98\n")
         self.executable("uv", "#!/bin/sh\nexit 99\n")
+        # The hook checks pushed workflows with actionlint and aborts when it is not
+        # installed; a runner image does not carry it, so the test supplies a stand-in.
+        self.executable("actionlint", (HERE / "actionlint-stub.sh").read_text())
         env = {**self.env, "TMPDIR": self.temp.name}
         env.pop("AEV_PRE_PUSH_VENUE", None)
         first = self.call("rev-parse", "HEAD")
@@ -1316,6 +1319,17 @@ with (out/'large-native.bin').open('wb') as stream:
         self.assertIn("Remote CI is the proof", clean.stdout)
         self.assertIn("secret", clean.stdout)
         self.assertFalse((self.root / ".build/fixture").exists())
+        # A workflow actionlint rejects refuses the push.
+        workflow = self.root / ".github/workflows/ci.yml"
+        workflow.parent.mkdir(parents=True)
+        workflow.write_text("on: push\n")
+        self.commit()
+        self.executable("actionlint", "#!/bin/sh\necho bad workflow\nexit 1\n")
+        bad_workflow = push(self.call("rev-parse", "HEAD"))
+        self.assertEqual(bad_workflow.returncode, 1, bad_workflow.stderr)
+        self.assertIn("carries a workflow GitHub would refuse to start", bad_workflow.stderr)
+        self.executable("actionlint", (HERE / "actionlint-stub.sh").read_text())
+        self.call("reset", "--hard", "-q", first)
         # A token-shaped value in the pushed range is refused by the same
         # gitleaks command the secret-scan workflow runs.
         token = "Zq8vT3nW9x" + "Lp2Rk7Bf4Ys6Hd1Mc5Ja0E"

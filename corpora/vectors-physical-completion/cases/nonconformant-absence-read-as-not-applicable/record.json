@@ -1,0 +1,22 @@
+{
+  "contractId": "https://probityai.github.io/agent-evidence-vectors/predicate/v1/physical-completion",
+  "intent": "PHYSICAL_COMPLETION",
+  "presented": {
+    "receipt": {
+      "dispatchedAtMs": 1000,
+      "profile": "noa.receipt/0.1",
+      "valid": true,
+      "verdict": "EXECUTED"
+    },
+    "trust": {
+      "configuration": "sha256:5d1f0c7a9e2b4b3c8a6f1e0d2c4b6a8e9f1d3c5b7a9e0f2d4c6b8a0e1f3d5c7b",
+      "witnessesTrustedForPurpose": [
+        "witness-window-sensor-7"
+      ]
+    }
+  },
+  "recordId": "record-nonconformant-absence-read-as-not-applicable",
+  "result": {
+    "physicalCompletion": "NOT_APPLICABLE"
+  }
+}

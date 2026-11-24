@@ -4,7 +4,7 @@ set -eu
 mkdir -p inputs
 fetch() {
   mkdir -p "inputs/$(dirname "$1")"
-  curl -fsSL -o "inputs/$1" "$2"
+  curl --fail --silent --show-error --location --retry 5 --retry-all-errors --retry-delay 5 --max-time 120 -o "inputs/$1" "$2"
   echo "$3  inputs/$1" | sha256sum -c --quiet -
 }
 fetch aps/MANIFEST.sha256 https://raw.githubusercontent.com/aeoess/agent-passport-system/948f99b85343bef2c6fa677c8543965caacfc087/fixtures/priorseal-decision-binding/MANIFEST.sha256 2bf365bc9124ecfc943d5be86c34e8e0cacd51a5929b8d0c906e633a017231f9

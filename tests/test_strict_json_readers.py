@@ -37,10 +37,11 @@ CASE_READERS = (
     "agenticprocess", "aggregateaccounting", "anchoredchain", "approvalbinding",
     "authoritydispatch", "badgevc", "changeadmission", "chunkedexport",
     "completionconfirmation", "connectorscope", "containmentjournal", "convertedargs",
-    "decisionclient", "delegatorright", "dispatchfence", "evidencecell", "evidencestate",
+    "credreach", "decisionclient", "delegatorright", "dispatchfence", "evidencecell",
+    "evidencestate",
     "gradefloor", "identitybinding", "monitorcoverage", "openweight", "paymentmandate",
     "propagationstep", "receiptchainend", "refusalreason", "signaturecoverage",
-    "traceanchor", "uncertaineffect",
+    "actormarker", "statusreceipt", "traceanchor", "uncertaineffect",
 )
 ACCEPTING = {"accepted", "allow", "verified", "supported", "anchored", "conformant", "exempt"}
 HOSTILE = ("repeated-member", "non-finite-member", "first-number-nan")
@@ -111,8 +112,12 @@ def _judged(module: ModuleType, path: Path) -> str:
 def test_a_case_reader_accepts_no_lenient_spelling(name: str, kind: str, tmp_path: Path) -> None:
     module = importlib.import_module(f"agent_evidence_vectors.{name}")
     directory, handed = _accepted_member(module)
-    copy = tmp_path / directory.name
+    root = Path(module.ROOT)
+    copy = tmp_path / "corpus" / directory.relative_to(root)
     shutil.copytree(directory, copy)
+    for top in root.iterdir():  # a reader may look for TRUST.json beside the manifest
+        if top.is_file():
+            shutil.copy2(top, tmp_path / "corpus" / top.name)
     assert _judged(module, copy / handed) in _accepting(module), "control copy not accepted"
     accepted = []
     for member in sorted(copy.rglob("*.json")):
@@ -165,7 +170,7 @@ def _module_sources() -> list[Path]:
 
 
 # A json.loads that keeps its own call is strict when it passes both refusal hooks. These
-# do not, and each says why.
+# do not, and each says why; some are mutation switches.
 OWN_PROFILE = {
     # The A2A JCS corpus reads NaN and Infinity and refuses them at canonicalization, under
     # the reason its number-serialization vectors (A5-REJECT-016 to 018) expect.
@@ -179,6 +184,12 @@ OWN_PROFILE = {
     # ahead of each (strict_loads) refuses both spellings.
     ("packaging/agent_evidence_vectors/catalogtrust.py", "_lenient_jws"),
     ("packaging/agent_evidence_vectors/catalogtrust.py", "load"),
+    # The lenient parse runs only when the corpus mutation check switches the strict-JSON
+    # rule off, to prove a repeated-member payload is refused by that rule and no other.
+    ("packaging/agent_evidence_vectors/credreach.py", "_statement"),
+    # A forcing check: it reads each case with the plain json module on purpose, to show the
+    # case is credited by a reader without the strict loader and refused by the strict one.
+    ("corpora/vectors-agent-registration-classification/check_vectors.py", "lenient"),
 }
 
 

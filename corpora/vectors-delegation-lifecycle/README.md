@@ -88,6 +88,7 @@ The verifier names the first check that fails.
 | no grant on the chain carries a revocation, signed by a principal with standing, with `effective_at` at or before `observed_at` | `grant_revoked` | UCAN revocation; the time rule of case GT-R8 in [interop/govops-trace-profile](../interop/govops-trace-profile/INDEX.md) |
 | that revocation states its grounds | `revocation_incomplete` | proposed |
 | no dispute of that revocation by an affected principal is still open | `grant_revoked_dispute_open` | proposed |
+| that revocation was issued at or before `observed_at`; one issued later, with an earlier `effective_at`, still refuses as containment, with reason `grant_revoked_retroactively`, and is not proof the grant was revoked when presented | `grant_revoked_retroactively` | proposed |
 | every recovery record that names the presenter as `new` is signed by the registry and the Responsible entity | `signature_invalid:recovery` | proposed |
 | the registry registered both identifiers of that recovery to its Responsible entity, or the old one to a predecessor that handed over to it, with one `software` digest; succession records are checked the same way | `recovery_mismatch` | proposed |
 | no retired or revoked agent with the presenter's Responsible entity and `software` is left unjoined to the presenter by a succession or recovery record | `succession_unrecorded` | proposed |

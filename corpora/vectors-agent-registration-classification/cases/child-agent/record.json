@@ -1,0 +1,23 @@
+{
+  "agent_public_key": "IYEQR7FTB2gdRwnPckuAvL1iSJWLnjfjvQwYZd4qKJE=",
+  "agent_signature": "U1oZj5iD++UBHvCP3YqwIF6ytz82m0ejuXXbcuJJO6Gx/H4Uwqf/4P/68L+mI3PwRbXTExqiKODuSG8hYsGjAQ==",
+  "core": {
+    "agent_id": "synthetic-agent-a",
+    "challenge_nonce": "synthetic-issued-nonce-7",
+    "consent": true,
+    "consent_scope": "registration",
+    "event_type": "registration",
+    "intake_state": "durably_committed",
+    "parent_agent_id": "synthetic-parent",
+    "swarm_id": "synthetic-swarm-new"
+  },
+  "registry_receipt": {
+    "body": {
+      "agent_id": "synthetic-agent-a",
+      "record_digest": "sha256:ff121e61e3f500a14984570c9bb52fad97621ad00bdd4c71354ecfe3975d14d0",
+      "status": "committed",
+      "swarm_id": "synthetic-swarm-new"
+    },
+    "signature": "AoNW/SxMt/06+Vs4D9x18ASuT/QbqWyv14UlsVKS2u25AWA5F9tbC9dB6Vko04EVdqnC16WHJ9NQ86lQCe/bBQ=="
+  }
+}

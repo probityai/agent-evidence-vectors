@@ -1,0 +1,820 @@
+{
+  "aggregate": {
+    "counts": {
+      "accept": 3,
+      "reject": 17
+    },
+    "line": "answered 20 of 20 cases",
+    "total": 20
+  },
+  "anchor": {
+    "kind": "digest-list-line",
+    "manifest": "vectors-delegation-chain/MANIFEST.json",
+    "reference": {
+      "path": "release/CORPUS-DIGESTS.txt",
+      "uri": "https://github.com/probityai/agent-evidence-vectors/blob/main/release/CORPUS-DIGESTS.txt"
+    },
+    "routine": "corpus_digest in corpora/vectors-delegation-chain/digest.py",
+    "routine-file": "corpora/vectors-delegation-chain/digest.py",
+    "serialization": "corpus-routine",
+    "sha256": "25218b83bb9118b118ba505c5d251c09175cbabefa640caa9b4d9edace2c27f0",
+    "verdicts": {
+      "availability-failure": "inconclusive",
+      "integrity-failure": "fail"
+    }
+  },
+  "artifacts": [
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "21e48fd6520f91baeef7b88d934166fd691e51b08f9fdade001d584c0e696bff"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "21e48fd6520f91baeef7b88d934166fd691e51b08f9fdade001d584c0e696bff"
+        },
+        "swapped-in": "07c1b7b5b4b0d61d459244b4819246d5b93ba2dcfaafe25e3e54786cf8eca533",
+        "test": "swap-and-re-pin"
+      },
+      "path": "corpora/vectors-delegation-chain/README.md",
+      "serialization": "bytes",
+      "sha256": "476471c7d2dd679994f79a567ad57ffbd4ef5e7ce743403aece0089a4d2db9f7"
+    },
+    {
+      "consumed": "consumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "21e48fd6520f91baeef7b88d934166fd691e51b08f9fdade001d584c0e696bff"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "swapped": {
+          "exit-code": 1,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "swapped-in": "b1434bc5f92649d12ed29f6e4df04bb784f673aca293ac2e03b97ba6870c957d",
+        "test": "swap-and-re-pin"
+      },
+      "path": "corpora/vectors-delegation-chain/check_vectors.py",
+      "serialization": "bytes",
+      "sha256": "b612110899b2664a739841966cd8724010645f23bc1900d5d51de3622ea39966"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "21e48fd6520f91baeef7b88d934166fd691e51b08f9fdade001d584c0e696bff"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "21e48fd6520f91baeef7b88d934166fd691e51b08f9fdade001d584c0e696bff"
+        },
+        "swapped-in": "4c647bde6030be825701869886b80cd7a95f0982dc3b5df26184b626f946214a",
+        "test": "swap-and-re-pin"
+      },
+      "path": "corpora/vectors-delegation-chain/digest.py",
+      "serialization": "bytes",
+      "sha256": "dab9f86a16866b72fd19386ab7cd4760071612a8424a25cc8afbbf4fc96bb03e"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "21e48fd6520f91baeef7b88d934166fd691e51b08f9fdade001d584c0e696bff"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "21e48fd6520f91baeef7b88d934166fd691e51b08f9fdade001d584c0e696bff"
+        },
+        "swapped-in": "e804d9c3d50db0c0b4de6a2860244658512c54861aba63e96a038aac8a0574a2",
+        "test": "swap-and-re-pin"
+      },
+      "path": "corpora/vectors-delegation-chain/gen_vectors.py",
+      "serialization": "bytes",
+      "sha256": "68730e4419bdcc188c817025c39f6c3e5d8cece9faf08f743906f2d5b876ba2e"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "21e48fd6520f91baeef7b88d934166fd691e51b08f9fdade001d584c0e696bff"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "21e48fd6520f91baeef7b88d934166fd691e51b08f9fdade001d584c0e696bff"
+        },
+        "swapped-in": "7253cfac5d36658f9513583e394e2f4e7f21b8fd4d7bcc930a0bf03305325943",
+        "test": "swap-and-re-pin"
+      },
+      "path": "corpora/vectors-delegation-chain/tests/test_corpus.py",
+      "serialization": "bytes",
+      "sha256": "d51b9811d9a5db5cb12953899124f5a613ab54715f8089caab393af66cc77a1f"
+    }
+  ],
+  "boundary": {
+    "complete": true,
+    "member-locations": [
+      {
+        "dir": "cases",
+        "recursive": true,
+        "suffix": ""
+      }
+    ],
+    "root": "corpora/vectors-delegation-chain"
+  },
+  "byte-identity": {
+    "pins": 20,
+    "serialization": "bytes"
+  },
+  "canonicalization": {
+    "encoding": "jcs-sha256"
+  },
+  "checker": {
+    "commands": [
+      "uv sync --locked --extra generators",
+      "PYTHONHASHSEED=0 python corpora/vectors-delegation-chain/check_vectors.py --json",
+      "PYTHONHASHSEED=0 python corpora/vectors-delegation-chain/check_vectors.py --json",
+      "PYTHONHASHSEED=0 python corpora/vectors-delegation-chain/check_vectors.py"
+    ],
+    "dependencies": [
+      {
+        "path": "pyproject.toml",
+        "serialization": "bytes",
+        "sha256": "615fd8fa515397a018906b8318f84b05d1695b8b6345d100e90d2c0482d4e9b7"
+      },
+      {
+        "path": "uv.lock",
+        "serialization": "bytes",
+        "sha256": "3aaf3b0e0b68d40a35f41296139e9098d1fa263f186844c7a8d69af73e36eeb0"
+      }
+    ],
+    "helpers": [],
+    "name": "corpora/vectors-delegation-chain/check_vectors.py",
+    "relationship": "same-implementation",
+    "revision": {
+      "kind": "source-listing",
+      "paths": [
+        "corpora/vectors-delegation-chain/check_vectors.py"
+      ],
+      "serialization": "sha256-listing-v1",
+      "sha256": "f88ae16464855488115b0f51e8a6b8bd917374b333b6c38886ae45df276fe3d3"
+    },
+    "runtime": {
+      "name": "cpython",
+      "version": "3.13"
+    },
+    "shared-verification-code": [
+      "corpora/vectors-delegation-chain/check_vectors.py"
+    ]
+  },
+  "checks": [
+    {
+      "check": "allow-equal-grant-at-every-axis-but-depth",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "allow-expiry-at-the-parent-instant",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "allow-three-hop-chain",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "contract-id-missing",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "contract-id-unknown",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "malformed-chain-empty",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "malformed-uses-not-integer",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "reject-depth-not-falling",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "reject-expired-link",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "reject-issuer-swapped",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "reject-offsetless-timestamp",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "reject-receiver-outside-audience",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "reject-revoked-ancestor",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "reject-signature-from-another-grant",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "reject-spliced-chain",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "reject-widened-arguments",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "reject-widened-audience",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "reject-widened-budget",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "reject-widened-expiry",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "reject-widened-tools-in-the-middle",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    }
+  ],
+  "corpus-digest": {
+    "serialization": "sha256-listing-v1",
+    "sha256": "9bc435b17a8cdf00d58edb1f08e43e4fadce4690e6799f0062082aa2c01d2cdc"
+  },
+  "exit-code": 0,
+  "exit-rule": "zero-iff-every-check-passes",
+  "exposure": "visible",
+  "faults": [],
+  "format": "public-agent-conformance/intake-record/v2",
+  "manifest": {
+    "closed": true,
+    "ids": [
+      "allow-three-hop-chain",
+      "allow-equal-grant-at-every-axis-but-depth",
+      "allow-expiry-at-the-parent-instant",
+      "reject-widened-tools-in-the-middle",
+      "reject-widened-arguments",
+      "reject-widened-audience",
+      "reject-widened-expiry",
+      "reject-widened-budget",
+      "reject-depth-not-falling",
+      "reject-issuer-swapped",
+      "reject-spliced-chain",
+      "reject-revoked-ancestor",
+      "reject-offsetless-timestamp",
+      "reject-signature-from-another-grant",
+      "reject-expired-link",
+      "reject-receiver-outside-audience",
+      "malformed-chain-empty",
+      "malformed-uses-not-integer",
+      "contract-id-missing",
+      "contract-id-unknown"
+    ],
+    "path": "corpora/vectors-delegation-chain/MANIFEST.json",
+    "sha256": "1cf59aa69fb3016434cd405f932d966b53c29c2d48fea57855535abd5f557e3e"
+  },
+  "members": [
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-delegation-chain/cases/allow-three-hop-chain/record.json",
+          "sha256": "dd5e0a37346107bc50506b6fd8e8c08bbc302978ce9f4ac9f917ff43a94e24d3"
+        }
+      ],
+      "id": "allow-three-hop-chain"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-delegation-chain/cases/allow-equal-grant-at-every-axis-but-depth/record.json",
+          "sha256": "11cc919c32bce82933792c7232b9530e7f18945832a3f9032c21bb31ba0f9525"
+        }
+      ],
+      "id": "allow-equal-grant-at-every-axis-but-depth"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-delegation-chain/cases/allow-expiry-at-the-parent-instant/record.json",
+          "sha256": "5b0aedc84c00ba87e726d297c1980a470ae234f6b5bc19ea9d62a2f3d0ee192d"
+        }
+      ],
+      "id": "allow-expiry-at-the-parent-instant"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-delegation-chain/cases/reject-widened-tools-in-the-middle/record.json",
+          "sha256": "5df15873a81000e15918cfbf4c5399379b015155400b7fd5b44291c0adab68d5"
+        }
+      ],
+      "id": "reject-widened-tools-in-the-middle"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-delegation-chain/cases/reject-widened-arguments/record.json",
+          "sha256": "77489b28487e4d5aa8d8f59fb9cf8de9b94c23285bb0adea98801b19d7b41daf"
+        }
+      ],
+      "id": "reject-widened-arguments"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-delegation-chain/cases/reject-widened-audience/record.json",
+          "sha256": "5b6ac2059f5a7d5950f8f853eb0b20e5d4ce9b6148ad0879f5c95a622360be19"
+        }
+      ],
+      "id": "reject-widened-audience"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-delegation-chain/cases/reject-widened-expiry/record.json",
+          "sha256": "805b5316eaf795beb75258bc71ed095f7ab7f2450aaf7357244e55cfc424d7ed"
+        }
+      ],
+      "id": "reject-widened-expiry"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-delegation-chain/cases/reject-widened-budget/record.json",
+          "sha256": "f8aa69fef8623471d17567cba3e87559ee63c78b7a11813bbf84a673347c18ab"
+        }
+      ],
+      "id": "reject-widened-budget"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-delegation-chain/cases/reject-depth-not-falling/record.json",
+          "sha256": "88cd5b34c3a782c8f866d971cc94616316fd1301a7460050f1275498827ddc39"
+        }
+      ],
+      "id": "reject-depth-not-falling"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-delegation-chain/cases/reject-issuer-swapped/record.json",
+          "sha256": "038ab31b97ea21b6b0182bdd42c91322a5dc03aac612adf30678ebbfcdf8c4f6"
+        }
+      ],
+      "id": "reject-issuer-swapped"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-delegation-chain/cases/reject-spliced-chain/record.json",
+          "sha256": "04702b25904bc208a5c6fd6b3acc0cc50785af7c2a6b39b73e647866d0ce9d88"
+        }
+      ],
+      "id": "reject-spliced-chain"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-delegation-chain/cases/reject-revoked-ancestor/record.json",
+          "sha256": "7e9a48542355ee9f36bee983c7b919732bac7d16aade694692c6368029bff397"
+        }
+      ],
+      "id": "reject-revoked-ancestor"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-delegation-chain/cases/reject-offsetless-timestamp/record.json",
+          "sha256": "c4f4954be29c4ddbd8399a41bd48b2b7c17d4d7ecd13a7e4cc38a4abbdce05e6"
+        }
+      ],
+      "id": "reject-offsetless-timestamp"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-delegation-chain/cases/reject-signature-from-another-grant/record.json",
+          "sha256": "a68d7fcc3c123f365944495238428f12a8b9abbb5a8571b88ea25daa497d3370"
+        }
+      ],
+      "id": "reject-signature-from-another-grant"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-delegation-chain/cases/reject-expired-link/record.json",
+          "sha256": "d92164ae48b5056f78c457ee7495f34e3b1d454baad604276e9f37503cb766a7"
+        }
+      ],
+      "id": "reject-expired-link"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-delegation-chain/cases/reject-receiver-outside-audience/record.json",
+          "sha256": "6d073462ef629b883e4155239f0faa223e4d6dc15b8211b1c4ce1bf9cd71cfb2"
+        }
+      ],
+      "id": "reject-receiver-outside-audience"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-delegation-chain/cases/malformed-chain-empty/record.json",
+          "sha256": "1cc2418d4ad9b97492ff454807d2dce508447e9494c8b775f799b9a581f46f72"
+        }
+      ],
+      "id": "malformed-chain-empty"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-delegation-chain/cases/malformed-uses-not-integer/record.json",
+          "sha256": "4e23037f4738423bbae6d4d2650102af16e4dc357d2d6618cf5e14988558b0cd"
+        }
+      ],
+      "id": "malformed-uses-not-integer"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-delegation-chain/cases/contract-id-missing/record.json",
+          "sha256": "2b9d0eb7f39f43faa131c352857ae4ae507c74fe87063430bdd2112592eb717d"
+        }
+      ],
+      "id": "contract-id-missing"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-delegation-chain/cases/contract-id-unknown/record.json",
+          "sha256": "1e6c443234e4184e33c28b10ebca973127a201aa7103fb93663b9337c0e23703"
+        }
+      ],
+      "id": "contract-id-unknown"
+    }
+  ],
+  "native": {
+    "cases": "native-json",
+    "format": "corpus-result-json-v1",
+    "process-status": {
+      "exit-code": 0
+    },
+    "summary": null
+  },
+  "non-author-runs": [],
+  "observations": [
+    {
+      "carry": "referenced",
+      "id": "native-json",
+      "reference": {
+        "path": "release/intake/native/vectors-delegation-chain.json",
+        "serialization": "bytes",
+        "sha256": "21e48fd6520f91baeef7b88d934166fd691e51b08f9fdade001d584c0e696bff"
+      }
+    },
+    {
+      "carry": "referenced",
+      "id": "native-text",
+      "reference": {
+        "path": "release/intake/native/vectors-delegation-chain.txt",
+        "serialization": "bytes",
+        "sha256": "5383126fec44dca490e8bf1ed7b0decc0ee475a293eca555b3518711b33aff16"
+      }
+    },
+    {
+      "carried": "",
+      "carry": "carried",
+      "id": "stderr"
+    }
+  ],
+  "pin-serialization": "bytes",
+  "refusal-verdicts": [
+    "contradicted",
+    "failed",
+    "must-reject",
+    "reject",
+    "rejected"
+  ],
+  "refusals": [
+    {
+      "check": "contract-id-missing",
+      "inputs": [
+        "member:contract-id-missing",
+        "check:contract-id-missing"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"deny\",\"reason\":\"contract_id_missing\"}}"
+    },
+    {
+      "check": "contract-id-unknown",
+      "inputs": [
+        "member:contract-id-unknown",
+        "check:contract-id-unknown"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"deny\",\"reason\":\"contract_id_unknown\"}}"
+    },
+    {
+      "check": "malformed-chain-empty",
+      "inputs": [
+        "member:malformed-chain-empty",
+        "check:malformed-chain-empty"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"deny\",\"reason\":\"malformed_record\"}}"
+    },
+    {
+      "check": "malformed-uses-not-integer",
+      "inputs": [
+        "member:malformed-uses-not-integer",
+        "check:malformed-uses-not-integer"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"deny\",\"reason\":\"malformed_record\"}}"
+    },
+    {
+      "check": "reject-depth-not-falling",
+      "inputs": [
+        "member:reject-depth-not-falling",
+        "check:reject-depth-not-falling"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"deny\",\"reason\":\"depth_exceeded\"}}"
+    },
+    {
+      "check": "reject-expired-link",
+      "inputs": [
+        "member:reject-expired-link",
+        "check:reject-expired-link"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"deny\",\"reason\":\"grant_not_in_window\"}}"
+    },
+    {
+      "check": "reject-issuer-swapped",
+      "inputs": [
+        "member:reject-issuer-swapped",
+        "check:reject-issuer-swapped"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"deny\",\"reason\":\"issuer_not_authorised\"}}"
+    },
+    {
+      "check": "reject-offsetless-timestamp",
+      "inputs": [
+        "member:reject-offsetless-timestamp",
+        "check:reject-offsetless-timestamp"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"deny\",\"reason\":\"malformed_record\"}}"
+    },
+    {
+      "check": "reject-receiver-outside-audience",
+      "inputs": [
+        "member:reject-receiver-outside-audience",
+        "check:reject-receiver-outside-audience"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"deny\",\"reason\":\"receiver_outside_audience\"}}"
+    },
+    {
+      "check": "reject-revoked-ancestor",
+      "inputs": [
+        "member:reject-revoked-ancestor",
+        "check:reject-revoked-ancestor"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"deny\",\"reason\":\"ancestor_revoked\"}}"
+    },
+    {
+      "check": "reject-signature-from-another-grant",
+      "inputs": [
+        "member:reject-signature-from-another-grant",
+        "check:reject-signature-from-another-grant"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"deny\",\"reason\":\"signature_invalid\"}}"
+    },
+    {
+      "check": "reject-spliced-chain",
+      "inputs": [
+        "member:reject-spliced-chain",
+        "check:reject-spliced-chain"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"deny\",\"reason\":\"parent_mismatch\"}}"
+    },
+    {
+      "check": "reject-widened-arguments",
+      "inputs": [
+        "member:reject-widened-arguments",
+        "check:reject-widened-arguments"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"deny\",\"reason\":\"widens_arguments\"}}"
+    },
+    {
+      "check": "reject-widened-audience",
+      "inputs": [
+        "member:reject-widened-audience",
+        "check:reject-widened-audience"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"deny\",\"reason\":\"widens_audience\"}}"
+    },
+    {
+      "check": "reject-widened-budget",
+      "inputs": [
+        "member:reject-widened-budget",
+        "check:reject-widened-budget"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"deny\",\"reason\":\"widens_budget\"}}"
+    },
+    {
+      "check": "reject-widened-expiry",
+      "inputs": [
+        "member:reject-widened-expiry",
+        "check:reject-widened-expiry"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"deny\",\"reason\":\"widens_expiry\"}}"
+    },
+    {
+      "check": "reject-widened-tools-in-the-middle",
+      "inputs": [
+        "member:reject-widened-tools-in-the-middle",
+        "check:reject-widened-tools-in-the-middle"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"deny\",\"reason\":\"widens_tools\"}}"
+    }
+  ],
+  "relaxed-controls": [],
+  "replay-stability": {
+    "cause": null,
+    "ordering": "emission-order",
+    "runs": [
+      {
+        "process": "run-1",
+        "sha256": "21e48fd6520f91baeef7b88d934166fd691e51b08f9fdade001d584c0e696bff"
+      },
+      {
+        "process": "run-2",
+        "sha256": "21e48fd6520f91baeef7b88d934166fd691e51b08f9fdade001d584c0e696bff"
+      }
+    ],
+    "seed": "PYTHONHASHSEED=0",
+    "state": "stable"
+  },
+  "scope": {
+    "does-not-claim": [
+      "whole-attack-surface",
+      "implementation-ranking",
+      "threats-outside-corpus",
+      "action-occurred-or-authority"
+    ],
+    "establishes": [
+      "corpora/vectors-delegation-chain/check_vectors.py, at the source listing named here, judges each of the 20 pinned members of delegation-chain/v1 as its manifest declares"
+    ],
+    "leaves-open": [
+      "whether an implementation written from the specification, run by someone other than an author, reaches the same verdicts",
+      "whether release/CORPUS-DIGESTS.txt is a list a release signed: the signature beside it does not verify over these bytes, so the anchor is a located line, not a verified one",
+      "whether a re-run by someone other than an author on these exact bytes agrees; none is on the record for them"
+    ]
+  },
+  "selector": {
+    "expression": "*",
+    "language": "id-glob",
+    "matched": 20,
+    "require": "at-least-one",
+    "selected": [
+      "allow-three-hop-chain",
+      "allow-equal-grant-at-every-axis-but-depth",
+      "allow-expiry-at-the-parent-instant",
+      "reject-widened-tools-in-the-middle",
+      "reject-widened-arguments",
+      "reject-widened-audience",
+      "reject-widened-expiry",
+      "reject-widened-budget",
+      "reject-depth-not-falling",
+      "reject-issuer-swapped",
+      "reject-spliced-chain",
+      "reject-revoked-ancestor",
+      "reject-offsetless-timestamp",
+      "reject-signature-from-another-grant",
+      "reject-expired-link",
+      "reject-receiver-outside-audience",
+      "malformed-chain-empty",
+      "malformed-uses-not-integer",
+      "contract-id-missing",
+      "contract-id-unknown"
+    ]
+  },
+  "specification-readers": [],
+  "state": "pass",
+  "suite": "delegation-chain/v1"
+}

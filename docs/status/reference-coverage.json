@@ -1,7 +1,7 @@
 {
   "verifier": "https://probityai.github.io/probity/verifiers/agent-evidence-verify",
   "checked": 734,
-  "total": 3593,
+  "total": 4349,
   "corpora": [
     {
       "id": "vectors",
@@ -24,13 +24,19 @@
     {
       "id": "vectors-acs-core",
       "checked": 0,
-      "total": 166,
+      "total": 178,
       "disagreements": 0
     },
     {
       "id": "vectors-acs-decision-record",
       "checked": 0,
       "total": 15,
+      "disagreements": 0
+    },
+    {
+      "id": "vectors-actor-marker-survival",
+      "checked": 0,
+      "total": 30,
       "disagreements": 0
     },
     {
@@ -42,13 +48,13 @@
     {
       "id": "vectors-agent-audit-record",
       "checked": 0,
-      "total": 235,
+      "total": 259,
       "disagreements": 0
     },
     {
       "id": "vectors-agent-card-receipt",
       "checked": 0,
-      "total": 44,
+      "total": 49,
       "disagreements": 0
     },
     {
@@ -66,7 +72,19 @@
     {
       "id": "vectors-agent-payment-mandate",
       "checked": 0,
-      "total": 21,
+      "total": 42,
+      "disagreements": 0
+    },
+    {
+      "id": "vectors-agent-registration-classification",
+      "checked": 0,
+      "total": 24,
+      "disagreements": 0
+    },
+    {
+      "id": "vectors-agent-request-proof",
+      "checked": 0,
+      "total": 22,
       "disagreements": 0
     },
     {
@@ -118,9 +136,21 @@
       "disagreements": 0
     },
     {
+      "id": "vectors-assertion-grade",
+      "checked": 0,
+      "total": 53,
+      "disagreements": 0
+    },
+    {
       "id": "vectors-authority-at-dispatch",
       "checked": 0,
       "total": 14,
+      "disagreements": 0
+    },
+    {
+      "id": "vectors-ave-id-resolution",
+      "checked": 0,
+      "total": 13,
       "disagreements": 0
     },
     {
@@ -148,6 +178,12 @@
       "disagreements": 0
     },
     {
+      "id": "vectors-cbor-receipt-chain",
+      "checked": 0,
+      "total": 18,
+      "disagreements": 0
+    },
+    {
       "id": "vectors-chunked-export",
       "checked": 0,
       "total": 12,
@@ -168,13 +204,19 @@
     {
       "id": "vectors-containment-journal",
       "checked": 0,
-      "total": 62,
+      "total": 73,
       "disagreements": 0
     },
     {
       "id": "vectors-converted-argument-binding",
       "checked": 0,
       "total": 17,
+      "disagreements": 0
+    },
+    {
+      "id": "vectors-credential-reachability",
+      "checked": 0,
+      "total": 58,
       "disagreements": 0
     },
     {
@@ -187,6 +229,18 @@
       "id": "vectors-decision-client-failure-modes",
       "checked": 0,
       "total": 35,
+      "disagreements": 0
+    },
+    {
+      "id": "vectors-decision-record",
+      "checked": 0,
+      "total": 162,
+      "disagreements": 0
+    },
+    {
+      "id": "vectors-delegation-chain",
+      "checked": 0,
+      "total": 20,
       "disagreements": 0
     },
     {
@@ -210,7 +264,7 @@
     {
       "id": "vectors-dispatch-fence",
       "checked": 0,
-      "total": 13,
+      "total": 14,
       "disagreements": 0
     },
     {
@@ -258,7 +312,7 @@
     {
       "id": "vectors-execution-billing-finality",
       "checked": 0,
-      "total": 31,
+      "total": 32,
       "disagreements": 0
     },
     {
@@ -304,6 +358,12 @@
       "disagreements": 0
     },
     {
+      "id": "vectors-key-revocation-list",
+      "checked": 0,
+      "total": 13,
+      "disagreements": 0
+    },
+    {
       "id": "vectors-lifecycle-binding",
       "checked": 0,
       "total": 42,
@@ -340,15 +400,39 @@
       "disagreements": 0
     },
     {
+      "id": "vectors-oasf-record",
+      "checked": 0,
+      "total": 43,
+      "disagreements": 0
+    },
+    {
       "id": "vectors-observed-effect",
       "checked": 0,
       "total": 80,
       "disagreements": 0
     },
     {
+      "id": "vectors-ocsf-decision",
+      "checked": 0,
+      "total": 33,
+      "disagreements": 0
+    },
+    {
       "id": "vectors-open-weight-art53",
       "checked": 0,
       "total": 16,
+      "disagreements": 0
+    },
+    {
+      "id": "vectors-physical-completion",
+      "checked": 0,
+      "total": 48,
+      "disagreements": 0
+    },
+    {
+      "id": "vectors-principal-action",
+      "checked": 0,
+      "total": 33,
       "disagreements": 0
     },
     {
@@ -412,6 +496,12 @@
       "disagreements": 0
     },
     {
+      "id": "vectors-revocation-list",
+      "checked": 0,
+      "total": 87,
+      "disagreements": 0
+    },
+    {
       "id": "vectors-rsa-digestinfo",
       "checked": 0,
       "total": 8,
@@ -445,6 +535,12 @@
       "id": "vectors-spoofed-tool-output",
       "checked": 47,
       "total": 47,
+      "disagreements": 0
+    },
+    {
+      "id": "vectors-status-receipt-binding",
+      "checked": 0,
+      "total": 24,
       "disagreements": 0
     },
     {

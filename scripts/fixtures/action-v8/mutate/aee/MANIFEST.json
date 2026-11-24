@@ -1,0 +1,17 @@
+{
+  "suite": "action-mutate-fixture",
+  "predicateType": "https://in-toto.io/attestation/adversarial-execution-evidence/v0.7",
+  "note": "One accept member of the AEE corpus (vectors/statements/v3fbc377adbe6dcf1.json, byte for byte), with two signed observation records, so the mutation stage has DSSE payloads to flip and a reference route to compare against. Its test key is the published recipe in vectors/keys/README.md.",
+  "vectors": [
+    {
+      "id": "v3fbc377adbe6dcf1",
+      "kind": "accept",
+      "file": "statements/v3fbc377adbe6dcf1.json",
+      "sha256": "3fbc377adbe6dcf192b5c382123fa78f27cfa59d3ddecbfc2c3c620e49d34860",
+      "expected": {
+        "verdict": "valid",
+        "result": "fail"
+      }
+    }
+  ]
+}

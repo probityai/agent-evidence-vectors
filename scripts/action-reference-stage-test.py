@@ -45,9 +45,9 @@ LOCK = REPO_ROOT / "action-reference-requirements.txt"
 STAGE = REPO_ROOT / "scripts" / "action-reference-stage.py"
 INSTALL_STEP = "Install the reference verifier"
 CHECK_STEP = "Check against the reference verifier"
-RELEASE = "0.5.0"
-WHEEL_SHA = "9132d649a0b5cd570bdf3b0e0373d8b4933eadf0f587ee31c885a26dbad9a2d2"
-SDIST_SHA = "80d6c3b717a38711a102a112f6753e4937347c978347149c5c0a5246b4ffc1a9"
+RELEASE = "0.6.0"
+WHEEL_SHA = "c3600fc53e35b8b3d11ac20454efd45129bc83b2f4e8b706cd0b7c166c2f27c8"
+SDIST_SHA = "15d546123c1f78f51700d3bccce358c1108b343bf19d79da51f733d2dda9c368"
 FORBIDDEN_HOST = ".".join(["get" + "prob" + "ity", "dev"])
 
 
@@ -147,13 +147,16 @@ def case_stage_is_wired_after_the_replay_and_before_the_upload(work: Path) -> No
     assert names.index(CHECK_STEP) < names.index("Upload the report")
 
 
-# The stage is verifier-mode only: the mode selectors `check` and `records` are the
-# only inputs that may gate it, because admission mode and producer mode build no
-# corpus report. No other input may.
+# The stage is verifier-mode only: the mode selectors `check`, `records` and
+# `expected-verdicts` are the only inputs that may gate it, because admission mode
+# and producer mode build no corpus report, and the conformance mode runs the same
+# stage on its own python -S path. No other input may.
 ALLOWED_STAGE_CONDITIONS = (
     "${{ !cancelled() }}",
     "${{ inputs.check == '' && !cancelled() }}",
     "${{ inputs.check == '' && inputs.records == '' && !cancelled() }}",
+    "${{ inputs.check == '' && inputs.records == '' "
+    "&& inputs.expected-verdicts == '' && !cancelled() }}",
 )
 
 
@@ -405,9 +408,11 @@ def case_a_skippable_stage_goes_red(work: Path) -> None:
     head = "    - name: Check against the reference verifier\n      id: reference\n      if: "
     _mutation_goes_red(
         work,
-        head + "${{ inputs.check == '' && inputs.records == '' && !cancelled() }}",
         head
         + "${{ inputs.check == '' && inputs.records == '' "
+        + "&& inputs.expected-verdicts == '' && !cancelled() }}",
+        head
+        + "${{ inputs.check == '' && inputs.records == '' && inputs.expected-verdicts == '' "
         + "&& inputs.verifier != '' && !cancelled() }}",
         "so it can be skipped",
     )

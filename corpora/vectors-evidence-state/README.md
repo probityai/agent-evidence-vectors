@@ -68,6 +68,7 @@ The reader applies eight checks in order and names the first that fails:
 propagation, propagation beside no anomaly, containment verified but never recorded),
 `clean_without_coverage`, `evidence_state_unsupported` (a code higher than the
 observations reach) and `evidence_state_understated` (a code lower than they reach).
+A record that passes all eight is `allow`, reason `state_supported`.
 Each denied case fails exactly its named check, and every code from `ES0` to `ES8` has
 an accepting control. Counts are in `MANIFEST.json`.
 

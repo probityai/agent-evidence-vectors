@@ -519,6 +519,32 @@ if [ "$venue" = leak ]; then
 			exit 1
 			;;
 		esac
+		# Workflow syntax, read from the pushed revision. A workflow that does not
+		# parse (a duplicated key from a merge, a missing job in needs:) makes GitHub
+		# end the run with no jobs and no check runs, so remote CI proves nothing and
+		# the batch looks failed with no log to read. Added 2026-11-23 after a
+		# duplicated run: key in ci.yml did exactly that to a batch pull request.
+		command -v actionlint > /dev/null 2>&1 || {
+			echo "pre-push: ABORT -- actionlint is not installed; the workflow syntax check could not run, so nothing was verified." >&2
+			exit 1
+		}
+		wf_dir="$guard_base/workflows-$local_sha"
+		mkdir -p "$wf_dir"
+		git -C "$src_root" archive "$local_sha" .github/workflows | tar -x -C "$wf_dir" 2> /dev/null || true
+		if [ -d "$wf_dir/.github/workflows" ]; then
+			(cd "$wf_dir" && actionlint -shellcheck= -pyflakes= .github/workflows/*.y*ml) && wf_status=0 || wf_status=$?
+			case "$wf_status" in
+			0) ;;
+			1)
+				echo "pre-push: REFUSED -- $local_ref carries a workflow GitHub would refuse to start (actionlint above)." >&2
+				exit 1
+				;;
+			*)
+				echo "pre-push: ABORT -- the workflow syntax check could not run (exit $wf_status); nothing was verified." >&2
+				exit 1
+				;;
+			esac
+		fi
 		# The secret scan the secret-scan workflow runs: same script, same
 		# pinned gitleaks, and the pushed revision's own .gitleaks.toml, over the
 		# commits this push adds. Added 2026-10-25 after CI found four findings
@@ -547,7 +573,7 @@ if [ "$venue" = leak ]; then
 			;;
 		esac
 	done <<< "$push_lines"
-	echo "pre-push: leak, size, secret and runner-label checks passed. Remote CI is the proof for"
+	echo "pre-push: leak, size, workflow-syntax, secret and runner-label checks passed. Remote CI is the proof for"
 	echo "pre-push: everything else: watch the run for the pushed commit to its conclusion."
 	echo "pre-push:     gh run list --commit <sha>"
 	exit 0

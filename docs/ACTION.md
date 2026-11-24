@@ -54,8 +54,11 @@ Runs `agent-evidence-admission digest-check` once per artifact: each artifact mu
 
 | input | meaning |
 | --- | --- |
-| `document` | the in-toto statement, CycloneDX SBOM or TEA artifact that names the digests |
-| `artifacts` | the artifact paths, one per line |
+| `document` | the in-toto statement, CycloneDX SBOM or TEA artifact that names the digests, or an ARD or AI Catalog document |
+| `artifacts` | the artifact paths, one per line; for a catalog, a path matched by file name to one URI the catalog names, or `<uri>=<path>` |
+| `digest-severity` | for a catalog: `fail` (default) or `warn` |
+
+An ARD or AI Catalog document (a JSON object with an `entries` array) is held to the `catalog-attestations` rule set of the tagged commit, over the bytes you vendor: every entry and attestation digest must match, a pin whose bytes you did not pass is reported and not refused, and an entry delivered by `url` that carries attestations and no `digest` of its own is refused as `entry_digest_missing_for_url`. That last rule is the one an attestation moved into another publisher's entry breaks: pinned only by its own digest, it checks out again wherever it is copied. An unsigned attestation is refused as `attestation_unsigned`. With `digest-severity: warn` both are reported and the document is admitted.
 
 ```yaml
 - uses: probityai/agent-evidence-vectors@action-v0.1.0

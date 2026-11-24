@@ -7,6 +7,7 @@ import (
 	"encoding/hex"
 	"encoding/json"
 	"errors"
+	"math"
 	"sort"
 	"time"
 
@@ -494,7 +495,7 @@ func arRetentionShape(entry map[string]any) error {
 	_, receivedOK := entry["received"].(bool)
 	within, withinOK := arMaxAge(entry["anchorWithin"])
 	anchors, anchorsOK := entry["anchors"].([]any)
-	if !digestOK || !receivedOK || !withinOK || within < 0 || !anchorsOK {
+	if !digestOK || !receivedOK || !withinOK || within < 0 || within >= 1<<53 || !anchorsOK {
 		return arRefuse("entry-shape-malformed")
 	}
 	for _, item := range anchors {
@@ -569,8 +570,13 @@ func arDatingRules() []arDatingRule {
 			if r.receivedAt != nil {
 				start = *r.receivedAt
 			}
+			// Sub saturates, and an anchorWithin no Duration can hold is a bound
+			// no retention time exceeds, so neither side wraps.
 			within, _ := arMaxAge(r.entry["anchorWithin"])
-			if r.retention.After(start.Add(time.Duration(within)*time.Second + r.tolerance())) {
+			if within > (math.MaxInt64-int64(r.tolerance()))/int64(time.Second) {
+				return nil
+			}
+			if r.retention.Sub(start) > time.Duration(within)*time.Second+r.tolerance() {
 				return arRefuse("entry-anchor-late")
 			}
 			return nil

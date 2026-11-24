@@ -1663,6 +1663,20 @@ _DRAFT_1105_SPANS = (
 
 FROZEN: tuple[Frozen, ...] = (
     Frozen(
+        'corpora/vectors-acs-core/README.md',
+        'the family identifier acs-f-17',
+        '`acs-f-16` and `acs-f-17` take',
+        'A family identifier, a name, not a count: the 17 is the ordinal of one family and '
+        'it met the annotated-site count by coincidence.',
+    ),
+    Frozen(
+        'corpora/vectors-ai-agent-action/README.md',
+        'the condition identifier aia-c-17',
+        '`aia-c-17`: every statement in a segment',
+        'A condition identifier, a name, not a count: the 17 is the ordinal of one condition '
+        'and it met the annotated-site count by coincidence.',
+    ),
+    Frozen(
         'scripts/archived-repos.toml',
         'the issue numbers that stayed in the archived agent-evidence repository',
         'untransferred_issues = [30, 31, 32, 35]',
@@ -1717,6 +1731,13 @@ FROZEN: tuple[Frozen, ...] = (
         'total of 128 by coincidence.',
     ),
     Frozen(
+        'vectors/CHANGES.md',
+        'the gap between two nesting depth bounds, in depths',
+        'malformed to another across 127 depths',
+        'A difference between two protocol constants, 256 less 128, not a count of any corpus. '
+        'It met the audit record corpus reject count by coincidence.',
+    ),
+    Frozen(
         'corpora/vectors-spoofed-tool-output/gen_vectors.py',
         'the shell exit status of a process killed by a signal',
         'the run was killed by a signal (128 plus',
@@ -1758,6 +1779,35 @@ FROZEN: tuple[Frozen, ...] = (
         'Arithmetic about the identity scan\'s decode cap: each nested member costs two '
         'decodes. It is not a corpus count, and met the acs-core corpus total by coincidence '
         'when that corpus reached 140.',
+    ),
+    Frozen(
+        '.github/workflows/pr-title.yml',
+        'the queued titles that ran past the length limit on 18 November 2026',
+        '(18 Nov 2026: 17 of 29',
+        'A past event, not a count of the live corpus: how many of the queued pull request '
+        'titles the HEADGREEN grouping had to rebuild behind on that day. It records the '
+        'incident the workflow comment gives as its reason and must not track this corpus.',
+    ),
+    Frozen(
+        'RUNS.md',
+        "an outside author's reported request-effect join result",
+        '10 of 10 match `expected.json`',
+        'A result an outside implementer reported for a past run against his own case set. It '
+        'records that report as posted and must not track this corpus.',
+    ),
+    Frozen(
+        'RUNS.md',
+        "an outside author's reported uncertain-effect result",
+        '27 of 27 match `MANIFEST.json`',
+        'A result an outside implementer reported for a past run at agent-evidence-vectors '
+        '0.31.0. It records that report as posted and must not track this corpus.',
+    ),
+    Frozen(
+        'scripts/ablation-lattice-test.py',
+        'the ordered starts a two-rule cancellation sits on in a 20-rule chain',
+        'sits on 2 of 380 ordered starts',
+        'Arithmetic about a 20-rule test fixture (20 x 19 ordered pairs), written in a comment '
+        'that explains why the seeded chains missed a bug. It is not a corpus count.',
     ),
     # ---- an outside implementer's reported results, recorded as posted.
     Frozen(
@@ -2305,6 +2355,40 @@ FROZEN: tuple[Frozen, ...] = (
         "the expected.codes count at tag v0.11.1, in the appendix generator",
         "315 reject entries across the eight manifests of `agent-evidence-vectors` at tag "
         "`v0.11.1`, 269 carry",
+        "The generator source of the appendix sentence above, frozen for the same reason and "
+        "asserted separately so the two cannot drift apart without one of them failing.",
+    ),
+    # The figure the appendix attributes to a named run at tag v0.11.1. It
+    # describes that tag, re-derived by the command the same paragraph prints,
+    # and equals the audit-record corpus total by coincidence since that corpus
+    # reached 252 members.
+    Frozen(
+        "docs/W3C-V01-CONFORMANCE-APPENDIX.md",
+        "the attributed figure at tag v0.11.1",
+        "Sankalp's 252 at v0.11.1",
+        "A figure at a past tag, attributed to its author and re-derived from that tag by the "
+        "command the paragraph prints. It describes v0.11.1 and must not track the current corpus.",
+    ),
+    Frozen(
+        "scripts/gen-w3c-appendix.py",
+        "the attributed figure at tag v0.11.1, in the appendix generator",
+        "Sankalp's 252 at v0.11.1",
+        "The generator source of the appendix sentence above, frozen for the same reason and "
+        "asserted separately so the two cannot drift apart without one of them failing.",
+    ),
+    # The same figure where the paragraph derives it: of the 269 entries carrying
+    # expected.codes at that tag, how many hold exactly one code.
+    Frozen(
+        "docs/W3C-V01-CONFORMANCE-APPENDIX.md",
+        "the one-code entries at tag v0.11.1",
+        "252 of those hold exactly one code",
+        "A count over the manifests at a past tag, re-derived from that tag by the command the "
+        "sentence prints. It describes v0.11.1 and must not track the current corpus.",
+    ),
+    Frozen(
+        "scripts/gen-w3c-appendix.py",
+        "the one-code entries at tag v0.11.1, in the appendix generator",
+        "252 of those hold exactly one code",
         "The generator source of the appendix sentence above, frozen for the same reason and "
         "asserted separately so the two cannot drift apart without one of them failing.",
     ),
@@ -3472,6 +3556,16 @@ MASKS = tuple(
         # links to twice in one sentence; a per-site freeze would have to be
         # rewritten every time a count walked onto another issue number, which
         # is the argument the w3c rule-id mask gives against freezing an id.
+        # A SLASH CHAIN of three or more integers, `records 1/3/4`, is a list of
+        # positions and never a ratio: a ratio has exactly two terms, a score
+        # over a corpus size. It surfaced inside an audit-record sample's
+        # provenance note naming the three log records its bytes cover, where
+        # the first two terms read as a score of 1 over 3.
+        r"(?<![\w/.])\d+(?:/\d+){2,}(?![\w/])",
+        # The number of a numbered SECTION in a Markdown heading, `## 5. Members
+        # that change verdict`. The trailing dot is required, so `## 80 vectors`,
+        # a heading that does carry a count, is still read.
+        r"(?m)^#{1,6}[ \t]+\d+(?:\.\d+)*\.(?=\s)",
         r"https?://github\.com/[\w.-]+/[\w.-]+/(?:issues|pull|discussions)/\d+",
         r"#\d+",  # upstream issue and pull-request numbers
         # The same identifier written as words, `issue 184`, in link text, a table
@@ -3518,6 +3612,11 @@ MASKS = tuple(
         # unaccounted the moment the revision counter reached that value.
         r"U\+[0-9A-Fa-f]{4,6}",  # Unicode code points: U+0020
         r"\\u[0-9A-Fa-f]{4}",  # escaped code points:
+        # A POSIX octal escape, `\177` or the two bytes `\303\251` of U+00E9,
+        # spells one byte and counts nothing. It surfaced when the audit-record
+        # corpus reached 251 vectors and the w3c-report INDEX's printf recipe,
+        # which writes every non-ASCII leaf byte that way, read as that total.
+        r"\\[0-7]{3}",
         # A numbered rule of a registered corpus, `Rule 22` or `rule 29`, names a
         # row of that corpus's requirement table. It is an identifier, and the
         # W3C reader's docstrings spell every rule that way, so its numbers
@@ -3706,7 +3805,10 @@ MASKS = tuple(
 # refused until something accounts for it, because "the full 64" may be a length
 # and may be a count and only its writer knows which. Two such sentences are
 # frozen above with what each one measures.
-MEASURE_UNIT = r"(?:hex(?:adecimal)?|bits?|bytes?|octets?|nibbles?|char(?:acter)?s?|digits?)"
+MEASURE_UNIT = (
+    r"(?:hex(?:adecimal)?|bits?|bytes?|octets?|nibbles?|char(?:acter)?s?|digits?"
+    r"|code[-\s]+points?)"
+)
 # Words that may sit between the integer and its unit without changing what is
 # measured: `64 lowercase hex characters`, `<64 lowercase hex>`.
 MEASURE_MODIFIER = r"(?:lower-?case|upper-?case|ascii|raw|hex(?:adecimal)?)"

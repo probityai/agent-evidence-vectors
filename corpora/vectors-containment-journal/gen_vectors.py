@@ -50,6 +50,29 @@ def ts(seconds: float) -> str:
     return (T0 + timedelta(seconds=seconds)).strftime("%Y-%m-%dT%H:%M:%SZ")
 
 
+# Revision 2.0: a shared store's keys and values by digest, and a writer's principals. The user
+# is the key id of the principal whose root grant each agent's delegation chain descends from.
+USER = _sha(b"synthetic containment-journal principal key")
+
+
+def key_of(key: str) -> str:
+    return label(f"store key {key}")
+
+
+def value_of(value: str) -> str:
+    return label(f"store value {value}")
+
+
+def chain_of(agent: str) -> str:
+    return label(f"delegation chain from the principal to {agent}")
+
+
+def principals(agent: str) -> dict[str, str]:
+    chain = chain_of(agent)
+    return {"user": USER, "chainDigest": chain,
+            "digest": reader.principals_digest(agent, USER, chain)}
+
+
 def without(edges: list[list[str]], agent: str) -> list[list[str]]:
     """The graph with every edge into or out of one agent cut."""
     return [edge for edge in edges if agent not in edge]
@@ -129,6 +152,35 @@ class Journal:
         return self.add({"event": "refusal", "sender": sender, "receiver": receiver,
                          "bodyDigest": label(f"message {len(self.entries)} {sender} {receiver}"),
                          "reasonCode": code})
+
+    def write(self, agent: str, key: str = "plan", value: str = "plan v1", *,
+              refused: str | None = None, permit: str | None = "", attributed: bool = True,
+              **extra: Any) -> Journal:
+        """A write to the shared store `notes`. `refused` is its refusal reason; `permit` the
+        value the permit bound ("" for the written value, None for no permit)."""
+        entry: Entry = {"event": "write", "agent": agent, "store": "notes",
+                        "keyDigest": key_of(key), "valueDigest": value_of(value),
+                        "refused": refused is not None}
+        if refused is not None:
+            entry["refusalReason"] = refused
+        if permit is not None:
+            entry["permitValueDigest"] = value_of(permit or value)
+        if attributed:
+            entry["principals"] = principals(agent)
+        entry.update(extra)
+        return self.add(entry)
+
+    def read(self, agent: str, key: str, value: str, writer: str, *,
+             refused: str | None = None, attributed: bool = True) -> Journal:
+        """A read back from `notes`, naming the writer the reading side attributes the value to."""
+        named: Entry = {"agent": writer}
+        if attributed:
+            named.update(user=USER, chainDigest=chain_of(writer))
+        entry: Entry = {"event": "store_read", "agent": agent, "store": "notes",
+                        "keyDigest": key_of(key), "valueDigest": value_of(value), "writer": named}
+        if refused is not None:
+            entry.update(refused=True, refusalReason=refused)
+        return self.add(entry)
 
     def retrieve(self, agent: str, document: str, admitted: bool = True) -> Journal:
         return self.add({"event": "retrieval", "agent": agent, "documentDigest": document,
@@ -244,13 +296,19 @@ def inclusion(document: str) -> list[list[str]]:
 
 
 def tool_run(enforcement: str = "enforced", refused: bool = True, bound: bool = True,
-             **claims: Any) -> Journal:
-    """agent-c isolated by a detector, then agent-a and agent-c each call a tool."""
+             delegated: bool = False, **claims: Any) -> Journal:
+    """agent-c isolated by a detector, then agent-a and agent-c each call a tool.
+
+    ``bound``: agent-a's call names the authority chain the guard walked for it;
+    ``delegated``: it also names the capability grant chain it was delegated under.
+    """
     journal = isolate_c(Journal(enforcement, **claims), basis="detector_online_label",
                         **detector(PEAKED))
     journal.deliver("agent-c", "agent-a", dropped=enforcement == "enforced")
-    grant = {"grantChainDigest": label("grant chain task to agent-a")} if bound else {}
-    journal.tool("agent-a", "search", **grant)
+    chains = {"authorityChainDigest": label("authority chain task to agent-a")} if bound else {}
+    if delegated:
+        chains["grantChainDigest"] = label("capability grant chain sponsor to agent-a")
+    journal.tool("agent-a", "search", **chains)
     if refused:
         return journal.tool("agent-c", "search", refused=True,
                             refusalReason="no permit for an isolated agent")
@@ -561,7 +619,81 @@ def _v11_cases() -> list[Case]:
         ("reject-tool-call-authority-unbound",
          tool_run(bound=False, authorityChainChecked=True).build("unbound"), None, "deny",
          "tool_call_authority_unbound", "the run claims every tool call's authority chain was "
-         "checked, and agent-a's call names no grant chain"),
+         "checked, and agent-a's call names no authority chain"),
+    ]
+
+
+def _v13_cases() -> list[Case]:
+    """Revision 1.3: the authority chain the guard walked and the capability grant chain are two
+    members, and one never stands in for the other."""
+    both = tool_run(delegated=True, authorityChainChecked=True).build("delegated")
+    return [
+        ("allow-tool-call-names-authority-and-grant-chains", both, None, "allow",
+         reader.ALLOWED_REASON, "control: agent-a's call names the authority chain the guard "
+         "walked and the capability grant chain it was delegated under"),
+    ]
+
+
+def store_run() -> Record:
+    """agent-a writes the plan under its principals; agent-b's write without principals is
+    refused; agent-b reads agent-a's value back; agent-c's reader refuses it (no rule for
+    agent-a); agent-d overwrites another key and agent-c reads that."""
+    journal = Journal(writesAttributed=True, writesBound=True).write("agent-a")
+    journal.write("agent-b", value="plan forged", refused="principals-missing", permit=None,
+                  attributed=False)
+    journal.read("agent-b", "plan", "plan v1", "agent-a")
+    journal.read("agent-c", "plan", "plan v1", "agent-a", refused="writer-without-rule")
+    journal.write("agent-d", "notes", "notes v1").read("agent-c", "notes", "notes v1", "agent-d")
+    return journal.build("store")
+
+
+def _v20_cases() -> list[Case]:
+    stored = store_run()
+    overwritten = Journal().write("agent-c").write("agent-d", value="plan v2")
+    clean = overwritten.read("agent-b", "plan", "plan v2", "agent-d").build("overwritten")
+    unattributed = Journal().write("agent-a", attributed=False).read(
+        "agent-b", "plan", "plan v1", "agent-a", attributed=False).build("unattributed")
+    mislabelled = Journal().write("agent-a", principals={**principals("agent-a"),
+                                                          "digest": label("other principals")})
+    isolated = isolate_c(Journal()).write("agent-c")
+    ok = reader.ALLOWED_REASON
+    return [
+        ("allow-write-attributed-and-read-back", stored, receipt(stored, subject="agent-a"),
+         "allow", reader.RECEIPT_REASON, "control: every write that ran names its principals and "
+         "the value its permit bound, each read names the last writer of its key, and agent-a's "
+         "value reaches agent-b, whose read was not refused, but not agent-c, whose was"),
+        ("allow-blast-radius-store-overwritten-by-clean-writer", clean,
+         receipt(clean, subject="agent-c"), "allow", reader.RECEIPT_REASON,
+         "control: agent-d overwrote agent-c's value before agent-b read the key, so agent-c "
+         "reached no one"),
+        ("allow-write-unattributed-without-claim", unattributed, None, "allow", ok,
+         "control: a run that claims no attribution may write and read back with no principals"),
+        ("reject-write-principals-digest-mismatch", mislabelled.build("mislabelled"), None, "deny",
+         "write_principals_digest_mismatch", "the write's principals digest is not the digest of "
+         "its agent, user and chain"),
+        ("reject-write-value-not-permitted",
+         Journal().write("agent-a", value="plan v2", permit="plan v1").build("unpermitted-value"),
+         None, "deny", "write_value_not_permitted", "agent-a's permit bound one value and another "
+         "was written"),
+        ("reject-write-by-isolated-agent", isolated.build("isolated-write"), None, "deny",
+         "write_by_isolated_agent", "agent-c is isolated, and its write to the shared store still "
+         "runs"),
+        ("reject-read-value-unwritten",
+         Journal().write("agent-a").read("agent-b", "plan", "plan v0", "agent-a").build("stale"),
+         None, "deny", "read_value_unwritten", "agent-b reads back a value no write put under the "
+         "key"),
+        ("reject-read-writer-mismatch",
+         Journal().write("agent-a").read("agent-b", "plan", "plan v1", "agent-d").build("relabel"),
+         None, "deny", "read_writer_mismatch", "agent-b reads agent-a's value back under agent-d's "
+         "name"),
+        ("reject-write-principals-missing",
+         Journal(writesAttributed=True).write("agent-a", attributed=False).build("anonymous"),
+         None, "deny", "write_principals_missing", "the run claims every write names its "
+         "principals, and agent-a's write names none"),
+        ("reject-write-unpermitted",
+         Journal(writesBound=True).write("agent-a", permit=None).build("permitless"), None,
+         "deny", "write_unpermitted", "the run claims every write ran under a permit, and "
+         "agent-a's names no permitted value"),
     ]
 
 
@@ -594,7 +726,7 @@ def cases() -> list[Case]:
     """Every case: id, journal, receipt or None, decision, reason, and what it shows."""
     return (_allowed() + _malformed_cases() + _delivery_cases() + _decision_cases()
             + _recovery_cases() + _restoration_cases() + _response_cases() + _v11_cases()
-            + _receipt_cases())
+            + _v13_cases() + _v20_cases() + _receipt_cases())
 
 
 def generate(root: Path = ROOT) -> dict[str, Any]:

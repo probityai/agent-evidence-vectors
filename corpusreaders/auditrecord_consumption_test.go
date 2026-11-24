@@ -11,12 +11,13 @@ import (
 // fails, in manifest order.
 func arWeakened(t *testing.T, weaken func() func()) string {
 	t.Helper()
-	if got := arFailingDraftIDs(t); len(got) != 0 {
+	agree := arAgreeingProposed(t)
+	if got := arFailingWith(t, agree); len(got) != 0 {
 		t.Fatalf("the tracked corpus must judge clean first, failing: %v", got)
 	}
 	restore := weaken()
 	defer restore()
-	return strings.Join(arFailingDraftIDs(t), ",")
+	return strings.Join(arFailingWith(t, agree), ",")
 }
 
 func arDropCheck(name string) func() func() {

@@ -27,7 +27,8 @@ SPEC_REPO = "https://github.com/probityai/agent-evidence-vectors"
 # The predicates this site defines, by URI name, and the specification file of each.
 PREDICATES = {"agent-card-receipt": "agent-card-receipt.md", "credential-release": "credential-release.md",
               "done-contract": "done-contract.md", "done-receipt": "done-receipt.md",
-              "token-grant-receipt": "token-grant-receipt.md"}
+              "token-grant-receipt": "token-grant-receipt.md",
+              "principal-action": "principal-action.md"}
 # The record format every page cites: the in-toto Statement in a DSSE envelope of Section 4.
 AUDIT_RECORD = "https://datatracker.ietf.org/doc/draft-gilda-audit-agent-audit-record/03/"
 AUDIT_RECORD_CITE = (f'Record format: <a href="{AUDIT_RECORD}">draft-gilda-audit-agent-audit-record-03</a>, '

@@ -54,6 +54,23 @@ an unbroken, checkpointed chain is `not_recorded`; it never means the credential
 - Field semantics: defined here, as a proposal; the check order and reason tokens are this corpus's own.
 - Example: `corpora/vectors-empty-interval-statement/cases/interval-empty-not-recorded/statement.json`.
 
+### `predicate/v1/key-revocation-list`
+
+- Document: `corpora/vectors-key-revocation-list/README.md`
+- Corpus: `corpora/vectors-key-revocation-list/`, suite `key-revocation-list/v1`
+- Rails: `corpusreaders/keyrevocation.go`, `packaging/agent_evidence_vectors/keyrevocation.py`
+
+The predicate carries an issuer's signed list of revoked keys: each entry names a key
+thumbprint and the time its revocation takes effect, and the list names the keys it covers,
+its issue time and the time its next update is due. A verifier trusts the signing key by
+the thumbprint of the key itself, rejects a list that does not verify or is older than the last
+accepted, treats a list read after its next update as stale, keeps a revocation it has already
+seen, and reads a key the list does not cover as no statement.
+
+- Envelope: a signed JSON list with the signing key beside its thumbprint, not an in-toto Statement.
+- Field semantics: defined here, as a proposal; the check order and reason tokens are this corpus's own.
+- Example: `corpora/vectors-key-revocation-list/cases/revoked-in-list/list.json`.
+
 ### `predicate/v1/signature-coverage`
 
 - Document: `corpora/vectors-signature-coverage/README.md`
@@ -64,6 +81,7 @@ The predicate carries one signed structure: the source as readers see it with re
 kept, the signed payload with its signature, the keys declared outside the signature, and
 the paths a consumer reads. The signature input must determine everything a reader can
 read: two records that read differently may not share one.
+
 ### `predicate/v1/evidence-state`
 
 - Document: `corpora/vectors-evidence-state/README.md`
@@ -169,6 +187,41 @@ verdict it carried), the condition, outcome and basis the client recorded, and
 whether the action was performed, so a consumer can tell a policy decision from a
 fallback and an allow from a fault read as one.
 
+### `predicate/v1/agent-request-proof`
+
+- Document: `corpora/vectors-agent-request-proof/README.md`
+- Corpus: `corpora/vectors-agent-request-proof/`, suite `agent-request-proof/v1`
+- Rails: `corpusreaders/agentrequestproof.go`, `packaging/agent_evidence_vectors/agentrequestproof.py`
+
+The predicate carries one HTTP request a recorder received and the per-request RS256
+proof the agent sent with it: the method, path and body, the compact proof, the
+principal's public JWK with its registered RFC 7638 thumbprint, and the observation
+time. The statement subject is the body digest and the statement is signed by the
+recorder over RFC 8785 bytes. A verifier recomputes every binding the receiving service
+checked (typ, alg, thumbprint, signature, issuer, htm, htu, body digest, lifetime) and,
+when the verifier pins them, the proof's audience, kid and tenant claims, and
+refuses a jti the recorder already recorded for the same issuer. The principal block
+is a verified principal binding, the field an audit record needs in place of a reported
+authentication method.
+### `predicate/v1/actor-marker-survival`
+
+- Document: `corpora/vectors-actor-marker-survival/README.md`
+- Corpus: `corpora/vectors-actor-marker-survival/`, suite `actor-marker-survival/v1`
+- Rails: `corpusreaders/actormarker.go`, `packaging/agent_evidence_vectors/actormarker.py`
+
+The predicate carries one delegated request as a chain of signed statements: the origin
+issuer's statement of the token it sent, then one statement per hop of the token it received
+and the token it sent, each in its protocol's native form (RFC 8693 nested `act` claims, or the
+A2A `actorChain` member proposed in a2aproject/A2A issue 2028). The acting-agent marker must
+survive every hop: an agent appends itself, a relay forwards unchanged, and a verifier refuses a
+stripped, replaced, reordered, inserted or truncated actor, a downgrade to the user alone, a
+marker carried only in an unsigned header, a deferred dispatch without the stored principals,
+and a token acted on despite an unknown critical header parameter (RFC 7515 section 4.1.11).
+
+- Envelope: a bare JSON record (`contractId`, `statements`), each statement Ed25519-signed over
+  its RFC 8785 bytes under a writer key and role taken from a trust bundle the verifier holds.
+- Example: `corpora/vectors-actor-marker-survival/cases/accept-protocol-change/record.json`.
+
 ### `predicate/v1/refusal-reason-priority`
 
 - Document: `corpora/vectors-refusal-reason-priority/README.md`
@@ -184,9 +237,13 @@ observation is absent or not fresh, and a diagnostic read neither authorizes nor
 Records are from draft-li-rttp-iqa-addressing-02 sections 6.1, 7.2, 8.1 and 8.2.
 
 - Envelope: a bare JSON record (`contractId`, `recordId`, `facts`, `response`), not an in-toto Statement.
-- Field semantics: the closed refusal set and its order are normative in draft-li-rttp-iqa-addressing-02,
-  owned by Aicent-com, who confirmed revision 02 (sha256 `02491c5a`) on 7 Nov 2026 in
-  [#492](https://github.com/probityai/agent-evidence-vectors/issues/492#issuecomment-6710136659).
+- Field semantics: the closed refusal set and its order are normative in draft-li-rttp-iqa-addressing-02
+  and draft-li-rttp-iqa-addressing-03, owned by Aicent-com, who confirmed revision 02 (sha256 `02491c5a`)
+  on 7 Nov 2026 in
+  [#492](https://github.com/probityai/agent-evidence-vectors/issues/492#issuecomment-6710136659)
+  and revision 03 (sha256 `73470850`, the set, the order and the section 8.1 anchor sentence unchanged) on
+  21 Nov 2026 in
+  [#492](https://github.com/probityai/agent-evidence-vectors/issues/492#issuecomment-7060025107).
   A later revision that keeps the set and the order is a new confirmation; any change to either is a new URI.
 - Example: `corpora/vectors-refusal-reason-priority/cases/conformant-expiry-over-revocation/record.json`.
 
@@ -207,6 +264,7 @@ restate the matrix on the W3C public-agent-identity list, October 2026 (messages
 - Envelope: a bare JSON record (`contractId`, `recordId`, `decision`, `authority`, `escalation`, `evaluatedAt`), not an in-toto Statement.
 - Field semantics: defined here, as a proposal; the outcome tokens `established`, `partial`, `unresolved` and `not_established` are not an agreed text of any group.
 - Example: `corpora/vectors-responsibility-escalation/cases/h09-clean-path-closed-on-time/record.json`.
+
 ### `predicate/v1/execution-billing-finality`
 
 - Document: `corpora/vectors-execution-billing-finality/README.md`
@@ -221,6 +279,7 @@ invoice is not an execution, settled billing never reopens the same attempt's di
 gate, and the dispatch state is a required output that leaves RESERVED once billing
 settles. Scenarios are from the P04 execution and billing candidate (agent-evidence-lab at
 8db9989), with X1 and the dispatch-guard mutants from a non-author run of it.
+
 ### `predicate/v1/capability-requirement`
 
 - Document: `corpora/vectors-capability-requirement/README.md`
@@ -238,6 +297,36 @@ can support. A held-out value counts only with the named assessor's signature fo
 A drift record compares two signed runs of one requirement against one endpoint and is refused
 when the runs name different requirement digests or endpoints, repeat one run, or when its
 comparison is not the one the runs give.
+
+### `predicate/v1/physical-completion`
+
+- Document: `corpora/vectors-physical-completion/README.md`
+- Corpus: `corpora/vectors-physical-completion/`, suite `physical-completion/v1`
+- Rails: `corpusreaders/physicalcompletion.go`, `packaging/agent_evidence_vectors/physicalcompletion.py`
+
+The predicate carries one presentation a verifier was given (a receipt, any controller
+outcome, any transport acknowledgement, any physical-observation artifact and the verifier's
+trust configuration) and the result it reported for the PHYSICAL_COMPLETION intent. The
+result must not assert completion on the basis of a receipt or a controller's report, must
+name the trust configuration behind any proof, must not turn a gap or a lost acknowledgement
+into a negative finding, and keeps the four absence results apart. Its vocabulary spells the
+results the draft names and does not tokenise: PROVEN_TO_POLICY, NOT_SATISFIED and CONFLICT.
+Records are from draft-noa-scitt-ai-agent-receipt-01 sections 1.5, 2 and 8.1 to 8.4.
+### `predicate/v1/credential-reachability`
+
+- Document: `spec/predicates/credential-reachability.md`
+- Corpus: `corpora/vectors-credential-reachability/`, suite `credential-reachability/v1`
+- Rails: `corpusreaders/credreach.go`, `packaging/agent_evidence_vectors/credreach.py`
+
+The predicate carries the result of a probe that ran inside an AI agent's environment,
+with the agent's own identity and view, over a closed list of ambient credential
+classes: SSH agent sockets and key files, cloud metadata endpoints, cloud and registry
+credential files, browser cookie stores, environment tokens, cluster service-account
+tokens, git credential helpers and host keyrings. Each class is `reachable`,
+`not_reachable` or `could_not_test`, and a probe that did not run is never
+`not_reachable`. A key outside the agent's reach signs the result, bound to the
+environment's contract, a verifier's challenge and an audience, so a consumer refuses a
+record the agent could have signed or replayed. The record carries no credential value.
 
 ### `predicate/v1/evaluation-claim`
 
@@ -325,6 +414,34 @@ bundle it ran, and the verdict as the runtime returned it. A consumer replays th
 context and policy itself, and a record whose digests or verdict the replay does not
 reproduce is refused.
 
+### `predicate/v1/revocation-list`
+
+- Document: `corpora/vectors-revocation-list/README.md`
+- Corpus: `corpora/vectors-revocation-list/`, suite `revocation-list/v1`
+- Rails: `aee/revocationlist.go`, `corpusreaders/revocationlist.go`
+- Emitter: the `probity-records` package, [`revocation.py`](https://github.com/probityai/probity/blob/main/packages/probity-records/src/probity_records/revocation.py), which emits and verifies it.
+- Status: current. The URI will not move, because a record carries it inside the bytes its producer signed.
+
+The predicate carries one signed, cumulative revocation list: a body of seven members, chained to
+the previous list by sequence number and digest, signed by a root key the verifier pins out of
+band. An entry, once published, stays in every later list byte for byte, and a verifier refuses a
+list that drops, rewrites or reorders an earlier entry, breaks the chain, or is signed by a key it
+does not pin.
+
+- Envelope: `{"body": BODY, "sig": base64(Ed25519 over "probity-revocation-v1\0" || JCS(BODY))}`.
+- Example: `aee/testdata/revocation-list.json`.
+### `predicate/v1/key-set-inclusion`
+
+- Document: `spec/predicates/key-set-inclusion.md`
+- Reference reader: the `kt-inclusion` key authority of agent-evidence-verify (probityai/probity),
+  which `dns_aid_sig/v1` requires before it agrees
+- Corpus: `corpora/vectors-dns-aid-sig-v01/`, landed in the same merge train as this entry
+- Profile that reads it: `profile/dns-aid-sig-binding/v1` (`spec/profiles/dns-aid-sig-binding/v1.md`)
+
+The predicate says every key of one key set was logged, bound to one subject, in a transparency
+log whose tree head the consumer pins: the evidence that entitles a key to speak for a DNS-AID zone
+when the record, its signature and the JWKS are judged offline.
+
 ## Registered here
 
 ### `predicate/v1/kernel-substrate`
@@ -370,7 +487,7 @@ reproduce is refused.
   consumption state to the agent's operation key, and rows written for revision
   04 (`CS41` to `CS54`) that add a paid call's payee and settled terms; `CS7`, `CS8`, `CS17`, `CS18` to `CS22`, `CS25` to `CS33`, `CS38` to `CS40`, `CS48`, `CS49`, `CS53` and `CS54` are
   files of several records judged as a set. Rows R1 to R9 are retained records
-  judged by the dating check of Section 4.7. Rows `PR1` to `PR11`, written for revision 04, test
+  judged by the dating check of Section 4.7. Rows `PR1` to `PR27`, written for revision 04, test
   the optional `principal` member, the authenticated principal bound to the agent's credential
   digest and to the issuer key's RFC 7638 thumbprint
   ([proposed text](../../docs/proposals/audit-record-04-principal.md)). Rows `DS1` to `DS10`,
@@ -474,6 +591,48 @@ reproduce is refused.
 - Predicate body: A statement about freeze atomicity of an isolation substrate: that co-resident microVMs were brought to a hypervisor-enforced quiescent state with bounded, measured timing, and no in-flight inter-VM segment escaped the freeze.
 - Status: current. The URI will not move, because a record carries it inside the bytes its producer signed.
 
+### `predicate/v1/tool-call-record`
+
+- Predicate body: One tool call as an authority admitted and ran it: the permit, the arguments' digest and the outcome, carrying the approval-binding and uncertain-effect contracts this repository defines, each judged by its published reader.
+- Document: the `probity-records` package, [`records.py`](https://github.com/probityai/probity/blob/main/packages/probity-records/src/probity_records/records.py), which emits and verifies it.
+- Status: current. The URI will not move, because a record carries it inside the bytes its producer signed.
+
+### `predicate/v1/tool-call-journal-checkpoint`
+
+- Predicate body: A signed statement of a hash-chained journal's line count and the SHA-256 of its last line, so a party who pins it detects a truncated or rewritten journal.
+- Document: the `probity-records` package, [`journal.py`](https://github.com/probityai/probity/blob/main/packages/probity-records/src/probity_records/journal.py), which emits and verifies it.
+- Status: current. The URI will not move, because a record carries it inside the bytes its producer signed.
+
+### `predicate/v1/export-seal`
+
+- Predicate body: A seal over one governance platform export: a dated census with denominators (records by type and stage, audit-field coverage, duplicate and missing ids) and a per-record digest list, with the export's bytes as the subject.
+- Document: the `probity-records` package, [`exports.py`](https://github.com/probityai/probity/blob/main/packages/probity-records/src/probity_records/exports.py), which emits and verifies it.
+- Status: current. The URI will not move, because a record carries it inside the bytes its producer signed.
+
+### `predicate/v1/approval-quorum`
+
+- Predicate body: M-of-N signed approver votes bound to one request hash under a named quorum policy, recorded so an outsider re-counts them offline.
+- Document: the `probity-records` package, [`quorum.py`](https://github.com/probityai/probity/blob/main/packages/probity-records/src/probity_records/quorum.py), which emits and verifies it.
+- Status: current. The URI will not move, because a record carries it inside the bytes its producer signed.
+
+### `predicate/v1/capability-grant`
+
+- Predicate body: A signed, task-scoped grant naming the tools its holder may call and a closed-world constraint on every argument; a delegated child must narrow its parent on every axis.
+- Document: the `probity-records` package, [`grants.py`](https://github.com/probityai/probity/blob/main/packages/probity-records/src/probity_records/grants.py), which emits and verifies it.
+- Status: current. The URI will not move, because a record carries it inside the bytes its producer signed.
+
+### `predicate/v1/governance-exception`
+
+- Predicate body: A bounded exception to standing policy with an owner, a rationale, a closed-world scope, a window and the quorum that approved it; the permit and the tool-call record carry its digest.
+- Document: the `probity-records` package, [`governance.py`](https://github.com/probityai/probity/blob/main/packages/probity-records/src/probity_records/governance.py), which emits and verifies it.
+- Status: current. The URI will not move, because a record carries it inside the bytes its producer signed.
+
+### `predicate/v1/governance-step`
+
+- Predicate body: One step of a governance workflow (intake, risk routing, approval, attestation, sign-off) written as a journal statement.
+- Document: the `probity-records` package, [`governance.py`](https://github.com/probityai/probity/blob/main/packages/probity-records/src/probity_records/governance.py), which emits and verifies it.
+- Status: current. The URI will not move, because a record carries it inside the bytes its producer signed.
+
 The entries in this section are registrations, not specifications. Their field
 definitions are normative where they are published, which is not here, and no
 count, field list or wire form on this page may be read as authoritative for
@@ -484,7 +643,7 @@ them.
 Types defined in this directory with a URI under
 `https://w3id.org/agent-evidence/predicate/v1/` are served from a persistent identifier
 namespace that is not this repository. The site build here publishes no page for
-them, and the scan in `scripts/predicate-uri-gate.py` does not cover that host.
+them, and `scripts/identifier-pages-gate.py` reads each one against `pages/` instead.
 `scripts/build_predicate_pages.py` writes their pages under `pages/predicate/v1/`,
 the organisation Pages site serves those pages at the targets of the w3id.org
 rules, and `scripts/check_uris_resolve.py --network` requests every one of them
@@ -500,5 +659,7 @@ each day. Each document is the authority for its type.
   `corpora/vectors-credential-release/`.
 - `token-grant-receipt`: `spec/predicates/token-grant-receipt.md`, checked by the
   `token_grant_receipt/v1` claim type of `agent-evidence-verify`; no corpus yet.
+- `principal-action`: `spec/predicates/principal-action.md`, corpus
+  `corpora/vectors-principal-action/`.
 
 `spec/predicates/done-records.md` defines the records both read and no type URI.

@@ -72,7 +72,7 @@ test("reject cases carry no canonical bytes, and every refusal case is one", () 
   for (const v of vectors) assert.equal(v.canonical, null, v.id);
   const ids = new Set(vectors.filter((v) => v.corpus === BYTE_CORPUS).map((v) => v.id));
   const cases = JSON.parse(new TextDecoder().decode(readData(`${BYTE_CORPUS}/cases.json`)));
-  for (const r of cases.refusalCases) assert.ok(ids.has(r.id), r.id);
+  for (const r of [...cases.refusalCases, ...cases.invalidInputCases]) assert.ok(ids.has(r.id), r.id);
 });
 
 test("identifiers are unique and only RFC 8785 clauses come from the a2a corpus", () => {

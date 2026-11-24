@@ -18,6 +18,12 @@ Rules, each a refusal:
   4. The required aggregator runs always() and needs every other job of its
      workflow, so no job can fail or be cancelled without failing it, and it
      also runs in the merge queue (merge_group trigger).
+  5. One workflow asks for no more macOS jobs than the free plan runs at once
+     (five). Measured 2026-11-24: a batch run asked for 22, nine of them were
+     never given a runner ("not acquired by Runner of type hosted even after
+     multiple attempts", run 45429763085) and the required check failed on a
+     queue, not on code. A matrix or expression this gate cannot expand counts
+     nothing, so it reads low, never high.
 
 Exit 0 when the set is sound, 1 on a finding, 2 when a file could not be read.
 Usage: python3 scripts/workflow-concurrency-gate.py [--workflows DIR]
@@ -26,6 +32,8 @@ Usage: python3 scripts/workflow-concurrency-gate.py [--workflows DIR]
 from __future__ import annotations
 
 import argparse
+import itertools
+import re
 import sys
 from pathlib import Path
 from typing import Any
@@ -50,6 +58,10 @@ RULE1_EXEMPT_PREFIX = "site"
 
 RUN_EVENTS = {"push", "pull_request", "pull_request_target"}
 
+# GitHub Free runs five macOS jobs at a time per account.
+MACOS_SLOTS = 5
+MATRIX_REF = re.compile(r"\$\{\{\s*matrix\.([\w-]+)\s*\}\}")
+
 
 def triggers(doc: dict[str, Any]) -> dict[str, Any]:
     # YAML 1.1 parses the bare key "on" as boolean True.
@@ -60,6 +72,55 @@ def triggers(doc: dict[str, Any]) -> dict[str, Any]:
     if isinstance(on, list):
         return {k: None for k in on}
     return dict(on or {})
+
+
+def literal_entries(value: Any) -> list[dict[str, Any]]:
+    """The mappings of a literal list, and nothing for an expression GitHub resolves at run time."""
+    return [e for e in value if isinstance(e, dict)] if isinstance(value, list) else []
+
+
+def expand_matrix(matrix: Any) -> list[dict[str, Any]]:
+    """The combinations GitHub builds from a literal matrix: the product of its
+    list axes, minus `exclude`, with each `include` merged into the combinations
+    it matches (never overwriting an axis) or added as a combination of its own."""
+    if not isinstance(matrix, dict):
+        return [{}]
+    axes = {
+        k: v for k, v in matrix.items() if k not in ("include", "exclude") and isinstance(v, list)
+    }
+    combos = (
+        [dict(zip(axes, values, strict=True)) for values in itertools.product(*axes.values())]
+        if axes
+        else []
+    )
+    excludes = literal_entries(matrix.get("exclude"))
+    combos = [
+        c for c in combos if not any(all(c.get(k) == v for k, v in ex.items()) for ex in excludes)
+    ]
+    includes = literal_entries(matrix.get("include"))
+    for inc in includes:
+        hits = [c for c in combos if all(c.get(k) == v for k, v in inc.items() if k in axes)]
+        for c in hits:
+            for k, v in inc.items():
+                c.setdefault(k, v)
+        if not hits:
+            combos.append(dict(inc))
+    return combos or [{}]
+
+
+def macos_jobs(doc: dict[str, Any]) -> int:
+    """How many jobs of one workflow run on a macOS label, matrix legs counted."""
+    total = 0
+    for job in (doc.get("jobs") or {}).values():
+        if not isinstance(job, dict):
+            continue
+        strategy = job.get("strategy")
+        for combo in expand_matrix(strategy.get("matrix") if isinstance(strategy, dict) else None):
+            label = MATRIX_REF.sub(
+                lambda m, c=combo: str(c.get(m.group(1), "")), str(job.get("runs-on", ""))
+            )
+            total += label.startswith("macos-")
+    return total
 
 
 def check_file(name: str, doc: dict[str, Any]) -> list[str]:
@@ -73,6 +134,13 @@ def check_file(name: str, doc: dict[str, Any]) -> list[str]:
             found.append(
                 f"{name}: cancel-in-progress is unconditionally true and the workflow runs on push"
             )
+    macos = macos_jobs(doc)
+    if macos > MACOS_SLOTS:
+        found.append(
+            f"{name}: {macos} macOS jobs in one run, and the free plan runs {MACOS_SLOTS} at a "
+            "time; the rest queue until GitHub drops them unserved. Give macOS one job that runs "
+            "every row"
+        )
     return found
 
 

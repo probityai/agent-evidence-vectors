@@ -211,7 +211,16 @@ git push origin <branch>
 #    the release branch:
 #    `merge-freeze set probityai/agent-evidence-vectors --reason "vX.Y.Z"`,
 #    then `merge-freeze allow probityai/agent-evidence-vectors <n>`.
-gh pr merge <n> --merge
+#    The pull request never goes through main's merge queue. The queue squashes
+#    (the main-protection ruleset's merge_method), which is the failure above.
+#    Its pull-request tier also selects no job for paths under release/, so the
+#    pull request alone proves nothing. Run the full tier on the exact head,
+#    require that run green, then merge as a repository admin, whom the ruleset
+#    lets bypass the queue, with a merge commit and a subject of at most 72
+#    characters.
+gh workflow run ci.yml -R probityai/agent-evidence-vectors --ref <branch>
+gh pr merge <n> -R probityai/agent-evidence-vectors --merge --admin \
+  --subject "chore(release): cut vX.Y.Z (#<n>)"
 
 # 9. Push the tag, alone, once the merge is on main. The tagged commit must be
 #    reachable from origin/main.
@@ -338,6 +347,18 @@ This paragraph said, until 0.12.1, that the replay "asserts `suiteRefusals ==
 0`, so a corpus in the wheel that the packaged rail cannot judge fails the
 release". The step replayed `vectors` only, and the harness ran its AEE rail
 over the eight other suites and printed that rail's failures as a verdict.
+
+## A package version bump releases itself
+
+Changing the version in a unit's manifest on `main` (a `release.toml` unit: `Cargo.toml`,
+`pyproject.toml`, `package.json` or `actions/VERSION`) starts `.github/workflows/release-on-bump.yml`.
+It asks `scripts/workspace.py bumped <before> <after>` which units changed version, creates the
+missing GitHub release `<prefix>-v<version>` at that commit with `--latest=false`, and dispatches
+`release.yml` on the new tag. A release made with the workflow token fires no release event, which
+is why the dispatch exists; `release.yml` then resolves the tag exactly as it does for a release
+published by hand, so a mismatch with the manifest or a commit off `main` still stops it. A unit
+that is imported is not a bump, and two units sharing one directory and registry release once. A
+bump that failed to publish is retried with `gh workflow run release.yml --ref <tag> -f tag=<tag>`.
 
 ## The Hugging Face dataset follows the tag
 

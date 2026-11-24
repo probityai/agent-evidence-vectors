@@ -24,8 +24,11 @@ func init() { register(auditRecord{}) }
 // auditRecord judges corpora/vectors-agent-audit-record/, the conformance corpus of
 // Appendix B of draft-gilda-audit-agent-audit-record-00, which replaces
 // draft-gilda-wimse-agent-audit-record-02: every evaluation carries inputs,
-// each entry's age runs from lastResult to decision.reportedAt, and the
-// unavailable inputs are derived from the entries. Rows R1 to R9 are retained
+// each entry's age runs from lastResult to the reference time, and the
+// unavailable inputs are derived from the entries. The reference time is
+// decision.evaluatedAt when the record carries it and decision.reportedAt
+// otherwise, and an input is fresh only while its age is less than its maxAge
+// (revision 05, FR2 and FR21 to FR27). Rows R1 to R9 are retained
 // records, the envelope beside its retention entry, and each is judged twice:
 // the envelope's verdict, and the dating check of Section 4.7.1, reported
 // beside the verdict.
@@ -332,12 +335,53 @@ func arUnder(path, scope string) bool {
 	return path == strings.TrimSuffix(scope, "/") || strings.HasPrefix(path, base)
 }
 
+// arRFC3339 is an RFC 3339 date-time (Section 5.6): the separator and the Z in
+// either case, seconds required, a fraction of any length, a numeric offset with
+// its colon. time.Parse alone also reads a comma fraction, which RFC 3339 does
+// not allow, and refuses the lowercase t and z, which it does.
+var arRFC3339 = regexp.MustCompile(`^(\d{4})-(\d{2})-(\d{2})[Tt](\d{2}):(\d{2}):(\d{2})(?:\.(\d+))?([Zz]|[+-]\d{2}:\d{2})$`)
+
+// arOffsetInRange holds a numeric offset to RFC 3339's bounds, hours at most 23 and
+// minutes at most 59, which time.Parse does not (it reads +24:00 and +05:60).
+func arOffsetInRange(zone string) bool {
+	if len(zone) != 6 {
+		return true // Z or z
+	}
+	return zone[1:3] <= "23" && zone[4:6] <= "59"
+}
+
+// arInstant reads an RFC 3339 date-time, its fraction kept to the microsecond as
+// the Python reader keeps it, so the two rails order every pair of times alike. A
+// seconds value of 60 is a leap second, read only at 23:59 UTC on the last day of a
+// month (Sections 5.6 and 5.7), as the instant one second after 23:59:59.
 func arInstant(value string) (time.Time, error) {
-	instant, err := time.Parse(time.RFC3339, value)
+	m := arRFC3339.FindStringSubmatch(value)
+	if m == nil || !arOffsetInRange(m[8]) {
+		return time.Time{}, arRefuse("timestamp-malformed")
+	}
+	second, fraction := m[6], m[7]
+	if second == "60" {
+		second = "59"
+	}
+	if len(fraction) > 6 {
+		fraction = fraction[:6]
+	}
+	if fraction != "" {
+		fraction = "." + fraction
+	}
+	text := m[1] + "-" + m[2] + "-" + m[3] + "T" + m[4] + ":" + m[5] + ":" + second + fraction + strings.ToUpper(m[8])
+	instant, err := time.Parse(time.RFC3339Nano, text)
 	if err != nil {
 		return time.Time{}, arRefuse("timestamp-malformed")
 	}
-	return instant, nil
+	if m[6] != "60" {
+		return instant, nil
+	}
+	utc := instant.UTC()
+	if utc.Hour() != 23 || utc.Minute() != 59 || utc.AddDate(0, 0, 1).Day() != 1 {
+		return time.Time{}, arRefuse("timestamp-malformed")
+	}
+	return instant.Add(time.Second), nil
 }
 
 func arDepth(value any) int {
@@ -691,9 +735,10 @@ func arMaxAge(value any) (int64, bool) {
 }
 
 // arEntryUnavailable says whether one entry is stale or never established at
-// reportedAt. An age equal to maxAge is fresh, and a lastResult later than
-// reportedAt by more than the skew tolerance is malformed.
-func arEntryUnavailable(entry map[string]any, maxAge int64, reportedAt time.Time) (bool, error) {
+// the reference time. An input is fresh while its age is less than maxAge, so
+// an age equal to maxAge is stale (FR2, FR24), and a lastResult later than the
+// reference time by more than the skew tolerance is malformed (FR9, FR27).
+func arEntryUnavailable(entry map[string]any, maxAge int64, reference time.Time) (bool, error) {
 	last, _ := entry["lastResult"].(string)
 	if last == arNeverHeld {
 		return true, nil
@@ -702,13 +747,41 @@ func arEntryUnavailable(entry map[string]any, maxAge int64, reportedAt time.Time
 	if err != nil {
 		return false, err
 	}
-	if produced.Sub(reportedAt) > arSkewTolerance {
+	if produced.Sub(reference) > arSkewTolerance {
 		return false, arRefuse("evaluation-result-after-decision")
 	}
 	if maxAge > math.MaxInt64/int64(time.Second) {
-		return false, nil // no age a Duration can hold exceeds it
+		return false, nil // no age a Duration can hold reaches it
 	}
-	return reportedAt.Sub(produced) > time.Duration(maxAge)*time.Second, nil
+	return reference.Sub(produced) >= time.Duration(maxAge)*time.Second, nil
+}
+
+// arReferenceTime is the time every evaluation entry's age is measured to:
+// decision.evaluatedAt when the record carries it, decision.reportedAt
+// otherwise. A decision is not reported before it is evaluated, so an
+// evaluatedAt later than reportedAt by more than the skew tolerance is
+// malformed (FR25), and one exactly at the tolerance is not (FR26).
+func arReferenceTime(pred map[string]any) (time.Time, error) {
+	reportedAt, err := arInstant(arStr(pred, "decision.reportedAt"))
+	if err != nil {
+		return time.Time{}, err
+	}
+	raw, carried := arAt(pred, "decision.evaluatedAt")
+	if !carried {
+		return reportedAt, nil
+	}
+	text, isString := raw.(string)
+	if !isString {
+		return time.Time{}, arRefuse("timestamp-malformed")
+	}
+	evaluatedAt, err := arInstant(text)
+	if err != nil {
+		return time.Time{}, err
+	}
+	if evaluatedAt.Sub(reportedAt) > arSkewTolerance {
+		return time.Time{}, arRefuse("evaluation-result-after-decision")
+	}
+	return evaluatedAt, nil
 }
 
 // arDeriveUnavailable holds every evaluation entry to its shape and returns
@@ -720,7 +793,7 @@ func arDeriveUnavailable(pred map[string]any, allowed []string) ([]string, error
 	if !ok || !isList {
 		return nil, arRefuse("evaluation-entry-malformed")
 	}
-	reportedAt, err := arInstant(arStr(pred, "decision.reportedAt"))
+	reference, err := arReferenceTime(pred)
 	if err != nil {
 		return nil, err
 	}
@@ -751,7 +824,7 @@ func arDeriveUnavailable(pred map[string]any, allowed []string) ([]string, error
 			return nil, arRefuse("evaluation-input-repeated")
 		}
 		seen[name] = true
-		stale, err := arEntryUnavailable(entry, maxAge, reportedAt)
+		stale, err := arEntryUnavailable(entry, maxAge, reference)
 		if err != nil {
 			return nil, err
 		}
@@ -1191,9 +1264,28 @@ type arVector struct {
 	Readings []struct {
 		Verdict string `json:"verdict"`
 	} `json:"readings"`
+	// Proposed is present on a member that tests a rule only text proposed for
+	// the next revision states. No published revision supports its verdict, so
+	// this reader, written from the published text, is not scored on it.
+	Proposed json.RawMessage `json:"proposed"`
 }
 
+// proposed reports whether the member tests proposed text rather than a
+// published revision.
+func (v arVector) proposed() bool { return len(v.Proposed) > 0 }
+
+// Judge scores every published member on this reader's verdict and every
+// proposed member on what the corpus claims of it whatever its text: a known
+// accept parent, readable bytes and an identifier that recomputes from them.
 func (auditRecord) Judge(dir string, raw []byte) (*Result, error) {
+	return arJudge(dir, raw, func(arVector) bool { return false })
+}
+
+// arJudge is Judge with the proposed members whose verdict is scored named by
+// scoreProposed. A weakening test scores the proposed members this reader
+// already reads as declared, so a reading that only they exercise is still
+// shown to be load bearing.
+func arJudge(dir string, raw []byte, scoreProposed func(arVector) bool) (*Result, error) {
 	var manifest arManifest
 	if err := strictUnmarshal(raw, &manifest); err != nil {
 		return nil, fmt.Errorf("%s/MANIFEST.json does not parse: %w", dir, err)
@@ -1213,14 +1305,15 @@ func (auditRecord) Judge(dir string, raw []byte) (*Result, error) {
 		}
 		seen[v.ID] = true
 		ids, files = append(ids, v.ID), append(files, v.File)
-		member.Findings = append(member.Findings, arJudgeMember(dir, &manifest, v, byID)...)
+		scored := !v.proposed() || scoreProposed(v)
+		member.Findings = append(member.Findings, arJudgeMember(dir, &manifest, v, byID, scored)...)
 		result.Members = append(result.Members, member)
 	}
 	result.Findings = arCorpusFindings(dir, &manifest, ids, files)
 	return result, nil
 }
 
-func arJudgeMember(dir string, manifest *arManifest, v arVector, byID map[string]arVector) []string {
+func arJudgeMember(dir string, manifest *arManifest, v arVector, byID map[string]arVector, scored bool) []string {
 	label := v.DraftID
 	var findings []string
 	if v.Kind == "reject" && byID[v.Parent].Kind != "accept" {
@@ -1232,6 +1325,9 @@ func arJudgeMember(dir string, manifest *arManifest, v arVector, byID map[string
 	}
 	if idFromBytes(body) != v.ID {
 		findings = append(findings, label+": identifier does not recompute from the member's own bytes")
+	}
+	if !scored {
+		return findings
 	}
 	if v.Expected.Dating != nil {
 		report, dated := arVerifyRetained(body, manifest.typeFor(v), manifest.Keys.Observer.PublicKey,

@@ -1,0 +1,98 @@
+{
+  "case_id": "vectors-agent-payment-mandate-x402-paid-in-other-asset",
+  "credential": {
+    "facilitator_request": {
+      "paymentPayload": {
+        "accepted": {
+          "amount": "10000",
+          "asset": "0xAF7316323f3C0DEd8981618e0434840805beceF9",
+          "extra": {
+            "name": "USDC",
+            "version": "2"
+          },
+          "maxTimeoutSeconds": 60,
+          "network": "eip155:84532",
+          "payTo": "0xDbc6A366a4500de0461454a4c6ad5C21E5c4777E",
+          "scheme": "exact"
+        },
+        "payload": {
+          "authorization": {
+            "from": "0xc101D47F33948AC776089374dcfFC05067aE9fcc",
+            "nonce": "0x8a7fd19635761ede66c68a536d73dbac0df715b9fa28ac91574ece79a308ca63",
+            "to": "0xDbc6A366a4500de0461454a4c6ad5C21E5c4777E",
+            "validAfter": "1793613900",
+            "validBefore": "1793614560",
+            "value": "10000"
+          },
+          "signature": "0xd4b634a199623d74b42fed7bea07b3e4539f63b48c28bc33a0852cb2b500b44e322d3760367652104313f9a1f2c92f97814876075a902e292861a7ce100a39ab1c"
+        },
+        "resource": {
+          "url": "https://api.example.com/premium-data"
+        },
+        "x402Version": 2
+      },
+      "paymentRequirements": {
+        "amount": "10000",
+        "asset": "0x036CbD53842c5426634e7929541eC2318f3dCF7e",
+        "extra": {
+          "name": "USDC",
+          "version": "2"
+        },
+        "maxTimeoutSeconds": 60,
+        "network": "eip155:84532",
+        "payTo": "0xDbc6A366a4500de0461454a4c6ad5C21E5c4777E",
+        "scheme": "exact"
+      },
+      "x402Version": 2
+    },
+    "mandate_digest": "670394a20e9b3b2518ba3ac79a95cf6d88f27c7bf9106dbf06c354d151e11a29"
+  },
+  "execution": {
+    "asset": "0xAF7316323f3C0DEd8981618e0434840805beceF9",
+    "authorization_used": {
+      "authorizer": "0xc101D47F33948AC776089374dcfFC05067aE9fcc",
+      "nonce": "0x8a7fd19635761ede66c68a536d73dbac0df715b9fa28ac91574ece79a308ca63"
+    },
+    "block_timestamp": 1793614505,
+    "network": "eip155:84532",
+    "nonces_used_before": [],
+    "transaction": "0x6987730d880f41af08f546706722a899fcc9bbdc9dea882569354f767721a15d",
+    "transfer": {
+      "from": "0xc101D47F33948AC776089374dcfFC05067aE9fcc",
+      "to": "0xDbc6A366a4500de0461454a4c6ad5C21E5c4777E",
+      "value": "10000"
+    }
+  },
+  "mandate": {
+    "digest": "670394a20e9b3b2518ba3ac79a95cf6d88f27c7bf9106dbf06c354d151e11a29",
+    "signature": {
+      "alg": "ed25519",
+      "key_id": "issuer-key-1",
+      "value_sha256": "e0a370c4e4d12f323bc75964d5dc0098e17225a6639b7d746040e7bc930af1e5"
+    },
+    "terms": {
+      "agent_payer": "0xc101D47F33948AC776089374dcfFC05067aE9fcc",
+      "currency": "0x036CbD53842c5426634e7929541eC2318f3dCF7e",
+      "expires_at": "2026-11-30T00:00:00Z",
+      "issuer": "did:example:issuer-1",
+      "kind": "x402-exact",
+      "max_amount_minor": 50000,
+      "merchant": "0xDbc6A366a4500de0461454a4c6ad5C21E5c4777E",
+      "network": "eip155:84532"
+    }
+  },
+  "receipt": {
+    "execution_digest": "ff5a380107f7f18cc4091a76c7f2d39cef1ef6ea1dd1e3c41dbce50c278d5f2c",
+    "mandate_digest": "670394a20e9b3b2518ba3ac79a95cf6d88f27c7bf9106dbf06c354d151e11a29",
+    "receipt_id": "rcpt-x402-0001",
+    "settlement_response": {
+      "amount": "10000",
+      "network": "eip155:84532",
+      "payer": "0xc101D47F33948AC776089374dcfFC05067aE9fcc",
+      "success": true,
+      "transaction": "0x6987730d880f41af08f546706722a899fcc9bbdc9dea882569354f767721a15d"
+    }
+  },
+  "schema": "agent-payment-mandate-record/v1",
+  "scheme": "x402-exact-evm-eip3009"
+}

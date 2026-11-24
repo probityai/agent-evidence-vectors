@@ -113,6 +113,14 @@ GENERATORS = (
     # disclosed context and policy, read from the recorded ACS run; it builds its
     # own manifest and index.
     "corpora/vectors-acs-decision-record/gen_vectors.py",
+    # The AVE id resolution corpus. Members are tool outputs judged against
+    # vendored AVE snapshots; the generator refuses one the checker does not
+    # answer as declared, and builds its own manifest and index.
+    "corpora/vectors-ave-id-resolution/gen_vectors.py",
+    # The decision-record action-binding corpus. Members are the format's published
+    # binding cases with their patches applied, its signed attachments, and strict
+    # members signed with a published test key; it builds its own manifest and index.
+    "corpora/vectors-decision-record/gen_vectors.py",
     # The W3C intake-criteria corpus. Every member is an intake record whose
     # digests are taken over fixture trees the generator writes beside it, and
     # the generator refuses a member the checker does not answer as claimed.
@@ -139,15 +147,20 @@ GENERATORS = (
     # key recipe rather than copied, so the generator is the only place their
     # bytes come from.
     "corpora/vectors-print-witness/gen_vectors.py",
+    "corpora/vectors-assertion-grade/gen_vectors.py",
     "corpora/vectors-receipt-signature/gen_vectors.py",
     "corpora/vectors-source-coverage/gen_vectors.py",
     "corpora/vectors-open-weight-art53/gen_vectors.py",
     "corpora/vectors-anchored-chain/gen_vectors.py",
     "corpora/vectors-principal-binding/gen_vectors.py",
     "corpora/vectors-empty-interval-statement/gen_vectors.py",
+    "corpora/vectors-key-revocation-list/gen_vectors.py",
     "corpora/vectors-receipt-chain-end/gen_vectors.py",
     "corpora/vectors-identity-binding/gen_vectors.py",
     "corpora/vectors-key-directory-observation/gen_vectors.py",
+    "corpora/vectors-status-receipt-binding/gen_vectors.py",
+    "corpora/vectors-delegation-chain/gen_vectors.py",
+    "corpora/vectors-revocation-list/gen_vectors.py",
     "corpora/vectors-authority-at-dispatch/gen_vectors.py",
     "corpora/vectors-approval-binding/gen_vectors.py",
     "corpora/vectors-dispatch-fence/gen_vectors.py",
@@ -172,10 +185,16 @@ GENERATORS = (
     "corpora/vectors-telemetry-evidence/gen_vectors.py",
     "corpora/vectors-rsa-digestinfo/gen_vectors.py",
     "corpora/vectors-execution-billing-finality/gen_vectors.py",
+    "corpora/vectors-agent-request-proof/gen_vectors.py",
+    "corpora/vectors-physical-completion/gen_vectors.py",
+    "corpora/vectors-actor-marker-survival/gen_vectors.py",
+    "corpora/vectors-cbor-receipt-chain/gen_vectors.py",
     "corpora/vectors-agent-card-receipt/gen_vectors.py",
+    "corpora/vectors-credential-reachability/gen_vectors.py",
     "corpora/vectors-credential-release/gen_vectors.py",
     "corpora/vectors-converted-argument-binding/gen_vectors.py",
     "corpora/vectors-delegator-right/gen_vectors.py",
+    "corpora/vectors-oasf-record/gen_vectors.py",
     "corpora/vectors-badge-vc-verify/gen_vectors.py",
     "corpora/vectors-catalog-trust-manifest/gen_vectors.py",
     "corpora/vectors-completion-confirmation/gen_vectors.py",
@@ -188,6 +207,7 @@ GENERATORS = (
     "corpora/vectors-done-probes/gen_vectors.py",
     "corpora/vectors-trace-anchor/gen_vectors.py",
     "corpora/vectors-grade-floor/gen_vectors.py",
+    "corpora/vectors-ocsf-decision/gen_vectors.py",
     "corpora/vectors-connector-scope/gen_vectors.py",
     "corpora/vectors-mcp-authz/gen_vectors.py",
     "corpora/vectors-agent-payment-mandate/gen_vectors.py",
@@ -277,6 +297,12 @@ OWNED = (
     ("corpora/vectors-observed-effect/statements", "v*.json"),
     ("corpora/vectors-observed-effect", "MANIFEST.json"),
     ("corpora/vectors-observed-effect", "INDEX.md"),
+    # The OCSF decision-record corpus. Members are the format's published sample records,
+    # a chain this generator emits over them with a published test key, and the ways a
+    # stream breaks; it builds its own manifest and index.
+    ("corpora/vectors-ocsf-decision/members", "*.json"),
+    ("corpora/vectors-ocsf-decision", "MANIFEST.json"),
+    ("corpora/vectors-ocsf-decision", "INDEX.md"),
     ("examples/mcp-receipts/chain", "*.json"),
     ("examples/mcp-receipts/fanout", "*.json"),
     ("examples/mcp-receipts", "authority.json"),
@@ -311,6 +337,9 @@ OWNED = (
     ("corpora/vectors-empty-interval-statement/cases", "**/case.json"),
     ("corpora/vectors-empty-interval-statement/cases", "**/ledger.jsonl"),
     ("corpora/vectors-empty-interval-statement/cases", "**/statement.json"),
+    ("corpora/vectors-key-revocation-list", "MANIFEST.json"),
+    ("corpora/vectors-key-revocation-list/cases", "**/case.json"),
+    ("corpora/vectors-key-revocation-list/cases", "**/list.json"),
     ("corpora/vectors-anchored-chain", "MANIFEST.json"),
     ("corpora/vectors-principal-binding", "MANIFEST.json"),
     ("corpora/vectors-print-witness", "MANIFEST.json"),
@@ -318,6 +347,9 @@ OWNED = (
     ("corpora/vectors-grade-floor", "MANIFEST.json"),
     ("corpora/vectors-grade-floor", "INDEX.md"),
     ("corpora/vectors-grade-floor/cases", "**/case.json"),
+    ("corpora/vectors-assertion-grade", "MANIFEST.json"),
+    ("corpora/vectors-assertion-grade", "INDEX.md"),
+    ("corpora/vectors-assertion-grade/cases", "**/case.json"),
     ("corpora/vectors-connector-scope", "MANIFEST.json"),
     ("corpora/vectors-connector-scope", "INDEX.md"),
     ("corpora/vectors-connector-scope", "profile.json"),
@@ -374,6 +406,12 @@ OWNED = (
     ("corpora/vectors-key-directory-observation", "MANIFEST.json"),
     ("corpora/vectors-key-directory-observation/cases", "**/case.json"),
     ("corpora/vectors-key-directory-observation/cases", "**/response.body"),
+    ("corpora/vectors-status-receipt-binding", "MANIFEST.json"),
+    ("corpora/vectors-status-receipt-binding/cases", "**/*.json"),
+    ("corpora/vectors-delegation-chain", "MANIFEST.json"),
+    ("corpora/vectors-delegation-chain/cases", "**/*.json"),
+    ("corpora/vectors-revocation-list", "MANIFEST.json"),
+    ("corpora/vectors-revocation-list/cases", "**/*.json"),
     ("corpora/vectors-authority-at-dispatch", "MANIFEST.json"),
     ("corpora/vectors-authority-at-dispatch/cases", "**/record.json"),
     ("corpora/vectors-authority-at-dispatch/cases", "**/dispatched.bin"),
@@ -417,6 +455,7 @@ OWNED = (
     ("corpora/vectors-decision-client-failure-modes", "MANIFEST.json"),
     ("corpora/vectors-decision-client-failure-modes/cases", "**/record.json"),
     ("corpora/vectors-refusal-reason-priority", "MANIFEST.json"),
+    ("corpora/vectors-agent-request-proof", "MANIFEST.json"),
     ("corpora/vectors-refusal-reason-priority/cases", "**/record.json"),
     ("corpora/vectors-responsibility-escalation", "MANIFEST.json"),
     ("corpora/vectors-responsibility-escalation/cases", "**/record.json"),
@@ -430,7 +469,20 @@ OWNED = (
     ("corpora/vectors-rsa-digestinfo/cases", "**/record.json"),
     ("corpora/vectors-execution-billing-finality", "MANIFEST.json"),
     ("corpora/vectors-execution-billing-finality/cases", "**/record.json"),
+    ("corpora/vectors-agent-request-proof/cases", "**/*.json"),
+    ("corpora/vectors-physical-completion", "MANIFEST.json"),
+    ("corpora/vectors-physical-completion/cases", "**/record.json"),
+    ("corpora/vectors-actor-marker-survival", "MANIFEST.json"),
+    ("corpora/vectors-actor-marker-survival", "TRUST.json"),
+    ("corpora/vectors-actor-marker-survival/cases", "**/*"),
+    ("corpora/vectors-cbor-receipt-chain", "MANIFEST.json"),
+    ("corpora/vectors-cbor-receipt-chain", "profile.json"),
+    ("corpora/vectors-cbor-receipt-chain/cases", "**/case.json"),
+    ("corpora/vectors-cbor-receipt-chain/cases", "**/chain.jsonl"),
     ("corpora/vectors-agent-card-receipt", "MANIFEST.json"),
+    ("corpora/vectors-credential-reachability", "MANIFEST.json"),
+    ("corpora/vectors-credential-reachability/cases", "**/case.json"),
+    ("corpora/vectors-credential-reachability/cases", "**/envelope.json"),
     ("corpora/vectors-credential-release", "MANIFEST.json"),
     ("corpora/vectors-agent-card-receipt/cases", "**/card.json"),
     ("corpora/vectors-agent-card-receipt/cases", "**/context.json"),
@@ -448,7 +500,9 @@ OWNED = (
     ("corpora/vectors-converted-argument-binding/cases", "**/executed.json"),
     ("corpora/vectors-converted-argument-binding/cases", "**/modified.json"),
     ("corpora/vectors-delegator-right", "MANIFEST.json"),
+    ("corpora/vectors-oasf-record", "MANIFEST.json"),
     ("corpora/vectors-delegator-right/cases", "**/record.json"),
+    ("corpora/vectors-oasf-record/cases", "**/record.json"),
     ("corpora/vectors-badge-vc-verify", "MANIFEST.json"),
     ("corpora/vectors-badge-vc-verify/cases", "**/case.json"),
     ("corpora/vectors-catalog-trust-manifest", "MANIFEST.json"),
@@ -493,6 +547,12 @@ OWNED = (
     ("corpora/vectors-acs-decision-record/members", "*.json"),
     ("corpora/vectors-acs-decision-record", "MANIFEST.json"),
     ("corpora/vectors-acs-decision-record", "INDEX.md"),
+    ("corpora/vectors-ave-id-resolution/cases", "*/output.*"),
+    ("corpora/vectors-ave-id-resolution", "MANIFEST.json"),
+    ("corpora/vectors-ave-id-resolution", "INDEX.md"),
+    ("corpora/vectors-decision-record/members", "*.json"),
+    ("corpora/vectors-decision-record", "MANIFEST.json"),
+    ("corpora/vectors-decision-record", "INDEX.md"),
     ("corpora/vectors-w3c-intake/vectors", "v*.json"),
     # Every fixture file carries an extension and no fixture directory does, so
     # this names the files under trees/ and never a directory the gate would
@@ -595,7 +655,8 @@ def owned_files(root: Path) -> dict[str, Path]:
     found: dict[str, Path] = {}
     for directory, pattern in OWNED:
         for path in sorted((root / directory).glob(pattern)):
-            found[str(path.relative_to(root))] = path
+            if path.is_file():
+                found[str(path.relative_to(root))] = path
     return found
 
 

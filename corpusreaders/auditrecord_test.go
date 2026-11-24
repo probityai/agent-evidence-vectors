@@ -7,6 +7,7 @@ import (
 	"path/filepath"
 	"strings"
 	"testing"
+	"time"
 )
 
 const arCorpusDir = "../corpora/vectors-agent-audit-record"
@@ -281,7 +282,18 @@ func TestAuditRecordIssuedAtRule(t *testing.T) {
 // member with a finding, in manifest order.
 func arFailingDraftIDs(t *testing.T) []string {
 	t.Helper()
-	result, err := Judge(arCorpusDir)
+	return arFailingWith(t, func(arVector) bool { return false })
+}
+
+// arFailingWith is arFailingDraftIDs with the proposed members whose verdict is
+// scored named by scoreProposed.
+func arFailingWith(t *testing.T, scoreProposed func(arVector) bool) []string {
+	t.Helper()
+	raw, err := os.ReadFile(filepath.Join(arCorpusDir, ManifestName))
+	if err != nil {
+		t.Fatal(err)
+	}
+	result, err := arJudge(arCorpusDir, raw, scoreProposed)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -332,9 +344,10 @@ func TestAuditRecordClosedSetsAreForced(t *testing.T) {
 }
 
 // TestAuditRecordFreshness pins the Section 5.4 sentences one at a time: an age
-// equal to maxAge is fresh and one second more is stale, an input never held is
-// unavailable, a lastResult up to the skew tolerance after reportedAt is fresh
-// and one second past it is malformed, and maxAge is a non-negative integer.
+// one second less than maxAge is fresh and an age equal to it is stale, an input
+// never held is unavailable, a lastResult up to the skew tolerance after the
+// reference time is fresh and one second past it is malformed, and maxAge is a
+// non-negative integer.
 func TestAuditRecordFreshness(t *testing.T) {
 	reportedAt, err := arInstant("2026-09-19T11:04:02Z")
 	if err != nil {
@@ -346,8 +359,9 @@ func TestAuditRecordFreshness(t *testing.T) {
 		unavailable bool
 		code        string
 	}{
-		{"2026-09-19T10:04:02Z", 3600, false, ""},
-		{"2026-09-19T10:04:01Z", 3600, true, ""},
+		{"2026-09-19T10:04:03Z", 3600, false, ""},
+		{"2026-09-19T10:04:02Z", 3600, true, ""},
+		{"2026-09-19T11:04:02Z", 0, true, ""},
 		{arNeverHeld, 3600, true, ""},
 		{"2026-09-19T11:09:02Z", 0, false, ""},
 		{"2026-09-19T11:09:03Z", 3600, false, "evaluation-result-after-decision"},
@@ -374,6 +388,87 @@ func TestAuditRecordFreshness(t *testing.T) {
 	} {
 		if _, ok := arMaxAge(c.value); ok != c.ok {
 			t.Errorf("maxAge %#v: accepted %v, want %v", c.value, ok, c.ok)
+		}
+	}
+}
+
+// arAgreeingProposed is the proposed members this reader, unweakened, already
+// reads as declared. A weakening that moves one of them shows the reading it
+// removed is load bearing; a proposed member the reader differs on from the
+// start cannot show a weakening, only the difference it was proposed to settle.
+func arAgreeingProposed(t *testing.T) func(arVector) bool {
+	t.Helper()
+	differs := map[string]bool{}
+	for _, id := range arFailingWith(t, arVector.proposed) {
+		differs[id] = true
+	}
+	return func(v arVector) bool { return v.proposed() && !differs[v.DraftID] }
+}
+
+// TestAuditRecordProposedMembersScoreOnTheirOwnBytes: Judge leaves a proposed
+// member's verdict unscored, and the weakening helper scores exactly the
+// proposed members this reader already agrees with.
+func TestAuditRecordProposedMembersScoreOnTheirOwnBytes(t *testing.T) {
+	manifest, _ := arLoad(t)
+	var proposed []string
+	for _, v := range manifest.Vectors {
+		if v.proposed() {
+			proposed = append(proposed, v.DraftID)
+		}
+	}
+	if len(proposed) == 0 {
+		t.Fatal("the corpus carries no proposed member, so this case proves nothing")
+	}
+	if got := arFailingDraftIDs(t); len(got) != 0 {
+		t.Fatalf("Judge scored a proposed member's verdict or a published member fails: %v", got)
+	}
+	agree := arAgreeingProposed(t)
+	if got := arFailingWith(t, agree); len(got) != 0 {
+		t.Fatalf("a proposed member the reader agrees with fails when scored: %v", got)
+	}
+	differs := arFailingWith(t, arVector.proposed)
+	for _, id := range differs {
+		if !arContains(proposed, id) {
+			t.Errorf("%s fails with every proposed member scored, and it is not proposed", id)
+		}
+	}
+}
+
+// TestAuditRecordReferenceTime pins the reference time of revision 04:
+// decision.reportedAt when no evaluatedAt is carried, decision.evaluatedAt when
+// one is, an evaluatedAt up to the skew tolerance after reportedAt accepted and
+// one second past it malformed, and an evaluatedAt that is not a date-time
+// malformed.
+func TestAuditRecordReferenceTime(t *testing.T) {
+	const reportedAt = "2026-09-19T11:04:02Z"
+	cases := []struct {
+		evaluatedAt any
+		want        string
+		code        string
+	}{
+		{nil, reportedAt, ""},
+		{"2026-09-19T10:34:02Z", "2026-09-19T10:34:02Z", ""},
+		{"2026-09-19T11:09:02Z", "2026-09-19T11:09:02Z", ""},
+		{"2026-09-19T11:09:03Z", "", "evaluation-result-after-decision"},
+		{"yesterday", "", "timestamp-malformed"},
+		{json.Number("1"), "", "timestamp-malformed"},
+	}
+	for _, c := range cases {
+		decision := map[string]any{"reportedAt": reportedAt}
+		if c.evaluatedAt != nil {
+			decision["evaluatedAt"] = c.evaluatedAt
+		}
+		got, err := arReferenceTime(map[string]any{"decision": decision})
+		code := ""
+		if err != nil {
+			code = err.Error()
+		}
+		if code != c.code {
+			t.Errorf("evaluatedAt %v: refusal %q, want %q", c.evaluatedAt, code, c.code)
+			continue
+		}
+		if c.code == "" && got.Format(time.RFC3339) != c.want {
+			t.Errorf("evaluatedAt %v: reference %s, want %s", c.evaluatedAt, got.Format(time.RFC3339), c.want)
 		}
 	}
 }

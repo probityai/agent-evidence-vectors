@@ -1,0 +1,48 @@
+{
+  "body": {
+    "entries": [
+      {
+        "id": "agent:a",
+        "kind": "agent",
+        "revokedAt": "2026-06-01T00:00:00Z"
+      },
+      {
+        "id": "build:a",
+        "kind": "build",
+        "revokedAt": "2026-06-01T00:00:00Z"
+      },
+      {
+        "id": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "kind": "grant",
+        "revokedAt": "2026-06-01T00:00:00Z"
+      },
+      {
+        "id": "24bae3b5b4cd9d845772d57bae38c285fb51524f8ffbc489159e2d42f79ca1b0",
+        "kind": "key",
+        "revokedAt": "2026-06-01T00:00:00Z"
+      },
+      {
+        "id": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+        "kind": "permit",
+        "revokedAt": "2026-06-01T00:00:00Z"
+      },
+      {
+        "id": "sponsor:a",
+        "kind": "sponsor",
+        "revokedAt": "2026-06-01T00:00:00Z"
+      },
+      {
+        "id": "stream:a",
+        "kind": "stream",
+        "revokedAt": "2026-06-01T00:00:00Z"
+      }
+    ],
+    "issuedAt": "2026-06-01T00:00:00Z",
+    "issuerKey": "kp3RZCvnuLUpYfUr5H0YV73FyfJjoz1dptFYYIL/Ys0=",
+    "listId": "example-revocations",
+    "previous": null,
+    "seq": 1,
+    "type": "https://probityai.github.io/agent-evidence-vectors/predicate/v1/revocation-list"
+  },
+  "sig": "VwxS4Ai0OajHD9aaF0ZsEWfCQ40P0mYTbwMJ95oLE+VbrBIhp51GDtf/iDrX+Ivi90hpQup3gVnb3V4Cwll1Bg=="
+}

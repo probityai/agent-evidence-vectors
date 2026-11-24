@@ -1,0 +1,20 @@
+{
+  "base": "conformant-witness-proven-to-policy",
+  "cases": [
+    {"controller": null, "criterionMet": "true", "decision": "conformant", "owed": "PROVEN_TO_POLICY", "reason": "result_follows_presentation", "reported": "PROVEN_TO_POLICY"},
+    {"controller": null, "criterionMet": "true", "decision": "ambiguous", "owed": "PROVEN_TO_POLICY", "reason": "observation_outcome_not_reported", "reported": "INDETERMINATE"},
+    {"controller": null, "criterionMet": "false", "decision": "conformant", "owed": "NOT_SATISFIED", "reason": "result_follows_presentation", "reported": "NOT_SATISFIED"},
+    {"controller": null, "criterionMet": "false", "decision": "ambiguous", "owed": "NOT_SATISFIED", "reason": "observation_outcome_not_reported", "reported": "INDETERMINATE"},
+    {"controller": "succeeded", "criterionMet": "false", "decision": "ambiguous", "owed": "CONFLICT", "reason": "conflict_erased", "reported": "NOT_SATISFIED"},
+    {"controller": null, "criterionMet": "absent", "decision": "conformant", "owed": "INDETERMINATE", "reason": "result_follows_presentation", "reported": "INDETERMINATE"},
+    {"controller": null, "criterionMet": "absent", "decision": "nonconformant", "owed": "INDETERMINATE", "reason": "negative_without_observation", "reported": "NOT_SATISFIED"},
+    {"controller": null, "criterionMet": "absent", "decision": "ambiguous", "owed": "INDETERMINATE", "reason": "criterion_unreported", "reported": "PROVEN_TO_POLICY"},
+    {"controller": "succeeded", "criterionMet": "absent", "decision": "conformant", "owed": "INDETERMINATE", "reason": "result_follows_presentation", "reported": "INDETERMINATE"},
+    {"controller": "failed", "criterionMet": "absent", "decision": "conformant", "owed": "INDETERMINATE", "reason": "result_follows_presentation", "reported": "INDETERMINATE"},
+    {"controller": null, "criterionMet": "null", "decision": "conformant", "owed": "INDETERMINATE", "reason": "result_follows_presentation", "reported": "INDETERMINATE"},
+    {"controller": null, "criterionMet": "null", "decision": "nonconformant", "owed": "INDETERMINATE", "reason": "negative_without_observation", "reported": "NOT_SATISFIED"},
+    {"controller": "succeeded", "criterionMet": "null", "decision": "conformant", "owed": "INDETERMINATE", "reason": "result_follows_presentation", "reported": "INDETERMINATE"},
+    {"controller": "failed", "criterionMet": "null", "decision": "ambiguous", "owed": "INDETERMINATE", "reason": "criterion_unreported", "reported": "PROVEN_TO_POLICY"}
+  ],
+  "note": "criterionMet true, false, absent and null against each reader; the Python corpus tests and the Go reader's internal test both require these answers (issue 554)."
+}

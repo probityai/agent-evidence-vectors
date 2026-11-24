@@ -52,7 +52,7 @@ Seventeen checks in a fixed order, and the first that fails names the reason:
 `receipt_not_evidenced`, `escalation_unanswered`, `acknowledged_outside_designated_role`,
 `authority_narrowed_before_acknowledgement`, `acceptance_not_evidenced`,
 `accepted_outside_designated_role`, `closure_not_evidenced`, `closed_outside_designated_role` and
-`closed_late`. Seven are named by a case. The other ten are forced by one change to the clean
+`closed_late`. The two reasons that establish are `authority_held_at_decision_time`, where the authority was held when the decision was made, and `closed_as_accepted`, where the clean path closed on time. Seven are named by a case. The other ten are forced by one change to the clean
 record in `tests/test_corpus.py`, so a receiver that skips any of them is caught. A late closure
 is its own state, `partial / closed_late`: closed, with the lateness visible, and neither a clean
 pass nor unresolved. A slot with no evidence counts as no evidence whatever the observation

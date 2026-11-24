@@ -1,0 +1,451 @@
+{
+  "corpusDigest": "db30b58a7ca32c8b8c31135b4b09ed75d16c9c5c757562ba553b9eefbacf7225",
+  "counts": {
+    "rejected": 24,
+    "verified": 9
+  },
+  "predicateType": "https://w3id.org/agent-evidence/predicate/v1/principal-action",
+  "specification": "spec/predicates/principal-action.md",
+  "suite": "principal-action/v1",
+  "vectors": [
+    {
+      "edit": "the baseline: four principals, an act chain naming the agent, the approval counted",
+      "expected": {
+        "decision": "verified",
+        "delegation": "act-chain",
+        "reason": "strict"
+      },
+      "files": {
+        "case.json": "ee5a4bec65d54ab63fe6b2ee9457ba90546b4971227a16506f18d0b5caef600a",
+        "envelope.json": "58e8f38f9b44f7b7c9f52b5c8828a2469c64c936abbaef0d480a3f68fa09e503"
+      },
+      "id": "strict-four-principals",
+      "path": "cases/strict-four-principals"
+    },
+    {
+      "edit": "only user and agent, and no act chain",
+      "expected": {
+        "decision": "verified",
+        "delegation": "act-absent",
+        "reason": "basic"
+      },
+      "files": {
+        "case.json": "ee5a4bec65d54ab63fe6b2ee9457ba90546b4971227a16506f18d0b5caef600a",
+        "envelope.json": "5dcc8c94ad29b30dd64a0a804532138d7648dee83565109dc3dc3c3910b62924"
+      },
+      "id": "basic-user-agent-act-absent",
+      "path": "cases/basic-user-agent-act-absent"
+    },
+    {
+      "edit": "only user and agent, the act chain names the agent",
+      "expected": {
+        "decision": "verified",
+        "delegation": "act-chain",
+        "reason": "basic"
+      },
+      "files": {
+        "case.json": "ee5a4bec65d54ab63fe6b2ee9457ba90546b4971227a16506f18d0b5caef600a",
+        "envelope.json": "78596a698310678eeae7e0c3932d34f12f81146f720b4486d191e219537b01fb"
+      },
+      "id": "basic-user-agent-act-chain",
+      "path": "cases/basic-user-agent-act-chain"
+    },
+    {
+      "edit": "four principals but no act chain: strict needs both",
+      "expected": {
+        "decision": "verified",
+        "delegation": "act-absent",
+        "reason": "basic"
+      },
+      "files": {
+        "case.json": "ee5a4bec65d54ab63fe6b2ee9457ba90546b4971227a16506f18d0b5caef600a",
+        "envelope.json": "0b0d1d2f041e25094ad5b2eca6392da7be066880a3574efb322cbd6f6d12cd9b"
+      },
+      "id": "basic-four-principals-act-absent",
+      "path": "cases/basic-four-principals-act-absent"
+    },
+    {
+      "edit": "the act chain has a prior actor behind the agent",
+      "expected": {
+        "decision": "verified",
+        "delegation": "act-chain",
+        "reason": "strict"
+      },
+      "files": {
+        "case.json": "ee5a4bec65d54ab63fe6b2ee9457ba90546b4971227a16506f18d0b5caef600a",
+        "envelope.json": "67ce8e751acf941f89474ab4e8cc02673a27abdcbbb366eba714a8c3d4d8df9b"
+      },
+      "id": "strict-nested-act-chain",
+      "path": "cases/strict-nested-act-chain"
+    },
+    {
+      "edit": "the act chain names the agent by its client identifier",
+      "expected": {
+        "decision": "verified",
+        "delegation": "act-chain",
+        "reason": "strict"
+      },
+      "files": {
+        "case.json": "ee5a4bec65d54ab63fe6b2ee9457ba90546b4971227a16506f18d0b5caef600a",
+        "envelope.json": "60ff5dee1bb5f2741f100c2e3e2d0067c3168f3177d67b2ffecbe9ff485129cc"
+      },
+      "id": "strict-act-names-client-id",
+      "path": "cases/strict-act-names-client-id"
+    },
+    {
+      "edit": "the user principal was established from an identity assertion grant",
+      "expected": {
+        "decision": "verified",
+        "delegation": "act-chain",
+        "reason": "strict"
+      },
+      "files": {
+        "case.json": "ee5a4bec65d54ab63fe6b2ee9457ba90546b4971227a16506f18d0b5caef600a",
+        "envelope.json": "c71d6c1e36f7cf4979594beeeb5ec868edea91ba9458bcf57875371690b0aa0c"
+      },
+      "id": "strict-id-jag-source",
+      "path": "cases/strict-id-jag-source"
+    },
+    {
+      "edit": "a custom-domain issuer whose declared provider is accepted as declared",
+      "expected": {
+        "decision": "verified",
+        "delegation": "act-chain",
+        "reason": "strict"
+      },
+      "files": {
+        "case.json": "ee5a4bec65d54ab63fe6b2ee9457ba90546b4971227a16506f18d0b5caef600a",
+        "envelope.json": "e8b44829e644d007dc85c5fe88520d956b40e65e7c75b5c49cca1b8a5e879a0f"
+      },
+      "id": "strict-custom-domain-declared",
+      "path": "cases/strict-custom-domain-declared"
+    },
+    {
+      "edit": "no provider declared and no pin recorded",
+      "expected": {
+        "decision": "verified",
+        "delegation": "act-chain",
+        "reason": "strict"
+      },
+      "files": {
+        "case.json": "ee5a4bec65d54ab63fe6b2ee9457ba90546b4971227a16506f18d0b5caef600a",
+        "envelope.json": "945b5ab380d3deb54e7c4aaf57ce23fb8a75d73a3d729605123366bbc0fa8dcb"
+      },
+      "id": "strict-no-optional-members",
+      "path": "cases/strict-no-optional-members"
+    },
+    {
+      "edit": "a role outside user, agent, sponsor and approver",
+      "expected": {
+        "decision": "rejected",
+        "reason": "principals_malformed"
+      },
+      "files": {
+        "case.json": "ee5a4bec65d54ab63fe6b2ee9457ba90546b4971227a16506f18d0b5caef600a",
+        "envelope.json": "b01ce89bad1f311dd267d2ffe867abefc3ed7605b5d3ad13165979995f4d018b"
+      },
+      "id": "principals-malformed",
+      "path": "cases/principals-malformed"
+    },
+    {
+      "edit": "the user principal does not name its credential",
+      "expected": {
+        "decision": "rejected",
+        "reason": "principal_user:principal_member_missing"
+      },
+      "files": {
+        "case.json": "ee5a4bec65d54ab63fe6b2ee9457ba90546b4971227a16506f18d0b5caef600a",
+        "envelope.json": "fc7dfde6a5ccdafba05f75c71f5245b3b6d30bdbf0cc9fe371a60eacf4c9922f"
+      },
+      "id": "user-member-missing",
+      "path": "cases/user-member-missing"
+    },
+    {
+      "edit": "the agent principal carries a member the type does not define",
+      "expected": {
+        "decision": "rejected",
+        "reason": "principal_agent:principal_member_unknown"
+      },
+      "files": {
+        "case.json": "ee5a4bec65d54ab63fe6b2ee9457ba90546b4971227a16506f18d0b5caef600a",
+        "envelope.json": "bd19d9b7d3b460ab689c8b43f5f5b22dbeb1b5b63a8fb775cc75c682e9660e82"
+      },
+      "id": "agent-member-unknown",
+      "path": "cases/agent-member-unknown"
+    },
+    {
+      "edit": "an issuer that is not an https URL",
+      "expected": {
+        "decision": "rejected",
+        "reason": "principal_user:principal_issuer_invalid"
+      },
+      "files": {
+        "case.json": "ee5a4bec65d54ab63fe6b2ee9457ba90546b4971227a16506f18d0b5caef600a",
+        "envelope.json": "1b495809e0ce99d3e33fb2695ec5fa2877d36ea55afadc6608abc90016acc4c2"
+      },
+      "id": "user-issuer-invalid",
+      "path": "cases/user-issuer-invalid"
+    },
+    {
+      "edit": "an audience naming one value twice",
+      "expected": {
+        "decision": "rejected",
+        "reason": "principal_user:principal_malformed"
+      },
+      "files": {
+        "case.json": "ee5a4bec65d54ab63fe6b2ee9457ba90546b4971227a16506f18d0b5caef600a",
+        "envelope.json": "18b444f4af7724f11ad999d91b04e4e1ac6dea79ea8041fe3f22fd961dd04992"
+      },
+      "id": "user-audience-duplicate",
+      "path": "cases/user-audience-duplicate"
+    },
+    {
+      "edit": "the sponsor key carries a private member",
+      "expected": {
+        "decision": "rejected",
+        "reason": "principal_sponsor:principal_key_invalid"
+      },
+      "files": {
+        "case.json": "ee5a4bec65d54ab63fe6b2ee9457ba90546b4971227a16506f18d0b5caef600a",
+        "envelope.json": "821e17bda5770d70c521d94eff8405b3b7ead778a3d6d869a3db7934a859ae42"
+      },
+      "id": "sponsor-private-key",
+      "path": "cases/sponsor-private-key"
+    },
+    {
+      "edit": "a thumbprint that does not recompute from the key",
+      "expected": {
+        "decision": "rejected",
+        "reason": "principal_agent:principal_thumbprint_mismatch"
+      },
+      "files": {
+        "case.json": "ee5a4bec65d54ab63fe6b2ee9457ba90546b4971227a16506f18d0b5caef600a",
+        "envelope.json": "b9082946cb299e854734828f66e469d47551aff04ebd81d914af8e3b4d971893"
+      },
+      "id": "agent-thumbprint-mismatch",
+      "path": "cases/agent-thumbprint-mismatch"
+    },
+    {
+      "edit": "the header kid differs from the key's kid",
+      "expected": {
+        "decision": "rejected",
+        "reason": "principal_user:principal_kid_mismatch"
+      },
+      "files": {
+        "case.json": "ee5a4bec65d54ab63fe6b2ee9457ba90546b4971227a16506f18d0b5caef600a",
+        "envelope.json": "3f0c571f3ce50049ff3182384f3f31bed5dda9e4466e6dd8ff393b9f73ed1095"
+      },
+      "id": "user-kid-mismatch",
+      "path": "cases/user-kid-mismatch"
+    },
+    {
+      "edit": "an Okta issuer declared as Auth0",
+      "expected": {
+        "decision": "rejected",
+        "reason": "principal_user:principal_provider_mismatch"
+      },
+      "files": {
+        "case.json": "ee5a4bec65d54ab63fe6b2ee9457ba90546b4971227a16506f18d0b5caef600a",
+        "envelope.json": "fe484ffe2b7da7d962dfbcadacec37d3129538db03c0a788fd82a50f4dc5e76a"
+      },
+      "id": "user-provider-mismatch",
+      "path": "cases/user-provider-mismatch"
+    },
+    {
+      "edit": "the key the client pinned is not the key the record names",
+      "expected": {
+        "decision": "rejected",
+        "reason": "principal_agent:principal_pin_mismatch"
+      },
+      "files": {
+        "case.json": "ee5a4bec65d54ab63fe6b2ee9457ba90546b4971227a16506f18d0b5caef600a",
+        "envelope.json": "03b6a1adab4454e714bfb347bc8bf81fe0f20ee591816019ae6512a6bfce7321"
+      },
+      "id": "agent-pin-mismatch",
+      "path": "cases/agent-pin-mismatch"
+    },
+    {
+      "edit": "the credential was issued after the action",
+      "expected": {
+        "decision": "rejected",
+        "reason": "principal_user:principal_not_yet_valid"
+      },
+      "files": {
+        "case.json": "ee5a4bec65d54ab63fe6b2ee9457ba90546b4971227a16506f18d0b5caef600a",
+        "envelope.json": "4e2c14f8333457d71d1a61c7e055ad519d332576a45c5c0b3062f4b4faaca2ab"
+      },
+      "id": "user-not-yet-valid",
+      "path": "cases/user-not-yet-valid"
+    },
+    {
+      "edit": "the credential expired at the moment of the action",
+      "expected": {
+        "decision": "rejected",
+        "reason": "principal_user:principal_expired"
+      },
+      "files": {
+        "case.json": "ee5a4bec65d54ab63fe6b2ee9457ba90546b4971227a16506f18d0b5caef600a",
+        "envelope.json": "ff9a0f0a67da0f009a1e928aff16ef6d34118da4169e1b976f3da951fd3f4726"
+      },
+      "id": "user-expired",
+      "path": "cases/user-expired"
+    },
+    {
+      "edit": "an approver from an issuer the verifier does not trust",
+      "expected": {
+        "decision": "rejected",
+        "reason": "principal_approver:principal_issuer_untrusted"
+      },
+      "files": {
+        "case.json": "ee5a4bec65d54ab63fe6b2ee9457ba90546b4971227a16506f18d0b5caef600a",
+        "envelope.json": "4608843d69f9ba8c7ff0493cf8b66caa461da13445da562f049541075151549c"
+      },
+      "id": "approver-issuer-untrusted",
+      "path": "cases/approver-issuer-untrusted"
+    },
+    {
+      "edit": "a consistent key the verifier did not pin for that issuer",
+      "expected": {
+        "decision": "rejected",
+        "reason": "principal_agent:principal_key_not_pinned"
+      },
+      "files": {
+        "case.json": "ee5a4bec65d54ab63fe6b2ee9457ba90546b4971227a16506f18d0b5caef600a",
+        "envelope.json": "871bb45318778253bb978f62e0eb28661b307232d8e046ea02eed108064bf40a"
+      },
+      "id": "agent-key-not-pinned",
+      "path": "cases/agent-key-not-pinned"
+    },
+    {
+      "edit": "an act claim without a sub",
+      "expected": {
+        "decision": "rejected",
+        "reason": "principal_user:principal_act_malformed"
+      },
+      "files": {
+        "case.json": "ee5a4bec65d54ab63fe6b2ee9457ba90546b4971227a16506f18d0b5caef600a",
+        "envelope.json": "c3b372bd9e747a73912d10334f029f94aa7a81d43445504c91e7f1aedf03e3dc"
+      },
+      "id": "user-act-malformed",
+      "path": "cases/user-act-malformed"
+    },
+    {
+      "edit": "an idJag block before its definition is published",
+      "expected": {
+        "decision": "rejected",
+        "reason": "principal_user:principal_idjag_undefined"
+      },
+      "files": {
+        "case.json": "ee5a4bec65d54ab63fe6b2ee9457ba90546b4971227a16506f18d0b5caef600a",
+        "envelope.json": "6e55c8009d626b69382f2c9036aa3c08ca2ee36b2892a2b951436c25f8eceb3d"
+      },
+      "id": "user-idjag-undefined",
+      "path": "cases/user-idjag-undefined"
+    },
+    {
+      "edit": "no agent principal",
+      "expected": {
+        "decision": "rejected",
+        "reason": "principals_need_user_and_agent"
+      },
+      "files": {
+        "case.json": "ee5a4bec65d54ab63fe6b2ee9457ba90546b4971227a16506f18d0b5caef600a",
+        "envelope.json": "95b83c85a0020e2055e1e11e136dc6c41931006682c259a032fe76d2100c35ea"
+      },
+      "id": "agent-missing",
+      "path": "cases/agent-missing"
+    },
+    {
+      "edit": "the user credential delegated to a different agent",
+      "expected": {
+        "decision": "rejected",
+        "reason": "principal_act_names_another_agent"
+      },
+      "files": {
+        "case.json": "ee5a4bec65d54ab63fe6b2ee9457ba90546b4971227a16506f18d0b5caef600a",
+        "envelope.json": "5e3734f6470e8c26bdb8b3b8e75f554b8031c3cf86912512c7ca0eec51f6112c"
+      },
+      "id": "act-names-another-agent",
+      "path": "cases/act-names-another-agent"
+    },
+    {
+      "edit": "an approver principal with no approval counted",
+      "expected": {
+        "decision": "rejected",
+        "reason": "principal_approver_not_an_approval_signer"
+      },
+      "files": {
+        "case.json": "ee5a4bec65d54ab63fe6b2ee9457ba90546b4971227a16506f18d0b5caef600a",
+        "envelope.json": "556cedb5402a84ed79b6c7f24e83f83947562ff046a679cda478c55cc22f5242"
+      },
+      "id": "approver-not-an-approval-signer",
+      "path": "cases/approver-not-an-approval-signer"
+    },
+    {
+      "edit": "a predicate type one character from this one",
+      "expected": {
+        "decision": "rejected",
+        "reason": "statement_malformed"
+      },
+      "files": {
+        "case.json": "ee5a4bec65d54ab63fe6b2ee9457ba90546b4971227a16506f18d0b5caef600a",
+        "envelope.json": "e58df0d915196cb075cc0869468a71c4ec3bb52fa7b9cd76188d7fffa2123854"
+      },
+      "id": "statement-malformed",
+      "path": "cases/statement-malformed"
+    },
+    {
+      "edit": "the action edited after the producer signed",
+      "expected": {
+        "decision": "rejected",
+        "reason": "recorder_signature_invalid"
+      },
+      "files": {
+        "case.json": "ee5a4bec65d54ab63fe6b2ee9457ba90546b4971227a16506f18d0b5caef600a",
+        "envelope.json": "1734f66f26c5e06b2faf5b38dfaf270c9d2525dabfb37565dfe50206d9171370"
+      },
+      "id": "recorder-signature-invalid",
+      "path": "cases/recorder-signature-invalid"
+    },
+    {
+      "edit": "a signed payload that is not RFC 8785 bytes",
+      "expected": {
+        "decision": "rejected",
+        "reason": "statement_not_canonical"
+      },
+      "files": {
+        "case.json": "ee5a4bec65d54ab63fe6b2ee9457ba90546b4971227a16506f18d0b5caef600a",
+        "envelope.json": "875c675aaa2789a97096deaaf5ae7b70a7520bbec36495d353c051c55414ca02"
+      },
+      "id": "statement-not-canonical",
+      "path": "cases/statement-not-canonical"
+    },
+    {
+      "edit": "an action carrying a member the type does not define",
+      "expected": {
+        "decision": "rejected",
+        "reason": "action_malformed"
+      },
+      "files": {
+        "case.json": "ee5a4bec65d54ab63fe6b2ee9457ba90546b4971227a16506f18d0b5caef600a",
+        "envelope.json": "d328a2e9770164536d655db75a901c41fc8fed0cd89c9bc499da4162a34ab8da"
+      },
+      "id": "action-malformed",
+      "path": "cases/action-malformed"
+    },
+    {
+      "edit": "the subject digest names another action",
+      "expected": {
+        "decision": "rejected",
+        "reason": "action_digest_mismatch"
+      },
+      "files": {
+        "case.json": "ee5a4bec65d54ab63fe6b2ee9457ba90546b4971227a16506f18d0b5caef600a",
+        "envelope.json": "4d7ae0bf73adf761bba3c45f91fa92ab2f05b8a869e9ae4dfe187fc4bc86dee5"
+      },
+      "id": "action-digest-mismatch",
+      "path": "cases/action-digest-mismatch"
+    }
+  ],
+  "verifierContract": "verifier case.json --json; exit 0 verified, 1 rejected"
+}

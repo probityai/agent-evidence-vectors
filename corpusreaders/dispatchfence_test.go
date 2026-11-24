@@ -66,12 +66,12 @@ func TestDispatchFenceEachCheckMovesTheVerdict(t *testing.T) {
 			t.Fatalf("want a derived allow, got %q", got)
 		}
 	})
-	t.Run("the effect ending at the expiry is allowed and one second later is not", func(t *testing.T) {
-		later := strings.Replace(dfRead(t, "allow-effect-ends-at-expiry"),
+	t.Run("the effect ending at the expiry is inside the hold and one second later is not", func(t *testing.T) {
+		later := strings.Replace(dfRead(t, "commit-at-expiry"),
 			`"endedAt": "2026-10-24T12:02:00Z"`, `"endedAt": "2026-10-24T12:02:01Z"`, 1)
-		dir := dfStage(t, "allow-effect-ends-at-expiry", later)
-		got := scDerived(t, dir, "allow-effect-ends-at-expiry")
-		for _, want := range []string{"derived deny/hold_expired_before_effect_ended", "hold covers commit: false"} {
+		dir := dfStage(t, "commit-at-expiry", later)
+		got := scDerived(t, dir, "commit-at-expiry")
+		for _, want := range []string{"derived deny/hold_expired_before_effect_ended"} {
 			if !strings.Contains(got, want) {
 				t.Fatalf("want %q in %q", want, got)
 			}

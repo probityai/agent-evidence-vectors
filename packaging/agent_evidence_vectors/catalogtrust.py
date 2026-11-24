@@ -240,14 +240,14 @@ def b64url(data: bytes) -> str:
 
 # --------------------------------------------------------------------------- RFC 8785
 
-def _number(value: int | float) -> str:
+def _number(value: int | float, limit: int = SAFE) -> str:
     if isinstance(value, int):
-        if abs(value) > SAFE:
+        if abs(value) > limit:
             raise Refused("number_not_interoperable")
         return str(value)
     if value != value or value in (float("inf"), float("-inf")):
         raise Refused("no_canonical_form")
-    if abs(value) > SAFE:
+    if abs(value) > limit:
         raise Refused("number_not_interoperable")
     if value == 0:
         return "0"
@@ -293,8 +293,12 @@ def _string(text: str) -> str:
     return "".join(out)
 
 
-def canonical(value: Any) -> bytes:
-    """RFC 8785 bytes; integers past 2**53 - 1 are refused as not interoperable."""
+def canonical(value: Any, limit: int = SAFE) -> bytes:
+    """RFC 8785 bytes; numbers past ``limit`` (2**53 - 1) are refused as not interoperable.
+
+    A verifier keeps the default. A signer passes ``limit=2**53`` to write 2**53, the double
+    a parser reads 2**53 + 1 as; every integer up to 2**53 is exactly a double.
+    """
     def ser(v: Any) -> str:
         if v is None:
             return "null"
@@ -303,7 +307,7 @@ def canonical(value: Any) -> bytes:
         if v is False:
             return "false"
         if isinstance(v, (int, float)):
-            return _number(v)
+            return _number(v, limit)
         if isinstance(v, str):
             return _string(v)
         if isinstance(v, list):

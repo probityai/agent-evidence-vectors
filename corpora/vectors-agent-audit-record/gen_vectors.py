@@ -169,10 +169,14 @@ def seal_commitment(pred: dict[str, Any]) -> None:
 # ---------------------------------------------------------------------------
 # Evaluation inputs (Section 5.4 of draft-gilda-audit-agent-audit-record-00).
 # Every entry carries input, lastResult and maxAge, and every age is measured
-# from lastResult to decision.reportedAt, 2026-09-19T11:04:02Z in every member
-# except FR17a; the skew tolerance is 300 seconds. The accept members carry the
-# inputs the draft's own example prints: a policy read at 10:00:00 under a
-# day's maximum and a standing value read at 11:00:00 under an hour's.
+# from lastResult to the reference time: decision.evaluatedAt where the record
+# carries it (FR21 to FR27, revision 05) and decision.reportedAt otherwise,
+# 2026-09-19T11:04:02Z in every member except FR17a. An input is fresh while its
+# age is less than maxAge, so an age equal to maxAge is stale (revision 05;
+# revisions 00 to 04 called it fresh). The skew tolerance is 300 seconds. The
+# accept members carry the inputs the draft's own example prints: a policy read
+# at 10:00:00 under a day's maximum and a standing value read at 11:00:00 under
+# an hour's.
 # ---------------------------------------------------------------------------
 
 NEVER_HELD = "none"
@@ -1555,6 +1559,7 @@ def define() -> None:
         member(draft_id, slug, parent, row, build, "malformed", [code])
 
     define_freshness()
+    define_evaluated_at()
     define_retained()
     define_revision_01()
     define_consumption()
@@ -1562,6 +1567,7 @@ def define() -> None:
     define_settlement()
     define_audit_next()
     define_principal()
+    define_principal_provider_and_pin()
     define_data_subject()
     define_reject_paths()
     rank = {draft_id: i for i, draft_id in enumerate(ORDER)}
@@ -1592,13 +1598,6 @@ def define_freshness() -> None:
             _with_inputs("A1", "FR1", fresh),
         ),
         (
-            "FR2",
-            "fr2-age-equal-to-max-age-is-fresh",
-            "FR1 with standing-source's age at decision.reportedAt exactly equal to its "
-            "maxAge, 3600 seconds, so the input is fresh",
-            _with_inputs("A1", "FR2", second_hop_inputs("2026-09-19T10:04:02Z")),
-        ),
-        (
             "FR3",
             "fr3-forwarded-standing-one-second-stale",
             "A10 written by the second of two hops, the forwarded standing-source one second "
@@ -1615,6 +1614,23 @@ def define_freshness() -> None:
     ]
     for draft_id, slug, row, build in accepts:
         member(draft_id, slug, None, row, build, "valid", tier="authoritative")
+
+    # FR2 keeps the bytes it shipped with as an accept member through v0.26.0 and
+    # later, and revision 05 moves the boundary under it: an age equal to maxAge
+    # is stale, so evaluated beside it is malformed.
+    member(
+        "FR2",
+        "fr2-age-equal-to-max-age-is-stale",
+        "FR1",
+        "evaluated beside an input whose age at decision.reportedAt is exactly its maxAge, "
+        "3600 seconds, so the input is stale",
+        mutate(
+            "FR1",
+            _entry_change(STANDING_ENTRY, lambda e: e.update(lastResult="2026-09-19T10:04:02Z")),
+        ),
+        "malformed",
+        ["evaluation-inconsistent"],
+    )
 
     rejects: list[tuple[str, str, str, str, Callable[[], Built], str]] = [
         (
@@ -1761,7 +1777,7 @@ def define_freshness() -> None:
         "fr18-last-result-inside-skew-tolerance",
         None,
         "FR1 with key-source's lastResult 300 seconds after decision.reportedAt, exactly the "
-        "skew tolerance: not malformed, and an age below zero is at most maxAge, so fresh",
+        "skew tolerance: not malformed, and an age below zero is less than maxAge, so fresh",
         _with_inputs(
             "A1",
             "FR18",
@@ -1852,6 +1868,153 @@ def define_freshness() -> None:
         mutate("FR17b", _fr17c),
         "malformed",
         ["evaluation-inconsistent"],
+        section="5.4",
+    )
+
+
+# ---------------------------------------------------------------------------
+# The time a decision was taken (revision 05, rows FR21 to FR27).
+#
+# decision.evaluatedAt is optional: the time the decision point evaluated its
+# inputs and took the decision. Where the record carries it, every entry's age
+# and the skew of every lastResult are measured to it; otherwise to
+# decision.reportedAt. An evaluatedAt later than reportedAt by more than the
+# skew tolerance is malformed. Each member below is wrong for exactly one reader:
+#
+# * FR21 to FR23: a reader that measures to reportedAt and ignores evaluatedAt.
+#   FR21 decided 1800 seconds before it reported, with standing-source 2042
+#   seconds old then and 3842 seconds old at reportedAt; FR22 is FR21 recorded as
+#   not-evaluated naming it, which the set derived at reportedAt would match.
+# * FR23 and FR24: the boundary at evaluatedAt, one second inside maxAge (fresh)
+#   and exactly at it (stale).
+# * FR25 and FR26: evaluatedAt 301 seconds after reportedAt (malformed) and 300
+#   seconds after (valid). Both are built on FR1, whose entries are fresh at
+#   either time, so only the evaluatedAt sentence refuses FR25. Built on FR21, as
+#   the draft's row first named, standing-source would also be stale at the later
+#   time and FR25 would be malformed under a reader that has no evaluatedAt rule.
+# * FR27, a sentence no Appendix B row isolates: policy-source produced 301
+#   seconds after evaluatedAt and before reportedAt, so only a reader measuring
+#   the skew to the reference time refuses it.
+# ---------------------------------------------------------------------------
+
+#: FR21's decision.evaluatedAt, 1800 seconds before the reportedAt of A1.
+EVALUATED_EARLY = "2026-09-19T10:34:02Z"
+
+
+def _evaluated_at(stamp: str) -> Callable[[dict[str, Any]], None]:
+    return _set("decision.evaluatedAt", stamp)
+
+
+def _standing_at(parent: str, name: str, last_result: str) -> Callable[[], Built]:
+    """``parent`` with standing-source's lastResult moved, kept as an accept."""
+
+    def build() -> Built:
+        pred = from_pred(parent)
+        for item in pred["evaluation"]["inputs"]:
+            if item["input"] == "standing-source":
+                item["lastResult"] = last_result
+        return accept(name, pred)
+
+    return build
+
+
+def build_fr21() -> Built:
+    pred = from_pred("A1")
+    pred["decision"]["evaluatedAt"] = EVALUATED_EARLY
+    pred["evaluation"]["inputs"] = [
+        entry("policy-source", "2026-09-19T10:00:00Z", DAY),
+        entry("standing-source", "2026-09-19T10:00:00Z", HOUR),
+    ]
+    return accept("FR21", pred)
+
+
+def build_fr26() -> Built:
+    pred = from_pred("FR1")
+    pred["decision"]["evaluatedAt"] = "2026-09-19T11:09:02Z"
+    return accept("FR26", pred)
+
+
+def _fr22(pred: dict[str, Any]) -> None:
+    pred["evaluation"]["status"] = "not-evaluated"
+    pred["evaluation"]["unavailableInput"] = ["standing-source"]
+
+
+def _fr27(pred: dict[str, Any]) -> None:
+    pred["evaluation"]["inputs"][0]["lastResult"] = "2026-09-19T10:39:03Z"
+
+
+def define_evaluated_at() -> None:
+    accepts: list[tuple[str, str, str, Callable[[], Built]]] = [
+        (
+            "FR21",
+            "fr21-evaluated-at-fresh-at-evaluation-stale-at-report",
+            "A1 with decision.evaluatedAt 1800 seconds before decision.reportedAt and "
+            "standing-source fresh at decision.evaluatedAt (2042 seconds under 3600) but older "
+            "than its maxAge at decision.reportedAt (3842 seconds), under evaluated",
+            build_fr21,
+        ),
+        (
+            "FR23",
+            "fr23-evaluated-at-one-second-inside-max-age",
+            "FR21 with standing-source one second younger than its maxAge at "
+            "decision.evaluatedAt (3599 seconds under 3600)",
+            _standing_at("FR21", "FR23", "2026-09-19T09:34:03Z"),
+        ),
+        (
+            "FR26",
+            "fr26-evaluated-at-at-skew-tolerance-after-report",
+            "FR1 with decision.evaluatedAt 300 seconds after decision.reportedAt, exactly the "
+            "skew tolerance",
+            build_fr26,
+        ),
+    ]
+    for draft_id, slug, row, build in accepts:
+        member(
+            draft_id, slug, None, row, build, "valid", tier="authoritative"
+        )
+    rejects: list[tuple[str, str, str, str, Callable[[], Built], str]] = [
+        (
+            "FR22",
+            "fr22-not-evaluated-naming-input-fresh-at-evaluated-at",
+            "FR21",
+            "not-evaluated naming standing-source, which is fresh at decision.evaluatedAt: the "
+            "set derived at decision.reportedAt would match it",
+            mutate("FR21", _fr22),
+            "evaluation-inconsistent",
+        ),
+        (
+            "FR24",
+            "fr24-evaluated-at-age-equal-to-max-age",
+            "FR23",
+            "standing-source exactly its maxAge old at decision.evaluatedAt (3600 seconds under "
+            "3600), under evaluated",
+            mutate(
+                "FR23",
+                lambda p: p["evaluation"]["inputs"][1].update(lastResult="2026-09-19T09:34:02Z"),
+            ),
+            "evaluation-inconsistent",
+        ),
+        (
+            "FR25",
+            "fr25-evaluated-at-past-skew-tolerance-after-report",
+            "FR1",
+            "decision.evaluatedAt 301 seconds after decision.reportedAt, more than the skew "
+            "tolerance, every entry fresh at either time",
+            mutate("FR1", _evaluated_at("2026-09-19T11:09:03Z")),
+            "evaluation-result-after-decision",
+        ),
+    ]
+    for draft_id, slug, parent, row, build, code in rejects:
+        member(draft_id, slug, parent, row, build, "malformed", [code])
+    member(
+        "FR27",
+        "fr27-last-result-past-skew-tolerance-after-evaluated-at",
+        "FR21",
+        "policy-source's lastResult 301 seconds after decision.evaluatedAt and before "
+        "decision.reportedAt: the skew is measured to the reference time",
+        mutate("FR21", _fr27),
+        "malformed",
+        ["evaluation-result-after-decision"],
         section="5.4",
     )
 
@@ -3113,10 +3276,14 @@ def _read_state_at(pred: dict[str, Any], stamp: str) -> None:
     pred["evaluation"]["inputs"][CONSUMPTION_ENTRY]["lastResult"] = stamp
 
 
-def _zero_settled_later(reported_at: str) -> Callable[[], list[dict[str, Any]]]:
-    """CS53 and CS54: the zero settlement of CS50, then a new operation under the
+def _zero_settled_later(
+    reported_at: str, label: str = "zero-settled-later"
+) -> Callable[[], list[dict[str, Any]]]:
+    """CS53 to CS55: the zero settlement of CS50, then a new operation under the
     same limit document, dated reported_at, that reads a later revision, holds
-    nothing and counts what CS50 read as consumed."""
+    nothing and counts what CS50 read as consumed. The later record's recordId is
+    label: a set whose records match another member's bytes would collide with it,
+    so CS55, which differs from CS54 only in its reading, takes its own label."""
 
     def records() -> list[dict[str, Any]]:
         settling = from_pred("CS50")
@@ -3125,7 +3292,7 @@ def _zero_settled_later(reported_at: str) -> Callable[[], list[dict[str, Any]]]:
             revision=43,
             same_request=False,
             requested=5_000_000,
-            record="zero-settled-later",
+            record=label,
         )
         _in_asset(later, USDC_BASE_SEPOLIA)
         _consumption(later)["payee"] = PAYEE_P
@@ -3136,7 +3303,7 @@ def _zero_settled_later(reported_at: str) -> Callable[[], list[dict[str, Any]]]:
         read_before = read_at - datetime.timedelta(seconds=2)
         _read_state_at(later, read_before.strftime("%Y-%m-%dT%H:%M:%SZ"))
         seal_commitment(later)
-        return [_named(settling, "zero-settled-call"), _named(later, "zero-settled-later")]
+        return [_named(settling, "zero-settled-call"), _named(later, label)]
 
     return records
 
@@ -3349,6 +3516,7 @@ def define_settlement() -> None:
             "2026-09-19T11:10:02Z",
             "malformed",
             "consumption-set-release-unshown",
+            "zero-settled-later",
         ),
         (
             "CS54",
@@ -3358,15 +3526,27 @@ def define_settlement() -> None:
             UPTO_DEADLINE,
             "valid",
             None,
+            "zero-settled-later",
+        ),
+        (
+            "CS55",
+            "cs55-set-zero-settlement-released-at-deadline-proposed",
+            "CS53 where the later record is dated at the permit's deadline: each record "
+            "valid, the set malformed, under the proposed reading that a record must be "
+            "dated after the deadline to release the hold",
+            UPTO_DEADLINE,
+            "malformed",
+            "consumption-set-release-unshown",
+            "zero-settled-later-proposed",
         ),
     ]
-    for draft_id, slug, row, reported_at, verdict, joint_code in zero_sets:
+    for draft_id, slug, row, reported_at, verdict, joint_code, label in zero_sets:
         member(
             draft_id,
             slug,
             None,
             row,
-            _ledger_set(draft_id, _zero_settled_later(reported_at)),
+            _ledger_set(draft_id, _zero_settled_later(reported_at, label)),
             "valid",
             tier="authoritative",
             section="5.9",
@@ -3505,7 +3685,7 @@ def define_audit_next() -> None:
 
 # ---------------------------------------------------------------------------
 # Principal standing under the v2 URI (revision 03, rows PS1 and PS2), and the
-# open boundary beside them (PS1b). Contributed by Wes Jackson in
+# boundary beside them (PS1b). Contributed by Wes Jackson in
 # probityai/agent-evidence-vectors#412, built as written there; the boundary
 # case is Girish Konda's.
 #
@@ -3514,10 +3694,11 @@ def define_audit_next() -> None:
 # under the v2 URI. PS1 is A10 under that URI: issuer standing fresh, principal
 # standing unavailable, recorded not-evaluated. PS2 is the same record under the
 # v1 URI, where the value is outside the set. PS1b puts principal standing
-# exactly at maxAge, where draft-jackson-wimse-evaluation-05 Section 3 forbids
-# using the input ("at or past its horizon") and Section 5.4 of revision 03
-# calls it fresh ("an age equal to maxAge is fresh"). No record satisfies both,
-# so the member is open until the two drafts carry one boundary.
+# exactly at maxAge. draft-jackson-wimse-evaluation-05 Section 3 forbids using
+# the input ("at or past its horizon") and Section 5.4 of revision 03 called it
+# fresh ("an age equal to maxAge is fresh"), so the member was open between the
+# two drafts until revision 05 adopts the first boundary: an input exactly
+# maxAge old is stale, and PS1b, not-evaluated naming it, is valid.
 # ---------------------------------------------------------------------------
 
 #: The principal-standing value of PS1b: exactly 3600 seconds before reportedAt.
@@ -3540,26 +3721,6 @@ def build_ps1(principal_last_result: str = STALE, predicate_type: str = PREDICAT
     return {"payload": canonical_bytes(stmt)}
 
 
-TWO_READINGS_PS1B = [
-    {
-        "verdict": "valid",
-        "rationale": "draft-jackson-wimse-evaluation-05 Section 3: a verifier must not use "
-        "an input at or past its horizon, its as-of time plus the pinned maximum age, so at "
-        "an age equal to maxAge the input is unavailable and not-evaluated naming it is the "
-        "record required. The reading if this draft adopts that boundary (an input is fresh "
-        "when its age is less than maxAge, and FR2 becomes malformed)",
-    },
-    {
-        "verdict": "malformed",
-        "rationale": "Section 5.4 of draft-gilda-audit-agent-audit-record-03 as filed: an "
-        "age equal to maxAge is fresh (FR2), so the derived unavailable set is empty and a "
-        "not-evaluated record naming the input fails the recompute of Section 4.6. The "
-        "reading if draft-jackson-wimse-evaluation adopts this draft's boundary (past its "
-        "horizon, in place of at or past)",
-    },
-]
-
-
 # ---------------------------------------------------------------------------
 # Principal standing from a published commitment (rows PS3 to PS5, written for
 # revision 04), from probityai/agent-evidence-vectors#402.
@@ -3574,7 +3735,7 @@ TWO_READINGS_PS1B = [
 # * PS3: no commitment held from the publisher. lastResult is none, so the
 #   input was never established and the record is not-evaluated naming
 #   principal-standing-source. A commitment held past its maximum age is PS1,
-#   and one exactly at it is PS1b, which stays open between the two drafts.
+#   and one exactly at it is PS1b, stale since revision 04.
 # * PS4: the commitment is current and the proof against it shows the
 #   principal's standing withdrawn. Every input was established, so the record
 #   is evaluated, and the decision is deny.
@@ -3679,12 +3840,11 @@ def define_principal_standing() -> None:
         "ps1b-principal-standing-age-equal-to-max-age",
         "PS1",
         "principal-standing-source exactly at maxAge (age 3600 under 3600) and not "
-        "answering, still not-evaluated naming it: open between "
-        "draft-jackson-wimse-evaluation-05 Section 3 and this section",
+        "answering, not-evaluated naming it: an input exactly maxAge old is stale, the "
+        "boundary of draft-jackson-wimse-evaluation-05 Section 3 that revision 04 adopts",
         lambda: build_ps1(AT_HORIZON),
-        None,
-        ["evaluation-inconsistent"],
-        readings=TWO_READINGS_PS1B,
+        "valid",
+        tier="authoritative",
         section="5.4",
         predicate_type=PREDICATE_TYPE_V2,
     )
@@ -3692,7 +3852,7 @@ def define_principal_standing() -> None:
 
 
 # ---------------------------------------------------------------------------
-# The authenticated principal (revision 04, rows PR1 to PR11).
+# The authenticated principal (revision 04, rows PR1 to PR16).
 #
 # A decision point that authenticated the call through an identity provider
 # knows who the principal is: the issuer, the subject, the client, the
@@ -3929,6 +4089,236 @@ def define_principal() -> None:
             "malformed",
             [code],
         )
+    define_principal_bounds()
+
+
+def _lifetime(issued: str, expires: str) -> Callable[[dict[str, Any]], None]:
+    def change(pred: dict[str, Any]) -> None:
+        pred["principal"]["issuedAt"] = issued
+        pred["principal"]["expiresAt"] = expires
+
+    return change
+
+
+def define_principal_bounds() -> None:
+    """PR12 to PR16 (Laurent Lemonnier's two readings on #401). The skew
+    tolerance applies on both sides of the token's lifetime: decision.reportedAt
+    is 11:04:02, so a token that expired four minutes before it, or was issued
+    four minutes after it, is valid, and one second past the 300-second
+    tolerance on either side is refused. Under subjectKind system the subject is
+    whatever identifier the issuer uses for the client (RFC 9068, Section 2.2),
+    which need not equal clientId, and a verifier does not compare them."""
+    bounds = [
+        (
+            "PR12",
+            "pr12-principal-expired-within-skew",
+            "PR1 whose token expired at 11:00:02, four minutes before decision.reportedAt and "
+            "within the skew tolerance",
+            _lifetime("2026-09-19T10:00:02Z", "2026-09-19T11:00:02Z"),
+            "valid",
+            None,
+        ),
+        (
+            "PR13",
+            "pr13-principal-issued-within-skew",
+            "PR1 whose token was issued at 11:08:02, four minutes after decision.reportedAt and "
+            "within the skew tolerance",
+            _lifetime("2026-09-19T11:08:02Z", "2026-09-19T12:08:02Z"),
+            "valid",
+            None,
+        ),
+        (
+            "PR14",
+            "pr14-principal-expired-past-skew",
+            "PR1 whose token expired at 10:59:01, 301 seconds before decision.reportedAt: one "
+            "second past the skew tolerance",
+            _lifetime("2026-09-19T09:59:01Z", "2026-09-19T10:59:01Z"),
+            "malformed",
+            "principal-expired",
+        ),
+        (
+            "PR15",
+            "pr15-principal-issued-past-skew",
+            "PR1 whose token was issued at 11:09:03, 301 seconds after decision.reportedAt: one "
+            "second past the skew tolerance",
+            _lifetime("2026-09-19T11:09:03Z", "2026-09-19T12:09:03Z"),
+            "malformed",
+            "principal-not-yet-valid",
+        ),
+    ]
+    for draft_id, slug, row, change, verdict, code in bounds:
+        member(
+            draft_id,
+            slug,
+            "PR1",
+            row,
+            mutate("PR1", change),
+            verdict,
+            [code] if code else [],
+            tier="authoritative" if verdict == "valid" else None,
+        )
+    member(
+        "PR16",
+        "pr16-principal-system-subject-not-client-id",
+        "PR2",
+        "PR2 where the principal's subject is the issuer's own identifier for the client, not "
+        "its client_id, as RFC 9068 Section 2.2 allows: valid, a verifier does not compare them",
+        mutate("PR2", _principal_edit("subject", "0oa8f5j3ecb5w3dF35d7")),
+        "valid",
+        [],
+        tier="authoritative",
+    )
+
+
+# ---------------------------------------------------------------------------
+# Who runs the issuer, and whether its key was pinned (revision 04, rows PR17
+# to PR27).
+#
+# Two optional members of `principal`, with values from the vocabulary's
+# `principal_identity` terms. `identityProvider` names who operates the issuer:
+# where the issuer's host or path names a provider, a declared value that
+# differs is refused (`principal-provider-mismatch`); on a custom domain a
+# declared value is accepted as declared. `pinnedThumbprint` is the RFC 7638
+# thumbprint the client pinned for the issuer before its first call: it must
+# equal `keyThumbprint` (`principal-pin-mismatch`), and its absence means the
+# client did not pin. PR17, PR19, PR20, PR22 and PR26 are accepted; each reject
+# member changes one value of an accepted member and reaches one refusal.
+# ---------------------------------------------------------------------------
+
+#: Issuers whose host or path names the provider that runs them.
+OKTA_ISSUER = "https://acme.okta.com/oauth2/default"
+ENTRA_ISSUER = "https://login.microsoftonline.com/7f3c2d1e-0000-4000-8000-00000000a11c/v2.0"
+KEYCLOAK_ISSUER = "https://sso.example.org/realms/agents"
+SELF_ISSUED_ISSUER = "https://self-issued.me/v2"
+
+
+def _principal_members(**changes: Any) -> Callable[[dict[str, Any]], None]:
+    return _with_principal(principal_of(_p256_jwk(), **changes))
+
+
+def define_principal_provider_and_pin() -> None:
+    accepted = [
+        (
+            "PR17",
+            "pr12-principal-provider-derived",
+            "PR1 from an Okta org issuer, identityProvider okta: the declared value agrees with "
+            "the provider the issuer's host names",
+            _principal_members(issuer=OKTA_ISSUER, identityProvider="okta"),
+        ),
+        (
+            "PR19",
+            "pr14-principal-provider-declared-custom-domain",
+            "PR1, whose issuer is a custom domain no host or path rule names, with "
+            "identityProvider okta: accepted as declared, not derived",
+            _principal_members(identityProvider="okta"),
+        ),
+        (
+            "PR20",
+            "pr15-principal-provider-self-issued",
+            "PR1 with identityProvider self_issued: the deploying party runs the issuer, so no "
+            "third party vouches for the principal",
+            _principal_members(identityProvider="self_issued"),
+        ),
+        (
+            "PR22",
+            "pr17-principal-key-pinned",
+            "PR1 with pinnedThumbprint equal to keyThumbprint: the client pinned the issuer's key "
+            "before its first call",
+            _principal_members(pinnedThumbprint=jwk_thumbprint(_p256_jwk())),
+        ),
+        (
+            "PR26",
+            "pr21-principal-entra-pinned",
+            "PR1 from a Microsoft Entra issuer with identityProvider entra and the key pinned: "
+            "both members present",
+            _principal_members(
+                issuer=ENTRA_ISSUER,
+                identityProvider="entra",
+                pinnedThumbprint=jwk_thumbprint(_p256_jwk()),
+            ),
+        ),
+    ]
+    for draft_id, slug, row, change in accepted:
+        member(
+            draft_id,
+            slug,
+            "PR1",
+            row,
+            derived(draft_id, "PR1", change),
+            "valid",
+            tier="authoritative",
+        )
+    rejects: list[tuple[str, str, str, str, Callable[[dict[str, Any]], None], str]] = [
+        (
+            "PR18",
+            "pr13-principal-provider-contradicts-issuer",
+            "PR17",
+            "PR17 declaring identityProvider auth0 for an issuer whose host names Okta",
+            _principal_edit("identityProvider", "auth0"),
+            "principal-provider-mismatch",
+        ),
+        (
+            "PR21",
+            "pr16-principal-self-issued-declared-third-party",
+            "PR20",
+            "PR20 from the OpenID self-issued issuer declaring identityProvider okta: a "
+            "self-issued principal cannot be presented as vouched for by a third party",
+            _principal_edits(issuer=SELF_ISSUED_ISSUER, identityProvider="okta"),
+            "principal-provider-mismatch",
+        ),
+        (
+            "PR23",
+            "pr18-principal-pin-mismatch",
+            "PR22",
+            "PR22 whose pinnedThumbprint is the thumbprint of the issuer's Ed25519 key while key "
+            "is its P-256 key: the pin does not hold",
+            _principal_edit("pinnedThumbprint", jwk_thumbprint(_ed25519_jwk())),
+            "principal-pin-mismatch",
+        ),
+        (
+            "PR24",
+            "pr19-principal-pin-malformed",
+            "PR22",
+            "PR22 whose pinnedThumbprint carries base64 padding: not an RFC 7638 thumbprint in "
+            "base64url without padding",
+            _principal_edit("pinnedThumbprint", jwk_thumbprint(_p256_jwk()) + "="),
+            "principal-malformed",
+        ),
+        (
+            "PR25",
+            "pr20-principal-provider-unregistered",
+            "PR19",
+            "PR19 with identityProvider google, a value the closed set does not name",
+            _principal_edit("identityProvider", "google"),
+            "principal-malformed",
+        ),
+        (
+            "PR27",
+            "pr22-principal-provider-other-hides-derived",
+            "PR17",
+            "PR17 from a Keycloak realm issuer declaring identityProvider other: other cannot "
+            "replace the provider the issuer's path names",
+            _principal_edits(issuer=KEYCLOAK_ISSUER, identityProvider="other"),
+            "principal-provider-mismatch",
+        ),
+    ]
+    for draft_id, slug, base, row, change, code in rejects:
+        member(
+            draft_id,
+            slug,
+            base,
+            row,
+            mutate(base, change),
+            "malformed",
+            [code],
+        )
+
+
+def _principal_edits(**changes: Any) -> Callable[[dict[str, Any]], None]:
+    def change(pred: dict[str, Any]) -> None:
+        pred["principal"].update(changes)
+
+    return change
 
 
 def _expired(pred: dict[str, Any]) -> None:
@@ -5185,14 +5575,16 @@ ORDER = (
     "R1 R2 R3 R4 R5 R6 R7 R8 R9 "
     "FR13b FR16 FR17a FR17b FR17c FR18 FR19 FR20 FR20a FR20b EV14 "
     "TI6 V4 V5 FR14 FR15 "
+    "FR21 FR22 FR23 FR24 FR25 FR26 FR27 "
     "CS1 CS2 CS3 CS4 CS5 CS6 CS7 CS8 CS9 CS10 CS11 CS12 CS13 CS14 CS15 CS16 CS17 "
     "CS18 CS19 CS20 CS21 CS22 CS23 CS24 CS25 "
     "CS26 CS27 CS28 CS29 CS30 CS31 CS32 CS33 CS34 CS35 CS36 CS37 CS38 CS39 CS40 "
-    "CS41 CS42 CS43 CS44 CS45 CS46 CS47 CS48 CS49 CS50 CS51 CS52 CS53 CS54 "
+    "CS41 CS42 CS43 CS44 CS45 CS46 CS47 CS48 CS49 CS50 CS51 CS52 CS53 CS54 CS55 "
     "A21 SQ1 SQ2 SQ3 SQ4 SQ5 "
     "R10 R11 R12 R13 R14 R15 R16 R19 R20 R21 R22 R23 R24 "
     "IS1 IS2 PS1 PS2 PS1b PS3 PS4 PS5 "
-    "PR1 PR2 PR3 PR4 PR5 PR6 PR7 PR8 PR9 PR10 PR11 "
+    "PR1 PR2 PR3 PR4 PR5 PR6 PR7 PR8 PR9 PR10 PR11 PR12 PR13 PR14 PR15 PR16 "
+    "PR17 PR18 PR19 PR20 PR21 PR22 PR23 PR24 PR25 PR26 PR27 "
     "DS1 DS2 DS3 DS4 DS5 DS6 DS7 DS8 DS9 DS10 "
     "X1 X2 X3 X4 X5 X6 X7 X8 X9 X10 X11 X12 X13 X14 X15 X16 X17 X18"
 ).split()
@@ -5268,12 +5660,21 @@ def _ids(prefix: str, first: int, last: int) -> list[str]:
 
 
 PROPOSALS = "docs/proposals"
-#: Members whose rule only proposed text states, each with that text. Empty
-#: since revision 04 was published: its Appendix B prints all 68 members that
-#: were proposed for it (CS18 to CS54, PS3 to PS5, PR1 to PR11, DS1 to DS10,
-#: and X1, X4, X5, X6, X7, X17, X18), and the pages under docs/proposals/ are
-#: the record of the text before it was published.
-PROPOSED: dict[str, str] = {}
+#: Members whose rule only proposed text states, each with that text. PR12 to
+#: PR27 are the principal pins proposed for the next revision. CS55 is the one
+#: moved boundary of a zero settlement, proposed for revision 05; CS54 keeps the
+#: reading revision 04 publishes. Revision 04's Appendix B printed all 68
+#: members proposed for it (CS18 to CS54, PS3 to PS5, PR1 to PR11, DS1 to DS10,
+#: and X1, X4, X5, X6, X7, X17, X18), and the pages under docs/proposals/ are the
+#: record of the text before it was published.
+PROPOSED: dict[str, str] = {
+    **{f"PR{n}": f"{PROPOSALS}/audit-record-04-principal.md" for n in range(12, 28)},
+    "CS55": f"{PROPOSALS}/audit-record-05-deadline-boundary.md",
+    **{
+        d: f"{PROPOSALS}/audit-record-04-evaluated-at.md"
+        for d in ("FR21", "FR22", "FR23", "FR24", "FR25", "FR26", "FR27")
+    },
+}
 
 
 def _first_printed(texts: dict[str, list[str]]) -> dict[str, str]:

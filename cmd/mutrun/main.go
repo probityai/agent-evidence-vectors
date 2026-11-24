@@ -24,7 +24,13 @@
 //
 // This command is measurement tooling, not part of the consumer surface.
 //
-// Usage: mutrun <vectors-dir> <keys.json>
+// A corpus directory named after the key policy is a second channel: its members
+// are judged in process by the same corpusreaders.Judge that cmd/aee-verify runs on
+// a corpus directory, one line per member. That is how a record class whose reader
+// sits in the rail but outside aee.Verify (the revocation list) is measured
+// through the shipped verifier rather than through a package test.
+//
+// Usage: mutrun <vectors-dir> <keys.json> [corpus-dir ...]
 package main
 
 import (
@@ -37,6 +43,7 @@ import (
 	"sort"
 
 	"github.com/probityai/agent-evidence-vectors/aee"
+	"github.com/probityai/agent-evidence-vectors/corpusreaders"
 )
 
 type keyFile struct {
@@ -78,8 +85,8 @@ func main() {
 // run is the testable entry point. It returns 0 when every vector was replayed,
 // 2 on a usage or I/O error.
 func run(args []string, stdout, stderr io.Writer) int {
-	if len(args) != 2 {
-		fmt.Fprintln(stderr, "usage: mutrun <vectors-dir> <keys.json>")
+	if len(args) < 2 {
+		fmt.Fprintln(stderr, "usage: mutrun <vectors-dir> <keys.json> [corpus-dir ...]")
 		return 2
 	}
 	vecDir, keysPath := args[0], args[1]
@@ -109,7 +116,51 @@ func run(args []string, stdout, stderr io.Writer) int {
 			return 2
 		}
 	}
+	for _, dir := range args[2:] {
+		lines, err := judgeCorpus(dir)
+		if err != nil {
+			fmt.Fprintln(stderr, "mutrun:", err)
+			return 2
+		}
+		for _, line := range lines {
+			if err := enc.Encode(line); err != nil {
+				fmt.Fprintln(stderr, "mutrun:", err)
+				return 2
+			}
+		}
+	}
 	return 0
+}
+
+// corpusLine is one corpus member as judged, or the corpus itself (member "#corpus")
+// carrying the findings that belong to no single member.
+type corpusLine struct {
+	ID       string   `json:"id"`
+	Corpus   string   `json:"corpus"`
+	Findings []string `json:"findings"`
+}
+
+// judgeCorpus judges one corpus directory in process. A panic in the reader is a
+// finding on the corpus line, never a crash of the replay: a mutant that only
+// crashes the reader has still changed what the reader answers.
+func judgeCorpus(dir string) (lines []corpusLine, err error) {
+	name := filepath.Base(filepath.Clean(dir))
+	corpus := corpusLine{ID: name + "/#corpus", Corpus: name, Findings: []string{}}
+	defer func() {
+		if r := recover(); r != nil {
+			corpus.Findings = append(corpus.Findings, fmt.Sprintf("the reader panicked: %v", r))
+			lines, err = append(lines, corpus), nil
+		}
+	}()
+	result, err := corpusreaders.Judge(dir)
+	if err != nil {
+		return nil, err
+	}
+	for _, m := range result.Members {
+		lines = append(lines, corpusLine{ID: name + "/" + m.ID, Corpus: name, Findings: append([]string{}, m.Findings...)})
+	}
+	corpus.Findings = append(corpus.Findings, result.Findings...)
+	return append(lines, corpus), nil
 }
 
 func vectorID(path string) string {

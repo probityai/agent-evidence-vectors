@@ -107,12 +107,12 @@ package = false
 # every done member through the released package, pinned by version and locked with
 # hashes in uv.lock. A dependency group, so it never reaches the published package's
 # metadata.
-crosscheck = ["agent-evidence-verify==0.5.0; python_full_version >= '3.12'"]
+crosscheck = ["agent-evidence-verify==0.6.0; python_full_version >= '3.12'"]
 # The repository tools of the imported parts (scripts/workspace.py and the other
 # tests under tests/). The packages under packages/ are standalone projects built
 # by directory (`uv build packages/<name>`); none of them has a runtime dependency. Their ruff run
 # reads ruff-parts.toml, not the rules below, which the corpora and the rail keep.
-dev = ["packaging==26.3", "pytest==9.2.0", "ruff==0.17.5"]
+dev = ["jsonschema==4.26.0", "packaging==26.3", "pytest==9.2.0", "ruff==0.17.5"]
 
 # What the wheel carries, and where. The rail is a single stdlib-only module
 # kept at packaging/run_vectors.py, where every gate in scripts/ imports it by
@@ -139,12 +139,15 @@ only-include = [
     "corpora/vectors-aci",
     "corpora/vectors-acs-core",
     "corpora/vectors-acs-decision-record",
+    "corpora/vectors-actor-marker-survival",
     "corpora/vectors-admission",
     "corpora/vectors-agent-audit-record",
     "corpora/vectors-agent-card-receipt",
     "corpora/vectors-agent-change-admission",
     "corpora/vectors-agent-decision",
     "corpora/vectors-agent-payment-mandate",
+    "corpora/vectors-agent-registration-classification",
+    "corpora/vectors-agent-request-proof",
     "corpora/vectors-agentic-process-evidence",
     "corpora/vectors-aggregate-accounting",
     "corpora/vectors-ai-agent-action",
@@ -153,18 +156,24 @@ only-include = [
     "corpora/vectors-anchored-chain",
     "corpora/vectors-approval-binding",
     "corpora/vectors-artifact-binding",
+    "corpora/vectors-assertion-grade",
     "corpora/vectors-authority-at-dispatch",
+    "corpora/vectors-ave-id-resolution",
     "corpora/vectors-badge-vc-verify",
     "corpora/vectors-budget-lineage",
     "corpora/vectors-capability-requirement",
     "corpora/vectors-catalog-trust-manifest",
+    "corpora/vectors-cbor-receipt-chain",
     "corpora/vectors-chunked-export",
     "corpora/vectors-completion-confirmation",
     "corpora/vectors-connector-scope",
     "corpora/vectors-containment-journal",
     "corpora/vectors-converted-argument-binding",
+    "corpora/vectors-credential-reachability",
     "corpora/vectors-credential-release",
     "corpora/vectors-decision-client-failure-modes",
+    "corpora/vectors-decision-record",
+    "corpora/vectors-delegation-chain",
     "corpora/vectors-delegation-lifecycle",
     "corpora/vectors-delegator-right",
     "corpora/vectors-dependency-selection",
@@ -184,14 +193,19 @@ only-include = [
     "corpora/vectors-ietf-agent-record-drafts",
     "corpora/vectors-incident-evidence-cell",
     "corpora/vectors-key-directory-observation",
+    "corpora/vectors-key-revocation-list",
     "corpora/vectors-lifecycle-binding",
     "corpora/vectors-mcp-authz",
     "corpora/vectors-mcp-owasp",
     "corpora/vectors-mcp-record-contract",
     "corpora/vectors-mcp-response-phase",
     "corpora/vectors-monitor-coverage",
+    "corpora/vectors-oasf-record",
     "corpora/vectors-observed-effect",
+    "corpora/vectors-ocsf-decision",
     "corpora/vectors-open-weight-art53",
+    "corpora/vectors-physical-completion",
+    "corpora/vectors-principal-action",
     "corpora/vectors-principal-binding",
     "corpora/vectors-print-witness",
     "corpora/vectors-propagation-step",
@@ -202,12 +216,14 @@ only-include = [
     "corpora/vectors-refusal-reason-priority",
     "corpora/vectors-responsibility-escalation",
     "corpora/vectors-restart-records",
+    "corpora/vectors-revocation-list",
     "corpora/vectors-rsa-digestinfo",
     "corpora/vectors-scitt-cose",
     "corpora/vectors-self-reported-record",
     "corpora/vectors-signature-coverage",
     "corpora/vectors-source-coverage",
     "corpora/vectors-spoofed-tool-output",
+    "corpora/vectors-status-receipt-binding",
     "corpora/vectors-telemetry-evidence",
     "corpora/vectors-test-tampering",
     "corpora/vectors-trace-anchor",
@@ -225,12 +241,15 @@ exclude = [
     "corpora/vectors-aci/**/*.py",
     "corpora/vectors-acs-core/**/*.py",
     "corpora/vectors-acs-decision-record/**/*.py",
+    "corpora/vectors-actor-marker-survival/**/*.py",
     "corpora/vectors-admission/**/*.py",
     "corpora/vectors-agent-audit-record/**/*.py",
     "corpora/vectors-agent-card-receipt/**/*.py",
     "corpora/vectors-agent-change-admission/**/*.py",
     "corpora/vectors-agent-decision/**/*.py",
     "corpora/vectors-agent-payment-mandate/**/*.py",
+    "corpora/vectors-agent-registration-classification/**/*.py",
+    "corpora/vectors-agent-request-proof/**/*.py",
     "corpora/vectors-agentic-process-evidence/**/*.py",
     "corpora/vectors-aggregate-accounting/**/*.py",
     "corpora/vectors-ai-agent-action/**/*.py",
@@ -239,18 +258,24 @@ exclude = [
     "corpora/vectors-anchored-chain/**/*.py",
     "corpora/vectors-approval-binding/**/*.py",
     "corpora/vectors-artifact-binding/**/*.py",
+    "corpora/vectors-assertion-grade/**/*.py",
     "corpora/vectors-authority-at-dispatch/**/*.py",
+    "corpora/vectors-ave-id-resolution/**/*.py",
     "corpora/vectors-badge-vc-verify/**/*.py",
     "corpora/vectors-budget-lineage/**/*.py",
     "corpora/vectors-capability-requirement/**/*.py",
     "corpora/vectors-catalog-trust-manifest/**/*.py",
+    "corpora/vectors-cbor-receipt-chain/**/*.py",
     "corpora/vectors-chunked-export/**/*.py",
     "corpora/vectors-completion-confirmation/**/*.py",
     "corpora/vectors-connector-scope/**/*.py",
     "corpora/vectors-containment-journal/**/*.py",
     "corpora/vectors-converted-argument-binding/**/*.py",
+    "corpora/vectors-credential-reachability/**/*.py",
     "corpora/vectors-credential-release/**/*.py",
     "corpora/vectors-decision-client-failure-modes/**/*.py",
+    "corpora/vectors-decision-record/**/*.py",
+    "corpora/vectors-delegation-chain/**/*.py",
     "corpora/vectors-delegation-lifecycle/**/*.py",
     "corpora/vectors-delegator-right/**/*.py",
     "corpora/vectors-dependency-selection/**/*.py",
@@ -270,14 +295,19 @@ exclude = [
     "corpora/vectors-ietf-agent-record-drafts/**/*.py",
     "corpora/vectors-incident-evidence-cell/**/*.py",
     "corpora/vectors-key-directory-observation/**/*.py",
+    "corpora/vectors-key-revocation-list/**/*.py",
     "corpora/vectors-lifecycle-binding/**/*.py",
     "corpora/vectors-mcp-authz/**/*.py",
     "corpora/vectors-mcp-owasp/**/*.py",
     "corpora/vectors-mcp-record-contract/**/*.py",
     "corpora/vectors-mcp-response-phase/**/*.py",
     "corpora/vectors-monitor-coverage/**/*.py",
+    "corpora/vectors-oasf-record/**/*.py",
     "corpora/vectors-observed-effect/**/*.py",
+    "corpora/vectors-ocsf-decision/**/*.py",
     "corpora/vectors-open-weight-art53/**/*.py",
+    "corpora/vectors-physical-completion/**/*.py",
+    "corpora/vectors-principal-action/**/*.py",
     "corpora/vectors-principal-binding/**/*.py",
     "corpora/vectors-print-witness/**/*.py",
     "corpora/vectors-propagation-step/**/*.py",
@@ -288,12 +318,14 @@ exclude = [
     "corpora/vectors-refusal-reason-priority/**/*.py",
     "corpora/vectors-responsibility-escalation/**/*.py",
     "corpora/vectors-restart-records/**/*.py",
+    "corpora/vectors-revocation-list/**/*.py",
     "corpora/vectors-rsa-digestinfo/**/*.py",
     "corpora/vectors-scitt-cose/**/*.py",
     "corpora/vectors-self-reported-record/**/*.py",
     "corpora/vectors-signature-coverage/**/*.py",
     "corpora/vectors-source-coverage/**/*.py",
     "corpora/vectors-spoofed-tool-output/**/*.py",
+    "corpora/vectors-status-receipt-binding/**/*.py",
     "corpora/vectors-telemetry-evidence/**/*.py",
     "corpora/vectors-test-tampering/**/*.py",
     "corpora/vectors-trace-anchor/**/*.py",
@@ -310,12 +342,15 @@ exclude = [
 "corpora/vectors-aci" = "agent_evidence_vectors/corpora/vectors-aci"
 "corpora/vectors-acs-core" = "agent_evidence_vectors/corpora/vectors-acs-core"
 "corpora/vectors-acs-decision-record" = "agent_evidence_vectors/corpora/vectors-acs-decision-record"
+"corpora/vectors-actor-marker-survival" = "agent_evidence_vectors/corpora/vectors-actor-marker-survival"
 "corpora/vectors-admission" = "agent_evidence_vectors/corpora/vectors-admission"
 "corpora/vectors-agent-audit-record" = "agent_evidence_vectors/corpora/vectors-agent-audit-record"
 "corpora/vectors-agent-card-receipt" = "agent_evidence_vectors/corpora/vectors-agent-card-receipt"
 "corpora/vectors-agent-change-admission" = "agent_evidence_vectors/corpora/vectors-agent-change-admission"
 "corpora/vectors-agent-decision" = "agent_evidence_vectors/corpora/vectors-agent-decision"
 "corpora/vectors-agent-payment-mandate" = "agent_evidence_vectors/corpora/vectors-agent-payment-mandate"
+"corpora/vectors-agent-registration-classification" = "agent_evidence_vectors/corpora/vectors-agent-registration-classification"
+"corpora/vectors-agent-request-proof" = "agent_evidence_vectors/corpora/vectors-agent-request-proof"
 "corpora/vectors-agentic-process-evidence" = "agent_evidence_vectors/corpora/vectors-agentic-process-evidence"
 "corpora/vectors-aggregate-accounting" = "agent_evidence_vectors/corpora/vectors-aggregate-accounting"
 "corpora/vectors-ai-agent-action" = "agent_evidence_vectors/corpora/vectors-ai-agent-action"
@@ -324,18 +359,24 @@ exclude = [
 "corpora/vectors-anchored-chain" = "agent_evidence_vectors/corpora/vectors-anchored-chain"
 "corpora/vectors-approval-binding" = "agent_evidence_vectors/corpora/vectors-approval-binding"
 "corpora/vectors-artifact-binding" = "agent_evidence_vectors/corpora/vectors-artifact-binding"
+"corpora/vectors-assertion-grade" = "agent_evidence_vectors/corpora/vectors-assertion-grade"
 "corpora/vectors-authority-at-dispatch" = "agent_evidence_vectors/corpora/vectors-authority-at-dispatch"
+"corpora/vectors-ave-id-resolution" = "agent_evidence_vectors/corpora/vectors-ave-id-resolution"
 "corpora/vectors-badge-vc-verify" = "agent_evidence_vectors/corpora/vectors-badge-vc-verify"
 "corpora/vectors-budget-lineage" = "agent_evidence_vectors/corpora/vectors-budget-lineage"
 "corpora/vectors-capability-requirement" = "agent_evidence_vectors/corpora/vectors-capability-requirement"
 "corpora/vectors-catalog-trust-manifest" = "agent_evidence_vectors/corpora/vectors-catalog-trust-manifest"
+"corpora/vectors-cbor-receipt-chain" = "agent_evidence_vectors/corpora/vectors-cbor-receipt-chain"
 "corpora/vectors-chunked-export" = "agent_evidence_vectors/corpora/vectors-chunked-export"
 "corpora/vectors-completion-confirmation" = "agent_evidence_vectors/corpora/vectors-completion-confirmation"
 "corpora/vectors-connector-scope" = "agent_evidence_vectors/corpora/vectors-connector-scope"
 "corpora/vectors-containment-journal" = "agent_evidence_vectors/corpora/vectors-containment-journal"
 "corpora/vectors-converted-argument-binding" = "agent_evidence_vectors/corpora/vectors-converted-argument-binding"
+"corpora/vectors-credential-reachability" = "agent_evidence_vectors/corpora/vectors-credential-reachability"
 "corpora/vectors-credential-release" = "agent_evidence_vectors/corpora/vectors-credential-release"
 "corpora/vectors-decision-client-failure-modes" = "agent_evidence_vectors/corpora/vectors-decision-client-failure-modes"
+"corpora/vectors-decision-record" = "agent_evidence_vectors/corpora/vectors-decision-record"
+"corpora/vectors-delegation-chain" = "agent_evidence_vectors/corpora/vectors-delegation-chain"
 "corpora/vectors-delegation-lifecycle" = "agent_evidence_vectors/corpora/vectors-delegation-lifecycle"
 "corpora/vectors-delegator-right" = "agent_evidence_vectors/corpora/vectors-delegator-right"
 "corpora/vectors-dependency-selection" = "agent_evidence_vectors/corpora/vectors-dependency-selection"
@@ -355,14 +396,19 @@ exclude = [
 "corpora/vectors-ietf-agent-record-drafts" = "agent_evidence_vectors/corpora/vectors-ietf-agent-record-drafts"
 "corpora/vectors-incident-evidence-cell" = "agent_evidence_vectors/corpora/vectors-incident-evidence-cell"
 "corpora/vectors-key-directory-observation" = "agent_evidence_vectors/corpora/vectors-key-directory-observation"
+"corpora/vectors-key-revocation-list" = "agent_evidence_vectors/corpora/vectors-key-revocation-list"
 "corpora/vectors-lifecycle-binding" = "agent_evidence_vectors/corpora/vectors-lifecycle-binding"
 "corpora/vectors-mcp-authz" = "agent_evidence_vectors/corpora/vectors-mcp-authz"
 "corpora/vectors-mcp-owasp" = "agent_evidence_vectors/corpora/vectors-mcp-owasp"
 "corpora/vectors-mcp-record-contract" = "agent_evidence_vectors/corpora/vectors-mcp-record-contract"
 "corpora/vectors-mcp-response-phase" = "agent_evidence_vectors/corpora/vectors-mcp-response-phase"
 "corpora/vectors-monitor-coverage" = "agent_evidence_vectors/corpora/vectors-monitor-coverage"
+"corpora/vectors-oasf-record" = "agent_evidence_vectors/corpora/vectors-oasf-record"
 "corpora/vectors-observed-effect" = "agent_evidence_vectors/corpora/vectors-observed-effect"
+"corpora/vectors-ocsf-decision" = "agent_evidence_vectors/corpora/vectors-ocsf-decision"
 "corpora/vectors-open-weight-art53" = "agent_evidence_vectors/corpora/vectors-open-weight-art53"
+"corpora/vectors-physical-completion" = "agent_evidence_vectors/corpora/vectors-physical-completion"
+"corpora/vectors-principal-action" = "agent_evidence_vectors/corpora/vectors-principal-action"
 "corpora/vectors-principal-binding" = "agent_evidence_vectors/corpora/vectors-principal-binding"
 "corpora/vectors-print-witness" = "agent_evidence_vectors/corpora/vectors-print-witness"
 "corpora/vectors-propagation-step" = "agent_evidence_vectors/corpora/vectors-propagation-step"
@@ -373,12 +419,14 @@ exclude = [
 "corpora/vectors-refusal-reason-priority" = "agent_evidence_vectors/corpora/vectors-refusal-reason-priority"
 "corpora/vectors-responsibility-escalation" = "agent_evidence_vectors/corpora/vectors-responsibility-escalation"
 "corpora/vectors-restart-records" = "agent_evidence_vectors/corpora/vectors-restart-records"
+"corpora/vectors-revocation-list" = "agent_evidence_vectors/corpora/vectors-revocation-list"
 "corpora/vectors-rsa-digestinfo" = "agent_evidence_vectors/corpora/vectors-rsa-digestinfo"
 "corpora/vectors-scitt-cose" = "agent_evidence_vectors/corpora/vectors-scitt-cose"
 "corpora/vectors-self-reported-record" = "agent_evidence_vectors/corpora/vectors-self-reported-record"
 "corpora/vectors-signature-coverage" = "agent_evidence_vectors/corpora/vectors-signature-coverage"
 "corpora/vectors-source-coverage" = "agent_evidence_vectors/corpora/vectors-source-coverage"
 "corpora/vectors-spoofed-tool-output" = "agent_evidence_vectors/corpora/vectors-spoofed-tool-output"
+"corpora/vectors-status-receipt-binding" = "agent_evidence_vectors/corpora/vectors-status-receipt-binding"
 "corpora/vectors-telemetry-evidence" = "agent_evidence_vectors/corpora/vectors-telemetry-evidence"
 "corpora/vectors-test-tampering" = "agent_evidence_vectors/corpora/vectors-test-tampering"
 "corpora/vectors-trace-anchor" = "agent_evidence_vectors/corpora/vectors-trace-anchor"
@@ -470,12 +518,15 @@ only-include = [
     "corpora/vectors-aci",
     "corpora/vectors-acs-core",
     "corpora/vectors-acs-decision-record",
+    "corpora/vectors-actor-marker-survival",
     "corpora/vectors-admission",
     "corpora/vectors-agent-audit-record",
     "corpora/vectors-agent-card-receipt",
     "corpora/vectors-agent-change-admission",
     "corpora/vectors-agent-decision",
     "corpora/vectors-agent-payment-mandate",
+    "corpora/vectors-agent-registration-classification",
+    "corpora/vectors-agent-request-proof",
     "corpora/vectors-agentic-process-evidence",
     "corpora/vectors-aggregate-accounting",
     "corpora/vectors-ai-agent-action",
@@ -484,18 +535,24 @@ only-include = [
     "corpora/vectors-anchored-chain",
     "corpora/vectors-approval-binding",
     "corpora/vectors-artifact-binding",
+    "corpora/vectors-assertion-grade",
     "corpora/vectors-authority-at-dispatch",
+    "corpora/vectors-ave-id-resolution",
     "corpora/vectors-badge-vc-verify",
     "corpora/vectors-budget-lineage",
     "corpora/vectors-capability-requirement",
     "corpora/vectors-catalog-trust-manifest",
+    "corpora/vectors-cbor-receipt-chain",
     "corpora/vectors-chunked-export",
     "corpora/vectors-completion-confirmation",
     "corpora/vectors-connector-scope",
     "corpora/vectors-containment-journal",
     "corpora/vectors-converted-argument-binding",
+    "corpora/vectors-credential-reachability",
     "corpora/vectors-credential-release",
     "corpora/vectors-decision-client-failure-modes",
+    "corpora/vectors-decision-record",
+    "corpora/vectors-delegation-chain",
     "corpora/vectors-delegation-lifecycle",
     "corpora/vectors-delegator-right",
     "corpora/vectors-dependency-selection",
@@ -515,14 +572,19 @@ only-include = [
     "corpora/vectors-ietf-agent-record-drafts",
     "corpora/vectors-incident-evidence-cell",
     "corpora/vectors-key-directory-observation",
+    "corpora/vectors-key-revocation-list",
     "corpora/vectors-lifecycle-binding",
     "corpora/vectors-mcp-authz",
     "corpora/vectors-mcp-owasp",
     "corpora/vectors-mcp-record-contract",
     "corpora/vectors-mcp-response-phase",
     "corpora/vectors-monitor-coverage",
+    "corpora/vectors-oasf-record",
     "corpora/vectors-observed-effect",
+    "corpora/vectors-ocsf-decision",
     "corpora/vectors-open-weight-art53",
+    "corpora/vectors-physical-completion",
+    "corpora/vectors-principal-action",
     "corpora/vectors-principal-binding",
     "corpora/vectors-print-witness",
     "corpora/vectors-propagation-step",
@@ -533,12 +595,14 @@ only-include = [
     "corpora/vectors-refusal-reason-priority",
     "corpora/vectors-responsibility-escalation",
     "corpora/vectors-restart-records",
+    "corpora/vectors-revocation-list",
     "corpora/vectors-rsa-digestinfo",
     "corpora/vectors-scitt-cose",
     "corpora/vectors-self-reported-record",
     "corpora/vectors-signature-coverage",
     "corpora/vectors-source-coverage",
     "corpora/vectors-spoofed-tool-output",
+    "corpora/vectors-status-receipt-binding",
     "corpora/vectors-telemetry-evidence",
     "corpora/vectors-test-tampering",
     "corpora/vectors-trace-anchor",
@@ -591,7 +655,7 @@ artifact-binding = ["cryptography>=43"]
 # pymupdf is pinned exactly because interop/nist-ai-300-1 binds digests to the text
 # it extracts from the NIST AI 300-1 PDF; another release may extract other text.
 dev = ["cryptography>=43", "pycose>=1.1,<2", "cbor2>=5.6,<6", "markdown>=3.9",
-       "packaging>=25", "hypothesis==6.170.15", "pycryptodome==4.4.0", "jsonschema==4.26.0", "rfc8785==0.1.4",
+       "packaging>=25", "hypothesis==6.170.15", "pycryptodome==4.5.0", "jsonschema==4.26.0", "rfc8785==0.1.4",
        "mypy>=1.11", "pyright>=1.1.400", "pytest>=8", "pytest-cov>=5",
        "pyyaml>=6", "ruff>=0.6", "types-Markdown>=3.9", "types-PyYAML>=6",
        "numpy>=2.1", "mcp==2.3.0", "pymupdf==1.26.7", "types-jsonschema==4.26.0.20261006"]

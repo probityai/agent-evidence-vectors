@@ -39,8 +39,36 @@ Each refused case changes one thing about a supported twin.
 | Integrity | | edited `observed`, digest field list without `witness_scope`, other subject, unpinned runner key, wrong payload type, not a Statement, other predicate type, each malformed field |
 | Quarantine | bound record inside `review_by` | `review_by` edited, `owner` edited and digest recomputed under the old signature, `expiry_disposition` absent, outside the digest or undefined, no issue or gap named, `review_by` passed |
 
-The reader's checks and reason codes are listed in [reader.py](reader.py). The peer
-statement is defined in [peer verification](../../../spec/predicates/peer-verification.md).
+## Reason codes
+
+The reader checks a verdict record in this order and names the first check that fails.
+The reference implementation is [reader.py](reader.py); the peer statement and its own
+refusals (`peer_artifact_unverified:<step>`, `peer_disagrees`) are defined in
+[peer verification](../../../spec/predicates/peer-verification.md).
+
+| Step | Check | Decision and reason |
+| --- | --- | --- |
+| 1 | The record is a DSSE v1 envelope | no verdict, `malformed_envelope` |
+| 2 | Its payload type is `application/vnd.in-toto+json` | `not_established`, `unsupported_payload_type` |
+| 3 | A signature naming a pinned runner keyid verifies over the DSSE PAE; a signature naming any other key is ignored | `contradicted`, `untrusted_key` or `signature_invalid` |
+| 4 | The payload is an in-toto Statement v1 | `payload_not_statement` |
+| 5 | Its predicate type is the pinned one | `unsupported_predicate` |
+| 6 | Every field is well formed, in the draft's table order, and no field by which the runner asserts its own scope is present | `field_invalid:<field>` |
+| 7 | The subject digest is the SHA-256 of the canonical vector input and `vector_id` is its first 16 hex characters | `subject_digest_mismatch` |
+| 8 | `payload_digest` recomputes over `payload_digest_fields`, and that list covers every field the draft names | `payload_digest_mismatch`, `payload_digest_fields_incomplete` |
+| 9 | `witness_scope` equals the scope derived from operator identifier equality and the verified peer statement | `witness_scope_misderived`, `peer_artifact_unverified:<step>`, `peer_disagrees` |
+
+A record that passes all nine is `supported`, with the reason naming the derived scope:
+`verdict_verified_self`, `verdict_verified_peer` or `verdict_verified_external`.
+
+A quarantine record (a predicate whose `status` is `quarantined`) passes steps 1 to 5 and
+7, then: every quarantine field is present, with an issue or a named gap
+(`quarantine_field_missing:<field>`); `expiry_disposition` is one of the defined outcomes
+(`field_invalid:expiry_disposition`); its digest field list covers every quarantine field
+(`payload_digest_fields_incomplete`); the digest recomputes (`quarantine_digest_mismatch`);
+and `review_by` has not passed at the policy's `as_of` time (`not_established`,
+`quarantine_overdue`: the vector reads `unmeasurable` and stays excluded). One that passes
+is `supported`, `quarantine_in_force`.
 
 ## Rules these controls add to the draft
 

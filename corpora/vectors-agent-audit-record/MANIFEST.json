@@ -93,11 +93,11 @@
       }
     ]
   },
-  "corpusDigest": "bb94f0aba314bcc901872a8fe81f2f00266bf631572d3c66601e679e08697621",
+  "corpusDigest": "935ec284837de18f91e0bf12f4f10517b8527961c9edbfe324fc134a853f1d1b",
   "counts": {
-    "accept": 105,
-    "indeterminate": 2,
-    "reject": 128
+    "accept": 117,
+    "indeterminate": 1,
+    "reject": 141
   },
   "draft": "draft-gilda-audit-agent-audit-record-04",
   "emptyTree": {
@@ -149,7 +149,7 @@
   "skewTolerance": 300,
   "suite": "agent-audit-record-conformance",
   "textCounts": {
-    "proposed": 0,
+    "proposed": 24,
     "published": 235
   },
   "vectors": [
@@ -1114,15 +1114,18 @@
       "draftId": "FR2",
       "draftRevision": "draft-gilda-audit-agent-audit-record-00",
       "expected": {
-        "codes": [],
-        "derivedTier": "authoritative",
-        "verdict": "valid"
+        "codes": [
+          "evaluation-inconsistent"
+        ],
+        "verdict": "malformed"
       },
       "file": "statements/vb2d65dfff88bebcf.json",
       "id": "vb2d65dfff88bebcf",
-      "kind": "accept",
-      "row": "FR1 with standing-source's age at decision.reportedAt exactly equal to its maxAge, 3600 seconds, so the input is fresh",
-      "slug": "fr2-age-equal-to-max-age-is-fresh"
+      "kind": "reject",
+      "parent": "vc500431013be1967",
+      "parentDraftId": "FR1",
+      "row": "evaluated beside an input whose age at decision.reportedAt is exactly its maxAge, 3600 seconds, so the input is stale",
+      "slug": "fr2-age-equal-to-max-age-is-stale"
     },
     {
       "draftId": "FR3",
@@ -1934,7 +1937,7 @@
       "file": "statements/v8685b6576fbd0c04.json",
       "id": "v8685b6576fbd0c04",
       "kind": "accept",
-      "row": "FR1 with key-source's lastResult 300 seconds after decision.reportedAt, exactly the skew tolerance: not malformed, and an age below zero is at most maxAge, so fresh",
+      "row": "FR1 with key-source's lastResult 300 seconds after decision.reportedAt, exactly the skew tolerance: not malformed, and an age below zero is less than maxAge, so fresh",
       "slug": "fr18-last-result-inside-skew-tolerance"
     },
     {
@@ -2121,6 +2124,138 @@
       "parentDraftId": "FR14",
       "row": "the entry carrying the second value's lastResult beside the first value's maxAge, under evaluated: the pair the -00 rule writes, age 3600 under 60",
       "slug": "fr15-oldest-last-result-beside-smallest-max-age"
+    },
+    {
+      "draftId": "FR21",
+      "expected": {
+        "codes": [],
+        "derivedTier": "authoritative",
+        "verdict": "valid"
+      },
+      "file": "statements/v60d638129b92fda4.json",
+      "id": "v60d638129b92fda4",
+      "kind": "accept",
+      "proposed": {
+        "revision": "draft-gilda-audit-agent-audit-record-05",
+        "text": "docs/proposals/audit-record-04-evaluated-at.md"
+      },
+      "row": "A1 with decision.evaluatedAt 1800 seconds before decision.reportedAt and standing-source fresh at decision.evaluatedAt (2042 seconds under 3600) but older than its maxAge at decision.reportedAt (3842 seconds), under evaluated",
+      "slug": "fr21-evaluated-at-fresh-at-evaluation-stale-at-report"
+    },
+    {
+      "draftId": "FR22",
+      "expected": {
+        "codes": [
+          "evaluation-inconsistent"
+        ],
+        "verdict": "malformed"
+      },
+      "file": "statements/v6ab6d120fb63f7cf.json",
+      "id": "v6ab6d120fb63f7cf",
+      "kind": "reject",
+      "parent": "v60d638129b92fda4",
+      "parentDraftId": "FR21",
+      "proposed": {
+        "revision": "draft-gilda-audit-agent-audit-record-05",
+        "text": "docs/proposals/audit-record-04-evaluated-at.md"
+      },
+      "row": "not-evaluated naming standing-source, which is fresh at decision.evaluatedAt: the set derived at decision.reportedAt would match it",
+      "slug": "fr22-not-evaluated-naming-input-fresh-at-evaluated-at"
+    },
+    {
+      "draftId": "FR23",
+      "expected": {
+        "codes": [],
+        "derivedTier": "authoritative",
+        "verdict": "valid"
+      },
+      "file": "statements/v0fce851ecdb6eca5.json",
+      "id": "v0fce851ecdb6eca5",
+      "kind": "accept",
+      "proposed": {
+        "revision": "draft-gilda-audit-agent-audit-record-05",
+        "text": "docs/proposals/audit-record-04-evaluated-at.md"
+      },
+      "row": "FR21 with standing-source one second younger than its maxAge at decision.evaluatedAt (3599 seconds under 3600)",
+      "slug": "fr23-evaluated-at-one-second-inside-max-age"
+    },
+    {
+      "draftId": "FR24",
+      "expected": {
+        "codes": [
+          "evaluation-inconsistent"
+        ],
+        "verdict": "malformed"
+      },
+      "file": "statements/v6bd353d5c0c3a2ee.json",
+      "id": "v6bd353d5c0c3a2ee",
+      "kind": "reject",
+      "parent": "v0fce851ecdb6eca5",
+      "parentDraftId": "FR23",
+      "proposed": {
+        "revision": "draft-gilda-audit-agent-audit-record-05",
+        "text": "docs/proposals/audit-record-04-evaluated-at.md"
+      },
+      "row": "standing-source exactly its maxAge old at decision.evaluatedAt (3600 seconds under 3600), under evaluated",
+      "slug": "fr24-evaluated-at-age-equal-to-max-age"
+    },
+    {
+      "draftId": "FR25",
+      "expected": {
+        "codes": [
+          "evaluation-result-after-decision"
+        ],
+        "verdict": "malformed"
+      },
+      "file": "statements/v1adad24a3576858f.json",
+      "id": "v1adad24a3576858f",
+      "kind": "reject",
+      "parent": "vc500431013be1967",
+      "parentDraftId": "FR1",
+      "proposed": {
+        "revision": "draft-gilda-audit-agent-audit-record-05",
+        "text": "docs/proposals/audit-record-04-evaluated-at.md"
+      },
+      "row": "decision.evaluatedAt 301 seconds after decision.reportedAt, more than the skew tolerance, every entry fresh at either time",
+      "slug": "fr25-evaluated-at-past-skew-tolerance-after-report"
+    },
+    {
+      "draftId": "FR26",
+      "expected": {
+        "codes": [],
+        "derivedTier": "authoritative",
+        "verdict": "valid"
+      },
+      "file": "statements/v4b4a73f73eee6cb5.json",
+      "id": "v4b4a73f73eee6cb5",
+      "kind": "accept",
+      "proposed": {
+        "revision": "draft-gilda-audit-agent-audit-record-05",
+        "text": "docs/proposals/audit-record-04-evaluated-at.md"
+      },
+      "row": "FR1 with decision.evaluatedAt 300 seconds after decision.reportedAt, exactly the skew tolerance",
+      "slug": "fr26-evaluated-at-at-skew-tolerance-after-report"
+    },
+    {
+      "draftId": "FR27",
+      "draftSection": "5.4",
+      "expected": {
+        "codes": [
+          "evaluation-result-after-decision"
+        ],
+        "verdict": "malformed"
+      },
+      "file": "statements/v9f9440961ddc78fe.json",
+      "id": "v9f9440961ddc78fe",
+      "kind": "reject",
+      "parent": "v60d638129b92fda4",
+      "parentDraftId": "FR21",
+      "proposed": {
+        "revision": "draft-gilda-audit-agent-audit-record-05",
+        "text": "docs/proposals/audit-record-04-evaluated-at.md"
+      },
+      "row": "policy-source's lastResult 301 seconds after decision.evaluatedAt and before decision.reportedAt: the skew is measured to the reference time",
+      "slug": "fr27-last-result-past-skew-tolerance-after-evaluated-at"
     },
     {
       "draftId": "CS1",
@@ -3201,6 +3336,34 @@
       "slug": "cs54-set-zero-settlement-released-at-the-deadline"
     },
     {
+      "draftId": "CS55",
+      "draftSection": "5.9",
+      "expected": {
+        "codes": [],
+        "derivedTier": "authoritative",
+        "set": {
+          "codes": [
+            "consumption-set-release-unshown"
+          ],
+          "verdict": "malformed",
+          "withinLimit": [
+            true,
+            true
+          ]
+        },
+        "verdict": "valid"
+      },
+      "file": "sets/vbd2992f86e8a44a2.json",
+      "id": "vbd2992f86e8a44a2",
+      "kind": "accept",
+      "proposed": {
+        "revision": "draft-gilda-audit-agent-audit-record-05",
+        "text": "docs/proposals/audit-record-05-deadline-boundary.md"
+      },
+      "row": "CS53 where the later record is dated at the permit's deadline: each record valid, the set malformed, under the proposed reading that a record must be dated after the deadline to release the hold",
+      "slug": "cs55-set-zero-settlement-released-at-deadline-proposed"
+    },
+    {
       "draftId": "A21",
       "draftRevision": "draft-gilda-audit-agent-audit-record-01",
       "expected": {
@@ -3715,27 +3878,17 @@
       "draftRevision": "draft-gilda-audit-agent-audit-record-03",
       "draftSection": "5.4",
       "expected": {
-        "codes": [
-          "evaluation-inconsistent"
-        ]
+        "codes": [],
+        "derivedTier": "authoritative",
+        "verdict": "valid"
       },
       "file": "statements/v12896bcb35edd1b1.json",
       "id": "v12896bcb35edd1b1",
-      "kind": "indeterminate",
+      "kind": "accept",
       "parent": "vd96413ec87814d0b",
       "parentDraftId": "PS1",
       "predicateType": "https://probityai.github.io/agent-evidence-vectors/predicate/v2/agent-audit-record",
-      "readings": [
-        {
-          "rationale": "draft-jackson-wimse-evaluation-05 Section 3: a verifier must not use an input at or past its horizon, its as-of time plus the pinned maximum age, so at an age equal to maxAge the input is unavailable and not-evaluated naming it is the record required. The reading if this draft adopts that boundary (an input is fresh when its age is less than maxAge, and FR2 becomes malformed)",
-          "verdict": "valid"
-        },
-        {
-          "rationale": "Section 5.4 of draft-gilda-audit-agent-audit-record-03 as filed: an age equal to maxAge is fresh (FR2), so the derived unavailable set is empty and a not-evaluated record naming the input fails the recompute of Section 4.6. The reading if draft-jackson-wimse-evaluation adopts this draft's boundary (past its horizon, in place of at or past)",
-          "verdict": "malformed"
-        }
-      ],
-      "row": "principal-standing-source exactly at maxAge (age 3600 under 3600) and not answering, still not-evaluated naming it: open between draft-jackson-wimse-evaluation-05 Section 3 and this section",
+      "row": "principal-standing-source exactly at maxAge (age 3600 under 3600) and not answering, not-evaluated naming it: an input exactly maxAge old is stale, the boundary of draft-jackson-wimse-evaluation-05 Section 3 that revision 04 adopts",
       "slug": "ps1b-principal-standing-age-equal-to-max-age"
     },
     {
@@ -3972,6 +4125,318 @@
       "parentDraftId": "PR1",
       "row": "principal carrying the raw token in a member this document does not define",
       "slug": "pr11-principal-member-unknown"
+    },
+    {
+      "draftId": "PR12",
+      "expected": {
+        "codes": [],
+        "derivedTier": "authoritative",
+        "verdict": "valid"
+      },
+      "file": "statements/vb49f0606c23539b2.json",
+      "id": "vb49f0606c23539b2",
+      "kind": "accept",
+      "parent": "v25048425b3cf4235",
+      "parentDraftId": "PR1",
+      "proposed": {
+        "revision": "draft-gilda-audit-agent-audit-record-05",
+        "text": "docs/proposals/audit-record-04-principal.md"
+      },
+      "row": "PR1 whose token expired at 11:00:02, four minutes before decision.reportedAt and within the skew tolerance",
+      "slug": "pr12-principal-expired-within-skew"
+    },
+    {
+      "draftId": "PR13",
+      "expected": {
+        "codes": [],
+        "derivedTier": "authoritative",
+        "verdict": "valid"
+      },
+      "file": "statements/vf7325eb15572e6e0.json",
+      "id": "vf7325eb15572e6e0",
+      "kind": "accept",
+      "parent": "v25048425b3cf4235",
+      "parentDraftId": "PR1",
+      "proposed": {
+        "revision": "draft-gilda-audit-agent-audit-record-05",
+        "text": "docs/proposals/audit-record-04-principal.md"
+      },
+      "row": "PR1 whose token was issued at 11:08:02, four minutes after decision.reportedAt and within the skew tolerance",
+      "slug": "pr13-principal-issued-within-skew"
+    },
+    {
+      "draftId": "PR14",
+      "expected": {
+        "codes": [
+          "principal-expired"
+        ],
+        "verdict": "malformed"
+      },
+      "file": "statements/v7c684b4e9bf52257.json",
+      "id": "v7c684b4e9bf52257",
+      "kind": "reject",
+      "parent": "v25048425b3cf4235",
+      "parentDraftId": "PR1",
+      "proposed": {
+        "revision": "draft-gilda-audit-agent-audit-record-05",
+        "text": "docs/proposals/audit-record-04-principal.md"
+      },
+      "row": "PR1 whose token expired at 10:59:01, 301 seconds before decision.reportedAt: one second past the skew tolerance",
+      "slug": "pr14-principal-expired-past-skew"
+    },
+    {
+      "draftId": "PR15",
+      "expected": {
+        "codes": [
+          "principal-not-yet-valid"
+        ],
+        "verdict": "malformed"
+      },
+      "file": "statements/vdec92f24acb52644.json",
+      "id": "vdec92f24acb52644",
+      "kind": "reject",
+      "parent": "v25048425b3cf4235",
+      "parentDraftId": "PR1",
+      "proposed": {
+        "revision": "draft-gilda-audit-agent-audit-record-05",
+        "text": "docs/proposals/audit-record-04-principal.md"
+      },
+      "row": "PR1 whose token was issued at 11:09:03, 301 seconds after decision.reportedAt: one second past the skew tolerance",
+      "slug": "pr15-principal-issued-past-skew"
+    },
+    {
+      "draftId": "PR16",
+      "expected": {
+        "codes": [],
+        "derivedTier": "authoritative",
+        "verdict": "valid"
+      },
+      "file": "statements/vcd1aa59f3085f0ad.json",
+      "id": "vcd1aa59f3085f0ad",
+      "kind": "accept",
+      "parent": "v717e1bb82abc81e9",
+      "parentDraftId": "PR2",
+      "proposed": {
+        "revision": "draft-gilda-audit-agent-audit-record-05",
+        "text": "docs/proposals/audit-record-04-principal.md"
+      },
+      "row": "PR2 where the principal's subject is the issuer's own identifier for the client, not its client_id, as RFC 9068 Section 2.2 allows: valid, a verifier does not compare them",
+      "slug": "pr16-principal-system-subject-not-client-id"
+    },
+    {
+      "draftId": "PR17",
+      "expected": {
+        "codes": [],
+        "derivedTier": "authoritative",
+        "verdict": "valid"
+      },
+      "file": "statements/vc4e4ad35a6a3310c.json",
+      "id": "vc4e4ad35a6a3310c",
+      "kind": "accept",
+      "parent": "v25048425b3cf4235",
+      "parentDraftId": "PR1",
+      "proposed": {
+        "revision": "draft-gilda-audit-agent-audit-record-05",
+        "text": "docs/proposals/audit-record-04-principal.md"
+      },
+      "row": "PR1 from an Okta org issuer, identityProvider okta: the declared value agrees with the provider the issuer's host names",
+      "slug": "pr12-principal-provider-derived"
+    },
+    {
+      "draftId": "PR18",
+      "expected": {
+        "codes": [
+          "principal-provider-mismatch"
+        ],
+        "verdict": "malformed"
+      },
+      "file": "statements/v9a48f965d616037b.json",
+      "id": "v9a48f965d616037b",
+      "kind": "reject",
+      "parent": "vc4e4ad35a6a3310c",
+      "parentDraftId": "PR17",
+      "proposed": {
+        "revision": "draft-gilda-audit-agent-audit-record-05",
+        "text": "docs/proposals/audit-record-04-principal.md"
+      },
+      "row": "PR17 declaring identityProvider auth0 for an issuer whose host names Okta",
+      "slug": "pr13-principal-provider-contradicts-issuer"
+    },
+    {
+      "draftId": "PR19",
+      "expected": {
+        "codes": [],
+        "derivedTier": "authoritative",
+        "verdict": "valid"
+      },
+      "file": "statements/v65c8c31f78a03e4c.json",
+      "id": "v65c8c31f78a03e4c",
+      "kind": "accept",
+      "parent": "v25048425b3cf4235",
+      "parentDraftId": "PR1",
+      "proposed": {
+        "revision": "draft-gilda-audit-agent-audit-record-05",
+        "text": "docs/proposals/audit-record-04-principal.md"
+      },
+      "row": "PR1, whose issuer is a custom domain no host or path rule names, with identityProvider okta: accepted as declared, not derived",
+      "slug": "pr14-principal-provider-declared-custom-domain"
+    },
+    {
+      "draftId": "PR20",
+      "expected": {
+        "codes": [],
+        "derivedTier": "authoritative",
+        "verdict": "valid"
+      },
+      "file": "statements/v50d0022729a064de.json",
+      "id": "v50d0022729a064de",
+      "kind": "accept",
+      "parent": "v25048425b3cf4235",
+      "parentDraftId": "PR1",
+      "proposed": {
+        "revision": "draft-gilda-audit-agent-audit-record-05",
+        "text": "docs/proposals/audit-record-04-principal.md"
+      },
+      "row": "PR1 with identityProvider self_issued: the deploying party runs the issuer, so no third party vouches for the principal",
+      "slug": "pr15-principal-provider-self-issued"
+    },
+    {
+      "draftId": "PR21",
+      "expected": {
+        "codes": [
+          "principal-provider-mismatch"
+        ],
+        "verdict": "malformed"
+      },
+      "file": "statements/v3daa568aa4b0447b.json",
+      "id": "v3daa568aa4b0447b",
+      "kind": "reject",
+      "parent": "v50d0022729a064de",
+      "parentDraftId": "PR20",
+      "proposed": {
+        "revision": "draft-gilda-audit-agent-audit-record-05",
+        "text": "docs/proposals/audit-record-04-principal.md"
+      },
+      "row": "PR20 from the OpenID self-issued issuer declaring identityProvider okta: a self-issued principal cannot be presented as vouched for by a third party",
+      "slug": "pr16-principal-self-issued-declared-third-party"
+    },
+    {
+      "draftId": "PR22",
+      "expected": {
+        "codes": [],
+        "derivedTier": "authoritative",
+        "verdict": "valid"
+      },
+      "file": "statements/v92bdf3a4f0126cba.json",
+      "id": "v92bdf3a4f0126cba",
+      "kind": "accept",
+      "parent": "v25048425b3cf4235",
+      "parentDraftId": "PR1",
+      "proposed": {
+        "revision": "draft-gilda-audit-agent-audit-record-05",
+        "text": "docs/proposals/audit-record-04-principal.md"
+      },
+      "row": "PR1 with pinnedThumbprint equal to keyThumbprint: the client pinned the issuer's key before its first call",
+      "slug": "pr17-principal-key-pinned"
+    },
+    {
+      "draftId": "PR23",
+      "expected": {
+        "codes": [
+          "principal-pin-mismatch"
+        ],
+        "verdict": "malformed"
+      },
+      "file": "statements/v2b236598931a7aa6.json",
+      "id": "v2b236598931a7aa6",
+      "kind": "reject",
+      "parent": "v92bdf3a4f0126cba",
+      "parentDraftId": "PR22",
+      "proposed": {
+        "revision": "draft-gilda-audit-agent-audit-record-05",
+        "text": "docs/proposals/audit-record-04-principal.md"
+      },
+      "row": "PR22 whose pinnedThumbprint is the thumbprint of the issuer's Ed25519 key while key is its P-256 key: the pin does not hold",
+      "slug": "pr18-principal-pin-mismatch"
+    },
+    {
+      "draftId": "PR24",
+      "expected": {
+        "codes": [
+          "principal-malformed"
+        ],
+        "verdict": "malformed"
+      },
+      "file": "statements/vcbdf2b412525be4d.json",
+      "id": "vcbdf2b412525be4d",
+      "kind": "reject",
+      "parent": "v92bdf3a4f0126cba",
+      "parentDraftId": "PR22",
+      "proposed": {
+        "revision": "draft-gilda-audit-agent-audit-record-05",
+        "text": "docs/proposals/audit-record-04-principal.md"
+      },
+      "row": "PR22 whose pinnedThumbprint carries base64 padding: not an RFC 7638 thumbprint in base64url without padding",
+      "slug": "pr19-principal-pin-malformed"
+    },
+    {
+      "draftId": "PR25",
+      "expected": {
+        "codes": [
+          "principal-malformed"
+        ],
+        "verdict": "malformed"
+      },
+      "file": "statements/v486f4b19f1ca0713.json",
+      "id": "v486f4b19f1ca0713",
+      "kind": "reject",
+      "parent": "v65c8c31f78a03e4c",
+      "parentDraftId": "PR19",
+      "proposed": {
+        "revision": "draft-gilda-audit-agent-audit-record-05",
+        "text": "docs/proposals/audit-record-04-principal.md"
+      },
+      "row": "PR19 with identityProvider google, a value the closed set does not name",
+      "slug": "pr20-principal-provider-unregistered"
+    },
+    {
+      "draftId": "PR26",
+      "expected": {
+        "codes": [],
+        "derivedTier": "authoritative",
+        "verdict": "valid"
+      },
+      "file": "statements/vcf322ae71fe5361e.json",
+      "id": "vcf322ae71fe5361e",
+      "kind": "accept",
+      "parent": "v25048425b3cf4235",
+      "parentDraftId": "PR1",
+      "proposed": {
+        "revision": "draft-gilda-audit-agent-audit-record-05",
+        "text": "docs/proposals/audit-record-04-principal.md"
+      },
+      "row": "PR1 from a Microsoft Entra issuer with identityProvider entra and the key pinned: both members present",
+      "slug": "pr21-principal-entra-pinned"
+    },
+    {
+      "draftId": "PR27",
+      "expected": {
+        "codes": [
+          "principal-provider-mismatch"
+        ],
+        "verdict": "malformed"
+      },
+      "file": "statements/vfac2b6a41b33b12d.json",
+      "id": "vfac2b6a41b33b12d",
+      "kind": "reject",
+      "parent": "vc4e4ad35a6a3310c",
+      "parentDraftId": "PR17",
+      "proposed": {
+        "revision": "draft-gilda-audit-agent-audit-record-05",
+        "text": "docs/proposals/audit-record-04-principal.md"
+      },
+      "row": "PR17 from a Keycloak realm issuer declaring identityProvider other: other cannot replace the provider the issuer's path names",
+      "slug": "pr22-principal-provider-other-hides-derived"
     },
     {
       "draftId": "DS1",

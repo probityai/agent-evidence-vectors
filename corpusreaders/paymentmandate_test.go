@@ -3,7 +3,7 @@ package corpusreaders_test
 import "testing"
 
 func TestPaymentMandateCommittedCorpusIsClean(t *testing.T) {
-	rlCommittedCorpusIsClean(t, "vectors-agent-payment-mandate", 6, 15)
+	rlCommittedCorpusIsClean(t, "vectors-agent-payment-mandate", 9, 33)
 }
 
 func TestPaymentMandateReaderDerivesRatherThanEchoes(t *testing.T) {
