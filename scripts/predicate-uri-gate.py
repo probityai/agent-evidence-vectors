@@ -11,10 +11,11 @@ lists.
 
 Two checks, and they answer different questions:
 
-* default (hermetic, every push): every URI under this host's ``/predicate/``
-  prefix that appears in a tracked file, including inside a base64 ``payload``
-  a signature covers, is registered, and the site build writes a page for it
-  under both routings a static host may use (``<name>.html`` and
+* default (hermetic, every push): every URI under the ``/predicate/`` prefix of
+  either recognised host (spec/identifiers/HOSTS.md) that appears in a tracked
+  file, including inside a base64 ``payload`` a signature covers, is registered,
+  and the site build writes a page for it under both routings a static host may
+  use (``<name>.html`` and
   ``<name>/index.html``);
 * ``--live`` (after a Pages deploy): each of those URIs answers 200 from the
   published host. It cannot run before the deploy that publishes a new page, so
@@ -40,8 +41,16 @@ from pathlib import Path
 from typing import Any
 
 ROOT = Path(__file__).resolve().parents[1]
-HOST = "https://probityai.github.io/agent-evidence-vectors"
-URI_RE = re.compile(re.escape(HOST) + r"/predicate/(v\d+)/([a-z0-9-]+)")
+sys.path.insert(0, str(ROOT / "packaging"))
+from agent_evidence_vectors.identifiers import RECOGNISED_HOSTS, identifier  # noqa: E402
+
+#: Where --live fetches: the host identifiers are written under.
+HOST = identifier("agent-evidence-vectors")
+#: A predicate type URI under either recognised host names one page, so both are checked.
+URI_RE = re.compile(
+    r"https://(?:" + "|".join(re.escape(host) for host in RECOGNISED_HOSTS) + r")"
+    r"/agent-evidence-vectors/predicate/(v\d+)/([a-z0-9-]+)"
+)
 REGISTRY_RE = re.compile(r"^### `predicate/(v\d+)/([a-z0-9-]+)`$", re.MULTILINE)
 
 

@@ -15,8 +15,11 @@ import json
 import sys
 from pathlib import Path
 
+sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "packaging"))
+from agent_evidence_vectors.identifiers import identifier  # noqa: E402
+
 HERE = Path(__file__).resolve().parents[1] / "spec" / "schemas"
-HOST = "https://probityai.github.io/agent-evidence-vectors"
+HOST = identifier("agent-evidence-vectors")
 STATEMENT = "https://in-toto.io/Statement/v1"
 
 TIME = {"type": "string", "pattern": r"^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z$"}

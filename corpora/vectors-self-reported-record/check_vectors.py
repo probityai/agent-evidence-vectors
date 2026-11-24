@@ -46,14 +46,13 @@ from digest import corpus_digest
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "packaging"))
 from agent_evidence_vectors import strictjson  # noqa: E402
+from agent_evidence_vectors.identifiers import identifier, same_identifier  # noqa: E402
 
 HERE = Path(__file__).resolve().parent
 REPO = HERE.parents[1]
 
 STATEMENT_TYPE = "https://in-toto.io/Statement/v1"
-PREDICATE_TYPE = (
-    "https://probityai.github.io/agent-evidence-vectors/predicate/v1/self-reported-record"
-)
+PREDICATE_TYPE = identifier("agent-evidence-vectors/predicate/v1/self-reported-record")
 TURN_CONTEXT = "agent-evidence/self-reported-record/v1/turn"
 FIELD_CONTEXT = "agent-evidence/self-reported-record/v1/field"
 
@@ -243,7 +242,7 @@ def rule_wellformed(statement: dict[str, Any]) -> bool:
     """Stage one: the record can be read at all, under the shape it declares."""
     if _str(statement.get("_type")) != STATEMENT_TYPE:
         return False
-    if _str(statement.get("predicateType")) != PREDICATE_TYPE:
+    if not same_identifier(_str(statement.get("predicateType")), PREDICATE_TYPE):
         return False
     if not _subject_wellformed(statement.get("subject")):
         return False

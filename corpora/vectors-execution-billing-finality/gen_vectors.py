@@ -32,6 +32,7 @@ ROOT = Path(__file__).resolve().parent
 sys.path.insert(0, str(ROOT.parents[1] / "packaging"))
 
 from agent_evidence_vectors import executionbilling as reader  # noqa: E402
+from agent_evidence_vectors.identifiers import identifier  # noqa: E402
 
 SUITE = reader.SUITE
 ADAPTER = ROOT / "tests" / "billing_adapter.py"
@@ -312,7 +313,7 @@ def cases() -> list[Case]:
     ]
 
 
-CONTRACT_OTHER = "https://probityai.github.io/agent-evidence-vectors/predicate/v1/uncertain-effect"
+CONTRACT_OTHER = identifier("agent-evidence-vectors/predicate/v1/uncertain-effect")
 
 
 def mutation_table(work: Path, base: dict[str, dict[str, Any]]) -> list[dict[str, Any]]:
