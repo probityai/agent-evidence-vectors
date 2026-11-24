@@ -145,6 +145,7 @@ only-include = [
     "corpora/vectors-agent-card-receipt",
     "corpora/vectors-agent-change-admission",
     "corpora/vectors-agent-decision",
+    "corpora/vectors-agent-identity-statement",
     "corpora/vectors-agent-payment-mandate",
     "corpora/vectors-agent-registration-classification",
     "corpora/vectors-agent-request-proof",
@@ -247,6 +248,7 @@ exclude = [
     "corpora/vectors-agent-card-receipt/**/*.py",
     "corpora/vectors-agent-change-admission/**/*.py",
     "corpora/vectors-agent-decision/**/*.py",
+    "corpora/vectors-agent-identity-statement/**/*.py",
     "corpora/vectors-agent-payment-mandate/**/*.py",
     "corpora/vectors-agent-registration-classification/**/*.py",
     "corpora/vectors-agent-request-proof/**/*.py",
@@ -348,6 +350,7 @@ exclude = [
 "corpora/vectors-agent-card-receipt" = "agent_evidence_vectors/corpora/vectors-agent-card-receipt"
 "corpora/vectors-agent-change-admission" = "agent_evidence_vectors/corpora/vectors-agent-change-admission"
 "corpora/vectors-agent-decision" = "agent_evidence_vectors/corpora/vectors-agent-decision"
+"corpora/vectors-agent-identity-statement" = "agent_evidence_vectors/corpora/vectors-agent-identity-statement"
 "corpora/vectors-agent-payment-mandate" = "agent_evidence_vectors/corpora/vectors-agent-payment-mandate"
 "corpora/vectors-agent-registration-classification" = "agent_evidence_vectors/corpora/vectors-agent-registration-classification"
 "corpora/vectors-agent-request-proof" = "agent_evidence_vectors/corpora/vectors-agent-request-proof"
@@ -524,6 +527,7 @@ only-include = [
     "corpora/vectors-agent-card-receipt",
     "corpora/vectors-agent-change-admission",
     "corpora/vectors-agent-decision",
+    "corpora/vectors-agent-identity-statement",
     "corpora/vectors-agent-payment-mandate",
     "corpora/vectors-agent-registration-classification",
     "corpora/vectors-agent-request-proof",

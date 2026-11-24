@@ -83,6 +83,7 @@ RUNS_A_VERIFIER = (
     "vectors-actor-marker-survival",
     "vectors-cbor-receipt-chain",
     "vectors-agent-card-receipt",
+    "vectors-agent-identity-statement",
     "vectors-credential-reachability",
     "vectors-credential-release",
     "vectors-chunked-export",
