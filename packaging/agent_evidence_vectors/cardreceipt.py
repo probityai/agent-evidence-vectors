@@ -540,6 +540,11 @@ def _card_digest_or_none(raw: bytes | None) -> str | None:
         return None
 
 
+def _failed_first(failure: str | None, name: str) -> Callable[[], bool]:
+    """A check that fails when the statement's own first failure is ``name``."""
+    return lambda: failure == name
+
+
 def _receipt_checks(directory: Path) -> list[tuple[str, Callable[[], bool]]]:
     statement_bytes = _read(directory, "statement.json")
     failure, statement = _receipt_failure(statement_bytes)
@@ -550,7 +555,7 @@ def _receipt_checks(directory: Path) -> list[tuple[str, Callable[[], bool]]]:
     digest = _card_digest_or_none(_read(directory, "card.json"))
     revocation = revocation_failure(_read(directory, "revocations.json"), key, now,
                                     sha256_hex(statement_bytes or b""))
-    early = [(name, (lambda name=name: failure == name)) for name in RECEIPT_CHECKS[:5]]
+    early = [(name, _failed_first(failure, name)) for name in RECEIPT_CHECKS[:5]]
     return [
         *early,
         ("validity_window_inverted", lambda: start >= until),  # type: ignore[operator]
@@ -669,7 +674,7 @@ def _grant_basis_checks(directory: Path, statement: dict[str, Any]
 
 def _release_checks(directory: Path) -> list[tuple[str, Callable[[], bool]]]:
     failure, statement, basis = _release_statement_failure(_read(directory, "statement.json"))
-    early = [(name, (lambda name=name: failure == name)) for name in RELEASE_CHECKS[:6]]
+    early = [(name, _failed_first(failure, name)) for name in RELEASE_CHECKS[:6]]
     if failure is not None:
         return early
     own = (_receipt_basis_checks(directory, statement) if basis == "receipt"
