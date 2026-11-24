@@ -218,17 +218,18 @@ class ReferenceCoverageFamily(unittest.TestCase):
         "scripts/action-reference-stage.py",
         "scripts/make-badge.py",
         "corpora/vectors-done-receipt/crosscheck_probity_verify.py",
-        # the cross-check puts <root>/packaging on sys.path and imports these four
-        "packaging/agent_evidence_vectors/__init__.py",
-        "packaging/agent_evidence_vectors/doneargv.py",
-        "packaging/agent_evidence_vectors/donechecks.py",
-        "packaging/agent_evidence_vectors/donerecords.py",
     )
+    #: The scripts above put <root>/packaging on sys.path and import from the package, and which
+    #: modules they import changes with every release, so the tree takes all of its source.
+    PACKAGE = "packaging/agent_evidence_vectors"
 
     def tree(self, root: Path) -> None:
         for rel in self.COPIED:
             (root / rel).parent.mkdir(parents=True, exist_ok=True)
             shutil.copy(REPO / rel, root / rel)
+        (root / self.PACKAGE).mkdir(parents=True)
+        for source in sorted((REPO / self.PACKAGE).glob("*.py")):
+            shutil.copy(source, root / self.PACKAGE / source.name)
         self.register(root, ["alpha"])
 
     def register(self, root: Path, ids: list[str]) -> None:
