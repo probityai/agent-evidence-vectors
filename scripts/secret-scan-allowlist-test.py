@@ -34,8 +34,8 @@ GIT_ENV = {
     "GIT_COMMITTER_EMAIL": "t@example.invalid",
 }
 PUBLIC_KEY = "Ob6mHCtjckbIra26o4A/wgoaPfjBID6naeJBKAYZc5E="
-# The producer public key of the principal-action cases, kept as the 64-hex form the repository
-# allowlist already covers so that no base64 key literal sits in this file.
+# The producer public key of the principal-action cases, kept as 64 hex characters so that no
+# base64 key literal sits in this file. .gitleaks.toml pins this one line of this one file.
 PRODUCER_KEY_HEX = "a566e22954e9af7e0f45999600f3fda371187d53af1af449d3da82e032f1f5ec"
 PRODUCER_KEY = base64.b64encode(bytes.fromhex(PRODUCER_KEY_HEX)).decode()
 EMPTY_JWT = "eyJhbGciOiJub25lIn0.e30."
@@ -93,6 +93,7 @@ _DNS_AID_CASE = json.loads((ROOT / DNS_AID).read_text(encoding="utf-8"))
 DNS_AID_SIG = _DNS_AID_CASE["sig"]
 DNS_AID_X = _DNS_AID_CASE["jwks"]["keys"][0]["x"]
 PRINCIPAL = "corpora/vectors-principal-action/cases/basic-user-agent-act-absent/case.json"
+THIS_FILE = "scripts/secret-scan-allowlist-test.py"
 
 
 @pytest.mark.parametrize(
@@ -120,6 +121,8 @@ PRINCIPAL = "corpora/vectors-principal-action/cases/basic-user-agent-act-absent/
          f' "sig": "{DNS_AID_SIG}"\n}}\n'),
         (PRINCIPAL,
          f'{{\n  "producerKey": "{PRODUCER_KEY}",\n  "now": "2026-11-10T12:00:00Z"\n}}\n'),
+        # This file's own constant: the one published producer key, on its PRODUCER_KEY_HEX line.
+        (THIS_FILE, f'PRODUCER_KEY_HEX = "{PRODUCER_KEY_HEX}"\n'),
     ],
 )
 def test_the_fixture_shapes_scan_clean(tmp_path: Path, relpath: str, text: str) -> None:
@@ -150,6 +153,10 @@ def test_the_fixture_shapes_scan_clean(tmp_path: Path, relpath: str, text: str) 
         ("src/agreement.jws", AGREEMENT),
         (PRINCIPAL, f'{{\n  "producerKey": "{REAL_B64}"\n}}\n'),
         ("src/config.json", f'{{\n  "producerKey": "{PRODUCER_KEY}"\n}}\n'),
+        # The pin on this file's constant is one file and one value, never a pattern.
+        ("scripts/other-test.py", f'PRODUCER_KEY_HEX = "{PRODUCER_KEY_HEX}"\n'),
+        (THIS_FILE, f'PRODUCER_KEY_HEX = "{HEX_32}"\n'),
+        (THIS_FILE, f'SEED_KEY_HEX = "{PRODUCER_KEY_HEX}"\n'),
     ],
 )
 def test_a_realistic_secret_or_a_misplaced_fixture_still_fails(
