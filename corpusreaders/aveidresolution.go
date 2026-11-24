@@ -76,7 +76,7 @@ func (aveIDResolution) Judge(dir string, raw []byte) (*Result, error) {
 			result.Members = append(result.Members, member)
 			continue
 		}
-		if body, err := os.ReadFile(filepath.Join(dir, v.Path)); err != nil || sha(body) != v.Sha256 { // #nosec G304 -- a member file named by the manifest
+		if body, err := os.ReadFile(filepath.Join(dir, v.Path)); err != nil || sha(body) != v.Sha256 { // #nosec G304,G703 -- a member file named by the manifest
 			member.Findings = append(member.Findings, v.Path+": the output is not the bytes the manifest pins")
 		}
 		snapshot := filepath.Join(dir, "snapshots", v.Snapshot, "ave-records.json")
@@ -111,14 +111,14 @@ func aveSnapshotFiles(dir, release string, pin aveSnapshotPin) (map[string]strin
 	files := map[string]string{}
 	for _, entry := range entries {
 		if entry.Type().IsRegular() {
-			body, err := os.ReadFile(filepath.Join(directory, entry.Name())) // #nosec G304 -- a file of the corpus being judged
+			body, err := os.ReadFile(filepath.Join(directory, entry.Name())) // #nosec G304,G703 -- a file of the corpus being judged
 			if err != nil {
 				return nil, fmt.Errorf("snapshot %s: %w", release, err)
 			}
 			files[entry.Name()] = sha(body)
 		}
 	}
-	sums, err := os.ReadFile(filepath.Join(directory, "SHA256SUMS")) // #nosec G304 -- a file of the corpus being judged
+	sums, err := os.ReadFile(filepath.Join(directory, "SHA256SUMS")) // #nosec G304,G703 -- a file of the corpus being judged
 	if err != nil {
 		return nil, fmt.Errorf("snapshot %s: %w", release, err)
 	}
@@ -170,7 +170,7 @@ func aveCorpusDigest(dir string, manifest aveManifest) string {
 		}
 	}
 	for _, v := range manifest.Vectors {
-		body, err := os.ReadFile(filepath.Join(dir, v.Path)) // #nosec G304 -- a member file named by the manifest
+		body, err := os.ReadFile(filepath.Join(dir, v.Path)) // #nosec G304,G703 -- a member file named by the manifest
 		if err != nil || sha(body) != v.Sha256 {
 			return v.ID + ": file digest mismatch"
 		}
@@ -198,7 +198,7 @@ func aveRun(output, snapshot, pinned string) (string, []string) {
 	if err != nil {
 		return "unreadable", []string{}
 	}
-	body, err := os.ReadFile(output) // #nosec G304 -- a member file named by the manifest
+	body, err := os.ReadFile(output) // #nosec G304,G703 -- a member file named by the manifest
 	if err != nil {
 		return "unreadable", []string{}
 	}

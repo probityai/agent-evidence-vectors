@@ -116,10 +116,9 @@ func ocsfRead(text string, policyDoc, relying any) *ocsfReport {
 	for _, name := range ocsfRecordDims {
 		rep.dims[name] = ocsfRollup(records, name)
 	}
-	switch {
-	case policy == nil:
+	if policy == nil {
 		rep.dims["trust_policy"] = ocsfD(ocsfNotChecked, "no trust policy is configured")
-	default:
+	} else {
 		rep.dims["trust_policy"] = policy.report()
 	}
 	var readOK []*ocsfRecord

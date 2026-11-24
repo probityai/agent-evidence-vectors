@@ -455,7 +455,7 @@ func drecCheckStageKind(stage map[string]any, where string, t *drecTally) {
 	if v, has := stage["core_ref"]; has {
 		drecCheckCoreRef(v, where+".core_ref", t)
 	}
-	if v, has := stage["request_limit"]; has && !(drecJSONInteger(v) && drecIntValue(v) >= 1) {
+	if v, has := stage["request_limit"]; has && (!drecJSONInteger(v) || drecIntValue(v) < 1) {
 		t.fail("%s: request_limit is not an integer from 1", where)
 	}
 	if stage["kind"] == "standing_approval" {

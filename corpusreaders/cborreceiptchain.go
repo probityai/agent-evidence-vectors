@@ -334,11 +334,11 @@ func crcParse(line string, profile crcProfile) (crcReceipt, crcParseKind) {
 	if err != nil || !isBody {
 		return crcReceipt{}, crcMalformed
 	}
-	if inner, ok := body.get(crcInt{mag: uint64(profile.Fields["version"])}).(crcInt); !ok || inner != version {
+	if inner, ok := body.get(crcFieldKey(profile.Fields["version"])).(crcInt); !ok || inner != version {
 		return crcReceipt{}, crcMalformed
 	}
 	r := crcReceipt{signer: hex.EncodeToString(key), digest: sha(raw)}
-	switch prev := body.get(crcInt{mag: uint64(profile.Fields["prev_hash"])}).(type) {
+	switch prev := body.get(crcFieldKey(profile.Fields["prev_hash"])).(type) {
 	case nil:
 	case []byte:
 		if len(prev) != 32 {
@@ -351,7 +351,7 @@ func crcParse(line string, profile crcProfile) (crcReceipt, crcParseKind) {
 	}
 	field := func(role string) any {
 		if id, ok := profile.Fields[role]; ok {
-			return body.get(crcInt{mag: uint64(id)})
+			return body.get(crcFieldKey(id))
 		}
 		return nil
 	}
@@ -409,6 +409,15 @@ func crcRender(v any) string {
 type crcInt struct {
 	neg bool
 	mag uint64
+}
+
+// crcFieldKey is the CBOR integer key a profile field number names: a negative number is
+// the negative integer of that value (magnitude -1-id), never a wrapped unsigned one.
+func crcFieldKey(id int64) crcInt {
+	if id < 0 {
+		return crcInt{neg: true, mag: uint64(-(id + 1))}
+	}
+	return crcInt{mag: uint64(id)}
 }
 
 type crcText string
@@ -484,11 +493,12 @@ func crcDecode(data []byte) (any, error) {
 }
 
 func (d *crcDecoder) take(n uint64) ([]byte, error) {
-	if n > uint64(len(d.buf)-d.pos) {
+	rest := d.buf[d.pos:]
+	if n > uint64(len(rest)) {
 		return nil, errCrcMalformed
 	}
-	out := d.buf[d.pos : d.pos+int(n)]
-	d.pos += int(n)
+	out := rest[:n]
+	d.pos += len(out)
 	return out, nil
 }
 

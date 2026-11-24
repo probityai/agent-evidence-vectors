@@ -15,9 +15,9 @@ func crcTHead(major byte, n uint64) []byte {
 	case n < 256:
 		return []byte{major<<5 | 24, byte(n)}
 	case n < 65536:
-		return []byte{major<<5 | 25, byte(n >> 8), byte(n)}
+		return []byte{major<<5 | 25, byte(n >> 8 & 0xff), byte(n & 0xff)}
 	}
-	return []byte{major<<5 | 26, byte(n >> 24), byte(n >> 16), byte(n >> 8), byte(n)}
+	return []byte{major<<5 | 26, byte(n >> 24 & 0xff), byte(n >> 16 & 0xff), byte(n >> 8 & 0xff), byte(n & 0xff)}
 }
 
 func crcTUint(n uint64) []byte { return crcTHead(0, n) }
@@ -53,7 +53,7 @@ type crcTReceipt struct {
 
 func (r crcTReceipt) hex(profile crcProfile) string {
 	pub, _ := r.key.Public().(ed25519.PublicKey)
-	msg := append(append(append([]byte{}, profile.signatureContextB...), byte(r.version)), r.payload...)
+	msg := append(append(append([]byte{}, profile.signatureContextB...), byte(r.version&0xff)), r.payload...)
 	sig := ed25519.Sign(r.key, msg)
 	if r.outer != nil {
 		return hex.EncodeToString(r.outer(r.version, r.payload, pub, sig))

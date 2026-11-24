@@ -21,7 +21,16 @@ func init() { register(paymentMandate()) }
 // record carries the facilitator request in x402 v2 field names; its signer is
 // recovered from the EIP-712 signature (evmsig.go), never read from a field.
 func paymentMandate() ruleCorpus {
-	return ruleCorpus{suite: "agent-payment-mandate/v1", accept: "mandate_chain_holds", rules: []rlRule{
+	rules := pmMandateRules()
+	rules = append(rules, pmX402Rules()...)
+	rules = append(rules, pmExecutionRules()...)
+	rules = append(rules, pmEvidenceRules()...)
+	return ruleCorpus{suite: "agent-payment-mandate/v1", accept: "mandate_chain_holds", rules: rules}
+}
+
+// pmMandateRules holds the mandate's signature, digest and binding, and the charge against its terms, in the order of paymentmandate.py.
+func pmMandateRules() []rlRule {
+	return []rlRule{
 		{"mandate_unsigned", func(r any) bool {
 			sig := rlMap(rlGet(r, "mandate.signature"))
 			return sig == nil || rlStr(sig["key_id"]) == "" || !gfHex64.MatchString(rlStr(sig["value_sha256"]))
@@ -61,6 +70,12 @@ func paymentMandate() ruleCorpus {
 				pmSameAddress(pmX(r, "paymentPayload.accepted.payTo"), payTo) &&
 				pmSameAddress(payTo, rlGet(r, "mandate.terms.merchant")))
 		})},
+	}
+}
+
+// pmX402Rules holds the x402-only refusals and the payer checks, in the order of paymentmandate.py.
+func pmX402Rules() []rlRule {
+	return []rlRule{
 		{"network_mismatch", pmX402Only(func(r any) bool {
 			required, ok := pmX(r, "paymentRequirements.network").(string)
 			return !ok || rlStr(pmX(r, "paymentPayload.accepted.network")) != required ||
@@ -94,6 +109,12 @@ func paymentMandate() ruleCorpus {
 		{"payer_not_mandated_agent", pmX402Only(func(r any) bool {
 			return !pmSameAddress(pmX(r, "paymentPayload.payload.authorization.from"), rlGet(r, "mandate.terms.agent_payer"))
 		})},
+	}
+}
+
+// pmExecutionRules holds the executed token, the settlement, replay and the receipt, in the order of paymentmandate.py.
+func pmExecutionRules() []rlRule {
+	return []rlRule{
 		{"token_not_the_executed_token", pmProfile(func(r any) bool {
 			return rlGet(r, "execution.token_id") != rlGet(r, "credential.token_id")
 		}, func(r any) bool {
@@ -125,23 +146,13 @@ func paymentMandate() ruleCorpus {
 			}
 			return false
 		})},
-		{"receipt_not_bound_to_execution", pmProfile(pmReceiptUnbound, func(r any) bool {
-			response := rlMap(rlGet(r, "receipt.settlement_response"))
-			if pmReceiptUnbound(r) || response == nil {
-				return true
-			}
-			amount, hasAmount := response["amount"]
-			amountOK := !hasAmount
-			if hasAmount {
-				a, b := pmDecimal(amount), pmDecimal(rlGet(r, "execution.transfer.value"))
-				amountOK = a != nil && b != nil && a.Cmp(b) == 0
-			}
-			return !(rlTrue(response["success"]) &&
-				rlStr(response["transaction"]) == rlStr(rlGet(r, "execution.transaction")) && rlStr(response["transaction"]) != "" &&
-				rlStr(response["network"]) == rlStr(rlGet(r, "execution.network")) &&
-				pmSameAddress(response["payer"], pmX(r, "paymentPayload.payload.authorization.from")) &&
-				amountOK)
-		})},
+		{"receipt_not_bound_to_execution", pmProfile(pmReceiptUnbound, pmSettlementResponseUnbound)},
+	}
+}
+
+// pmEvidenceRules holds the post-checkout record and the signing-key history, in the order of paymentmandate.py.
+func pmEvidenceRules() []rlRule {
+	return []rlRule{
 		{"post_checkout_action_missing", func(r any) bool {
 			return !rlSubset(rlStringSet(rlGet(r, "post_checkout.required")), rlStringSet(rlGet(r, "post_checkout.recorded")))
 		}},
@@ -162,7 +173,28 @@ func paymentMandate() ruleCorpus {
 			return ok && entry != nil && entry["revoked_effective_from"] != nil &&
 				signed >= rlStr(entry["revoked_effective_from"])
 		}},
-	}}
+	}
+}
+
+// pmSettlementResponseUnbound is the x402 half of receipt_not_bound_to_execution: the
+// facilitator's settlement response must succeed and name this transaction, network,
+// payer and amount.
+func pmSettlementResponseUnbound(r any) bool {
+	response := rlMap(rlGet(r, "receipt.settlement_response"))
+	if pmReceiptUnbound(r) || response == nil {
+		return true
+	}
+	amount, hasAmount := response["amount"]
+	amountOK := !hasAmount
+	if hasAmount {
+		a, b := pmDecimal(amount), pmDecimal(rlGet(r, "execution.transfer.value"))
+		amountOK = a != nil && b != nil && a.Cmp(b) == 0
+	}
+	return !(rlTrue(response["success"]) &&
+		rlStr(response["transaction"]) == rlStr(rlGet(r, "execution.transaction")) && rlStr(response["transaction"]) != "" &&
+		rlStr(response["network"]) == rlStr(rlGet(r, "execution.network")) &&
+		pmSameAddress(response["payer"], pmX(r, "paymentPayload.payload.authorization.from")) &&
+		amountOK)
 }
 
 // pmSigningKey returns the signing time and the key-history entry for the signing key.

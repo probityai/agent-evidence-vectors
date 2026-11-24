@@ -95,7 +95,7 @@ func (k ocsfKey) covers(at ocsfInstant) bool {
 	if k.notBefore != nil && at.secs.Cmp(k.notBefore.secs) < 0 {
 		return false
 	}
-	return !(k.notAfter != nil && at.secs.Cmp(k.notAfter.secs) > 0)
+	return k.notAfter == nil || at.secs.Cmp(k.notAfter.secs) <= 0
 }
 
 // ocsfTrustPolicy is the relying party's own JWKS: P-256 keys, each bound to

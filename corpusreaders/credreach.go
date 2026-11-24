@@ -23,8 +23,8 @@ type credentialReachability struct{}
 func (credentialReachability) Suite() string { return "credential-reachability/v1" }
 
 const (
-	credPredicate = "https://probityai.github.io/agent-evidence-vectors/predicate/v1/credential-reachability"
-	credClassSet  = "credential-reachability/v1"
+	reachPredicate = "https://probityai.github.io/agent-evidence-vectors/predicate/v1/credential-reachability"
+	reachClassSet  = "credential-reachability/v1"
 )
 
 var (
@@ -268,7 +268,7 @@ func credStatement(body []byte, policy credPolicy) (map[string]any, *credRefusal
 	if obj["_type"] != caStatementV1 {
 		return nil, credRefuse("not_established", "unsupported_statement_type")
 	}
-	if obj["predicateType"] != credPredicate {
+	if obj["predicateType"] != reachPredicate {
 		return nil, credRefuse("not_established", "unsupported_predicate")
 	}
 	subjects, _ := obj["subject"].([]any)
@@ -384,7 +384,7 @@ func credWellFormed(p map[string]any) *credRefusal {
 	if _, exact := credExact(p, credMembers...); !exact {
 		return credRefuse("not_established", "predicate_field_invalid:members")
 	}
-	if p["classSet"] != credClassSet {
+	if p["classSet"] != reachClassSet {
 		return credRefuse("not_established", "class_set_unsupported")
 	}
 	for _, field := range credFields {
