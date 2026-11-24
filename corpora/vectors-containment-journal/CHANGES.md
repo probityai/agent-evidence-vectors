@@ -3,25 +3,6 @@
 A published `suiteRevision` is never mutated in place. A normative change to the predicate or
 a case added bumps the revision, and the generator rewrites the cases byte-identically.
 
-## suiteRevision 4 (predicate revision 1.3: the authority chain and the grant chain are two members)
-
-- Until revision 1.2 a tool call's `grantChainDigest` held the digest of the authority chain
-  the guard walked from the call back to the principal's task grant (the document
-  `{"chain": [...], "data_roles": [...]}`), not a chain of capability grants. Revision 1.3 names
-  that digest `authorityChainDigest`, and `tool_call_authority_unbound` now reads it.
-- `grantChainDigest` now means the digest of the capability grant chain the call was delegated
-  under: `sha256:` over the RFC 8785 bytes of the list of the links' grant digests, root first
-  (`probity_records.digests.grant_chain_digest`). It is optional and is never read as an
-  authority chain.
-- Case added: `allow-tool-call-names-authority-and-grant-chains`.
-- Cases changed: `allow-isolated-agents-tool-call-refused` (its `record.json` names agent-a's
-  authority chain as `authorityChainDigest`, and its `receipt.json` cites the new head). Every
-  other revision 3 case keeps its bytes and its verdict.
-- Verdict change outside the corpus: a journal that claims `authorityChainChecked` and names a
-  tool call's authority chain only as `grantChainDigest` (the revision 1.2 spelling) was allowed
-  and is now denied with `tool_call_authority_unbound`. It fails closed: a revision 1.2 value
-  never equals the capability grant chain digest a consumer computes.
-
 ## suiteRevision 5 (predicate revision 2.0: every value an agent writes says who wrote it)
 
 - Release note: two events, `write` and `store_read`. A write names its agent, store, key and
@@ -45,6 +26,25 @@ a case added bumps the revision, and the generator rewrites the cases byte-ident
   `allow-write-unattributed-without-claim`, and one `reject-` case per new rule.
 - Cases changed: none. Every revision 3 case keeps its bytes and its verdict.
 - Verdict change outside the corpus: none for a journal without the two events.
+
+## suiteRevision 4 (predicate revision 1.3: the authority chain and the grant chain are two members)
+
+- Until revision 1.2 a tool call's `grantChainDigest` held the digest of the authority chain
+  the guard walked from the call back to the principal's task grant (the document
+  `{"chain": [...], "data_roles": [...]}`), not a chain of capability grants. Revision 1.3 names
+  that digest `authorityChainDigest`, and `tool_call_authority_unbound` now reads it.
+- `grantChainDigest` now means the digest of the capability grant chain the call was delegated
+  under: `sha256:` over the RFC 8785 bytes of the list of the links' grant digests, root first
+  (`probity_records.digests.grant_chain_digest`). It is optional and is never read as an
+  authority chain.
+- Case added: `allow-tool-call-names-authority-and-grant-chains`.
+- Cases changed: `allow-isolated-agents-tool-call-refused` (its `record.json` names agent-a's
+  authority chain as `authorityChainDigest`, and its `receipt.json` cites the new head). Every
+  other revision 3 case keeps its bytes and its verdict.
+- Verdict change outside the corpus: a journal that claims `authorityChainChecked` and names a
+  tool call's authority chain only as `grantChainDigest` (the revision 1.2 spelling) was allowed
+  and is now denied with `tool_call_authority_unbound`. It fails closed: a revision 1.2 value
+  never equals the capability grant chain digest a consumer computes.
 
 ## suiteRevision 3 (predicate revision 1.2: a detector decision is judged by what it changes)
 
