@@ -325,37 +325,82 @@ def statement_failure(payload: bytes) -> tuple[str | None, dict[str, Any]]:
         return "predicate_malformed", {}
 
 
-def chain_failure(versions: list[Version], head: str) -> str | None:
-    """The first chain check that fails over verified, well-formed versions."""
-    if not any(v.version == 1 for v in versions):
-        return "history_no_genesis"
+def _children(versions: list[Version]) -> dict[str | None, list[Version]]:
     children: dict[str | None, list[Version]] = {}
     for v in versions:
         children.setdefault(v.previous, []).append(v)
-    if any(len(group) > 1 for group in children.values()):
-        return "history_forked"
+    return children
+
+
+def _links(versions: list[Version]) -> list[tuple[Version, Version]]:
+    """Each version paired with its supplied previous version; a missing one is skipped."""
     by_digest = {v.digest: v for v in versions}
-    if any(v.previous is not None and v.previous not in by_digest for v in versions):
-        return "history_previous_missing"
+    links: list[tuple[Version, Version]] = []
     for v in versions:
-        if v.previous is None:
-            continue
-        parent = by_digest[v.previous]
+        parent = by_digest.get(v.previous) if v.previous is not None else None
+        if parent is not None:
+            links.append((v, parent))
+    return links
+
+
+def _no_genesis(versions: list[Version], head: str) -> str | None:
+    return None if any(v.version == 1 for v in versions) else "history_no_genesis"
+
+
+def _forked(versions: list[Version], head: str) -> str | None:
+    forked = any(len(group) > 1 for group in _children(versions).values())
+    return "history_forked" if forked else None
+
+
+def _previous_missing(versions: list[Version], head: str) -> str | None:
+    supplied = {v.digest for v in versions}
+    missing = any(v.previous is not None and v.previous not in supplied for v in versions)
+    return "history_previous_missing" if missing else None
+
+
+def _version_step(versions: list[Version], head: str) -> str | None:
+    for v, parent in _links(versions):
         if v.version <= parent.version:
             return "version_not_incremented"
         if v.version > parent.version + 1:
             return "version_gap"
-    for v in versions:
-        parent = by_digest.get(v.previous) if v.previous else None
-        if parent and (v.effective < parent.effective or v.issued < parent.issued):
-            return "history_time_reversed"
-    for v in versions:
-        parent = by_digest.get(v.previous) if v.previous else None
-        if parent and parent.status == "revoked":
-            return "revoked_is_final"
-    tips = [v for v in versions if v.digest not in children]
-    if [t.digest for t in tips] != [head]:
-        return "history_head_mismatch"
+    return None
+
+
+def _time_reversed(versions: list[Version], head: str) -> str | None:
+    reversed_ = any(v.effective < p.effective or v.issued < p.issued for v, p in _links(versions))
+    return "history_time_reversed" if reversed_ else None
+
+
+def _revoked_final(versions: list[Version], head: str) -> str | None:
+    after_revocation = any(parent.status == "revoked" for _, parent in _links(versions))
+    return "revoked_is_final" if after_revocation else None
+
+
+def _head_mismatch(versions: list[Version], head: str) -> str | None:
+    children = _children(versions)
+    tips = [v.digest for v in versions if v.digest not in children]
+    return None if tips == [head] else "history_head_mismatch"
+
+
+# The chain checks in the order the specification names them; the first failure wins.
+_CHAIN_CHECKS = (
+    _no_genesis,
+    _forked,
+    _previous_missing,
+    _version_step,
+    _time_reversed,
+    _revoked_final,
+    _head_mismatch,
+)
+
+
+def chain_failure(versions: list[Version], head: str) -> str | None:
+    """The first chain check that fails over verified, well-formed versions."""
+    for check in _CHAIN_CHECKS:
+        failure = check(versions, head)
+        if failure is not None:
+            return failure
     return None
 
 
@@ -373,16 +418,6 @@ def in_force(versions: list[Version], at: datetime) -> Version | None:
 def _read(directory: Path, name: str) -> bytes | None:
     path = directory / name
     return path.read_bytes() if path.is_file() else None
-
-
-@dataclass
-class _State:
-    """What the checks have established so far for one member."""
-
-    directory: Path
-    envelopes: list[Envelope] | None = None
-    versions: list[Version] | None = None
-    decision: tuple[datetime, str, Envelope] | None = None
 
 
 def _context(directory: Path) -> tuple[list[bytes], dict[str, str], str]:
@@ -408,100 +443,131 @@ def _decision(raw: bytes | None) -> tuple[datetime, str, Envelope]:
     return parse_time(value["at"]), keyid, env
 
 
-def _checks(directory: Path) -> list[tuple[str, Callable[[], bool]]]:
-    state = _State(directory)
-    issuer_keys, agent, head = _context(directory)
-    shape: dict[str, str | None] = {}
-    verdicts: dict[str, Any] = {}
+class _Member:
+    """The checks over one member; each reads only what the checks before it established."""
 
-    def malformed() -> bool:
-        state.envelopes = history_envelopes(_read(directory, "history.json"))
+    def __init__(self, directory: Path) -> None:
+        self.directory = directory
+        self.issuer_keys, self.agent, self.head = _context(directory)
+        self.envelopes: list[Envelope] = []
+        self.decision: tuple[datetime, str, Envelope] | None = None
+        self._parsed: list[Version] | None = None
+        self._shape_first: str | None = None
+        self._chain: tuple[str | None] | None = None
+
+    def malformed(self) -> bool:
+        self.envelopes = history_envelopes(_read(self.directory, "history.json"))
         return False
 
-    def signature() -> bool:
-        return any(signed_by(issuer_keys, env) is None for env in state.envelopes or [])
+    def bad_signature(self) -> bool:
+        return any(signed_by(self.issuer_keys, env) is None for env in self.envelopes)
 
-    def statements() -> None:
-        versions: list[Version] = []
-        failures: list[str] = []
-        for env in state.envelopes or []:
-            failure, fields = statement_failure(env.payload)
-            if failure is not None:
-                failures.append(failure)
-                continue
-            versions.append(Version(env.digest, fields["version"], fields["previous"],
-                                    fields["issued"], fields["effective"], fields["status"],
-                                    fields["keys"], fields["agent"]))
-        shape["first"] = min(failures, key=CHECKS.index) if failures else None
-        state.versions = versions
+    def _parse_statements(self) -> list[Version]:
+        if self._parsed is None:
+            versions: list[Version] = []
+            failures: list[str] = []
+            for env in self.envelopes:
+                failure, fields = statement_failure(env.payload)
+                if failure is not None:
+                    failures.append(failure)
+                    continue
+                versions.append(Version(env.digest, fields["version"], fields["previous"],
+                                        fields["issued"], fields["effective"], fields["status"],
+                                        fields["keys"], fields["agent"]))
+            self._shape_first = min(failures, key=CHECKS.index) if failures else None
+            self._parsed = versions
+        return self._parsed
 
-    def statement_check(code: str) -> Callable[[], bool]:
+    def statement_check(self, code: str) -> Callable[[], bool]:
         def failing() -> bool:
-            if "first" not in shape:
-                statements()
-            first = shape["first"]
-            order = CHECKS.index(code)
-            if first is not None and CHECKS.index(first) <= order:
+            self._parse_statements()
+            first = self._shape_first
+            if first is not None and CHECKS.index(first) <= CHECKS.index(code):
                 return first == code
             return False
         return failing
 
-    def versions() -> list[Version]:
-        if "first" not in shape:
-            statements()
-        if shape["first"] is not None:
+    def versions(self) -> list[Version]:
+        parsed = self._parse_statements()
+        if self._shape_first is not None:
             raise Malformed("a statement is malformed")
-        return state.versions or []
+        return parsed
 
-    def chain(code: str) -> Callable[[], bool]:
+    def chain_check(self, code: str) -> Callable[[], bool]:
         def failing() -> bool:
-            if "chain" not in verdicts:
-                verdicts["chain"] = chain_failure(versions(), head)
-            return bool(verdicts["chain"] == code)
+            if self._chain is None:
+                self._chain = (chain_failure(self.versions(), self.head),)
+            return self._chain[0] == code
         return failing
 
-    def decision_malformed() -> bool:
-        state.decision = _decision(_read(directory, "decision.json"))
+    def active_without_keys(self) -> bool:
+        return any(v.status == "active" and not v.keys for v in self.versions())
+
+    def effective_after_issued(self) -> bool:
+        return any(v.effective > v.issued for v in self.versions())
+
+    def agent_mismatch(self) -> bool:
+        return any(v.agent != self.agent for v in self.versions())
+
+    def decision_malformed(self) -> bool:
+        self.decision = _decision(_read(self.directory, "decision.json"))
         return False
 
-    def known() -> dict[str, bytes]:
-        return {key_id(public_key(k)): public_key(k) for v in versions() for k in v.keys}
+    def _decided(self) -> tuple[datetime, str, Envelope]:
+        if self.decision is None:
+            raise Malformed("no decision has been read")
+        return self.decision
 
-    def key_unknown() -> bool:
-        assert state.decision is not None
-        return state.decision[1] not in known()
+    def _known_keys(self) -> dict[str, bytes]:
+        return {key_id(public_key(k)): public_key(k) for v in self.versions() for k in v.keys}
 
-    def decision_signature() -> bool:
-        assert state.decision is not None
-        _, keyid, env = state.decision
-        return signed_by([known()[keyid]], env) is None
+    def key_unknown(self) -> bool:
+        return self._decided()[1] not in self._known_keys()
 
-    def standing() -> Version | None:
-        assert state.decision is not None
-        return in_force(versions(), state.decision[0])
+    def decision_signature(self) -> bool:
+        _, keyid, env = self._decided()
+        return signed_by([self._known_keys()[keyid]], env) is None
 
-    def not_in_force() -> bool:
-        current = standing()
-        assert current is not None and state.decision is not None
-        return state.decision[1] not in {key_id(public_key(k)) for k in current.keys}
+    def _standing(self) -> Version | None:
+        return in_force(self.versions(), self._decided()[0])
 
-    return [
-        ("history_malformed", malformed),
-        ("statement_signature", signature),
-        *[(code, statement_check(code)) for code in CHECKS[2:7]],
-        ("active_without_keys", lambda: any(v.status == "active" and not v.keys
-                                            for v in versions())),
-        ("effective_after_issued", lambda: any(v.effective > v.issued for v in versions())),
-        ("agent_mismatch", lambda: any(v.agent != agent for v in versions())),
-        *[(code, chain(code)) for code in CHECKS[10:18]],
-        ("decision_malformed", decision_malformed),
-        ("key_unknown", key_unknown),
-        ("decision_signature", decision_signature),
-        ("decision_before_history", lambda: standing() is None),
-        ("agent_suspended", lambda: getattr(standing(), "status", None) == "suspended"),
-        ("agent_revoked", lambda: getattr(standing(), "status", None) == "revoked"),
-        ("key_not_in_force", not_in_force),
-    ]
+    def before_history(self) -> bool:
+        return self._standing() is None
+
+    def _standing_status(self, status: str) -> bool:
+        current = self._standing()
+        return current is not None and current.status == status
+
+    def key_not_in_force(self) -> bool:
+        current = self._standing()
+        if current is None:
+            raise Malformed("no version in force")
+        return self._decided()[1] not in {key_id(public_key(k)) for k in current.keys}
+
+    def checks(self) -> list[tuple[str, Callable[[], bool]]]:
+        by_name: dict[str, Callable[[], bool]] = {
+            "history_malformed": self.malformed,
+            "statement_signature": self.bad_signature,
+            "active_without_keys": self.active_without_keys,
+            "effective_after_issued": self.effective_after_issued,
+            "agent_mismatch": self.agent_mismatch,
+            "decision_malformed": self.decision_malformed,
+            "key_unknown": self.key_unknown,
+            "decision_signature": self.decision_signature,
+            "decision_before_history": self.before_history,
+            "agent_suspended": lambda: self._standing_status("suspended"),
+            "agent_revoked": lambda: self._standing_status("revoked"),
+            "key_not_in_force": self.key_not_in_force,
+        }
+        for code in CHECKS[2:7]:
+            by_name[code] = self.statement_check(code)
+        for code in CHECKS[10:18]:
+            by_name[code] = self.chain_check(code)
+        return [(code, by_name[code]) for code in CHECKS]
+
+
+def _checks(directory: Path) -> list[tuple[str, Callable[[], bool]]]:
+    return _Member(directory).checks()
 
 
 def verify(directory: Path, skip: frozenset[str] = frozenset()) -> dict[str, str]:
