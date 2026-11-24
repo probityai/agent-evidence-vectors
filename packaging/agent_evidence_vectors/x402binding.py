@@ -100,7 +100,7 @@ def network_id(value: object) -> str | None:
     """The chain a served network identifier names, or None when it names none."""
     if not isinstance(value, str):
         return None
-    if CAIP2.match(value):
+    if CAIP2.fullmatch(value):
         return value
     chain = V1_CHAIN_IDS.get(value)
     return None if chain is None else f"eip155:{chain}"
