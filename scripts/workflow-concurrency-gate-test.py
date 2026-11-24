@@ -81,6 +81,22 @@ def main() -> int:
     assert r.returncode == 1 and "does not need python" in r.stdout, r.stdout
     r = fixture({"ci.yml": ci(merge_group=False)})
     assert r.returncode == 1 and "does not run on merge_group" in r.stdout, r.stdout
+    # Rule 5, the 24 Nov 2026 batch: 3 systems x 8 row groups asked for 8 macOS jobs.
+    fan = (
+        "  m:\n    runs-on: ${{ matrix.os }}\n    strategy:\n      matrix:\n"
+        "        os: [ubuntu-24.04, macos-15]\n        rows: [a, b, c, d, e, f]\n    steps: []\n"
+    )
+    r = fixture({**base(), "mac.yml": GOOD.split("jobs:")[0] + "jobs:\n" + fan})
+    assert r.returncode == 1 and "mac.yml: 6 macOS jobs in one run" in r.stdout, r.stdout
+    head = GOOD.split("jobs:")[0] + "jobs:\n"
+    rows = "        rows: [a, b, c, d, e, f]\n"
+    # One macOS leg that takes every row, added by include, is one job.
+    one = fan.replace("[ubuntu-24.04, macos-15]", "[ubuntu-24.04]")
+    one = one.replace(rows, rows + "        include:\n          - os: macos-15\n            rows: all\n")
+    assert fixture({**base(), "mac.yml": head + one}).returncode == 0
+    # An exclude removes a leg: five macOS jobs is the whole free allowance and passes.
+    cut = fan.replace(rows, rows + "        exclude:\n          - os: macos-15\n            rows: a\n")
+    assert fixture({**base(), "mac.yml": head + cut}).returncode == 0
     assert fixture({}).returncode == 2
     print("workflow-concurrency-gate-test: ok")
     return 0
