@@ -689,7 +689,7 @@ def _claims_failure(record: Record, skip: frozenset[str]) -> str | None:
 def judge_journal(record: Any, not_canonical: bool,
                   skip: frozenset[str] = frozenset()) -> str | None:
     """The first rule the journal fails, or None when it passes every rule."""
-    early = (
+    early: tuple[tuple[str, Callable[[], bool]], ...] = (
         ("contract_id_missing", lambda: not isinstance(record, dict) or "contractId" not in record),
         ("contract_id_unknown", lambda: not same_identifier(record["contractId"], CONTRACT_ID)),
         ("record_not_canonical", lambda: not_canonical),

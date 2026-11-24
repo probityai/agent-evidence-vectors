@@ -32,6 +32,8 @@ implementation must reproduce are ``spec/identifiers/host-equivalence.json``.
 
 from __future__ import annotations
 
+from typing import overload
+
 __all__ = [
     "IDENTIFIER_HOST",
     "RECOGNISED_HOSTS",
@@ -49,6 +51,14 @@ RECOGNISED_HOSTS = ("probityai.github.io", "probityai.org")
 def identifier(path: str) -> str:
     """``https://<IDENTIFIER_HOST>/<path>``: how every identifier constant is built."""
     return f"https://{IDENTIFIER_HOST}/{path}"
+
+
+@overload
+def canonical_identifier(value: str) -> str: ...
+
+
+@overload
+def canonical_identifier(value: object) -> object: ...
 
 
 def canonical_identifier(value: object) -> object:
