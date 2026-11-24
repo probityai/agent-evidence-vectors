@@ -59,19 +59,20 @@ def test_corpus_judges_clean_and_prints_the_lines_aee_verify_prints() -> None:
     assert [ln.split(":")[0].strip() for ln in lines[2:-1]] == ["accept", "no_verdict", "reject"]
 
 
-def test_the_harness_routes_the_corpus_to_this_reader() -> None:
+def test_the_harness_routes_the_corpus_to_this_reader(tmp_path: Path) -> None:
     run = subprocess.run(
         [sys.executable, str(ROOT.parents[1] / "packaging" / "run_vectors.py"),
-         "--vectors", str(ROOT)], capture_output=True, text=True, check=False)
+         "--vectors", str(ROOT), "--report", str(tmp_path / "report.json")],
+        capture_output=True, text=True, check=False)
     assert run.returncode == 0, run.stdout + run.stderr
     assert run.stdout == reader.render(reader.judge(ROOT))
 
 
-def test_a_named_verifier_is_refused_not_scored() -> None:
+def test_a_named_verifier_is_refused_not_scored(tmp_path: Path) -> None:
     run = subprocess.run(
         [sys.executable, str(ROOT.parents[1] / "packaging" / "run_vectors.py"),
-         "--vectors", str(ROOT), "--verifier", "true"], capture_output=True, text=True,
-        check=False)
+         "--vectors", str(ROOT), "--verifier", "true", "--report", str(tmp_path / "report.json")],
+        capture_output=True, text=True, check=False)
     assert run.returncode == 2
     assert "no external-verifier contract" in run.stdout + run.stderr
 

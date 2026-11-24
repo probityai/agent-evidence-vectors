@@ -40,9 +40,7 @@ SUMMARY = REPO_ROOT / "scripts" / "action-summary.py"
 HARNESS = Path(os.environ.get("AEV_HARNESS_UNDER_TEST", REPO_ROOT / "packaging" / "run_vectors.py"))
 
 MUTATION_ANCHOR = '        "corpus": corpus_provenance(suite_dir),\n'
-STAMP_ANCHOR = (
-    "    stamp_report(_report_path(args), os.path.abspath(args.vectors), report_before)\n"
-)
+STAMP_ANCHOR = "            stamp_report(self.path, suite_dir, None)\n"
 HEADER_SCHEMA = REPO_ROOT / "spec" / "schemas" / "verifier-result-v1.schema.json"
 
 
