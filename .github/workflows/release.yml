@@ -455,8 +455,24 @@ jobs:
           GH_REPO: ${{ github.repository }}
         run: |
           set -euo pipefail
+          assets=()
+          for f in release/CORPUS-DIGESTS.txt release/CORPUS-DIGESTS.txt.sig release/CORPUS-DIGESTS.txt.sig.ots release/CORPUS-DIGESTS.txt.sig.tsr; do
+            if [ -f "$f" ]; then assets+=("$f"); fi
+          done
           if gh release view "$GITHUB_REF_NAME" >/dev/null 2>&1; then
-            echo "release $GITHUB_REF_NAME already exists; only the Latest flag is set"
+            # A release made by hand before this step existed carries no assets
+            # (v0.31.1 to v0.36.3 had none, so a consumer fetching the signed
+            # digest list got HTTP 404). Attach any asset it lacks; never replace
+            # one it already holds.
+            have="$(gh release view "$GITHUB_REF_NAME" --json assets --jq '.assets[].name')"
+            missing=()
+            for f in "${assets[@]}"; do
+              if ! printf '%s\n' "$have" | grep -qxF "$(basename "$f")"; then missing+=("$f"); fi
+            done
+            if [ "${#missing[@]}" -gt 0 ]; then
+              gh release upload "$GITHUB_REF_NAME" "${missing[@]}"
+            fi
+            echo "release $GITHUB_REF_NAME already exists; its digest assets are complete and only the Latest flag is set"
           else
             prev="$(git tag --list 'v[0-9]*.[0-9]*.[0-9]*' --sort=-v:refname | while read -r t; do
               if [ "$t" != "$GITHUB_REF_NAME" ] && [ "$(printf '%s\n%s\n' "$t" "$GITHUB_REF_NAME" | sort -V | head -n1)" = "$t" ]; then echo "$t"; break; fi
@@ -470,13 +486,22 @@ jobs:
               python3 scripts/changed-cases.py notes --from "$prev" --to "$GITHUB_REF_NAME" > "$RUNNER_TEMP/changed-cases.md"
               args+=(--notes-file "$RUNNER_TEMP/changed-cases.md")
             fi
-            assets=()
-            for f in release/CORPUS-DIGESTS.txt release/CORPUS-DIGESTS.txt.sig release/CORPUS-DIGESTS.txt.sig.ots release/CORPUS-DIGESTS.txt.sig.tsr; do
-              if [ -f "$f" ]; then assets+=("$f"); fi
-            done
             gh release create "$GITHUB_REF_NAME" "${args[@]}" "${assets[@]}"
           fi
           gh release edit "$GITHUB_REF_NAME" --latest
+      - name: the release carries the signed digest list
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+        run: |
+          set -euo pipefail
+          have="$(gh release view "$GITHUB_REF_NAME" --json assets --jq '.assets[].name')"
+          for f in CORPUS-DIGESTS.txt CORPUS-DIGESTS.txt.sig; do
+            if ! printf '%s\n' "$have" | grep -qxF "$f"; then
+              echo "::error::release $GITHUB_REF_NAME has no $f asset; a consumer that pins this version cannot fetch the signed digest list"
+              exit 1
+            fi
+          done
       - name: Latest is the newest corpus tag
         env:
           GH_TOKEN: ${{ github.token }}
