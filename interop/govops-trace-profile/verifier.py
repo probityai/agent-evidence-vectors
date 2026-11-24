@@ -42,12 +42,14 @@ def canonical_identifier(value: Any) -> Any:
     if isinstance(value, str):
         for host in RECOGNISED_HOSTS:
             if value.startswith(f"https://{host}/"):
-                return f"https://{IDENTIFIER_HOST}/{value[len(host) + 9:]}"
+                return f"https://{IDENTIFIER_HOST}/{value[len(host) + 9 :]}"
     return value
 
 
 PROFILE = "tag:govops,2026:trace-v1"
-PREDICATE_TYPE = f"https://{IDENTIFIER_HOST}/agent-evidence-vectors/predicate/v1/govops-trace-record"
+PREDICATE_TYPE = (
+    f"https://{IDENTIFIER_HOST}/agent-evidence-vectors/predicate/v1/govops-trace-record"
+)
 STATEMENT_TYPE = "https://in-toto.io/Statement/v1"
 PAYLOAD_TYPE = "application/vnd.in-toto+json"
 GENESIS = "sha256:" + "0" * 64
