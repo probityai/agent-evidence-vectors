@@ -1222,7 +1222,8 @@ def dependabot_commits_are_left_out_and_every_other_commit_is_linted() -> None:
         push = run(root, PUSH_REF=ref, PUSH_ACTOR=bot[0])
         assert push.returncode == 0, push.stdout + push.stderr
 
-        # The same commit is still linted, and refused, where Dependabot is not the author of the event.
+        # The same commit is still linted, and refused, where Dependabot is not the author
+        # of the event.
         human_pr = run(root, PR_BASE=base, PR_AUTHOR="someone")
         assert human_pr.returncode != 0, human_pr.stdout
         human_push = run(root, PUSH_REF=ref, PUSH_ACTOR="someone")
