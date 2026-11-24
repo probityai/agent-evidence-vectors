@@ -228,7 +228,8 @@ func cdStatement(payload []byte, predicateType string) (map[string]any, map[stri
 	}
 	predicate, pOK := statement["predicate"].(map[string]any)
 	subject, sOK := statement["subject"].([]any)
-	if statement["_type"] != cdStatementType || identifiers.CanonicalValue(statement["predicateType"]) != identifiers.CanonicalIdentifier(predicateType) ||
+	if statement["_type"] != cdStatementType ||
+		identifiers.CanonicalValue(statement["predicateType"]) != identifiers.CanonicalIdentifier(predicateType) ||
 		!pOK || !sOK || len(subject) != 1 {
 		return nil, nil, false
 	}
