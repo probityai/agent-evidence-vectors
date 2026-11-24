@@ -71,7 +71,9 @@ an accepted chain with one edit, re-sealed so every earlier check passes:
 Eight accepted chains keep a verifier from refusing everything: two hops, four hops, a
 deferred hop, an A2A-to-OAuth protocol change, the user alone with presence evidence, an
 unknown header parameter that is not critical, a marker signed in the token and copied in a
-header, and a subject outside ASCII. Counts are in `MANIFEST.json`.
+header, and a subject outside ASCII. A verifier accepts each of them with the one reason
+`marker_survives`: every hop kept the principals it received, and the agent marker is in the
+token that arrives. Counts are in `MANIFEST.json`.
 
 ## Two contracts
 

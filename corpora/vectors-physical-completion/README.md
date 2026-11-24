@@ -76,6 +76,35 @@ conformant, and this corpus's, under which it is not. The rules are a proposal, 
 `MANIFEST.json`, and a later revision of the draft or a companion defining the artifacts
 overrides them.
 
+## Rule ids and the accepting reason
+
+Each member of `MANIFEST.json` names the rule it exercises in `rule` and the reason a verifier must give in
+`expected.reason`. A conformant member's reason is `result_follows_presentation`: the result the verifier reported is
+the result the presentation owes, and the verifier's reason says so. A nonconformant or ambiguous member's reason names
+the check it breaks, listed above.
+
+| Rule id | What it holds | Source |
+| --- | --- | --- |
+| `envelope` | The record names a contract this corpus defines. A missing or unknown contract id is `contract_id_missing` or `contract_id_unknown`. | corpus |
+| `R-RECEIPT` | A receipt alone, with verdict `EXECUTED`, establishes no physical completion: the result is `NOT_PROVIDED`. | draft 8.1 |
+| `R-REPORT` | A controller's reported success, with no observation, establishes no physical completion either: the result is `NOT_PROVIDED`. | draft 8.1 |
+| `R-UNQUALIFIED` | A completion result is never an unqualified `PROVEN`; it is `PROVEN_TO_POLICY` and carries the trust configuration. | draft 8.2 |
+| `R-POLICY` | An authenticated, bound, identified and trusted witness who observed the criterion met inside the window earns `PROVEN_TO_POLICY` with its trust configuration. | draft 8.2 |
+| `R-NEGATIVE` | `NOT_SATISFIED` is reported only when a presented observation says the criterion was not met; with none presented the result is `NOT_PROVIDED`. | draft 8.3 |
+| `R-ABSENCE` | Nothing presented is `NOT_PROVIDED`, a lost acknowledgement included, and a result stays in the vocabulary. | draft 8.3 |
+| `R-UNTOKENISED` | `CONFLICT`, `PROVEN_TO_POLICY` and `NOT_SATISFIED` are this corpus's spellings, not tokens of the draft's vocabulary, and are never presented as the draft's. | draft 1.5 |
+| `P-AUTHENTICATED` | Control for `observation_unauthenticated`: an observation that does not authenticate is not acceptable evidence, and the result is `NOT_PROVIDED`. | proposed |
+| `P-BOUND` | Control for `observation_unbound`: an observation not bound to this action is not evidence of it, and the result is `NOT_PROVIDED`. | proposed |
+| `P-IDENTIFIED` | Control for `witness_unidentified`: an observation naming no witness leaves the result `INDETERMINATE`. | proposed |
+| `P-TRUSTED` | Control for `witness_untrusted`: a witness the trust configuration does not trust for this purpose leaves the result `INDETERMINATE`. | proposed |
+| `P-PREFIXED` | Control for `criterion_not_prefixed`: a criterion fixed after dispatch leaves the result `INDETERMINATE`. | proposed |
+| `P-WINDOW` | Control for `observation_outside_window`: an observation made after its window closed leaves the result `INDETERMINATE`. | proposed |
+| `P-CONFLICT` | Control for `conflict_erased` and `conflict_drops_a_claim`: a controller claim and a witness claim that disagree are reported as `CONFLICT` carrying both. | proposed |
+| `P-<reason>` | The proposed rule named by its reason: the case reports a result that breaks it. The ids are `P-absence_reported_as_not_claimed`, `P-observation_unauthenticated`, `P-observation_unbound`, `P-witness_unidentified`, `P-witness_untrusted`, `P-criterion_not_prefixed`, `P-observation_outside_window`, `P-criterion_unreported`, `P-conflict_erased`, `P-conflict_drops_a_claim` and `P-observation_outcome_not_reported`. | proposed |
+
+The rules marked proposed are the ones in the section above; the draft's text does not require them, so a case that rests
+on one is `ambiguous` under -01.
+
 ## Source and credit
 
 Each member carries `source` (the case of issue 80, the probe, or the Section 12 item it
