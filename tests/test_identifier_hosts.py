@@ -316,3 +316,83 @@ def test_the_claim_record_reader_routes_both_spellings(
 
     assert (verdicts(rewritten) == verdicts(before)) is same
     assert (verdicts(moved) == verdicts(before)) is same
+
+
+# --- local copies of the rule: each must equal agent_evidence_vectors.identifiers -------------
+
+
+def _load(name: str, relative: str) -> ModuleType:
+    """A module from this repository by path, for code that runs on its own and keeps no dependency."""
+    import importlib.util
+
+    path = REPO / relative
+    spec = importlib.util.spec_from_file_location(name, path)
+    assert spec and spec.loader
+    module = importlib.util.module_from_spec(spec)
+    sys.path.insert(0, str(path.parent))
+    try:
+        spec.loader.exec_module(module)
+    finally:
+        sys.path.remove(str(path.parent))
+    return module
+
+
+def _every_spelling() -> list[Any]:
+    values: list[Any] = []
+    for pair in VECTORS["pairs"]:
+        values.extend((pair["a"], pair["b"]))
+    values.extend([None, 7, "", "https://probityai.org", HTTP_NEW + "x", "HTTPS://probityai.org/x"])
+    return values
+
+
+LOCAL_COPIES = [
+    ("govops_verifier", "interop/govops-trace-profile/verifier.py"),
+    ("vocabulary_registry", "packages/vocabulary/registry.py"),
+]
+
+
+@pytest.mark.parametrize("name,relative", LOCAL_COPIES)
+def test_a_local_copy_of_the_rule_matches_the_package(name: str, relative: str) -> None:
+    module = _load(name, relative)
+    assert module.IDENTIFIER_HOST == identifiers.IDENTIFIER_HOST
+    assert tuple(module.RECOGNISED_HOSTS) == identifiers.RECOGNISED_HOSTS
+    for value in _every_spelling():
+        assert module.canonical_identifier(value) == identifiers.canonical_identifier(value), value
+
+
+def test_the_govops_verifier_predicate_type_is_built_on_the_written_host() -> None:
+    module = _load("govops_verifier", "interop/govops-trace-profile/verifier.py")
+    assert module.PREDICATE_TYPE == identifiers.identifier(
+        "agent-evidence-vectors/predicate/v1/govops-trace-record")
+
+
+@pytest.mark.parametrize("to,same", [(OLD, True), (NEW, True), (HTTP_NEW, False), (UNKNOWN, False)])
+def test_the_vocabulary_evaluator_lookup_reads_both_spellings_alike(to: str, same: bool) -> None:
+    module = _load("vocabulary_registry", "packages/vocabulary/registry.py")
+    held = next(iter(module.EVALUATORS))
+    assert held == identifiers.identifier("agent-evidence-vectors/evaluator/payment-scope/v1")
+    evaluators = {held: (lambda inputs: "within", ("within", "outside"))}
+    record = {"evaluator": held.replace(OLD, to, 1), "asserted": "within", "inputs": {}}
+    derived = module.asserted_verdict(record, evaluators)
+    assert (derived.value == "rederived_agrees") is same
+
+
+def test_the_admission_generator_writes_under_the_written_host() -> None:
+    module = _load("admission_gen", "packages/admission/rego/gen_verifier_isolation_vectors.py")
+    assert module.IDENTIFIER_HOST == identifiers.IDENTIFIER_HOST
+    assert module.PREDICATE_URI == identifiers.identifier("probity/predicate/v1/done-receipt")
+
+
+@pytest.mark.parametrize("name,relative", [
+    ("host_allowlist_gate", "packages/admission/scripts/host-allowlist-gate.py"),
+    ("check_predicate_pages", "scripts/check_predicate_pages.py"),
+])
+def test_both_host_allowlists_hold_every_recognised_host(name: str, relative: str) -> None:
+    module = _load(name, relative)
+    assert set(identifiers.RECOGNISED_HOSTS) <= set(module.ALLOWED_HOSTS)
+
+
+def test_the_reference_stage_routes_an_audit_record_under_either_host() -> None:
+    module = _load("action_reference_stage", "scripts/action-reference-stage.py")
+    path = "agent-evidence-vectors/predicate/v1/agent-audit-record"
+    assert set(module.AUDIT_RECORD_PREDICATES) == {f"https://{h}/{path}" for h in identifiers.RECOGNISED_HOSTS}
