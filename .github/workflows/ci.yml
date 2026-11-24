@@ -1940,6 +1940,12 @@ jobs:
           uv run --extra dev pytest corpora/vectors-x402-evidence-join/tests -q
           uv run python corpora/vectors-x402-evidence-join/check_vectors.py
           uv run python corpora/vectors-x402-evidence-join/mutation_check.py
+      - name: vectors-x402-payment-binding cases regenerate, agree and every rule is load-bearing
+        run: |
+          set -euo pipefail
+          uv run --extra dev pytest corpora/vectors-x402-payment-binding/tests -q
+          uv run python corpora/vectors-x402-payment-binding/check_vectors.py
+          uv run python corpora/vectors-x402-payment-binding/mutation_check.py
       - name: vectors-connector-scope cases regenerate, agree and every rule is load-bearing
         run: |
           set -euo pipefail

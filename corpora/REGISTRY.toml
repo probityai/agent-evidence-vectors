@@ -1091,3 +1091,15 @@ record_class = "record"
 domains = ["payments", "provenance"]
 standards = ["x402"]
 shapes = ["missing-binding", "tampering", "uncertainty"]
+
+[[corpus]]
+id = "vectors-x402-payment-binding"
+path = "corpora/vectors-x402-payment-binding"
+wheel = true
+sdist = true
+title = "x402 payment binding, authorization and settlement"
+summary = "A verifier must say, as two verdicts, whether an x402 evidence record identifies one EIP-3009 authorization and whether a chain read identifies the transfer that settled it."
+record_class = "record"
+domains = ["payments", "provenance"]
+standards = ["x402"]
+shapes = ["missing-binding", "uncertainty"]
