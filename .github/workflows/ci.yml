@@ -1875,6 +1875,8 @@ jobs:
         run: uv run --extra dev pytest corpora/vectors-capability-requirement/tests -q
       - name: agent-card-receipt cases regenerate and force every check
         run: uv run --extra dev pytest corpora/vectors-agent-card-receipt/tests -q
+      - name: agent-identity-statement cases regenerate and force every check
+        run: uv run --extra dev pytest corpora/vectors-agent-identity-statement/tests -q
       - name: credential-release cases regenerate and force every check
         run: uv run --extra dev pytest corpora/vectors-credential-release/tests -q
       - name: converted-argument-binding cases regenerate and force every check

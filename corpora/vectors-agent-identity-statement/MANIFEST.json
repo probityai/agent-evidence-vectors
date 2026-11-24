@@ -1,0 +1,655 @@
+{
+  "corpusDigest": "1bc7805288cff8b9a27a671cc8d425c54278e5b57aa2e146a756499cc9ad118b",
+  "counts": {
+    "accept": 9,
+    "reject": 37
+  },
+  "suite": "agent-identity-statement/v1",
+  "vectors": [
+    {
+      "edit": "control: one active version lists the key that signed the decision",
+      "expected": {
+        "decision": "accept",
+        "reason": "key_in_force"
+      },
+      "files": {
+        "context.json": "a2ec416128160ea140e7a6ec271a31ff3c6895a8c896624d6d747d0592dd7e43",
+        "decision.json": "f3ffb40da43a7cfb4cf5dcc4823428ed195268b4e616023eaa37fe97b6f06fbe",
+        "history.json": "6d6b80b54992aeb7975296e35545efb05707c7f3371dbdf58e62e5b3f3b166ba"
+      },
+      "id": "accept-single-version",
+      "path": "cases/accept-single-version"
+    },
+    {
+      "edit": "control: the decision is at the very second version 1 took effect",
+      "expected": {
+        "decision": "accept",
+        "reason": "key_in_force"
+      },
+      "files": {
+        "context.json": "a2ec416128160ea140e7a6ec271a31ff3c6895a8c896624d6d747d0592dd7e43",
+        "decision.json": "ac66a0e87f31a14f921694983393a2bf602f1da34c3865a7a6c9ff6611d3e451",
+        "history.json": "6d6b80b54992aeb7975296e35545efb05707c7f3371dbdf58e62e5b3f3b166ba"
+      },
+      "id": "accept-at-effective-instant",
+      "path": "cases/accept-at-effective-instant"
+    },
+    {
+      "edit": "control: the decision was signed with the first key before the rotation took effect, and is re-verified after it",
+      "expected": {
+        "decision": "accept",
+        "reason": "key_in_force"
+      },
+      "files": {
+        "context.json": "aa656d18d34e724ec5f1d50987f44dc0e3b84c06f9bedee872c2437eb37b03b2",
+        "decision.json": "f3ffb40da43a7cfb4cf5dcc4823428ed195268b4e616023eaa37fe97b6f06fbe",
+        "history.json": "1a21f9f8cfb3c7a463bdc283955d86707995addee05cc8739caaf2245d44e92b"
+      },
+      "id": "accept-old-key-before-rotation",
+      "path": "cases/accept-old-key-before-rotation"
+    },
+    {
+      "edit": "control: the decision was signed with the rotated key after the rotation took effect",
+      "expected": {
+        "decision": "accept",
+        "reason": "key_in_force"
+      },
+      "files": {
+        "context.json": "aa656d18d34e724ec5f1d50987f44dc0e3b84c06f9bedee872c2437eb37b03b2",
+        "decision.json": "45e565e004c26c6e4e6371f88efd820e8f12bd59a977069c857606c4bd0b2bc0",
+        "history.json": "1a21f9f8cfb3c7a463bdc283955d86707995addee05cc8739caaf2245d44e92b"
+      },
+      "id": "accept-new-key-after-rotation",
+      "path": "cases/accept-new-key-after-rotation"
+    },
+    {
+      "edit": "control: version 2 lists both keys, and the old key signs after the rotation",
+      "expected": {
+        "decision": "accept",
+        "reason": "key_in_force"
+      },
+      "files": {
+        "context.json": "d0cdc6caf21485c1ba2642440fdb9f4fc8e834b866075762edb70ee4d60733d9",
+        "decision.json": "504087ee664d385bfa481a36bc765dfa09f9ea7e0bb1ca864bc07c30ade25b45",
+        "history.json": "fa8df9cb15e842afc127fac6e55472c96aa54c76a7f51caa29f6377e3f6a1e5b"
+      },
+      "id": "accept-overlapping-keys",
+      "path": "cases/accept-overlapping-keys"
+    },
+    {
+      "edit": "control: suspended in version 2, active again in version 3, decision after version 3",
+      "expected": {
+        "decision": "accept",
+        "reason": "key_in_force"
+      },
+      "files": {
+        "context.json": "95a7be8aff68149eaca913fda5ae5939c72357229b8ef0cf0d8978d669338720",
+        "decision.json": "60f42cc7d64e0b1295743ad300fdf04ecb47fb481d0063c4939ff73f7bf12921",
+        "history.json": "3f3683c53e1514bedc3db9e5d288454f81fd552a5374dc465b45bf18924494dd"
+      },
+      "id": "accept-reactivated-after-suspension",
+      "path": "cases/accept-reactivated-after-suspension"
+    },
+    {
+      "edit": "control: a revocation later backdated to version 2's effectiveAt leaves an earlier decision standing",
+      "expected": {
+        "decision": "accept",
+        "reason": "key_in_force"
+      },
+      "files": {
+        "context.json": "44d165ecdc6085d0e55054daa57b3899cd66bb8398fbe798d93feade233b4647",
+        "decision.json": "f3ffb40da43a7cfb4cf5dcc4823428ed195268b4e616023eaa37fe97b6f06fbe",
+        "history.json": "b88c44cd33e245659ef0fb60af477029256ecb4c8021d082f15f1f0b19c4ac5c"
+      },
+      "id": "accept-decision-before-revocation",
+      "path": "cases/accept-decision-before-revocation"
+    },
+    {
+      "edit": "control: the history lists the newest version first",
+      "expected": {
+        "decision": "accept",
+        "reason": "key_in_force"
+      },
+      "files": {
+        "context.json": "aa656d18d34e724ec5f1d50987f44dc0e3b84c06f9bedee872c2437eb37b03b2",
+        "decision.json": "f3ffb40da43a7cfb4cf5dcc4823428ed195268b4e616023eaa37fe97b6f06fbe",
+        "history.json": "452b1de3dbb8903438940a3658209fa6f4a795952a3d62233f2632f7a558b13a"
+      },
+      "id": "accept-history-out-of-order",
+      "path": "cases/accept-history-out-of-order"
+    },
+    {
+      "edit": "control: the version carries a signature by an unpinned key before the pinned issuer's",
+      "expected": {
+        "decision": "accept",
+        "reason": "key_in_force"
+      },
+      "files": {
+        "context.json": "a2ec416128160ea140e7a6ec271a31ff3c6895a8c896624d6d747d0592dd7e43",
+        "decision.json": "f3ffb40da43a7cfb4cf5dcc4823428ed195268b4e616023eaa37fe97b6f06fbe",
+        "history.json": "6063dd667fa61ee2f4e1cb7f55ff4b9ba03f6c99b21e3f9bce9392d02c7b5806"
+      },
+      "id": "accept-second-signature-pinned",
+      "path": "cases/accept-second-signature-pinned"
+    },
+    {
+      "edit": "the history is not JSON",
+      "expected": {
+        "decision": "reject",
+        "reason": "history_malformed"
+      },
+      "files": {
+        "context.json": "bc0abe88fe0a09d58cb1a983389553b4665f18b403fc6bf82b609caf5a041d68",
+        "decision.json": "f3ffb40da43a7cfb4cf5dcc4823428ed195268b4e616023eaa37fe97b6f06fbe",
+        "history.json": "ac15c98bfc7f1ce3c292283047ea581339bfc43c83cd2763ff0bec9b0b0ed999"
+      },
+      "id": "history-not-json",
+      "path": "cases/history-not-json"
+    },
+    {
+      "edit": "the history is an empty list",
+      "expected": {
+        "decision": "reject",
+        "reason": "history_malformed"
+      },
+      "files": {
+        "context.json": "bc0abe88fe0a09d58cb1a983389553b4665f18b403fc6bf82b609caf5a041d68",
+        "decision.json": "f3ffb40da43a7cfb4cf5dcc4823428ed195268b4e616023eaa37fe97b6f06fbe",
+        "history.json": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+      },
+      "id": "history-empty",
+      "path": "cases/history-empty"
+    },
+    {
+      "edit": "a version is carried as plain JSON, not in-toto",
+      "expected": {
+        "decision": "reject",
+        "reason": "history_malformed"
+      },
+      "files": {
+        "context.json": "a2ec416128160ea140e7a6ec271a31ff3c6895a8c896624d6d747d0592dd7e43",
+        "decision.json": "f3ffb40da43a7cfb4cf5dcc4823428ed195268b4e616023eaa37fe97b6f06fbe",
+        "history.json": "bbefb758dc35ec7ec47f176003b142fc909c0d85c465bdfee1590954865ee054"
+      },
+      "id": "history-payload-type-other",
+      "path": "cases/history-payload-type-other"
+    },
+    {
+      "edit": "version 2 is signed by a key the consumer did not pin",
+      "expected": {
+        "decision": "reject",
+        "reason": "statement_signature"
+      },
+      "files": {
+        "context.json": "850c44b85b0d0238d5eb79b6fff3d1f9bc2fed6ca995228cd1ac1963cf6e99c4",
+        "decision.json": "f3ffb40da43a7cfb4cf5dcc4823428ed195268b4e616023eaa37fe97b6f06fbe",
+        "history.json": "2637acd4c1be80b34d3c2ba3be84e688dd4c3ec9660f937c28ee6701042db92b"
+      },
+      "id": "statement-signed-by-other-key",
+      "path": "cases/statement-signed-by-other-key"
+    },
+    {
+      "edit": "the Statement carries a member outside the four",
+      "expected": {
+        "decision": "reject",
+        "reason": "statement_malformed"
+      },
+      "files": {
+        "context.json": "681ad2a5fe9d8d51d575a14712f8699c8298ada6fb061b21d04a74e17ec5ff91",
+        "decision.json": "f3ffb40da43a7cfb4cf5dcc4823428ed195268b4e616023eaa37fe97b6f06fbe",
+        "history.json": "4f8edd012d9c1fe9bd4b6f4930420ed0bb1292562b19df2242d9ef2c42e8a828"
+      },
+      "id": "statement-extra-member",
+      "path": "cases/statement-extra-member"
+    },
+    {
+      "edit": "_type names in-toto Statement v0.1",
+      "expected": {
+        "decision": "reject",
+        "reason": "statement_type_wrong"
+      },
+      "files": {
+        "context.json": "3fd4543bf8d6638706b882c9631f3153c239f0ccb6d7b1e030b7498992cd58b5",
+        "decision.json": "f3ffb40da43a7cfb4cf5dcc4823428ed195268b4e616023eaa37fe97b6f06fbe",
+        "history.json": "2b01c17e101723c84fbc3bbbc30e9c444b3afbdef624475c3f43497c4c722b3a"
+      },
+      "id": "statement-type-v01",
+      "path": "cases/statement-type-v01"
+    },
+    {
+      "edit": "predicateType names the credential-release predicate",
+      "expected": {
+        "decision": "reject",
+        "reason": "predicate_type_wrong"
+      },
+      "files": {
+        "context.json": "22111b7ac530e0b22ac5a64182ffb0d7ba1057bbd6301c5054737f3afc1567a1",
+        "decision.json": "f3ffb40da43a7cfb4cf5dcc4823428ed195268b4e616023eaa37fe97b6f06fbe",
+        "history.json": "cf9ec29c478b916e13450085df6c1373bf9dacdd2469233059d2e913364e4fb3"
+      },
+      "id": "predicate-type-other",
+      "path": "cases/predicate-type-other"
+    },
+    {
+      "edit": "the Statement names two documents",
+      "expected": {
+        "decision": "reject",
+        "reason": "subject_malformed"
+      },
+      "files": {
+        "context.json": "cf5fe29eedbb77a098ab98ee258cbb44c0cf9fed84f2be2dcef8eb77bbc9f47a",
+        "decision.json": "f3ffb40da43a7cfb4cf5dcc4823428ed195268b4e616023eaa37fe97b6f06fbe",
+        "history.json": "3faf154188d94c396911553a6b3c5ca7de2ae6a2fc2840ec0df82b179f325778"
+      },
+      "id": "subject-two-members",
+      "path": "cases/subject-two-members"
+    },
+    {
+      "edit": "the status is deleted, which the predicate does not define",
+      "expected": {
+        "decision": "reject",
+        "reason": "predicate_malformed"
+      },
+      "files": {
+        "context.json": "9bfbe9b791e610f2db31c223a9210b6b771886fffd68a334d31156d8057cb182",
+        "decision.json": "f3ffb40da43a7cfb4cf5dcc4823428ed195268b4e616023eaa37fe97b6f06fbe",
+        "history.json": "6209f293c50c57b1ad1ae24823b5b67e22a76278d021710829e444eb1e152343"
+      },
+      "id": "predicate-status-unknown",
+      "path": "cases/predicate-status-unknown"
+    },
+    {
+      "edit": "the key set is not sorted",
+      "expected": {
+        "decision": "reject",
+        "reason": "predicate_malformed"
+      },
+      "files": {
+        "context.json": "11703e0f6f9cfe70f3c15b27a21553c93d69d3c9af5a8ee9c9b47ee1d878d227",
+        "decision.json": "f3ffb40da43a7cfb4cf5dcc4823428ed195268b4e616023eaa37fe97b6f06fbe",
+        "history.json": "c68b5388d8864a1178feb82cad4c10b1b9edf67050292eb0a487768bc3db2f0d"
+      },
+      "id": "predicate-keys-unsorted",
+      "path": "cases/predicate-keys-unsorted"
+    },
+    {
+      "edit": "a key's type is P-256",
+      "expected": {
+        "decision": "reject",
+        "reason": "predicate_malformed"
+      },
+      "files": {
+        "context.json": "c8b0f090784db260a1910aa1a5a2a1ea7d3b7c9827d63853cd4e08532fa138b2",
+        "decision.json": "f3ffb40da43a7cfb4cf5dcc4823428ed195268b4e616023eaa37fe97b6f06fbe",
+        "history.json": "39a59f1e2e9ce0feadc665113c7a5d453a86c7c726d52cef8b299d8ea6c50422"
+      },
+      "id": "predicate-key-type-other",
+      "path": "cases/predicate-key-type-other"
+    },
+    {
+      "edit": "version 1 names a previous version",
+      "expected": {
+        "decision": "reject",
+        "reason": "predicate_malformed"
+      },
+      "files": {
+        "context.json": "5018cd86e3a4dbaf09a7704a8f9d5210bf5349bceb4e8d90ef01ce7f7b17f3fb",
+        "decision.json": "f3ffb40da43a7cfb4cf5dcc4823428ed195268b4e616023eaa37fe97b6f06fbe",
+        "history.json": "a92680e78f0e99f66a717bb281e60ca295894223f43f8e6333a78949f93dcbda"
+      },
+      "id": "predicate-version-one-with-previous",
+      "path": "cases/predicate-version-one-with-previous"
+    },
+    {
+      "edit": "the version is zero",
+      "expected": {
+        "decision": "reject",
+        "reason": "predicate_malformed"
+      },
+      "files": {
+        "context.json": "0ccc3c395afe11e2df5d9bec1820d14a8f4f067f4cb7abc767be3cc79ebb633b",
+        "decision.json": "f3ffb40da43a7cfb4cf5dcc4823428ed195268b4e616023eaa37fe97b6f06fbe",
+        "history.json": "4fb30cc695938e6e83cfed908c067e23c507111dcd1010a3ffa0ca6101579e53"
+      },
+      "id": "predicate-version-zero",
+      "path": "cases/predicate-version-zero"
+    },
+    {
+      "edit": "effectiveAt carries an offset instead of Z",
+      "expected": {
+        "decision": "reject",
+        "reason": "predicate_malformed"
+      },
+      "files": {
+        "context.json": "fece428aa02111c639f69a0b19dbf650b0b2e0497e5dade0d1118c0697666819",
+        "decision.json": "f3ffb40da43a7cfb4cf5dcc4823428ed195268b4e616023eaa37fe97b6f06fbe",
+        "history.json": "94c574553a12c42ddd66c5527ea3a19eb493d05468d5d733eba7fd3636af6111"
+      },
+      "id": "predicate-time-offset",
+      "path": "cases/predicate-time-offset"
+    },
+    {
+      "edit": "the agent is active with an empty key set",
+      "expected": {
+        "decision": "reject",
+        "reason": "active_without_keys"
+      },
+      "files": {
+        "context.json": "8c9b6d8bcc90378037b1854e6ec1429f0e45b5bd7636052a184ab2b2cb7c6379",
+        "decision.json": "f3ffb40da43a7cfb4cf5dcc4823428ed195268b4e616023eaa37fe97b6f06fbe",
+        "history.json": "b704716ac637952d1df29e487540a3d5c3e40762f922975755f3887b6caf9468"
+      },
+      "id": "active-without-keys",
+      "path": "cases/active-without-keys"
+    },
+    {
+      "edit": "the version takes effect after it was issued",
+      "expected": {
+        "decision": "reject",
+        "reason": "effective_after_issued"
+      },
+      "files": {
+        "context.json": "13377ebd3786d4b9dc4fbd0af14594802d9b8176983f4f42bb5110afd5f45112",
+        "decision.json": "f3ffb40da43a7cfb4cf5dcc4823428ed195268b4e616023eaa37fe97b6f06fbe",
+        "history.json": "4e19088d1ba13839b0653f5af76ccf62e48c5355c65750bfd6bdda971dc14104"
+      },
+      "id": "effective-after-issued",
+      "path": "cases/effective-after-issued"
+    },
+    {
+      "edit": "version 2 names another agent",
+      "expected": {
+        "decision": "reject",
+        "reason": "agent_mismatch"
+      },
+      "files": {
+        "context.json": "9835c6422313643463269d18241c44c0b4c1925fb51723c63b234f559d2ed319",
+        "decision.json": "f3ffb40da43a7cfb4cf5dcc4823428ed195268b4e616023eaa37fe97b6f06fbe",
+        "history.json": "0fdc9f515abbe3f068b786e4ab789df52207534296e64ef663c894e828d93347"
+      },
+      "id": "agent-other-subject",
+      "path": "cases/agent-other-subject"
+    },
+    {
+      "edit": "the history holds version 2 alone",
+      "expected": {
+        "decision": "reject",
+        "reason": "history_no_genesis"
+      },
+      "files": {
+        "context.json": "aa656d18d34e724ec5f1d50987f44dc0e3b84c06f9bedee872c2437eb37b03b2",
+        "decision.json": "f3ffb40da43a7cfb4cf5dcc4823428ed195268b4e616023eaa37fe97b6f06fbe",
+        "history.json": "33cf60379ac405aeccd91ebaf824d7ff7ac7483f06e2bc896f28961a0ec0e150"
+      },
+      "id": "history-no-genesis",
+      "path": "cases/history-no-genesis"
+    },
+    {
+      "edit": "two versions 2 name the same version 1",
+      "expected": {
+        "decision": "reject",
+        "reason": "history_forked"
+      },
+      "files": {
+        "context.json": "79eac3f38432d99c057ab1bfbe1e5b03fc25cf4bdb7f2972b4a9442baf9419d1",
+        "decision.json": "f3ffb40da43a7cfb4cf5dcc4823428ed195268b4e616023eaa37fe97b6f06fbe",
+        "history.json": "a1a9d58973767302b67d4895a6eabf06f3e67dbc17ce063406a96eef8a1cc3e6"
+      },
+      "id": "history-forked",
+      "path": "cases/history-forked"
+    },
+    {
+      "edit": "two versions 1 begin two histories",
+      "expected": {
+        "decision": "reject",
+        "reason": "history_forked"
+      },
+      "files": {
+        "context.json": "69fa4fd79b1d7472c50de8ad9b2213aec56254c8c90d6002f32a5479967a547c",
+        "decision.json": "f3ffb40da43a7cfb4cf5dcc4823428ed195268b4e616023eaa37fe97b6f06fbe",
+        "history.json": "44ce9941d07df1975b804d4b702c3fd308023b0f9e1a9ad9619c56d7dfa2aeae"
+      },
+      "id": "history-two-genesis",
+      "path": "cases/history-two-genesis"
+    },
+    {
+      "edit": "version 3 names a version 2 the history omits",
+      "expected": {
+        "decision": "reject",
+        "reason": "history_previous_missing"
+      },
+      "files": {
+        "context.json": "86354da8a7ef2555569f319c84a626a7ada325c8cdb726883403f4a500946dca",
+        "decision.json": "f3ffb40da43a7cfb4cf5dcc4823428ed195268b4e616023eaa37fe97b6f06fbe",
+        "history.json": "dce39afcd74cfbf1f8ea54e037cbb3503adacd13ed0d18473df98ccbc689b2d1"
+      },
+      "id": "history-previous-missing",
+      "path": "cases/history-previous-missing"
+    },
+    {
+      "edit": "a status change keeps the version of the statement it follows",
+      "expected": {
+        "decision": "reject",
+        "reason": "version_not_incremented"
+      },
+      "files": {
+        "context.json": "e7b7c1c422f17f46782c31943a5d8bec708ce46448470037a94d69b1423c9025",
+        "decision.json": "f3ffb40da43a7cfb4cf5dcc4823428ed195268b4e616023eaa37fe97b6f06fbe",
+        "history.json": "6bf802f27645504ac4a39766ff5e4072db3d627be3a786e629866f09779d8456"
+      },
+      "id": "version-not-incremented",
+      "path": "cases/version-not-incremented"
+    },
+    {
+      "edit": "the version after 1 is 3",
+      "expected": {
+        "decision": "reject",
+        "reason": "version_gap"
+      },
+      "files": {
+        "context.json": "18113fd492e560b43e789d426aaf4566638a1368ca7d5188351553f8101d6012",
+        "decision.json": "f3ffb40da43a7cfb4cf5dcc4823428ed195268b4e616023eaa37fe97b6f06fbe",
+        "history.json": "7aef948f81ca528be531e43da97bed26b9b9cf4585fc56ed4e51f1848fd36061"
+      },
+      "id": "version-gap",
+      "path": "cases/version-gap"
+    },
+    {
+      "edit": "version 2 takes effect before version 1",
+      "expected": {
+        "decision": "reject",
+        "reason": "history_time_reversed"
+      },
+      "files": {
+        "context.json": "a391eadefc1a48cf41f3b42031cb42904c05ff8ee9fd4907ccbbb0254dae1325",
+        "decision.json": "f3ffb40da43a7cfb4cf5dcc4823428ed195268b4e616023eaa37fe97b6f06fbe",
+        "history.json": "e1fe2d1e62bec203f52447fc15632a26b06fa460d1030ff295930a7c5afa6292"
+      },
+      "id": "history-time-reversed",
+      "path": "cases/history-time-reversed"
+    },
+    {
+      "edit": "an active version follows a revocation",
+      "expected": {
+        "decision": "reject",
+        "reason": "revoked_is_final"
+      },
+      "files": {
+        "context.json": "b2955365b616ab69479d7e4716149ad631c8a1adf6382dcdb4d3fd4c57ab22c2",
+        "decision.json": "f3ffb40da43a7cfb4cf5dcc4823428ed195268b4e616023eaa37fe97b6f06fbe",
+        "history.json": "5bb95b3e533eaf9b8a4ca532eb357bae78ae1f8450afe9349adb43e118100393"
+      },
+      "id": "revoked-is-final",
+      "path": "cases/revoked-is-final"
+    },
+    {
+      "edit": "the consumer pinned version 2 and the history stops at version 1",
+      "expected": {
+        "decision": "reject",
+        "reason": "history_head_mismatch"
+      },
+      "files": {
+        "context.json": "aa656d18d34e724ec5f1d50987f44dc0e3b84c06f9bedee872c2437eb37b03b2",
+        "decision.json": "f3ffb40da43a7cfb4cf5dcc4823428ed195268b4e616023eaa37fe97b6f06fbe",
+        "history.json": "6d6b80b54992aeb7975296e35545efb05707c7f3371dbdf58e62e5b3f3b166ba"
+      },
+      "id": "history-stops-before-head",
+      "path": "cases/history-stops-before-head"
+    },
+    {
+      "edit": "the decision is not JSON",
+      "expected": {
+        "decision": "reject",
+        "reason": "decision_malformed"
+      },
+      "files": {
+        "context.json": "a2ec416128160ea140e7a6ec271a31ff3c6895a8c896624d6d747d0592dd7e43",
+        "decision.json": "d9173f8b78ae96ac6aa6df8dce212c4a2771630688504e530eab96b7c19cbaf0",
+        "history.json": "6d6b80b54992aeb7975296e35545efb05707c7f3371dbdf58e62e5b3f3b166ba"
+      },
+      "id": "decision-not-json",
+      "path": "cases/decision-not-json"
+    },
+    {
+      "edit": "the decision envelope carries two signatures",
+      "expected": {
+        "decision": "reject",
+        "reason": "decision_malformed"
+      },
+      "files": {
+        "context.json": "a2ec416128160ea140e7a6ec271a31ff3c6895a8c896624d6d747d0592dd7e43",
+        "decision.json": "93f755be9df61a5976401620fd735e311a241e176e1544938f13dd053e4dab46",
+        "history.json": "6d6b80b54992aeb7975296e35545efb05707c7f3371dbdf58e62e5b3f3b166ba"
+      },
+      "id": "decision-two-signatures",
+      "path": "cases/decision-two-signatures"
+    },
+    {
+      "edit": "the decision was signed with a key no version lists: the agent rotated without a new statement",
+      "expected": {
+        "decision": "reject",
+        "reason": "key_unknown"
+      },
+      "files": {
+        "context.json": "a2ec416128160ea140e7a6ec271a31ff3c6895a8c896624d6d747d0592dd7e43",
+        "decision.json": "2c57013bcd994f5b2375b2b55fce924d323aef093887fa425ddbb1089dd0c26b",
+        "history.json": "6d6b80b54992aeb7975296e35545efb05707c7f3371dbdf58e62e5b3f3b166ba"
+      },
+      "id": "key-unknown",
+      "path": "cases/key-unknown"
+    },
+    {
+      "edit": "the decision names the listed key and was signed with another",
+      "expected": {
+        "decision": "reject",
+        "reason": "decision_signature"
+      },
+      "files": {
+        "context.json": "a2ec416128160ea140e7a6ec271a31ff3c6895a8c896624d6d747d0592dd7e43",
+        "decision.json": "80c9afb3bd9ffafc8ac4e6a3e8067fdf862fc2905f34adef6b12453c9dcbc6e1",
+        "history.json": "6d6b80b54992aeb7975296e35545efb05707c7f3371dbdf58e62e5b3f3b166ba"
+      },
+      "id": "decision-signature-wrong",
+      "path": "cases/decision-signature-wrong"
+    },
+    {
+      "edit": "the decision predates version 1",
+      "expected": {
+        "decision": "reject",
+        "reason": "decision_before_history"
+      },
+      "files": {
+        "context.json": "a2ec416128160ea140e7a6ec271a31ff3c6895a8c896624d6d747d0592dd7e43",
+        "decision.json": "b1f1d476cc33a0c069c19b7639016fd3ac60ed402410dadc35f3993e62bc23c1",
+        "history.json": "6d6b80b54992aeb7975296e35545efb05707c7f3371dbdf58e62e5b3f3b166ba"
+      },
+      "id": "decision-before-history",
+      "path": "cases/decision-before-history"
+    },
+    {
+      "edit": "the decision falls inside a suspension",
+      "expected": {
+        "decision": "reject",
+        "reason": "agent_suspended"
+      },
+      "files": {
+        "context.json": "67b6075db59378b0ba41e7d663cd795d06d49edff0502199e278b20566301233",
+        "decision.json": "504087ee664d385bfa481a36bc765dfa09f9ea7e0bb1ca864bc07c30ade25b45",
+        "history.json": "e3cbdc5d47d000fa4dd3c80a5a6525610bc2d1707a0be4c6164e70a37a69b02f"
+      },
+      "id": "agent-suspended",
+      "path": "cases/agent-suspended"
+    },
+    {
+      "edit": "the decision follows the revocation",
+      "expected": {
+        "decision": "reject",
+        "reason": "agent_revoked"
+      },
+      "files": {
+        "context.json": "cca4aa510790aa80098cc822f8559dad3839aec2fdfe520ea53e9bca21ad9a59",
+        "decision.json": "504087ee664d385bfa481a36bc765dfa09f9ea7e0bb1ca864bc07c30ade25b45",
+        "history.json": "f7aab1cc3063b116037fd3ac07a1d27463e7b6b48121aac385fecdcd5e28b6f7"
+      },
+      "id": "agent-revoked",
+      "path": "cases/agent-revoked"
+    },
+    {
+      "edit": "the decision is at the second the revocation took effect",
+      "expected": {
+        "decision": "reject",
+        "reason": "agent_revoked"
+      },
+      "files": {
+        "context.json": "cca4aa510790aa80098cc822f8559dad3839aec2fdfe520ea53e9bca21ad9a59",
+        "decision.json": "30b64b4f999f37ef464d5fbc4d93cdbb95415f8bf9c023f8fed5bf7b52db45b7",
+        "history.json": "f7aab1cc3063b116037fd3ac07a1d27463e7b6b48121aac385fecdcd5e28b6f7"
+      },
+      "id": "agent-revoked-at-effective-instant",
+      "path": "cases/agent-revoked-at-effective-instant"
+    },
+    {
+      "edit": "the revocation was issued after the decision and backdated before it",
+      "expected": {
+        "decision": "reject",
+        "reason": "agent_revoked"
+      },
+      "files": {
+        "context.json": "44d165ecdc6085d0e55054daa57b3899cd66bb8398fbe798d93feade233b4647",
+        "decision.json": "504087ee664d385bfa481a36bc765dfa09f9ea7e0bb1ca864bc07c30ade25b45",
+        "history.json": "b88c44cd33e245659ef0fb60af477029256ecb4c8021d082f15f1f0b19c4ac5c"
+      },
+      "id": "agent-revoked-backdated",
+      "path": "cases/agent-revoked-backdated"
+    },
+    {
+      "edit": "the rotated key signed before version 2 took effect",
+      "expected": {
+        "decision": "reject",
+        "reason": "key_not_in_force"
+      },
+      "files": {
+        "context.json": "aa656d18d34e724ec5f1d50987f44dc0e3b84c06f9bedee872c2437eb37b03b2",
+        "decision.json": "df6e1f3a2062749492bf7ed2eb4dc8facd9dc39c5369bb82d9c831a4502bda39",
+        "history.json": "1a21f9f8cfb3c7a463bdc283955d86707995addee05cc8739caaf2245d44e92b"
+      },
+      "id": "key-used-before-rotation",
+      "path": "cases/key-used-before-rotation"
+    },
+    {
+      "edit": "the first key signed after version 2 dropped it",
+      "expected": {
+        "decision": "reject",
+        "reason": "key_not_in_force"
+      },
+      "files": {
+        "context.json": "aa656d18d34e724ec5f1d50987f44dc0e3b84c06f9bedee872c2437eb37b03b2",
+        "decision.json": "504087ee664d385bfa481a36bc765dfa09f9ea7e0bb1ca864bc07c30ade25b45",
+        "history.json": "1a21f9f8cfb3c7a463bdc283955d86707995addee05cc8739caaf2245d44e92b"
+      },
+      "id": "key-retired",
+      "path": "cases/key-retired"
+    }
+  ],
+  "verifierContract": "verifier <suite> <case-dir> --json; exit 0 accept, 1 reject"
+}

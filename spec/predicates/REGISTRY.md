@@ -498,6 +498,9 @@ each day. Each document is the authority for its type.
   `corpora/vectors-agent-card-receipt/`.
 - `credential-release`: `spec/predicates/credential-release.md`, corpus
   `corpora/vectors-credential-release/`.
+- `agent-identity-statement`: `spec/predicates/agent-identity-statement.md`, corpus
+  `corpora/vectors-agent-identity-statement/`, also checked by the `agent_identity_statement/v1`
+  claim type of `agent-evidence-verify`.
 - `token-grant-receipt`: `spec/predicates/token-grant-receipt.md`, checked by the
   `token_grant_receipt/v1` claim type of `agent-evidence-verify`; no corpus yet.
 

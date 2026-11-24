@@ -241,6 +241,18 @@ standards = ["in-toto", "rfc8785"]
 shapes = ["malformed-input", "tampering"]
 
 [[corpus]]
+id = "vectors-agent-identity-statement"
+path = "corpora/vectors-agent-identity-statement"
+wheel = true
+sdist = true
+title = "Agent identity statement"
+summary = "A verifier must accept a past decision only when the issuer's signed, versioned history of the agent's identity is one unforked chain to the pinned head and, at the decision's instant, placed the signing key in force and the agent active."
+record_class = "record"
+domains = ["identity", "authority", "transparency"]
+standards = ["in-toto"]
+shapes = ["stale-authority", "broken-chain", "forged-signature"]
+
+[[corpus]]
 id = "vectors-agent-payment-mandate"
 path = "corpora/vectors-agent-payment-mandate"
 wheel = true
