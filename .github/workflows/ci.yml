@@ -5192,13 +5192,18 @@ jobs:
     permissions:
       contents: read
 
+  # The free plan runs five macOS jobs at a time, and on 24 Nov 2026 nine of the
+  # twenty-two macOS jobs this workflow asked for in one batch run never got a
+  # runner ("not acquired by Runner of type hosted even after multiple attempts",
+  # run 45429763085). So macOS takes every row in ONE job (`--all`, R14 last), and
+  # the whole workflow asks for three macOS jobs, which fit the five slots at once.
   w3c_v01_appendix__rerun:
     runs-on: ${{ matrix.os }}
     timeout-minutes: 60
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-24.04, ubuntu-24.04-arm, macos-15]
+        os: [ubuntu-24.04, ubuntu-24.04-arm]
         # R3-v01 reads the records R3 writes, and R14 reads the reports R1, R2,
         # R3-v01, R4 and R5 write, so those jobs rerun their inputs too.
         rows:
@@ -5222,6 +5227,9 @@ jobs:
           - 'R13'
           - 'R1 R2 R3 R3-v01 R4 R5 R14'
           - 'R15'
+        include:
+          - os: macos-15
+            rows: '--all'
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
@@ -5234,7 +5242,7 @@ jobs:
           node-version: '22'
           package-manager-cache: false
       - uses: actions/setup-go@d8cbb8045d7f43706b9177cceb36c1f91a6644d5 # v7.1.0
-        if: matrix.rows == 'R9' || matrix.rows == 'R10'
+        if: matrix.rows == 'R9' || matrix.rows == 'R10' || matrix.rows == '--all'
         with:
           go-version: '1.26'
           cache: false
