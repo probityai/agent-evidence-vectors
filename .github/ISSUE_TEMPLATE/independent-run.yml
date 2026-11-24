@@ -120,6 +120,9 @@ body:
         - "corpora/vectors-w3c-intake/"
         - "corpora/vectors-w3c-report/"
         - "corpora/vectors-ave-id-resolution/"
+        - "corpora/vectors-agent-registration-classification/"
+        - "corpora/vectors-assertion-grade/"
+        - "corpora/vectors-decision-record/"
     validations:
       required: true
   - type: input

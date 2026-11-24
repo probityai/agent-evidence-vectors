@@ -103,7 +103,7 @@ Naming `expected-verdicts` holds your verifier to your own cases instead of a co
 The mode installs nothing and runs no setup step: `scripts/action-conformance.py` uses the standard library only and runs under `python -S`. The reference stage runs the same way and reads `reference-checked conformance 0 of M` with `reference-verifier-id` `unavailable`, because your cases are your own and no route of the reference verifier reaches them.
 
 ```yaml
-- uses: probityai/agent-evidence-vectors@<tag>
+- uses: probityai/agent-evidence-vectors@v0.38.0
   with:
     expected-verdicts: test-vectors/verify-expected.txt
     cases: test-vectors
