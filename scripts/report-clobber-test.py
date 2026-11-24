@@ -395,14 +395,14 @@ MUTANTS: list[tuple[str, str, str, list[str]]] = [
     ),
     (
         "drop-the-explicit-report-record-rule",
-        '    outputs = ((_report_path(args), "--report"), ',
-        '    outputs = ((_report_path(args) if args.report is None else None, "--report"), ',
+        '    outputs = [(report, "--report")]\n',
+        '    outputs = [(report, "--report")] if args.report is None else []\n',
         ["a08_explicit_bare_name", "a16_explicit_other_tracked_file"],
     ),
     (
         "drop-the-emit-w3c-record-rule",
-        '(args.emit_w3c_report, "--emit-w3c-report")',
-        '(None, "--emit-w3c-report")',
+        '        outputs.append((w3c, "--emit-w3c-report"))\n',
+        "        pass\n",
         ["a09_emit_w3c_onto_record"],
     ),
 ]

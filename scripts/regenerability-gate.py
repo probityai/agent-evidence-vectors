@@ -38,9 +38,11 @@ the one that caught nothing before: a vector file with no builder is not a
 mismatch, it is an absence, and an absence is what a checksum comparison over the
 files that were produced will never see.
 
-Two generated artifacts are deliberately NOT listed here.
-``packaging/conformance-report.json`` is a run artifact
-rather than a source, and the run that writes it is its own check.
+One generated artifact is deliberately NOT listed here.
+``packaging/conformance-report.json`` is a run artifact rather than a source, and a
+run never replaces it unless asked (``--replace-record``), so no run is its own
+check. ``scripts/report-fresh-gate.py`` is its check: it runs the harness and
+fails when the record differs from the report the harness writes today.
 
 Usage:
     python3 scripts/regenerability-gate.py
