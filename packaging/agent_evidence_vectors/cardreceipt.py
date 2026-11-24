@@ -30,12 +30,15 @@ the receipt signer's public key. The reader names the first check that fails:
 
 A member that passes every check is ``accept`` with reason ``receipt_current``.
 
-``credential-release/v1`` (spec/predicates/credential-release.md). A member is
-the release Statement, the receipt Statement it names, the revocation list it
-says it consulted and a context naming the receipt signer's key. Every time is
-judged at the release's own ``releasedAt``. Checks 1 to 5 are the release's own
-Statement checks, with ``credential_fields`` for a credential member outside the
-closed set; then:
+``credential-release/v1`` (spec/predicates/credential-release.md, version 0.2.0). A
+member is the release Statement and the basis it names: on a receipt basis, the
+receipt Statement, the revocation list the broker says it consulted and a context
+naming the receipt signer's key; on a grant basis, the user's grant document. Every
+time is judged at the release's own ``releasedAt``. Checks 1 to 5 are the release's
+own Statement checks, with ``credential_fields`` for a credential member outside
+``kind``, ``audience``, ``scope`` and ``cookie``, and ``predicate_malformed`` for a
+predicate that is not exactly one basis with principals and a credential closed for
+its kind. Then, on a receipt basis:
 
 6. the receipt's bytes hash to the digest the release names
    (``receipt_digest_mismatch``), are a well formed agent-card receipt
@@ -50,6 +53,17 @@ closed set; then:
 11. the consulted list hashes to the named digest
     (``revocation_list_digest_mismatch``), is well formed, signed by the receipt
     signer and current at ``releasedAt``, and does not name the receipt.
+
+and on a grant basis:
+
+6. the grant document's bytes hash to the digest the release names
+   (``grant_digest_mismatch``), are a well formed grant (``grant_malformed``) and
+   end when the release says (``grant_fields_differ``);
+7. the release's subject is the grant (``subject_not_granted``);
+8. the release names the grant's agent and user (``principals_not_granted``);
+9. the credential's audience is one of the grant's hosts (``audience_not_granted``);
+10. the grant was current at ``releasedAt`` (``grant_not_current``) and the
+    release ends no later than the grant (``credential_outlives_grant``).
 
 A member that passes is ``accept`` with reason ``release_bound``.
 
@@ -91,6 +105,11 @@ EXIT_FOR = {ACCEPT: 0, REJECT: 1}
 TIME = re.compile(r"\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z")
 HEX = re.compile(r"[0-9a-f]{64}")
 THUMBPRINT = re.compile(r"[A-Za-z0-9_-]{43}")
+#: A lowercase host, the port only when written (the default-port rule is checked apart).
+HOST = re.compile(r"(?:[a-z0-9-]+(?:\.[a-z0-9-]+)*|\[[0-9a-f:.]+\])(?::[0-9]{1,5})?")
+#: An RFC 9110 token, the shape of a cookie name.
+TOKEN = re.compile(r"[!#$%&'*+.^_`|~0-9A-Za-z-]+")
+DEFAULT_PORT = {"https": 443, "http": 80}
 
 RECEIPT_CHECKS = (
     "statement_malformed", "statement_type_wrong", "predicate_type_wrong",
@@ -107,7 +126,12 @@ RELEASE_CHECKS = (
     "credential_outlives_receipt", "revocation_list_digest_mismatch",
     "revocation_list_malformed", "revocation_list_signature", "revocation_list_stale",
     "receipt_revoked",
+    "grant_digest_mismatch", "grant_malformed", "grant_fields_differ", "subject_not_granted",
+    "principals_not_granted", "audience_not_granted", "grant_not_current",
+    "credential_outlives_grant",
 )
+#: Where the receipt basis checks end and the grant basis checks begin in RELEASE_CHECKS.
+_GRANT_FROM = RELEASE_CHECKS.index("grant_digest_mismatch")
 CHECKS = {RECEIPT_SUITE: RECEIPT_CHECKS, RELEASE_SUITE: RELEASE_CHECKS}
 PASS_REASON = {RECEIPT_SUITE: "receipt_current", RELEASE_SUITE: "release_bound"}
 
@@ -300,11 +324,33 @@ def receipt_predicate(predicate: Any) -> None:
         _thumbprints(predicate["agentKeyThumbprints"])
 
 
-CREDENTIAL_MEMBERS = {"kind", "audience", "scope"}
+CREDENTIAL_MEMBERS = {"kind", "audience", "scope", "cookie"}
+SESSION_COOKIE = "session-cookie"
+COMMON_MEMBERS = {"releaseId", "releasedAt", "ttlSeconds", "agent", "credential", "broker"}
+RECEIPT_BASIS = {"receipt", "minResult", "revocationList", "registryDigest"}
+GRANT_BASIS = {"grant"}
+GRANT_MEMBERS = {"grantId", "user", "agent", "hosts", "notAfter"}
+
+
+def _origin(value: Any) -> str:
+    """The authority of an origin: http or https, a lowercase host, a non-default port, no path."""
+    _require(isinstance(value, str), "origin")
+    scheme, sep, authority = str(value).partition("://")
+    _require(bool(sep) and scheme in DEFAULT_PORT and bool(HOST.fullmatch(authority)), "origin")
+    _, colon, port = authority.rpartition(":") if not authority.endswith("]") else ("", "", "")
+    _require(not colon or int(port) != DEFAULT_PORT[scheme], "default port written")
+    return authority
 
 
 def _credential(value: Any) -> None:
-    _members(value, CREDENTIAL_MEMBERS)
+    _require(isinstance(value, dict), "credential")
+    if value.get("kind") == SESSION_COOKIE:
+        _members(value, {"kind", "audience", "cookie"})
+        _origin(value["audience"])
+        _require(isinstance(value["cookie"], str) and bool(TOKEN.fullmatch(value["cookie"])),
+                 "cookie name")
+        return
+    _members(value, {"kind", "audience", "scope"})
     _text(value["kind"])
     _https(value["audience"])
     scope = value["scope"]
@@ -313,14 +359,43 @@ def _credential(value: Any) -> None:
     _require(scope == sorted(set(scope)), "scope sorted and unique")
 
 
-def release_predicate(predicate: Any) -> None:
-    """Raise Malformed unless ``predicate`` is a well formed release predicate."""
-    _members(predicate, {"releaseId", "releasedAt", "ttlSeconds", "receipt", "minResult",
-                         "revocationList", "credential", "broker", "registryDigest"})
+def principal(value: Any) -> dict[str, str]:
+    """A closed principal: exactly an https ``issuer`` and a non-empty ``subject``."""
+    _members(value, {"issuer", "subject"})
+    _https(value["issuer"])
+    _text(value["subject"])
+    return {"issuer": value["issuer"], "subject": value["subject"]}
+
+
+def _basis(predicate: dict[str, Any]) -> str:
+    """``receipt`` or ``grant``: the one basis whose members the predicate carries."""
+    keys = set(predicate)
+    if RECEIPT_BASIS <= keys and not keys & GRANT_BASIS:
+        _members(predicate, COMMON_MEMBERS | RECEIPT_BASIS, frozenset({"onBehalfOf"}))
+        return "receipt"
+    _members(predicate, COMMON_MEMBERS | GRANT_BASIS | {"onBehalfOf"})
+    return "grant"
+
+
+def release_predicate(predicate: Any) -> str:
+    """The basis of a well formed release predicate; Malformed otherwise."""
+    _require(isinstance(predicate, dict), "not an object")
+    basis = _basis(predicate)
     _text(predicate["releaseId"])
     parse_time(predicate["releasedAt"])
     ttl = predicate["ttlSeconds"]
     _require(isinstance(ttl, int) and not isinstance(ttl, bool) and 0 < ttl < 2**31, "ttl")
+    principal(predicate["agent"])
+    if "onBehalfOf" in predicate:
+        principal(predicate["onBehalfOf"])
+    _credential(predicate["credential"])
+    _members(predicate["broker"], {"id"})
+    _https(predicate["broker"]["id"])
+    if basis == "grant":
+        _members(predicate["grant"], {"digest", "notAfter"})
+        _sha_digest(predicate["grant"]["digest"])
+        parse_time(predicate["grant"]["notAfter"])
+        return basis
     receipt = predicate["receipt"]
     _members(receipt, {"predicateType", "digest", "result", "validUntil"})
     _require(receipt["predicateType"] == RECEIPT_TYPE, "receipt type")
@@ -330,10 +405,29 @@ def release_predicate(predicate: Any) -> None:
     _require(predicate["minResult"] in PASSING, "minResult")
     _members(predicate["revocationList"], {"digest"})
     _sha_digest(predicate["revocationList"]["digest"])
-    _credential(predicate["credential"])
-    _members(predicate["broker"], {"id"})
-    _https(predicate["broker"]["id"])
     _sha_digest(predicate["registryDigest"])
+    return basis
+
+
+def grant_document(data: bytes | None) -> dict[str, Any]:
+    """Parse a grant document; raise Malformed unless it is well formed."""
+    grant = strict_object(data)
+    _members(grant, GRANT_MEMBERS)
+    _text(grant["grantId"])
+    principal(grant["user"])
+    principal(grant["agent"])
+    hosts = grant["hosts"]
+    _require(isinstance(hosts, list) and hosts != [], "hosts")
+    _require(all(isinstance(h, str) and HOST.fullmatch(h) for h in hosts), "host")
+    _require(hosts == sorted(set(hosts)), "hosts sorted and unique")
+    parse_time(grant["notAfter"])
+    return grant
+
+
+def audience_authority(audience: str) -> str:
+    """The host and port of an audience, as a grant's ``hosts`` writes them."""
+    _, _, rest = audience.partition("://")
+    return rest.split("/", 1)[0].split("?", 1)[0].split("#", 1)[0]
 
 
 def _credential_fields(predicate: Any) -> bool:
@@ -469,21 +563,22 @@ def _receipt_checks(directory: Path) -> list[tuple[str, Callable[[], bool]]]:
     ]
 
 
-def _release_statement_failure(raw: bytes | None) -> tuple[str | None, dict[str, Any]]:
+def _release_statement_failure(raw: bytes | None) -> tuple[str | None, dict[str, Any], str]:
+    """The release's own first failure, the statement and its basis."""
     try:
         statement = strict_object(raw)
     except Malformed:
-        return "statement_malformed", {}
+        return "statement_malformed", {}, ""
     failure = _statement(statement, RELEASE_TYPE)
     if failure:
-        return failure, statement
+        return failure, statement, ""
     if _credential_fields(statement["predicate"]):
-        return "credential_fields", statement
+        return "credential_fields", statement, ""
     try:
-        release_predicate(statement["predicate"])
+        basis = release_predicate(statement["predicate"])
     except Malformed:
-        return "predicate_malformed", statement
-    return None, statement
+        return "predicate_malformed", statement, ""
+    return None, statement, basis
 
 
 def _copied_differs(declared: dict[str, Any], receipt: dict[str, Any]) -> bool:
@@ -513,19 +608,17 @@ def _expiry(predicate: Any) -> datetime | None:
         return None
 
 
-def _release_checks(directory: Path) -> list[tuple[str, Callable[[], bool]]]:
-    failure, statement = _release_statement_failure(_read(directory, "statement.json"))
+def _receipt_basis_checks(directory: Path, statement: dict[str, Any]
+                          ) -> list[tuple[str, Callable[[], bool]]]:
+    predicate: Any = statement["predicate"]
     receipt_bytes = _read(directory, "receipt.json") or b""
     receipt_failure, receipt = _receipt_failure(receipt_bytes)
     _, key = _context(directory)
-    predicate: Any = statement.get("predicate")
     at, expiry = _time_or_none(predicate, "releasedAt"), _expiry(predicate)
     held = receipt.get("predicate")
     start, until = _time_or_none(held, "issuedAt"), _time_or_none(held, "validUntil")
     revocation = _release_revocation(directory, predicate, key, receipt_bytes)
-    early = [(name, (lambda name=name: failure == name)) for name in RELEASE_CHECKS[:6]]
     return [
-        *early,
         ("receipt_digest_mismatch",
          lambda: sha256_hex(receipt_bytes) != predicate["receipt"]["digest"]["sha256"]),
         ("receipt_malformed", lambda: receipt_failure is not None),
@@ -537,8 +630,51 @@ def _release_checks(directory: Path) -> list[tuple[str, Callable[[], bool]]]:
         ("receipt_not_current",
          lambda: not start <= at < until),  # type: ignore[operator]
         ("credential_outlives_receipt", lambda: expiry > until),  # type: ignore[operator]
-        *[(code, (lambda code=code: revocation == code)) for code in RELEASE_CHECKS[13:]],
+        *[(code, (lambda code=code: revocation == code))
+          for code in RELEASE_CHECKS[13:_GRANT_FROM]],
     ]
+
+
+def _grant_or_none(raw: bytes | None) -> dict[str, Any] | None:
+    try:
+        return grant_document(raw)
+    except Malformed:
+        return None
+
+
+def _grant_basis_checks(directory: Path, statement: dict[str, Any]
+                        ) -> list[tuple[str, Callable[[], bool]]]:
+    predicate: Any = statement["predicate"]
+    raw = _read(directory, "grant.json")
+    grant = _grant_or_none(raw)
+    named = predicate["grant"]["digest"]["sha256"]
+    at, expiry = parse_time(predicate["releasedAt"]), _expiry(predicate)
+    end = None if grant is None else parse_time(grant["notAfter"])
+    return [
+        ("grant_digest_mismatch", lambda: raw is None or sha256_hex(raw) != named),
+        ("grant_malformed", lambda: grant is None),
+        ("grant_fields_differ",
+         lambda: predicate["grant"]["notAfter"] != grant["notAfter"]),  # type: ignore[index]
+        ("subject_not_granted", lambda: statement["subject"][0]["digest"]["sha256"] != named),
+        ("principals_not_granted",
+         lambda: (predicate["agent"], predicate["onBehalfOf"])
+         != (grant["agent"], grant["user"])),  # type: ignore[index]
+        ("audience_not_granted",
+         lambda: audience_authority(predicate["credential"]["audience"])
+         not in grant["hosts"]),  # type: ignore[index]
+        ("grant_not_current", lambda: not at < end),  # type: ignore[operator]
+        ("credential_outlives_grant", lambda: expiry > end),  # type: ignore[operator]
+    ]
+
+
+def _release_checks(directory: Path) -> list[tuple[str, Callable[[], bool]]]:
+    failure, statement, basis = _release_statement_failure(_read(directory, "statement.json"))
+    early = [(name, (lambda name=name: failure == name)) for name in RELEASE_CHECKS[:6]]
+    if failure is not None:
+        return early
+    own = (_receipt_basis_checks(directory, statement) if basis == "receipt"
+           else _grant_basis_checks(directory, statement))
+    return [*early, *own]
 
 
 def verify(suite: str, directory: Path, skip: frozenset[str] = frozenset()) -> dict[str, str]:

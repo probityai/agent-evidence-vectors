@@ -1,0 +1,39 @@
+{
+  "_type": "https://in-toto.io/Statement/v1",
+  "predicate": {
+    "agent": {
+      "issuer": "https://idp.example.com/realms/agents",
+      "subject": "mail-agent"
+    },
+    "broker": {
+      "id": "https://broker.example.org/credential-broker"
+    },
+    "credential": {
+      "audience": "https://mail.example.com",
+      "cookie": "sid",
+      "kind": "session-cookie"
+    },
+    "grant": {
+      "digest": {
+        "sha256": "06862128a02ad51894933d8a56be8b324b2d3686b6b0eadd7cbd0d2129893b71"
+      },
+      "notAfter": "2026-10-27T18:00:00Z"
+    },
+    "onBehalfOf": {
+      "issuer": "https://idp.example.com/realms/users",
+      "subject": "user-0001"
+    },
+    "releaseId": "release-0001",
+    "releasedAt": "2026-10-27T12:00:00Z",
+    "ttlSeconds": 900
+  },
+  "predicateType": "https://w3id.org/agent-evidence/predicate/v1/credential-release",
+  "subject": [
+    {
+      "digest": {
+        "sha256": "06862128a02ad51894933d8a56be8b324b2d3686b6b0eadd7cbd0d2129893b71"
+      },
+      "name": "grant-0001"
+    }
+  ]
+}
