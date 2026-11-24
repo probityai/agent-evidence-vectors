@@ -822,6 +822,11 @@ def rerun(row_id: str, work: Path, results: Path) -> str:
     (results / f"{row_id}.json").write_text(json.dumps(result, indent=1, ensure_ascii=True) + "\n",
                                             encoding="utf-8")
     print(f"{row_id}: {status}")
+    if status not in (REPRODUCED, RECORDED):
+        # The row log lives in the work directory, which no job uploads, so a red
+        # row shows the cause only if the end of the log is printed here.
+        tail = log.read_text(encoding="utf-8", errors="replace").splitlines()[-80:]
+        print(f"--- end of {log}:\n" + "\n".join(tail), file=sys.stderr)
     return status
 
 
