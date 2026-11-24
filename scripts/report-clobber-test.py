@@ -372,7 +372,13 @@ def a17_parent_directory_swapped(ctx: Ctx) -> Result:
     out.mkdir()
     argv = ["--vectors", str(VECTORS), "--report", str(out / NAME)]
     p = inproc(ctx, "dirswap", str(ctx.packaging), argv, ctx.elsewhere)
-    return landed(ctx.committed, before, p)
+    verdict, hit, evidence = landed(ctx.committed, before, p)
+    bound = (ctx.elsewhere / "out.real" / NAME).is_file()
+    if not hit and not bound and os.rename in os.supports_dir_fd:
+        # Unchanged is not enough: the publish must have gone to the directory that
+        # was bound and checked, or the case did not exercise the descriptor.
+        return ("ERROR", False, f"the report reached no bound directory; {evidence}")
+    return (verdict, hit, f"published_to_bound_directory={bound} {evidence}")
 
 
 CASES: list[Callable[[Ctx], Result]] = [
@@ -385,25 +391,43 @@ CASES: list[Callable[[Ctx], Result]] = [
     a17_parent_directory_swapped,
 ]
 
-# Mutants of the guard: (name, old text, new text, the cases that must turn red).
-MUTANTS: list[tuple[str, str, str, list[str]]] = [
+# Mutants of the guard: (name, [(old text, new text)], the cases that must turn red).
+MUTANTS: list[tuple[str, list[tuple[str, str]], list[str]]] = [
     (
         "compare-by-abspath-instead-of-realpath",
-        "os.path.join(os.path.realpath(os.path.dirname(absolute)), os.path.basename(absolute))",
-        "os.path.join(os.path.dirname(absolute), os.path.basename(absolute))",
-        ["a05_symlinked_cwd"],
+        [
+            ("os.path.realpath(__file__)", "os.path.abspath(__file__)"),
+            (
+                "os.path.join(os.path.realpath(os.path.dirname(absolute)), "
+                "os.path.basename(absolute))",
+                "os.path.join(os.path.dirname(absolute), os.path.basename(absolute))",
+            ),
+        ],
+        ["a06_harness_via_file_symlink"],
     ),
     (
         "drop-the-explicit-report-record-rule",
-        '    outputs = [(report, "--report")]\n',
-        '    outputs = [(report, "--report")] if args.report is None else []\n',
+        [(
+            '    outputs = [(report, "--report")]\n',
+            '    outputs = [(report, "--report")] if args.report is None else []\n',
+        )],
         ["a08_explicit_bare_name", "a16_explicit_other_tracked_file"],
     ),
     (
         "drop-the-emit-w3c-record-rule",
-        '        outputs.append((w3c, "--emit-w3c-report"))\n',
-        "        pass\n",
+        [('        outputs.append((w3c, "--emit-w3c-report"))\n', "        pass\n")],
         ["a09_emit_w3c_onto_record"],
+    ),
+    (
+        "publish-by-path-instead-of-the-bound-directory",
+        [
+            ("HAVE_DIR_FD = os.open in", "HAVE_DIR_FD = False and os.open in"),
+            (
+                "return same and os.path.realpath(self.directory) == self.directory",
+                "return True",
+            ),
+        ],
+        ["a17_parent_directory_swapped"],
     ),
 ]
 
@@ -439,15 +463,19 @@ def run_mutants(packaging: Path) -> int:
     """Each mutant of the guard must make this test fail on the cases that watch it."""
     source = (packaging / "run_vectors.py").read_text(encoding="utf-8")
     bad = 0
-    for name, old, new, cases in MUTANTS:
+    for name, swaps, cases in MUTANTS:
         with tempfile.TemporaryDirectory() as tmp:
             mutant = Path(tmp) / "packaging"
             shutil.copytree(packaging, mutant, ignore=shutil.ignore_patterns("__pycache__"))
-            if source.count(old) != 1:
-                print(f"FAIL mutant {name}: the guard line moved; update this test")
+            text = source
+            missing = [old for old, _new in swaps if old not in source]
+            if missing:
+                print(f"FAIL mutant {name}: the guard text moved; update this test: {missing}")
                 bad += 1
                 continue
-            (mutant / "run_vectors.py").write_text(source.replace(old, new), encoding="utf-8")
+            for old, new in swaps:
+                text = text.replace(old, new)
+            (mutant / "run_vectors.py").write_text(text, encoding="utf-8")
             proc = subprocess.run(
                 [sys.executable, __file__, "--packaging", str(mutant), "--no-mutation",
                  "--only", *cases],

@@ -5134,7 +5134,7 @@ def _tracked(root: str, entry: str) -> bool | None:
 
 
 #: Whether the platform can open a directory and rename inside it by descriptor.
-HAVE_DIR_FD = os.open in os.supports_dir_fd and os.replace in os.supports_dir_fd
+HAVE_DIR_FD = os.open in os.supports_dir_fd and os.rename in os.supports_dir_fd
 
 
 class Destination:
