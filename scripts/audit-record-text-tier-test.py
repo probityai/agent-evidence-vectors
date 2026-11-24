@@ -113,7 +113,9 @@ def _check_manifest_header(manifest: dict, by_id: dict, failures: list[str]) -> 
     members = [v["proposed"] for v in manifest["vectors"] if "proposed" in v]
     proposed_for = {(m["revision"], m["text"]) for m in members}
     if proposed_for != {(REV05, "docs/proposals/audit-record-04-evaluated-at.md")}:
-        failures.append(f"the proposed members should all be the revision 05 proposal: {proposed_for}")
+        failures.append(
+            f"the proposed members should all be the revision 05 proposal: {proposed_for}"
+        )
     if manifest.get("draft") != REV04:
         failures.append(f"the manifest should name revision 04, names {manifest.get('draft')}")
     findings = auditrecord._text_findings(manifest)
