@@ -60,7 +60,7 @@ import re
 import shlex
 import subprocess
 from collections.abc import Callable
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from pathlib import Path
 from typing import Any
 
@@ -174,7 +174,7 @@ def _charged_at(r: Record) -> datetime | None:
     if block is None:
         return None
     try:
-        return datetime.fromtimestamp(block, tz=timezone.utc)
+        return datetime.fromtimestamp(block, tz=UTC)
     except (OverflowError, OSError, ValueError):
         return None
 
