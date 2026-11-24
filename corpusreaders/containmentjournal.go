@@ -15,6 +15,8 @@ import (
 	"strings"
 	"time"
 	"unicode/utf8"
+
+	"github.com/probityai/agent-evidence-vectors/internal/identifiers"
 )
 
 func init() { register(containmentJournal{}) }
@@ -45,12 +47,13 @@ func init() { register(containmentJournal{}) }
 // claims is recomputed from the journal alone.
 type containmentJournal struct{}
 
-const (
-	cjBase              = "https://probityai.github.io/agent-evidence-vectors/predicate/v1/"
+var (
+	cjBase              = identifiers.Identifier("agent-evidence-vectors/predicate/v1/")
 	cjContractID        = cjBase + "containment-journal"
 	cjReceiptContractID = cjBase + "blast-radius-receipt"
-	cjZero              = "sha256:0000000000000000000000000000000000000000000000000000000000000000"
 )
+
+const cjZero = "sha256:0000000000000000000000000000000000000000000000000000000000000000"
 
 func (containmentJournal) Suite() string { return "containment-journal/v1" }
 
@@ -781,7 +784,7 @@ func cjJudgeJournal(value any, bad bool) string {
 	switch {
 	case !present:
 		return "contract_id_missing"
-	case contract != cjContractID:
+	case identifiers.CanonicalValue(contract) != cjContractID:
 		return "contract_id_unknown"
 	case bad:
 		return "record_not_canonical"
@@ -1258,7 +1261,7 @@ func cjJudgeReceipt(value any, bad bool, record cjObject) string {
 	switch {
 	case !present:
 		return "receipt_contract_id_missing"
-	case contract != cjReceiptContractID:
+	case identifiers.CanonicalValue(contract) != cjReceiptContractID:
 		return "receipt_contract_id_unknown"
 	case bad || cjReceiptMalformed(receipt, record):
 		return "receipt_malformed"

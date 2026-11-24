@@ -8,6 +8,8 @@ import (
 	"encoding/json"
 	"fmt"
 	"path/filepath"
+
+	"github.com/probityai/agent-evidence-vectors/internal/identifiers"
 )
 
 func init() { register(controlDecision{}) }
@@ -226,7 +228,7 @@ func cdStatement(payload []byte, predicateType string) (map[string]any, map[stri
 	}
 	predicate, pOK := statement["predicate"].(map[string]any)
 	subject, sOK := statement["subject"].([]any)
-	if statement["_type"] != cdStatementType || statement["predicateType"] != predicateType ||
+	if statement["_type"] != cdStatementType || identifiers.CanonicalValue(statement["predicateType"]) != identifiers.CanonicalIdentifier(predicateType) ||
 		!pOK || !sOK || len(subject) != 1 {
 		return nil, nil, false
 	}

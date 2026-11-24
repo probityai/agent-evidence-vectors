@@ -11,6 +11,8 @@ import (
 	"reflect"
 	"slices"
 	"strings"
+
+	"github.com/probityai/agent-evidence-vectors/internal/identifiers"
 )
 
 func init() { register(signatureCoverage{}) }
@@ -33,7 +35,7 @@ func init() { register(signatureCoverage{}) }
 //  8. consumer_reads_unsigned: no consumer path starts at a declared key.
 type signatureCoverage struct{}
 
-const sigCovContractID = "https://probityai.github.io/agent-evidence-vectors/predicate/v1/signature-coverage"
+var sigCovContractID = identifiers.Identifier("agent-evidence-vectors/predicate/v1/signature-coverage")
 
 func (signatureCoverage) Suite() string { return "signature-coverage/v1" }
 
@@ -303,7 +305,7 @@ func sigCovReadingDiffers(source, payload any, excluded []string) bool {
 
 func sigCovDecide(r sigCovRecord, source any, payload, key, signature []byte) scDecision {
 	var contract string
-	known := len(r.ContractID) > 0 && strictUnmarshal(r.ContractID, &contract) == nil && contract == sigCovContractID
+	known := len(r.ContractID) > 0 && strictUnmarshal(r.ContractID, &contract) == nil && identifiers.CanonicalIdentifier(contract) == sigCovContractID
 	verified := len(key) == ed25519.PublicKeySize && ed25519.Verify(key, payload, signature)
 	repeated := bvNoDuplicates(json.NewDecoder(bytes.NewReader(payload))) != nil
 	parsed, err := sigCovDecode(payload)
