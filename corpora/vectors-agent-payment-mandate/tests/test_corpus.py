@@ -51,6 +51,7 @@ def test_regeneration_is_byte_identical(tmp_path: Path) -> None:
             ROOT / "MANIFEST.json",
             ROOT / "INDEX.md",
             ROOT / "profile.json",
+            ROOT / "policy.json",
             *(ROOT / "cases").rglob("*"),
         ]
         if p.is_file()
@@ -246,8 +247,10 @@ def test_unsigned_parts_never_relax_signed_limits() -> None:
 
 def test_a_duplicate_member_is_refused_before_it_is_read() -> None:
     raw = (ROOT / "cases" / "duplicate-member-in-record" / "case.json").read_text()
-    with pytest.raises(paymentmandate.DuplicateMember):
-        paymentmandate.load_record(raw)
+    with pytest.raises(paymentmandate.strictjson.NotStrictJson):
+        paymentmandate.strictjson.loads(raw)
+    answer = paymentmandate.verify(ROOT / "cases" / "duplicate-member-in-record" / "case.json")
+    assert answer == {"decision": "rejected", "reason": "record_malformed"}
 
 
 def test_time_is_compared_as_time_not_as_text() -> None:
