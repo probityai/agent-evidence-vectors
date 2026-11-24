@@ -84,7 +84,8 @@ def main() -> int:
                 "FAIL: `release-digests.py --check` ran with no third-party package "
                 "reachable and refused the digest list: release/CORPUS-DIGESTS.txt "
                 "does not match the corpora on disk. Regenerate it with "
-                "`uv run --locked --extra generators python scripts/regenerate-derived.py`.",
+                "`uv run --locked --extra generators --group crosscheck python "
+                "scripts/regenerate-derived.py`.",
                 file=sys.stderr,
             )
             for line in tail[-6:]:

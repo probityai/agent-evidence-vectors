@@ -34,6 +34,15 @@ def load():
     return module
 
 
+def load_coverage():
+    spec = importlib.util.spec_from_file_location(
+        "reference_coverage", REPO / "scripts" / "reference-coverage.py")
+    assert spec and spec.loader
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    return module
+
+
 def git(root: Path, *args: str, check: bool = True) -> subprocess.CompletedProcess[str]:
     done = subprocess.run(["git", "-C", str(root), *args], capture_output=True, text=True)
     if check and done.returncode != 0:
@@ -96,6 +105,42 @@ class Layout(unittest.TestCase):
             self.assertTrue(module.is_derived(REPO, path), path)
         for path in ("jcsvectors/jcsvectors.go", "crates/jcsvectors/src/lib.rs"):
             self.assertFalse(module.is_derived(REPO, path), path)
+
+    def test_the_reference_coverage_is_the_last_regeneration_step(self) -> None:
+        """A train that adds a corpus changes every N of M; its files are a regeneration family.
+
+        24 Nov 2026: batch pull request 729 went red at "the reference coverage shields match
+        the reference verifier" because no regeneration wrote those files. The step is last
+        because it reads whatever the other generators refreshed.
+        """
+        scripts = [script for _, script in load().STEPS]
+        self.assertEqual(scripts[-1], "scripts/reference-coverage.py")
+        self.assertEqual(scripts.count("scripts/reference-coverage.py"), 1)
+
+    def test_every_file_the_reference_coverage_writes_is_derived(self) -> None:
+        module, coverage = load(), load_coverage()
+        status = json.loads((REPO / coverage.STATUS).read_text(encoding="utf-8"))
+        written = sorted(coverage.render(status))
+        self.assertGreater(len(written), 90)
+        missing = [str(p) for p in written if not module.is_derived(REPO, str(p))]
+        self.assertEqual(missing, [])
+        # the shield of a corpus nobody has added yet is derived before it exists
+        self.assertTrue(module.is_derived(
+            REPO, str(coverage.PER_CORPUS / "vectors-not-yet-added.svg")))
+
+    def test_every_regeneration_command_names_the_group_the_reference_verifier_is_in(self) -> None:
+        """One environment runs every step, so each command that runs them names that group."""
+        module = load()
+        self.assertIn("--group crosscheck", module.REGENERATE_HINT)
+        for name in (".github/workflows/ci.yml", "scripts/repairs.toml"):
+            text = (REPO / name).read_text(encoding="utf-8")
+            lines = [line for line in text.splitlines()
+                     if "regenerate-derived" in line and re.search(r"uv\W+run", line)]
+            self.assertTrue(lines, f"{name} runs no regeneration through uv")
+            for line in lines:
+                self.assertRegex(
+                    line, r"--group\W+crosscheck",
+                    f"{name} runs a regeneration without the crosscheck group: {line.strip()}")
 
     def test_a_stale_lock_is_refused(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
@@ -163,6 +208,51 @@ class RunSteps(unittest.TestCase):
             root = Path(tmp)
             steps = self.fake_repo(root, [0, 0])
             self.assertEqual(module.run_steps(root, True, steps), 0)
+
+class ReferenceCoverageFamily(unittest.TestCase):
+    """The family step writes the shields, refuses a stale set, and mends it."""
+
+    COPIED = (
+        "scripts/reference-coverage.py",
+        "scripts/action-reference-stage.py",
+        "scripts/make-badge.py",
+        "corpora/vectors-done-receipt/crosscheck_probity_verify.py",
+    )
+
+    def tree(self, root: Path) -> None:
+        for rel in self.COPIED:
+            (root / rel).parent.mkdir(parents=True, exist_ok=True)
+            shutil.copy(REPO / rel, root / rel)
+        self.register(root, ["alpha"])
+
+    def register(self, root: Path, ids: list[str]) -> None:
+        rows = "".join(f'[[corpus]]\nid = "{i}"\npath = "corpora/{i}"\n\n' for i in ids)
+        (root / "corpora").mkdir(exist_ok=True)
+        (root / "corpora/REGISTRY.toml").write_text(rows, encoding="utf-8")
+        for i in ids:
+            (root / "corpora" / i).mkdir(exist_ok=True)
+            (root / "corpora" / i / "MANIFEST.json").write_text(
+                json.dumps({"vectors": [{"id": "m1", "path": "m1.json", "expected": {}}]}),
+                encoding="utf-8")
+
+    def test_a_corpus_added_without_regenerating_is_refused_and_then_mended(self) -> None:
+        module = load()
+        steps = [s for s in module.STEPS if s[1] == "scripts/reference-coverage.py"]
+        self.assertEqual(len(steps), 1)
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            self.tree(root)
+            self.assertEqual(module.run_steps(root, False, steps), 0)
+            self.assertEqual(module.run_steps(root, True, steps), 0)
+            self.register(root, ["alpha", "beta"])
+            self.assertEqual(module.run_steps(root, True, steps), 1)
+            self.assertFalse((root / "assets/status/reference/beta.svg").exists())
+            self.assertEqual(module.run_steps(root, False, steps), 0)
+            self.assertEqual(module.run_steps(root, True, steps), 0)
+            self.assertTrue((root / "assets/status/reference/beta.svg").is_file())
+            status = json.loads((root / "docs/status/reference-coverage.json").read_text("utf-8"))
+            self.assertEqual([c["id"] for c in status["corpora"]], ["alpha", "beta"])
+
 
 class ResolveMerge(unittest.TestCase):
     def repo_with_two_branches(self, root: Path, extra: bool) -> None:

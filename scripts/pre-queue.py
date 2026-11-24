@@ -6,7 +6,8 @@ pull request starts none of the heavy jobs. That left four cheap failures to be 
 only inside the queue, each one costing a queue slot and a full batch of runner time:
 a squash subject over 72 characters, a ruff or mypy finding, a count the prose states
 and the gate does not declare, and a generated file (digest list, intake records,
-shared-source lock) that no longer matches the tree it was generated from.
+shared-source lock, reference coverage) that no longer matches the tree it was
+generated from.
 
 This script runs exactly those checks, on a plain pull request, in the `pre_queue` job
 of .github/workflows/ci.yml, which the required `ci-ok` aggregator waits for. It does
@@ -58,7 +59,8 @@ CHECKS: tuple[tuple[str, str, str, str | None], ...] = (
     (
         "derived files",
         "ci__go",
-        "every derived file is what a fresh run writes (intake records, digest list, source lock)",
+        "every derived file is what a fresh run writes "
+        "(intake records, digest list, source lock, reference coverage)",
         None,
     ),
 )

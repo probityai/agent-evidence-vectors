@@ -919,13 +919,13 @@ jobs:
       # rebuilds every record and native output, refuses any byte that differs,
       # and reads each record back with the intake checker under the repository
       # root. It needs the Go toolchain, so it lives in this job.
-      - name: every derived file is what a fresh run writes (intake records, digest list, source lock)
-        run: uv run --locked --extra generators python scripts/regenerate-derived.py --check
+      - name: every derived file is what a fresh run writes (intake records, digest list, source lock, reference coverage)
+        run: uv run --locked --extra generators --group crosscheck python scripts/regenerate-derived.py --check
       # The derived files (digest list, intake records, shared-source lock) are
       # marked in .gitattributes; this holds that marking, the ruff layout and
       # the merge resolution that replaces hand-editing generated records.
       - name: derived files are marked, checked together and resolved by regeneration
-        run: python3 scripts/regenerate-derived-test.py
+        run: uv run --locked --extra generators --group crosscheck python scripts/regenerate-derived-test.py
       # The a2a-jcs-v01 corpus is judged by a Go reader in aee-verify and the
       # Python reader other projects import as agent_evidence_vectors.a2ajcs,
       # each with its own canonicalizer. This holds the two to the same failing
