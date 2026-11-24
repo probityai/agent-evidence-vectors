@@ -216,7 +216,7 @@ type aveStatus struct {
 }
 
 func aveLoadSnapshot(path, pinned string) (map[string]aveStatus, error) {
-	body, err := os.ReadFile(path) // #nosec G304 -- the snapshot file of the corpus being judged
+	body, err := os.ReadFile(path) // #nosec G304,G703 -- the snapshot file of the corpus being judged
 	if err != nil {
 		return nil, err
 	}

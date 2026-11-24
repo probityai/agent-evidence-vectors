@@ -59,16 +59,16 @@ func pmMandateRules() []rlRule {
 			return rlGet(r, "execution.currency") != rlGet(r, "mandate.terms.currency")
 		}, func(r any) bool {
 			required := pmX(r, "paymentRequirements.asset")
-			return !(pmSameAddress(pmX(r, "paymentPayload.accepted.asset"), required) &&
-				pmSameAddress(required, rlGet(r, "mandate.terms.currency")))
+			return !pmSameAddress(pmX(r, "paymentPayload.accepted.asset"), required) ||
+				!pmSameAddress(required, rlGet(r, "mandate.terms.currency"))
 		})},
 		{"merchant_mismatch", pmProfile(func(r any) bool {
 			return rlGet(r, "execution.merchant") != rlGet(r, "mandate.terms.merchant")
 		}, func(r any) bool {
 			payTo := pmX(r, "paymentRequirements.payTo")
-			return !(pmSameAddress(pmX(r, "paymentPayload.payload.authorization.to"), payTo) &&
-				pmSameAddress(pmX(r, "paymentPayload.accepted.payTo"), payTo) &&
-				pmSameAddress(payTo, rlGet(r, "mandate.terms.merchant")))
+			return !pmSameAddress(pmX(r, "paymentPayload.payload.authorization.to"), payTo) ||
+				!pmSameAddress(pmX(r, "paymentPayload.accepted.payTo"), payTo) ||
+				!pmSameAddress(payTo, rlGet(r, "mandate.terms.merchant"))
 		})},
 	}
 }
@@ -96,7 +96,7 @@ func pmX402Rules() []rlRule {
 				return true
 			}
 			t := big.NewInt(settled)
-			return !(after.Cmp(t) < 0 && t.Cmp(before) < 0)
+			return after.Cmp(t) >= 0 || t.Cmp(before) >= 0
 		})},
 		{"signature_not_canonical", pmX402Only(func(r any) bool {
 			sig, ok := pmSignature(r)
@@ -120,19 +120,19 @@ func pmExecutionRules() []rlRule {
 		}, func(r any) bool {
 			nonce := rlStr(pmX(r, "paymentPayload.payload.authorization.nonce"))
 			used := rlStr(rlGet(r, "execution.authorization_used.nonce"))
-			return !(pmSameAddress(rlGet(r, "execution.authorization_used.authorizer"),
-				pmX(r, "paymentPayload.payload.authorization.from")) &&
-				evmBytes32Re.MatchString(nonce) && strings.EqualFold(used, nonce))
+			return !pmSameAddress(rlGet(r, "execution.authorization_used.authorizer"),
+				pmX(r, "paymentPayload.payload.authorization.from")) ||
+				!evmBytes32Re.MatchString(nonce) || !strings.EqualFold(used, nonce)
 		})},
 		{"settlement_not_the_authorization", pmX402Only(func(r any) bool {
 			auth := "paymentPayload.payload.authorization."
 			value := pmDecimal(pmX(r, auth+"value"))
 			moved := pmDecimal(rlGet(r, "execution.transfer.value"))
-			return !(pmSameAddress(rlGet(r, "execution.transfer.from"), pmX(r, auth+"from")) &&
-				pmSameAddress(rlGet(r, "execution.transfer.to"), pmX(r, auth+"to")) &&
-				value != nil && moved != nil && value.Cmp(moved) == 0 &&
-				pmSameAddress(rlGet(r, "execution.asset"), pmX(r, "paymentRequirements.asset")) &&
-				rlStr(rlGet(r, "execution.network")) == rlStr(pmX(r, "paymentRequirements.network")))
+			return !pmSameAddress(rlGet(r, "execution.transfer.from"), pmX(r, auth+"from")) ||
+				!pmSameAddress(rlGet(r, "execution.transfer.to"), pmX(r, auth+"to")) ||
+				value == nil || moved == nil || value.Cmp(moved) != 0 ||
+				!pmSameAddress(rlGet(r, "execution.asset"), pmX(r, "paymentRequirements.asset")) ||
+				rlStr(rlGet(r, "execution.network")) != rlStr(pmX(r, "paymentRequirements.network"))
 		})},
 		{"single_use_token_replayed", pmProfile(func(r any) bool {
 			consumed := rlStringSet(rlGet(r, "credential.consumed_token_ids"))
@@ -190,11 +190,11 @@ func pmSettlementResponseUnbound(r any) bool {
 		a, b := pmDecimal(amount), pmDecimal(rlGet(r, "execution.transfer.value"))
 		amountOK = a != nil && b != nil && a.Cmp(b) == 0
 	}
-	return !(rlTrue(response["success"]) &&
-		rlStr(response["transaction"]) == rlStr(rlGet(r, "execution.transaction")) && rlStr(response["transaction"]) != "" &&
-		rlStr(response["network"]) == rlStr(rlGet(r, "execution.network")) &&
-		pmSameAddress(response["payer"], pmX(r, "paymentPayload.payload.authorization.from")) &&
-		amountOK)
+	return !rlTrue(response["success"]) ||
+		rlStr(response["transaction"]) != rlStr(rlGet(r, "execution.transaction")) || rlStr(response["transaction"]) == "" ||
+		rlStr(response["network"]) != rlStr(rlGet(r, "execution.network")) ||
+		!pmSameAddress(response["payer"], pmX(r, "paymentPayload.payload.authorization.from")) ||
+		!amountOK
 }
 
 // pmSigningKey returns the signing time and the key-history entry for the signing key.

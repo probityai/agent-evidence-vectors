@@ -334,11 +334,11 @@ func crcParse(line string, profile crcProfile) (crcReceipt, crcParseKind) {
 	if err != nil || !isBody {
 		return crcReceipt{}, crcMalformed
 	}
-	if inner, ok := body.get(crcFieldKey(profile.Fields["version"])).(crcInt); !ok || inner != version {
+	if inner, ok := crcField(body, profile.Fields["version"]).(crcInt); !ok || inner != version {
 		return crcReceipt{}, crcMalformed
 	}
 	r := crcReceipt{signer: hex.EncodeToString(key), digest: sha(raw)}
-	switch prev := body.get(crcFieldKey(profile.Fields["prev_hash"])).(type) {
+	switch prev := crcField(body, profile.Fields["prev_hash"]).(type) {
 	case nil:
 	case []byte:
 		if len(prev) != 32 {
@@ -351,7 +351,7 @@ func crcParse(line string, profile crcProfile) (crcReceipt, crcParseKind) {
 	}
 	field := func(role string) any {
 		if id, ok := profile.Fields[role]; ok {
-			return body.get(crcFieldKey(id))
+			return crcField(body, id)
 		}
 		return nil
 	}
@@ -411,13 +411,13 @@ type crcInt struct {
 	mag uint64
 }
 
-// crcFieldKey is the CBOR integer key a profile field number names: a negative number is
-// the negative integer of that value (magnitude -1-id), never a wrapped unsigned one.
-func crcFieldKey(id int64) crcInt {
+// crcField reads the body member a profile field number names. A profile names its fields by
+// small non-negative integers; a negative number names no member, so it reads as absent.
+func crcField(body crcMap, id int64) any {
 	if id < 0 {
-		return crcInt{neg: true, mag: uint64(-(id + 1))}
+		return nil
 	}
-	return crcInt{mag: uint64(id)}
+	return body.get(crcInt{mag: uint64(id)})
 }
 
 type crcText string
