@@ -218,6 +218,11 @@ class ReferenceCoverageFamily(unittest.TestCase):
         "scripts/action-reference-stage.py",
         "scripts/make-badge.py",
         "corpora/vectors-done-receipt/crosscheck_probity_verify.py",
+        # the cross-check puts <root>/packaging on sys.path and imports these four
+        "packaging/agent_evidence_vectors/__init__.py",
+        "packaging/agent_evidence_vectors/doneargv.py",
+        "packaging/agent_evidence_vectors/donechecks.py",
+        "packaging/agent_evidence_vectors/donerecords.py",
     )
 
     def tree(self, root: Path) -> None:
