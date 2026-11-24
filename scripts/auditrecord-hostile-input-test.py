@@ -173,7 +173,8 @@ class TypeConfusionTests(unittest.TestCase):
 
     def test_an_object_or_array_in_a_closed_vocabulary_is_outside_it(self) -> None:
         outside = ("malformed", ["value-outside-vocabulary"])
-        for value in ([], {}, ["wimse-wpt"]):
+        values: tuple[Any, ...] = ([], {}, ["wimse-wpt"])
+        for value in values:
             for change in (
                 lambda p, v=value: p["agent"].update(authentication=v),
                 lambda p, v=value: p.update(tier=v),
