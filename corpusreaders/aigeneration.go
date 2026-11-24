@@ -114,7 +114,7 @@ type agExpected struct {
 
 func (r aiGeneration) Judge(dir string, raw []byte) (*Result, error) {
 	var manifest agManifest
-	if err := json.Unmarshal(raw, &manifest); err != nil {
+	if err := strictUnmarshal(raw, &manifest); err != nil {
 		return nil, fmt.Errorf("%s/MANIFEST.json does not parse: %w", dir, err)
 	}
 	result := &Result{}
@@ -476,7 +476,7 @@ type agSubject struct {
 
 func newAGSubject(dir string, v agVector, body, trailer []byte) (*agSubject, string) {
 	s := &agSubject{artifacts: map[string][]byte{}, trailer: trailer}
-	if err := json.Unmarshal(body, &s.env); err != nil {
+	if err := agUnmarshalEnvelope(body, &s.env); err != nil {
 		return nil, "the member is not an attestation envelope: " + err.Error()
 	}
 	value, err := agDecode(s.env.Statement)
@@ -496,6 +496,14 @@ func newAGSubject(dir string, v agVector, body, trailer []byte) (*agSubject, str
 		s.artifacts[a.Name] = content
 	}
 	return s, ""
+}
+
+// agUnmarshalEnvelope reads the envelope and refuses a repeated member in it, except
+// inside the statement. A statement that repeats a member is the case the corpus
+// declares as invalid with the code duplicate-member (ofg-c-21), and valueDomain names
+// it; refusing it here would replace that named verdict with an unparsed envelope.
+func agUnmarshalEnvelope(body []byte, env *agEnvelope) error {
+	return strictUnmarshalExcept(body, env, "statement")
 }
 
 func agDecode(raw []byte) (any, error) {
@@ -817,7 +825,7 @@ func agVerify(sig agSignature, message []byte) string {
 	if !ok {
 		return "keyid-not-ed25519-did-key"
 	}
-	raw, err := base64.StdEncoding.DecodeString(sig.Sig)
+	raw, err := decodeCanonical(base64.StdEncoding, sig.Sig)
 	if err != nil || len(raw) != ed25519.SignatureSize || !ed25519.Verify(public, message, raw) {
 		return "signature-invalid"
 	}

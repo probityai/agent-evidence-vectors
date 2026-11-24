@@ -1,5 +1,5 @@
 {
-  "corpusDigest": "84ba70d6a54bfc1badf80a54655814c089bd220e9d81637d2262ac84e2a63442",
+  "corpusDigest": "9ca18b93dfa3b02d331c6831b994bf0b176bc87d587754c7f7a3716d6ed6ad0f",
   "counts": {
     "accept": 20,
     "no_verdict": 1,
@@ -165,7 +165,7 @@
       "description": "A revocation issued at 14:00 states it took effect at 10:00, and the presentation was observed at 13:00.",
       "expected": {
         "decision": "reject",
-        "reason": "grant_revoked"
+        "reason": "grant_revoked_retroactively"
       },
       "files": {
         "01-registration-org.json": "b0981d0caea17a35427498217e2c9c38974963187da72677612374a03d4b84a8",
@@ -183,7 +183,7 @@
       },
       "id": "tree-revocation-backdated",
       "path": "cases/tree-revocation-backdated",
-      "rule": "Proposed: a revocation applies from its stated effective_at even when it was issued later, as an X.509 invalidity date does; this favours containment over a relying party's reliance on the earlier state.",
+      "rule": "Proposed: a revocation binds from when it is issued. A presentation observed before that is still refused, as containment, as an X.509 invalidity date is; the reason says the revocation was retroactive, so the refusal is never read as proof the grant was revoked when it was presented.",
       "set": "delegation-tree",
       "twin": "tree-child-presented-before-revocation"
     },

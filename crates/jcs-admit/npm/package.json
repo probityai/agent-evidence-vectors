@@ -11,7 +11,7 @@
   },
   "homepage": "https://github.com/probityai/agent-evidence-vectors/blob/main/crates/jcs-admit/docs/NPM.md",
   "engines": {
-    "node": ">=22.14.0"
+    "node": ">=20.0.0"
   },
   "types": "./lib/index.d.ts",
   "exports": {
@@ -54,7 +54,7 @@
     "duplicate-keys"
   ],
   "devDependencies": {
-    "playwright": "1.64.1",
+    "playwright": "1.65.1",
     "typescript": "7.0.2"
   }
 }

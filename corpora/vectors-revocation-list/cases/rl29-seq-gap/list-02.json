@@ -1,0 +1,65 @@
+{
+  "body": {
+    "entries": [
+      {
+        "id": "agent:alpha",
+        "kind": "agent",
+        "revokedAt": "2026-06-02T00:00:00Z"
+      },
+      {
+        "id": "agent:one",
+        "kind": "agent",
+        "reason": "test",
+        "revokedAt": "2026-06-03T00:00:00Z"
+      },
+      {
+        "id": "build:one",
+        "kind": "build",
+        "reason": "test",
+        "revokedAt": "2026-06-03T00:00:00Z"
+      },
+      {
+        "id": "1362c039c94e673a9abbf8b742aca7c0b7224e81772949ba38991962ecb20e32",
+        "kind": "grant",
+        "reason": "test",
+        "revokedAt": "2026-06-03T00:00:00Z"
+      },
+      {
+        "id": "1362c039c94e673a9abbf8b742aca7c0b7224e81772949ba38991962ecb20e32",
+        "kind": "key",
+        "reason": "test",
+        "revokedAt": "2026-06-03T00:00:00Z"
+      },
+      {
+        "id": "1362c039c94e673a9abbf8b742aca7c0b7224e81772949ba38991962ecb20e32",
+        "kind": "permit",
+        "reason": "test",
+        "revokedAt": "2026-06-03T00:00:00Z"
+      },
+      {
+        "id": "sponsor:one",
+        "kind": "sponsor",
+        "reason": "test",
+        "revokedAt": "2026-06-03T00:00:00Z"
+      },
+      {
+        "id": "stream-7",
+        "kind": "stream",
+        "revokedAt": "2026-06-02T00:00:00Z"
+      },
+      {
+        "id": "stream:one",
+        "kind": "stream",
+        "reason": "test",
+        "revokedAt": "2026-06-03T00:00:00Z"
+      }
+    ],
+    "issuedAt": "2026-06-03T00:00:00Z",
+    "issuerKey": "31J9Yt30rIbYE7BUMeLJwD+WxLxznqGNkbouuyOQwwk=",
+    "listId": "probity-revocations",
+    "previous": "sha256:3088aa34b5c81141c9970d6d43e4f55ccdec72e5d0f0bbf45e978cb14661f303",
+    "seq": 3,
+    "type": "https://probityai.github.io/agent-evidence-vectors/predicate/v1/revocation-list"
+  },
+  "sig": "PDOj2zAvB9km76kwWSGTXJCdK3JrP1287vuYBh/WnlhP4ysGrgYh/tGWIR94o8nSteCZUQZZH5aWJay/17uwDw=="
+}

@@ -9,7 +9,7 @@
     "total": 27
   },
   "anchor": {
-    "kind": "signed-digest-list",
+    "kind": "digest-list-line",
     "manifest": "vectors-scitt-cose/MANIFEST.json",
     "reference": {
       "path": "release/CORPUS-DIGESTS.txt",
@@ -19,13 +19,6 @@
     "routine-file": "corpora/vectors-scitt-cose/digest.py",
     "serialization": "corpus-routine",
     "sha256": "79d651d3e127ce9bb68d4bf782f86b4e79391962ddda37f131fba641ca0c20da",
-    "signature": {
-      "key": "release/cosign.pub",
-      "key-sha256": "15fccb1635dd1d9333146cb389f26fa3c3b9213aeed1da945ea1f51a2dc1be84",
-      "path": "release/CORPUS-DIGESTS.txt.sig",
-      "scheme": "ed25519",
-      "serialization": "bytes"
-    },
     "verdicts": {
       "availability-failure": "inconclusive",
       "integrity-failure": "fail"
@@ -96,7 +89,7 @@
       },
       "path": "corpora/vectors-scitt-cose/check_vectors.py",
       "serialization": "bytes",
-      "sha256": "250e08b840b638fcb035fb9c97da58c53432cbaa39fd85ddcf6c4436eebb9487"
+      "sha256": "454e2206e7e2a8565275ec7482039c6503b9c1fdd48ce3ff9a64592c3d9f6dab"
     },
     {
       "consumed": "unconsumed",
@@ -174,12 +167,12 @@
       {
         "path": "pyproject.toml",
         "serialization": "bytes",
-        "sha256": "2a2489b7f0effa9919809610dbe6e352975064cd8b16f9fe48553de333c06908"
+        "sha256": "615fd8fa515397a018906b8318f84b05d1695b8b6345d100e90d2c0482d4e9b7"
       },
       {
         "path": "uv.lock",
         "serialization": "bytes",
-        "sha256": "5a43055ecbb4e1d90fd4c5ce5737ed2d384e67e0335334ad82b8863524b2a35c"
+        "sha256": "3aaf3b0e0b68d40a35f41296139e9098d1fa263f186844c7a8d69af73e36eeb0"
       }
     ],
     "helpers": [],
@@ -191,7 +184,7 @@
         "corpora/vectors-scitt-cose/check_vectors.py"
       ],
       "serialization": "sha256-listing-v1",
-      "sha256": "8fe9778a8f6c82fe988921c9ea55ee8b087391dea632c140d3c5241acc535cdd"
+      "sha256": "cba71c36cd8e868c9c69701e1c3e0008a4d1c06fe3b58b0b2a1f7261b5dccb1d"
     },
     "runtime": {
       "name": "cpython",
@@ -421,7 +414,7 @@
   ],
   "corpus-digest": {
     "serialization": "sha256-listing-v1",
-    "sha256": "459990fa964bb83c060fde788634f9c2e2c40266f17a3dba332a19d8c134db55"
+    "sha256": "f3a33af8473c5c0f681d8de7d5c0a8f0856237bb691f9097114d330a360de3e1"
   },
   "exit-code": 0,
   "exit-rule": "zero-iff-every-check-passes",
@@ -933,7 +926,8 @@
       "corpora/vectors-scitt-cose/check_vectors.py, at the source listing named here, judges each of the 27 pinned members of scitt-cose-carriage-conformance as its manifest declares"
     ],
     "leaves-open": [
-      "whether an implementation written from the specification, run by someone other than an author, reaches the same verdicts"
+      "whether an implementation written from the specification, run by someone other than an author, reaches the same verdicts",
+      "whether release/CORPUS-DIGESTS.txt is a list a release signed: the signature beside it does not verify over these bytes, so the anchor is a located line, not a verified one"
     ]
   },
   "selector": {

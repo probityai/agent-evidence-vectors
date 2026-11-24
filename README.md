@@ -4,17 +4,17 @@
 <a href="https://github.com/probityai/agent-evidence-vectors/actions/workflows/ci.yml"><img height="16" alt="CI" src="https://github.com/probityai/agent-evidence-vectors/actions/workflows/ci.yml/badge.svg"></a>
 <a href="https://pypi.org/project/agent-evidence-vectors/"><img height="16" alt="Version" src="https://img.shields.io/pypi/v/agent-evidence-vectors?style=flat-square&color=blue&label=&logo=pypi&logoColor=white&cacheSeconds=3600"></a>
 <a href="https://pepy.tech/projects/agent-evidence-vectors"><img height="16" alt="Downloads" src="https://img.shields.io/endpoint?url=https%3A%2F%2Fraw.githubusercontent.com%2Fprobityai%2Fagent-evidence-vectors%2Fbadges%2Fdl-pypi-agent-evidence-vectors.json&amp;cacheSeconds=3600"></a>
-<a href="https://github.com/probityai/agent-evidence-vectors/blob/main/LICENSE"><img height="16" alt="License" src="assets/badges/license.svg"></a>
-<a href="https://github.com/probityai/agent-evidence-vectors/stargazers"><img height="16" alt="Stars" src="assets/badges/stars.svg"></a>
+<a href="https://github.com/probityai/agent-evidence-vectors/blob/main/LICENSE"><img height="16" alt="License" src="https://raw.githubusercontent.com/probityai/agent-evidence-vectors/main/assets/badges/license.svg"></a>
+<a href="https://github.com/probityai/agent-evidence-vectors/stargazers"><img height="16" alt="Stars" src="https://raw.githubusercontent.com/probityai/agent-evidence-vectors/main/assets/badges/stars.svg"></a>
 <a href="https://pepy.tech/projects/agent-evidence-admission"><img height="16" alt="Admission downloads" src="https://img.shields.io/endpoint?url=https%3A%2F%2Fraw.githubusercontent.com%2Fprobityai%2Fagent-evidence-vectors%2Fbadges%2Fdl-pypi-agent-evidence-admission.json&amp;cacheSeconds=3600"></a>
-<a href="https://github.com/probityai/probity"><img height="16" alt="Checked with Probity" src="assets/badges/checked-with-probity.svg"></a>
+<a href="https://github.com/probityai/probity"><img height="16" alt="Checked with Probity" src="https://raw.githubusercontent.com/probityai/agent-evidence-vectors/main/assets/badges/checked-with-probity.svg"></a>
 </p>
 
 Test an agent-evidence verifier against saved records with known outcomes. The corpora cover valid records, altered bytes, missing evidence and open specification interpretations.
 
-![Four-arm demo: an intact archive verifies, a changed byte fails, a missing artifact is not established, and a changed verifier keeps both outcomes](demo/four-arms.gif)
+![Four-arm demo: an intact archive verifies, a changed byte fails, a missing artifact is not established, and a changed verifier keeps both outcomes](https://raw.githubusercontent.com/probityai/agent-evidence-vectors/main/demo/four-arms.gif)
 
-Add it to a project with `uv add agent-evidence-vectors==0.36.3`, or `pip install agent-evidence-vectors==0.36.3`. The `probityai` command checks a claim about an agent run offline against evidence you pinned: `pip install probityai==0.1.1`.
+Add it to a project with `uv add agent-evidence-vectors`, or `pip install agent-evidence-vectors`. The `probityai` command checks a claim about an agent run offline against evidence you pinned: `pip install probityai`.
 
 <a name="run-the-suite-against-your-verifier"></a>
 
@@ -23,10 +23,10 @@ Add it to a project with `uv add agent-evidence-vectors==0.36.3`, or `pip instal
 Run every vector in the default corpus through the bundled reference verifier. You need Python 3.11+ and [uv](https://docs.astral.sh/uv/); there is nothing to clone or build, and a cold run takes about six seconds:
 
 ```bash
-uvx agent-evidence-vectors==0.36.3
+uvx agent-evidence-vectors
 ```
 
-At v0.36.3 the default corpus is suiteRevision 32, and the run prints one row per vector and ends with:
+The run prints one row per vector and ends with a totals line, for example:
 ```text
 totals: 288 vectors, 288 pass, 0 fail; report written to conformance-report.json
 ```
@@ -34,13 +34,13 @@ totals: 288 vectors, 288 pass, 0 fail; report written to conformance-report.json
 Now run the same corpus against a verifier other than the reference. The Go reference verifier installs with Go 1.26+ and Go's executable directory on your `PATH`; put your own command in its place:
 
 ```bash
-go install github.com/probityai/agent-evidence-vectors/cmd/aee-verify@v0.36.3
-uvx agent-evidence-vectors==0.36.3 --verifier "aee-verify -validity-only -json"
+go install github.com/probityai/agent-evidence-vectors/cmd/aee-verify@latest
+uvx agent-evidence-vectors --verifier "aee-verify -validity-only -json"
 ```
 
 Open `conformance-report.json` for the per-vector results. A complete external run has `rail: external`, `verifier.vectorsExecuted` equal to `totals.vectors`, and zero `totals.suiteRefusals`. The report separates conformance from reason-code agreement. `--list-corpora` names the other shipped corpora and `--corpus <name>` selects one.
 
-The release is `v0.36.3` on [GitHub](https://github.com/probityai/agent-evidence-vectors/releases/tag/v0.36.3) and [PyPI](https://pypi.org/project/agent-evidence-vectors/0.36.3/). To run from a reviewed source checkout instead, follow the [source build](docs/guides/source-build.md). [Installation routes and release identity](DISTRIBUTION.md) covers package availability and signature checks.
+The latest release is on [GitHub](https://github.com/probityai/agent-evidence-vectors/releases/latest) and [PyPI](https://pypi.org/project/agent-evidence-vectors/). To run from a reviewed source checkout instead, follow the [source build](https://github.com/probityai/agent-evidence-vectors/blob/main/docs/guides/source-build.md). [Installation routes and release identity](https://github.com/probityai/agent-evidence-vectors/blob/main/DISTRIBUTION.md) covers package availability and signature checks.
 
 <a name="what-a-conformance-claim-must-show"></a>
 <a name="the-verification-pipeline"></a>
@@ -52,22 +52,22 @@ The release is `v0.36.3` on [GitHub](https://github.com/probityai/agent-evidence
 
 ## Test your verifier
 
-The harness calls your executable with a vector-file path. Return a verdict through the exit status and a JSON object on the last line of stdout. The [verifier contract](docs/reference/verifier-contract.md) covers output fields, key policy and comparison rules.
+The harness calls your executable with a vector-file path. Return a verdict through the exit status and a JSON object on the last line of stdout. The [verifier contract](https://github.com/probityai/agent-evidence-vectors/blob/main/docs/reference/verifier-contract.md) covers output fields, key policy and comparison rules.
 
-Use the [GitHub Action](action.yml) to run the same check in your build and retain its report. The [CI guide](docs/guides/runner.md) gives a workflow step and the available inputs.
+Use the [GitHub Action](https://github.com/probityai/agent-evidence-vectors/blob/main/action.yml) to run the same check in your build and retain its report. The [CI guide](https://github.com/probityai/agent-evidence-vectors/blob/main/docs/guides/runner.md) gives a workflow step and the available inputs.
 
 ```yaml
-- uses: probityai/agent-evidence-vectors@v0.36.3
+- uses: probityai/agent-evidence-vectors@v0.38.0
   with:
     verifier: VERIFIER_COMMAND --json
 ```
 
 Replace VERIFIER_COMMAND with your verifier's command.
 
-A runtime that retries tool calls can run the [uncertain-effect scenarios](corpora/vectors-uncertain-effect/README.md): a write that commits and then loses its reply must not run twice.
+A runtime that retries tool calls can run the [uncertain-effect scenarios](https://github.com/probityai/agent-evidence-vectors/blob/main/corpora/vectors-uncertain-effect/README.md): a write that commits and then loses its reply must not run twice.
 
 ```yaml
-- uses: probityai/agent-evidence-vectors@v0.36.3
+- uses: probityai/agent-evidence-vectors@v0.38.0
   with:
     corpus: vectors-uncertain-effect
     runtime: ADAPTER_COMMAND
@@ -75,27 +75,27 @@ A runtime that retries tool calls can run the [uncertain-effect scenarios](corpo
 
 ## Verifiers that pin this corpus
 
-agmi, Rul1an/aee-checker and MoltyCel/moltrust-api run a corpus from this repository in their own CI at a pinned release or commit, and this repository's CI runs agmi's anchored-chain verifier back against `vectors-anchored-chain`. The [verifier table](docs/VERIFIERS.md) gives each one's corpus, pin and CI run.
+agmi, Rul1an/aee-checker and MoltyCel/moltrust-api run a corpus from this repository in their own CI at a pinned release or commit, and this repository's CI runs agmi's anchored-chain verifier back against `vectors-anchored-chain`. The [verifier table](https://github.com/probityai/agent-evidence-vectors/blob/main/docs/VERIFIERS.md) gives each one's corpus, pin and CI run.
 
 ## Choose your next step
 
 | I want to | Read |
 | --- | --- |
 | Start a project with this Action already in CI | [evidence-starter template](https://github.com/new?template_name=evidence-starter&template_owner=probityai) |
-| Pick a format and corpus | [Corpus guide](docs/guides/corpora.md) |
-| Check an AI Act log after the fact | [Log checking guide](docs/guides/cra-ai-act-logs.md) |
-| Verify a record offline | [Offline verification](docs/guides/offline-verify.md) |
-| Implement the verifier interface | [Verifier contract](docs/reference/verifier-contract.md) |
-| Understand what the fixtures test | [Corpus measurements](https://github.com/probityai/agent-evidence-vectors/blob/v0.36.3/docs/research/corpus-measurements.md) |
-| Check release bytes and signatures | [Release verification](docs/reference/release-verification.md) |
-| Report a run or disagreement | [Run reporting](docs/guides/report-run.md) |
-| Check a W3C intake record | [W3C intake checker](docs/reference/w3c-intake.md) |
-| See who runs and uses the corpora | [Independent runs](docs/INDEPENDENT-RUNS.json), [Adopters](docs/ADOPTERS.md) |
+| Pick a format and corpus | [Corpus guide](https://github.com/probityai/agent-evidence-vectors/blob/main/docs/guides/corpora.md) |
+| Check an AI Act log after the fact | [Log checking guide](https://github.com/probityai/agent-evidence-vectors/blob/main/docs/guides/cra-ai-act-logs.md) |
+| Verify a record offline | [Offline verification](https://github.com/probityai/agent-evidence-vectors/blob/main/docs/guides/offline-verify.md) |
+| Implement the verifier interface | [Verifier contract](https://github.com/probityai/agent-evidence-vectors/blob/main/docs/reference/verifier-contract.md) |
+| Understand what the fixtures test | [Corpus measurements](https://github.com/probityai/agent-evidence-vectors/blob/main/docs/research/corpus-measurements.md) |
+| Check release bytes and signatures | [Release verification](https://github.com/probityai/agent-evidence-vectors/blob/main/docs/reference/release-verification.md) |
+| Report a run or disagreement | [Run reporting](https://github.com/probityai/agent-evidence-vectors/blob/main/docs/guides/report-run.md) |
+| Check a W3C intake record | [W3C intake checker](https://github.com/probityai/agent-evidence-vectors/blob/main/docs/reference/w3c-intake.md) |
+| See who runs and uses the corpora | [Independent runs](https://github.com/probityai/agent-evidence-vectors/blob/main/docs/INDEPENDENT-RUNS.json), [Adopters](https://github.com/probityai/agent-evidence-vectors/blob/main/docs/ADOPTERS.md) |
 
 <a name="what-the-suite-judges"></a>
 <a name="one-harness-judges-every-corpus-here"></a>
 
-Each corpus manifest records its source revision, digest and expected outcomes. [DISTRIBUTION.md](DISTRIBUTION.md) lists the shipped corpora and installation routes.
+Each corpus manifest records its source revision, digest and expected outcomes. [DISTRIBUTION.md](https://github.com/probityai/agent-evidence-vectors/blob/main/DISTRIBUTION.md) lists the shipped corpora and installation routes.
 
 <a name="conformance-vectors"></a>
 <a name="what-the-corpus-forces-as-a-measured-number"></a>
@@ -109,20 +109,20 @@ Each corpus manifest records its source revision, digest and expected outcomes. 
 <a name="layout"></a>
 <a name="the-go-witness-attestor-witnessattestor"></a>
 
-Source maps: [layout](docs/reference/layout.md), [readers](docs/reference/corpus-readers.md), [attestor](docs/reference/witness-attestor.md).
+Source maps: [layout](https://github.com/probityai/agent-evidence-vectors/blob/main/docs/reference/layout.md), [readers](https://github.com/probityai/agent-evidence-vectors/blob/main/docs/reference/corpus-readers.md), [attestor](https://github.com/probityai/agent-evidence-vectors/blob/main/docs/reference/witness-attestor.md).
 
 ## Packages
 
 | package | registry | version | downloads |
 | --- | --- | :---: | :---: |
-| [agent-evidence-vectors](https://pypi.org/project/agent-evidence-vectors/) | PyPI | **0.36.3** | <a href="https://pepy.tech/projects/agent-evidence-vectors"><img alt="agent-evidence-vectors downloads" src="https://img.shields.io/endpoint?url=https%3A%2F%2Fraw.githubusercontent.com%2Fprobityai%2Fagent-evidence-vectors%2Fbadges%2Fdl-pypi-agent-evidence-vectors.json&amp;cacheSeconds=3600"></a> |
-| [agent-evidence-vocabulary](packages/vocabulary/README.md) | PyPI | **0.9.0** | <a href="https://pepy.tech/projects/agent-evidence-vocabulary"><img alt="agent-evidence-vocabulary downloads" src="https://img.shields.io/endpoint?url=https%3A%2F%2Fraw.githubusercontent.com%2Fprobityai%2Fagent-evidence-vectors%2Fbadges%2Fdl-pypi-agent-evidence-vocabulary.json&amp;cacheSeconds=3600"></a> |
-| [agent-evidence-admission](packages/admission/README.md) | PyPI | **0.2.0** | <a href="https://pepy.tech/projects/agent-evidence-admission"><img alt="agent-evidence-admission downloads" src="https://img.shields.io/endpoint?url=https%3A%2F%2Fraw.githubusercontent.com%2Fprobityai%2Fagent-evidence-vectors%2Fbadges%2Fdl-pypi-agent-evidence-admission.json&amp;cacheSeconds=3600"></a> |
-| [jcs-admit](crates/jcs-admit/README.md) | PyPI | **0.1.1** | <a href="https://pepy.tech/projects/jcs-admit"><img alt="jcs-admit downloads" src="https://img.shields.io/endpoint?url=https%3A%2F%2Fraw.githubusercontent.com%2Fprobityai%2Fagent-evidence-vectors%2Fbadges%2Fdl-pypi-jcs-admit.json&amp;cacheSeconds=3600"></a> |
-| jcs-admit | npm | **0.1.1** | - |
-| jcs-admit | crates.io | **0.1.3** | <a href="https://crates.io/crates/jcs-admit"><img alt="jcs-admit downloads" src="https://img.shields.io/endpoint?url=https%3A%2F%2Fraw.githubusercontent.com%2Fprobityai%2Fagent-evidence-vectors%2Fbadges%2Fdl-crates-jcs-admit.json&amp;cacheSeconds=3600"></a> |
-| [dsse](crates/dsse/README.md) | crates.io | **0.1.6** | <a href="https://crates.io/crates/dsse"><img alt="dsse downloads" src="https://img.shields.io/endpoint?url=https%3A%2F%2Fraw.githubusercontent.com%2Fprobityai%2Fagent-evidence-vectors%2Fbadges%2Fdl-crates-dsse.json&amp;cacheSeconds=3600"></a> |
-| @probityai/dsse | npm | **0.1.0** | - |
+| [agent-evidence-vectors](https://pypi.org/project/agent-evidence-vectors/) | PyPI | <img alt="agent-evidence-vectors PyPI version" src="https://img.shields.io/pypi/v/agent-evidence-vectors?label="> | <a href="https://pepy.tech/projects/agent-evidence-vectors"><img alt="agent-evidence-vectors downloads" src="https://img.shields.io/endpoint?url=https%3A%2F%2Fraw.githubusercontent.com%2Fprobityai%2Fagent-evidence-vectors%2Fbadges%2Fdl-pypi-agent-evidence-vectors.json&amp;cacheSeconds=3600"></a> |
+| [agent-evidence-vocabulary](https://github.com/probityai/agent-evidence-vectors/blob/main/packages/vocabulary/README.md) | PyPI | <img alt="agent-evidence-vocabulary PyPI version" src="https://img.shields.io/pypi/v/agent-evidence-vocabulary?label="> | <a href="https://pepy.tech/projects/agent-evidence-vocabulary"><img alt="agent-evidence-vocabulary downloads" src="https://img.shields.io/endpoint?url=https%3A%2F%2Fraw.githubusercontent.com%2Fprobityai%2Fagent-evidence-vectors%2Fbadges%2Fdl-pypi-agent-evidence-vocabulary.json&amp;cacheSeconds=3600"></a> |
+| [agent-evidence-admission](https://github.com/probityai/agent-evidence-vectors/blob/main/packages/admission/README.md) | PyPI | <img alt="agent-evidence-admission PyPI version" src="https://img.shields.io/pypi/v/agent-evidence-admission?label="> | <a href="https://pepy.tech/projects/agent-evidence-admission"><img alt="agent-evidence-admission downloads" src="https://img.shields.io/endpoint?url=https%3A%2F%2Fraw.githubusercontent.com%2Fprobityai%2Fagent-evidence-vectors%2Fbadges%2Fdl-pypi-agent-evidence-admission.json&amp;cacheSeconds=3600"></a> |
+| [jcs-admit](https://github.com/probityai/agent-evidence-vectors/blob/main/crates/jcs-admit/README.md) | PyPI | <img alt="jcs-admit PyPI version" src="https://img.shields.io/pypi/v/jcs-admit?label="> | <a href="https://pepy.tech/projects/jcs-admit"><img alt="jcs-admit downloads" src="https://img.shields.io/endpoint?url=https%3A%2F%2Fraw.githubusercontent.com%2Fprobityai%2Fagent-evidence-vectors%2Fbadges%2Fdl-pypi-jcs-admit.json&amp;cacheSeconds=3600"></a> |
+| jcs-admit | npm | <img alt="jcs-admit npm version" src="https://img.shields.io/npm/v/jcs-admit?label="> | - |
+| jcs-admit | crates.io | <img alt="jcs-admit crates.io version" src="https://img.shields.io/crates/v/jcs-admit?label="> | <a href="https://crates.io/crates/jcs-admit"><img alt="jcs-admit downloads" src="https://img.shields.io/endpoint?url=https%3A%2F%2Fraw.githubusercontent.com%2Fprobityai%2Fagent-evidence-vectors%2Fbadges%2Fdl-crates-jcs-admit.json&amp;cacheSeconds=3600"></a> |
+| [dsse](https://github.com/probityai/agent-evidence-vectors/blob/main/crates/dsse/README.md) | crates.io | <img alt="dsse crates.io version" src="https://img.shields.io/crates/v/dsse?label="> | <a href="https://crates.io/crates/dsse"><img alt="dsse downloads" src="https://img.shields.io/endpoint?url=https%3A%2F%2Fraw.githubusercontent.com%2Fprobityai%2Fagent-evidence-vectors%2Fbadges%2Fdl-crates-dsse.json&amp;cacheSeconds=3600"></a> |
+| @probityai/dsse | npm | <img alt="@probityai/dsse npm version" src="https://img.shields.io/npm/v/%40probityai%2Fdsse?label="> | - |
 
 <a name="how-this-suite-is-maintained"></a>
 <a name="arriving-from-somewhere-else"></a>
@@ -130,8 +130,8 @@ Source maps: [layout](docs/reference/layout.md), [readers](docs/reference/corpus
 
 ## Contribute
 
-[Open an issue](https://github.com/probityai/agent-evidence-vectors/issues/new) with the corpus revision, verifier build and report. For patches, start with [CONTRIBUTING.md](CONTRIBUTING.md). For citations, use the [citation guide](docs/reference/citing.md).
+[Open an issue](https://github.com/probityai/agent-evidence-vectors/issues/new) with the corpus revision, verifier build and report. For patches, start with [CONTRIBUTING.md](https://github.com/probityai/agent-evidence-vectors/blob/main/CONTRIBUTING.md). For citations, use the [citation guide](https://github.com/probityai/agent-evidence-vectors/blob/main/docs/reference/citing.md).
 
 Need to check a supplied claim against saved evidence? See [Probity Verify](https://github.com/probityai/probity). Browse the [Probity projects](https://github.com/probityai) for records, vocabulary and admission tools.
 
-Apache-2.0. [LICENSE](LICENSE).
+Apache-2.0. [LICENSE](https://github.com/probityai/agent-evidence-vectors/blob/main/LICENSE).

@@ -16,7 +16,7 @@ The cases follow the wording proposed for OWASP AIT Pillar 2, section 5.1, level
 | Remove the principal's authority to delegate X, request at the deadline: denied | `entitlement-removed-at-deadline` (`delegation_right_removed`) |
 | An otherwise valid request for an operation that remains in scope: authorized | `allow-ancestor-narrowed-other-operation` (`entitled`) |
 
-A removal still inside the propagation limit is allowed (`allow-ancestor-narrowed-within-limit`).
+A removal still inside the propagation limit is allowed with reason `within_propagation_limit` (`allow-entitlement-ended-within-limit`, `allow-ancestor-narrowed-within-limit`). The limit is a tolerance for cached state, not an entitlement: the allow says the removal had not yet reached enforcement, never that the delegator was still entitled.
 
 ## The checks, in the order a verifier applies them
 
@@ -32,7 +32,7 @@ The verifier names the first check that fails.
 | no such entitlement ended at least `propagationLimitSeconds` before the decision | `delegation_right_removed` |
 | no grant on the chain had the requested operation removed at the source at least `propagationLimitSeconds` before the decision | `ancestor_scope_removed` |
 
-A record that passes every check is `allow` with reason `entitled`. A request made before `effective + limit` may still use cached state, and a request made at or after it must be refused.
+A record that passes every check is `allow`: with reason `within_propagation_limit` when an entitlement or a grant scope was removed at its source at or before the decision but not yet `propagationLimitSeconds` earlier, and with reason `entitled` otherwise. A request made before `effective + limit` may still use cached state, and a request made at or after it must be refused.
 
 ## Running
 

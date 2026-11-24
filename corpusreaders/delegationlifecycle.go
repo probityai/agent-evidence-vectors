@@ -3,7 +3,6 @@ package corpusreaders
 import (
 	"crypto/ed25519"
 	"encoding/base64"
-	"encoding/json"
 	"fmt"
 	"path/filepath"
 	"time"
@@ -42,7 +41,10 @@ func init() { register(delegationLifecycle{}) }
 //     standing, whose effective_at is at or before observed_at
 //     (revocation_incomplete when it states no grounds,
 //     grant_revoked_dispute_open while an affected principal's dispute has no
-//     resolution with standing, grant_revoked otherwise);
+//     resolution with standing, grant_revoked_retroactively when the revocation
+//     was issued after observed_at and states an earlier effective_at, so the
+//     refusal is containment and not proof the grant was revoked when presented,
+//     grant_revoked otherwise);
 //  7. every recovery record that names the presenter as its new identifier is
 //     signed by the registry and the Responsible entity
 //     (signature_invalid:recovery), and the registry registered both identifiers
@@ -138,7 +140,7 @@ var dlRules = []string{
 
 func (delegationLifecycle) Judge(dir string, raw []byte) (*Result, error) {
 	var manifest scManifest
-	if err := json.Unmarshal(raw, &manifest); err != nil {
+	if err := strictUnmarshal(raw, &manifest); err != nil {
 		return nil, fmt.Errorf("%s/MANIFEST.json does not parse: %w", dir, err)
 	}
 	result := &Result{}
@@ -146,7 +148,7 @@ func (delegationLifecycle) Judge(dir string, raw []byte) (*Result, error) {
 	var vectors []dlVector
 	for _, entry := range manifest.Vectors {
 		var v dlVector
-		if err := json.Unmarshal(entry, &v); err != nil {
+		if err := strictUnmarshal(entry, &v); err != nil {
 			result.Findings = append(result.Findings, fmt.Sprintf("a manifest row does not parse: %v", err))
 			continue
 		}
@@ -225,7 +227,7 @@ func (s *dlState) parse(caseDir, name string) (*dlRecord, bool) {
 		return nil, false
 	}
 	var fields map[string]any
-	if json.Unmarshal(body, &fields) != nil || fields == nil {
+	if strictUnmarshal(body, &fields) != nil || fields == nil {
 		return nil, false
 	}
 	r := &dlRecord{fields: fields, payload: body, sigs: sigs, times: map[string]time.Time{}}
@@ -250,7 +252,7 @@ func (s *dlState) parse(caseDir, name string) (*dlRecord, bool) {
 }
 
 func dlPublicKey(k dlKey) (ed25519.PublicKey, bool) {
-	raw, err := base64.StdEncoding.DecodeString(k.PublicKey)
+	raw, err := decodeCanonical(base64.StdEncoding, k.PublicKey)
 	if err != nil || len(raw) != ed25519.PublicKeySize || sha(raw) != k.KeyID {
 		return nil, false
 	}
@@ -816,6 +818,9 @@ func (s *dlState) refusal(r *dlRecord, standing, affected map[string]bool, obser
 	}
 	if !s.off("dispute") && s.disputeOpen(r.str("revocation_id"), standing, affected, observed) {
 		return "grant_revoked_dispute_open"
+	}
+	if r.times["issued_at"].After(observed) {
+		return "grant_revoked_retroactively"
 	}
 	return "grant_revoked"
 }

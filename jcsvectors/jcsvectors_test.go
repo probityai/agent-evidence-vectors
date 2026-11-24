@@ -1,7 +1,10 @@
 package jcsvectors
 
 import (
+	"bytes"
+	"encoding/hex"
 	"encoding/json"
+	"io/fs"
 	"strings"
 	"testing"
 )
@@ -33,8 +36,9 @@ func TestRejectCasesCarryNoCanonicalBytes(t *testing.T) {
 		t.Fatal("no reject vectors")
 	}
 	for _, v := range vectors {
-		if v.Canonical != nil || len(v.Input) == 0 {
-			t.Errorf("%s/%s: a reject case needs an input and no canonical bytes", v.Corpus, v.ID)
+		// The empty input is itself a refusal case, so the input may be empty.
+		if v.Canonical != nil {
+			t.Errorf("%s/%s: a reject case carries no canonical bytes", v.Corpus, v.ID)
 		}
 	}
 }
@@ -183,4 +187,116 @@ func nesting(text []byte) int {
 		}
 	}
 	return deepest
+}
+
+func byteCasesRaw(t *testing.T) map[string]json.RawMessage {
+	t.Helper()
+	raw, err := readFile(byteCorpus + "/cases.json")
+	if err != nil {
+		t.Fatal(err)
+	}
+	var cases map[string]json.RawMessage
+	if err := json.Unmarshal(raw, &cases); err != nil {
+		t.Fatal(err)
+	}
+	return cases
+}
+
+// TestRejectCarriesEveryRefusalCase: version 0.1.0 returned none of the 23
+// refusal cases, so a canonicalizer that accepted an escaped duplicate name,
+// invalid UTF-8 or trailing content passed every test the module offered.
+func TestRejectCarriesEveryRefusalCase(t *testing.T) {
+	reject, err := Reject()
+	if err != nil {
+		t.Fatal(err)
+	}
+	byID := map[string][]byte{}
+	for _, v := range reject {
+		if v.Corpus == byteCorpus {
+			byID[v.ID] = v.Input
+		}
+	}
+	var refusals []struct {
+		ID       string  `json:"id"`
+		Input    *string `json:"input"`
+		InputHex *string `json:"inputHex"`
+	}
+	if err := json.Unmarshal(byteCasesRaw(t)["refusalCases"], &refusals); err != nil {
+		t.Fatal(err)
+	}
+	if len(refusals) == 0 {
+		t.Fatal("no refusal cases")
+	}
+	for _, r := range refusals {
+		var want []byte
+		switch {
+		case r.InputHex != nil:
+			decoded, err := hex.DecodeString(*r.InputHex)
+			if err != nil {
+				t.Fatalf("%s: inputHex: %v", r.ID, err)
+			}
+			want = decoded
+		case r.Input != nil:
+			want = []byte(*r.Input)
+		default:
+			t.Fatalf("%s: no input", r.ID)
+		}
+		got, ok := byID[r.ID]
+		if !ok {
+			t.Errorf("%s: refusal case missing from Reject()", r.ID)
+		} else if !bytes.Equal(got, want) {
+			t.Errorf("%s: input bytes differ", r.ID)
+		}
+	}
+	for _, id := range []string{
+		"refuse-duplicate-member-escaped-spelling",
+		"refuse-unicode-invalid-utf8-byte",
+		"refuse-unicode-surrogate-encoded-in-utf8",
+		"refuse-trailing-second-value",
+		"refuse-trailing-garbage",
+		"refuse-non-finite-overflow-positive",
+		"refuse-non-finite-overflow-negative",
+		"refuse-non-finite-overflow-large-mantissa",
+	} {
+		if _, ok := byID[id]; !ok {
+			t.Errorf("%s: a lenient canonicalizer's counter-example is not in Reject()", id)
+		}
+	}
+}
+
+// TestEveryByteCorpusFamilyIsRead: a family added to cases.json fails this
+// test until the module reads it, rather than being dropped silently.
+func TestEveryByteCorpusFamilyIsRead(t *testing.T) {
+	read := map[string]bool{
+		"format": true, "canonicalCases": true, "rejectCases": true,
+		"driftCases": true, "depthCases": true, "refusalCases": true,
+		"invalidInputCases": true, "noncharacterCases": true,
+		// Field-digest preimages are not canonicalizer cases.
+		"preimageCases": true,
+	}
+	for key := range byteCasesRaw(t) {
+		if !read[key] {
+			t.Errorf("cases.json family %s is not read by this module", key)
+		}
+	}
+}
+
+// TestEveryEmbeddedFileHasItsDigest: every file under FS is in the generated
+// digest table and hashes to it.
+func TestEveryEmbeddedFileHasItsDigest(t *testing.T) {
+	n := 0
+	err := fs.WalkDir(FS, ".", func(path string, d fs.DirEntry, err error) error {
+		if err != nil || d.IsDir() {
+			return err
+		}
+		n++
+		_, err = readFile(path)
+		return err
+	})
+	if err != nil {
+		t.Fatal(err)
+	}
+	if n != len(fileDigests) {
+		t.Fatalf("%d embedded files, %d recorded digests", n, len(fileDigests))
+	}
 }

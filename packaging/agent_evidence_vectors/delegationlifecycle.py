@@ -30,7 +30,10 @@ The reader names the first check that fails, in this order:
    standing, whose ``effective_at`` is at or before ``observed_at``
    (``revocation_incomplete`` when it states no grounds,
    ``grant_revoked_dispute_open`` while an affected principal's dispute has no
-   resolution with standing, ``grant_revoked`` otherwise);
+   resolution with standing, ``grant_revoked_retroactively`` when the revocation
+   was issued after ``observed_at`` and states an earlier ``effective_at``, so the
+   refusal is containment and not proof the grant was revoked when presented,
+   ``grant_revoked`` otherwise);
 7. every recovery record that names the presenter as its new identifier is
    signed by the registry and the Responsible entity
    (``signature_invalid:recovery``), and the registry registered both
@@ -61,7 +64,6 @@ Ed25519 is the reference rail's own, borrowed at call time.
 from __future__ import annotations
 
 import argparse
-import base64
 import binascii
 import hashlib
 import importlib
@@ -73,6 +75,8 @@ from dataclasses import dataclass, field
 from functools import lru_cache
 from pathlib import Path
 from typing import Any
+
+from . import strictb64, strictjson
 
 SUITE = "delegation-lifecycle/v1"
 ACCEPT, REJECT, NO_VERDICT = "accept", "reject", "no_verdict"
@@ -170,7 +174,7 @@ def _b64(value: Any) -> bytes | None:
     if not isinstance(value, str):
         return None
     try:
-        return base64.b64decode(value, validate=True)
+        return strictb64.std(value)
     except (binascii.Error, ValueError):
         return None
 
@@ -185,8 +189,16 @@ def _reject_constant(token: str) -> Any:
 
 
 def _loads(raw: bytes) -> Any:
-    """Parse JSON as Go does: invalid UTF-8 is replaced, NaN and Infinity are refused."""
-    return json.loads(raw.decode("utf-8", errors="replace"), parse_constant=_reject_constant)
+    """Parse JSON as Go does: invalid UTF-8 is replaced, NaN and Infinity are refused.
+
+    A repeated member is refused too, where Go keeps the last: the Go reader refuses it
+    before decoding, so the two readers never judge different members of one record.
+    """
+    return json.loads(
+        raw.decode("utf-8", errors="replace"),
+        object_pairs_hook=strictjson.refuse_repeated,
+        parse_constant=_reject_constant,
+    )
 
 
 # ---------------------------------------------------------------------------
@@ -621,6 +633,8 @@ class _State:
         if not self.off("dispute") and self.dispute_open(
                 r.text("revocation_id"), standing, affected, observed):
             return "grant_revoked_dispute_open"
+        if r.times["issued_at"] > observed:
+            return "grant_revoked_retroactively"
         return "grant_revoked"
 
     def dispute_open(self, revocation_id: str, standing: set[str], affected: set[str],

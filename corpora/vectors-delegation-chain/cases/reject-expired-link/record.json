@@ -1,0 +1,228 @@
+{
+  "at": "2026-11-22T00:00:00+00:00",
+  "chain": [
+    {
+      "body": {
+        "budget": {
+          "uses": 8
+        },
+        "context": {
+          "audience": {
+            "type": "one_of",
+            "values": [
+              "a",
+              "b",
+              "c",
+              "d"
+            ]
+          }
+        },
+        "expiresAt": "2026-11-22T00:00:00+00:00",
+        "grantId": "g0",
+        "holderKey": "HIilsspn8m/tIM1Or90Ecqbd8NNmEwyQpofdeq4kigY=",
+        "issuerKey": "KrwpgmJfMbv2evqyB5LbXNYza0meWM+VyUsbcCL81tA=",
+        "maxDepth": 3,
+        "notBefore": "2026-11-20T23:00:00+00:00",
+        "parent": null,
+        "tools": {
+          "deploy": {
+            "args": {
+              "region": {
+                "type": "one_of",
+                "values": [
+                  "eu",
+                  "us",
+                  "ap"
+                ]
+              }
+            }
+          },
+          "read": {
+            "args": {
+              "region": {
+                "type": "one_of",
+                "values": [
+                  "eu",
+                  "us",
+                  "ap"
+                ]
+              }
+            }
+          },
+          "search": {
+            "args": {
+              "region": {
+                "type": "one_of",
+                "values": [
+                  "eu",
+                  "us",
+                  "ap"
+                ]
+              }
+            }
+          },
+          "write": {
+            "args": {
+              "region": {
+                "type": "one_of",
+                "values": [
+                  "eu",
+                  "us",
+                  "ap"
+                ]
+              }
+            }
+          }
+        }
+      },
+      "sig": "mFcZ2dGQjwTqAFW9gWQBs2e0TSBlRLQUcUmRsqsI4+GWwnzESyCX0teMIyDcgsF7zpigvUgWZDy8XPswPJn6Ag=="
+    },
+    {
+      "body": {
+        "budget": {
+          "uses": 7
+        },
+        "context": {
+          "audience": {
+            "type": "one_of",
+            "values": [
+              "b",
+              "c",
+              "d"
+            ]
+          }
+        },
+        "expiresAt": "2026-11-21T22:00:00+00:00",
+        "grantId": "g1",
+        "holderKey": "67kqJ3uBN+DOSn/hmXvYvcVwrYi9tmuVSHuyTAL6m4k=",
+        "issuerKey": "HIilsspn8m/tIM1Or90Ecqbd8NNmEwyQpofdeq4kigY=",
+        "maxDepth": 2,
+        "notBefore": "2026-11-20T23:00:00+00:00",
+        "parent": "e61fdb117a0fd65ff1f97ed7845562059dea399f699b1f193c286a0dfafd90b8",
+        "tools": {
+          "read": {
+            "args": {
+              "region": {
+                "type": "one_of",
+                "values": [
+                  "eu",
+                  "us"
+                ]
+              }
+            }
+          },
+          "search": {
+            "args": {
+              "region": {
+                "type": "one_of",
+                "values": [
+                  "eu",
+                  "us"
+                ]
+              }
+            }
+          },
+          "write": {
+            "args": {
+              "region": {
+                "type": "one_of",
+                "values": [
+                  "eu",
+                  "us"
+                ]
+              }
+            }
+          }
+        }
+      },
+      "sig": "Ug/YGfZomri5oX3JQCfwe3wlmVBfVGF/aQHqbAyDn8y/gvDUK14zzIdQudkJXbHHN/AysfukkocmMX9+8ZB7Ag=="
+    },
+    {
+      "body": {
+        "budget": {
+          "uses": 6
+        },
+        "context": {
+          "audience": {
+            "type": "one_of",
+            "values": [
+              "c",
+              "d"
+            ]
+          }
+        },
+        "expiresAt": "2026-11-21T20:00:00+00:00",
+        "grantId": "g2",
+        "holderKey": "atHQbUHB//rXsFU5JH9f69+LpiwDyPcgHnKkTORsIZc=",
+        "issuerKey": "67kqJ3uBN+DOSn/hmXvYvcVwrYi9tmuVSHuyTAL6m4k=",
+        "maxDepth": 1,
+        "notBefore": "2026-11-20T23:00:00+00:00",
+        "parent": "2a8b7ca8bb41e506d1f597ec5613636a0f7829b9a37a696e4425c0673a90d407",
+        "tools": {
+          "read": {
+            "args": {
+              "region": {
+                "type": "one_of",
+                "values": [
+                  "eu"
+                ]
+              }
+            }
+          },
+          "search": {
+            "args": {
+              "region": {
+                "type": "one_of",
+                "values": [
+                  "eu"
+                ]
+              }
+            }
+          }
+        }
+      },
+      "sig": "g7D7KXZttUFg3XYqc5gnleiJwGDA1ZP4LAvto7YHiMxFuv47u0zGteDXwXjbU/jW/L2JkuDBcgEr7ADHjFikAQ=="
+    },
+    {
+      "body": {
+        "budget": {
+          "uses": 5
+        },
+        "context": {
+          "audience": {
+            "type": "one_of",
+            "values": [
+              "d"
+            ]
+          }
+        },
+        "expiresAt": "2026-11-21T18:00:00+00:00",
+        "grantId": "g3",
+        "holderKey": "PzwIg2thjg06/nAfo8YyxAB0rpSmCVFOlhBKVf/A0Ec=",
+        "issuerKey": "atHQbUHB//rXsFU5JH9f69+LpiwDyPcgHnKkTORsIZc=",
+        "maxDepth": 0,
+        "notBefore": "2026-11-20T23:00:00+00:00",
+        "parent": "065a672d77e5ba90e78a5cf1699747d8b91cd89c991bc7ce1fbd051c8f163c91",
+        "tools": {
+          "search": {
+            "args": {
+              "region": {
+                "type": "one_of",
+                "values": [
+                  "eu"
+                ]
+              }
+            }
+          }
+        }
+      },
+      "sig": "NjZ8Y/ai1Q2oWLBSbK1WB2q8HqVCZugGPu6WOHz+TrNz+qSHB3SaGqYdef/rFgOVzJ6wALGWt6PegfdsAYEVCA=="
+    }
+  ],
+  "contractId": "https://probityai.github.io/agent-evidence-vectors/contract/delegation-chain/v1",
+  "receiver": "d",
+  "revoked": [],
+  "rootKeyIds": [
+    "3cdbc8ce211d45a926ea96d3bf15dcdd3692500b68725bc03dd3566d4c1b398b"
+  ]
+}

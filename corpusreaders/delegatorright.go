@@ -1,7 +1,6 @@
 package corpusreaders
 
 import (
-	"encoding/json"
 	"fmt"
 	"math"
 	"path/filepath"
@@ -44,13 +43,13 @@ type drVector struct {
 
 func (delegatorRight) Judge(dir string, raw []byte) (*Result, error) {
 	var manifest scManifest
-	if err := json.Unmarshal(raw, &manifest); err != nil {
+	if err := strictUnmarshal(raw, &manifest); err != nil {
 		return nil, fmt.Errorf("%s/MANIFEST.json does not parse: %w", dir, err)
 	}
 	result := &Result{}
 	for _, entry := range manifest.Vectors {
 		var v drVector
-		if err := json.Unmarshal(entry, &v); err != nil {
+		if err := strictUnmarshal(entry, &v); err != nil {
 			result.Findings = append(result.Findings, fmt.Sprintf("a manifest row does not parse: %v", err))
 			continue
 		}
@@ -132,6 +131,9 @@ func drDecide(record map[string]any) scDecision {
 		if check.fails {
 			return scDecision{"deny", check.reason}
 		}
+	}
+	if drWithinLimit(p) {
+		return scDecision{"allow", "within_propagation_limit"}
 	}
 	return scDecision{"allow", "entitled"}
 }
@@ -339,6 +341,30 @@ func drScopeRemoved(p drParsed) bool {
 	for _, hop := range p.chain {
 		for _, n := range hop.narrowings {
 			if n.operation == p.operation && drReached(p, n.at) {
+				return true
+			}
+		}
+	}
+	return false
+}
+
+// drPending reports a removal already effective at the source that the
+// propagation limit has not yet carried to enforcement.
+func drPending(p drParsed, effective time.Time) bool {
+	return !effective.After(p.decided) && !drReached(p, effective)
+}
+
+// drWithinLimit reports an allow that rests on such a removal: the limit is a
+// tolerance for cached state, not an entitlement.
+func drWithinLimit(p drParsed) bool {
+	for _, hop := range drDelegating(p) {
+		if right := drEntitlement(p, hop); right != nil && right.until != nil && drPending(p, *right.until) {
+			return true
+		}
+	}
+	for _, hop := range p.chain {
+		for _, n := range hop.narrowings {
+			if n.operation == p.operation && drPending(p, n.at) {
 				return true
 			}
 		}

@@ -769,9 +769,10 @@ R_CASCADE = ("A presented chain fails when any grant in it is revoked, so a revo
              "off every grant beneath the revoked one and nothing beside or above it.")
 R_STANDING = ("Only the issuer of the revoked grant, or an issuer above it in the presented "
               "chain, has standing to revoke it; a revocation signed by anyone else is ignored.")
-R_BACKDATED = ("Proposed: a revocation applies from its stated effective_at even when it was "
-               "issued later, as an X.509 invalidity date does; this favours containment over "
-               "a relying party's reliance on the earlier state.")
+R_BACKDATED = ("Proposed: a revocation binds from when it is issued. A presentation observed "
+               "before that is still refused, as containment, as an X.509 invalidity date "
+               "is; the reason says the revocation was retroactive, so the refusal is never "
+               "read as proof the grant was revoked when it was presented.")
 R_INCOMPLETE = ("Proposed: a revocation from a principal with standing that states no grounds "
                 "still stops the authority, and the reason names the missing record field.")
 R_DISPUTE = ("Proposed: a dispute filed by an affected principal, including one cut off by the "
@@ -928,7 +929,7 @@ CASES: tuple[Spec, ...] = (
          "authority_valid",
          "The planner revokes the worker's grant and the planner presents its own grant.",
          R_CASCADE),
-    Spec("tree-revocation-backdated", TREE, t_backdated, REJECT, "grant_revoked",
+    Spec("tree-revocation-backdated", TREE, t_backdated, REJECT, "grant_revoked_retroactively",
          "A revocation issued at 14:00 states it took effect at 10:00, and the presentation "
          "was observed at 13:00.", R_BACKDATED, "tree-child-presented-before-revocation"),
     Spec("tree-revocation-without-standing", TREE, t_without_standing, ACCEPT, "authority_valid",

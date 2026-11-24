@@ -6,6 +6,8 @@ The expected decision and reason for every case are in `MANIFEST.json`; `INDEX.m
 
 The record binds four things: the mandate the user signed (an AP2 cart or intent mandate, a Mastercard Verifiable Intent credential or a Stripe Shared Payment Token, each named by concept), the credential the agent presented, the charge that ran, and the receipt that ties them. The reader verifies three Ed25519 signatures: the issuer's over the mandate and the settlement witness's over the receipt, each against keys the relying party pins in `policy.json`, and the mandated agent's over the charge, against the agent key the issuer-signed terms name. Every limit a holder could loosen is in the signed terms (single use, rails, issue and expiry times, the agent, the required post-checkout actions); unsigned fields may add to a limit and never relax it. A record that could be read two ways (a duplicate member, an amount that is not a positive integer, a timestamp without a zone) is refused before anything else. A pack (`agent-payment-mandate-pack/v1`) holds several records and is refused when one single-use mandate or token settled in two of them, which is how a payment replayed across rails shows.
 
+The x402 cases map the same four onto an x402 `exact` payment on EVM: the issuer-signed mandate names the wallet the agent may pay from (`terms.agent.address`) and the network, token, payee, ceiling, issue and expiry times it may pay within; the credential is the facilitator request (`paymentPayload` and `paymentRequirements`, x402 v2 field names) with the wallet's EIP-3009 `TransferWithAuthorization` signature; the execution is the ledger read of the transfer and the nonce the token contract consumed; the receipt is the facilitator's `SettlementResponse`, signed by the settlement witness like every other receipt. The signatures are real secp256k1 signatures from deterministic test-only keys. That signature is the agent's proof: the reader recomputes the EIP-712 digest under the requirement's token domain and recovers the signer from the signature; it never reads a field that names the signer. The x402 text read is [x402-foundation/x402 at e35bf884](https://github.com/x402-foundation/x402/tree/e35bf8846f3e40f584f7235ea96c0841cb597b27/specs).
+
 For: payment service providers, acquirers and agent-wallet vendors that need to hand an issuer or arbitrator a replayable record of an agent's purchase.
 
 [![Checked with Probity](https://img.shields.io/badge/checked-with_Probity-blue?style=flat-square&logo=data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAMAAABEpIrGAAAAkFBMVEX8%2B%2Bzr5NPgyrfKyLnSq5Wzo4tWltqRkZI2kPU1kvk1j%2FMwkPgzjfI2jO80jO40jO3MdWOZc1SLblN1aFxxXFJzVDY2i%2B40i%2B00i%2Bw0i%2Bs0ius1iOZAapwugNYtdbUqaq0qV4tkRzJXOB47Oz43JRkjNEYiHBwlFxIfFxMcEg0XEQ0WEAwXDAUWCAEOCQcJAgCa503RAAAB3klEQVR42rWT2ZacIBCGceHYoN240SK2Crig4vL%2BbxfszJyZTmaSm6S4rI9a%2FwK3vxj41wDj5E9AwS%2Foxjn7DmARqgVHCBHyJcBxJeZtEG2Nv4hAGEPXYVumddvWAbFfgJJECDfDukxa63ldmw%2FiCTCEK%2BteFzNbQI%2BbQPwzwKJGjNO2LMacxNqK1wgcNfO2mqfbHMs8NEkeXT8AjurRTKfbMlqOa5vFyc8cZclu4PSvWptlPlOMeb4PsQu78MoYQWFIwKUet0nPZl%2FMki1H3x%2FKd1PVhhdkS2tDgM7m9bR3XX8EXtYde59SSVVXNx2NMwuIbbGl74HUu%2BcFXrArSpXqlVSpGz8sUG%2FjoCej1RHA6ZAgl1SmUvVUQjduEGDIdt0MxuwjCHYNAZSwT1IbhaZ%2BFt7BrUAXbguxnx3gZ9AJVJLal0hKaYv4OShGbu249Z4F4jhQ1PcpTUYLDBF5WxZB9dBB14O%2Bm6eu48QQpjBXIizf113iS9sF0LYxZMD1PODbVvtznu96sGOrWyFEiwQEwHNcC8gaF58UxfG1qiqMqzx2AACJ0i0qXyRXEIwjwnD1SBOYdKJ%2B7vxF1eRUaxGF9ePRVgiX3xxOccdhiK5v6v%2Fysgp2Z%2BR%2F3ebv9gP5RU8tSdZhDwAAAABJRU5ErkJggg%3D%3D)](https://github.com/probityai/probity)
@@ -18,7 +20,7 @@ pip install agent-evidence-vectors
 python vectors-agent-payment-mandate/check_vectors.py
 ```
 
-The command prints `answered N of N cases`. To judge the cases with your own verifier, name it: `check_vectors.py --verifier "/path/to/verifier"`. It is run as `<verifier> <case-dir>/case.json --json --policy <corpus>/policy.json`, prints one JSON object with `decision` and `reason`, and exits 0 for `accepted` and 1 for `rejected`.
+The command prints `answered N of N cases`. To judge the cases with your own verifier, name it: `check_vectors.py --verifier "/path/to/verifier"`. It is run as `<verifier> <case-dir>/case.json --json --policy policy.json`, prints one JSON object with `decision` and `reason`, and exits 0 for `accepted` and 1 for `rejected`.
 
 ## Cases
 
@@ -58,12 +60,42 @@ The command prints `answered N of N cases`. To judge the cases with your own ver
 | single-use-token-second-settlement | rejected, `single_use_token_replayed` | the witness counts the second settlement of a single-use token |
 | post-checkout-requirement-dropped | rejected, `post_checkout_action_missing` | fulfilment deleted from the unsigned required list; the signed terms still require it |
 | single-use-mandate-spent-on-two-rails | rejected, `mandate_spent_twice` | one single-use mandate settled once on each of two rails; each witness counted use 1 |
+| authorized-key-rotated-after-signing | accepted, `mandate_chain_holds` | the signing key was rotated out after the mandate was signed; it was in effect at signing |
+| authorized-key-revoked-after-signing | accepted, `mandate_chain_holds` | the signing key was revoked effective after the mandate was signed |
+| signing-key-not-in-snapshot | rejected, `signing_key_unknown` | the relying party's key snapshot holds no entry for the signing key |
+| signed-after-key-rotated-out | rejected, `signing_key_rotated_out` | the mandate was signed after the key's validity ended |
+| signed-before-key-valid | rejected, `signing_key_not_yet_valid` | the mandate was signed before the key's validity began |
+| signed-after-key-revoked | rejected, `signing_key_revoked` | the mandate was signed after the key's revocation took effect |
+| charge-after-key-revoked | rejected, `signing_key_revoked` | signed before the revocation by the key's own clock, charged after it |
+| x402-exact-evm-settled-once | accepted, `mandate_chain_holds` | x402 exact on EVM: wallet the mandate names signs the required payment, settled once |
+| x402-exact-evm-at-mandate-ceiling | accepted, `mandate_chain_holds` | x402 required amount equal to the mandate ceiling is inside the mandate |
+| x402-settled-last-valid-second | accepted, `mandate_chain_holds` | settled one second before validBefore, inside the EIP-3009 window |
+| x402-requirement-over-mandate-ceiling | rejected, `amount_over_limit` | server requires one unit over the mandate ceiling and the agent pays it |
+| x402-paid-in-other-asset | rejected, `currency_mismatch` | payment signed for a token other than the required asset |
+| x402-requirement-pays-unmandated-payee | rejected, `merchant_mismatch` | server requires payment to an address the mandate does not name |
+| x402-authorization-pays-other-address | rejected, `merchant_mismatch` | signed authorization pays an address other than payTo |
+| x402-accepted-other-network | rejected, `network_mismatch` | payment built and signed for a network other than the required one |
+| x402-value-over-required-amount | rejected, `amount_not_offer_amount` | authorization one unit over the exact required amount, under the mandate ceiling |
+| x402-settled-at-valid-before | rejected, `authorization_outside_validity_window` | settled at validBefore, which EIP-3009 excludes |
+| x402-settled-at-valid-after | rejected, `authorization_outside_validity_window` | settled at validAfter, which EIP-3009 excludes |
+| x402-settled-after-mandate-expiry | rejected, `mandate_expired` | authorization valid on its own but settled after the mandate expired |
+| x402-signature-high-s | rejected, `signature_not_canonical` | the same signature with s above n/2, which recovers to the payer |
+| x402-signed-by-other-key | rejected, `agent_proof_invalid` | authorization from the agent wallet, signed by another key |
+| x402-verifying-key-from-unsigned-selector | rejected, `agent_proof_invalid` | another key signs and an unsigned payload member names that key as the signer |
+| x402-signature-from-other-chain | rejected, `agent_proof_invalid` | authorization signed under another chain's token domain, presented on this one |
+| x402-payer-not-the-mandated-agent | rejected, `agent_not_the_mandated_agent` | a validly signed payment from a wallet the mandate does not name |
+| x402-settlement-consumed-other-nonce | rejected, `token_not_the_executed_token` | the ledger consumed another nonce than the one signed |
+| x402-settled-transfer-differs | rejected, `settlement_not_the_authorization` | the ledger transfer moved another value than was signed |
+| x402-nonce-already-used | rejected, `single_use_token_replayed` | the authorization's nonce was consumed before this settlement |
+| x402-settlement-response-other-payer | rejected, `receipt_not_bound_to_execution` | the facilitator's response names a payer other than the signer |
 
 Each rejected case is one mutation away from the accepted case it names as its twin, and the rule it names is the first that fires.
 
+The relying party's policy (`policy.json`) holds each issuer key with the dates it was valid: when it became valid, when it was rotated out and when a revocation took effect. A key history the record carries for itself is never read. The signing time is the signed `issued_at` in the terms. A key rotated out after signing still holds and one not yet valid or rotated out at signing does not. A revoked key's holder can sign any `issued_at`, so a revoked key is also judged at the charge the settlement witness signed: a mandate charged at or after the revocation is refused even when its own issue time is earlier.
+
 ## The checker is held to its rules
 
-`mutation_check.py` switches each rule off alone and requires that at least one rejected case then gets a different answer. The tests run each rule-less verifier, a mutant, through the contract and require the corpus to refuse it: 21 rules, 21 mutants, every one caught.
+`mutation_check.py` switches each rule off alone and requires that at least one rejected case then gets a different answer. The tests run each rule-less verifier, a mutant, through the contract and require the corpus to refuse it: every rule has its mutant, and every one is caught.
 
 ## Pin it in your CI
 
@@ -76,4 +108,4 @@ Pin the exact version; conformant means passing that version's cases.
 
 ## What it does not test
 
-It does not vendor or quote any of the three schemes' texts, names no upstream field, and does not say who bears the loss in a dispute. `profile.json` maps each scheme's concept to the receipt-side field checked. It proves a charge stayed inside terms that a pinned issuer key signed, and that a pinned settlement witness, not the agent or the merchant, signed the receipt binding that charge to those terms. The keys come from the relying party's policy (`policy.json` for these synthetic keys); a key or policy the record carries for itself is never read. It does not prove the user meant it, and it does not distribute or revoke keys.
+It does not vendor or quote the three card-side schemes' texts and names none of their fields; the x402 cases use x402 v2 field names and quote no x402 text. It does not say who bears the loss in a dispute. `profile.json` maps each scheme's concept to the record field checked. The x402 ledger reads are modelled: no chain was queried, and the transaction hashes are synthetic. The x402 cases cover `exact` with EIP-3009 only, not Permit2, ERC-7710, `upto` or smart-wallet (EIP-1271, ERC-6492) signatures. It proves a charge stayed inside what a user authorised; it does not prove the user meant it.

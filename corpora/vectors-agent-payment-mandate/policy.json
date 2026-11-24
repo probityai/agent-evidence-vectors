@@ -1,8 +1,25 @@
 {
   "issuer_keys": {
-    "issuer-key-1": "d04ab232742bb4ab3a1368bd4615e4e6d0224ab71a016baf8520a332c9778737"
+    "issuer-key-1": {
+      "public_key": "d04ab232742bb4ab3a1368bd4615e4e6d0224ab71a016baf8520a332c9778737",
+      "revoked_effective_from": null,
+      "valid_from": "2026-09-01T00:00:00Z",
+      "valid_until": null
+    },
+    "issuer-key-revoked": {
+      "public_key": "34b4d9043156cb6dcf0beb0a2949b7559c940d2bcb6dbe8c53a9b30278e3a746",
+      "revoked_effective_from": "2026-11-10T00:00:00Z",
+      "valid_from": "2026-09-01T00:00:00Z",
+      "valid_until": null
+    },
+    "issuer-key-rotated": {
+      "public_key": "c6822637c7d310ec57627be00ba259d253749f4aaf644470cffbe53a35f73242",
+      "revoked_effective_from": null,
+      "valid_from": "2026-09-01T00:00:00Z",
+      "valid_until": "2026-11-01T00:00:00Z"
+    }
   },
-  "note": "The relying party's trust root for this corpus: the issuer keys that may sign a mandate and the settlement-witness keys that may sign a receipt. In deployment it comes from the relying party, never from the evidence pack.",
+  "note": "The relying party's trust root for this corpus: the issuer keys that may sign a mandate, with the dates each was valid (its key history), and the settlement-witness keys that may sign a receipt. In deployment it comes from the relying party, never from the evidence pack.",
   "witness_keys": {
     "witness-key-1": "a09aa5f47a6759802ff955f8dc2d2a14a5c99d23be97f864127ff9383455a4f0"
   }

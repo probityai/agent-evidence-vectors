@@ -14,7 +14,7 @@
     "stated-after-anchor"
   ],
   "contract": "vectors-recorded/README.md",
-  "corpusDigest": "efdd313730a1dc3d49f60e4dc559ca5e204d0f6cbefd3459c3271085c15650f5",
+  "corpusDigest": "ed23afe0af6c5216efb84296c986c296d946441ea1250b9352d9cba7e9c1c6a9",
   "counts": {
     "failed": 14,
     "verified": 7
@@ -631,9 +631,10 @@
         {
           "after": "/seen_block/height",
           "block": {
-            "header": "000000200000000000000000000000000000000000000000000000000000000000000000a4f3e730f004264895ad799db18e0dad6e6a674959dda96bf259e9ea66aaa5c87a38d96affff001d00000000",
+            "header": "000000200000000000000000000000000000000000000000000000000000000000000000a4f3e730f004264895ad799db18e0dad6e6a674959dda96bf259e9ea66aaa5c87a38d96affff7f2000000000",
             "height": 900100,
-            "id": "e02c0432ab79000ccbb39053ff5c02b552844615c80bc28c7504fd4ce4fd8061"
+            "id": "673ece5bcdcfb18cea905817db84c10fec8be4cccdcbb47f1bbb6a76c523d8c6",
+            "network": "regtest"
           },
           "proof": "log/checkpoint.stamp.ots",
           "statedTime": "/as_of",
@@ -658,9 +659,10 @@
         {
           "after": "/seen_block/height",
           "block": {
-            "header": "000000200000000000000000000000000000000000000000000000000000000000000000c07b46be035c59657383d22309755533584a37b262dfcf980daea41c0cb794e87a38d96affff001d00000000",
+            "header": "000000200000000000000000000000000000000000000000000000000000000000000000c07b46be035c59657383d22309755533584a37b262dfcf980daea41c0cb794e87a38d96affff7f2000000000",
             "height": 900100,
-            "id": "dfdbd42a6524a58b89b517950033ac15f95c51ad285426ecc9c716e08b92651d"
+            "id": "2d64c38aa76878685a466d77bd2a551b82c8d4992bc64e18448afa9955199906",
+            "network": "regtest"
           },
           "proof": "log/checkpoint.stamp.ots",
           "statedTime": "/as_of",
@@ -687,9 +689,10 @@
         {
           "after": "/seen_block/height",
           "block": {
-            "header": "000000200000000000000000000000000000000000000000000000000000000000000000cadb0e79f078f56eda0781318a603c7fdfde02d9417b40701d40ab14b91fdc4a7a38d96affff001d00000000",
+            "header": "000000200000000000000000000000000000000000000000000000000000000000000000cadb0e79f078f56eda0781318a603c7fdfde02d9417b40701d40ab14b91fdc4a7a38d96affff7f2001000000",
             "height": 900100,
-            "id": "691247c278330bb85c08179b1688a5c54eab8cf7fc5b4668936f5ed46fb0ead2"
+            "id": "0345f78b97b076254180ad65597ec6ce9f2b113e10994694d8c56b9f96159d5d",
+            "network": "regtest"
           },
           "proof": "log/checkpoint.stamp.ots",
           "statedTime": "/as_of",
@@ -716,9 +719,10 @@
         {
           "after": "/seen_block/height",
           "block": {
-            "header": "000000200000000000000000000000000000000000000000000000000000000000000000a4f3e730f004264895ad799db18e0dad6e6a674959dda96bf259e9ea66aaa5c87a38d96affff001d00000000",
+            "header": "000000200000000000000000000000000000000000000000000000000000000000000000a4f3e730f004264895ad799db18e0dad6e6a674959dda96bf259e9ea66aaa5c87a38d96affff7f2000000000",
             "height": 900100,
-            "id": "e02c0432ab79000ccbb39053ff5c02b552844615c80bc28c7504fd4ce4fd8061"
+            "id": "673ece5bcdcfb18cea905817db84c10fec8be4cccdcbb47f1bbb6a76c523d8c6",
+            "network": "regtest"
           },
           "proof": "log/checkpoint.stamp.ots",
           "statedTime": "/as_of",
@@ -745,9 +749,10 @@
         {
           "after": "/seen_block/height",
           "block": {
-            "header": "000000200000000000000000000000000000000000000000000000000000000000000000a4f3e730f004264895ad799db18e0dad6e6a674959dda96bf259e9ea66aaa5c87a38d96affff001d00000000",
+            "header": "000000200000000000000000000000000000000000000000000000000000000000000000a4f3e730f004264895ad799db18e0dad6e6a674959dda96bf259e9ea66aaa5c87a38d96affff7f2000000000",
             "height": 900100,
-            "id": "e02c0432ab79000ccbb39053ff5c02b552844615c80bc28c7504fd4ce4fd8061"
+            "id": "673ece5bcdcfb18cea905817db84c10fec8be4cccdcbb47f1bbb6a76c523d8c6",
+            "network": "regtest"
           },
           "proof": "log/checkpoint.stamp.ots",
           "statedTime": "/as_of",

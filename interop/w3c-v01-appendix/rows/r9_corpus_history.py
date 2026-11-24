@@ -18,10 +18,14 @@ prints the rows it found for each member it disagrees with, so the probe makes i
 print its own verdict for every member. The verdicts on the members that cite
 W3C-R-016 are compared across the readers and with the manifest.
 
-Exits 0 only when every digest and count equals the value posted in 0079, every
-reader that exists at the tag finds every member behaving as its manifest says,
-and the readers give the same verdict on every member that cites W3C-R-016.
-A reader that does not exist at a tag is reported as not run, with that reason.
+rows.json names, for each release, the readers that must run there (pins
+"readers"). Exits 0 only when every digest and count equals the value posted in
+0079; the readers that exist at the tag are exactly the readers named for it, and
+every one of them built and ran; each finds every member behaving as its manifest
+says; and they give the same verdict on every member that cites W3C-R-016. A
+reader that does not exist at a tag is recorded as absent, with that reason, and a
+reader whose build fails is recorded as build_failed and fails the row: the two are
+never folded together, and neither is left out of the success calculation.
 """
 
 from __future__ import annotations
@@ -109,16 +113,24 @@ def verdict_digest(observed: dict[str, Any]) -> str:
 
 
 def reader_commands(tag: str, tree: Path, work: Path, log: Path) -> dict[str, dict[str, Any]]:
-    """Build the Go and Rust readers at a tag; a reader the tag does not carry is not run."""
+    """Build the Go and Rust readers at a tag.
+
+    A reader the tag does not carry is recorded as ``absent``; a reader whose
+    build fails is recorded as ``build_failed``. ``coverage`` treats them
+    differently, and neither as a pass.
+    """
     commands: dict[str, dict[str, Any]] = {}
     go_bin = work / f"aee-verify-{tag}"
-    go_version = subprocess.run(["go", "version"], capture_output=True, text=True, check=False)
-    code = rerun.run(["go", "build", "-o", str(go_bin), "./cmd/aee-verify"], tree, log, env=GO_ENV)
-    commands["go"] = ({"argv": [str(go_bin)], "version": go_version.stdout.strip()} if code == 0
-                      else {"not_run": f"go build exited {code}"})
+    if not (tree / "cmd" / "aee-verify").is_dir():
+        commands["go"] = {"absent": f"cmd/aee-verify does not exist at {tag}"}
+    else:
+        go_version = subprocess.run(["go", "version"], capture_output=True, text=True, check=False)
+        code = rerun.run(["go", "build", "-o", str(go_bin), "./cmd/aee-verify"], tree, log, env=GO_ENV)
+        commands["go"] = ({"argv": [str(go_bin)], "version": go_version.stdout.strip()} if code == 0
+                          else {"build_failed": f"go build exited {code}"})
     manifest = tree / "readers" / "w3c-report-rs" / "Cargo.toml"
     if not manifest.is_file():
-        commands["rust"] = {"not_run": f"readers/w3c-report-rs does not exist at {tag}"}
+        commands["rust"] = {"absent": f"readers/w3c-report-rs does not exist at {tag}"}
         return commands
     channel = rerun.ROWS["rows"]["R9"]["pins"]["rust"]
     cargo = rerun.rust_toolchain(channel, work, log)
@@ -128,8 +140,24 @@ def reader_commands(tag: str, tree: Path, work: Path, log: Path) -> dict[str, di
     rustc = subprocess.run(["rustc", cargo, "--version"], capture_output=True, text=True, check=False)
     commands["rust"] = ({"argv": [str(target / "release" / "w3c-report-rs")],
                          "version": rustc.stdout.strip()} if code == 0
-                        else {"not_run": f"cargo build exited {code}"})
+                        else {"build_failed": f"cargo build exited {code}"})
     return commands
+
+
+def coverage(required: list[str], runs: dict[str, dict[str, Any]]) -> dict[str, Any]:
+    """Which readers the tag carries, which ran, and whether that is exactly the set rows.json names.
+
+    The row passes this check only when the readers present at the tag equal the
+    readers named for it and every one of them built. A named reader that is
+    absent, a present reader nobody named, and a failed build each fail it.
+    """
+    present = sorted(name for name, r in runs.items() if "absent" not in r)
+    ran = sorted(name for name, r in runs.items() if "absent" not in r and "build_failed" not in r)
+    failed = sorted(name for name, r in runs.items() if "build_failed" in r)
+    want = sorted(required)
+    return {"required": want, "present": present, "ran": ran, "build_failed": failed,
+            "absent": sorted(name for name, r in runs.items() if "absent" in r),
+            "ok": bool(want) and present == want and ran == want}
 
 
 def judge_python(tag: str, corpus: Path, work: Path, log: Path, label: str) -> tuple[int, str]:
@@ -148,7 +176,7 @@ def judge_binary(argv: list[str], tag: str, name: str, corpus: Path, work: Path,
 
 
 def compare_readers(tag: str, tree: Path, directory: Path, manifest: dict, work: Path,
-                    log: Path) -> dict[str, Any]:
+                    log: Path, required: list[str]) -> dict[str, Any]:
     """Run every reader the tag carries over the corpus and the probe; compare them on the W3C-R-016 members."""
     probe = work / f"probe-{tag}"
     probe_corpus(directory, probe)
@@ -157,7 +185,7 @@ def compare_readers(tag: str, tree: Path, directory: Path, manifest: dict, work:
              if ROW in e["requirements"]}
     runs: dict[str, Any] = {"python": {"version": f"agent-evidence-vectors=={tag.lstrip('v')}"}, **built}
     for name, reader in runs.items():
-        if "not_run" in reader:
+        if "absent" in reader or "build_failed" in reader:
             continue
         if name == "python":
             clean_code, clean = judge_python(tag, directory, work, log, "clean")
@@ -181,10 +209,12 @@ def compare_readers(tag: str, tree: Path, directory: Path, manifest: dict, work:
         })
         reader["ok"] = (clean_code == 0 and reader["clean"]["verdict"] == CLEAN and probe_code == 1
                         and not reader["disagree"] and len(cited) > 0)
-    ran = {name: r for name, r in runs.items() if "not_run" not in r}
+    covered = coverage(required, runs)
+    ran = {name: runs[name] for name in covered["ran"]}
     same = len({r["verdicts_sha256"] for r in ran.values() if "verdicts_sha256" in r}) == 1
-    return {"readers": runs, "readers_run": sorted(ran), "same_verdicts_on_W3C-R-016_members": same,
-            "ok": bool(ran) and same and all(r.get("ok") for r in ran.values())}
+    return {"readers": runs, "coverage": covered, "readers_run": covered["ran"],
+            "same_verdicts_on_W3C-R-016_members": same,
+            "ok": covered["ok"] and same and all(r.get("ok") for r in ran.values())}
 
 
 def main() -> int:
@@ -212,7 +242,8 @@ def main() -> int:
             "selected": {"posted": posted["selected"], "observed": chosen},
             "selected_rejected_under_W3C-R-016": r016,
             "reference_reader": {"exit": code, "verdict": verdict[0] if verdict else ""},
-            "reader_comparison": compare_readers(tag, tree, directory, manifest, work, log),
+            "reader_comparison": compare_readers(tag, tree, directory, manifest, work, log,
+                                                 rerun.ROWS["rows"]["R9"]["pins"]["readers"][tag]),
         }
         out["releases"][tag] = release
         ok = (ok and digest == posted["corpusDigest"] == manifest.get("corpusDigest")

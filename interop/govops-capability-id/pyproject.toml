@@ -1,5 +1,5 @@
 [build-system]
-requires = ["setuptools==84.0.0"]
+requires = ["setuptools==84.2.1"]
 build-backend = "setuptools.build_meta"
 
 [project]
@@ -7,7 +7,7 @@ name = "probity-govops-ids"
 version = "0.0.0"
 description = "Raw descriptor correlation and explicit signed decision bindings"
 requires-python = ">=3.11"
-dependencies = ["cryptography==50.0.0"]
+dependencies = ["cryptography==50.0.2"]
 
 [project.scripts]
 probity-govops-ids = "govops_ids.cli:main"

@@ -33,8 +33,11 @@ accept: under the ``v2`` URI of revision 03 it also holds
 PS2). A manifest entry carrying ``predicateType`` is judged under that URI.
 
 ``evaluation.inputs`` is required under both statuses, each entry's age runs
-from its ``lastResult`` to ``decision.reportedAt``, and the unavailable inputs
-are derived from the entries, so a record shaped for revision 02 is malformed.
+from its ``lastResult`` to the reference time, and the unavailable inputs are
+derived from the entries, so a record shaped for revision 02 is malformed. The
+reference time is ``decision.evaluatedAt`` when the record carries it and
+``decision.reportedAt`` otherwise, and an input is fresh only while its age is
+less than its ``maxAge`` (revision 05, FR2 and FR21 to FR27).
 Rows R1 to R9 are retained records: the envelope beside the retention entry of
 Section 4.7, judged twice, once for the record's verdict and once by the dating
 check of Section 4.7.1, whose result is reported beside the verdict.
@@ -70,19 +73,37 @@ import importlib
 import json
 import os
 import re
+import shlex
+import subprocess
 import sys
 from collections.abc import Callable
 from dataclasses import dataclass, field
 from typing import Any
+from urllib.parse import urlsplit
 
 if __package__ in (None, ""):
     sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
+from agent_evidence_vectors import strictb64, strictjson  # noqa: E402
 
 SUITE = "agent-audit-record-conformance"
 STATEMENT_TYPE = "https://in-toto.io/Statement/v1"
 PAYLOAD_TYPE = "application/vnd.in-toto+json"
 IJSON_LIMIT = 2**53
 MAX_DEPTH = 128
+#: 2^53 is 9007199254740992, sixteen digits: an integer written with more is
+#: outside the I-JSON range whatever its digits, and Python's int() refuses to
+#: read one past 4300 digits, which must not turn unsafe-integer into not-parseable.
+SAFE_INTEGER_DIGITS = 16
+#: One half of a UTF-16 surrogate pair, which a JSON \\u escape can name but UTF-8 cannot carry.
+LONE_SURROGATE = re.compile("[\ud800-\udfff]")
+#: An RFC 3339 date-time (Section 5.6): the separator and the Z either case, seconds
+#: required, a fraction of any length, a numeric offset with its colon.
+RFC3339 = re.compile(
+    r"(\d{4})-(\d{2})-(\d{2})[Tt](\d{2}):(\d{2}):(\d{2})(?:\.(\d+))?"
+    r"(?:([Zz])|([+-])(\d{2}):(\d{2}))",
+    re.ASCII,
+)
 GLOB_METACHARACTERS = frozenset("*?[]{}")
 UNATTRIBUTED = "unattributed"
 
@@ -268,6 +289,8 @@ CONSUMPTION_CHECKS = frozenset(
 NEVER_HELD = "none"
 #: The tolerance for every comparison between times two parties wrote.
 SKEW_TOLERANCE = datetime.timedelta(seconds=300)
+#: The unit the late bound is compared in, in integers, so anchorWithin is exact at any size.
+MICROSECOND = datetime.timedelta(microseconds=1)
 #: The only members an evaluation object may carry (EV12).
 EVALUATION_MEMBERS = frozenset({"status", "inputs", "unavailableInput"})
 #: The only members an oversight object may carry.
@@ -413,7 +436,7 @@ def _encode(node: Any) -> str:
     if node is False:
         return "false"
     if isinstance(node, str):
-        return json.dumps(node, ensure_ascii=False, separators=(",", ":"))
+        return _encode_string(node)
     if isinstance(node, int):
         if abs(node) >= IJSON_LIMIT:
             raise Malformed("unsafe-integer")
@@ -421,9 +444,23 @@ def _encode(node: Any) -> str:
     if isinstance(node, list):
         return "[" + ",".join(_encode(item) for item in node) + "]"
     if isinstance(node, dict):
-        members = sorted(node.items(), key=lambda kv: kv[0].encode("utf-16-be"))
-        return "{" + ",".join(f"{_encode(k)}:{_encode(v)}" for k, v in members) + "}"
+        return _encode_object(node)
     raise Malformed("value-not-representable")
+
+
+def _encode_string(text: str) -> str:
+    """A string, which RFC 8785 cannot write when it holds half of a surrogate pair."""
+    if LONE_SURROGATE.search(text):
+        raise Malformed("value-not-representable")
+    return json.dumps(text, ensure_ascii=False, separators=(",", ":"))
+
+
+def _encode_object(node: dict[str, Any]) -> str:
+    """An object, its members in UTF-16 code-unit order of their names."""
+    if any(LONE_SURROGATE.search(name) for name in node):
+        raise Malformed("value-not-representable")
+    members = sorted(node.items(), key=lambda kv: kv[0].encode("utf-16-be"))
+    return "{" + ",".join(f"{_encode_string(k)}:{_encode(v)}" for k, v in members) + "}"
 
 
 def canonical_bytes(node: Any) -> bytes:
@@ -444,6 +481,8 @@ def _no_duplicates(pairs: list[tuple[str, Any]]) -> dict[str, Any]:
 
 
 def _safe_int(text: str) -> int:
+    if len(text.lstrip("-")) > SAFE_INTEGER_DIGITS:
+        raise Malformed("unsafe-integer")
     value = int(text)
     if abs(value) >= IJSON_LIMIT:
         raise Malformed("unsafe-integer")
@@ -455,12 +494,37 @@ def _refuse_float(text: str) -> float:
 
 
 def _depth(node: Any) -> int:
-    """Container nesting, counting the top-level value as one."""
-    if isinstance(node, dict):
-        return 1 + max((_depth(v) for v in node.values()), default=0)
-    if isinstance(node, list):
-        return 1 + max((_depth(v) for v in node), default=0)
-    return 0
+    """Container nesting, counting the top-level value as one. It walks with its own
+    stack, so no depth the JSON parser admits can exhaust the interpreter's."""
+    deepest, stack = 0, [(node, 1)]
+    while stack:
+        item, level = stack.pop()
+        if isinstance(item, dict | list):
+            deepest = max(deepest, level)
+            stack.extend((child, level + 1) for child in _children(item))
+    return deepest
+
+
+def _children(node: dict[str, Any] | list[Any]) -> list[Any]:
+    return list(node.values()) if isinstance(node, dict) else node
+
+
+def _lone_surrogate(node: Any) -> bool:
+    """Whether a member name or string anywhere in the value holds half of a surrogate
+    pair: a \\u escape the JSON text may carry, but no UTF-8 text, and so no RFC 8785
+    serialization, can (RFC 7493 Section 2.1)."""
+    stack = [node]
+    while stack:
+        item = stack.pop()
+        if isinstance(item, str) and LONE_SURROGATE.search(item):
+            return True
+        if isinstance(item, dict):
+            if any(LONE_SURROGATE.search(name) for name in item):
+                return True
+            stack.extend(item.values())
+        elif isinstance(item, list):
+            stack.extend(item)
+    return False
 
 
 def parse_statement(payload: bytes) -> Any:
@@ -476,13 +540,18 @@ def parse_statement(payload: bytes) -> Any:
             object_pairs_hook=_no_duplicates,
             parse_int=_safe_int,
             parse_float=_refuse_float,
+            parse_constant=strictjson.refuse_constant,
         )
     except Malformed:
         raise
-    except (ValueError, RecursionError) as exc:
+    except RecursionError as exc:
+        raise Malformed("nesting-too-deep") from exc
+    except ValueError as exc:
         raise Malformed("not-parseable") from exc
     if _depth(value) > MAX_DEPTH:
         raise Malformed("nesting-too-deep")
+    if _lone_surrogate(value):
+        raise Malformed("not-parseable")
     return value
 
 
@@ -499,15 +568,43 @@ def _at(pred: dict[str, Any], dotted: str) -> Any:
 
 
 def _instant(value: Any) -> datetime.datetime:
-    if not isinstance(value, str):
+    """An RFC 3339 date-time (Section 5.6) as an aware datetime, its fraction read to
+    the microsecond. Anything else is timestamp-malformed, including the ISO 8601 forms
+    fromisoformat also reads: a week date, the basic format, a comma fraction, an offset
+    without its colon or without its minutes, a space for the T."""
+    match = RFC3339.fullmatch(value) if isinstance(value, str) else None
+    if match is None:
         raise Malformed("timestamp-malformed")
+    year, month, day, hour, minute, second = (int(part) for part in match.groups()[:6])
+    fraction, zulu, sign, offset_hours, offset_minutes = match.groups()[6:]
     try:
-        parsed = datetime.datetime.fromisoformat(value.replace("Z", "+00:00"))
-    except ValueError as exc:
+        zone = datetime.timezone(
+            datetime.timedelta(0) if zulu else _offset(sign, int(offset_hours), int(offset_minutes))
+        )
+        micro = int((fraction or "0")[:6].ljust(6, "0"))
+        parsed = datetime.datetime(year, month, day, hour, minute, min(second, 59), micro, zone)
+        return _leap_second(parsed) if second == 60 else parsed
+    except (ValueError, OverflowError) as exc:
         raise Malformed("timestamp-malformed") from exc
-    if parsed.tzinfo is None:
-        raise Malformed("timestamp-malformed")
-    return parsed
+
+
+def _offset(sign: str, hours: int, minutes: int) -> datetime.timedelta:
+    """A numeric offset; RFC 3339 bounds its hours at 23 and its minutes at 59."""
+    if hours > 23 or minutes > 59:
+        raise ValueError("offset out of range")
+    span = datetime.timedelta(hours=hours, minutes=minutes)
+    return span if sign == "+" else -span
+
+
+def _leap_second(at_59: datetime.datetime) -> datetime.datetime:
+    """A seconds value of 60 is a leap second, which RFC 3339 Sections 5.6 and 5.7 admit only
+    at 23:59 UTC on the last day of a month. It reads as the instant one second after
+    23:59:59, the next day's midnight, so it orders after every earlier second."""
+    utc = at_59.astimezone(datetime.UTC)
+    last_day = (utc + datetime.timedelta(days=1)).day == 1
+    if (utc.hour, utc.minute, utc.second) != (23, 59, 59) or not last_day:
+        raise ValueError("a leap second outside 23:59:60 UTC on a month's last day")
+    return at_59 + datetime.timedelta(seconds=1)
 
 
 def _under(path: str, scope: str) -> bool:
@@ -676,22 +773,46 @@ def _rule_closed_vocabularies(state: _State) -> None:
     pred = state.predicate
     for dotted, allowed in VOCABULARIES.items():
         for value in _vocabulary_values(pred, dotted):
-            if value not in allowed:
+            if not _one_of(value, allowed):
                 raise Malformed("value-outside-vocabulary")
     for value in pred["fieldEvidence"].values():
-        if value not in FIELD_EVIDENCE_VALUES:
+        if not _one_of(value, FIELD_EVIDENCE_VALUES):
             raise Malformed("value-outside-vocabulary")
 
 
-def _entry_unavailable(entry: dict[str, Any], reported_at: datetime.datetime) -> bool:
-    """Stale or never established at ``reported_at``; an age equal to maxAge is fresh."""
+def _one_of(value: Any, allowed: frozenset[str]) -> bool:
+    """A closed set holds strings only, so an object or an array is outside it, never a value
+    that cannot be hashed."""
+    return isinstance(value, str) and value in allowed
+
+
+def _entry_unavailable(entry: dict[str, Any], reference: datetime.datetime) -> bool:
+    """Stale or never established at ``reference``. An input is fresh while its
+    age is less than maxAge, so an age equal to maxAge is stale (FR2, FR24); a
+    lastResult later than ``reference`` by more than the skew tolerance is
+    malformed (FR9, FR27)."""
     if entry["lastResult"] == NEVER_HELD:
         return True
     produced = _instant(entry["lastResult"])
-    if produced - reported_at > SKEW_TOLERANCE:
+    if produced - reference > SKEW_TOLERANCE:
         raise Malformed("evaluation-result-after-decision")
-    age = (reported_at - produced).total_seconds()
-    return bool(age > entry["maxAge"])
+    age = (reference - produced).total_seconds()
+    return bool(age >= entry["maxAge"])
+
+
+def reference_time(pred: dict[str, Any]) -> datetime.datetime:
+    """The time every evaluation entry's age is measured to: ``decision.evaluatedAt``
+    when the record carries it, ``decision.reportedAt`` otherwise (revision 05).
+    A decision is not reported before it is evaluated, so an evaluatedAt later
+    than reportedAt by more than the skew tolerance is malformed (FR25), and one
+    exactly at the tolerance is not (FR26)."""
+    reported_at = _instant(pred["decision"]["reportedAt"])
+    if "evaluatedAt" not in pred["decision"]:
+        return reported_at
+    evaluated_at = _instant(pred["decision"]["evaluatedAt"])
+    if evaluated_at - reported_at > SKEW_TOLERANCE:
+        raise Malformed("evaluation-result-after-decision")
+    return evaluated_at
 
 
 def _entry_shape(entry: Any, inputs: frozenset[str] | None = None) -> None:
@@ -719,8 +840,8 @@ def aggregate_values(values: list[dict[str, Any]]) -> dict[str, Any]:
     ``none`` and maxAge the smallest bound among the values never held.
     Otherwise the pair is the one whose lastResult plus maxAge is earliest, and
     of two such pairs the one with the earlier lastResult. At one reference time
-    every held value is fresh exactly when that time is at most the earliest
-    expiry, so the entry is fresh exactly when every value is. Taking the oldest
+    every held value is fresh exactly when that time is earlier than the
+    earliest expiry, so the entry is fresh exactly when every value is. Taking the oldest
     lastResult from one value and the smallest maxAge from another, as revision
     00 did, can report two fresh values as one stale input (FR15).
 
@@ -751,12 +872,13 @@ def aggregate_values(values: list[dict[str, Any]]) -> dict[str, Any]:
 def derive_unavailable(pred: dict[str, Any], predicate_type: str = PREDICATE_TYPE_V1) -> list[str]:
     """The inputs a verifier derives as unavailable from ``evaluation.inputs``,
     in entry order, after holding every entry to its shape (FR5, FR6, FR9 to FR13)
-    and its input to the set ``predicate_type`` names."""
+    and its input to the set ``predicate_type`` names, each measured to the
+    reference time (FR21 to FR27)."""
     allowed = evaluation_inputs(predicate_type)
     entries = pred["evaluation"]["inputs"]
     if not isinstance(entries, list):
         raise Malformed("evaluation-entry-malformed")
-    reported_at = _instant(pred["decision"]["reportedAt"])
+    reference = reference_time(pred)
     seen: set[str] = set()
     unavailable: list[str] = []
     for entry in entries:
@@ -764,7 +886,7 @@ def derive_unavailable(pred: dict[str, Any], predicate_type: str = PREDICATE_TYP
         if entry["input"] in seen:
             raise Malformed("evaluation-input-repeated")
         seen.add(entry["input"])
-        if _entry_unavailable(entry, reported_at):
+        if _entry_unavailable(entry, reference):
             unavailable.append(entry["input"])
     return unavailable
 
@@ -1098,7 +1220,7 @@ def _rule_delegation(state: _State) -> None:
 
 
 # --------------------------------------------------------------------------
-# The authenticated principal (revision 04, rows PR1 to PR11).
+# The authenticated principal (revision 04, rows PR1 to PR16).
 # --------------------------------------------------------------------------
 
 #: The members ``principal`` carries, each required, and the one it may carry
@@ -1119,7 +1241,26 @@ PRINCIPAL_MEMBERS = (
     "keyThumbprint",
     "jwksDigest",
 )
-PRINCIPAL_OPTIONAL = ("tenant",)
+PRINCIPAL_OPTIONAL = ("tenant", "identityProvider", "pinnedThumbprint")
+#: The identity providers the vocabulary's ``identity_provider`` term names
+#: (agent-evidence-vocabulary 0.10.0, ``principal_identity``). Closed: any other
+#: value is malformed.
+IDENTITY_PROVIDERS = frozenset({"okta", "entra", "auth0", "keycloak", "self_issued", "other"})
+#: The host rules that derive a named provider from an https issuer.
+_OKTA_SUFFIXES = (".okta.com", ".oktapreview.com", ".okta-emea.com", ".okta-gov.com")
+_ENTRA_HOSTS = frozenset(
+    {
+        "login.microsoftonline.com",
+        "login.microsoftonline.us",
+        "login.chinacloudapi.cn",
+        "sts.windows.net",
+    }
+)
+_ENTRA_SUFFIXES = (".ciamlogin.com",)
+_AUTH0_SUFFIXES = (".auth0.com",)
+_SELF_ISSUED = frozenset({"https://self-issued.me", "https://self-issued.me/v2"})
+#: An RFC 7638 SHA-256 thumbprint: 32 bytes in base64url without padding.
+_THUMBPRINT_SHAPE = re.compile(r"[A-Za-z0-9_-]{43}")
 #: How the client authenticated to the issuer: the IANA registry "OAuth Token
 #: Endpoint Authentication Methods" as RFC 7591 and RFC 8705 populate it.
 PRINCIPAL_AUTH_METHODS = frozenset(
@@ -1203,9 +1344,48 @@ def _principal_shape(principal: Any) -> None:
         raise Malformed("principal-malformed")
     if not _is_digest(principal["tokenDigest"]) or not _is_digest(principal["jwksDigest"]):
         raise Malformed("principal-malformed")
+    _principal_optional_shape(principal)
+    _principal_key_shape(principal["key"])
+
+
+def _principal_optional_shape(principal: dict[str, Any]) -> None:
+    """The optional members tenant, identityProvider and pinnedThumbprint."""
     if "tenant" in principal and not _text(principal["tenant"]):
         raise Malformed("principal-malformed")
-    _principal_key_shape(principal["key"])
+    if "identityProvider" in principal and principal["identityProvider"] not in IDENTITY_PROVIDERS:
+        raise Malformed("principal-malformed")
+    if "pinnedThumbprint" in principal and not (
+        isinstance(principal["pinnedThumbprint"], str)
+        and _THUMBPRINT_SHAPE.fullmatch(principal["pinnedThumbprint"])
+    ):
+        raise Malformed("principal-malformed")
+
+
+#: Whether the skew tolerance applies on each side of a principal's token
+#: lifetime: to its issue (PR13, PR15) and to its expiry (PR12, PR14). A test
+#: sets one false to ask what a reader with no tolerance on that side does.
+PRINCIPAL_SKEW_READING = {"issued": True, "expires": True}
+
+
+def derived_identity_provider(issuer: str) -> str:
+    """The provider an https issuer names by its host and path, self-issued first:
+    ``other`` when the issuer is a custom domain no rule names."""
+    parts = urlsplit(issuer)
+    host = (parts.hostname or "").lower()
+    if issuer.rstrip("/") in _SELF_ISSUED:
+        return "self_issued"
+    if host.endswith(_OKTA_SUFFIXES):
+        return "okta"
+    if host in _ENTRA_HOSTS or host.endswith(_ENTRA_SUFFIXES):
+        return "entra"
+    if host.endswith(_AUTH0_SUFFIXES):
+        return "auth0"
+    segments = [segment for segment in parts.path.split("/") if segment]
+    if segments[:1] == ["auth"]:
+        segments = segments[1:]
+    if len(segments) == 2 and segments[0] == "realms":
+        return "keycloak"
+    return "other"
 
 
 def _principal_lifetime(principal: dict[str, Any], reported_at: Any) -> None:
@@ -1219,16 +1399,21 @@ def _principal_lifetime(principal: dict[str, Any], reported_at: Any) -> None:
     if expires <= issued:
         raise Malformed("principal-malformed")
     decided = _instant(reported_at)
-    if issued - decided > SKEW_TOLERANCE:
+    none = datetime.timedelta(0)
+    issued_skew = SKEW_TOLERANCE if PRINCIPAL_SKEW_READING["issued"] else none
+    expires_skew = SKEW_TOLERANCE if PRINCIPAL_SKEW_READING["expires"] else none
+    if issued - decided > issued_skew:
         raise Malformed("principal-not-yet-valid")
-    if decided - expires > SKEW_TOLERANCE:
+    if decided - expires > expires_skew:
         raise Malformed("principal-expired")
 
 
 def _rule_principal(state: _State) -> None:
     """The optional principal member: the IdP-authenticated principal the
     decision point established, bound to the agent's credential by its digest
-    and to the issuer's key by its RFC 7638 thumbprint (PR1 to PR11)."""
+    and to the issuer's key by its RFC 7638 thumbprint (PR1 to PR16); a declared
+    identity provider agrees with the one its issuer names, and a pinned
+    thumbprint equals the key's (PR17 to PR27)."""
     pred = state.predicate
     if "principal" not in pred:
         return
@@ -1244,6 +1429,14 @@ def _rule_principal(state: _State) -> None:
         raise Malformed("principal-kid-mismatch")
     if principal["keyThumbprint"] != jwk_thumbprint(principal["key"]):
         raise Malformed("principal-thumbprint-mismatch")
+    if "identityProvider" in principal:
+        derived = derived_identity_provider(principal["issuer"])
+        if derived != "other" and principal["identityProvider"] != derived:
+            raise Malformed("principal-provider-mismatch")
+    if "pinnedThumbprint" in principal and (
+        principal["pinnedThumbprint"] != principal["keyThumbprint"]
+    ):
+        raise Malformed("principal-pin-mismatch")
 
 
 # --------------------------------------------------------------------------
@@ -1537,8 +1730,10 @@ def rule_names() -> list[str]:
 
 def _envelope_payload(raw: bytes) -> tuple[dict[str, Any], bytes]:
     try:
-        envelope = json.loads(raw, object_pairs_hook=_no_duplicates)
-        payload = base64.b64decode(envelope["payload"], validate=True)
+        envelope = json.loads(
+            raw, object_pairs_hook=_no_duplicates, parse_constant=strictjson.refuse_constant
+        )
+        payload = strictb64.std(envelope["payload"])
     except Malformed:
         raise
     except Exception as exc:
@@ -1559,7 +1754,7 @@ def _signature_holds(envelope: dict[str, Any], canonical: bytes, policy: Policy)
     message = pae(PAYLOAD_TYPE, canonical)
     for entry in signatures if isinstance(signatures, list) else []:
         try:
-            sig = base64.b64decode(entry["sig"], validate=True)
+            sig = strictb64.std(entry["sig"])
         except Exception:
             continue
         if len(key) == 32 and _ed25519_verify(key, message, sig):
@@ -1593,8 +1788,8 @@ def verify(raw: bytes, policy: Policy, *, disabled: str | None = None) -> Report
                 rule(state)
     except Malformed as exc:
         return Report("malformed", [exc.code], state.derived_tier)
-    except (KeyError, TypeError, AttributeError, IndexError) as exc:
-        return Report("malformed", [f"unhandled-shape:{exc.__class__.__name__}"])
+    except (KeyError, TypeError, AttributeError, IndexError):
+        return Report("malformed", ["unhandled-shape"])
     return Report("valid", [], state.derived_tier)
 
 
@@ -1688,6 +1883,10 @@ class _Reader:
             byte = self.take(1)[0]
             value |= (byte & 0x7F) << shift
             if not byte & 0x80:
+                # A last byte of zero after a continuation byte is a second
+                # spelling of the same value; only the minimal one is read.
+                if byte == 0 and shift:
+                    raise ValueError("non-minimal varuint")
                 return value
             shift += 7
             if shift > 56:
@@ -1749,14 +1948,35 @@ def _ots_timestamp(
     """One OpenTimestamps timestamp: items, each but the last preceded by 0xff."""
     if depth > OTS_MAX_DEPTH:
         raise ValueError("timestamp too deep")
+    seen: set[bytes] = set()
     while True:
         tag = reader.take(1)[0]
         more = tag == 0xFF
         if more:
             tag = reader.take(1)[0]
+        start = reader.at
         _ots_item(reader, tag, message, out, depth)
+        # A repeated operation or attestation at one node is a second branch
+        # some readers keep and others drop, so it is refused, never chosen.
+        key = bytes([tag]) + _ots_item_key(reader.data, start, tag)
+        if key in seen:
+            raise ValueError("repeated operation or attestation in a timestamp node")
+        seen.add(key)
         if not more:
             return
+
+
+def _ots_item_key(data: bytes, start: int, tag: int) -> bytes:
+    """What names an item at its node: an attestation's kind and payload, an
+    append or prepend's argument, nothing for SHA-256."""
+    if tag == OTS_SHA256:
+        return b""
+    item = _Reader(data)
+    item.at = start
+    if tag == 0x00:
+        kind = item.take(8)
+        return kind + item.varbytes()
+    return item.varbytes()
 
 
 def _ots_item(
@@ -1827,7 +2047,7 @@ def anchor_time(
     an rfc3161 anchor dates nothing."""
     kind = anchor.get("kind")
     try:
-        proof = base64.b64decode(anchor["proof"], validate=True)
+        proof = strictb64.std(anchor["proof"])
         if kind == "opentimestamps":
             return _ots_moment(proof, envelope_digest, trust)
         if kind != "transparency-log":
@@ -1854,7 +2074,7 @@ def _retention_shape(entry: Any) -> None:
     ):
         raise Malformed("entry-shape-malformed")
     within = entry.get("anchorWithin")
-    if isinstance(within, bool) or not isinstance(within, int) or within < 0:
+    if isinstance(within, bool) or not isinstance(within, int) or not 0 <= within < IJSON_LIMIT:
         raise Malformed("entry-shape-malformed")
     anchors = entry.get("anchors")
     if not isinstance(anchors, list):
@@ -1908,7 +2128,7 @@ def _dating_retainer_anchor(r: _Retained) -> None:
 
 def _dating_received_before_issued(r: _Retained) -> None:
     """receivedAt no earlier than issuedAt by more than the skew tolerance (R6)."""
-    if r.received_at is not None and r.received_at < r.issued_at - SKEW_TOLERANCE:
+    if r.received_at is not None and r.issued_at - r.received_at > SKEW_TOLERANCE:
         raise Malformed("entry-received-before-issued")
 
 
@@ -1916,7 +2136,7 @@ def _dating_received_after_anchor(r: _Retained) -> None:
     """receivedAt no later than the retention time by more than the skew tolerance (R3)."""
     if r.received_at is None or r.retention_time is None:
         return
-    if r.received_at > r.retention_time + r.tolerance():
+    if r.received_at - r.retention_time > r.tolerance():
         raise Malformed("entry-received-after-anchor")
 
 
@@ -1926,13 +2146,15 @@ def _dating_anchor_late(r: _Retained) -> None:
     if r.retention_time is None:
         return
     start = r.received_at if r.received_at is not None else r.issued_at
-    limit = datetime.timedelta(seconds=r.entry["anchorWithin"]) + r.tolerance()
-    if r.retention_time > start + limit:
+    late = (r.retention_time - start) // MICROSECOND
+    if late > r.entry["anchorWithin"] * 1_000_000 + r.tolerance() // MICROSECOND:
         raise Malformed("entry-anchor-late")
 
 
 def _jwk_algorithm(material: bytes) -> str:
-    keys = json.loads(material, object_pairs_hook=_no_duplicates)["keys"]
+    keys = json.loads(
+        material, object_pairs_hook=_no_duplicates, parse_constant=strictjson.refuse_constant
+    )["keys"]
     algorithms = {JWK_ALGORITHMS.get((k.get("kty"), k.get("crv"))) for k in keys}
     if len(algorithms) != 1 or None in algorithms:
         raise ValueError("no single algorithm")
@@ -1953,7 +2175,7 @@ def _dating_delegation_root(r: _Retained) -> None:
     if not elements:
         return
     try:
-        material = base64.b64decode(elements[0]["value"], validate=True)
+        material = strictb64.std(elements[0]["value"])
     except (KeyError, TypeError, ValueError) as exc:
         raise Malformed("entry-delegation-root-unreadable") from exc
     if hashlib.sha256(material).hexdigest() != r.root_digest:
@@ -2089,9 +2311,13 @@ def verify_retained(
 ) -> tuple[Report, Dating]:
     """Judge a retained record: the envelope's verdict, and the dating result."""
     try:
-        bundle = json.loads(raw, object_pairs_hook=_no_duplicates)
+        bundle = json.loads(
+            raw, object_pairs_hook=_no_duplicates, parse_constant=strictjson.refuse_constant
+        )
+        if _depth(bundle) > MAX_DEPTH:
+            raise ValueError("a retained record nested past the profile's bound")
         envelope, entry = bundle["envelope"], bundle["retention"]
-    except (Malformed, ValueError, KeyError, TypeError):
+    except (Malformed, ValueError, KeyError, TypeError, RecursionError):
         unreadable = ["retained-unreadable"]
         return Report("malformed", unreadable), Dating("malformed", unreadable)
     report = verify(json.dumps(envelope).encode(), policy, disabled=disabled)
@@ -2502,7 +2728,7 @@ def _limit_findings(entry: dict[str, Any], raw: bytes) -> list[str]:
     label = f"{entry.get('draftId')} {entry.get('slug')}"
     expected = entry.get("expected") or {}
     try:
-        pred = json.loads(_envelope_payload(raw)[1])["predicate"]
+        pred = strictjson.loads(_envelope_payload(raw)[1])["predicate"]
         got = within_limit(pred)
     except (Malformed, KeyError, TypeError, ValueError):
         return [] if "withinLimit" not in expected else [f"{label}: withinLimit cannot be derived"]
@@ -2528,7 +2754,7 @@ def _set_findings(entry: dict[str, Any], raw: bytes, policy: Policy) -> list[str
     except (Malformed, ValueError, KeyError, TypeError):
         envelopes = []
     for env in envelopes:
-        limits.append(within_limit(json.loads(_envelope_payload(env)[1])["predicate"]))
+        limits.append(within_limit(strictjson.loads(_envelope_payload(env)[1])["predicate"]))
     if limits != declared.get("withinLimit", [None] * len(limits)):
         findings.append(
             f"{label}: expected withinLimit {declared.get('withinLimit')}, got {limits}"
@@ -2604,7 +2830,7 @@ def aggregation_findings(entry: dict[str, Any], raw: bytes) -> list[str]:
     label = f"{entry.get('draftId')} {entry.get('slug')}"
     try:
         _, payload = _envelope_payload(raw)
-        pred = json.loads(payload)["predicate"]
+        pred = strictjson.loads(payload)["predicate"]
         want = aggregate_values(block["values"])
     except (Malformed, KeyError, TypeError, ValueError) as exc:
         return [f"{label}: the aggregation block cannot be checked: {exc}"]
@@ -2663,8 +2889,47 @@ def corpus_digest(manifest: dict[str, Any], root: str) -> str:
     return digest.hexdigest()
 
 
-def _corpus_findings(directory: str, manifest: dict[str, Any]) -> list[str]:
+def text_status(entry: dict[str, Any]) -> str:
+    """``published`` or ``proposed``: which text one manifest entry tests.
+
+    A published member carries ``draftRevision``, a revision the IETF has
+    published, and scores every verifier. A proposed member carries
+    ``proposed`` and tests a rule only text proposed for the next revision
+    states, so it scores only a verifier that implements that text: a verifier
+    written from the published text that differs on it has not failed.
+    """
+    return "proposed" if "proposed" in entry else "published"
+
+
+def _text_findings(manifest: dict[str, Any]) -> list[str]:
+    """Each member names exactly one text, and the counts match the members."""
     out: list[str] = []
+    published = {str(r.get("revision")) for r in manifest.get("publishedRevisions") or []}
+    measured = {"published": 0, "proposed": 0}
+    for entry in manifest.get("vectors") or []:
+        label = entry.get("draftId")
+        revision = entry.get("draftRevision")
+        proposed = entry.get("proposed")
+        if (revision is None) == (proposed is None):
+            out.append(f"{label}: a member carries draftRevision or proposed, exactly one")
+            continue
+        if revision is not None and revision not in published:
+            out.append(f"{label}: draftRevision {revision} is not a published revision")
+        if proposed is not None and (
+            not isinstance(proposed, dict)
+            or str(proposed.get("revision")) in published
+            or not proposed.get("text")
+        ):
+            out.append(f"{label}: proposed names a published revision or no proposed text")
+        measured[text_status(entry)] += 1
+    if manifest.get("textCounts") != measured:
+        declared = manifest.get("textCounts")
+        out.append(f"textCounts declare {declared} and the members are {measured}")
+    return out
+
+
+def _corpus_findings(directory: str, manifest: dict[str, Any]) -> list[str]:
+    out: list[str] = _text_findings(manifest)
     entries: list[dict[str, Any]] = manifest.get("vectors") or []
     by_id = {str(e.get("id")): e for e in entries}
     measured: dict[str, int] = {}
@@ -2692,7 +2957,7 @@ def _corpus_findings(directory: str, manifest: dict[str, Any]) -> list[str]:
 
 def judge(directory: str) -> Judged:
     with open(os.path.join(directory, "MANIFEST.json"), encoding="utf-8") as handle:
-        manifest = json.load(handle)
+        manifest = strictjson.load(handle)
     judged = Judged()
     entries: list[dict[str, Any]] = manifest.get("vectors") or []
     if not entries:
@@ -2700,9 +2965,48 @@ def judge(directory: str) -> Judged:
         return judged
     heads = tree_heads(manifest)
     for entry in entries:
-        judged.members.append(_judge_member(directory, entry, policy_for(manifest, entry), heads))
+        identifier, kind, findings = _judge_member(
+            directory, entry, policy_for(manifest, entry), heads
+        )
+        if text_status(entry) == "proposed":
+            # A proposed member tests a rule no published revision states, so a
+            # verifier of the published text that differs on it has not failed:
+            # its verdicts are notes. The corpus's own claims bind whatever the
+            # text: the member's bytes and its aggregation block.
+            own = own_findings(entry, _member_bytes(directory, entry))
+            judged.notes.extend(
+                f"{identifier} (proposed text, not scored): {finding}"
+                for finding in findings
+                if finding not in own
+            )
+            findings = [finding for finding in findings if finding in own]
+        judged.members.append((identifier, kind, findings))
     judged.findings.extend(_corpus_findings(directory, manifest))
     return judged
+
+
+def _member_bytes(directory: str, entry: dict[str, Any]) -> bytes:
+    try:
+        with open(os.path.join(directory, str(entry.get("file", ""))), "rb") as handle:
+            return handle.read()
+    except OSError:
+        return b""
+
+
+def own_findings(entry: dict[str, Any], raw: bytes) -> list[str]:
+    """What the corpus claims of a member whatever text it tests: its bytes hash
+    to its identifier, and a plain member's aggregation block reproduces. The
+    rest of what ``judge`` reports is the published reader's verdicts."""
+    findings = []
+    recomputed = "v" + hashlib.sha256(raw).hexdigest()[:16]
+    if recomputed != entry["id"]:
+        findings.append(
+            f"file bytes hash to {recomputed} and the manifest calls this member {entry['id']}"
+        )
+    expected = entry.get("expected")
+    if not (isinstance(expected, dict) and ("dating" in expected or "set" in expected)):
+        findings.extend(aggregation_findings(entry, raw))
+    return findings
 
 
 def render(judged: Judged, suite: str) -> str:
@@ -2727,6 +3031,301 @@ def render(judged: Judged, suite: str) -> str:
     return "\n".join(lines) + "\n"
 
 
+# --------------------------------------------------------------------------
+# The external-verifier contract.
+# --------------------------------------------------------------------------
+
+#: The identifier of the contract below, as the README states it.
+CONTRACT_ID = "https://probityai.github.io/agent-evidence-vectors/contract/agent-audit-record/v1"
+
+#: The verdicts the contract carries, and the exit status each one takes.
+CONTRACT_EXIT = {"valid": 0, "malformed": 1}
+
+
+def _entry_for_file(manifest: dict[str, Any], directory: str, path: str) -> dict[str, Any] | None:
+    target = os.path.realpath(path)
+    for entry in manifest.get("vectors") or []:
+        if os.path.realpath(os.path.join(directory, str(entry.get("file", "")))) == target:
+            found: dict[str, Any] = entry
+            return found
+    return None
+
+
+def _manifest_above(path: str) -> tuple[str, dict[str, Any]]:
+    here = os.path.dirname(os.path.abspath(path))
+    while True:
+        candidate = os.path.join(here, "MANIFEST.json")
+        if os.path.isfile(candidate):
+            with open(candidate, encoding="utf-8") as handle:
+                return here, strictjson.load(handle)
+        parent = os.path.dirname(here)
+        if parent == here:
+            raise FileNotFoundError(f"no MANIFEST.json above {path}")
+        here = parent
+
+
+def answer_member(path: str) -> dict[str, Any]:
+    """This reader's answer for one member file, in the contract's shape.
+
+    The keys, the predicate type and the anchor trust come from the MANIFEST
+    above the member, as the contract tells any verifier to take them; nothing
+    under ``expected`` is read.
+    """
+    directory, manifest = _manifest_above(path)
+    with open(path, "rb") as handle:
+        raw = handle.read()
+    policy = policy_for(manifest, _entry_for_file(manifest, directory, path))
+    try:
+        doc = strictjson.loads(raw)
+    except ValueError:
+        doc = None
+    # The contract names a set member by its place: a file under ``sets/``.
+    # Its shape cannot say so, because a set whose ``records`` member is
+    # missing or misnamed is still a set member, and malformed as one.
+    in_sets = os.path.basename(os.path.dirname(os.path.abspath(path))) == "sets"
+    if in_sets or (isinstance(doc, dict) and "records" in doc):
+        reports, joint = verify_set(raw, policy)
+        try:
+            limits = [
+                within_limit(strictjson.loads(_envelope_payload(env)[1])["predicate"])
+                for env in set_records(raw)
+            ]
+        except (Malformed, ValueError, KeyError, TypeError):
+            limits = []
+        unsound = not reports or any(r.verdict != "valid" for r in reports)
+        verdict = "malformed" if unsound else "valid"
+        return {
+            "verdict": verdict,
+            "codes": [code for report in reports for code in report.codes],
+            "derivedTier": reports[0].derived_tier if reports else "",
+            "set": {
+                "verdict": joint.verdict,
+                "codes": joint.codes,
+                "missing": joint.missing,
+                "withinLimit": limits,
+            },
+        }
+    if isinstance(doc, dict) and ("envelope" in doc or "retention" in doc):
+        report, dated = verify_retained(raw, policy, tree_heads(manifest))
+        return {
+            "verdict": report.verdict,
+            "codes": report.codes,
+            "derivedTier": report.derived_tier,
+            "dating": dating_dict(dated),
+        }
+    report = verify(raw, policy)
+    out: dict[str, Any] = {
+        "verdict": report.verdict,
+        "codes": report.codes,
+        "derivedTier": report.derived_tier,
+    }
+    try:
+        out["withinLimit"] = within_limit(strictjson.loads(_envelope_payload(raw)[1])["predicate"])
+    except (Malformed, KeyError, TypeError, ValueError):
+        pass
+    return out
+
+
+def _codes_note(where: str, declared: Any, got: Any) -> list[str]:
+    """A note when a code array differs from the declared one, compared as sets.
+
+    The draft defines verdicts and results, not codes, so a code difference is
+    reported and never scored, in ``set`` and ``dating`` as in the record.
+    """
+    if not isinstance(got, list) or set(declared or []) != set(got):
+        return [f"{where} codes: expected {declared or []}, got {got}"]
+    return []
+
+
+def _dating_mismatch(declared: dict[str, Any], got: Any) -> tuple[list[str], list[str]]:
+    if not isinstance(got, dict):
+        return ["the answer carries no dating object"], []
+    normative: list[str] = []
+    for name in ("entry", "datedAt", "receipt"):
+        if declared.get(name) != got.get(name):
+            normative.append(
+                f"dating {name}: expected {declared.get(name)!r}, got {got.get(name)!r}"
+            )
+    want_root: dict[str, Any] = declared.get("delegationRoot") or {}
+    root_answer = got.get("delegationRoot")
+    got_root: dict[str, Any] = root_answer if isinstance(root_answer, dict) else {}
+    for name in ("result", "algorithm"):
+        if name in want_root and want_root[name] != got_root.get(name):
+            normative.append(
+                f"dating delegationRoot.{name}: expected {want_root[name]!r}, "
+                f"got {got_root.get(name)!r}"
+            )
+    return normative, _codes_note("dating", declared.get("codes"), got.get("codes"))
+
+
+def _set_mismatch(declared: dict[str, Any], got: Any) -> tuple[list[str], list[str]]:
+    if not isinstance(got, dict):
+        return ["the answer carries no set object"], []
+    normative: list[str] = []
+    if declared.get("verdict") != got.get("verdict"):
+        normative.append(
+            f"set verdict: expected {declared.get('verdict')!r}, got {got.get('verdict')!r}"
+        )
+    for name in ("missing", "withinLimit"):
+        if name in declared and declared[name] != got.get(name):
+            normative.append(f"set {name}: expected {declared[name]}, got {got.get(name)}")
+    return normative, _codes_note("set", declared.get("codes"), got.get("codes"))
+
+
+def contract_findings(entry: dict[str, Any], answer: dict[str, Any]) -> tuple[list[str], list[str]]:
+    """Score one answer against one manifest entry.
+
+    Returns the normative findings (verdict, tier, withinLimit, the set result
+    and the dating result) and the reason-parity findings (the record's codes,
+    and the code arrays inside ``set`` and ``dating``), kept apart as the AEE
+    contract keeps them. Only the normative findings make a member fail: the
+    draft defines verdicts and results, not codes, so every code array is
+    compared and reported, never scored.
+    """
+    expected = entry.get("expected") or {}
+    verdict = answer.get("verdict")
+    codes = answer.get("codes")
+    normative: list[str] = []
+    parity: list[str] = []
+    if verdict not in conforming_verdicts(entry):
+        normative.append(f"expected {sorted(conforming_verdicts(entry))}, got {verdict!r}")
+    if not isinstance(codes, list) or not all(isinstance(c, str) for c in codes):
+        normative.append("codes is not an array of strings")
+        codes = []
+    tier = answer.get("derivedTier")
+    if verdict == "valid" and "derivedTier" in expected and expected["derivedTier"] != tier:
+        normative.append(f"derivedTier: expected {expected['derivedTier']!r}, got {tier!r}")
+    if "set" in expected:
+        found, notes = _set_mismatch(expected["set"], answer.get("set"))
+        normative.extend(found)
+        parity.extend(notes)
+    elif "dating" in expected:
+        found, notes = _dating_mismatch(expected["dating"], answer.get("dating"))
+        normative.extend(found)
+        parity.extend(notes)
+    elif "withinLimit" in expected and expected["withinLimit"] != answer.get("withinLimit"):
+        normative.append(
+            f"withinLimit: expected {expected['withinLimit']}, got {answer.get('withinLimit')}"
+        )
+    declared = set(expected.get("codes") or [])
+    if declared and not declared & set(codes):
+        parity.append(f"no emitted code {codes} is among the declared codes {sorted(declared)}")
+    return normative, parity
+
+
+def _external_answer(command: list[str], path: str) -> tuple[bool, dict[str, Any] | str]:
+    try:
+        result = subprocess.run(
+            [*command, path, "--json"], capture_output=True, text=True, timeout=90, check=False
+        )
+    except (OSError, subprocess.TimeoutExpired) as exc:
+        return False, f"verifier did not run: {exc}"
+    lines = [line for line in result.stdout.splitlines() if line.strip()]
+    try:
+        answer = strictjson.loads(lines[-1])
+    except (IndexError, ValueError):
+        return True, f"verifier printed no JSON object on its last line (exit {result.returncode})"
+    if not isinstance(answer, dict):
+        return True, f"the last stdout line is not a JSON object (exit {result.returncode})"
+    if CONTRACT_EXIT.get(str(answer.get("verdict"))) != result.returncode:
+        return True, f"exit {result.returncode} disagrees with verdict {answer.get('verdict')!r}"
+    return True, answer
+
+
+def run_external(root: str, verifier: list[str], report_path: str, rail_note: str) -> int:
+    """Judge every member through a named verifier under the contract.
+
+    The corpus-level claims and each member's aggregation block are checked by
+    this reader whatever the verifier: they are claims about the corpus, not
+    answers a verifier gives.
+    """
+    with open(os.path.join(root, "MANIFEST.json"), encoding="utf-8") as handle:
+        manifest = strictjson.load(handle)
+    entries: list[dict[str, Any]] = manifest.get("vectors") or []
+    failures = [f"corpus: {finding}" for finding in _corpus_findings(root, manifest)]
+    rows: list[dict[str, Any]] = []
+    notes: list[str] = []
+    normative: list[str]
+    parity: list[str]
+    answered = parity_mismatch = proposed_differ = 0
+    for entry in entries:
+        label = f"{entry.get('draftId')} {entry.get('id')}"
+        path = os.path.join(root, str(entry.get("file", "")))
+        try:
+            with open(path, "rb") as handle:
+                own = aggregation_findings(entry, handle.read())
+        except OSError as exc:
+            own = [f"the vector body is unreadable: {exc}"]
+        ran, answer = _external_answer(verifier, path)
+        answered += int(ran)
+        if isinstance(answer, str):
+            normative, parity = [answer], []
+        else:
+            normative, parity = contract_findings(entry, answer)
+        parity_mismatch += int(bool(parity))
+        text = text_status(entry)
+        # A proposed member tests a rule no published revision states, so a
+        # verifier that differs on it has not failed: its difference is a note.
+        # The corpus's own claims (aggregation) bind whatever the text.
+        scored = normative if text == "published" else []
+        findings = own + scored
+        failures.extend(f"{label}: {finding}" for finding in findings)
+        notes.extend(f"{label}: {finding}" for finding in parity)
+        if text == "proposed":
+            proposed_differ += int(bool(normative))
+            notes.extend(f"{label} (proposed text, not scored): {finding}" for finding in normative)
+        rows.append(
+            {
+                "id": entry.get("id"),
+                "draftId": entry.get("draftId"),
+                "kind": entry.get("kind"),
+                "text": text,
+                "conformance": "conform"
+                if not (own or normative)
+                else ("fail" if findings else "differs-from-proposed"),
+                "conformanceReasons": own + normative,
+                "reasonParityFindings": parity,
+                "status": "pass" if not findings else "fail",
+            }
+        )
+    for failure in failures:
+        print(failure)
+    for note in notes:
+        print(f"note (codes, not scored): {note}")
+    total = len(entries)
+    print(
+        f"{SUITE}: {shlex.join(verifier)} answered {answered} of {total} members, "
+        f"{len(failures)} disagreement(s)"
+    )
+    if not answered or not total:
+        print("no report written: no member was answered")
+        return 2
+    failed = sum(1 for row in rows if row["status"] == "fail")
+    report = {
+        "suite": SUITE,
+        "contract": CONTRACT_ID,
+        "rail": "external",
+        "verifier": {"command": verifier, "vectorsExecuted": answered, "note": rail_note},
+        "corpusDigest": manifest.get("corpusDigest"),
+        "totals": {
+            "vectors": total,
+            "conform": sum(1 for row in rows if row["conformance"] == "conform"),
+            "fail": failed,
+            "published": sum(1 for row in rows if row["text"] == "published"),
+            "proposed": sum(1 for row in rows if row["text"] == "proposed"),
+            "proposedDiffer": proposed_differ,
+            "reasonParityMismatch": parity_mismatch,
+            "suiteRefusals": 0,
+        },
+        "rows": rows,
+        "failures": failures,
+        "reasonParityNotes": notes,
+    }
+    with open(report_path, "w", encoding="utf-8") as handle:
+        handle.write(json.dumps(report, indent=2, sort_keys=True) + "\n")
+    return 1 if failures or answered != total else 0
+
+
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(
         prog="auditrecord",
@@ -2734,8 +3333,21 @@ def main(argv: list[str] | None = None) -> int:
         "draft-gilda-audit-agent-audit-record-00 and the five rows of revision 01 "
         "(TI6, V4, V5, FR14, FR15)",
     )
-    parser.add_argument("directory", help="a corpus directory carrying MANIFEST.json")
+    parser.add_argument(
+        "directory",
+        help="a corpus directory carrying MANIFEST.json, or one "
+        "member file to answer under the external-verifier contract (with --json)",
+    )
+    parser.add_argument(
+        "--json",
+        action="store_true",
+        help="answer one member file as one JSON object; exit 0 valid, 1 malformed",
+    )
     args = parser.parse_args(argv)
+    if os.path.isfile(args.directory):
+        answer = answer_member(args.directory)
+        print(json.dumps(answer, sort_keys=True))
+        return CONTRACT_EXIT.get(str(answer["verdict"]), 2)
     judged = judge(args.directory)
     sys.stdout.write(render(judged, SUITE))
     return 0 if judged.ok() else 1

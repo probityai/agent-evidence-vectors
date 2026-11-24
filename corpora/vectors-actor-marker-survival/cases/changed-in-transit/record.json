@@ -1,0 +1,191 @@
+{
+  "contractId": "https://probityai.github.io/agent-evidence-vectors/predicate/v1/actor-marker-survival",
+  "statements": [
+    {
+      "signature": "B4Bed3PTg-IyXSaf4P7O6zanr7hieOv-8pMh7v56XZtHeWHYg9Y-h_aIAHmeGpKLKe2gH3_dqPgoL_dTZTXsBg",
+      "statement": {
+        "humanEvidence": {
+          "at": "2026-11-22T14:59:30Z",
+          "method": "user-presence"
+        },
+        "kind": "origin",
+        "sent": {
+          "at": "2026-11-22T15:00:00Z",
+          "protocol": "rfc8693",
+          "to": "agent:planner",
+          "token": {
+            "claims": {
+              "exp": 1795363200,
+              "sub": "user:alice@example.com"
+            },
+            "header": {
+              "typ": "JWT"
+            }
+          }
+        },
+        "writer": "idp.example"
+      }
+    },
+    {
+      "signature": "HefSmJvZFZAX-9d4I1MrSczPfYMTfxHf4suOGTSzKpFQIdnF9bWSg3h2ryGqQbfiVB4Ou-RQtOpzF5TKShZ6CQ",
+      "statement": {
+        "kind": "hop",
+        "prev": "8e1be1529e0153160cc4c2c523eaa6fea7c5b2586ea15de8237fd171053fddd1",
+        "received": {
+          "at": "2026-11-22T15:00:10Z",
+          "protocol": "rfc8693",
+          "token": {
+            "claims": {
+              "exp": 1795363200,
+              "sub": "user:alice@example.com"
+            },
+            "header": {
+              "typ": "JWT"
+            }
+          }
+        },
+        "sent": {
+          "at": "2026-11-22T15:00:11Z",
+          "protocol": "rfc8693",
+          "to": "agent:researcher",
+          "token": {
+            "claims": {
+              "act": {
+                "sub": "agent:planner"
+              },
+              "exp": 1795363200,
+              "sub": "user:alice@example.com"
+            },
+            "header": {
+              "typ": "JWT"
+            }
+          }
+        },
+        "writer": "agent:planner"
+      }
+    },
+    {
+      "signature": "iYQJcjdnOx9312sLe0mVqB7ZRZEyMTHGLz7rblqeo2BSyy6BEgp0Do5KDaBv09spv0Gt7n5A1nAx7l_EvC-dAQ",
+      "statement": {
+        "kind": "hop",
+        "prev": "d2f2ac0bd4deb7124dabddabd6fa43b794cbeb4e8cb32ffd076864267b1b9892",
+        "received": {
+          "at": "2026-11-22T15:00:21Z",
+          "protocol": "rfc8693",
+          "token": {
+            "claims": {
+              "exp": 1795363200,
+              "sub": "user:alice@example.com"
+            },
+            "header": {
+              "typ": "JWT"
+            }
+          }
+        },
+        "sent": {
+          "at": "2026-11-22T15:00:22Z",
+          "protocol": "rfc8693",
+          "to": "gateway:edge",
+          "token": {
+            "claims": {
+              "exp": 1795363200,
+              "sub": "user:alice@example.com"
+            },
+            "header": {
+              "typ": "JWT"
+            }
+          }
+        },
+        "writer": "agent:researcher"
+      }
+    },
+    {
+      "signature": "3iOcjgrVLh-5p6DztoHCz8a94XAGTe9ytH8kutB4AUQgyJjot2_A6RYEBCxPBUcz9Hq0rbj5EqbCSk6sGoghDQ",
+      "statement": {
+        "kind": "hop",
+        "prev": "7dcd2d8fb9fb403db600c55962b85ed045cae406896b8a200472e1b4982d9e87",
+        "received": {
+          "at": "2026-11-22T15:00:32Z",
+          "protocol": "rfc8693",
+          "token": {
+            "claims": {
+              "exp": 1795363200,
+              "sub": "user:alice@example.com"
+            },
+            "header": {
+              "typ": "JWT"
+            }
+          }
+        },
+        "sent": {
+          "at": "2026-11-22T15:00:33Z",
+          "protocol": "rfc8693",
+          "to": "agent:writer",
+          "token": {
+            "claims": {
+              "act": {
+                "sub": "agent:researcher"
+              },
+              "exp": 1795363200,
+              "sub": "user:alice@example.com"
+            },
+            "header": {
+              "typ": "JWT"
+            }
+          }
+        },
+        "writer": "gateway:edge"
+      }
+    },
+    {
+      "signature": "KRc38RWSbyJCsDwar-OgXOV_dIgSYtEQDD9_07EuP9BDpgUiulc902iaq0dpMcIkLw5QuxcPsrZPOIBs17azAw",
+      "statement": {
+        "kind": "hop",
+        "prev": "1ae74fce5d49320cf489804ab1404bbfd816c7ba49b3deb5b4f23b2844f0b717",
+        "received": {
+          "at": "2026-11-22T15:00:43Z",
+          "protocol": "rfc8693",
+          "token": {
+            "claims": {
+              "act": {
+                "act": {
+                  "sub": "agent:planner"
+                },
+                "sub": "agent:researcher"
+              },
+              "exp": 1795363200,
+              "sub": "user:alice@example.com"
+            },
+            "header": {
+              "typ": "JWT"
+            }
+          }
+        },
+        "sent": {
+          "at": "2026-11-22T15:00:44Z",
+          "protocol": "rfc8693",
+          "to": "api.example",
+          "token": {
+            "claims": {
+              "act": {
+                "act": {
+                  "act": {
+                    "sub": "agent:planner"
+                  },
+                  "sub": "agent:researcher"
+                },
+                "sub": "agent:writer"
+              },
+              "exp": 1795363200,
+              "sub": "user:alice@example.com"
+            },
+            "header": {
+              "typ": "JWT"
+            }
+          }
+        },
+        "writer": "agent:writer"
+      }
+    }
+  ]
+}

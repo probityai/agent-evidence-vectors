@@ -1,0 +1,269 @@
+{
+  "corpusDigest": "a2e52b0c14afab41ef76dd50d6417d5e3006859eb8d7fbbd484a473cb7d956de",
+  "counts": {
+    "contradicted": 11,
+    "not_established": 4,
+    "supported": 3
+  },
+  "profile": {
+    "path": "profile.json",
+    "sha256": "09d7d15b48571badd01e523a18657ae285142087a6c6413aea130535d13160ec"
+  },
+  "suite": "cbor-receipt-chain/v1",
+  "synthetic": true,
+  "vectors": [
+    {
+      "edit": "control: six receipts, head pinned",
+      "expected": {
+        "decision": "supported",
+        "reason": "receipt_chain_holds"
+      },
+      "files": {
+        "case.json": "695d4d4c67d5e0a6f45128213d16ef58ff307dc8bb207c600a0d34537fbe0dbf",
+        "chain.jsonl": "f887d7b83812b461753e5cadf25183c94cf079fb5210275d95c89f5830908a2c"
+      },
+      "id": "control-intact-anchored",
+      "path": "cases/control-intact-anchored",
+      "receipts": 6
+    },
+    {
+      "edit": "control: a chain that continues an earlier run",
+      "expected": {
+        "decision": "supported",
+        "reason": "receipt_chain_holds"
+      },
+      "files": {
+        "case.json": "32f689bd9b38940163ef2bbee94ea683a2e94db4f7fb549b0a3e5e271ac5277c",
+        "chain.jsonl": "f3cf220b7d6cc5f780d94265a9f8d8709a33fa9aff8da05d9c117069a58fb9f8"
+      },
+      "id": "control-first-prev-pinned",
+      "path": "cases/control-first-prev-pinned",
+      "receipts": 4
+    },
+    {
+      "edit": "control: a denied request may be tried again",
+      "expected": {
+        "decision": "supported",
+        "reason": "receipt_chain_holds"
+      },
+      "files": {
+        "case.json": "6d5e07a2b6092a5ff9a609be07bb51a087c4dbf60b49efbba051f182db393e63",
+        "chain.jsonl": "91d222ced6ba8a8ca8e3374176d5b0f49c801ddca18117f7840d1ba111edd741"
+      },
+      "id": "control-denied-request-repeats",
+      "path": "cases/control-denied-request-repeats",
+      "receipts": 7
+    },
+    {
+      "edit": "no head pinned: the stream may be a prefix",
+      "expected": {
+        "decision": "not_established",
+        "reason": "head_not_anchored"
+      },
+      "files": {
+        "case.json": "7c1c029acaa2c8711714d9ad3e02c7321a0cd08e4f35f2a2d3871b6cd52f4cac",
+        "chain.jsonl": "f887d7b83812b461753e5cadf25183c94cf079fb5210275d95c89f5830908a2c"
+      },
+      "id": "unanchored-intact",
+      "path": "cases/unanchored-intact",
+      "receipts": 6
+    },
+    {
+      "edit": "last receipt removed, no head pinned",
+      "expected": {
+        "decision": "not_established",
+        "reason": "head_not_anchored"
+      },
+      "files": {
+        "case.json": "7c1c029acaa2c8711714d9ad3e02c7321a0cd08e4f35f2a2d3871b6cd52f4cac",
+        "chain.jsonl": "ba71fb2693c5c95eba5d22eed79ef42e364783d1629bd0cd9d0da4c7d92a6413"
+      },
+      "id": "cut-tail-unanchored",
+      "path": "cases/cut-tail-unanchored",
+      "receipts": 5
+    },
+    {
+      "edit": "last receipt removed, head pinned",
+      "expected": {
+        "decision": "contradicted",
+        "reason": "head_anchor"
+      },
+      "files": {
+        "case.json": "695d4d4c67d5e0a6f45128213d16ef58ff307dc8bb207c600a0d34537fbe0dbf",
+        "chain.jsonl": "ba71fb2693c5c95eba5d22eed79ef42e364783d1629bd0cd9d0da4c7d92a6413"
+      },
+      "id": "cut-tail-anchored",
+      "path": "cases/cut-tail-anchored",
+      "receipts": 5
+    },
+    {
+      "edit": "a new chain starts mid stream",
+      "expected": {
+        "decision": "not_established",
+        "reason": "chain_reset"
+      },
+      "files": {
+        "case.json": "a68ccdb4656af13ab297f39d8a8b40eb852e9b2d892aad57b81b80fafd223aa3",
+        "chain.jsonl": "66188e0976c4a058014837570a989f283c4599eeeaf48898c1428ebbfdec1d2f"
+      },
+      "id": "restart-honest",
+      "path": "cases/restart-honest",
+      "receipts": 6
+    },
+    {
+      "edit": "a restart after a lost tail, head pinned to the true end",
+      "expected": {
+        "decision": "contradicted",
+        "reason": "head_anchor"
+      },
+      "files": {
+        "case.json": "695d4d4c67d5e0a6f45128213d16ef58ff307dc8bb207c600a0d34537fbe0dbf",
+        "chain.jsonl": "66188e0976c4a058014837570a989f283c4599eeeaf48898c1428ebbfdec1d2f"
+      },
+      "id": "restart-hides-lost-tail",
+      "path": "cases/restart-hides-lost-tail",
+      "receipts": 6
+    },
+    {
+      "edit": "the format records the decision only; an effect is required",
+      "expected": {
+        "decision": "not_established",
+        "reason": "effect_not_recorded"
+      },
+      "files": {
+        "case.json": "50bb7c3dc46437d723f1816fe210a5622ca8554c6c911bb62dbbb43ddd749ddf",
+        "chain.jsonl": "f887d7b83812b461753e5cadf25183c94cf079fb5210275d95c89f5830908a2c"
+      },
+      "id": "no-effect-member",
+      "path": "cases/no-effect-member",
+      "receipts": 6
+    },
+    {
+      "edit": "one signature byte flipped",
+      "expected": {
+        "decision": "contradicted",
+        "reason": "signature"
+      },
+      "files": {
+        "case.json": "695d4d4c67d5e0a6f45128213d16ef58ff307dc8bb207c600a0d34537fbe0dbf",
+        "chain.jsonl": "ca31df4462ab6ea81d60e19f821c67ff0a570d75869cb9885c1e8c3f4f9b6903"
+      },
+      "id": "signature-flipped",
+      "path": "cases/signature-flipped",
+      "receipts": 6
+    },
+    {
+      "edit": "a line holds a map that is not a receipt",
+      "expected": {
+        "decision": "contradicted",
+        "reason": "receipt_shape"
+      },
+      "files": {
+        "case.json": "695d4d4c67d5e0a6f45128213d16ef58ff307dc8bb207c600a0d34537fbe0dbf",
+        "chain.jsonl": "c8ebaaa25da816f7370752422d072f824aee03f7e14f703bd64e2cce3003a7b7"
+      },
+      "id": "receipt-malformed",
+      "path": "cases/receipt-malformed",
+      "receipts": 6
+    },
+    {
+      "edit": "one record re-signed under a key the consumer never pinned",
+      "expected": {
+        "decision": "contradicted",
+        "reason": "signer_pinned"
+      },
+      "files": {
+        "case.json": "695d4d4c67d5e0a6f45128213d16ef58ff307dc8bb207c600a0d34537fbe0dbf",
+        "chain.jsonl": "e267230da51eed90c9132defbae11cefa8812c3b7730818494f4a6f7c28d6b06"
+      },
+      "id": "embedded-key-unpinned",
+      "path": "cases/embedded-key-unpinned",
+      "receipts": 6
+    },
+    {
+      "edit": "an unpinned key appends its own chained receipts",
+      "expected": {
+        "decision": "contradicted",
+        "reason": "signer_pinned"
+      },
+      "files": {
+        "case.json": "712fb811862d17413d33b8c2d986682285c9d1a6ad021934261966c44ce07791",
+        "chain.jsonl": "543650ce87f80cfafc42cfaf51d3f982303c7e9c12ef871a7fb49c1564df36ac"
+      },
+      "id": "foreign-key-extends",
+      "path": "cases/foreign-key-extends",
+      "receipts": 9
+    },
+    {
+      "edit": "one receipt appears twice",
+      "expected": {
+        "decision": "contradicted",
+        "reason": "no_duplicate_receipt"
+      },
+      "files": {
+        "case.json": "405e925a7ed174cfd03afb3522a04570769054eeab7a625956e9bffe9e01b218",
+        "chain.jsonl": "ed5ec67da3d807328b1cf16eee909ee9cffdeef4cde55b6d9b6abbbdd3df9c02"
+      },
+      "id": "duplicate-line",
+      "path": "cases/duplicate-line",
+      "receipts": 7
+    },
+    {
+      "edit": "the same signed request is allowed by a second, linked receipt",
+      "expected": {
+        "decision": "contradicted",
+        "reason": "single_use"
+      },
+      "files": {
+        "case.json": "371edd243e0defa96d0ecdc79acf1b5ece853145c956dd54bac8257859da9857",
+        "chain.jsonl": "974430df2bd98e3526c3734edc0386dd27a1ef5a4d640ed7e640f16b256b239c"
+      },
+      "id": "reissued-authorization",
+      "path": "cases/reissued-authorization",
+      "receipts": 7
+    },
+    {
+      "edit": "the first receipt removed",
+      "expected": {
+        "decision": "contradicted",
+        "reason": "chain_order"
+      },
+      "files": {
+        "case.json": "41a13a50dae61de20e42d54d48d77232bb3ab13e88273f5ac161fb6ae024ec9b",
+        "chain.jsonl": "b6d7d3748865c6c96867d88f45277795e61c6f3b747d5cd85938cfe8f11a2f70"
+      },
+      "id": "first-receipt-dropped",
+      "path": "cases/first-receipt-dropped",
+      "receipts": 5
+    },
+    {
+      "edit": "a middle receipt removed",
+      "expected": {
+        "decision": "contradicted",
+        "reason": "chain_order"
+      },
+      "files": {
+        "case.json": "41a13a50dae61de20e42d54d48d77232bb3ab13e88273f5ac161fb6ae024ec9b",
+        "chain.jsonl": "4a4079398880f6ca7f7f07a44b669b8f87ff0963f19a363369e279a507d047a5"
+      },
+      "id": "middle-receipt-dropped",
+      "path": "cases/middle-receipt-dropped",
+      "receipts": 5
+    },
+    {
+      "edit": "two receipts swapped",
+      "expected": {
+        "decision": "contradicted",
+        "reason": "chain_order"
+      },
+      "files": {
+        "case.json": "695d4d4c67d5e0a6f45128213d16ef58ff307dc8bb207c600a0d34537fbe0dbf",
+        "chain.jsonl": "442fb5a84249f496a32e652f36319f540449a9feedd6260b68131939f6505288"
+      },
+      "id": "receipts-swapped",
+      "path": "cases/receipts-swapped",
+      "receipts": 6
+    }
+  ],
+  "verifierContract": "verifier case.json --json; exit 0 supported, 1 contradicted, 3 not_established"
+}

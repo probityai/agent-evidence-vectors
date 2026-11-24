@@ -21,6 +21,27 @@ ROOT = Path(__file__).parent
 MANIFEST = ROOT / "MANIFEST.json"
 
 
+def symlinks_available() -> bool:
+    """Probe once whether this account may create a symbolic link.
+
+    Windows refuses symlink creation with error 1314 unless Developer Mode is on
+    or the process is elevated. The tests that need a link report a named skip
+    there instead of an error.
+    """
+    with tempfile.TemporaryDirectory() as scratch:
+        target = Path(scratch) / "target"
+        target.write_bytes(b"")
+        try:
+            (Path(scratch) / "link").symlink_to(target)
+        except (OSError, NotImplementedError):
+            return False
+    return True
+
+
+SYMLINK_SKIP = "creating a symbolic link needs Developer Mode or an elevated process on this host"
+NEEDS_SYMLINKS = unittest.skipUnless(symlinks_available(), SYMLINK_SKIP)
+
+
 class CandidateTests(unittest.TestCase):
     def case(self, number: int) -> dict:
         return json.loads((ROOT / f"cases/ATF-{number:03}.json").read_bytes())
@@ -239,6 +260,7 @@ class ProcessTests(unittest.TestCase):
         self.assert_output_exists(self.run_corpus(empty))
         self.assertFalse((empty / "report.json").exists())
 
+    @NEEDS_SYMLINKS
     def test_symlinked_directory_above_the_corpus_is_not_refused(self) -> None:
         # The directories above the manifest are where a checkout lives, not
         # corpus members: macOS /tmp, a linked home or a linked TMPDIR. The
@@ -252,6 +274,7 @@ class ProcessTests(unittest.TestCase):
         report = json.loads((output / "report.json").read_bytes())
         self.assertEqual(report["matched"], report["planned"])
 
+    @NEEDS_SYMLINKS
     def test_symlinked_directory_inside_the_corpus_refuses(self) -> None:
         cases = self.copy / "cases"
         moved = self.root / "cases-elsewhere"
@@ -271,6 +294,7 @@ class ProcessTests(unittest.TestCase):
         self.assert_refused(self.run_corpus(output), "pin-digest")
         self.assertFalse((output / "report.json").exists())
 
+    @NEEDS_SYMLINKS
     def test_changed_case_extra_case_and_symlink_refuse(self) -> None:
         case = self.copy / "cases/ATF-001.json"
         original = case.read_bytes()

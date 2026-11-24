@@ -26,7 +26,6 @@ The checks below can each fail on their own:
 from __future__ import annotations
 
 import hashlib
-import json
 import os
 import sys
 from dataclasses import dataclass, field
@@ -39,6 +38,10 @@ from cryptography.hazmat.primitives import hashes
 from cryptography.hazmat.primitives.asymmetric import ec
 from cryptography.hazmat.primitives.asymmetric.ed25519 import Ed25519PublicKey
 from cryptography.hazmat.primitives.asymmetric.utils import encode_dss_signature
+
+_REPO = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+sys.path.insert(0, os.path.join(_REPO, "packaging"))
+from agent_evidence_vectors import strictjson  # noqa: E402
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, HERE)
@@ -198,7 +201,7 @@ def air_signature(
 
 def air_header_payload(h: dict[Any, Any], payload: bytes) -> None:
     try:
-        body = json.loads(payload)
+        body = strictjson.loads(payload)
     except ValueError as exc:
         raise Refused("header-payload-disagree") from exc
     pair = (h["action_timestamp_ms"], h["agent_id"])
@@ -411,7 +414,7 @@ def draft_off(draft: str) -> frozenset[str]:
 
 def _case(entry: dict[str, Any]) -> dict[str, Any]:
     with open(os.path.join(HERE, entry["file"]), encoding="utf-8") as fh:
-        out: dict[str, Any] = json.load(fh)
+        out: dict[str, Any] = strictjson.load(fh)
     return out
 
 
@@ -557,7 +560,7 @@ def sweep(manifest: dict[str, Any]) -> list[str]:
 
 def main() -> int:
     with open(os.path.join(HERE, "MANIFEST.json"), encoding="utf-8") as fh:
-        manifest = json.load(fh)
+        manifest = strictjson.load(fh)
     findings = judge(manifest) + draft_reading(manifest) + second_path(manifest) + sweep(manifest)
     for finding in findings:
         print(f"FAIL check: {finding}")

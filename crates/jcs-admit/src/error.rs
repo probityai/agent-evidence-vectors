@@ -43,23 +43,33 @@ pub enum Error {
         /// Byte offset of the repeated name's opening quote.
         offset: usize,
     },
-    /// A string literal's bytes do not denote a sequence of Unicode scalar
-    /// values: an unpaired surrogate escape, a surrogate escape pair that is
-    /// not high-then-low, a raw control character, invalid UTF-8 (which
-    /// includes an overlong form and a surrogate encoded directly in UTF-8),
-    /// or, under the I-JSON profile, a Unicode noncharacter.
+    /// A string literal was refused before decoding.
+    ///
+    /// Most faults in this class are bytes that do not denote a sequence of
+    /// Unicode scalar values: an unpaired surrogate escape, a surrogate escape
+    /// pair that is not high-then-low, invalid UTF-8 (which includes an overlong
+    /// form and a surrogate encoded directly in UTF-8), or a malformed or
+    /// truncated escape. The class also carries two refusals of scalar values
+    /// that are well-formed Unicode: a raw control character, which JSON
+    /// forbids unescaped, and, under the I-JSON profile, a Unicode
+    /// noncharacter, which RFC 7493 section 2.1 forbids. `reason` names which
+    /// one, and the rendered message never calls a scalar value a non-scalar.
     ///
     /// The check runs on the raw bytes before any decode, because a decoder
     /// cannot report it afterwards: a decoder that substitutes U+FFFD leaves
     /// three distinct wire strings canonicalizing to identical bytes.
     StringNotScalar {
-        /// Byte offset inside the document.
+        /// Byte offset inside the document of the refused byte: the first
+        /// byte of an ill-formed UTF-8 sequence, a raw control character or a
+        /// raw noncharacter; the backslash of a refused escape; or the opening
+        /// quote of an unterminated literal.
         offset: usize,
         /// Which fault was found.
         reason: &'static str,
     },
-    /// An integer outside the range where an IEEE-754 double is exact,
-    /// refused under the I-JSON safe-integer profile.
+    /// An integer, or a number whose nearest double is an integer, outside the
+    /// range where an IEEE-754 double is exact, refused under the I-JSON
+    /// safe-integer profile.
     UnsafeInteger {
         /// The offending number token, as written.
         token: String,
@@ -73,6 +83,18 @@ pub enum Error {
     /// A number token whose value is not finite as an IEEE-754 double, so
     /// RFC 8785 has no serialization for it.
     NonFiniteNumber {
+        /// The offending number token, as written.
+        token: String,
+    },
+    /// A number token whose value is not the value of the double it reads as,
+    /// refused under the I-JSON profile.
+    ///
+    /// RFC 7493 section 2.2 names `3.141592653589793238462643383279` and
+    /// `1E400` as numbers with more precision or magnitude than a double
+    /// provides. Such a token names one number to a reader that keeps its
+    /// digits and another to every reader that holds a double, so the bytes a
+    /// signer canonicalizes and the value an exact reader acts on differ.
+    InexactNumber {
         /// The offending number token, as written.
         token: String,
     },
@@ -161,10 +183,9 @@ impl fmt::Display for Error {
                     clipped(name)
                 )
             }
-            Self::StringNotScalar { offset, reason } => write!(
-                f,
-                "JSON string is not a sequence of Unicode scalar values at byte {offset}: {reason}"
-            ),
+            Self::StringNotScalar { offset, reason } => {
+                write!(f, "JSON string literal refused at byte {offset}: {reason}")
+            }
             Self::UnsafeInteger { token } => {
                 write!(
                     f,
@@ -183,6 +204,13 @@ impl fmt::Display for Error {
                 write!(
                     f,
                     "number is not a finite IEEE-754 double: {}",
+                    clipped(token)
+                )
+            }
+            Self::InexactNumber { token } => {
+                write!(
+                    f,
+                    "number has more precision than an IEEE-754 double holds: {}",
                     clipped(token)
                 )
             }

@@ -1,0 +1,5 @@
+# case                       expected verdict
+valid/minimal.json           valid
+valid/nested.json            valid
+invalid/flag-false.json      invalid
+invalid/not-json.json        invalid

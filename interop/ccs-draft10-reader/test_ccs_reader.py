@@ -10,6 +10,7 @@ from __future__ import annotations
 import hashlib
 import json
 import os
+import re
 import shutil
 import subprocess
 import sys
@@ -107,11 +108,30 @@ def run_reader(out: Path, seed: str, jcs_admit: Path | None) -> None:
     )
 
 
-def test_tool_versions_are_the_pinned_ones() -> None:
-    assert version("agent-evidence-vectors") == ccs_pins.TOOLS["agent-evidence-vectors"]
-    assert version("cryptography") == ccs_pins.TOOLS["cryptography"]
+def _manifest_pins() -> dict[str, str]:
+    """The versions this directory's manifests pin, which CI installs and runs."""
+    pins: dict[str, str] = {}
+    for line in (HERE / "requirements.txt").read_text(encoding="utf-8").splitlines():
+        name, sep, pinned = line.strip().partition("==")
+        if sep:
+            pins[name] = pinned
     lock = (HERE / "jcs-admit-check" / "Cargo.lock").read_text(encoding="utf-8")
-    assert f'name = "jcs-admit"\nversion = "{ccs_pins.TOOLS["jcs-admit"]}"' in lock
+    found = re.search(r'name = "jcs-admit"\nversion = "([^"]+)"', lock)
+    assert found, "jcs-admit-check/Cargo.lock names no jcs-admit"
+    pins["jcs-admit"] = found.group(1)
+    return pins
+
+
+def test_installed_tools_are_the_manifest_pins() -> None:
+    """The reproduction below runs the pinned tools, whatever version a bump moved them to.
+
+    ccs_pins.TOOLS is a different record: the versions of the box run that wrote
+    results/. The reproduction test shows the pinned versions still write the same bytes.
+    """
+    pins = _manifest_pins()
+    assert version("agent-evidence-vectors") == pins["agent-evidence-vectors"]
+    assert version("cryptography") == pins["cryptography"]
+    assert set(ccs_pins.TOOLS) <= set(pins)
 
 
 def test_inputs_pins_match_the_files_on_disk() -> None:

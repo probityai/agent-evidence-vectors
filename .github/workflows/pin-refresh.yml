@@ -40,8 +40,9 @@ jobs:
           # credential adds a second Authorization header and GitHub refuses the push
           # with HTTP 400 ("Duplicate header"), which left the family lock stale.
           persist-credentials: false
-      - uses: probityai/.github/actions/pin-refresh@f36e582cb61bebb245a40451f2b6f63d2fb9d5c1 # main
+      - uses: probityai/.github/actions/pin-refresh@449849e49f23d5c9a3e2422bb8366aac738dd076 # main
         with:
           ci: |
             ci.yml
-          token: ${{ github.token }}
+          app-client-id: ${{ vars.PIN_REFRESH_APP_CLIENT_ID }}
+          app-private-key: ${{ secrets.PIN_REFRESH_APP_PRIVATE_KEY }}

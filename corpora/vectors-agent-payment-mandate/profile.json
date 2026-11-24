@@ -20,7 +20,9 @@
       "actions the mandate requires after checkout": "mandate.terms.post_checkout_required",
       "binding of mandate and execution": "receipt",
       "rails the mandate may be spent on": "mandate.terms.rails",
+      "the issuer keys and the dates each was valid": "the relying party's policy",
       "what the agent did after checkout": "post_checkout.recorded",
+      "when the mandate was signed": "mandate.terms.issued_at",
       "which settlement of the token this is": "receipt.token_use_seq"
     },
     "stripe-shared-payment-token": {
@@ -28,6 +30,17 @@
       "seller the token is scoped to": "mandate.terms.merchant",
       "token identifier": "credential.token_id",
       "what ran": "execution"
+    },
+    "x402-exact-evm-eip3009": {
+      "nonces the token contract had consumed before": "execution.nonces_used_before",
+      "the network, token and payee the user allowed": "mandate.terms.network, mandate.terms.currency, mandate.terms.merchant",
+      "what moved on the ledger": "execution.transfer, execution.authorization_used",
+      "what the agent's wallet signed": "credential.facilitator_request.paymentPayload.payload.authorization",
+      "what the facilitator reported": "receipt.settlement_response",
+      "what the resource server required": "credential.facilitator_request.paymentRequirements",
+      "when it settled": "execution.block_timestamp",
+      "which wallet the user let the agent pay from": "mandate.terms.agent.address",
+      "who signed it": "recovered from paymentPayload.payload.signature, never read"
     }
   },
   "note": "Maps what each scheme binds to the receipt-side record fields this suite checks. Source side is a concept, not an upstream field name.",

@@ -52,7 +52,6 @@ or gives the two different signature inputs. The external-signer contract:
 from __future__ import annotations
 
 import argparse
-import base64
 import hashlib
 import json
 import shlex
@@ -71,6 +70,8 @@ from agent_evidence_vectors.monitorcoverage import (
     cli,
     run_corpus,
 )
+
+from . import strictb64, strictjson
 
 SUITE = "signature-coverage/v1"
 CONTRACT_ID = "https://probityai.github.io/agent-evidence-vectors/predicate/v1/signature-coverage"
@@ -181,18 +182,33 @@ def _same(left: Any, right: Any) -> bool:
 
 
 def _payload(record: Record) -> bytes:
-    return base64.b64decode(record["envelope"]["payload"], validate=True)
+    return strictb64.std(record["envelope"]["payload"])
 
 
 def _signature_valid(record: Record) -> bool:
     envelope = record["envelope"]
-    key = base64.b64decode(envelope["publicKey"], validate=True)
-    signature = base64.b64decode(envelope["signature"], validate=True)
-    return bool(_rail().ed25519_verify(key, _payload(record), signature))
+    try:
+        key = strictb64.std(envelope["publicKey"])
+        signature = strictb64.std(envelope["signature"])
+        payload = _payload(record)
+    except (ValueError, TypeError):
+        return False  # not one canonical base64 spelling: no signature to check
+    return bool(_rail().ed25519_verify(key, payload, signature))
 
 
-def _payload_value(record: Record) -> object:
-    return json.loads(_payload(record))
+def _payload_value(record: Record, *, repeat_check_off: bool = False) -> object:
+    """The signed payload as one value; a repeated member is refused at parse time.
+
+    ``repeat_check_off`` models a reader without the ``payload_repeated_member`` check, so
+    the corpus's own tests can show that check changes a verdict: that reader keeps the last
+    member, as ``json`` does, and still refuses ``NaN`` and ``Infinity``. A verifier never sets
+    it, and it leaves ``strictjson`` as it was.
+    """
+    if repeat_check_off:
+        return json.loads(
+            _payload(record), object_pairs_hook=dict, parse_constant=strictjson.refuse_constant
+        )
+    return strictjson.loads(_payload(record))
 
 
 def _repeated_member(record: Record) -> bool:
@@ -203,13 +219,13 @@ def _repeated_member(record: Record) -> bool:
     return False
 
 
-def _reading_differs(record: Record) -> bool:
+def _reading_differs(record: Record, *, repeat_check_off: bool = False) -> bool:
     reading = flatten(record["source"])
     if not isinstance(reading, dict):
         return True
     excluded = set(record["envelope"]["excluded"])
     covered = {key: item for key, item in reading.items() if key not in excluded}
-    return not _same(covered, _payload_value(record))
+    return not _same(covered, _payload_value(record, repeat_check_off=repeat_check_off))
 
 
 def _reads_unsigned(record: Record) -> bool:
@@ -233,16 +249,17 @@ def _first_failure(record: Record, skip: frozenset[str]) -> str | None:
     ``skip`` switches named checks off so the corpus's own tests can prove each
     check is forced by some member; a verifier never sets it.
     """
+    off = "payload_repeated_member" in skip
     failures: dict[str, Callable[[], bool]] = {
         "contract_id_missing": lambda: "contractId" not in record,
         "contract_id_unknown": lambda: record.get("contractId", CONTRACT_ID) != CONTRACT_ID,
         "signature_invalid": lambda: not _signature_valid(record),
         "payload_repeated_member": lambda: _repeated_member(record),
         "number_not_interoperable": lambda: (
-            _has_inexact_integer(_payload_value(record))
+            _has_inexact_integer(_payload_value(record, repeat_check_off=off))
             or _has_inexact_integer(record["source"])),
         "source_repeated_key": lambda: repeats(record["source"]),
-        "reading_differs_from_signed": lambda: _reading_differs(record),
+        "reading_differs_from_signed": lambda: _reading_differs(record, repeat_check_off=off),
         "consumer_reads_unsigned": lambda: _reads_unsigned(record),
     }
     for name in CHECKS:
@@ -252,7 +269,7 @@ def _first_failure(record: Record, skip: frozenset[str]) -> str | None:
 
 
 def _load(record_path: Path) -> Record:
-    loaded: Record = json.loads(record_path.read_text(encoding="utf-8"))
+    loaded: Record = strictjson.loads(record_path.read_text(encoding="utf-8"))
     return loaded
 
 
@@ -280,10 +297,10 @@ def run(root: str, verifier: list[str] | None, report_path: str, rail_note: str)
 def signer_pairs(root: Path = ROOT) -> list[dict[str, Any]]:
     """The signer pairs, after their digest is checked against the manifest."""
     raw = (root / "signer-pairs.json").read_bytes()
-    manifest = json.loads((root / "MANIFEST.json").read_text(encoding="utf-8"))
+    manifest = strictjson.loads((root / "MANIFEST.json").read_text(encoding="utf-8"))
     if hashlib.sha256(raw).hexdigest() != manifest["signerPairsSha256"]:
         raise ValueError("signer-pairs.json does not match its manifest digest")
-    pairs: list[dict[str, Any]] = json.loads(raw)
+    pairs: list[dict[str, Any]] = strictjson.loads(raw)
     return pairs
 
 
@@ -307,10 +324,10 @@ def _external_signer(command: list[str]) -> Callable[[object], bytes | None]:
             path.write_text(json.dumps(source), encoding="utf-8")
             result = subprocess.run([*command, str(path), "--json"], capture_output=True,
                                     text=True, timeout=90, check=False)
-        answer = json.loads(result.stdout)
+        answer = strictjson.loads(result.stdout)
         if answer.get("refused") is True:
             return None
-        return base64.b64decode(answer["signatureInput"], validate=True)
+        return strictb64.std(answer["signatureInput"])
     return sign
 
 

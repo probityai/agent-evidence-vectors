@@ -17,6 +17,14 @@ Actions already defines:
     STATUS   the harness's exit status, as a string
     CORPUS   the corpus name that was replayed, for the heading
 
+and five more the action passes, each optional so the local mirror runs as before:
+
+    CORPUS_DIR            the corpus directory, for the case count and the profile
+    PROFILE               a profile name or file (scripts/action_checks.py)
+    FAIL_ON_NO_VECTORS    `false` makes an empty corpus `no-verdict` rather than `fail`
+    FAIL_ON_MISSING_CASE  `false` reports a listed case that went missing without failing
+    CONTROLS_DIR          the always-accept and always-reject reports
+
     GITHUB_STEP_SUMMARY   the job summary, appended to
     GITHUB_OUTPUT         the step's outputs, appended to
 
@@ -33,6 +41,9 @@ import os
 import sys
 from pathlib import Path
 from typing import Any
+
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+import action_checks  # noqa: E402
 
 # A failing verifier can disagree on every vector, and a table with one row per
 # vector is not read, it is scrolled past. The rest stay in the report, which is
@@ -59,28 +70,55 @@ def required(name: str) -> str:
     return value
 
 
+def _flag(name: str) -> bool:
+    """A true/false input; anything but `false` keeps the strict default."""
+    return os.environ.get(name, "true").strip().lower() != "false"
+
+
+def _no_report(
+    report_path: str, summary_path: str, output_path: str, status: str, corpus_dir: str
+) -> None:
+    """Write the summary and outputs for a run whose harness wrote no report."""
+    summary: list[str] = []
+    outputs: list[str] = []
+    # The harness refused before it could write anything. That is a result,
+    # and it is reported as one rather than as a zero-vector pass.
+    summary.append(
+        f"## agent-evidence-vectors: no report\n\n"
+        f"The harness exited {status} before writing `{report_path}`. "
+        "Read the step log for the refusal.\n\n"
+        f"{OFFLINE}\n"
+    )
+    result = "fail"
+    if corpus_dir:
+        counted = action_checks.count_cases(corpus_dir)
+        summary.append(_count_line(counted) + "\n\n")
+        outputs.append(f"vectors-found={counted['present']}\n")
+        # No case on this runner: a listed corpus with nothing on disk, or
+        # a directory with no manifest and no file. A directory holding
+        # files the harness refused is not an empty corpus.
+        empty = counted["present"] == 0 and (counted["manifest"] or not counted["filesOnDisk"])
+        if empty and not _flag("FAIL_ON_NO_VECTORS"):
+            result = "no-verdict"
+    summary.append(action_checks.controls_line(action_checks.controls([], None, None)) + "\n")
+    outputs.append(f"vectors=0\nconform=0\nresult={result}\n")
+    _write(summary_path, summary, output_path, outputs)
+
+
 def main() -> int:
     report_path = required("REPORT")
     summary_path = required("GITHUB_STEP_SUMMARY")
     output_path = required("GITHUB_OUTPUT")
     status = os.environ.get("STATUS", "1")
     corpus = os.environ.get("CORPUS", "vectors")
+    corpus_dir = os.environ.get("CORPUS_DIR", "")
+
+    if not Path(report_path).is_file():
+        _no_report(report_path, summary_path, output_path, status, corpus_dir)
+        return 0
 
     summary: list[str] = []
     outputs: list[str] = []
-
-    if not Path(report_path).is_file():
-        # The harness refused before it could write anything. That is a result,
-        # and it is reported as one rather than as a zero-vector pass.
-        summary.append(
-            f"## agent-evidence-vectors: no report\n\n"
-            f"The harness exited {status} before writing `{report_path}`. "
-            "Read the step log for the refusal.\n\n"
-            f"{OFFLINE}\n"
-        )
-        outputs.append("vectors=0\nconform=0\nresult=fail\n")
-        _write(summary_path, summary, output_path, outputs)
-        return 0
 
     with open(report_path, encoding="utf-8") as handle:
         report: dict[str, Any] = json.load(handle)
@@ -94,7 +132,17 @@ def main() -> int:
     # rail ran and how many vectors the verifier answered, and a report that
     # cannot show both is a failure.
     refusal = verifier_refusal(report)
-    result = "pass" if status == "0" and refusal is None else "fail"
+    gates, gate_rows, gate_outputs = _gates(report, corpus_dir)
+    outputs.extend(gate_outputs)
+    # The profile split and the controls go into the uploaded report too, so a
+    # scoreboard reading the artifact sees the same counts as the summary.
+    Path(report_path).write_text(json.dumps(report, indent=2) + "\n", encoding="utf-8")
+    profile_ok = gates["profileExcusesFailures"] and status == "1"
+    result = "pass" if (status == "0" or profile_ok) and refusal is None else "fail"
+    if gates["blocking"]:
+        result = "fail"
+    if gates["noVectors"] and not _flag("FAIL_ON_NO_VECTORS"):
+        result = "no-verdict"
     executed = (report.get("verifier") or {}).get("vectorsExecuted")
     outputs.append(f"vectors={totals['vectors']}\n")
     outputs.append(f"conform={totals['conform']}\n")
@@ -113,6 +161,16 @@ def main() -> int:
         f"corpus digest `{provenance.get('corpusDigest') or 'not declared'}`, "
         f"manifest sha256 `{provenance.get('manifestSha256') or 'unread'}`.\n\n"
     )
+    header = report.get("verifierResult")
+    if isinstance(header, dict):
+        summary.append(
+            f"Verifier result: package `{header.get('package')}` "
+            f"`{header.get('version') or 'unknown'}` ({header.get('versionSource')}), "
+            f"corpus `{header.get('corpus')}`, "
+            f"input digest `{header.get('corpusDigest') or 'not declared'}`, "
+            f"corpus revision `{header.get('corpusRevision') or 'unknown'}` "
+            f"({header.get('corpusRevisionKind')}).\n\n"
+        )
     if refusal is not None:
         summary.append(f"**The verifier under test did NOT answer this run:** {refusal}\n\n")
     elif executed is not None:
@@ -129,6 +187,8 @@ def main() -> int:
     cells = " | ".join(str(totals[c]) if c in totals else "n/a" for c in columns)
     summary.append(f"| {cells} |\n\n")
 
+    summary.extend(gate_rows)
+
     summary.append(f"{BRIDGE if result == 'pass' else OFFLINE}\n\n")
 
     summary.extend(_failure_rows(report))
@@ -142,6 +202,155 @@ def main() -> int:
 
     _write(summary_path, summary, output_path, outputs)
     return 0
+
+
+def _count_line(counted: dict[str, Any]) -> str:
+    if not counted["manifest"]:
+        return "No MANIFEST.json was found, so no case was counted on this runner."
+    return (
+        f"Cases counted on this runner (os.name `{counted['os']}`): {counted['present']} of "
+        f"{counted['listed']} listed are on disk."
+    )
+
+
+class _Gates:
+    """What the case count, the profile and the controls found: rows, outputs, verdict inputs."""
+
+    def __init__(self) -> None:
+        self.rows: list[str] = []
+        self.outputs: list[str] = []
+        self.blocking: list[str] = []
+        self.no_vectors = False
+        self.profile_excuses = False
+
+
+def _gates(report: dict[str, Any], corpus_dir: str) -> tuple[dict[str, Any], list[str], list[str]]:
+    """The case count, the missing cases, the profile split and the null controls.
+
+    Returns what decides the result, the summary rows and the step outputs.
+    """
+    gates = _Gates()
+    if corpus_dir:
+        _count_gate(gates, action_checks.count_cases(corpus_dir, report))
+    elif "CORPUS_DIR" in os.environ:
+        # The action always passes CORPUS_DIR; empty means the replay step could
+        # not resolve the corpus directory, so no case was counted. That is a
+        # count that did not run, never a count that found nothing missing.
+        gates.rows.append(
+            "**Cases were not counted:** the corpus directory could not be resolved on "
+            "this runner, so no listed case was checked against the disk or the report.\n\n"
+        )
+        if _flag("FAIL_ON_MISSING_CASE"):
+            gates.blocking.append("cases not counted")
+    if not report["totals"].get("vectors", 0):
+        gates.no_vectors = True
+        if _flag("FAIL_ON_NO_VECTORS"):
+            gates.blocking.append("no vectors")
+    if os.environ.get("PROFILE", "").strip():
+        _profile_gate(gates, report, corpus_dir, os.environ["PROFILE"].strip())
+    _control_gate(gates, report)
+    if gates.blocking:
+        gates.rows.append(f"**Failed by:** {', '.join(gates.blocking)}.\n\n")
+    decided = {
+        "blocking": gates.blocking,
+        "noVectors": gates.no_vectors,
+        "profileExcusesFailures": gates.profile_excuses,
+    }
+    return decided, gates.rows, gates.outputs
+
+
+def _count_gate(gates: _Gates, counted: dict[str, Any]) -> None:
+    gates.rows.append(_count_line(counted) + "\n\n")
+    gates.outputs.append(f"vectors-found={counted['present']}\n")
+    missing = counted["missingOnDisk"] + counted["missingFromReport"]
+    gates.outputs.append(f"missing-cases={len(counted['missingOnDisk']) + counted['reportGap']}\n")
+    if not (missing or counted["reportGap"]):
+        return
+    gates.rows.append(
+        f"**Missing cases:** {len(counted['missingOnDisk'])} listed and not on disk, "
+        f"{counted['reportGap']} listed and not scored by the replay.\n\n"
+    )
+    gates.rows.extend(f"- `{name}`\n" for name in missing[:MAX_ROWS])
+    gates.rows.append("\n")
+    if _flag("FAIL_ON_MISSING_CASE"):
+        gates.blocking.append("missing cases")
+
+
+def _profile_gate(gates: _Gates, report: dict[str, Any], corpus_dir: str, spec: str) -> None:
+    try:
+        profile = action_checks.load_profile(spec)
+        features = action_checks.member_features(corpus_dir) if corpus_dir else {}
+    except (OSError, ValueError) as exc:
+        gates.rows.append(f"**Profile `{spec}` could not be read:** {exc}\n\n")
+        gates.blocking.append("unreadable profile")
+        return
+    split = action_checks.split_by_profile(report, features, profile)
+    inside, outside = split["inProfile"], split["outOfProfile"]
+    excluded = ", ".join(split["excludes"]) or "named ids"
+    gates.rows.append(
+        f"Profile `{split['profile']}` (out of profile: {excluded}): "
+        f"in profile {inside['pass']} of {inside['vectors']} pass; "
+        f"out of profile {outside['pass']} of {outside['vectors']} pass, counted on their own "
+        "and not failing the job.\n\n"
+    )
+    gates.outputs.append(f"in-profile={inside['vectors']}\nin-profile-pass={inside['pass']}\n")
+    gates.outputs.append(
+        f"out-of-profile={outside['vectors']}\nout-of-profile-pass={outside['pass']}\n"
+    )
+    gates.profile_excuses = _profile_excuses(report, inside, outside)
+    report["profile"] = split
+
+
+def _profile_excuses(
+    report: dict[str, Any], inside: dict[str, int], outside: dict[str, int]
+) -> bool:
+    """Whether the profile accounts for the harness's failing exit, and nothing else does.
+
+    A profile excuses a failing exit only when that exit is explained by rows
+    outside the profile: at least one out-of-profile row failed, no in-profile
+    row failed, every vector the report counts is a row here, the report's own
+    fail count is exactly the out-of-profile failures, and the suite refused
+    nothing. An exit 1 with no out-of-profile failure has some other cause, and
+    a profile is never a reason to read it as a pass.
+    """
+    totals = report["totals"]
+    rows = report.get("vectors") or []
+    return (
+        not totals.get("suiteRefusals")
+        and inside["vectors"] > 0
+        and inside["fail"] == 0
+        and outside["fail"] > 0
+        and len(rows) == totals.get("vectors")
+        and totals.get("fail") == outside["fail"]
+    )
+
+
+def _control_gate(gates: _Gates, report: dict[str, Any]) -> None:
+    kinds = [str(row.get("kind")) for row in report.get("vectors") or []]
+    accept_passed, reject_passed = _control_scores()
+    control = action_checks.controls(kinds, accept_passed, reject_passed)
+    gates.rows.append(action_checks.controls_line(control) + "\n\n")
+    verdict = control["discriminates"]
+    gates.outputs.append(
+        f"control-always-accept={'' if accept_passed is None else accept_passed}\n"
+        f"control-always-reject={'' if reject_passed is None else reject_passed}\n"
+        f"discriminates={'' if verdict is None else str(verdict).lower()}\n"
+    )
+    report["controls"] = control
+
+
+def _control_scores() -> tuple[int | None, int | None]:
+    """What the two controls passed, from the reports the controls step wrote."""
+    directory = os.environ.get("CONTROLS_DIR", "")
+    scores: list[int | None] = []
+    for mode in ("accept", "reject"):
+        path = Path(directory) / f"always-{mode}.json" if directory else None
+        try:
+            totals = json.loads(path.read_text(encoding="utf-8"))["totals"] if path else None
+            scores.append(int(totals["pass"]) if totals else None)
+        except (OSError, ValueError, KeyError, TypeError):
+            scores.append(None)
+    return scores[0], scores[1]
 
 
 def _failure_rows(report: dict[str, Any]) -> list[str]:

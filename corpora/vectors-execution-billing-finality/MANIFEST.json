@@ -1,0 +1,1235 @@
+{
+  "contractId": "https://probityai.github.io/agent-evidence-vectors/predicate/v1/execution-billing-finality",
+  "corpusDigest": "2d17ec29a8a81736b780aebd4a11e4cb1e306927078a9050d380fe1572360b4c",
+  "counts": {
+    "allow": 10,
+    "deny": 22
+  },
+  "mutants": [
+    {
+      "credit": "piiiico",
+      "equivalent": false,
+      "id": "M1-guard-removed",
+      "killedBy": {
+        "F03": "same_attempt_redispatched",
+        "F04": "same_attempt_redispatched",
+        "X1": "same_attempt_redispatched"
+      },
+      "sha256": "1620e1322f5cd8ac9a629073dfad152be28bf29c9c6f122008754c2070c68ad4",
+      "summary": "the dispatch_start guard is removed, so a repeated dispatch is allowed"
+    },
+    {
+      "credit": "piiiico",
+      "equivalent": false,
+      "id": "M2-final-billing-bypasses-guard",
+      "killedBy": {
+        "F04": "same_attempt_redispatched",
+        "X1": "same_attempt_redispatched"
+      },
+      "sha256": "c992b8a5b1b566dc73909efc3b7fdfc1c84fdeede6133eaa3d843b8466919e13",
+      "summary": "settled billing lets the same attempt dispatch again"
+    },
+    {
+      "credit": "piiiico",
+      "equivalent": true,
+      "id": "M3-billing-clause-removed",
+      "killedBy": {},
+      "sha256": "91ccd50641f0e128a72069ca6c95de7c842440e0545ce33c9a0d191ebed450d9",
+      "summary": "the guard reads the dispatch state only; every write that settles billing also moves the dispatch state off RESERVED, so nothing can tell"
+    },
+    {
+      "credit": "piiiico",
+      "equivalent": false,
+      "id": "M4-invoice-possible-write-removed",
+      "killedBy": {
+        "X1": "dispatch_state_reserved_after_billing",
+        "X3": "dispatch_state_reserved_after_billing"
+      },
+      "sha256": "7489cf3db0a00b7f9ac730b174c83e35ff4cd3afdb11708af1ebec8973499535",
+      "summary": "an invoice no longer moves the dispatch state to POSSIBLE"
+    },
+    {
+      "credit": "piiiico",
+      "equivalent": false,
+      "id": "M5-M3-plus-M4",
+      "killedBy": {
+        "X1": "same_attempt_redispatched",
+        "X3": "dispatch_state_reserved_after_billing"
+      },
+      "sha256": "79b4b04cb180ce174dba8db5508fb7a44fd78878e0c547433fed43b7a407cd41",
+      "summary": "both: an invoice before any dispatch opens the gate"
+    },
+    {
+      "credit": "mohammedmessaoudene-cmd",
+      "equivalent": false,
+      "id": "success-releases-exposure",
+      "killedBy": {
+        "F01": "held_released_before_final_billing",
+        "F05": "held_released_before_final_billing",
+        "X4": "held_released_before_final_billing"
+      },
+      "sha256": "3696660fbd4d2e449b02cd9b04c3dee13746b331390a080ef8205b76d453ba87",
+      "summary": "a successful execution releases the reservation before any final bill"
+    },
+    {
+      "credit": "mohammedmessaoudene-cmd",
+      "equivalent": false,
+      "id": "invoice-implies-execution",
+      "killedBy": {
+        "F04": "execution_outcome_without_observation",
+        "X1": "execution_outcome_without_observation",
+        "X3": "execution_outcome_without_observation"
+      },
+      "sha256": "148e6b14038bd973bc8eb2e129ce7b5286ff254bb26fd8be3be202da8f6b34b6",
+      "summary": "a final invoice also marks the execution SUCCEEDED"
+    },
+    {
+      "credit": "mohammedmessaoudene-cmd",
+      "equivalent": false,
+      "id": "stuck-hold-after-final-invoice",
+      "killedBy": {
+        "F04": "held_after_final_billing",
+        "F05": "held_after_final_billing",
+        "X1": "held_after_final_billing",
+        "X3": "held_after_final_billing"
+      },
+      "sha256": "346f8515348f6fe40165f8d4eb5f33fb57fe59d6424dca4d74546efbdc20cf53",
+      "summary": "a final invoice settles the bill but the remainder of the reservation stays held"
+    },
+    {
+      "credit": "piiiico",
+      "equivalent": false,
+      "id": "R1-replay-reported-new",
+      "killedBy": {
+        "X1": "invoice_replay_refinalized"
+      },
+      "sha256": "2fe7f467453402218b3249abb1c8fbc93a2ad5e94b2a1a620614afb53c3c7b44",
+      "summary": "a replayed event id is reported as a new event"
+    },
+    {
+      "credit": "piiiico",
+      "equivalent": false,
+      "id": "R2-low-invoice-erases-known-spend",
+      "killedBy": {
+        "X2": "known_spend_decreased"
+      },
+      "sha256": "24ee955e6357821029756a7bbb2daf1754fe0565e42e4827ca55c2571d083dda",
+      "summary": "a final invoice below the known spend is accepted and lowers it"
+    },
+    {
+      "credit": "piiiico",
+      "equivalent": true,
+      "id": "R3-non-dispatch-ignores-cost",
+      "killedBy": {},
+      "sha256": "db9470b58969f00222d53ec1b1549584fb5be56564675b25d4d3b3563baadc1b",
+      "summary": "a non-dispatch proof no longer reads the cost evidence or the known spend; every write that records cost also moves the dispatch state off RESERVED, so nothing can tell"
+    },
+    {
+      "credit": "piiiico",
+      "equivalent": false,
+      "id": "R4-cost-above-final-bill-accepted",
+      "killedBy": {
+        "X3": "final_billing_reversed"
+      },
+      "sha256": "48718c18bae41d023b21751e1ac0a8fe2a8d896c605000f5660e7d1827bd2ac9",
+      "summary": "a cost observation above a final bill raises the known spend and billing stays FINAL"
+    },
+    {
+      "credit": "piiiico",
+      "equivalent": false,
+      "id": "R5-terminal-outcome-overwritten",
+      "killedBy": {
+        "X4": "terminal_outcome_overwritten"
+      },
+      "sha256": "f2da564fc386eec273e9424deb25a991ffecd28893f71e61ec7e0b7c47ed55fe",
+      "summary": "a contradictory terminal outcome replaces the first one"
+    }
+  ],
+  "provenance": {
+    "contract": "https://github.com/mohammedmessaoudene-cmd/agent-evidence-lab/blob/8db9989ee5eb071bad4c4c5618bdb8ef6cdb625c/collaborations/open-evidence-lab/p04-execution-billing/INPUT_CONTRACT.md",
+    "contributedBy": [
+      {
+        "name": "mohammedmessaoudene-cmd",
+        "role": "P04 ledger, the F01, F03, F04, F05 and F14 scenarios, the input contract, the decision that dispatch_state is a required output, and the finding that a hold left open after a final invoice passed every check",
+        "url": "https://github.com/mohammedmessaoudene-cmd"
+      },
+      {
+        "name": "piiiico (Agent Errata)",
+        "role": "the X1 scenario, the three dispatch_start mutants and the M4 observation; the R1 to R5 mutants and the X2, X3 and X4 scenarios that showed known spend, a final bill and a terminal outcome could each be overwritten; the reproduction of the stuck hold and the check that closes it",
+        "url": "https://github.com/piiiico"
+      }
+    ],
+    "issues": [
+      "https://github.com/probityai/agent-evidence-vectors/issues/435",
+      "https://github.com/probityai/agent-evidence-vectors/issues/485",
+      "https://github.com/probityai/agent-evidence-vectors/pull/553"
+    ],
+    "ledger": {
+      "gitBlob": "3b9599c4fa1063156b28aea0588634f9ca04cefe",
+      "path": "tests/p04/exposure_ledger.py",
+      "sha256": "c321eab3e1adfa2169164f63238597f1a1c2a7868d339540a3da574f09c82d0f"
+    },
+    "source": "mohammedmessaoudene-cmd/agent-evidence-lab at 8db9989, collaborations/open-evidence-lab/p04-execution-billing/"
+  },
+  "runtimeContract": "runtime scenario.json --json; prints the record on its last line, exit 0; see executionbilling_runtime",
+  "suite": "execution-billing-finality/v1",
+  "synthetic": true,
+  "vectors": [
+    {
+      "edit": "control: the call succeeded and no final invoice came; the reservation stays held and another attempt for two units is refused",
+      "expected": {
+        "decision": "allow",
+        "reason": "finality_held"
+      },
+      "files": {
+        "record.json": "52a8b5c3d1b1ca7f5cd56367892e9a297c34156524f4cf4020948bd3a84e7b36"
+      },
+      "id": "allow-f01-success-reservation-held",
+      "path": "cases/allow-f01-success-reservation-held",
+      "retained": {
+        "billingFinality": "UNKNOWN",
+        "dispatchState": "POSSIBLE",
+        "endDispatchState": "POSSIBLE",
+        "executionOutcome": "SUCCEEDED",
+        "heldMicroUsd": 2,
+        "knownSpendMicroUsd": 0,
+        "scenario": "F01"
+      },
+      "runtime": {
+        "scenario": {
+          "budget": 3,
+          "id": "F01",
+          "probes": [
+            {
+              "amount": 2,
+              "attempt": "B",
+              "cmd": "reserve"
+            }
+          ],
+          "steps": [
+            {
+              "cmd": "dispatch"
+            },
+            {
+              "cmd": "outcome",
+              "value": "SUCCEEDED"
+            }
+          ]
+        }
+      },
+      "source": {
+        "invariant": "Success is not final billing",
+        "p04Case": "F01",
+        "variant": "unmutated"
+      }
+    },
+    {
+      "edit": "control for F01: the same success followed by a final invoice moves the reservation to known cost and releases only the remainder",
+      "expected": {
+        "decision": "allow",
+        "reason": "finality_held"
+      },
+      "files": {
+        "record.json": "c736122f9ce42dba1db04c6f1a24d7a0ae770ec744988f8b111eb0fbc8ba112e"
+      },
+      "id": "allow-f01-control-final-invoice",
+      "path": "cases/allow-f01-control-final-invoice",
+      "retained": {
+        "billingFinality": "FINAL",
+        "dispatchState": "POSSIBLE",
+        "endDispatchState": "POSSIBLE",
+        "executionOutcome": "SUCCEEDED",
+        "heldMicroUsd": 0,
+        "knownSpendMicroUsd": 1,
+        "scenario": "F05"
+      },
+      "runtime": {
+        "scenario": {
+          "budget": 3,
+          "id": "F05",
+          "probes": [],
+          "steps": [
+            {
+              "cmd": "dispatch"
+            },
+            {
+              "cmd": "outcome",
+              "value": "SUCCEEDED"
+            },
+            {
+              "amount": 1,
+              "cmd": "invoice",
+              "event": "invoice-1"
+            }
+          ]
+        }
+      },
+      "source": {
+        "invariant": "Real invoice releases only the remainder",
+        "p04Case": "F05",
+        "variant": "unmutated"
+      }
+    },
+    {
+      "edit": "control: the reply is lost, liability stays held and the second dispatch is refused",
+      "expected": {
+        "decision": "allow",
+        "reason": "finality_held"
+      },
+      "files": {
+        "record.json": "2e0871a916a86d067d3c72641250dcd9edaec94513d9394fa1076b5c4075e90b"
+      },
+      "id": "allow-f03-lost-reply-redispatch-refused",
+      "path": "cases/allow-f03-lost-reply-redispatch-refused",
+      "retained": {
+        "billingFinality": "UNKNOWN",
+        "dispatchState": "POSSIBLE",
+        "endDispatchState": "POSSIBLE",
+        "executionOutcome": "UNKNOWN",
+        "heldMicroUsd": 2,
+        "knownSpendMicroUsd": 0,
+        "scenario": "F03"
+      },
+      "runtime": {
+        "scenario": {
+          "budget": 3,
+          "id": "F03",
+          "probes": [
+            {
+              "cmd": "dispatch",
+              "event": "second-dispatch"
+            }
+          ],
+          "steps": [
+            {
+              "cmd": "dispatch"
+            },
+            {
+              "bounded": true,
+              "cmd": "unknown"
+            }
+          ]
+        }
+      },
+      "source": {
+        "invariant": "Bounded lost response retains liability",
+        "p04Case": "F03",
+        "variant": "unmutated"
+      }
+    },
+    {
+      "edit": "control: a final invoice after a lost reply settles billing, leaves the execution UNKNOWN, refuses a second dispatch of the attempt and admits a new attempt",
+      "expected": {
+        "decision": "allow",
+        "reason": "finality_held"
+      },
+      "files": {
+        "record.json": "c12740854ca8f6fd06588cc7700e793e6e3352d0367a942d1eeade2b0ae56789"
+      },
+      "id": "allow-f04-invoice-after-lost-reply",
+      "path": "cases/allow-f04-invoice-after-lost-reply",
+      "retained": {
+        "billingFinality": "FINAL",
+        "dispatchState": "POSSIBLE",
+        "endDispatchState": "POSSIBLE",
+        "executionOutcome": "UNKNOWN",
+        "heldMicroUsd": 0,
+        "knownSpendMicroUsd": 1,
+        "scenario": "F04"
+      },
+      "runtime": {
+        "scenario": {
+          "budget": 3,
+          "id": "F04",
+          "probes": [
+            {
+              "cmd": "dispatch",
+              "event": "second-dispatch"
+            },
+            {
+              "amount": 2,
+              "attempt": "B",
+              "cmd": "reserve"
+            }
+          ],
+          "steps": [
+            {
+              "cmd": "dispatch"
+            },
+            {
+              "bounded": true,
+              "cmd": "unknown"
+            },
+            {
+              "amount": 1,
+              "cmd": "invoice",
+              "event": "invoice-1"
+            }
+          ]
+        }
+      },
+      "source": {
+        "invariant": "Final invoice does not establish execution",
+        "p04Case": "F04",
+        "variant": "unmutated"
+      }
+    },
+    {
+      "edit": "control: the first dispatch of a reserved attempt is allowed, so an always-refuse ledger fails",
+      "expected": {
+        "decision": "allow",
+        "reason": "finality_held"
+      },
+      "files": {
+        "record.json": "ae04ceb1144ee0103209d930a3591d0607141835f05f4256e693aa0a147b3b3a"
+      },
+      "id": "allow-f14-first-dispatch",
+      "path": "cases/allow-f14-first-dispatch",
+      "retained": {
+        "billingFinality": "UNKNOWN",
+        "dispatchState": "POSSIBLE",
+        "endDispatchState": "POSSIBLE",
+        "executionOutcome": "UNKNOWN",
+        "heldMicroUsd": 2,
+        "knownSpendMicroUsd": 0,
+        "scenario": "F14"
+      },
+      "runtime": {
+        "scenario": {
+          "budget": 4,
+          "id": "F14",
+          "probes": [
+            {
+              "amount": 2,
+              "attempt": "B",
+              "cmd": "reserve"
+            }
+          ],
+          "steps": [
+            {
+              "cmd": "dispatch"
+            }
+          ]
+        }
+      },
+      "source": {
+        "invariant": "Positive control permits another affordable operation",
+        "p04Case": "F14",
+        "variant": "unmutated"
+      }
+    },
+    {
+      "edit": "control: an invoice arrives before any recorded dispatch; billing is FINAL, the execution UNKNOWN and the dispatch state POSSIBLE after the reopen, the refused dispatch, the replayed invoice and an equal cost observation",
+      "expected": {
+        "decision": "allow",
+        "reason": "finality_held"
+      },
+      "files": {
+        "record.json": "6a643f8fd931bd05fde660ae0a32d93ca70ce485711c284d2a8298f067998708"
+      },
+      "id": "allow-x1-invoice-before-dispatch",
+      "path": "cases/allow-x1-invoice-before-dispatch",
+      "retained": {
+        "billingFinality": "FINAL",
+        "dispatchState": "POSSIBLE",
+        "endDispatchState": "POSSIBLE",
+        "executionOutcome": "UNKNOWN",
+        "heldMicroUsd": 0,
+        "knownSpendMicroUsd": 1,
+        "scenario": "X1"
+      },
+      "runtime": {
+        "scenario": {
+          "budget": 3,
+          "id": "X1",
+          "probes": [
+            {
+              "cmd": "dispatch",
+              "event": "late-dispatch"
+            },
+            {
+              "amount": 1,
+              "cmd": "invoice",
+              "event": "invoice-1"
+            },
+            {
+              "amount": 1,
+              "cmd": "cost",
+              "event": "cost-after-invoice"
+            }
+          ],
+          "steps": [
+            {
+              "amount": 1,
+              "cmd": "invoice",
+              "event": "invoice-1"
+            }
+          ]
+        }
+      },
+      "source": {
+        "invariant": "Invoice before any recorded dispatch does not open the gate",
+        "p04Case": "X1",
+        "variant": "unmutated"
+      }
+    },
+    {
+      "edit": "control: a final invoice below the cost already observed is refused as a conflict; the known spend stays at the observed cost and the account freezes",
+      "expected": {
+        "decision": "allow",
+        "reason": "finality_held"
+      },
+      "files": {
+        "record.json": "cddbdfb7bbdf7f597ea99f6ae572df73d2d20532c7be25913fcf30a2dff61fb1"
+      },
+      "id": "allow-x2-low-invoice-conflict",
+      "path": "cases/allow-x2-low-invoice-conflict",
+      "retained": {
+        "billingFinality": "CONFLICT",
+        "dispatchState": "POSSIBLE",
+        "endDispatchState": "POSSIBLE",
+        "executionOutcome": "UNKNOWN",
+        "heldMicroUsd": 0,
+        "knownSpendMicroUsd": 2,
+        "scenario": "X2"
+      },
+      "runtime": {
+        "scenario": {
+          "budget": 3,
+          "id": "X2",
+          "probes": [],
+          "steps": [
+            {
+              "cmd": "dispatch"
+            },
+            {
+              "amount": 2,
+              "cmd": "cost",
+              "event": "cost-2"
+            },
+            {
+              "amount": 1,
+              "cmd": "invoice",
+              "event": "invoice-low"
+            }
+          ]
+        }
+      },
+      "source": {
+        "invariant": "A final invoice below the known spend is a conflict, not a lower total",
+        "p04Case": "X2",
+        "variant": "unmutated"
+      }
+    },
+    {
+      "edit": "control: a cost observation above a final bill is refused as a conflict; billing moves from FINAL to CONFLICT and the account freezes",
+      "expected": {
+        "decision": "allow",
+        "reason": "finality_held"
+      },
+      "files": {
+        "record.json": "5cbc896e8e05fe25729abc61da9d8d955e982416346586ea323a41fc8b8cd9f0"
+      },
+      "id": "allow-x3-cost-above-final-bill-conflict",
+      "path": "cases/allow-x3-cost-above-final-bill-conflict",
+      "retained": {
+        "billingFinality": "CONFLICT",
+        "dispatchState": "POSSIBLE",
+        "endDispatchState": "POSSIBLE",
+        "executionOutcome": "UNKNOWN",
+        "heldMicroUsd": 0,
+        "knownSpendMicroUsd": 2,
+        "scenario": "X3"
+      },
+      "runtime": {
+        "scenario": {
+          "budget": 3,
+          "id": "X3",
+          "probes": [],
+          "steps": [
+            {
+              "amount": 1,
+              "cmd": "invoice",
+              "event": "invoice-1"
+            },
+            {
+              "amount": 2,
+              "cmd": "cost",
+              "event": "cost-above-invoice"
+            }
+          ]
+        }
+      },
+      "source": {
+        "invariant": "A cost above a final bill is a conflict, not a new final total",
+        "p04Case": "X3",
+        "variant": "unmutated"
+      }
+    },
+    {
+      "edit": "control: a FAILED outcome after an observed SUCCEEDED is refused as a conflict; the first outcome stays and billing moves to CONFLICT",
+      "expected": {
+        "decision": "allow",
+        "reason": "finality_held"
+      },
+      "files": {
+        "record.json": "7a10c53d2f54ec928e6137b37e229962b39a61cf401e8c275d33977bc9fa88f8"
+      },
+      "id": "allow-x4-contradictory-outcome-conflict",
+      "path": "cases/allow-x4-contradictory-outcome-conflict",
+      "retained": {
+        "billingFinality": "CONFLICT",
+        "dispatchState": "POSSIBLE",
+        "endDispatchState": "POSSIBLE",
+        "executionOutcome": "SUCCEEDED",
+        "heldMicroUsd": 2,
+        "knownSpendMicroUsd": 0,
+        "scenario": "X4"
+      },
+      "runtime": {
+        "scenario": {
+          "budget": 3,
+          "id": "X4",
+          "probes": [],
+          "steps": [
+            {
+              "cmd": "dispatch"
+            },
+            {
+              "cmd": "outcome",
+              "event": "o1",
+              "value": "SUCCEEDED"
+            },
+            {
+              "cmd": "outcome",
+              "event": "o2",
+              "value": "FAILED"
+            }
+          ]
+        }
+      },
+      "source": {
+        "invariant": "A second, contradictory terminal outcome does not replace the first",
+        "p04Case": "X4",
+        "variant": "unmutated"
+      }
+    },
+    {
+      "edit": "control: a non-dispatch proof after recorded cost is refused as a conflict, the branch the R3 mutant edits",
+      "expected": {
+        "decision": "allow",
+        "reason": "finality_held"
+      },
+      "files": {
+        "record.json": "ceb935386f43031cbc120901ac527faa6a0ec10af4b4b2daffb344e1a51dac3a"
+      },
+      "id": "allow-x5-non-dispatch-after-cost-conflict",
+      "path": "cases/allow-x5-non-dispatch-after-cost-conflict",
+      "retained": {
+        "billingFinality": "CONFLICT",
+        "dispatchState": "POSSIBLE",
+        "endDispatchState": "POSSIBLE",
+        "executionOutcome": "UNKNOWN",
+        "heldMicroUsd": 1,
+        "knownSpendMicroUsd": 1,
+        "scenario": "X5"
+      },
+      "runtime": {
+        "scenario": {
+          "budget": 3,
+          "id": "X5",
+          "probes": [],
+          "steps": [
+            {
+              "amount": 1,
+              "cmd": "cost",
+              "event": "cost-1"
+            },
+            {
+              "cmd": "non_dispatch",
+              "event": "non-dispatch"
+            }
+          ]
+        }
+      },
+      "source": {
+        "invariant": "A non-dispatch proof after recorded cost is a conflict",
+        "p04Case": "X5",
+        "variant": "unmutated"
+      }
+    },
+    {
+      "edit": "the record carries no contractId",
+      "expected": {
+        "decision": "deny",
+        "reason": "contract_id_missing"
+      },
+      "files": {
+        "record.json": "cccae46ce92f64acbde1693ae3d26f381f44e4e2968b4717fa6cebde57fe818c"
+      },
+      "id": "contract-id-missing",
+      "path": "cases/contract-id-missing",
+      "retained": {
+        "billingFinality": "FINAL",
+        "dispatchState": "POSSIBLE",
+        "endDispatchState": "POSSIBLE",
+        "executionOutcome": "UNKNOWN",
+        "heldMicroUsd": 0,
+        "knownSpendMicroUsd": 1,
+        "scenario": "X1"
+      },
+      "source": {
+        "invariant": "Invoice before any recorded dispatch does not open the gate",
+        "p04Case": "X1",
+        "variant": "unmutated, edited"
+      }
+    },
+    {
+      "edit": "the record names the uncertain-effect contract instead",
+      "expected": {
+        "decision": "deny",
+        "reason": "contract_id_unknown"
+      },
+      "files": {
+        "record.json": "8b937d3bd217004d48c76964107663cc318cc2178923d58f0d4388de223fc852"
+      },
+      "id": "contract-id-unknown",
+      "path": "cases/contract-id-unknown",
+      "retained": {
+        "billingFinality": "FINAL",
+        "dispatchState": "POSSIBLE",
+        "endDispatchState": "POSSIBLE",
+        "executionOutcome": "UNKNOWN",
+        "heldMicroUsd": 0,
+        "knownSpendMicroUsd": 1,
+        "scenario": "X1"
+      },
+      "source": {
+        "invariant": "Invoice before any recorded dispatch does not open the gate",
+        "p04Case": "X1",
+        "variant": "unmutated, edited"
+      }
+    },
+    {
+      "edit": "the known spend is the boolean true, which is not money",
+      "expected": {
+        "decision": "deny",
+        "reason": "record_malformed"
+      },
+      "files": {
+        "record.json": "d4634d89bf7c00be771e524884a704178b6cf3e61c6232da1f0fef9a5fb04833"
+      },
+      "id": "money-as-boolean",
+      "path": "cases/money-as-boolean",
+      "retained": {
+        "billingFinality": "FINAL",
+        "dispatchState": "POSSIBLE",
+        "endDispatchState": "POSSIBLE",
+        "executionOutcome": "UNKNOWN",
+        "heldMicroUsd": 0,
+        "knownSpendMicroUsd": true,
+        "scenario": "F04"
+      },
+      "source": {
+        "invariant": "Final invoice does not establish execution",
+        "p04Case": "F04",
+        "variant": "unmutated, edited"
+      }
+    },
+    {
+      "edit": "the states after the invoice omit the dispatch state, the output the v0.1 reader dropped",
+      "expected": {
+        "decision": "deny",
+        "reason": "dispatch_state_missing"
+      },
+      "files": {
+        "record.json": "6e8fd37c37cb5fe5b032980b5018745da8d42b310f2254e09478f5b311156824"
+      },
+      "id": "dispatch-state-missing",
+      "path": "cases/dispatch-state-missing",
+      "retained": {
+        "billingFinality": "FINAL",
+        "dispatchState": null,
+        "endDispatchState": "POSSIBLE",
+        "executionOutcome": "UNKNOWN",
+        "heldMicroUsd": 0,
+        "knownSpendMicroUsd": 1,
+        "scenario": "X1"
+      },
+      "source": {
+        "invariant": "Invoice before any recorded dispatch does not open the gate",
+        "p04Case": "X1",
+        "variant": "unmutated, edited"
+      }
+    },
+    {
+      "edit": "the state after the refused dispatch reports null",
+      "expected": {
+        "decision": "deny",
+        "reason": "dispatch_state_missing"
+      },
+      "files": {
+        "record.json": "2c9ed63db92c73bb56e4cb9272fa9ea0848dd1827904613d7d92cdc78fab6842"
+      },
+      "id": "dispatch-state-null",
+      "path": "cases/dispatch-state-null",
+      "retained": {
+        "billingFinality": "FINAL",
+        "dispatchState": "POSSIBLE",
+        "endDispatchState": "POSSIBLE",
+        "executionOutcome": "UNKNOWN",
+        "heldMicroUsd": 0,
+        "knownSpendMicroUsd": 1,
+        "scenario": "X1"
+      },
+      "source": {
+        "invariant": "Invoice before any recorded dispatch does not open the gate",
+        "p04Case": "X1",
+        "variant": "unmutated, edited"
+      }
+    },
+    {
+      "edit": "the observation claims an external effect a ledger cannot see",
+      "expected": {
+        "decision": "deny",
+        "reason": "claim_boundary_dropped"
+      },
+      "files": {
+        "record.json": "3572d22a6f5221c57b7457b73b04b77ff3926110804b94b6b1fcbc9a78ba22e6"
+      },
+      "id": "external-effect-established",
+      "path": "cases/external-effect-established",
+      "retained": {
+        "billingFinality": "FINAL",
+        "dispatchState": "POSSIBLE",
+        "endDispatchState": "POSSIBLE",
+        "executionOutcome": "UNKNOWN",
+        "heldMicroUsd": 0,
+        "knownSpendMicroUsd": 1,
+        "scenario": "F04"
+      },
+      "source": {
+        "invariant": "Final invoice does not establish execution",
+        "p04Case": "F04",
+        "variant": "unmutated, edited"
+      }
+    },
+    {
+      "edit": "the observation no longer declines to claim invoice authenticity",
+      "expected": {
+        "decision": "deny",
+        "reason": "claim_boundary_dropped"
+      },
+      "files": {
+        "record.json": "9da6a0c295681087ae28bbcb61a5c0aac09e442af5f5c8f4a30de63ac5e895a9"
+      },
+      "id": "claim-boundary-dropped",
+      "path": "cases/claim-boundary-dropped",
+      "retained": {
+        "billingFinality": "FINAL",
+        "dispatchState": "POSSIBLE",
+        "endDispatchState": "POSSIBLE",
+        "executionOutcome": "UNKNOWN",
+        "heldMicroUsd": 0,
+        "knownSpendMicroUsd": 1,
+        "scenario": "F04"
+      },
+      "source": {
+        "invariant": "Final invoice does not establish execution",
+        "p04Case": "F04",
+        "variant": "unmutated, edited"
+      }
+    },
+    {
+      "edit": "the reopened ledger holds the reservation again",
+      "expected": {
+        "decision": "deny",
+        "reason": "reopen_changed_state"
+      },
+      "files": {
+        "record.json": "bb27b14a0ee2f68cca96f6bf05545a213aab1a571a67a193d87845ad5b7d57a4"
+      },
+      "id": "reopen-changed-state",
+      "path": "cases/reopen-changed-state",
+      "retained": {
+        "billingFinality": "FINAL",
+        "dispatchState": "POSSIBLE",
+        "endDispatchState": "POSSIBLE",
+        "executionOutcome": "UNKNOWN",
+        "heldMicroUsd": 0,
+        "knownSpendMicroUsd": 1,
+        "scenario": "F04"
+      },
+      "source": {
+        "invariant": "Final invoice does not establish execution",
+        "p04Case": "F04",
+        "variant": "unmutated, edited"
+      }
+    },
+    {
+      "edit": "a final invoice after a lost reply is read as a successful execution",
+      "expected": {
+        "decision": "deny",
+        "reason": "execution_outcome_without_observation"
+      },
+      "files": {
+        "record.json": "0ceae1b7412877b15bd311e28b62f5cd24b74630d673b701d41e63aaad5eced5"
+      },
+      "id": "f04-invoice-implies-execution",
+      "path": "cases/f04-invoice-implies-execution",
+      "retained": {
+        "billingFinality": "FINAL",
+        "dispatchState": "POSSIBLE",
+        "endDispatchState": "POSSIBLE",
+        "executionOutcome": "SUCCEEDED",
+        "heldMicroUsd": 0,
+        "knownSpendMicroUsd": 1,
+        "scenario": "F04"
+      },
+      "source": {
+        "invariant": "Final invoice does not establish execution",
+        "p04Case": "F04",
+        "variant": "invoice-implies-execution"
+      }
+    },
+    {
+      "edit": "the call succeeded and the reservation is released with no final bill",
+      "expected": {
+        "decision": "deny",
+        "reason": "held_released_before_final_billing"
+      },
+      "files": {
+        "record.json": "699cc2936b7013f72b0da1ee38b386a1269e816d6a3ef968ea46cd0c7783627d"
+      },
+      "id": "f01-success-releases-reservation",
+      "path": "cases/f01-success-releases-reservation",
+      "retained": {
+        "billingFinality": "UNKNOWN",
+        "dispatchState": "POSSIBLE",
+        "endDispatchState": "POSSIBLE",
+        "executionOutcome": "SUCCEEDED",
+        "heldMicroUsd": 0,
+        "knownSpendMicroUsd": 0,
+        "scenario": "F01"
+      },
+      "source": {
+        "invariant": "Success is not final billing",
+        "p04Case": "F01",
+        "variant": "success-releases-exposure"
+      }
+    },
+    {
+      "edit": "a final invoice settles the bill and the unit left over from the reservation stays held, so the next reservation is refused",
+      "expected": {
+        "decision": "deny",
+        "reason": "held_after_final_billing"
+      },
+      "files": {
+        "record.json": "aab1e3c56e967c3cb89a280a87a192b65993abc3e273c4040eaf13a4a9678003"
+      },
+      "id": "f05-stuck-hold-after-final-invoice",
+      "path": "cases/f05-stuck-hold-after-final-invoice",
+      "retained": {
+        "billingFinality": "FINAL",
+        "dispatchState": "POSSIBLE",
+        "endDispatchState": "POSSIBLE",
+        "executionOutcome": "SUCCEEDED",
+        "heldMicroUsd": 1,
+        "knownSpendMicroUsd": 1,
+        "scenario": "F05"
+      },
+      "source": {
+        "invariant": "Real invoice releases only the remainder",
+        "p04Case": "F05",
+        "variant": "stuck-hold-after-final-invoice"
+      }
+    },
+    {
+      "edit": "with the dispatch guard removed, a second dispatch after a lost reply is allowed",
+      "expected": {
+        "decision": "deny",
+        "reason": "same_attempt_redispatched"
+      },
+      "files": {
+        "record.json": "c327e1b3c2fac501c62ee4551f4f9ad1a35b866e510d7e75195753409b4d968e"
+      },
+      "id": "f03-guard-removed-redispatch",
+      "path": "cases/f03-guard-removed-redispatch",
+      "retained": {
+        "billingFinality": "UNKNOWN",
+        "dispatchState": "POSSIBLE",
+        "endDispatchState": "POSSIBLE",
+        "executionOutcome": "UNKNOWN",
+        "heldMicroUsd": 2,
+        "knownSpendMicroUsd": 0,
+        "scenario": "F03"
+      },
+      "source": {
+        "invariant": "Bounded lost response retains liability",
+        "p04Case": "F03",
+        "variant": "M1-guard-removed"
+      }
+    },
+    {
+      "edit": "settled billing is read as permission to dispatch the same attempt again",
+      "expected": {
+        "decision": "deny",
+        "reason": "same_attempt_redispatched"
+      },
+      "files": {
+        "record.json": "6905dce06efa4d184a8242e972206083b69a6ea304493ab57e5841329350c653"
+      },
+      "id": "f04-final-billing-redispatch",
+      "path": "cases/f04-final-billing-redispatch",
+      "retained": {
+        "billingFinality": "FINAL",
+        "dispatchState": "POSSIBLE",
+        "endDispatchState": "POSSIBLE",
+        "executionOutcome": "UNKNOWN",
+        "heldMicroUsd": 0,
+        "knownSpendMicroUsd": 1,
+        "scenario": "F04"
+      },
+      "source": {
+        "invariant": "Final invoice does not establish execution",
+        "p04Case": "F04",
+        "variant": "M2-final-billing-bypasses-guard"
+      }
+    },
+    {
+      "edit": "an invoice before any recorded dispatch, then the gate opens for the first time",
+      "expected": {
+        "decision": "deny",
+        "reason": "same_attempt_redispatched"
+      },
+      "files": {
+        "record.json": "6b0a64ea9119856cf8d8e6a81c4a47462ee55a2528876ebcf09f1c75b4dc962d"
+      },
+      "id": "x1-invoice-opens-dispatch",
+      "path": "cases/x1-invoice-opens-dispatch",
+      "retained": {
+        "billingFinality": "FINAL",
+        "dispatchState": "RESERVED",
+        "endDispatchState": "POSSIBLE",
+        "executionOutcome": "UNKNOWN",
+        "heldMicroUsd": 0,
+        "knownSpendMicroUsd": 1,
+        "scenario": "X1"
+      },
+      "source": {
+        "invariant": "Invoice before any recorded dispatch does not open the gate",
+        "p04Case": "X1",
+        "variant": "M5-M3-plus-M4"
+      }
+    },
+    {
+      "edit": "billing is final and the dispatch state still reads RESERVED, as if nothing can have happened",
+      "expected": {
+        "decision": "deny",
+        "reason": "dispatch_state_reserved_after_billing"
+      },
+      "files": {
+        "record.json": "0bcb5df21a81256bf51fe76525d3366506029cb1872d5d2db96839dcdd712a49"
+      },
+      "id": "x1-dispatch-state-reserved-after-invoice",
+      "path": "cases/x1-dispatch-state-reserved-after-invoice",
+      "retained": {
+        "billingFinality": "FINAL",
+        "dispatchState": "RESERVED",
+        "endDispatchState": "POSSIBLE",
+        "executionOutcome": "UNKNOWN",
+        "heldMicroUsd": 0,
+        "knownSpendMicroUsd": 1,
+        "scenario": "X1"
+      },
+      "source": {
+        "invariant": "Invoice before any recorded dispatch does not open the gate",
+        "p04Case": "X1",
+        "variant": "M4-invoice-possible-write-removed"
+      }
+    },
+    {
+      "edit": "the replayed invoice event is reported as finalizing",
+      "expected": {
+        "decision": "deny",
+        "reason": "invoice_replay_refinalized"
+      },
+      "files": {
+        "record.json": "39cb28c59cb7e9a50abd5e43b5209c9bcd2913e5bf8232ddac7985f2c18bce1e"
+      },
+      "id": "x1-invoice-replay-refinalized",
+      "path": "cases/x1-invoice-replay-refinalized",
+      "retained": {
+        "billingFinality": "FINAL",
+        "dispatchState": "POSSIBLE",
+        "endDispatchState": "POSSIBLE",
+        "executionOutcome": "UNKNOWN",
+        "heldMicroUsd": 0,
+        "knownSpendMicroUsd": 1,
+        "scenario": "X1"
+      },
+      "source": {
+        "invariant": "Invoice before any recorded dispatch does not open the gate",
+        "p04Case": "X1",
+        "variant": "unmutated, edited"
+      }
+    },
+    {
+      "edit": "a final invoice below the observed cost is accepted and the known spend drops to it",
+      "expected": {
+        "decision": "deny",
+        "reason": "known_spend_decreased"
+      },
+      "files": {
+        "record.json": "f085a7137fb66c008f168693cbdd3a98908834b5372ddbf054e3f92f5f5540c8"
+      },
+      "id": "x2-low-invoice-erases-known-spend",
+      "path": "cases/x2-low-invoice-erases-known-spend",
+      "retained": {
+        "billingFinality": "FINAL",
+        "dispatchState": "POSSIBLE",
+        "endDispatchState": "POSSIBLE",
+        "executionOutcome": "UNKNOWN",
+        "heldMicroUsd": 0,
+        "knownSpendMicroUsd": 1,
+        "scenario": "X2"
+      },
+      "source": {
+        "invariant": "A final invoice below the known spend is a conflict, not a lower total",
+        "p04Case": "X2",
+        "variant": "R2-low-invoice-erases-known-spend"
+      }
+    },
+    {
+      "edit": "a cost above the final bill raises the known spend while billing still reads FINAL",
+      "expected": {
+        "decision": "deny",
+        "reason": "final_billing_reversed"
+      },
+      "files": {
+        "record.json": "e76a1ab48dab52474ee31452e8a837512ec30c82e78f4e32be2d0e2346312307"
+      },
+      "id": "x3-cost-above-final-bill-accepted",
+      "path": "cases/x3-cost-above-final-bill-accepted",
+      "retained": {
+        "billingFinality": "FINAL",
+        "dispatchState": "POSSIBLE",
+        "endDispatchState": "POSSIBLE",
+        "executionOutcome": "UNKNOWN",
+        "heldMicroUsd": 0,
+        "knownSpendMicroUsd": 2,
+        "scenario": "X3"
+      },
+      "source": {
+        "invariant": "A cost above a final bill is a conflict, not a new final total",
+        "p04Case": "X3",
+        "variant": "R4-cost-above-final-bill-accepted"
+      }
+    },
+    {
+      "edit": "the billing conflict reads UNKNOWN at the end with nothing to resolve it",
+      "expected": {
+        "decision": "deny",
+        "reason": "final_billing_reversed"
+      },
+      "files": {
+        "record.json": "6e7c407cb3d6e03ba6dc3c46ad751f62067b516de0d6ec89355f0f4c4a9c6696"
+      },
+      "id": "x2-conflict-cleared",
+      "path": "cases/x2-conflict-cleared",
+      "retained": {
+        "billingFinality": "CONFLICT",
+        "dispatchState": "POSSIBLE",
+        "endDispatchState": "POSSIBLE",
+        "executionOutcome": "UNKNOWN",
+        "heldMicroUsd": 0,
+        "knownSpendMicroUsd": 2,
+        "scenario": "X2"
+      },
+      "source": {
+        "invariant": "A final invoice below the known spend is a conflict, not a lower total",
+        "p04Case": "X2",
+        "variant": "unmutated, edited"
+      }
+    },
+    {
+      "edit": "the account frozen by the conflict reads unfrozen at the end",
+      "expected": {
+        "decision": "deny",
+        "reason": "final_billing_reversed"
+      },
+      "files": {
+        "record.json": "667111e8ddf04ab65fae21879c2c77acd7fe3e568d99b4a3633d15b131f1b505"
+      },
+      "id": "x2-account-unfrozen",
+      "path": "cases/x2-account-unfrozen",
+      "retained": {
+        "billingFinality": "CONFLICT",
+        "dispatchState": "POSSIBLE",
+        "endDispatchState": "POSSIBLE",
+        "executionOutcome": "UNKNOWN",
+        "heldMicroUsd": 0,
+        "knownSpendMicroUsd": 2,
+        "scenario": "X2"
+      },
+      "source": {
+        "invariant": "A final invoice below the known spend is a conflict, not a lower total",
+        "p04Case": "X2",
+        "variant": "unmutated, edited"
+      }
+    },
+    {
+      "edit": "a FAILED outcome replaces an observed SUCCEEDED and billing stays UNKNOWN",
+      "expected": {
+        "decision": "deny",
+        "reason": "terminal_outcome_overwritten"
+      },
+      "files": {
+        "record.json": "08613093ff6786f23d1939637d0ab82a57930750cd03fedbbb4c98ceb6f304f4"
+      },
+      "id": "x4-terminal-outcome-overwritten",
+      "path": "cases/x4-terminal-outcome-overwritten",
+      "retained": {
+        "billingFinality": "UNKNOWN",
+        "dispatchState": "POSSIBLE",
+        "endDispatchState": "POSSIBLE",
+        "executionOutcome": "FAILED",
+        "heldMicroUsd": 2,
+        "knownSpendMicroUsd": 0,
+        "scenario": "X4"
+      },
+      "source": {
+        "invariant": "A second, contradictory terminal outcome does not replace the first",
+        "p04Case": "X4",
+        "variant": "R5-terminal-outcome-overwritten"
+      }
+    },
+    {
+      "edit": "the observed SUCCEEDED outcome reads UNKNOWN at the end",
+      "expected": {
+        "decision": "deny",
+        "reason": "terminal_outcome_overwritten"
+      },
+      "files": {
+        "record.json": "39d5b40a3acc27c16cab21daaab2c1a559f697ba6b78273ad538335b461bde20"
+      },
+      "id": "x4-outcome-reset-to-unknown",
+      "path": "cases/x4-outcome-reset-to-unknown",
+      "retained": {
+        "billingFinality": "CONFLICT",
+        "dispatchState": "POSSIBLE",
+        "endDispatchState": "POSSIBLE",
+        "executionOutcome": "SUCCEEDED",
+        "heldMicroUsd": 2,
+        "knownSpendMicroUsd": 0,
+        "scenario": "X4"
+      },
+      "source": {
+        "invariant": "A second, contradictory terminal outcome does not replace the first",
+        "p04Case": "X4",
+        "variant": "unmutated, edited"
+      }
+    }
+  ],
+  "verifierContract": "verifier record.json --json; exit 0 allow, 1 deny"
+}

@@ -81,8 +81,11 @@ corpus digest verifies, record bindings equal the derived binding), which
 machine-checks the suite's single-fault discipline.
 
 Outputs a gate-by-vector coverage report: a human table on stdout plus
-``conformance-report.json`` (all paths repo-relative).  Exit status: 0 all
-checks pass, 1 any check fails, 2 usage or suite-not-found.
+``conformance-report.json`` (all paths repo-relative), written to the working
+directory unless ``--report`` names another path.  The report committed at
+``packaging/conformance-report.json`` is replaced only by a run that names that
+path, and a defaulted run standing in ``packaging/`` is refused.  Exit status: 0
+all checks pass, 1 any check fails, 2 usage or suite-not-found.
 
 TEST KEYS ONLY: the harness re-derives the suite's Ed25519 test keys from
 the published recipe ``seed(role) = SHA-256("in-toto-aee-test-key/<role>/v1")``.
@@ -129,49 +132,75 @@ from typing import Any, NamedTuple, TypeGuard
 # that contract instead of being refused.
 from agent_evidence_vectors import (
     a2ajcs,
+    actormarker,
     admission,
     agenticprocess,
+    agentrequestproof,
     aggregateaccounting,
     anchoredchain,
     approvalbinding,
+    assertiongrade,
     auditrecord,
     authoritydispatch,
     badgevc,
+    budgetlineage,
+    capabilityrequirement,
     cardreceipt,
+    catalogtrust,
+    cborreceiptchain,
     changeadmission,
     chunkedexport,
     completionconfirmation,
     connectorscope,
     containmentjournal,
     convertedargs,
+    credreach,
     decisionclient,
+    delegationchain,
     delegationlifecycle,
     delegatorright,
     dispatchfence,
     donerun,
+    emptyinterval,
     evidencecell,
     evidencestate,
+    executionbilling,
     gradefloor,
+    htxcases,
     identitybinding,
+    keydirectory,
+    keyrevocation,
+    lifecyclebinding,
     mcpowasp,
     monitorcoverage,
+    oasfrecord,
     observedeffect,
     openweight,
     paymentmandate,
+    physicalcompletion,
+    principalaction,
+    principalbinding,
+    printwitness,
     propagationstep,
     receiptchainend,
     receiptsignature,
     recorded,
     refundconnected,
     refusalreason,
+    responsibilityescalation,
+    rsadigestinfo,
     selfreportedrecord,
     signaturecoverage,
     sourcecoverage,
     starhint,
+    statusreceipt,
+    strictjson,
+    telemetryevidence,
     traceanchor,
     uncertaineffect,
     w3cintake,
     w3creport,
+    x402join,
 )
 
 AEE_PREDICATE_TYPE = "https://in-toto.io/attestation/adversarial-execution-evidence/v0.7"
@@ -612,6 +641,7 @@ def parse_json_value(raw: bytes) -> Any:
             text,
             object_pairs_hook=_reject_dup_pairs,
             parse_float=_safe_integer_literal,
+            parse_constant=strictjson.refuse_constant,
         )
     except IJsonError:
         raise
@@ -883,7 +913,7 @@ def _statement_strict_fault(raw: bytes) -> bool:
         return dict(pairs)
 
     try:
-        json.loads(text, object_pairs_hook=hook)
+        json.loads(text, object_pairs_hook=hook, parse_constant=strictjson.refuse_constant)
     except (ValueError, RecursionError):
         # Bytes that are not a parseable JSON text at all are a malformed
         # statement, which is the same answer the Go rail and both consumer
@@ -3012,7 +3042,7 @@ def parse_external(
             ]
         )
     try:
-        parsed = json.loads(lines[-1])
+        parsed = strictjson.loads(lines[-1])
     except ValueError as e:
         # This was `except ValueError: pass`. The parse failure then vanished and
         # the verdict stood on the exit status alone, so a rail emitting broken
@@ -3115,7 +3145,7 @@ def load_manifest(suite_dir: str) -> dict[str, Any] | None:
     if not os.path.isfile(path):
         return None
     with open(path, encoding="utf-8") as f:
-        data: dict[str, Any] = json.load(f)
+        data: dict[str, Any] = strictjson.load(f)
         return data
 
 
@@ -3907,14 +3937,22 @@ def _run_non_reference_suite(
         auditrecord.SUITE,
         sourcecoverage.SUITE,
         anchoredchain.SUITE,
+        principalbinding.SUITE,
+        printwitness.SUITE,
+        assertiongrade.SUITE,
+        emptyinterval.SUITE,
+        keyrevocation.SUITE,
         openweight.SUITE,
         receiptchainend.SUITE,
         identitybinding.SUITE,
+        keydirectory.SUITE,
+        statusreceipt.SUITE,
         authoritydispatch.SUITE,
         approvalbinding.SUITE,
         dispatchfence.SUITE,
         refundconnected.SUITE,
         aggregateaccounting.SUITE,
+        budgetlineage.SUITE,
         uncertaineffect.SUITE,
         monitorcoverage.SUITE,
         signaturecoverage.SUITE,
@@ -3923,10 +3961,26 @@ def _run_non_reference_suite(
         propagationstep.SUITE,
         containmentjournal.SUITE,
         decisionclient.SUITE,
+        capabilityrequirement.SUITE,
         refusalreason.SUITE,
+        responsibilityescalation.SUITE,
+        htxcases.SUITE,
+        telemetryevidence.SUITE,
+        lifecyclebinding.SUITE,
+        rsadigestinfo.SUITE,
+        executionbilling.SUITE,
+        agentrequestproof.SUITE,
+        physicalcompletion.SUITE,
+        principalaction.SUITE,
+        actormarker.SUITE,
+        credreach.SUITE,
+        cborreceiptchain.SUITE,
         *cardreceipt.SUITES,
+        catalogtrust.SUITE,
         convertedargs.SUITE,
         delegatorright.SUITE,
+        oasfrecord.SUITE,
+        delegationchain.SUITE,
         badgevc.SUITE,
         delegationlifecycle.SUITE,
         completionconfirmation.SUITE,
@@ -3936,6 +3990,7 @@ def _run_non_reference_suite(
         gradefloor.SUITE,
         connectorscope.SUITE,
         paymentmandate.SUITE,
+        x402join.SUITE,
         recorded.SUITE,
         changeadmission.SUITE,
         agenticprocess.SUITE,
@@ -3957,14 +4012,22 @@ def _run_non_reference_suite(
     # contract their README states, so every case is answered or the run fails.
     full_reader = {
         anchoredchain.SUITE: anchoredchain.run,
+        principalbinding.SUITE: principalbinding.run,
+        printwitness.SUITE: printwitness.run,
+        assertiongrade.SUITE: assertiongrade.run,
+        emptyinterval.SUITE: emptyinterval.run,
+        keyrevocation.SUITE: keyrevocation.run,
         openweight.SUITE: openweight.run,
         receiptchainend.SUITE: receiptchainend.run,
         identitybinding.SUITE: identitybinding.run,
+        keydirectory.SUITE: keydirectory.run,
+        statusreceipt.SUITE: statusreceipt.run,
         authoritydispatch.SUITE: authoritydispatch.run,
         approvalbinding.SUITE: approvalbinding.run,
         dispatchfence.SUITE: dispatchfence.run,
         refundconnected.SUITE: refundconnected.run,
         aggregateaccounting.SUITE: aggregateaccounting.run,
+        budgetlineage.SUITE: budgetlineage.run,
         uncertaineffect.SUITE: uncertaineffect.run,
         monitorcoverage.SUITE: monitorcoverage.run,
         signaturecoverage.SUITE: signaturecoverage.run,
@@ -3973,10 +4036,26 @@ def _run_non_reference_suite(
         propagationstep.SUITE: propagationstep.run,
         containmentjournal.SUITE: containmentjournal.run,
         decisionclient.SUITE: decisionclient.run,
+        capabilityrequirement.SUITE: capabilityrequirement.run,
         refusalreason.SUITE: refusalreason.run,
+        responsibilityescalation.SUITE: responsibilityescalation.run,
+        htxcases.SUITE: htxcases.run,
+        telemetryevidence.SUITE: telemetryevidence.run,
+        lifecyclebinding.SUITE: lifecyclebinding.run,
+        rsadigestinfo.SUITE: rsadigestinfo.run,
+        executionbilling.SUITE: executionbilling.run,
+        agentrequestproof.SUITE: agentrequestproof.run,
+        physicalcompletion.SUITE: physicalcompletion.run,
+        principalaction.SUITE: principalaction.run,
+        actormarker.SUITE: actormarker.run,
+        credreach.SUITE: credreach.run,
+        cborreceiptchain.SUITE: cborreceiptchain.run,
         **{suite: cardreceipt.runner(suite) for suite in cardreceipt.SUITES},
+        catalogtrust.SUITE: catalogtrust.runner(catalogtrust.SUITE),
         convertedargs.SUITE: convertedargs.run,
         delegatorright.SUITE: delegatorright.run,
+        oasfrecord.SUITE: oasfrecord.run,
+        delegationchain.SUITE: delegationchain.run,
         badgevc.SUITE: badgevc.run,
         completionconfirmation.SUITE: completionconfirmation.run,
         chunkedexport.SUITE: chunkedexport.run,
@@ -3985,6 +4064,7 @@ def _run_non_reference_suite(
         gradefloor.SUITE: gradefloor.run,
         connectorscope.SUITE: connectorscope.run,
         paymentmandate.SUITE: paymentmandate.run,
+        x402join.SUITE: x402join.run,
         recorded.SUITE: recorded.run,
         changeadmission.SUITE: changeadmission.run,
         agenticprocess.SUITE: agenticprocess.run,
@@ -3993,12 +4073,19 @@ def _run_non_reference_suite(
     }.get(suite)
     if full_reader is not None:
         return full_reader(suite_dir, external_cmd, report_path, rail_note)
-    if external_cmd is not None and suite == receiptsignature.SUITE:
-        return receiptsignature.run_external(suite_dir, external_cmd, report_path, rail_note)
-    # The admission corpus writes down a contract of its own: the policy path in
-    # AEE_CONSUMER_POLICY, and exit 0 exactly when the statement is admitted.
-    if external_cmd is not None and suite == admission.SUITE:
-        return admission.run_external(suite_dir, external_cmd, report_path, rail_note)
+    # These corpora write a contract of their own for a named verifier: the
+    # receipt-signature corpus its external-verifier contract, the admission
+    # corpus the policy path in AEE_CONSUMER_POLICY and exit 0 exactly when the
+    # statement is admitted, and the agent audit record corpus, in its README,
+    # one member file per call, a verdict, the codes, and the tier, set and
+    # dating results its members declare.
+    own_contract = {
+        receiptsignature.SUITE: receiptsignature.run_external,
+        admission.SUITE: admission.run_external,
+        auditrecord.SUITE: auditrecord.run_external,
+    }.get(suite)
+    if external_cmd is not None and own_contract is not None:
+        return own_contract(suite_dir, external_cmd, report_path, rail_note)
     if external_cmd is not None:
         return refuse_verifier(
             f"the verifier {shlex.join(external_cmd)!r} {DID_NOT_RUN}: the corpus "
@@ -4356,11 +4443,11 @@ def _load_statement(raw: bytes) -> tuple[Any, bool]:
     is no value at all and the verifier answers from the bytes alone.
     """
     try:
-        return json.loads(raw.decode("utf-8")), True
+        return strictjson.loads(raw.decode("utf-8")), True
     except (UnicodeDecodeError, ValueError):
         pass
     try:
-        return json.loads(raw.decode("utf-8", "replace")), False
+        return strictjson.loads(raw.decode("utf-8", "replace")), False
     except ValueError:
         return None, False
 
@@ -4844,7 +4931,7 @@ def corpus_provenance(suite_dir: str) -> dict[str, Any]:
             "manifestSha256": None,
         }
     try:
-        manifest = json.loads(raw)
+        manifest = strictjson.loads(raw)
     except ValueError:
         manifest = None
     if not isinstance(manifest, dict):
@@ -4860,11 +4947,170 @@ def corpus_provenance(suite_dir: str) -> dict[str, Any]:
     }
 
 
-def _report_path(args: argparse.Namespace) -> str:
-    """Where the report goes: --report, else beside this file."""
-    return str(args.report) if args.report else os.path.join(
-        os.path.dirname(os.path.abspath(__file__)), "conformance-report.json"
+# The four fields a verifier result needs before anyone can rely on it: which
+# package and version judged it, which bytes it judged (the manifest's declared
+# corpus digest, which one line of the signed release/CORPUS-DIGESTS.txt
+# carries), and which revision of the corpus those bytes came from. Every
+# report the command line writes carries them under one key, whichever suite
+# runner wrote the rest, so a reader never has to know which runner it was.
+RESULT_HEADER_KEY = "verifierResult"
+# The header's shape is spec/schemas/verifier-result-v1.schema.json.
+RESULT_HEADER_SCHEMA = "agent-evidence-vectors/verifier-result/v1"
+# Set by action.yml to the ref the action was used at (a tag or a commit), so a
+# run of `uses: ...@<sha>` records that commit rather than the version's tag.
+PACKAGE_REVISION_ENV = "AEV_PACKAGE_REVISION"
+
+
+def _checkout_version() -> str | None:
+    """The [project] version of the checkout this module sits in, or None."""
+    here = os.path.dirname(os.path.abspath(__file__))
+    try:
+        with open(os.path.join(here, "..", "pyproject.toml"), "rb") as handle:
+            version = tomllib.load(handle).get("project", {}).get("version")
+    except (OSError, tomllib.TOMLDecodeError):
+        return None
+    return version if isinstance(version, str) else None
+
+
+def _git_commit(directory: str) -> str | None:
+    """HEAD of the git work tree holding ``directory``, or None outside one."""
+    try:
+        proc = subprocess.run(
+            ["git", "-C", directory, "rev-parse", "--verify", "HEAD^{commit}"],
+            capture_output=True,
+            text=True,
+            check=False,
+        )
+    except OSError:
+        return None
+    commit = proc.stdout.strip()
+    if proc.returncode != 0 or not re.fullmatch(r"[0-9a-f]{40,64}", commit):
+        return None
+    return commit
+
+
+def _within(path: str, root: str) -> bool:
+    path, root = os.path.realpath(path), os.path.realpath(root)
+    return os.path.commonpath([path, root]) == root
+
+
+def corpus_revision(suite_dir: str, version: str | None) -> tuple[str | None, str]:
+    """The revision the corpus bytes came from, and how it was established.
+
+    A corpus this package ships is at the ref the action was used at when the
+    action says so, else at the release tag of the installed wheel (tags are
+    signed and never move, RELEASING.md), else at the checkout's commit. A
+    directory named with --vectors outside the package is the consumer's own:
+    its git commit, or nothing, never this package's revision.
+    """
+    if _within(suite_dir, corpora_root()):
+        pinned = os.environ.get(PACKAGE_REVISION_ENV, "").strip()
+        if pinned:
+            return pinned, "action-ref"
+        if installed_layout():
+            return (f"v{version}", "release-tag") if version else (None, "unknown")
+    where = suite_dir if os.path.isdir(suite_dir) else os.path.dirname(suite_dir)
+    commit = _git_commit(where)
+    return (commit, "git-commit") if commit else (None, "unknown")
+
+
+def verifier_result_header(suite_dir: str) -> dict[str, Any]:
+    """Package, version, input digest and corpus revision of one run."""
+    try:
+        with open(os.path.join(suite_dir, "MANIFEST.json"), "rb") as handle:
+            manifest = strictjson.loads(handle.read())
+    except (OSError, ValueError):
+        manifest = None
+    if not isinstance(manifest, dict):
+        manifest = {}
+    declared, suite = manifest.get("corpusDigest"), manifest.get("suite")
+    installed = installed_layout()
+    version = _installed_release() if installed else _checkout_version()
+    revision, revision_kind = corpus_revision(suite_dir, version)
+    name = suite if isinstance(suite, str) else os.path.basename(os.path.normpath(suite_dir))
+    return {
+        "schema": RESULT_HEADER_SCHEMA,
+        "package": DISTRIBUTION_NAME,
+        "version": version,
+        "versionSource": "installed" if installed else "checkout",
+        "corpus": name,
+        "corpusDigest": declared if isinstance(declared, str) else None,
+        "corpusRevision": revision,
+        "corpusRevisionKind": revision_kind,
+    }
+
+
+def _report_stat(path: str) -> tuple[int, int] | None:
+    try:
+        st = os.stat(path)
+    except OSError:
+        return None
+    return st.st_mtime_ns, st.st_size
+
+
+def stamp_report(path: str, suite_dir: str, before: tuple[int, int] | None) -> bool:
+    """Add the verifier-result header to the report this run wrote at ``path``.
+
+    A file left at the path by an earlier run is not this run's report, so a
+    run that wrote nothing (its stat is unchanged) is never stamped. The
+    report keeps its key order, sorted or not, so only the header is new.
+    """
+    after = _report_stat(path)
+    if after is None or after == before:
+        return False
+    try:
+        with open(path, encoding="utf-8") as handle:
+            report = strictjson.load(handle)
+    except (OSError, ValueError):
+        return False
+    if not isinstance(report, dict):
+        return False
+    was_sorted = list(report) == sorted(report)
+    report[RESULT_HEADER_KEY] = verifier_result_header(suite_dir)
+    with open(path, "w", encoding="utf-8") as handle:
+        json.dump(report, handle, indent=2, sort_keys=was_sorted)
+        handle.write("\n")
+    return True
+
+
+REPORT_NAME = "conformance-report.json"
+
+
+def committed_report_path() -> str | None:
+    """The report a checkout commits beside this file, or None from the wheel.
+
+    A run is an observation, so it never writes this file unless its caller
+    names the path. It was once the default, and a corpus run replaced the
+    committed record with its own.
+    """
+    if installed_layout():
+        return None
+    return os.path.join(os.path.dirname(os.path.abspath(__file__)), REPORT_NAME)
+
+
+def default_report_refusal(explicit: str | None) -> str | None:
+    """Why a defaulted report may not be written, or None when it may.
+
+    The default is ``conformance-report.json`` in the working directory. In a
+    checkout, a caller standing in the directory that holds the committed report
+    would reach it by default, so that case is refused; ``--report`` naming the
+    path is the way to ask for it.
+    """
+    if explicit is not None:
+        return None
+    committed = committed_report_path()
+    if committed is None or os.path.realpath(REPORT_NAME) != os.path.realpath(committed):
+        return None
+    return (
+        f"agent-evidence-vectors: refusing to write {committed}: it is the committed "
+        "report, and this run did not ask for it. Run from another directory, or pass "
+        "--report with that path to replace it"
     )
+
+
+def _report_path(args: argparse.Namespace) -> str:
+    """Where the report goes: --report, else conformance-report.json in the working directory."""
+    return str(args.report) if args.report else REPORT_NAME
 
 
 def _run_write_report(
@@ -5499,10 +5745,104 @@ def main() -> int:
         # Drive a runtime, rather than a verifier, through a corpus that defines
         # a runtime contract: today the uncertain-effect scenarios.
         return runtime_main(sys.argv[2:])
+    if len(sys.argv) > 1 and sys.argv[1] == "corpus":
+        # One verdict line per member of every named corpus, in the shared
+        # verdict-line format every verifier's corpus mode prints.
+        return corpus_main(sys.argv[2:])
+    if len(sys.argv) > 1 and sys.argv[1] == "verdict-lines":
+        # Check verdict lines against the schema and the manifests, or compare
+        # several verifiers' lines member by member.
+        from agent_evidence_vectors import verdictlines
+
+        return verdictlines.main(sys.argv[2:])
     if len(sys.argv) > 1 and sys.argv[1] == "recorded":
         # Recorded sets: retained bytes against their publisher's digest list.
         return recorded.main(sys.argv[2:])
     return rail_main()
+
+
+#: The corpora the reference rail answers in corpus mode, by suite. Every other
+#: suite handed in is answered not-applicable, member by member.
+VERDICT_LINE_CORPORA = ("vectors", "vectors-approval-binding", "vectors-uncertain-effect")
+
+
+def rail_version() -> str:
+    """This rail's version: the installed release, or the checkout's declared version."""
+    release = _installed_release()
+    if release is not None:
+        return release
+    with open(os.path.join(corpora_root(), "pyproject.toml"), "rb") as handle:
+        return f"{tomllib.load(handle)['project']['version']}+checkout"
+
+
+def corpus_verdict_lines(path: str, verifier: tuple[str, str]) -> list[dict[str, Any]]:
+    """The reference rail's verdict line for every member of the corpus at ``path``.
+
+    The AEE corpus is replayed through the reference rail with no consumer key
+    policy, the column anyone can reproduce; the verdict and, on an accepted
+    statement, the result token are the manifest's normative surface, and the
+    first detected code is the reason. The approval-binding and uncertain-effect
+    corpora are answered by their packaged readers. A suite this rail has no
+    reader for is answered not-applicable for each member, never skipped.
+    """
+    from pathlib import Path
+
+    from agent_evidence_vectors import verdictlines
+
+    corpus = verdictlines.load_corpus(path)
+    with open(os.path.join(path, "MANIFEST.json"), encoding="utf-8") as handle:
+        entries = {e["id"]: e for e in strictjson.load(handle)["vectors"]}
+    lines = []
+    bare = ReferenceVerifier([])
+    readers = {approvalbinding.SUITE: approvalbinding, uncertaineffect.SUITE: uncertaineffect}
+    for vid, entry in entries.items():
+        line = verdictlines.make_line
+        try:
+            if corpus.suite == REFERENCE_SUITE:
+                with open(os.path.join(path, entry["file"]), "rb") as handle:
+                    raw = handle.read(MAX_STATEMENT_BYTES + 1)
+                if len(raw) > MAX_STATEMENT_BYTES:
+                    raise ValueError(f"statement exceeds {MAX_STATEMENT_BYTES} bytes")
+                outcome = bare.verify(_load_statement(raw)[0], raw)
+                if outcome.verdict == "valid":
+                    lines.append(line(corpus, vid, "accept", None, verifier, outcome.result))
+                else:
+                    lines.append(line(corpus, vid, "reject", outcome.codes[0], verifier))
+            elif corpus.suite in readers:
+                answer = readers[corpus.suite].verify(Path(path) / entry["path"] / "record.json")
+                verdict = "accept" if answer["decision"] == "allow" else "reject"
+                lines.append(line(corpus, vid, verdict, answer["reason"], verifier))
+            else:
+                lines.append(line(corpus, vid, "not-applicable", "suite-not-implemented", verifier))
+        except (OSError, ValueError, KeyError, TypeError, RecursionError) as exc:
+            lines.append(line(corpus, vid, "error", f"{type(exc).__name__}: {exc}", verifier))
+    return lines
+
+
+def corpus_main(argv: list[str]) -> int:
+    """Print one verdict line per member of each named corpus (default: the three answered here)."""
+    from agent_evidence_vectors import verdictlines
+
+    parser = argparse.ArgumentParser(
+        prog="agent-evidence-vectors corpus",
+        description="print one verdict line (vectors/verdict-line.schema.json) per corpus member",
+    )
+    parser.add_argument("--corpus", action="append", default=None, metavar="NAME",
+                        help="a shipped corpus name (repeatable; default: "
+                        + ", ".join(VERDICT_LINE_CORPORA) + ")")
+    parser.add_argument("--vectors", action="append", default=None, metavar="DIR",
+                        help="a corpus directory (repeatable; overrides --corpus)")
+    args = parser.parse_args(argv)
+    dirs = args.vectors or [corpus_dir(n) for n in (args.corpus or VERDICT_LINE_CORPORA)]
+    verifier = (DISTRIBUTION_NAME, rail_version())
+    try:
+        for path in dirs:
+            for line in corpus_verdict_lines(path, verifier):
+                print(verdictlines.dumps(line))
+    except verdictlines.CorpusError as exc:
+        print(f"agent-evidence-vectors corpus: NOT RUN: {exc}", file=sys.stderr)
+        return 2
+    return 0
 
 
 def runtime_main(argv: list[str]) -> int:
@@ -5512,12 +5852,16 @@ def runtime_main(argv: list[str]) -> int:
     from agent_evidence_vectors import (
         decisionclient,
         decisionclient_runtime,
+        executionbilling,
+        executionbilling_runtime,
         uncertaineffect_runtime,
     )
 
     runners = {
         uncertaineffect.SUITE: uncertaineffect_runtime.run_runtime,
         decisionclient.SUITE: decisionclient_runtime.run_runtime,
+        executionbilling.SUITE: executionbilling_runtime.run_runtime,
+        actormarker.SUITE: actormarker.run_runtime,
     }
     parser = argparse.ArgumentParser(
         prog="agent-evidence-vectors runtime",
@@ -5527,8 +5871,17 @@ def runtime_main(argv: list[str]) -> int:
     parser.add_argument("--corpus", default="vectors-uncertain-effect")
     parser.add_argument("--vectors", default=None, help="corpus directory (overrides --corpus)")
     parser.add_argument("--runtime", required=True, help="adapter command line")
-    parser.add_argument("--report", default="conformance-report.json")
+    parser.add_argument(
+        "--report",
+        default=None,
+        help="output path for conformance-report.json (default: the working directory)",
+    )
     args = parser.parse_args(argv)
+    refusal = default_report_refusal(args.report)
+    if refusal is not None:
+        print(refusal, file=sys.stderr)
+        return 2
+    args.report = _report_path(args)
     root = args.vectors or corpus_dir(args.corpus)
     manifest = _read_manifest_suite(root)
     runner = runners.get(manifest or "")
@@ -5539,13 +5892,16 @@ def runtime_main(argv: list[str]) -> int:
             file=sys.stderr,
         )
         return 2
-    return runner(args.runtime, args.report, Path(root))
+    report_before = _report_stat(args.report)
+    status = runner(args.runtime, args.report, Path(root))
+    stamp_report(args.report, os.path.abspath(root), report_before)
+    return status
 
 
 def _read_manifest_suite(root: str) -> str | None:
     try:
         with open(os.path.join(root, "MANIFEST.json"), encoding="utf-8") as handle:
-            suite = json.load(handle).get("suite")
+            suite = strictjson.load(handle).get("suite")
     except (OSError, ValueError, AttributeError):
         return None
     return suite if isinstance(suite, str) else None
@@ -5599,7 +5955,9 @@ def rail_main() -> int:
     parser.add_argument(
         "--report",
         default=None,
-        help="output path for conformance-report.json",
+        help="output path for conformance-report.json (default: the working "
+        "directory; naming the committed packaging/conformance-report.json asks to "
+        "replace it)",
     )
     parser.add_argument(
         "--self-test",
@@ -5634,13 +5992,14 @@ def rail_main() -> int:
         return self_test()
     if args.vectors is None:
         args.vectors = corpus_dir(args.corpus)
-    if args.report is None and installed_layout():
-        # Beside this file is site-packages when the wheel is installed, and a
-        # report written there is one nobody finds. The working directory is
-        # where a relying party's CI looks for it.
-        args.report = "conformance-report.json"
+    refusal = default_report_refusal(args.report)
+    if refusal is not None:
+        print(refusal, file=sys.stderr)
+        return 2
     args.report_written = None
+    report_before = _report_stat(_report_path(args))
     status = run_suite(args)
+    stamp_report(_report_path(args), os.path.abspath(args.vectors), report_before)
     if args.emit_w3c_report is not None:
         if args.report_written is None:
             # Reading whatever report sits at the path would emit a v0.1 report
@@ -5660,7 +6019,7 @@ def rail_main() -> int:
 def _emit_w3c(args: argparse.Namespace) -> None:
     """Write the v0.1 report beside the harness report, from the harness report."""
     with open(args.report_written, encoding="utf-8") as handle:
-        harness = json.load(handle)
+        harness = strictjson.load(handle)
     with open(args.emit_w3c_report, "w", encoding="utf-8") as handle:
         json.dump(w3creport.emit(harness), handle, indent=2, sort_keys=True)
         handle.write("\n")

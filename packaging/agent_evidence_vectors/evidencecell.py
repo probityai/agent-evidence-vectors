@@ -73,6 +73,8 @@ from typing import Any
 
 from agent_evidence_vectors import monitorcoverage as _shared
 
+from . import strictjson
+
 SUITE = "incident-evidence-cell/v1"
 STATEMENT_TYPE = "https://in-toto.io/Statement/v1"
 PREDICATE_TYPE = ("https://probityai.github.io/agent-evidence-vectors/predicate/v1/"
@@ -231,7 +233,7 @@ def _first_failure(record: Record, skip: frozenset[str]) -> str | None:
 
 
 def _load(record_path: Path) -> Record:
-    loaded = json.loads(record_path.read_text(encoding="utf-8"))
+    loaded = strictjson.loads(record_path.read_text(encoding="utf-8"))
     if not isinstance(loaded, dict):
         raise ValueError("a record is a JSON object")
     return loaded
@@ -287,7 +289,7 @@ def main(argv: list[str] | None = None) -> int:
     answered, errors = check(args.verifier)
     for error in errors:
         print(error)
-    total = len(json.loads((ROOT / "MANIFEST.json").read_text(encoding="utf-8"))["vectors"])
+    total = len(strictjson.loads((ROOT / "MANIFEST.json").read_text(encoding="utf-8"))["vectors"])
     print(f"answered {answered} of {total} cases")
     return 1 if errors or answered != total else 0
 

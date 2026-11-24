@@ -15,7 +15,6 @@
 package corpusreaders
 
 import (
-	"encoding/json"
 	"errors"
 	"fmt"
 	"os"
@@ -149,7 +148,7 @@ func Judge(dir string) (*Result, error) {
 	var head struct {
 		Suite string `json:"suite"`
 	}
-	if err := json.Unmarshal(raw, &head); err != nil {
+	if err := strictUnmarshal(raw, &head); err != nil {
 		return nil, fmt.Errorf("%s does not parse: %w", filepath.Join(dir, ManifestName), err)
 	}
 	if head.Suite == "" {

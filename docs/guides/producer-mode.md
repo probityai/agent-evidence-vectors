@@ -7,10 +7,12 @@ The corpus modes of the Action test a reader: each member is a record your verif
 | input | meaning |
 | --- | --- |
 | `records` | Paths or globs, one per line, of the records you emit. Setting it selects producer mode. |
-| `record-class` | `w3c-report` (default), `run-record`, `agent-run-metrics` or `llm-context-discovery`. |
+| `record-class` | `w3c-report` (default), `run-record`, `agent-run-metrics`, `llm-context-discovery` or `evaluation-claim`. |
 | `producer` | Optional command that writes the records, run with bash before they are read. |
 | `pins` | Optional JSON file: `{"records": {"<path>": {"sha256": "...", "size": 0, "count": 0, "checkSetRoot": "..."}}}`. Every field is optional; `count`, `declared` (the roll-up's declared total) and `checkSetRoot` apply to `w3c-report`. A flat expected-digests file with the keys `report-sha256`, `report-bytes`, `declared` and `check-set-sha256` is read as it is and pins the one record the producer emits, so an existing `EXPECTED.json` of that shape needs no conversion. |
 | `receipt-path` | Where the receipt is written (default `agent-evidence-vectors-receipt.json`). |
+
+An `evaluation-claim` is read by the evaluation claim reader under the acceptance rule your pins file names, never one the record chooses: `{"evaluationClaim": {"rule": "rules/conformance.json", "caseSets": ["case-sets/r2.json"], "profiles": []}}`, paths relative to the pins file. The published profiles are always available; `profiles` adds others. A refused record does not conform, and neither does one admitted with a verdict other than `pass`; a pins file with no rule is `no-verdict`. The receipt's `acceptance` names the rule's digest and the case sets and profiles it was judged with.
 
 A `w3c-report` is read through the v0.1 reading table and the rejection rows; your own report reaches the reader with no observation store, so referenced observations read as unchecked. A `run-record` is read by the interoperability-evidence criterion of `vectors-mcp-record-contract`.
 
@@ -41,7 +43,7 @@ jobs:
     runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v4
-      - uses: probityai/agent-evidence-vectors@v0.36.3
+      - uses: probityai/agent-evidence-vectors@v0.38.0
         with:
           producer: python3 -m mypkg.emit --out out/report.json
           records: out/*.json

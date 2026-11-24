@@ -5,11 +5,19 @@
     python3 run.py digest --python <py> --document <path> --artifact <path> [--artifact ...]
     python3 run.py policy --opa <opa> --rules <name> --statement <path> [--statement ...] [--pins <path>]
     python3 run.py coverage --document <path> --required <path>
+    python3 run.py admit --rule-set <name> --document <path> [--document ...] [--file <uri>=<path> ...]
+                         [--options <path>] [--warn <code> ...]
 
-`digest` runs the published agent-evidence-admission checker once per artifact. `policy`
+`digest` runs the published agent-evidence-admission checker once per artifact, except on an ARD
+or AI Catalog document (a JSON object with an `entries` array), which it holds to the
+catalog-attestations rule set of this checkout: every entry and attestation pin over the bytes the
+caller vendored, and an entry delivered by `url` with attestations and no `digest` refused as
+`entry_digest_missing_for_url` (`--severity warn` reports that and `attestation_unsigned` instead). `policy`
 evaluates every statement against one rule set of packages/admission/rego in a single opa
 call. `coverage` runs the checker's coverage-check from this checkout's own source (standard
-library only, so there is nothing to install) and reports one row per required class. Both write `result` (`admitted` or `refused`) and `refusals` (a count) to
+library only, so there is nothing to install) and reports one row per required class. `admit` runs
+one of the checker's rule sets from this checkout's own source on each record, one row per record.
+All write `result` (`admitted` or `refused`) and `refusals` (a count) to
 GITHUB_OUTPUT and a table to GITHUB_STEP_SUMMARY when those are set, and exit 0 when
 everything is admitted, 1 when anything is refused, 2 when an input could not be read or a
 tool failed. Every tool is pinned in pins.json by version and SHA-256. Standard library
@@ -197,6 +205,132 @@ def check_digests(python: str, document: str, artifacts: list[str]) -> list[Row]
     return rows
 
 
+#: In digest mode a catalog is held to its pins over the bytes the caller vendored; a pin whose
+#: bytes were not passed is reported, never refused, because digest mode checks only what it holds.
+DIGEST_UNPASSED = ["entry-bytes-not-evaluated", "attestation-pin-not-evaluated",
+                   "attestation-subject-not-evaluated"]
+#: The two findings of an attestation moved to another entry (draft-bu-dawn-ard-discovery-00
+#: 3.5.2 item 1 and 6.4), reported instead of refused under `--severity warn`.
+DIGEST_SEVERITY_CODES = ["entry_digest_missing_for_url", "attestation_unsigned"]
+
+
+def catalog_entries(document: str) -> bool:
+    """Whether the document is an ARD or AI Catalog document: an object with an `entries` array."""
+    try:
+        parsed = json.loads(Path(document).read_text(encoding="utf-8"))
+    except (OSError, ValueError):
+        return False
+    if isinstance(parsed, dict) and isinstance(parsed.get("data"), dict):
+        parsed = parsed["data"]
+    return isinstance(parsed, dict) and isinstance(parsed.get("entries"), list)
+
+
+def _locations(value: object) -> list[str]:
+    """Every `url` and `uri` string in a catalog document."""
+    if isinstance(value, dict):
+        found = [v for k, v in value.items() if k in ("url", "uri") and isinstance(v, str)]
+        return found + [u for v in value.values() for u in _locations(v)]
+    if isinstance(value, list):
+        return [u for v in value for u in _locations(v)]
+    return []
+
+
+def catalog_files(document: str, artifacts: list[str]) -> list[str]:
+    """Each artifact as `<uri>=<path>`: given so, or matched by file name to one URI in the catalog.
+
+    A `<uri>=<path>` whose URI the catalog does not list is refused: its bytes would be held and
+    never compared with any pin, and the run would read as checked.
+    """
+    locations = sorted(set(_locations(json.loads(Path(document).read_text(encoding="utf-8")))))
+    files = []
+    for artifact in artifacts:
+        head, _, tail = artifact.partition("=")
+        if tail and "://" in head:
+            if head not in locations:
+                raise SetupError(f"{artifact}: {document} lists no URI {head!r}, so these bytes "
+                                 "would be compared with no pin")
+            files.append(artifact)
+            continue
+        name = Path(artifact).name
+        matches = [u for u in locations if urlparse(u).path.rsplit("/", 1)[-1] == name]
+        if len(matches) != 1:
+            raise SetupError(f"{artifact}: {len(matches)} URIs in {document} end in {name!r}; "
+                             "pass it as <uri>=<path>")
+        files.append(f"{matches[0]}={artifact}")
+    return files
+
+
+#: The two pins of a catalog over bytes the caller vendors, by the code the rule set notes when
+#: those bytes were not passed.
+BYTE_PIN_CODES = ("entry-bytes-not-evaluated", "attestation-pin-not-evaluated")
+
+
+def byte_pins(document: str) -> list[str]:
+    """The JSON path of every byte pin in a catalog: an entry `digest`, an attestation `digest`.
+
+    The same walk as the catalog-attestations rule set (entries, nested `data.entries`, an ARD
+    `trustManifest` or AI Catalog `trustManifests`, their `attestations`), so each path is the
+    `at` of the note the rule set writes when that pin's bytes were not passed.
+    """
+    parsed = json.loads(Path(document).read_text(encoding="utf-8"))
+    pins: list[str] = []
+
+    def walk(catalog: object, prefix: str) -> None:
+        entries = catalog.get("entries") if isinstance(catalog, dict) else None
+        for index, entry in enumerate(entries if isinstance(entries, list) else []):
+            if not isinstance(entry, dict):
+                continue
+            path = f"{prefix}/entries/{index}"
+            if "digest" in entry:
+                pins.append(f"{path}/digest")
+            manifests = [(f"{path}/trustManifest", entry.get("trustManifest"))]
+            many = entry.get("trustManifests")
+            manifests += [(f"{path}/trustManifests/{i}", m) for i, m in enumerate(many if isinstance(many, list) else [])]
+            for mpath, manifest in manifests:
+                items = manifest.get("attestations") if isinstance(manifest, dict) else None
+                for a, item in enumerate(items if isinstance(items, list) else []):
+                    if isinstance(item, dict) and "digest" in item:
+                        pins.append(f"{mpath}/attestations/{a}/digest")
+            data = entry.get("data")
+            if isinstance(data, dict) and isinstance(data.get("entries"), list):
+                walk(data, f"{path}/data")
+
+    walk(parsed, "")
+    return pins
+
+
+def check_catalog_digest(document: str, artifacts: list[str], severity: str) -> list[Row]:
+    """A catalog document held to the catalog-attestations rule set over the vendored bytes.
+
+    A pin whose bytes were not passed is reported rather than refused, because digest mode checks
+    what it holds. So the row says how many byte pins it held, and a catalog where it held none (no
+    pin at all, or none whose bytes were passed or inline) is refused: a digest check that
+    compared no digest is never an admission.
+    """
+    warn = DIGEST_UNPASSED + (DIGEST_SEVERITY_CODES if severity == "warn" else [])
+    rows = check_admit("catalog-attestations", [document], catalog_files(document, artifacts), None, warn)
+    pins = byte_pins(document)
+    for row in rows:
+        unevaluated = {_at(reason) for reason in row.reasons
+                       if reason.startswith("warning ") and _code(reason) in BYTE_PIN_CODES}
+        evaluated = len([pin for pin in pins if pin not in unevaluated])
+        line = f"digest mode compared {evaluated} of {len(pins)} byte pins with the bytes passed"
+        if evaluated == 0:
+            row.admitted = False
+            row.reasons.append(f"digest_nothing_compared at /: {line}; pass the bytes the catalog pins")
+        else:
+            row.reasons.append(f"note digest_pins_compared at /: {line}")
+    return rows
+
+
+def _code(reason: str) -> str:
+    return reason.removeprefix("warning ").split(" at ", 1)[0]
+
+
+def _at(reason: str) -> str:
+    return reason.removeprefix("warning ").split(" at ", 1)[1].split(": ", 1)[0]
+
+
 def check_coverage(document: str, required: str) -> list[Row]:
     """Run coverage-check from this checkout; one row per required class, refused when it fails."""
     env = {**os.environ, "PYTHONPATH": str(CHECKER_SRC)}
@@ -266,6 +400,29 @@ def check_policy(opa: str, rules: str, paths: list[str], pins_path: str | None) 
     return rows
 
 
+def check_admit(rule_set: str, documents: list[str], files: list[str], options: str | None,
+                warn: list[str]) -> list[Row]:
+    """Run one rule set from this checkout on each record; one row per record, its refusals as reasons."""
+    env = {**os.environ, "PYTHONPATH": str(CHECKER_SRC)}
+    extra = [arg for pair in files for arg in ("--file", pair)] + [arg for code in warn for arg in ("--warn", code)]
+    if options:
+        extra += ["--options", options]
+    rows = []
+    for document in documents:
+        done = subprocess.run([sys.executable, "-m", "agent_evidence_admission.cli", "admit", rule_set, document,
+                               "--json", *extra], check=False, capture_output=True, text=True, env=env)
+        if done.returncode not in (0, 1):
+            raise SetupError(f"admit {rule_set} {document}: exit {done.returncode}: {(done.stderr or done.stdout).strip()}")
+        try:
+            verdict = json.loads(done.stdout)
+        except ValueError as error:
+            raise SetupError(f"admit printed no verdict: {done.stdout[:2000]}") from error
+        reasons = [f"{r['code']} at {r['at']}: {r['detail']}" for r in verdict["refusals"]]
+        reasons += [f"warning {r['code']} at {r['at']}: {r['detail']}" for r in verdict["warnings"]]
+        rows.append(Row(document, verdict["verdict"] == "admit", reasons))
+    return rows
+
+
 def _cell(text: str) -> str:
     return text.replace("|", "\\|").replace("\n", " ")
 
@@ -307,9 +464,16 @@ def _parser() -> argparse.ArgumentParser:
     digest.add_argument("--python", required=True)
     digest.add_argument("--document", required=True)
     digest.add_argument("--artifact", action="append", required=True)
+    digest.add_argument("--severity", choices=("fail", "warn"), default="fail")
     coverage = commands.add_parser("coverage")
     coverage.add_argument("--document", required=True)
     coverage.add_argument("--required", required=True)
+    admit = commands.add_parser("admit")
+    admit.add_argument("--rule-set", required=True)
+    admit.add_argument("--document", action="append", required=True)
+    admit.add_argument("--file", action="append", default=[])
+    admit.add_argument("--options")
+    admit.add_argument("--warn", action="append", default=[])
     policy = commands.add_parser("policy")
     policy.add_argument("--opa", required=True)
     policy.add_argument("--rules", required=True)
@@ -328,10 +492,18 @@ def main(argv: list[str] | None = None) -> int:
         if args.command == "install-checker":
             print(install_checker(Path(args.venv)))
             return 0
+        if args.command == "digest" and catalog_entries(args.document):
+            return report("digest check (catalog)",
+                          check_catalog_digest(args.document, _paths(args.artifact), args.severity))
         if args.command == "digest":
             return report("digest check", check_digests(args.python, args.document, _paths(args.artifact)))
         if args.command == "coverage":
             return report("coverage check", check_coverage(args.document, args.required))
+        if args.command == "admit":
+            files = [line for value in args.file for line in (v.strip() for v in value.splitlines()) if line]
+            warn = [line for value in args.warn for line in (v.strip() for v in value.splitlines()) if line]
+            return report(f"{args.rule_set} rule set",
+                          check_admit(args.rule_set, _paths(args.document), files, args.options or None, warn))
         return report(f"{args.rules} rules",
                       check_policy(args.opa, args.rules, _paths(args.statement), args.pins or None))
     except (SetupError, OSError, subprocess.CalledProcessError) as error:

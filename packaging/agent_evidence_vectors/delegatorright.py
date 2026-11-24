@@ -32,7 +32,10 @@ The reader checks in a fixed order and names the first check that fails:
    least ``propagationLimitSeconds`` before the decision
    (``ancestor_scope_removed``).
 
-A record that passes all seven is ``allow`` with reason ``entitled``.
+A record that passes all seven is ``allow``. The reason is ``within_propagation_limit``
+when an entitlement or a grant scope was removed at its source at or before the decision but
+has not yet reached enforcement, because the propagation limit is a tolerance for cached
+state and not an entitlement; otherwise it is ``entitled``.
 
 The external-verifier contract: ``<verifier> <case-dir>/record.json --json``
 prints one JSON object carrying ``decision`` and ``reason``, and exits 0 for
@@ -50,6 +53,8 @@ from collections.abc import Callable
 from datetime import datetime, timedelta
 from pathlib import Path
 from typing import Any
+
+from . import strictjson
 
 SUITE = "delegator-right/v1"
 CONTRACT_ID = "https://probityai.github.io/agent-evidence-vectors/contract/delegator-right/v1"
@@ -187,8 +192,24 @@ def _scope_removed(record: dict[str, Any]) -> bool:
                for hop in record["chain"] for n in hop["narrowings"])
 
 
+def _pending(record: dict[str, Any], effective: str) -> bool:
+    """Whether a removal already effective at the source is still inside the limit."""
+    return _when(effective) <= _when(record["decisionTime"]) and not _reached(record, effective)
+
+
+def _within_limit(record: dict[str, Any]) -> bool:
+    """Whether the allow rests on a removal the propagation limit has not yet reached."""
+    for hop in _delegating_hops(record):
+        right = _entitlement(record, hop)
+        if right is not None and right["until"] is not None and _pending(record, right["until"]):
+            return True
+    operation = record["request"]["operation"]
+    return any(n["operation"] == operation and _pending(record, n["effectiveAt"])
+               for hop in record["chain"] for n in hop["narrowings"])
+
+
 def _load(record_path: Path) -> dict[str, Any]:
-    record: dict[str, Any] = json.loads(record_path.read_text(encoding="utf-8"))
+    record: dict[str, Any] = strictjson.loads(record_path.read_text(encoding="utf-8"))
     return record
 
 
@@ -227,7 +248,8 @@ def verify(record_path: Path, skip: frozenset[str] = frozenset()) -> dict[str, s
     failure = _first_failure(_load(record_path), skip)
     if failure is not None:
         return {"decision": DENY, "reason": failure}
-    return {"decision": ALLOW, "reason": "entitled"}
+    reason = "within_propagation_limit" if _within_limit(_load(record_path)) else "entitled"
+    return {"decision": ALLOW, "reason": reason}
 
 
 def _fixture_error(directory: Path, entry: dict[str, Any]) -> str | None:
@@ -241,7 +263,7 @@ def _fixture_error(directory: Path, entry: dict[str, Any]) -> str | None:
 
 
 def _validated_entries(root: Path) -> tuple[list[dict[str, Any]], str | None]:
-    manifest = json.loads((root / "MANIFEST.json").read_text(encoding="utf-8"))
+    manifest = strictjson.loads((root / "MANIFEST.json").read_text(encoding="utf-8"))
     entries = manifest["vectors"]
     if _sha(_json(entries)) != manifest["corpusDigest"]:
         return [], "manifest digest mismatch"
@@ -264,7 +286,7 @@ def _external_answer(command: list[str], path: Path) -> tuple[bool, dict[str, An
     except (OSError, subprocess.TimeoutExpired) as exc:
         return False, f"verifier did not run: {exc}"
     try:
-        answer = json.loads(result.stdout)
+        answer = strictjson.loads(result.stdout)
         observed = {key: answer[key] for key in ("decision", "reason")}
     except (ValueError, KeyError, TypeError):
         return True, f"verifier returned no decision (exit {result.returncode})"
@@ -317,7 +339,7 @@ def run(root: str, verifier: list[str] | None, report_path: str, rail_note: str)
     directory = Path(root)
     answered, errors = check(verifier, directory)
     try:
-        manifest = json.loads((directory / "MANIFEST.json").read_text(encoding="utf-8"))
+        manifest = strictjson.loads((directory / "MANIFEST.json").read_text(encoding="utf-8"))
         total = len(manifest["vectors"])
     except (OSError, ValueError, KeyError, TypeError):
         manifest, total = {}, 0
@@ -356,7 +378,7 @@ def main(argv: list[str] | None = None) -> int:
     answered, errors = check(args.verifier)
     for error in errors:
         print(error)
-    total = len(json.loads((ROOT / "MANIFEST.json").read_text(encoding="utf-8"))["vectors"])
+    total = len(strictjson.loads((ROOT / "MANIFEST.json").read_text(encoding="utf-8"))["vectors"])
     print(f"answered {answered} of {total} cases")
     return 1 if errors or answered != total else 0
 

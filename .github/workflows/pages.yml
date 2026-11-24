@@ -27,10 +27,10 @@ jobs:
     steps:
       # Full history: each sitemap date is the date of the newest commit touching a page's sources,
       # and a shallow clone would answer with the tip's date for every page.
-      - uses: actions/checkout@v7.0.1
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           fetch-depth: 0
-      - uses: astral-sh/setup-uv@v7
+      - uses: astral-sh/setup-uv@37802adc94f370d6bfd71619e3f0bf239e1f3b78 # v7
       # The same toolchain the type-checking job syncs, and the same one
       # declaration of the markdown version. A version pinned a second time in
       # this file would be free to drift from the one the checker reads, and the
@@ -60,12 +60,12 @@ jobs:
           mkdir -p changed
           python3 scripts/sitemap_changed.py --built _site/sitemap.xml \
             --live https://probityai.github.io/agent-evidence-vectors/sitemap.xml --out changed/urls.txt
-      - uses: actions/upload-artifact@v7
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
           name: indexnow-changed
           path: changed/urls.txt
-      - uses: actions/configure-pages@v6
-      - uses: actions/upload-pages-artifact@v5
+      - uses: actions/configure-pages@45bfe0192ca1faeb007ade9deae92b16b8254a0d # v6
+      - uses: actions/upload-pages-artifact@fc324d3547104276b827a68afc52ff2a11cc49c9 # v5
         with:
           path: _site
 
@@ -78,7 +78,7 @@ jobs:
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - id: deployment
-        uses: actions/deploy-pages@v5
+        uses: actions/deploy-pages@368f82528645a54fb793d4d04e342629a3f51346 # v5
 
   # The per-push gate proves the build writes a page for every type URI; only
   # the host can prove it serves one. This runs after the deploy that
@@ -88,9 +88,9 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
-      - uses: actions/checkout@v7.0.1
-      - name: every predicate type URI answers 200 from the published host
-        run: python3 scripts/predicate-uri-gate.py --live
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - name: every identifier answers as listed from the published host (200 served, 404 negative vector)
+        run: python3 scripts/identifier-pages-gate.py --live
 
   # Tells IndexNow engines which pages are new or carry a newer lastmod than the sitemap that was
   # live before this deploy (the build job diffed them and kept the list). The key file lives at the
@@ -101,8 +101,8 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
-      - uses: actions/checkout@v7.0.1
-      - uses: actions/download-artifact@v8
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8
         with:
           name: indexnow-changed
           path: changed

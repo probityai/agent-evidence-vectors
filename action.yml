@@ -14,6 +14,9 @@ author: "Sankalp Gilda"
 # `fail`. The verifier mode is documented in docs/reference/verifier-contract.md
 # and docs/guides/runner.md, the admission mode in docs/ACTION.md. Each mode
 # keeps the output vocabulary it had before the two Actions became one.
+# Naming `expected-verdicts` runs the conformance mode: the verifier is held to
+# an expected-verdicts file over the project's own cases, by a standard-library
+# script run with `python -S` before anything is installed (docs/guides/action-inputs.md).
 
 branding:
   icon: "check-square"
@@ -32,8 +35,14 @@ inputs:
   runtime:
     description: >-
       Command line of a runtime adapter, for a corpus that defines a runtime
-      contract (today `vectors-uncertain-effect` and
-      `vectors-decision-client-failure-modes`). The adapter is run as
+      contract (today `vectors-uncertain-effect`,
+      `vectors-decision-client-failure-modes` and `vectors-actor-marker-survival`).
+      For `vectors-actor-marker-survival` the runtime is your own hop
+      implementation: it reads one hop request as JSON on standard input, prints
+      the token it sends, and is replayed through every hop of every accepted
+      chain, so the job fails when your hop strips, replaces, reorders or
+      truncates the acting-agent marker or forwards an unknown critical
+      parameter. For the other two corpora the adapter is run as
       `<runtime> <scenario.json>` against a counting endpoint whose URL the
       corpus names (`AEV_EFFECT_OWNER` for uncertain effects; `AEV_DECISION_POINT`
       and `AEV_EFFECT_SINK` for decision clients), performs the scenario through
@@ -73,6 +82,60 @@ inputs:
       itself was pinned to.
     required: false
     default: ""
+  profile:
+    description: >-
+      Verifier mode: the profile the verifier declares, by built-in name
+      (`integer-only`, `safe-integer`, `ascii-only`, joined with commas) or a
+      JSON file `{"excludes": [features], "outOfProfile": [ids]}`. A member
+      outside the profile is scored and counted on its own line; its failure
+      does not fail the job. A failure inside the profile still does. Empty
+      scores every member.
+    required: false
+    default: ""
+  fail-on-no-vectors:
+    description: >-
+      `true` (the default) fails a run that found no case, counted on the
+      runner's own disk; `false` reports it as `no-verdict`, never as a pass.
+    required: false
+    default: "true"
+  fail-on-missing-case:
+    description: >-
+      `true` (the default) fails a run in which a case the corpus MANIFEST (or
+      the expected-verdicts file) lists is not on disk or was not scored, and
+      names each one; `false` reports them without failing.
+    required: false
+    default: "true"
+  expected-verdicts:
+    description: >-
+      Conformance mode. An expected-verdicts file of your own cases, one
+      `<path> <valid|invalid>` per line (a `verify-expected.txt`), or a JSON
+      object of the same. Setting it selects this mode: `verifier` is run as
+      `<verifier> <case>` on every listed case under `cases` (exit 0 valid,
+      exit 1 invalid) and each answer is compared with the file. It runs with
+      `python -S` and installs nothing.
+    required: false
+    default: ""
+  cases:
+    description: "Conformance mode: the directory the expected-verdicts paths are relative to."
+    required: false
+    default: "."
+  mutate:
+    description: >-
+      Verifier mode: `none` (the default), `structural` or `bytes`. Mutates
+      every accept member (structural: drop each member, move each scalar by one
+      unit and to 2^53 and 2^64-1, swap each digest, re-sign with the corpus's
+      published test key; bytes: flip every bit of every DSSE payload, no
+      re-sign) and requires the verifier and the reference verifier both to
+      reject each mutant. A corpus with no reference route reads
+      `mutation-checked 0 of M` and fails.
+    required: false
+    default: "none"
+  mutate-limit:
+    description: >-
+      Most mutants judged in one run; a larger set is sampled at even,
+      deterministic spacing and the summary gives both numbers.
+    required: false
+    default: "2000"
   artifact-name:
     description: >-
       Name of the uploaded results artifact. A scoreboard pulls the report by
@@ -107,8 +170,10 @@ inputs:
       Producer mode: what the records are. `w3c-report` (the v0.1 per-check
       report, read through the reading table and the rejection rows),
       `run-record` (the interoperability-evidence criterion of
-      vectors-mcp-record-contract), `agent-run-metrics` or
-      `llm-context-discovery`.
+      vectors-mcp-record-contract), `agent-run-metrics`,
+      `llm-context-discovery` or `evaluation-claim` (an evaluation claim record,
+      judged under the acceptance rule the `pins` file names in its
+      `evaluationClaim` block).
     required: false
     default: "w3c-report"
   producer:
@@ -123,7 +188,10 @@ inputs:
     description: >-
       For producer mode: a JSON file pinning each record, `{"records":
       {"<path>": {"sha256": "...", "size": 0, "count": 0, "checkSetRoot":
-      "..."}}}`; every field is optional. For `policy`: a JSON data document
+      "..."}}}`; every field is optional. For `evaluation-claim` it also
+      names the relying party's acceptance rule: `{"evaluationClaim": {"rule":
+      "<file>", "caseSets": ["<file>"], "profiles": ["<file>"]}}`, paths
+      relative to the pins file. For `policy`: a JSON data document
       with your consumer pins; without one the rules refuse every statement
       that needs a pin.
     required: false
@@ -134,15 +202,15 @@ inputs:
     default: "agent-evidence-vectors-receipt.json"
 
   check:
-    description: "Admission mode. Setting it selects this mode; leave it empty to replay a corpus instead. What to check: `digest` (an artifact has a digest its document names), `policy` (a statement passes one admission rule set) or `coverage` (a CycloneDX BOM or SPDX 3 document accounts for every class a buyer requires)."
+    description: "Admission mode. Setting it selects this mode; leave it empty to replay a corpus instead. What to check: `digest` (an artifact has a digest its document names), `policy` (a statement passes one admission rule set), `coverage` (a CycloneDX BOM or SPDX 3 document accounts for every class a buyer requires) or `admit` (each record passes one of the checker's rule sets before any verifier judges it)."
     required: false
     default: ""
   document:
-    description: "For `digest`: the in-toto statement, CycloneDX SBOM or TEA artifact that names the digests. For `coverage`: the CycloneDX JSON BOM or SPDX 3 JSON-LD document."
+    description: "For `digest`: the in-toto statement, CycloneDX SBOM or TEA artifact that names the digests. For `coverage`: the CycloneDX JSON BOM or SPDX 3 JSON-LD document. For `admit`: the record paths, one per line."
     required: false
     default: ""
   artifacts:
-    description: "For `digest`: the artifact paths, one per line. Each must have a digest the document names."
+    description: "For `digest`: the artifact paths, one per line. Each must have a digest the document names. For `admit`: the bytes a record names by URI, one `<uri>=<path>` per line."
     required: false
     default: ""
   required:
@@ -157,27 +225,82 @@ inputs:
     description: "For `policy`: `execution-evidence`, `agent-change-admission` or `verifier-isolation`."
     required: false
     default: execution-evidence
+  digest-severity:
+    description: "For `digest` on an ARD or AI Catalog document: `fail` (the default) refuses an entry delivered by `url` that carries attestations and no `digest` of its own (`entry_digest_missing_for_url`) and an unsigned attestation (`attestation_unsigned`); `warn` reports both and admits."
+    required: false
+    default: fail
+  rule-set:
+    description: "For `admit`: `ijson`, `ijson-integer-only`, `audit-freshness`, `catalog-attestations`, `mcp-authz` or `co-signed-receipt`."
+    required: false
+    default: ""
+  rule-options:
+    description: "For `admit`: a JSON file of the rule set's options (for `mcp-authz`: resource, issuers, tokenEndpoints, now)."
+    required: false
+    default: ""
+  warn:
+    description: "For `admit`: refusal codes to report as warnings instead of refusing, one per line (a `*-not-evaluated` code accepts a check that could not run)."
+    required: false
+    default: ""
 
 outputs:
   report:
     description: "Path of the report JSON, or in producer mode of the receipt JSON."
-    value: ${{ steps.replay.outputs.report || steps.produced.outputs.receipt }}
+    value: ${{ steps.replay.outputs.report || steps.produced.outputs.receipt || steps.conformance.outputs.report }}
   vectors:
     description: "How many vectors were replayed."
-    value: ${{ steps.summary.outputs.vectors }}
+    value: ${{ steps.summary.outputs.vectors || steps.conformance.outputs.vectors }}
   conform:
     description: "How many vectors the verifier conformed on, by verdict and result."
-    value: ${{ steps.summary.outputs.conform }}
+    value: ${{ steps.summary.outputs.conform || steps.conformance.outputs.conform }}
   executed:
     description: "How many vectors the named verifier actually ran on."
-    value: ${{ steps.summary.outputs.executed }}
+    value: ${{ steps.summary.outputs.executed || steps.conformance.outputs.executed }}
+  vectors-found:
+    description: "How many listed cases this runner found on its own disk."
+    value: ${{ steps.summary.outputs.vectors-found || steps.conformance.outputs.vectors-found }}
+  missing-cases:
+    description: "How many listed cases were not on disk or not scored."
+    value: ${{ steps.summary.outputs.missing-cases || steps.conformance.outputs.missing-cases }}
+  in-profile:
+    description: "With `profile`: how many members are inside the declared profile."
+    value: ${{ steps.summary.outputs.in-profile }}
+  in-profile-pass:
+    description: "With `profile`: how many members inside the profile passed."
+    value: ${{ steps.summary.outputs.in-profile-pass }}
+  out-of-profile:
+    description: "With `profile`: how many members are outside the declared profile."
+    value: ${{ steps.summary.outputs.out-of-profile }}
+  out-of-profile-pass:
+    description: "With `profile`: how many members outside the profile passed anyway."
+    value: ${{ steps.summary.outputs.out-of-profile-pass }}
+  control-always-accept:
+    description: "How many members an always-accept verifier passes on the same corpus; empty when not scored."
+    value: ${{ steps.summary.outputs.control-always-accept || steps.conformance.outputs.control-always-accept }}
+  control-always-reject:
+    description: "How many members an always-reject verifier passes on the same corpus; empty when not scored."
+    value: ${{ steps.summary.outputs.control-always-reject || steps.conformance.outputs.control-always-reject }}
+  discriminates:
+    description: "`true` when neither control passes more than its share of the corpus, `false` when one does, empty when unknown."
+    value: ${{ steps.summary.outputs.discriminates || steps.conformance.outputs.discriminates }}
+  mutation-checked:
+    description: "With `mutate`: how many mutants both the verifier and the reference verifier rejected."
+    value: ${{ steps.mutate.outputs.mutation-checked }}
+  mutation-total:
+    description: "With `mutate`: how many mutants were judged, the M of `mutation-checked N of M`."
+    value: ${{ steps.mutate.outputs.mutation-total }}
+  mutation-agreement:
+    description: "With `mutate`: how many mutants the two verifiers judged the same way."
+    value: ${{ steps.mutate.outputs.mutation-agreement }}
+  mutation-survivors:
+    description: "With `mutate`: how many mutants both verifiers accepted, each named in the summary."
+    value: ${{ steps.mutate.outputs.mutation-survivors }}
   result:
     description: >-
       Verifier mode: `pass` when the named verifier ran on every vector, every
       vector passed, and the suite raised no refusal; else `fail`. Admission
       mode: `admitted` when every subject passed, `refused` when any did.
       Producer mode: `pass`, `fail` or `no-verdict`.
-    value: ${{ steps.summary.outputs.result || steps.check.outputs.result || steps.produced.outputs.result }}
+    value: ${{ steps.summary.outputs.result || steps.check.outputs.result || steps.produced.outputs.result || steps.conformance.outputs.result }}
   records:
     description: "Producer mode: how many records were read."
     value: ${{ steps.produced.outputs.records }}
@@ -190,18 +313,18 @@ outputs:
 
   reference-checked:
     description: "How many corpus members the reference verifier judged the way the corpus declares."
-    value: ${{ steps.reference.outputs.reference-checked }}
+    value: ${{ steps.reference.outputs.reference-checked || steps.conformance-reference.outputs.reference-checked }}
   reference-total:
     description: "How many members the corpus holds, the M of `reference-checked conformance N of M`."
-    value: ${{ steps.reference.outputs.reference-total }}
+    value: ${{ steps.reference.outputs.reference-total || steps.conformance-reference.outputs.reference-total }}
   full-release:
     description: >-
       `true` only when the corpus holds members and the reference verifier
       judged every one of them as declared; else `false`.
-    value: ${{ steps.reference.outputs.full-release }}
+    value: ${{ steps.reference.outputs.full-release || steps.conformance-reference.outputs.full-release }}
   reference-verifier-id:
     description: "The identifier of the reference verifier, also recorded in the report as reference.verifier.id."
-    value: ${{ steps.reference.outputs.reference-verifier-id || steps.produced.outputs.reference-verifier-id }}
+    value: ${{ steps.reference.outputs.reference-verifier-id || steps.produced.outputs.reference-verifier-id || steps.conformance-reference.outputs.reference-verifier-id }}
 
 runs:
   using: "composite"
@@ -210,13 +333,13 @@ runs:
     # on the same interpreter rather than on whichever 3.13 the runner image
     # resolves that day.
     - name: Set up Python
-      if: ${{ inputs.check == '' }}
+      if: ${{ inputs.check == '' && inputs.expected-verdicts == '' }}
       uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0 # v7.1.0
       with:
         python-version: "3.13.15"
 
     - name: Install the suite
-      if: ${{ inputs.check == '' }}
+      if: ${{ inputs.check == '' && inputs.expected-verdicts == '' }}
       shell: bash
       env:
         TAG: ${{ inputs.tag }}
@@ -250,11 +373,22 @@ runs:
         python -m pip install --quiet --disable-pip-version-check \
           --no-index --no-deps "$build"/dist/agent_evidence_vectors-*.whl
         agent-evidence-vectors --list-corpora
+        # The corpus revision every report records (verifierResult.corpusRevision):
+        # the tag input when one was named, else the ref this action was used at,
+        # which is the commit itself for `uses: ...@<sha>`, else the commit of a
+        # local checkout (`uses: ./`).
+        revision="${TAG:-$ACTION_REF}"
+        if [ -z "$revision" ]; then
+          revision="$(git -C "$ACTION_PATH" rev-parse --verify 'HEAD^{commit}' 2>/dev/null || true)"
+        fi
+        if [ -n "$revision" ]; then
+          echo "AEV_PACKAGE_REVISION=$revision" >> "$GITHUB_ENV"
+        fi
         echo "::endgroup::"
 
     - name: Replay the corpus
       id: replay
-      if: ${{ inputs.check == '' && inputs.records == '' }}
+      if: ${{ inputs.check == '' && inputs.records == '' && inputs.expected-verdicts == '' }}
       shell: bash
       env:
         VERIFIER: ${{ inputs.verifier }}
@@ -281,15 +415,44 @@ runs:
         fi
         echo "report=$REPORT" >> "$GITHUB_OUTPUT"
         echo "status=$status" >> "$GITHUB_OUTPUT"
+        # The directory the replay read, for the case count, the profile and the
+        # controls, which all read the corpus's own MANIFEST.
+        if [ -n "$VECTORS" ]; then
+          corpus_dir="$VECTORS"
+        else
+          corpus_dir="$(python -c "import sys; from agent_evidence_vectors.run_vectors import corpus_dir; print(corpus_dir(sys.argv[1]))" "$CORPUS" || true)"
+        fi
+        echo "corpus-dir=$corpus_dir" >> "$GITHUB_OUTPUT"
+        echo "corpus-args=$(python -c 'import json, sys; print(json.dumps(sys.argv[1:]))' "${source_args[@]}")" >> "$GITHUB_OUTPUT"
+
+    # The null controls: the same harness, the same corpus, a constant verifier
+    # in place of the one under test. What they score says whether a pass on
+    # this corpus can be told from a constant answer. A runtime contract has no
+    # verifier to stand in for, so it skips this step and the summary says so.
+    - name: Score the null controls
+      id: controls
+      if: ${{ inputs.check == '' && inputs.records == '' && inputs.expected-verdicts == '' && inputs.verifier != '' && inputs.runtime == '' && !cancelled() }}
+      shell: bash
+      env:
+        CONTROLS_DIR: ${{ runner.temp }}/agent-evidence-vectors-controls
+        CORPUS_ARGS: ${{ steps.replay.outputs.corpus-args }}
+      run: |
+        python "$GITHUB_ACTION_PATH/scripts/action-controls.py"
+        echo "dir=$CONTROLS_DIR" >> "$GITHUB_OUTPUT"
 
     - name: Write the job summary
       id: summary
-      if: ${{ inputs.check == '' && inputs.records == '' && !cancelled() }}
+      if: ${{ inputs.check == '' && inputs.records == '' && inputs.expected-verdicts == '' && !cancelled() }}
       shell: bash
       env:
         REPORT: ${{ steps.replay.outputs.report }}
         STATUS: ${{ steps.replay.outputs.status }}
         CORPUS: ${{ inputs.vectors || inputs.corpus }}
+        CORPUS_DIR: ${{ steps.replay.outputs.corpus-dir }}
+        PROFILE: ${{ inputs.profile }}
+        FAIL_ON_NO_VECTORS: ${{ inputs.fail-on-no-vectors }}
+        FAIL_ON_MISSING_CASE: ${{ inputs.fail-on-missing-case }}
+        CONTROLS_DIR: ${{ steps.controls.outputs.dir }}
       # The body is scripts/action-summary.py in this action's own checkout
       # rather than a heredoc here, so the local workflow mirror can run the
       # same code and produce the same outputs. A mirror that reimplemented
@@ -304,7 +467,7 @@ runs:
     # runs on, and the package's own metadata names none of it.
     - name: Install the reference verifier
       id: reference-install
-      if: ${{ inputs.check == '' && inputs.records == '' && !cancelled() }}
+      if: ${{ inputs.check == '' && inputs.records == '' && inputs.expected-verdicts == '' && !cancelled() }}
       shell: bash
       env:
         ACTION_PATH: ${{ github.action_path }}
@@ -325,7 +488,7 @@ runs:
 
     - name: Check against the reference verifier
       id: reference
-      if: ${{ inputs.check == '' && inputs.records == '' && !cancelled() }}
+      if: ${{ inputs.check == '' && inputs.records == '' && inputs.expected-verdicts == '' && !cancelled() }}
       shell: bash
       env:
         REPORT: ${{ steps.replay.outputs.report }}
@@ -342,8 +505,25 @@ runs:
         export CORPUS_DIR
         "$REF_PYTHON" "$ACTION_PATH/scripts/action-reference-stage.py"
 
+    # Mutation agreement: every mutant of every accept member, judged by the
+    # verifier under test and by the reference verifier. Off unless named.
+    - name: Check mutants against the reference verifier
+      id: mutate
+      if: ${{ inputs.check == '' && inputs.records == '' && inputs.expected-verdicts == '' && inputs.mutate != 'none' && inputs.mutate != '' && !cancelled() }}
+      shell: bash
+      env:
+        MUTATE: ${{ inputs.mutate }}
+        MUTATE_LIMIT: ${{ inputs.mutate-limit }}
+        VERIFIER: ${{ inputs.verifier }}
+        REPORT: ${{ steps.replay.outputs.report }}
+        CORPUS_DIR: ${{ steps.replay.outputs.corpus-dir }}
+        REF_PYTHON: ${{ steps.reference-install.outputs.python }}
+        ACTION_PATH: ${{ github.action_path }}
+      run: |
+        "$REF_PYTHON" "$ACTION_PATH/scripts/action-mutate-stage.py"
+
     - name: Upload the report
-      if: ${{ inputs.check == '' && inputs.records == '' && !cancelled() }}
+      if: ${{ inputs.check == '' && inputs.records == '' && inputs.expected-verdicts == '' && !cancelled() }}
       uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
       with:
         name: ${{ inputs.artifact-name }}
@@ -356,7 +536,7 @@ runs:
     # green job for a verifier that never started; the summary refuses any
     # report that does not show the named verifier answering every vector.
     - name: Fail the job when the replay did, or the verifier did not run
-      if: ${{ inputs.check == '' && inputs.records == '' && !cancelled() && (steps.replay.outputs.status != '0' || steps.summary.outputs.result != 'pass') }}
+      if: ${{ inputs.check == '' && inputs.records == '' && inputs.expected-verdicts == '' && !cancelled() && steps.summary.outputs.result != 'pass' && steps.summary.outputs.result != 'no-verdict' }}
       shell: bash
       env:
         STATUS: ${{ steps.replay.outputs.status }}
@@ -366,14 +546,24 @@ runs:
           echo "::error::agent-evidence-vectors exited $STATUS; the job summary names the vectors that disagreed, or the log says the verifier did NOT run."
           exit "$STATUS"
         fi
-        echo "::error::the harness exited 0 but the report does not show the named verifier answering every vector (executed: ${EXECUTED:-unreported}); the job summary says why."
+        echo "::error::the harness exited 0 but the report does not show the named verifier answering every vector (executed: ${EXECUTED:-unreported}), or the summary found a missing case or no vector; it says which."
+        exit 1
+
+    - name: Fail the job when a mutant was not rejected by both verifiers
+      if: ${{ inputs.check == '' && inputs.records == '' && inputs.expected-verdicts == '' && inputs.mutate != 'none' && inputs.mutate != '' && !cancelled() && steps.mutate.outputs.mutation-result != 'pass' }}
+      shell: bash
+      env:
+        CHECKED: ${{ steps.mutate.outputs.mutation-checked }}
+        TOTAL: ${{ steps.mutate.outputs.mutation-total }}
+      run: |
+        echo "::error::mutation-checked ${CHECKED:-0} of ${TOTAL:-0}; the job summary names each survivor, disagreement and refusal."
         exit 1
 
     # Producer mode: the steps below run only when `records` is named. They
     # reuse the interpreter and the wheel built above, and read each record
     # with the reader this release pins for its class.
     - name: Run the producer
-      if: ${{ inputs.check == '' && inputs.records != '' && inputs.producer != '' }}
+      if: ${{ inputs.check == '' && inputs.records != '' && inputs.expected-verdicts == '' && inputs.producer != '' }}
       shell: bash
       env:
         PRODUCER: ${{ inputs.producer }}
@@ -381,7 +571,7 @@ runs:
 
     - name: Check the produced records
       id: produced
-      if: ${{ inputs.check == '' && inputs.records != '' && !cancelled() }}
+      if: ${{ inputs.check == '' && inputs.records != '' && inputs.expected-verdicts == '' && !cancelled() }}
       shell: bash
       env:
         RECORDS: ${{ inputs.records }}
@@ -399,7 +589,7 @@ runs:
         echo "status=$status" >> "$GITHUB_OUTPUT"
 
     - name: Upload the receipt
-      if: ${{ inputs.check == '' && inputs.records != '' && !cancelled() && hashFiles(inputs.receipt-path) != '' }}
+      if: ${{ inputs.check == '' && inputs.records != '' && inputs.expected-verdicts == '' && !cancelled() && hashFiles(inputs.receipt-path) != '' }}
       uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
       with:
         name: ${{ inputs.artifact-name }}
@@ -408,7 +598,7 @@ runs:
         retention-days: ${{ inputs.retention-days }}
 
     - name: Fail the job when a produced record did not pass
-      if: ${{ inputs.check == '' && inputs.records != '' && !cancelled() && (steps.produced.outputs.status != '0' || steps.produced.outputs.result != 'pass') }}
+      if: ${{ inputs.check == '' && inputs.records != '' && inputs.expected-verdicts == '' && !cancelled() && (steps.produced.outputs.status != '0' || steps.produced.outputs.result != 'pass') }}
       shell: bash
       env:
         STATUS: ${{ steps.produced.outputs.status }}
@@ -416,6 +606,65 @@ runs:
       run: |
         echo "::error::producer mode: result ${RESULT:-unreported}, exit ${STATUS:-unreported}; the job summary names each record that did not pass."
         exit "${STATUS:-2}"
+
+    # Conformance mode: the steps below run only when `expected-verdicts` is
+    # named. Nothing is installed and no setup step runs: the runner's own
+    # interpreter runs the two standard-library scripts with -S, so the mode
+    # works on a runner with no network and no package index.
+    - name: Run the verifier over the listed cases
+      id: conformance
+      if: ${{ inputs.check == '' && inputs.records == '' && inputs.expected-verdicts != '' }}
+      shell: bash
+      env:
+        EXPECTED: ${{ inputs.expected-verdicts }}
+        CASES: ${{ inputs.cases }}
+        VERIFIER: ${{ inputs.verifier }}
+        REPORT: ${{ inputs.report-path }}
+        FAIL_ON_NO_VECTORS: ${{ inputs.fail-on-no-vectors }}
+        FAIL_ON_MISSING_CASE: ${{ inputs.fail-on-missing-case }}
+        ACTION_PATH: ${{ github.action_path }}
+      run: |
+        # A Windows runner's python3 can be the store alias, which runs nothing.
+        if [ "$RUNNER_OS" = "Windows" ]; then py=python; else py=python3; fi
+        status=0
+        "$py" -S "$ACTION_PATH/scripts/action-conformance.py" --expected "$EXPECTED" --cases "$CASES" \
+          --verifier "$VERIFIER" --report "$REPORT" --fail-on-no-vectors "$FAIL_ON_NO_VECTORS" \
+          --fail-on-missing-case "$FAIL_ON_MISSING_CASE" --github || status=$?
+        echo "status=$status" >> "$GITHUB_OUTPUT"
+        echo "py=$py" >> "$GITHUB_OUTPUT"
+
+    # The reference stage on the python -S path: the cases are the project's
+    # own, so no route of the reference verifier reaches them, and it says so
+    # as `reference-checked conformance 0 of M` rather than staying silent.
+    - name: Report the reference stage for the listed cases
+      id: conformance-reference
+      if: ${{ inputs.check == '' && inputs.records == '' && inputs.expected-verdicts != '' && !cancelled() }}
+      shell: bash
+      env:
+        REPORT: ${{ inputs.report-path }}
+        CORPUS_DIR: ${{ inputs.cases }}
+        PY: ${{ steps.conformance.outputs.py }}
+        ACTION_PATH: ${{ github.action_path }}
+      run: '"${PY:-python3}" -S "$ACTION_PATH/scripts/action-reference-stage.py"'
+
+    - name: Upload the conformance report
+      if: ${{ inputs.check == '' && inputs.records == '' && inputs.expected-verdicts != '' && !cancelled() && hashFiles(inputs.report-path) != '' }}
+      uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+      with:
+        name: ${{ inputs.artifact-name }}
+        path: ${{ inputs.report-path }}
+        overwrite: true
+        retention-days: ${{ inputs.retention-days }}
+
+    - name: Fail the job when a listed case did not get its expected verdict
+      if: ${{ inputs.check == '' && inputs.records == '' && inputs.expected-verdicts != '' && !cancelled() && steps.conformance.outputs.result != 'pass' && steps.conformance.outputs.result != 'no-verdict' }}
+      shell: bash
+      env:
+        RESULT: ${{ steps.conformance.outputs.result }}
+        STATUS: ${{ steps.conformance.outputs.status }}
+      run: |
+        echo "::error::conformance mode: result ${RESULT:-unreported}, exit ${STATUS:-unreported}; the job summary names each case."
+        exit 1
 
     # Admission mode: the steps below run only when `check` is named.
     - name: install the pinned admission tools
@@ -436,10 +685,10 @@ runs:
           digest)
             python="$(python3 "$SCRIPT" install-checker "$tools/checker")"
             echo "python=$python" >> "$GITHUB_OUTPUT" ;;
-          coverage)
+          coverage|admit)
             ;;
           *)
-            echo "::error::check must be digest, policy or coverage, not '$CHECK'"
+            echo "::error::check must be digest, policy, coverage or admit, not '$CHECK'"
             exit 2 ;;
         esac
     - name: check the evidence
@@ -457,10 +706,20 @@ runs:
         RULES: ${{ inputs.rules }}
         PINS: ${{ inputs.pins }}
         REQUIRED: ${{ inputs.required }}
+        DIGEST_SEVERITY: ${{ inputs.digest-severity }}
+        RULE_SET: ${{ inputs.rule-set }}
+        RULE_OPTIONS: ${{ inputs.rule-options }}
+        WARN: ${{ inputs.warn }}
       run: |
         set -euo pipefail
         case "$CHECK" in
-          digest) python3 "$SCRIPT" digest --python "$CHECKER_PYTHON" --document "$DOCUMENT" --artifact "$ARTIFACTS" ;;
+          digest) python3 "$SCRIPT" digest --python "$CHECKER_PYTHON" --document "$DOCUMENT" --artifact "$ARTIFACTS" --severity "$DIGEST_SEVERITY" ;;
           coverage) python3 "$SCRIPT" coverage --document "$DOCUMENT" --required "$REQUIRED" ;;
+          admit)
+            args=(admit --rule-set "$RULE_SET" --document "$DOCUMENT")
+            if [ -n "$ARTIFACTS" ]; then args+=(--file "$ARTIFACTS"); fi
+            if [ -n "$RULE_OPTIONS" ]; then args+=(--options "$RULE_OPTIONS"); fi
+            if [ -n "$WARN" ]; then args+=(--warn "$WARN"); fi
+            python3 "$SCRIPT" "${args[@]}" ;;
           *) python3 "$SCRIPT" policy --opa "$OPA" --rules "$RULES" --statement "$STATEMENT" --pins "$PINS" ;;
         esac

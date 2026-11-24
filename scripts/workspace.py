@@ -4,6 +4,7 @@
     python3 scripts/workspace.py changes <base> <head>    # JSON {area: true|false}
     python3 scripts/workspace.py all                      # JSON {area: true} (pushes to main)
     python3 scripts/workspace.py release-target <tag>     # JSON for the unit the tag releases
+    python3 scripts/workspace.py bumped <base> <head>     # JSON list of tags for units whose version changed
 
 An area is a directory with its own checks: crates/<name>, packages/<name>,
 actions, vectors, site and pages, each once it exists. An area is changed when a file under it
@@ -14,6 +15,7 @@ library only, because CI runs it before anything is installed.
 
 from __future__ import annotations
 
+import importlib.util
 import json
 import re
 import subprocess
@@ -75,21 +77,51 @@ def changed(paths: list[str], root: Path = ROOT) -> dict[str, bool]:
     return {a: shared or any(a in owner[p] for p in paths) for a in table}
 
 
-def _version(unit: dict[str, str], root: Path) -> str:
-    directory = root / unit["directory"]
+def _version(unit: dict[str, str], root: Path, rev: str | None = None) -> str:
+    """The unit's manifest version in the working tree, or at git revision ``rev`` when given."""
+    def read(name: str) -> str:
+        relative = f"{unit['directory']}/{name}"
+        if rev is None:
+            return (root / relative).read_text()
+        return subprocess.run(["git", "show", f"{rev}:{relative}"], cwd=root, check=True,
+                              capture_output=True, text=True).stdout
+
     if unit["registry"] == "crates.io":
-        return tomllib.loads((directory / "Cargo.toml").read_text())["package"]["version"]
+        return tomllib.loads(read("Cargo.toml"))["package"]["version"]
     if unit["registry"] == "pypi":
-        return tomllib.loads((directory / "pyproject.toml").read_text())["project"]["version"]
+        return tomllib.loads(read("pyproject.toml"))["project"]["version"]
     if unit["registry"] == "npm":
-        return json.loads((directory / "package.json").read_text())["version"]
+        return json.loads(read("package.json"))["version"]
     if unit["registry"] == "github-actions":
         # An Action has no manifest version; its release line is a one-line VERSION file.
-        return (directory / "VERSION").read_text().strip()
+        return read("VERSION").strip()
     raise SystemExit(f"unit {unit['prefix']!r} names an unknown registry {unit['registry']!r}")
 
 
-def release_target(tag: str, root: Path = ROOT) -> dict[str, str]:
+_MANIFEST = {"crates.io": "Cargo.toml", "pypi": "pyproject.toml", "npm": "package.json"}
+
+
+def _release_links():
+    """Load scripts/release_links.py from beside this file; the tests load this file by path."""
+    spec = importlib.util.spec_from_file_location("release_links", Path(__file__).with_name("release_links.py"))
+    if spec is None or spec.loader is None:
+        raise ImportError("scripts/release_links.py cannot be loaded as a module")
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    return module
+
+
+def _refuse_unusable_links(unit: dict[str, str], root: Path) -> None:
+    """Stop the release when the unit's manifest links to an archive, a redirect, a private repository or nothing."""
+    name = _MANIFEST.get(unit["registry"])
+    if name is None:
+        return
+    problems = _release_links().check_manifest(root / unit["directory"] / name)
+    if problems:
+        raise SystemExit("the registry page would link to nowhere useful:\n" + "\n".join(problems))
+
+
+def release_target(tag: str, root: Path = ROOT, check_links: bool = False) -> dict[str, str]:
     """Resolve a release tag ``<prefix>-v<version>`` to the unit it publishes.
 
     A bare ``v<version>`` tag is the corpus release; it names no unit of release.toml and
@@ -115,7 +147,33 @@ def release_target(tag: str, root: Path = ROOT) -> dict[str, str]:
         raise SystemExit(
             f"release tag {tag!r} does not match {unit['directory']} version {version}"
         )
+    if check_links:
+        _refuse_unusable_links(unit, root)
     return {**unit, "version": version}
+
+
+def bumped(base: str, head: str, root: Path = ROOT) -> list[str]:
+    """Return the release tag of every unit whose manifest version differs between two revisions.
+
+    A unit is judged only when its manifest exists at both revisions, so importing a unit is not
+    a release. Units that publish the same directory to the same registry count once, under the
+    first prefix release.toml lists for them.
+    """
+    units = tomllib.loads((root / "release.toml").read_text()).get("unit", [])
+    tags, seen = [], set()
+    for unit in units:
+        key = (unit["directory"], unit["registry"])
+        if key in seen:
+            continue
+        seen.add(key)
+        try:
+            before = _version(unit, root, base)
+            after = _version(unit, root, head)
+        except subprocess.CalledProcessError:
+            continue
+        if before != after:
+            tags.append(f"{unit['prefix']}-v{after}")
+    return tags
 
 
 def main(argv: list[str]) -> int:
@@ -130,8 +188,11 @@ def main(argv: list[str]) -> int:
                               check=True, capture_output=True, text=True).stdout.split()
         print(json.dumps(changed(diff), sort_keys=True))
         return 0
+    if len(argv) == 3 and argv[0] == "bumped":
+        print(json.dumps(bumped(argv[1], argv[2])))
+        return 0
     if len(argv) == 2 and argv[0] == "release-target":
-        print(json.dumps(release_target(argv[1]), sort_keys=True))
+        print(json.dumps(release_target(argv[1], check_links=True), sort_keys=True))
         return 0
     print(__doc__, file=sys.stderr)
     return 2

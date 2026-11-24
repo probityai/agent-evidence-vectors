@@ -176,3 +176,41 @@ Each is a separate fault domain that must report on its own, so the branches
 are independent rather than nested. A shared helper would couple checks that
 the manifest records separately.
 """
+
+["packaging/agent_evidence_vectors/principalaction.py::check_principal"]
+complexity = 21
+rationale = """
+check_principal is the per-principal check list in specification order
+(members, issuer, member shapes, key, thumbprint, kid, declared provider, pin,
+lifetime, trusted issuer, pinned key, act, ID-JAG), first failure wins, each
+check skippable for the load-bearing sweep. The branch count is the clause
+count; the Go reader mirrors it.
+"""
+
+["packaging/agent_evidence_vectors/principalaction.py::_decide"]
+complexity = 18
+rationale = """
+_decide is the ordered rule table of principal-action/v1: envelope, signature
+under the producer key, statement shape, each principal in turn, then the act
+chain naming the agent. Each step ends in its own rejection reason and the order
+is the rule, so it is a decision list rather than tangled control flow.
+"""
+
+["packaging/agent_evidence_vectors/cborreceiptchain.py::_item"]
+complexity = 14
+rationale = """
+_item reads one CBOR data item: it dispatches over the major types and the
+additional-information length encodings RFC 8949 defines, with the depth and
+size budget refusals. One branch per item kind is the grammar itself; splitting
+it would only spread the dispatch across helpers.
+"""
+
+["packaging/agent_evidence_vectors/cborreceiptchain.py::judge_stream"]
+complexity = 22
+rationale = """
+judge_stream runs the seven checks of cbor-receipt-chain/v1 in their stated
+order (shape, signature, pinned signer, duplicate, single use, chain order,
+head anchor), first failure wins, then picks among three not-established
+outcomes. Each check can be skipped for the load-bearing sweep. The order is
+the rule, and the Go reader mirrors it arm for arm.
+"""

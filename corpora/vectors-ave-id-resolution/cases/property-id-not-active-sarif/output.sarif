@@ -1,0 +1,49 @@
+{
+  "$schema": "https://json.schemastore.org/sarif-2.1.0.json",
+  "runs": [
+    {
+      "results": [
+        {
+          "level": "error",
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "skills/example.md"
+                },
+                "region": {
+                  "startLine": 1
+                }
+              }
+            }
+          ],
+          "message": {
+            "text": "finding for example-rule-7 at line 1"
+          },
+          "properties": {
+            "ave_id": "AVE-2026-00052"
+          },
+          "ruleId": "example-rule-7"
+        }
+      ],
+      "tool": {
+        "driver": {
+          "name": "example-scanner",
+          "rules": [
+            {
+              "id": "example-rule-7",
+              "properties": {
+                "ave_id": "AVE-2026-00052"
+              },
+              "shortDescription": {
+                "text": "rule example-rule-7"
+              }
+            }
+          ],
+          "version": "0.0.0"
+        }
+      }
+    }
+  ],
+  "version": "2.1.0"
+}

@@ -1,0 +1,70 @@
+{
+  "issue_title": "[draft-watch] Internet-Draft state",
+  "drafts": [
+    {
+      "slug": "draft-arsentev-agent-run-metrics",
+      "known_rev": "00",
+      "why": "corpora/vectors-w3c-report vendors and encodes this revision"
+    },
+    {
+      "slug": "draft-arsentev-llm-context-discovery",
+      "known_rev": "00",
+      "why": "corpora/vectors-w3c-report vendors and encodes this revision"
+    },
+    {
+      "slug": "draft-correctover-ccs",
+      "known_rev": "10",
+      "why": "interop/ccs-draft10-reader reads records against this revision"
+    },
+    {
+      "slug": "draft-emirdag-scitt-ai-agent-execution",
+      "known_rev": "01",
+      "why": "corpora/vectors-ietf-agent-record-drafts encodes this revision"
+    },
+    {
+      "slug": "draft-gilda-audit-agent-audit-record",
+      "known_rev": "03",
+      "why": "corpora/vectors-agent-audit-record encodes revisions 00 to 03, and the -04 text ahead of its submission"
+    },
+    {
+      "slug": "draft-gilda-wimse-agent-audit-record",
+      "known_rev": "02",
+      "why": "corpora/vectors-agent-audit-record maps this revision"
+    },
+    {
+      "slug": "draft-gruszka-scitt-statement-identification",
+      "known_rev": "02",
+      "why": "corpora/vectors-ietf-agent-record-drafts encodes this revision"
+    },
+    {
+      "slug": "draft-jackson-wimse-evaluation",
+      "known_rev": "05",
+      "why": "corpora/vectors-agent-audit-record maps this revision"
+    },
+    {
+      "slug": "draft-kroehl-agentic-trust-aae",
+      "known_rev": "02",
+      "why": "interop/aae-verdict-binding-v1 reads verdicts against this revision"
+    },
+    {
+      "slug": "draft-li-rttp-iqa-addressing",
+      "known_rev": "02",
+      "why": "corpora/vectors-refusal-reason-priority encodes this revision"
+    },
+    {
+      "slug": "draft-wang-jep-conformance",
+      "known_rev": "02",
+      "why": "interop/jep-core07-reader reads this revision's conformance text"
+    },
+    {
+      "slug": "draft-wang-jep-judgment-event-protocol",
+      "known_rev": "07",
+      "why": "interop/jep-core07-reader reads records against this revision"
+    }
+  ],
+  "unwatched_sha256": [
+    "b7f3a81dd13a94f1f15b692926277839c5671f09e40daa8fdb81b50e5ea4d9cd",
+    "e5fe7a35ad12a4cc46ad9bd508126d5012ac63c5147b67118661881c293a13bf"
+  ],
+  "unwatched_why": "cited by a corpus whose upstream this repository does not follow"
+}

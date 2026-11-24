@@ -36,7 +36,7 @@ ROOT = Path(__file__).resolve().parent.parent
 WORKFLOWS = ROOT / ".github" / "workflows"
 ENV = "public-release"
 TOKEN_JOB = ("release.yml", "publish")
-PUBLISH_IF = "${{ github.event_name != 'release' && startsWith(github.ref, 'refs/tags/v') }}"
+PUBLISH_IF = "${{ github.event_name == 'push' && startsWith(github.ref, 'refs/tags/v') }}"
 REGISTRY_MARKERS = re.compile(
     r"pypi-publish|gh-action-pypi|twine upload|uv publish|hatch publish|poetry publish"
     r"|maturin publish|upload\.pypi\.org|cargo publish|npm publish|HF_TOKEN|hf upload"
@@ -54,7 +54,13 @@ NAMED_SECRET = re.compile(r"secrets\.([A-Za-z_][A-Za-z0-9_]*)")
 # their own environments, through trusted publishing; they never see HF_TOKEN.
 UNIT_ENVIRONMENTS = {"crates-io", "npm", "pypi"}
 OIDC_WORKFLOWS = {"pages.yml"}
-EXACT_EXEMPT = {("pages.yml", "deploy"): "github-pages", ("scorecard.yml", "analysis"): None}
+# release-on-bump.yml creates the GitHub release for a version bump and dispatches release.yml on
+# it; it holds the workflow token only, no environment, no secret and no registry upload.
+EXACT_EXEMPT = {
+    ("pages.yml", "deploy"): "github-pages",
+    ("scorecard.yml", "analysis"): None,
+    ("release-on-bump.yml", "cut"): None,
+}
 # conformance.yml is the reusable receipt workflow behind docs/VERIFIED-BADGE.md. Its `pin`
 # and `sign` jobs hold `id-token: write` to read the run's identity from their own OIDC
 # token and, in `sign`, to ask for a signing certificate; the receipt goes to an artifact of
@@ -97,6 +103,22 @@ def dump(obj: Any) -> str:
     return yaml.safe_dump(obj)
 
 
+def executable(job: dict[str, Any]) -> dict[str, Any]:
+    """The job without its display names: the job's and each step's `name:`.
+
+    A display name runs nothing, so a step called "what cargo publish would upload"
+    over `cargo package` does not publish. Every other key stays, `with:` inputs too.
+    """
+    out = {k: v for k, v in job.items() if k != "name"}
+    steps = job.get("steps")
+    if isinstance(steps, list):
+        out["steps"] = [
+            {k: v for k, v in s.items() if k != "name"} if isinstance(s, dict) else s
+            for s in steps
+        ]
+    return out
+
+
 def exempt_problem(key: tuple[str, str], env: str | None, body: str) -> str | None:
     """Why an exempt job no longer has the shape that earned the exemption, else None."""
     if key in EXACT_EXEMPT:
@@ -116,7 +138,7 @@ def job_problems(name: str, doc: dict[str, Any], job_id: str, job: dict[str, Any
         problems.append(f"{where} has a computed environment")
     if env == ENV and (name, job_id) != TOKEN_JOB:
         problems.append(f"{where} uses {ENV}; only {TOKEN_JOB[0]}:{TOKEN_JOB[1]} may")
-    publishes = bool(PUBLISH_MARKERS.search(dump(job)))
+    publishes = bool(PUBLISH_MARKERS.search(dump(executable(job))))
     key = (name, job_id)
     if key in EXACT_EXEMPT or key in OIDC_SIGNING_JOBS:
         reason = exempt_problem(key, env, dump(job))
@@ -136,8 +158,9 @@ def job_problems(name: str, doc: dict[str, Any], job_id: str, job: dict[str, Any
 def check_release(doc: dict[str, Any]) -> list[str]:
     problems = []
     trig = triggers(doc)
-    if set(trig) - {"push", "release"}:
-        problems.append(f"release.yml: triggers {sorted(set(trig) - {'push', 'release'})}")
+    allowed = {"push", "release", "workflow_dispatch"}
+    if set(trig) - allowed:
+        problems.append(f"release.yml: triggers {sorted(set(trig) - allowed)}")
     if trig.get("push") != {"tags": ["v*"]}:
         problems.append("release.yml: the push trigger is not exactly tags ['v*']")
     job = (doc.get("jobs") or {}).get("publish") or {}

@@ -28,7 +28,14 @@ var (
 	// The single-step payload subjects a member may carry, enumerated rather
 	// than left to a truthiness test: a member with no subject at all is one an
 	// implementation cannot answer about, and that is the shape this catches.
-	acsSubjects = []string{"action", "context_entry", "record", "request"}
+	// A member answers about one action, context entry, record or request; or,
+	// for the seal families (acs-f-22 and acs-f-24), about the signed payload of
+	// a response, a chain head presented against the heads already witnessed, or
+	// a sealed session read against a record the sealer did not write.
+	acsSubjects = []string{
+		"action", "context_entry", "record", "request",
+		"signed_payload", "presented", "sealed_session",
+	}
 	// acsIDFields are the fields the identifier is a digest over.
 	acsIDFields = []string{"kind", "family", "requirements", "payload", "expected"}
 )
@@ -86,7 +93,7 @@ type acsExpected struct {
 
 func (a acsCore) Judge(dir string, raw []byte) (*Result, error) {
 	var m acsManifest
-	if err := json.Unmarshal(raw, &m); err != nil {
+	if err := strictUnmarshal(raw, &m); err != nil {
 		return nil, fmt.Errorf("%s/MANIFEST.json does not parse: %w", dir, err)
 	}
 	result := &Result{}

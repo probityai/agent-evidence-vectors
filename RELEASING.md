@@ -34,10 +34,16 @@ is specific rather than a gesture at semver:
 - **A corpus member is removed, or its identifier changes.** Identifiers are
   digests of member bytes, so regenerating a member renames it. A citation naming
   the old identifier stops resolving.
-- **A verdict changes on a member that already shipped.** A rail that passed the
-  corpus at the previous tag may fail at this one through no change of its own.
-  Adding a member that a conforming rail already handles correctly is NOT
-  breaking; adding one that a conforming rail fails is.
+- **A case is added, changed or removed, or a corpus contract changes.** A rail
+  that passed the corpus at the previous tag may fail at this one through no
+  change of its own, and a consumer pins one release exactly, so its Dependabot
+  bump of a patch must not turn it red. Whether a new case
+  happens to be one every conforming rail already handles cannot be checked by
+  a machine, so every case change is treated as one that can. Until v0.38.0 this
+  line allowed a new case in a patch, and v0.37.1 shipped four trade-booking
+  cases that way. `scripts/changed-cases.py semver --version X.Y.Z` reads every
+  corpus manifest at the previous tag and at HEAD and refuses a patch version
+  whose cases changed; release.yml runs it on the tag before the approval.
 - **The manifest schema changes** in a way that an existing reader cannot parse:
   a renamed or removed field, a field whose type changes. Adding a field a reader
   may ignore is not breaking.
@@ -45,8 +51,8 @@ is specific rather than a gesture at semver:
   moving it re-signs the corpus and renames every member; it is the second case
   above with a larger radius.
 
-A new corpus, a new gate, a new rule that no existing member reaches, and any
-documentation change are all patch-level.
+A new corpus adds cases, so it is minor-level too. A new gate, a new rule that no
+existing member reaches, and any documentation change are patch-level.
 
 ### Where the version is written
 
@@ -147,6 +153,10 @@ scripts/release-timestamps.sh stamp
 #     VIRTUAL_ENV left over from another project so uv does not reuse it.
 env -u VIRTUAL_ENV uv run --locked --python 3.13 --extra generators python scripts/gen-intake-records.py
 
+# 3c. Hold the version to the cases. A patch version whose cases changed is
+#     refused (exit 1) with the minor version to use instead.
+python3 scripts/changed-cases.py semver --version X.Y.Z
+
 # 4. Commit the release artifacts together with the version bump. They are one
 #    unit: a digest list without its signature, a signature without its stamps,
 #    or records that still call the signed list unsigned, is a half-published
@@ -201,7 +211,16 @@ git push origin <branch>
 #    the release branch:
 #    `merge-freeze set probityai/agent-evidence-vectors --reason "vX.Y.Z"`,
 #    then `merge-freeze allow probityai/agent-evidence-vectors <n>`.
-gh pr merge <n> --merge
+#    The pull request never goes through main's merge queue. The queue squashes
+#    (the main-protection ruleset's merge_method), which is the failure above.
+#    Its pull-request tier also selects no job for paths under release/, so the
+#    pull request alone proves nothing. Run the full tier on the exact head,
+#    require that run green, then merge as a repository admin, whom the ruleset
+#    lets bypass the queue, with a merge commit and a subject of at most 72
+#    characters.
+gh workflow run ci.yml -R probityai/agent-evidence-vectors --ref <branch>
+gh pr merge <n> -R probityai/agent-evidence-vectors --merge --admin \
+  --subject "chore(release): cut vX.Y.Z (#<n>)"
 
 # 9. Push the tag, alone, once the merge is on main. The tagged commit must be
 #    reachable from origin/main.
@@ -211,7 +230,10 @@ git push origin refs/tags/vX.Y.Z:refs/tags/vX.Y.Z
 
 # 10. Watch the release run. verify checks the tag is on main first and prints
 #    the tag, its commit and origin/main when it is not. The publish job then
-#    waits for the public-release environment's approval. Read back the merged
+#    waits for the public-release environment's approval. It writes the cases
+#    each corpus added, changed and removed since the previous tag into the
+#    release body, above GitHub's list of pull requests
+#    (`scripts/changed-cases.py notes`). Read back the merged
 #    source tree, main checks and actual package publication (PyPI and the
 #    Hugging Face dataset) before reporting the release as delivered.
 
@@ -232,6 +254,15 @@ git push origin refs/tags/vX.Y.Z:refs/tags/vX.Y.Z
 #    `merge-freeze clear probityai/agent-evidence-vectors`.
 python3 -B path/to/probityai-.github/scripts/version-pins.py write
 python3 -B path/to/probityai-.github/scripts/version-pins.py check
+
+# 12. Open the reproduction request issue for vX.Y.Z from
+#    docs/REPRODUCTION-REQUEST.md: the tag, the commit, the PyPI page, the
+#    exact commands and the last lines a clean run printed, pasted from the
+#    release run. Label it reproduction-request and close the previous
+#    release's request with a link to the new one. Replies come through the
+#    reproduction report form and stay in the issue as posted.
+gh issue create -R probityai/agent-evidence-vectors --label reproduction-request \
+  --title "Reproduction request: vX.Y.Z" --body-file <filled copy of the template body>
 ```
 
 A tag that missed main is not repaired. `release.yml` fails it in `verify`
@@ -317,6 +348,18 @@ This paragraph said, until 0.12.1, that the replay "asserts `suiteRefusals ==
 release". The step replayed `vectors` only, and the harness ran its AEE rail
 over the eight other suites and printed that rail's failures as a verdict.
 
+## A package version bump releases itself
+
+Changing the version in a unit's manifest on `main` (a `release.toml` unit: `Cargo.toml`,
+`pyproject.toml`, `package.json` or `actions/VERSION`) starts `.github/workflows/release-on-bump.yml`.
+It asks `scripts/workspace.py bumped <before> <after>` which units changed version, creates the
+missing GitHub release `<prefix>-v<version>` at that commit with `--latest=false`, and dispatches
+`release.yml` on the new tag. A release made with the workflow token fires no release event, which
+is why the dispatch exists; `release.yml` then resolves the tag exactly as it does for a release
+published by hand, so a mismatch with the manifest or a commit off `main` still stops it. A unit
+that is imported is not a bump, and two units sharing one directory and registry release once. A
+bump that failed to publish is retried with `gh workflow run release.yml --ref <tag> -f tag=<tag>`.
+
 ## The Hugging Face dataset follows the tag
 
 The `publish` job of `.github/workflows/release.yml` mirrors each corpus release
@@ -379,4 +422,28 @@ GOPROXY=https://proxy.golang.org GOFLAGS=-mod=mod go list -m github.com/probitya
 The tag triggers no workflow and publishes nothing; the last command asks the module proxy to
 fetch it, which also records its hash in the public checksum database. The embedded files are
 copies written by `scripts/gen-jcsvectors-data.py`, so a corpus change reaches the module only
-through a new tag. Bump the minor for a removed vector or a changed verdict, the patch otherwise.
+through a new tag. A release that adds, removes or changes a vector, or adds to the API, is a
+minor version: an added vector can turn a passing implementation red, so it is never a patch.
+List the cases that changed in the tag message. The patch is for documentation and fixes that
+change no case.
+
+### The npm twin
+
+`crates/jcsvectors/npm` publishes the same files as the npm package `jcsvectors`, at the Go
+module's version, so the two are released together: tag the module as above, then publish a
+GitHub release for the tag `jcsvectors-npm-vX.Y.Z` on the same commit. `release.yml` tests the
+package on that commit (node:test and the case-by-case comparison with the Go module), packs it,
+and publishes that exact tarball with provenance through npm trusted publishing (environment
+`npm`). npm adds a trusted publisher only to a package that exists, so the first version goes up
+by token, from the tagged commit, after the same checks:
+
+```sh
+git checkout jcsvectors/vX.Y.Z
+(cd crates/jcsvectors/npm && npm test)
+(cd jcsvectors && GOWORK=off JCSVECTORS_SUMMARY=/tmp/go-summary.json go test -count=1 -run TestWriteSummary .)
+node crates/jcsvectors/npm/test/cross.mjs /tmp/go-summary.json
+cd crates/jcsvectors/npm && npm publish --access public
+```
+
+Then add the trusted publisher on npmjs.com (owner probityai, repository agent-evidence-vectors,
+workflow release.yml, environment npm) so every later version goes through `release.yml`.

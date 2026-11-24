@@ -1,0 +1,11 @@
+{
+  "suite": "action-mutate-fixture-plain",
+  "note": "A corpus no reference route reaches: the mutation stage must read 0 of M and fail.",
+  "vectors": [
+    {
+      "id": "one",
+      "kind": "accept",
+      "file": "members/one.json"
+    }
+  ]
+}

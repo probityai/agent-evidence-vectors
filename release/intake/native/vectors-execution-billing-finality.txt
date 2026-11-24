@@ -1,0 +1,5 @@
+suite: execution-billing-finality/v1
+members: 32
+  allow: 10
+  deny: 22
+verdict: every member behaves as MANIFEST.json declares

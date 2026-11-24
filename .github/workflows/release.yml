@@ -38,6 +38,10 @@ name: release
 #   jcs-admit-v                 crates.io  crates/jcs-admit
 #   jcs-admit-py-v              PyPI       crates/jcs-admit/python (seven wheels and the sdist)
 #   jcs-admit-npm-v             npm        crates/jcs-admit/npm (the tarball crate-jcs-admit-npm.yml qualified)
+#   jcsvectors-v                crates.io  crates/jcsvectors (the first version went up by token: a
+#                                          trusted publisher can be added only to a crate that exists)
+#   jcsvectors-npm-v            npm        crates/jcsvectors/npm (the tarball qualify-jcsvectors-npm tested;
+#                                          the first version goes up by token, as the crate's did)
 #   agent-evidence-vocabulary-v PyPI       the vocabulary distribution
 #   agent-evidence-vocabulary-python-v PyPI  the same distribution, when the data tag exists already
 #   agent-evidence-admission-v  PyPI       the admission distribution
@@ -61,8 +65,8 @@ name: release
 # <prefix>-v<version> publishes one unit of release.toml through trusted
 # publishing: today the jcs-admit npm package (tag jcs-admit-npm-v<version>,
 # environment npm). The two paths cannot meet: the corpus jobs run on a pushed
-# tag matching v*, and never on a release event; the unit jobs run on a release
-# event only, and resolve refuses a tag whose unit is not in release.toml, whose
+# tag matching v*, and never on a release or dispatch event; the unit jobs run on a release
+# event or a dispatch (release-on-bump.yml), and resolve refuses a tag whose unit is not in release.toml, whose
 # version differs from the manifest, or whose commit is not on main. A bare
 # v<version> release resolves to registry "none" and no unit job runs for it.
 
@@ -71,6 +75,15 @@ on:
     tags: ['v*']
   release:
     types: [published]
+  # A release created with the workflow token fires no release event, so
+  # release-on-bump.yml starts a unit release by dispatching this file on the
+  # tag it just created. The unit jobs read the tag from inputs.tag.
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: unit release tag <prefix>-v<version>, run from that tag
+        required: true
+        type: string
 
 # Least privilege at the top; the publish jobs alone add id-token, which is what
 # the registries verify the workflow identity with.
@@ -78,23 +91,23 @@ permissions:
   contents: read
 
 concurrency:
-  group: release-${{ github.event.release.tag_name || github.ref_name }}
+  group: release-${{ inputs.tag || github.event.release.tag_name || github.ref_name }}
   cancel-in-progress: false
 
 jobs:
   verify:
-    if: ${{ github.event_name != 'release' }}
+    if: ${{ github.event_name == 'push' }}
     runs-on: ubuntu-latest
     steps:
       # Full history and tags, because scripts/release-gate.py --tag compares the
       # tag being cut against HEAD. A shallow, tagless checkout would have the
       # gate report that the tag does not resolve, which is a true statement about
       # a tree no consumer will ever see.
-      - uses: actions/checkout@v7.0.1
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           fetch-depth: 0
-      - uses: astral-sh/setup-uv@v7
-      - uses: sigstore/cosign-installer@v3
+      - uses: astral-sh/setup-uv@37802adc94f370d6bfd71619e3f0bf239e1f3b78 # v7
+      - uses: sigstore/cosign-installer@756fe2d284c7292c4e9b62c8a28f1e5629c59532 # v4.1.3
 
       # Checked here, before the public-release approval, so a tag cut on a
       # commit that never reached main fails in seconds and nobody approves a
@@ -116,6 +129,21 @@ jobs:
             exit 1
           fi
           echo "ok: ${GITHUB_REF_NAME} (${tagged_sha}) is an ancestor of origin/main (${main_sha})"
+
+      # Ruling P-48 step 2: a release whose cases changed is a minor or major
+      # release, never a patch, because a consumer pins one release exactly and
+      # its Dependabot bump of a patch must not turn a passing verifier red. The
+      # diff is read from every corpus manifest at the previous vX.Y.Z tag and at
+      # this one (scripts/changed-cases.py), and it refuses before the
+      # public-release approval is asked for. v0.37.1 added four cases as a patch.
+      - name: a patch release changes no case
+        run: |
+          set -euo pipefail
+          if [ "${GITHUB_REF_TYPE:-}" != "tag" ]; then
+            echo "no release tag in this run; the patch-release case check did not run"
+            exit 0
+          fi
+          python3 scripts/changed-cases.py semver --version "${GITHUB_REF_NAME#v}" --to "${GITHUB_SHA:?}"
 
       - name: sync toolchain
         run: uv sync --extra dev
@@ -216,20 +244,20 @@ jobs:
   # job below use these bytes.
   build-corpus:
     needs: verify
-    if: ${{ github.event_name != 'release' && startsWith(github.ref, 'refs/tags/v') }}
+    if: ${{ github.event_name == 'push' && startsWith(github.ref, 'refs/tags/v') }}
     runs-on: ubuntu-latest
     permissions:
       contents: read
     outputs:
       version: ${{ steps.version.outputs.version }}
     steps:
-      - uses: actions/checkout@v7.0.1
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           persist-credentials: false
-      - uses: astral-sh/setup-uv@v7
+      - uses: astral-sh/setup-uv@37802adc94f370d6bfd71619e3f0bf239e1f3b78 # v7
         with:
           enable-cache: false
-      - uses: actions/setup-go@b7ad1dad31e06c5925ef5d2fc7ad053ef454303e # v7.0.0
+      - uses: actions/setup-go@d8cbb8045d7f43706b9177cceb36c1f91a6644d5 # v7.1.0
         with:
           go-version: '1.26'
 
@@ -298,7 +326,7 @@ jobs:
   # distribution cannot be installed beside (scripts/family_pin_guard.py).
   family-pin-guard-corpus:
     needs: build-corpus
-    if: ${{ github.event_name != 'release' && startsWith(github.ref, 'refs/tags/v') }}
+    if: ${{ github.event_name == 'push' && startsWith(github.ref, 'refs/tags/v') }}
     uses: ./.github/workflows/family-pin-guard.yml
     with:
       distribution: agent-evidence-vectors
@@ -314,7 +342,7 @@ jobs:
   # attaches PEP 740 provenance to every uploaded distribution.
   publish:
     needs: [verify, build-corpus, family-pin-guard-corpus]
-    if: ${{ github.event_name != 'release' && startsWith(github.ref, 'refs/tags/v') }}
+    if: ${{ github.event_name == 'push' && startsWith(github.ref, 'refs/tags/v') }}
     runs-on: ubuntu-latest
     # The owner's approval of the release, which covers the PyPI wheel and the
     # Hugging Face dataset together: both are published by this one job.
@@ -443,7 +471,14 @@ jobs:
               if [ "$t" != "$GITHUB_REF_NAME" ] && [ "$(printf '%s\n%s\n' "$t" "$GITHUB_REF_NAME" | sort -V | head -n1)" = "$t" ]; then echo "$t"; break; fi
             done)"
             args=(--verify-tag --title "$GITHUB_REF_NAME" --generate-notes)
-            if [ -n "$prev" ]; then args+=(--notes-start-tag "$prev"); fi
+            if [ -n "$prev" ]; then
+              args+=(--notes-start-tag "$prev")
+              # The cases each corpus added, changed and removed since the
+              # previous tag (ruling P-48 step 3), above GitHub's list of pull
+              # requests, so a pinning consumer reads them in its bump PR.
+              python3 scripts/changed-cases.py notes --from "$prev" --to "$GITHUB_REF_NAME" > "$RUNNER_TEMP/changed-cases.md"
+              args+=(--notes-file "$RUNNER_TEMP/changed-cases.md")
+            fi
             assets=()
             for f in release/CORPUS-DIGESTS.txt release/CORPUS-DIGESTS.txt.sig release/CORPUS-DIGESTS.txt.sig.ots release/CORPUS-DIGESTS.txt.sig.tsr; do
               if [ -f "$f" ]; then assets+=("$f"); fi
@@ -459,10 +494,11 @@ jobs:
   # A published release for a sub-package tag (anything that is not
   # v<x>.<y>.<z>) must never be Latest: the repository page and
   # releases/latest would then point at a package instead of the corpus.
-  # Whoever created the release, this demotes it and then fails if Latest is
-  # still not the newest corpus tag.
+  # Whoever created the release, this demotes it, then sets the newest corpus
+  # release Latest itself (demoting does not hand Latest back), and fails if
+  # releases/latest is still not that tag.
   keep-latest-on-corpus:
-    if: ${{ github.event_name == 'release' && !startsWith(github.event.release.tag_name, 'v') }}
+    if: ${{ github.event_name != 'push' && !startsWith(inputs.tag || github.event.release.tag_name, 'v') }}
     runs-on: ubuntu-24.04
     timeout-minutes: 5
     permissions:
@@ -476,15 +512,35 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
           GH_REPO: ${{ github.repository }}
-          TAG: ${{ github.event.release.tag_name }}
+          TAG: ${{ inputs.tag || github.event.release.tag_name }}
         run: gh release edit "$TAG" --latest=false
+      - name: the newest corpus release is Latest
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+        run: |
+          set -euo pipefail
+          # The corpus tags are the bare v<major>.<minor>.<patch> tags that
+          # scripts/check-latest-release.py counts; the newest by version wins.
+          newest="$(git tag --list 'v*' | grep -E '^v[0-9]+\.[0-9]+\.[0-9]+$' | sort -V | tail -n1 || true)"
+          if [ -z "$newest" ]; then
+            echo "::error::no v<major>.<minor>.<patch> tag exists to make Latest"
+            exit 1
+          fi
+          gh release edit "$newest" --latest
+          latest="$(gh api "repos/$GITHUB_REPOSITORY/releases/latest" --jq .tag_name)"
+          if [ "$latest" != "$newest" ]; then
+            echo "::error::releases/latest is $latest after setting Latest, expected $newest"
+            exit 1
+          fi
+          echo "releases/latest is $newest"
       - name: Latest is the newest corpus tag
         env:
           GH_TOKEN: ${{ github.token }}
         run: python3 scripts/check-latest-release.py "$GITHUB_REPOSITORY"
 
   resolve:
-    if: ${{ github.event_name == 'release' && !github.event.release.prerelease }}
+    if: ${{ github.event_name != 'push' && !github.event.release.prerelease }}
     runs-on: ubuntu-24.04
     timeout-minutes: 5
     outputs:
@@ -500,9 +556,14 @@ jobs:
           persist-credentials: false
       - id: target
         env:
-          TAG: ${{ github.event.release.tag_name }}
+          TAG: ${{ inputs.tag || github.event.release.tag_name }}
+          # release-target checks every repository link in the manifest
+          # against the GitHub API; anonymous reads share 60 an hour per runner.
+          GH_TOKEN: ${{ github.token }}
         run: |
           set -euo pipefail
+          # A dispatch runs on the ref it was started from; the unit must be released from its own tag.
+          [ "$GITHUB_EVENT_NAME" != workflow_dispatch ] || [ "$GITHUB_REF" = "refs/tags/$TAG" ]
           git merge-base --is-ancestor "$GITHUB_SHA" origin/main
           python3 scripts/workspace.py release-target "$TAG" > target.json
           cat target.json
@@ -580,6 +641,36 @@ jobs:
           CARGO_REGISTRY_TOKEN: ${{ steps.auth.outputs.token }}
         run: cargo publish --locked
 
+  publish-crate-jcsvectors:
+    needs: resolve
+    if: needs.resolve.outputs.registry != 'none' && (needs.resolve.outputs.prefix == 'jcsvectors')
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    environment:
+      name: crates-io
+      url: https://crates.io/crates/jcsvectors
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: install the stable toolchain
+        run: |
+          rustup toolchain install stable --profile minimal
+          rustup default stable
+      - name: package exactly the files that will be published
+        working-directory: ${{ needs.resolve.outputs.directory }}
+        run: cargo package --locked
+      - uses: rust-lang/crates-io-auth-action@3268eb413133e2960fa4ae0e963ca76380c54cd9 # v1.0.6
+        id: auth
+      - name: publish through crates.io trusted publishing
+        working-directory: ${{ needs.resolve.outputs.directory }}
+        env:
+          CARGO_REGISTRY_TOKEN: ${{ steps.auth.outputs.token }}
+        run: cargo publish --locked
+
   qualify-dsse-npm:
     needs: resolve
     if: needs.resolve.outputs.registry != 'none' && (needs.resolve.outputs.prefix == 'dsse-npm')
@@ -589,7 +680,7 @@ jobs:
 
   # Publishes the exact tarball the qualification job tested, with npm
   # provenance, and attests it as pkg:npm/@probityai/dsse@<version>. Ported from
-  # probityai/dsse npm-release.yml and the provenance job of its npm.yml.
+  # probityai-archive/dsse npm-release.yml and the provenance job of its npm.yml.
   publish-dsse-npm:
     needs: [resolve, qualify-dsse-npm]
     if: needs.resolve.outputs.registry != 'none' && (needs.resolve.outputs.prefix == 'dsse-npm')
@@ -655,6 +746,107 @@ jobs:
           QUALIFIED_TARBALL: ${{ steps.artifact.outputs.tarball }}
         run: npm publish "$QUALIFIED_TARBALL" --access public --provenance --ignore-scripts
 
+  # Tests the npm twin of the jcsvectors module on the tagged commit (node:test and the
+  # case-by-case comparison with the Go module) and packs the tarball the publish job
+  # uploads, so the job holding the id-token runs no test code.
+  qualify-jcsvectors-npm:
+    needs: resolve
+    if: needs.resolve.outputs.registry != 'none' && (needs.resolve.outputs.prefix == 'jcsvectors-npm')
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    permissions:
+      contents: read
+    outputs:
+      sha256: ${{ steps.pack.outputs.sha256 }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: 24.19.0
+          package-manager-cache: false
+      - uses: actions/setup-go@d8cbb8045d7f43706b9177cceb36c1f91a6644d5 # v7.1.0
+        with:
+          go-version: '1.26'
+          cache: false
+      - name: node:test
+        working-directory: crates/jcsvectors/npm
+        run: npm test
+      - name: the Go module and the npm package agree on every case
+        env:
+          GOWORK: 'off'
+        run: |
+          (cd jcsvectors && JCSVECTORS_SUMMARY="$RUNNER_TEMP/go-summary.json" go test -count=1 -run TestWriteSummary .)
+          node crates/jcsvectors/npm/test/cross.mjs "$RUNNER_TEMP/go-summary.json"
+      - name: pack the tarball
+        id: pack
+        working-directory: crates/jcsvectors/npm
+        run: |
+          mkdir -p "$RUNNER_TEMP/jcsvectors-npm"
+          npm pack --pack-destination "$RUNNER_TEMP/jcsvectors-npm"
+          tarball=$(ls "$RUNNER_TEMP"/jcsvectors-npm/jcsvectors-*.tgz)
+          echo "sha256=$(sha256sum "$tarball" | cut -d' ' -f1)" >> "$GITHUB_OUTPUT"
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7
+        with:
+          name: jcsvectors-npm-${{ github.run_id }}-${{ github.run_attempt }}
+          if-no-files-found: error
+          retention-days: 90
+          path: ${{ runner.temp }}/jcsvectors-npm
+
+  # Publishes the exact tarball qualify-jcsvectors-npm tested, with npm provenance,
+  # and attests it as pkg:npm/jcsvectors@<version>.
+  publish-jcsvectors-npm:
+    needs: [resolve, qualify-jcsvectors-npm]
+    if: needs.resolve.outputs.registry != 'none' && (needs.resolve.outputs.prefix == 'jcsvectors-npm')
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    environment:
+      name: npm
+      url: https://www.npmjs.com/package/jcsvectors
+    permissions:
+      contents: read
+      id-token: write
+      attestations: write
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
+        with:
+          name: jcsvectors-npm-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/jcsvectors-npm
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: 24.19.0
+          package-manager-cache: false
+          registry-url: https://registry.npmjs.org
+      - name: verify the tested tarball and bind its subject
+        id: artifact
+        env:
+          WANT_SHA256: ${{ needs.qualify-jcsvectors-npm.outputs.sha256 }}
+        run: |
+          tarball=$(ls "$RUNNER_TEMP"/jcsvectors-npm/jcsvectors-*.tgz)
+          test "$(sha256sum "$tarball" | cut -d' ' -f1)" = "$WANT_SHA256"
+          name=$(node -p 'require("./crates/jcsvectors/npm/package.json").name')
+          version=$(node -p 'require("./crates/jcsvectors/npm/package.json").version')
+          test "$name" = jcsvectors
+          test "$(basename "$tarball")" = "jcsvectors-$version.tgz"
+          {
+            echo "tarball=$tarball"
+            echo "subject=pkg:npm/$name@$version"
+            echo "digest=sha512:$(sha512sum "$tarball" | cut -d' ' -f1)"
+          } >> "$GITHUB_OUTPUT"
+      - uses: actions/attest@1e69f48acb82d1966a394da916b4c1698aa569d6 # v4.1.0
+        id: attest
+        with:
+          subject-name: ${{ steps.artifact.outputs.subject }}
+          subject-digest: ${{ steps.artifact.outputs.digest }}
+      - name: publish the tested bytes with npm trusted publishing
+        env:
+          TARBALL: ${{ steps.artifact.outputs.tarball }}
+        run: npm publish "$TARBALL" --access public --provenance --ignore-scripts
+
   qualify-jcs-admit-npm:
     needs: resolve
     if: needs.resolve.outputs.registry != 'none' && (needs.resolve.outputs.prefix == 'jcs-admit-npm')
@@ -662,7 +854,7 @@ jobs:
 
   # Publishes the exact tarball the qualification job tested, with npm
   # provenance, and attests it as pkg:npm/jcs-admit@<version>. Ported from
-  # probityai/jcs-admit npm-release.yml and the provenance job of its npm.yml.
+  # probityai-archive/jcs-admit npm-release.yml and the provenance job of its npm.yml.
   publish-jcs-admit-npm:
     needs: [resolve, qualify-jcs-admit-npm]
     if: needs.resolve.outputs.registry != 'none' && (needs.resolve.outputs.prefix == 'jcs-admit-npm')
@@ -765,11 +957,11 @@ jobs:
           path: built
       - name: verify the seven wheels and the sdist, and stage them
         env:
-          TAG: ${{ github.event.release.tag_name }}
+          TAG: ${{ inputs.tag || github.event.release.tag_name }}
         run: python3 scripts/check-jcs-admit-python-release.py built --tag "$TAG" --out upload
       - name: install the staged files alone and import them
         env:
-          TAG: ${{ github.event.release.tag_name }}
+          TAG: ${{ inputs.tag || github.event.release.tag_name }}
         run: |
           python3 -m venv "$RUNNER_TEMP/venv"
           "$RUNNER_TEMP/venv/bin/pip" install --no-index --only-binary :all: --find-links upload jcs-admit

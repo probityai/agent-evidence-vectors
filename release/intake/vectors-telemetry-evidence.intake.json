@@ -1,0 +1,1403 @@
+{
+  "aggregate": {
+    "counts": {
+      "agrees": 10,
+      "cannot-tell": 6,
+      "contradicted": 20
+    },
+    "line": "verdict: every member behaves as MANIFEST.json declares",
+    "total": 36
+  },
+  "anchor": {
+    "kind": "digest-list-line",
+    "manifest": "vectors-telemetry-evidence/MANIFEST.json",
+    "reference": {
+      "path": "release/CORPUS-DIGESTS.txt",
+      "uri": "https://github.com/probityai/agent-evidence-vectors/blob/main/release/CORPUS-DIGESTS.txt"
+    },
+    "routine": "corpus_digest in corpora/vectors-telemetry-evidence/gen_vectors.py",
+    "routine-file": "corpora/vectors-telemetry-evidence/gen_vectors.py",
+    "serialization": "corpus-routine",
+    "sha256": "345b94589c79fa21f2a01c055c7e5da2f7d37137666cf345aa1661a4152eb50c",
+    "verdicts": {
+      "availability-failure": "inconclusive",
+      "integrity-failure": "fail"
+    }
+  },
+  "artifacts": [
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "cf6965707ec1e809156d2d649c1b187572d9f902a7f61540981afeb8527456c8"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "cf6965707ec1e809156d2d649c1b187572d9f902a7f61540981afeb8527456c8"
+        },
+        "swapped-in": "9f69fe9a6d0ccb844b72efc63539110f188ee6bc768ecbba92059258cdccb6fd",
+        "test": "swap-and-re-pin"
+      },
+      "path": "corpora/vectors-telemetry-evidence/README.md",
+      "serialization": "bytes",
+      "sha256": "78213c12f20d14e9b7c92d1e956a60c4c1ef092c5f7e5a6ce627b607a27e2148"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "cf6965707ec1e809156d2d649c1b187572d9f902a7f61540981afeb8527456c8"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "cf6965707ec1e809156d2d649c1b187572d9f902a7f61540981afeb8527456c8"
+        },
+        "swapped-in": "ca5b62e220acde09bcf7d6c00e6614261a4d80da046d33a442c82b2c0d9b052f",
+        "test": "swap-and-re-pin"
+      },
+      "path": "corpora/vectors-telemetry-evidence/check_vectors.py",
+      "serialization": "bytes",
+      "sha256": "13d8d061c1e56ce1fbcdc007f638c85da3bdf2429064b076e8e8e6a09d265bda"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "cf6965707ec1e809156d2d649c1b187572d9f902a7f61540981afeb8527456c8"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "cf6965707ec1e809156d2d649c1b187572d9f902a7f61540981afeb8527456c8"
+        },
+        "swapped-in": "deb128985eb05479dd21cbbde754dcb7cd6ca2c27479d9ec0ca1c0db74bf44f1",
+        "test": "swap-and-re-pin"
+      },
+      "path": "corpora/vectors-telemetry-evidence/gen_vectors.py",
+      "serialization": "bytes",
+      "sha256": "c73b851bf3be4b45a0f0302b3c20c13b35578938fcde27a6e97cdc6f46a49645"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "cf6965707ec1e809156d2d649c1b187572d9f902a7f61540981afeb8527456c8"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "cf6965707ec1e809156d2d649c1b187572d9f902a7f61540981afeb8527456c8"
+        },
+        "swapped-in": "8af675f23695dde3a45b3f2e098254dabdd6abcb8859b168e0dd2300141c5198",
+        "test": "swap-and-re-pin"
+      },
+      "path": "corpora/vectors-telemetry-evidence/tests/test_corpus.py",
+      "serialization": "bytes",
+      "sha256": "eda853703cf394cdc875a6f2da242b5d615fe592dc3aff8851326bbca73b15f6"
+    }
+  ],
+  "boundary": {
+    "complete": true,
+    "member-locations": [
+      {
+        "dir": "cases",
+        "recursive": true,
+        "suffix": ""
+      }
+    ],
+    "root": "corpora/vectors-telemetry-evidence"
+  },
+  "byte-identity": {
+    "pins": 36,
+    "serialization": "bytes"
+  },
+  "canonicalization": {
+    "encoding": "jcs-sha256"
+  },
+  "checker": {
+    "commands": [
+      "go build -o aee-verify ./cmd/aee-verify",
+      "aee-verify -json corpora/vectors-telemetry-evidence",
+      "aee-verify -json corpora/vectors-telemetry-evidence",
+      "aee-verify corpora/vectors-telemetry-evidence"
+    ],
+    "dependencies": [
+      {
+        "path": "go.mod",
+        "serialization": "bytes",
+        "sha256": "c9f5a67159789ead4e2879e86805505c6ba22150b04bef360e6b3333125fb1c2"
+      },
+      {
+        "path": "go.work",
+        "serialization": "bytes",
+        "sha256": "bba3245567badf24ef1d4e89bfbd02355dbe5786ab709b4299e2c006db2b9093"
+      }
+    ],
+    "helpers": [],
+    "name": "aee-verify",
+    "relationship": "same-implementation",
+    "revision": {
+      "kind": "source-listing",
+      "paths": [
+        "aee/admission.go",
+        "aee/carried_base64.go",
+        "aee/codes.go",
+        "aee/commitments.go",
+        "aee/jcs.go",
+        "aee/merkle.go",
+        "aee/pae.go",
+        "aee/recompute.go",
+        "aee/revocationlist.go",
+        "aee/runbinding.go",
+        "aee/statement.go",
+        "aee/tier.go",
+        "aee/types.go",
+        "aee/validity.go",
+        "aee/verify.go",
+        "cmd/aee-verify/corpus.go",
+        "cmd/aee-verify/main.go",
+        "corpusreaders/a2ajcs.go",
+        "corpusreaders/aci.go",
+        "corpusreaders/acscore.go",
+        "corpusreaders/actormarker.go",
+        "corpusreaders/admission.go",
+        "corpusreaders/aeecorpus.go",
+        "corpusreaders/agentaction.go",
+        "corpusreaders/agentaction_chain.go",
+        "corpusreaders/agentdecision.go",
+        "corpusreaders/agenticprocess.go",
+        "corpusreaders/agentregistrationclassification.go",
+        "corpusreaders/agentrequestproof.go",
+        "corpusreaders/aggregateaccounting.go",
+        "corpusreaders/aigeneration.go",
+        "corpusreaders/anchoredchain.go",
+        "corpusreaders/anchorstream.go",
+        "corpusreaders/approvalbinding.go",
+        "corpusreaders/artifactbinding.go",
+        "corpusreaders/assertiongrade.go",
+        "corpusreaders/auditrecord.go",
+        "corpusreaders/auditrecord_consumption.go",
+        "corpusreaders/auditrecord_datasubject.go",
+        "corpusreaders/auditrecord_dating.go",
+        "corpusreaders/auditrecord_principal.go",
+        "corpusreaders/auditrecord_sequence.go",
+        "corpusreaders/authoritydispatch.go",
+        "corpusreaders/aveidresolution.go",
+        "corpusreaders/badgevc.go",
+        "corpusreaders/budgetlineage.go",
+        "corpusreaders/canonical_base64.go",
+        "corpusreaders/capabilityrequirement.go",
+        "corpusreaders/cardreceipt.go",
+        "corpusreaders/catalogtrust.go",
+        "corpusreaders/cborreceiptchain.go",
+        "corpusreaders/changeadmission.go",
+        "corpusreaders/chunkedexport.go",
+        "corpusreaders/common.go",
+        "corpusreaders/completionconfirmation.go",
+        "corpusreaders/connectorscope.go",
+        "corpusreaders/containmentjournal.go",
+        "corpusreaders/contextdiscovery.go",
+        "corpusreaders/controldecision.go",
+        "corpusreaders/convertedargs.go",
+        "corpusreaders/credreach.go",
+        "corpusreaders/decisionclient.go",
+        "corpusreaders/decisionrecord.go",
+        "corpusreaders/decisionrecord_binding.go",
+        "corpusreaders/decisionrecord_json.go",
+        "corpusreaders/decisionrecord_read.go",
+        "corpusreaders/delegationchain.go",
+        "corpusreaders/delegationlifecycle.go",
+        "corpusreaders/delegatorright.go",
+        "corpusreaders/dispatchfence.go",
+        "corpusreaders/dnsaid.go",
+        "corpusreaders/doneargv.go",
+        "corpusreaders/donechecks.go",
+        "corpusreaders/donerecords.go",
+        "corpusreaders/donerun.go",
+        "corpusreaders/emptyinterval.go",
+        "corpusreaders/evidencecell.go",
+        "corpusreaders/evidencestate.go",
+        "corpusreaders/evmsig.go",
+        "corpusreaders/executionbilling.go",
+        "corpusreaders/gradefloor.go",
+        "corpusreaders/htxcases.go",
+        "corpusreaders/identitybinding.go",
+        "corpusreaders/ietfagentrecord.go",
+        "corpusreaders/keydirectory.go",
+        "corpusreaders/keyrevocation.go",
+        "corpusreaders/lifecyclebinding.go",
+        "corpusreaders/mcpauthz.go",
+        "corpusreaders/mcpowasp.go",
+        "corpusreaders/mcprecord.go",
+        "corpusreaders/mcpresponsephase.go",
+        "corpusreaders/monitorcoverage.go",
+        "corpusreaders/oasfrecord.go",
+        "corpusreaders/observedeffect.go",
+        "corpusreaders/ocsfdecision.go",
+        "corpusreaders/ocsfjson.go",
+        "corpusreaders/ocsfrecord.go",
+        "corpusreaders/ocsfstream.go",
+        "corpusreaders/openweight.go",
+        "corpusreaders/paymentmandate.go",
+        "corpusreaders/physicalcompletion.go",
+        "corpusreaders/principalaction.go",
+        "corpusreaders/principalbinding.go",
+        "corpusreaders/printwitness.go",
+        "corpusreaders/propagationstep.go",
+        "corpusreaders/pyjson.go",
+        "corpusreaders/receiptchainend.go",
+        "corpusreaders/receiptsignature.go",
+        "corpusreaders/recorded.go",
+        "corpusreaders/refundconnected.go",
+        "corpusreaders/refundconnected_aps.go",
+        "corpusreaders/refundconnected_run.go",
+        "corpusreaders/refundconnected_steps.go",
+        "corpusreaders/refundconnected_trust.go",
+        "corpusreaders/refundconnected_value.go",
+        "corpusreaders/refusalreason.go",
+        "corpusreaders/registry.go",
+        "corpusreaders/responsibilityescalation.go",
+        "corpusreaders/restartrecords.go",
+        "corpusreaders/revocationlist.go",
+        "corpusreaders/rsadigestinfo.go",
+        "corpusreaders/rulecorpus.go",
+        "corpusreaders/runmetrics.go",
+        "corpusreaders/scittcose.go",
+        "corpusreaders/selfreported.go",
+        "corpusreaders/signaturecoverage.go",
+        "corpusreaders/sourcecoverage.go",
+        "corpusreaders/statusreceipt.go",
+        "corpusreaders/strictjson.go",
+        "corpusreaders/telemetryevidence.go",
+        "corpusreaders/traceanchor.go",
+        "corpusreaders/uncertaineffect.go",
+        "corpusreaders/verdictlines.go",
+        "corpusreaders/w3cintake.go",
+        "corpusreaders/w3cjcs.go",
+        "corpusreaders/w3creport.go",
+        "corpusreaders/x402join.go",
+        "go.mod"
+      ],
+      "serialization": "sha256-listing-v1",
+      "sha256": "afc414585d530b094c7ddf8962d217b610a21ae231353f406a4c276f7215762c"
+    },
+    "runtime": {
+      "name": "go",
+      "version": "1.26"
+    },
+    "shared-verification-code": [
+      "aee/admission.go",
+      "aee/carried_base64.go",
+      "aee/codes.go",
+      "aee/commitments.go",
+      "aee/jcs.go",
+      "aee/merkle.go",
+      "aee/pae.go",
+      "aee/recompute.go",
+      "aee/revocationlist.go",
+      "aee/runbinding.go",
+      "aee/statement.go",
+      "aee/tier.go",
+      "aee/types.go",
+      "aee/validity.go",
+      "aee/verify.go",
+      "cmd/aee-verify/corpus.go",
+      "cmd/aee-verify/main.go",
+      "corpusreaders/a2ajcs.go",
+      "corpusreaders/aci.go",
+      "corpusreaders/acscore.go",
+      "corpusreaders/actormarker.go",
+      "corpusreaders/admission.go",
+      "corpusreaders/aeecorpus.go",
+      "corpusreaders/agentaction.go",
+      "corpusreaders/agentaction_chain.go",
+      "corpusreaders/agentdecision.go",
+      "corpusreaders/agenticprocess.go",
+      "corpusreaders/agentregistrationclassification.go",
+      "corpusreaders/agentrequestproof.go",
+      "corpusreaders/aggregateaccounting.go",
+      "corpusreaders/aigeneration.go",
+      "corpusreaders/anchoredchain.go",
+      "corpusreaders/anchorstream.go",
+      "corpusreaders/approvalbinding.go",
+      "corpusreaders/artifactbinding.go",
+      "corpusreaders/assertiongrade.go",
+      "corpusreaders/auditrecord.go",
+      "corpusreaders/auditrecord_consumption.go",
+      "corpusreaders/auditrecord_datasubject.go",
+      "corpusreaders/auditrecord_dating.go",
+      "corpusreaders/auditrecord_principal.go",
+      "corpusreaders/auditrecord_sequence.go",
+      "corpusreaders/authoritydispatch.go",
+      "corpusreaders/aveidresolution.go",
+      "corpusreaders/badgevc.go",
+      "corpusreaders/budgetlineage.go",
+      "corpusreaders/canonical_base64.go",
+      "corpusreaders/capabilityrequirement.go",
+      "corpusreaders/cardreceipt.go",
+      "corpusreaders/catalogtrust.go",
+      "corpusreaders/cborreceiptchain.go",
+      "corpusreaders/changeadmission.go",
+      "corpusreaders/chunkedexport.go",
+      "corpusreaders/common.go",
+      "corpusreaders/completionconfirmation.go",
+      "corpusreaders/connectorscope.go",
+      "corpusreaders/containmentjournal.go",
+      "corpusreaders/contextdiscovery.go",
+      "corpusreaders/controldecision.go",
+      "corpusreaders/convertedargs.go",
+      "corpusreaders/credreach.go",
+      "corpusreaders/decisionclient.go",
+      "corpusreaders/decisionrecord.go",
+      "corpusreaders/decisionrecord_binding.go",
+      "corpusreaders/decisionrecord_json.go",
+      "corpusreaders/decisionrecord_read.go",
+      "corpusreaders/delegationchain.go",
+      "corpusreaders/delegationlifecycle.go",
+      "corpusreaders/delegatorright.go",
+      "corpusreaders/dispatchfence.go",
+      "corpusreaders/dnsaid.go",
+      "corpusreaders/doneargv.go",
+      "corpusreaders/donechecks.go",
+      "corpusreaders/donerecords.go",
+      "corpusreaders/donerun.go",
+      "corpusreaders/emptyinterval.go",
+      "corpusreaders/evidencecell.go",
+      "corpusreaders/evidencestate.go",
+      "corpusreaders/evmsig.go",
+      "corpusreaders/executionbilling.go",
+      "corpusreaders/gradefloor.go",
+      "corpusreaders/htxcases.go",
+      "corpusreaders/identitybinding.go",
+      "corpusreaders/ietfagentrecord.go",
+      "corpusreaders/keydirectory.go",
+      "corpusreaders/keyrevocation.go",
+      "corpusreaders/lifecyclebinding.go",
+      "corpusreaders/mcpauthz.go",
+      "corpusreaders/mcpowasp.go",
+      "corpusreaders/mcprecord.go",
+      "corpusreaders/mcpresponsephase.go",
+      "corpusreaders/monitorcoverage.go",
+      "corpusreaders/oasfrecord.go",
+      "corpusreaders/observedeffect.go",
+      "corpusreaders/ocsfdecision.go",
+      "corpusreaders/ocsfjson.go",
+      "corpusreaders/ocsfrecord.go",
+      "corpusreaders/ocsfstream.go",
+      "corpusreaders/openweight.go",
+      "corpusreaders/paymentmandate.go",
+      "corpusreaders/physicalcompletion.go",
+      "corpusreaders/principalaction.go",
+      "corpusreaders/principalbinding.go",
+      "corpusreaders/printwitness.go",
+      "corpusreaders/propagationstep.go",
+      "corpusreaders/pyjson.go",
+      "corpusreaders/receiptchainend.go",
+      "corpusreaders/receiptsignature.go",
+      "corpusreaders/recorded.go",
+      "corpusreaders/refundconnected.go",
+      "corpusreaders/refundconnected_aps.go",
+      "corpusreaders/refundconnected_run.go",
+      "corpusreaders/refundconnected_steps.go",
+      "corpusreaders/refundconnected_trust.go",
+      "corpusreaders/refundconnected_value.go",
+      "corpusreaders/refusalreason.go",
+      "corpusreaders/registry.go",
+      "corpusreaders/responsibilityescalation.go",
+      "corpusreaders/restartrecords.go",
+      "corpusreaders/revocationlist.go",
+      "corpusreaders/rsadigestinfo.go",
+      "corpusreaders/rulecorpus.go",
+      "corpusreaders/runmetrics.go",
+      "corpusreaders/scittcose.go",
+      "corpusreaders/selfreported.go",
+      "corpusreaders/signaturecoverage.go",
+      "corpusreaders/sourcecoverage.go",
+      "corpusreaders/statusreceipt.go",
+      "corpusreaders/strictjson.go",
+      "corpusreaders/telemetryevidence.go",
+      "corpusreaders/traceanchor.go",
+      "corpusreaders/uncertaineffect.go",
+      "corpusreaders/verdictlines.go",
+      "corpusreaders/w3cintake.go",
+      "corpusreaders/w3cjcs.go",
+      "corpusreaders/w3creport.go",
+      "corpusreaders/x402join.go",
+      "go.mod"
+    ]
+  },
+  "checks": [
+    {
+      "check": "digest-jcs-positive",
+      "native": {
+        "reasons": [],
+        "verdict": "agrees"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "digest-python-default-separators",
+      "native": {
+        "reasons": [],
+        "verdict": "contradicted"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "digest-float-positive",
+      "native": {
+        "reasons": [],
+        "verdict": "agrees"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "digest-float-repr-negative",
+      "native": {
+        "reasons": [],
+        "verdict": "contradicted"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "digest-non-ascii-positive",
+      "native": {
+        "reasons": [],
+        "verdict": "agrees"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "digest-non-ascii-escaped-negative",
+      "native": {
+        "reasons": [],
+        "verdict": "contradicted"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "digest-astral-positive",
+      "native": {
+        "reasons": [],
+        "verdict": "agrees"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "digest-empty-body-positive",
+      "native": {
+        "reasons": [],
+        "verdict": "agrees"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "digest-cbor-deterministic-positive",
+      "native": {
+        "reasons": [],
+        "verdict": "agrees"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "digest-cbor-non-shortest-negative",
+      "native": {
+        "reasons": [],
+        "verdict": "contradicted"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "digest-raw-sha512-positive",
+      "native": {
+        "reasons": [],
+        "verdict": "agrees"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "digest-undeclared-canonical-form",
+      "native": {
+        "reasons": [],
+        "verdict": "cannot-tell"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "evidence-ref-duplicate-member",
+      "native": {
+        "reasons": [],
+        "verdict": "contradicted"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "evidence-ref-consumed-copy-differs",
+      "native": {
+        "reasons": [],
+        "verdict": "contradicted"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "evidence-ref-zero-of-n",
+      "native": {
+        "reasons": [],
+        "verdict": "contradicted"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "evidence-ref-zero-of-zero",
+      "native": {
+        "reasons": [],
+        "verdict": "cannot-tell"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "evidence-ref-duplicate-reference",
+      "native": {
+        "reasons": [],
+        "verdict": "contradicted"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "signed-id-self-carried-key",
+      "native": {
+        "reasons": [],
+        "verdict": "contradicted"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "signed-id-pinned-key",
+      "native": {
+        "reasons": [],
+        "verdict": "agrees"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "signed-id-no-pin",
+      "native": {
+        "reasons": [],
+        "verdict": "cannot-tell"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "signed-id-unsigned-required",
+      "native": {
+        "reasons": [],
+        "verdict": "cannot-tell"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "signed-id-flipped-reference",
+      "native": {
+        "reasons": [],
+        "verdict": "contradicted"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "signed-id-null-signature",
+      "native": {
+        "reasons": [],
+        "verdict": "contradicted"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "log-clean",
+      "native": {
+        "reasons": [],
+        "verdict": "agrees"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "log-drop",
+      "native": {
+        "reasons": [],
+        "verdict": "contradicted"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "log-swap",
+      "native": {
+        "reasons": [],
+        "verdict": "contradicted"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "log-status-flip",
+      "native": {
+        "reasons": [],
+        "verdict": "contradicted"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "log-link-rewrite",
+      "native": {
+        "reasons": [],
+        "verdict": "contradicted"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "log-body-edit",
+      "native": {
+        "reasons": [],
+        "verdict": "contradicted"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "log-tail-truncation",
+      "native": {
+        "reasons": [],
+        "verdict": "contradicted"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "log-relinked-rewrite",
+      "native": {
+        "reasons": [],
+        "verdict": "contradicted"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "log-resigned-other-key",
+      "native": {
+        "reasons": [],
+        "verdict": "contradicted"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "log-no-head",
+      "native": {
+        "reasons": [],
+        "verdict": "cannot-tell"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "log-empty",
+      "native": {
+        "reasons": [],
+        "verdict": "cannot-tell"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "log-outside-coverage-boundary",
+      "native": {
+        "reasons": [],
+        "verdict": "contradicted"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "log-boundary-first-seq-offset",
+      "native": {
+        "reasons": [],
+        "verdict": "agrees"
+      },
+      "state": "pass"
+    }
+  ],
+  "corpus-digest": {
+    "serialization": "sha256-listing-v1",
+    "sha256": "177b96668c0f182fa107eef82a8e0681f364f4954aa4e44f0bd5781a18ad3e4f"
+  },
+  "exit-code": 0,
+  "exit-rule": "zero-iff-every-check-passes",
+  "exposure": "visible",
+  "faults": [],
+  "format": "public-agent-conformance/intake-record/v2",
+  "manifest": {
+    "closed": true,
+    "ids": [
+      "digest-jcs-positive",
+      "digest-python-default-separators",
+      "digest-float-positive",
+      "digest-float-repr-negative",
+      "digest-non-ascii-positive",
+      "digest-non-ascii-escaped-negative",
+      "digest-astral-positive",
+      "digest-empty-body-positive",
+      "digest-cbor-deterministic-positive",
+      "digest-cbor-non-shortest-negative",
+      "digest-raw-sha512-positive",
+      "digest-undeclared-canonical-form",
+      "evidence-ref-duplicate-member",
+      "evidence-ref-consumed-copy-differs",
+      "evidence-ref-zero-of-n",
+      "evidence-ref-zero-of-zero",
+      "evidence-ref-duplicate-reference",
+      "signed-id-self-carried-key",
+      "signed-id-pinned-key",
+      "signed-id-no-pin",
+      "signed-id-unsigned-required",
+      "signed-id-flipped-reference",
+      "signed-id-null-signature",
+      "log-clean",
+      "log-drop",
+      "log-swap",
+      "log-status-flip",
+      "log-link-rewrite",
+      "log-body-edit",
+      "log-tail-truncation",
+      "log-relinked-rewrite",
+      "log-resigned-other-key",
+      "log-no-head",
+      "log-empty",
+      "log-outside-coverage-boundary",
+      "log-boundary-first-seq-offset"
+    ],
+    "path": "corpora/vectors-telemetry-evidence/MANIFEST.json",
+    "sha256": "32faa591f4b5cbce6193f1f48f3e7e2644fb12437e2c906440dd2e4448170682"
+  },
+  "members": [
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-telemetry-evidence/cases/digest-jcs-positive/record.json",
+          "sha256": "97b7f25ae42b9215ddaa400a1b6b74649dfe617b9ac8d9726855c9d5394aeeec"
+        }
+      ],
+      "id": "digest-jcs-positive"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-telemetry-evidence/cases/digest-python-default-separators/record.json",
+          "sha256": "fbf3a70c8119f61727ab679b9b294197ecc82119081e6547ea162ec01a5519c4"
+        }
+      ],
+      "id": "digest-python-default-separators"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-telemetry-evidence/cases/digest-float-positive/record.json",
+          "sha256": "e8aa4f980fa1cbef31c8d57e31d4161043aff4586862a7343de56a9e33b12eb7"
+        }
+      ],
+      "id": "digest-float-positive"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-telemetry-evidence/cases/digest-float-repr-negative/record.json",
+          "sha256": "a5d2fb8e4ad2a8a58bb3c17e653c9fd6aba4538f20e3c83e73bcd26d22955056"
+        }
+      ],
+      "id": "digest-float-repr-negative"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-telemetry-evidence/cases/digest-non-ascii-positive/record.json",
+          "sha256": "1dae9d57dc01e8c57218ff567f3a69de02e73c0a749ca4da12780964fe0cb494"
+        }
+      ],
+      "id": "digest-non-ascii-positive"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-telemetry-evidence/cases/digest-non-ascii-escaped-negative/record.json",
+          "sha256": "2a8df4233e740789c5bf1c8bde8da7d32195333aa946e328151d8a23ca0aef89"
+        }
+      ],
+      "id": "digest-non-ascii-escaped-negative"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-telemetry-evidence/cases/digest-astral-positive/record.json",
+          "sha256": "10f9fecf14cd521fad7a624148f178127d6b0248052d35ba34be1feec356a9c3"
+        }
+      ],
+      "id": "digest-astral-positive"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-telemetry-evidence/cases/digest-empty-body-positive/record.json",
+          "sha256": "074061dca4348d0ada03c63df6827bca5c3ba4056a5ed8dc4410e76b98a4233c"
+        }
+      ],
+      "id": "digest-empty-body-positive"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-telemetry-evidence/cases/digest-cbor-deterministic-positive/record.json",
+          "sha256": "0304df58c09beb323608e2e71f3fc2b7f1ee41e8356e897727caeee4881950f3"
+        }
+      ],
+      "id": "digest-cbor-deterministic-positive"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-telemetry-evidence/cases/digest-cbor-non-shortest-negative/record.json",
+          "sha256": "486a973684af08b79919ba005290ade58385677359e1e92ac14cb449ebf3358a"
+        }
+      ],
+      "id": "digest-cbor-non-shortest-negative"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-telemetry-evidence/cases/digest-raw-sha512-positive/record.json",
+          "sha256": "d5c436fcf9499b9c70b65632a139165041b0f0a1a3ff55c843f5a82f9d1b48d4"
+        }
+      ],
+      "id": "digest-raw-sha512-positive"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-telemetry-evidence/cases/digest-undeclared-canonical-form/record.json",
+          "sha256": "935705bcc6cac8a45bc981f39c9c08d04028bf5b14b3954902f619596d217a16"
+        }
+      ],
+      "id": "digest-undeclared-canonical-form"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-telemetry-evidence/cases/evidence-ref-duplicate-member/record.json",
+          "sha256": "0072bca81b4ed3e019607ac41148ccfcda959168c1e4122ffa83909019f2bd72"
+        }
+      ],
+      "id": "evidence-ref-duplicate-member"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-telemetry-evidence/cases/evidence-ref-consumed-copy-differs/record.json",
+          "sha256": "cd84ceed7f0b5f8f699464436e6126b454a1205add64727a9ff19e2e70c04ccb"
+        }
+      ],
+      "id": "evidence-ref-consumed-copy-differs"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-telemetry-evidence/cases/evidence-ref-zero-of-n/record.json",
+          "sha256": "d95c421ab4aae3512de47de924501582907bd902de7b7429f784645405a89d78"
+        }
+      ],
+      "id": "evidence-ref-zero-of-n"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-telemetry-evidence/cases/evidence-ref-zero-of-zero/record.json",
+          "sha256": "179338254d8f16001458867e3b2b04a51b59cb2b380c9f2915e103dc217a3406"
+        }
+      ],
+      "id": "evidence-ref-zero-of-zero"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-telemetry-evidence/cases/evidence-ref-duplicate-reference/record.json",
+          "sha256": "07b43c6e3e6659365e1196280643b81f70f29983692f75ff499b89ffda364cef"
+        }
+      ],
+      "id": "evidence-ref-duplicate-reference"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-telemetry-evidence/cases/signed-id-self-carried-key/record.json",
+          "sha256": "121866938b03fbfc4594b39a8c619efd503736cb3081ba2c6dd6c8d833404a67"
+        }
+      ],
+      "id": "signed-id-self-carried-key"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-telemetry-evidence/cases/signed-id-pinned-key/record.json",
+          "sha256": "21a58537817930b228c430595fe032dccbfebe45c5d139b16c232c203e45da15"
+        }
+      ],
+      "id": "signed-id-pinned-key"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-telemetry-evidence/cases/signed-id-no-pin/record.json",
+          "sha256": "495d9ccf60f87089b0daa2396b29e10340747d4a258b91a47631c0f4363c1f3d"
+        }
+      ],
+      "id": "signed-id-no-pin"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-telemetry-evidence/cases/signed-id-unsigned-required/record.json",
+          "sha256": "8e86d1abcd3c11a2082e0af12b2874041b796dc2e66c3d098b000f347f190962"
+        }
+      ],
+      "id": "signed-id-unsigned-required"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-telemetry-evidence/cases/signed-id-flipped-reference/record.json",
+          "sha256": "04cc6497cf8cd2791362ec10799a7103493d7fc76c7b700d571c9d1bd5fbbaeb"
+        }
+      ],
+      "id": "signed-id-flipped-reference"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-telemetry-evidence/cases/signed-id-null-signature/record.json",
+          "sha256": "33bbf5a36005947ab6a9aeea37091a66544fe2de0b2c56b45e0c85a0fb11055c"
+        }
+      ],
+      "id": "signed-id-null-signature"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-telemetry-evidence/cases/log-clean/record.json",
+          "sha256": "ec3a95c1e0734961d95c5b953d33707f33ba13e72e89b0fc57abd23ecb085d9f"
+        }
+      ],
+      "id": "log-clean"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-telemetry-evidence/cases/log-drop/record.json",
+          "sha256": "59fed0859eeaaa1ab49148a75f9661a35a2b7d2656278ee2c60272a2c8280415"
+        }
+      ],
+      "id": "log-drop"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-telemetry-evidence/cases/log-swap/record.json",
+          "sha256": "cc440bfa8601dc81a40499326cb200587850ef5158a5bbdef461072930483a0a"
+        }
+      ],
+      "id": "log-swap"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-telemetry-evidence/cases/log-status-flip/record.json",
+          "sha256": "a1f9caf9cdcabdcb77168bdee47ae76c05e952b50b10def4e38af74eeaeb644c"
+        }
+      ],
+      "id": "log-status-flip"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-telemetry-evidence/cases/log-link-rewrite/record.json",
+          "sha256": "2177ab54be037309c3f96c40930ab1d62665bb9cab4d783d69af22cd36ab7c26"
+        }
+      ],
+      "id": "log-link-rewrite"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-telemetry-evidence/cases/log-body-edit/record.json",
+          "sha256": "6c8d64d97bd801cab32a7a6fa5d93bd96f95573f15af48a013c6c87728345dce"
+        }
+      ],
+      "id": "log-body-edit"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-telemetry-evidence/cases/log-tail-truncation/record.json",
+          "sha256": "4b5a1aa7d07c6b58f0ca9af23cd4875eb445c879db530f4adf43eb53b494adf6"
+        }
+      ],
+      "id": "log-tail-truncation"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-telemetry-evidence/cases/log-relinked-rewrite/record.json",
+          "sha256": "d0dd9464d393231fd8ce148902feb8f0b9baf67c76397fe0b3489eade359df5e"
+        }
+      ],
+      "id": "log-relinked-rewrite"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-telemetry-evidence/cases/log-resigned-other-key/record.json",
+          "sha256": "7f593021ed3631f55a78595a91b5c7e1d42f2948142cb378805a176ac972dcd9"
+        }
+      ],
+      "id": "log-resigned-other-key"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-telemetry-evidence/cases/log-no-head/record.json",
+          "sha256": "3fd44cf4f4a8a74390f9a6322dbf14cf8ed77107fa9f382d0350e29d560ca74e"
+        }
+      ],
+      "id": "log-no-head"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-telemetry-evidence/cases/log-empty/record.json",
+          "sha256": "ee438bd3942afbaff31bc4929d62a55716471db9551955b23a82e5bfb45eb049"
+        }
+      ],
+      "id": "log-empty"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-telemetry-evidence/cases/log-outside-coverage-boundary/record.json",
+          "sha256": "51c5690ceac41f3f48f1f01986d67e44cd3fda37e928ee10bceecc85d49caa02"
+        }
+      ],
+      "id": "log-outside-coverage-boundary"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-telemetry-evidence/cases/log-boundary-first-seq-offset/record.json",
+          "sha256": "82d92cfbdb444a314c8c7045e0e69fe388ce6e15d13f8865db4c80e76f3f501b"
+        }
+      ],
+      "id": "log-boundary-first-seq-offset"
+    }
+  ],
+  "native": {
+    "cases": "native-json",
+    "format": "corpus-result-json-v1",
+    "process-status": {
+      "exit-code": 0
+    },
+    "summary": "native-text"
+  },
+  "non-author-runs": [],
+  "observations": [
+    {
+      "carry": "referenced",
+      "id": "native-json",
+      "reference": {
+        "path": "release/intake/native/vectors-telemetry-evidence.json",
+        "serialization": "bytes",
+        "sha256": "cf6965707ec1e809156d2d649c1b187572d9f902a7f61540981afeb8527456c8"
+      }
+    },
+    {
+      "carry": "referenced",
+      "id": "native-text",
+      "reference": {
+        "path": "release/intake/native/vectors-telemetry-evidence.txt",
+        "serialization": "bytes",
+        "sha256": "627893012b91474cdae9c55ba65556b727da4094861838ca8c1dc61fdea6c5ac"
+      }
+    },
+    {
+      "carried": "",
+      "carry": "carried",
+      "id": "stderr"
+    }
+  ],
+  "pin-serialization": "bytes",
+  "refusal-verdicts": [
+    "contradicted",
+    "failed",
+    "must-reject",
+    "reject",
+    "rejected"
+  ],
+  "refusals": [
+    {
+      "check": "digest-python-default-separators",
+      "inputs": [
+        "member:digest-python-default-separators",
+        "check:digest-python-default-separators"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"contradicted\",\"reason\":\"consumed_copy_bound\"}}"
+    },
+    {
+      "check": "digest-float-repr-negative",
+      "inputs": [
+        "member:digest-float-repr-negative",
+        "check:digest-float-repr-negative"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"contradicted\",\"reason\":\"consumed_copy_bound\"}}"
+    },
+    {
+      "check": "digest-non-ascii-escaped-negative",
+      "inputs": [
+        "member:digest-non-ascii-escaped-negative",
+        "check:digest-non-ascii-escaped-negative"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"contradicted\",\"reason\":\"consumed_copy_bound\"}}"
+    },
+    {
+      "check": "digest-cbor-non-shortest-negative",
+      "inputs": [
+        "member:digest-cbor-non-shortest-negative",
+        "check:digest-cbor-non-shortest-negative"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"contradicted\",\"reason\":\"canonical_form\"}}"
+    },
+    {
+      "check": "evidence-ref-duplicate-member",
+      "inputs": [
+        "member:evidence-ref-duplicate-member",
+        "check:evidence-ref-duplicate-member"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"contradicted\",\"reason\":\"no_duplicate_member\"}}"
+    },
+    {
+      "check": "evidence-ref-consumed-copy-differs",
+      "inputs": [
+        "member:evidence-ref-consumed-copy-differs",
+        "check:evidence-ref-consumed-copy-differs"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"contradicted\",\"reason\":\"consumed_copy_bound\"}}"
+    },
+    {
+      "check": "evidence-ref-zero-of-n",
+      "inputs": [
+        "member:evidence-ref-zero-of-n",
+        "check:evidence-ref-zero-of-n"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"contradicted\",\"reason\":\"coverage\"}}"
+    },
+    {
+      "check": "evidence-ref-duplicate-reference",
+      "inputs": [
+        "member:evidence-ref-duplicate-reference",
+        "check:evidence-ref-duplicate-reference"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"contradicted\",\"reason\":\"no_duplicate_reference\"}}"
+    },
+    {
+      "check": "signed-id-self-carried-key",
+      "inputs": [
+        "member:signed-id-self-carried-key",
+        "check:signed-id-self-carried-key"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"contradicted\",\"reason\":\"signer_pinned\"}}"
+    },
+    {
+      "check": "signed-id-flipped-reference",
+      "inputs": [
+        "member:signed-id-flipped-reference",
+        "check:signed-id-flipped-reference"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"contradicted\",\"reason\":\"signature\"}}"
+    },
+    {
+      "check": "signed-id-null-signature",
+      "inputs": [
+        "member:signed-id-null-signature",
+        "check:signed-id-null-signature"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"contradicted\",\"reason\":\"record_shape\"}}"
+    },
+    {
+      "check": "log-drop",
+      "inputs": [
+        "member:log-drop",
+        "check:log-drop"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"contradicted\",\"reason\":\"sequence\"}}"
+    },
+    {
+      "check": "log-swap",
+      "inputs": [
+        "member:log-swap",
+        "check:log-swap"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"contradicted\",\"reason\":\"sequence\"}}"
+    },
+    {
+      "check": "log-status-flip",
+      "inputs": [
+        "member:log-status-flip",
+        "check:log-status-flip"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"contradicted\",\"reason\":\"chain_order\"}}"
+    },
+    {
+      "check": "log-link-rewrite",
+      "inputs": [
+        "member:log-link-rewrite",
+        "check:log-link-rewrite"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"contradicted\",\"reason\":\"chain_order\"}}"
+    },
+    {
+      "check": "log-body-edit",
+      "inputs": [
+        "member:log-body-edit",
+        "check:log-body-edit"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"contradicted\",\"reason\":\"chain_order\"}}"
+    },
+    {
+      "check": "log-tail-truncation",
+      "inputs": [
+        "member:log-tail-truncation",
+        "check:log-tail-truncation"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"contradicted\",\"reason\":\"head_anchor\"}}"
+    },
+    {
+      "check": "log-relinked-rewrite",
+      "inputs": [
+        "member:log-relinked-rewrite",
+        "check:log-relinked-rewrite"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"contradicted\",\"reason\":\"head_anchor\"}}"
+    },
+    {
+      "check": "log-resigned-other-key",
+      "inputs": [
+        "member:log-resigned-other-key",
+        "check:log-resigned-other-key"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"contradicted\",\"reason\":\"signer_pinned\"}}"
+    },
+    {
+      "check": "log-outside-coverage-boundary",
+      "inputs": [
+        "member:log-outside-coverage-boundary",
+        "check:log-outside-coverage-boundary"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"contradicted\",\"reason\":\"coverage_boundary\"}}"
+    }
+  ],
+  "relaxed-controls": [],
+  "replay-stability": {
+    "cause": null,
+    "ordering": "emission-order",
+    "runs": [
+      {
+        "process": "run-1",
+        "sha256": "cf6965707ec1e809156d2d649c1b187572d9f902a7f61540981afeb8527456c8"
+      },
+      {
+        "process": "run-2",
+        "sha256": "cf6965707ec1e809156d2d649c1b187572d9f902a7f61540981afeb8527456c8"
+      }
+    ],
+    "seed": null,
+    "state": "stable"
+  },
+  "scope": {
+    "does-not-claim": [
+      "whole-attack-surface",
+      "implementation-ranking",
+      "threats-outside-corpus",
+      "action-occurred-or-authority"
+    ],
+    "establishes": [
+      "aee-verify, at the source listing named here, judges each of the 36 pinned members of telemetry-evidence/v1 as its manifest declares"
+    ],
+    "leaves-open": [
+      "whether an implementation written from the specification, run by someone other than an author, reaches the same verdicts",
+      "whether release/CORPUS-DIGESTS.txt is a list a release signed: the signature beside it does not verify over these bytes, so the anchor is a located line, not a verified one",
+      "whether a re-run by someone other than an author on these exact bytes agrees; none is on the record for them"
+    ]
+  },
+  "selector": {
+    "expression": "*",
+    "language": "id-glob",
+    "matched": 36,
+    "require": "at-least-one",
+    "selected": [
+      "digest-jcs-positive",
+      "digest-python-default-separators",
+      "digest-float-positive",
+      "digest-float-repr-negative",
+      "digest-non-ascii-positive",
+      "digest-non-ascii-escaped-negative",
+      "digest-astral-positive",
+      "digest-empty-body-positive",
+      "digest-cbor-deterministic-positive",
+      "digest-cbor-non-shortest-negative",
+      "digest-raw-sha512-positive",
+      "digest-undeclared-canonical-form",
+      "evidence-ref-duplicate-member",
+      "evidence-ref-consumed-copy-differs",
+      "evidence-ref-zero-of-n",
+      "evidence-ref-zero-of-zero",
+      "evidence-ref-duplicate-reference",
+      "signed-id-self-carried-key",
+      "signed-id-pinned-key",
+      "signed-id-no-pin",
+      "signed-id-unsigned-required",
+      "signed-id-flipped-reference",
+      "signed-id-null-signature",
+      "log-clean",
+      "log-drop",
+      "log-swap",
+      "log-status-flip",
+      "log-link-rewrite",
+      "log-body-edit",
+      "log-tail-truncation",
+      "log-relinked-rewrite",
+      "log-resigned-other-key",
+      "log-no-head",
+      "log-empty",
+      "log-outside-coverage-boundary",
+      "log-boundary-first-seq-offset"
+    ]
+  },
+  "specification-readers": [],
+  "state": "pass",
+  "suite": "telemetry-evidence/v1"
+}

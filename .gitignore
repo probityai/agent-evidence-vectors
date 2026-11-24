@@ -11,6 +11,10 @@ __pycache__/
 # Private tool state.
 .humanizer/
 
+# The report a harness run writes to the working directory by default. The
+# committed one is packaging/conformance-report.json, which this does not match.
+/conformance-report.json
+
 # Regenerated build intermediates and temporary upstream snapshots.
 .build/
 .crosswalk-upstream/

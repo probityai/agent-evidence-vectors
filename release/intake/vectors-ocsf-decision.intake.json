@@ -1,0 +1,1505 @@
+{
+  "aggregate": {
+    "counts": {
+      "accept": 7,
+      "reject": 26
+    },
+    "line": "verdict: every member behaves as MANIFEST.json declares",
+    "total": 33
+  },
+  "anchor": {
+    "kind": "digest-list-line",
+    "manifest": "vectors-ocsf-decision/MANIFEST.json",
+    "reference": {
+      "path": "release/CORPUS-DIGESTS.txt",
+      "uri": "https://github.com/probityai/agent-evidence-vectors/blob/main/release/CORPUS-DIGESTS.txt"
+    },
+    "routine": "corpus_digest in corpora/vectors-ocsf-decision/digest.py",
+    "routine-file": "corpora/vectors-ocsf-decision/digest.py",
+    "serialization": "corpus-routine",
+    "sha256": "f0ceef28cc6129acdc0028e3a02139d1604f89d0a2a1b13f1d198ae654b0bfcb",
+    "verdicts": {
+      "availability-failure": "inconclusive",
+      "integrity-failure": "fail"
+    }
+  },
+  "artifacts": [
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "c3887d8525824b28756b9902624e885969a180e61979bf07aa97989fc94edb7d"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "c3887d8525824b28756b9902624e885969a180e61979bf07aa97989fc94edb7d"
+        },
+        "swapped-in": "dea99bde4d88bbee54ed053d8e15dd031cf55f13db4110842ad0bd3d8573258b",
+        "test": "swap-and-re-pin"
+      },
+      "path": "corpora/vectors-ocsf-decision/INDEX.md",
+      "serialization": "bytes",
+      "sha256": "86ec4bae4b6041bc17c5c68955e23d5c6dbca0f37f8852595dfab7b689262561"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "c3887d8525824b28756b9902624e885969a180e61979bf07aa97989fc94edb7d"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "c3887d8525824b28756b9902624e885969a180e61979bf07aa97989fc94edb7d"
+        },
+        "swapped-in": "654a1419eebfb93ac129334bc6781b1bf1939cdf1e2be3a2fc9585113fcde595",
+        "test": "swap-and-re-pin"
+      },
+      "path": "corpora/vectors-ocsf-decision/README.md",
+      "serialization": "bytes",
+      "sha256": "d494c904aa2472e1daf4e79b2e3579b52fb82d9c565e41eb3b84774fe162e9be"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "c3887d8525824b28756b9902624e885969a180e61979bf07aa97989fc94edb7d"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "c3887d8525824b28756b9902624e885969a180e61979bf07aa97989fc94edb7d"
+        },
+        "swapped-in": "181f9120832172ca626edf50738cf24e9c2e94a1e8676c0f5184e050f545126a",
+        "test": "swap-and-re-pin"
+      },
+      "path": "corpora/vectors-ocsf-decision/check_vectors.py",
+      "serialization": "bytes",
+      "sha256": "b107056588fec12c474ce2fecf35095fe7ddbc9e2b9e2c0d6decd76255a9b0c2"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "c3887d8525824b28756b9902624e885969a180e61979bf07aa97989fc94edb7d"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "c3887d8525824b28756b9902624e885969a180e61979bf07aa97989fc94edb7d"
+        },
+        "swapped-in": "c11c01ad9f50f14ca6824a82a9cef772c5cef8aba4a2f5b2c3f22edf2e9f20cc",
+        "test": "swap-and-re-pin"
+      },
+      "path": "corpora/vectors-ocsf-decision/digest.py",
+      "serialization": "bytes",
+      "sha256": "1d35bcdf7674df1fa74cfb7c2d80516490529226a94a2c9c71a83fa2014e60bb"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "c3887d8525824b28756b9902624e885969a180e61979bf07aa97989fc94edb7d"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "c3887d8525824b28756b9902624e885969a180e61979bf07aa97989fc94edb7d"
+        },
+        "swapped-in": "f3c692cebb4181d85e9c9062f5625dfc3be195eb72310e7493507f1cb234a384",
+        "test": "swap-and-re-pin"
+      },
+      "path": "corpora/vectors-ocsf-decision/gen_vectors.py",
+      "serialization": "bytes",
+      "sha256": "1a5672073a7ec65ed68eecf7a113614ac30c2f9a58bdda15f2e75b7715315ba6"
+    },
+    {
+      "consumed": "consumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "c3887d8525824b28756b9902624e885969a180e61979bf07aa97989fc94edb7d"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [
+          "corpora/vectors-ocsf-decision/MANIFEST.json",
+          "corpora/vectors-ocsf-decision/source/SOURCE.json"
+        ],
+        "swapped": {
+          "exit-code": 1,
+          "sha256": "6e807f6bec23e9b38b8394e9f38a048b6b5d43b3e2cae13c507691726dbf515b"
+        },
+        "swapped-in": "fa8b9ac3bcaeb59d1235653b5bc494a00f5a341ce7e422c5e4143184f6b0cbe0",
+        "test": "swap-and-re-pin"
+      },
+      "path": "corpora/vectors-ocsf-decision/source/SAMPLE-OUTPUT-DECISIONS.md",
+      "serialization": "bytes",
+      "sha256": "4b81b36188cfe4bdc5bf6a460f8e3b57175de0261ab868c0230bf1d274b17c5d"
+    },
+    {
+      "consumed": "consumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "c3887d8525824b28756b9902624e885969a180e61979bf07aa97989fc94edb7d"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [
+          "corpora/vectors-ocsf-decision/MANIFEST.json",
+          "corpora/vectors-ocsf-decision/source/SOURCE.json"
+        ],
+        "swapped": {
+          "exit-code": 1,
+          "sha256": "7e116200f765098f16caf3be50a55a3a5a77f4f9402ac12a5c8f07d2d78f3c8c"
+        },
+        "swapped-in": "b6c9ab4738f729253ad7befccb116a3b720015a61f5210d3e27436ff0aeec494",
+        "test": "swap-and-re-pin"
+      },
+      "path": "corpora/vectors-ocsf-decision/source/SAMPLE-OUTPUT-PROVENANCE.md",
+      "serialization": "bytes",
+      "sha256": "d8a3cfd0ae8124b35b2d68046ea3debfcb621806b6d2f3029db5ba934d248d65"
+    },
+    {
+      "consumed": "consumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "c3887d8525824b28756b9902624e885969a180e61979bf07aa97989fc94edb7d"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [
+          "corpora/vectors-ocsf-decision/MANIFEST.json",
+          "corpora/vectors-ocsf-decision/source/SOURCE.json"
+        ],
+        "swapped": {
+          "exit-code": 1,
+          "sha256": "1b84a8d4b8bd640ee9d0b26babb202e99fd04fe65e8e77e91a8fc05ae7a1bf5d"
+        },
+        "swapped-in": "5a7d2deb5177efd8198be09c477233607fa44021ae5d81f352616cd7de0c27e4",
+        "test": "swap-and-re-pin"
+      },
+      "path": "corpora/vectors-ocsf-decision/source/SAMPLE-OUTPUT.md",
+      "serialization": "bytes",
+      "sha256": "233e81bf9d8af3c4e04559db0bdd555edb935bc6a9d9521726e799e00e247881"
+    },
+    {
+      "consumed": "consumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "c3887d8525824b28756b9902624e885969a180e61979bf07aa97989fc94edb7d"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "swapped": {
+          "exit-code": 1,
+          "sha256": "c6f6cb9f5bd87d1b2660fbde55555a44be27430842d8d9474000b995c7398ae3"
+        },
+        "swapped-in": "9cfa73292cf953ea41e3315d8f2297f4fae1f3ebf57c6abfd3e8c0e6840eb92e",
+        "test": "swap-and-re-pin"
+      },
+      "path": "corpora/vectors-ocsf-decision/source/SOURCE.json",
+      "serialization": "bytes",
+      "sha256": "f4b8a4f04ac976c73bd4f523723d989d157a2f4d0531d3c5869ae405ab4dcb2c"
+    }
+  ],
+  "boundary": {
+    "complete": true,
+    "member-locations": [
+      {
+        "dir": "members",
+        "recursive": false,
+        "suffix": ".json"
+      }
+    ],
+    "root": "corpora/vectors-ocsf-decision"
+  },
+  "byte-identity": {
+    "pins": 33,
+    "serialization": "bytes"
+  },
+  "canonicalization": {
+    "encoding": "jcs-sha256"
+  },
+  "checker": {
+    "commands": [
+      "go build -o aee-verify ./cmd/aee-verify",
+      "aee-verify -json corpora/vectors-ocsf-decision",
+      "aee-verify -json corpora/vectors-ocsf-decision",
+      "aee-verify corpora/vectors-ocsf-decision"
+    ],
+    "dependencies": [
+      {
+        "path": "go.mod",
+        "serialization": "bytes",
+        "sha256": "c9f5a67159789ead4e2879e86805505c6ba22150b04bef360e6b3333125fb1c2"
+      },
+      {
+        "path": "go.work",
+        "serialization": "bytes",
+        "sha256": "bba3245567badf24ef1d4e89bfbd02355dbe5786ab709b4299e2c006db2b9093"
+      }
+    ],
+    "helpers": [],
+    "name": "aee-verify",
+    "relationship": "same-implementation",
+    "revision": {
+      "kind": "source-listing",
+      "paths": [
+        "aee/admission.go",
+        "aee/carried_base64.go",
+        "aee/codes.go",
+        "aee/commitments.go",
+        "aee/jcs.go",
+        "aee/merkle.go",
+        "aee/pae.go",
+        "aee/recompute.go",
+        "aee/revocationlist.go",
+        "aee/runbinding.go",
+        "aee/statement.go",
+        "aee/tier.go",
+        "aee/types.go",
+        "aee/validity.go",
+        "aee/verify.go",
+        "cmd/aee-verify/corpus.go",
+        "cmd/aee-verify/main.go",
+        "corpusreaders/a2ajcs.go",
+        "corpusreaders/aci.go",
+        "corpusreaders/acscore.go",
+        "corpusreaders/actormarker.go",
+        "corpusreaders/admission.go",
+        "corpusreaders/aeecorpus.go",
+        "corpusreaders/agentaction.go",
+        "corpusreaders/agentaction_chain.go",
+        "corpusreaders/agentdecision.go",
+        "corpusreaders/agenticprocess.go",
+        "corpusreaders/agentregistrationclassification.go",
+        "corpusreaders/agentrequestproof.go",
+        "corpusreaders/aggregateaccounting.go",
+        "corpusreaders/aigeneration.go",
+        "corpusreaders/anchoredchain.go",
+        "corpusreaders/anchorstream.go",
+        "corpusreaders/approvalbinding.go",
+        "corpusreaders/artifactbinding.go",
+        "corpusreaders/assertiongrade.go",
+        "corpusreaders/auditrecord.go",
+        "corpusreaders/auditrecord_consumption.go",
+        "corpusreaders/auditrecord_datasubject.go",
+        "corpusreaders/auditrecord_dating.go",
+        "corpusreaders/auditrecord_principal.go",
+        "corpusreaders/auditrecord_sequence.go",
+        "corpusreaders/authoritydispatch.go",
+        "corpusreaders/aveidresolution.go",
+        "corpusreaders/badgevc.go",
+        "corpusreaders/budgetlineage.go",
+        "corpusreaders/canonical_base64.go",
+        "corpusreaders/capabilityrequirement.go",
+        "corpusreaders/cardreceipt.go",
+        "corpusreaders/catalogtrust.go",
+        "corpusreaders/cborreceiptchain.go",
+        "corpusreaders/changeadmission.go",
+        "corpusreaders/chunkedexport.go",
+        "corpusreaders/common.go",
+        "corpusreaders/completionconfirmation.go",
+        "corpusreaders/connectorscope.go",
+        "corpusreaders/containmentjournal.go",
+        "corpusreaders/contextdiscovery.go",
+        "corpusreaders/controldecision.go",
+        "corpusreaders/convertedargs.go",
+        "corpusreaders/credreach.go",
+        "corpusreaders/decisionclient.go",
+        "corpusreaders/decisionrecord.go",
+        "corpusreaders/decisionrecord_binding.go",
+        "corpusreaders/decisionrecord_json.go",
+        "corpusreaders/decisionrecord_read.go",
+        "corpusreaders/delegationchain.go",
+        "corpusreaders/delegationlifecycle.go",
+        "corpusreaders/delegatorright.go",
+        "corpusreaders/dispatchfence.go",
+        "corpusreaders/dnsaid.go",
+        "corpusreaders/doneargv.go",
+        "corpusreaders/donechecks.go",
+        "corpusreaders/donerecords.go",
+        "corpusreaders/donerun.go",
+        "corpusreaders/emptyinterval.go",
+        "corpusreaders/evidencecell.go",
+        "corpusreaders/evidencestate.go",
+        "corpusreaders/evmsig.go",
+        "corpusreaders/executionbilling.go",
+        "corpusreaders/gradefloor.go",
+        "corpusreaders/htxcases.go",
+        "corpusreaders/identitybinding.go",
+        "corpusreaders/ietfagentrecord.go",
+        "corpusreaders/keydirectory.go",
+        "corpusreaders/keyrevocation.go",
+        "corpusreaders/lifecyclebinding.go",
+        "corpusreaders/mcpauthz.go",
+        "corpusreaders/mcpowasp.go",
+        "corpusreaders/mcprecord.go",
+        "corpusreaders/mcpresponsephase.go",
+        "corpusreaders/monitorcoverage.go",
+        "corpusreaders/oasfrecord.go",
+        "corpusreaders/observedeffect.go",
+        "corpusreaders/ocsfdecision.go",
+        "corpusreaders/ocsfjson.go",
+        "corpusreaders/ocsfrecord.go",
+        "corpusreaders/ocsfstream.go",
+        "corpusreaders/openweight.go",
+        "corpusreaders/paymentmandate.go",
+        "corpusreaders/physicalcompletion.go",
+        "corpusreaders/principalaction.go",
+        "corpusreaders/principalbinding.go",
+        "corpusreaders/printwitness.go",
+        "corpusreaders/propagationstep.go",
+        "corpusreaders/pyjson.go",
+        "corpusreaders/receiptchainend.go",
+        "corpusreaders/receiptsignature.go",
+        "corpusreaders/recorded.go",
+        "corpusreaders/refundconnected.go",
+        "corpusreaders/refundconnected_aps.go",
+        "corpusreaders/refundconnected_run.go",
+        "corpusreaders/refundconnected_steps.go",
+        "corpusreaders/refundconnected_trust.go",
+        "corpusreaders/refundconnected_value.go",
+        "corpusreaders/refusalreason.go",
+        "corpusreaders/registry.go",
+        "corpusreaders/responsibilityescalation.go",
+        "corpusreaders/restartrecords.go",
+        "corpusreaders/revocationlist.go",
+        "corpusreaders/rsadigestinfo.go",
+        "corpusreaders/rulecorpus.go",
+        "corpusreaders/runmetrics.go",
+        "corpusreaders/scittcose.go",
+        "corpusreaders/selfreported.go",
+        "corpusreaders/signaturecoverage.go",
+        "corpusreaders/sourcecoverage.go",
+        "corpusreaders/statusreceipt.go",
+        "corpusreaders/strictjson.go",
+        "corpusreaders/telemetryevidence.go",
+        "corpusreaders/traceanchor.go",
+        "corpusreaders/uncertaineffect.go",
+        "corpusreaders/verdictlines.go",
+        "corpusreaders/w3cintake.go",
+        "corpusreaders/w3cjcs.go",
+        "corpusreaders/w3creport.go",
+        "corpusreaders/x402join.go",
+        "go.mod"
+      ],
+      "serialization": "sha256-listing-v1",
+      "sha256": "afc414585d530b094c7ddf8962d217b610a21ae231353f406a4c276f7215762c"
+    },
+    "runtime": {
+      "name": "go",
+      "version": "1.26"
+    },
+    "shared-verification-code": [
+      "aee/admission.go",
+      "aee/carried_base64.go",
+      "aee/codes.go",
+      "aee/commitments.go",
+      "aee/jcs.go",
+      "aee/merkle.go",
+      "aee/pae.go",
+      "aee/recompute.go",
+      "aee/revocationlist.go",
+      "aee/runbinding.go",
+      "aee/statement.go",
+      "aee/tier.go",
+      "aee/types.go",
+      "aee/validity.go",
+      "aee/verify.go",
+      "cmd/aee-verify/corpus.go",
+      "cmd/aee-verify/main.go",
+      "corpusreaders/a2ajcs.go",
+      "corpusreaders/aci.go",
+      "corpusreaders/acscore.go",
+      "corpusreaders/actormarker.go",
+      "corpusreaders/admission.go",
+      "corpusreaders/aeecorpus.go",
+      "corpusreaders/agentaction.go",
+      "corpusreaders/agentaction_chain.go",
+      "corpusreaders/agentdecision.go",
+      "corpusreaders/agenticprocess.go",
+      "corpusreaders/agentregistrationclassification.go",
+      "corpusreaders/agentrequestproof.go",
+      "corpusreaders/aggregateaccounting.go",
+      "corpusreaders/aigeneration.go",
+      "corpusreaders/anchoredchain.go",
+      "corpusreaders/anchorstream.go",
+      "corpusreaders/approvalbinding.go",
+      "corpusreaders/artifactbinding.go",
+      "corpusreaders/assertiongrade.go",
+      "corpusreaders/auditrecord.go",
+      "corpusreaders/auditrecord_consumption.go",
+      "corpusreaders/auditrecord_datasubject.go",
+      "corpusreaders/auditrecord_dating.go",
+      "corpusreaders/auditrecord_principal.go",
+      "corpusreaders/auditrecord_sequence.go",
+      "corpusreaders/authoritydispatch.go",
+      "corpusreaders/aveidresolution.go",
+      "corpusreaders/badgevc.go",
+      "corpusreaders/budgetlineage.go",
+      "corpusreaders/canonical_base64.go",
+      "corpusreaders/capabilityrequirement.go",
+      "corpusreaders/cardreceipt.go",
+      "corpusreaders/catalogtrust.go",
+      "corpusreaders/cborreceiptchain.go",
+      "corpusreaders/changeadmission.go",
+      "corpusreaders/chunkedexport.go",
+      "corpusreaders/common.go",
+      "corpusreaders/completionconfirmation.go",
+      "corpusreaders/connectorscope.go",
+      "corpusreaders/containmentjournal.go",
+      "corpusreaders/contextdiscovery.go",
+      "corpusreaders/controldecision.go",
+      "corpusreaders/convertedargs.go",
+      "corpusreaders/credreach.go",
+      "corpusreaders/decisionclient.go",
+      "corpusreaders/decisionrecord.go",
+      "corpusreaders/decisionrecord_binding.go",
+      "corpusreaders/decisionrecord_json.go",
+      "corpusreaders/decisionrecord_read.go",
+      "corpusreaders/delegationchain.go",
+      "corpusreaders/delegationlifecycle.go",
+      "corpusreaders/delegatorright.go",
+      "corpusreaders/dispatchfence.go",
+      "corpusreaders/dnsaid.go",
+      "corpusreaders/doneargv.go",
+      "corpusreaders/donechecks.go",
+      "corpusreaders/donerecords.go",
+      "corpusreaders/donerun.go",
+      "corpusreaders/emptyinterval.go",
+      "corpusreaders/evidencecell.go",
+      "corpusreaders/evidencestate.go",
+      "corpusreaders/evmsig.go",
+      "corpusreaders/executionbilling.go",
+      "corpusreaders/gradefloor.go",
+      "corpusreaders/htxcases.go",
+      "corpusreaders/identitybinding.go",
+      "corpusreaders/ietfagentrecord.go",
+      "corpusreaders/keydirectory.go",
+      "corpusreaders/keyrevocation.go",
+      "corpusreaders/lifecyclebinding.go",
+      "corpusreaders/mcpauthz.go",
+      "corpusreaders/mcpowasp.go",
+      "corpusreaders/mcprecord.go",
+      "corpusreaders/mcpresponsephase.go",
+      "corpusreaders/monitorcoverage.go",
+      "corpusreaders/oasfrecord.go",
+      "corpusreaders/observedeffect.go",
+      "corpusreaders/ocsfdecision.go",
+      "corpusreaders/ocsfjson.go",
+      "corpusreaders/ocsfrecord.go",
+      "corpusreaders/ocsfstream.go",
+      "corpusreaders/openweight.go",
+      "corpusreaders/paymentmandate.go",
+      "corpusreaders/physicalcompletion.go",
+      "corpusreaders/principalaction.go",
+      "corpusreaders/principalbinding.go",
+      "corpusreaders/printwitness.go",
+      "corpusreaders/propagationstep.go",
+      "corpusreaders/pyjson.go",
+      "corpusreaders/receiptchainend.go",
+      "corpusreaders/receiptsignature.go",
+      "corpusreaders/recorded.go",
+      "corpusreaders/refundconnected.go",
+      "corpusreaders/refundconnected_aps.go",
+      "corpusreaders/refundconnected_run.go",
+      "corpusreaders/refundconnected_steps.go",
+      "corpusreaders/refundconnected_trust.go",
+      "corpusreaders/refundconnected_value.go",
+      "corpusreaders/refusalreason.go",
+      "corpusreaders/registry.go",
+      "corpusreaders/responsibilityescalation.go",
+      "corpusreaders/restartrecords.go",
+      "corpusreaders/revocationlist.go",
+      "corpusreaders/rsadigestinfo.go",
+      "corpusreaders/rulecorpus.go",
+      "corpusreaders/runmetrics.go",
+      "corpusreaders/scittcose.go",
+      "corpusreaders/selfreported.go",
+      "corpusreaders/signaturecoverage.go",
+      "corpusreaders/sourcecoverage.go",
+      "corpusreaders/statusreceipt.go",
+      "corpusreaders/strictjson.go",
+      "corpusreaders/telemetryevidence.go",
+      "corpusreaders/traceanchor.go",
+      "corpusreaders/uncertaineffect.go",
+      "corpusreaders/verdictlines.go",
+      "corpusreaders/w3cintake.go",
+      "corpusreaders/w3cjcs.go",
+      "corpusreaders/w3creport.go",
+      "corpusreaders/x402join.go",
+      "go.mod"
+    ]
+  },
+  "checks": [
+    {
+      "check": "baseline-published-signed-pair",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "baseline-published-decisions-unchained",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "baseline-published-duplicate-member-rides-seal",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "baseline-published-duplicate-member-escaped",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "baseline-chain-as-emitted",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "baseline-key-id-swapped",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "baseline-key-id-unknown",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "baseline-resigned-under-retired-key",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "baseline-time-epoch-ms-in-window",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "baseline-time-epoch-ms-before-key-window",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "baseline-time-epoch-ms-after-retired-window",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "baseline-key-of-another-authority",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "baseline-policy-lists-key-twice",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "baseline-tail-dropped-with-head",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "baseline-tail-dropped-no-head",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "baseline-record-deleted",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "baseline-content-changed",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "baseline-refingerprinted-not-resigned",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "baseline-chain-fork",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "baseline-uid-substituted",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "baseline-stream-gap",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "baseline-emission-disorder",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "baseline-ruling-reads-two-ways",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "baseline-ruling-member-is-a-list",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "baseline-ruling-member-is-an-object",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "baseline-suppressed-deny-unflagged",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "strict-chain-complete",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "strict-published-pair-with-head",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "strict-two-live-keys",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "strict-no-head",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "strict-unsigned-chain-rewritten",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "strict-epoch-a-double-cannot-hold",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "strict-opening-not-supplied",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    }
+  ],
+  "corpus-digest": {
+    "serialization": "sha256-listing-v1",
+    "sha256": "4425fc809befc6710e42bc71c7183d5b6e9a65992cfb55e9f74629a6474f8537"
+  },
+  "exit-code": 0,
+  "exit-rule": "zero-iff-every-check-passes",
+  "exposure": "visible",
+  "faults": [],
+  "format": "public-agent-conformance/intake-record/v2",
+  "manifest": {
+    "closed": true,
+    "ids": [
+      "baseline-published-signed-pair",
+      "baseline-published-decisions-unchained",
+      "baseline-published-duplicate-member-rides-seal",
+      "baseline-published-duplicate-member-escaped",
+      "baseline-chain-as-emitted",
+      "baseline-key-id-swapped",
+      "baseline-key-id-unknown",
+      "baseline-resigned-under-retired-key",
+      "baseline-time-epoch-ms-in-window",
+      "baseline-time-epoch-ms-before-key-window",
+      "baseline-time-epoch-ms-after-retired-window",
+      "baseline-key-of-another-authority",
+      "baseline-policy-lists-key-twice",
+      "baseline-tail-dropped-with-head",
+      "baseline-tail-dropped-no-head",
+      "baseline-record-deleted",
+      "baseline-content-changed",
+      "baseline-refingerprinted-not-resigned",
+      "baseline-chain-fork",
+      "baseline-uid-substituted",
+      "baseline-stream-gap",
+      "baseline-emission-disorder",
+      "baseline-ruling-reads-two-ways",
+      "baseline-ruling-member-is-a-list",
+      "baseline-ruling-member-is-an-object",
+      "baseline-suppressed-deny-unflagged",
+      "strict-chain-complete",
+      "strict-published-pair-with-head",
+      "strict-two-live-keys",
+      "strict-no-head",
+      "strict-unsigned-chain-rewritten",
+      "strict-epoch-a-double-cannot-hold",
+      "strict-opening-not-supplied"
+    ],
+    "path": "corpora/vectors-ocsf-decision/MANIFEST.json",
+    "sha256": "116b659db4f72627c14af7843e0e5cbf3f3366efae7ebcab819da22a952361e5"
+  },
+  "members": [
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-ocsf-decision/members/baseline-published-signed-pair.json",
+          "sha256": "66ae68eba177b1e9b0d44be7beeb5c3b863e3b3fb5e2310182003593cfb941c7"
+        }
+      ],
+      "id": "baseline-published-signed-pair"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-ocsf-decision/members/baseline-published-decisions-unchained.json",
+          "sha256": "08f59c5659327a097ba135e3753367400207e431f39dba4cdc9a225cb789125e"
+        }
+      ],
+      "id": "baseline-published-decisions-unchained"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-ocsf-decision/members/baseline-published-duplicate-member-rides-seal.json",
+          "sha256": "0abb6f4818971fb0395aafebd8016bdd206cacbd6089ac5b0d68d323ca855017"
+        }
+      ],
+      "id": "baseline-published-duplicate-member-rides-seal"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-ocsf-decision/members/baseline-published-duplicate-member-escaped.json",
+          "sha256": "b269d23dddf33fc97c86a9a1427b5929a44b9e5963fba339400cc42012305f8b"
+        }
+      ],
+      "id": "baseline-published-duplicate-member-escaped"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-ocsf-decision/members/baseline-chain-as-emitted.json",
+          "sha256": "7cc31e68e62ff3733b5c0f4723d3b165e67a30c98bbfe618090cdc700bddf8e3"
+        }
+      ],
+      "id": "baseline-chain-as-emitted"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-ocsf-decision/members/baseline-key-id-swapped.json",
+          "sha256": "7d99b134ab3ffc664cd18794d692292c181fb3a528edc98ef26da37171ebc8d9"
+        }
+      ],
+      "id": "baseline-key-id-swapped"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-ocsf-decision/members/baseline-key-id-unknown.json",
+          "sha256": "8c7ab271b8fd8d6221405e149a1ca3e2219d039203e592028dd86892adba6040"
+        }
+      ],
+      "id": "baseline-key-id-unknown"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-ocsf-decision/members/baseline-resigned-under-retired-key.json",
+          "sha256": "874b7a2b84d844a5e0b6564dafe3fba141720c53b5230a12e05f2b334c0f17ca"
+        }
+      ],
+      "id": "baseline-resigned-under-retired-key"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-ocsf-decision/members/baseline-time-epoch-ms-in-window.json",
+          "sha256": "3da3cb8cba8f1f2f52d08eb973291109691af199820f17121cc74fb160cff194"
+        }
+      ],
+      "id": "baseline-time-epoch-ms-in-window"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-ocsf-decision/members/baseline-time-epoch-ms-before-key-window.json",
+          "sha256": "a6a49d8868f9c691e04c3eb6a3fbb1b25e7fe4f5a3875ef231e67cdb648d7ff0"
+        }
+      ],
+      "id": "baseline-time-epoch-ms-before-key-window"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-ocsf-decision/members/baseline-time-epoch-ms-after-retired-window.json",
+          "sha256": "48a5b26853530c72b50965d360731650f9b51a05fcb981f9b546d5fd24c3605b"
+        }
+      ],
+      "id": "baseline-time-epoch-ms-after-retired-window"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-ocsf-decision/members/baseline-key-of-another-authority.json",
+          "sha256": "afac0d15e626e431821a69f0124ec167f28d956306ec28d5ed7b921fd4b5f898"
+        }
+      ],
+      "id": "baseline-key-of-another-authority"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-ocsf-decision/members/baseline-policy-lists-key-twice.json",
+          "sha256": "46f80b4f9cde29397c41d55c5dcf9cd6a59727c55a6167ea050aa638ba128f3d"
+        }
+      ],
+      "id": "baseline-policy-lists-key-twice"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-ocsf-decision/members/baseline-tail-dropped-with-head.json",
+          "sha256": "b9ba5300bd1d59bf3df225945222db63300b2ddf068763a25212b0d19dbe454e"
+        }
+      ],
+      "id": "baseline-tail-dropped-with-head"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-ocsf-decision/members/baseline-tail-dropped-no-head.json",
+          "sha256": "9a95787f60c2972509f99235e7ff1ad2b506db5d2ced70676f1b988063462911"
+        }
+      ],
+      "id": "baseline-tail-dropped-no-head"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-ocsf-decision/members/baseline-record-deleted.json",
+          "sha256": "82fab9e403406bb50d69bf7f6368c40da7e29fb8790425da703b1dd4747736f3"
+        }
+      ],
+      "id": "baseline-record-deleted"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-ocsf-decision/members/baseline-content-changed.json",
+          "sha256": "f9c07d73bb49c72cf9ac355149ec2ec6777981bcf6ef2a98aface588f8209410"
+        }
+      ],
+      "id": "baseline-content-changed"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-ocsf-decision/members/baseline-refingerprinted-not-resigned.json",
+          "sha256": "31e265fc539c5a2a7acb41e92bc8de44f741adaf0e14f7e9c07f8725c17c19a5"
+        }
+      ],
+      "id": "baseline-refingerprinted-not-resigned"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-ocsf-decision/members/baseline-chain-fork.json",
+          "sha256": "cbbcde6847428cba0eeebe9ec7e3ed306990027a4655e9cb1ff1dd2803e7bf70"
+        }
+      ],
+      "id": "baseline-chain-fork"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-ocsf-decision/members/baseline-uid-substituted.json",
+          "sha256": "0576145a06689d54b92df1d7f62b8e3386dc4afc565831b17a475ef759f2d2cf"
+        }
+      ],
+      "id": "baseline-uid-substituted"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-ocsf-decision/members/baseline-stream-gap.json",
+          "sha256": "7854fbfbe04da0851083a8bd498d6333d2d6dad1c78f6fa020d7696cba98e2f5"
+        }
+      ],
+      "id": "baseline-stream-gap"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-ocsf-decision/members/baseline-emission-disorder.json",
+          "sha256": "8a60a960b0015aa96ff73379c9df6a54aa1b90fd5172afe8740ea3b8b0b04e92"
+        }
+      ],
+      "id": "baseline-emission-disorder"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-ocsf-decision/members/baseline-ruling-reads-two-ways.json",
+          "sha256": "8ba007ca31825d1bc5b000e9a69a5e0e67cf0d0cf7c5bb44e9ab37960476573a"
+        }
+      ],
+      "id": "baseline-ruling-reads-two-ways"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-ocsf-decision/members/baseline-ruling-member-is-a-list.json",
+          "sha256": "3d98192f737c81a3dbc6645b6aa3a4d22d927808fb8baa27612a052c812e448f"
+        }
+      ],
+      "id": "baseline-ruling-member-is-a-list"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-ocsf-decision/members/baseline-ruling-member-is-an-object.json",
+          "sha256": "40db68018f78c5b1606bb8b8b7054c2ce63d8c72da3d2a93452e130fac43e72f"
+        }
+      ],
+      "id": "baseline-ruling-member-is-an-object"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-ocsf-decision/members/baseline-suppressed-deny-unflagged.json",
+          "sha256": "17c4a3acb08f1e583c56cc83fd1952f67ae995baca6d259cc589cfa9b9db050e"
+        }
+      ],
+      "id": "baseline-suppressed-deny-unflagged"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-ocsf-decision/members/strict-chain-complete.json",
+          "sha256": "9acc8d2a6e0252384b3aec0482c5d399c27e3d63b3099beddc157fb81a1d19c5"
+        }
+      ],
+      "id": "strict-chain-complete"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-ocsf-decision/members/strict-published-pair-with-head.json",
+          "sha256": "adc06114985c821c84f99df5da1269502800753dfeee3e7f17c5361e8c647426"
+        }
+      ],
+      "id": "strict-published-pair-with-head"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-ocsf-decision/members/strict-two-live-keys.json",
+          "sha256": "31759b262e0cd326b1cf32827c2c6209037d7c595abc6a117d8c6ef0eba934e8"
+        }
+      ],
+      "id": "strict-two-live-keys"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-ocsf-decision/members/strict-no-head.json",
+          "sha256": "7a6be017f47a62dcad1926aacba95a496c47efe31dc2fac4768a45fb45cd427f"
+        }
+      ],
+      "id": "strict-no-head"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-ocsf-decision/members/strict-unsigned-chain-rewritten.json",
+          "sha256": "c6f24eaf52c43376a8aa3fefbd31e24c37f6f3c98cd3a96243b3ffa9318be7d2"
+        }
+      ],
+      "id": "strict-unsigned-chain-rewritten"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-ocsf-decision/members/strict-epoch-a-double-cannot-hold.json",
+          "sha256": "12f0d34ad9c9cb0aa909dea45740cbb7ffcf73185ecb9ba904fe8c1d0bb6ab69"
+        }
+      ],
+      "id": "strict-epoch-a-double-cannot-hold"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-ocsf-decision/members/strict-opening-not-supplied.json",
+          "sha256": "9f11658686642948f0cc34abbc2306a954b973437dd340a3838e971d5d67707a"
+        }
+      ],
+      "id": "strict-opening-not-supplied"
+    }
+  ],
+  "native": {
+    "cases": "native-json",
+    "format": "corpus-result-json-v1",
+    "process-status": {
+      "exit-code": 0
+    },
+    "summary": "native-text"
+  },
+  "non-author-runs": [],
+  "observations": [
+    {
+      "carry": "referenced",
+      "id": "native-json",
+      "reference": {
+        "path": "release/intake/native/vectors-ocsf-decision.json",
+        "serialization": "bytes",
+        "sha256": "c3887d8525824b28756b9902624e885969a180e61979bf07aa97989fc94edb7d"
+      }
+    },
+    {
+      "carry": "referenced",
+      "id": "native-text",
+      "reference": {
+        "path": "release/intake/native/vectors-ocsf-decision.txt",
+        "serialization": "bytes",
+        "sha256": "abb304d85912013feec26813944be9775f5d329b8c77bd0910735cc1beeb172e"
+      }
+    },
+    {
+      "carried": "",
+      "carry": "carried",
+      "id": "stderr"
+    }
+  ],
+  "pin-serialization": "bytes",
+  "refusal-verdicts": [
+    "contradicted",
+    "failed",
+    "must-reject",
+    "reject",
+    "rejected"
+  ],
+  "refusals": [
+    {
+      "check": "baseline-published-duplicate-member-rides-seal",
+      "inputs": [
+        "member:baseline-published-duplicate-member-rides-seal",
+        "check:baseline-published-duplicate-member-rides-seal"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"code\":\"structural_validity:failed\",\"dimensions\":{\"structural_validity\":\"failed\"},\"verdict\":\"reject\"}}"
+    },
+    {
+      "check": "baseline-published-duplicate-member-escaped",
+      "inputs": [
+        "member:baseline-published-duplicate-member-escaped",
+        "check:baseline-published-duplicate-member-escaped"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"code\":\"structural_validity:failed\",\"dimensions\":{\"structural_validity\":\"failed\"},\"verdict\":\"reject\"}}"
+    },
+    {
+      "check": "baseline-key-id-swapped",
+      "inputs": [
+        "member:baseline-key-id-swapped",
+        "check:baseline-key-id-swapped"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"code\":\"key_binding:failed\",\"dimensions\":{\"key_binding\":\"failed\",\"signature\":\"verified\"},\"verdict\":\"reject\"}}"
+    },
+    {
+      "check": "baseline-key-id-unknown",
+      "inputs": [
+        "member:baseline-key-id-unknown",
+        "check:baseline-key-id-unknown"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"code\":\"key_binding:failed\",\"dimensions\":{},\"verdict\":\"reject\"}}"
+    },
+    {
+      "check": "baseline-resigned-under-retired-key",
+      "inputs": [
+        "member:baseline-resigned-under-retired-key",
+        "check:baseline-resigned-under-retired-key"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"code\":\"key_binding:failed\",\"dimensions\":{\"signature\":\"verified\"},\"verdict\":\"reject\"}}"
+    },
+    {
+      "check": "baseline-time-epoch-ms-before-key-window",
+      "inputs": [
+        "member:baseline-time-epoch-ms-before-key-window",
+        "check:baseline-time-epoch-ms-before-key-window"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"code\":\"key_binding:failed\",\"dimensions\":{\"signature\":\"verified\"},\"verdict\":\"reject\"}}"
+    },
+    {
+      "check": "baseline-time-epoch-ms-after-retired-window",
+      "inputs": [
+        "member:baseline-time-epoch-ms-after-retired-window",
+        "check:baseline-time-epoch-ms-after-retired-window"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"code\":\"key_binding:failed\",\"dimensions\":{\"signature\":\"verified\"},\"verdict\":\"reject\"}}"
+    },
+    {
+      "check": "baseline-key-of-another-authority",
+      "inputs": [
+        "member:baseline-key-of-another-authority",
+        "check:baseline-key-of-another-authority"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"code\":\"key_binding:failed\",\"dimensions\":{},\"verdict\":\"reject\"}}"
+    },
+    {
+      "check": "baseline-policy-lists-key-twice",
+      "inputs": [
+        "member:baseline-policy-lists-key-twice",
+        "check:baseline-policy-lists-key-twice"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"code\":\"trust_policy:failed\",\"dimensions\":{\"signature\":\"not_checked\"},\"verdict\":\"reject\"}}"
+    },
+    {
+      "check": "baseline-tail-dropped-with-head",
+      "inputs": [
+        "member:baseline-tail-dropped-with-head",
+        "check:baseline-tail-dropped-with-head"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"code\":\"tail:failed\",\"dimensions\":{\"tail\":\"failed\"},\"verdict\":\"reject\"}}"
+    },
+    {
+      "check": "baseline-record-deleted",
+      "inputs": [
+        "member:baseline-record-deleted",
+        "check:baseline-record-deleted"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"code\":\"chain_gaps:failed\",\"dimensions\":{\"stream_sequence\":\"failed\"},\"verdict\":\"reject\"}}"
+    },
+    {
+      "check": "baseline-content-changed",
+      "inputs": [
+        "member:baseline-content-changed",
+        "check:baseline-content-changed"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"code\":\"fingerprint:failed\",\"dimensions\":{},\"verdict\":\"reject\"}}"
+    },
+    {
+      "check": "baseline-refingerprinted-not-resigned",
+      "inputs": [
+        "member:baseline-refingerprinted-not-resigned",
+        "check:baseline-refingerprinted-not-resigned"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"code\":\"signature:failed\",\"dimensions\":{\"fingerprint\":\"verified\"},\"verdict\":\"reject\"}}"
+    },
+    {
+      "check": "baseline-chain-fork",
+      "inputs": [
+        "member:baseline-chain-fork",
+        "check:baseline-chain-fork"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"code\":\"chain_links:failed\",\"dimensions\":{},\"verdict\":\"reject\"}}"
+    },
+    {
+      "check": "baseline-uid-substituted",
+      "inputs": [
+        "member:baseline-uid-substituted",
+        "check:baseline-uid-substituted"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"code\":\"record_uniqueness:failed\",\"dimensions\":{},\"verdict\":\"reject\"}}"
+    },
+    {
+      "check": "baseline-stream-gap",
+      "inputs": [
+        "member:baseline-stream-gap",
+        "check:baseline-stream-gap"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"code\":\"stream_sequence:failed\",\"dimensions\":{},\"verdict\":\"reject\"}}"
+    },
+    {
+      "check": "baseline-emission-disorder",
+      "inputs": [
+        "member:baseline-emission-disorder",
+        "check:baseline-emission-disorder"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"code\":\"stream_sequence:failed\",\"dimensions\":{},\"verdict\":\"reject\"}}"
+    },
+    {
+      "check": "baseline-ruling-reads-two-ways",
+      "inputs": [
+        "member:baseline-ruling-reads-two-ways",
+        "check:baseline-ruling-reads-two-ways"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"code\":\"decision_consistency:failed\",\"dimensions\":{},\"verdict\":\"reject\"}}"
+    },
+    {
+      "check": "baseline-ruling-member-is-a-list",
+      "inputs": [
+        "member:baseline-ruling-member-is-a-list",
+        "check:baseline-ruling-member-is-a-list"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"code\":\"decision_consistency:failed\",\"dimensions\":{},\"verdict\":\"reject\"}}"
+    },
+    {
+      "check": "baseline-ruling-member-is-an-object",
+      "inputs": [
+        "member:baseline-ruling-member-is-an-object",
+        "check:baseline-ruling-member-is-an-object"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"code\":\"decision_consistency:failed\",\"dimensions\":{},\"verdict\":\"reject\"}}"
+    },
+    {
+      "check": "baseline-suppressed-deny-unflagged",
+      "inputs": [
+        "member:baseline-suppressed-deny-unflagged",
+        "check:baseline-suppressed-deny-unflagged"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"code\":\"decision_consistency:failed\",\"dimensions\":{},\"verdict\":\"reject\"}}"
+    },
+    {
+      "check": "strict-two-live-keys",
+      "inputs": [
+        "member:strict-two-live-keys",
+        "check:strict-two-live-keys"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"code\":\"key_named_by_signed_bytes:unavailable\",\"dimensions\":{},\"verdict\":\"reject\"}}"
+    },
+    {
+      "check": "strict-no-head",
+      "inputs": [
+        "member:strict-no-head",
+        "check:strict-no-head"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"code\":\"tail_anchored:not_checked\",\"dimensions\":{},\"verdict\":\"reject\"}}"
+    },
+    {
+      "check": "strict-unsigned-chain-rewritten",
+      "inputs": [
+        "member:strict-unsigned-chain-rewritten",
+        "check:strict-unsigned-chain-rewritten"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"code\":\"signature_required:unavailable\",\"dimensions\":{},\"verdict\":\"reject\"}}"
+    },
+    {
+      "check": "strict-epoch-a-double-cannot-hold",
+      "inputs": [
+        "member:strict-epoch-a-double-cannot-hold",
+        "check:strict-epoch-a-double-cannot-hold"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"code\":\"numbers_interoperable:failed\",\"dimensions\":{},\"verdict\":\"reject\"}}"
+    },
+    {
+      "check": "strict-opening-not-supplied",
+      "inputs": [
+        "member:strict-opening-not-supplied",
+        "check:strict-opening-not-supplied"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"code\":\"opening_supplied:unavailable\",\"dimensions\":{},\"verdict\":\"reject\"}}"
+    }
+  ],
+  "relaxed-controls": [],
+  "replay-stability": {
+    "cause": null,
+    "ordering": "emission-order",
+    "runs": [
+      {
+        "process": "run-1",
+        "sha256": "c3887d8525824b28756b9902624e885969a180e61979bf07aa97989fc94edb7d"
+      },
+      {
+        "process": "run-2",
+        "sha256": "c3887d8525824b28756b9902624e885969a180e61979bf07aa97989fc94edb7d"
+      }
+    ],
+    "seed": null,
+    "state": "stable"
+  },
+  "scope": {
+    "does-not-claim": [
+      "whole-attack-surface",
+      "implementation-ranking",
+      "threats-outside-corpus",
+      "action-occurred-or-authority"
+    ],
+    "establishes": [
+      "aee-verify, at the source listing named here, judges each of the 33 pinned members of ocsf-decision/v1 as its manifest declares"
+    ],
+    "leaves-open": [
+      "whether an implementation written from the specification, run by someone other than an author, reaches the same verdicts",
+      "whether release/CORPUS-DIGESTS.txt is a list a release signed: the signature beside it does not verify over these bytes, so the anchor is a located line, not a verified one",
+      "whether a re-run by someone other than an author on these exact bytes agrees; none is on the record for them"
+    ]
+  },
+  "selector": {
+    "expression": "*",
+    "language": "id-glob",
+    "matched": 33,
+    "require": "at-least-one",
+    "selected": [
+      "baseline-published-signed-pair",
+      "baseline-published-decisions-unchained",
+      "baseline-published-duplicate-member-rides-seal",
+      "baseline-published-duplicate-member-escaped",
+      "baseline-chain-as-emitted",
+      "baseline-key-id-swapped",
+      "baseline-key-id-unknown",
+      "baseline-resigned-under-retired-key",
+      "baseline-time-epoch-ms-in-window",
+      "baseline-time-epoch-ms-before-key-window",
+      "baseline-time-epoch-ms-after-retired-window",
+      "baseline-key-of-another-authority",
+      "baseline-policy-lists-key-twice",
+      "baseline-tail-dropped-with-head",
+      "baseline-tail-dropped-no-head",
+      "baseline-record-deleted",
+      "baseline-content-changed",
+      "baseline-refingerprinted-not-resigned",
+      "baseline-chain-fork",
+      "baseline-uid-substituted",
+      "baseline-stream-gap",
+      "baseline-emission-disorder",
+      "baseline-ruling-reads-two-ways",
+      "baseline-ruling-member-is-a-list",
+      "baseline-ruling-member-is-an-object",
+      "baseline-suppressed-deny-unflagged",
+      "strict-chain-complete",
+      "strict-published-pair-with-head",
+      "strict-two-live-keys",
+      "strict-no-head",
+      "strict-unsigned-chain-rewritten",
+      "strict-epoch-a-double-cannot-hold",
+      "strict-opening-not-supplied"
+    ]
+  },
+  "specification-readers": [],
+  "state": "pass",
+  "suite": "ocsf-decision/v1"
+}

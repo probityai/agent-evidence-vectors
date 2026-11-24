@@ -22,7 +22,9 @@ The reader checks in a fixed order and names the first check that fails:
    initial expiry and every renewal's expiry (``hold_expired_before_effect_ended``);
 7. no other proposal was admitted on the context from the fence's acquisition
    to the effect's end (``concurrent_dispatch_admitted``);
-8. the commit was at or before the hold's expiry (``commit_after_hold_expired``).
+8. the commit was before the hold's expiry, which is half-open: an effect ending at
+   the expiry is inside the hold and a commit at the expiry is outside it
+   (``commit_after_hold_expired``).
 
 A record that passes all eight is ``allow`` with reason ``exclusive``.
 
@@ -42,6 +44,8 @@ from collections.abc import Callable
 from datetime import datetime, timedelta
 from pathlib import Path
 from typing import Any
+
+from . import strictjson
 
 SUITE = "dispatch-fence/v1"
 CONTRACT_ID = ("https://probityai.github.io/agent-evidence-observer/contract/"
@@ -84,10 +88,13 @@ def hold_expiry(record: dict[str, Any]) -> datetime:
 
 
 def hold_covers_commit(record: dict[str, Any]) -> bool:
-    """Whether the hold lasted through both the effect and the commit."""
+    """Whether the half-open hold [acquiredAt, expiry) held through the effect and the commit.
+
+    A running effect that ends at the expiry is inside the hold; a commit at the expiry is not.
+    """
     expiry = hold_expiry(record)
     return bool(_when(record["effect"]["endedAt"]) <= expiry
-                and _when(record["commit"]["at"]) <= expiry)
+                and _when(record["commit"]["at"]) < expiry)
 
 
 def _not_bound(record: dict[str, Any]) -> bool:
@@ -115,7 +122,7 @@ def _concurrent(record: dict[str, Any]) -> bool:
 
 
 def _load(record_path: Path) -> dict[str, Any]:
-    loaded: dict[str, Any] = json.loads(record_path.read_text(encoding="utf-8"))
+    loaded: dict[str, Any] = strictjson.loads(record_path.read_text(encoding="utf-8"))
     return loaded
 
 
@@ -134,7 +141,7 @@ def _first_failure(record: dict[str, Any], skip: frozenset[str]) -> str | None:
         "hold_expired_before_effect_ended": lambda: (
             _when(record["effect"]["endedAt"]) > hold_expiry(record)),
         "concurrent_dispatch_admitted": lambda: _concurrent(record),
-        "commit_after_hold_expired": lambda: _when(record["commit"]["at"]) > hold_expiry(record),
+        "commit_after_hold_expired": lambda: _when(record["commit"]["at"]) >= hold_expiry(record),
     }
     for name in CHECKS:
         if name not in skip and failures[name]():
@@ -161,7 +168,7 @@ def _fixture_error(directory: Path, entry: dict[str, Any]) -> str | None:
 
 
 def _validated_entries(root: Path) -> tuple[list[dict[str, Any]], str | None]:
-    manifest = json.loads((root / "MANIFEST.json").read_text(encoding="utf-8"))
+    manifest = strictjson.loads((root / "MANIFEST.json").read_text(encoding="utf-8"))
     entries = manifest["vectors"]
     if _sha(_json(entries)) != manifest["corpusDigest"]:
         return [], "manifest digest mismatch"
@@ -184,7 +191,7 @@ def _external_answer(command: list[str], path: Path) -> tuple[bool, dict[str, An
     except (OSError, subprocess.TimeoutExpired) as exc:
         return False, f"verifier did not run: {exc}"
     try:
-        answer = json.loads(result.stdout)
+        answer = strictjson.loads(result.stdout)
         observed = {key: answer[key] for key in ("decision", "reason")}
     except (ValueError, KeyError, TypeError):
         return True, f"verifier returned no decision (exit {result.returncode})"
@@ -241,7 +248,7 @@ def run(root: str, verifier: list[str] | None, report_path: str, rail_note: str)
     directory = Path(root)
     answered, errors = check(verifier, directory)
     try:
-        manifest = json.loads((directory / "MANIFEST.json").read_text(encoding="utf-8"))
+        manifest = strictjson.loads((directory / "MANIFEST.json").read_text(encoding="utf-8"))
         total = len(manifest["vectors"])
     except (OSError, ValueError, KeyError, TypeError):
         manifest, total = {}, 0
@@ -280,7 +287,7 @@ def main(argv: list[str] | None = None) -> int:
     answered, errors = check(args.verifier)
     for error in errors:
         print(error)
-    total = len(json.loads((ROOT / "MANIFEST.json").read_text(encoding="utf-8"))["vectors"])
+    total = len(strictjson.loads((ROOT / "MANIFEST.json").read_text(encoding="utf-8"))["vectors"])
     print(f"answered {answered} of {total} cases")
     return 1 if errors or answered != total else 0
 

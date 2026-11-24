@@ -62,12 +62,12 @@ jobs:
           REF: ${{ github.ref }}
           FULL_CRON: '13 4 * * *'
           FILTERS: '{"a2a_s3_retain": {"crons": [], "ignore": [], "paths": ["interop/a2a-s3-retain-2026-10-01/**", ".github/workflows/a2a-s3-retain.yml"], "pr": true, "push": true, "range": false}, "a2a_s4_dual_name": {"crons": [], "ignore": [], "paths": ["interop/a2a-s4-dual-name-2026-10-02/**", "interop/a2a-s3-retain-2026-10-01/**", ".github/workflows/a2a-s4-dual-name.yml"], "pr": true, "push": true, "range": false}, "aae_verdict_binding": {"crons": [], "ignore": [], "paths": ["interop/aae-verdict-binding-v1/**", "corpora/vectors-observed-effect/check_vectors.py", "corpora/vectors-observed-effect/gen_vectors.py", ".github/workflows/aae-verdict-binding.yml", "uv.lock"], "pr": true, "push": true, "range": false}, "acs_outage": {"crons": [], "ignore": [], "paths": ["packaging/agent_evidence_vectors/acs_outage/**", "scripts/acs-outage-build.py", "scripts/acs-outage-test.py", ".github/workflows/acs-outage.yml"], "pr": true, "push": true, "range": false}, "action_tuple_framed": {"crons": [],
-            "ignore": [], "paths": ["interop/action-tuple-framed-v1/**", ".github/workflows/action-tuple-framed.yml"], "pr": true, "push": true, "range": false}, "agentavow_signed_map": {"crons": [], "ignore": [], "paths": ["interop/agentavow-signed-map-v1/**", "interop/agentavow-live-mcp/**", "packaging/run_vectors.py", ".github/workflows/agentavow-signed-map.yml"], "pr": true, "push": true, "range": false}, "agentid_action_ref_v2": {"crons": [], "ignore": [], "paths": ["interop/agentid-action-ref-v2/**", ".github/workflows/agentid-action-ref-v2.yml", "uv.lock"], "pr": true, "push": true, "range": false}, "agentid_offline": {"crons": [], "ignore": [], "paths": ["interop/agentid-offline/**", ".github/workflows/agentid-offline.yml", "uv.lock"], "pr": true, "push": true, "range": false}, "agmi_anchored_chain": {"crons": ["23 7 * * 3"], "ignore": [], "paths": ["corpora/vectors-anchored-chain/**", "packaging/**", "pyproject.toml", "interop/agmi-anchored-chain/**", ".github/workflows/agmi-anchored-chain.yml"],
+            "ignore": [], "paths": ["interop/action-tuple-framed-v1/**", ".github/workflows/action-tuple-framed.yml"], "pr": true, "push": true, "range": false}, "adjudication_d1": {"crons": [], "ignore": [], "paths": ["interop/adjudication-disagreement-d1/**"], "pr": true, "push": true, "range": false}, "agentavow_signed_map": {"crons": [], "ignore": [], "paths": ["interop/agentavow-signed-map-v1/**", "interop/agentavow-live-mcp/**", "packaging/run_vectors.py", ".github/workflows/agentavow-signed-map.yml"], "pr": true, "push": true, "range": false}, "agentid_action_ref_v2": {"crons": [], "ignore": [], "paths": ["interop/agentid-action-ref-v2/**", ".github/workflows/agentid-action-ref-v2.yml", "uv.lock"], "pr": true, "push": true, "range": false}, "agentid_offline": {"crons": [], "ignore": [], "paths": ["interop/agentid-offline/**", ".github/workflows/agentid-offline.yml", "uv.lock"], "pr": true, "push": true, "range": false}, "agmi_anchored_chain": {"crons": ["23 7 * * 3"], "ignore": [], "paths": ["corpora/vectors-anchored-chain/**", "packaging/**", "pyproject.toml", "interop/agmi-anchored-chain/**", ".github/workflows/agmi-anchored-chain.yml"],
             "pr": true, "push": true, "range": false}, "airgap_bundle": {"crons": [], "ignore": [], "paths": ["release/airgap/**", "docs/guides/airgap-enclave.md", "scripts/airgap-bundle.py", "scripts/airgap-bundle-test.py", ".github/workflows/airgap-bundle.yml"], "pr": true, "push": true, "range": false}, "aps_jcs": {"crons": [], "ignore": [], "paths": ["interop/aps-jcs/**", ".github/workflows/aps-jcs.yml"], "pr": true, "push": true, "range": false}, "building_effect": {"crons": [], "ignore": [], "paths": ["packaging/agent_evidence_vectors/building_effect/**", "scripts/building-effect-build.py", "scripts/building-effect-test.py", ".github/workflows/building-effect.yml"], "pr": true, "push": true, "range": false}, "ccs_draft10_reader": {"crons": [], "ignore": [], "paths": ["interop/ccs-draft10-reader/**", ".github/workflows/ccs-draft10-reader.yml"], "pr": true, "push": true, "range": false}, "ci": {"crons": [], "ignore": [], "paths": [], "pr": true, "push": true, "range": false}, "claim_record":
             {"crons": [], "ignore": [], "paths": ["packaging/agent_evidence_vectors/claim_record/**", "packaging/run_vectors.py", "spec/predicates/evaluation-claim.md", "scripts/claim-record-build.py", "scripts/claim-record-test.py", ".github/workflows/claim-record.yml"], "pr": true, "push": true, "range": false}, "codeql": {"crons": ["41 6 * * 3"], "ignore": ["**/*.md", "LICENSE", "DCO"], "paths": [], "pr": true, "push": true, "range": false}, "commit_message_lint": {"crons": [], "ignore": [], "paths": [], "pr": true, "push": true, "range": true}, "crosswalk": {"crons": ["40 5 * * 1"], "ignore": [], "paths": [], "pr": true, "push": true, "range": false}, "e2_reproduction": {"crons": [], "ignore": [], "paths": ["interop/aps-priorseal-e2-2026-09-30/**", ".github/workflows/e2-reproduction.yml"], "pr": true, "push": true, "range": false}, "eval_result": {"crons": [], "ignore": [], "paths": ["packaging/agent_evidence_vectors/eval_result/**", "packaging/run_vectors.py", "scripts/eval-result-build.py",
-            "scripts/eval-result-test.py", ".github/workflows/eval-result.yml"], "pr": true, "push": true, "range": false}, "event_absence_c1": {"crons": [], "ignore": [], "paths": ["interop/event-absence-c1-sergeev/**", ".github/workflows/event-absence-c1.yml"], "pr": true, "push": true, "range": false}, "field_readiness": {"crons": ["30 6 * * *"], "ignore": [], "paths": ["scripts/field-readiness.py", "scripts/field-readiness-test.py", "release/field-readiness.toml", ".github/workflows/field-readiness.yml"], "pr": true, "push": false, "range": false}, "gemara_method_link": {"crons": [], "ignore": [], "paths": ["interop/gemara-method-link/**", ".github/workflows/gemara-method-link.yml", "pyproject.toml", "uv.lock"], "pr": true, "push": true, "range": false}, "governance": {"crons": [], "ignore": [], "paths": [], "pr": true, "push": true, "range": false}, "govops_capability_id": {"crons": [], "ignore": [], "paths": ["interop/govops-capability-id/**", ".github/workflows/govops-capability-id.yml"],
+            "scripts/eval-result-test.py", ".github/workflows/eval-result.yml"], "pr": true, "push": true, "range": false}, "event_absence_c1": {"crons": [], "ignore": [], "paths": ["interop/event-absence-c1-sergeev/**", ".github/workflows/event-absence-c1.yml"], "pr": true, "push": true, "range": false}, "event_absence_c1_checker": {"crons": [], "ignore": [], "paths": ["interop/event-absence-c1-sergeev/**", ".github/workflows/ci.yml"], "pr": true, "push": true, "range": false}, "field_readiness": {"crons": ["30 6 * * *"], "ignore": [], "paths": ["scripts/field-readiness.py", "scripts/field-readiness-test.py", "release/field-readiness.toml", ".github/workflows/field-readiness.yml"], "pr": true, "push": false, "range": false}, "gemara_method_link": {"crons": [], "ignore": [], "paths": ["interop/gemara-method-link/**", ".github/workflows/gemara-method-link.yml", "pyproject.toml", "uv.lock"], "pr": true, "push": true, "range": false}, "governance": {"crons": [], "ignore": [], "paths": [], "pr": true, "push": true, "range": false}, "govops_capability_id": {"crons": [], "ignore": [], "paths": ["interop/govops-capability-id/**", ".github/workflows/govops-capability-id.yml"],
             "pr": true, "push": true, "range": false}, "govops_trace_profile": {"crons": [], "ignore": [], "paths": ["interop/govops-trace-profile/**", "pyproject.toml", "uv.lock", ".github/workflows/govops-trace-profile.yml"], "pr": true, "push": true, "range": false}, "heldout_runner": {"crons": [], "ignore": [], "paths": [], "pr": true, "push": true, "range": false}, "identity_scan": {"crons": [], "ignore": [], "paths": [], "pr": true, "push": true, "range": true}, "invocation_axes": {"crons": [], "ignore": [], "paths": ["packaging/agent_evidence_vectors/invocation_axes/**", "scripts/invocation-axes-build.py", "scripts/invocation-axes-test.py", ".github/workflows/invocation-axes.yml"], "pr": true, "push": true, "range": false}, "jcs_admit_npm": {"crons": [], "ignore": [], "paths": ["crates/jcs-admit/**", ".github/workflows/crate-jcs-admit-npm.yml", ".github/workflows/jcs-admit-npm.yml", ".github/workflows/release.yml", "release.toml", "scripts/workspace.py"], "pr": true, "push": true,
-            "range": false}, "jcsvectors": {"crons": [], "ignore": [], "paths": ["jcsvectors/**", "corpora/vectors-a2a-jcs-v01/**", "corpora/jcs-byte-vectors/**", "scripts/gen-jcsvectors-data.py", ".github/workflows/jcsvectors.yml"], "pr": true, "push": true, "range": false}, "jep_core07_reader": {"crons": [], "ignore": [], "paths": ["interop/jep-core07-reader/**", ".github/workflows/jep-core07-reader.yml"], "pr": true, "push": true, "range": false}, "mcp_sdk_jcs": {"crons": [], "ignore": [], "paths": ["interop/mcp-sdks/**", ".github/workflows/mcp-sdk-jcs.yml"], "pr": true, "push": true, "range": false}, "nist_ai_300_1": {"crons": [], "ignore": [], "paths": ["interop/nist-ai-300-1/**", "pyproject.toml", "uv.lock", ".github/workflows/nist-ai-300-1.yml"], "pr": true, "push": true, "range": false}, "no_internal_drafts": {"crons": [], "ignore": [], "paths": [], "pr": true, "push": true, "range": false}, "observed_code_digest": {"crons": [], "ignore": [], "paths": [], "pr": true, "push": true,
+            "range": false}, "jcsvectors": {"crons": [], "ignore": [], "paths": ["jcsvectors/**", "crates/jcsvectors/**", "corpora/vectors-a2a-jcs-v01/**", "corpora/jcs-byte-vectors/**", "scripts/gen-jcsvectors-data.py", ".github/workflows/jcsvectors.yml"], "pr": true, "push": true, "range": false}, "jep_core07_reader": {"crons": [], "ignore": [], "paths": ["interop/jep-core07-reader/**", ".github/workflows/jep-core07-reader.yml"], "pr": true, "push": true, "range": false}, "mcp_sdk_jcs": {"crons": [], "ignore": [], "paths": ["interop/mcp-sdks/**", ".github/workflows/mcp-sdk-jcs.yml"], "pr": true, "push": true, "range": false}, "nist_ai_300_1": {"crons": [], "ignore": [], "paths": ["interop/nist-ai-300-1/**", "pyproject.toml", "uv.lock", ".github/workflows/nist-ai-300-1.yml"], "pr": true, "push": true, "range": false}, "no_internal_drafts": {"crons": [], "ignore": [], "paths": [], "pr": true, "push": true, "range": false}, "observed_code_digest": {"crons": [], "ignore": [], "paths": [], "pr": true, "push": true,
             "range": false}, "observed_invocation_binding": {"crons": [], "ignore": [], "paths": ["interop/observed-invocation-binding-candidate/**", "corpora/vectors-observed-effect/**", "observedeffect/**", "packaging/**", "spec/**", "go.mod", "go.work", "go.work.sum", "pyproject.toml", "uv.lock", ".github/workflows/observed-invocation-binding.yml"], "pr": true, "push": true, "range": false}, "occurrence_binding": {"crons": [], "ignore": [], "paths": ["packaging/agent_evidence_vectors/occurrence_binding/**", "scripts/occurrence-binding-build.py", "scripts/occurrence-binding-test.py", ".github/workflows/occurrence-binding.yml"], "pr": true, "push": true, "range": false}, "operand_provenance": {"crons": [], "ignore": [], "paths": ["packaging/agent_evidence_vectors/operand_provenance/**", "scripts/operand-provenance-build.py", "scripts/operand-provenance-test.py", ".github/workflows/operand-provenance.yml"], "pr": true, "push": true, "range": false}, "ot_federation": {"crons": [], "ignore":
             [], "paths": ["packaging/agent_evidence_vectors/ot_federation/**", "scripts/ot-federation-build.py", "scripts/ot-federation-test.py", ".github/workflows/ot-federation.yml"], "pr": true, "push": true, "range": false}, "parts": {"crons": [], "ignore": [], "paths": [], "pr": true, "push": true, "range": true}, "poc_evidence": {"crons": [], "ignore": [], "paths": ["vectors-poc-evidence/**", ".github/workflows/poc-evidence.yml"], "pr": true, "push": true, "range": false}, "publish_hf_dataset": {"crons": [], "ignore": [], "paths": ["scripts/publish-hf-dataset.py", "scripts/publish-hf-dataset-test.py", "scripts/publish-hf-dataset-v0.25.0.json", "scripts/hf-publish-requirements.txt", ".github/workflows/publish-hf-dataset.yml"], "pr": true, "push": true, "range": false}, "record_paths": {"crons": [], "ignore": [], "paths": [], "pr": true, "push": true, "range": false}, "remora_boundary_readers": {"crons": [], "ignore": [], "paths": ["interop/remora-boundary-readers/**", ".github/workflows/remora-boundary-readers.yml"],
             "pr": true, "push": true, "range": false}, "remora_e7_reader": {"crons": [], "ignore": [], "paths": ["packaging/agent_evidence_vectors/remora_e7/**", "scripts/remora-e7-reader-test.py", ".github/workflows/remora-e7-reader.yml"], "pr": true, "push": true, "range": false}, "resume_turns": {"crons": [], "ignore": [], "paths": ["packaging/agent_evidence_vectors/resume_turns/**", "scripts/resume-turns-build.py", "scripts/resume-turns-test.py", ".github/workflows/resume-turns.yml"], "pr": true, "push": true, "range": false}, "secret_scan": {"crons": [], "ignore": [], "paths": [], "pr": true, "push": true, "range": false}, "trace_acta_receipts": {"crons": ["19 8 * * 1"], "ignore": [], "paths": ["corpora/vectors-receipt-signature/**", "packaging/**", "interop/trace-acta-receipts/**", "pyproject.toml", "uv.lock", ".github/workflows/trace-acta-receipts.yml"], "pr": true, "push": true, "range": false}, "trace_anchor_tr_anc": {"crons": ["41 8 * * 1"], "ignore": [], "paths": ["corpora/vectors-trace-anchor/**",
@@ -264,7 +264,7 @@ jobs:
         with:
           python-version: '3.13.15'
       - name: Install pinned control dependencies
-        run: python -m pip install pytest==8.4.2
+        run: python -m pip install pytest==9.2.0
       - name: The committed corpus is what the builder writes
         run: python scripts/acs-outage-build.py --check
       - name: Test every expected answer, refusal and rule kill
@@ -390,7 +390,7 @@ jobs:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           persist-credentials: false
-      - uses: astral-sh/setup-uv@v7
+      - uses: astral-sh/setup-uv@37802adc94f370d6bfd71619e3f0bf239e1f3b78 # v7
       - name: Set fresh report destination
         run: printf 'ACTION_REF_ATTEMPT=%s/action-ref-v2-attempt\n' "$RUNNER_TEMP" >> "$GITHUB_ENV"
       - name: Install locked development dependencies
@@ -426,7 +426,7 @@ jobs:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           persist-credentials: false
-      - uses: astral-sh/setup-uv@v7
+      - uses: astral-sh/setup-uv@37802adc94f370d6bfd71619e3f0bf239e1f3b78 # v7
       - name: Set fresh report destination
         run: printf 'AGENTID_ATTEMPT=%s/agentid-offline-attempt\n' "$RUNNER_TEMP" >> "$GITHUB_ENV"
       - name: Install locked development dependencies
@@ -486,10 +486,32 @@ jobs:
           python -m pip install -r interop/agmi-anchored-chain/requirements.txt
       - name: Replay vectors-anchored-chain through agmi
         working-directory: ${{ runner.temp }}
+        # The pinned agmi verifier predates three cases (a repeated member in a stored
+        # line, and the two UTF-16 member-order cases). It must disagree on exactly the
+        # ids in known-divergences.txt: a new disagreement fails, and so does a listed
+        # one that agmi now answers, so the list cannot go stale.
         run: |
+          status=0
           agent-evidence-vectors --corpus vectors-anchored-chain \
             --verifier "python -m agmi.anchored_chain" \
-            --report "$RUNNER_TEMP/agmi-anchored-chain-report.json"
+            --report "$RUNNER_TEMP/agmi-anchored-chain-report.json" || status=$?
+          if [ "$status" -ne 0 ] && [ "$status" -ne 1 ]; then
+            echo "harness exited $status without a verdict" >&2
+            exit "$status"
+          fi
+          python - "$RUNNER_TEMP/agmi-anchored-chain-report.json" \
+            "$GITHUB_WORKSPACE/interop/agmi-anchored-chain/known-divergences.txt" <<'PY'
+          import json, sys
+          report = json.load(open(sys.argv[1], encoding="utf-8"))
+          got = {line.split(":", 1)[0] for line in report["failures"]}
+          want = {line.strip() for line in open(sys.argv[2], encoding="utf-8")
+                  if line.strip() and not line.startswith("#")}
+          if got != want:
+              print("unexpected disagreements:", sorted(got - want))
+              print("listed but answered:", sorted(want - got))
+              sys.exit(1)
+          print("agmi disagrees on exactly the", len(want), "listed cases")
+          PY
       - name: Retain the report
         if: always()
         uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9
@@ -518,7 +540,7 @@ jobs:
         with:
           python-version: '3.13.15'
       - name: Install pinned test dependency
-        run: python -m pip install pytest==8.4.2
+        run: python -m pip install pytest==9.2.0
       - name: Build, verify and install a bundle with every network route dead
         run: python -m pytest -q scripts/airgap-bundle-test.py
       - name: Build a bundle of the pinned release and install it offline
@@ -564,7 +586,7 @@ jobs:
       - name: Check out the corpus and native admission source
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
         with:
-          repository: probityai/jcs-admit
+          repository: probityai-archive/jcs-admit
           ref: ecc8b5ef4b380a2fe38e5079d128307a1c702717
           path: source/jcs-admit
           persist-credentials: false
@@ -637,7 +659,7 @@ jobs:
         with:
           python-version: '3.13.15'
       - name: Install pinned control dependencies
-        run: python -m pip install pytest==8.4.2
+        run: python -m pip install pytest==9.2.0
       - name: The committed corpus is what the builder writes
         run: python scripts/building-effect-build.py --check
       - name: Test every expected answer, refusal and rule kill
@@ -717,7 +739,7 @@ jobs:
     env:
       UV_LINK_MODE: copy
     steps:
-      - uses: actions/checkout@v7.0.1
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
       - uses: astral-sh/setup-uv@37802adc94f370d6bfd71619e3f0bf239e1f3b78 # v7
         with:
           python-version: '3.13'
@@ -741,6 +763,7 @@ jobs:
         run: |
           .venv/bin/python -B scripts/release-digests-test.py
           .venv/bin/python -B scripts/release-gate-test.py
+          .venv/bin/python -B scripts/changed-cases-test.py
       # The install release.yml's publish job runs, on every pull request, so a
       # lock pip refuses in --require-hashes mode (an unpinned transitive
       # requirement, a missing hash) fails here and never at a release.
@@ -765,11 +788,11 @@ jobs:
     # specification passed every pull request and failed at publication.
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v7.0.1
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
       - uses: astral-sh/setup-uv@37802adc94f370d6bfd71619e3f0bf239e1f3b78 # v7
         with:
           python-version: '3.13'
-      - uses: actions/setup-go@b7ad1dad31e06c5925ef5d2fc7ad053ef454303e # v7.0.0
+      - uses: actions/setup-go@d8cbb8045d7f43706b9177cceb36c1f91a6644d5 # v7.1.0
         with:
           go-version: '1.26'
       - name: build the wheel and the directory reader
@@ -798,8 +821,8 @@ jobs:
   ci__go:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v7.0.1
-      - uses: actions/setup-go@b7ad1dad31e06c5925ef5d2fc7ad053ef454303e # v7.0.0
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/setup-go@d8cbb8045d7f43706b9177cceb36c1f91a6644d5 # v7.1.0
         with:
           go-version: '1.26'
       - name: gofmt (no diffs)
@@ -820,7 +843,7 @@ jobs:
         run: |
           go test ./aee/... ./cmd/... ./corpusreaders/... ./observedeffect/... -race -count=1 -timeout 30m
           (cd witnessattestor && go test ./... -race -count=1 -timeout 30m)
-      - uses: actions/setup-node@v7
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
         with:
           node-version: '22'
       - name: check canonical JSON transcript bytes
@@ -829,6 +852,8 @@ jobs:
         run: |
           python3 scripts/gen-jcs-drift-vectors.py --check
           python3 scripts/jcs-drift-vectors-test.py
+          python3 scripts/gen-dsse-pae-vectors.py --check
+          python3 scripts/dsse-pae-vectors-test.py
       # These readers use the package's supported Python runtime. The
       # obligation proof also loads the reject generator to re-sign a record,
       # so this job needs its declared dependencies. The separate Python
@@ -1034,12 +1059,12 @@ jobs:
             --gocyclo "$(go env GOPATH)/bin/gocyclo"
       - name: golangci-lint (core module)
         # curl-retry: exempt the action downloads its own binary; the workflow-steps-gate mirrors this step and it moves onto fetch-tool in a follow-up row
-        uses: golangci/golangci-lint-action@v9
+        uses: golangci/golangci-lint-action@ba0d7d2ec06a0ea1cb5fa41b2e4a3ab91d21278a # v9.3.0
         with:
           version: v2.11.4
       - name: golangci-lint (attestor module)
         # curl-retry: exempt the action downloads its own binary; the workflow-steps-gate mirrors this step and it moves onto fetch-tool in a follow-up row
-        uses: golangci/golangci-lint-action@v9
+        uses: golangci/golangci-lint-action@ba0d7d2ec06a0ea1cb5fa41b2e4a3ab91d21278a # v9.3.0
         with:
           version: v2.11.4
           working-directory: witnessattestor
@@ -1060,7 +1085,7 @@ jobs:
       # every branch and tag. A shallow checkout carries the pushed commit, no
       # origin/main and no tags, and that gate then reports that it did not run
       # rather than guessing, so the whole job would stop here.
-      - uses: actions/checkout@v7.0.1
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           fetch-depth: 0
       # The package floor is 3.11 (the held-out runner workflow proves it), so
@@ -1074,11 +1099,11 @@ jobs:
       - name: Install checkout wheel for distribution imports
         run: uv pip install --no-deps .
       - name: mypy --strict
-        run: uv run mypy packaging/run_vectors.py packaging/agent_evidence_vectors/w3creport.py packaging/agent_evidence_vectors/producer.py scripts/action-producer-test.py packaging/agent_evidence_vectors/observedeffect.py packaging/agent_evidence_vectors/auditrecord.py packaging/agent_evidence_vectors/runmetrics.py packaging/agent_evidence_vectors/contextdiscovery.py corpora/vectors-w3c-report/gen_vectors.py corpora/vectors-w3c-report/origin/derive_pairs.py scripts/w3c-rails-parity-test.py scripts/w3c-reader-differential.py scripts/w3c-report-rules-test.py scripts/json-encoding-differential-test.py packaging/agent_evidence_vectors/receiptsignature.py packaging/agent_evidence_vectors/a2ajcs.py scripts/a2a-jcs-rails-test.py packaging/agent_evidence_vectors/changeadmission.py packaging/agent_evidence_vectors/agenticprocess.py scripts/receipt-signature-rails-test.py packaging/agent_evidence_vectors/delegationlifecycle.py scripts/delegation-lifecycle-rails-test.py corpora/vectors-delegation-lifecycle/mutate.py corpora/vectors-receipt-signature/digest.py 
+        run: uv run mypy packaging/run_vectors.py packaging/agent_evidence_vectors/verdictlines.py packaging/agent_evidence_vectors/w3creport.py packaging/agent_evidence_vectors/producer.py scripts/action-producer-test.py scripts/action_checks.py scripts/action-conformance.py scripts/action-controls.py scripts/action-control-verifier.py packaging/agent_evidence_vectors/observedeffect.py packaging/agent_evidence_vectors/auditrecord.py packaging/agent_evidence_vectors/runmetrics.py packaging/agent_evidence_vectors/contextdiscovery.py corpora/vectors-w3c-report/gen_vectors.py corpora/vectors-w3c-report/origin/derive_pairs.py scripts/w3c-rails-parity-test.py scripts/w3c-reader-differential.py scripts/w3c-report-rules-test.py scripts/json-encoding-differential-test.py packaging/agent_evidence_vectors/receiptsignature.py packaging/agent_evidence_vectors/a2ajcs.py scripts/a2a-jcs-rails-test.py packaging/agent_evidence_vectors/changeadmission.py packaging/agent_evidence_vectors/agenticprocess.py scripts/receipt-signature-rails-test.py packaging/agent_evidence_vectors/delegationlifecycle.py scripts/delegation-lifecycle-rails-test.py corpora/vectors-delegation-lifecycle/mutate.py corpora/vectors-receipt-signature/digest.py 
           corpora/vectors-receipt-signature/tools/veritasacta-verify.py scripts/gen-w3c-appendix.py vectors/reject/gen_invalid_vectors.py vectors/accept/gen_valid_vectors.py vectors/gen_manifest.py scripts/spec-drift-gate.py scripts/interpretation-registry-gate.py scripts/interpretation-registry-gate-test.py scripts/coverage-matrix-gate.py scripts/complexity-table-gate.py scripts/specpins.py scripts/spec-anchor-gate.py scripts/spec-anchor-gate-test.py scripts/code-contract-gate.py scripts/code-contract-gate-test.py scripts/receipt-verdict-codes-gate.py scripts/receipt-verdict-codes-gate-test.py scripts/offline-verify-page-test.py docs/guides/offline-verify/make_case.py docs/guides/offline-verify/summary.py scripts/consumer-lag-gate.py scripts/consumer-lag-gate-test.py scripts/independent-runs-gate.py scripts/suite-commit-gate.py scripts/suite-commit-gate-test.py scripts/condition-registry-gate.py scripts/condition-registry-gate-test.py scripts/condition-forcing-gate.py scripts/condition-forcing-gate-test.py scripts/condition-forcing-crosscheck.py scripts/condition-forcing-crosscheck-test.py 
           scripts/external-rail-gate.py scripts/predicate-state-gate.py scripts/forcing-gate.py scripts/forcing-gate-test.py scripts/countcensus.py scripts/countcensus-sparse-test.py scripts/count-gate.py scripts/count-gate-test.py scripts/distribution-gate.py scripts/distribution-gate-test.py scripts/test_doc_gate_migration.py scripts/test_site_navigation.py docs/site/build.py scripts/regenerability-gate.py scripts/mutationdiff.py scripts/accept-anchor-gate.py scripts/accept-anchor-gate-test.py scripts/liveness-probe.py scripts/liveness-probe-test.py scripts/citation-metadata-gate.py scripts/citation-metadata-gate-test.py scripts/expectation-slack-gate.py scripts/expectation-slack-gate-test.py scripts/observed-code-closure-gate.py scripts/observed-code-closure-gate-test.py scripts/uncited-crosscheck-gate.py scripts/reading-differential.py scripts/reading-differential-test.py scripts/vendor-remap-test.py scripts/vector-distinctness-gate.py scripts/vector-distinctness-gate-test.py 
-          scripts/surface-leakage-gate.py scripts/surface-leakage-gate-test.py scripts/harness-output-contract-test.py scripts/stage-column-test.py scripts/starhint-test.py packaging/agent_evidence_vectors/starhint.py scripts/verifier-must-run-test.py scripts/report-provenance-test.py scripts/action-retention-test.py scripts/action-build-pin-test.py scripts/verify-release-tag.py scripts/verify-release-tag-test.py scripts/workflow-steps-gate.py scripts/workflow-steps-gate-test.py scripts/readme-lint.py scripts/readme-lint-test.py scripts/action-download-budget.py scripts/action-download-budget-test.py scripts/runner-labels-gate.py scripts/runner-labels-gate-test.py scripts/_go_selector.py scripts/go-selector-test.py scripts/_lockfile.py scripts/_lockfile-test.py scripts/manifest-revision-test.py scripts/statement-layer-test.py scripts/independent-runs-gate-test.py scripts/indeterminate-readers-test.py scripts/write-chain-replay-test.py scripts/audit-record-dating-rows-test.py 
-          scripts/indeterminate-scoring-gate.py scripts/indeterminate-scoring-gate-test.py interop/action-tuple-framed-v1/reader.py packaging/agent_evidence_vectors/heldout.py scripts/heldout-runner-test.py scripts/predicate-uri-gate.py scripts/predicate-uri-gate-test.py scripts/oracle-verifier.py scripts/oracle-every-corpus-test.py packaging/agent_evidence_vectors/admission.py scripts/admission-rails-test.py packaging/agent_evidence_vectors/w3cintake.py scripts/w3c-intake-parity-test.py scripts/gen-intake-records.py scripts/badge-grants-gate.py scripts/badge-grants-gate-test.py packaging/agent_evidence_vectors/selfreportedrecord.py scripts/self-reported-record-rails-test.py packaging/agent_evidence_vectors/approvalbinding.py scripts/approval-binding-rails-test.py scripts/conformance_receipt.py
+          scripts/surface-leakage-gate.py scripts/surface-leakage-gate-test.py scripts/harness-output-contract-test.py scripts/stage-column-test.py scripts/starhint-test.py packaging/agent_evidence_vectors/starhint.py scripts/verifier-must-run-test.py scripts/report-provenance-test.py scripts/report-default-test.py scripts/action-retention-test.py scripts/action-build-pin-test.py scripts/verify-release-tag.py scripts/verify-release-tag-test.py scripts/workflow-steps-gate.py scripts/workflow-steps-gate-test.py scripts/readme-lint.py scripts/readme-lint-test.py scripts/action-download-budget.py scripts/action-download-budget-test.py scripts/runner-labels-gate.py scripts/runner-labels-gate-test.py scripts/_go_selector.py scripts/go-selector-test.py scripts/_lockfile.py scripts/_lockfile-test.py scripts/manifest-revision-test.py scripts/statement-layer-test.py scripts/independent-runs-gate-test.py scripts/indeterminate-readers-test.py scripts/write-chain-replay-test.py scripts/audit-record-dating-rows-test.py 
+          scripts/indeterminate-scoring-gate.py scripts/indeterminate-scoring-gate-test.py interop/action-tuple-framed-v1/reader.py packaging/agent_evidence_vectors/heldout.py scripts/heldout-runner-test.py scripts/identifier-pages-gate.py scripts/identifier-pages-gate-test.py scripts/oracle-verifier.py scripts/oracle-every-corpus-test.py scripts/pre-queue.py scripts/pre-queue-test.py packaging/agent_evidence_vectors/admission.py scripts/admission-rails-test.py packaging/agent_evidence_vectors/w3cintake.py scripts/w3c-intake-parity-test.py scripts/gen-intake-records.py scripts/badge-grants-gate.py scripts/badge-grants-gate-test.py packaging/agent_evidence_vectors/selfreportedrecord.py scripts/self-reported-record-rails-test.py packaging/agent_evidence_vectors/approvalbinding.py scripts/approval-binding-rails-test.py scripts/conformance_receipt.py
       # Type-checks by DIRECTORY, which is why it sits beside the pass above
       # rather than replacing it. That one is driven from the list of files
       # written out on the line above, and a list is only accurate on the day it
@@ -1587,6 +1612,10 @@ jobs:
           python3 scripts/count-gate.py
           python3 scripts/count-gate-test.py
           python3 scripts/countcensus-sparse-test.py
+      # The pre_queue job runs these checks on a plain pull request. This holds that
+      # each one still names a step this file declares, and that ci-ok waits for it.
+      - name: the pre-queue checks name real steps and block the enqueue
+        run: uv run python scripts/pre-queue-test.py
       - name: every corpus manifest carries counts that match its entries
         run: |
           python3 scripts/manifest-counts-gate.py
@@ -1691,6 +1720,30 @@ jobs:
         run: uv run python scripts/regenerability-gate.py
       - name: the regenerability gate counts only tracked files as committed
         run: uv run python scripts/regenerability-gate-test.py
+      # One implementation agreeing with itself is what the step above proves. A second
+      # generator, run alone with no route to this repository, re-mints each corpus it
+      # covers from the published case table; the census line counts the rest.
+      - name: a second generator sharing no code re-mints its corpus byte for byte
+        run: |
+          set -euo pipefail
+          uv run --extra dev pytest -q scripts/independent-producibility-test.py
+          python3 scripts/independent-producibility.py --list-missing
+      # The mutation checks below switch one rule off at a time. The lattice keeps every
+      # set of rules (every subset up to twelve, seeded chains above) and fails when keeping
+      # more rules un-refuses a case or when a subset refuses what the full reader admits.
+      - name: the gate corpora's rules only add, and no subset refuses an accepted case
+        run: |
+          set -euo pipefail
+          uv run --extra dev pytest -q scripts/ablation-lattice-test.py
+          uv run python scripts/ablation-lattice.py --json "$RUNNER_TEMP/ablation-lattice.json"
+      # A reason, rule or condition a corpus expects and no published text defines is a
+      # rule a second implementer can only copy from our reader. Owed definitions sit in
+      # spec/predicates/TRACE-PENDING.toml, which only shrinks.
+      - name: every reason, rule and condition a corpus expects is named in its specification
+        run: |
+          set -euo pipefail
+          uv run --extra dev pytest -q scripts/rule-trace-lint-test.py
+          python3 scripts/rule-trace-lint.py
       # The v0.1 report reader's rules that no corpus member can pin: a tree
       # shape outside the closed set is refused rather than hashed as another
       # shape, and each registered shape is hashed by the construction its name
@@ -1790,10 +1843,24 @@ jobs:
         run: uv run --extra dev pytest corpora/vectors-open-weight-art53/tests -q
       - name: anchored-chain cases regenerate and force every check
         run: uv run --extra dev pytest corpora/vectors-anchored-chain/tests -q
+      - name: principal-binding cases regenerate and force every check
+        run: uv run --extra dev pytest corpora/vectors-principal-binding/tests -q
+      - name: print-witness cases regenerate and force every check
+        run: uv run --extra dev pytest corpora/vectors-print-witness/tests -q
+      - name: empty-interval-statement cases regenerate, force every check and refuse a reader that trusts the statement
+        run: uv run --extra dev pytest corpora/vectors-empty-interval-statement/tests -q
+      - name: key-revocation-list cases regenerate, force every rule and refuse a reader that trusts the list
+        run: uv run --extra dev pytest corpora/vectors-key-revocation-list/tests -q
       - name: receipt-chain-end cases regenerate and force every check
         run: uv run --extra dev pytest corpora/vectors-receipt-chain-end/tests -q
       - name: identity-binding cases regenerate and force every check
         run: uv run --extra dev pytest corpora/vectors-identity-binding/tests -q
+      - name: key-directory observation cases regenerate and keep cache apart from evidence
+        run: uv run --extra dev pytest corpora/vectors-key-directory-observation/tests -q
+      - name: status-receipt-binding cases regenerate and refuse a receipt matched by identifier
+        run: uv run --extra dev pytest corpora/vectors-status-receipt-binding/tests -q
+      - name: revocation-list cases regenerate from the shared vectors and the minted refusals
+        run: uv run --extra dev pytest corpora/vectors-revocation-list/tests -q
       - name: authority-at-dispatch cases regenerate and force every check
         run: uv run --extra dev pytest corpora/vectors-authority-at-dispatch/tests -q
       - name: approval-binding cases regenerate and force every check
@@ -1804,6 +1871,8 @@ jobs:
         run: uv run --extra dev pytest corpora/vectors-refund-connected/tests -q
       - name: aggregate-accounting cases regenerate and force every check
         run: uv run --extra dev pytest corpora/vectors-aggregate-accounting/tests -q
+      - name: budget-lineage cases regenerate, force every check and refuse a checker that reads one flow's budget
+        run: uv run --extra dev pytest corpora/vectors-budget-lineage/tests -q
       - name: uncertain-effect cases regenerate, force every check and fail a blind retry
         run: uv run --extra dev pytest corpora/vectors-uncertain-effect/tests -q
       - name: monitor-coverage cases regenerate, force every check and refuse an inert defence
@@ -1822,16 +1891,54 @@ jobs:
         run: uv run --extra dev pytest corpora/vectors-decision-client-failure-modes/tests -q
       - name: refusal-reason-priority cases regenerate, force every check and refuse a checker that scores any applicable value
         run: uv run --extra dev pytest corpora/vectors-refusal-reason-priority/tests -q
+      - name: responsibility-escalation cases regenerate, force every check and refuse a receiver that infers missing evidence
+        run: uv run --extra dev pytest corpora/vectors-responsibility-escalation/tests -q
+      - name: htx-cases cases regenerate, force every check and differ from their control by one field
+        run: uv run --extra dev pytest corpora/vectors-htx-cases/tests -q
+      - name: telemetry-evidence cases regenerate, agree with the reader, and refuse a reader without pins, coverage or order
+        run: uv run --extra dev pytest corpora/vectors-telemetry-evidence/tests -q
+      - name: lifecycle-binding cases regenerate, agree with the reader, and refuse a first-pair or ungrouped reading
+        run: uv run --extra dev pytest corpora/vectors-lifecycle-binding/tests -q
+      - name: rsa-digestinfo cases regenerate and refuse every block that only ends in the digest
+        run: uv run --extra dev pytest corpora/vectors-rsa-digestinfo/tests -q
+      - name: execution-billing-finality cases regenerate from ledger runs, force every check and reproduce the mutation table
+        run: uv run --extra dev pytest corpora/vectors-execution-billing-finality/tests -q
+      - name: capability-requirement cases regenerate, force every check and refuse one verdict for a hosted endpoint
+        run: uv run --extra dev pytest corpora/vectors-capability-requirement/tests -q
+      - name: agent-request-proof cases regenerate, force every check and refuse a proof-signature-only verifier
+        run: uv run --extra dev pytest corpora/vectors-agent-request-proof/tests -q
+      - name: physical-completion cases regenerate, force every check and refuse a receipt read as a physical effect
+        run: uv run --extra dev pytest corpora/vectors-physical-completion/tests -q
+      - name: principal-action cases regenerate, force every check and flip when a check is removed
+        run: uv run --extra dev pytest corpora/vectors-principal-action/tests -q
+      - name: actor-marker-survival cases regenerate, force every check and replay the reference hop
+        run: uv run --extra dev --extra generators pytest corpora/vectors-actor-marker-survival/tests -q
+      - name: cbor-receipt-chain cases regenerate, force every check and refuse a verifier that checks signatures only
+        run: uv run --extra dev pytest corpora/vectors-cbor-receipt-chain/tests -q
       - name: agent-card-receipt cases regenerate and force every check
         run: uv run --extra dev pytest corpora/vectors-agent-card-receipt/tests -q
+      - name: credential-reachability cases regenerate, force every check and refuse a result signed by a key the agent holds
+        run: uv run --extra dev pytest corpora/vectors-credential-reachability/tests -q
       - name: credential-release cases regenerate and force every check
         run: uv run --extra dev pytest corpora/vectors-credential-release/tests -q
       - name: converted-argument-binding cases regenerate and force every check
         run: uv run --extra dev pytest corpora/vectors-converted-argument-binding/tests -q
+      - name: dns-aid sig cases regenerate, two independent generators agree and each lenient reading is caught
+        run: uv run --extra dev pytest corpora/vectors-dns-aid-sig-v01/tests -q
+      - name: dns-aid rrset cases regenerate and both drafts' example RRsets pass the oracle
+        run: uv run --extra dev pytest corpora/vectors-dns-aid-rrset-v01/tests -q
       - name: delegator-right cases regenerate and force every check
         run: uv run --extra dev pytest corpora/vectors-delegator-right/tests -q
+      - name: oasf-record cases regenerate and force every check
+        run: uv run --extra dev pytest corpora/vectors-oasf-record/tests -q
+      - name: delegation-chain cases regenerate and force every check
+        run: uv run --extra dev pytest corpora/vectors-delegation-chain/tests -q
+      - name: the delegation-chain corpus is judged by its own checker
+        run: uv run --extra generators python corpora/vectors-delegation-chain/check_vectors.py
       - name: badge-vc-verify cases regenerate and force every check
         run: uv run --extra dev pytest corpora/vectors-badge-vc-verify/tests -q
+      - name: catalog-trust-manifest cases regenerate, re-mint from a second generator and force every check
+        run: uv run --extra dev --extra generators pytest corpora/vectors-catalog-trust-manifest/tests -q
       - name: completion-confirmation cases regenerate and force every check
         run: uv run --extra dev pytest corpora/vectors-completion-confirmation/tests -q
       - name: chunked-export cases regenerate and force every check
@@ -1877,6 +1984,12 @@ jobs:
           uv run --extra dev pytest corpora/vectors-agent-payment-mandate/tests -q
           uv run python corpora/vectors-agent-payment-mandate/check_vectors.py
           uv run python corpora/vectors-agent-payment-mandate/mutation_check.py
+      - name: vectors-x402-evidence-join cases regenerate, agree and every rule is load-bearing
+        run: |
+          set -euo pipefail
+          uv run --extra dev pytest corpora/vectors-x402-evidence-join/tests -q
+          uv run python corpora/vectors-x402-evidence-join/check_vectors.py
+          uv run python corpora/vectors-x402-evidence-join/mutation_check.py
       - name: vectors-connector-scope cases regenerate, agree and every rule is load-bearing
         run: |
           set -euo pipefail
@@ -1889,6 +2002,12 @@ jobs:
           uv run --extra dev pytest corpora/vectors-grade-floor/tests -q
           uv run python corpora/vectors-grade-floor/check_vectors.py
           uv run python corpora/vectors-grade-floor/mutation_check.py
+      - name: assertion-grade cases regenerate, agree and every rule is load-bearing
+        run: |
+          set -euo pipefail
+          uv run --extra dev pytest corpora/vectors-assertion-grade/tests -q
+          uv run python corpora/vectors-assertion-grade/check_vectors.py
+          uv run python corpora/vectors-assertion-grade/mutation_check.py
       - name: change-admission cases regenerate, agree and every rule is load-bearing
         run: |
           set -euo pipefail
@@ -1948,6 +2067,18 @@ jobs:
         run: |
           uv run mypy --strict scripts/auditrecord-issuedat-test.py
           uv run python scripts/auditrecord-issuedat-test.py
+      - name: the audit record reader judges hostile inputs and never crashes on them
+        run: |
+          uv run mypy --strict scripts/auditrecord-hostile-input-test.py
+          uv run python scripts/auditrecord-hostile-input-test.py
+      - name: a named verifier runs over the agent-audit-record corpus through its contract
+        run: |
+          uv run mypy --strict scripts/auditrecord-contract-test.py
+          uv run python scripts/auditrecord-contract-test.py
+      - name: the audit record reader judges hostile inputs and never crashes on them
+        run: |
+          uv run mypy --strict scripts/auditrecord-hostile-input-test.py
+          uv run python scripts/auditrecord-hostile-input-test.py
       # The agent-decision corpus pins the args_hash rule proposed on
       # in-toto/attestation#554. Its checker judges every member, recomputes each
       # canonical argument form with a second number writer, and disables each
@@ -1964,6 +2095,25 @@ jobs:
       - name: the recorded ACS runtime reproduces every control-decision verdict
         working-directory: corpora/vectors-acs-decision-record/run
         run: uv run --locked python replay.py
+      # The AVE id resolution corpus: every member judged against its pinned AVE
+      # snapshot, regenerated byte for byte, and every rule shown load-bearing.
+      - name: the AVE id resolution corpus behaves as its manifest claims
+        run: |
+          set -euo pipefail
+          python3 corpora/vectors-ave-id-resolution/check_vectors.py
+          uv run --extra dev pytest corpora/vectors-ave-id-resolution/tests -q
+      # The decision-record action-binding corpus is judged by the independent
+      # reader published in agent-evidence-verify, pinned to one merge commit:
+      # every member must reach its recorded verdict under the reader's strict
+      # and baseline modes.
+      - name: the decision-record corpus is judged by the pinned independent reader
+        run: uv run --no-project --with "agent-evidence-verify @ git+https://github.com/probityai/probity@96b302de87a32d3d4d414e7b62d41a2ece2d668f#subdirectory=packages/agent-evidence-verify" python corpora/vectors-decision-record/check_vectors.py
+      # The OCSF decision-record corpus is judged by the independent reader published in
+      # agent-evidence-verify, pinned to release 0.7.0 (it reads a millisecond time on the
+      # key window's axis and refuses a list or object ruling member):
+      # every member must reach its recorded verdict and dimensions under baseline and strict.
+      - name: the OCSF decision-record corpus is judged by the pinned independent reader
+        run: uv run --no-project --python 3.13 --with agent-evidence-verify==0.7.0 python corpora/vectors-ocsf-decision/check_vectors.py
       # The W3C intake-criteria corpus: judged clean, regenerated byte for byte,
       # each ground's check deleted in turn from the checker's source to show the
       # corpus goes red without it, the command line's root reporting, and every
@@ -1992,6 +2142,8 @@ jobs:
         run: uv run --extra generators python scripts/write-chain-replay-test.py
       - name: each revision-01 dating rule is pinned by its own retained member
         run: uv run --extra generators python scripts/audit-record-dating-rows-test.py
+      - name: each audit-record member names the published or proposed text it tests
+        run: uv run --extra generators python scripts/audit-record-text-tier-test.py
       # The same rule over every corpus, including one added after this step was
       # written: a member whose readings allow more than one verdict pins none.
       - name: no corpus pins a verdict on an open member
@@ -2084,6 +2236,12 @@ jobs:
       # the harness and requiring itself to go red.
       - name: a report names the corpus release and digest it ran
         run: python3 scripts/report-provenance-test.py
+      # A run with no --report once replaced the committed packaging/conformance-report.json.
+      # The test runs the harness over copies of that directory and requires the
+      # committed bytes unchanged, then restores the old default in a copy of the
+      # harness and requires itself to go red.
+      - name: a harness run leaves the committed conformance report unchanged
+        run: python3 scripts/report-default-test.py
       # The report's retention period is an input with the old fixed value as
       # its default; the test restores the fixed number in a copy of the action
       # and requires itself to go red.
@@ -2105,6 +2263,12 @@ jobs:
       # making the reader pass everything in a copy and requiring itself to go red.
       - name: the action's producer mode reads emitted records and holds their pins
         run: uv run python scripts/action-producer-test.py
+      # The declared profile, case counts, null controls, conformance mode, the
+      # python -S reference path, the evaluation-claim producer class and the
+      # mutation stage. Three cases end by deleting a guard in a copy and
+      # requiring the case it protects to go red.
+      - name: the action's profile, counts, controls, conformance mode and mutation stage
+        run: uv run --group crosscheck python scripts/action-v8-test.py
       # The per-corpus N of M on the status shields (assets/status/reference/) is
       # recomputed from the reference verifier and must equal the committed files.
       - name: the reference coverage shields match the reference verifier
@@ -2149,14 +2313,21 @@ jobs:
         run: |
           uv run --locked --extra generators python corpora/vectors-self-reported-record/check_vectors.py
           uv run --locked --extra generators python corpora/vectors-self-reported-record/mutation_check.py
-      # A predicate type URI sits inside bytes a third party signs, and a 404
+      # An identifier sits inside bytes a third party signs or reads, and a 404
       # on one reads as a withdrawn type. predicate/v1/self-reported-record was
       # named in every signed member of its corpus and 404ed, because nothing
       # held the named URIs to the registry the site is built from.
-      - name: every predicate URI the tree names has a page on the site
+      # The public probity repository emits identifiers under this host too (its record
+      # packages), so its tracked files are scanned with ours.
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          repository: probityai/probity
+          path: probity-public
+          persist-credentials: false
+      - name: every identifier the tree names has a page on a site that serves it
         run: |
-          uv run python scripts/predicate-uri-gate.py
-          uv run python scripts/predicate-uri-gate-test.py
+          uv run python scripts/identifier-pages-gate.py --also probity-public
+          IDENTIFIER_GATE_ALSO=probity-public uv run python scripts/identifier-pages-gate-test.py
 
   # What the corpus FORCES, held as a tighten-only ratchet. A vector count is an
   # upper bound on forcing and never a measurement of it: a vector declaring
@@ -2181,7 +2352,7 @@ jobs:
   # run, by class and count, on every run.
   #
   # MEASURED on a 16-worker workstation, in CPU-seconds because that is the number
-  # that carries between machines: 470 of 928 sites and ~1670 CPU-seconds there, against
+  # that carries between machines: 615 of 1079 sites and ~1670 CPU-seconds there, against
   # ~3370 for the full sweep. Wall time on that box was 88-110s at 8-16 workers. Both
   # CPU-second figures were taken while the sweep was smaller, before the quantifier
   # operator was added, and are not re-measured here: restating a figure for a machine
@@ -2195,8 +2366,8 @@ jobs:
   ci__forcing:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v7.0.1
-      - uses: actions/setup-go@b7ad1dad31e06c5925ef5d2fc7ad053ef454303e # v7.0.0
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/setup-go@d8cbb8045d7f43706b9177cceb36c1f91a6644d5 # v7.1.0
         with:
           go-version: '1.26'
       - name: the corpus still forces every rule it is recorded as forcing
@@ -2256,8 +2427,8 @@ jobs:
   ci__action:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v7.0.1
-      - uses: actions/setup-go@b7ad1dad31e06c5925ef5d2fc7ad053ef454303e # v7.0.0
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/setup-go@d8cbb8045d7f43706b9177cceb36c1f91a6644d5 # v7.1.0
         with:
           go-version: '1.26'
       - name: build the shipped verifier into the workspace
@@ -2475,6 +2646,314 @@ jobs:
           echo "outcome=$OUTCOME result=$RESULT"
           test "$OUTCOME" = failure
           test "$RESULT" = fail
+      # The inputs that close what a green run could leave open, one fixture
+      # each (docs/guides/runner.md). Every run above also printed the null
+      # controls; the a2a run must show a corpus that discriminates.
+      - name: the a2a run scored both null controls and the corpus discriminates
+        env:
+          ACCEPT: ${{ steps.a2a.outputs.control-always-accept }}
+          REJECT: ${{ steps.a2a.outputs.control-always-reject }}
+          DISCRIMINATES: ${{ steps.a2a.outputs.discriminates }}
+          FOUND: ${{ steps.a2a.outputs.vectors-found }}
+        run: |
+          echo "always-accept=$ACCEPT always-reject=$REJECT discriminates=$DISCRIMINATES found=$FOUND"
+          test -n "$ACCEPT" && test -n "$REJECT"
+          test "$DISCRIMINATES" = true
+          want=$(python3 -c 'import json,sys; print(len(json.load(open(sys.argv[1]))["vectors"]))' corpora/vectors-a2a-jcs-v01/MANIFEST.json)
+          test "$FOUND" = "$want"
+      - name: profile, a canonicalizer that declares integer-only passes with it
+        id: profile
+        uses: ./
+        with:
+          corpus: vectors-a2a-jcs-v01
+          verifier: python scripts/fixtures/action-v8/integer_only_canonicalizer.py
+          profile: integer-only
+          artifact-name: agent-evidence-vectors-results-profile
+          report-path: profile-report.json
+      - name: the eleven float members were out of profile and nothing inside failed
+        env:
+          RESULT: ${{ steps.profile.outputs.result }}
+          OUT: ${{ steps.profile.outputs.out-of-profile }}
+          IN: ${{ steps.profile.outputs.in-profile }}
+          INPASS: ${{ steps.profile.outputs.in-profile-pass }}
+        run: |
+          echo "result=$RESULT in=$IN in-pass=$INPASS out=$OUT"
+          test "$RESULT" = pass
+          test "$OUT" = 11
+          test "$INPASS" = "$IN"
+      - name: profile, the same canonicalizer fails without the profile
+        id: noprofile
+        continue-on-error: true
+        uses: ./
+        with:
+          corpus: vectors-a2a-jcs-v01
+          verifier: python scripts/fixtures/action-v8/integer_only_canonicalizer.py
+          artifact-name: agent-evidence-vectors-results-noprofile
+          report-path: noprofile-report.json
+      - name: profile, a canonicalizer wrong inside the profile still fails with it
+        id: badprofile
+        continue-on-error: true
+        uses: ./
+        with:
+          corpus: vectors-a2a-jcs-v01
+          verifier: python corpora/vectors-a2a-jcs-v01/tests/bad_verifier.py
+          profile: integer-only
+          artifact-name: agent-evidence-vectors-results-badprofile
+          report-path: badprofile-report.json
+      - name: and both of those jobs would have failed
+        env:
+          NOPROFILE: ${{ steps.noprofile.outcome }}
+          BADPROFILE: ${{ steps.badprofile.outcome }}
+        run: |
+          echo "noprofile=$NOPROFILE badprofile=$BADPROFILE"
+          test "$NOPROFILE" = failure
+          test "$BADPROFILE" = failure
+      - name: fail-on-missing-case, stage a corpus directory with one listed case removed
+        run: |
+          rm -rf .build/a2a-jcs-missing
+          cp -R corpora/vectors-a2a-jcs-v01 .build/a2a-jcs-missing
+          rm .build/a2a-jcs-missing/a3-object-key-ordering/A3-001.json
+      - name: fail-on-missing-case, the action names the missing case and fails
+        id: missingcase
+        continue-on-error: true
+        uses: ./
+        with:
+          vectors: .build/a2a-jcs-missing
+          verifier: python -m agent_evidence_vectors.a2ajcs
+          artifact-name: agent-evidence-vectors-results-missing-case
+          report-path: missing-case-report.json
+      - name: and that job would have failed on one missing case
+        env:
+          OUTCOME: ${{ steps.missingcase.outcome }}
+          MISSING: ${{ steps.missingcase.outputs.missing-cases }}
+          FOUND: ${{ steps.missingcase.outputs.vectors-found }}
+        run: |
+          echo "outcome=$OUTCOME missing=$MISSING found=$FOUND"
+          test "$OUTCOME" = failure
+          test "$MISSING" -ge 1
+          test "$FOUND" = 56
+      - name: conformance mode, the verifier gets every listed case right
+        id: conformance
+        uses: ./
+        with:
+          expected-verdicts: scripts/fixtures/action-v8/conformance/verify-expected.txt
+          cases: scripts/fixtures/action-v8/conformance/cases
+          verifier: python3 -S scripts/fixtures/action-v8/conformance/verifier.py
+          artifact-name: agent-evidence-vectors-results-conformance
+          report-path: conformance-report.json
+      - name: four of four, both controls, and the reference stage read none of them with nothing installed
+        env:
+          RESULT: ${{ steps.conformance.outputs.result }}
+          FOUND: ${{ steps.conformance.outputs.vectors-found }}
+          CONFORM: ${{ steps.conformance.outputs.conform }}
+          DISCRIMINATES: ${{ steps.conformance.outputs.discriminates }}
+          CHECKED: ${{ steps.conformance.outputs.reference-checked }}
+          TOTAL: ${{ steps.conformance.outputs.reference-total }}
+          REFID: ${{ steps.conformance.outputs.reference-verifier-id }}
+        run: |
+          echo "result=$RESULT found=$FOUND conform=$CONFORM discriminates=$DISCRIMINATES reference=$CHECKED of $TOTAL ($REFID)"
+          test "$RESULT" = pass
+          test "$FOUND" = 4 && test "$CONFORM" = 4
+          test "$DISCRIMINATES" = true
+          test "$CHECKED" = 0 && test "$TOTAL" = 4
+          test "$REFID" = unavailable
+      - name: conformance mode, a verifier that accepts everything
+        id: conformancelenient
+        continue-on-error: true
+        uses: ./
+        with:
+          expected-verdicts: scripts/fixtures/action-v8/conformance/verify-expected.txt
+          cases: scripts/fixtures/action-v8/conformance/cases
+          verifier: python3 -S scripts/fixtures/action-v8/conformance/lenient-verifier.py
+          artifact-name: agent-evidence-vectors-results-conformance-lenient
+          report-path: conformance-lenient-report.json
+      - name: conformance mode, an expected file listing a case that is not on disk
+        id: conformancemissing
+        continue-on-error: true
+        uses: ./
+        with:
+          expected-verdicts: scripts/fixtures/action-v8/conformance/verify-expected-missing.txt
+          cases: scripts/fixtures/action-v8/conformance/cases
+          verifier: python3 -S scripts/fixtures/action-v8/conformance/verifier.py
+          artifact-name: agent-evidence-vectors-results-conformance-missing
+          report-path: conformance-missing-report.json
+      - name: fail-on-no-vectors, an empty cases directory
+        run: |
+          mkdir -p .build/empty-cases
+          printf '# no cases\n' > .build/empty-expected.txt
+      - name: fail-on-no-vectors, the default fails a run that found no case
+        id: novectors
+        continue-on-error: true
+        uses: ./
+        with:
+          expected-verdicts: .build/empty-expected.txt
+          cases: .build/empty-cases
+          verifier: python3 -S scripts/fixtures/action-v8/conformance/verifier.py
+          artifact-name: agent-evidence-vectors-results-no-vectors
+          report-path: no-vectors-report.json
+      - name: fail-on-no-vectors false reports no-verdict and does not fail
+        id: novectorsallowed
+        uses: ./
+        with:
+          expected-verdicts: .build/empty-expected.txt
+          cases: .build/empty-cases
+          verifier: python3 -S scripts/fixtures/action-v8/conformance/verifier.py
+          fail-on-no-vectors: "false"
+          artifact-name: agent-evidence-vectors-results-no-vectors-allowed
+          report-path: no-vectors-allowed-report.json
+      - name: and the lenient, missing-case and empty runs would have failed
+        env:
+          LENIENT: ${{ steps.conformancelenient.outcome }}
+          MISSING: ${{ steps.conformancemissing.outcome }}
+          MISSINGN: ${{ steps.conformancemissing.outputs.missing-cases }}
+          NONE: ${{ steps.novectors.outcome }}
+          ALLOWED: ${{ steps.novectorsallowed.outputs.result }}
+        run: |
+          echo "lenient=$LENIENT missing=$MISSING ($MISSINGN) none=$NONE allowed=$ALLOWED"
+          test "$LENIENT" = failure
+          test "$MISSING" = failure && test "$MISSINGN" = 1
+          test "$NONE" = failure
+          test "$ALLOWED" = no-verdict
+      - name: mutate bytes, every flipped payload bit is rejected by both verifiers
+        id: mutatebytes
+        uses: ./
+        with:
+          verifier: ./aee-verify -validity-only -json
+          mutate: bytes
+          mutate-limit: "600"
+          artifact-name: agent-evidence-vectors-results-mutate-bytes
+          report-path: mutate-bytes-report.json
+      - name: N equals M, and every verdict agreed
+        env:
+          CHECKED: ${{ steps.mutatebytes.outputs.mutation-checked }}
+          TOTAL: ${{ steps.mutatebytes.outputs.mutation-total }}
+          AGREE: ${{ steps.mutatebytes.outputs.mutation-agreement }}
+        run: |
+          echo "mutation-checked $CHECKED of $TOTAL, agreement $AGREE"
+          test "$TOTAL" -gt 0
+          test "$CHECKED" = "$TOTAL" && test "$AGREE" = "$TOTAL"
+      - name: mutate, a verifier that accepts every file
+        id: mutatelenient
+        continue-on-error: true
+        uses: ./
+        with:
+          verifier: python3 scripts/fixtures/action-v8/mutate/lenient_candidate.py
+          mutate: bytes
+          mutate-limit: "50"
+          artifact-name: agent-evidence-vectors-results-mutate-lenient
+          report-path: mutate-lenient-report.json
+      - name: mutate, a corpus with no reference route reads 0 of M
+        id: mutatenoroute
+        continue-on-error: true
+        uses: ./
+        with:
+          vectors: scripts/fixtures/action-v8/mutate/plain
+          verifier: python3 scripts/fixtures/action-v8/mutate/lenient_candidate.py
+          mutate: structural
+          mutate-limit: "50"
+          artifact-name: agent-evidence-vectors-results-mutate-noroute
+          report-path: mutate-noroute-report.json
+      - name: and both mutation jobs would have failed
+        env:
+          LENIENT: ${{ steps.mutatelenient.outcome }}
+          NOROUTE: ${{ steps.mutatenoroute.outcome }}
+          CHECKED: ${{ steps.mutatenoroute.outputs.mutation-checked }}
+          TOTAL: ${{ steps.mutatenoroute.outputs.mutation-total }}
+        run: |
+          echo "lenient=$LENIENT noroute=$NOROUTE ($CHECKED of $TOTAL)"
+          test "$LENIENT" = failure
+          test "$NOROUTE" = failure
+          test "$CHECKED" = 0 && test "$TOTAL" -gt 0
+      - name: producer mode, an evaluation claim judged under the pinned rule
+        id: claimpass
+        uses: ./
+        with:
+          records: scripts/fixtures/action-v8/claim/record-pass.json
+          record-class: evaluation-claim
+          pins: scripts/fixtures/action-v8/claim/pins.json
+          artifact-name: agent-evidence-vectors-results-claim
+          receipt-path: claim-receipt.json
+      - name: producer mode, a claim whose case set the rule does not accept
+        id: claimrefused
+        continue-on-error: true
+        uses: ./
+        with:
+          records: scripts/fixtures/action-v8/claim/record-refused.json
+          record-class: evaluation-claim
+          pins: scripts/fixtures/action-v8/claim/pins.json
+          artifact-name: agent-evidence-vectors-results-claim-refused
+          receipt-path: claim-refused-receipt.json
+      - name: the admitted claim passed and the refused one would have failed
+        env:
+          PASS: ${{ steps.claimpass.outputs.result }}
+          REFID: ${{ steps.claimpass.outputs.reference-verifier-id }}
+          REFUSED: ${{ steps.claimrefused.outcome }}
+        run: |
+          echo "pass=$PASS reader=$REFID refused=$REFUSED"
+          test "$PASS" = pass
+          case "$REFID" in *"#reader/evaluation-claim") ;; *) exit 1 ;; esac
+          test "$REFUSED" = failure
+    needs:
+      - changes
+    if: ${{ fromJSON(needs.changes.outputs.run)['ci'] }}
+    permissions:
+      contents: read
+
+  # The case count on a Windows runner: a pattern that matched nothing there
+  # once let a project's CI pass on zero vectors. The conformance mode runs with
+  # python -S and nothing installed, and the replay counts every case of the a2a
+  # corpus manifest on this runner's own disk.
+  ci__action_windows:
+    runs-on: windows-2025
+    timeout-minutes: 20
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: conformance mode on Windows
+        id: conformance
+        uses: ./
+        with:
+          expected-verdicts: scripts/fixtures/action-v8/conformance/verify-expected.txt
+          cases: scripts/fixtures/action-v8/conformance/cases
+          verifier: python -S scripts/fixtures/action-v8/conformance/verifier.py
+          artifact-name: agent-evidence-vectors-results-windows-conformance
+          report-path: windows-conformance-report.json
+      - name: an empty cases directory on Windows
+        id: novectors
+        continue-on-error: true
+        uses: ./
+        with:
+          expected-verdicts: scripts/fixtures/action-v8/conformance/verify-expected-missing.txt
+          cases: .build/no-such-cases
+          verifier: python -S scripts/fixtures/action-v8/conformance/verifier.py
+          artifact-name: agent-evidence-vectors-results-windows-none
+          report-path: windows-none-report.json
+      - name: the a2a corpus replayed on Windows
+        id: a2a
+        uses: ./
+        with:
+          corpus: vectors-a2a-jcs-v01
+          verifier: python -m agent_evidence_vectors.a2ajcs
+          artifact-name: agent-evidence-vectors-results-windows-a2a
+          report-path: windows-a2a-report.json
+      - name: every case was counted on this runner
+        env:
+          RESULT: ${{ steps.conformance.outputs.result }}
+          FOUND: ${{ steps.conformance.outputs.vectors-found }}
+          NONE: ${{ steps.novectors.outcome }}
+          A2A: ${{ steps.a2a.outputs.result }}
+          A2AFOUND: ${{ steps.a2a.outputs.vectors-found }}
+          EXECUTED: ${{ steps.a2a.outputs.executed }}
+        run: |
+          echo "conformance=$RESULT found=$FOUND none=$NONE a2a=$A2A found=$A2AFOUND executed=$EXECUTED"
+          test "$RESULT" = pass && test "$FOUND" = 4
+          test "$NONE" = failure
+          want=$(python -c 'import json,sys; print(len(json.load(open(sys.argv[1]))["vectors"]))' corpora/vectors-a2a-jcs-v01/MANIFEST.json)
+          test "$A2A" = pass && test "$A2AFOUND" = "$want" && test "$EXECUTED" = "$want"
     needs:
       - changes
     if: ${{ fromJSON(needs.changes.outputs.run)['ci'] }}
@@ -2495,7 +2974,7 @@ jobs:
         with:
           python-version: '3.13.15'
       - name: Install pinned control dependencies
-        run: python -m pip install pytest==8.4.2 mypy==2.3.1
+        run: python -m pip install pytest==9.2.0 mypy==2.3.1
       - name: The committed corpus is what the builder writes
         run: python scripts/claim-record-build.py --check
       - name: Every case, every repair and every rule kill
@@ -2505,6 +2984,7 @@ jobs:
         run: >-
           python -m mypy --strict agent_evidence_vectors/claim_record/reader.py
           agent_evidence_vectors/claim_record/run.py agent_evidence_vectors/claim_record/ops.py
+          agent_evidence_vectors/claim_record/expectations.py
       - name: Retain the checkout run
         working-directory: packaging
         run: >-
@@ -2593,21 +3073,21 @@ jobs:
             build-mode: none
 
     steps:
-      - uses: actions/checkout@v7.0.1
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
 
-      - uses: actions/setup-go@b7ad1dad31e06c5925ef5d2fc7ad053ef454303e # v7.0.0
+      - uses: actions/setup-go@d8cbb8045d7f43706b9177cceb36c1f91a6644d5 # v7.1.0
         if: matrix.language == 'go'
         with:
           go-version: '1.26'
 
       - name: initialize codeql
-        uses: github/codeql-action/init@v4
+        uses: github/codeql-action/init@33d7b85da1a04171e211befe2c739303b9a4c066 # v4.39.3
         with:
           languages: ${{ matrix.language }}
           build-mode: ${{ matrix.build-mode }}
 
       - name: perform codeql analysis
-        uses: github/codeql-action/analyze@v4
+        uses: github/codeql-action/analyze@33d7b85da1a04171e211befe2c739303b9a4c066 # v4.39.3
         with:
           category: "/language:${{ matrix.language }}"
     needs:
@@ -2640,11 +3120,11 @@ jobs:
 
       # Dependabot writes the pull request title ("bump X from A to B in /dir
       # (#N)" runs past 72 characters for any deep directory) and no setting
-      # shortens it: commit-message.prefix changes only the first words. Its
-      # pull requests are merged with the subject written by hand
-      # (`gh pr merge --squash --subject ...`), so the generated title never
-      # becomes a commit on the default branch, and the range lint below still
-      # checks every commit that lands. Every other author keeps this check.
+      # shortens it: commit-message.prefix changes only the first words. The
+      # merge queue squashes with that title and takes no hand-written subject,
+      # so the range lint below exempts Dependabot's commits from the length rule
+      # alone (LENGTH_EXEMPT_AUTHORS in .githooks/commit-msg). Every other author
+      # keeps this check; pr-title.yml runs it on every pull request as well.
       - name: Lint the prospective merge subject
         if: github.event_name == 'pull_request' && github.event.pull_request.user.login != 'dependabot[bot]'
         env:
@@ -2781,7 +3261,7 @@ jobs:
     if: ${{ fromJSON(needs.changes.outputs.run)['crosswalk'] && (github.event_name != 'schedule') }}
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v7.0.1
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
       - name: the crosswalk publishes this corpus as it stands
         run: python3 scripts/crosswalk-gen.py --check-local
 
@@ -2797,7 +3277,7 @@ jobs:
       contents: read
       issues: write
     steps:
-      - uses: actions/checkout@v7.0.1
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
       # A shallow clone is enough: the generator reads HEAD and the records, and
       # refuses a dirty or unrecognised checkout rather than trusting either. The
       # working directory is used instead of $RUNNER_TEMP so the same command
@@ -2936,7 +3416,7 @@ jobs:
         with:
           python-version: '3.13.15'
       - name: Install pinned control dependencies
-        run: python -m pip install pytest==8.4.2 mypy==2.3.1
+        run: python -m pip install pytest==9.2.0 mypy==2.3.1
       - name: The committed corpus is what the builder writes
         run: python scripts/eval-result-build.py --check
       - name: Every case, every repair and every rule kill
@@ -2979,6 +3459,41 @@ jobs:
     permissions:
       contents: read
 
+  # Runs the D1 and L1 adjudication cases (interop/adjudication-disagreement-d1/)
+  # through event_absence/v2 and through the standalone finite checker from
+  # Witnessability/witnessability-research at the commit in CHECKER-PIN.json, and
+  # fails when an input differs from its generator or either method's answer moves.
+  adjudication_d1:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: astral-sh/setup-uv@v7
+        with:
+          enable-cache: false
+      - name: Read the checker pin
+        id: pin
+        run: python3 -c "import json; print('commit=' + json.load(open('interop/adjudication-disagreement-d1/CHECKER-PIN.json'))['commit'])" >> "$GITHUB_OUTPUT"
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          repository: Witnessability/witnessability-research
+          ref: ${{ steps.pin.outputs.commit }}
+          path: witnessability-research
+          persist-credentials: false
+      - name: Every input matches its generator
+        run: python3 interop/adjudication-disagreement-d1/gen.py --check
+      - name: Run the cases through event_absence/v2
+        run: uv run --no-project --python 3.13 --with agent-evidence-verify==0.5.1 python interop/adjudication-disagreement-d1/run.py
+      - name: Run the cases through the pinned checker
+        run: uv run --no-project --python 3.13 python interop/adjudication-disagreement-d1/run_checker.py --checker-root witnessability-research
+    needs:
+      - changes
+    if: ${{ fromJSON(needs.changes.outputs.run)['adjudication_d1'] }}
+    permissions:
+      contents: read
+
   # from event-absence-c1.yml:
   #  A newer push to the same pull request or branch supersedes the older run.
   #  Main and tags never cancel: each main push keeps its own group by sha.
@@ -2989,12 +3504,46 @@ jobs:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           persist-credentials: false
-      - uses: astral-sh/setup-uv@v7
+      - uses: astral-sh/setup-uv@37802adc94f370d6bfd71619e3f0bf239e1f3b78 # v7
       - name: Run the three cases through the pinned verifier
         run: uv run --no-project --python 3.13 --with probity-verify==0.2.2 python interop/event-absence-c1-sergeev/run.py
     needs:
       - changes
     if: ${{ fromJSON(needs.changes.outputs.run)['event_absence_c1'] }}
+    permissions:
+      contents: read
+
+  # Runs both checkers on the same pinned inputs and fails when either side flips
+  # (interop/event-absence-c1-sergeev/compare.py): the standalone checker Mikhail
+  # Sergeev published in Witnessability/witnessability-research and event_absence/v2
+  # in probity-verify. The checker commit and the hash of each of its modules live in
+  # CHECKER-PIN.json, so a pin update is a change to that one file and to no workflow.
+  event_absence_c1_checker:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: astral-sh/setup-uv@v7
+        with:
+          enable-cache: false
+      - name: Read the checker pin
+        id: pin
+        run: python3 -c "import json; print('commit=' + json.load(open('interop/event-absence-c1-sergeev/CHECKER-PIN.json'))['commit'])" >> "$GITHUB_OUTPUT"
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          repository: Witnessability/witnessability-research
+          ref: ${{ steps.pin.outputs.commit }}
+          path: witnessability-research
+          persist-credentials: false
+      - name: A flip on either side fails the comparison
+        run: python3 interop/event-absence-c1-sergeev/compare_test.py
+      - name: Run both checkers on the shared inputs and compare
+        run: uv run --no-project --python 3.13 --with probity-verify==0.2.2 python interop/event-absence-c1-sergeev/compare.py --checker-root witnessability-research
+    needs:
+      - changes
+    if: ${{ fromJSON(needs.changes.outputs.run)['event_absence_c1_checker'] }}
     permissions:
       contents: read
 
@@ -3020,7 +3569,11 @@ jobs:
       - uses: astral-sh/setup-uv@37802adc94f370d6bfd71619e3f0bf239e1f3b78 # v7
       - name: every check state is reached by its own case
         run: python3 scripts/field-readiness-test.py
+      # The live read measures the field (outside workflows, adopter records), which no
+      # change in this repository can move, so it reports on its own schedule and on a
+      # manual run; a pull request runs the test of every check state above.
       - name: restart field, live
+        if: ${{ github.event_name == 'schedule' || github.event_name == 'workflow_dispatch' }}
         env:
           GH_TOKEN: ${{ github.token }}
         run: python3 scripts/field-readiness.py restart
@@ -3166,8 +3719,8 @@ jobs:
   governance:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v7.0.1
-      - uses: astral-sh/setup-uv@v7
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: astral-sh/setup-uv@37802adc94f370d6bfd71619e3f0bf239e1f3b78 # v7
 
       - name: sync toolchain
         run: uv sync --extra dev
@@ -3384,7 +3937,7 @@ jobs:
       # and a shallow clone would turn "could not compute the range" into a
       # pass. The scanner exits 2, not 0, when that happens, and a
       # complete clone is the cheaper way to never ask.
-      - uses: actions/checkout@v7.0.1
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           fetch-depth: 0
 
@@ -3463,7 +4016,7 @@ jobs:
         with:
           python-version: '3.13.15'
       - name: Install pinned control dependencies
-        run: python -m pip install pytest==8.4.2 hypothesis==6.168.3
+        run: python -m pip install pytest==9.2.0 hypothesis==6.168.3
       - name: The committed corpus is what the builder writes
         run: python scripts/invocation-axes-build.py --check
       - name: Test every expected answer, refusal and rule kill
@@ -3507,20 +4060,20 @@ jobs:
       fail-fast: false
       matrix:
         # The module's go directive, and the toolchain the rest of the repository builds with.
-        go: ['1.24', '1.26']
+        go: ['1.21', '1.26']
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
         with:
           persist-credentials: false
-      - uses: actions/setup-go@b7ad1dad31e06c5925ef5d2fc7ad053ef454303e # v7.0.0
+      - uses: actions/setup-go@d8cbb8045d7f43706b9177cceb36c1f91a6644d5 # v7.1.0
         with:
           go-version: ${{ matrix.go }}
           cache: false
       - name: The embedded copies match the corpora
         run: |
           python3 scripts/gen-jcsvectors-data.py
-          git status --porcelain -- jcsvectors
-          test -z "$(git status --porcelain -- jcsvectors)"
+          git status --porcelain -- jcsvectors crates/jcsvectors
+          test -z "$(git status --porcelain -- jcsvectors crates/jcsvectors)"
       - name: Vet and test the module on its own, as a consumer builds it
         working-directory: jcsvectors
         env:
@@ -3528,6 +4081,96 @@ jobs:
         run: |
           go vet ./...
           go test -count=1 ./...
+    needs:
+      - changes
+    if: ${{ fromJSON(needs.changes.outputs.run)['jcsvectors'] }}
+    permissions:
+      contents: read
+
+  # The same vector files as a Rust crate (crates/jcsvectors): the committed lock on stable with
+  # rustfmt, clippy and rustdoc holding every warning as an error, the tests, and the package as
+  # cargo publish would build it; then the declared rust-version.
+  jcsvectors_rust:
+    name: jcsvectors (Rust ${{ matrix.rust }})
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    strategy:
+      fail-fast: false
+      matrix:
+        rust: ['stable', '1.74']
+    defaults:
+      run:
+        working-directory: crates/jcsvectors
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: install ${{ matrix.rust }} with rustfmt and clippy
+        run: |
+          rustup toolchain install ${{ matrix.rust }} --profile minimal -c rustfmt -c clippy
+          rustup default ${{ matrix.rust }}
+      - if: matrix.rust == 'stable'
+        run: cargo fmt --check
+      - if: matrix.rust == 'stable'
+        run: cargo clippy --locked --all-targets -- -D warnings
+      - if: matrix.rust == 'stable'
+        run: cargo doc --locked --no-deps
+        env:
+          RUSTDOCFLAGS: -D warnings
+      - run: cargo test --locked
+      - if: matrix.rust == 'stable'
+        name: The package builds and tests from what cargo publish would upload
+        run: cargo package --locked
+    needs:
+      - changes
+    if: ${{ fromJSON(needs.changes.outputs.run)['jcsvectors'] }}
+    permissions:
+      contents: read
+
+  # The same vector files as an npm package (crates/jcsvectors/npm): node:test on each supported
+  # Node, then the cross-language check, which compares every case (identifier, input and output
+  # digests, features, codes) with what the Go module reads from the same files.
+  jcsvectors_npm:
+    name: jcsvectors (Node ${{ matrix.node }})
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    strategy:
+      fail-fast: false
+      matrix:
+        node: ['22', '24', '26']
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: ${{ matrix.node }}
+      - uses: actions/setup-go@d8cbb8045d7f43706b9177cceb36c1f91a6644d5 # v7.1.0
+        with:
+          go-version: '1.26'
+          cache: false
+      - name: node:test
+        working-directory: crates/jcsvectors/npm
+        run: npm test
+      - name: The Go module and the npm package agree on every case
+        env:
+          GOWORK: 'off'
+        run: |
+          (cd jcsvectors && JCSVECTORS_SUMMARY="$RUNNER_TEMP/go-summary.json" go test -count=1 -run TestWriteSummary .)
+          node crates/jcsvectors/npm/test/cross.mjs "$RUNNER_TEMP/go-summary.json"
+      - name: The package npm publish would upload holds every file the package reads
+        working-directory: crates/jcsvectors/npm
+        run: |
+          npm pack --dry-run --json > "$RUNNER_TEMP/pack.json"
+          node --input-type=module -e '
+            import { readFileSync } from "node:fs";
+            import { fileDigests } from "./digests.mjs";
+            const files = new Set(JSON.parse(readFileSync(process.argv[1], "utf8"))[0].files.map((f) => f.path));
+            const need = ["index.mjs", "index.d.ts", "lib.mjs", "digests.mjs", "README.md", "package.json", ...fileDigests.map(([n]) => "data/" + n)];
+            const missing = need.filter((n) => !files.has(n));
+            if (missing.length) { console.error("missing from the package:", missing); process.exit(1); }
+            if ([...files].some((n) => n.startsWith("test/"))) { console.error("tests are in the package"); process.exit(1); }
+          ' "$RUNNER_TEMP/pack.json"
     needs:
       - changes
     if: ${{ fromJSON(needs.changes.outputs.run)['jcsvectors'] }}
@@ -3548,7 +4191,7 @@ jobs:
         with:
           python-version: '3.13.15'
       - name: Install reader and test dependencies
-        run: python -m pip install -r interop/jep-core07-reader/requirements.txt pytest==8.4.2 hypothesis==6.168.3
+        run: python -m pip install -r interop/jep-core07-reader/requirements.txt pytest==9.2.0 hypothesis==6.168.3
       - name: Test signatures and acceptance refusals
         run: python -m pytest -q interop/jep-core07-reader/test_jep_reader.py
       - name: Retain fresh 25/4/8 assertion execution
@@ -3636,7 +4279,7 @@ jobs:
   no_internal_drafts:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v7.0.1
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
 
       - name: Reject forbidden strings in tracked files
         run: |
@@ -3709,11 +4352,11 @@ jobs:
   observed_code_digest:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v7.0.1
-      - uses: actions/setup-python@v7.1.0
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0 # v7.1.0
         with:
           python-version: '3.13'
-      - uses: actions/setup-go@b7ad1dad31e06c5925ef5d2fc7ad053ef454303e # v7.0.0
+      - uses: actions/setup-go@d8cbb8045d7f43706b9177cceb36c1f91a6644d5 # v7.1.0
         with:
           go-version: '1.26'
       - name: Install candidate test dependencies
@@ -3746,11 +4389,11 @@ jobs:
   observed_invocation_binding:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v7.0.1
-      - uses: actions/setup-python@v7.1.0
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0 # v7.1.0
         with:
           python-version: '3.13'
-      - uses: actions/setup-go@b7ad1dad31e06c5925ef5d2fc7ad053ef454303e # v7.0.0
+      - uses: actions/setup-go@d8cbb8045d7f43706b9177cceb36c1f91a6644d5 # v7.1.0
         with:
           go-version: '1.26'
       - name: Install candidate test dependencies
@@ -3789,7 +4432,7 @@ jobs:
         with:
           python-version: '3.13.15'
       - name: Install pinned control dependencies
-        run: python -m pip install pytest==8.4.2
+        run: python -m pip install pytest==9.2.0
       - name: The committed corpus is what the builder writes
         run: python scripts/occurrence-binding-build.py --check
       - name: Test every expected answer, refusal and rule kill
@@ -3839,7 +4482,7 @@ jobs:
         with:
           python-version: '3.13.15'
       - name: Install pinned control dependencies
-        run: python -m pip install pytest==8.4.2
+        run: python -m pip install pytest==9.2.0
       - name: The committed corpus is what the builder writes
         run: python scripts/operand-provenance-build.py --check
       - name: Test every expected answer, refusal, rule kill and verifier contract
@@ -3888,7 +4531,7 @@ jobs:
         with:
           python-version: '3.13.15'
       - name: Install pinned control dependencies
-        run: python -m pip install pytest==8.4.2
+        run: python -m pip install pytest==9.2.0
       - name: The committed corpus is what the builder writes
         run: python scripts/ot-federation-build.py --check
       - name: Test every expected answer, refusal and seeded fault
@@ -3940,7 +4583,7 @@ jobs:
         with:
           python-version: '3.13.15'
       - name: Install pinned control dependencies
-        run: python -m pip install cryptography==45.0.7 build==1.3.0 jsonschema==4.25.1
+        run: python -m pip install cryptography==50.0.2 build==1.3.0 jsonschema==4.25.1
       - name: The committed corpus is what the builder writes
         run: python vectors-poc-evidence/build/proof-of-control-build.py --check
       - name: Every case ties to the specification text and fools only its wrong verifier
@@ -4030,7 +4673,7 @@ jobs:
         with:
           python-version: '3.13.15'
       - name: Install pinned control dependencies
-        run: python -m pip install pytest==8.4.2 hypothesis==6.168.3
+        run: python -m pip install pytest==9.2.0 hypothesis==6.168.3
       - name: Test the writer-side refusal and scan every committed record
         run: python -m pytest -q scripts/record-paths-test.py scripts/remora-e7-reader-test.py
     needs:
@@ -4123,7 +4766,7 @@ jobs:
         with:
           python-version: '3.13.15'
       - name: Install pinned control dependencies
-        run: python -m pip install pytest==8.4.2 hypothesis==6.168.3
+        run: python -m pip install pytest==9.2.0 hypothesis==6.168.3
       - name: Test frozen bytes and refusal paths
         run: python -m pytest -q scripts/remora-e7-reader-test.py
       - name: Retain native E7 results
@@ -4173,7 +4816,7 @@ jobs:
         with:
           python-version: '3.13.15'
       - name: Install pinned control dependencies
-        run: python -m pip install pytest==8.4.2 hypothesis==6.168.3
+        run: python -m pip install pytest==9.2.0 hypothesis==6.168.3
       - name: Test frozen bytes and refusal paths on Windows
         run: python -m pytest -q scripts/remora-e7-reader-test.py
       - name: Run the reader against the packaged upstream on Windows
@@ -4205,7 +4848,7 @@ jobs:
         with:
           python-version: '3.13.15'
       - name: Install pinned control dependencies
-        run: python -m pip install pytest==8.4.2
+        run: python -m pip install pytest==9.2.0
       - name: The committed corpus is what the builder writes
         run: python scripts/resume-turns-build.py --check
       - name: Test every expected answer, refusal and rule kill
@@ -4258,14 +4901,14 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
-      - uses: actions/checkout@v7.0.1
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           fetch-depth: 0
       - name: scan the history of this commit
         run: scripts/secret-scan.sh
       - name: prove the scan ignores other branches
         run: |
-          python3 -m pip install pytest==8.4.2
+          python3 -m pip install pytest==9.2.0
           python3 -m pytest -q scripts/secret-scan-scope-test.py
     needs:
       - changes
@@ -4382,7 +5025,7 @@ jobs:
         with:
           python-version: '3.13.15'
       - name: Install pinned control dependencies
-        run: python -m pip install pytest==8.4.2
+        run: python -m pip install pytest==9.2.0
       - name: The committed corpus is what the builder writes
         run: python scripts/trade-booking-build.py --check
       - name: Test every expected answer, refusal and rule kill
@@ -4432,7 +5075,7 @@ jobs:
         with:
           python-version: '3.13.15'
       - name: Install pinned control dependencies
-        run: python -m pip install pytest==8.4.2
+        run: python -m pip install pytest==9.2.0
       - name: The committed corpus is what the builder writes
         run: python scripts/verdict-evidence-build.py --check
       - name: Test every expected answer, refusal, rule kill and verifier contract
@@ -4564,13 +5207,16 @@ jobs:
           - 'R3 R3-v01'
           - 'R4'
           - 'R4-driver'
+          - 'R4-nonascii'
           - 'R5'
           - 'R6 R6-v01'
           - 'R7'
           - 'R8'
           - 'R8-compare'
+          - 'R8-compare-169'
           - 'R9'
           - 'R10'
+          - 'Item-7.3-10'
           - 'R11'
           - 'R12'
           - 'R13'
@@ -4587,7 +5233,7 @@ jobs:
         with:
           node-version: '22'
           package-manager-cache: false
-      - uses: actions/setup-go@b7ad1dad31e06c5925ef5d2fc7ad053ef454303e # v7.0.0
+      - uses: actions/setup-go@d8cbb8045d7f43706b9177cceb36c1f91a6644d5 # v7.1.0
         if: matrix.rows == 'R9' || matrix.rows == 'R10'
         with:
           go-version: '1.26'
@@ -4655,7 +5301,7 @@ jobs:
         with:
           node-version: '22'
           package-manager-cache: false
-      - uses: actions/setup-go@b7ad1dad31e06c5925ef5d2fc7ad053ef454303e # v7.0.0
+      - uses: actions/setup-go@d8cbb8045d7f43706b9177cceb36c1f91a6644d5 # v7.1.0
         with:
           go-version: '1.26'
           cache: false
@@ -4744,15 +5390,48 @@ jobs:
     uses: ./.github/workflows/parts.yml
     secrets:
       DSSE_FORBIDDEN_SHA256: ${{ secrets.DSSE_FORBIDDEN_SHA256 }}
+  # The cheap checks a batch run would otherwise find inside the queue (squash subject, ruff,
+  # mypy, count gate, generated files), run on a plain pull request so a PR that fails one
+  # never takes a queue slot. Each check is a step declared elsewhere in this file, selected by
+  # name in scripts/pre-queue.py, so the two runs cannot drift apart. ci-ok waits for it.
+  pre_queue:
+    if: ${{ github.event_name == 'pull_request' && !startsWith(github.head_ref, 'merge-train/') }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+      - uses: astral-sh/setup-uv@37802adc94f370d6bfd71619e3f0bf239e1f3b78 # v7
+        with:
+          python-version: '3.13'
+      - uses: actions/setup-go@d8cbb8045d7f43706b9177cceb36c1f91a6644d5 # v7.1.0
+        with:
+          go-version: '1.26'
+      - name: sync toolchain
+        run: uv sync --locked --extra dev --extra generators
+      - name: Install checkout wheel for distribution imports
+        run: uv pip install --no-deps .
+      - name: the cheap batch checks, before the queue
+        env:
+          PR_TITLE: ${{ github.event.pull_request.title }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+          PR_AUTHOR: ${{ github.event.pull_request.user.login }}
+        run: uv run --locked --extra dev --extra generators python scripts/pre-queue.py
   ci-ok:
-    if: ${{ (github.event_name != 'pull_request' || startsWith(github.head_ref, 'merge-train/')) && (always()) }}
+    if: ${{ always() }}
     needs:
       - changes
+      - pre_queue
       - a2a_s3_retain
       - a2a_s4_dual_name
       - aae_verdict_binding
       - acs_outage
       - action_tuple_framed
+      - adjudication_d1
       - agentavow_signed_map
       - agentid_action_ref_v2
       - agentid_offline
@@ -4767,6 +5446,7 @@ jobs:
       - ci__python
       - ci__forcing
       - ci__action
+      - ci__action_windows
       - claim_record
       - codeql
       - commit_message_lint
@@ -4775,6 +5455,7 @@ jobs:
       - e2_reproduction
       - eval_result
       - event_absence_c1
+      - event_absence_c1_checker
       - field_readiness
       - gemara_method_link
       - governance
@@ -4784,6 +5465,8 @@ jobs:
       - identity_scan
       - invocation_axes
       - jcsvectors
+      - jcsvectors_npm
+      - jcsvectors_rust
       - jep_core07_reader
       - nist_ai_300_1
       - no_internal_drafts

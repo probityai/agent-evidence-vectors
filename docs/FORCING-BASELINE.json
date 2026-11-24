@@ -2,9 +2,9 @@
   "$comment": "What the conformance corpus FORCES, measured by mutation rather than counted. Each row is one single-site weakening of the Go rail in aee/, replayed over the whole corpus: KILLED means some vector goes PASS->FAIL and the corpus forces the rule; SILENT means the corpus sees the rail change and stays green; DEAD means nothing in the corpus depends on the rule; INCONCLUSIVE means the mutant did not build, crash-free, terminate, and nothing is asserted about it. `annotations` records the sites where 'unforced' would be the wrong word -- `unkillable` for a true equivalent mutant no vector can ever kill, `masked` for a real rule an earlier check reaches first, which is unmintable rather than unminted. Both are claims this gate falsifies: an annotated site that is ever KILLED fails it. scripts/forcing-gate.py holds every KILLED row as a tighten-only ratchet and rewrites this file with --scope all --sync.",
   "suite": "adversarial-execution-evidence-conformance",
   "counts": {
-    "KILLED": 470,
+    "KILLED": 615,
     "SILENT": 36,
-    "DEAD": 417,
+    "DEAD": 423,
     "INCONCLUSIVE": 5
   },
   "annotations": {
@@ -23,6 +23,58 @@
     "validity.go::sealedConstraintsMet::IF_DISJ::1ed486c5f788": {
       "status": "masked",
       "reason": "Unmintable rather than unminted. Removing this disjunct lets a sealed record with no aeePostureDigest reach the `posture != pinnedPosture` equality in the same branch with posture == \"\", which refuses it and returns the same recordEval the guard would have. A statement that could tell the two apart needs an EMPTY pinned posture digest, and GATE 0 refuses an environment with no networkPosture (environment-incomplete). bad-903-sealed-missing-posture was built for this rule, mutation-checked, and does not kill. Writing another vector for it is wasted work until the rail or the corpus shape changes; this row exists so the next reader is not sent to do it. The site moved out of evaluateKind when the per-kind constraints were extracted into their own functions, and the move cost this key its positional suffix: the two `#N` occurrences were the arming branch and the sealed branch of one switch, and they are now one occurrence each in two functions. The claim is unchanged; it is the sealed one."
+    },
+    "revocationlist.go::(recv).Apply::IF_DISJ::68a1e560349b#2": {
+      "status": "unkillable",
+      "reason": "A true equivalent mutant. canonicalBase64 returns a nil slice when it reports !ok, so `!ok` implies len(sig) != ed25519.SignatureSize and the second disjunct alone refuses the same inputs with the same code (signature_bad)."
+    },
+    "revocationlist.go::(recv).Apply::IF_DISJ::f7f8429d3230": {
+      "status": "unkillable",
+      "reason": "A true equivalent mutant. ed25519.Verify returns false for any signature whose length is not ed25519.SignatureSize without panicking, so dropping the explicit length test reaches the same signature_bad refusal on every input."
+    },
+    "revocationlist.go::(recv).install::IF_CONJ::28455517a662": {
+      "status": "unkillable",
+      "reason": "A true equivalent mutant. A state that holds no list has an empty IssuedAt, and an accepted body always carries a 20-byte timestamp, so `b.issuedAt < s.IssuedAt` is false against the empty string whatever the guard says. Dropping the guard changes no verdict."
+    },
+    "revocationlist.go::(recv).install::IF_DISJ::dcf52ac494d5": {
+      "status": "unkillable",
+      "reason": "A true equivalent mutant. readSeqAndPrevious sets hasPrevious exactly when previous is a non-empty list digest, and a held state has a non-empty Head exactly when it holds a list, so `b.hasPrevious != (s.Head != \"\")` implies `b.previous != s.Head`. The second disjunct alone refuses the same inputs with the same code (previous_mismatch)."
+    },
+    "revocationlist.go::canonicalBase64::IF_DISJ::c7462b9a2227": {
+      "status": "unkillable",
+      "reason": "A true equivalent mutant. A decode error means the text is not valid padded standard base64, and re-encoding any byte string yields valid base64, so the re-encoded text cannot equal it. The second disjunct refuses every input the first one refuses."
+    },
+    "revocationlist.go::canonicalBase64::IF_OFF::e9cf46d5e810": {
+      "status": "unkillable",
+      "reason": "A true equivalent mutant. A non-string value becomes the empty string, which decodes to zero bytes and re-encodes to itself, so canonicalBase64 returns an empty slice with ok true; its only caller, Apply, then refuses it on the signature length with the same code (signature_bad) the removed guard produced."
+    },
+    "revocationlist.go::readRevBody::IF_DISJ::68a1e560349b#2": {
+      "status": "unkillable",
+      "reason": "A true equivalent mutant. A non-string listId becomes the empty string, and isIdentifier refuses the empty string (it requires 1 to 512 printable ASCII bytes), so the second disjunct refuses the same inputs with the same detail (list_id_form)."
+    },
+    "revocationlist.go::readRevBody::IF_OFF::aa9f16877497": {
+      "status": "masked",
+      "reason": "The refusal is real code but parseJSONValue refuses first on every input that could reach it. appendCanonical fails only on nesting past 128 levels or on a number that is not a safe integer; the parser enforces both bounds on the same document before readRevBody runs, and the body sits one level inside the signed list. No byte string reaches body_not_canonical, so no vector can force it with the parser as it stands."
+    },
+    "revocationlist.go::readRevEntry::IF_OFF::526d6662e494": {
+      "status": "masked",
+      "reason": "The refusal is real code but parseJSONValue refuses first on every input that could reach it. appendCanonical fails only on nesting past 128 levels or on a number that is not a safe integer; the parser enforces both bounds on the same document before readRevEntry runs, and the entry sits two levels inside the signed list. No byte string reaches entry_not_canonical, so no vector can force it with the parser as it stands."
+    },
+    "revocationlist.go::readSeqAndPrevious::IF_DISJ::c7462b9a2227": {
+      "status": "unkillable",
+      "reason": "A true equivalent mutant. strconv.ParseInt returns 0 on a syntax error and the maximum int64 on a range error, so `seq < 1 || seq > maxExactRevocationSeq` refuses every input ParseInt refuses, with the same detail (seq_not_a_positive_exact_integer)."
+    },
+    "revocationlist.go::readSeqAndPrevious::IF_DISJ::e15ecc61108b": {
+      "status": "masked",
+      "reason": "The rule is real: seq may not exceed 2^53-1. But parseJSONValue refuses every integer of magnitude 2^53 or more as unsafe before readRevBody runs, so no seq above the bound reaches this test. No vector can force it with the parser as it stands."
+    },
+    "revocationlist.go::readSeqAndPrevious::IF_OFF::471b9f61f19b": {
+      "status": "unkillable",
+      "reason": "A true equivalent mutant. A seq that is not a json.Number becomes the empty string, which strconv.ParseInt refuses; the following `err != nil` test then returns the identical refusal (seq_not_a_positive_exact_integer), so the type guard changes no verdict."
+    },
+    "revocationlist.go::readTime::IF_DISJ::68a1e560349b": {
+      "status": "unkillable",
+      "reason": "A true equivalent mutant. A non-string value becomes the empty string, whose length is not 20, so the `len(s) != 20` disjunct refuses it with the same detail (<what>_not_a_utc_second)."
     }
   },
   "sites": {
@@ -2460,14 +2512,98 @@
       "branch": "never-taken"
     },
     "jcs.go::Canonicalize::IF_OFF::de396ae60e3c": {
-      "class": "DEAD",
+      "class": "KILLED",
       "snippet": "if err != nil { return nil, err }",
-      "branch": "never-taken"
+      "corpusKillers": [
+        "vectors-revocation-list/rl13-seq-beyond-exact-integers"
+      ]
     },
     "jcs.go::appendCanonical::CASE_DEL::0c7741825564": {
-      "class": "DEAD",
+      "class": "KILLED",
       "snippet": "case nil: buf.WriteString(\"null\")",
-      "branch": "never-taken"
+      "corpusKillers": [
+        "vectors-revocation-list/m-body-member-misnamed",
+        "vectors-revocation-list/m-drops-second-held-entry",
+        "vectors-revocation-list/m-entries-object",
+        "vectors-revocation-list/m-entry-number",
+        "vectors-revocation-list/m-entry-reason-number",
+        "vectors-revocation-list/m-entry-unknown-member",
+        "vectors-revocation-list/m-entry-without-id",
+        "vectors-revocation-list/m-entry-without-kind",
+        "vectors-revocation-list/m-entry-without-revoked-at",
+        "vectors-revocation-list/m-every-kind",
+        "vectors-revocation-list/m-grant-id-equals-root",
+        "vectors-revocation-list/m-issuer-key-31-bytes",
+        "vectors-revocation-list/m-issuer-key-line-break",
+        "vectors-revocation-list/m-issuer-key-number",
+        "vectors-revocation-list/m-key-id-not-a-digest",
+        "vectors-revocation-list/m-list-id-empty",
+        "vectors-revocation-list/m-list-id-with-space",
+        "vectors-revocation-list/m-permit-id-upper-case",
+        "vectors-revocation-list/m-previous-not-a-digest",
+        "vectors-revocation-list/m-revoked-at-not-a-time",
+        "vectors-revocation-list/m-root-pinned-twice",
+        "vectors-revocation-list/m-second-entry-from-future",
+        "vectors-revocation-list/m-second-entry-unknown-kind",
+        "vectors-revocation-list/m-second-list-null-previous",
+        "vectors-revocation-list/m-seq-zero",
+        "vectors-revocation-list/m-signature-line-break",
+        "vectors-revocation-list/m-signed-list-without-sig",
+        "vectors-revocation-list/m-successor-not-base64",
+        "vectors-revocation-list/m-successor-of-non-root",
+        "vectors-revocation-list/m-time-colon-13",
+        "vectors-revocation-list/m-time-colon-16",
+        "vectors-revocation-list/m-time-dash-4",
+        "vectors-revocation-list/m-time-dash-7",
+        "vectors-revocation-list/m-time-day-letter",
+        "vectors-revocation-list/m-time-hour-letter",
+        "vectors-revocation-list/m-time-len-21",
+        "vectors-revocation-list/m-time-minute-letter",
+        "vectors-revocation-list/m-time-month-letter",
+        "vectors-revocation-list/m-time-second-slash",
+        "vectors-revocation-list/m-time-t-lower-case",
+        "vectors-revocation-list/m-time-year-letter",
+        "vectors-revocation-list/m-time-year-zero",
+        "vectors-revocation-list/m-time-z-lower-case",
+        "vectors-revocation-list/m-two-lists-in-force",
+        "vectors-revocation-list/rl01-empty-first-list",
+        "vectors-revocation-list/rl02-three-lists-in-force",
+        "vectors-revocation-list/rl03-root-rotation-in-force",
+        "vectors-revocation-list/rl04-single-list-in-force",
+        "vectors-revocation-list/rl05-unknown-kind",
+        "vectors-revocation-list/rl06-entries-out-of-order",
+        "vectors-revocation-list/rl07-duplicate-entry",
+        "vectors-revocation-list/rl08-identifier-not-ascii",
+        "vectors-revocation-list/rl09-identifier-with-space",
+        "vectors-revocation-list/rl10-identifier-513-characters",
+        "vectors-revocation-list/rl11-extra-body-member",
+        "vectors-revocation-list/rl12-seq-boolean",
+        "vectors-revocation-list/rl14-time-with-offset",
+        "vectors-revocation-list/rl15-time-not-a-calendar-day",
+        "vectors-revocation-list/rl16-issuer-key-noncanonical-base64",
+        "vectors-revocation-list/rl17-grant-digest-upper-case",
+        "vectors-revocation-list/rl18-successor-on-agent-entry",
+        "vectors-revocation-list/rl19-extra-top-level-member",
+        "vectors-revocation-list/rl20-another-type",
+        "vectors-revocation-list/rl21-signer-not-a-root",
+        "vectors-revocation-list/rl22-entries-edited-after-signing",
+        "vectors-revocation-list/rl23-root-key-over-another-signature",
+        "vectors-revocation-list/rl24-signature-bit-flipped",
+        "vectors-revocation-list/rl25-signature-noncanonical-base64",
+        "vectors-revocation-list/rl26-another-chain",
+        "vectors-revocation-list/rl27-list-in-force-replayed",
+        "vectors-revocation-list/rl28-rollback",
+        "vectors-revocation-list/rl29-seq-gap",
+        "vectors-revocation-list/rl31-fork",
+        "vectors-revocation-list/rl32-issued-before-list-in-force",
+        "vectors-revocation-list/rl33-entry-from-future",
+        "vectors-revocation-list/rl34-list-drops-entry",
+        "vectors-revocation-list/rl35-list-edits-entry",
+        "vectors-revocation-list/rl36-old-root-after-rotation",
+        "vectors-revocation-list/rl37-root-revoked-without-successor",
+        "vectors-revocation-list/rl38-successor-revoked-sorting-before",
+        "vectors-revocation-list/rl39-successor-revoked-sorting-after"
+      ]
     },
     "jcs.go::appendCanonical::CASE_DEL::2b359f879497": {
       "class": "KILLED",
@@ -2566,6 +2702,90 @@
         "vfa152052ea49dfdb",
         "vfb979cb9ce40f1be",
         "vfcb846afff2d6979"
+      ],
+      "corpusKillers": [
+        "vectors-revocation-list/m-body-member-misnamed",
+        "vectors-revocation-list/m-drops-second-held-entry",
+        "vectors-revocation-list/m-entries-object",
+        "vectors-revocation-list/m-entry-number",
+        "vectors-revocation-list/m-entry-reason-number",
+        "vectors-revocation-list/m-entry-unknown-member",
+        "vectors-revocation-list/m-entry-without-id",
+        "vectors-revocation-list/m-entry-without-kind",
+        "vectors-revocation-list/m-entry-without-revoked-at",
+        "vectors-revocation-list/m-every-kind",
+        "vectors-revocation-list/m-first-list-with-previous",
+        "vectors-revocation-list/m-grant-id-equals-root",
+        "vectors-revocation-list/m-issuer-key-31-bytes",
+        "vectors-revocation-list/m-issuer-key-line-break",
+        "vectors-revocation-list/m-issuer-key-number",
+        "vectors-revocation-list/m-key-id-not-a-digest",
+        "vectors-revocation-list/m-list-id-empty",
+        "vectors-revocation-list/m-list-id-with-space",
+        "vectors-revocation-list/m-permit-id-upper-case",
+        "vectors-revocation-list/m-previous-not-a-digest",
+        "vectors-revocation-list/m-revoked-at-not-a-time",
+        "vectors-revocation-list/m-root-pinned-twice",
+        "vectors-revocation-list/m-second-entry-from-future",
+        "vectors-revocation-list/m-second-entry-unknown-kind",
+        "vectors-revocation-list/m-second-list-null-previous",
+        "vectors-revocation-list/m-seq-zero",
+        "vectors-revocation-list/m-signature-line-break",
+        "vectors-revocation-list/m-signed-list-without-sig",
+        "vectors-revocation-list/m-successor-not-base64",
+        "vectors-revocation-list/m-successor-of-non-root",
+        "vectors-revocation-list/m-time-colon-13",
+        "vectors-revocation-list/m-time-colon-16",
+        "vectors-revocation-list/m-time-dash-4",
+        "vectors-revocation-list/m-time-dash-7",
+        "vectors-revocation-list/m-time-day-letter",
+        "vectors-revocation-list/m-time-hour-letter",
+        "vectors-revocation-list/m-time-len-21",
+        "vectors-revocation-list/m-time-minute-letter",
+        "vectors-revocation-list/m-time-month-letter",
+        "vectors-revocation-list/m-time-second-slash",
+        "vectors-revocation-list/m-time-t-lower-case",
+        "vectors-revocation-list/m-time-year-letter",
+        "vectors-revocation-list/m-time-year-zero",
+        "vectors-revocation-list/m-time-z-lower-case",
+        "vectors-revocation-list/m-two-lists-in-force",
+        "vectors-revocation-list/rl01-empty-first-list",
+        "vectors-revocation-list/rl02-three-lists-in-force",
+        "vectors-revocation-list/rl03-root-rotation-in-force",
+        "vectors-revocation-list/rl04-single-list-in-force",
+        "vectors-revocation-list/rl05-unknown-kind",
+        "vectors-revocation-list/rl06-entries-out-of-order",
+        "vectors-revocation-list/rl07-duplicate-entry",
+        "vectors-revocation-list/rl08-identifier-not-ascii",
+        "vectors-revocation-list/rl09-identifier-with-space",
+        "vectors-revocation-list/rl10-identifier-513-characters",
+        "vectors-revocation-list/rl11-extra-body-member",
+        "vectors-revocation-list/rl14-time-with-offset",
+        "vectors-revocation-list/rl15-time-not-a-calendar-day",
+        "vectors-revocation-list/rl16-issuer-key-noncanonical-base64",
+        "vectors-revocation-list/rl17-grant-digest-upper-case",
+        "vectors-revocation-list/rl18-successor-on-agent-entry",
+        "vectors-revocation-list/rl19-extra-top-level-member",
+        "vectors-revocation-list/rl20-another-type",
+        "vectors-revocation-list/rl21-signer-not-a-root",
+        "vectors-revocation-list/rl22-entries-edited-after-signing",
+        "vectors-revocation-list/rl23-root-key-over-another-signature",
+        "vectors-revocation-list/rl24-signature-bit-flipped",
+        "vectors-revocation-list/rl25-signature-noncanonical-base64",
+        "vectors-revocation-list/rl26-another-chain",
+        "vectors-revocation-list/rl27-list-in-force-replayed",
+        "vectors-revocation-list/rl28-rollback",
+        "vectors-revocation-list/rl29-seq-gap",
+        "vectors-revocation-list/rl30-fresh-reader-past-seq-1",
+        "vectors-revocation-list/rl31-fork",
+        "vectors-revocation-list/rl32-issued-before-list-in-force",
+        "vectors-revocation-list/rl33-entry-from-future",
+        "vectors-revocation-list/rl34-list-drops-entry",
+        "vectors-revocation-list/rl35-list-edits-entry",
+        "vectors-revocation-list/rl36-old-root-after-rotation",
+        "vectors-revocation-list/rl37-root-revoked-without-successor",
+        "vectors-revocation-list/rl38-successor-revoked-sorting-before",
+        "vectors-revocation-list/rl39-successor-revoked-sorting-after"
       ]
     },
     "jcs.go::appendCanonical::CASE_DEL::50e0130ff584": {
@@ -2798,6 +3018,91 @@
         "vfae885f5e5f78197",
         "vfb979cb9ce40f1be",
         "vfcb846afff2d6979"
+      ],
+      "corpusKillers": [
+        "vectors-revocation-list/m-body-array",
+        "vectors-revocation-list/m-body-member-misnamed",
+        "vectors-revocation-list/m-drops-second-held-entry",
+        "vectors-revocation-list/m-entry-number",
+        "vectors-revocation-list/m-entry-reason-number",
+        "vectors-revocation-list/m-entry-unknown-member",
+        "vectors-revocation-list/m-entry-without-id",
+        "vectors-revocation-list/m-entry-without-kind",
+        "vectors-revocation-list/m-entry-without-revoked-at",
+        "vectors-revocation-list/m-every-kind",
+        "vectors-revocation-list/m-first-list-with-previous",
+        "vectors-revocation-list/m-grant-id-equals-root",
+        "vectors-revocation-list/m-issuer-key-31-bytes",
+        "vectors-revocation-list/m-issuer-key-line-break",
+        "vectors-revocation-list/m-issuer-key-number",
+        "vectors-revocation-list/m-key-id-not-a-digest",
+        "vectors-revocation-list/m-list-id-empty",
+        "vectors-revocation-list/m-list-id-with-space",
+        "vectors-revocation-list/m-permit-id-upper-case",
+        "vectors-revocation-list/m-previous-not-a-digest",
+        "vectors-revocation-list/m-revoked-at-not-a-time",
+        "vectors-revocation-list/m-root-pinned-twice",
+        "vectors-revocation-list/m-second-entry-from-future",
+        "vectors-revocation-list/m-second-entry-unknown-kind",
+        "vectors-revocation-list/m-second-list-null-previous",
+        "vectors-revocation-list/m-seq-zero",
+        "vectors-revocation-list/m-signature-line-break",
+        "vectors-revocation-list/m-signed-list-without-sig",
+        "vectors-revocation-list/m-successor-not-base64",
+        "vectors-revocation-list/m-successor-of-non-root",
+        "vectors-revocation-list/m-time-colon-13",
+        "vectors-revocation-list/m-time-colon-16",
+        "vectors-revocation-list/m-time-dash-4",
+        "vectors-revocation-list/m-time-dash-7",
+        "vectors-revocation-list/m-time-day-letter",
+        "vectors-revocation-list/m-time-hour-letter",
+        "vectors-revocation-list/m-time-len-21",
+        "vectors-revocation-list/m-time-minute-letter",
+        "vectors-revocation-list/m-time-month-letter",
+        "vectors-revocation-list/m-time-second-slash",
+        "vectors-revocation-list/m-time-t-lower-case",
+        "vectors-revocation-list/m-time-year-letter",
+        "vectors-revocation-list/m-time-year-zero",
+        "vectors-revocation-list/m-time-z-lower-case",
+        "vectors-revocation-list/m-two-lists-in-force",
+        "vectors-revocation-list/rl01-empty-first-list",
+        "vectors-revocation-list/rl02-three-lists-in-force",
+        "vectors-revocation-list/rl03-root-rotation-in-force",
+        "vectors-revocation-list/rl04-single-list-in-force",
+        "vectors-revocation-list/rl05-unknown-kind",
+        "vectors-revocation-list/rl06-entries-out-of-order",
+        "vectors-revocation-list/rl07-duplicate-entry",
+        "vectors-revocation-list/rl08-identifier-not-ascii",
+        "vectors-revocation-list/rl09-identifier-with-space",
+        "vectors-revocation-list/rl10-identifier-513-characters",
+        "vectors-revocation-list/rl11-extra-body-member",
+        "vectors-revocation-list/rl12-seq-boolean",
+        "vectors-revocation-list/rl14-time-with-offset",
+        "vectors-revocation-list/rl15-time-not-a-calendar-day",
+        "vectors-revocation-list/rl16-issuer-key-noncanonical-base64",
+        "vectors-revocation-list/rl17-grant-digest-upper-case",
+        "vectors-revocation-list/rl18-successor-on-agent-entry",
+        "vectors-revocation-list/rl19-extra-top-level-member",
+        "vectors-revocation-list/rl20-another-type",
+        "vectors-revocation-list/rl21-signer-not-a-root",
+        "vectors-revocation-list/rl22-entries-edited-after-signing",
+        "vectors-revocation-list/rl23-root-key-over-another-signature",
+        "vectors-revocation-list/rl24-signature-bit-flipped",
+        "vectors-revocation-list/rl25-signature-noncanonical-base64",
+        "vectors-revocation-list/rl26-another-chain",
+        "vectors-revocation-list/rl27-list-in-force-replayed",
+        "vectors-revocation-list/rl28-rollback",
+        "vectors-revocation-list/rl29-seq-gap",
+        "vectors-revocation-list/rl30-fresh-reader-past-seq-1",
+        "vectors-revocation-list/rl31-fork",
+        "vectors-revocation-list/rl32-issued-before-list-in-force",
+        "vectors-revocation-list/rl33-entry-from-future",
+        "vectors-revocation-list/rl34-list-drops-entry",
+        "vectors-revocation-list/rl35-list-edits-entry",
+        "vectors-revocation-list/rl36-old-root-after-rotation",
+        "vectors-revocation-list/rl37-root-revoked-without-successor",
+        "vectors-revocation-list/rl38-successor-revoked-sorting-before",
+        "vectors-revocation-list/rl39-successor-revoked-sorting-after"
       ]
     },
     "jcs.go::appendCanonical::CASE_DEL::7be2de92303f": {
@@ -2888,6 +3193,9 @@
         "vfa152052ea49dfdb",
         "vfb979cb9ce40f1be",
         "vfcb846afff2d6979"
+      ],
+      "corpusKillers": [
+        "vectors-revocation-list/rl12-seq-boolean"
       ]
     },
     "jcs.go::appendCanonical::CASE_DEL::8e5835cd2f78": {
@@ -3124,6 +3432,91 @@
         "vfae885f5e5f78197",
         "vfb979cb9ce40f1be",
         "vfcb846afff2d6979"
+      ],
+      "corpusKillers": [
+        "vectors-revocation-list/m-body-member-misnamed",
+        "vectors-revocation-list/m-drops-second-held-entry",
+        "vectors-revocation-list/m-entries-object",
+        "vectors-revocation-list/m-entry-number",
+        "vectors-revocation-list/m-entry-reason-number",
+        "vectors-revocation-list/m-entry-unknown-member",
+        "vectors-revocation-list/m-entry-without-id",
+        "vectors-revocation-list/m-entry-without-kind",
+        "vectors-revocation-list/m-entry-without-revoked-at",
+        "vectors-revocation-list/m-every-kind",
+        "vectors-revocation-list/m-first-list-with-previous",
+        "vectors-revocation-list/m-grant-id-equals-root",
+        "vectors-revocation-list/m-issuer-key-31-bytes",
+        "vectors-revocation-list/m-issuer-key-line-break",
+        "vectors-revocation-list/m-issuer-key-number",
+        "vectors-revocation-list/m-key-id-not-a-digest",
+        "vectors-revocation-list/m-list-id-empty",
+        "vectors-revocation-list/m-list-id-with-space",
+        "vectors-revocation-list/m-permit-id-upper-case",
+        "vectors-revocation-list/m-previous-not-a-digest",
+        "vectors-revocation-list/m-revoked-at-not-a-time",
+        "vectors-revocation-list/m-root-pinned-twice",
+        "vectors-revocation-list/m-second-entry-from-future",
+        "vectors-revocation-list/m-second-entry-unknown-kind",
+        "vectors-revocation-list/m-second-list-null-previous",
+        "vectors-revocation-list/m-seq-zero",
+        "vectors-revocation-list/m-signature-line-break",
+        "vectors-revocation-list/m-signed-list-without-sig",
+        "vectors-revocation-list/m-successor-not-base64",
+        "vectors-revocation-list/m-successor-of-non-root",
+        "vectors-revocation-list/m-time-colon-13",
+        "vectors-revocation-list/m-time-colon-16",
+        "vectors-revocation-list/m-time-dash-4",
+        "vectors-revocation-list/m-time-dash-7",
+        "vectors-revocation-list/m-time-day-letter",
+        "vectors-revocation-list/m-time-hour-letter",
+        "vectors-revocation-list/m-time-len-21",
+        "vectors-revocation-list/m-time-minute-letter",
+        "vectors-revocation-list/m-time-month-letter",
+        "vectors-revocation-list/m-time-second-slash",
+        "vectors-revocation-list/m-time-t-lower-case",
+        "vectors-revocation-list/m-time-year-letter",
+        "vectors-revocation-list/m-time-year-zero",
+        "vectors-revocation-list/m-time-z-lower-case",
+        "vectors-revocation-list/m-two-lists-in-force",
+        "vectors-revocation-list/rl01-empty-first-list",
+        "vectors-revocation-list/rl02-three-lists-in-force",
+        "vectors-revocation-list/rl03-root-rotation-in-force",
+        "vectors-revocation-list/rl04-single-list-in-force",
+        "vectors-revocation-list/rl05-unknown-kind",
+        "vectors-revocation-list/rl06-entries-out-of-order",
+        "vectors-revocation-list/rl07-duplicate-entry",
+        "vectors-revocation-list/rl08-identifier-not-ascii",
+        "vectors-revocation-list/rl09-identifier-with-space",
+        "vectors-revocation-list/rl10-identifier-513-characters",
+        "vectors-revocation-list/rl11-extra-body-member",
+        "vectors-revocation-list/rl12-seq-boolean",
+        "vectors-revocation-list/rl14-time-with-offset",
+        "vectors-revocation-list/rl15-time-not-a-calendar-day",
+        "vectors-revocation-list/rl16-issuer-key-noncanonical-base64",
+        "vectors-revocation-list/rl17-grant-digest-upper-case",
+        "vectors-revocation-list/rl18-successor-on-agent-entry",
+        "vectors-revocation-list/rl19-extra-top-level-member",
+        "vectors-revocation-list/rl20-another-type",
+        "vectors-revocation-list/rl21-signer-not-a-root",
+        "vectors-revocation-list/rl22-entries-edited-after-signing",
+        "vectors-revocation-list/rl23-root-key-over-another-signature",
+        "vectors-revocation-list/rl24-signature-bit-flipped",
+        "vectors-revocation-list/rl25-signature-noncanonical-base64",
+        "vectors-revocation-list/rl26-another-chain",
+        "vectors-revocation-list/rl27-list-in-force-replayed",
+        "vectors-revocation-list/rl28-rollback",
+        "vectors-revocation-list/rl29-seq-gap",
+        "vectors-revocation-list/rl30-fresh-reader-past-seq-1",
+        "vectors-revocation-list/rl31-fork",
+        "vectors-revocation-list/rl32-issued-before-list-in-force",
+        "vectors-revocation-list/rl33-entry-from-future",
+        "vectors-revocation-list/rl34-list-drops-entry",
+        "vectors-revocation-list/rl35-list-edits-entry",
+        "vectors-revocation-list/rl36-old-root-after-rotation",
+        "vectors-revocation-list/rl37-root-revoked-without-successor",
+        "vectors-revocation-list/rl38-successor-revoked-sorting-before",
+        "vectors-revocation-list/rl39-successor-revoked-sorting-after"
       ]
     },
     "jcs.go::appendCanonical::IF_OFF::25c8dd2a8a3d": {
@@ -3210,6 +3603,9 @@
         "vf88590533f7b3599",
         "vfa152052ea49dfdb",
         "vfcb846afff2d6979"
+      ],
+      "corpusKillers": [
+        "vectors-revocation-list/rl12-seq-boolean"
       ]
     },
     "jcs.go::appendCanonical::IF_OFF::29eae6805a4e": {
@@ -3245,6 +3641,25 @@
         "vf1fcbad160189ca5",
         "vf6717a2ded406b68",
         "vf88590533f7b3599"
+      ],
+      "corpusKillers": [
+        "vectors-revocation-list/m-drops-second-held-entry",
+        "vectors-revocation-list/m-every-kind",
+        "vectors-revocation-list/m-second-entry-from-future",
+        "vectors-revocation-list/m-second-entry-unknown-kind",
+        "vectors-revocation-list/rl02-three-lists-in-force",
+        "vectors-revocation-list/rl06-entries-out-of-order",
+        "vectors-revocation-list/rl07-duplicate-entry",
+        "vectors-revocation-list/rl27-list-in-force-replayed",
+        "vectors-revocation-list/rl28-rollback",
+        "vectors-revocation-list/rl29-seq-gap",
+        "vectors-revocation-list/rl30-fresh-reader-past-seq-1",
+        "vectors-revocation-list/rl31-fork",
+        "vectors-revocation-list/rl32-issued-before-list-in-force",
+        "vectors-revocation-list/rl34-list-drops-entry",
+        "vectors-revocation-list/rl35-list-edits-entry",
+        "vectors-revocation-list/rl38-successor-revoked-sorting-before",
+        "vectors-revocation-list/rl39-successor-revoked-sorting-after"
       ]
     },
     "jcs.go::appendCanonical::IF_OFF::510b306923b4#2": {
@@ -3389,6 +3804,91 @@
         "vfae885f5e5f78197",
         "vfb979cb9ce40f1be",
         "vfcb846afff2d6979"
+      ],
+      "corpusKillers": [
+        "vectors-revocation-list/m-body-member-misnamed",
+        "vectors-revocation-list/m-drops-second-held-entry",
+        "vectors-revocation-list/m-entries-object",
+        "vectors-revocation-list/m-entry-number",
+        "vectors-revocation-list/m-entry-reason-number",
+        "vectors-revocation-list/m-entry-unknown-member",
+        "vectors-revocation-list/m-entry-without-id",
+        "vectors-revocation-list/m-entry-without-kind",
+        "vectors-revocation-list/m-entry-without-revoked-at",
+        "vectors-revocation-list/m-every-kind",
+        "vectors-revocation-list/m-first-list-with-previous",
+        "vectors-revocation-list/m-grant-id-equals-root",
+        "vectors-revocation-list/m-issuer-key-31-bytes",
+        "vectors-revocation-list/m-issuer-key-line-break",
+        "vectors-revocation-list/m-issuer-key-number",
+        "vectors-revocation-list/m-key-id-not-a-digest",
+        "vectors-revocation-list/m-list-id-empty",
+        "vectors-revocation-list/m-list-id-with-space",
+        "vectors-revocation-list/m-permit-id-upper-case",
+        "vectors-revocation-list/m-previous-not-a-digest",
+        "vectors-revocation-list/m-revoked-at-not-a-time",
+        "vectors-revocation-list/m-root-pinned-twice",
+        "vectors-revocation-list/m-second-entry-from-future",
+        "vectors-revocation-list/m-second-entry-unknown-kind",
+        "vectors-revocation-list/m-second-list-null-previous",
+        "vectors-revocation-list/m-seq-zero",
+        "vectors-revocation-list/m-signature-line-break",
+        "vectors-revocation-list/m-signed-list-without-sig",
+        "vectors-revocation-list/m-successor-not-base64",
+        "vectors-revocation-list/m-successor-of-non-root",
+        "vectors-revocation-list/m-time-colon-13",
+        "vectors-revocation-list/m-time-colon-16",
+        "vectors-revocation-list/m-time-dash-4",
+        "vectors-revocation-list/m-time-dash-7",
+        "vectors-revocation-list/m-time-day-letter",
+        "vectors-revocation-list/m-time-hour-letter",
+        "vectors-revocation-list/m-time-len-21",
+        "vectors-revocation-list/m-time-minute-letter",
+        "vectors-revocation-list/m-time-month-letter",
+        "vectors-revocation-list/m-time-second-slash",
+        "vectors-revocation-list/m-time-t-lower-case",
+        "vectors-revocation-list/m-time-year-letter",
+        "vectors-revocation-list/m-time-year-zero",
+        "vectors-revocation-list/m-time-z-lower-case",
+        "vectors-revocation-list/m-two-lists-in-force",
+        "vectors-revocation-list/rl01-empty-first-list",
+        "vectors-revocation-list/rl02-three-lists-in-force",
+        "vectors-revocation-list/rl03-root-rotation-in-force",
+        "vectors-revocation-list/rl04-single-list-in-force",
+        "vectors-revocation-list/rl05-unknown-kind",
+        "vectors-revocation-list/rl06-entries-out-of-order",
+        "vectors-revocation-list/rl07-duplicate-entry",
+        "vectors-revocation-list/rl08-identifier-not-ascii",
+        "vectors-revocation-list/rl09-identifier-with-space",
+        "vectors-revocation-list/rl10-identifier-513-characters",
+        "vectors-revocation-list/rl11-extra-body-member",
+        "vectors-revocation-list/rl12-seq-boolean",
+        "vectors-revocation-list/rl14-time-with-offset",
+        "vectors-revocation-list/rl15-time-not-a-calendar-day",
+        "vectors-revocation-list/rl16-issuer-key-noncanonical-base64",
+        "vectors-revocation-list/rl17-grant-digest-upper-case",
+        "vectors-revocation-list/rl18-successor-on-agent-entry",
+        "vectors-revocation-list/rl19-extra-top-level-member",
+        "vectors-revocation-list/rl20-another-type",
+        "vectors-revocation-list/rl21-signer-not-a-root",
+        "vectors-revocation-list/rl22-entries-edited-after-signing",
+        "vectors-revocation-list/rl23-root-key-over-another-signature",
+        "vectors-revocation-list/rl24-signature-bit-flipped",
+        "vectors-revocation-list/rl25-signature-noncanonical-base64",
+        "vectors-revocation-list/rl26-another-chain",
+        "vectors-revocation-list/rl27-list-in-force-replayed",
+        "vectors-revocation-list/rl28-rollback",
+        "vectors-revocation-list/rl29-seq-gap",
+        "vectors-revocation-list/rl30-fresh-reader-past-seq-1",
+        "vectors-revocation-list/rl31-fork",
+        "vectors-revocation-list/rl32-issued-before-list-in-force",
+        "vectors-revocation-list/rl33-entry-from-future",
+        "vectors-revocation-list/rl34-list-drops-entry",
+        "vectors-revocation-list/rl35-list-edits-entry",
+        "vectors-revocation-list/rl36-old-root-after-rotation",
+        "vectors-revocation-list/rl37-root-revoked-without-successor",
+        "vectors-revocation-list/rl38-successor-revoked-sorting-before",
+        "vectors-revocation-list/rl39-successor-revoked-sorting-after"
       ]
     },
     "jcs.go::appendCanonical::IF_OFF::8983daf75923": {
@@ -3548,6 +4048,91 @@
         "vfae885f5e5f78197",
         "vfb979cb9ce40f1be",
         "vfcb846afff2d6979"
+      ],
+      "corpusKillers": [
+        "vectors-revocation-list/m-body-member-misnamed",
+        "vectors-revocation-list/m-drops-second-held-entry",
+        "vectors-revocation-list/m-entries-object",
+        "vectors-revocation-list/m-entry-number",
+        "vectors-revocation-list/m-entry-reason-number",
+        "vectors-revocation-list/m-entry-unknown-member",
+        "vectors-revocation-list/m-entry-without-id",
+        "vectors-revocation-list/m-entry-without-kind",
+        "vectors-revocation-list/m-entry-without-revoked-at",
+        "vectors-revocation-list/m-every-kind",
+        "vectors-revocation-list/m-first-list-with-previous",
+        "vectors-revocation-list/m-grant-id-equals-root",
+        "vectors-revocation-list/m-issuer-key-31-bytes",
+        "vectors-revocation-list/m-issuer-key-line-break",
+        "vectors-revocation-list/m-issuer-key-number",
+        "vectors-revocation-list/m-key-id-not-a-digest",
+        "vectors-revocation-list/m-list-id-empty",
+        "vectors-revocation-list/m-list-id-with-space",
+        "vectors-revocation-list/m-permit-id-upper-case",
+        "vectors-revocation-list/m-previous-not-a-digest",
+        "vectors-revocation-list/m-revoked-at-not-a-time",
+        "vectors-revocation-list/m-root-pinned-twice",
+        "vectors-revocation-list/m-second-entry-from-future",
+        "vectors-revocation-list/m-second-entry-unknown-kind",
+        "vectors-revocation-list/m-second-list-null-previous",
+        "vectors-revocation-list/m-seq-zero",
+        "vectors-revocation-list/m-signature-line-break",
+        "vectors-revocation-list/m-signed-list-without-sig",
+        "vectors-revocation-list/m-successor-not-base64",
+        "vectors-revocation-list/m-successor-of-non-root",
+        "vectors-revocation-list/m-time-colon-13",
+        "vectors-revocation-list/m-time-colon-16",
+        "vectors-revocation-list/m-time-dash-4",
+        "vectors-revocation-list/m-time-dash-7",
+        "vectors-revocation-list/m-time-day-letter",
+        "vectors-revocation-list/m-time-hour-letter",
+        "vectors-revocation-list/m-time-len-21",
+        "vectors-revocation-list/m-time-minute-letter",
+        "vectors-revocation-list/m-time-month-letter",
+        "vectors-revocation-list/m-time-second-slash",
+        "vectors-revocation-list/m-time-t-lower-case",
+        "vectors-revocation-list/m-time-year-letter",
+        "vectors-revocation-list/m-time-year-zero",
+        "vectors-revocation-list/m-time-z-lower-case",
+        "vectors-revocation-list/m-two-lists-in-force",
+        "vectors-revocation-list/rl01-empty-first-list",
+        "vectors-revocation-list/rl02-three-lists-in-force",
+        "vectors-revocation-list/rl03-root-rotation-in-force",
+        "vectors-revocation-list/rl04-single-list-in-force",
+        "vectors-revocation-list/rl05-unknown-kind",
+        "vectors-revocation-list/rl06-entries-out-of-order",
+        "vectors-revocation-list/rl07-duplicate-entry",
+        "vectors-revocation-list/rl08-identifier-not-ascii",
+        "vectors-revocation-list/rl09-identifier-with-space",
+        "vectors-revocation-list/rl10-identifier-513-characters",
+        "vectors-revocation-list/rl11-extra-body-member",
+        "vectors-revocation-list/rl12-seq-boolean",
+        "vectors-revocation-list/rl14-time-with-offset",
+        "vectors-revocation-list/rl15-time-not-a-calendar-day",
+        "vectors-revocation-list/rl16-issuer-key-noncanonical-base64",
+        "vectors-revocation-list/rl17-grant-digest-upper-case",
+        "vectors-revocation-list/rl18-successor-on-agent-entry",
+        "vectors-revocation-list/rl19-extra-top-level-member",
+        "vectors-revocation-list/rl20-another-type",
+        "vectors-revocation-list/rl21-signer-not-a-root",
+        "vectors-revocation-list/rl22-entries-edited-after-signing",
+        "vectors-revocation-list/rl23-root-key-over-another-signature",
+        "vectors-revocation-list/rl24-signature-bit-flipped",
+        "vectors-revocation-list/rl25-signature-noncanonical-base64",
+        "vectors-revocation-list/rl26-another-chain",
+        "vectors-revocation-list/rl27-list-in-force-replayed",
+        "vectors-revocation-list/rl28-rollback",
+        "vectors-revocation-list/rl29-seq-gap",
+        "vectors-revocation-list/rl30-fresh-reader-past-seq-1",
+        "vectors-revocation-list/rl31-fork",
+        "vectors-revocation-list/rl32-issued-before-list-in-force",
+        "vectors-revocation-list/rl33-entry-from-future",
+        "vectors-revocation-list/rl34-list-drops-entry",
+        "vectors-revocation-list/rl35-list-edits-entry",
+        "vectors-revocation-list/rl36-old-root-after-rotation",
+        "vectors-revocation-list/rl37-root-revoked-without-successor",
+        "vectors-revocation-list/rl38-successor-revoked-sorting-before",
+        "vectors-revocation-list/rl39-successor-revoked-sorting-after"
       ]
     },
     "jcs.go::appendCanonical::LOOP_FIRST::aaf8c75c88c9": {
@@ -3578,6 +4163,25 @@
         "vf1fcbad160189ca5",
         "vf6717a2ded406b68",
         "vf88590533f7b3599"
+      ],
+      "corpusKillers": [
+        "vectors-revocation-list/m-drops-second-held-entry",
+        "vectors-revocation-list/m-every-kind",
+        "vectors-revocation-list/m-second-entry-from-future",
+        "vectors-revocation-list/m-second-entry-unknown-kind",
+        "vectors-revocation-list/rl02-three-lists-in-force",
+        "vectors-revocation-list/rl06-entries-out-of-order",
+        "vectors-revocation-list/rl07-duplicate-entry",
+        "vectors-revocation-list/rl27-list-in-force-replayed",
+        "vectors-revocation-list/rl28-rollback",
+        "vectors-revocation-list/rl29-seq-gap",
+        "vectors-revocation-list/rl30-fresh-reader-past-seq-1",
+        "vectors-revocation-list/rl31-fork",
+        "vectors-revocation-list/rl32-issued-before-list-in-force",
+        "vectors-revocation-list/rl34-list-drops-entry",
+        "vectors-revocation-list/rl35-list-edits-entry",
+        "vectors-revocation-list/rl38-successor-revoked-sorting-before",
+        "vectors-revocation-list/rl39-successor-revoked-sorting-after"
       ]
     },
     "jcs.go::appendJCSString::CASE_DEL::0cffda5a0178": {
@@ -3606,9 +4210,11 @@
       "branch": "never-taken"
     },
     "jcs.go::appendJCSString::CASE_DEL::e38acd121a64": {
-      "class": "DEAD",
+      "class": "KILLED",
       "snippet": "case '\\n': buf.WriteString(`\\n`)",
-      "branch": "never-taken"
+      "corpusKillers": [
+        "vectors-revocation-list/m-issuer-key-line-break"
+      ]
     },
     "jcs.go::appendJCSString::CASE_DEL::ed3ba5dba347": {
       "class": "DEAD",
@@ -3631,14 +4237,20 @@
       "branch": "taken"
     },
     "jcs.go::checkEscape::CASE_CONJ::3205ddd221c2": {
-      "class": "DEAD",
+      "class": "KILLED",
       "snippet": "hi >= 0xDC00",
-      "branch": "taken"
+      "corpusKillers": [
+        "vectors-revocation-list/rl04-single-list-in-force",
+        "vectors-revocation-list/rl08-identifier-not-ascii"
+      ]
     },
     "jcs.go::checkEscape::CASE_CONJ::892d1c47fc44": {
-      "class": "DEAD",
+      "class": "KILLED",
       "snippet": "hi >= 0xD800",
-      "branch": "taken"
+      "corpusKillers": [
+        "vectors-revocation-list/rl04-single-list-in-force",
+        "vectors-revocation-list/rl08-identifier-not-ascii"
+      ]
     },
     "jcs.go::checkEscape::CASE_OFF::7fb071b85e44": {
       "class": "KILLED",
@@ -3653,6 +4265,9 @@
       "killers": [
         "v5717f72827e39413",
         "vdef377fb4f572b4d"
+      ],
+      "corpusKillers": [
+        "vectors-revocation-list/rl04-single-list-in-force"
       ]
     },
     "jcs.go::checkEscape::IF_DISJ::4371dbb92738": {
@@ -3707,6 +4322,10 @@
       "snippet": "if b[1] != 'u' { return 2, nil }",
       "killers": [
         "v44d1a62bf45413ea"
+      ],
+      "corpusKillers": [
+        "vectors-revocation-list/m-issuer-key-line-break",
+        "vectors-revocation-list/m-signature-line-break"
       ]
     },
     "jcs.go::checkEscape::IF_OFF::dbdef6d2e96c": {
@@ -3732,6 +4351,9 @@
       "killers": [
         "v61efcc48543d8cea",
         "vd3ead02f7ed16d0a"
+      ],
+      "corpusKillers": [
+        "vectors-revocation-list/rl13-seq-beyond-exact-integers"
       ]
     },
     "jcs.go::checkSafeInteger::IF_OFF::60f0676b6a39": {
@@ -4030,6 +4652,93 @@
         "vfae885f5e5f78197",
         "vfb979cb9ce40f1be",
         "vfcb846afff2d6979"
+      ],
+      "corpusKillers": [
+        "vectors-revocation-list/m-body-array",
+        "vectors-revocation-list/m-body-member-misnamed",
+        "vectors-revocation-list/m-drops-second-held-entry",
+        "vectors-revocation-list/m-entries-object",
+        "vectors-revocation-list/m-entry-number",
+        "vectors-revocation-list/m-entry-reason-number",
+        "vectors-revocation-list/m-entry-unknown-member",
+        "vectors-revocation-list/m-entry-without-id",
+        "vectors-revocation-list/m-entry-without-kind",
+        "vectors-revocation-list/m-entry-without-revoked-at",
+        "vectors-revocation-list/m-every-kind",
+        "vectors-revocation-list/m-first-list-with-previous",
+        "vectors-revocation-list/m-grant-id-equals-root",
+        "vectors-revocation-list/m-issuer-key-31-bytes",
+        "vectors-revocation-list/m-issuer-key-line-break",
+        "vectors-revocation-list/m-issuer-key-number",
+        "vectors-revocation-list/m-key-id-not-a-digest",
+        "vectors-revocation-list/m-list-id-empty",
+        "vectors-revocation-list/m-list-id-with-space",
+        "vectors-revocation-list/m-permit-id-upper-case",
+        "vectors-revocation-list/m-previous-not-a-digest",
+        "vectors-revocation-list/m-revoked-at-not-a-time",
+        "vectors-revocation-list/m-root-pinned-twice",
+        "vectors-revocation-list/m-second-entry-from-future",
+        "vectors-revocation-list/m-second-entry-unknown-kind",
+        "vectors-revocation-list/m-second-list-null-previous",
+        "vectors-revocation-list/m-seq-zero",
+        "vectors-revocation-list/m-signature-line-break",
+        "vectors-revocation-list/m-signed-list-without-body",
+        "vectors-revocation-list/m-signed-list-without-sig",
+        "vectors-revocation-list/m-successor-not-base64",
+        "vectors-revocation-list/m-successor-of-non-root",
+        "vectors-revocation-list/m-time-colon-13",
+        "vectors-revocation-list/m-time-colon-16",
+        "vectors-revocation-list/m-time-dash-4",
+        "vectors-revocation-list/m-time-dash-7",
+        "vectors-revocation-list/m-time-day-letter",
+        "vectors-revocation-list/m-time-hour-letter",
+        "vectors-revocation-list/m-time-len-21",
+        "vectors-revocation-list/m-time-minute-letter",
+        "vectors-revocation-list/m-time-month-letter",
+        "vectors-revocation-list/m-time-second-slash",
+        "vectors-revocation-list/m-time-t-lower-case",
+        "vectors-revocation-list/m-time-year-letter",
+        "vectors-revocation-list/m-time-year-zero",
+        "vectors-revocation-list/m-time-z-lower-case",
+        "vectors-revocation-list/m-two-lists-in-force",
+        "vectors-revocation-list/rl01-empty-first-list",
+        "vectors-revocation-list/rl02-three-lists-in-force",
+        "vectors-revocation-list/rl03-root-rotation-in-force",
+        "vectors-revocation-list/rl04-single-list-in-force",
+        "vectors-revocation-list/rl05-unknown-kind",
+        "vectors-revocation-list/rl06-entries-out-of-order",
+        "vectors-revocation-list/rl07-duplicate-entry",
+        "vectors-revocation-list/rl08-identifier-not-ascii",
+        "vectors-revocation-list/rl09-identifier-with-space",
+        "vectors-revocation-list/rl10-identifier-513-characters",
+        "vectors-revocation-list/rl11-extra-body-member",
+        "vectors-revocation-list/rl12-seq-boolean",
+        "vectors-revocation-list/rl14-time-with-offset",
+        "vectors-revocation-list/rl15-time-not-a-calendar-day",
+        "vectors-revocation-list/rl16-issuer-key-noncanonical-base64",
+        "vectors-revocation-list/rl17-grant-digest-upper-case",
+        "vectors-revocation-list/rl18-successor-on-agent-entry",
+        "vectors-revocation-list/rl19-extra-top-level-member",
+        "vectors-revocation-list/rl20-another-type",
+        "vectors-revocation-list/rl21-signer-not-a-root",
+        "vectors-revocation-list/rl22-entries-edited-after-signing",
+        "vectors-revocation-list/rl23-root-key-over-another-signature",
+        "vectors-revocation-list/rl24-signature-bit-flipped",
+        "vectors-revocation-list/rl25-signature-noncanonical-base64",
+        "vectors-revocation-list/rl26-another-chain",
+        "vectors-revocation-list/rl27-list-in-force-replayed",
+        "vectors-revocation-list/rl28-rollback",
+        "vectors-revocation-list/rl29-seq-gap",
+        "vectors-revocation-list/rl30-fresh-reader-past-seq-1",
+        "vectors-revocation-list/rl31-fork",
+        "vectors-revocation-list/rl32-issued-before-list-in-force",
+        "vectors-revocation-list/rl33-entry-from-future",
+        "vectors-revocation-list/rl34-list-drops-entry",
+        "vectors-revocation-list/rl35-list-edits-entry",
+        "vectors-revocation-list/rl36-old-root-after-rotation",
+        "vectors-revocation-list/rl37-root-revoked-without-successor",
+        "vectors-revocation-list/rl38-successor-revoked-sorting-before",
+        "vectors-revocation-list/rl39-successor-revoked-sorting-after"
       ]
     },
     "jcs.go::checkStringLiteral::CASE_OFF::c7dd5001c174": {
@@ -4366,6 +5075,94 @@
         "vfae885f5e5f78197",
         "vfb979cb9ce40f1be",
         "vfcb846afff2d6979"
+      ],
+      "corpusKillers": [
+        "vectors-revocation-list/m-body-array",
+        "vectors-revocation-list/m-body-member-misnamed",
+        "vectors-revocation-list/m-drops-second-held-entry",
+        "vectors-revocation-list/m-entries-object",
+        "vectors-revocation-list/m-entry-number",
+        "vectors-revocation-list/m-entry-reason-number",
+        "vectors-revocation-list/m-entry-unknown-member",
+        "vectors-revocation-list/m-entry-without-id",
+        "vectors-revocation-list/m-entry-without-kind",
+        "vectors-revocation-list/m-entry-without-revoked-at",
+        "vectors-revocation-list/m-every-kind",
+        "vectors-revocation-list/m-first-list-with-previous",
+        "vectors-revocation-list/m-grant-id-equals-root",
+        "vectors-revocation-list/m-issuer-key-31-bytes",
+        "vectors-revocation-list/m-issuer-key-line-break",
+        "vectors-revocation-list/m-issuer-key-number",
+        "vectors-revocation-list/m-key-id-not-a-digest",
+        "vectors-revocation-list/m-list-id-empty",
+        "vectors-revocation-list/m-list-id-with-space",
+        "vectors-revocation-list/m-permit-id-upper-case",
+        "vectors-revocation-list/m-previous-not-a-digest",
+        "vectors-revocation-list/m-revoked-at-not-a-time",
+        "vectors-revocation-list/m-root-pinned-twice",
+        "vectors-revocation-list/m-second-entry-from-future",
+        "vectors-revocation-list/m-second-entry-unknown-kind",
+        "vectors-revocation-list/m-second-list-null-previous",
+        "vectors-revocation-list/m-seq-zero",
+        "vectors-revocation-list/m-signature-line-break",
+        "vectors-revocation-list/m-signed-list-array",
+        "vectors-revocation-list/m-signed-list-without-body",
+        "vectors-revocation-list/m-signed-list-without-sig",
+        "vectors-revocation-list/m-successor-not-base64",
+        "vectors-revocation-list/m-successor-of-non-root",
+        "vectors-revocation-list/m-time-colon-13",
+        "vectors-revocation-list/m-time-colon-16",
+        "vectors-revocation-list/m-time-dash-4",
+        "vectors-revocation-list/m-time-dash-7",
+        "vectors-revocation-list/m-time-day-letter",
+        "vectors-revocation-list/m-time-hour-letter",
+        "vectors-revocation-list/m-time-len-21",
+        "vectors-revocation-list/m-time-minute-letter",
+        "vectors-revocation-list/m-time-month-letter",
+        "vectors-revocation-list/m-time-second-slash",
+        "vectors-revocation-list/m-time-t-lower-case",
+        "vectors-revocation-list/m-time-year-letter",
+        "vectors-revocation-list/m-time-year-zero",
+        "vectors-revocation-list/m-time-z-lower-case",
+        "vectors-revocation-list/m-two-lists-in-force",
+        "vectors-revocation-list/rl01-empty-first-list",
+        "vectors-revocation-list/rl02-three-lists-in-force",
+        "vectors-revocation-list/rl03-root-rotation-in-force",
+        "vectors-revocation-list/rl04-single-list-in-force",
+        "vectors-revocation-list/rl05-unknown-kind",
+        "vectors-revocation-list/rl06-entries-out-of-order",
+        "vectors-revocation-list/rl07-duplicate-entry",
+        "vectors-revocation-list/rl08-identifier-not-ascii",
+        "vectors-revocation-list/rl09-identifier-with-space",
+        "vectors-revocation-list/rl10-identifier-513-characters",
+        "vectors-revocation-list/rl11-extra-body-member",
+        "vectors-revocation-list/rl12-seq-boolean",
+        "vectors-revocation-list/rl14-time-with-offset",
+        "vectors-revocation-list/rl15-time-not-a-calendar-day",
+        "vectors-revocation-list/rl16-issuer-key-noncanonical-base64",
+        "vectors-revocation-list/rl17-grant-digest-upper-case",
+        "vectors-revocation-list/rl18-successor-on-agent-entry",
+        "vectors-revocation-list/rl19-extra-top-level-member",
+        "vectors-revocation-list/rl20-another-type",
+        "vectors-revocation-list/rl21-signer-not-a-root",
+        "vectors-revocation-list/rl22-entries-edited-after-signing",
+        "vectors-revocation-list/rl23-root-key-over-another-signature",
+        "vectors-revocation-list/rl24-signature-bit-flipped",
+        "vectors-revocation-list/rl25-signature-noncanonical-base64",
+        "vectors-revocation-list/rl26-another-chain",
+        "vectors-revocation-list/rl27-list-in-force-replayed",
+        "vectors-revocation-list/rl28-rollback",
+        "vectors-revocation-list/rl29-seq-gap",
+        "vectors-revocation-list/rl30-fresh-reader-past-seq-1",
+        "vectors-revocation-list/rl31-fork",
+        "vectors-revocation-list/rl32-issued-before-list-in-force",
+        "vectors-revocation-list/rl33-entry-from-future",
+        "vectors-revocation-list/rl34-list-drops-entry",
+        "vectors-revocation-list/rl35-list-edits-entry",
+        "vectors-revocation-list/rl36-old-root-after-rotation",
+        "vectors-revocation-list/rl37-root-revoked-without-successor",
+        "vectors-revocation-list/rl38-successor-revoked-sorting-before",
+        "vectors-revocation-list/rl39-successor-revoked-sorting-after"
       ]
     },
     "jcs.go::decodeValue::CASE_DEL::0926bb681f57": {
@@ -4598,6 +5395,93 @@
         "vfae885f5e5f78197",
         "vfb979cb9ce40f1be",
         "vfcb846afff2d6979"
+      ],
+      "corpusKillers": [
+        "vectors-revocation-list/m-body-array",
+        "vectors-revocation-list/m-body-member-misnamed",
+        "vectors-revocation-list/m-drops-second-held-entry",
+        "vectors-revocation-list/m-entry-number",
+        "vectors-revocation-list/m-entry-reason-number",
+        "vectors-revocation-list/m-entry-unknown-member",
+        "vectors-revocation-list/m-entry-without-id",
+        "vectors-revocation-list/m-entry-without-kind",
+        "vectors-revocation-list/m-entry-without-revoked-at",
+        "vectors-revocation-list/m-every-kind",
+        "vectors-revocation-list/m-first-list-with-previous",
+        "vectors-revocation-list/m-grant-id-equals-root",
+        "vectors-revocation-list/m-issuer-key-31-bytes",
+        "vectors-revocation-list/m-issuer-key-line-break",
+        "vectors-revocation-list/m-issuer-key-number",
+        "vectors-revocation-list/m-key-id-not-a-digest",
+        "vectors-revocation-list/m-list-id-empty",
+        "vectors-revocation-list/m-list-id-with-space",
+        "vectors-revocation-list/m-permit-id-upper-case",
+        "vectors-revocation-list/m-previous-not-a-digest",
+        "vectors-revocation-list/m-revoked-at-not-a-time",
+        "vectors-revocation-list/m-root-pinned-twice",
+        "vectors-revocation-list/m-second-entry-from-future",
+        "vectors-revocation-list/m-second-entry-unknown-kind",
+        "vectors-revocation-list/m-second-list-null-previous",
+        "vectors-revocation-list/m-seq-zero",
+        "vectors-revocation-list/m-signature-line-break",
+        "vectors-revocation-list/m-signed-list-array",
+        "vectors-revocation-list/m-signed-list-without-body",
+        "vectors-revocation-list/m-signed-list-without-sig",
+        "vectors-revocation-list/m-successor-not-base64",
+        "vectors-revocation-list/m-successor-of-non-root",
+        "vectors-revocation-list/m-time-colon-13",
+        "vectors-revocation-list/m-time-colon-16",
+        "vectors-revocation-list/m-time-dash-4",
+        "vectors-revocation-list/m-time-dash-7",
+        "vectors-revocation-list/m-time-day-letter",
+        "vectors-revocation-list/m-time-hour-letter",
+        "vectors-revocation-list/m-time-len-21",
+        "vectors-revocation-list/m-time-minute-letter",
+        "vectors-revocation-list/m-time-month-letter",
+        "vectors-revocation-list/m-time-second-slash",
+        "vectors-revocation-list/m-time-t-lower-case",
+        "vectors-revocation-list/m-time-year-letter",
+        "vectors-revocation-list/m-time-year-zero",
+        "vectors-revocation-list/m-time-z-lower-case",
+        "vectors-revocation-list/m-two-lists-in-force",
+        "vectors-revocation-list/rl01-empty-first-list",
+        "vectors-revocation-list/rl02-three-lists-in-force",
+        "vectors-revocation-list/rl03-root-rotation-in-force",
+        "vectors-revocation-list/rl04-single-list-in-force",
+        "vectors-revocation-list/rl05-unknown-kind",
+        "vectors-revocation-list/rl06-entries-out-of-order",
+        "vectors-revocation-list/rl07-duplicate-entry",
+        "vectors-revocation-list/rl08-identifier-not-ascii",
+        "vectors-revocation-list/rl09-identifier-with-space",
+        "vectors-revocation-list/rl10-identifier-513-characters",
+        "vectors-revocation-list/rl11-extra-body-member",
+        "vectors-revocation-list/rl12-seq-boolean",
+        "vectors-revocation-list/rl14-time-with-offset",
+        "vectors-revocation-list/rl15-time-not-a-calendar-day",
+        "vectors-revocation-list/rl16-issuer-key-noncanonical-base64",
+        "vectors-revocation-list/rl17-grant-digest-upper-case",
+        "vectors-revocation-list/rl18-successor-on-agent-entry",
+        "vectors-revocation-list/rl19-extra-top-level-member",
+        "vectors-revocation-list/rl20-another-type",
+        "vectors-revocation-list/rl21-signer-not-a-root",
+        "vectors-revocation-list/rl22-entries-edited-after-signing",
+        "vectors-revocation-list/rl23-root-key-over-another-signature",
+        "vectors-revocation-list/rl24-signature-bit-flipped",
+        "vectors-revocation-list/rl25-signature-noncanonical-base64",
+        "vectors-revocation-list/rl26-another-chain",
+        "vectors-revocation-list/rl27-list-in-force-replayed",
+        "vectors-revocation-list/rl28-rollback",
+        "vectors-revocation-list/rl29-seq-gap",
+        "vectors-revocation-list/rl30-fresh-reader-past-seq-1",
+        "vectors-revocation-list/rl31-fork",
+        "vectors-revocation-list/rl32-issued-before-list-in-force",
+        "vectors-revocation-list/rl33-entry-from-future",
+        "vectors-revocation-list/rl34-list-drops-entry",
+        "vectors-revocation-list/rl35-list-edits-entry",
+        "vectors-revocation-list/rl36-old-root-after-rotation",
+        "vectors-revocation-list/rl37-root-revoked-without-successor",
+        "vectors-revocation-list/rl38-successor-revoked-sorting-before",
+        "vectors-revocation-list/rl39-successor-revoked-sorting-after"
       ]
     },
     "jcs.go::decodeValue::CASE_DEL::4df6fc1fa03e": {
@@ -4831,6 +5715,93 @@
         "vfae885f5e5f78197",
         "vfb979cb9ce40f1be",
         "vfcb846afff2d6979"
+      ],
+      "corpusKillers": [
+        "vectors-revocation-list/m-body-array",
+        "vectors-revocation-list/m-body-member-misnamed",
+        "vectors-revocation-list/m-drops-second-held-entry",
+        "vectors-revocation-list/m-entries-object",
+        "vectors-revocation-list/m-entry-number",
+        "vectors-revocation-list/m-entry-reason-number",
+        "vectors-revocation-list/m-entry-unknown-member",
+        "vectors-revocation-list/m-entry-without-id",
+        "vectors-revocation-list/m-entry-without-kind",
+        "vectors-revocation-list/m-entry-without-revoked-at",
+        "vectors-revocation-list/m-every-kind",
+        "vectors-revocation-list/m-first-list-with-previous",
+        "vectors-revocation-list/m-grant-id-equals-root",
+        "vectors-revocation-list/m-issuer-key-31-bytes",
+        "vectors-revocation-list/m-issuer-key-line-break",
+        "vectors-revocation-list/m-issuer-key-number",
+        "vectors-revocation-list/m-key-id-not-a-digest",
+        "vectors-revocation-list/m-list-id-empty",
+        "vectors-revocation-list/m-list-id-with-space",
+        "vectors-revocation-list/m-permit-id-upper-case",
+        "vectors-revocation-list/m-previous-not-a-digest",
+        "vectors-revocation-list/m-revoked-at-not-a-time",
+        "vectors-revocation-list/m-root-pinned-twice",
+        "vectors-revocation-list/m-second-entry-from-future",
+        "vectors-revocation-list/m-second-entry-unknown-kind",
+        "vectors-revocation-list/m-second-list-null-previous",
+        "vectors-revocation-list/m-seq-zero",
+        "vectors-revocation-list/m-signature-line-break",
+        "vectors-revocation-list/m-signed-list-without-body",
+        "vectors-revocation-list/m-signed-list-without-sig",
+        "vectors-revocation-list/m-successor-not-base64",
+        "vectors-revocation-list/m-successor-of-non-root",
+        "vectors-revocation-list/m-time-colon-13",
+        "vectors-revocation-list/m-time-colon-16",
+        "vectors-revocation-list/m-time-dash-4",
+        "vectors-revocation-list/m-time-dash-7",
+        "vectors-revocation-list/m-time-day-letter",
+        "vectors-revocation-list/m-time-hour-letter",
+        "vectors-revocation-list/m-time-len-21",
+        "vectors-revocation-list/m-time-minute-letter",
+        "vectors-revocation-list/m-time-month-letter",
+        "vectors-revocation-list/m-time-second-slash",
+        "vectors-revocation-list/m-time-t-lower-case",
+        "vectors-revocation-list/m-time-year-letter",
+        "vectors-revocation-list/m-time-year-zero",
+        "vectors-revocation-list/m-time-z-lower-case",
+        "vectors-revocation-list/m-two-lists-in-force",
+        "vectors-revocation-list/rl01-empty-first-list",
+        "vectors-revocation-list/rl02-three-lists-in-force",
+        "vectors-revocation-list/rl03-root-rotation-in-force",
+        "vectors-revocation-list/rl04-single-list-in-force",
+        "vectors-revocation-list/rl05-unknown-kind",
+        "vectors-revocation-list/rl06-entries-out-of-order",
+        "vectors-revocation-list/rl07-duplicate-entry",
+        "vectors-revocation-list/rl08-identifier-not-ascii",
+        "vectors-revocation-list/rl09-identifier-with-space",
+        "vectors-revocation-list/rl10-identifier-513-characters",
+        "vectors-revocation-list/rl11-extra-body-member",
+        "vectors-revocation-list/rl12-seq-boolean",
+        "vectors-revocation-list/rl14-time-with-offset",
+        "vectors-revocation-list/rl15-time-not-a-calendar-day",
+        "vectors-revocation-list/rl16-issuer-key-noncanonical-base64",
+        "vectors-revocation-list/rl17-grant-digest-upper-case",
+        "vectors-revocation-list/rl18-successor-on-agent-entry",
+        "vectors-revocation-list/rl19-extra-top-level-member",
+        "vectors-revocation-list/rl20-another-type",
+        "vectors-revocation-list/rl21-signer-not-a-root",
+        "vectors-revocation-list/rl22-entries-edited-after-signing",
+        "vectors-revocation-list/rl23-root-key-over-another-signature",
+        "vectors-revocation-list/rl24-signature-bit-flipped",
+        "vectors-revocation-list/rl25-signature-noncanonical-base64",
+        "vectors-revocation-list/rl26-another-chain",
+        "vectors-revocation-list/rl27-list-in-force-replayed",
+        "vectors-revocation-list/rl28-rollback",
+        "vectors-revocation-list/rl29-seq-gap",
+        "vectors-revocation-list/rl30-fresh-reader-past-seq-1",
+        "vectors-revocation-list/rl31-fork",
+        "vectors-revocation-list/rl32-issued-before-list-in-force",
+        "vectors-revocation-list/rl33-entry-from-future",
+        "vectors-revocation-list/rl34-list-drops-entry",
+        "vectors-revocation-list/rl35-list-edits-entry",
+        "vectors-revocation-list/rl36-old-root-after-rotation",
+        "vectors-revocation-list/rl37-root-revoked-without-successor",
+        "vectors-revocation-list/rl38-successor-revoked-sorting-before",
+        "vectors-revocation-list/rl39-successor-revoked-sorting-after"
       ]
     },
     "jcs.go::decodeValue::CASE_DEL::5ecd4151cae3": {
@@ -4839,6 +5810,9 @@
       "killers": [
         "v61efcc48543d8cea",
         "vd3ead02f7ed16d0a"
+      ],
+      "corpusKillers": [
+        "vectors-revocation-list/rl13-seq-beyond-exact-integers"
       ]
     },
     "jcs.go::decodeValue::CASE_DEL::dc03699b13db": {
@@ -5072,6 +6046,94 @@
         "vfae885f5e5f78197",
         "vfb979cb9ce40f1be",
         "vfcb846afff2d6979"
+      ],
+      "corpusKillers": [
+        "vectors-revocation-list/m-body-array",
+        "vectors-revocation-list/m-body-member-misnamed",
+        "vectors-revocation-list/m-drops-second-held-entry",
+        "vectors-revocation-list/m-entries-object",
+        "vectors-revocation-list/m-entry-number",
+        "vectors-revocation-list/m-entry-reason-number",
+        "vectors-revocation-list/m-entry-unknown-member",
+        "vectors-revocation-list/m-entry-without-id",
+        "vectors-revocation-list/m-entry-without-kind",
+        "vectors-revocation-list/m-entry-without-revoked-at",
+        "vectors-revocation-list/m-every-kind",
+        "vectors-revocation-list/m-first-list-with-previous",
+        "vectors-revocation-list/m-grant-id-equals-root",
+        "vectors-revocation-list/m-issuer-key-31-bytes",
+        "vectors-revocation-list/m-issuer-key-line-break",
+        "vectors-revocation-list/m-issuer-key-number",
+        "vectors-revocation-list/m-key-id-not-a-digest",
+        "vectors-revocation-list/m-list-id-empty",
+        "vectors-revocation-list/m-list-id-with-space",
+        "vectors-revocation-list/m-permit-id-upper-case",
+        "vectors-revocation-list/m-previous-not-a-digest",
+        "vectors-revocation-list/m-revoked-at-not-a-time",
+        "vectors-revocation-list/m-root-pinned-twice",
+        "vectors-revocation-list/m-second-entry-from-future",
+        "vectors-revocation-list/m-second-entry-unknown-kind",
+        "vectors-revocation-list/m-second-list-null-previous",
+        "vectors-revocation-list/m-seq-zero",
+        "vectors-revocation-list/m-signature-line-break",
+        "vectors-revocation-list/m-signed-list-array",
+        "vectors-revocation-list/m-signed-list-without-body",
+        "vectors-revocation-list/m-signed-list-without-sig",
+        "vectors-revocation-list/m-successor-not-base64",
+        "vectors-revocation-list/m-successor-of-non-root",
+        "vectors-revocation-list/m-time-colon-13",
+        "vectors-revocation-list/m-time-colon-16",
+        "vectors-revocation-list/m-time-dash-4",
+        "vectors-revocation-list/m-time-dash-7",
+        "vectors-revocation-list/m-time-day-letter",
+        "vectors-revocation-list/m-time-hour-letter",
+        "vectors-revocation-list/m-time-len-21",
+        "vectors-revocation-list/m-time-minute-letter",
+        "vectors-revocation-list/m-time-month-letter",
+        "vectors-revocation-list/m-time-second-slash",
+        "vectors-revocation-list/m-time-t-lower-case",
+        "vectors-revocation-list/m-time-year-letter",
+        "vectors-revocation-list/m-time-year-zero",
+        "vectors-revocation-list/m-time-z-lower-case",
+        "vectors-revocation-list/m-two-lists-in-force",
+        "vectors-revocation-list/rl01-empty-first-list",
+        "vectors-revocation-list/rl02-three-lists-in-force",
+        "vectors-revocation-list/rl03-root-rotation-in-force",
+        "vectors-revocation-list/rl04-single-list-in-force",
+        "vectors-revocation-list/rl05-unknown-kind",
+        "vectors-revocation-list/rl06-entries-out-of-order",
+        "vectors-revocation-list/rl07-duplicate-entry",
+        "vectors-revocation-list/rl08-identifier-not-ascii",
+        "vectors-revocation-list/rl09-identifier-with-space",
+        "vectors-revocation-list/rl10-identifier-513-characters",
+        "vectors-revocation-list/rl11-extra-body-member",
+        "vectors-revocation-list/rl12-seq-boolean",
+        "vectors-revocation-list/rl14-time-with-offset",
+        "vectors-revocation-list/rl15-time-not-a-calendar-day",
+        "vectors-revocation-list/rl16-issuer-key-noncanonical-base64",
+        "vectors-revocation-list/rl17-grant-digest-upper-case",
+        "vectors-revocation-list/rl18-successor-on-agent-entry",
+        "vectors-revocation-list/rl19-extra-top-level-member",
+        "vectors-revocation-list/rl20-another-type",
+        "vectors-revocation-list/rl21-signer-not-a-root",
+        "vectors-revocation-list/rl22-entries-edited-after-signing",
+        "vectors-revocation-list/rl23-root-key-over-another-signature",
+        "vectors-revocation-list/rl24-signature-bit-flipped",
+        "vectors-revocation-list/rl25-signature-noncanonical-base64",
+        "vectors-revocation-list/rl26-another-chain",
+        "vectors-revocation-list/rl27-list-in-force-replayed",
+        "vectors-revocation-list/rl28-rollback",
+        "vectors-revocation-list/rl29-seq-gap",
+        "vectors-revocation-list/rl30-fresh-reader-past-seq-1",
+        "vectors-revocation-list/rl31-fork",
+        "vectors-revocation-list/rl32-issued-before-list-in-force",
+        "vectors-revocation-list/rl33-entry-from-future",
+        "vectors-revocation-list/rl34-list-drops-entry",
+        "vectors-revocation-list/rl35-list-edits-entry",
+        "vectors-revocation-list/rl36-old-root-after-rotation",
+        "vectors-revocation-list/rl37-root-revoked-without-successor",
+        "vectors-revocation-list/rl38-successor-revoked-sorting-before",
+        "vectors-revocation-list/rl39-successor-revoked-sorting-after"
       ]
     },
     "jcs.go::decodeValue::IF_OFF::1a4f511ae284": {
@@ -5080,6 +6142,9 @@
       "killers": [
         "v61efcc48543d8cea",
         "vd3ead02f7ed16d0a"
+      ],
+      "corpusKillers": [
+        "vectors-revocation-list/rl13-seq-beyond-exact-integers"
       ]
     },
     "jcs.go::decodeValue::IF_OFF::87f151174136": {
@@ -5129,6 +6194,9 @@
       "killers": [
         "v61efcc48543d8cea",
         "vd3ead02f7ed16d0a"
+      ],
+      "corpusKillers": [
+        "vectors-revocation-list/rl13-seq-beyond-exact-integers"
       ]
     },
     "jcs.go::decodeValue::IF_OFF::de396ae60e3c#4": {
@@ -5447,14 +6515,20 @@
       "branch": "taken"
     },
     "jcs.go::hex4::CASE_OFF::8db4deb174fd": {
-      "class": "DEAD",
+      "class": "KILLED",
       "snippet": "c >= '0' && c <= '9'",
-      "branch": "taken"
+      "corpusKillers": [
+        "vectors-revocation-list/rl04-single-list-in-force",
+        "vectors-revocation-list/rl08-identifier-not-ascii"
+      ]
     },
     "jcs.go::hex4::CASE_OFF::d4c048ba3f58": {
-      "class": "DEAD",
+      "class": "KILLED",
       "snippet": "c >= 'a' && c <= 'f'",
-      "branch": "taken"
+      "corpusKillers": [
+        "vectors-revocation-list/rl04-single-list-in-force",
+        "vectors-revocation-list/rl08-identifier-not-ascii"
+      ]
     },
     "jcs.go::hex4::CASE_OFF::ee95ce2bef28": {
       "class": "DEAD",
@@ -5741,6 +6815,10 @@
       "killers": [
         "v4fb9c4caa3a2cd8d",
         "v9d1f7c44f94cb929"
+      ],
+      "corpusKillers": [
+        "vectors-revocation-list/rl04-single-list-in-force",
+        "vectors-revocation-list/rl08-identifier-not-ascii"
       ]
     },
     "jcs.go::parseJSONValue::IF_OFF::b0c61fbc8a2c": {
@@ -6000,6 +7078,91 @@
         "vfae885f5e5f78197",
         "vfb979cb9ce40f1be",
         "vfcb846afff2d6979"
+      ],
+      "corpusKillers": [
+        "vectors-revocation-list/m-body-member-misnamed",
+        "vectors-revocation-list/m-drops-second-held-entry",
+        "vectors-revocation-list/m-entries-object",
+        "vectors-revocation-list/m-entry-number",
+        "vectors-revocation-list/m-entry-reason-number",
+        "vectors-revocation-list/m-entry-unknown-member",
+        "vectors-revocation-list/m-entry-without-id",
+        "vectors-revocation-list/m-entry-without-kind",
+        "vectors-revocation-list/m-entry-without-revoked-at",
+        "vectors-revocation-list/m-every-kind",
+        "vectors-revocation-list/m-first-list-with-previous",
+        "vectors-revocation-list/m-grant-id-equals-root",
+        "vectors-revocation-list/m-issuer-key-31-bytes",
+        "vectors-revocation-list/m-issuer-key-line-break",
+        "vectors-revocation-list/m-issuer-key-number",
+        "vectors-revocation-list/m-key-id-not-a-digest",
+        "vectors-revocation-list/m-list-id-empty",
+        "vectors-revocation-list/m-list-id-with-space",
+        "vectors-revocation-list/m-permit-id-upper-case",
+        "vectors-revocation-list/m-previous-not-a-digest",
+        "vectors-revocation-list/m-revoked-at-not-a-time",
+        "vectors-revocation-list/m-root-pinned-twice",
+        "vectors-revocation-list/m-second-entry-from-future",
+        "vectors-revocation-list/m-second-entry-unknown-kind",
+        "vectors-revocation-list/m-second-list-null-previous",
+        "vectors-revocation-list/m-seq-zero",
+        "vectors-revocation-list/m-signature-line-break",
+        "vectors-revocation-list/m-signed-list-without-sig",
+        "vectors-revocation-list/m-successor-not-base64",
+        "vectors-revocation-list/m-successor-of-non-root",
+        "vectors-revocation-list/m-time-colon-13",
+        "vectors-revocation-list/m-time-colon-16",
+        "vectors-revocation-list/m-time-dash-4",
+        "vectors-revocation-list/m-time-dash-7",
+        "vectors-revocation-list/m-time-day-letter",
+        "vectors-revocation-list/m-time-hour-letter",
+        "vectors-revocation-list/m-time-len-21",
+        "vectors-revocation-list/m-time-minute-letter",
+        "vectors-revocation-list/m-time-month-letter",
+        "vectors-revocation-list/m-time-second-slash",
+        "vectors-revocation-list/m-time-t-lower-case",
+        "vectors-revocation-list/m-time-year-letter",
+        "vectors-revocation-list/m-time-year-zero",
+        "vectors-revocation-list/m-time-z-lower-case",
+        "vectors-revocation-list/m-two-lists-in-force",
+        "vectors-revocation-list/rl01-empty-first-list",
+        "vectors-revocation-list/rl02-three-lists-in-force",
+        "vectors-revocation-list/rl03-root-rotation-in-force",
+        "vectors-revocation-list/rl04-single-list-in-force",
+        "vectors-revocation-list/rl05-unknown-kind",
+        "vectors-revocation-list/rl06-entries-out-of-order",
+        "vectors-revocation-list/rl07-duplicate-entry",
+        "vectors-revocation-list/rl08-identifier-not-ascii",
+        "vectors-revocation-list/rl09-identifier-with-space",
+        "vectors-revocation-list/rl10-identifier-513-characters",
+        "vectors-revocation-list/rl11-extra-body-member",
+        "vectors-revocation-list/rl12-seq-boolean",
+        "vectors-revocation-list/rl14-time-with-offset",
+        "vectors-revocation-list/rl15-time-not-a-calendar-day",
+        "vectors-revocation-list/rl16-issuer-key-noncanonical-base64",
+        "vectors-revocation-list/rl17-grant-digest-upper-case",
+        "vectors-revocation-list/rl18-successor-on-agent-entry",
+        "vectors-revocation-list/rl19-extra-top-level-member",
+        "vectors-revocation-list/rl20-another-type",
+        "vectors-revocation-list/rl21-signer-not-a-root",
+        "vectors-revocation-list/rl22-entries-edited-after-signing",
+        "vectors-revocation-list/rl23-root-key-over-another-signature",
+        "vectors-revocation-list/rl24-signature-bit-flipped",
+        "vectors-revocation-list/rl25-signature-noncanonical-base64",
+        "vectors-revocation-list/rl26-another-chain",
+        "vectors-revocation-list/rl27-list-in-force-replayed",
+        "vectors-revocation-list/rl28-rollback",
+        "vectors-revocation-list/rl29-seq-gap",
+        "vectors-revocation-list/rl30-fresh-reader-past-seq-1",
+        "vectors-revocation-list/rl31-fork",
+        "vectors-revocation-list/rl32-issued-before-list-in-force",
+        "vectors-revocation-list/rl33-entry-from-future",
+        "vectors-revocation-list/rl34-list-drops-entry",
+        "vectors-revocation-list/rl35-list-edits-entry",
+        "vectors-revocation-list/rl36-old-root-after-rotation",
+        "vectors-revocation-list/rl37-root-revoked-without-successor",
+        "vectors-revocation-list/rl38-successor-revoked-sorting-before",
+        "vectors-revocation-list/rl39-successor-revoked-sorting-after"
       ]
     },
     "jcs.go::utf16Less::IF_OFF::ec29b9fa86a3": {
@@ -6381,6 +7544,91 @@
         "vfae885f5e5f78197",
         "vfb979cb9ce40f1be",
         "vfcb846afff2d6979"
+      ],
+      "corpusKillers": [
+        "vectors-revocation-list/m-body-member-misnamed",
+        "vectors-revocation-list/m-drops-second-held-entry",
+        "vectors-revocation-list/m-entries-object",
+        "vectors-revocation-list/m-entry-number",
+        "vectors-revocation-list/m-entry-reason-number",
+        "vectors-revocation-list/m-entry-unknown-member",
+        "vectors-revocation-list/m-entry-without-id",
+        "vectors-revocation-list/m-entry-without-kind",
+        "vectors-revocation-list/m-entry-without-revoked-at",
+        "vectors-revocation-list/m-every-kind",
+        "vectors-revocation-list/m-first-list-with-previous",
+        "vectors-revocation-list/m-grant-id-equals-root",
+        "vectors-revocation-list/m-issuer-key-31-bytes",
+        "vectors-revocation-list/m-issuer-key-line-break",
+        "vectors-revocation-list/m-issuer-key-number",
+        "vectors-revocation-list/m-key-id-not-a-digest",
+        "vectors-revocation-list/m-list-id-empty",
+        "vectors-revocation-list/m-list-id-with-space",
+        "vectors-revocation-list/m-permit-id-upper-case",
+        "vectors-revocation-list/m-previous-not-a-digest",
+        "vectors-revocation-list/m-revoked-at-not-a-time",
+        "vectors-revocation-list/m-root-pinned-twice",
+        "vectors-revocation-list/m-second-entry-from-future",
+        "vectors-revocation-list/m-second-entry-unknown-kind",
+        "vectors-revocation-list/m-second-list-null-previous",
+        "vectors-revocation-list/m-seq-zero",
+        "vectors-revocation-list/m-signature-line-break",
+        "vectors-revocation-list/m-signed-list-without-sig",
+        "vectors-revocation-list/m-successor-not-base64",
+        "vectors-revocation-list/m-successor-of-non-root",
+        "vectors-revocation-list/m-time-colon-13",
+        "vectors-revocation-list/m-time-colon-16",
+        "vectors-revocation-list/m-time-dash-4",
+        "vectors-revocation-list/m-time-dash-7",
+        "vectors-revocation-list/m-time-day-letter",
+        "vectors-revocation-list/m-time-hour-letter",
+        "vectors-revocation-list/m-time-len-21",
+        "vectors-revocation-list/m-time-minute-letter",
+        "vectors-revocation-list/m-time-month-letter",
+        "vectors-revocation-list/m-time-second-slash",
+        "vectors-revocation-list/m-time-t-lower-case",
+        "vectors-revocation-list/m-time-year-letter",
+        "vectors-revocation-list/m-time-year-zero",
+        "vectors-revocation-list/m-time-z-lower-case",
+        "vectors-revocation-list/m-two-lists-in-force",
+        "vectors-revocation-list/rl01-empty-first-list",
+        "vectors-revocation-list/rl02-three-lists-in-force",
+        "vectors-revocation-list/rl03-root-rotation-in-force",
+        "vectors-revocation-list/rl04-single-list-in-force",
+        "vectors-revocation-list/rl05-unknown-kind",
+        "vectors-revocation-list/rl06-entries-out-of-order",
+        "vectors-revocation-list/rl07-duplicate-entry",
+        "vectors-revocation-list/rl08-identifier-not-ascii",
+        "vectors-revocation-list/rl09-identifier-with-space",
+        "vectors-revocation-list/rl10-identifier-513-characters",
+        "vectors-revocation-list/rl11-extra-body-member",
+        "vectors-revocation-list/rl12-seq-boolean",
+        "vectors-revocation-list/rl14-time-with-offset",
+        "vectors-revocation-list/rl15-time-not-a-calendar-day",
+        "vectors-revocation-list/rl16-issuer-key-noncanonical-base64",
+        "vectors-revocation-list/rl17-grant-digest-upper-case",
+        "vectors-revocation-list/rl18-successor-on-agent-entry",
+        "vectors-revocation-list/rl19-extra-top-level-member",
+        "vectors-revocation-list/rl20-another-type",
+        "vectors-revocation-list/rl21-signer-not-a-root",
+        "vectors-revocation-list/rl22-entries-edited-after-signing",
+        "vectors-revocation-list/rl23-root-key-over-another-signature",
+        "vectors-revocation-list/rl24-signature-bit-flipped",
+        "vectors-revocation-list/rl25-signature-noncanonical-base64",
+        "vectors-revocation-list/rl26-another-chain",
+        "vectors-revocation-list/rl27-list-in-force-replayed",
+        "vectors-revocation-list/rl28-rollback",
+        "vectors-revocation-list/rl29-seq-gap",
+        "vectors-revocation-list/rl30-fresh-reader-past-seq-1",
+        "vectors-revocation-list/rl31-fork",
+        "vectors-revocation-list/rl32-issued-before-list-in-force",
+        "vectors-revocation-list/rl33-entry-from-future",
+        "vectors-revocation-list/rl34-list-drops-entry",
+        "vectors-revocation-list/rl35-list-edits-entry",
+        "vectors-revocation-list/rl36-old-root-after-rotation",
+        "vectors-revocation-list/rl37-root-revoked-without-successor",
+        "vectors-revocation-list/rl38-successor-revoked-sorting-before",
+        "vectors-revocation-list/rl39-successor-revoked-sorting-after"
       ]
     },
     "jcs.go::utf16Less::RET_TRUE::a6e5b2d719f4": {
@@ -7444,6 +8692,2233 @@
       "class": "DEAD",
       "snippet": "case ResultFail: return 0",
       "branch": "taken"
+    },
+    "revocationlist.go::(recv).Apply::IF_DISJ::2e74116c2cd7": {
+      "class": "KILLED",
+      "snippet": "!ed25519.Verify(ed25519.PublicKey(body.issuerKey), append([]byte(RevocationDomain), body.canon...), sig)",
+      "corpusKillers": [
+        "vectors-revocation-list/rl22-entries-edited-after-signing",
+        "vectors-revocation-list/rl23-root-key-over-another-signature",
+        "vectors-revocation-list/rl24-signature-bit-flipped"
+      ]
+    },
+    "revocationlist.go::(recv).Apply::IF_DISJ::68a1e560349b": {
+      "class": "KILLED",
+      "snippet": "!ok",
+      "corpusKillers": [
+        "vectors-revocation-list/m-signed-list-array"
+      ]
+    },
+    "revocationlist.go::(recv).Apply::IF_DISJ::68a1e560349b#2": {
+      "class": "DEAD",
+      "snippet": "!ok",
+      "branch": "taken"
+    },
+    "revocationlist.go::(recv).Apply::IF_DISJ::6d68c7988521": {
+      "class": "KILLED",
+      "snippet": "len(obj.values) != 2",
+      "corpusKillers": [
+        "vectors-revocation-list/rl19-extra-top-level-member"
+      ]
+    },
+    "revocationlist.go::(recv).Apply::IF_DISJ::e41ca431ef76": {
+      "class": "KILLED",
+      "snippet": "!hasMember(obj, \"body\")",
+      "corpusKillers": [
+        "vectors-revocation-list/m-signed-list-without-body"
+      ]
+    },
+    "revocationlist.go::(recv).Apply::IF_DISJ::e9a2bd727c6b": {
+      "class": "KILLED",
+      "snippet": "!hasMember(obj, \"sig\")",
+      "corpusKillers": [
+        "vectors-revocation-list/m-signed-list-without-sig"
+      ]
+    },
+    "revocationlist.go::(recv).Apply::IF_DISJ::f7f8429d3230": {
+      "class": "DEAD",
+      "snippet": "len(sig) != ed25519.SignatureSize",
+      "branch": "taken"
+    },
+    "revocationlist.go::(recv).Apply::IF_OFF::002c099b9944": {
+      "class": "KILLED",
+      "snippet": "if err != nil { return s, err }",
+      "corpusKillers": [
+        "vectors-revocation-list/m-body-array",
+        "vectors-revocation-list/m-body-member-misnamed",
+        "vectors-revocation-list/m-entries-object",
+        "vectors-revocation-list/m-entry-number",
+        "vectors-revocation-list/m-entry-reason-number",
+        "vectors-revocation-list/m-entry-unknown-member",
+        "vectors-revocation-list/m-entry-without-id",
+        "vectors-revocation-list/m-entry-without-kind",
+        "vectors-revocation-list/m-entry-without-revoked-at",
+        "vectors-revocation-list/m-first-list-with-previous",
+        "vectors-revocation-list/m-issuer-key-31-bytes",
+        "vectors-revocation-list/m-issuer-key-line-break",
+        "vectors-revocation-list/m-issuer-key-number",
+        "vectors-revocation-list/m-key-id-not-a-digest",
+        "vectors-revocation-list/m-list-id-empty",
+        "vectors-revocation-list/m-list-id-with-space",
+        "vectors-revocation-list/m-permit-id-upper-case",
+        "vectors-revocation-list/m-previous-not-a-digest",
+        "vectors-revocation-list/m-revoked-at-not-a-time",
+        "vectors-revocation-list/m-second-entry-unknown-kind",
+        "vectors-revocation-list/m-second-list-null-previous",
+        "vectors-revocation-list/m-seq-zero",
+        "vectors-revocation-list/m-successor-not-base64",
+        "vectors-revocation-list/m-time-colon-13",
+        "vectors-revocation-list/m-time-colon-16",
+        "vectors-revocation-list/m-time-dash-4",
+        "vectors-revocation-list/m-time-dash-7",
+        "vectors-revocation-list/m-time-day-letter",
+        "vectors-revocation-list/m-time-hour-letter",
+        "vectors-revocation-list/m-time-len-21",
+        "vectors-revocation-list/m-time-minute-letter",
+        "vectors-revocation-list/m-time-month-letter",
+        "vectors-revocation-list/m-time-second-slash",
+        "vectors-revocation-list/m-time-t-lower-case",
+        "vectors-revocation-list/m-time-year-letter",
+        "vectors-revocation-list/m-time-year-zero",
+        "vectors-revocation-list/m-time-z-lower-case",
+        "vectors-revocation-list/rl05-unknown-kind",
+        "vectors-revocation-list/rl06-entries-out-of-order",
+        "vectors-revocation-list/rl07-duplicate-entry",
+        "vectors-revocation-list/rl08-identifier-not-ascii",
+        "vectors-revocation-list/rl09-identifier-with-space",
+        "vectors-revocation-list/rl10-identifier-513-characters",
+        "vectors-revocation-list/rl11-extra-body-member",
+        "vectors-revocation-list/rl12-seq-boolean",
+        "vectors-revocation-list/rl14-time-with-offset",
+        "vectors-revocation-list/rl15-time-not-a-calendar-day",
+        "vectors-revocation-list/rl16-issuer-key-noncanonical-base64",
+        "vectors-revocation-list/rl17-grant-digest-upper-case",
+        "vectors-revocation-list/rl18-successor-on-agent-entry",
+        "vectors-revocation-list/rl20-another-type"
+      ]
+    },
+    "revocationlist.go::(recv).Apply::IF_OFF::31adc6c4b918": {
+      "class": "KILLED",
+      "snippet": "if !ok || len(sig) != ed25519.SignatureSize || !ed25519.Verify(ed25519.PublicKey(body.issuerKey), append([]byte(RevocationDomain), body.canon...), sig...",
+      "corpusKillers": [
+        "vectors-revocation-list/m-signature-line-break",
+        "vectors-revocation-list/rl22-entries-edited-after-signing",
+        "vectors-revocation-list/rl23-root-key-over-another-signature",
+        "vectors-revocation-list/rl24-signature-bit-flipped",
+        "vectors-revocation-list/rl25-signature-noncanonical-base64"
+      ]
+    },
+    "revocationlist.go::(recv).Apply::IF_OFF::431c1c39bcd8": {
+      "class": "KILLED",
+      "snippet": "if !s.isRoot(hex.EncodeToString(rawID[:])) { return s, &RevocationError{Code: CodeSignerNotARoot} }",
+      "corpusKillers": [
+        "vectors-revocation-list/rl21-signer-not-a-root",
+        "vectors-revocation-list/rl36-old-root-after-rotation",
+        "vectors-revocation-list/rl37-root-revoked-without-successor",
+        "vectors-revocation-list/rl38-successor-revoked-sorting-before",
+        "vectors-revocation-list/rl39-successor-revoked-sorting-after"
+      ]
+    },
+    "revocationlist.go::(recv).Apply::IF_OFF::9ce2c5e893be": {
+      "class": "KILLED",
+      "snippet": "if err != nil { return s, shape(\"signed_list_unreadable\") }",
+      "corpusKillers": [
+        "vectors-revocation-list/rl13-seq-beyond-exact-integers"
+      ]
+    },
+    "revocationlist.go::(recv).Apply::IF_OFF::c03fb8593e40": {
+      "class": "KILLED",
+      "snippet": "if !ok || len(obj.values) != 2 || !hasMember(obj, \"body\") || !hasMember(obj, \"sig\") { return s, shape(\"signed_list_members\") }",
+      "corpusKillers": [
+        "vectors-revocation-list/m-signed-list-array",
+        "vectors-revocation-list/m-signed-list-without-body",
+        "vectors-revocation-list/m-signed-list-without-sig",
+        "vectors-revocation-list/rl19-extra-top-level-member"
+      ]
+    },
+    "revocationlist.go::(recv).Error::IF_OFF::b4d27d0699c0": {
+      "class": "KILLED",
+      "snippet": "if e.Detail == \"\" { return e.Code }",
+      "corpusKillers": [
+        "vectors-revocation-list/m-second-entry-from-future",
+        "vectors-revocation-list/m-signature-line-break",
+        "vectors-revocation-list/rl21-signer-not-a-root",
+        "vectors-revocation-list/rl22-entries-edited-after-signing",
+        "vectors-revocation-list/rl23-root-key-over-another-signature",
+        "vectors-revocation-list/rl24-signature-bit-flipped",
+        "vectors-revocation-list/rl25-signature-noncanonical-base64",
+        "vectors-revocation-list/rl26-another-chain",
+        "vectors-revocation-list/rl31-fork",
+        "vectors-revocation-list/rl32-issued-before-list-in-force",
+        "vectors-revocation-list/rl33-entry-from-future",
+        "vectors-revocation-list/rl36-old-root-after-rotation",
+        "vectors-revocation-list/rl37-root-revoked-without-successor",
+        "vectors-revocation-list/rl38-successor-revoked-sorting-before",
+        "vectors-revocation-list/rl39-successor-revoked-sorting-after"
+      ]
+    },
+    "revocationlist.go::(recv).Revoked::RET_FALSE::35f1da5ed784": {
+      "class": "KILLED",
+      "snippet": "return ok",
+      "corpusKillers": [
+        "vectors-revocation-list/m-drops-second-held-entry",
+        "vectors-revocation-list/m-every-kind",
+        "vectors-revocation-list/m-grant-id-equals-root",
+        "vectors-revocation-list/m-successor-of-non-root",
+        "vectors-revocation-list/rl02-three-lists-in-force",
+        "vectors-revocation-list/rl03-root-rotation-in-force",
+        "vectors-revocation-list/rl04-single-list-in-force",
+        "vectors-revocation-list/rl27-list-in-force-replayed",
+        "vectors-revocation-list/rl28-rollback",
+        "vectors-revocation-list/rl31-fork",
+        "vectors-revocation-list/rl32-issued-before-list-in-force",
+        "vectors-revocation-list/rl34-list-drops-entry",
+        "vectors-revocation-list/rl35-list-edits-entry",
+        "vectors-revocation-list/rl36-old-root-after-rotation",
+        "vectors-revocation-list/rl37-root-revoked-without-successor",
+        "vectors-revocation-list/rl38-successor-revoked-sorting-before",
+        "vectors-revocation-list/rl39-successor-revoked-sorting-after"
+      ]
+    },
+    "revocationlist.go::(recv).Revoked::RET_TRUE::35f1da5ed784": {
+      "class": "KILLED",
+      "snippet": "return ok",
+      "corpusKillers": [
+        "vectors-revocation-list/m-body-array",
+        "vectors-revocation-list/m-body-member-misnamed",
+        "vectors-revocation-list/m-drops-second-held-entry",
+        "vectors-revocation-list/m-entries-object",
+        "vectors-revocation-list/m-entry-number",
+        "vectors-revocation-list/m-entry-reason-number",
+        "vectors-revocation-list/m-entry-unknown-member",
+        "vectors-revocation-list/m-entry-without-id",
+        "vectors-revocation-list/m-entry-without-kind",
+        "vectors-revocation-list/m-entry-without-revoked-at",
+        "vectors-revocation-list/m-every-kind",
+        "vectors-revocation-list/m-first-list-with-previous",
+        "vectors-revocation-list/m-grant-id-equals-root",
+        "vectors-revocation-list/m-issuer-key-31-bytes",
+        "vectors-revocation-list/m-issuer-key-line-break",
+        "vectors-revocation-list/m-issuer-key-number",
+        "vectors-revocation-list/m-key-id-not-a-digest",
+        "vectors-revocation-list/m-list-id-empty",
+        "vectors-revocation-list/m-list-id-with-space",
+        "vectors-revocation-list/m-permit-id-upper-case",
+        "vectors-revocation-list/m-previous-not-a-digest",
+        "vectors-revocation-list/m-revoked-at-not-a-time",
+        "vectors-revocation-list/m-root-pinned-twice",
+        "vectors-revocation-list/m-second-entry-from-future",
+        "vectors-revocation-list/m-second-entry-unknown-kind",
+        "vectors-revocation-list/m-second-list-null-previous",
+        "vectors-revocation-list/m-seq-zero",
+        "vectors-revocation-list/m-signature-line-break",
+        "vectors-revocation-list/m-signed-list-array",
+        "vectors-revocation-list/m-signed-list-without-body",
+        "vectors-revocation-list/m-signed-list-without-sig",
+        "vectors-revocation-list/m-successor-not-base64",
+        "vectors-revocation-list/m-successor-of-non-root",
+        "vectors-revocation-list/m-time-colon-13",
+        "vectors-revocation-list/m-time-colon-16",
+        "vectors-revocation-list/m-time-dash-4",
+        "vectors-revocation-list/m-time-dash-7",
+        "vectors-revocation-list/m-time-day-letter",
+        "vectors-revocation-list/m-time-hour-letter",
+        "vectors-revocation-list/m-time-len-21",
+        "vectors-revocation-list/m-time-minute-letter",
+        "vectors-revocation-list/m-time-month-letter",
+        "vectors-revocation-list/m-time-second-slash",
+        "vectors-revocation-list/m-time-t-lower-case",
+        "vectors-revocation-list/m-time-year-letter",
+        "vectors-revocation-list/m-time-year-zero",
+        "vectors-revocation-list/m-time-z-lower-case",
+        "vectors-revocation-list/m-two-lists-in-force",
+        "vectors-revocation-list/rl01-empty-first-list",
+        "vectors-revocation-list/rl02-three-lists-in-force",
+        "vectors-revocation-list/rl03-root-rotation-in-force",
+        "vectors-revocation-list/rl04-single-list-in-force",
+        "vectors-revocation-list/rl05-unknown-kind",
+        "vectors-revocation-list/rl06-entries-out-of-order",
+        "vectors-revocation-list/rl07-duplicate-entry",
+        "vectors-revocation-list/rl08-identifier-not-ascii",
+        "vectors-revocation-list/rl09-identifier-with-space",
+        "vectors-revocation-list/rl10-identifier-513-characters",
+        "vectors-revocation-list/rl11-extra-body-member",
+        "vectors-revocation-list/rl12-seq-boolean",
+        "vectors-revocation-list/rl13-seq-beyond-exact-integers",
+        "vectors-revocation-list/rl14-time-with-offset",
+        "vectors-revocation-list/rl15-time-not-a-calendar-day",
+        "vectors-revocation-list/rl16-issuer-key-noncanonical-base64",
+        "vectors-revocation-list/rl17-grant-digest-upper-case",
+        "vectors-revocation-list/rl18-successor-on-agent-entry",
+        "vectors-revocation-list/rl19-extra-top-level-member",
+        "vectors-revocation-list/rl20-another-type",
+        "vectors-revocation-list/rl21-signer-not-a-root",
+        "vectors-revocation-list/rl22-entries-edited-after-signing",
+        "vectors-revocation-list/rl23-root-key-over-another-signature",
+        "vectors-revocation-list/rl24-signature-bit-flipped",
+        "vectors-revocation-list/rl25-signature-noncanonical-base64",
+        "vectors-revocation-list/rl26-another-chain",
+        "vectors-revocation-list/rl27-list-in-force-replayed",
+        "vectors-revocation-list/rl28-rollback",
+        "vectors-revocation-list/rl29-seq-gap",
+        "vectors-revocation-list/rl30-fresh-reader-past-seq-1",
+        "vectors-revocation-list/rl31-fork",
+        "vectors-revocation-list/rl32-issued-before-list-in-force",
+        "vectors-revocation-list/rl33-entry-from-future",
+        "vectors-revocation-list/rl34-list-drops-entry",
+        "vectors-revocation-list/rl35-list-edits-entry",
+        "vectors-revocation-list/rl36-old-root-after-rotation",
+        "vectors-revocation-list/rl37-root-revoked-without-successor",
+        "vectors-revocation-list/rl38-successor-revoked-sorting-before",
+        "vectors-revocation-list/rl39-successor-revoked-sorting-after"
+      ]
+    },
+    "revocationlist.go::(recv).RevokedIDs::IF_OFF::3ed6fce85984": {
+      "class": "KILLED",
+      "snippet": "if k[0] == string(kind) { out = append(out, k[1]) }",
+      "corpusKillers": [
+        "vectors-revocation-list/m-drops-second-held-entry",
+        "vectors-revocation-list/m-every-kind",
+        "vectors-revocation-list/m-grant-id-equals-root",
+        "vectors-revocation-list/m-successor-of-non-root",
+        "vectors-revocation-list/rl02-three-lists-in-force",
+        "vectors-revocation-list/rl03-root-rotation-in-force",
+        "vectors-revocation-list/rl04-single-list-in-force",
+        "vectors-revocation-list/rl27-list-in-force-replayed",
+        "vectors-revocation-list/rl28-rollback",
+        "vectors-revocation-list/rl31-fork",
+        "vectors-revocation-list/rl32-issued-before-list-in-force",
+        "vectors-revocation-list/rl34-list-drops-entry",
+        "vectors-revocation-list/rl35-list-edits-entry",
+        "vectors-revocation-list/rl36-old-root-after-rotation",
+        "vectors-revocation-list/rl37-root-revoked-without-successor",
+        "vectors-revocation-list/rl38-successor-revoked-sorting-before",
+        "vectors-revocation-list/rl39-successor-revoked-sorting-after"
+      ]
+    },
+    "revocationlist.go::(recv).Revokes::IF_OFF::14267749faa2": {
+      "class": "KILLED",
+      "snippet": "if s.Revoked(p.Kind, p.ID) { return true }",
+      "corpusKillers": [
+        "vectors-revocation-list/m-drops-second-held-entry",
+        "vectors-revocation-list/m-every-kind",
+        "vectors-revocation-list/m-grant-id-equals-root",
+        "vectors-revocation-list/m-successor-of-non-root",
+        "vectors-revocation-list/rl02-three-lists-in-force",
+        "vectors-revocation-list/rl03-root-rotation-in-force",
+        "vectors-revocation-list/rl04-single-list-in-force",
+        "vectors-revocation-list/rl27-list-in-force-replayed",
+        "vectors-revocation-list/rl28-rollback",
+        "vectors-revocation-list/rl31-fork",
+        "vectors-revocation-list/rl32-issued-before-list-in-force",
+        "vectors-revocation-list/rl34-list-drops-entry",
+        "vectors-revocation-list/rl35-list-edits-entry",
+        "vectors-revocation-list/rl36-old-root-after-rotation",
+        "vectors-revocation-list/rl37-root-revoked-without-successor",
+        "vectors-revocation-list/rl38-successor-revoked-sorting-before",
+        "vectors-revocation-list/rl39-successor-revoked-sorting-after"
+      ]
+    },
+    "revocationlist.go::(recv).Revokes::LOOP_FIRST::67b494da6025": {
+      "class": "KILLED",
+      "snippet": "for _, p := range subjects { if s.Revoked(p.Kind, p.ID) { return true } }",
+      "corpusKillers": [
+        "vectors-revocation-list/m-drops-second-held-entry",
+        "vectors-revocation-list/m-every-kind",
+        "vectors-revocation-list/m-grant-id-equals-root",
+        "vectors-revocation-list/m-successor-of-non-root",
+        "vectors-revocation-list/rl02-three-lists-in-force",
+        "vectors-revocation-list/rl03-root-rotation-in-force",
+        "vectors-revocation-list/rl04-single-list-in-force",
+        "vectors-revocation-list/rl27-list-in-force-replayed",
+        "vectors-revocation-list/rl28-rollback",
+        "vectors-revocation-list/rl31-fork",
+        "vectors-revocation-list/rl32-issued-before-list-in-force",
+        "vectors-revocation-list/rl34-list-drops-entry",
+        "vectors-revocation-list/rl35-list-edits-entry",
+        "vectors-revocation-list/rl36-old-root-after-rotation",
+        "vectors-revocation-list/rl37-root-revoked-without-successor",
+        "vectors-revocation-list/rl38-successor-revoked-sorting-before",
+        "vectors-revocation-list/rl39-successor-revoked-sorting-after"
+      ]
+    },
+    "revocationlist.go::(recv).Revokes::RET_FALSE::7e4fe8351c22": {
+      "class": "KILLED",
+      "snippet": "return true",
+      "corpusKillers": [
+        "vectors-revocation-list/m-drops-second-held-entry",
+        "vectors-revocation-list/m-every-kind",
+        "vectors-revocation-list/m-grant-id-equals-root",
+        "vectors-revocation-list/m-successor-of-non-root",
+        "vectors-revocation-list/rl02-three-lists-in-force",
+        "vectors-revocation-list/rl03-root-rotation-in-force",
+        "vectors-revocation-list/rl04-single-list-in-force",
+        "vectors-revocation-list/rl27-list-in-force-replayed",
+        "vectors-revocation-list/rl28-rollback",
+        "vectors-revocation-list/rl31-fork",
+        "vectors-revocation-list/rl32-issued-before-list-in-force",
+        "vectors-revocation-list/rl34-list-drops-entry",
+        "vectors-revocation-list/rl35-list-edits-entry",
+        "vectors-revocation-list/rl36-old-root-after-rotation",
+        "vectors-revocation-list/rl37-root-revoked-without-successor",
+        "vectors-revocation-list/rl38-successor-revoked-sorting-before",
+        "vectors-revocation-list/rl39-successor-revoked-sorting-after"
+      ]
+    },
+    "revocationlist.go::(recv).Revokes::RET_TRUE::19921ccfad14": {
+      "class": "KILLED",
+      "snippet": "return false",
+      "corpusKillers": [
+        "vectors-revocation-list/m-body-array",
+        "vectors-revocation-list/m-body-member-misnamed",
+        "vectors-revocation-list/m-drops-second-held-entry",
+        "vectors-revocation-list/m-entries-object",
+        "vectors-revocation-list/m-entry-number",
+        "vectors-revocation-list/m-entry-reason-number",
+        "vectors-revocation-list/m-entry-unknown-member",
+        "vectors-revocation-list/m-entry-without-id",
+        "vectors-revocation-list/m-entry-without-kind",
+        "vectors-revocation-list/m-entry-without-revoked-at",
+        "vectors-revocation-list/m-every-kind",
+        "vectors-revocation-list/m-first-list-with-previous",
+        "vectors-revocation-list/m-grant-id-equals-root",
+        "vectors-revocation-list/m-issuer-key-31-bytes",
+        "vectors-revocation-list/m-issuer-key-line-break",
+        "vectors-revocation-list/m-issuer-key-number",
+        "vectors-revocation-list/m-key-id-not-a-digest",
+        "vectors-revocation-list/m-list-id-empty",
+        "vectors-revocation-list/m-list-id-with-space",
+        "vectors-revocation-list/m-permit-id-upper-case",
+        "vectors-revocation-list/m-previous-not-a-digest",
+        "vectors-revocation-list/m-revoked-at-not-a-time",
+        "vectors-revocation-list/m-root-pinned-twice",
+        "vectors-revocation-list/m-second-entry-from-future",
+        "vectors-revocation-list/m-second-entry-unknown-kind",
+        "vectors-revocation-list/m-second-list-null-previous",
+        "vectors-revocation-list/m-seq-zero",
+        "vectors-revocation-list/m-signature-line-break",
+        "vectors-revocation-list/m-signed-list-array",
+        "vectors-revocation-list/m-signed-list-without-body",
+        "vectors-revocation-list/m-signed-list-without-sig",
+        "vectors-revocation-list/m-successor-not-base64",
+        "vectors-revocation-list/m-successor-of-non-root",
+        "vectors-revocation-list/m-time-colon-13",
+        "vectors-revocation-list/m-time-colon-16",
+        "vectors-revocation-list/m-time-dash-4",
+        "vectors-revocation-list/m-time-dash-7",
+        "vectors-revocation-list/m-time-day-letter",
+        "vectors-revocation-list/m-time-hour-letter",
+        "vectors-revocation-list/m-time-len-21",
+        "vectors-revocation-list/m-time-minute-letter",
+        "vectors-revocation-list/m-time-month-letter",
+        "vectors-revocation-list/m-time-second-slash",
+        "vectors-revocation-list/m-time-t-lower-case",
+        "vectors-revocation-list/m-time-year-letter",
+        "vectors-revocation-list/m-time-year-zero",
+        "vectors-revocation-list/m-time-z-lower-case",
+        "vectors-revocation-list/m-two-lists-in-force",
+        "vectors-revocation-list/rl01-empty-first-list",
+        "vectors-revocation-list/rl02-three-lists-in-force",
+        "vectors-revocation-list/rl03-root-rotation-in-force",
+        "vectors-revocation-list/rl04-single-list-in-force",
+        "vectors-revocation-list/rl05-unknown-kind",
+        "vectors-revocation-list/rl06-entries-out-of-order",
+        "vectors-revocation-list/rl07-duplicate-entry",
+        "vectors-revocation-list/rl08-identifier-not-ascii",
+        "vectors-revocation-list/rl09-identifier-with-space",
+        "vectors-revocation-list/rl10-identifier-513-characters",
+        "vectors-revocation-list/rl11-extra-body-member",
+        "vectors-revocation-list/rl12-seq-boolean",
+        "vectors-revocation-list/rl13-seq-beyond-exact-integers",
+        "vectors-revocation-list/rl14-time-with-offset",
+        "vectors-revocation-list/rl15-time-not-a-calendar-day",
+        "vectors-revocation-list/rl16-issuer-key-noncanonical-base64",
+        "vectors-revocation-list/rl17-grant-digest-upper-case",
+        "vectors-revocation-list/rl18-successor-on-agent-entry",
+        "vectors-revocation-list/rl19-extra-top-level-member",
+        "vectors-revocation-list/rl20-another-type",
+        "vectors-revocation-list/rl21-signer-not-a-root",
+        "vectors-revocation-list/rl22-entries-edited-after-signing",
+        "vectors-revocation-list/rl23-root-key-over-another-signature",
+        "vectors-revocation-list/rl24-signature-bit-flipped",
+        "vectors-revocation-list/rl25-signature-noncanonical-base64",
+        "vectors-revocation-list/rl26-another-chain",
+        "vectors-revocation-list/rl27-list-in-force-replayed",
+        "vectors-revocation-list/rl28-rollback",
+        "vectors-revocation-list/rl29-seq-gap",
+        "vectors-revocation-list/rl30-fresh-reader-past-seq-1",
+        "vectors-revocation-list/rl31-fork",
+        "vectors-revocation-list/rl32-issued-before-list-in-force",
+        "vectors-revocation-list/rl33-entry-from-future",
+        "vectors-revocation-list/rl34-list-drops-entry",
+        "vectors-revocation-list/rl35-list-edits-entry",
+        "vectors-revocation-list/rl36-old-root-after-rotation",
+        "vectors-revocation-list/rl37-root-revoked-without-successor",
+        "vectors-revocation-list/rl38-successor-revoked-sorting-before",
+        "vectors-revocation-list/rl39-successor-revoked-sorting-after"
+      ]
+    },
+    "revocationlist.go::(recv).install::IF_CONJ::1602511f1f79": {
+      "class": "KILLED",
+      "snippet": "s.isRoot(e.id)",
+      "corpusKillers": [
+        "vectors-revocation-list/m-successor-of-non-root"
+      ]
+    },
+    "revocationlist.go::(recv).install::IF_CONJ::1f4516c7ccf7": {
+      "class": "KILLED",
+      "snippet": "b.issuedAt < s.IssuedAt",
+      "corpusKillers": [
+        "vectors-revocation-list/m-drops-second-held-entry",
+        "vectors-revocation-list/m-two-lists-in-force",
+        "vectors-revocation-list/rl02-three-lists-in-force",
+        "vectors-revocation-list/rl03-root-rotation-in-force",
+        "vectors-revocation-list/rl27-list-in-force-replayed",
+        "vectors-revocation-list/rl28-rollback",
+        "vectors-revocation-list/rl31-fork",
+        "vectors-revocation-list/rl32-issued-before-list-in-force",
+        "vectors-revocation-list/rl34-list-drops-entry",
+        "vectors-revocation-list/rl35-list-edits-entry"
+      ]
+    },
+    "revocationlist.go::(recv).install::IF_CONJ::28455517a662": {
+      "class": "DEAD",
+      "snippet": "s.IssuedAt != \"\"",
+      "branch": "taken"
+    },
+    "revocationlist.go::(recv).install::IF_CONJ::5911e5902b80": {
+      "class": "KILLED",
+      "snippet": "b.listID != s.ListID",
+      "corpusKillers": [
+        "vectors-revocation-list/m-drops-second-held-entry",
+        "vectors-revocation-list/m-two-lists-in-force",
+        "vectors-revocation-list/rl02-three-lists-in-force",
+        "vectors-revocation-list/rl03-root-rotation-in-force",
+        "vectors-revocation-list/rl27-list-in-force-replayed",
+        "vectors-revocation-list/rl28-rollback",
+        "vectors-revocation-list/rl29-seq-gap",
+        "vectors-revocation-list/rl31-fork",
+        "vectors-revocation-list/rl32-issued-before-list-in-force",
+        "vectors-revocation-list/rl34-list-drops-entry",
+        "vectors-revocation-list/rl35-list-edits-entry"
+      ]
+    },
+    "revocationlist.go::(recv).install::IF_CONJ::f5f22baa08c6": {
+      "class": "KILLED",
+      "snippet": "s.ListID != \"\"",
+      "corpusKillers": [
+        "vectors-revocation-list/m-drops-second-held-entry",
+        "vectors-revocation-list/m-every-kind",
+        "vectors-revocation-list/m-grant-id-equals-root",
+        "vectors-revocation-list/m-previous-not-a-digest",
+        "vectors-revocation-list/m-root-pinned-twice",
+        "vectors-revocation-list/m-second-entry-from-future",
+        "vectors-revocation-list/m-second-list-null-previous",
+        "vectors-revocation-list/m-successor-of-non-root",
+        "vectors-revocation-list/m-two-lists-in-force",
+        "vectors-revocation-list/rl01-empty-first-list",
+        "vectors-revocation-list/rl02-three-lists-in-force",
+        "vectors-revocation-list/rl03-root-rotation-in-force",
+        "vectors-revocation-list/rl04-single-list-in-force",
+        "vectors-revocation-list/rl26-another-chain",
+        "vectors-revocation-list/rl27-list-in-force-replayed",
+        "vectors-revocation-list/rl28-rollback",
+        "vectors-revocation-list/rl29-seq-gap",
+        "vectors-revocation-list/rl30-fresh-reader-past-seq-1",
+        "vectors-revocation-list/rl31-fork",
+        "vectors-revocation-list/rl32-issued-before-list-in-force",
+        "vectors-revocation-list/rl33-entry-from-future",
+        "vectors-revocation-list/rl34-list-drops-entry",
+        "vectors-revocation-list/rl35-list-edits-entry",
+        "vectors-revocation-list/rl36-old-root-after-rotation",
+        "vectors-revocation-list/rl37-root-revoked-without-successor",
+        "vectors-revocation-list/rl38-successor-revoked-sorting-before",
+        "vectors-revocation-list/rl39-successor-revoked-sorting-after"
+      ]
+    },
+    "revocationlist.go::(recv).install::IF_CONJ::f8834ec4954e": {
+      "class": "KILLED",
+      "snippet": "e.successor != nil",
+      "corpusKillers": [
+        "vectors-revocation-list/rl37-root-revoked-without-successor"
+      ]
+    },
+    "revocationlist.go::(recv).install::IF_DISJ::2dc52b858881": {
+      "class": "KILLED",
+      "snippet": "b.previous != s.Head",
+      "corpusKillers": [
+        "vectors-revocation-list/rl31-fork"
+      ]
+    },
+    "revocationlist.go::(recv).install::IF_DISJ::dcf52ac494d5": {
+      "class": "DEAD",
+      "snippet": "b.hasPrevious != (s.Head != \"\")",
+      "branch": "taken"
+    },
+    "revocationlist.go::(recv).install::IF_OFF::2a10f999bf29": {
+      "class": "KILLED",
+      "snippet": "if b.hasPrevious != (s.Head != \"\") || b.previous != s.Head { return s, &RevocationError{Code: CodePreviousMismatch} }",
+      "corpusKillers": [
+        "vectors-revocation-list/rl31-fork"
+      ]
+    },
+    "revocationlist.go::(recv).install::IF_OFF::2e0e36f0f87c": {
+      "class": "KILLED",
+      "snippet": "if s.IssuedAt != \"\" && b.issuedAt < s.IssuedAt { return s, &RevocationError{Code: CodeTimeReversed} }",
+      "corpusKillers": [
+        "vectors-revocation-list/rl32-issued-before-list-in-force"
+      ]
+    },
+    "revocationlist.go::(recv).install::IF_OFF::463be3e884b7": {
+      "class": "KILLED",
+      "snippet": "if s.ListID != \"\" && b.listID != s.ListID { return s, &RevocationError{Code: CodeOtherChain} }",
+      "corpusKillers": [
+        "vectors-revocation-list/rl26-another-chain"
+      ]
+    },
+    "revocationlist.go::(recv).install::IF_OFF::4f3d3c2d9c05": {
+      "class": "KILLED",
+      "snippet": "if e.kind != string(KindKey) { continue }",
+      "corpusKillers": [
+        "vectors-revocation-list/m-grant-id-equals-root"
+      ]
+    },
+    "revocationlist.go::(recv).install::IF_OFF::72795a9fae20": {
+      "class": "KILLED",
+      "snippet": "if held := s.entries[key]; !bytes.Equal(entries[key], held) { return s, refuse(CodeDropsEntry, \"%s:%.12s\", key[0], key[1]) }",
+      "corpusKillers": [
+        "vectors-revocation-list/m-drops-second-held-entry",
+        "vectors-revocation-list/rl34-list-drops-entry",
+        "vectors-revocation-list/rl35-list-edits-entry"
+      ]
+    },
+    "revocationlist.go::(recv).install::IF_OFF::7fbc9b32bd6b": {
+      "class": "KILLED",
+      "snippet": "if e.successor != nil && s.isRoot(e.id) { sum := sha256.Sum256(e.successor) joined = append(joined, hex.EncodeToString(sum[:])) }",
+      "corpusKillers": [
+        "vectors-revocation-list/rl03-root-rotation-in-force",
+        "vectors-revocation-list/rl36-old-root-after-rotation"
+      ]
+    },
+    "revocationlist.go::(recv).install::IF_OFF::959af29556b8": {
+      "class": "KILLED",
+      "snippet": "if b.seq <= s.Seq { return s, refuse(CodeRollback, \"%d<=%d\", b.seq, s.Seq) }",
+      "corpusKillers": [
+        "vectors-revocation-list/rl27-list-in-force-replayed",
+        "vectors-revocation-list/rl28-rollback"
+      ]
+    },
+    "revocationlist.go::(recv).install::IF_OFF::969559cd6a84": {
+      "class": "KILLED",
+      "snippet": "if e.revokedAt > b.issuedAt { return s, &RevocationError{Code: CodeEntryFromFuture} }",
+      "corpusKillers": [
+        "vectors-revocation-list/m-second-entry-from-future",
+        "vectors-revocation-list/rl33-entry-from-future"
+      ]
+    },
+    "revocationlist.go::(recv).install::IF_OFF::9bf697877d67": {
+      "class": "KILLED",
+      "snippet": "if b.seq > s.Seq+1 { return s, refuse(CodeGap, \"%d>%d\", b.seq, s.Seq+1) }",
+      "corpusKillers": [
+        "vectors-revocation-list/rl29-seq-gap",
+        "vectors-revocation-list/rl30-fresh-reader-past-seq-1"
+      ]
+    },
+    "revocationlist.go::(recv).install::LOOP_FIRST::2521c056aead": {
+      "class": "KILLED",
+      "snippet": "for _, e := range b.entries { if e.revokedAt > b.issuedAt { return s, &RevocationError{Code: CodeEntryFromFuture} } entries[[2]string{e.kind, e.id}] =...",
+      "corpusKillers": [
+        "vectors-revocation-list/m-drops-second-held-entry",
+        "vectors-revocation-list/m-every-kind",
+        "vectors-revocation-list/m-second-entry-from-future",
+        "vectors-revocation-list/rl02-three-lists-in-force",
+        "vectors-revocation-list/rl27-list-in-force-replayed",
+        "vectors-revocation-list/rl28-rollback",
+        "vectors-revocation-list/rl31-fork",
+        "vectors-revocation-list/rl32-issued-before-list-in-force",
+        "vectors-revocation-list/rl34-list-drops-entry",
+        "vectors-revocation-list/rl35-list-edits-entry",
+        "vectors-revocation-list/rl38-successor-revoked-sorting-before",
+        "vectors-revocation-list/rl39-successor-revoked-sorting-after"
+      ]
+    },
+    "revocationlist.go::(recv).install::LOOP_FIRST::fff0f07268d6": {
+      "class": "KILLED",
+      "snippet": "for _, key := range sortedEntryKeys(s.entries) { if held := s.entries[key]; !bytes.Equal(entries[key], held) { return s, refuse(CodeDropsEntry, \"%s:%....",
+      "corpusKillers": [
+        "vectors-revocation-list/m-drops-second-held-entry"
+      ]
+    },
+    "revocationlist.go::(recv).isRoot::RET_FALSE::f26a8ef18b55": {
+      "class": "KILLED",
+      "snippet": "return i < len(s.Roots) && s.Roots[i] == id",
+      "corpusKillers": [
+        "vectors-revocation-list/m-drops-second-held-entry",
+        "vectors-revocation-list/m-every-kind",
+        "vectors-revocation-list/m-grant-id-equals-root",
+        "vectors-revocation-list/m-previous-not-a-digest",
+        "vectors-revocation-list/m-root-pinned-twice",
+        "vectors-revocation-list/m-second-entry-from-future",
+        "vectors-revocation-list/m-second-list-null-previous",
+        "vectors-revocation-list/m-signature-line-break",
+        "vectors-revocation-list/m-successor-of-non-root",
+        "vectors-revocation-list/m-two-lists-in-force",
+        "vectors-revocation-list/rl01-empty-first-list",
+        "vectors-revocation-list/rl02-three-lists-in-force",
+        "vectors-revocation-list/rl03-root-rotation-in-force",
+        "vectors-revocation-list/rl04-single-list-in-force",
+        "vectors-revocation-list/rl22-entries-edited-after-signing",
+        "vectors-revocation-list/rl23-root-key-over-another-signature",
+        "vectors-revocation-list/rl24-signature-bit-flipped",
+        "vectors-revocation-list/rl25-signature-noncanonical-base64",
+        "vectors-revocation-list/rl26-another-chain",
+        "vectors-revocation-list/rl27-list-in-force-replayed",
+        "vectors-revocation-list/rl28-rollback",
+        "vectors-revocation-list/rl29-seq-gap",
+        "vectors-revocation-list/rl30-fresh-reader-past-seq-1",
+        "vectors-revocation-list/rl31-fork",
+        "vectors-revocation-list/rl32-issued-before-list-in-force",
+        "vectors-revocation-list/rl33-entry-from-future",
+        "vectors-revocation-list/rl34-list-drops-entry",
+        "vectors-revocation-list/rl35-list-edits-entry",
+        "vectors-revocation-list/rl36-old-root-after-rotation",
+        "vectors-revocation-list/rl37-root-revoked-without-successor",
+        "vectors-revocation-list/rl38-successor-revoked-sorting-before",
+        "vectors-revocation-list/rl39-successor-revoked-sorting-after"
+      ]
+    },
+    "revocationlist.go::(recv).isRoot::RET_TRUE::f26a8ef18b55": {
+      "class": "KILLED",
+      "snippet": "return i < len(s.Roots) && s.Roots[i] == id",
+      "corpusKillers": [
+        "vectors-revocation-list/m-successor-of-non-root",
+        "vectors-revocation-list/rl21-signer-not-a-root",
+        "vectors-revocation-list/rl36-old-root-after-rotation",
+        "vectors-revocation-list/rl37-root-revoked-without-successor",
+        "vectors-revocation-list/rl38-successor-revoked-sorting-before",
+        "vectors-revocation-list/rl39-successor-revoked-sorting-after"
+      ]
+    },
+    "revocationlist.go::ListDigest::IF_OFF::6046943b7321": {
+      "class": "KILLED",
+      "snippet": "if err != nil { return \"\", err }",
+      "corpusKillers": [
+        "vectors-revocation-list/rl13-seq-beyond-exact-integers"
+      ]
+    },
+    "revocationlist.go::VerifyRevocationChain::IF_OFF::2e35d10cd0f7": {
+      "class": "KILLED",
+      "snippet": "if err != nil { refusal, _ := err.(*RevocationError) return RevocationChainVerdict{Verdict: VerdictInvalid, Refusal: refusal, Index: i, State: state} ...",
+      "corpusKillers": [
+        "vectors-revocation-list/m-body-array",
+        "vectors-revocation-list/m-body-member-misnamed",
+        "vectors-revocation-list/m-drops-second-held-entry",
+        "vectors-revocation-list/m-entries-object",
+        "vectors-revocation-list/m-entry-number",
+        "vectors-revocation-list/m-entry-reason-number",
+        "vectors-revocation-list/m-entry-unknown-member",
+        "vectors-revocation-list/m-entry-without-id",
+        "vectors-revocation-list/m-entry-without-kind",
+        "vectors-revocation-list/m-entry-without-revoked-at",
+        "vectors-revocation-list/m-first-list-with-previous",
+        "vectors-revocation-list/m-issuer-key-31-bytes",
+        "vectors-revocation-list/m-issuer-key-line-break",
+        "vectors-revocation-list/m-issuer-key-number",
+        "vectors-revocation-list/m-key-id-not-a-digest",
+        "vectors-revocation-list/m-list-id-empty",
+        "vectors-revocation-list/m-list-id-with-space",
+        "vectors-revocation-list/m-permit-id-upper-case",
+        "vectors-revocation-list/m-previous-not-a-digest",
+        "vectors-revocation-list/m-revoked-at-not-a-time",
+        "vectors-revocation-list/m-second-entry-from-future",
+        "vectors-revocation-list/m-second-entry-unknown-kind",
+        "vectors-revocation-list/m-second-list-null-previous",
+        "vectors-revocation-list/m-seq-zero",
+        "vectors-revocation-list/m-signature-line-break",
+        "vectors-revocation-list/m-signed-list-array",
+        "vectors-revocation-list/m-signed-list-without-body",
+        "vectors-revocation-list/m-signed-list-without-sig",
+        "vectors-revocation-list/m-successor-not-base64",
+        "vectors-revocation-list/m-time-colon-13",
+        "vectors-revocation-list/m-time-colon-16",
+        "vectors-revocation-list/m-time-dash-4",
+        "vectors-revocation-list/m-time-dash-7",
+        "vectors-revocation-list/m-time-day-letter",
+        "vectors-revocation-list/m-time-hour-letter",
+        "vectors-revocation-list/m-time-len-21",
+        "vectors-revocation-list/m-time-minute-letter",
+        "vectors-revocation-list/m-time-month-letter",
+        "vectors-revocation-list/m-time-second-slash",
+        "vectors-revocation-list/m-time-t-lower-case",
+        "vectors-revocation-list/m-time-year-letter",
+        "vectors-revocation-list/m-time-year-zero",
+        "vectors-revocation-list/m-time-z-lower-case",
+        "vectors-revocation-list/rl05-unknown-kind",
+        "vectors-revocation-list/rl06-entries-out-of-order",
+        "vectors-revocation-list/rl07-duplicate-entry",
+        "vectors-revocation-list/rl08-identifier-not-ascii",
+        "vectors-revocation-list/rl09-identifier-with-space",
+        "vectors-revocation-list/rl10-identifier-513-characters",
+        "vectors-revocation-list/rl11-extra-body-member",
+        "vectors-revocation-list/rl12-seq-boolean",
+        "vectors-revocation-list/rl13-seq-beyond-exact-integers",
+        "vectors-revocation-list/rl14-time-with-offset",
+        "vectors-revocation-list/rl15-time-not-a-calendar-day",
+        "vectors-revocation-list/rl16-issuer-key-noncanonical-base64",
+        "vectors-revocation-list/rl17-grant-digest-upper-case",
+        "vectors-revocation-list/rl18-successor-on-agent-entry",
+        "vectors-revocation-list/rl19-extra-top-level-member",
+        "vectors-revocation-list/rl20-another-type",
+        "vectors-revocation-list/rl21-signer-not-a-root",
+        "vectors-revocation-list/rl22-entries-edited-after-signing",
+        "vectors-revocation-list/rl23-root-key-over-another-signature",
+        "vectors-revocation-list/rl24-signature-bit-flipped",
+        "vectors-revocation-list/rl25-signature-noncanonical-base64",
+        "vectors-revocation-list/rl26-another-chain",
+        "vectors-revocation-list/rl27-list-in-force-replayed",
+        "vectors-revocation-list/rl28-rollback",
+        "vectors-revocation-list/rl29-seq-gap",
+        "vectors-revocation-list/rl30-fresh-reader-past-seq-1",
+        "vectors-revocation-list/rl31-fork",
+        "vectors-revocation-list/rl32-issued-before-list-in-force",
+        "vectors-revocation-list/rl33-entry-from-future",
+        "vectors-revocation-list/rl34-list-drops-entry",
+        "vectors-revocation-list/rl35-list-edits-entry",
+        "vectors-revocation-list/rl36-old-root-after-rotation",
+        "vectors-revocation-list/rl37-root-revoked-without-successor",
+        "vectors-revocation-list/rl38-successor-revoked-sorting-before",
+        "vectors-revocation-list/rl39-successor-revoked-sorting-after"
+      ]
+    },
+    "revocationlist.go::VerifyRevocationChain::LOOP_FIRST::71a3f64e377e": {
+      "class": "KILLED",
+      "snippet": "for i, list := range lists { next, err := state.Apply(list) if err != nil { refusal, _ := err.(*RevocationError) return RevocationChainVerdict{Verdict...",
+      "corpusKillers": [
+        "vectors-revocation-list/m-drops-second-held-entry",
+        "vectors-revocation-list/m-previous-not-a-digest",
+        "vectors-revocation-list/m-second-list-null-previous",
+        "vectors-revocation-list/m-two-lists-in-force",
+        "vectors-revocation-list/rl02-three-lists-in-force",
+        "vectors-revocation-list/rl03-root-rotation-in-force",
+        "vectors-revocation-list/rl26-another-chain",
+        "vectors-revocation-list/rl27-list-in-force-replayed",
+        "vectors-revocation-list/rl28-rollback",
+        "vectors-revocation-list/rl29-seq-gap",
+        "vectors-revocation-list/rl31-fork",
+        "vectors-revocation-list/rl32-issued-before-list-in-force",
+        "vectors-revocation-list/rl34-list-drops-entry",
+        "vectors-revocation-list/rl35-list-edits-entry",
+        "vectors-revocation-list/rl36-old-root-after-rotation",
+        "vectors-revocation-list/rl37-root-revoked-without-successor",
+        "vectors-revocation-list/rl38-successor-revoked-sorting-before",
+        "vectors-revocation-list/rl39-successor-revoked-sorting-after"
+      ]
+    },
+    "revocationlist.go::canonicalBase64::IF_DISJ::ad7d1994b4a0": {
+      "class": "KILLED",
+      "snippet": "base64.StdEncoding.EncodeToString(raw) != s",
+      "corpusKillers": [
+        "vectors-revocation-list/m-signature-line-break"
+      ]
+    },
+    "revocationlist.go::canonicalBase64::IF_DISJ::c7462b9a2227": {
+      "class": "DEAD",
+      "snippet": "err != nil",
+      "branch": "taken"
+    },
+    "revocationlist.go::canonicalBase64::IF_OFF::5df4c3a72257": {
+      "class": "KILLED",
+      "snippet": "if err != nil || base64.StdEncoding.EncodeToString(raw) != s { return nil, false }",
+      "corpusKillers": [
+        "vectors-revocation-list/m-signature-line-break"
+      ]
+    },
+    "revocationlist.go::canonicalBase64::IF_OFF::e9cf46d5e810": {
+      "class": "DEAD",
+      "snippet": "if !ok { return nil, false }",
+      "branch": "never-taken"
+    },
+    "revocationlist.go::digitsAt::IF_DISJ::2feceb1dc810": {
+      "class": "KILLED",
+      "snippet": "s[i] > '9'",
+      "corpusKillers": [
+        "vectors-revocation-list/m-time-day-letter",
+        "vectors-revocation-list/m-time-hour-letter",
+        "vectors-revocation-list/m-time-minute-letter",
+        "vectors-revocation-list/m-time-month-letter",
+        "vectors-revocation-list/m-time-year-letter"
+      ]
+    },
+    "revocationlist.go::digitsAt::IF_DISJ::d13d96247c7f": {
+      "class": "KILLED",
+      "snippet": "s[i] < '0'",
+      "corpusKillers": [
+        "vectors-revocation-list/m-time-second-slash"
+      ]
+    },
+    "revocationlist.go::digitsAt::IF_OFF::e1cb6b08d9f2": {
+      "class": "KILLED",
+      "snippet": "if s[i] < '0' || s[i] > '9' { return false }",
+      "corpusKillers": [
+        "vectors-revocation-list/m-time-day-letter",
+        "vectors-revocation-list/m-time-hour-letter",
+        "vectors-revocation-list/m-time-minute-letter",
+        "vectors-revocation-list/m-time-month-letter",
+        "vectors-revocation-list/m-time-second-slash",
+        "vectors-revocation-list/m-time-year-letter"
+      ]
+    },
+    "revocationlist.go::digitsAt::RET_FALSE::7e4fe8351c22": {
+      "class": "KILLED",
+      "snippet": "return true",
+      "corpusKillers": [
+        "vectors-revocation-list/m-drops-second-held-entry",
+        "vectors-revocation-list/m-entries-object",
+        "vectors-revocation-list/m-entry-number",
+        "vectors-revocation-list/m-entry-reason-number",
+        "vectors-revocation-list/m-entry-unknown-member",
+        "vectors-revocation-list/m-entry-without-id",
+        "vectors-revocation-list/m-entry-without-kind",
+        "vectors-revocation-list/m-entry-without-revoked-at",
+        "vectors-revocation-list/m-every-kind",
+        "vectors-revocation-list/m-grant-id-equals-root",
+        "vectors-revocation-list/m-issuer-key-31-bytes",
+        "vectors-revocation-list/m-issuer-key-line-break",
+        "vectors-revocation-list/m-issuer-key-number",
+        "vectors-revocation-list/m-key-id-not-a-digest",
+        "vectors-revocation-list/m-permit-id-upper-case",
+        "vectors-revocation-list/m-previous-not-a-digest",
+        "vectors-revocation-list/m-revoked-at-not-a-time",
+        "vectors-revocation-list/m-root-pinned-twice",
+        "vectors-revocation-list/m-second-entry-from-future",
+        "vectors-revocation-list/m-second-entry-unknown-kind",
+        "vectors-revocation-list/m-second-list-null-previous",
+        "vectors-revocation-list/m-signature-line-break",
+        "vectors-revocation-list/m-successor-not-base64",
+        "vectors-revocation-list/m-successor-of-non-root",
+        "vectors-revocation-list/m-time-year-zero",
+        "vectors-revocation-list/m-two-lists-in-force",
+        "vectors-revocation-list/rl01-empty-first-list",
+        "vectors-revocation-list/rl02-three-lists-in-force",
+        "vectors-revocation-list/rl03-root-rotation-in-force",
+        "vectors-revocation-list/rl04-single-list-in-force",
+        "vectors-revocation-list/rl05-unknown-kind",
+        "vectors-revocation-list/rl06-entries-out-of-order",
+        "vectors-revocation-list/rl07-duplicate-entry",
+        "vectors-revocation-list/rl08-identifier-not-ascii",
+        "vectors-revocation-list/rl09-identifier-with-space",
+        "vectors-revocation-list/rl10-identifier-513-characters",
+        "vectors-revocation-list/rl15-time-not-a-calendar-day",
+        "vectors-revocation-list/rl16-issuer-key-noncanonical-base64",
+        "vectors-revocation-list/rl17-grant-digest-upper-case",
+        "vectors-revocation-list/rl18-successor-on-agent-entry",
+        "vectors-revocation-list/rl21-signer-not-a-root",
+        "vectors-revocation-list/rl22-entries-edited-after-signing",
+        "vectors-revocation-list/rl23-root-key-over-another-signature",
+        "vectors-revocation-list/rl24-signature-bit-flipped",
+        "vectors-revocation-list/rl25-signature-noncanonical-base64",
+        "vectors-revocation-list/rl26-another-chain",
+        "vectors-revocation-list/rl27-list-in-force-replayed",
+        "vectors-revocation-list/rl28-rollback",
+        "vectors-revocation-list/rl29-seq-gap",
+        "vectors-revocation-list/rl30-fresh-reader-past-seq-1",
+        "vectors-revocation-list/rl31-fork",
+        "vectors-revocation-list/rl32-issued-before-list-in-force",
+        "vectors-revocation-list/rl33-entry-from-future",
+        "vectors-revocation-list/rl34-list-drops-entry",
+        "vectors-revocation-list/rl35-list-edits-entry",
+        "vectors-revocation-list/rl36-old-root-after-rotation",
+        "vectors-revocation-list/rl37-root-revoked-without-successor",
+        "vectors-revocation-list/rl38-successor-revoked-sorting-before",
+        "vectors-revocation-list/rl39-successor-revoked-sorting-after"
+      ]
+    },
+    "revocationlist.go::digitsAt::RET_TRUE::19921ccfad14": {
+      "class": "KILLED",
+      "snippet": "return false",
+      "corpusKillers": [
+        "vectors-revocation-list/m-time-day-letter",
+        "vectors-revocation-list/m-time-hour-letter",
+        "vectors-revocation-list/m-time-minute-letter",
+        "vectors-revocation-list/m-time-month-letter",
+        "vectors-revocation-list/m-time-second-slash",
+        "vectors-revocation-list/m-time-year-letter"
+      ]
+    },
+    "revocationlist.go::hasMember::RET_FALSE::35f1da5ed784": {
+      "class": "KILLED",
+      "snippet": "return ok",
+      "corpusKillers": [
+        "vectors-revocation-list/m-body-array",
+        "vectors-revocation-list/m-body-member-misnamed",
+        "vectors-revocation-list/m-drops-second-held-entry",
+        "vectors-revocation-list/m-entries-object",
+        "vectors-revocation-list/m-entry-number",
+        "vectors-revocation-list/m-entry-reason-number",
+        "vectors-revocation-list/m-entry-unknown-member",
+        "vectors-revocation-list/m-entry-without-id",
+        "vectors-revocation-list/m-entry-without-kind",
+        "vectors-revocation-list/m-entry-without-revoked-at",
+        "vectors-revocation-list/m-every-kind",
+        "vectors-revocation-list/m-first-list-with-previous",
+        "vectors-revocation-list/m-grant-id-equals-root",
+        "vectors-revocation-list/m-issuer-key-31-bytes",
+        "vectors-revocation-list/m-issuer-key-line-break",
+        "vectors-revocation-list/m-issuer-key-number",
+        "vectors-revocation-list/m-key-id-not-a-digest",
+        "vectors-revocation-list/m-list-id-empty",
+        "vectors-revocation-list/m-list-id-with-space",
+        "vectors-revocation-list/m-permit-id-upper-case",
+        "vectors-revocation-list/m-previous-not-a-digest",
+        "vectors-revocation-list/m-revoked-at-not-a-time",
+        "vectors-revocation-list/m-root-pinned-twice",
+        "vectors-revocation-list/m-second-entry-from-future",
+        "vectors-revocation-list/m-second-entry-unknown-kind",
+        "vectors-revocation-list/m-second-list-null-previous",
+        "vectors-revocation-list/m-seq-zero",
+        "vectors-revocation-list/m-signature-line-break",
+        "vectors-revocation-list/m-successor-not-base64",
+        "vectors-revocation-list/m-successor-of-non-root",
+        "vectors-revocation-list/m-time-colon-13",
+        "vectors-revocation-list/m-time-colon-16",
+        "vectors-revocation-list/m-time-dash-4",
+        "vectors-revocation-list/m-time-dash-7",
+        "vectors-revocation-list/m-time-day-letter",
+        "vectors-revocation-list/m-time-hour-letter",
+        "vectors-revocation-list/m-time-len-21",
+        "vectors-revocation-list/m-time-minute-letter",
+        "vectors-revocation-list/m-time-month-letter",
+        "vectors-revocation-list/m-time-second-slash",
+        "vectors-revocation-list/m-time-t-lower-case",
+        "vectors-revocation-list/m-time-year-letter",
+        "vectors-revocation-list/m-time-year-zero",
+        "vectors-revocation-list/m-time-z-lower-case",
+        "vectors-revocation-list/m-two-lists-in-force",
+        "vectors-revocation-list/rl01-empty-first-list",
+        "vectors-revocation-list/rl02-three-lists-in-force",
+        "vectors-revocation-list/rl03-root-rotation-in-force",
+        "vectors-revocation-list/rl04-single-list-in-force",
+        "vectors-revocation-list/rl05-unknown-kind",
+        "vectors-revocation-list/rl06-entries-out-of-order",
+        "vectors-revocation-list/rl07-duplicate-entry",
+        "vectors-revocation-list/rl08-identifier-not-ascii",
+        "vectors-revocation-list/rl09-identifier-with-space",
+        "vectors-revocation-list/rl10-identifier-513-characters",
+        "vectors-revocation-list/rl11-extra-body-member",
+        "vectors-revocation-list/rl12-seq-boolean",
+        "vectors-revocation-list/rl14-time-with-offset",
+        "vectors-revocation-list/rl15-time-not-a-calendar-day",
+        "vectors-revocation-list/rl16-issuer-key-noncanonical-base64",
+        "vectors-revocation-list/rl17-grant-digest-upper-case",
+        "vectors-revocation-list/rl18-successor-on-agent-entry",
+        "vectors-revocation-list/rl20-another-type",
+        "vectors-revocation-list/rl21-signer-not-a-root",
+        "vectors-revocation-list/rl22-entries-edited-after-signing",
+        "vectors-revocation-list/rl23-root-key-over-another-signature",
+        "vectors-revocation-list/rl24-signature-bit-flipped",
+        "vectors-revocation-list/rl25-signature-noncanonical-base64",
+        "vectors-revocation-list/rl26-another-chain",
+        "vectors-revocation-list/rl27-list-in-force-replayed",
+        "vectors-revocation-list/rl28-rollback",
+        "vectors-revocation-list/rl29-seq-gap",
+        "vectors-revocation-list/rl30-fresh-reader-past-seq-1",
+        "vectors-revocation-list/rl31-fork",
+        "vectors-revocation-list/rl32-issued-before-list-in-force",
+        "vectors-revocation-list/rl33-entry-from-future",
+        "vectors-revocation-list/rl34-list-drops-entry",
+        "vectors-revocation-list/rl35-list-edits-entry",
+        "vectors-revocation-list/rl36-old-root-after-rotation",
+        "vectors-revocation-list/rl37-root-revoked-without-successor",
+        "vectors-revocation-list/rl38-successor-revoked-sorting-before",
+        "vectors-revocation-list/rl39-successor-revoked-sorting-after"
+      ]
+    },
+    "revocationlist.go::hasMember::RET_TRUE::35f1da5ed784": {
+      "class": "KILLED",
+      "snippet": "return ok",
+      "corpusKillers": [
+        "vectors-revocation-list/m-body-member-misnamed",
+        "vectors-revocation-list/m-entry-without-id",
+        "vectors-revocation-list/m-entry-without-kind",
+        "vectors-revocation-list/m-entry-without-revoked-at",
+        "vectors-revocation-list/m-signed-list-without-body",
+        "vectors-revocation-list/m-signed-list-without-sig"
+      ]
+    },
+    "revocationlist.go::isHex64::RET_FALSE::4e78ddc75e6e": {
+      "class": "KILLED",
+      "snippet": "return len(s) == 64 && isLowerHex(s)",
+      "corpusKillers": [
+        "vectors-revocation-list/m-every-kind",
+        "vectors-revocation-list/m-grant-id-equals-root",
+        "vectors-revocation-list/m-successor-not-base64",
+        "vectors-revocation-list/m-successor-of-non-root",
+        "vectors-revocation-list/rl02-three-lists-in-force",
+        "vectors-revocation-list/rl03-root-rotation-in-force",
+        "vectors-revocation-list/rl29-seq-gap",
+        "vectors-revocation-list/rl36-old-root-after-rotation",
+        "vectors-revocation-list/rl37-root-revoked-without-successor",
+        "vectors-revocation-list/rl38-successor-revoked-sorting-before",
+        "vectors-revocation-list/rl39-successor-revoked-sorting-after"
+      ]
+    },
+    "revocationlist.go::isHex64::RET_TRUE::4e78ddc75e6e": {
+      "class": "KILLED",
+      "snippet": "return len(s) == 64 && isLowerHex(s)",
+      "corpusKillers": [
+        "vectors-revocation-list/m-key-id-not-a-digest",
+        "vectors-revocation-list/m-permit-id-upper-case",
+        "vectors-revocation-list/rl17-grant-digest-upper-case"
+      ]
+    },
+    "revocationlist.go::isIdentifier::IF_DISJ::252b7570d232": {
+      "class": "KILLED",
+      "snippet": "len(s) < 1",
+      "corpusKillers": [
+        "vectors-revocation-list/m-list-id-empty"
+      ]
+    },
+    "revocationlist.go::isIdentifier::IF_DISJ::af9e0f7d1d1c": {
+      "class": "KILLED",
+      "snippet": "s[i] < 0x21",
+      "corpusKillers": [
+        "vectors-revocation-list/m-list-id-with-space",
+        "vectors-revocation-list/rl09-identifier-with-space"
+      ]
+    },
+    "revocationlist.go::isIdentifier::IF_DISJ::dd3bb5750def": {
+      "class": "KILLED",
+      "snippet": "s[i] > 0x7e",
+      "corpusKillers": [
+        "vectors-revocation-list/rl08-identifier-not-ascii"
+      ]
+    },
+    "revocationlist.go::isIdentifier::IF_DISJ::f362db721db7": {
+      "class": "KILLED",
+      "snippet": "len(s) > 512",
+      "corpusKillers": [
+        "vectors-revocation-list/rl10-identifier-513-characters"
+      ]
+    },
+    "revocationlist.go::isIdentifier::IF_OFF::927ec7e754cb": {
+      "class": "KILLED",
+      "snippet": "if s[i] < 0x21 || s[i] > 0x7e { return false }",
+      "corpusKillers": [
+        "vectors-revocation-list/m-list-id-with-space",
+        "vectors-revocation-list/rl08-identifier-not-ascii",
+        "vectors-revocation-list/rl09-identifier-with-space"
+      ]
+    },
+    "revocationlist.go::isIdentifier::IF_OFF::d02cfe5026a5": {
+      "class": "KILLED",
+      "snippet": "if len(s) < 1 || len(s) > 512 { return false }",
+      "corpusKillers": [
+        "vectors-revocation-list/m-list-id-empty",
+        "vectors-revocation-list/rl10-identifier-513-characters"
+      ]
+    },
+    "revocationlist.go::isIdentifier::RET_FALSE::7e4fe8351c22": {
+      "class": "KILLED",
+      "snippet": "return true",
+      "corpusKillers": [
+        "vectors-revocation-list/m-drops-second-held-entry",
+        "vectors-revocation-list/m-entries-object",
+        "vectors-revocation-list/m-entry-number",
+        "vectors-revocation-list/m-entry-reason-number",
+        "vectors-revocation-list/m-entry-unknown-member",
+        "vectors-revocation-list/m-entry-without-id",
+        "vectors-revocation-list/m-entry-without-kind",
+        "vectors-revocation-list/m-entry-without-revoked-at",
+        "vectors-revocation-list/m-every-kind",
+        "vectors-revocation-list/m-first-list-with-previous",
+        "vectors-revocation-list/m-grant-id-equals-root",
+        "vectors-revocation-list/m-issuer-key-31-bytes",
+        "vectors-revocation-list/m-issuer-key-line-break",
+        "vectors-revocation-list/m-issuer-key-number",
+        "vectors-revocation-list/m-key-id-not-a-digest",
+        "vectors-revocation-list/m-permit-id-upper-case",
+        "vectors-revocation-list/m-previous-not-a-digest",
+        "vectors-revocation-list/m-revoked-at-not-a-time",
+        "vectors-revocation-list/m-root-pinned-twice",
+        "vectors-revocation-list/m-second-entry-from-future",
+        "vectors-revocation-list/m-second-entry-unknown-kind",
+        "vectors-revocation-list/m-second-list-null-previous",
+        "vectors-revocation-list/m-seq-zero",
+        "vectors-revocation-list/m-signature-line-break",
+        "vectors-revocation-list/m-successor-not-base64",
+        "vectors-revocation-list/m-successor-of-non-root",
+        "vectors-revocation-list/m-time-colon-13",
+        "vectors-revocation-list/m-time-colon-16",
+        "vectors-revocation-list/m-time-dash-4",
+        "vectors-revocation-list/m-time-dash-7",
+        "vectors-revocation-list/m-time-day-letter",
+        "vectors-revocation-list/m-time-hour-letter",
+        "vectors-revocation-list/m-time-len-21",
+        "vectors-revocation-list/m-time-minute-letter",
+        "vectors-revocation-list/m-time-month-letter",
+        "vectors-revocation-list/m-time-second-slash",
+        "vectors-revocation-list/m-time-t-lower-case",
+        "vectors-revocation-list/m-time-year-letter",
+        "vectors-revocation-list/m-time-year-zero",
+        "vectors-revocation-list/m-time-z-lower-case",
+        "vectors-revocation-list/m-two-lists-in-force",
+        "vectors-revocation-list/rl01-empty-first-list",
+        "vectors-revocation-list/rl02-three-lists-in-force",
+        "vectors-revocation-list/rl03-root-rotation-in-force",
+        "vectors-revocation-list/rl04-single-list-in-force",
+        "vectors-revocation-list/rl05-unknown-kind",
+        "vectors-revocation-list/rl06-entries-out-of-order",
+        "vectors-revocation-list/rl07-duplicate-entry",
+        "vectors-revocation-list/rl08-identifier-not-ascii",
+        "vectors-revocation-list/rl09-identifier-with-space",
+        "vectors-revocation-list/rl10-identifier-513-characters",
+        "vectors-revocation-list/rl12-seq-boolean",
+        "vectors-revocation-list/rl14-time-with-offset",
+        "vectors-revocation-list/rl15-time-not-a-calendar-day",
+        "vectors-revocation-list/rl16-issuer-key-noncanonical-base64",
+        "vectors-revocation-list/rl17-grant-digest-upper-case",
+        "vectors-revocation-list/rl18-successor-on-agent-entry",
+        "vectors-revocation-list/rl21-signer-not-a-root",
+        "vectors-revocation-list/rl22-entries-edited-after-signing",
+        "vectors-revocation-list/rl23-root-key-over-another-signature",
+        "vectors-revocation-list/rl24-signature-bit-flipped",
+        "vectors-revocation-list/rl25-signature-noncanonical-base64",
+        "vectors-revocation-list/rl26-another-chain",
+        "vectors-revocation-list/rl27-list-in-force-replayed",
+        "vectors-revocation-list/rl28-rollback",
+        "vectors-revocation-list/rl29-seq-gap",
+        "vectors-revocation-list/rl30-fresh-reader-past-seq-1",
+        "vectors-revocation-list/rl31-fork",
+        "vectors-revocation-list/rl32-issued-before-list-in-force",
+        "vectors-revocation-list/rl33-entry-from-future",
+        "vectors-revocation-list/rl34-list-drops-entry",
+        "vectors-revocation-list/rl35-list-edits-entry",
+        "vectors-revocation-list/rl36-old-root-after-rotation",
+        "vectors-revocation-list/rl37-root-revoked-without-successor",
+        "vectors-revocation-list/rl38-successor-revoked-sorting-before",
+        "vectors-revocation-list/rl39-successor-revoked-sorting-after"
+      ]
+    },
+    "revocationlist.go::isIdentifier::RET_TRUE::19921ccfad14": {
+      "class": "KILLED",
+      "snippet": "return false",
+      "corpusKillers": [
+        "vectors-revocation-list/m-list-id-empty",
+        "vectors-revocation-list/rl10-identifier-513-characters"
+      ]
+    },
+    "revocationlist.go::isIdentifier::RET_TRUE::19921ccfad14#2": {
+      "class": "KILLED",
+      "snippet": "return false",
+      "corpusKillers": [
+        "vectors-revocation-list/m-list-id-with-space",
+        "vectors-revocation-list/rl08-identifier-not-ascii",
+        "vectors-revocation-list/rl09-identifier-with-space"
+      ]
+    },
+    "revocationlist.go::isListDigest::RET_FALSE::0e9af5f4545d": {
+      "class": "KILLED",
+      "snippet": "return len(s) == 71 && s[:7] == \"sha256:\" && isLowerHex(s[7:])",
+      "corpusKillers": [
+        "vectors-revocation-list/m-drops-second-held-entry",
+        "vectors-revocation-list/m-two-lists-in-force",
+        "vectors-revocation-list/rl02-three-lists-in-force",
+        "vectors-revocation-list/rl03-root-rotation-in-force",
+        "vectors-revocation-list/rl26-another-chain",
+        "vectors-revocation-list/rl27-list-in-force-replayed",
+        "vectors-revocation-list/rl28-rollback",
+        "vectors-revocation-list/rl29-seq-gap",
+        "vectors-revocation-list/rl30-fresh-reader-past-seq-1",
+        "vectors-revocation-list/rl31-fork",
+        "vectors-revocation-list/rl32-issued-before-list-in-force",
+        "vectors-revocation-list/rl34-list-drops-entry",
+        "vectors-revocation-list/rl35-list-edits-entry",
+        "vectors-revocation-list/rl36-old-root-after-rotation",
+        "vectors-revocation-list/rl37-root-revoked-without-successor",
+        "vectors-revocation-list/rl38-successor-revoked-sorting-before",
+        "vectors-revocation-list/rl39-successor-revoked-sorting-after"
+      ]
+    },
+    "revocationlist.go::isListDigest::RET_TRUE::0e9af5f4545d": {
+      "class": "KILLED",
+      "snippet": "return len(s) == 71 && s[:7] == \"sha256:\" && isLowerHex(s[7:])",
+      "corpusKillers": [
+        "vectors-revocation-list/m-previous-not-a-digest"
+      ]
+    },
+    "revocationlist.go::isLowerHex::IF_OFF::60db0fbc83b1": {
+      "class": "KILLED",
+      "snippet": "if c := s[i]; !(c >= '0' && c <= '9' || c >= 'a' && c <= 'f') { return false }",
+      "corpusKillers": [
+        "vectors-revocation-list/m-permit-id-upper-case",
+        "vectors-revocation-list/m-previous-not-a-digest",
+        "vectors-revocation-list/rl17-grant-digest-upper-case"
+      ]
+    },
+    "revocationlist.go::isLowerHex::RET_FALSE::7e4fe8351c22": {
+      "class": "KILLED",
+      "snippet": "return true",
+      "corpusKillers": [
+        "vectors-revocation-list/m-drops-second-held-entry",
+        "vectors-revocation-list/m-every-kind",
+        "vectors-revocation-list/m-grant-id-equals-root",
+        "vectors-revocation-list/m-successor-not-base64",
+        "vectors-revocation-list/m-successor-of-non-root",
+        "vectors-revocation-list/m-two-lists-in-force",
+        "vectors-revocation-list/rl02-three-lists-in-force",
+        "vectors-revocation-list/rl03-root-rotation-in-force",
+        "vectors-revocation-list/rl26-another-chain",
+        "vectors-revocation-list/rl27-list-in-force-replayed",
+        "vectors-revocation-list/rl28-rollback",
+        "vectors-revocation-list/rl29-seq-gap",
+        "vectors-revocation-list/rl30-fresh-reader-past-seq-1",
+        "vectors-revocation-list/rl31-fork",
+        "vectors-revocation-list/rl32-issued-before-list-in-force",
+        "vectors-revocation-list/rl34-list-drops-entry",
+        "vectors-revocation-list/rl35-list-edits-entry",
+        "vectors-revocation-list/rl36-old-root-after-rotation",
+        "vectors-revocation-list/rl37-root-revoked-without-successor",
+        "vectors-revocation-list/rl38-successor-revoked-sorting-before",
+        "vectors-revocation-list/rl39-successor-revoked-sorting-after"
+      ]
+    },
+    "revocationlist.go::isLowerHex::RET_TRUE::19921ccfad14": {
+      "class": "KILLED",
+      "snippet": "return false",
+      "corpusKillers": [
+        "vectors-revocation-list/m-permit-id-upper-case",
+        "vectors-revocation-list/m-previous-not-a-digest",
+        "vectors-revocation-list/rl17-grant-digest-upper-case"
+      ]
+    },
+    "revocationlist.go::isRevocationKind::IF_OFF::4bbd2ef0ec4d": {
+      "class": "KILLED",
+      "snippet": "if string(k) == kind { return true }",
+      "corpusKillers": [
+        "vectors-revocation-list/m-drops-second-held-entry",
+        "vectors-revocation-list/m-entry-reason-number",
+        "vectors-revocation-list/m-every-kind",
+        "vectors-revocation-list/m-grant-id-equals-root",
+        "vectors-revocation-list/m-key-id-not-a-digest",
+        "vectors-revocation-list/m-permit-id-upper-case",
+        "vectors-revocation-list/m-revoked-at-not-a-time",
+        "vectors-revocation-list/m-second-entry-from-future",
+        "vectors-revocation-list/m-successor-not-base64",
+        "vectors-revocation-list/m-successor-of-non-root",
+        "vectors-revocation-list/rl02-three-lists-in-force",
+        "vectors-revocation-list/rl03-root-rotation-in-force",
+        "vectors-revocation-list/rl04-single-list-in-force",
+        "vectors-revocation-list/rl06-entries-out-of-order",
+        "vectors-revocation-list/rl07-duplicate-entry",
+        "vectors-revocation-list/rl08-identifier-not-ascii",
+        "vectors-revocation-list/rl09-identifier-with-space",
+        "vectors-revocation-list/rl10-identifier-513-characters",
+        "vectors-revocation-list/rl17-grant-digest-upper-case",
+        "vectors-revocation-list/rl18-successor-on-agent-entry",
+        "vectors-revocation-list/rl27-list-in-force-replayed",
+        "vectors-revocation-list/rl28-rollback",
+        "vectors-revocation-list/rl29-seq-gap",
+        "vectors-revocation-list/rl30-fresh-reader-past-seq-1",
+        "vectors-revocation-list/rl31-fork",
+        "vectors-revocation-list/rl32-issued-before-list-in-force",
+        "vectors-revocation-list/rl33-entry-from-future",
+        "vectors-revocation-list/rl34-list-drops-entry",
+        "vectors-revocation-list/rl35-list-edits-entry",
+        "vectors-revocation-list/rl36-old-root-after-rotation",
+        "vectors-revocation-list/rl37-root-revoked-without-successor",
+        "vectors-revocation-list/rl38-successor-revoked-sorting-before",
+        "vectors-revocation-list/rl39-successor-revoked-sorting-after"
+      ]
+    },
+    "revocationlist.go::isRevocationKind::LOOP_FIRST::e1ace2183ef5": {
+      "class": "KILLED",
+      "snippet": "for _, k := range RevocationKinds { if string(k) == kind { return true } }",
+      "corpusKillers": [
+        "vectors-revocation-list/m-every-kind",
+        "vectors-revocation-list/m-grant-id-equals-root",
+        "vectors-revocation-list/m-key-id-not-a-digest",
+        "vectors-revocation-list/m-permit-id-upper-case",
+        "vectors-revocation-list/m-successor-not-base64",
+        "vectors-revocation-list/m-successor-of-non-root",
+        "vectors-revocation-list/rl02-three-lists-in-force",
+        "vectors-revocation-list/rl03-root-rotation-in-force",
+        "vectors-revocation-list/rl04-single-list-in-force",
+        "vectors-revocation-list/rl06-entries-out-of-order",
+        "vectors-revocation-list/rl17-grant-digest-upper-case",
+        "vectors-revocation-list/rl27-list-in-force-replayed",
+        "vectors-revocation-list/rl28-rollback",
+        "vectors-revocation-list/rl29-seq-gap",
+        "vectors-revocation-list/rl30-fresh-reader-past-seq-1",
+        "vectors-revocation-list/rl31-fork",
+        "vectors-revocation-list/rl32-issued-before-list-in-force",
+        "vectors-revocation-list/rl34-list-drops-entry",
+        "vectors-revocation-list/rl35-list-edits-entry",
+        "vectors-revocation-list/rl36-old-root-after-rotation",
+        "vectors-revocation-list/rl37-root-revoked-without-successor",
+        "vectors-revocation-list/rl38-successor-revoked-sorting-before",
+        "vectors-revocation-list/rl39-successor-revoked-sorting-after"
+      ]
+    },
+    "revocationlist.go::isRevocationKind::RET_FALSE::7e4fe8351c22": {
+      "class": "KILLED",
+      "snippet": "return true",
+      "corpusKillers": [
+        "vectors-revocation-list/m-drops-second-held-entry",
+        "vectors-revocation-list/m-entry-reason-number",
+        "vectors-revocation-list/m-every-kind",
+        "vectors-revocation-list/m-grant-id-equals-root",
+        "vectors-revocation-list/m-key-id-not-a-digest",
+        "vectors-revocation-list/m-permit-id-upper-case",
+        "vectors-revocation-list/m-revoked-at-not-a-time",
+        "vectors-revocation-list/m-second-entry-from-future",
+        "vectors-revocation-list/m-successor-not-base64",
+        "vectors-revocation-list/m-successor-of-non-root",
+        "vectors-revocation-list/rl02-three-lists-in-force",
+        "vectors-revocation-list/rl03-root-rotation-in-force",
+        "vectors-revocation-list/rl04-single-list-in-force",
+        "vectors-revocation-list/rl06-entries-out-of-order",
+        "vectors-revocation-list/rl07-duplicate-entry",
+        "vectors-revocation-list/rl08-identifier-not-ascii",
+        "vectors-revocation-list/rl09-identifier-with-space",
+        "vectors-revocation-list/rl10-identifier-513-characters",
+        "vectors-revocation-list/rl17-grant-digest-upper-case",
+        "vectors-revocation-list/rl18-successor-on-agent-entry",
+        "vectors-revocation-list/rl27-list-in-force-replayed",
+        "vectors-revocation-list/rl28-rollback",
+        "vectors-revocation-list/rl29-seq-gap",
+        "vectors-revocation-list/rl30-fresh-reader-past-seq-1",
+        "vectors-revocation-list/rl31-fork",
+        "vectors-revocation-list/rl32-issued-before-list-in-force",
+        "vectors-revocation-list/rl33-entry-from-future",
+        "vectors-revocation-list/rl34-list-drops-entry",
+        "vectors-revocation-list/rl35-list-edits-entry",
+        "vectors-revocation-list/rl36-old-root-after-rotation",
+        "vectors-revocation-list/rl37-root-revoked-without-successor",
+        "vectors-revocation-list/rl38-successor-revoked-sorting-before",
+        "vectors-revocation-list/rl39-successor-revoked-sorting-after"
+      ]
+    },
+    "revocationlist.go::isRevocationKind::RET_TRUE::19921ccfad14": {
+      "class": "KILLED",
+      "snippet": "return false",
+      "corpusKillers": [
+        "vectors-revocation-list/m-second-entry-unknown-kind",
+        "vectors-revocation-list/rl05-unknown-kind"
+      ]
+    },
+    "revocationlist.go::readRawKey::IF_OFF::3ddc95de3c7e": {
+      "class": "KILLED",
+      "snippet": "if err != nil { return nil, shape(what + \"_not_base64\") }",
+      "corpusKillers": [
+        "vectors-revocation-list/m-successor-not-base64",
+        "vectors-revocation-list/rl16-issuer-key-noncanonical-base64"
+      ]
+    },
+    "revocationlist.go::readRawKey::IF_OFF::555a65128111": {
+      "class": "KILLED",
+      "snippet": "if !isText { return nil, shape(what + \"_not_base64\") }",
+      "corpusKillers": [
+        "vectors-revocation-list/m-issuer-key-number"
+      ]
+    },
+    "revocationlist.go::readRawKey::IF_OFF::7a4904e52a0e": {
+      "class": "KILLED",
+      "snippet": "if base64.StdEncoding.EncodeToString(raw) != s { return nil, shape(what + \"_not_canonical_base64\") }",
+      "corpusKillers": [
+        "vectors-revocation-list/m-issuer-key-line-break"
+      ]
+    },
+    "revocationlist.go::readRawKey::IF_OFF::8cd5bf9d523f": {
+      "class": "KILLED",
+      "snippet": "if len(raw) != ed25519.PublicKeySize { return nil, shape(what + \"_not_an_ed25519_key\") }",
+      "corpusKillers": [
+        "vectors-revocation-list/m-issuer-key-31-bytes"
+      ]
+    },
+    "revocationlist.go::readRevBody::IF_DISJ::4ea35862e2d6": {
+      "class": "KILLED",
+      "snippet": "!isIdentifier(listID)",
+      "corpusKillers": [
+        "vectors-revocation-list/m-list-id-empty",
+        "vectors-revocation-list/m-list-id-with-space"
+      ]
+    },
+    "revocationlist.go::readRevBody::IF_DISJ::61f437aee094": {
+      "class": "KILLED",
+      "snippet": "len(o.values) != 7",
+      "corpusKillers": [
+        "vectors-revocation-list/rl11-extra-body-member"
+      ]
+    },
+    "revocationlist.go::readRevBody::IF_DISJ::68a1e560349b": {
+      "class": "KILLED",
+      "snippet": "!ok",
+      "corpusKillers": [
+        "vectors-revocation-list/m-body-array"
+      ]
+    },
+    "revocationlist.go::readRevBody::IF_DISJ::68a1e560349b#2": {
+      "class": "DEAD",
+      "snippet": "!ok",
+      "branch": "taken"
+    },
+    "revocationlist.go::readRevBody::IF_DISJ::d6d8ffc4955d": {
+      "class": "KILLED",
+      "snippet": "p.kind == c.kind && p.id >= c.id",
+      "corpusKillers": [
+        "vectors-revocation-list/rl07-duplicate-entry"
+      ]
+    },
+    "revocationlist.go::readRevBody::IF_DISJ::e2f1d0c91d9b": {
+      "class": "KILLED",
+      "snippet": "p.kind > c.kind",
+      "corpusKillers": [
+        "vectors-revocation-list/rl06-entries-out-of-order"
+      ]
+    },
+    "revocationlist.go::readRevBody::IF_OFF::10970931f60f": {
+      "class": "KILLED",
+      "snippet": "if err := readSeqAndPrevious(&b, o); err != nil { return b, err }",
+      "corpusKillers": [
+        "vectors-revocation-list/m-first-list-with-previous",
+        "vectors-revocation-list/m-previous-not-a-digest",
+        "vectors-revocation-list/m-second-list-null-previous",
+        "vectors-revocation-list/m-seq-zero",
+        "vectors-revocation-list/rl12-seq-boolean"
+      ]
+    },
+    "revocationlist.go::readRevBody::IF_OFF::1d26082848ee": {
+      "class": "KILLED",
+      "snippet": "if !ok { return b, shape(\"entries_not_a_list\") }",
+      "corpusKillers": [
+        "vectors-revocation-list/m-entries-object"
+      ]
+    },
+    "revocationlist.go::readRevBody::IF_OFF::3210382ed7ed": {
+      "class": "KILLED",
+      "snippet": "if listID, ok = o.values[\"listId\"].(string); !ok || !isIdentifier(listID) { return b, shape(\"list_id_form\") }",
+      "corpusKillers": [
+        "vectors-revocation-list/m-list-id-empty",
+        "vectors-revocation-list/m-list-id-with-space"
+      ]
+    },
+    "revocationlist.go::readRevBody::IF_OFF::32703ce5ba26": {
+      "class": "KILLED",
+      "snippet": "if p.kind > c.kind || p.kind == c.kind && p.id >= c.id { return b, shape(\"entries_not_strictly_ascending\") }",
+      "corpusKillers": [
+        "vectors-revocation-list/rl06-entries-out-of-order",
+        "vectors-revocation-list/rl07-duplicate-entry"
+      ]
+    },
+    "revocationlist.go::readRevBody::IF_OFF::7d018e02ae78": {
+      "class": "KILLED",
+      "snippet": "if !ok || len(o.values) != 7 { return b, shape(\"body_members\") }",
+      "corpusKillers": [
+        "vectors-revocation-list/m-body-array",
+        "vectors-revocation-list/rl11-extra-body-member"
+      ]
+    },
+    "revocationlist.go::readRevBody::IF_OFF::8933aafb58bd": {
+      "class": "KILLED",
+      "snippet": "if !hasMember(o, name) { return b, shape(\"body_members\") }",
+      "corpusKillers": [
+        "vectors-revocation-list/m-body-member-misnamed"
+      ]
+    },
+    "revocationlist.go::readRevBody::IF_OFF::9fc0498cb118": {
+      "class": "KILLED",
+      "snippet": "if err != nil { return b, err }",
+      "corpusKillers": [
+        "vectors-revocation-list/m-entry-number",
+        "vectors-revocation-list/m-entry-reason-number",
+        "vectors-revocation-list/m-entry-unknown-member",
+        "vectors-revocation-list/m-entry-without-id",
+        "vectors-revocation-list/m-entry-without-kind",
+        "vectors-revocation-list/m-entry-without-revoked-at",
+        "vectors-revocation-list/m-key-id-not-a-digest",
+        "vectors-revocation-list/m-permit-id-upper-case",
+        "vectors-revocation-list/m-revoked-at-not-a-time",
+        "vectors-revocation-list/m-second-entry-unknown-kind",
+        "vectors-revocation-list/m-successor-not-base64",
+        "vectors-revocation-list/rl05-unknown-kind",
+        "vectors-revocation-list/rl08-identifier-not-ascii",
+        "vectors-revocation-list/rl09-identifier-with-space",
+        "vectors-revocation-list/rl10-identifier-513-characters",
+        "vectors-revocation-list/rl17-grant-digest-upper-case",
+        "vectors-revocation-list/rl18-successor-on-agent-entry"
+      ]
+    },
+    "revocationlist.go::readRevBody::IF_OFF::aa9f16877497": {
+      "class": "DEAD",
+      "snippet": "if err := appendCanonical(&buf, o, 0); err != nil { return b, shape(\"body_not_canonical\") }",
+      "branch": "never-taken"
+    },
+    "revocationlist.go::readRevBody::IF_OFF::b952efe42c67": {
+      "class": "KILLED",
+      "snippet": "if b.issuerKey, err = readRawKey(o.values[\"issuerKey\"], \"issuerKey\"); err != nil { return b, err }",
+      "corpusKillers": [
+        "vectors-revocation-list/m-issuer-key-31-bytes",
+        "vectors-revocation-list/m-issuer-key-line-break",
+        "vectors-revocation-list/m-issuer-key-number",
+        "vectors-revocation-list/rl16-issuer-key-noncanonical-base64"
+      ]
+    },
+    "revocationlist.go::readRevBody::IF_OFF::bd48b5c71eca": {
+      "class": "KILLED",
+      "snippet": "if b.issuedAt, err = readTime(o.values[\"issuedAt\"], \"issuedAt\"); err != nil { return b, err }",
+      "corpusKillers": [
+        "vectors-revocation-list/m-time-colon-13",
+        "vectors-revocation-list/m-time-colon-16",
+        "vectors-revocation-list/m-time-dash-4",
+        "vectors-revocation-list/m-time-dash-7",
+        "vectors-revocation-list/m-time-day-letter",
+        "vectors-revocation-list/m-time-hour-letter",
+        "vectors-revocation-list/m-time-len-21",
+        "vectors-revocation-list/m-time-minute-letter",
+        "vectors-revocation-list/m-time-month-letter",
+        "vectors-revocation-list/m-time-second-slash",
+        "vectors-revocation-list/m-time-t-lower-case",
+        "vectors-revocation-list/m-time-year-letter",
+        "vectors-revocation-list/m-time-year-zero",
+        "vectors-revocation-list/m-time-z-lower-case",
+        "vectors-revocation-list/rl14-time-with-offset",
+        "vectors-revocation-list/rl15-time-not-a-calendar-day"
+      ]
+    },
+    "revocationlist.go::readRevBody::IF_OFF::eddbe8516366": {
+      "class": "KILLED",
+      "snippet": "if o.values[\"type\"] != RevocationListType { return b, shape(\"type\") }",
+      "corpusKillers": [
+        "vectors-revocation-list/rl20-another-type"
+      ]
+    },
+    "revocationlist.go::readRevBody::LOOP_FIRST::668cdee0a11d": {
+      "class": "KILLED",
+      "snippet": "for _, name := range []string{\"type\", \"listId\", \"seq\", \"previous\", \"issuedAt\", \"issuerKey\", \"entries\"} { if !hasMember(o, name) { return b, shape(\"bod...",
+      "corpusKillers": [
+        "vectors-revocation-list/m-body-member-misnamed"
+      ]
+    },
+    "revocationlist.go::readRevBody::LOOP_FIRST::69304bf2415a": {
+      "class": "KILLED",
+      "snippet": "for _, item := range list { e, err := readRevEntry(item) if err != nil { return b, err } b.entries = append(b.entries, e) }",
+      "corpusKillers": [
+        "vectors-revocation-list/m-drops-second-held-entry",
+        "vectors-revocation-list/m-every-kind",
+        "vectors-revocation-list/m-second-entry-from-future",
+        "vectors-revocation-list/m-second-entry-unknown-kind",
+        "vectors-revocation-list/rl02-three-lists-in-force",
+        "vectors-revocation-list/rl06-entries-out-of-order",
+        "vectors-revocation-list/rl07-duplicate-entry",
+        "vectors-revocation-list/rl27-list-in-force-replayed",
+        "vectors-revocation-list/rl28-rollback",
+        "vectors-revocation-list/rl31-fork",
+        "vectors-revocation-list/rl32-issued-before-list-in-force",
+        "vectors-revocation-list/rl34-list-drops-entry",
+        "vectors-revocation-list/rl35-list-edits-entry",
+        "vectors-revocation-list/rl38-successor-revoked-sorting-before",
+        "vectors-revocation-list/rl39-successor-revoked-sorting-after"
+      ]
+    },
+    "revocationlist.go::readRevEntry::CASE_DEL::0a5d441a300e": {
+      "class": "KILLED",
+      "snippet": "case \"kind\", \"id\", \"revokedAt\", \"reason\", \"successor\":",
+      "corpusKillers": [
+        "vectors-revocation-list/m-drops-second-held-entry",
+        "vectors-revocation-list/m-entry-reason-number",
+        "vectors-revocation-list/m-every-kind",
+        "vectors-revocation-list/m-grant-id-equals-root",
+        "vectors-revocation-list/m-key-id-not-a-digest",
+        "vectors-revocation-list/m-permit-id-upper-case",
+        "vectors-revocation-list/m-revoked-at-not-a-time",
+        "vectors-revocation-list/m-second-entry-from-future",
+        "vectors-revocation-list/m-second-entry-unknown-kind",
+        "vectors-revocation-list/m-successor-not-base64",
+        "vectors-revocation-list/m-successor-of-non-root",
+        "vectors-revocation-list/rl02-three-lists-in-force",
+        "vectors-revocation-list/rl03-root-rotation-in-force",
+        "vectors-revocation-list/rl04-single-list-in-force",
+        "vectors-revocation-list/rl05-unknown-kind",
+        "vectors-revocation-list/rl06-entries-out-of-order",
+        "vectors-revocation-list/rl07-duplicate-entry",
+        "vectors-revocation-list/rl08-identifier-not-ascii",
+        "vectors-revocation-list/rl09-identifier-with-space",
+        "vectors-revocation-list/rl10-identifier-513-characters",
+        "vectors-revocation-list/rl17-grant-digest-upper-case",
+        "vectors-revocation-list/rl18-successor-on-agent-entry",
+        "vectors-revocation-list/rl27-list-in-force-replayed",
+        "vectors-revocation-list/rl28-rollback",
+        "vectors-revocation-list/rl29-seq-gap",
+        "vectors-revocation-list/rl30-fresh-reader-past-seq-1",
+        "vectors-revocation-list/rl31-fork",
+        "vectors-revocation-list/rl32-issued-before-list-in-force",
+        "vectors-revocation-list/rl33-entry-from-future",
+        "vectors-revocation-list/rl34-list-drops-entry",
+        "vectors-revocation-list/rl35-list-edits-entry",
+        "vectors-revocation-list/rl36-old-root-after-rotation",
+        "vectors-revocation-list/rl37-root-revoked-without-successor",
+        "vectors-revocation-list/rl38-successor-revoked-sorting-before",
+        "vectors-revocation-list/rl39-successor-revoked-sorting-after"
+      ]
+    },
+    "revocationlist.go::readRevEntry::IF_DISJ::2ae1ab0b5dac": {
+      "class": "KILLED",
+      "snippet": "kind == string(KindPermit)",
+      "corpusKillers": [
+        "vectors-revocation-list/m-permit-id-upper-case"
+      ]
+    },
+    "revocationlist.go::readRevEntry::IF_DISJ::2deba9af77c3": {
+      "class": "KILLED",
+      "snippet": "!hasMember(o, \"kind\")",
+      "corpusKillers": [
+        "vectors-revocation-list/m-entry-without-kind"
+      ]
+    },
+    "revocationlist.go::readRevEntry::IF_DISJ::38ce42016ee7": {
+      "class": "KILLED",
+      "snippet": "kind == string(KindGrant)",
+      "corpusKillers": [
+        "vectors-revocation-list/rl17-grant-digest-upper-case"
+      ]
+    },
+    "revocationlist.go::readRevEntry::IF_DISJ::3e693ce2bded": {
+      "class": "KILLED",
+      "snippet": "!hasMember(o, \"id\")",
+      "corpusKillers": [
+        "vectors-revocation-list/m-entry-without-id"
+      ]
+    },
+    "revocationlist.go::readRevEntry::IF_DISJ::fcf1ecd8cb38": {
+      "class": "KILLED",
+      "snippet": "!hasMember(o, \"revokedAt\")",
+      "corpusKillers": [
+        "vectors-revocation-list/m-entry-without-revoked-at"
+      ]
+    },
+    "revocationlist.go::readRevEntry::IF_DISJ::febbaa79e8d3": {
+      "class": "KILLED",
+      "snippet": "kind == string(KindKey)",
+      "corpusKillers": [
+        "vectors-revocation-list/m-key-id-not-a-digest"
+      ]
+    },
+    "revocationlist.go::readRevEntry::IF_OFF::05b321632347": {
+      "class": "KILLED",
+      "snippet": "if !isIdentifier(id) { return e, shape(\"entry_id_form:\" + kind) }",
+      "corpusKillers": [
+        "vectors-revocation-list/rl08-identifier-not-ascii",
+        "vectors-revocation-list/rl09-identifier-with-space",
+        "vectors-revocation-list/rl10-identifier-513-characters"
+      ]
+    },
+    "revocationlist.go::readRevEntry::IF_OFF::0e5bfc5feb8e": {
+      "class": "KILLED",
+      "snippet": "if r, has := o.values[\"reason\"]; has { if _, ok := r.(string); !ok { return e, shape(\"entry_reason_not_text\") } }",
+      "corpusKillers": [
+        "vectors-revocation-list/m-entry-reason-number"
+      ]
+    },
+    "revocationlist.go::readRevEntry::IF_OFF::12a52e6674e1": {
+      "class": "KILLED",
+      "snippet": "if !ok { return e, shape(\"entry_not_an_object\") }",
+      "corpusKillers": [
+        "vectors-revocation-list/m-entry-number"
+      ]
+    },
+    "revocationlist.go::readRevEntry::IF_OFF::2595b512205e": {
+      "class": "KILLED",
+      "snippet": "if e.successor, err = readRawKey(sv, \"successor\"); err != nil { return e, err }",
+      "corpusKillers": [
+        "vectors-revocation-list/m-successor-not-base64"
+      ]
+    },
+    "revocationlist.go::readRevEntry::IF_OFF::33ce5b1b9c78": {
+      "class": "KILLED",
+      "snippet": "if _, ok := r.(string); !ok { return e, shape(\"entry_reason_not_text\") }",
+      "corpusKillers": [
+        "vectors-revocation-list/m-entry-reason-number"
+      ]
+    },
+    "revocationlist.go::readRevEntry::IF_OFF::526d6662e494": {
+      "class": "DEAD",
+      "snippet": "if err := appendCanonical(&buf, o, 0); err != nil { return e, shape(\"entry_not_canonical\") }",
+      "branch": "never-taken"
+    },
+    "revocationlist.go::readRevEntry::IF_OFF::549c6d885db3": {
+      "class": "KILLED",
+      "snippet": "if !isHex64(id) { return e, shape(\"entry_id_form:\" + kind) }",
+      "corpusKillers": [
+        "vectors-revocation-list/m-key-id-not-a-digest",
+        "vectors-revocation-list/m-permit-id-upper-case",
+        "vectors-revocation-list/rl17-grant-digest-upper-case"
+      ]
+    },
+    "revocationlist.go::readRevEntry::IF_OFF::625220458563": {
+      "class": "KILLED",
+      "snippet": "if !hasMember(o, \"kind\") || !hasMember(o, \"id\") || !hasMember(o, \"revokedAt\") { return e, shape(\"entry_members\") }",
+      "corpusKillers": [
+        "vectors-revocation-list/m-entry-without-id",
+        "vectors-revocation-list/m-entry-without-kind",
+        "vectors-revocation-list/m-entry-without-revoked-at"
+      ]
+    },
+    "revocationlist.go::readRevEntry::IF_OFF::778a365371b5": {
+      "class": "KILLED",
+      "snippet": "if kind != string(KindKey) { return e, shape(\"successor_on_non_key_entry\") }",
+      "corpusKillers": [
+        "vectors-revocation-list/rl18-successor-on-agent-entry"
+      ]
+    },
+    "revocationlist.go::readRevEntry::IF_OFF::9f436b6ef68d": {
+      "class": "KILLED",
+      "snippet": "if sv, has := o.values[\"successor\"]; has { if kind != string(KindKey) { return e, shape(\"successor_on_non_key_entry\") } if e.successor, err = readRawK...",
+      "corpusKillers": [
+        "vectors-revocation-list/m-successor-not-base64",
+        "vectors-revocation-list/rl03-root-rotation-in-force",
+        "vectors-revocation-list/rl18-successor-on-agent-entry",
+        "vectors-revocation-list/rl36-old-root-after-rotation"
+      ]
+    },
+    "revocationlist.go::readRevEntry::IF_OFF::e488acc7f944": {
+      "class": "KILLED",
+      "snippet": "if e.revokedAt, err = readTime(o.values[\"revokedAt\"], \"revokedAt\"); err != nil { return e, err }",
+      "corpusKillers": [
+        "vectors-revocation-list/m-revoked-at-not-a-time"
+      ]
+    },
+    "revocationlist.go::readRevEntry::IF_OFF::f41b5460abd1": {
+      "class": "KILLED",
+      "snippet": "if !isRevocationKind(kind) { return e, shape(\"entry_kind_unknown\") }",
+      "corpusKillers": [
+        "vectors-revocation-list/m-second-entry-unknown-kind",
+        "vectors-revocation-list/rl05-unknown-kind"
+      ]
+    },
+    "revocationlist.go::readRevEntry::IF_OFF::f889de50b59b": {
+      "class": "KILLED",
+      "snippet": "if kind == string(KindGrant) || kind == string(KindKey) || kind == string(KindPermit) { if !isHex64(id) { return e, shape(\"entry_id_form:\" + kind) } }...",
+      "corpusKillers": [
+        "vectors-revocation-list/m-key-id-not-a-digest",
+        "vectors-revocation-list/m-permit-id-upper-case",
+        "vectors-revocation-list/rl17-grant-digest-upper-case"
+      ]
+    },
+    "revocationlist.go::readRevEntry::LOOP_FIRST::d9fb0dc28fd1": {
+      "class": "KILLED",
+      "snippet": "for _, name := range o.keys { switch name { case \"kind\", \"id\", \"revokedAt\", \"reason\", \"successor\": default: return e, shape(\"entry_members\") } }",
+      "corpusKillers": [
+        "vectors-revocation-list/m-entry-unknown-member"
+      ]
+    },
+    "revocationlist.go::readSeqAndPrevious::CASE_DEL::01af7a093771": {
+      "class": "KILLED",
+      "snippet": "case string: if seq == 1 || !isListDigest(p) { return shape(\"previous_form\") } b.previous, b.hasPrevious = p, true",
+      "corpusKillers": [
+        "vectors-revocation-list/m-drops-second-held-entry",
+        "vectors-revocation-list/m-two-lists-in-force",
+        "vectors-revocation-list/rl02-three-lists-in-force",
+        "vectors-revocation-list/rl03-root-rotation-in-force",
+        "vectors-revocation-list/rl26-another-chain",
+        "vectors-revocation-list/rl27-list-in-force-replayed",
+        "vectors-revocation-list/rl28-rollback",
+        "vectors-revocation-list/rl29-seq-gap",
+        "vectors-revocation-list/rl30-fresh-reader-past-seq-1",
+        "vectors-revocation-list/rl31-fork",
+        "vectors-revocation-list/rl32-issued-before-list-in-force",
+        "vectors-revocation-list/rl34-list-drops-entry",
+        "vectors-revocation-list/rl35-list-edits-entry",
+        "vectors-revocation-list/rl36-old-root-after-rotation",
+        "vectors-revocation-list/rl37-root-revoked-without-successor",
+        "vectors-revocation-list/rl38-successor-revoked-sorting-before",
+        "vectors-revocation-list/rl39-successor-revoked-sorting-after"
+      ]
+    },
+    "revocationlist.go::readSeqAndPrevious::CASE_DEL::4239eabfc759": {
+      "class": "KILLED",
+      "snippet": "case nil: if seq != 1 { return shape(\"previous_form\") }",
+      "corpusKillers": [
+        "vectors-revocation-list/m-drops-second-held-entry",
+        "vectors-revocation-list/m-entries-object",
+        "vectors-revocation-list/m-entry-number",
+        "vectors-revocation-list/m-entry-reason-number",
+        "vectors-revocation-list/m-entry-unknown-member",
+        "vectors-revocation-list/m-entry-without-id",
+        "vectors-revocation-list/m-entry-without-kind",
+        "vectors-revocation-list/m-entry-without-revoked-at",
+        "vectors-revocation-list/m-every-kind",
+        "vectors-revocation-list/m-grant-id-equals-root",
+        "vectors-revocation-list/m-issuer-key-31-bytes",
+        "vectors-revocation-list/m-issuer-key-line-break",
+        "vectors-revocation-list/m-issuer-key-number",
+        "vectors-revocation-list/m-key-id-not-a-digest",
+        "vectors-revocation-list/m-permit-id-upper-case",
+        "vectors-revocation-list/m-previous-not-a-digest",
+        "vectors-revocation-list/m-revoked-at-not-a-time",
+        "vectors-revocation-list/m-root-pinned-twice",
+        "vectors-revocation-list/m-second-entry-from-future",
+        "vectors-revocation-list/m-second-entry-unknown-kind",
+        "vectors-revocation-list/m-second-list-null-previous",
+        "vectors-revocation-list/m-signature-line-break",
+        "vectors-revocation-list/m-successor-not-base64",
+        "vectors-revocation-list/m-successor-of-non-root",
+        "vectors-revocation-list/m-time-colon-13",
+        "vectors-revocation-list/m-time-colon-16",
+        "vectors-revocation-list/m-time-dash-4",
+        "vectors-revocation-list/m-time-dash-7",
+        "vectors-revocation-list/m-time-day-letter",
+        "vectors-revocation-list/m-time-hour-letter",
+        "vectors-revocation-list/m-time-len-21",
+        "vectors-revocation-list/m-time-minute-letter",
+        "vectors-revocation-list/m-time-month-letter",
+        "vectors-revocation-list/m-time-second-slash",
+        "vectors-revocation-list/m-time-t-lower-case",
+        "vectors-revocation-list/m-time-year-letter",
+        "vectors-revocation-list/m-time-year-zero",
+        "vectors-revocation-list/m-time-z-lower-case",
+        "vectors-revocation-list/m-two-lists-in-force",
+        "vectors-revocation-list/rl01-empty-first-list",
+        "vectors-revocation-list/rl02-three-lists-in-force",
+        "vectors-revocation-list/rl03-root-rotation-in-force",
+        "vectors-revocation-list/rl04-single-list-in-force",
+        "vectors-revocation-list/rl05-unknown-kind",
+        "vectors-revocation-list/rl06-entries-out-of-order",
+        "vectors-revocation-list/rl07-duplicate-entry",
+        "vectors-revocation-list/rl08-identifier-not-ascii",
+        "vectors-revocation-list/rl09-identifier-with-space",
+        "vectors-revocation-list/rl10-identifier-513-characters",
+        "vectors-revocation-list/rl14-time-with-offset",
+        "vectors-revocation-list/rl15-time-not-a-calendar-day",
+        "vectors-revocation-list/rl16-issuer-key-noncanonical-base64",
+        "vectors-revocation-list/rl17-grant-digest-upper-case",
+        "vectors-revocation-list/rl18-successor-on-agent-entry",
+        "vectors-revocation-list/rl21-signer-not-a-root",
+        "vectors-revocation-list/rl22-entries-edited-after-signing",
+        "vectors-revocation-list/rl23-root-key-over-another-signature",
+        "vectors-revocation-list/rl24-signature-bit-flipped",
+        "vectors-revocation-list/rl25-signature-noncanonical-base64",
+        "vectors-revocation-list/rl26-another-chain",
+        "vectors-revocation-list/rl27-list-in-force-replayed",
+        "vectors-revocation-list/rl28-rollback",
+        "vectors-revocation-list/rl29-seq-gap",
+        "vectors-revocation-list/rl31-fork",
+        "vectors-revocation-list/rl32-issued-before-list-in-force",
+        "vectors-revocation-list/rl33-entry-from-future",
+        "vectors-revocation-list/rl34-list-drops-entry",
+        "vectors-revocation-list/rl35-list-edits-entry",
+        "vectors-revocation-list/rl36-old-root-after-rotation",
+        "vectors-revocation-list/rl37-root-revoked-without-successor",
+        "vectors-revocation-list/rl38-successor-revoked-sorting-before",
+        "vectors-revocation-list/rl39-successor-revoked-sorting-after"
+      ]
+    },
+    "revocationlist.go::readSeqAndPrevious::IF_DISJ::14ccc6cf80ec": {
+      "class": "KILLED",
+      "snippet": "seq < 1",
+      "corpusKillers": [
+        "vectors-revocation-list/m-seq-zero"
+      ]
+    },
+    "revocationlist.go::readSeqAndPrevious::IF_DISJ::68488688c216": {
+      "class": "KILLED",
+      "snippet": "!isListDigest(p)",
+      "corpusKillers": [
+        "vectors-revocation-list/m-previous-not-a-digest"
+      ]
+    },
+    "revocationlist.go::readSeqAndPrevious::IF_DISJ::82dcc9f9066f": {
+      "class": "KILLED",
+      "snippet": "seq == 1",
+      "corpusKillers": [
+        "vectors-revocation-list/m-first-list-with-previous"
+      ]
+    },
+    "revocationlist.go::readSeqAndPrevious::IF_DISJ::c7462b9a2227": {
+      "class": "DEAD",
+      "snippet": "err != nil",
+      "branch": "taken"
+    },
+    "revocationlist.go::readSeqAndPrevious::IF_DISJ::e15ecc61108b": {
+      "class": "DEAD",
+      "snippet": "seq > maxExactRevocationSeq",
+      "branch": "taken"
+    },
+    "revocationlist.go::readSeqAndPrevious::IF_OFF::471b9f61f19b": {
+      "class": "DEAD",
+      "snippet": "if !ok { return shape(\"seq_not_a_positive_exact_integer\") }",
+      "branch": "taken"
+    },
+    "revocationlist.go::readSeqAndPrevious::IF_OFF::6a473542e24f": {
+      "class": "KILLED",
+      "snippet": "if seq != 1 { return shape(\"previous_form\") }",
+      "corpusKillers": [
+        "vectors-revocation-list/m-second-list-null-previous"
+      ]
+    },
+    "revocationlist.go::readSeqAndPrevious::IF_OFF::6bfe534c7d5e": {
+      "class": "KILLED",
+      "snippet": "if err != nil || seq < 1 || seq > maxExactRevocationSeq { return shape(\"seq_not_a_positive_exact_integer\") }",
+      "corpusKillers": [
+        "vectors-revocation-list/m-seq-zero"
+      ]
+    },
+    "revocationlist.go::readSeqAndPrevious::IF_OFF::99aea0d2c742": {
+      "class": "KILLED",
+      "snippet": "if seq == 1 || !isListDigest(p) { return shape(\"previous_form\") }",
+      "corpusKillers": [
+        "vectors-revocation-list/m-first-list-with-previous",
+        "vectors-revocation-list/m-previous-not-a-digest"
+      ]
+    },
+    "revocationlist.go::readTime::IF_DISJ::029666b18a3b": {
+      "class": "KILLED",
+      "snippet": "!digitsAt(s, 14, 16)",
+      "corpusKillers": [
+        "vectors-revocation-list/m-time-minute-letter"
+      ]
+    },
+    "revocationlist.go::readTime::IF_DISJ::048578220d94": {
+      "class": "KILLED",
+      "snippet": "s[:4] == \"0000\"",
+      "corpusKillers": [
+        "vectors-revocation-list/m-time-year-zero"
+      ]
+    },
+    "revocationlist.go::readTime::IF_DISJ::290f4522e3d9": {
+      "class": "KILLED",
+      "snippet": "s[7] != '-'",
+      "corpusKillers": [
+        "vectors-revocation-list/m-time-dash-7"
+      ]
+    },
+    "revocationlist.go::readTime::IF_DISJ::2bd6164846f7": {
+      "class": "KILLED",
+      "snippet": "s[19] != 'Z'",
+      "corpusKillers": [
+        "vectors-revocation-list/m-time-z-lower-case"
+      ]
+    },
+    "revocationlist.go::readTime::IF_DISJ::3a6fb52273c6": {
+      "class": "KILLED",
+      "snippet": "!digitsAt(s, 11, 13)",
+      "corpusKillers": [
+        "vectors-revocation-list/m-time-hour-letter"
+      ]
+    },
+    "revocationlist.go::readTime::IF_DISJ::4d6aad4a5408": {
+      "class": "KILLED",
+      "snippet": "!digitsAt(s, 17, 19)",
+      "corpusKillers": [
+        "vectors-revocation-list/m-time-second-slash"
+      ]
+    },
+    "revocationlist.go::readTime::IF_DISJ::4e13db85a58f": {
+      "class": "KILLED",
+      "snippet": "s[16] != ':'",
+      "corpusKillers": [
+        "vectors-revocation-list/m-time-colon-16"
+      ]
+    },
+    "revocationlist.go::readTime::IF_DISJ::60379ed818dd": {
+      "class": "KILLED",
+      "snippet": "!digitsAt(s, 5, 7)",
+      "corpusKillers": [
+        "vectors-revocation-list/m-time-month-letter"
+      ]
+    },
+    "revocationlist.go::readTime::IF_DISJ::68a1e560349b": {
+      "class": "DEAD",
+      "snippet": "!ok",
+      "branch": "taken"
+    },
+    "revocationlist.go::readTime::IF_DISJ::7ee6f3f50948": {
+      "class": "KILLED",
+      "snippet": "len(s) != 20",
+      "corpusKillers": [
+        "vectors-revocation-list/m-time-len-21"
+      ]
+    },
+    "revocationlist.go::readTime::IF_DISJ::814bd8d6a49d": {
+      "class": "KILLED",
+      "snippet": "!digitsAt(s, 8, 10)",
+      "corpusKillers": [
+        "vectors-revocation-list/m-time-day-letter"
+      ]
+    },
+    "revocationlist.go::readTime::IF_DISJ::9d8fe3b48bca": {
+      "class": "KILLED",
+      "snippet": "s[10] != 'T'",
+      "corpusKillers": [
+        "vectors-revocation-list/m-time-t-lower-case"
+      ]
+    },
+    "revocationlist.go::readTime::IF_DISJ::a90b682a3469": {
+      "class": "KILLED",
+      "snippet": "s[4] != '-'",
+      "corpusKillers": [
+        "vectors-revocation-list/m-time-dash-4"
+      ]
+    },
+    "revocationlist.go::readTime::IF_DISJ::ad2499cbc6ba": {
+      "class": "KILLED",
+      "snippet": "s[13] != ':'",
+      "corpusKillers": [
+        "vectors-revocation-list/m-time-colon-13"
+      ]
+    },
+    "revocationlist.go::readTime::IF_DISJ::c7462b9a2227": {
+      "class": "KILLED",
+      "snippet": "err != nil",
+      "corpusKillers": [
+        "vectors-revocation-list/rl15-time-not-a-calendar-day"
+      ]
+    },
+    "revocationlist.go::readTime::IF_DISJ::ccdcf3b4fef1": {
+      "class": "KILLED",
+      "snippet": "!digitsAt(s, 0, 4)",
+      "corpusKillers": [
+        "vectors-revocation-list/m-time-year-letter"
+      ]
+    },
+    "revocationlist.go::readTime::IF_OFF::b9e5ac4b394e": {
+      "class": "KILLED",
+      "snippet": "if _, err := time.Parse(\"2006-01-02T15:04:05Z\", s); err != nil || s[:4] == \"0000\" { return \"\", shape(what + \"_not_a_calendar_instant\") }",
+      "corpusKillers": [
+        "vectors-revocation-list/m-time-year-zero",
+        "vectors-revocation-list/rl15-time-not-a-calendar-day"
+      ]
+    },
+    "revocationlist.go::readTime::IF_OFF::dce57994b7b7": {
+      "class": "KILLED",
+      "snippet": "if !ok || len(s) != 20 || !digitsAt(s, 0, 4) || s[4] != '-' || !digitsAt(s, 5, 7) || s[7] != '-' || !digitsAt(s, 8, 10) || s[10] != 'T' || !digitsAt(s...",
+      "corpusKillers": [
+        "vectors-revocation-list/m-revoked-at-not-a-time",
+        "vectors-revocation-list/m-time-colon-13",
+        "vectors-revocation-list/m-time-colon-16",
+        "vectors-revocation-list/m-time-dash-4",
+        "vectors-revocation-list/m-time-dash-7",
+        "vectors-revocation-list/m-time-day-letter",
+        "vectors-revocation-list/m-time-hour-letter",
+        "vectors-revocation-list/m-time-len-21",
+        "vectors-revocation-list/m-time-minute-letter",
+        "vectors-revocation-list/m-time-month-letter",
+        "vectors-revocation-list/m-time-second-slash",
+        "vectors-revocation-list/m-time-t-lower-case",
+        "vectors-revocation-list/m-time-year-letter",
+        "vectors-revocation-list/m-time-z-lower-case",
+        "vectors-revocation-list/rl14-time-with-offset"
+      ]
+    },
+    "revocationlist.go::sortedSet::IF_CONJ::8c13f90339a9": {
+      "class": "KILLED",
+      "snippet": "!seen[id]",
+      "corpusKillers": [
+        "vectors-revocation-list/m-root-pinned-twice"
+      ]
+    },
+    "revocationlist.go::sortedSet::IF_CONJ::d26bc02df277": {
+      "class": "KILLED",
+      "snippet": "!drop[id]",
+      "corpusKillers": [
+        "vectors-revocation-list/rl03-root-rotation-in-force",
+        "vectors-revocation-list/rl36-old-root-after-rotation",
+        "vectors-revocation-list/rl37-root-revoked-without-successor",
+        "vectors-revocation-list/rl38-successor-revoked-sorting-before",
+        "vectors-revocation-list/rl39-successor-revoked-sorting-after"
+      ]
+    },
+    "revocationlist.go::sortedSet::IF_OFF::8bc9a7330c8a": {
+      "class": "KILLED",
+      "snippet": "if !seen[id] && !drop[id] { seen[id] = true out = append(out, id) }",
+      "corpusKillers": [
+        "vectors-revocation-list/m-body-array",
+        "vectors-revocation-list/m-body-member-misnamed",
+        "vectors-revocation-list/m-drops-second-held-entry",
+        "vectors-revocation-list/m-entries-object",
+        "vectors-revocation-list/m-entry-number",
+        "vectors-revocation-list/m-entry-reason-number",
+        "vectors-revocation-list/m-entry-unknown-member",
+        "vectors-revocation-list/m-entry-without-id",
+        "vectors-revocation-list/m-entry-without-kind",
+        "vectors-revocation-list/m-entry-without-revoked-at",
+        "vectors-revocation-list/m-every-kind",
+        "vectors-revocation-list/m-first-list-with-previous",
+        "vectors-revocation-list/m-grant-id-equals-root",
+        "vectors-revocation-list/m-issuer-key-31-bytes",
+        "vectors-revocation-list/m-issuer-key-line-break",
+        "vectors-revocation-list/m-issuer-key-number",
+        "vectors-revocation-list/m-key-id-not-a-digest",
+        "vectors-revocation-list/m-list-id-empty",
+        "vectors-revocation-list/m-list-id-with-space",
+        "vectors-revocation-list/m-permit-id-upper-case",
+        "vectors-revocation-list/m-previous-not-a-digest",
+        "vectors-revocation-list/m-revoked-at-not-a-time",
+        "vectors-revocation-list/m-root-pinned-twice",
+        "vectors-revocation-list/m-second-entry-from-future",
+        "vectors-revocation-list/m-second-entry-unknown-kind",
+        "vectors-revocation-list/m-second-list-null-previous",
+        "vectors-revocation-list/m-seq-zero",
+        "vectors-revocation-list/m-signature-line-break",
+        "vectors-revocation-list/m-signed-list-array",
+        "vectors-revocation-list/m-signed-list-without-body",
+        "vectors-revocation-list/m-signed-list-without-sig",
+        "vectors-revocation-list/m-successor-not-base64",
+        "vectors-revocation-list/m-successor-of-non-root",
+        "vectors-revocation-list/m-time-colon-13",
+        "vectors-revocation-list/m-time-colon-16",
+        "vectors-revocation-list/m-time-dash-4",
+        "vectors-revocation-list/m-time-dash-7",
+        "vectors-revocation-list/m-time-day-letter",
+        "vectors-revocation-list/m-time-hour-letter",
+        "vectors-revocation-list/m-time-len-21",
+        "vectors-revocation-list/m-time-minute-letter",
+        "vectors-revocation-list/m-time-month-letter",
+        "vectors-revocation-list/m-time-second-slash",
+        "vectors-revocation-list/m-time-t-lower-case",
+        "vectors-revocation-list/m-time-year-letter",
+        "vectors-revocation-list/m-time-year-zero",
+        "vectors-revocation-list/m-time-z-lower-case",
+        "vectors-revocation-list/m-two-lists-in-force",
+        "vectors-revocation-list/rl01-empty-first-list",
+        "vectors-revocation-list/rl02-three-lists-in-force",
+        "vectors-revocation-list/rl03-root-rotation-in-force",
+        "vectors-revocation-list/rl04-single-list-in-force",
+        "vectors-revocation-list/rl05-unknown-kind",
+        "vectors-revocation-list/rl06-entries-out-of-order",
+        "vectors-revocation-list/rl07-duplicate-entry",
+        "vectors-revocation-list/rl08-identifier-not-ascii",
+        "vectors-revocation-list/rl09-identifier-with-space",
+        "vectors-revocation-list/rl10-identifier-513-characters",
+        "vectors-revocation-list/rl11-extra-body-member",
+        "vectors-revocation-list/rl12-seq-boolean",
+        "vectors-revocation-list/rl13-seq-beyond-exact-integers",
+        "vectors-revocation-list/rl14-time-with-offset",
+        "vectors-revocation-list/rl15-time-not-a-calendar-day",
+        "vectors-revocation-list/rl16-issuer-key-noncanonical-base64",
+        "vectors-revocation-list/rl17-grant-digest-upper-case",
+        "vectors-revocation-list/rl18-successor-on-agent-entry",
+        "vectors-revocation-list/rl19-extra-top-level-member",
+        "vectors-revocation-list/rl20-another-type",
+        "vectors-revocation-list/rl21-signer-not-a-root",
+        "vectors-revocation-list/rl22-entries-edited-after-signing",
+        "vectors-revocation-list/rl23-root-key-over-another-signature",
+        "vectors-revocation-list/rl24-signature-bit-flipped",
+        "vectors-revocation-list/rl25-signature-noncanonical-base64",
+        "vectors-revocation-list/rl26-another-chain",
+        "vectors-revocation-list/rl27-list-in-force-replayed",
+        "vectors-revocation-list/rl28-rollback",
+        "vectors-revocation-list/rl29-seq-gap",
+        "vectors-revocation-list/rl30-fresh-reader-past-seq-1",
+        "vectors-revocation-list/rl31-fork",
+        "vectors-revocation-list/rl32-issued-before-list-in-force",
+        "vectors-revocation-list/rl33-entry-from-future",
+        "vectors-revocation-list/rl34-list-drops-entry",
+        "vectors-revocation-list/rl35-list-edits-entry",
+        "vectors-revocation-list/rl36-old-root-after-rotation",
+        "vectors-revocation-list/rl37-root-revoked-without-successor",
+        "vectors-revocation-list/rl38-successor-revoked-sorting-before",
+        "vectors-revocation-list/rl39-successor-revoked-sorting-after"
+      ]
     },
     "runbinding.go::deriveStatementBinding::IF_OFF::00e936012378": {
       "class": "DEAD",

@@ -51,7 +51,6 @@ def test_regeneration_is_byte_identical(tmp_path: Path) -> None:
             ROOT / "MANIFEST.json",
             ROOT / "INDEX.md",
             ROOT / "profile.json",
-            ROOT / "policy.json",
             *(ROOT / "cases").rglob("*"),
         ]
         if p.is_file()
@@ -158,11 +157,55 @@ def test_a_policy_the_record_carries_is_never_read() -> None:
 
 def test_another_relying_party_policy_refuses_the_corpus_keys() -> None:
     other = {
-        "issuer_keys": {"issuer-key-1": "00" * 32},
+        "issuer_keys": {
+            "issuer-key-1": {
+                "public_key": "00" * 32,
+                "valid_from": "2026-09-01T00:00:00Z",
+                "valid_until": None,
+                "revoked_effective_from": None,
+            }
+        },
         "witness_keys": {"witness-key-1": "00" * 32},
     }
     answer = paymentmandate.decide(_case("authorized-ap2-cart"), policy=other)
-    assert answer["decision"] == "rejected"
+    assert answer == {"decision": "rejected", "reason": "mandate_signature_invalid"}
+
+
+def test_a_key_history_the_record_carries_is_never_read() -> None:
+    """The holder cannot clear a revocation by shipping its own key history."""
+    r = _case("signed-after-key-revoked")
+    r["key_history"] = {"keys": [{"key_id": "issuer-key-revoked", "revoked_effective_from": None}]}
+    assert paymentmandate.decide(r)["reason"] == "signing_key_revoked"
+
+
+def test_a_revoked_key_is_judged_at_the_witnessed_charge() -> None:
+    """Signed before the revocation by the key's own clock; charged after it: refused."""
+    assert paymentmandate.verify(ROOT / "cases" / "charge-after-key-revoked" / "case.json") == {
+        "decision": "rejected",
+        "reason": "signing_key_revoked",
+    }
+    held = paymentmandate.verify(
+        ROOT / "cases" / "authorized-key-revoked-after-signing" / "case.json"
+    )
+    assert held["decision"] == "accepted"
+
+
+def test_a_policy_key_with_unreadable_dates_refuses() -> None:
+    """A rule that cannot be evaluated fires: a revocation date that is not a date."""
+    policy = paymentmandate.default_policy()
+    policy["issuer_keys"]["issuer-key-revoked"]["revoked_effective_from"] = "soon"
+    answer = paymentmandate.decide(_case("authorized-key-revoked-after-signing"), policy=policy)
+    assert answer == {"decision": "rejected", "reason": "signing_key_revoked"}
+
+
+def test_the_x402_mandate_and_receipt_are_signed() -> None:
+    """The x402 profile takes the issuer and witness signatures like every other profile."""
+    r = _case("x402-exact-evm-settled-once")
+    r["mandate"]["signature"]["value"] = "ab" * 64
+    assert paymentmandate.decide(r)["reason"] == "mandate_signature_invalid"
+    r = _case("x402-exact-evm-settled-once")
+    del r["receipt"]["signature"]
+    assert paymentmandate.decide(r)["reason"] == "receipt_signer_not_witness"
 
 
 # Forgeries found by the 16 Nov 2026 attack run: the released reader (0.37.0) accepted all of

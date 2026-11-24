@@ -860,6 +860,101 @@ def w3c_selection_claims() -> tuple[Claim, ...]:
     )
 
 
+NIST_AI_300_1_DIR = "interop/nist-ai-300-1"
+
+
+def nist_member_claims() -> tuple[Claim, ...]:
+    """The NIST AI 300-1 member total its README states twice, from its manifest.
+
+    check_vectors.py --counts derives the figure, but nothing held the README's
+    two copies of it to the manifest. Both went unreported until the audit record
+    corpus total walked onto the same integer (235), so they are claims here and
+    fail the day the manifest's member list moves.
+    """
+    manifest = json.loads(source(f"{NIST_AI_300_1_DIR}/MANIFEST.json").read_text(encoding="utf-8"))
+    members = str(len(manifest["members"]))
+    readme = f"{NIST_AI_300_1_DIR}/README.md"
+    return (
+        Claim(
+            readme,
+            "the members the checker reads",
+            "157 rows by both extractions; ",
+            " members over",
+            members,
+        ),
+        Claim(
+            readme,
+            "the test documents in members/",
+            "[INDEX.md](INDEX.md) | ",
+            " test documents",
+            members,
+        ),
+    )
+
+
+TELEMETRY_DIR = "corpora/vectors-telemetry-evidence"
+#: The requirement rows of the corpus README's case table, in table order, each
+#: with the label that opens its row.
+TELEMETRY_ROWS: tuple[tuple[str, str], ...] = (
+    ("OBS-5a", "OBS-5a, a digest over declared canonical bytes"),
+    ("OBS-5b", "OBS-5b, the digest binds the consumed copy, with a denominator"),
+    ("OBS-5c", "OBS-5c, a signed digest set under a pinned key"),
+    ("OBS-7", "OBS-7, an event log against a retained signed head"),
+)
+
+
+def telemetry_claims() -> tuple[Claim, ...]:
+    """The telemetry evidence corpus's counts, from its manifest and one case.
+
+    The README states the case total twice and a case count per requirement, and
+    the README and the generator both describe the zero-of-n case by the number
+    of consumed items it carries. Each is read from the bytes it describes: the
+    total and the per-requirement counts from MANIFEST.json, the denominator
+    from that case's record.json, so adding a case or a consumed item fails here
+    until the prose says so.
+    """
+    manifest = json.loads(source(f"{TELEMETRY_DIR}/MANIFEST.json").read_text(encoding="utf-8"))
+    vectors = manifest["vectors"]
+    total = str(len(vectors))
+    record_path = source(f"{TELEMETRY_DIR}/cases/evidence-ref-zero-of-n/record.json")
+    consumed = str(len(json.loads(record_path.read_text(encoding="utf-8"))["consumed"]))
+    readme = f"{TELEMETRY_DIR}/README.md"
+    rows = tuple(
+        Claim(
+            readme,
+            f"the {draft} case count",
+            f"| {label} | ",
+            " | ",
+            str(sum(1 for vector in vectors if vector["draftId"] == draft)),
+        )
+        for draft, label in TELEMETRY_ROWS
+    )
+    return rows + (
+        Claim(readme, "the corpus total", "`telemetry-evidence/v1`: ", " synthetic records", total),
+        Claim(
+            readme,
+            "the cases the reference verifier agrees with",
+            "agrees with all ",
+            " cases.",
+            total,
+        ),
+        Claim(
+            readme,
+            "the zero-of-n case's consumed items",
+            "every reference removed (`0 of ",
+            "`)",
+            consumed,
+        ),
+        Claim(
+            f"{TELEMETRY_DIR}/gen_vectors.py",
+            "the zero-of-n case's consumed items",
+            "every reference removed: 0 of ",
+            " consumed items carry a digest",
+            consumed,
+        ),
+    )
+
+
 def claims(src: Sources) -> tuple[Claim, ...]:
     """Every live count this repository publishes, and what the sources say it is.
 
@@ -868,10 +963,17 @@ def claims(src: Sources) -> tuple[Claim, ...]:
     for it are generated from the registration instead of being typed out a
     fourth time.
     """
-    return declared_claims(src) + reply_claims(src) + w3c_selection_claims() + tuple(
-        claim
-        for directory, total, accept, reject in src.extra
-        for claim in claims_for_corpus(directory, total, accept, reject)
+    return (
+        declared_claims(src)
+        + reply_claims(src)
+        + w3c_selection_claims()
+        + nist_member_claims()
+        + telemetry_claims()
+        + tuple(
+            claim
+            for directory, total, accept, reject in src.extra
+            for claim in claims_for_corpus(directory, total, accept, reject)
+        )
     )
 
 
@@ -922,7 +1024,34 @@ def declared_claims(src: Sources) -> tuple[Claim, ...]:
         f"{src.total} vectors ({src.accept} accept, {src.reject} reject, "
         f"{src.indeterminate} indeterminate)"
     )
+    audit = json.loads(source("corpora/vectors-agent-audit-record/MANIFEST.json").read_text())
+    published = str(audit["textCounts"]["published"])
     return (
+        # The audit-record corpus splits its members by the text each tests:
+        # textCounts.published are rules a published revision states. The figure
+        # equals the corpus total while nothing is proposed, so each sentence that
+        # states it is claimed against the manifest field it restates.
+        Claim(
+            "corpora/vectors-agent-audit-record/INDEX.md",
+            "the audit-record published-text count the index states",
+            "are indeterminate. ",
+            " members test rules a published revision states",
+            published,
+        ),
+        Claim(
+            "corpora/vectors-agent-audit-record/README.md",
+            "the audit-record published-text count the README states",
+            "split: ",
+            " published and ",
+            published,
+        ),
+        Claim(
+            "corpora/vectors-agent-audit-record/README.md",
+            "the audit-record members the current release tests",
+            "| all ",
+            " members: every member the row below lists",
+            published,
+        ),
         Claim(
             "interop/gemara-method-link/README.md",
             "the Gemara profile case count",
@@ -1533,6 +1662,28 @@ _DRAFT_1105_SPANS = (
 )
 
 FROZEN: tuple[Frozen, ...] = (
+    Frozen(
+        'corpora/vectors-acs-core/README.md',
+        'the family identifier acs-f-17',
+        '`acs-f-16` and `acs-f-17` take',
+        'A family identifier, a name, not a count: the 17 is the ordinal of one family and '
+        'it met the annotated-site count by coincidence.',
+    ),
+    Frozen(
+        'corpora/vectors-ai-agent-action/README.md',
+        'the condition identifier aia-c-17',
+        '`aia-c-17`: every statement in a segment',
+        'A condition identifier, a name, not a count: the 17 is the ordinal of one condition '
+        'and it met the annotated-site count by coincidence.',
+    ),
+    Frozen(
+        'scripts/archived-repos.toml',
+        'the issue numbers that stayed in the archived agent-evidence repository',
+        'untransferred_issues = [30, 31, 32, 35]',
+        'Issue numbers of a repository that is archived and cannot change: closed issues '
+        'stayed behind when the open ones moved here under new numbers. They name records, '
+        'not counts of the live corpus, and one met the suiteRevision by coincidence.',
+    ),
     *(
         Frozen(_DRAFT_1105, f'the 5 November draft check, span {i}', span, _DRAFT_1105_REASON)
         for i, span in enumerate(_DRAFT_1105_SPANS, 1)
@@ -1545,6 +1696,15 @@ FROZEN: tuple[Frozen, ...] = (
         'comparison printed on the v0.17.4 manifest when it was posted to '
         'public-agent-conformance (0039, 0188, Nov/0002). The appendix workflow reruns '
         'the row and fails on any change, so the figure is checked there, not here.',
+    ),
+    Frozen(
+        'interop/w3c-v01-appendix/README.md',
+        'the R8-compare-169 figures posted to the W3C list',
+        '94 of 98; 25, 2, 44 of 71 over all 169 members (Nov/0004)',
+        'A past result, not a count of the live corpus: the row records what the R8 '
+        'comparison printed over all 169 members of the v0.17.4 manifest when it was posted '
+        'to public-agent-conformance (Nov/0004). The appendix workflow reruns the row and '
+        'fails on any change, so the figure is checked there, not here.',
     ),
     Frozen(
         'DISPOSITIONS.md',
@@ -1569,6 +1729,13 @@ FROZEN: tuple[Frozen, ...] = (
         'A protocol constant, not a count of any corpus: the I-JSON nesting depth bound, '
         'or the shell exit status offset for a signal. It met the audit record corpus '
         'total of 128 by coincidence.',
+    ),
+    Frozen(
+        'vectors/CHANGES.md',
+        'the gap between two nesting depth bounds, in depths',
+        'malformed to another across 127 depths',
+        'A difference between two protocol constants, 256 less 128, not a count of any corpus. '
+        'It met the audit record corpus reject count by coincidence.',
     ),
     Frozen(
         'corpora/vectors-spoofed-tool-output/gen_vectors.py',
@@ -1612,6 +1779,35 @@ FROZEN: tuple[Frozen, ...] = (
         'Arithmetic about the identity scan\'s decode cap: each nested member costs two '
         'decodes. It is not a corpus count, and met the acs-core corpus total by coincidence '
         'when that corpus reached 140.',
+    ),
+    Frozen(
+        '.github/workflows/pr-title.yml',
+        'the queued titles that ran past the length limit on 18 November 2026',
+        '(18 Nov 2026: 17 of 29',
+        'A past event, not a count of the live corpus: how many of the queued pull request '
+        'titles the HEADGREEN grouping had to rebuild behind on that day. It records the '
+        'incident the workflow comment gives as its reason and must not track this corpus.',
+    ),
+    Frozen(
+        'RUNS.md',
+        "an outside author's reported request-effect join result",
+        '10 of 10 match `expected.json`',
+        'A result an outside implementer reported for a past run against his own case set. It '
+        'records that report as posted and must not track this corpus.',
+    ),
+    Frozen(
+        'RUNS.md',
+        "an outside author's reported uncertain-effect result",
+        '27 of 27 match `MANIFEST.json`',
+        'A result an outside implementer reported for a past run at agent-evidence-vectors '
+        '0.31.0. It records that report as posted and must not track this corpus.',
+    ),
+    Frozen(
+        'scripts/ablation-lattice-test.py',
+        'the ordered starts a two-rule cancellation sits on in a 20-rule chain',
+        'sits on 2 of 380 ordered starts',
+        'Arithmetic about a 20-rule test fixture (20 x 19 ordered pairs), written in a comment '
+        'that explains why the seeded chains missed a bug. It is not a corpus count.',
     ),
     # ---- an outside implementer's reported results, recorded as posted.
     Frozen(
@@ -1719,6 +1915,28 @@ FROZEN: tuple[Frozen, ...] = (
         'aeoess (comment 31): "The fixtures',
         "An integer that counts something other than this corpus and equals one of its figures by"
         " coincidence: the number of a comment in another project's thread.",
+    ),
+    Frozen(
+        'docs/proposals/audit-record-04-consumption-ledger.md',
+        'the date revision 03 of the audit-record draft was published',
+        '-03 was published on 29 October 2026 without it',
+        'An integer that counts something other than this corpus and equals one of its figures by'
+        ' coincidence: the day of the month an IETF draft revision was published.',
+    ),
+    *(
+        Frozen(
+            'scripts/audit-record-text-tier-test.py',
+            f'the members an outside revision-03 verifier differed on, {where}',
+            span,
+            'A past result, not a count of the live corpus: the members on which one outside'
+            ' verifier written from revision 03 differed from the manifest. The test pins the'
+            ' list itself, so the figure records that run and must not track the corpus.',
+        )
+        for where, span in (
+            ('docstring', 'differed from the manifest on 38'),
+            ('docstring list', 'a published revision: the 38'),
+            ('failure message', 'the differing list should hold 38 members and CS32'),
+        )
     ),
     Frozen(
         'crosswalks/aee-to-trace-and-runtime-trace.md',
@@ -2137,6 +2355,40 @@ FROZEN: tuple[Frozen, ...] = (
         "the expected.codes count at tag v0.11.1, in the appendix generator",
         "315 reject entries across the eight manifests of `agent-evidence-vectors` at tag "
         "`v0.11.1`, 269 carry",
+        "The generator source of the appendix sentence above, frozen for the same reason and "
+        "asserted separately so the two cannot drift apart without one of them failing.",
+    ),
+    # The figure the appendix attributes to a named run at tag v0.11.1. It
+    # describes that tag, re-derived by the command the same paragraph prints,
+    # and equals the audit-record corpus total by coincidence since that corpus
+    # reached 252 members.
+    Frozen(
+        "docs/W3C-V01-CONFORMANCE-APPENDIX.md",
+        "the attributed figure at tag v0.11.1",
+        "Sankalp's 252 at v0.11.1",
+        "A figure at a past tag, attributed to its author and re-derived from that tag by the "
+        "command the paragraph prints. It describes v0.11.1 and must not track the current corpus.",
+    ),
+    Frozen(
+        "scripts/gen-w3c-appendix.py",
+        "the attributed figure at tag v0.11.1, in the appendix generator",
+        "Sankalp's 252 at v0.11.1",
+        "The generator source of the appendix sentence above, frozen for the same reason and "
+        "asserted separately so the two cannot drift apart without one of them failing.",
+    ),
+    # The same figure where the paragraph derives it: of the 269 entries carrying
+    # expected.codes at that tag, how many hold exactly one code.
+    Frozen(
+        "docs/W3C-V01-CONFORMANCE-APPENDIX.md",
+        "the one-code entries at tag v0.11.1",
+        "252 of those hold exactly one code",
+        "A count over the manifests at a past tag, re-derived from that tag by the command the "
+        "sentence prints. It describes v0.11.1 and must not track the current corpus.",
+    ),
+    Frozen(
+        "scripts/gen-w3c-appendix.py",
+        "the one-code entries at tag v0.11.1, in the appendix generator",
+        "252 of those hold exactly one code",
         "The generator source of the appendix sentence above, frozen for the same reason and "
         "asserted separately so the two cannot drift apart without one of them failing.",
     ),
@@ -3091,6 +3343,39 @@ FROZEN: tuple[Frozen, ...] = (
         'count of this repository\'s receipt-signature corpus. It met that corpus total of 29 '
         'by coincidence.',
     ),
+    # ---- fixture wording in two corpus generators.
+    # Each sentence describes the case the generator writes beside it, from the
+    # literals in the same call: a spend of units against a budget of 10 in the
+    # budget lineage corpus, and each log edit's position among the six edits in
+    # the telemetry evidence corpus, written from the one tuple that builds those
+    # six cases. They describe the fixture and do not track any corpus total,
+    # which is the same answer the w3c-intake fixture's "2 of 2" gets above.
+    Frozen(
+        "corpora/vectors-budget-lineage/gen_vectors.py",
+        "the control case's spend against the principal's budget",
+        "7 of 10 units of the principal's budget",
+        "The description of one fixture: two charges of units against a budget of 10, "
+        "written from the literals in the same call. It describes that fixture and does "
+        "not track the corpus.",
+    ),
+    Frozen(
+        "corpora/vectors-budget-lineage/gen_vectors.py",
+        "the rerooted case's spend against the principal's budget",
+        "only agent-a's 6 of 10",
+        "The description of one fixture: a charge of 6 against a budget of 10, written "
+        "from the literals in the same call. It describes that fixture and does not "
+        "track the corpus.",
+    ),
+    *(
+        Frozen(
+            "corpora/vectors-telemetry-evidence/gen_vectors.py",
+            f"the position label of log edit {position}",
+            f'"edit {position} of 6: ',
+            "A case's position among the six log edits, written from the one tuple that "
+            "builds the six cases. It labels that fixture and does not track the corpus.",
+        )
+        for position in range(1, 7)
+    ),
 )
 
 
@@ -3271,6 +3556,16 @@ MASKS = tuple(
         # links to twice in one sentence; a per-site freeze would have to be
         # rewritten every time a count walked onto another issue number, which
         # is the argument the w3c rule-id mask gives against freezing an id.
+        # A SLASH CHAIN of three or more integers, `records 1/3/4`, is a list of
+        # positions and never a ratio: a ratio has exactly two terms, a score
+        # over a corpus size. It surfaced inside an audit-record sample's
+        # provenance note naming the three log records its bytes cover, where
+        # the first two terms read as a score of 1 over 3.
+        r"(?<![\w/.])\d+(?:/\d+){2,}(?![\w/])",
+        # The number of a numbered SECTION in a Markdown heading, `## 5. Members
+        # that change verdict`. The trailing dot is required, so `## 80 vectors`,
+        # a heading that does carry a count, is still read.
+        r"(?m)^#{1,6}[ \t]+\d+(?:\.\d+)*\.(?=\s)",
         r"https?://github\.com/[\w.-]+/[\w.-]+/(?:issues|pull|discussions)/\d+",
         r"#\d+",  # upstream issue and pull-request numbers
         # The same identifier written as words, `issue 184`, in link text, a table
@@ -3317,12 +3612,33 @@ MASKS = tuple(
         # unaccounted the moment the revision counter reached that value.
         r"U\+[0-9A-Fa-f]{4,6}",  # Unicode code points: U+0020
         r"\\u[0-9A-Fa-f]{4}",  # escaped code points:
+        # A POSIX octal escape, `\177` or the two bytes `\303\251` of U+00E9,
+        # spells one byte and counts nothing. It surfaced when the audit-record
+        # corpus reached 251 vectors and the w3c-report INDEX's printf recipe,
+        # which writes every non-ASCII leaf byte that way, read as that total.
+        r"\\[0-7]{3}",
         # A numbered rule of a registered corpus, `Rule 22` or `rule 29`, names a
         # row of that corpus's requirement table. It is an identifier, and the
         # W3C reader's docstrings spell every rule that way, so its numbers
         # collided with the suiteRevision and a reject count while claiming
         # nothing about either.
         r"\b[Rr]ules?\s+\d{1,3}\b",
+        # An ordered-list marker that numbers a named check, `29. `name``, is the
+        # check's position in an ordered list and counts nothing. It surfaced when
+        # the catalog-trust-manifest profile listed its checks in order and three
+        # positions equalled a corpus total and the suiteRevision. The marker must
+        # start the line and be followed by a backticked lower-case name, so a
+        # hard-wrapped sentence that happens to begin with a count and a full stop
+        # is still read.
+        r"(?m)^\d{1,3}\.(?=[ \t]+`[a-z][a-z0-9_]*`)",
+        # `0 of 0` is the name of the empty-denominator condition a coverage rule
+        # refuses (`empty_denominator`, "0 of 0 is never a pass"), not a tally of
+        # anything: a zero denominator cannot be the size of a corpus, because an
+        # empty corpus cannot be registered. It surfaced when the telemetry
+        # evidence corpus named the condition in its summary, README, generator
+        # and reader docstring. Only the zero-over-zero form is masked, so `0 of 4`
+        # beside it is still read, and it is declared as a claim.
+        r"\b0\s*(?:/|\s+of\s+)\s*0\b",
         # A line reference, `Lines 417 to 429` or `line 80`, names a place in a
         # file and counts nothing. A pin of that shape collided with the unforced
         # count when the forcing baseline moved from 404 to 417 rules.
@@ -3489,7 +3805,10 @@ MASKS = tuple(
 # refused until something accounts for it, because "the full 64" may be a length
 # and may be a count and only its writer knows which. Two such sentences are
 # frozen above with what each one measures.
-MEASURE_UNIT = r"(?:hex(?:adecimal)?|bits?|bytes?|octets?|nibbles?|char(?:acter)?s?|digits?)"
+MEASURE_UNIT = (
+    r"(?:hex(?:adecimal)?|bits?|bytes?|octets?|nibbles?|char(?:acter)?s?|digits?"
+    r"|code[-\s]+points?)"
+)
 # Words that may sit between the integer and its unit without changing what is
 # measured: `64 lowercase hex characters`, `<64 lowercase hex>`.
 MEASURE_MODIFIER = r"(?:lower-?case|upper-?case|ascii|raw|hex(?:adecimal)?)"

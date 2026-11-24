@@ -21,10 +21,26 @@ regexes = [
 ]
 
 [[allowlists]]
+description = "Ed25519 public keys in the revocation vectors: issuerKey and successor members hold canonical base64 of a raw 32-byte public key"
+targetRules = ["generic-api-key"]
+regexTarget = "match"
+regexes = [
+  '''(issuerKey|successor)"\s*:\s*"[A-Za-z0-9+/]{43}="''',
+]
+
+[[allowlists]]
+description = "Raw Ed25519 public keys, 32 bytes in standard base64 (44 characters), in the holderKey and issuerKey of a delegation-chain grant"
+# The keys come from fixed published seeds (vectors-delegation-chain/gen_vectors.py), so each is public by
+# construction. The shape is pinned to one 44-character value ending in "=", in these two field names only.
+targetRules = ["generic-api-key"]
+regexTarget = "match"
+regexes = ['''(holderKey|issuerKey)"\s*:\s*"[A-Za-z0-9+/]{43}="''']
+
+[[allowlists]]
 description = "RFC 7638 thumbprints of public JWKs: a SHA-256 digest in base64url, 43 characters (audit-record principal members)"
 targetRules = ["generic-api-key"]
 regexTarget = "match"
-regexes = ['''keyThumbprint"\s*:\s*"[A-Za-z0-9_-]{43}"''']
+regexes = ['''(keyThumbprint|pinnedThumbprint)"\s*:\s*"[A-Za-z0-9_-]{43}"''']
 
 [[allowlists]]
 description = "HKDF outputs from the ACS specification's published example secret (vectors-acs-core)"
@@ -106,6 +122,19 @@ regexTarget = "match"
 regexes = ['''issuerKey"\s*:\s*"Ob6mHCtjckbIra26o4A/wgoaPfjBID6naeJBKAYZc5E="''']
 
 [[allowlists]]
+description = "Base64 Ed25519 public key in a principal-action case (producerKey)"
+# Each principal-action case hands the reader the producer's public key as base64.
+# The signing seed is the SHA-256 of a public label (gen_vectors.py, label
+# "producer"), so the key is public by construction. AND: only the producerKey
+# member of a principal-action case file, and only the one published producer
+# key. The value is pinned: any other producerKey value is still reported.
+targetRules = ["generic-api-key"]
+condition = "AND"
+paths = ['''^(corpora/)?vectors-principal-action/cases/[^/]+/case\.json$''']
+regexTarget = "match"
+regexes = ['''producerKey"\s*:\s*"pWbiKVTpr34PRZmWAPP9o3EYfVOvGvRJ09qC4DLx9ew="''']
+
+[[allowlists]]
 description = "The unsigned empty JWT used as the credential placeholder in the credential-release suite"
 # The value is the three-part JWT with header {"alg":"none"}, payload {} and an
 # empty signature. It grants nothing. The pattern names that exact string, so a
@@ -115,6 +144,23 @@ condition = "AND"
 paths = ['''^(corpora/)?vectors-credential-release/(gen_vectors\.py|cases/[^/]+/statement\.json)$''']
 regexTarget = "match"
 regexes = ['''token"?\s*[:=]\s*"eyJhbGciOiJub25lIn0\.e30\."''']
+
+[[allowlists]]
+description = "Signed UMA for Agents terms agreements in the principal-binding corpus"
+# Each binding.jws is a compact JWS that an agent test key signs. The seeds are
+# the SHA-256 of published labels (gen_vectors.py), so the keys and the tokens
+# are public by construction, and the payloads carry terms, not credentials.
+# AND: only binding.jws files of that corpus, and only a token whose header names
+# one of the two published test keys (the agent and the other agent), so a JWS
+# with any other header is still reported.
+targetRules = ["jwt"]
+condition = "AND"
+paths = ['''^corpora/vectors-principal-binding/cases/[^/]+/binding\.jws$''']
+regexTarget = "match"
+regexes = [
+  '''^eyJhbGciOiJFZERTQSIsImp3ayI6eyJjcnYiOiJFZDI1NTE5Iiwia3R5IjoiT0tQIiwieCI6IlhzQVg4d2Z2SkpSRGhzeDZvcmpOWVVFLWE3dE1UVXdxVm5uV1U4SWhGRGcifX0\.''',
+  '''^eyJhbGciOiJFZERTQSIsImp3ayI6eyJjcnYiOiJFZDI1NTE5Iiwia3R5IjoiT0tQIiwieCI6Ik9hMzBSblFUVHJONWJ5MGlGbHRoS040UmJaZTQ5MUJWZHdKUUtpb1NOYzgifX0\.''',
+]
 
 [[allowlists]]
 description = "The ignore file lists commit:file:rule:line fingerprints, which read as high-entropy values"
@@ -148,3 +194,100 @@ condition = "AND"
 paths = ['''^(corpora/)?vectors-badge-vc-verify/cases/[^/]+/case\.json$''']
 regexTarget = "match"
 regexes = ['''eyJ[A-Za-z0-9_-]+\.[A-Za-z0-9_-]+\.[A-Za-z0-9_-]*''']
+
+[[allowlists]]
+# vectors-catalog-trust-manifest carries one detached JWS stored WITH its payload
+# segment (case reject-jws-attached-payload), so it has the three-segment shape of
+# a JWT. It is signed by a test key whose scalar is the SHA-256 of a public label in
+# gen_vectors.py. AND: only the trust manifest signature member of that one case.
+description = "the attached-payload JWS fixture of vectors-catalog-trust-manifest (public test key)"
+targetRules = ["jwt"]
+condition = "AND"
+paths = ['''^corpora/vectors-catalog-trust-manifest/cases/reject-jws-attached-payload/catalog\.json$''']
+regexTarget = "match"
+regexes = ['''eyJ[A-Za-z0-9_-]+\.[A-Za-z0-9_-]+\.[A-Za-z0-9_-]*''']
+
+[[allowlists]]
+description = "Test signatures and key material in a dns-aid-sig case, from public test labels"
+# Each sig is a compact JWS over a fictional example.com SVCB record, signed with a
+# P-256 key whose scalar is the SHA-256 of a public label (gen_vectors.py), so the
+# key and every signature are public by construction. AND: only a dns-aid-sig case
+# file, and only a compact JWS or a 43-character base64url value in the x, y or
+# jwks_fingerprint member.
+targetRules = ["jwt", "generic-api-key"]
+condition = "AND"
+paths = ['''^(corpora/)?vectors-dns-aid-sig-v01/cases/[^/]+\.json$''']
+regexTarget = "match"
+regexes = ['''eyJ[A-Za-z0-9_-]+\.[A-Za-z0-9_-]*\.[A-Za-z0-9_-]*''', '''"(x|y|jwks_fingerprint)"\s*:\s*"[A-Za-z0-9_-]{43}"''']
+
+[[allowlists]]
+description = "Base64 Ed25519 public keys naming the assessor in a capability-requirement case"
+# The suite's requirement names the held-out assessor by public key (assessorKey). The
+# signing seeds are SHA-256 of public labels (gen_vectors.py), so the keys are public by
+# construction. AND: only a capability-requirement case file, and only the two published
+# test keys (the assessor and the other key a case swaps in). A base64 shape cannot tell a
+# public key from a secret, so the values are pinned: any other assessorKey value is still
+# reported.
+targetRules = ["generic-api-key"]
+condition = "AND"
+paths = ['''^(corpora/)?vectors-capability-requirement/cases/[^/]+/record\.json$''']
+regexTarget = "match"
+regexes = ['''assessorKey"\s*:\s*"(xCAlDc\+XkJ6JNf3j8F80rmvh8MwS3WQSV9YyXmyTcWE|7CkOHtB4Qly2Q/YX/OkMPba7HJwNRcVwmNmTr3A/6Hk)="''']
+
+[[allowlists]]
+description = "Test proof JWTs inside the agent request-proof corpus envelopes"
+# Every proof is signed by a key derived from a published label in the corpus
+# generator, or is the upstream SDK's own golden fixture; they grant nothing.
+# Scoped to the jwt rule and this corpus's envelopes only.
+targetRules = ["jwt"]
+paths = ['''^corpora/vectors-agent-request-proof/cases/[^/]+/envelope-[0-9]+\.json$''']
+
+[[allowlists]]
+description = "The public recorder key of the agent request-proof corpus"
+# An Ed25519 PUBLIC key derived from a published seed label; the pattern names
+# that exact value, so any other value is still reported.
+targetRules = ["generic-api-key"]
+condition = "AND"
+paths = ['''^corpora/vectors-agent-request-proof/cases/[^/]+/case\.json$''']
+regexTarget = "match"
+regexes = ['''recorderKey"\s*:\s*"BMA4qFpSvSiLzOhNuhs1bmui/v29XYS9mMxGqVEfCwg="''']
+
+[[allowlists]]
+description = "SHA-256 digests of case files in the status-receipt-binding manifest"
+# MANIFEST.json lists each case file with the SHA-256 of its bytes. The generic rule
+# reads the 64-hex value after "credential.json" as a key. All ten distinct values
+# were checked to equal the digest of a file in the corpus, so they are digests and
+# not secrets. AND: only this one manifest path, and only a file-name member whose
+# value is 64 hex characters.
+targetRules = ["generic-api-key"]
+condition = "AND"
+paths = ['''^corpora/vectors-status-receipt-binding/MANIFEST\.json$''']
+regexTarget = "match"
+regexes = ['''credential\.json"\s*:\s*"[0-9a-f]{64}"''']
+
+[[allowlists]]
+description = "Base64url Ed25519 public keys in the actor-marker-survival trust bundle"
+# TRUST.json gives the verifier each writer's public key under writers.<name>.key.
+# Each signing seed is the SHA-256 of "actor-marker-survival/v1 test key " plus the
+# writer's name (gen_vectors.py, key()), so the keys are public by construction.
+# A base64url shape cannot tell a public key from a 32-byte secret, so the eight
+# values are pinned: AND, only that one file, and only these exact members. A new
+# writer, a changed key or the same value anywhere else is still reported.
+targetRules = ["generic-api-key"]
+condition = "AND"
+paths = ['''^(corpora/)?vectors-actor-marker-survival/TRUST\.json$''']
+regexTarget = "match"
+regexes = ['''key"\s*:\s*"(6u-4h_FKsEp4zItPdJFa_DrmaHVAiVt4frww42pfudo|ojuNdiZ-Y96TCP8fLPW86JL89c2LQIFtm_bZoaJ1BJQ|eYH24yhsIF5f8QY2d_So64YHeJAx6grKd2TYcL9SLpQ|XIot846rHq3eno56PetnXmHJ3bsYDHeIPoNlkoFDFvg|mbrVmGamyI0XZ8R3fGQ8LYe5s5NwXhncyipcsliO21g|A1FDEw7pxa9CGhe1FAxhV9WrJliSRNgUl0SgL2_U3Ko|ywcgKBs8VG84u-mviUvpzfop7iadzd42m8A6ermMk1Y|Pu8FJnMUFaC6MDLFlZEgBsWHUPcyVcriltHq7UZTxuM)"''']
+
+[[allowlists]]
+description = "Published demo provenance keys in the ocsf-audit sample output"
+# SAMPLE-OUTPUT-PROVENANCE.md is the upstream sink's published sample, copied
+# unchanged and pinned by SHA-256. Its two `provenance_key` lines carry the
+# base64 of the plain labels "AiIdentity-demo-provenance-key-2026-10-01-a" and
+# "-b", published so a reader can recompute the sample digests. AND: only this
+# file and only a line naming provenance_key; every other line is still scanned.
+targetRules = ["generic-api-key"]
+condition = "AND"
+paths = ['''(^|/)corpora/vectors-ocsf-decision/source/SAMPLE-OUTPUT-PROVENANCE\.md$''']
+regexTarget = "line"
+regexes = ['''// verify: provenance_key(_rotated)? += QWlJZGVudGl0eS1kZW1vLXByb3ZlbmFuY2Uta2V5LTIwMjYtMTAtMDEt(YQ|Yg)==$''']

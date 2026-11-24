@@ -114,6 +114,16 @@ SUBJECT_MAX_LEN = 72
 # tolerating a long machine-written subject. All other rules still apply.
 LENGTH_EXEMPT_PREFIXES = ('Merge ', 'Revert "', "fixup! ", "squash! ")
 
+# Authors whose subject a program writes and nothing can shorten. Exempt from the
+# LENGTH rule only, in the range lint, where the author is read from the commit.
+# Dependabot titles its pull request "bump X from A to B in /dir" and no setting
+# shortens it (commit-message.prefix changes only the first words); the merge
+# queue squashes with that title and accepts no hand-written subject, so a deep
+# directory made every Dependabot pull request fail every merge group behind it
+# (18 Nov 2026: 582, 583, 586 and 587 at 85 to 108 characters). All other rules
+# still apply to these commits.
+LENGTH_EXEMPT_AUTHORS = ("49699333+dependabot[bot]@users.noreply.github.com",)
+
 # Any code point outside 0x00-0x7F. Lone surrogates appear here too, because
 # the message is decoded with surrogateescape so that invalid UTF-8 is
 # reported as a violation instead of crashing the hook.
@@ -597,8 +607,12 @@ def lint(
     extra: list[tuple[re.Pattern[str], str]] | None = None,
     forbidden: tuple[str, list[int], list[int], dict[str, str]] | None = None,
     permits: list[re.Pattern[str]] | None = None,
+    length_exempt: bool = False,
 ) -> list[str]:
-    """Return a list of human-readable violations; empty means the message passes."""
+    """Return a list of human-readable violations; empty means the message passes.
+
+    ``length_exempt`` drops the subject-length rule alone (LENGTH_EXEMPT_AUTHORS).
+    """
     lines = strip_noise(message)
     if not any(line.strip() for line in lines):
         return ["empty commit message"]
@@ -606,7 +620,7 @@ def lint(
     errors: list[str] = []
     subject = lines[0]
 
-    if len(subject) > SUBJECT_MAX_LEN and not subject.startswith(
+    if not length_exempt and len(subject) > SUBJECT_MAX_LEN and not subject.startswith(
         LENGTH_EXEMPT_PREFIXES
     ):
         errors.append(
@@ -954,6 +968,16 @@ def selftest() -> int:
                 f"expected {expected!r}: {label!r} -> {errors}",
             )
 
+    # A program-written subject: exempt from the length rule alone, and only
+    # when the caller says the author is on LENGTH_EXEMPT_AUTHORS.
+    bot_subject = "build(deps): bump hono from 4.13.13 to 4.13.18 in /interop/mcp-sdks/typescript (#582)"
+    check(any("max is" in e for e in lint(bot_subject)),
+          "length-exempt author: a long subject is refused without the exemption")
+    check(not lint(bot_subject, length_exempt=True),
+          "length-exempt author: the same subject passes with the exemption")
+    check(any("non-ASCII" in e or "0x" in e or "U+" in e
+              for e in lint(bot_subject + " \u00e9", length_exempt=True)),
+          "length-exempt author: every other rule still applies")
     if failures:
         print(f"commit-msg selftest: {failures}/{checks} checks FAILED", file=sys.stderr)
         return 1
@@ -1029,12 +1053,17 @@ def check_range(rev_range: str) -> int:
     bad = 0
     for revision in revisions:
         shown = subprocess.run(
-            ["git", "show", "-s", "--format=%B", revision],
+            ["git", "show", "-s", "--format=%ae%x00%B", revision],
             capture_output=True,
             check=True,
         )
-        message = shown.stdout.decode("utf-8", errors="surrogateescape")
-        errors = lint(message, extra, forbidden, permits)
+        author, _, message = shown.stdout.decode(
+            "utf-8", errors="surrogateescape"
+        ).partition("\x00")
+        errors = lint(
+            message, extra, forbidden, permits,
+            length_exempt=author.strip() in LENGTH_EXEMPT_AUTHORS,
+        )
         if errors:
             bad += 1
             report(errors, f"commit {revision[:12]}")

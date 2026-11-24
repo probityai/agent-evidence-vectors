@@ -37,6 +37,15 @@ GOMOD_REL = "go.mod"
 FORM_REL = ".github/ISSUE_TEMPLATE/independent-run.yml"
 INSTALL_PAGES = ("README.md", PAGE_REL, "docs/guides/runner.md")
 
+#: Pages that package indexes render. They carry no typed version in an install or
+#: run command, because the reader's own tool writes the resolved version into the
+#: reader's lock file; a version typed there is stale on the registry page of the
+#: next release. A pin such a page does carry is still held to the release.
+UNPINNED_OK_PAGES = ("README.md",)
+
+#: Any `go install` line, pinned to a tag or to `@latest`.
+GO_INSTALL_ANY = re.compile(r"^go install (\S+)@(latest|v\S+)\s*$", re.MULTILINE)
+
 #: The page's one pinned install command, captured as (package path, tag). One
 #: pattern rather than one per reader: the tag check and the module-path check
 #: must rule on the SAME line, and two regexes over one line is how they come to
@@ -570,13 +579,28 @@ def _consumer_pin_failures(root: Path, citation: str) -> list[str]:
         except GateError as exc:
             found.append(str(exc))
             continue
-        for label, pattern, expected, group in patterns:
-            found.extend(_pin_failures(text, rel, label, pattern, expected, group))
+        if rel in UNPINNED_OK_PAGES:
+            found.extend(_unpinned_go_failures(text, rel, f"v{version}"))
+        else:
+            for label, pattern, expected, group in patterns:
+                found.extend(_pin_failures(text, rel, label, pattern, expected, group))
         found.extend(_python_install_failures(root, text, rel, version))
         if rel == "docs/guides/runner.md":
             action = re.compile(r"^- uses: probityai/agent-evidence-vectors@(\S+)", re.MULTILINE)
             found.extend(_pin_failures(text, rel, "GitHub Action", action, f"v{version}"))
     return found
+
+
+def _unpinned_go_failures(text: str, rel: str, expected: str) -> list[str]:
+    """A registry-rendered page names the install command; a tag it types must be current."""
+    tags = [match.group(2) for match in GO_INSTALL_ANY.finditer(text)]
+    if not tags:
+        return [f"{rel} has no Go install command"]
+    return [
+        f"{rel}: Go install pin {tag} differs from release {expected}"
+        for tag in tags
+        if tag not in ("latest", expected)
+    ]
 
 
 def _source_install_failures(root: Path, pins: list[str], rel: str, version: str) -> list[str]:
@@ -601,14 +625,19 @@ def _python_install_failures(root: Path, text: str, rel: str, version: str) -> l
     """Check registry or source pins; registry availability is qualified separately."""
     registry = re.compile(r"^uvx agent-evidence-vectors==(\S+)", re.MULTILINE)
     source = re.compile(r"^uvx --from (\S+) agent-evidence-vectors(?:\s|$)", re.MULTILINE)
+    unpinned = re.compile(r"^uvx agent-evidence-vectors(?:\s|$)")
+    unpinned_ok = rel in UNPINNED_OK_PAGES
     source_pins = source.findall(text)
     commands = re.findall(r"^uvx(?:\s[^\n]*)?$", text, re.MULTILINE)
     if not commands:
-        return [f"{rel} has no pinned Python install command"]
+        kind = "" if unpinned_ok else "pinned "
+        return [f"{rel} has no {kind}Python install command"]
     found = [
         f"{rel}: unrecognized Python install command: {command}"
         for command in commands
-        if not registry.match(command) and not source.match(command)
+        if not registry.match(command)
+        and not source.match(command)
+        and not (unpinned_ok and unpinned.match(command))
     ]
     if source_pins:
         found.extend(_source_install_failures(root, source_pins, rel, version))

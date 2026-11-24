@@ -1,18 +1,28 @@
 {
-  "corpusDigest": "043f779fbfe271e3ac61b45b292de21b4080790da4c9096589a678643d601f51",
+  "corpusDigest": "1e3ef13229061b8b41fe51bb8e3ffd2f7ac55e3e61c6d5f31a87f0bf123984e1",
   "counts": {
-    "accepted": 5,
-    "rejected": 29
+    "accepted": 10,
+    "rejected": 52
   },
   "schema": "agent-payment-mandate-record/v1",
   "specification": {
     "schemes": [
       "ap2-cart-mandate",
       "mastercard-verifiable-intent-credential",
-      "stripe-shared-payment-token"
+      "stripe-shared-payment-token",
+      "x402-exact-evm-eip3009"
     ],
-    "scope": "Receipt-side fields only. Each source scheme is named by concept; no upstream field name is asserted, and none of the three schemes' texts is vendored.",
-    "status": "proposal of this repository, not a vendored upstream text"
+    "scope": "Receipt-side fields only. The three card-side schemes are named by concept; no upstream field name is asserted for them, and none of their texts is vendored. The x402 members carry the facilitator request (paymentPayload and paymentRequirements) in x402 v2 field names and verify its EIP-712 signature.",
+    "status": "proposal of this repository, not a vendored upstream text",
+    "x402": {
+      "commit": "e35bf8846f3e40f584f7235ea96c0841cb597b27",
+      "read": [
+        "specs/x402-specification-v2.md",
+        "specs/schemes/exact/scheme_exact_evm.md"
+      ],
+      "source": "https://github.com/x402-foundation/x402",
+      "transfer": "EIP-3009 transferWithAuthorization, settled when validAfter < t < validBefore"
+    }
   },
   "suite": "agent-payment-mandate/v1",
   "vectors": [
@@ -452,6 +462,365 @@
       "id": "single-use-mandate-spent-on-two-rails",
       "path": "cases/single-use-mandate-spent-on-two-rails",
       "twin": "authorized-two-mandates-two-rails"
+    },
+    {
+      "description": "the signing key was rotated out after the mandate was signed; it was in effect at signing",
+      "expected": {
+        "decision": "accepted",
+        "reason": "mandate_chain_holds"
+      },
+      "files": {
+        "case.json": "fb7b716e3addd0aeb5b458a4d6f961a439070e5edf0aaaa4bf3630c894ed43a8"
+      },
+      "id": "authorized-key-rotated-after-signing",
+      "path": "cases/authorized-key-rotated-after-signing"
+    },
+    {
+      "description": "the signing key was revoked effective after the mandate was signed",
+      "expected": {
+        "decision": "accepted",
+        "reason": "mandate_chain_holds"
+      },
+      "files": {
+        "case.json": "f18c98d5476962ea853dba48573aaedbda48040618c31b279ba5891fac25161a"
+      },
+      "id": "authorized-key-revoked-after-signing",
+      "path": "cases/authorized-key-revoked-after-signing"
+    },
+    {
+      "description": "the relying party's key snapshot holds no entry for the signing key",
+      "expected": {
+        "decision": "rejected",
+        "reason": "signing_key_unknown"
+      },
+      "files": {
+        "case.json": "9351a20ed0ec0fe672ca00cd2e70c5a8c8874fe2bd1a7e7c7749d9fd17404a34"
+      },
+      "id": "signing-key-not-in-snapshot",
+      "path": "cases/signing-key-not-in-snapshot",
+      "twin": "authorized-key-rotated-after-signing"
+    },
+    {
+      "description": "the mandate was signed after the key's validity ended",
+      "expected": {
+        "decision": "rejected",
+        "reason": "signing_key_rotated_out"
+      },
+      "files": {
+        "case.json": "4ff23d8d427ed46c1229134c85589a7bbc7e39de21bcaf3509ad4d2140510e4b"
+      },
+      "id": "signed-after-key-rotated-out",
+      "path": "cases/signed-after-key-rotated-out",
+      "twin": "authorized-key-rotated-after-signing"
+    },
+    {
+      "description": "the mandate was signed before the key's validity began",
+      "expected": {
+        "decision": "rejected",
+        "reason": "signing_key_not_yet_valid"
+      },
+      "files": {
+        "case.json": "87cfa649b9f2de19f19823e55f1e80e5c14e9eecc03145cab5f376897ddefbf6"
+      },
+      "id": "signed-before-key-valid",
+      "path": "cases/signed-before-key-valid",
+      "twin": "authorized-key-rotated-after-signing"
+    },
+    {
+      "description": "the mandate was signed after the key's revocation took effect",
+      "expected": {
+        "decision": "rejected",
+        "reason": "signing_key_revoked"
+      },
+      "files": {
+        "case.json": "889bb3727d335ae96b54912c2d22412ea7d52a2aef888d0ba69cf1624ef64b38"
+      },
+      "id": "signed-after-key-revoked",
+      "path": "cases/signed-after-key-revoked",
+      "twin": "authorized-key-revoked-after-signing"
+    },
+    {
+      "description": "signed before the revocation by the key's own clock, charged after it",
+      "expected": {
+        "decision": "rejected",
+        "reason": "signing_key_revoked"
+      },
+      "files": {
+        "case.json": "b099e66e35c9ff2e59d707bf66e5bb93bb5f0b4badbfa4e4f7d36a165c30af05"
+      },
+      "id": "charge-after-key-revoked",
+      "path": "cases/charge-after-key-revoked",
+      "twin": "authorized-key-revoked-after-signing"
+    },
+    {
+      "description": "x402 exact on EVM: wallet the mandate names signs the required payment, settled once",
+      "expected": {
+        "decision": "accepted",
+        "reason": "mandate_chain_holds"
+      },
+      "files": {
+        "case.json": "39a4d15f7201696ff286aa23c86417d175639be596e95683bea27a664d20ddaf"
+      },
+      "id": "x402-exact-evm-settled-once",
+      "path": "cases/x402-exact-evm-settled-once"
+    },
+    {
+      "description": "x402 required amount equal to the mandate ceiling is inside the mandate",
+      "expected": {
+        "decision": "accepted",
+        "reason": "mandate_chain_holds"
+      },
+      "files": {
+        "case.json": "7b573840555b6022d5361bfa86d6e580fc4adf2771e7db0e49b64a6e0d669b60"
+      },
+      "id": "x402-exact-evm-at-mandate-ceiling",
+      "path": "cases/x402-exact-evm-at-mandate-ceiling"
+    },
+    {
+      "description": "settled one second before validBefore, inside the EIP-3009 window",
+      "expected": {
+        "decision": "accepted",
+        "reason": "mandate_chain_holds"
+      },
+      "files": {
+        "case.json": "77ebed505fdc95d3f4faf63c29ed630d3f2abb34e560daa77d9da816e4ce085b"
+      },
+      "id": "x402-settled-last-valid-second",
+      "path": "cases/x402-settled-last-valid-second"
+    },
+    {
+      "description": "server requires one unit over the mandate ceiling and the agent pays it",
+      "expected": {
+        "decision": "rejected",
+        "reason": "amount_over_limit"
+      },
+      "files": {
+        "case.json": "26c95f21699aa18955c56671356d466994119dea0453042fa451aba29ef815a3"
+      },
+      "id": "x402-requirement-over-mandate-ceiling",
+      "path": "cases/x402-requirement-over-mandate-ceiling",
+      "twin": "x402-exact-evm-at-mandate-ceiling"
+    },
+    {
+      "description": "payment signed for a token other than the required asset",
+      "expected": {
+        "decision": "rejected",
+        "reason": "currency_mismatch"
+      },
+      "files": {
+        "case.json": "7d9168f9c42cf70b36bed70daf9002c7b19a297717cbb54eb65d1efad905a6dd"
+      },
+      "id": "x402-paid-in-other-asset",
+      "path": "cases/x402-paid-in-other-asset",
+      "twin": "x402-exact-evm-settled-once"
+    },
+    {
+      "description": "server requires payment to an address the mandate does not name",
+      "expected": {
+        "decision": "rejected",
+        "reason": "merchant_mismatch"
+      },
+      "files": {
+        "case.json": "3cb24808c1cdc2bd881e824331b2a280280ef0140fe5ddc89097d140feb92cae"
+      },
+      "id": "x402-requirement-pays-unmandated-payee",
+      "path": "cases/x402-requirement-pays-unmandated-payee",
+      "twin": "x402-exact-evm-settled-once"
+    },
+    {
+      "description": "signed authorization pays an address other than payTo",
+      "expected": {
+        "decision": "rejected",
+        "reason": "merchant_mismatch"
+      },
+      "files": {
+        "case.json": "bf4a3d8ca410c2bf40d5fd41134317ef9764a83e7badf5eccd688eef0fd6ea7a"
+      },
+      "id": "x402-authorization-pays-other-address",
+      "path": "cases/x402-authorization-pays-other-address",
+      "twin": "x402-exact-evm-settled-once"
+    },
+    {
+      "description": "payment built and signed for a network other than the required one",
+      "expected": {
+        "decision": "rejected",
+        "reason": "network_mismatch"
+      },
+      "files": {
+        "case.json": "cefe7786ac88ff573a63229d9d4237b0569b3ac2775ffc385446bbe27e5eaed7"
+      },
+      "id": "x402-accepted-other-network",
+      "path": "cases/x402-accepted-other-network",
+      "twin": "x402-exact-evm-settled-once"
+    },
+    {
+      "description": "authorization one unit over the exact required amount, under the mandate ceiling",
+      "expected": {
+        "decision": "rejected",
+        "reason": "amount_not_offer_amount"
+      },
+      "files": {
+        "case.json": "66aeba61861a8b32f5e2b9a2744fc08acf3183e7c6e9f07876b7d8b1c92077c7"
+      },
+      "id": "x402-value-over-required-amount",
+      "path": "cases/x402-value-over-required-amount",
+      "twin": "x402-exact-evm-settled-once"
+    },
+    {
+      "description": "settled at validBefore, which EIP-3009 excludes",
+      "expected": {
+        "decision": "rejected",
+        "reason": "authorization_outside_validity_window"
+      },
+      "files": {
+        "case.json": "4ed3aa95aac439ea75613fcd984e20b3583e6fb78fb1d47241deea59cc6e2fb1"
+      },
+      "id": "x402-settled-at-valid-before",
+      "path": "cases/x402-settled-at-valid-before",
+      "twin": "x402-settled-last-valid-second"
+    },
+    {
+      "description": "settled at validAfter, which EIP-3009 excludes",
+      "expected": {
+        "decision": "rejected",
+        "reason": "authorization_outside_validity_window"
+      },
+      "files": {
+        "case.json": "d06e44090d11721b94b305a174064ee304e75c632e421b611db3c14af50ec2c1"
+      },
+      "id": "x402-settled-at-valid-after",
+      "path": "cases/x402-settled-at-valid-after",
+      "twin": "x402-exact-evm-settled-once"
+    },
+    {
+      "description": "authorization valid on its own but settled after the mandate expired",
+      "expected": {
+        "decision": "rejected",
+        "reason": "mandate_expired"
+      },
+      "files": {
+        "case.json": "05fab40d9173d1342c5330e97a2d016a39d5e4c020c814f384c7160854e27d9e"
+      },
+      "id": "x402-settled-after-mandate-expiry",
+      "path": "cases/x402-settled-after-mandate-expiry",
+      "twin": "x402-exact-evm-settled-once"
+    },
+    {
+      "description": "the same signature with s above n/2, which recovers to the payer",
+      "expected": {
+        "decision": "rejected",
+        "reason": "signature_not_canonical"
+      },
+      "files": {
+        "case.json": "42b7abb10e45c23f8927f627e17f82a23d031c9e397d8e77be51d84f279b29d5"
+      },
+      "id": "x402-signature-high-s",
+      "path": "cases/x402-signature-high-s",
+      "twin": "x402-exact-evm-settled-once"
+    },
+    {
+      "description": "authorization from the agent wallet, signed by another key",
+      "expected": {
+        "decision": "rejected",
+        "reason": "agent_proof_invalid"
+      },
+      "files": {
+        "case.json": "1a573c59ed217bd9fa9a166216caed3015829d6272d1685e1f262e0a24e942ce"
+      },
+      "id": "x402-signed-by-other-key",
+      "path": "cases/x402-signed-by-other-key",
+      "twin": "x402-exact-evm-settled-once"
+    },
+    {
+      "description": "another key signs and an unsigned payload member names that key as the signer",
+      "expected": {
+        "decision": "rejected",
+        "reason": "agent_proof_invalid"
+      },
+      "files": {
+        "case.json": "801b58b0834296be166601be26b67f9074487519c2856cdfddf8b5b7292deddb"
+      },
+      "id": "x402-verifying-key-from-unsigned-selector",
+      "path": "cases/x402-verifying-key-from-unsigned-selector",
+      "twin": "x402-exact-evm-settled-once"
+    },
+    {
+      "description": "authorization signed under another chain's token domain, presented on this one",
+      "expected": {
+        "decision": "rejected",
+        "reason": "agent_proof_invalid"
+      },
+      "files": {
+        "case.json": "4797b3a2cc92e3547324528f6d8193158a4b17c91799f868be46d8fe26e33bf3"
+      },
+      "id": "x402-signature-from-other-chain",
+      "path": "cases/x402-signature-from-other-chain",
+      "twin": "x402-exact-evm-settled-once"
+    },
+    {
+      "description": "a validly signed payment from a wallet the mandate does not name",
+      "expected": {
+        "decision": "rejected",
+        "reason": "agent_not_the_mandated_agent"
+      },
+      "files": {
+        "case.json": "b0ad1738bcca1298dc50f2af3f8f66d55908acce9e7755cfc5744a170fb83d1b"
+      },
+      "id": "x402-payer-not-the-mandated-agent",
+      "path": "cases/x402-payer-not-the-mandated-agent",
+      "twin": "x402-exact-evm-settled-once"
+    },
+    {
+      "description": "the ledger consumed another nonce than the one signed",
+      "expected": {
+        "decision": "rejected",
+        "reason": "token_not_the_executed_token"
+      },
+      "files": {
+        "case.json": "fd9a0aeecdecb7f20a1f2369b4d127645491f0b0a961777fe94afe238cc940c5"
+      },
+      "id": "x402-settlement-consumed-other-nonce",
+      "path": "cases/x402-settlement-consumed-other-nonce",
+      "twin": "x402-exact-evm-settled-once"
+    },
+    {
+      "description": "the ledger transfer moved another value than was signed",
+      "expected": {
+        "decision": "rejected",
+        "reason": "settlement_not_the_authorization"
+      },
+      "files": {
+        "case.json": "bc2239579e294d79ef592c8198c9b48fcee720ca7906fb06cff869c63287c79c"
+      },
+      "id": "x402-settled-transfer-differs",
+      "path": "cases/x402-settled-transfer-differs",
+      "twin": "x402-exact-evm-settled-once"
+    },
+    {
+      "description": "the authorization's nonce was consumed before this settlement",
+      "expected": {
+        "decision": "rejected",
+        "reason": "single_use_token_replayed"
+      },
+      "files": {
+        "case.json": "763da11f94b18af3188e939e411857eead2e6ead42c05443ef3dfc5e52ba8e7c"
+      },
+      "id": "x402-nonce-already-used",
+      "path": "cases/x402-nonce-already-used",
+      "twin": "x402-exact-evm-settled-once"
+    },
+    {
+      "description": "the facilitator's response names a payer other than the signer",
+      "expected": {
+        "decision": "rejected",
+        "reason": "receipt_not_bound_to_execution"
+      },
+      "files": {
+        "case.json": "43e0a72f8943e6e45105b96e66730b0e4e7cd0b27580bfde7b38a78c504e20d1"
+      },
+      "id": "x402-settlement-response-other-payer",
+      "path": "cases/x402-settlement-response-other-payer",
+      "twin": "x402-exact-evm-settled-once"
     }
   ],
   "verifierContract": "verifier case.json --json --policy policy.json"

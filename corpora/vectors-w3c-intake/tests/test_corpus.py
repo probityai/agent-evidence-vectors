@@ -71,7 +71,9 @@ def mutant(ground: str, tmp_path: Path) -> ModuleType:
     assert pattern.search(source), f"no check adds {ground}"
     path = tmp_path / f"w3cintake_without_{number}.py"
     path.write_text(pattern.sub("(lambda *_: None)(None,", source), encoding="utf-8")
-    spec = importlib.util.spec_from_file_location(path.stem, path)
+    # Load the copy as a module of the package, so the reader's relative imports
+    # (strictjson, strictb64) resolve exactly as they do for the real module.
+    spec = importlib.util.spec_from_file_location(f"agent_evidence_vectors.{path.stem}", path)
     assert spec is not None and spec.loader is not None
     module = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(module)

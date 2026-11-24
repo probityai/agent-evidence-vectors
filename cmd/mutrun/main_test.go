@@ -207,3 +207,39 @@ func TestTierStringsPreservesNil(t *testing.T) {
 		t.Error("a nil tier column must stay nil: the CLI omits it and the harness reads None")
 	}
 }
+
+// A corpus directory after the key policy is judged in process, one line per member and one
+// for the corpus, and a directory that is not a corpus stops the replay instead of being skipped.
+func TestCorpusChannelJudgesEveryMember(t *testing.T) {
+	dir := corpus(t)
+	keys := writeKeys(t, t.TempDir(), aeetest.TestKey(aeetest.RoleSubstrateObservation).Public().(ed25519.PublicKey))
+	revocation := filepath.Join("..", "..", "corpora", "vectors-revocation-list")
+	var out, errs bytes.Buffer
+	if code := run([]string{dir, keys, revocation}, &out, &errs); code != 0 {
+		t.Fatalf("mutrun exited %d: %s", code, errs.String())
+	}
+	members, corpusLines := 0, 0
+	for _, line := range strings.Split(strings.TrimSpace(out.String()), "\n") {
+		var l corpusLine
+		if err := json.Unmarshal([]byte(line), &l); err != nil {
+			t.Fatalf("decode %q: %v", line, err)
+		}
+		if l.Corpus == "" {
+			continue
+		}
+		if len(l.Findings) != 0 {
+			t.Errorf("%s: %v", l.ID, l.Findings)
+		}
+		if strings.HasSuffix(l.ID, "/#corpus") {
+			corpusLines++
+		} else {
+			members++
+		}
+	}
+	if corpusLines != 1 || members == 0 {
+		t.Fatalf("want one corpus line and its members, got %d and %d", corpusLines, members)
+	}
+	if code := run([]string{dir, keys, t.TempDir()}, &out, &errs); code != 2 {
+		t.Fatalf("a directory with no manifest exited %d, want 2", code)
+	}
+}

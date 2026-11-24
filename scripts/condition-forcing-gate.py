@@ -221,6 +221,10 @@ def killed_killers(baseline: dict[str, Any], known: set[str]) -> list[frozenset[
         if site.get("class") != "KILLED":
             continue
         killers = {str(v) for v in site.get("killers") or []}
+        if not killers and site.get("corpusKillers"):
+            # Forced only through a corpus-channel member, which carries no
+            # condition of this manifest: nothing here to project it onto.
+            continue
         if not killers:
             die(f"{key} is recorded KILLED with no killer, so nothing attributes it.")
         if stray := sorted(killers - known):
@@ -241,11 +245,7 @@ def vectors_no_site_depends_on(manifest: dict[str, Any], baseline: dict[str, Any
     on what the corpus forces, because a weakening some unswept vector would catch
     is recorded as caught by nobody.
     """
-    killers = {
-        vid
-        for site in baseline["sites"].values()
-        for vid in (site.get("killers") or [])
-    }
+    killers = {vid for site in baseline["sites"].values() for vid in (site.get("killers") or [])}
     return [str(v["id"]) for v in manifest["vectors"] if str(v["id"]) not in killers]
 
 
@@ -274,9 +274,7 @@ def condition_rows(manifest: dict[str, Any], baseline: dict[str, Any]) -> list[C
         touched = sum(1 for killers in killed if killers & carriers)
         verdict = "FORCED" if sole else ("WEAK" if touched else "UNFORCED")
         anchor, text = registry[cid]
-        rows.append(
-            ConditionRow(cid, anchor, text, len(carriers), sole, touched - sole, verdict)
-        )
+        rows.append(ConditionRow(cid, anchor, text, len(carriers), sole, touched - sole, verdict))
     return rows
 
 
@@ -681,9 +679,7 @@ def condition_table(rows: list[ConditionRow]) -> list[str]:
         "|---|---|---|---|---|",
     ]
     for row in rows:
-        out.append(
-            f"| `{row.cid}` | {row.anchor} | {row.text} | {row.vectors} | {row.shared} |"
-        )
+        out.append(f"| `{row.cid}` | {row.anchor} | {row.text} | {row.vectors} | {row.shared} |")
     return out
 
 
@@ -832,9 +828,7 @@ def render(manifest: dict[str, Any], baseline: dict[str, Any]) -> str:
             "through a shared helper that takes the code as an argument, and "
             f"{axis.unattributed} emission-removal sites name no code for the same reason. "
             "Those codes are not measured on this axis, and they are not counted as forced "
-            "either: "
-            + ", ".join(f"`{wire}`" for wire in axis.unmeasurable)
-            + "."
+            "either: " + ", ".join(f"`{wire}`" for wire in axis.unmeasurable) + "."
         ),
         "",
         "## The requirements no vector pins, which is a separate register",
@@ -957,6 +951,7 @@ def prior_block(record: dict[str, Any]) -> list[str]:
             "different dates."
         ),
     ]
+
 
 def instrument_delta_block(record: dict[str, Any]) -> list[str]:
     """The residue, closed: which weakenings the earlier instrument could not see.
@@ -1169,8 +1164,7 @@ def main() -> int:
         return 0
     if not p(OUTPUT).exists():
         print(
-            f"FAIL: {OUTPUT} does not exist. Run this gate "
-            "without --check to generate it.",
+            f"FAIL: {OUTPUT} does not exist. Run this gate without --check to generate it.",
             file=sys.stderr,
         )
         return 1

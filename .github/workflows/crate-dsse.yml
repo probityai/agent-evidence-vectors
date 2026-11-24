@@ -2,7 +2,7 @@ name: crate-dsse
 
 # Every check of crates/dsse, run from the crate directory. ci.yml calls this
 # when a change touches crates/dsse or a shared file. The jobs are the ones
-# probityai/dsse ran before its import (test.yml, rust.yml, policy.yml,
+# probityai-archive/dsse ran before its import (test.yml, rust.yml, policy.yml,
 # readme.yml, npm.yml, sigstore-js-threshold.yml). The npm qualification is its
 # own reusable workflow, crate-dsse-npm.yml, because release.yml runs it too.
 #
@@ -26,7 +26,7 @@ defaults:
 
 env:
   CARGO_TERM_COLOR: never
-  # The checkout root go.work (go 1.26.0) would capture this crate's Go modules.
+  # The checkout root go.work (go 1.26.4) would capture this crate's Go modules.
   GOWORK: "off"
 
 jobs:

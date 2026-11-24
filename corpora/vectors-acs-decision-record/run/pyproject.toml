@@ -6,7 +6,7 @@
 name = "acs-decision-record-run"
 version = "0.1.0"
 requires-python = ">=3.11"
-dependencies = ["agent-control-spec==0.4.0a4"]
+dependencies = ["agent-control-spec==0.4.0b2"]
 
 [tool.uv]
 package = false

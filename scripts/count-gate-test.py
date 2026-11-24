@@ -908,6 +908,24 @@ SOURCE_CASES: list[Case] = [
 
 CENSUS_CASES.append(
     (
+        "a heading number with no section dot is still read as a count",
+        lambda root: append(root, "BUILD-NOTES.md", f"\n## {TOTAL} vectors in the corpus\n"),
+        (f"'{TOTAL}'",),
+    )
+)
+
+CENSUS_CASES.append(
+    (
+        "a two-term ratio beside a slash chain is still a ratio",
+        lambda root: append(
+            root, "BUILD-NOTES.md", "\nThe rail scored 200/200 on records 1/3/4.\n"
+        ),
+        ("'200/200' is a ratio",),
+    )
+)
+
+CENSUS_CASES.append(
+    (
         "a registered corpus's per-kind count typed beside a count noun",
         lambda root: append(
             root,
@@ -1120,6 +1138,28 @@ def every_claim_label() -> tuple[str, ...]:
     return tuple(sorted({claim.label for claim in gate.claims(gate.load_sources())}))
 
 
+def octal_escape_failures() -> list[str]:
+    """A POSIX octal escape is masked whole, and the same digits bare are not.
+
+    In process, against the census masks, so it holds whatever the live totals
+    are: `\\303\\251` must leave no digit for the census to read, and `303 251`
+    must leave both integers, or the mask is hiding counts it was not written for.
+    """
+    gate = load_gate(REPO_ROOT)
+    import countcensus as cc
+
+    failures: list[str] = []
+    escaped = "U+007F is `\\177` and U+00E9 is `\\303\\251`"
+    left = re.findall(r"\d+", cc.mask(gate.CENSUS, escaped))
+    if left:
+        failures.append(f"octal escapes: the census still reads {left} in {escaped!r}")
+    bare = "the run killed 303 and kept 251"
+    kept = re.findall(r"\d+", cc.mask(gate.CENSUS, bare))
+    if kept != ["303", "251"]:
+        failures.append(f"octal escapes: the mask took bare integers, leaving {kept} of {bare!r}")
+    return failures
+
+
 def measure_scope_failures() -> list[str]:
     """On the tree as it stands, a measure context takes out no counted integer.
 
@@ -1231,6 +1271,15 @@ ACCEPT_CASES: list[Case] = [
         ("are accounted for",),
     ),
     (
+        "an ordered-list marker numbering a named check is a position, not a count",
+        lambda root: append(
+            root,
+            "BUILD-NOTES.md",
+            f"\n{REGISTERED_COUNT}. `attestation_digest_mismatch`: the vectors disagree.\n",
+        ),
+        ("are accounted for",),
+    ),
+    (
         "an issue number in a GitHub URL is an identifier, not a count",
         lambda root: append(
             root,
@@ -1246,6 +1295,33 @@ ACCEPT_CASES: list[Case] = [
             root,
             "BUILD-NOTES.md",
             f"\nUpstream pull request {REGISTERED_COUNT} reworded the sentence.\n",
+        ),
+        ("are accounted for",),
+    ),
+    (
+        "a slash chain of three integers is a list of positions, not a ratio",
+        lambda root: append(
+            root,
+            "BUILD-NOTES.md",
+            f"\nThe sample digest covers records 1/{TOTAL}/4 of the log.\n",
+        ),
+        ("are accounted for",),
+    ),
+    (
+        "a length in code points is a measurement, not a count",
+        lambda root: append(
+            root,
+            "BUILD-NOTES.md",
+            f"\nThe title is exactly {TOTAL} code points long.\n",
+        ),
+        ("are accounted for",),
+    ),
+    (
+        "the number of a numbered section in a heading is a position, not a count",
+        lambda root: append(
+            root,
+            "BUILD-NOTES.md",
+            f"\n## {TOTAL}. Members that change verdict\n",
         ),
         ("are accounted for",),
     ),
@@ -1398,8 +1474,9 @@ def main() -> int:
     # The one case that reads the real tree rather than a staged copy: no integer
     # a measure context removes is one the tree accounts for as a count.
     failures.extend(measure_scope_failures())
+    failures.extend(octal_escape_failures())
     accepting = sum(len(cases) for _, cases, want_refusal in groups if not want_refusal)
-    total = staged + 1
+    total = staged + 2
     if failures:
         print(f"FAIL: {len(failures)} of {total} case(s) do not hold:", file=sys.stderr)
         for failure in failures:

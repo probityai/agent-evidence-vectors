@@ -19,8 +19,20 @@ import subprocess
 import sys
 
 DESCRIPTION = "Fail when the archive an Action user downloads grows past its budget."
-# 15 MB: v0.31.0 is 11.0 MB; the margin covers ordinary corpus growth between releases.
-BUDGET_BYTES = 15_000_000
+# 17 MB: v0.31.0 is 11.0 MB. Raised from 15 MB for v0.38.0 (2026-11-21): main at 517f77480
+# archived to 14,338,296 bytes and the release batch, which adds nine corpora (catalog trust
+# manifest, empty interval, execution billing, key directory, key revocation list,
+# lifecycle binding, responsibility escalation, RSA DigestInfo, telemetry evidence), to
+# 15,573,687 bytes. The growth is case bytes an adopter's run judges, so it is kept; the
+# margin covers ordinary corpus growth to the next release.
+# Raised from 17 MB to 19 MB for the backlog batch (2026-11-24): origin/main at 127cf14ef
+# archives to 15,570,105 bytes and the batch, which adds 23 corpora (revocation list,
+# decision record, actor marker survival, credential reachability, OASF record, status
+# receipt binding, principal action, assertion grade, agent registration classification,
+# physical completion, agent request proof, CBOR receipt chain, OCSF decision, key
+# revocation list and the rest) plus their readers, to 17,103,444 bytes. The growth is case
+# bytes an adopter's run judges, so it is kept.
+BUDGET_BYTES = 19_000_000
 
 
 def archive_size(ref: str) -> int:

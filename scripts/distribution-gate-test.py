@@ -175,6 +175,10 @@ def _staged_copy(tmp: Path) -> Path:
             text,
         )
         path.write_text(text, encoding="utf-8")
+        if rel == Path("README.md"):
+            # The README names no version (the gate's UNPINNED_OK_PAGES), so it
+            # has no registry command to convert and no source route to mutate.
+            continue
         # A post-condition, not a hope: a page that carries neither route would
         # leave every source-route case below without a target, and the report
         # would blame the cases or the gate instead of the staging.
@@ -616,13 +620,37 @@ def stale_consumer_pin(rel: str, route: str) -> Callable[[Path], str]:
 def missing_python_command(root: Path) -> str:
     _edit(
         root,
-        Path("README.md"),
-        # Every command goes: the README carries one per route (the reference
+        PAGE_REL,
+        # Every command goes: the page carries one per route (the reference
         # rail and an external verifier), and removing only the first leaves a
         # pinned command behind, so the tree still holds no defect.
         lambda text: _sub(r"^uvx --from [^\n]+\n", "", text, flags=re.MULTILINE, count=0),
     )
-    return "README.md has no pinned Python install command"
+    return "DISTRIBUTION.md has no pinned Python install command"
+
+
+def readme_without_command(pattern: str, phrase: str) -> Callable[[Path], str]:
+    """The README must still name the command, with or without a version."""
+
+    def mutate(root: Path) -> str:
+        _edit(
+            root,
+            Path("README.md"),
+            lambda text: _sub(pattern, "", text, flags=re.MULTILINE, count=0),
+        )
+        return phrase
+
+    return mutate
+
+
+def readme_with_line(line: str, phrase: str) -> Callable[[Path], str]:
+    """A command the README adds must be current, or one the gate recognises."""
+
+    def mutate(root: Path) -> str:
+        _edit(root, Path("README.md"), lambda text: text + "\n" + line + "\n")
+        return phrase
+
+    return mutate
 
 
 def missing_runner_page(root: Path) -> str:
@@ -636,12 +664,12 @@ def wrong_source_pin(pin: str) -> Callable[[Path], str]:
     def mutate(root: Path) -> str:
         _edit(
             root,
-            Path("README.md"),
+            PAGE_REL,
             lambda text: _sub(
                 r"(uvx --from )\S+( agent-evidence-vectors)", rf"\g<1>{pin}\g<2>", text
             ),
         )
-        return "README.md: Python install pin"
+        return "DISTRIBUTION.md: Python install pin"
 
     return mutate
 
@@ -649,26 +677,26 @@ def wrong_source_pin(pin: str) -> Callable[[Path], str]:
 def conflicting_source_pins(root: Path) -> str:
     _edit(
         root,
-        Path("README.md"),
+        PAGE_REL,
         lambda text: (
             text + "\nuvx --from git+https://github.com/probityai/agent-evidence-vectors@main "
             "agent-evidence-vectors --self-test\n"
         ),
     )
-    return "README.md: Python install pin"
+    return "DISTRIBUTION.md: Python install pin"
 
 
 def wrong_source_entry_point(root: Path) -> str:
     version = _install_of(root)[1][1:]
     _edit(
         root,
-        Path("README.md"),
+        PAGE_REL,
         lambda text: (
             _sub(r"(uvx --from \S+ )agent-evidence-vectors", r"\g<1>wrong-entry-point", text)
             + f"\nuvx agent-evidence-vectors=={version} --self-test\n"
         ),
     )
-    return "README.md: unrecognized Python install command"
+    return "DISTRIBUTION.md: unrecognized Python install command"
 
 
 def stale_tag_check_command(root: Path) -> str:
@@ -734,8 +762,8 @@ CASES: tuple[tuple[str, Callable[[Path], str]], ...] = (
     *(
         (f"candidate advertised as the published {route}", candidate_install_pin(rel, route))
         for rel, route in (
-            ("README.md", "Go install"),
-            ("README.md", "Python install"),
+            ("DISTRIBUTION.md", "Go install"),
+            ("DISTRIBUTION.md", "Python install"),
             ("docs/guides/runner.md", "GitHub Action"),
         )
     ),
@@ -755,14 +783,41 @@ CASES: tuple[tuple[str, Callable[[Path], str]], ...] = (
     ("a wrong source executable beside a valid registry pin", wrong_source_entry_point),
     *(
         (f"{rel} retains a stale {route} pin", stale_consumer_pin(rel, route))
-        for rel in ("README.md", "DISTRIBUTION.md", "docs/guides/runner.md")
+        for rel in ("DISTRIBUTION.md", "docs/guides/runner.md")
         for route in ("Go install", "Python install")
     ),
     (
         "runner retains a stale Action pin",
         stale_consumer_pin("docs/guides/runner.md", "GitHub Action"),
     ),
-    ("README Python command disappears", missing_python_command),
+    ("the distribution page's Python command disappears", missing_python_command),
+    (
+        "README Python command disappears",
+        readme_without_command(r"^uvx[^\n]*\n", "README.md has no Python install command"),
+    ),
+    (
+        "README Go command disappears",
+        readme_without_command(r"^go install [^\n]*\n", "README.md has no Go install command"),
+    ),
+    (
+        "README names a stale Go tag",
+        readme_with_line(
+            "go install github.com/probityai/agent-evidence-vectors/cmd/aee-verify@v99.0.0",
+            "README.md: Go install pin v99.0.0 differs from release",
+        ),
+    ),
+    (
+        "README names a stale registry pin",
+        readme_with_line(
+            "uvx agent-evidence-vectors==99.0.0", "README.md: Python install pin 99.0.0 differs"
+        ),
+    ),
+    (
+        "README runs a wrong executable",
+        readme_with_line(
+            "uvx wrong-entry-point", "README.md: unrecognized Python install command"
+        ),
+    ),
     ("runner guide disappears", missing_runner_page),
     ("a command fixed in one copy of the recipe and not the other", case_recipe_drift),
     ("the citation file released ahead of the prose", case_tag_behind),
@@ -810,7 +865,7 @@ def registry_control_failures() -> list[str]:
     with tempfile.TemporaryDirectory() as raw:
         registry = _staged_copy(Path(raw))
         version = _install_of(registry)[1][1:]
-        for rel in (PAGE_REL, Path("README.md"), Path("docs/guides/runner.md")):
+        for rel in (PAGE_REL, Path("docs/guides/runner.md")):
             path = registry / rel
             text, count = re.subn(
                 r"uvx --from \S+ agent-evidence-vectors",
