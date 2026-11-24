@@ -24,6 +24,11 @@ on:
 permissions:
   contents: read
 
+concurrency:
+  # A newer push to the same branch supersedes the older run.
+  # Main and tags never cancel: each main push keeps its own group by sha.
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || (github.ref == 'refs/heads/main' && github.sha) || github.ref }}
+
 jobs:
   pins:
     runs-on: ubuntu-24.04
