@@ -8,8 +8,8 @@ beside each member group. They are now derived from the published texts vendored
 under the corpus, and a member whose rule no published text states is
 ``proposed``. Revision 04 was published on 19 November 2026 and its Appendix B
 prints all 68 members that were proposed for it, so none is proposed for it now;
-the 24 members of the principal, evaluated-at and deadline-boundary proposals are proposed for revision 05. This
-test pins that:
+the 24 members of the principal, evaluated-at and deadline-boundary proposals
+are proposed for revision 05. This test pins that:
 
 - the row identifiers read from each vendored Appendix B are the ones it prints
   (revision 01 prints CS1 to CS9 and no CS10, revision 02 adds CS10 to CS17,
