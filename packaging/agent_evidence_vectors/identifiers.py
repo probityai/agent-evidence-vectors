@@ -32,7 +32,7 @@ implementation must reproduce are ``spec/identifiers/host-equivalence.json``.
 
 from __future__ import annotations
 
-from typing import overload
+from typing import TypeVar, cast
 
 __all__ = [
     "IDENTIFIER_HOST",
@@ -53,15 +53,10 @@ def identifier(path: str) -> str:
     return f"https://{IDENTIFIER_HOST}/{path}"
 
 
-@overload
-def canonical_identifier(value: str) -> str: ...
+_T = TypeVar("_T")
 
 
-@overload
-def canonical_identifier(value: object) -> object: ...
-
-
-def canonical_identifier(value: object) -> object:
+def canonical_identifier(value: _T) -> _T:
     """The identifier ``value`` names, spelled under ``IDENTIFIER_HOST``.
 
     A string that starts with exactly ``https://<h>/`` for a host ``h`` in
@@ -69,12 +64,16 @@ def canonical_identifier(value: object) -> object:
     ``https://<IDENTIFIER_HOST>/`` and the rest unchanged. Anything else, a
     non-string included, comes back as it was, so a comparison that failed
     before still fails.
+
+    The result has the type of the argument: a string stays a string, and an
+    untyped record member stays untyped. A signature that said ``object`` would
+    refuse every caller that looks the answer up in a table keyed by string.
     """
     if isinstance(value, str):
         for host in RECOGNISED_HOSTS:
             prefix = f"https://{host}/"
             if value.startswith(prefix):
-                return f"https://{IDENTIFIER_HOST}/{value[len(prefix) :]}"
+                return cast(_T, f"https://{IDENTIFIER_HOST}/{value[len(prefix) :]}")
     return value
 
 
