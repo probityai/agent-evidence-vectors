@@ -8,7 +8,7 @@ beside each member group. They are now derived from the published texts vendored
 under the corpus, and a member whose rule no published text states is
 ``proposed``. Revision 04 was published on 19 November 2026 and its Appendix B
 prints all 68 members that were proposed for it, so none is proposed for it now;
-the 24 members of the evaluated-at proposal are proposed for revision 05. This
+the 24 members of the principal, evaluated-at and deadline-boundary proposals are proposed for revision 05. This
 test pins that:
 
 - the row identifiers read from each vendored Appendix B are the ones it prints
@@ -28,6 +28,7 @@ Usage: uv run --extra generators python scripts/audit-record-text-tier-test.py
 
 from __future__ import annotations
 
+import collections
 import copy
 import importlib.util
 import json
@@ -66,6 +67,14 @@ REV04 = "draft-gilda-audit-agent-audit-record-04"
 REV05 = "draft-gilda-audit-agent-audit-record-05"
 PUBLISHED_TEXT_FINDINGS = 235
 PROPOSED_TEXT_FINDINGS = 24
+#: Every proposed member is proposed for revision 05, by the proposal that states its rule.
+PROPOSED_BY_TEXT = collections.Counter(
+    {
+        (REV05, "docs/proposals/audit-record-04-principal.md"): 16,
+        (REV05, "docs/proposals/audit-record-04-evaluated-at.md"): 7,
+        (REV05, "docs/proposals/audit-record-05-deadline-boundary.md"): 1,
+    }
+)
 
 
 def _check_rows(gen, failures: list[str]) -> None:
@@ -111,10 +120,10 @@ def _check_manifest_header(manifest: dict, by_id: dict, failures: list[str]) -> 
             f"{PROPOSED_TEXT_FINDINGS} proposed: {counts}"
         )
     members = [v["proposed"] for v in manifest["vectors"] if "proposed" in v]
-    proposed_for = {(m["revision"], m["text"]) for m in members}
-    if proposed_for != {(REV05, "docs/proposals/audit-record-04-evaluated-at.md")}:
+    proposed_for = collections.Counter((m["revision"], m["text"]) for m in members)
+    if proposed_for != PROPOSED_BY_TEXT:
         failures.append(
-            f"the proposed members should all be the revision 05 proposal: {proposed_for}"
+            f"the proposed members should be {dict(PROPOSED_BY_TEXT)}: {dict(proposed_for)}"
         )
     if manifest.get("draft") != REV04:
         failures.append(f"the manifest should name revision 04, names {manifest.get('draft')}")
