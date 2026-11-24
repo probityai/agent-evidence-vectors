@@ -1175,7 +1175,13 @@ def dependabot_commits_are_left_out_and_every_other_commit_is_linted() -> None:
         if step.name == "Lint the commit messages this event introduces"
     )
     bot = ("dependabot[bot]", "49699333+dependabot[bot]@users.noreply.github.com")
-    long_bump = "build(deps): bump google.golang.org/grpc from 1.66.3 to 1.83.2 in /witnessattestor"
+    # The commit-msg hook exempts a Dependabot-authored commit from the subject
+    # LENGTH rule on every event; this step leaves the commit out of the lint
+    # altogether on a Dependabot event. A non-ASCII subject is a violation the
+    # hook still reports, so it separates the two behaviours.
+    long_bump = (
+        "build(deps): bump google.golang.org/grpc from 1.66.3 to 1.83.2 in /witnessattestor \u00e9"
+    )
 
     def run(root: pathlib.Path, **env: str) -> subprocess.CompletedProcess[str]:
         full = {**os.environ, "PR_BASE": "", "PUSH_BEFORE": "", "PR_AUTHOR": "", "PUSH_ACTOR": ""}
@@ -1209,14 +1215,14 @@ def dependabot_commits_are_left_out_and_every_other_commit_is_linted() -> None:
         commit(root, "bump", bot, long_bump)
         ref = "refs/heads/dependabot/go_modules/grpc"
 
-        # The bot's own long subject passes on its pull request and its own push.
+        # The bot's own commit passes on its pull request and its own push.
         pr = run(root, PR_BASE=base, PR_AUTHOR=bot[0])
         assert pr.returncode == 0, pr.stdout + pr.stderr
         assert "left out:" in pr.stdout and "written by Dependabot" in pr.stdout, pr.stdout
         push = run(root, PUSH_REF=ref, PUSH_ACTOR=bot[0])
         assert push.returncode == 0, push.stdout + push.stderr
 
-        # The same commit is still refused where Dependabot is not the author of the event.
+        # The same commit is still linted, and refused, where Dependabot is not the author of the event.
         human_pr = run(root, PR_BASE=base, PR_AUTHOR="someone")
         assert human_pr.returncode != 0, human_pr.stdout
         human_push = run(root, PUSH_REF=ref, PUSH_ACTOR="someone")
