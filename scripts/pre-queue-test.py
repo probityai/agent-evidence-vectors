@@ -359,6 +359,14 @@ def test_pull_request_runs_the_lenient_form_and_the_batch_the_strict() -> None:
         lenient.strip().endswith("scripts/regenerate-derived.py --stale-ok origin/main"),
         "the plain pull request runs the same command with --stale-ok against its base",
     )
+    check(
+        "--group crosscheck" in batch and "--group crosscheck" in lenient,
+        "both forms run where the reference coverage step can import the reference verifier",
+    )
+    check(
+        "reference coverage" in step,
+        "the step's name says the reference coverage is one of the derived families it holds",
+    )
     try:
         pre_queue.stale_ok_command("python3 scripts/regenerate-derived.py", {})
         check(False, "a derived step that no longer ends in --check is refused")
