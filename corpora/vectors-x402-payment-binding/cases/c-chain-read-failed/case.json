@@ -1,0 +1,38 @@
+{
+  "binding": {
+    "authorization": {
+      "asset": "0xa5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5",
+      "network": "eip155:8453",
+      "nonce": "0xe3e3e3e3e3e3e3e3e3e3e3e3e3e3e3e3e3e3e3e3e3e3e3e3e3e3e3e3e3e3e3e3",
+      "payer": "0xc1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1"
+    },
+    "kind": "authorization"
+  },
+  "case_id": "vectors-x402-payment-binding-c-chain-read-failed",
+  "chain_read": {
+    "error": "source unavailable: the RPC endpoint timed out before answering",
+    "network": "eip155:8453",
+    "status": "failed"
+  },
+  "offer": {
+    "accepted": {
+      "amount": "10000",
+      "asset": "0xa5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5",
+      "maxTimeoutSeconds": 60,
+      "network": "eip155:8453",
+      "payTo": "0xb0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0",
+      "scheme": "exact"
+    }
+  },
+  "payment": {
+    "authorization": {
+      "from": "0xc1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1",
+      "nonce": "0xe3e3e3e3e3e3e3e3e3e3e3e3e3e3e3e3e3e3e3e3e3e3e3e3e3e3e3e3e3e3e3e3",
+      "to": "0xb0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0",
+      "validAfter": "1794999000",
+      "validBefore": "1795000000",
+      "value": "10000"
+    }
+  },
+  "schema": "x402-payment-binding-record/v1"
+}

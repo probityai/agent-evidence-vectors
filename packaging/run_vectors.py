@@ -201,6 +201,7 @@ from agent_evidence_vectors import (
     uncertaineffect,
     w3cintake,
     w3creport,
+    x402binding,
     x402join,
 )
 
@@ -3995,6 +3996,7 @@ def _run_non_reference_suite(
         connectorscope.SUITE,
         paymentmandate.SUITE,
         x402join.SUITE,
+        x402binding.SUITE,
         recorded.SUITE,
         changeadmission.SUITE,
         agenticprocess.SUITE,
@@ -4070,6 +4072,7 @@ def _run_non_reference_suite(
         connectorscope.SUITE: connectorscope.run,
         paymentmandate.SUITE: paymentmandate.run,
         x402join.SUITE: x402join.run,
+        x402binding.SUITE: x402binding.run,
         recorded.SUITE: recorded.run,
         changeadmission.SUITE: changeadmission.run,
         agenticprocess.SUITE: agenticprocess.run,

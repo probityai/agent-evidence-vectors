@@ -95,6 +95,7 @@ RUNS_A_VERIFIER = (
     "vectors-connector-scope",
     "vectors-agent-payment-mandate",
     "vectors-x402-evidence-join",
+    "vectors-x402-payment-binding",
     "vectors-identity-binding",
     "vectors-key-directory-observation",
     "vectors-status-receipt-binding",
