@@ -88,7 +88,12 @@ def derived(out: str) -> dict[str, tuple[str, str]]:
 
 def both(binary: Path, corpus: Path) -> tuple[tuple[int, str], tuple[int, str]]:
     go = run([str(binary), str(corpus)])
-    py = run([sys.executable, "packaging/run_vectors.py", "--vectors", str(corpus)])
+    with tempfile.TemporaryDirectory(prefix="dlr-report-") as tmp:
+        report = str(Path(tmp) / "report.json")
+        py = run(
+            [sys.executable, "packaging/run_vectors.py", "--vectors", str(corpus),
+             "--report", report]
+        )
     return go, py
 
 
