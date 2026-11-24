@@ -4,9 +4,9 @@
 The refusal is proved on a copy of the tree: a URI is removed from the
 registry, a schema identifier is planted with no schema behind it, and a new
 URI is planted only inside a base64 payload, where a text search cannot see
-it. Each must fail, and the tree as committed must pass. Set
-IDENTIFIER_GATE_ALSO to a checkout of the public probity repository, which
-the gate scans with this one.
+it, also in a document nested too deep to parse. Each must fail, and the tree
+as committed must pass. Set IDENTIFIER_GATE_ALSO to a checkout of the public
+probity repository, which the gate scans with this one.
 
     python3 scripts/identifier-pages-gate-test.py
 """
@@ -25,6 +25,10 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 GATE = ROOT / "scripts" / "identifier-pages-gate.py"
 HOST = "https://probityai.github.io/agent-evidence-vectors"
+#: Nesting a vector may legitimately carry. 3000 levels parses but outruns a recursive walk of the
+#: parsed value; 20000 is past what the interpreter parses at all. The public repository holds a
+#: depth-bomb card of the second kind, which crashed the gate with an unhandled RecursionError.
+DEEP_DEPTHS = ((3000, "only-in-a-3000-deep-payload"), (20000, "only-in-a-20000-deep-payload"))
 
 
 def gate(root: Path, *extra: str) -> tuple[int, str]:
@@ -109,6 +113,23 @@ def main() -> int:
             failures.append(f"a URI inside a base64 payload was not found (exit {code}):\n{out}")
         else:
             print("PASS control: a URI only inside a signed payload is found and refused")
+
+    for depth, name in DEEP_DEPTHS:
+        with tempfile.TemporaryDirectory(dir=ROOT.parent) as tmp:
+            repo = stage(Path(tmp))
+            planted = f'{{"predicateType":"{HOST}/predicate/v9/{name}"}}'
+            inner = json.dumps({"payload": base64.b64encode(planted.encode()).decode()})
+            deep = '{"a":' * depth + inner + "}" * depth
+            (repo / "docs" / "planted-deep.json").write_text(deep, encoding="utf-8")
+            commit_all(repo)
+            code, out = gate(repo)
+            if code != 1 or f"predicate/v9/{name}" not in out or "Traceback" in out:
+                failures.append(
+                    f"a URI in a payload {depth} levels deep was not found and refused "
+                    f"cleanly (exit {code}):\n{out}"
+                )
+            else:
+                print(f"PASS control: a payload {depth} levels deep is found and refused")
 
     with tempfile.TemporaryDirectory(dir=ROOT.parent) as tmp:
         repo = stage(Path(tmp))
