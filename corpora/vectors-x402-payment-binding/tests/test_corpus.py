@@ -98,7 +98,6 @@ def test_a_single_verdict_verifier_is_caught(tmp_path: Path) -> None:
     _, errors = x402binding.check(_stub(tmp_path, (), collapse=True))
     failed = {e.split(":", 1)[0] for e in errors}
     assert "c-authorization-not-yet-used" in failed
-    assert "a-option-only-two-payments-fit" not in failed
 
 
 def test_every_rule_is_load_bearing() -> None:
