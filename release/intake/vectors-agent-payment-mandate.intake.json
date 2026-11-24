@@ -1,11 +1,11 @@
 {
   "aggregate": {
     "counts": {
-      "accepted": 9,
-      "rejected": 33
+      "accepted": 10,
+      "rejected": 52
     },
     "line": "verdict: every member behaves as MANIFEST.json declares",
-    "total": 42
+    "total": 62
   },
   "anchor": {
     "kind": "digest-list-line",
@@ -17,7 +17,7 @@
     "routine": "corpus_digest in corpora/vectors-agent-payment-mandate/gen_vectors.py",
     "routine-file": "corpora/vectors-agent-payment-mandate/gen_vectors.py",
     "serialization": "corpus-routine",
-    "sha256": "5c61ca4f45bba361d4bb5c67f86489ccbc7fa0d7dc53d75b42159a94dcf1ab2c",
+    "sha256": "1e3ef13229061b8b41fe51bb8e3ffd2f7ac55e3e61c6d5f31a87f0bf123984e1",
     "verdicts": {
       "availability-failure": "inconclusive",
       "integrity-failure": "fail"
@@ -29,7 +29,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "e2218150b4c543354ab7786bd7fb67b83164a5cc8e0fa77e23a3adab501687aa"
+          "sha256": "d6e8867fee89c39c9cf6d5a5fd3b1ddbbc6cc2f63ccfe190ee27c9f1f930769c"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [],
@@ -38,21 +38,21 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "e2218150b4c543354ab7786bd7fb67b83164a5cc8e0fa77e23a3adab501687aa"
+          "sha256": "d6e8867fee89c39c9cf6d5a5fd3b1ddbbc6cc2f63ccfe190ee27c9f1f930769c"
         },
         "swapped-in": "784cc13c5b1cf03ff179729014dae7363c7765eccfd7023c1b84166084ecb93c",
         "test": "swap-and-re-pin"
       },
       "path": "corpora/vectors-agent-payment-mandate/INDEX.md",
       "serialization": "bytes",
-      "sha256": "b40ae4381baa31bff3f97639cbd37c2dd78852ab979b7250d52ed81b236c4e70"
+      "sha256": "159ee8813e4b0d1d4b0a7afa83a1b31a419e00ff677c3bb2ea3d1309bcc9ec69"
     },
     {
       "consumed": "unconsumed",
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "e2218150b4c543354ab7786bd7fb67b83164a5cc8e0fa77e23a3adab501687aa"
+          "sha256": "d6e8867fee89c39c9cf6d5a5fd3b1ddbbc6cc2f63ccfe190ee27c9f1f930769c"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [],
@@ -61,21 +61,21 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "e2218150b4c543354ab7786bd7fb67b83164a5cc8e0fa77e23a3adab501687aa"
+          "sha256": "d6e8867fee89c39c9cf6d5a5fd3b1ddbbc6cc2f63ccfe190ee27c9f1f930769c"
         },
         "swapped-in": "32092ac19bdd15f81d268c839456cac589b25ddb4f68fc85e02e896b48921569",
         "test": "swap-and-re-pin"
       },
       "path": "corpora/vectors-agent-payment-mandate/README.md",
       "serialization": "bytes",
-      "sha256": "f8fda2ec0ae030231da698ad45f851c4d919c97a46c7b73c7364200bd722d091"
+      "sha256": "21e0be676eb4038217c291e262f07bb0b8fa7b3cb49be1519a7b06040a27a1fc"
     },
     {
       "consumed": "unconsumed",
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "e2218150b4c543354ab7786bd7fb67b83164a5cc8e0fa77e23a3adab501687aa"
+          "sha256": "d6e8867fee89c39c9cf6d5a5fd3b1ddbbc6cc2f63ccfe190ee27c9f1f930769c"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [],
@@ -84,7 +84,7 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "e2218150b4c543354ab7786bd7fb67b83164a5cc8e0fa77e23a3adab501687aa"
+          "sha256": "d6e8867fee89c39c9cf6d5a5fd3b1ddbbc6cc2f63ccfe190ee27c9f1f930769c"
         },
         "swapped-in": "9efbc0808239d470b72910b825fb77777f26a773b3f936e39be65054d79460ff",
         "test": "swap-and-re-pin"
@@ -98,7 +98,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "e2218150b4c543354ab7786bd7fb67b83164a5cc8e0fa77e23a3adab501687aa"
+          "sha256": "d6e8867fee89c39c9cf6d5a5fd3b1ddbbc6cc2f63ccfe190ee27c9f1f930769c"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [],
@@ -107,21 +107,21 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "e2218150b4c543354ab7786bd7fb67b83164a5cc8e0fa77e23a3adab501687aa"
+          "sha256": "d6e8867fee89c39c9cf6d5a5fd3b1ddbbc6cc2f63ccfe190ee27c9f1f930769c"
         },
         "swapped-in": "deb8643d61fafbeed4be3f23b11c2cb5a80d3ca16c2cd32062d3dc8bc9ea9efd",
         "test": "swap-and-re-pin"
       },
       "path": "corpora/vectors-agent-payment-mandate/gen_vectors.py",
       "serialization": "bytes",
-      "sha256": "201fb31a8ca6ed5bff87301d7495bac195c99109d9f7248bf845f281979788fd"
+      "sha256": "18afef36cddcdf914fe902193f0a211b2aa18bcad1a649a66df7284cd5e13105"
     },
     {
       "consumed": "unconsumed",
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "e2218150b4c543354ab7786bd7fb67b83164a5cc8e0fa77e23a3adab501687aa"
+          "sha256": "d6e8867fee89c39c9cf6d5a5fd3b1ddbbc6cc2f63ccfe190ee27c9f1f930769c"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [],
@@ -130,7 +130,7 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "e2218150b4c543354ab7786bd7fb67b83164a5cc8e0fa77e23a3adab501687aa"
+          "sha256": "d6e8867fee89c39c9cf6d5a5fd3b1ddbbc6cc2f63ccfe190ee27c9f1f930769c"
         },
         "swapped-in": "8b89d7235d3d3928184f32783a1a2ee4ba2e7d05b951a1a419771201476602c7",
         "test": "swap-and-re-pin"
@@ -140,34 +140,31 @@
       "sha256": "98b77e0a55b6bfcd8e68680c171930782e5ed8f0c5797cb22414170ee055b737"
     },
     {
-      "consumed": "unconsumed",
+      "consumed": "consumed",
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "e2218150b4c543354ab7786bd7fb67b83164a5cc8e0fa77e23a3adab501687aa"
+          "sha256": "d6e8867fee89c39c9cf6d5a5fd3b1ddbbc6cc2f63ccfe190ee27c9f1f930769c"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [],
-        "refused-by": [
-          "W3C-I-002"
-        ],
         "swapped": {
-          "exit-code": 0,
-          "sha256": "e2218150b4c543354ab7786bd7fb67b83164a5cc8e0fa77e23a3adab501687aa"
+          "exit-code": 1,
+          "sha256": "d93087b354ca71883f666d1ab0af8a559bfe5cf6c3964d1fc09bda85ecc61419"
         },
-        "swapped-in": "8d13fd813b35f386447d17bb5554eaca35164bf52681f631c388591ef95aede9",
+        "swapped-in": "8dbe6c8d22a52b1520c7397375cf90615ac9a06b3740ba1807de538458b6df2c",
         "test": "swap-and-re-pin"
       },
-      "path": "corpora/vectors-agent-payment-mandate/profile.json",
+      "path": "corpora/vectors-agent-payment-mandate/policy.json",
       "serialization": "bytes",
-      "sha256": "3e28c99f9640fdb019e0a5674ea3a066df7bc51aee0f0423a5ce68dee7704d5b"
+      "sha256": "acf1b941ecba914f1c245e6ebe53b47ee9114ecfe8112c2d061f14fddf33578d"
     },
     {
       "consumed": "unconsumed",
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "e2218150b4c543354ab7786bd7fb67b83164a5cc8e0fa77e23a3adab501687aa"
+          "sha256": "d6e8867fee89c39c9cf6d5a5fd3b1ddbbc6cc2f63ccfe190ee27c9f1f930769c"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [],
@@ -176,14 +173,37 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "e2218150b4c543354ab7786bd7fb67b83164a5cc8e0fa77e23a3adab501687aa"
+          "sha256": "d6e8867fee89c39c9cf6d5a5fd3b1ddbbc6cc2f63ccfe190ee27c9f1f930769c"
+        },
+        "swapped-in": "8d13fd813b35f386447d17bb5554eaca35164bf52681f631c388591ef95aede9",
+        "test": "swap-and-re-pin"
+      },
+      "path": "corpora/vectors-agent-payment-mandate/profile.json",
+      "serialization": "bytes",
+      "sha256": "88a75b448f767fd20451d585de549e42af0f269634af60b1c46c8aabebd95663"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "d6e8867fee89c39c9cf6d5a5fd3b1ddbbc6cc2f63ccfe190ee27c9f1f930769c"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "d6e8867fee89c39c9cf6d5a5fd3b1ddbbc6cc2f63ccfe190ee27c9f1f930769c"
         },
         "swapped-in": "89535d6c845db66d0ba66b9d1a05195a6ff868bffcddfa325c59a96de755eb80",
         "test": "swap-and-re-pin"
       },
       "path": "corpora/vectors-agent-payment-mandate/tests/test_corpus.py",
       "serialization": "bytes",
-      "sha256": "3ffd1387313a0daf0c82ad9aa4e013a509f96868660a5e071e7e44947c11e60b"
+      "sha256": "2e39201f724a6104954341ae13dc01724de022235ebadf3d2d9a9ad50d973295"
     }
   ],
   "boundary": {
@@ -198,7 +218,7 @@
     "root": "corpora/vectors-agent-payment-mandate"
   },
   "byte-identity": {
-    "pins": 42,
+    "pins": 62,
     "serialization": "bytes"
   },
   "canonicalization": {
@@ -256,6 +276,7 @@
         "corpusreaders/agentaction_chain.go",
         "corpusreaders/agentdecision.go",
         "corpusreaders/agenticprocess.go",
+        "corpusreaders/agentidentity.go",
         "corpusreaders/agentregistrationclassification.go",
         "corpusreaders/agentrequestproof.go",
         "corpusreaders/aggregateaccounting.go",
@@ -365,11 +386,12 @@
         "corpusreaders/w3cintake.go",
         "corpusreaders/w3cjcs.go",
         "corpusreaders/w3creport.go",
+        "corpusreaders/x402binding.go",
         "corpusreaders/x402join.go",
         "go.mod"
       ],
       "serialization": "sha256-listing-v1",
-      "sha256": "afc414585d530b094c7ddf8962d217b610a21ae231353f406a4c276f7215762c"
+      "sha256": "6585c8cf4625f2713e109a60cb75d46e06c548b0dc5d9200eb9a9c965d06c783"
     },
     "runtime": {
       "name": "go",
@@ -403,6 +425,7 @@
       "corpusreaders/agentaction_chain.go",
       "corpusreaders/agentdecision.go",
       "corpusreaders/agenticprocess.go",
+      "corpusreaders/agentidentity.go",
       "corpusreaders/agentregistrationclassification.go",
       "corpusreaders/agentrequestproof.go",
       "corpusreaders/aggregateaccounting.go",
@@ -512,6 +535,7 @@
       "corpusreaders/w3cintake.go",
       "corpusreaders/w3cjcs.go",
       "corpusreaders/w3creport.go",
+      "corpusreaders/x402binding.go",
       "corpusreaders/x402join.go",
       "go.mod"
     ]
@@ -630,7 +654,159 @@
       "state": "pass"
     },
     {
+      "check": "mandate-ceiling-raised-without-key",
+      "native": {
+        "reasons": [],
+        "verdict": "rejected"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "charge-rewritten-after-witness",
+      "native": {
+        "reasons": [],
+        "verdict": "rejected"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "receipt-signed-by-agent",
+      "native": {
+        "reasons": [],
+        "verdict": "rejected"
+      },
+      "state": "pass"
+    },
+    {
       "check": "post-checkout-fulfilment-missing",
+      "native": {
+        "reasons": [],
+        "verdict": "rejected"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "authorized-two-mandates-two-rails",
+      "native": {
+        "reasons": [],
+        "verdict": "accepted"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "duplicate-member-in-record",
+      "native": {
+        "reasons": [],
+        "verdict": "rejected"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "amount-fractional-minor-units",
+      "native": {
+        "reasons": [],
+        "verdict": "rejected"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "amount-negative",
+      "native": {
+        "reasons": [],
+        "verdict": "rejected"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "executed-at-unix-seconds",
+      "native": {
+        "reasons": [],
+        "verdict": "rejected"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "mandate-expiry-missing",
+      "native": {
+        "reasons": [],
+        "verdict": "rejected"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "credential-claims-multi-use",
+      "native": {
+        "reasons": [],
+        "verdict": "rejected"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "mandate-used-by-other-agent",
+      "native": {
+        "reasons": [],
+        "verdict": "rejected"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "sub-delegation-without-user-link",
+      "native": {
+        "reasons": [],
+        "verdict": "rejected"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "agent-proof-by-other-key",
+      "native": {
+        "reasons": [],
+        "verdict": "rejected"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "charge-before-mandate-issued",
+      "native": {
+        "reasons": [],
+        "verdict": "rejected"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "charge-after-expiry-via-offset",
+      "native": {
+        "reasons": [],
+        "verdict": "rejected"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "charge-on-unmandated-rail",
+      "native": {
+        "reasons": [],
+        "verdict": "rejected"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "single-use-token-second-settlement",
+      "native": {
+        "reasons": [],
+        "verdict": "rejected"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "post-checkout-requirement-dropped",
+      "native": {
+        "reasons": [],
+        "verdict": "rejected"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "single-use-mandate-spent-on-two-rails",
       "native": {
         "reasons": [],
         "verdict": "rejected"
@@ -679,6 +855,14 @@
     },
     {
       "check": "signed-after-key-revoked",
+      "native": {
+        "reasons": [],
+        "verdict": "rejected"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "charge-after-key-revoked",
       "native": {
         "reasons": [],
         "verdict": "rejected"
@@ -856,7 +1040,7 @@
   ],
   "corpus-digest": {
     "serialization": "sha256-listing-v1",
-    "sha256": "52da99f65a7945aeb18f9db9e4a27881c93b2f4a360a744f0c27135155adbe1b"
+    "sha256": "34e5a1778d606996fd63331b96436acb075bae63c1207bb8c57d36b81debee1e"
   },
   "exit-code": 0,
   "exit-rule": "zero-iff-every-check-passes",
@@ -880,13 +1064,33 @@
       "executed-token-differs",
       "single-use-token-replayed",
       "receipt-not-over-execution",
+      "mandate-ceiling-raised-without-key",
+      "charge-rewritten-after-witness",
+      "receipt-signed-by-agent",
       "post-checkout-fulfilment-missing",
+      "authorized-two-mandates-two-rails",
+      "duplicate-member-in-record",
+      "amount-fractional-minor-units",
+      "amount-negative",
+      "executed-at-unix-seconds",
+      "mandate-expiry-missing",
+      "credential-claims-multi-use",
+      "mandate-used-by-other-agent",
+      "sub-delegation-without-user-link",
+      "agent-proof-by-other-key",
+      "charge-before-mandate-issued",
+      "charge-after-expiry-via-offset",
+      "charge-on-unmandated-rail",
+      "single-use-token-second-settlement",
+      "post-checkout-requirement-dropped",
+      "single-use-mandate-spent-on-two-rails",
       "authorized-key-rotated-after-signing",
       "authorized-key-revoked-after-signing",
       "signing-key-not-in-snapshot",
       "signed-after-key-rotated-out",
       "signed-before-key-valid",
       "signed-after-key-revoked",
+      "charge-after-key-revoked",
       "x402-exact-evm-settled-once",
       "x402-exact-evm-at-mandate-ceiling",
       "x402-settled-last-valid-second",
@@ -910,14 +1114,14 @@
       "x402-settlement-response-other-payer"
     ],
     "path": "corpora/vectors-agent-payment-mandate/MANIFEST.json",
-    "sha256": "360d3d07b79e4f77b54cd82e62161fe87279b96bb332d967a3162a4f6ebad99f"
+    "sha256": "b85cab80754d1fbc89d6dc9f15152a3fdc7898fa60dc059f7e575b3c3a921bc4"
   },
   "members": [
     {
       "files": [
         {
           "path": "corpora/vectors-agent-payment-mandate/cases/authorized-ap2-cart/case.json",
-          "sha256": "20581823a510475871a9418cf0d71767f03da4dee4e16fed94500f90847c7482"
+          "sha256": "381f548788300595162b97bbf2b130ce38a209a2165c81bd94c104305983aee3"
         }
       ],
       "id": "authorized-ap2-cart"
@@ -926,7 +1130,7 @@
       "files": [
         {
           "path": "corpora/vectors-agent-payment-mandate/cases/authorized-vi-credential/case.json",
-          "sha256": "3fe2fd5cc47f3b816f8715b075810892a107800e31a5a71cbea37d4ac1117d51"
+          "sha256": "cd99eb6f2e75e57c8b4cb390929333dbf4b60b0f18bd658465c8e6f24aff2d92"
         }
       ],
       "id": "authorized-vi-credential"
@@ -935,7 +1139,7 @@
       "files": [
         {
           "path": "corpora/vectors-agent-payment-mandate/cases/authorized-spt-seller-bound/case.json",
-          "sha256": "6949200739b32a37c09d1a4e1c789119b2571514acc704646092006aefe87f1c"
+          "sha256": "a9c8fd4195bbce21f450f5df5d23b3f9de2bc7a90b61e5001460ee455a0dae96"
         }
       ],
       "id": "authorized-spt-seller-bound"
@@ -944,7 +1148,7 @@
       "files": [
         {
           "path": "corpora/vectors-agent-payment-mandate/cases/authorized-at-exact-limit/case.json",
-          "sha256": "588a61d0828ac4f9f3fa3cf81a94ddb49ce5886f0a80580ca4a4d4cf8454522a"
+          "sha256": "1508fec6c17b4e6fb9a8de34f99893904c58e043a30de7f30641fcc823325fa0"
         }
       ],
       "id": "authorized-at-exact-limit"
@@ -953,7 +1157,7 @@
       "files": [
         {
           "path": "corpora/vectors-agent-payment-mandate/cases/mandate-unsigned/case.json",
-          "sha256": "59135887a56743b6d4339af1945e0faff56302319f90c99cc1bd6aa69db9ca9a"
+          "sha256": "01121bde7473ee4e990e03ea867718e7c5594dab70f04bd8bede2bf76d8f1223"
         }
       ],
       "id": "mandate-unsigned"
@@ -962,7 +1166,7 @@
       "files": [
         {
           "path": "corpora/vectors-agent-payment-mandate/cases/mandate-terms-edited/case.json",
-          "sha256": "1aa1e864dcd8ad9f19b6bacca3d7f55f6853756a7612b1bf6f30d2d152094537"
+          "sha256": "d95be069c393680420029681de460f3d6ff59ee0306867b30e41dd459a8f9bfe"
         }
       ],
       "id": "mandate-terms-edited"
@@ -971,7 +1175,7 @@
       "files": [
         {
           "path": "corpora/vectors-agent-payment-mandate/cases/credential-bound-to-another-mandate/case.json",
-          "sha256": "b2254bdd4721f4b173e97583ee3d49155c9621e2d8ac6358f545ade9d13b0280"
+          "sha256": "2e09e7d2f4317d713f4d0a9ce4c22f8962d86355039ec919bd90c19b7ce9a819"
         }
       ],
       "id": "credential-bound-to-another-mandate"
@@ -980,7 +1184,7 @@
       "files": [
         {
           "path": "corpora/vectors-agent-payment-mandate/cases/charge-after-expiry/case.json",
-          "sha256": "42b849e2d9ee89043c33f329ec9b8bd93a339a9f68cda2f236d3df540e483964"
+          "sha256": "64a12b7f5149e006c8c800741e807c4014036b49be3ef959f4bac85bb30b3a0f"
         }
       ],
       "id": "charge-after-expiry"
@@ -989,7 +1193,7 @@
       "files": [
         {
           "path": "corpora/vectors-agent-payment-mandate/cases/charge-over-limit/case.json",
-          "sha256": "6780c6f6273cd2705901a436d9f95cc40cf5a38edd6c5b08f8117151e3773c62"
+          "sha256": "2eac6bb7ed2ebdd994ded5a015f545c690623cfa6e679af2d44dc72fc7a38af9"
         }
       ],
       "id": "charge-over-limit"
@@ -998,7 +1202,7 @@
       "files": [
         {
           "path": "corpora/vectors-agent-payment-mandate/cases/charge-in-other-currency/case.json",
-          "sha256": "3c41f4bf6fdda75d07f2f391c33a91a8b9b389372d91651085a5dcc2d04f03d2"
+          "sha256": "a97f98edfeb0ff418b65df7cb5b4ae4beb74174e1a4da3eb96f519181ecfa06b"
         }
       ],
       "id": "charge-in-other-currency"
@@ -1007,7 +1211,7 @@
       "files": [
         {
           "path": "corpora/vectors-agent-payment-mandate/cases/charge-at-other-merchant/case.json",
-          "sha256": "ff63061410771b6371199f22ae51af8025edabee9d6a7911dd8b78ffdef92a09"
+          "sha256": "04f2024f8c4237ed6e88fa49aaa8fb60592c35ad5d1e50a0e18b40baa9d2bbce"
         }
       ],
       "id": "charge-at-other-merchant"
@@ -1016,7 +1220,7 @@
       "files": [
         {
           "path": "corpora/vectors-agent-payment-mandate/cases/executed-token-differs/case.json",
-          "sha256": "bdb8f4c586829b6ffcc889a893a9561f397db658382e74f7c6c5b176575017b6"
+          "sha256": "5707dca1c1361fed1938311c819e750f557a6d8d69ee65cf09dd785356aad981"
         }
       ],
       "id": "executed-token-differs"
@@ -1025,7 +1229,7 @@
       "files": [
         {
           "path": "corpora/vectors-agent-payment-mandate/cases/single-use-token-replayed/case.json",
-          "sha256": "fb046300ad875e11f259feaa94ec6852ffeab2a360358ed22514a0d9c421f15e"
+          "sha256": "32d01e3ab8fc15c1d15ccb3b5117e3a1546ba7bdba390c3a28cb7a9e5e8ec020"
         }
       ],
       "id": "single-use-token-replayed"
@@ -1034,7 +1238,7 @@
       "files": [
         {
           "path": "corpora/vectors-agent-payment-mandate/cases/receipt-not-over-execution/case.json",
-          "sha256": "4cd399fab6988c65964575c7e35e6b68f66a32a8b868c2e2433634ee69965aff"
+          "sha256": "ab69136d5e394b10c6a3f152e9ebfb5e34e3ef3b6311076a853ed86eae57a969"
         }
       ],
       "id": "receipt-not-over-execution"
@@ -1042,8 +1246,35 @@
     {
       "files": [
         {
+          "path": "corpora/vectors-agent-payment-mandate/cases/mandate-ceiling-raised-without-key/case.json",
+          "sha256": "ea6ddd62f1a4be8ad621ecce986e89f2a8f7d7366ed768b888224c40778d4a07"
+        }
+      ],
+      "id": "mandate-ceiling-raised-without-key"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-agent-payment-mandate/cases/charge-rewritten-after-witness/case.json",
+          "sha256": "6db3cbf990ec2d45a862238960cafa4233991aaa87a5541ac2af9995a28a0f34"
+        }
+      ],
+      "id": "charge-rewritten-after-witness"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-agent-payment-mandate/cases/receipt-signed-by-agent/case.json",
+          "sha256": "a41389312dbbb412431a888f030a5ae72d3890a206996844ed7ef902900f8ccc"
+        }
+      ],
+      "id": "receipt-signed-by-agent"
+    },
+    {
+      "files": [
+        {
           "path": "corpora/vectors-agent-payment-mandate/cases/post-checkout-fulfilment-missing/case.json",
-          "sha256": "10a1a31d3ce284323f36b0c69e0c964196494edefc64f936c2126ed0d886226d"
+          "sha256": "da623f98a9af0a8e882ece2835133157c94b1ee79a0eebb44be56a830058993a"
         }
       ],
       "id": "post-checkout-fulfilment-missing"
@@ -1051,8 +1282,152 @@
     {
       "files": [
         {
+          "path": "corpora/vectors-agent-payment-mandate/cases/authorized-two-mandates-two-rails/case.json",
+          "sha256": "ee1745efe04d288e3b1ed4939478586c305dbaeb209fe75355e208416ccbaf8d"
+        }
+      ],
+      "id": "authorized-two-mandates-two-rails"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-agent-payment-mandate/cases/duplicate-member-in-record/case.json",
+          "sha256": "9f24cfe1d3b70d681add40cabe03db3a4630d42b3ee2e922ace5602e65ca9a30"
+        }
+      ],
+      "id": "duplicate-member-in-record"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-agent-payment-mandate/cases/amount-fractional-minor-units/case.json",
+          "sha256": "43ae1bf7d205163716a6066149d49c8bcf605016234e9b35ba9385e6f3e2356d"
+        }
+      ],
+      "id": "amount-fractional-minor-units"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-agent-payment-mandate/cases/amount-negative/case.json",
+          "sha256": "a32a851e3786e1d26da4d2355e8e5600940dff5f044f08c9ba24e58606900c9f"
+        }
+      ],
+      "id": "amount-negative"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-agent-payment-mandate/cases/executed-at-unix-seconds/case.json",
+          "sha256": "6f13ac365ae65d2918d3c727cbddee893f6d6081cf1f19f88f9f0ab228e97aef"
+        }
+      ],
+      "id": "executed-at-unix-seconds"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-agent-payment-mandate/cases/mandate-expiry-missing/case.json",
+          "sha256": "c16abe7a2447b3a7998a14a28c50371002f61f6849011f121ed959a20f08c59e"
+        }
+      ],
+      "id": "mandate-expiry-missing"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-agent-payment-mandate/cases/credential-claims-multi-use/case.json",
+          "sha256": "573e045718832fab6861dcbb069b37fbf88df33df3cc12bd90579f05a28a0961"
+        }
+      ],
+      "id": "credential-claims-multi-use"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-agent-payment-mandate/cases/mandate-used-by-other-agent/case.json",
+          "sha256": "40250722c582cb470e57a4aac4ace51db6149cd58de20b523708673802a2894f"
+        }
+      ],
+      "id": "mandate-used-by-other-agent"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-agent-payment-mandate/cases/sub-delegation-without-user-link/case.json",
+          "sha256": "bc2dc73ebc5e6c97c3c3483f4f69b36c0e85b2af9e2687d1324fe06fdedf30a4"
+        }
+      ],
+      "id": "sub-delegation-without-user-link"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-agent-payment-mandate/cases/agent-proof-by-other-key/case.json",
+          "sha256": "17b4f8061dd64ac16c6328a2e3ae376ba06120cbbbc0b7e6b209f88a60fba1b1"
+        }
+      ],
+      "id": "agent-proof-by-other-key"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-agent-payment-mandate/cases/charge-before-mandate-issued/case.json",
+          "sha256": "59a29d3d59e30e89f4680365db84cd7f0d372d75de63aaa9d2bfe170da92fb4c"
+        }
+      ],
+      "id": "charge-before-mandate-issued"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-agent-payment-mandate/cases/charge-after-expiry-via-offset/case.json",
+          "sha256": "2732b9cf2645a41bdf316c6f1b1e49c8efbb73c523854cff65d3e3ae4b548c47"
+        }
+      ],
+      "id": "charge-after-expiry-via-offset"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-agent-payment-mandate/cases/charge-on-unmandated-rail/case.json",
+          "sha256": "e421dc6d75dd23a031b91168ce3d55e0e8b7d8d6bd2d3f7ab4e282ab537d56fc"
+        }
+      ],
+      "id": "charge-on-unmandated-rail"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-agent-payment-mandate/cases/single-use-token-second-settlement/case.json",
+          "sha256": "e587542e612f77f2a94237cec24142c10d620ec2db03f148f5bfb25d916eceb5"
+        }
+      ],
+      "id": "single-use-token-second-settlement"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-agent-payment-mandate/cases/post-checkout-requirement-dropped/case.json",
+          "sha256": "f0baef747b5e75b164b51ba4a898483df4ac19e05f3549698cdd142448fc741f"
+        }
+      ],
+      "id": "post-checkout-requirement-dropped"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-agent-payment-mandate/cases/single-use-mandate-spent-on-two-rails/case.json",
+          "sha256": "19b05b81316b066477ae75ac1c2f6872346d0f8af967659c3260a277b18b52fc"
+        }
+      ],
+      "id": "single-use-mandate-spent-on-two-rails"
+    },
+    {
+      "files": [
+        {
           "path": "corpora/vectors-agent-payment-mandate/cases/authorized-key-rotated-after-signing/case.json",
-          "sha256": "4f0460a3080ccfefb045e00a9cc25887ca162edc6840eb1cfa19993d3e648d5f"
+          "sha256": "fb7b716e3addd0aeb5b458a4d6f961a439070e5edf0aaaa4bf3630c894ed43a8"
         }
       ],
       "id": "authorized-key-rotated-after-signing"
@@ -1061,7 +1436,7 @@
       "files": [
         {
           "path": "corpora/vectors-agent-payment-mandate/cases/authorized-key-revoked-after-signing/case.json",
-          "sha256": "542c0c7b036f50445145c42dc44ba0b494244095ee3a47e249ef2be99aa25827"
+          "sha256": "f18c98d5476962ea853dba48573aaedbda48040618c31b279ba5891fac25161a"
         }
       ],
       "id": "authorized-key-revoked-after-signing"
@@ -1070,7 +1445,7 @@
       "files": [
         {
           "path": "corpora/vectors-agent-payment-mandate/cases/signing-key-not-in-snapshot/case.json",
-          "sha256": "7d133548fd8f735b6ef0e9d2d44d2bb5ad5237eee60461bd695483949b2b4c02"
+          "sha256": "9351a20ed0ec0fe672ca00cd2e70c5a8c8874fe2bd1a7e7c7749d9fd17404a34"
         }
       ],
       "id": "signing-key-not-in-snapshot"
@@ -1079,7 +1454,7 @@
       "files": [
         {
           "path": "corpora/vectors-agent-payment-mandate/cases/signed-after-key-rotated-out/case.json",
-          "sha256": "3f01f074120304e6f241ec92b26f4535babc2276e824af50d459386283da5ae2"
+          "sha256": "4ff23d8d427ed46c1229134c85589a7bbc7e39de21bcaf3509ad4d2140510e4b"
         }
       ],
       "id": "signed-after-key-rotated-out"
@@ -1088,7 +1463,7 @@
       "files": [
         {
           "path": "corpora/vectors-agent-payment-mandate/cases/signed-before-key-valid/case.json",
-          "sha256": "cd6e9170ae5b50183aa6e8cbbdfbd1c4cec42ca1c814f7b51b9028b7b05cb918"
+          "sha256": "87cfa649b9f2de19f19823e55f1e80e5c14e9eecc03145cab5f376897ddefbf6"
         }
       ],
       "id": "signed-before-key-valid"
@@ -1097,7 +1472,7 @@
       "files": [
         {
           "path": "corpora/vectors-agent-payment-mandate/cases/signed-after-key-revoked/case.json",
-          "sha256": "cffdea97d2d23eb85418fc14b66f39135725a26bd156748e6d5a5a2fe10245e4"
+          "sha256": "889bb3727d335ae96b54912c2d22412ea7d52a2aef888d0ba69cf1624ef64b38"
         }
       ],
       "id": "signed-after-key-revoked"
@@ -1105,8 +1480,17 @@
     {
       "files": [
         {
+          "path": "corpora/vectors-agent-payment-mandate/cases/charge-after-key-revoked/case.json",
+          "sha256": "b099e66e35c9ff2e59d707bf66e5bb93bb5f0b4badbfa4e4f7d36a165c30af05"
+        }
+      ],
+      "id": "charge-after-key-revoked"
+    },
+    {
+      "files": [
+        {
           "path": "corpora/vectors-agent-payment-mandate/cases/x402-exact-evm-settled-once/case.json",
-          "sha256": "ee1057c38fbf36759bc7f59903570eba55925294fe595a04af4d9dfef248d3f1"
+          "sha256": "39a4d15f7201696ff286aa23c86417d175639be596e95683bea27a664d20ddaf"
         }
       ],
       "id": "x402-exact-evm-settled-once"
@@ -1115,7 +1499,7 @@
       "files": [
         {
           "path": "corpora/vectors-agent-payment-mandate/cases/x402-exact-evm-at-mandate-ceiling/case.json",
-          "sha256": "3ef0a24e609100b597a02b0f471e37920f0413a94085e39514731c9370b2f3f1"
+          "sha256": "7b573840555b6022d5361bfa86d6e580fc4adf2771e7db0e49b64a6e0d669b60"
         }
       ],
       "id": "x402-exact-evm-at-mandate-ceiling"
@@ -1124,7 +1508,7 @@
       "files": [
         {
           "path": "corpora/vectors-agent-payment-mandate/cases/x402-settled-last-valid-second/case.json",
-          "sha256": "244ca816feee50da54dded21b8cd1703d9bb79bb4e42f1bf7e8cab446dd476d9"
+          "sha256": "77ebed505fdc95d3f4faf63c29ed630d3f2abb34e560daa77d9da816e4ce085b"
         }
       ],
       "id": "x402-settled-last-valid-second"
@@ -1133,7 +1517,7 @@
       "files": [
         {
           "path": "corpora/vectors-agent-payment-mandate/cases/x402-requirement-over-mandate-ceiling/case.json",
-          "sha256": "f875bae25a1cee47e88b36760df2949e9a23fe1f1efb22185d186f944bb08abf"
+          "sha256": "26c95f21699aa18955c56671356d466994119dea0453042fa451aba29ef815a3"
         }
       ],
       "id": "x402-requirement-over-mandate-ceiling"
@@ -1142,7 +1526,7 @@
       "files": [
         {
           "path": "corpora/vectors-agent-payment-mandate/cases/x402-paid-in-other-asset/case.json",
-          "sha256": "ec75c8b811b353e4205a7ec37716cb108c0048060e3889bd8624284f72d66819"
+          "sha256": "7d9168f9c42cf70b36bed70daf9002c7b19a297717cbb54eb65d1efad905a6dd"
         }
       ],
       "id": "x402-paid-in-other-asset"
@@ -1151,7 +1535,7 @@
       "files": [
         {
           "path": "corpora/vectors-agent-payment-mandate/cases/x402-requirement-pays-unmandated-payee/case.json",
-          "sha256": "b2d3e3ae6b195b10e7eebbab3a0f6b44426a1c85eae752a19a0d001165ce4324"
+          "sha256": "3cb24808c1cdc2bd881e824331b2a280280ef0140fe5ddc89097d140feb92cae"
         }
       ],
       "id": "x402-requirement-pays-unmandated-payee"
@@ -1160,7 +1544,7 @@
       "files": [
         {
           "path": "corpora/vectors-agent-payment-mandate/cases/x402-authorization-pays-other-address/case.json",
-          "sha256": "657a4a728195987cf7e0fe82e7c967f2a65e6a6931c41ff11dc37a5c8303a81b"
+          "sha256": "bf4a3d8ca410c2bf40d5fd41134317ef9764a83e7badf5eccd688eef0fd6ea7a"
         }
       ],
       "id": "x402-authorization-pays-other-address"
@@ -1169,7 +1553,7 @@
       "files": [
         {
           "path": "corpora/vectors-agent-payment-mandate/cases/x402-accepted-other-network/case.json",
-          "sha256": "cfe3b96c85010bdc5e7f81ba94da47b735fe2d79f8c108a6b6108d24a0ea1a32"
+          "sha256": "cefe7786ac88ff573a63229d9d4237b0569b3ac2775ffc385446bbe27e5eaed7"
         }
       ],
       "id": "x402-accepted-other-network"
@@ -1178,7 +1562,7 @@
       "files": [
         {
           "path": "corpora/vectors-agent-payment-mandate/cases/x402-value-over-required-amount/case.json",
-          "sha256": "9ed5fc0514157a9e354b66bf8cf1ef9c22030f8d679ea2d7687728ab6f31a174"
+          "sha256": "66aeba61861a8b32f5e2b9a2744fc08acf3183e7c6e9f07876b7d8b1c92077c7"
         }
       ],
       "id": "x402-value-over-required-amount"
@@ -1187,7 +1571,7 @@
       "files": [
         {
           "path": "corpora/vectors-agent-payment-mandate/cases/x402-settled-at-valid-before/case.json",
-          "sha256": "99d78508699aae955b33119cc992fc02b103a67e9d01d796692b5be6b556938c"
+          "sha256": "4ed3aa95aac439ea75613fcd984e20b3583e6fb78fb1d47241deea59cc6e2fb1"
         }
       ],
       "id": "x402-settled-at-valid-before"
@@ -1196,7 +1580,7 @@
       "files": [
         {
           "path": "corpora/vectors-agent-payment-mandate/cases/x402-settled-at-valid-after/case.json",
-          "sha256": "127289a1b7217a62161754807a1c48aa20282525fe9fb5217ad50ba0a72a5d2d"
+          "sha256": "d06e44090d11721b94b305a174064ee304e75c632e421b611db3c14af50ec2c1"
         }
       ],
       "id": "x402-settled-at-valid-after"
@@ -1205,7 +1589,7 @@
       "files": [
         {
           "path": "corpora/vectors-agent-payment-mandate/cases/x402-settled-after-mandate-expiry/case.json",
-          "sha256": "bb2affe508a371250304bcbcdaf1e4ea55753a71b66f540880246e8c1ebb2071"
+          "sha256": "05fab40d9173d1342c5330e97a2d016a39d5e4c020c814f384c7160854e27d9e"
         }
       ],
       "id": "x402-settled-after-mandate-expiry"
@@ -1214,7 +1598,7 @@
       "files": [
         {
           "path": "corpora/vectors-agent-payment-mandate/cases/x402-signature-high-s/case.json",
-          "sha256": "dc5e796c83180d34d58bddb5a2e4de5cee13f6310a734bedd574c2789a952bc1"
+          "sha256": "42b7abb10e45c23f8927f627e17f82a23d031c9e397d8e77be51d84f279b29d5"
         }
       ],
       "id": "x402-signature-high-s"
@@ -1223,7 +1607,7 @@
       "files": [
         {
           "path": "corpora/vectors-agent-payment-mandate/cases/x402-signed-by-other-key/case.json",
-          "sha256": "f2772adb7ed322d97b3002f50fd34c3fb68ce94616d0084017d1e438a5f89be5"
+          "sha256": "1a573c59ed217bd9fa9a166216caed3015829d6272d1685e1f262e0a24e942ce"
         }
       ],
       "id": "x402-signed-by-other-key"
@@ -1232,7 +1616,7 @@
       "files": [
         {
           "path": "corpora/vectors-agent-payment-mandate/cases/x402-verifying-key-from-unsigned-selector/case.json",
-          "sha256": "416084952163084696e29ed5ee47793e9c05eb81252fa71e125e3822badc373b"
+          "sha256": "801b58b0834296be166601be26b67f9074487519c2856cdfddf8b5b7292deddb"
         }
       ],
       "id": "x402-verifying-key-from-unsigned-selector"
@@ -1241,7 +1625,7 @@
       "files": [
         {
           "path": "corpora/vectors-agent-payment-mandate/cases/x402-signature-from-other-chain/case.json",
-          "sha256": "f2c3aac9dd27f038b63c05ca6d6aebdb1f2a2836ed9093f70ca004abfa694c26"
+          "sha256": "4797b3a2cc92e3547324528f6d8193158a4b17c91799f868be46d8fe26e33bf3"
         }
       ],
       "id": "x402-signature-from-other-chain"
@@ -1250,7 +1634,7 @@
       "files": [
         {
           "path": "corpora/vectors-agent-payment-mandate/cases/x402-payer-not-the-mandated-agent/case.json",
-          "sha256": "a77eeabbd2665d48f937a1571597b3fada73629ec63def6671699b10bf48de70"
+          "sha256": "b0ad1738bcca1298dc50f2af3f8f66d55908acce9e7755cfc5744a170fb83d1b"
         }
       ],
       "id": "x402-payer-not-the-mandated-agent"
@@ -1259,7 +1643,7 @@
       "files": [
         {
           "path": "corpora/vectors-agent-payment-mandate/cases/x402-settlement-consumed-other-nonce/case.json",
-          "sha256": "92833ba0244f2c04596df63bfba65702671d36e8bfe7201faf2c107433e4af84"
+          "sha256": "fd9a0aeecdecb7f20a1f2369b4d127645491f0b0a961777fe94afe238cc940c5"
         }
       ],
       "id": "x402-settlement-consumed-other-nonce"
@@ -1268,7 +1652,7 @@
       "files": [
         {
           "path": "corpora/vectors-agent-payment-mandate/cases/x402-settled-transfer-differs/case.json",
-          "sha256": "ce7c6d0cdb22e38ebceb78bc6743cf88bf9bd19856683cda1c516618a540f9a0"
+          "sha256": "bc2239579e294d79ef592c8198c9b48fcee720ca7906fb06cff869c63287c79c"
         }
       ],
       "id": "x402-settled-transfer-differs"
@@ -1277,7 +1661,7 @@
       "files": [
         {
           "path": "corpora/vectors-agent-payment-mandate/cases/x402-nonce-already-used/case.json",
-          "sha256": "93e68d735d46cdf630a170ce2580fbe3430a347912f93651cdf869dcfc0cb66c"
+          "sha256": "763da11f94b18af3188e939e411857eead2e6ead42c05443ef3dfc5e52ba8e7c"
         }
       ],
       "id": "x402-nonce-already-used"
@@ -1286,7 +1670,7 @@
       "files": [
         {
           "path": "corpora/vectors-agent-payment-mandate/cases/x402-settlement-response-other-payer/case.json",
-          "sha256": "c6a4a08e7b1d0d09a1b9a1f6816975b38d38e446ac82d7a12850fa50554ad66a"
+          "sha256": "43e0a72f8943e6e45105b96e66730b0e4e7cd0b27580bfde7b38a78c504e20d1"
         }
       ],
       "id": "x402-settlement-response-other-payer"
@@ -1308,7 +1692,7 @@
       "reference": {
         "path": "release/intake/native/vectors-agent-payment-mandate.json",
         "serialization": "bytes",
-        "sha256": "e2218150b4c543354ab7786bd7fb67b83164a5cc8e0fa77e23a3adab501687aa"
+        "sha256": "d6e8867fee89c39c9cf6d5a5fd3b1ddbbc6cc2f63ccfe190ee27c9f1f930769c"
       }
     },
     {
@@ -1317,7 +1701,7 @@
       "reference": {
         "path": "release/intake/native/vectors-agent-payment-mandate.txt",
         "serialization": "bytes",
-        "sha256": "40ca87fb08f0f784192fb75f44aa0d46dedcae64e2f6c76447ade4bf12ee0387"
+        "sha256": "587d9b08274eb973e53af2af528ca28948dcfc52af8e40578c64c7b2e28990a2"
       }
     },
     {
@@ -1416,12 +1800,156 @@
       "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"rejected\",\"reason\":\"receipt_not_bound_to_execution\"}}"
     },
     {
+      "check": "mandate-ceiling-raised-without-key",
+      "inputs": [
+        "member:mandate-ceiling-raised-without-key",
+        "check:mandate-ceiling-raised-without-key"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"rejected\",\"reason\":\"mandate_signature_invalid\"}}"
+    },
+    {
+      "check": "charge-rewritten-after-witness",
+      "inputs": [
+        "member:charge-rewritten-after-witness",
+        "check:charge-rewritten-after-witness"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"rejected\",\"reason\":\"receipt_signature_invalid\"}}"
+    },
+    {
+      "check": "receipt-signed-by-agent",
+      "inputs": [
+        "member:receipt-signed-by-agent",
+        "check:receipt-signed-by-agent"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"rejected\",\"reason\":\"receipt_signer_not_witness\"}}"
+    },
+    {
       "check": "post-checkout-fulfilment-missing",
       "inputs": [
         "member:post-checkout-fulfilment-missing",
         "check:post-checkout-fulfilment-missing"
       ],
       "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"rejected\",\"reason\":\"post_checkout_action_missing\"}}"
+    },
+    {
+      "check": "duplicate-member-in-record",
+      "inputs": [
+        "member:duplicate-member-in-record",
+        "check:duplicate-member-in-record"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"rejected\",\"reason\":\"record_malformed\"}}"
+    },
+    {
+      "check": "amount-fractional-minor-units",
+      "inputs": [
+        "member:amount-fractional-minor-units",
+        "check:amount-fractional-minor-units"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"rejected\",\"reason\":\"record_malformed\"}}"
+    },
+    {
+      "check": "amount-negative",
+      "inputs": [
+        "member:amount-negative",
+        "check:amount-negative"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"rejected\",\"reason\":\"record_malformed\"}}"
+    },
+    {
+      "check": "executed-at-unix-seconds",
+      "inputs": [
+        "member:executed-at-unix-seconds",
+        "check:executed-at-unix-seconds"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"rejected\",\"reason\":\"record_malformed\"}}"
+    },
+    {
+      "check": "mandate-expiry-missing",
+      "inputs": [
+        "member:mandate-expiry-missing",
+        "check:mandate-expiry-missing"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"rejected\",\"reason\":\"record_malformed\"}}"
+    },
+    {
+      "check": "credential-claims-multi-use",
+      "inputs": [
+        "member:credential-claims-multi-use",
+        "check:credential-claims-multi-use"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"rejected\",\"reason\":\"credential_widens_mandate\"}}"
+    },
+    {
+      "check": "mandate-used-by-other-agent",
+      "inputs": [
+        "member:mandate-used-by-other-agent",
+        "check:mandate-used-by-other-agent"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"rejected\",\"reason\":\"agent_not_the_mandated_agent\"}}"
+    },
+    {
+      "check": "sub-delegation-without-user-link",
+      "inputs": [
+        "member:sub-delegation-without-user-link",
+        "check:sub-delegation-without-user-link"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"rejected\",\"reason\":\"agent_not_the_mandated_agent\"}}"
+    },
+    {
+      "check": "agent-proof-by-other-key",
+      "inputs": [
+        "member:agent-proof-by-other-key",
+        "check:agent-proof-by-other-key"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"rejected\",\"reason\":\"agent_proof_invalid\"}}"
+    },
+    {
+      "check": "charge-before-mandate-issued",
+      "inputs": [
+        "member:charge-before-mandate-issued",
+        "check:charge-before-mandate-issued"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"rejected\",\"reason\":\"charge_before_mandate\"}}"
+    },
+    {
+      "check": "charge-after-expiry-via-offset",
+      "inputs": [
+        "member:charge-after-expiry-via-offset",
+        "check:charge-after-expiry-via-offset"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"rejected\",\"reason\":\"mandate_expired\"}}"
+    },
+    {
+      "check": "charge-on-unmandated-rail",
+      "inputs": [
+        "member:charge-on-unmandated-rail",
+        "check:charge-on-unmandated-rail"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"rejected\",\"reason\":\"rail_not_mandated\"}}"
+    },
+    {
+      "check": "single-use-token-second-settlement",
+      "inputs": [
+        "member:single-use-token-second-settlement",
+        "check:single-use-token-second-settlement"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"rejected\",\"reason\":\"single_use_token_replayed\"}}"
+    },
+    {
+      "check": "post-checkout-requirement-dropped",
+      "inputs": [
+        "member:post-checkout-requirement-dropped",
+        "check:post-checkout-requirement-dropped"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"rejected\",\"reason\":\"post_checkout_action_missing\"}}"
+    },
+    {
+      "check": "single-use-mandate-spent-on-two-rails",
+      "inputs": [
+        "member:single-use-mandate-spent-on-two-rails",
+        "check:single-use-mandate-spent-on-two-rails"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"rejected\",\"reason\":\"mandate_spent_twice\"}}"
     },
     {
       "check": "signing-key-not-in-snapshot",
@@ -1452,6 +1980,14 @@
       "inputs": [
         "member:signed-after-key-revoked",
         "check:signed-after-key-revoked"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"rejected\",\"reason\":\"signing_key_revoked\"}}"
+    },
+    {
+      "check": "charge-after-key-revoked",
+      "inputs": [
+        "member:charge-after-key-revoked",
+        "check:charge-after-key-revoked"
       ],
       "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"rejected\",\"reason\":\"signing_key_revoked\"}}"
     },
@@ -1541,7 +2077,7 @@
         "member:x402-signed-by-other-key",
         "check:x402-signed-by-other-key"
       ],
-      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"rejected\",\"reason\":\"payer_not_authorization_signer\"}}"
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"rejected\",\"reason\":\"agent_proof_invalid\"}}"
     },
     {
       "check": "x402-verifying-key-from-unsigned-selector",
@@ -1549,7 +2085,7 @@
         "member:x402-verifying-key-from-unsigned-selector",
         "check:x402-verifying-key-from-unsigned-selector"
       ],
-      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"rejected\",\"reason\":\"payer_not_authorization_signer\"}}"
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"rejected\",\"reason\":\"agent_proof_invalid\"}}"
     },
     {
       "check": "x402-signature-from-other-chain",
@@ -1557,7 +2093,7 @@
         "member:x402-signature-from-other-chain",
         "check:x402-signature-from-other-chain"
       ],
-      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"rejected\",\"reason\":\"payer_not_authorization_signer\"}}"
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"rejected\",\"reason\":\"agent_proof_invalid\"}}"
     },
     {
       "check": "x402-payer-not-the-mandated-agent",
@@ -1565,7 +2101,7 @@
         "member:x402-payer-not-the-mandated-agent",
         "check:x402-payer-not-the-mandated-agent"
       ],
-      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"rejected\",\"reason\":\"payer_not_mandated_agent\"}}"
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"rejected\",\"reason\":\"agent_not_the_mandated_agent\"}}"
     },
     {
       "check": "x402-settlement-consumed-other-nonce",
@@ -1607,11 +2143,11 @@
     "runs": [
       {
         "process": "run-1",
-        "sha256": "e2218150b4c543354ab7786bd7fb67b83164a5cc8e0fa77e23a3adab501687aa"
+        "sha256": "d6e8867fee89c39c9cf6d5a5fd3b1ddbbc6cc2f63ccfe190ee27c9f1f930769c"
       },
       {
         "process": "run-2",
-        "sha256": "e2218150b4c543354ab7786bd7fb67b83164a5cc8e0fa77e23a3adab501687aa"
+        "sha256": "d6e8867fee89c39c9cf6d5a5fd3b1ddbbc6cc2f63ccfe190ee27c9f1f930769c"
       }
     ],
     "seed": null,
@@ -1625,7 +2161,7 @@
       "action-occurred-or-authority"
     ],
     "establishes": [
-      "aee-verify, at the source listing named here, judges each of the 42 pinned members of agent-payment-mandate/v1 as its manifest declares"
+      "aee-verify, at the source listing named here, judges each of the 62 pinned members of agent-payment-mandate/v1 as its manifest declares"
     ],
     "leaves-open": [
       "whether an implementation written from the specification, run by someone other than an author, reaches the same verdicts",
@@ -1636,7 +2172,7 @@
   "selector": {
     "expression": "*",
     "language": "id-glob",
-    "matched": 42,
+    "matched": 62,
     "require": "at-least-one",
     "selected": [
       "authorized-ap2-cart",
@@ -1653,13 +2189,33 @@
       "executed-token-differs",
       "single-use-token-replayed",
       "receipt-not-over-execution",
+      "mandate-ceiling-raised-without-key",
+      "charge-rewritten-after-witness",
+      "receipt-signed-by-agent",
       "post-checkout-fulfilment-missing",
+      "authorized-two-mandates-two-rails",
+      "duplicate-member-in-record",
+      "amount-fractional-minor-units",
+      "amount-negative",
+      "executed-at-unix-seconds",
+      "mandate-expiry-missing",
+      "credential-claims-multi-use",
+      "mandate-used-by-other-agent",
+      "sub-delegation-without-user-link",
+      "agent-proof-by-other-key",
+      "charge-before-mandate-issued",
+      "charge-after-expiry-via-offset",
+      "charge-on-unmandated-rail",
+      "single-use-token-second-settlement",
+      "post-checkout-requirement-dropped",
+      "single-use-mandate-spent-on-two-rails",
       "authorized-key-rotated-after-signing",
       "authorized-key-revoked-after-signing",
       "signing-key-not-in-snapshot",
       "signed-after-key-rotated-out",
       "signed-before-key-valid",
       "signed-after-key-revoked",
+      "charge-after-key-revoked",
       "x402-exact-evm-settled-once",
       "x402-exact-evm-at-mandate-ceiling",
       "x402-settled-last-valid-second",

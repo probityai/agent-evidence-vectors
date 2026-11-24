@@ -1,11 +1,11 @@
 {
   "aggregate": {
     "counts": {
-      "allow": 20,
-      "deny": 53
+      "allow": 34,
+      "deny": 57
     },
     "line": "verdict: every member behaves as MANIFEST.json declares",
-    "total": 73
+    "total": 91
   },
   "anchor": {
     "kind": "digest-list-line",
@@ -17,7 +17,7 @@
     "routine": "corpus_digest in corpora/vectors-containment-journal/gen_vectors.py",
     "routine-file": "corpora/vectors-containment-journal/gen_vectors.py",
     "serialization": "corpus-routine",
-    "sha256": "72b9353f04ac40d890a720df6f7da44217575b0cc6a0cd59cc490d3bad685e90",
+    "sha256": "12a950150e65350d3dd0acb848c014536a16c8520705cdbe742e77d8d389b63c",
     "verdicts": {
       "availability-failure": "inconclusive",
       "integrity-failure": "fail"
@@ -29,7 +29,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "fd6de378edbb8428b41d5884138d87e6d31ae10d6c92208181192c25821e9ef1"
+          "sha256": "0cc1627008b3b5cca9ba64c130399bf4c442842f3615154157453db76986cfb3"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [],
@@ -38,21 +38,21 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "fd6de378edbb8428b41d5884138d87e6d31ae10d6c92208181192c25821e9ef1"
+          "sha256": "0cc1627008b3b5cca9ba64c130399bf4c442842f3615154157453db76986cfb3"
         },
         "swapped-in": "8b50a0a3d14a9ceb690d18d88d7b5e2720761e6471a0f970821a6b4ab4b9f2ee",
         "test": "swap-and-re-pin"
       },
       "path": "corpora/vectors-containment-journal/CHANGES.md",
       "serialization": "bytes",
-      "sha256": "1afde74ce85271d70992eca5ef3ffed3ed0802e19e551ab04feedffa33b56452"
+      "sha256": "d211a089f317977174b534c0efae15cd8df8f3875b0c782c6cfa9244c484bbfc"
     },
     {
       "consumed": "unconsumed",
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "fd6de378edbb8428b41d5884138d87e6d31ae10d6c92208181192c25821e9ef1"
+          "sha256": "0cc1627008b3b5cca9ba64c130399bf4c442842f3615154157453db76986cfb3"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [],
@@ -61,7 +61,7 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "fd6de378edbb8428b41d5884138d87e6d31ae10d6c92208181192c25821e9ef1"
+          "sha256": "0cc1627008b3b5cca9ba64c130399bf4c442842f3615154157453db76986cfb3"
         },
         "swapped-in": "88bf8f1c3d0e02b5234fc5dccf9ef3476fb40e81ec05ef3310291dc6523a3ea9",
         "test": "swap-and-re-pin"
@@ -75,7 +75,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "fd6de378edbb8428b41d5884138d87e6d31ae10d6c92208181192c25821e9ef1"
+          "sha256": "0cc1627008b3b5cca9ba64c130399bf4c442842f3615154157453db76986cfb3"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [],
@@ -84,7 +84,7 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "fd6de378edbb8428b41d5884138d87e6d31ae10d6c92208181192c25821e9ef1"
+          "sha256": "0cc1627008b3b5cca9ba64c130399bf4c442842f3615154157453db76986cfb3"
         },
         "swapped-in": "f4a56290b215b8459f90cd09a684d5d00344192110e53f4501ddd61290792213",
         "test": "swap-and-re-pin"
@@ -98,7 +98,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "fd6de378edbb8428b41d5884138d87e6d31ae10d6c92208181192c25821e9ef1"
+          "sha256": "0cc1627008b3b5cca9ba64c130399bf4c442842f3615154157453db76986cfb3"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [],
@@ -107,21 +107,21 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "fd6de378edbb8428b41d5884138d87e6d31ae10d6c92208181192c25821e9ef1"
+          "sha256": "0cc1627008b3b5cca9ba64c130399bf4c442842f3615154157453db76986cfb3"
         },
         "swapped-in": "21cb077c47daeae7f8b38293b83a19175d7f63ea1f402ac95d16ae8e052b1664",
         "test": "swap-and-re-pin"
       },
       "path": "corpora/vectors-containment-journal/gen_vectors.py",
       "serialization": "bytes",
-      "sha256": "4ef9f4e6309d75407e70493943d81e364855f71fccfc2788b907bc1d8ebafc83"
+      "sha256": "ec155c48bdfa8b76fa5712b51a31bd4b48d16bde3298cb36235b8ee50180f4a2"
     },
     {
       "consumed": "unconsumed",
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "fd6de378edbb8428b41d5884138d87e6d31ae10d6c92208181192c25821e9ef1"
+          "sha256": "0cc1627008b3b5cca9ba64c130399bf4c442842f3615154157453db76986cfb3"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [],
@@ -130,14 +130,14 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "fd6de378edbb8428b41d5884138d87e6d31ae10d6c92208181192c25821e9ef1"
+          "sha256": "0cc1627008b3b5cca9ba64c130399bf4c442842f3615154157453db76986cfb3"
         },
         "swapped-in": "9d588bd5f509578d68b8491c352c28f814ed023227552c27f829be820caecb6d",
         "test": "swap-and-re-pin"
       },
       "path": "corpora/vectors-containment-journal/tests/test_corpus.py",
       "serialization": "bytes",
-      "sha256": "39a46746791dbd399d7dfe4a7fb0366582f23870203d20dab4534f0623edc86b"
+      "sha256": "ebe7938b6b01702949ceebe8fc59922f816c658cfb5e949173651244570a9123"
     }
   ],
   "boundary": {
@@ -152,7 +152,7 @@
     "root": "corpora/vectors-containment-journal"
   },
   "byte-identity": {
-    "pins": 86,
+    "pins": 105,
     "serialization": "bytes"
   },
   "canonicalization": {
@@ -210,6 +210,7 @@
         "corpusreaders/agentaction_chain.go",
         "corpusreaders/agentdecision.go",
         "corpusreaders/agenticprocess.go",
+        "corpusreaders/agentidentity.go",
         "corpusreaders/agentregistrationclassification.go",
         "corpusreaders/agentrequestproof.go",
         "corpusreaders/aggregateaccounting.go",
@@ -319,11 +320,12 @@
         "corpusreaders/w3cintake.go",
         "corpusreaders/w3cjcs.go",
         "corpusreaders/w3creport.go",
+        "corpusreaders/x402binding.go",
         "corpusreaders/x402join.go",
         "go.mod"
       ],
       "serialization": "sha256-listing-v1",
-      "sha256": "afc414585d530b094c7ddf8962d217b610a21ae231353f406a4c276f7215762c"
+      "sha256": "6585c8cf4625f2713e109a60cb75d46e06c548b0dc5d9200eb9a9c965d06c783"
     },
     "runtime": {
       "name": "go",
@@ -357,6 +359,7 @@
       "corpusreaders/agentaction_chain.go",
       "corpusreaders/agentdecision.go",
       "corpusreaders/agenticprocess.go",
+      "corpusreaders/agentidentity.go",
       "corpusreaders/agentregistrationclassification.go",
       "corpusreaders/agentrequestproof.go",
       "corpusreaders/aggregateaccounting.go",
@@ -466,6 +469,7 @@
       "corpusreaders/w3cintake.go",
       "corpusreaders/w3cjcs.go",
       "corpusreaders/w3creport.go",
+      "corpusreaders/x402binding.go",
       "corpusreaders/x402join.go",
       "go.mod"
     ]
@@ -1054,11 +1058,155 @@
         "verdict": "deny"
       },
       "state": "pass"
+    },
+    {
+      "check": "allow-refusal-registry-code-approval",
+      "native": {
+        "reasons": [],
+        "verdict": "allow"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "allow-refusal-registry-code-authority",
+      "native": {
+        "reasons": [],
+        "verdict": "allow"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "allow-refusal-registry-code-delegation",
+      "native": {
+        "reasons": [],
+        "verdict": "allow"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "allow-refusal-registry-code-gateway",
+      "native": {
+        "reasons": [],
+        "verdict": "allow"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "allow-refusal-registry-code-governance",
+      "native": {
+        "reasons": [],
+        "verdict": "allow"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "allow-refusal-registry-code-grants",
+      "native": {
+        "reasons": [],
+        "verdict": "allow"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "allow-refusal-registry-code-identity",
+      "native": {
+        "reasons": [],
+        "verdict": "allow"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "allow-refusal-registry-code-journal",
+      "native": {
+        "reasons": [],
+        "verdict": "allow"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "allow-refusal-registry-code-key",
+      "native": {
+        "reasons": [],
+        "verdict": "allow"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "allow-refusal-registry-code-marker",
+      "native": {
+        "reasons": [],
+        "verdict": "allow"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "allow-refusal-registry-code-mesh",
+      "native": {
+        "reasons": [],
+        "verdict": "allow"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "allow-refusal-registry-code-possession",
+      "native": {
+        "reasons": [],
+        "verdict": "allow"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "allow-refusal-registry-code-revocation",
+      "native": {
+        "reasons": [],
+        "verdict": "allow"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "allow-refusal-registry-code-singleuse",
+      "native": {
+        "reasons": [],
+        "verdict": "allow"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "reject-closed-vocabulary-violation-refusal-code-unknown",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "reject-closed-vocabulary-violation-refusal-code-kebab",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "reject-closed-vocabulary-violation-refusal-code-detail",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "reject-blast-radius-overstated-counts-refused-tool-call",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
     }
   ],
   "corpus-digest": {
     "serialization": "sha256-listing-v1",
-    "sha256": "26be237c6cf796a2f8648ee089d1112629ffa3c7f6001789c40b3e18c07cdaff"
+    "sha256": "5ba3c9dc8534e2f15ba7605b529799581bd3b08f44e03901a857143a68439eae"
   },
   "exit-code": 0,
   "exit-rule": "zero-iff-every-check-passes",
@@ -1140,17 +1288,35 @@
       "reject-receipt-malformed",
       "reject-receipt-journal-mismatch",
       "reject-blast-radius-understated",
-      "reject-blast-radius-overstated"
+      "reject-blast-radius-overstated",
+      "allow-refusal-registry-code-approval",
+      "allow-refusal-registry-code-authority",
+      "allow-refusal-registry-code-delegation",
+      "allow-refusal-registry-code-gateway",
+      "allow-refusal-registry-code-governance",
+      "allow-refusal-registry-code-grants",
+      "allow-refusal-registry-code-identity",
+      "allow-refusal-registry-code-journal",
+      "allow-refusal-registry-code-key",
+      "allow-refusal-registry-code-marker",
+      "allow-refusal-registry-code-mesh",
+      "allow-refusal-registry-code-possession",
+      "allow-refusal-registry-code-revocation",
+      "allow-refusal-registry-code-singleuse",
+      "reject-closed-vocabulary-violation-refusal-code-unknown",
+      "reject-closed-vocabulary-violation-refusal-code-kebab",
+      "reject-closed-vocabulary-violation-refusal-code-detail",
+      "reject-blast-radius-overstated-counts-refused-tool-call"
     ],
     "path": "corpora/vectors-containment-journal/MANIFEST.json",
-    "sha256": "b96ef09c20f15f9f34442f3b652559ceab5ce799223aed6bcfaaefbe232e411d"
+    "sha256": "f1742582e26dbab940af9a2c64aa60595825a1923af03a9050d14a287279960d"
   },
   "members": [
     {
       "files": [
         {
           "path": "corpora/vectors-containment-journal/cases/allow-isolated-agents-tool-call-refused/receipt.json",
-          "sha256": "b11e093b2398af3731f32a9abe7ebce4eb5377fe610c45a6fad45c7311613bf6"
+          "sha256": "ba3113375bce14915d714f338a6892904a17bffe8c00130b67cbef1806bc78d9"
         },
         {
           "path": "corpora/vectors-containment-journal/cases/allow-isolated-agents-tool-call-refused/record.json",
@@ -1854,6 +2020,172 @@
         }
       ],
       "id": "reject-blast-radius-overstated"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-containment-journal/cases/allow-refusal-registry-code-approval/record.json",
+          "sha256": "45b68ab06328f8539dbe89260a52273c8c5ff49545437c57fa206c5c73faf63e"
+        }
+      ],
+      "id": "allow-refusal-registry-code-approval"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-containment-journal/cases/allow-refusal-registry-code-authority/record.json",
+          "sha256": "37feff18530c56c1e6ea7a2dcfdaddfaf9b8103646e37a7f12e5aff36cbf86df"
+        }
+      ],
+      "id": "allow-refusal-registry-code-authority"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-containment-journal/cases/allow-refusal-registry-code-delegation/record.json",
+          "sha256": "6d1bdbb724af64334eff9908b32db29e81a25b8992de766fc0923ce0dad2f548"
+        }
+      ],
+      "id": "allow-refusal-registry-code-delegation"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-containment-journal/cases/allow-refusal-registry-code-gateway/record.json",
+          "sha256": "583232112896a2e82059925072cf00ce9627a08437cdcec8a8d3657e9287370f"
+        }
+      ],
+      "id": "allow-refusal-registry-code-gateway"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-containment-journal/cases/allow-refusal-registry-code-governance/record.json",
+          "sha256": "77ea556d7d623644d5c2d674f2938f8881ab380001a45715475926cc0daa4e1d"
+        }
+      ],
+      "id": "allow-refusal-registry-code-governance"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-containment-journal/cases/allow-refusal-registry-code-grants/record.json",
+          "sha256": "b75d639c20916d381316204c469b300a993fc826acfbc1790df0b78628d3b8bb"
+        }
+      ],
+      "id": "allow-refusal-registry-code-grants"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-containment-journal/cases/allow-refusal-registry-code-identity/record.json",
+          "sha256": "2bc1b9f7bf6db31aff305f17c0894cfc952d3ab7c7f58666b04ad54a91266577"
+        }
+      ],
+      "id": "allow-refusal-registry-code-identity"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-containment-journal/cases/allow-refusal-registry-code-journal/record.json",
+          "sha256": "3b5abd7b9b45c8bd04ec393dae881c6ce1ae2159186fce212b75e4a8422b3b5f"
+        }
+      ],
+      "id": "allow-refusal-registry-code-journal"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-containment-journal/cases/allow-refusal-registry-code-key/record.json",
+          "sha256": "820a35c83dcc08cfd386f08bfcc2f6438493f04af1ffec85736b380ea26b80e4"
+        }
+      ],
+      "id": "allow-refusal-registry-code-key"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-containment-journal/cases/allow-refusal-registry-code-marker/record.json",
+          "sha256": "5da2e1fff5d290f8706f710bbd75309d386555cef244bcb0513c9c3e0c26942e"
+        }
+      ],
+      "id": "allow-refusal-registry-code-marker"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-containment-journal/cases/allow-refusal-registry-code-mesh/record.json",
+          "sha256": "f635ac6ef02e67d16978899aa50f9ec3b34948231ad7a65eae68c1f942599bff"
+        }
+      ],
+      "id": "allow-refusal-registry-code-mesh"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-containment-journal/cases/allow-refusal-registry-code-possession/record.json",
+          "sha256": "6403b0da3ff07876ed20e2cc8f1a08ca6bc38de3a5f723e18294bacf01507e9d"
+        }
+      ],
+      "id": "allow-refusal-registry-code-possession"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-containment-journal/cases/allow-refusal-registry-code-revocation/record.json",
+          "sha256": "146572b20722f9c8da5d489b95e438846296a8ab0010a5b7b6625585d259d85c"
+        }
+      ],
+      "id": "allow-refusal-registry-code-revocation"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-containment-journal/cases/allow-refusal-registry-code-singleuse/record.json",
+          "sha256": "ece87006f73a75cc4b7f9e94b6da8ceb48c3de6233452cee1f3197fafbbbd373"
+        }
+      ],
+      "id": "allow-refusal-registry-code-singleuse"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-containment-journal/cases/reject-closed-vocabulary-violation-refusal-code-unknown/record.json",
+          "sha256": "7777ba88d93fa9b3d3322af13dcf8d75958ee5de6f442b0e6285a22259fa8ecb"
+        }
+      ],
+      "id": "reject-closed-vocabulary-violation-refusal-code-unknown"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-containment-journal/cases/reject-closed-vocabulary-violation-refusal-code-kebab/record.json",
+          "sha256": "28888a1b821c5019e45dbac114d3e03610968af89900ac1f9d4d9dc27536ede5"
+        }
+      ],
+      "id": "reject-closed-vocabulary-violation-refusal-code-kebab"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-containment-journal/cases/reject-closed-vocabulary-violation-refusal-code-detail/record.json",
+          "sha256": "80fd48b3c78045c1a82373732794fb898021dd3352cdcd3748406459ddfc0892"
+        }
+      ],
+      "id": "reject-closed-vocabulary-violation-refusal-code-detail"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-containment-journal/cases/reject-blast-radius-overstated-counts-refused-tool-call/receipt.json",
+          "sha256": "5566684fe3892b68aee3529aae779bbb37ffaca2bcc660575c4fc5a01fcc478a"
+        },
+        {
+          "path": "corpora/vectors-containment-journal/cases/reject-blast-radius-overstated-counts-refused-tool-call/record.json",
+          "sha256": "09cf89eee1b4a66ef8bdba7cfcfcf877a12bafedae90a4ce3de6a184e16c07af"
+        }
+      ],
+      "id": "reject-blast-radius-overstated-counts-refused-tool-call"
     }
   ],
   "native": {
@@ -1872,7 +2204,7 @@
       "reference": {
         "path": "release/intake/native/vectors-containment-journal.json",
         "serialization": "bytes",
-        "sha256": "fd6de378edbb8428b41d5884138d87e6d31ae10d6c92208181192c25821e9ef1"
+        "sha256": "0cc1627008b3b5cca9ba64c130399bf4c442842f3615154157453db76986cfb3"
       }
     },
     {
@@ -1881,7 +2213,7 @@
       "reference": {
         "path": "release/intake/native/vectors-containment-journal.txt",
         "serialization": "bytes",
-        "sha256": "ba27f03d7b2da0a1154945402d57fb3cc95bb453afaf8c985934a718664c7d4c"
+        "sha256": "fceafd40e69460b82038012986ab3e83df736ca15a6190710715cdc32cc8fadf"
       }
     },
     {
@@ -1906,11 +2238,11 @@
     "runs": [
       {
         "process": "run-1",
-        "sha256": "fd6de378edbb8428b41d5884138d87e6d31ae10d6c92208181192c25821e9ef1"
+        "sha256": "0cc1627008b3b5cca9ba64c130399bf4c442842f3615154157453db76986cfb3"
       },
       {
         "process": "run-2",
-        "sha256": "fd6de378edbb8428b41d5884138d87e6d31ae10d6c92208181192c25821e9ef1"
+        "sha256": "0cc1627008b3b5cca9ba64c130399bf4c442842f3615154157453db76986cfb3"
       }
     ],
     "seed": null,
@@ -1924,7 +2256,7 @@
       "action-occurred-or-authority"
     ],
     "establishes": [
-      "aee-verify, at the source listing named here, judges each of the 73 pinned members of containment-journal/v1 as its manifest declares"
+      "aee-verify, at the source listing named here, judges each of the 91 pinned members of containment-journal/v1 as its manifest declares"
     ],
     "leaves-open": [
       "whether an implementation written from the specification, run by someone other than an author, reaches the same verdicts",
@@ -1935,7 +2267,7 @@
   "selector": {
     "expression": "*",
     "language": "id-glob",
-    "matched": 73,
+    "matched": 91,
     "require": "at-least-one",
     "selected": [
       "allow-isolated-agents-tool-call-refused",
@@ -2010,7 +2342,25 @@
       "reject-receipt-malformed",
       "reject-receipt-journal-mismatch",
       "reject-blast-radius-understated",
-      "reject-blast-radius-overstated"
+      "reject-blast-radius-overstated",
+      "allow-refusal-registry-code-approval",
+      "allow-refusal-registry-code-authority",
+      "allow-refusal-registry-code-delegation",
+      "allow-refusal-registry-code-gateway",
+      "allow-refusal-registry-code-governance",
+      "allow-refusal-registry-code-grants",
+      "allow-refusal-registry-code-identity",
+      "allow-refusal-registry-code-journal",
+      "allow-refusal-registry-code-key",
+      "allow-refusal-registry-code-marker",
+      "allow-refusal-registry-code-mesh",
+      "allow-refusal-registry-code-possession",
+      "allow-refusal-registry-code-revocation",
+      "allow-refusal-registry-code-singleuse",
+      "reject-closed-vocabulary-violation-refusal-code-unknown",
+      "reject-closed-vocabulary-violation-refusal-code-kebab",
+      "reject-closed-vocabulary-violation-refusal-code-detail",
+      "reject-blast-radius-overstated-counts-refused-tool-call"
     ]
   },
   "specification-readers": [],

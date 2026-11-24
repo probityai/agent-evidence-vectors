@@ -283,6 +283,7 @@
         "corpusreaders/agentaction_chain.go",
         "corpusreaders/agentdecision.go",
         "corpusreaders/agenticprocess.go",
+        "corpusreaders/agentidentity.go",
         "corpusreaders/agentregistrationclassification.go",
         "corpusreaders/agentrequestproof.go",
         "corpusreaders/aggregateaccounting.go",
@@ -392,11 +393,12 @@
         "corpusreaders/w3cintake.go",
         "corpusreaders/w3cjcs.go",
         "corpusreaders/w3creport.go",
+        "corpusreaders/x402binding.go",
         "corpusreaders/x402join.go",
         "go.mod"
       ],
       "serialization": "sha256-listing-v1",
-      "sha256": "afc414585d530b094c7ddf8962d217b610a21ae231353f406a4c276f7215762c"
+      "sha256": "6585c8cf4625f2713e109a60cb75d46e06c548b0dc5d9200eb9a9c965d06c783"
     },
     "runtime": {
       "name": "go",
@@ -430,6 +432,7 @@
       "corpusreaders/agentaction_chain.go",
       "corpusreaders/agentdecision.go",
       "corpusreaders/agenticprocess.go",
+      "corpusreaders/agentidentity.go",
       "corpusreaders/agentregistrationclassification.go",
       "corpusreaders/agentrequestproof.go",
       "corpusreaders/aggregateaccounting.go",
@@ -539,6 +542,7 @@
       "corpusreaders/w3cintake.go",
       "corpusreaders/w3cjcs.go",
       "corpusreaders/w3creport.go",
+      "corpusreaders/x402binding.go",
       "corpusreaders/x402join.go",
       "go.mod"
     ]

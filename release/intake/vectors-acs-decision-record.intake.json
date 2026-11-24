@@ -137,7 +137,7 @@
       },
       "path": "corpora/vectors-acs-decision-record/gen_vectors.py",
       "serialization": "bytes",
-      "sha256": "a0454fdd356f211ee3654d3329135a572d5e4e08981a93d95d978955ad9e99ac"
+      "sha256": "e3763667c515f7ad1221db5f1206d42414aed9120132c712ff247c512c314876"
     },
     {
       "consumed": "unconsumed",
@@ -185,7 +185,7 @@
       },
       "path": "corpora/vectors-acs-decision-record/record.py",
       "serialization": "bytes",
-      "sha256": "6a726fff77128e8c4f276fbf761e5ab5dd1c241f2cbbe881a80887554b23e541"
+      "sha256": "60dd7f577387286b91b825e87d340019625b199dd73c0c4517e75560d59d8e4d"
     },
     {
       "consumed": "unconsumed",
@@ -350,6 +350,7 @@
         "corpusreaders/agentaction_chain.go",
         "corpusreaders/agentdecision.go",
         "corpusreaders/agenticprocess.go",
+        "corpusreaders/agentidentity.go",
         "corpusreaders/agentregistrationclassification.go",
         "corpusreaders/agentrequestproof.go",
         "corpusreaders/aggregateaccounting.go",
@@ -459,11 +460,12 @@
         "corpusreaders/w3cintake.go",
         "corpusreaders/w3cjcs.go",
         "corpusreaders/w3creport.go",
+        "corpusreaders/x402binding.go",
         "corpusreaders/x402join.go",
         "go.mod"
       ],
       "serialization": "sha256-listing-v1",
-      "sha256": "afc414585d530b094c7ddf8962d217b610a21ae231353f406a4c276f7215762c"
+      "sha256": "6585c8cf4625f2713e109a60cb75d46e06c548b0dc5d9200eb9a9c965d06c783"
     },
     "runtime": {
       "name": "go",
@@ -497,6 +499,7 @@
       "corpusreaders/agentaction_chain.go",
       "corpusreaders/agentdecision.go",
       "corpusreaders/agenticprocess.go",
+      "corpusreaders/agentidentity.go",
       "corpusreaders/agentregistrationclassification.go",
       "corpusreaders/agentrequestproof.go",
       "corpusreaders/aggregateaccounting.go",
@@ -606,6 +609,7 @@
       "corpusreaders/w3cintake.go",
       "corpusreaders/w3cjcs.go",
       "corpusreaders/w3creport.go",
+      "corpusreaders/x402binding.go",
       "corpusreaders/x402join.go",
       "go.mod"
     ]
@@ -734,7 +738,7 @@
   ],
   "corpus-digest": {
     "serialization": "sha256-listing-v1",
-    "sha256": "0cc7c0584edd1117554e489b4fff21ae202f63583b29c41d7aa87bed9b4fa396"
+    "sha256": "214fe6701a02a453ed98e2ab1f7e829961dc6e0ba6a82d5e04dfdc9a593a0a76"
   },
   "exit-code": 0,
   "exit-rule": "zero-iff-every-check-passes",

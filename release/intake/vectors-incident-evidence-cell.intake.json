@@ -91,7 +91,7 @@
       },
       "path": "corpora/vectors-incident-evidence-cell/gen_vectors.py",
       "serialization": "bytes",
-      "sha256": "4ccedf5746e9f6c8e03174f427c335e520f44275567adcc481fd9b0866fe7d5b"
+      "sha256": "67c285c9f2849576fd1af1e12918d788fbae66ec41c7427452b840d940248296"
     },
     {
       "consumed": "unconsumed",
@@ -187,6 +187,7 @@
         "corpusreaders/agentaction_chain.go",
         "corpusreaders/agentdecision.go",
         "corpusreaders/agenticprocess.go",
+        "corpusreaders/agentidentity.go",
         "corpusreaders/agentregistrationclassification.go",
         "corpusreaders/agentrequestproof.go",
         "corpusreaders/aggregateaccounting.go",
@@ -296,11 +297,12 @@
         "corpusreaders/w3cintake.go",
         "corpusreaders/w3cjcs.go",
         "corpusreaders/w3creport.go",
+        "corpusreaders/x402binding.go",
         "corpusreaders/x402join.go",
         "go.mod"
       ],
       "serialization": "sha256-listing-v1",
-      "sha256": "afc414585d530b094c7ddf8962d217b610a21ae231353f406a4c276f7215762c"
+      "sha256": "6585c8cf4625f2713e109a60cb75d46e06c548b0dc5d9200eb9a9c965d06c783"
     },
     "runtime": {
       "name": "go",
@@ -334,6 +336,7 @@
       "corpusreaders/agentaction_chain.go",
       "corpusreaders/agentdecision.go",
       "corpusreaders/agenticprocess.go",
+      "corpusreaders/agentidentity.go",
       "corpusreaders/agentregistrationclassification.go",
       "corpusreaders/agentrequestproof.go",
       "corpusreaders/aggregateaccounting.go",
@@ -443,6 +446,7 @@
       "corpusreaders/w3cintake.go",
       "corpusreaders/w3cjcs.go",
       "corpusreaders/w3creport.go",
+      "corpusreaders/x402binding.go",
       "corpusreaders/x402join.go",
       "go.mod"
     ]
@@ -699,7 +703,7 @@
   ],
   "corpus-digest": {
     "serialization": "sha256-listing-v1",
-    "sha256": "3243c83de9fe838ac6f2ca25e0d9b17c80b35f06649d9e9b65ec29265ab83082"
+    "sha256": "fa7f9ec6cd6b1593d0cdec541ae7b9929cc049e0aba82b141e35baf5932a7031"
   },
   "exit-code": 0,
   "exit-rule": "zero-iff-every-check-passes",
