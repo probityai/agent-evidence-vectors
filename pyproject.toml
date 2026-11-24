@@ -107,12 +107,12 @@ package = false
 # every done member through the released package, pinned by version and locked with
 # hashes in uv.lock. A dependency group, so it never reaches the published package's
 # metadata.
-crosscheck = ["agent-evidence-verify==0.6.0; python_full_version >= '3.12'"]
+crosscheck = ["agent-evidence-verify==0.8.0; python_full_version >= '3.12'"]
 # The repository tools of the imported parts (scripts/workspace.py and the other
 # tests under tests/). The packages under packages/ are standalone projects built
 # by directory (`uv build packages/<name>`); none of them has a runtime dependency. Their ruff run
 # reads ruff-parts.toml, not the rules below, which the corpora and the rail keep.
-dev = ["jsonschema==4.26.0", "packaging==26.3", "pytest==9.2.0", "ruff==0.17.5"]
+dev = ["jsonschema==4.26.0", "packaging==26.3", "pytest==9.2.0", "ruff==0.17.6"]
 
 # What the wheel carries, and where. The rail is a single stdlib-only module
 # kept at packaging/run_vectors.py, where every gate in scripts/ imports it by
@@ -655,7 +655,7 @@ artifact-binding = ["cryptography>=43"]
 # pymupdf is pinned exactly because interop/nist-ai-300-1 binds digests to the text
 # it extracts from the NIST AI 300-1 PDF; another release may extract other text.
 dev = ["cryptography>=43", "pycose>=1.1,<2", "cbor2>=5.6,<6", "markdown>=3.9",
-       "packaging>=25", "hypothesis==6.170.15", "pycryptodome==4.5.0", "jsonschema==4.26.0", "rfc8785==0.1.4",
+       "packaging>=25", "hypothesis==6.170.17", "pycryptodome==4.5.0", "jsonschema==4.26.0", "rfc8785==0.1.4",
        "mypy>=1.11", "pyright>=1.1.400", "pytest>=8", "pytest-cov>=5",
        "pyyaml>=6", "ruff>=0.6", "types-Markdown>=3.9", "types-PyYAML>=6",
        "numpy>=2.1", "mcp==2.3.0", "pymupdf==1.26.7", "types-jsonschema==4.26.0.20261006"]
