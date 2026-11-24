@@ -82,6 +82,7 @@ from datetime import datetime
 from pathlib import Path
 from typing import Any
 
+from agent_evidence_vectors.identifiers import identifier, same_identifier
 from agent_evidence_vectors.monitorcoverage import (
     ALLOW,
     DENY,
@@ -93,7 +94,7 @@ from agent_evidence_vectors.monitorcoverage import (
 
 SUITE = "containment-journal/v1"
 SUITE_REVISION = 3  # revision 1.2 of the predicate; CHANGES.md carries the ledger
-_BASE = "https://probityai.github.io/agent-evidence-vectors/predicate/v1/"
+_BASE = identifier("agent-evidence-vectors/predicate/v1/")
 CONTRACT_ID = _BASE + "containment-journal"
 RECEIPT_CONTRACT_ID = _BASE + "blast-radius-receipt"
 ALLOWED_REASON = "containment_consistent"
@@ -574,7 +575,7 @@ def judge_journal(record: Any, not_canonical: bool,
     """The first rule the journal fails, or None when it passes every rule."""
     early = (
         ("contract_id_missing", lambda: not isinstance(record, dict) or "contractId" not in record),
-        ("contract_id_unknown", lambda: record["contractId"] != CONTRACT_ID),
+        ("contract_id_unknown", lambda: not same_identifier(record["contractId"], CONTRACT_ID)),
         ("record_not_canonical", lambda: not_canonical),
         ("record_malformed", lambda: _malformed(record)),
         ("closed_vocabulary_violation", lambda: _closed_violation(record)),
@@ -644,7 +645,7 @@ def judge_receipt(receipt: Any, not_canonical: bool, record: Record,
         ("receipt_contract_id_missing",
          lambda: not isinstance(receipt, dict) or "contractId" not in receipt),
         ("receipt_contract_id_unknown",
-         lambda: receipt.get("contractId") != RECEIPT_CONTRACT_ID),
+         lambda: not same_identifier(receipt.get("contractId"), RECEIPT_CONTRACT_ID)),
         ("receipt_malformed", lambda: not_canonical or _receipt_malformed(receipt, record)),
         ("receipt_journal_mismatch",
          lambda: receipt["journal"] != {"runId": record["runId"], "head": digest(entries[-1]),

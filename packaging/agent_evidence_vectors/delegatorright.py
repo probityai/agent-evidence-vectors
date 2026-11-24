@@ -52,9 +52,10 @@ from pathlib import Path
 from typing import Any
 
 from . import strictjson
+from .identifiers import identifier, same_identifier
 
 SUITE = "delegator-right/v1"
-CONTRACT_ID = "https://probityai.github.io/agent-evidence-vectors/contract/delegator-right/v1"
+CONTRACT_ID = identifier("agent-evidence-vectors/contract/delegator-right/v1")
 ALLOW, DENY = "allow", "deny"
 EXIT_FOR = {ALLOW: 0, DENY: 1}
 # The order is the contract: a reader names the first check that fails.
@@ -204,7 +205,8 @@ def _first_failure(record: dict[str, Any], skip: frozenset[str]) -> str | None:
     """
     failures: dict[str, Callable[[], bool]] = {
         "contract_id_missing": lambda: "contractId" not in record,
-        "contract_id_unknown": lambda: record.get("contractId", CONTRACT_ID) != CONTRACT_ID,
+        "contract_id_unknown": lambda: not same_identifier(
+            record.get("contractId", CONTRACT_ID), CONTRACT_ID),
         "malformed_record": lambda: _malformed(record),
         "delegate_exceeds_delegator": lambda: _exceeds(record),
         "delegator_not_entitled": lambda: _not_entitled(record),

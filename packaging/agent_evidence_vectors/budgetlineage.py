@@ -49,9 +49,10 @@ from pathlib import Path
 from typing import Any
 
 from agent_evidence_vectors import strictjson
+from agent_evidence_vectors.identifiers import identifier, same_identifier
 
 SUITE = "budget-lineage/v1"
-CONTRACT_ID = ("https://probityai.github.io/agent-evidence-observer/contract/"
+CONTRACT_ID = identifier("agent-evidence-observer/contract/"
                "budget-lineage/v1")
 ALLOW, DENY = "allow", "deny"
 EXIT_FOR = {ALLOW: 0, DENY: 1}
@@ -287,7 +288,8 @@ def _first_failure(record: dict[str, Any], skip: frozenset[str]) -> str | None:
     """
     failures: dict[str, Callable[[], bool]] = {
         "contract_id_missing": lambda: "contractId" not in record,
-        "contract_id_unknown": lambda: record.get("contractId", CONTRACT_ID) != CONTRACT_ID,
+        "contract_id_unknown": lambda: not same_identifier(
+            record.get("contractId", CONTRACT_ID), CONTRACT_ID),
         "malformed_record": lambda: malformed(record),
         "delegation_unilateral": lambda: _unilateral(record),
         "delegation_detached": lambda: _detached(record),
