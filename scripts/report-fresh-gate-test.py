@@ -17,13 +17,13 @@ import sys
 import tempfile
 from collections.abc import Callable
 from pathlib import Path
-from types import ModuleType
+from typing import Any
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
 GATE = REPO_ROOT / "scripts" / "report-fresh-gate.py"
 
 
-def load_gate() -> ModuleType:
+def load_gate() -> Any:
     spec = importlib.util.spec_from_file_location("report_fresh_gate", GATE)
     assert spec is not None and spec.loader is not None
     module = importlib.util.module_from_spec(spec)

@@ -6065,8 +6065,6 @@ def corpus_main(argv: list[str]) -> int:
 
 def runtime_main(argv: list[str]) -> int:
     """Run a runtime adapter through the scenarios of a corpus with a runtime contract."""
-    from pathlib import Path
-
     from agent_evidence_vectors import (
         decisionclient,
         decisionclient_runtime,
@@ -6113,6 +6111,8 @@ def _runtime_publish(
     args: argparse.Namespace, destination: Destination, runners: dict[str, Any]
 ) -> int:
     """Replay a runtime into a staged report and publish it onto the bound destination."""
+    from pathlib import Path
+
     refusal = record_refusal(destination.entry, "--report", args.replace_record)
     if refusal is not None:
         print(refusal, file=sys.stderr)
@@ -6128,7 +6128,7 @@ def _runtime_publish(
         )
         return 2
     staged = StagedReport(destination)
-    status = runner(args.runtime, staged.path, Path(root))
+    status: int = runner(args.runtime, staged.path, Path(root))
     try:
         staged.publish(os.path.abspath(root))
     except OSError as exc:
