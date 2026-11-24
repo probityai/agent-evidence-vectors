@@ -1,0 +1,9 @@
+suite: x402-payment-binding/v1
+members: 21
+  contradicted/indeterminate: 1
+  indeterminate/indeterminate: 4
+  verified/contradicted: 5
+  verified/indeterminate: 7
+  verified/not_evaluated: 1
+  verified/verified: 3
+verdict: every member behaves as MANIFEST.json declares
