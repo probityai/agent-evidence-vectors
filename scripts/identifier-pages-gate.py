@@ -60,6 +60,7 @@ URI_RE = re.compile(
     + SEGMENT
     + r")+"
 )
+PAYLOAD_RE = re.compile(r'"payload"\s*:\s*"([A-Za-z0-9+/=]+)"')
 SERVED_ELSEWHERE = ROOT / "spec" / "identifiers-served-elsewhere.txt"
 UNRESOLVED = ROOT / "spec" / "identifiers-unresolved.txt"
 
@@ -72,17 +73,23 @@ def tracked_files(root: Path) -> list[Path]:
 
 
 def _payloads(value: Any) -> list[str]:
-    """Every string under a ``payload`` key, at any depth."""
+    """Every string under a ``payload`` key, at any depth.
+
+    Walked with a stack of its own: a recursive walk dies at the interpreter's recursion limit on a
+    document the parser itself accepts, and a vector may be nested that deep on purpose.
+    """
     out: list[str] = []
-    if isinstance(value, dict):
-        for key, item in value.items():
-            if key == "payload" and isinstance(item, str):
-                out.append(item)
-            else:
-                out.extend(_payloads(item))
-    elif isinstance(value, list):
-        for item in value:
-            out.extend(_payloads(item))
+    stack = [value]
+    while stack:
+        node = stack.pop()
+        if isinstance(node, dict):
+            for key, item in node.items():
+                if key == "payload" and isinstance(item, str):
+                    out.append(item)
+                else:
+                    stack.append(item)
+        elif isinstance(node, list):
+            stack.extend(node)
     return out
 
 
@@ -102,10 +109,14 @@ def uris_in(path: Path) -> set[str]:
     if path.suffix in (".json", ".jsonl"):
         for line in text.splitlines() if path.suffix == ".jsonl" else [text]:
             try:
-                doc = json.loads(line)
+                payloads = _payloads(json.loads(line))
+            except RecursionError:
+                # Nested past what the interpreter will parse, a document still carries its
+                # payloads; read them out of the text, since no parsed tree can hold them.
+                payloads = PAYLOAD_RE.findall(line)
             except ValueError:
                 continue
-            for payload in _payloads(doc):
+            for payload in payloads:
                 try:
                     decoded = base64.b64decode(payload, validate=True).decode("utf-8", "replace")
                 except (binascii.Error, ValueError):
