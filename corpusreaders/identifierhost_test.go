@@ -147,6 +147,9 @@ func stageRewritten(t *testing.T, dir, to string) (string, int) {
 	return copied, len(rewritten)
 }
 
+// judgeMembers returns each member's verdict and findings in manifest order.
+// The member id is left out: a member named by its own bytes is renamed by the
+// rewrite, so its id is the one thing that is meant to change.
 func judgeMembers(t *testing.T, dir string) []corpusreaders.Member {
 	t.Helper()
 	result, err := corpusreaders.Judge(dir)
@@ -156,7 +159,11 @@ func judgeMembers(t *testing.T, dir string) []corpusreaders.Member {
 	if len(result.Members) == 0 {
 		t.Fatalf("%s judged no members, so nothing was compared", dir)
 	}
-	return result.Members
+	out := make([]corpusreaders.Member, len(result.Members))
+	for i, m := range result.Members {
+		out[i] = corpusreaders.Member{Kind: m.Kind, Findings: m.Findings}
+	}
+	return out
 }
 
 func TestEachReaderJudgesTheNewHostSpellingAsTheCommittedOne(t *testing.T) {
@@ -170,7 +177,7 @@ func TestEachReaderJudgesTheNewHostSpellingAsTheCommittedOne(t *testing.T) {
 			if got := judgeMembers(t, staged); !reflect.DeepEqual(got, committed) {
 				for i := range committed {
 					if i < len(got) && !reflect.DeepEqual(got[i], committed[i]) {
-						t.Errorf("%s judged %+v, the committed corpus %+v", committed[i].ID, got[i], committed[i])
+						t.Errorf("member %d judged %+v, the committed corpus %+v", i, got[i], committed[i])
 					}
 				}
 				if len(got) != len(committed) {
