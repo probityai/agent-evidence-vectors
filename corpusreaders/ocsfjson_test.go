@@ -247,7 +247,7 @@ func TestOCSFInstantOf(t *testing.T) {
 			t.Errorf("%v: refused as %q", c.in, got.why)
 			continue
 		}
-		if c.secs != 0 && !(got.secs.IsInt() && got.secs.Num().Int64() == c.secs) {
+		if c.secs != 0 && (!got.secs.IsInt() || got.secs.Num().Int64() != c.secs) {
 			t.Errorf("%v: %v seconds, want %d", c.in, got.secs, c.secs)
 		}
 	}

@@ -302,7 +302,7 @@ func srbReceiptWellFormed(r srbEnvelope) bool {
 		return false
 	}
 	binding := srbBinding(r.body)
-	if binding == nil || !(srbExactly(binding, "id") || srbExactly(binding, "digest", "id")) {
+	if binding == nil || (!srbExactly(binding, "id") && !srbExactly(binding, "digest", "id")) {
 		return false
 	}
 	if id, ok := binding["id"].(string); !ok || id == "" {
