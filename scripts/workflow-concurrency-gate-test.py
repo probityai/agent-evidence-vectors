@@ -92,11 +92,32 @@ def main() -> int:
     rows = "        rows: [a, b, c, d, e, f]\n"
     # One macOS leg that takes every row, added by include, is one job.
     one = fan.replace("[ubuntu-24.04, macos-15]", "[ubuntu-24.04]")
-    one = one.replace(rows, rows + "        include:\n          - os: macos-15\n            rows: all\n")
+    one = one.replace(
+        rows, rows + "        include:\n          - os: macos-15\n            rows: all\n"
+    )
     assert fixture({**base(), "mac.yml": head + one}).returncode == 0
     # An exclude removes a leg: five macOS jobs is the whole free allowance and passes.
-    cut = fan.replace(rows, rows + "        exclude:\n          - os: macos-15\n            rows: a\n")
+    cut = fan.replace(
+        rows, rows + "        exclude:\n          - os: macos-15\n            rows: a\n"
+    )
     assert fixture({**base(), "mac.yml": head + cut}).returncode == 0
+    # An exclude or include that GitHub resolves at run time adds and removes nothing the gate
+    # can count: the literal axes still decide, and nothing in the gate crashes on the text.
+    lazy = fan.replace(
+        rows,
+        rows + "        exclude: ${{ fromJSON(needs.go.outputs.skip) }}\n"
+        "        include: ${{ fromJSON(needs.go.outputs.extra) }}\n",
+    )
+    r = fixture({**base(), "mac.yml": head + lazy})
+    assert r.returncode == 1 and "mac.yml: 6 macOS jobs in one run" in r.stdout, r.stdout
+    assert (
+        fixture({**base(), "mac.yml": head + lazy.replace("macos-15", "ubuntu-22.04")}).returncode
+        == 0
+    )
+    # A list entry that is not a mapping is no leg either.
+    bare = fan.replace(rows, rows + "        include: [skip]\n")
+    r = fixture({**base(), "mac.yml": head + bare})
+    assert r.returncode == 1 and "mac.yml: 6 macOS jobs in one run" in r.stdout, r.stdout
     assert fixture({}).returncode == 2
     print("workflow-concurrency-gate-test: ok")
     return 0
