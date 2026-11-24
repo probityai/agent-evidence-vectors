@@ -121,7 +121,8 @@ class Layout(unittest.TestCase):
         module, coverage = load(), load_coverage()
         status = json.loads((REPO / coverage.STATUS).read_text(encoding="utf-8"))
         written = sorted(coverage.render(status))
-        self.assertGreater(len(written), 90)
+        registry = tomllib.loads((REPO / "corpora/REGISTRY.toml").read_text(encoding="utf-8"))
+        self.assertEqual(len(written), len(registry["corpus"]) + 2)
         missing = [str(p) for p in written if not module.is_derived(REPO, str(p))]
         self.assertEqual(missing, [])
         # the shield of a corpus nobody has added yet is derived before it exists
