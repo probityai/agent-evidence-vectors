@@ -3138,6 +3138,8 @@ def external_record(
 # ---------------------------------------------------------------------------
 
 GATE_NAMES = ("gate0", "gate1", "recompute", "tier", "self-check")
+# Width of the vector-id column in the stdout coverage table: a layout width, not a count.
+VECTOR_ID_WIDTH = 42
 
 
 def load_manifest(suite_dir: str) -> dict[str, Any] | None:
@@ -5198,12 +5200,12 @@ def _run_print_table(
     # stdout coverage table (gate x vector)
     print(f"rail: {report['rail']}  ({rail_note})")
     gate_cols = " ".join(f"{g:<10}" for g in GATE_NAMES)
-    header = f"{'vector':<42} {'status':<6} {gate_cols}"
+    header = f"{'vector':<{VECTOR_ID_WIDTH}} {'status':<6} {gate_cols}"
     print(header)
     print("-" * len(header))
     for r in rows_out:
         row_gates = " ".join(f"{r['gates'][g]:<10}" for g in GATE_NAMES)
-        print(f"{r['id'][:42]:<42} {r['status']:<6} {row_gates}")
+        print(f"{r['id'][:VECTOR_ID_WIDTH]:<{VECTOR_ID_WIDTH}} {r['status']:<6} {row_gates}")
         if r["status"] == "FAIL":
             for reason in r["reasons"]:
                 print(f"    ! {reason}")
