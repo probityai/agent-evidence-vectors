@@ -54,6 +54,11 @@ func TestKeyDirectoryEachCheckMovesTheVerdict(t *testing.T) {
 		{"status-404-keeps-cache", "empty-key-set-evicts", "derived not_attributed/key_absent_from_directory cache replaced"},
 		{"key-listed", "redirect-not-followed", "derived not_attributed/redirect_not_followed"},
 		{"key-listed", "html-error-page-with-200", "derived not_attributed/not_a_directory"},
+		{"empty-key-set-evicts", "refused-with-empty-key-set-keeps-cache", "derived not_attributed/discovery_failed cache kept"},
+		{"refused-with-empty-key-set-keeps-cache", "empty-key-set-evicts", "derived not_attributed/key_absent_from_directory cache replaced"},
+		{"key-listed", "limit-refused-keeps-cache", "derived not_attributed/discovery_failed cache kept"},
+		{"key-listed", "no-keys-member-keeps-cache", "derived not_attributed/not_a_directory cache kept"},
+		{"key-listed", "empty-body-keeps-cache", "derived not_attributed/not_a_directory cache kept"},
 		{"kid-thumbprint-at-well-known", "kid-not-thumbprint-at-well-known", "derived not_attributed/kid_not_thumbprint"},
 		{"kid-not-thumbprint-at-well-known", "kid-thumbprint-at-well-known", "derived attributed/key_in_directory"},
 	}

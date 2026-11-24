@@ -7,6 +7,7 @@ import json
 import shutil
 import sys
 from pathlib import Path
+from typing import Any
 
 import pytest
 
@@ -28,7 +29,13 @@ from agent_evidence_vectors import keydirectory  # noqa: E402
 # Members where the fetch is not evidence: a verifier must keep its cached keys.
 KEEPS_CACHE = {"status-404-keeps-cache", "status-503-keeps-cache",
                "transport-failure-keeps-cache", "redirect-not-followed",
-               "html-error-page-with-200", "wrong-media-type-at-well-known"}
+               "html-error-page-with-200", "wrong-media-type-at-well-known",
+               "refused-with-empty-key-set-keeps-cache", "limit-refused-keeps-cache",
+               "no-keys-member-keeps-cache", "empty-body-keeps-cache"}
+# The request every broken-read case shares with empty-key-set-evicts: it names the key the
+# verifier holds, so a verifier that serves the stale key on a failed load is caught too.
+BROKEN_READS = {"refused-with-empty-key-set-keeps-cache", "limit-refused-keeps-cache",
+                "no-keys-member-keeps-cache", "empty-body-keeps-cache"}
 # Members where the directory resolved without the key: a verifier must evict it.
 EVICTS = {"empty-key-set-evicts", "key-removed-other-kept"}
 
@@ -103,6 +110,64 @@ class TestKeyDirectoryCorpus:
                     "    answer['cache'] = 'replaced'; answer['cacheAfter'] = []\n")
             _, errors = corpus.check(_script(tmp_path, body))
             assert _failed(errors) == KEEPS_CACHE
+
+        def test_refusal_and_evicting_empty_set_differ_only_in_the_status(self) -> None:
+            def load(name: str) -> tuple[dict[str, Any], bytes]:
+                directory = ROOT / "cases" / name
+                return (json.loads((directory / "case.json").read_text(encoding="utf-8")),
+                        (directory / "response.body").read_bytes())
+
+            read, read_body = load("empty-key-set-evicts")
+            refused, refused_body = load("refused-with-empty-key-set-keeps-cache")
+            assert read_body == refused_body
+            assert json.loads(read_body) == {"keys": []}
+            assert {k: v for k, v in read["fetch"].items() if k != "status"} == {
+                k: v for k, v in refused["fetch"].items() if k != "status"}
+            assert (read["fetch"]["status"], refused["fetch"]["status"]) == (200, 403)
+            for field in ("cached", "directoryUrl", "keyid"):
+                assert read[field] == refused[field]
+
+        @pytest.mark.parametrize("name", sorted(BROKEN_READS))
+        def test_every_broken_read_names_the_key_the_verifier_holds(self, name: str) -> None:
+            case = json.loads((ROOT / "cases" / name / "case.json").read_text(encoding="utf-8"))
+            assert case["keyid"] in case["cached"]
+
+        def test_verifier_that_ignores_the_status_reads_a_refusal_as_a_removal(self) -> None:
+            # Judging the bytes and not the status: a 403 carrying an empty key set evicts.
+            _, errors = corpus.check(skip=frozenset({"discovery_failed"}))
+            refused = [e for e in errors if e.startswith("refused-with-empty-key-set-keeps-cache:")]
+            assert len(refused) == 1
+            assert "'cache': 'replaced'" in refused[0].split(", got ", 1)[1]
+
+        def test_verifier_that_defaults_a_missing_key_set_to_empty_is_refused(
+            self, monkeypatch: pytest.MonkeyPatch
+        ) -> None:
+            # keys = body.get("keys", []) and an empty body read as an empty key set.
+            def lenient(self: keydirectory._Case) -> list[dict[str, Any]] | None:
+                if self.body is None:
+                    return None
+                if not self.body.strip():
+                    return []
+                try:
+                    parsed = json.loads(self.body)
+                except ValueError:
+                    return None
+                found = parsed.get("keys", []) if isinstance(parsed, dict) else []
+                return [k for k in found if isinstance(k, dict)]
+
+            monkeypatch.setattr(keydirectory._Case, "keys", lenient)
+            _, errors = corpus.check()
+            assert _failed(errors) == {"no-keys-member-keeps-cache", "empty-body-keeps-cache"}
+
+        def test_verifier_that_reads_an_unknown_outcome_as_a_removal_is_refused(
+            self, tmp_path: Path
+        ) -> None:
+            body = ("if case['fetch']['outcome'] not in ('response', 'connect_failure'):\n"
+                    "    answer = {'decision': 'not_attributed', "
+                    "'reason': 'key_absent_from_directory', 'cache': 'replaced', "
+                    "'cacheAfter': []}\n")
+            _, errors = corpus.check(_script(tmp_path, body))
+            assert _failed(errors) == {"limit-refused-keeps-cache"}
 
         def test_verifier_that_never_evicts_is_refused(self, tmp_path: Path) -> None:
             # The stale-key mistake: a directory that dropped the key leaves the cache alone.
