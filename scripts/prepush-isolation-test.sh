@@ -25,6 +25,10 @@
 
 set -euo pipefail
 
+# shellcheck source=scripts/prepush-test-lib.sh
+. "$(dirname "$0")/prepush-test-lib.sh"
+prepush_actionlint_stub
+
 hook="${1:-$(cd "$(dirname "$0")/.." && pwd -P)/.githooks/pre-push}"
 if [ ! -f "$hook" ]; then
 	echo "prepush-isolation-test: no hook at $hook" >&2
