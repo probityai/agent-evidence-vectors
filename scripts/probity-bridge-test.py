@@ -46,11 +46,11 @@ BADGE = (
     ")](https://github.com/probityai/probity)"
 )
 
-# The main README renders the badge as a local SVG in HTML.
+# The main README renders the badge as an SVG in HTML, by an absolute URL so PyPI renders it.
 BADGE_HTML = (
     '<a href="https://github.com/probityai/probity">'
     '<img height="16" alt="Checked with Probity" '
-    'src="assets/badges/checked-with-probity.svg"></a>'
+    'src="https://raw.githubusercontent.com/probityai/agent-evidence-vectors/main/assets/badges/checked-with-probity.svg"></a>'
 )
 
 REPORT = {
