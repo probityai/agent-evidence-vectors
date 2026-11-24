@@ -52,12 +52,12 @@ def differences(fresh: dict[str, Any], committed: dict[str, Any]) -> list[str]:
 
 def vector_differences(fresh: dict[str, Any], committed: dict[str, Any]) -> list[str]:
     """The ids of vector rows that differ, when both reports carry a vectors list."""
-    rows = [r.get("vectors") for r in (fresh, committed)]
-    if not (isinstance(rows[0], list) and isinstance(rows[1], list)):
+    fresh_rows, committed_rows = fresh.get("vectors"), committed.get("vectors")
+    if not (isinstance(fresh_rows, list) and isinstance(committed_rows, list)):
         return []
-    by_id = [{str(v.get("id")): v for v in r if isinstance(v, dict)} for r in rows]
-    ids = sorted(set(by_id[0]) | set(by_id[1]))
-    return [i for i in ids if by_id[0].get(i) != by_id[1].get(i)]
+    mine = {str(v.get("id")): v for v in fresh_rows if isinstance(v, dict)}
+    theirs = {str(v.get("id")): v for v in committed_rows if isinstance(v, dict)}
+    return [i for i in sorted(set(mine) | set(theirs)) if mine.get(i) != theirs.get(i)]
 
 
 def main() -> int:
