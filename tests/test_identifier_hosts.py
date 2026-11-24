@@ -301,6 +301,11 @@ def test_the_claim_record_reader_routes_both_spellings(
     before = run.run_corpus(root)
     copy, count = _rewritten(root, tmp_path, to)
     assert count
+    # The manifest pins each member by digest, so the respelled copy is pinned afresh.
+    manifest = json.loads((copy / "manifest.json").read_text(encoding="utf-8"))
+    manifest["members"] = {name: reader.sha256_tag((copy / name).read_bytes())
+                           for name in manifest["members"]}
+    (copy / "manifest.json").write_text(json.dumps(manifest), encoding="utf-8")
     rewritten = run.run_corpus(copy)
     monkeypatch.setattr(reader, "CLAIM_TYPE", _respell(reader.CLAIM_TYPE, to))
     moved = run.run_corpus(root)
