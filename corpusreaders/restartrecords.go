@@ -12,6 +12,8 @@ import (
 	"sort"
 	"strings"
 	"unicode/utf8"
+
+	"github.com/probityai/agent-evidence-vectors/internal/identifiers"
 )
 
 func init() { register(restartRecords{}) }
@@ -29,8 +31,10 @@ type restartRecords struct{}
 
 func (restartRecords) Suite() string { return "restart-records/v1" }
 
+// rrHost is where every predicate type this reader names lives.
+var rrHost = identifiers.Identifier("agent-evidence-vectors")
+
 const (
-	rrHost          = "https://probityai.github.io/agent-evidence-vectors"
 	rrStatementType = "https://in-toto.io/Statement/v1"
 	rrR1            = "incident-action-authorization"
 	rrR2            = "revocation-sweep"
@@ -387,7 +391,7 @@ func rrSubject(value any) bool {
 func rrStatementName(statement any) string {
 	object, isObject := statement.(rrObj)
 	predicateType, _ := object["predicateType"].(string)
-	name := rrNameOfType[predicateType]
+	name := rrNameOfType[identifiers.CanonicalIdentifier(predicateType)]
 	if rrSkipped["statement/statement-malformed"] {
 		_, predicateOK := object["predicate"].(rrObj)
 		if predicateOK {
@@ -421,7 +425,7 @@ func rrCommonOK(p rrObj) bool {
 func rrPredecessors(value any, needs string) bool {
 	entry := func(r any) bool {
 		return rrExact(r, []string{"predicateType", "digest"}) &&
-			rrOneOf(r.(rrObj)["predicateType"], rrTypeSet) && rrSha(r.(rrObj)["digest"])
+			rrOneOf(identifiers.CanonicalValue(r.(rrObj)["predicateType"]), rrTypeSet) && rrSha(r.(rrObj)["digest"])
 	}
 	if !rrList(value, entry, 1) {
 		return false
@@ -430,7 +434,7 @@ func rrPredecessors(value any, needs string) bool {
 		return true
 	}
 	for _, r := range value.([]any) {
-		if r.(rrObj)["predicateType"] == rrHost+"/predicate/v1/"+needs {
+		if identifiers.CanonicalValue(r.(rrObj)["predicateType"]) == rrHost+"/predicate/v1/"+needs {
 			return true
 		}
 	}
@@ -972,7 +976,7 @@ func (b *rrBundle) carried() bool {
 func (b *rrBundle) typesMatch() bool {
 	for _, name := range b.names {
 		for i, ref := range b.refs[name] {
-			if i >= len(b.resolved[name]) || b.types[b.resolved[name][i]] != ref["predicateType"] {
+			if i >= len(b.resolved[name]) || b.types[b.resolved[name][i]] != identifiers.CanonicalValue(ref["predicateType"]) {
 				return false
 			}
 		}
@@ -1080,7 +1084,10 @@ func rrCheckBundle(files map[string][]byte) (string, string, error) {
 		value, _ := rrStrict(files[name])
 		statement, _ := value.(rrObj)
 		b.predicates[name], _ = statement["predicate"].(rrObj)
+		// b.types holds each document's predicate type canonical, for comparison
+		// only: what this reader reports is never rewritten.
 		b.types[name], _ = statement["predicateType"].(string)
+		b.types[name] = identifiers.CanonicalIdentifier(b.types[name])
 		b.digest[name] = rrDigest(files[name])
 		for _, ref := range rrListAt(b.predicates[name], "predecessors") {
 			object, _ := ref.(rrObj)

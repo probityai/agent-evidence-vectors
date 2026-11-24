@@ -13,6 +13,8 @@ import (
 	"strings"
 	"time"
 	"unicode/utf8"
+
+	"github.com/probityai/agent-evidence-vectors/internal/identifiers"
 )
 
 func init() { register(badgeVC{}) }
@@ -39,7 +41,7 @@ func init() { register(badgeVC{}) }
 //  11. the credential is not in the issuer's revoked list: revoked.
 type badgeVC struct{}
 
-const bvContractID = "https://probityai.github.io/agent-evidence-vectors/contract/badge-vc-verify/v1"
+var bvContractID = identifiers.Identifier("agent-evidence-vectors/contract/badge-vc-verify/v1")
 
 var (
 	bvKidPattern   = regexp.MustCompile(`^(did:[a-z0-9]+:[^#\s]+)#([^#\s]+)$`)
@@ -93,7 +95,7 @@ func bvDecide(c map[string]any) scDecision {
 	if !present {
 		return bvDeny("contract_id_missing")
 	}
-	if id != bvContractID {
+	if identifiers.CanonicalValue(id) != bvContractID {
 		return bvDeny("contract_id_unknown")
 	}
 	at, keys, ok := bvCase(c)
