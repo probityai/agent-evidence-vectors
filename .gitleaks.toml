@@ -13,8 +13,26 @@
 useDefault = true
 
 [[allowlists]]
-description = "64-hex SHA-256 digests and Ed25519 public keys in key, digest and credential fields"
+description = "64-hex SHA-256 digests under a field whose name ends in digest or sha256, anywhere"
+# The name says the value is a digest, so its length is fixed: exactly 64 lower-case
+# hex characters. A key, token or secret field outside the corpus directories is not
+# passed for being 64 hex characters long.
 targetRules = ["generic-api-key"]
+regexTarget = "match"
+regexes = [
+  '''^(?i:[\w.-]*(?:digest|sha-?256))["'\x60]?\s*[:=]\s*["'\x60]?[0-9a-f]{64}["'\x60]?$''',
+]
+
+[[allowlists]]
+description = "64-hex test keys under a key, digest or credential field inside the corpus and fixture directories"
+# Corpus generators derive every signing seed from a published constant (the recipe in
+# vectors/reject/INDEX.md, an RFC 8032 test seed, the ACS specification's example secret),
+# so the hex key material the corpora carry under names such as signer_key or
+# private_key_seed is public by construction. AND: only inside corpora/, vectors/,
+# vectors-<name>/, fixtures/ or testdata/, and only exactly 64 hex characters.
+targetRules = ["generic-api-key"]
+condition = "AND"
+paths = ['''(?:^|/)(?:testdata|fixtures?|corpora|vectors(?:-[a-z0-9-]+)?)/''']
 regexTarget = "match"
 regexes = [
   '''(?i)[a-z0-9_-]*(key|digest|token_?sha256)[a-z0-9_-]*["'`]?\s*[:=]\s*["'`][0-9a-f]{64}["'`]''',
@@ -108,20 +126,6 @@ regexTarget = "match"
 regexes = ['''[A-Za-z0-9_./-]+\.json"\s*:\s*"[0-9a-f]{64}"''']
 
 [[allowlists]]
-description = "Base64 Ed25519 public key in a case's context.json (issuerKey)"
-# The agent-card-receipt and credential-release suites hand the reader the
-# issuer's public key as base64. The signing seed is the SHA-256 of a public
-# label (gen_vectors.py), so the key is public by construction. AND: only the
-# issuerKey member of a case context file, and only the one published test
-# issuer key. A base64 shape cannot tell a public key from a secret, so the
-# value is pinned: any other issuerKey value is still reported.
-targetRules = ["generic-api-key"]
-condition = "AND"
-paths = ['''(^|/)vectors-[a-z-]+/cases/[^/]+/context\.json$''']
-regexTarget = "match"
-regexes = ['''issuerKey"\s*:\s*"Ob6mHCtjckbIra26o4A/wgoaPfjBID6naeJBKAYZc5E="''']
-
-[[allowlists]]
 description = "Base64 Ed25519 public key in a principal-action case (producerKey)"
 # Each principal-action case hands the reader the producer's public key as base64.
 # The signing seed is the SHA-256 of a public label (gen_vectors.py, label
@@ -194,6 +198,79 @@ condition = "AND"
 paths = ['''^(corpora/)?vectors-badge-vc-verify/cases/[^/]+/case\.json$''']
 regexTarget = "match"
 regexes = ['''eyJ[A-Za-z0-9_-]+\.[A-Za-z0-9_-]+\.[A-Za-z0-9_-]*''']
+
+# Public keys in corpus and fixture files. gitleaks's own generic-api-key (v8.30.1, the
+# version scripts/secret-scan.sh pins) already passes ANY value under a name containing
+# pub(lic)?[_.-]?key (publicKey, public_key, pubkey, even public_key_seed), whatever its
+# size and wherever it sits. The names that do fire are the others: issuerKey,
+# verifyingKey, verificationKey, and key inside a trust root. The two entries below pass
+# those, and the two rules after them report what the upstream exemption hides.
+#
+# The first entry passes a value only when three things hold together:
+#   1. where it is: corpora/, vectors/, vectors-<name>/, fixtures/ or testdata/, or a
+#      corpus file anywhere (a .json or .jsonl file whose name holds corpus or vectors,
+#      such as packages/admission/rego/corpus_vectors.json);
+#   2. what it is called: the field name ends in a public-key term (public_key,
+#      publicKey, pubkey, pub_key, verifyingKey, verificationKey, verify_key) and at
+#      most one encoding suffix (hex, b64, b64u, base64, base64url, raw, bytes), or it
+#      is the exact JSON member issuerKey, which the agent-card-receipt,
+#      credential-release and revocation-list suites define as the issuer's Ed25519
+#      public key (ISSUER_KEY or issuer_key, which can as well name a signing key,
+#      still fire);
+#   3. its size: the value decodes to exactly 32 bytes: 64 hex characters of one case,
+#      or 43 canonical base64 or base64url characters (the last one carries two zero
+#      pad bits, so it is one of AEIMQUYcgkosw048) with an optional single "=".
+# A 64-byte value, a PEM block, a JWT, a token, a non-canonical encoding and a value of
+# any other length under these names still fire. A 32-byte seed has a public key's
+# size, which is why the name and the directory are required too. The target is the
+# match, so a credential under another field on the same line is still found. This
+# replaces the issuerKey entry that pinned one value: a new suite's issuer key passes
+# without a new pin.
+[[allowlists]]
+description = "A 32-byte public key under a public-key field name in a corpus or fixture directory"
+targetRules = ["generic-api-key"]
+condition = "AND"
+paths = ['''(?:^|/)(?:testdata|fixtures?|corpora|vectors(?:-[a-z0-9-]+)?)/|(?:^|/)[\w.-]*(?:corpus|vectors)[\w.-]*\.jsonl?$''']
+regexTarget = "match"
+regexes = [
+  '''^(?:[\w.-]*(?i:pub(?:lic)?[_.-]?key|verif(?:y|ying|ication)[_.-]?key)(?i:[_.-]?(?:hex|b64u?|base64(?:url)?|raw|bytes))?|issuerKey)["'\x60]?\s*(?::=|=>|:|=)\s*["'\x60]?(?:[0-9a-f]{64}|[0-9A-F]{64}|[A-Za-z0-9+/]{42}[AEIMQUYcgkosw048]=?|[A-Za-z0-9_-]{42}[AEIMQUYcgkosw048]=?)(?:["'\x60;]|\s|\\[nr])?$''',
+]
+
+[[allowlists]]
+description = "A 32-byte key member of a TRUST.json trust root in a corpus or fixture directory"
+# A trust root is the verifier's own list of the keys it accepts, so in a file named
+# TRUST.json the member key names a public verifying key. Only the JSON member key,
+# only a 32-byte value as above, only that file name.
+targetRules = ["generic-api-key"]
+condition = "AND"
+paths = ['''(?:^|/)(?:testdata|fixtures?|corpora|vectors(?:-[a-z0-9-]+)?)/(?:[^/]+/)*TRUST\.json$''']
+regexTarget = "match"
+regexes = [
+  '''^key"\s*:\s*"(?:[0-9a-f]{64}|[0-9A-F]{64}|[A-Za-z0-9+/]{42}[AEIMQUYcgkosw048]=?|[A-Za-z0-9_-]{42}[AEIMQUYcgkosw048]=?)"$''',
+]
+
+# What the upstream exemption hides, reported in every path. A public-key name that
+# also carries a private word in either order (seed_public_key, private.publicKey,
+# public_key_seed, secret_verify_key) names a secret as often as a public key, and a
+# 32-byte value under it is reported. It has its own id, so no entry above reaches it.
+[[rules]]
+id = "public-key-field-private-word"
+description = "A 32-byte value under a public-key name that also says private, secret, seed, password or token may be the secret"
+regex = '''(?i:[\w.-]{0,60}(?:(?:priv|secret|seed|passw|token|credential)[\w.-]{0,60}(?:pub(?:lic)?[_.-]?key|verif(?:y|ying|ication)[_.-]?key)|(?:pub(?:lic)?[_.-]?key|verif(?:y|ying|ication)[_.-]?key)[\w.-]{0,60}(?:priv|secret|seed|passw|token|credential))[\w.-]{0,60})["'\x60]?\s*(?::=|=>|:|=)\s*["'\x60]?([0-9a-f]{64}|[0-9A-F]{64}|[A-Za-z0-9+/]{42}[AEIMQUYcgkosw048]=?|[A-Za-z0-9_-]{42}[AEIMQUYcgkosw048]=?)(?:["'\x60;\s]|\\[nr]|$)'''
+keywords = ["pub", "verif"]
+
+# The other thing the upstream exemption hides: a 64-byte value under a public-key name.
+# An Ed25519 private key in Go, libsodium and NaCl is the seed followed by the public
+# half, so writing the private key where the public one was meant puts exactly 64 bytes
+# under a public-key name. Exactly 64 bytes: 128 hex characters of one case, or 86
+# canonical base64 or base64url characters (the last one is one of AQgw) with an
+# optional "==". A 65-byte uncompressed P-256 point, an RSA or ML-DSA public key and a
+# 32-byte key are other sizes and are not reported.
+[[rules]]
+id = "public-key-field-64-bytes"
+description = "A 64-byte value under a public-key name has the size of an Ed25519 private key (seed then public half)"
+regex = '''(?i:[\w.-]{0,60}(?:pub(?:lic)?[_.-]?key|verif(?:y|ying|ication)[_.-]?key)(?:[_.-]?(?:hex|b64u?|base64(?:url)?|raw|bytes))?|issuerKey)["'\x60]?\s*(?::=|=>|:|=)\s*["'\x60]?([0-9a-f]{128}|[0-9A-F]{128}|[A-Za-z0-9+/]{85}[AQgw](?:==)?|[A-Za-z0-9_-]{85}[AQgw](?:==)?)(?:["'\x60;\s]|\\[nr]|$)'''
+keywords = ["pub", "verif", "issuerkey"]
 
 [[allowlists]]
 # vectors-catalog-trust-manifest carries one detached JWS stored WITH its payload
