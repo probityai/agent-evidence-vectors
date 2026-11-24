@@ -74,6 +74,11 @@ def triggers(doc: dict[str, Any]) -> dict[str, Any]:
     return dict(on or {})
 
 
+def literal_entries(value: Any) -> list[dict[str, Any]]:
+    """The mappings of a literal list, and nothing for an expression GitHub resolves at run time."""
+    return [e for e in value if isinstance(e, dict)] if isinstance(value, list) else []
+
+
 def expand_matrix(matrix: Any) -> list[dict[str, Any]]:
     """The combinations GitHub builds from a literal matrix: the product of its
     list axes, minus `exclude`, with each `include` merged into the combinations
@@ -88,11 +93,11 @@ def expand_matrix(matrix: Any) -> list[dict[str, Any]]:
         if axes
         else []
     )
-    excludes = matrix.get("exclude") if isinstance(matrix.get("exclude"), list) else []
+    excludes = literal_entries(matrix.get("exclude"))
     combos = [
         c for c in combos if not any(all(c.get(k) == v for k, v in ex.items()) for ex in excludes)
     ]
-    includes = matrix.get("include") if isinstance(matrix.get("include"), list) else []
+    includes = literal_entries(matrix.get("include"))
     for inc in includes:
         hits = [c for c in combos if all(c.get(k) == v for k, v in inc.items() if k in axes)]
         for c in hits:
