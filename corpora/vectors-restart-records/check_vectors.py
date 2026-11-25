@@ -33,7 +33,11 @@ from typing import Any
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "packaging"))
 from agent_evidence_vectors import strictjson  # noqa: E402
-from agent_evidence_vectors.identifiers import canonical_identifier, identifier, same_identifier  # noqa: E402
+from agent_evidence_vectors.identifiers import (  # noqa: E402
+    canonical_identifier,
+    identifier,
+    same_identifier,
+)
 
 HERE = Path(__file__).resolve().parent
 HOST = identifier("agent-evidence-vectors")

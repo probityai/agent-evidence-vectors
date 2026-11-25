@@ -53,6 +53,7 @@ from typing import Any
 HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(HERE.parent / "packaging"))
 from agent_evidence_vectors.identifiers import RECOGNISED_HOSTS  # noqa: E402
+
 CROSSCHECK = HERE.parent / "corpora" / "vectors-done-receipt" / "crosscheck_probity_verify.py"
 MAX_ROWS = 20
 

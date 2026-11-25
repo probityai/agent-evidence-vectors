@@ -49,7 +49,11 @@ from typing import Any
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "packaging"))
-from agent_evidence_vectors.identifiers import IDENTIFIER_HOST, RECOGNISED_HOSTS, canonical_identifier  # noqa: E402
+from agent_evidence_vectors.identifiers import (  # noqa: E402
+    IDENTIFIER_HOST,
+    RECOGNISED_HOSTS,
+    canonical_identifier,
+)
 
 ORIGIN = f"https://{IDENTIFIER_HOST}"
 SITE = "agent-evidence-vectors"

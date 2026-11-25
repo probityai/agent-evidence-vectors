@@ -26,6 +26,7 @@ from typing import Any, assert_type
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "packaging"))
 from agent_evidence_vectors.identifiers import canonical_identifier  # noqa: E402
+
 GATE = ROOT / "scripts" / "identifier-pages-gate.py"
 HOST = "https://probityai.github.io/agent-evidence-vectors"
 #: Nesting a vector may legitimately carry. 3000 levels parses but outruns a recursive walk of the
