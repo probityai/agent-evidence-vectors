@@ -137,7 +137,7 @@
       },
       "path": "corpora/vectors-acs-decision-record/gen_vectors.py",
       "serialization": "bytes",
-      "sha256": "e3763667c515f7ad1221db5f1206d42414aed9120132c712ff247c512c314876"
+      "sha256": "02a9efdc460f71d310e114430b7eca841d0d8ce3fce488f34d22042ad6a733ad"
     },
     {
       "consumed": "unconsumed",
@@ -185,7 +185,7 @@
       },
       "path": "corpora/vectors-acs-decision-record/record.py",
       "serialization": "bytes",
-      "sha256": "60dd7f577387286b91b825e87d340019625b199dd73c0c4517e75560d59d8e4d"
+      "sha256": "cb3dc73e550a67cd57115832aef8b193728b2b8989e1a1c82dd4b3ac63ba3343"
     },
     {
       "consumed": "unconsumed",
@@ -465,7 +465,7 @@
         "go.mod"
       ],
       "serialization": "sha256-listing-v1",
-      "sha256": "6585c8cf4625f2713e109a60cb75d46e06c548b0dc5d9200eb9a9c965d06c783"
+      "sha256": "73dc29ae028d3f7af08d891da176c6850fabbfbb6b70fabf20031fed6374e483"
     },
     "runtime": {
       "name": "go",
@@ -738,7 +738,7 @@
   ],
   "corpus-digest": {
     "serialization": "sha256-listing-v1",
-    "sha256": "214fe6701a02a453ed98e2ab1f7e829961dc6e0ba6a82d5e04dfdc9a593a0a76"
+    "sha256": "05ae3b0fd095bdcf629208e027ea3c73dc7d410a1c3fc09cdf17ac13a52b85da"
   },
   "exit-code": 0,
   "exit-rule": "zero-iff-every-check-passes",

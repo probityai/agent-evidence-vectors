@@ -14,8 +14,8 @@
       "path": "release/CORPUS-DIGESTS.txt",
       "uri": "https://github.com/probityai/agent-evidence-vectors/blob/main/release/CORPUS-DIGESTS.txt"
     },
-    "routine": "corpus_digest in corpora/vectors-agent-payment-mandate/gen_vectors.py",
-    "routine-file": "corpora/vectors-agent-payment-mandate/gen_vectors.py",
+    "routine": "corpus_digest in corpora/vectors-agent-payment-mandate/digest.py",
+    "routine-file": "corpora/vectors-agent-payment-mandate/digest.py",
     "serialization": "corpus-routine",
     "sha256": "1e3ef13229061b8b41fe51bb8e3ffd2f7ac55e3e61c6d5f31a87f0bf123984e1",
     "verdicts": {
@@ -109,12 +109,35 @@
           "exit-code": 0,
           "sha256": "d6e8867fee89c39c9cf6d5a5fd3b1ddbbc6cc2f63ccfe190ee27c9f1f930769c"
         },
+        "swapped-in": "926e5370dcdb2779553ce0f1d4df372c55a100ffbffc8918cb5c005fe807286e",
+        "test": "swap-and-re-pin"
+      },
+      "path": "corpora/vectors-agent-payment-mandate/digest.py",
+      "serialization": "bytes",
+      "sha256": "16e364c222c2d3d8b97c1a1cada5d9ec72edfa232eb0ceb44ee8b01798b46037"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "d6e8867fee89c39c9cf6d5a5fd3b1ddbbc6cc2f63ccfe190ee27c9f1f930769c"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "d6e8867fee89c39c9cf6d5a5fd3b1ddbbc6cc2f63ccfe190ee27c9f1f930769c"
+        },
         "swapped-in": "deb8643d61fafbeed4be3f23b11c2cb5a80d3ca16c2cd32062d3dc8bc9ea9efd",
         "test": "swap-and-re-pin"
       },
       "path": "corpora/vectors-agent-payment-mandate/gen_vectors.py",
       "serialization": "bytes",
-      "sha256": "18afef36cddcdf914fe902193f0a211b2aa18bcad1a649a66df7284cd5e13105"
+      "sha256": "16bab9fc65eee89e45bdb398f53f168112a50a7f67cc1b9685400b5fbc9b35fa"
     },
     {
       "consumed": "unconsumed",
@@ -391,7 +414,7 @@
         "go.mod"
       ],
       "serialization": "sha256-listing-v1",
-      "sha256": "6585c8cf4625f2713e109a60cb75d46e06c548b0dc5d9200eb9a9c965d06c783"
+      "sha256": "73dc29ae028d3f7af08d891da176c6850fabbfbb6b70fabf20031fed6374e483"
     },
     "runtime": {
       "name": "go",
@@ -1040,7 +1063,7 @@
   ],
   "corpus-digest": {
     "serialization": "sha256-listing-v1",
-    "sha256": "34e5a1778d606996fd63331b96436acb075bae63c1207bb8c57d36b81debee1e"
+    "sha256": "14964758cc6e25e6e0846b9d3cb788ef5f794adce8f9001630f5d6ca24bc077b"
   },
   "exit-code": 0,
   "exit-rule": "zero-iff-every-check-passes",
