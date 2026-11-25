@@ -370,7 +370,7 @@ corpus that includes his own members.
 | | |
 | --- | --- |
 | Reporter | `giskard09` |
-| Implementation | [`giskard09/argentum-core`](https://github.com/giskard09/argentum-core/tree/80579e5/examples/conformance/farley-receipt-signature) at `80579e5`, `examples/conformance/farley-receipt-signature/vector_verifier.py`, Python, sharing only `jcs.py` with this repository |
+| Implementation | [`giskard09/argentum-core`](https://github.com/giskard09/argentum-core/tree/80579e5/examples/conformance/farley-receipt-signature) at `80579e5`, `examples/conformance/farley-receipt-signature/vector_verifier.py`, Python, importing only `argentum-core`'s own `jcs.py` (blob `41457d1`), no file from this repository |
 | Posted at | [#352, comment of 2026-11-15](https://github.com/probityai/agent-evidence-vectors/issues/352#issuecomment-6897334205), with [the CI run](https://github.com/giskard09/argentum-core/actions/runs/43733303359) |
 | Corpus | `vectors-receipt-signature`, corpus digest `54c2d588c2bcb52c2056f5d6faab6c48d059517301e87c84c4115e866d88e330`, through the Action at `v0.36.3` |
 | Result | 29 vectors, 29 pass, 0 not honouring a SHOULD, 0 closing a gap, 0 fail; "ran on 29 of 29 vectors" |
@@ -379,6 +379,11 @@ corpus that includes his own members.
 In his words:
 
 > The expected verdicts were visible while I wrote it, so the run is directed, not blind. It shares only `jcs.py` with this repository and no code from your reference reader; it is not an independent implementation in the sense of your RUNS.md.
+
+He corrected one word of that on this repository's pull request 731: the
+`jcs.py` is `argentum-core`'s own (blob `41457d1` at `80579e5`), and no file in
+this repository's tree has that blob. "This repository" in his docstring and in
+the quote above means `argentum-core`. The label stays directed.
 
 Two things he put on the record: the first CI run was red on 4 of 29 because the
 Action installs its own Python after the job's, which a separate venv fixed, and
