@@ -190,10 +190,10 @@ def key_set(label: str) -> dict[str, Any]:
 
 
 def fingerprint(ks: dict[str, Any]) -> str:
-    k = ks["keys"][0]
-    return enc(
-        hashlib.sha256(":".join([k["kty"], k["crv"], k["x"], k["y"], "", ""]).encode()).digest()
+    lines = sorted(
+        ":".join(k.get(f, "") for f in ("kty", "crv", "x", "y", "n", "e")) for k in ks["keys"]
     )
+    return enc(hashlib.sha256("\n".join(lines).encode()).digest())
 
 
 def digest(params: dict[str, Any], prefix: str = "svcb1:") -> str:
@@ -288,6 +288,35 @@ def served(rec: dict[str, Any], **kw: Any) -> dict[str, Any]:
     return out
 
 
+def tail(extra: str) -> str:
+    """The good payload text with raw JSON appended before its closing brace."""
+    return jws("owner", compact(body(REC))[:-1] + extra + "}")
+
+
+def jwk_case(sig: str, **changes: Any) -> dict[str, Any]:
+    out = case(REC, sig)
+    out["jwks"]["keys"][0].update(changes)
+    return out
+
+
+def with_malformed_first_key() -> dict[str, Any]:
+    out = case(REC, jws("owner", compact(body(REC)), {"alg": "ES256", "typ": "JWT"}))
+    out["jwks"]["keys"].insert(
+        0, {"crv": "P-256", "kid": "k0", "kty": "EC", "x": "not base64url!", "y": ""}
+    )
+    out["key_authority"] = {"jwks_fingerprint": fingerprint(out["jwks"]), "kind": "pin"}
+    return out
+
+
+#: Member files whose text is edited after writing: (the line to find, the line put in front of it).
+EDITS = {
+    "member-duplicate-target": (
+        '  "target": "chat.example.com",\n',
+        '  "target": "evil.example.net",\n',
+    )
+}
+
+
 def table() -> dict[str, dict[str, Any]]:
     good = jws("owner", compact(body(REC)))
     h, p, s = good.split(".")
@@ -380,6 +409,46 @@ def table() -> dict[str, dict[str, Any]]:
             case(REC, good, authority=None), key_authority={"kind": "dnssec-chain"}
         ),
         "signature-base64url-non-canonical": case(REC, f"{h}.{p}.{s[:-1]}{ALPHABET[last]}"),
+        "payload-nan-literal": case(REC, tail(',"z":NaN')),
+        "header-infinity-literal": case(
+            REC, raw_header('{"alg":"ES256","kid":"k1","typ":"JWT","x":-Infinity}')
+        ),
+        "payload-lone-surrogate": case(REC, tail(',"z":"\\ud800"')),
+        "payload-noncharacter": case(REC, tail(',"z":"\ufdd0"')),
+        "exp-beyond-safe-integer": case(
+            REC, jws("owner", compact(body(REC, exp=9007199254740992)))
+        ),
+        "port-out-of-range": case(
+            dict(REC, port=65536), jws("owner", compact(body(dict(REC, port=65536))))
+        ),
+        "jwks-url-backslash-userinfo": case(
+            REC2,
+            jws("owner", compact(body(REC2))),
+            url="https://evil.example\\@dns-aid.example.com/.well-known/dns-aid-jwks.json",
+        ),
+        "jwks-url-userinfo": case(
+            REC2,
+            jws("owner", compact(body(REC2))),
+            url="https://agent@dns-aid.example.com/.well-known/dns-aid-jwks.json",
+        ),
+        "target-kelvin-sign": case(
+            served(REC, target="\u212achat.example.com"),
+            jws("owner", compact(body(dict(REC, target="kchat.example.com")))),
+        ),
+        "target-two-trailing-dots": case(served(REC, target="chat.example.com.."), good),
+        "target-root-dot": case(served(REC, target="chat.example.com."), good),
+        "fqdn-ascii-case": case(served(REC, fqdn="_CHAT._A2A._AGENTS.Example.COM"), good),
+        "jwk-use-enc": jwk_case(good, use="enc"),
+        "jwk-key-ops-derive": jwk_case(good, key_ops=["deriveBits"]),
+        "jwk-alg-es384": jwk_case(good, alg="ES384"),
+        "jwk-x-33-bytes": jwk_case(good, x=enc(b"\x00" + dec(key_set("owner")["keys"][0]["x"]))),
+        "jwk-set-skips-malformed-key": with_malformed_first_key(),
+        "record-proto-empty": case(served(REC, proto=""), good),
+        "target-absent-both-sides": case(
+            {k: v for k, v in REC.items() if k != "target"},
+            jws("owner", compact({k: v for k, v in body(REC).items() if k != "target"})),
+        ),
+        "member-duplicate-target": case(REC, good),
     }
 
 
@@ -388,7 +457,13 @@ def main(argv: list[str]) -> int:
     out.mkdir(parents=True, exist_ok=True)
     for name, member in table().items():
         member["case"] = name
-        (out / f"{name}.json").write_text(pretty(member) + "\n", encoding="ascii")
+        text = pretty(member) + "\n"
+        if name in EDITS:
+            find, before = EDITS[name]
+            if text.count(find) != 1:
+                raise ValueError(f"{name}: the text edit does not find exactly one {find!r}")
+            text = text.replace(find, before + find)
+        (out / f"{name}.json").write_text(text, encoding="ascii")
     return 0
 
 
