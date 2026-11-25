@@ -11,7 +11,8 @@ What it requires of every tracked `vectors*/MANIFEST.json`:
 
   * a non-empty `counts` object of non-negative integers, in the corpus's own verdict
     words (the words are not normalised, because a recipient who reads the manifest finds
-    those words);
+    those words); a corpus whose members carry two verdicts publishes one such object per
+    verdict, keyed by the verdict's name, and each one meets the two rules below alone;
   * the members other than `total` sum to the number of entries the manifest lists;
   * a `total` member, where present, equals that sum.
 
@@ -65,14 +66,37 @@ def defect(path: Path) -> str | None:
     counts = manifest.get("counts")
     if not isinstance(counts, dict) or not counts:
         return "carries no counts block"
+    nested = [word for word, value in counts.items() if isinstance(value, dict)]
+    if not nested:
+        return _buckets_defect(counts, entries, "")
+    if len(nested) != len(counts):
+        return "has a counts block that mixes plain buckets with per-verdict counts"
+    for verdict, buckets in counts.items():
+        reason = _buckets_defect(buckets, entries, f"verdict {verdict!r} ")
+        if reason is not None:
+            return reason
+    return None
+
+
+def _buckets_defect(counts: dict[str, object], entries: int, label: str) -> str | None:
+    """Why one flat map of buckets fails against the entry count, or None when it holds.
+
+    A corpus whose members carry two verdicts (an authorization and a settlement, say)
+    publishes one flat map per verdict, and each map accounts for every entry on its own.
+    `label` names the verdict so a refusal says which one broke.
+    """
+    if not counts:
+        return f"{label}carries no counts"
+    ints: dict[str, int] = {}
     for word, value in counts.items():
         if isinstance(value, bool) or not isinstance(value, int) or value < 0:
-            return f"has a counts member {word!r} that is not a non-negative integer"
-    summed = sum(value for word, value in counts.items() if word != "total")
+            return f"{label}has a counts member {word!r} that is not a non-negative integer"
+        ints[word] = value
+    summed = sum(value for word, value in ints.items() if word != "total")
     if summed != entries:
-        return f"lists {entries} entries and a counts block summing to {summed}"
-    if "total" in counts and counts["total"] != summed:
-        return f"declares a counts total of {counts['total']} while its buckets sum to {summed}"
+        return f"{label}lists {entries} entries and a counts block summing to {summed}"
+    if "total" in ints and ints["total"] != summed:
+        return f"{label}declares a counts total of {ints['total']} while its buckets sum to {summed}"
     return None
 
 
