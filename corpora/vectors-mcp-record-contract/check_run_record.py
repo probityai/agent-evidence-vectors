@@ -206,6 +206,7 @@ def check_independence(independence: dict, notes: list[str]) -> str:
         return "self-report"
     return "independent"
 
+
 V01_FORMAT = "public-agent-conformance/report/v0.1"
 
 #: A reference after an at sign in a configuration's `checker` field, for
@@ -271,7 +272,9 @@ def _invocation(records: Path, run: dict) -> tuple[str | None, list[str]]:
     if len(lines) == 1:
         return lines[0], []
     if lines:
-        return None, [f"the README prints {len(lines)} different commands that run {script}, so the invocation is ambiguous"]
+        return None, [
+            f"the README prints {len(lines)} different commands that run {script}, so the invocation is ambiguous"
+        ]
     return None, []
 
 
@@ -289,7 +292,9 @@ def _runner(config: dict) -> dict:
     return {"ref": (mutable or refs)[0]}
 
 
-def read_v01_report(report: Path, invocation: str | None = None) -> tuple[dict, list[str], list[str]]:
+def read_v01_report(
+    report: Path, invocation: str | None = None
+) -> tuple[dict, list[str], list[str]]:
     """A run record built from a v0.1 report and the files beside it.
 
     Returns the record, then the problems that make it not re-checkable, then
@@ -423,7 +428,9 @@ def refuse_other_shape(record: object, path: str) -> None:
     if isinstance(record, dict) and record.get("format") == V01_FORMAT:
         raise Unreadable(f"{path} is a {V01_FORMAT} report, not a run record; run with --v01")
     if not isinstance(record, dict) or not {"sides", "figure", "independence"} & set(record):
-        raise Unreadable(f"{path} has none of sides, figure or independence, so it is not a run record")
+        raise Unreadable(
+            f"{path} has none of sides, figure or independence, so it is not a run record"
+        )
 
 
 def read_arguments(args: argparse.Namespace) -> tuple[dict, bool]:

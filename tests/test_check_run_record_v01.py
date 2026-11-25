@@ -27,7 +27,9 @@ _SPEC.loader.exec_module(checker)
 def run(*args):
     return subprocess.run(
         [sys.executable, "-I", str(CHECKER), *map(str, args)],
-        capture_output=True, text=True, check=False,
+        capture_output=True,
+        text=True,
+        check=False,
     )
 
 
@@ -60,10 +62,14 @@ def test_real_rows_are_recheckable_self_reports():
 def test_record_is_built_only_from_the_published_files():
     for name, total in NAMES.items():
         record, problems, misleading = checker.read_v01_report(
-            FIXTURE / "records" / "reports" / f"{name}.json")
+            FIXTURE / "records" / "reports" / f"{name}.json"
+        )
         assert problems == [] and misleading == []
         side = record["sides"][0]
-        assert side["inputs"]["ref"] == "sha256:48cf831840fc81db4e242ce5d2230a99fd41c890e5aa8b00dd6edef24098e9d3"
+        assert (
+            side["inputs"]["ref"]
+            == "sha256:48cf831840fc81db4e242ce5d2230a99fd41c890e5aa8b00dd6edef24098e9d3"
+        )
         assert side["invocation"].startswith(".venv/bin/python emit.py --runner")
         assert side["output"]["published"] is True
         assert record["figure"]["headline"] == f"{total} of {total}"
@@ -72,7 +78,9 @@ def test_record_is_built_only_from_the_published_files():
 
 def test_runner_refs_come_from_the_checker_field():
     refs = {
-        n: checker.read_v01_report(FIXTURE / "records" / "reports" / f"{n}.json")[0]["sides"][0]["runner"]["ref"]
+        n: checker.read_v01_report(FIXTURE / "records" / "reports" / f"{n}.json")[0]["sides"][0][
+            "runner"
+        ]["ref"]
         for n in NAMES
     }
     assert refs["probity-map-reader"] == "d759fb4db68a7fefcc91c2d3ad2a585471d6a53a"
@@ -119,6 +127,7 @@ def test_rollup_that_disagrees_with_checks_misleads(copy):
     # keep the digest honest so only the figure is at issue
     sums = copy / "records" / "SHA256SUMS"
     import hashlib
+
     new = hashlib.sha256(path.read_bytes()).hexdigest()
     lines = [
         f"{new}  reports/heldfast-profiles.json"
