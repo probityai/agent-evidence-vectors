@@ -139,6 +139,7 @@ class TestAuthorityEpochFenceCorpus:
         def test_mutated_fixture_is_refused_before_execution(self, tmp_path: Path) -> None:
             copied = tmp_path / "corpus"
             shutil.copytree(ROOT, copied, ignore=shutil.ignore_patterns("tests", "__pycache__"))
-            (copied / "cases" / "epoch-current-epoch-admitted" / "request.json").write_bytes(b"{}\n")
+            target = copied / "cases" / "epoch-current-epoch-admitted" / "request.json"
+            target.write_bytes(b"{}\n")
             _, errors = corpus.check(root=copied)
             assert "epoch-current-epoch-admitted: fixture digest mismatch" in errors
