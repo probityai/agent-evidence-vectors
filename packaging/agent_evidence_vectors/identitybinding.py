@@ -326,6 +326,14 @@ def signature_verifies(c: _Case) -> bool:
     return bool(rail.ed25519_verify(key, rail.pae(str(c.envelope["payloadType"]), payload), sig))
 
 
+def _history_unobserved(c: _Case) -> bool:
+    """True when the resolver's last read of the DID is missing or older than ``provenAt``."""
+    observed, proven = c.observed_at(), c.proven_at
+    if observed is None or proven is None:
+        return True
+    return observed < proven
+
+
 def _first_failure(c: _Case, skip: frozenset[str]) -> str | None:
     """Name the first check in ``CHECKS`` the record fails, or None.
 
@@ -338,8 +346,7 @@ def _first_failure(c: _Case, skip: frozenset[str]) -> str | None:
         "signer_not_subject": lambda: c.signer != c.subject,
         "did_unresolvable": lambda: c.resolution is None,
         "signing_time_unproven": lambda: c.proven_at is None or c.signed_at > c.proven_at,
-        "history_unobserved": lambda: (c.observed_at() is None or c.proven_at is None
-                                       or c.observed_at() < c.proven_at),
+        "history_unobserved": lambda: _history_unobserved(c),
         "binding_fingerprint_mismatch": lambda: _fingerprint_mismatch(c),
         "key_rotated_out": lambda: _rotated_out(c),
         "key_not_authorized": lambda: _not_authorised(c),

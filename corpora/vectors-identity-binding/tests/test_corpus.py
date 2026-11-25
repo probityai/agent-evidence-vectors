@@ -195,3 +195,18 @@ class TestIdentityBindingCorpus:
         ])
         def test_well_formed_did_strings_are_accepted(self, did: str) -> None:
             assert identitybinding.well_formed(did)
+
+        @pytest.mark.parametrize("resolution,proven", [
+            (None, None),
+            ({"versions": []}, None),
+            ({"versions": []}, "2026-01-01T00:00:00Z"),
+            ({"versions": [], "observedAt": 5}, "2026-01-01T00:00:00Z"),
+            ({"versions": [], "observedAt": "not a time"}, "2026-01-01T00:00:00Z"),
+        ])
+        def test_missing_observation_refuses_instead_of_raising(self, resolution, proven) -> None:  # type: ignore[no-untyped-def]
+            when = identitybinding._when
+            case = identitybinding._Case(
+                envelope={}, subject="did:web:example.com", signed_at=when("2025-01-01T00:00:00Z"),
+                keyid="k", signer="did:web:example.com", resolution=resolution,
+                proven_at=when(proven) if proven else None)
+            assert identitybinding._history_unobserved(case) is True
