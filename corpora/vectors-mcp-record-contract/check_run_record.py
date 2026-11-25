@@ -426,23 +426,10 @@ def refuse_other_shape(record: object, path: str) -> None:
         raise Unreadable(f"{path} has none of sides, figure or independence, so it is not a run record")
 
 
-def main(argv: list[str]) -> int:
-    parser = argparse.ArgumentParser(description="check a cross-run record")
-    parser.add_argument("record", nargs="+", help="one or more run-record JSON files")
-    parser.add_argument("--json", dest="as_json", action="store_true")
-    parser.add_argument(
-        "--v01",
-        action="store_true",
-        help=f"read {V01_FORMAT} reports: each argument is a records directory or one reports/<name>.json",
-    )
-    parser.add_argument(
-        "--invocation",
-        help="with --v01: the command, verbatim, when no README beside the records prints it",
-    )
-    args = parser.parse_args(argv[1:])
-
-    report = {}
-    worst = 0
+def read_arguments(args: argparse.Namespace) -> tuple[dict, bool]:
+    """Every verdict for the arguments, and whether any could not be read."""
+    report: dict = {}
+    unreadable = False
     for argument in args.record:
         try:
             if args.v01:
@@ -455,15 +442,36 @@ def main(argv: list[str]) -> int:
             report[argument] = check_record(record)
         except (Unreadable, OSError, ValueError) as error:
             print(f"cannot read {argument}: {error}", file=sys.stderr)
-            worst = 2
+            unreadable = True
+    return report, unreadable
 
-    for verdict in report.values():
-        if worst == 0 and (
-            not verdict["recheckable"]
-            or not verdict["figureMeansWhatItSays"]
-            or verdict["independence"] == "undeclared"
-        ):
-            worst = 1
+
+def has_finding(verdict: dict) -> bool:
+    return (
+        not verdict["recheckable"]
+        or not verdict["figureMeansWhatItSays"]
+        or verdict["independence"] == "undeclared"
+    )
+
+
+def main(argv: list[str]) -> int:
+    parser = argparse.ArgumentParser(description="check a cross-run record")
+    parser.add_argument("record", nargs="+", help="one or more run-record JSON files")
+    parser.add_argument("--json", dest="as_json", action="store_true")
+    parser.add_argument(
+        "--v01",
+        action="store_true",
+        help=f"read {V01_FORMAT} reports: each argument is a records directory "
+        "or one reports/<name>.json",
+    )
+    parser.add_argument(
+        "--invocation",
+        help="with --v01: the command, verbatim, when no README beside the records prints it",
+    )
+    args = parser.parse_args(argv[1:])
+
+    report, unreadable = read_arguments(args)
+    worst = 2 if unreadable else int(any(has_finding(v) for v in report.values()))
 
     if args.as_json:
         json.dump(report, sys.stdout, indent=2)

@@ -121,8 +121,10 @@ def test_rollup_that_disagrees_with_checks_misleads(copy):
     import hashlib
     new = hashlib.sha256(path.read_bytes()).hexdigest()
     lines = [
-        f"{new}  reports/heldfast-profiles.json" if l.endswith("reports/heldfast-profiles.json") else l
-        for l in sums.read_text().splitlines()
+        f"{new}  reports/heldfast-profiles.json"
+        if line.endswith("reports/heldfast-profiles.json")
+        else line
+        for line in sums.read_text().splitlines()
     ]
     sums.write_text("\n".join(lines) + "\n")
     verdict = verdicts(copy / "records")["heldfast-profiles"]
