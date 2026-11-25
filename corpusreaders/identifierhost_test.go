@@ -85,7 +85,7 @@ func stageRewritten(t *testing.T, dir, to string) (string, int) {
 		if err != nil || info.IsDir() {
 			return err
 		}
-		body, err := os.ReadFile(path) // #nosec G304 -- a test reading its own temporary copy
+		body, err := os.ReadFile(path) // #nosec G304,G122 -- a test reading its own temporary copy, which copyTree wrote as regular files, so it holds no symlink
 		files[path] = body
 		return err
 	})
