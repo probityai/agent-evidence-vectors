@@ -19,6 +19,7 @@ from __future__ import annotations
 
 import copy
 import hashlib
+import importlib.util
 import json
 import sys
 from collections.abc import Callable
@@ -81,16 +82,29 @@ POLICY = {
 }
 
 
-def _sha(data: bytes) -> str:
-    return hashlib.sha256(data).hexdigest()
+def _load_digest() -> Any:
+    """The standard-library-only module that owns this corpus's preimage, loaded by path.
+
+    By path, under a name of its own, because several corpora ship a `digest.py` and one
+    process (a test run, the release digest check) can hold more than one of them.
+    """
+    spec = importlib.util.spec_from_file_location("payment_mandate_digest", ROOT / "digest.py")
+    if spec is None or spec.loader is None:
+        raise ImportError(f"{ROOT / 'digest.py'} could not be loaded")
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    return module
 
 
-def _json(value: object) -> bytes:
-    return (json.dumps(value, indent=2, sort_keys=True, ensure_ascii=True) + "\n").encode()
+_DIGEST = _load_digest()
+corpus_digest = _DIGEST.corpus_digest
+entries_digest = _DIGEST.entries_digest
+json_bytes = _DIGEST.json_bytes
+sha256_hex = _DIGEST.sha256_hex
 
 
 def _digest(value: object) -> str:
-    return _sha(
+    return sha256_hex(
         json.dumps(value, sort_keys=True, separators=(",", ":"), ensure_ascii=True).encode()
     )
 
@@ -488,7 +502,7 @@ def _edited_terms(r: dict[str, Any]) -> None:
 
 
 def _unbound(r: dict[str, Any]) -> None:
-    r["credential"]["mandate_digest"] = _sha(b"another mandate")
+    r["credential"]["mandate_digest"] = sha256_hex(b"another mandate")
 
 
 def _expired(r: dict[str, Any]) -> None:
@@ -1160,22 +1174,6 @@ MEMBERS: tuple[tuple[str, str, Callable[[dict[str, Any]], Any] | None, str, str,
 _ACCEPT_IDS = {name for name, _b, mutate, *_ in MEMBERS if mutate is None}
 
 
-def corpus_digest(manifest: dict[str, Any], root: str) -> str:
-    """Recompute the digest from the committed files, not their declared hashes."""
-    base = Path(root)
-    entries = []
-    for entry in manifest["vectors"]:
-        directory = base / entry["path"]
-        declared = entry["files"]
-        if {p.name for p in directory.iterdir() if p.is_file()} != set(declared):
-            raise ValueError(f"{entry['id']}: file set changed")
-        files = {name: _sha((directory / name).read_bytes()) for name in declared}
-        if files != declared:
-            raise ValueError(f"{entry['id']}: file digest mismatch")
-        entries.append({**entry, "files": files})
-    return _sha(_json(entries))
-
-
 def _index(entries: list[dict[str, Any]], digest: str) -> bytes:
     lines = [
         "# Agent payment mandate vectors",
@@ -1215,14 +1213,14 @@ def generate(root: Path = ROOT) -> dict[str, Any]:
         record["case_id"] = f"vectors-agent-payment-mandate-{name}"
         directory = root / "cases" / name
         directory.mkdir(parents=True, exist_ok=True)
-        data = _json(record)
+        data = json_bytes(record)
         if mutate is _duplicate_member:
             data = _with_duplicate_amount(data, record["execution"]["amount_minor"])
         (directory / "case.json").write_bytes(data)
         entry: dict[str, Any] = {
             "id": name,
             "path": f"cases/{name}",
-            "files": {"case.json": _sha(data)},
+            "files": {"case.json": sha256_hex(data)},
             "description": description,
             "expected": {
                 "decision": "accepted" if mutate is None else "rejected",
@@ -1233,7 +1231,7 @@ def generate(root: Path = ROOT) -> dict[str, Any]:
             assert twin in _ACCEPT_IDS, (name, twin)
             entry["twin"] = twin
         entries.append(entry)
-    digest = _sha(_json(entries))
+    digest = entries_digest(entries)
     manifest = {
         "suite": SUITE,
         "schema": SCHEMA,
@@ -1244,10 +1242,10 @@ def generate(root: Path = ROOT) -> dict[str, Any]:
     }
     verdict_words = [entry["expected"]["decision"] for entry in entries]
     manifest["counts"] = {word: verdict_words.count(word) for word in sorted(set(verdict_words))}
-    (root / "MANIFEST.json").write_bytes(_json(manifest))
+    (root / "MANIFEST.json").write_bytes(json_bytes(manifest))
     (root / "INDEX.md").write_bytes(_index(entries, digest))
-    (root / "profile.json").write_bytes(_json(PROFILE))
-    (root / "policy.json").write_bytes(_json(POLICY))
+    (root / "profile.json").write_bytes(json_bytes(PROFILE))
+    (root / "policy.json").write_bytes(json_bytes(POLICY))
     return manifest
 
 
