@@ -18,6 +18,7 @@ Start in the verification core for statement behavior, the packaging harness for
 | [aeetest/](../../aeetest/) | Synthetic statements and derived test keys |
 | [cmd/aee-verify/](../../cmd/aee-verify/) | Statement CLI and registered corpus readers |
 | [corpora/](../../corpora/) | Format-specific readers selected by manifest suite |
+| [signed-claims-corpora.md](signed-claims-corpora.md) | Layout of a corpus whose records are small signed JSON claims, with a Python and a Go reader that must agree |
 | [packaging/run_vectors.py](../../packaging/run_vectors.py) | Python reference rail, external-verifier harness and reports |
 | [cmd/mutgen/](../../cmd/mutgen/), [cmd/mutrun/](../../cmd/mutrun/) | Single-site weakening and in-process corpus replay |
 | [witnessattestor/](../../witnessattestor/) | Separate go-witness module and library demo |

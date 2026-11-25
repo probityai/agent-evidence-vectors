@@ -1851,6 +1851,10 @@ jobs:
         run: uv run --extra dev pytest corpora/vectors-empty-interval-statement/tests -q
       - name: key-revocation-list cases regenerate, force every rule and refuse a reader that trusts the list
         run: uv run --extra dev pytest corpora/vectors-key-revocation-list/tests -q
+      - name: revocation-fence cases regenerate, force every check and refuse a reader that treats unknown as closed
+        run: uv run --extra dev pytest corpora/vectors-revocation-fence/tests -q
+      - name: authority-epoch-fence cases regenerate, force every check and refuse a reader that treats unknown as closed
+        run: uv run --extra dev pytest corpora/vectors-authority-epoch-fence/tests -q
       - name: receipt-chain-end cases regenerate and force every check
         run: uv run --extra dev pytest corpora/vectors-receipt-chain-end/tests -q
       - name: identity-binding cases regenerate and force every check
