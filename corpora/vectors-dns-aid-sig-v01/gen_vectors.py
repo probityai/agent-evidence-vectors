@@ -71,6 +71,10 @@ SPECIFICATION = {
         "window": "exp after iat; a window whose exp is at or before its iat is refused",
         "crit": "a crit header is refused (RFC 7515 section 4.1.11): this profile defines no "
         "extension",
+        "b64": "a b64 header is refused, with or without crit (RFC 7797): the payload is always "
+        "base64url",
+        "signature": "r and s as 32 octets each; a high-s signature verifies (RFC 7518 does not "
+        "require low s)",
         "base64url": "the strict alphabet without padding, and the canonical encoding only",
         "protocol": "the payload's fqdn, target and alpn are strings; its alpn is compared with the "
         "record's proto when that member is present (an empty proto names nothing), else with its "
@@ -428,6 +432,13 @@ def _skips_malformed_key() -> dict[str, Any]:
     )
     case["key_authority"] = {"jwks_fingerprint": jwks_fingerprint(case["jwks"]), "kind": "pin"}
     return case
+
+
+def _high_s() -> dict[str, Any]:
+    h, p, s = _split(_good())
+    raw = base64.urlsafe_b64decode(s + "==")
+    flipped = (P256_N - int.from_bytes(raw[32:], "big")).to_bytes(32, "big")
+    return member(RECORD, f"{h}.{p}.{b64u(raw[:32] + flipped)}")
 
 
 def _no_target() -> dict[str, Any]:
@@ -830,6 +841,20 @@ MEMBERS: tuple[tuple[str, Build, list[str], str], ...] = (
         ["svcb1-digest-mismatch"],
         "a served ipv4hint the signer never saw: every present param enters the digest, not "
         "only the DNS-AID ones",
+    ),
+    (
+        "header-b64-false",
+        lambda: _raw_header(b'{"alg":"ES256","b64":false,"kid":"k1","typ":"JWT"}'),
+        ["jws-malformed"],
+        "b64 false without crit: an RFC 7797 reader signs the raw payload, a base64url reader "
+        "the encoded one",
+    ),
+    (
+        "signature-high-s",
+        _high_s,
+        [],
+        "control: s replaced by n - s, the other valid ECDSA signature; ES256 does not require "
+        "low s",
     ),
     (
         "member-duplicate-target",

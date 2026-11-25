@@ -161,7 +161,8 @@ def norm(name: Any) -> str | None:
 
 def within(name: Any, zone: Any) -> bool:
     n, z = norm(name), norm(zone)
-    return n is not None and z is not None and (n == z or n.endswith("." + z))
+    # An empty name is the root, which is no publishing zone and contains no fqdn.
+    return bool(n) and bool(z) and (n == z or n.endswith("." + z))
 
 
 def svcb1(params: dict[str, Any]) -> str:
@@ -281,6 +282,11 @@ def verified_parts(case: dict[str, Any]) -> list[str]:
         raise Finding("jws-malformed", "not a compact JWS")
     header = strict_object(ub64(parts[0], "header"), "header", "header-duplicate-member")
     check_crit(header)
+    if "b64" in header:
+        raise Finding(
+            "jws-malformed",
+            "RFC 7797: b64 changes what is signed, and this profile defines no unencoded payload",
+        )
     if header.get("alg") != "ES256":
         raise Finding("alg-not-es256", f"alg {header.get('alg')!r} is not ES256")
     signature = ub64(parts[2], "signature")

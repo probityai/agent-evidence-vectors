@@ -326,6 +326,7 @@ def table() -> dict[str, dict[str, Any]]:
     dup = '{"fqdn":"_x._a2a._agents.evil.example",' + compact(body(REC))[1:]
     floated = compact(body(REC)).replace('"port":443', '"port":443.0')
     nopre = dict(body(REC), svcb=digest(FULL, prefix=""))
+    high_s = (N - int.from_bytes(dec(s)[32:], "big")).to_bytes(32, "big")
     return {
         "full-coverage-valid": case(REC, good),
         "endpoint-only": case(REC, jws("owner", compact(body(REC, svcb=False)))),
@@ -457,6 +458,10 @@ def table() -> dict[str, dict[str, Any]]:
             url="https://dns-aid.example.com:99999/.well-known/dns-aid-jwks.json",
         ),
         "svcb1-covers-ipv4hint": case(served(REC, params={"ipv4hint": "192.0.2.66"}), good),
+        "header-b64-false": case(
+            REC, raw_header('{"alg":"ES256","b64":false,"kid":"k1","typ":"JWT"}')
+        ),
+        "signature-high-s": case(REC, f"{h}.{p}.{enc(dec(s)[:32] + high_s)}"),
         "member-duplicate-target": case(REC, good),
     }
 
