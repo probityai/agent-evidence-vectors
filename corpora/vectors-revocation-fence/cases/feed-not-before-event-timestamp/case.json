@@ -1,0 +1,19 @@
+{
+  "issuer_keys": {
+    "https://idp.example": [
+      "u1fqfUErgLZZ/pC02QIJnzEHWKfYMxmI3M42lmR95r0="
+    ],
+    "https://other-idp.example": [
+      "S+LKJEhjsV6a30iB/+ym8a2HR4ArNm2qMxVUPFMo8Qs="
+    ]
+  },
+  "journal": [],
+  "kind": "feed",
+  "receiver_audience": "https://receiver.example",
+  "session_binding": {
+    "https://idp.example": true,
+    "https://other-idp.example": false
+  },
+  "set": "set.jws",
+  "v": 1
+}

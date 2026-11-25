@@ -1,0 +1,30 @@
+{
+  "audience": "target:ledger",
+  "keys": {
+    "authority": [
+      "g4O3AWv6GNGIsK5mMOzjT/V0tZTn9c65UMICLePM9LE="
+    ],
+    "epoch_source": [
+      "YlHALBBRagtZjDW4nod+T4AT8VoX+AcD/sOAADBnF6s="
+    ],
+    "target": [
+      "q/5UnR7nZxroojgIsz4OvBh/D+LFeN52390Bf/vroXY="
+    ]
+  },
+  "kind": "commit",
+  "now_ns": "1767225660000000000",
+  "outcome": "outcome.json",
+  "permit": "permit.json",
+  "shape": "a",
+  "stage": "settle",
+  "state": {
+    "effects": {
+      "idem-1": {
+        "operation_digest": "bb90814b7c0f4cf4d95d71547445882339433f3c5ddab28e6f56bea489411593",
+        "permit_id": "permit-1"
+      }
+    },
+    "epoch": 3
+  },
+  "v": 1
+}

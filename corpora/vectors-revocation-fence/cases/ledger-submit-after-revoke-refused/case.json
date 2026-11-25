@@ -1,0 +1,16 @@
+{
+  "kind": "ledger",
+  "steps": [
+    {
+      "op": "revoke",
+      "subject": "agent:alpha"
+    },
+    {
+      "op": "submit",
+      "permit_id": "p2",
+      "reservation": 100,
+      "subject": "agent:alpha"
+    }
+  ],
+  "v": 1
+}

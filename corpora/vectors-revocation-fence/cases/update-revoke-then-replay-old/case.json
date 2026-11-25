@@ -1,0 +1,23 @@
+{
+  "audience": "target:ledger",
+  "held": {
+    "agent:alpha": 3
+  },
+  "keys": {
+    "authority": [
+      "g4O3AWv6GNGIsK5mMOzjT/V0tZTn9c65UMICLePM9LE="
+    ],
+    "epoch_source": [
+      "YlHALBBRagtZjDW4nod+T4AT8VoX+AcD/sOAADBnF6s="
+    ],
+    "target": [
+      "q/5UnR7nZxroojgIsz4OvBh/D+LFeN52390Bf/vroXY="
+    ]
+  },
+  "kind": "epoch-update",
+  "updates": [
+    "update-1.json",
+    "update-2.json"
+  ],
+  "v": 1
+}
