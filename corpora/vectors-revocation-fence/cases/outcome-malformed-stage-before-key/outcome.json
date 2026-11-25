@@ -1,0 +1,17 @@
+{
+  "claims": {
+    "v": 1,
+    "target_id": "target:ledger",
+    "permit_id": "permit-1",
+    "subject": "agent:alpha",
+    "epoch": 3,
+    "idempotency_key": "idem-1",
+    "stage": "prepare",
+    "outcome": "committed",
+    "reason": "",
+    "shape": "a",
+    "signed_at_ns": "1767225661000000000",
+    "kid": "36a902a90b97a5c1821f75297632eb9cc6f99e1a0a33d0386c877a0e3b4fa1fc"
+  },
+  "sig": "ATfFWHMkvbFw7Yb1Fyzm51KnQWFFmfBVDK99EIUoeGHhRq1K8dxc8iAVA7XFVuNZ7zRYvJUfwPiJpDU+6tq/Cg=="
+}
