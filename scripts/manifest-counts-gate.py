@@ -96,7 +96,8 @@ def _buckets_defect(counts: dict[str, object], entries: int, label: str) -> str 
     if summed != entries:
         return f"{label}lists {entries} entries and a counts block summing to {summed}"
     if "total" in ints and ints["total"] != summed:
-        return f"{label}declares a counts total of {ints['total']} while its buckets sum to {summed}"
+        total = ints["total"]
+        return f"{label}declares a counts total of {total} while its buckets sum to {summed}"
     return None
 
 

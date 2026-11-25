@@ -216,7 +216,8 @@ def aee_tally(entries: list[dict[str, Any]], root: Path) -> tuple[int, int, list
 # The type is spelled under each recognised host, so a record signed under either
 # is routed alike; the record's own bytes are still what the stage reports.
 AUDIT_RECORD_PREDICATES = tuple(
-    f"https://{host}/agent-evidence-vectors/predicate/v1/agent-audit-record" for host in RECOGNISED_HOSTS
+    f"https://{host}/agent-evidence-vectors/predicate/v1/agent-audit-record"
+    for host in RECOGNISED_HOSTS
 )
 AUDIT_RECORD_CLAIM = "agent_audit_record/v1"
 

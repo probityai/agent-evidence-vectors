@@ -57,7 +57,9 @@ KEY = "k" + "ey"
 # hash output, not an arithmetic run: gitleaks drops a value whose text holds one of its
 # stopwords, and a run of evenly spaced bytes encodes to one often enough to pass a case.
 PRIVATE_64 = hashlib.sha512(b"ed25519 private key: seed then public half").digest()
-B64URL_32 = base64.urlsafe_b64encode(bytes((i * 41 + 3) % 256 for i in range(2 * 16))).decode().rstrip("=")
+B64URL_32 = (
+    base64.urlsafe_b64encode(bytes((i * 41 + 3) % 256 for i in range(2 * 16))).decode().rstrip("=")
+)
 HEX_32 = bytes((i * 23 + 19) % 256 for i in range(2 * 16)).hex()
 TRUST = "corpora/vectors-actor-marker-survival/TRUST.json"
 
@@ -110,11 +112,20 @@ THIS_FILE = "scripts/secret-scan-allowlist-test.py"
         # issuerKey is the issuer's public key by the suites' definition: any 32-byte value
         # passes in a case file, so a new suite needs no new pin.
         (CTX, f'{{\n  "issuerKey": "{REAL_B64}",\n  "now": "2026-10-27T12:00:00Z"\n}}\n'),
-        ("corpora/vectors-x/cases/a/case.json", f'{{\n  "verifying{KEY.title()}": "{B64URL_32}"\n}}\n'),
+        (
+            "corpora/vectors-x/cases/a/case.json",
+            f'{{\n  "verifying{KEY.title()}": "{B64URL_32}"\n}}\n',
+        ),
         ("vectors/statements/v1.json", f'{{"embeddedVerification{KEY.title()}": "{HEX_32}"}}\n'),
         ("interop/x/fixtures/w.json", f'{{\n  "signer_public_{KEY}_hex": "{HEX_32}"\n}}\n'),
-        ("packages/admission/rego/corpus_vectors.json", f'{{"embeddedVerification{KEY.title()}": "{HEX_32}"}}\n'),
-        (TRUST, f'{{"writers": {{"agent": {{\n  "{KEY}": "{B64URL_32}",\n  "role": "agent"}}}}}}\n'),
+        (
+            "packages/admission/rego/corpus_vectors.json",
+            f'{{"embeddedVerification{KEY.title()}": "{HEX_32}"}}\n',
+        ),
+        (
+            TRUST,
+            f'{{"writers": {{"agent": {{\n  "{KEY}": "{B64URL_32}",\n  "role": "agent"}}}}}}\n',
+        ),
         (JWS_PATH, AGREEMENT),
         (DNS_AID,
          f'{{\n "jwks": {{"keys": [{{"x": "{DNS_AID_X}"}}]}},\n'
