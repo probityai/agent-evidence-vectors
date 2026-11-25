@@ -396,6 +396,21 @@ class IntakeListing(unittest.TestCase):
         self.assertEqual(record["checker"]["revision"]["paths"], module.go_source())
         self.assertEqual(record["checker"]["shared-verification-code"], module.go_source())
 
+    def test_the_listing_covers_every_package_the_checker_compiles(self) -> None:
+        """GO_PACKAGES is written by hand; the Go toolchain says what the build reads."""
+        module = load_intake()
+        prefix = "github.com/probityai/agent-evidence-vectors/"
+        out = subprocess.run(
+            ["go", "list", "-deps", "-f",
+             "{{if .Module}}{{if .Module.Main}}{{.ImportPath}}{{end}}{{end}}", "./cmd/aee-verify"],
+            cwd=REPO, capture_output=True, text=True, check=True, timeout=300,
+        ).stdout.split()
+        compiled = {path.removeprefix(prefix) for path in out}
+        self.assertTrue(compiled, "go list named no package of this module")
+        self.assertEqual(sorted(compiled - set(module.GO_PACKAGES)), [],
+                         "compiled by cmd/aee-verify and absent from GO_PACKAGES, so a change "
+                         "to it would leave every intake record claiming the code that ran")
+
 
 if __name__ == "__main__":
     unittest.main(verbosity=2)
