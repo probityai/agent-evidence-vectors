@@ -16,6 +16,7 @@ import base64
 import copy
 import hashlib
 import json
+import sys
 from collections.abc import Callable
 from pathlib import Path
 from typing import Any
@@ -25,7 +26,6 @@ from cryptography.hazmat.primitives.serialization import Encoding, PublicFormat
 from digest import corpus_digest
 from record import (
     ACCEPTED,
-    IDENTIFIER_HOST,
     PAYLOAD_TYPE,
     PREDICATE_TYPE,
     RULES,
@@ -36,6 +36,9 @@ from record import (
     judge,
     pae,
 )
+
+sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "packaging"))
+from agent_evidence_vectors.identifiers import IDENTIFIER_HOST  # noqa: E402
 
 HERE = Path(__file__).resolve().parent
 RUN = HERE / "observed" / "run-acs-0.4.0a4.json"
