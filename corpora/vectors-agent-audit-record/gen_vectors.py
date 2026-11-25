@@ -4788,6 +4788,38 @@ ROOT_JWKS = _jwk_set(raw_public(ROOT_KEY), hashlib.sha256(raw_public(ROOT_KEY)).
 OTHER_ROOT_JWKS = _jwk_set(
     raw_public(OTHER_ROOT_KEY), hashlib.sha256(raw_public(OTHER_ROOT_KEY)).hexdigest()[:32]
 )
+#: R25's root: a P-256 key from a fixed scalar, held as a key set whose one key
+#: carries no certificate (no x5c, no x5u).
+P256_ROOT_KEY = ec.derive_private_key(0x5EED_0025, ec.SECP256R1())
+
+
+def _p256_root_jwks() -> bytes:
+    numbers = P256_ROOT_KEY.public_key().public_numbers()
+    x, y = numbers.x.to_bytes(32, "big"), numbers.y.to_bytes(32, "big")
+    key = {
+        "crv": "P-256",
+        "kid": hashlib.sha256(b"\x04" + x + y).hexdigest()[:32],
+        "kty": "EC",
+        "x": base64.urlsafe_b64encode(x).rstrip(b"=").decode(),
+        "y": base64.urlsafe_b64encode(y).rstrip(b"=").decode(),
+    }
+    return canonical_bytes({"keys": [key]})
+
+
+P256_ROOT_JWKS = _p256_root_jwks()
+
+
+def key_set_root(jwks: bytes, algorithm: str) -> dict[str, Any]:
+    """expected.dating.delegationRoot for a key set whose digest equals
+    delegation.rootDigest: the root established, the key and its algorithm family
+    as recorded, and the binding of that key to a party not established, since a
+    key set names no party."""
+    return {
+        "result": "established",
+        "algorithm": algorithm,
+        "keyThumbprint": jwk_thumbprint(json.loads(jwks)["keys"][0]),
+        "binding": "not-established",
+    }
 
 
 def rooted_envelope() -> dict[str, Any]:
@@ -4795,6 +4827,13 @@ def rooted_envelope() -> dict[str, Any]:
     is the digest of the root key set the chain verifier held."""
     pred = from_pred("A1")
     pred["delegation"]["rootDigest"] = hashlib.sha256(ROOT_JWKS).hexdigest()
+    return envelope(signed(pred)["payload"])
+
+
+def rooted_envelope_p256() -> dict[str, Any]:
+    """rooted_envelope for a chain whose root key set is R25's P-256 key."""
+    pred = from_pred("A1")
+    pred["delegation"]["rootDigest"] = hashlib.sha256(P256_ROOT_JWKS).hexdigest()
     return envelope(signed(pred)["payload"])
 
 
@@ -4969,6 +5008,11 @@ def _r22(entry_: dict[str, Any], logged: bytes) -> None:
 def _r13(entry_: dict[str, Any], logged: bytes) -> None:
     entry_["anchors"] = [log_anchor("r13", "retainer", "2026-09-19T11:05:00Z", 3, 1, logged)]
     entry_["validationData"].append(root_element(ROOT_JWKS))
+
+
+def _r25(entry_: dict[str, Any], logged: bytes) -> None:
+    entry_["anchors"] = [log_anchor("r25", "retainer", "2026-09-19T11:05:00Z", 3, 1, logged)]
+    entry_["validationData"].append(root_element(P256_ROOT_JWKS))
 
 
 def _r14(entry_: dict[str, Any], _logged: bytes) -> None:
@@ -5402,7 +5446,7 @@ def define_retained() -> None:
             tier="authoritative",
             dating=expected_dating,
         )
-    established = {"result": "established", "algorithm": "Ed25519"}
+    established = key_set_root(ROOT_JWKS, "Ed25519")
     later: list[tuple[str, str, str | None, str, Callable[[], Built], dict[str, Any]]] = [
         (
             "R10",
@@ -5463,6 +5507,19 @@ def define_retained() -> None:
                 dated_at="2026-09-19T11:05:00Z",
                 entry_="malformed",
                 code="entry-delegation-root-mismatch",
+            ),
+        ),
+        (
+            "R25",
+            "r25-delegation-root-key-set-without-certificate",
+            "R13",
+            "R13 with the root a key set holding one P-256 key and no certificate: the key, "
+            "its algorithm family and its thumbprint as recorded, and its binding to a party "
+            "not established, never a pass",
+            retained("R25", _r25, make_envelope=rooted_envelope_p256),
+            dating(
+                dated_at="2026-09-19T11:05:00Z",
+                delegation_root=key_set_root(P256_ROOT_JWKS, "P-256"),
             ),
         ),
         (
@@ -5581,7 +5638,7 @@ ORDER = (
     "CS26 CS27 CS28 CS29 CS30 CS31 CS32 CS33 CS34 CS35 CS36 CS37 CS38 CS39 CS40 "
     "CS41 CS42 CS43 CS44 CS45 CS46 CS47 CS48 CS49 CS50 CS51 CS52 CS53 CS54 CS55 "
     "A21 SQ1 SQ2 SQ3 SQ4 SQ5 "
-    "R10 R11 R12 R13 R14 R15 R16 R19 R20 R21 R22 R23 R24 "
+    "R10 R11 R12 R13 R14 R15 R16 R19 R20 R21 R22 R23 R24 R25 "
     "IS1 IS2 PS1 PS2 PS1b PS3 PS4 PS5 "
     "PR1 PR2 PR3 PR4 PR5 PR6 PR7 PR8 PR9 PR10 PR11 PR12 PR13 PR14 PR15 PR16 "
     "PR17 PR18 PR19 PR20 PR21 PR22 PR23 PR24 PR25 PR26 PR27 "
@@ -5670,6 +5727,7 @@ PROPOSALS = "docs/proposals"
 PROPOSED: dict[str, str] = {
     **{f"PR{n}": f"{PROPOSALS}/audit-record-04-principal.md" for n in range(12, 28)},
     "CS55": f"{PROPOSALS}/audit-record-05-deadline-boundary.md",
+    "R25": f"{PROPOSALS}/audit-record-05-delegation-root-binding.md",
     **{
         d: f"{PROPOSALS}/audit-record-04-evaluated-at.md"
         for d in ("FR21", "FR22", "FR23", "FR24", "FR25", "FR26", "FR27")

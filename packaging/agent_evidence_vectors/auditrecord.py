@@ -2151,20 +2151,39 @@ def _dating_anchor_late(r: _Retained) -> None:
         raise Malformed("entry-anchor-late")
 
 
-def _jwk_algorithm(material: bytes) -> str:
+def _jwk_root(material: bytes) -> dict[str, Any]:
+    """What a key set shows of the root: the algorithm family its keys name and,
+    for a set of one key, that key's RFC 7638 thumbprint. A key set names no
+    party, so the binding of the key to one is never established by it."""
     keys = json.loads(
         material, object_pairs_hook=_no_duplicates, parse_constant=strictjson.refuse_constant
     )["keys"]
     algorithms = {JWK_ALGORITHMS.get((k.get("kty"), k.get("crv"))) for k in keys}
     if len(algorithms) != 1 or None in algorithms:
         raise ValueError("no single algorithm")
-    return str(algorithms.pop())
+    out: dict[str, Any] = {"result": "established", "algorithm": str(algorithms.pop())}
+    if len(keys) == 1:
+        out["keyThumbprint"] = _jwk_thumbprint(keys[0])
+    out["binding"] = "not-established"
+    return out
+
+
+def _jwk_thumbprint(key: dict[str, Any]) -> str:
+    """RFC 7638: SHA-256 over the required members in lexicographic order."""
+    required = ("crv", "kty", "x", "y") if key["kty"] == "EC" else ("crv", "kty", "x")
+    members = {name: key[name] for name in required}
+    if not all(isinstance(v, str) for v in members.values()):
+        raise ValueError("a required key member is not a string")
+    text = json.dumps(members, separators=(",", ":"), sort_keys=True, ensure_ascii=False)
+    return base64.urlsafe_b64encode(hashlib.sha256(text.encode()).digest()).rstrip(b"=").decode()
 
 
 def _dating_delegation_root(r: _Retained) -> None:
     """A delegation-root element whose digest equals delegation.rootDigest
     establishes the root and names its algorithm (R13); none leaves it not
-    established, never a pass (R14); an unequal digest is malformed (R15)."""
+    established, never a pass (R14); an unequal digest is malformed (R15). The
+    element records the key the chain verifier held, and a key set names no party,
+    so the key's binding to a party stays not established (R13, R25)."""
     elements = [
         v
         for v in r.entry.get("validationData") or []
@@ -2181,10 +2200,9 @@ def _dating_delegation_root(r: _Retained) -> None:
     if hashlib.sha256(material).hexdigest() != r.root_digest:
         raise Malformed("entry-delegation-root-mismatch")
     try:
-        algorithm = _jwk_algorithm(material)
+        r.delegation_root = _jwk_root(material)
     except (Malformed, KeyError, TypeError, ValueError, AttributeError) as exc:
         raise Malformed("entry-delegation-root-unreadable") from exc
-    r.delegation_root = {"result": "established", "algorithm": algorithm}
 
 
 DATING_RULES: list[tuple[str, Callable[[_Retained], None]]] = [
@@ -3155,6 +3173,22 @@ def _dating_mismatch(declared: dict[str, Any], got: Any) -> tuple[list[str], lis
                 f"dating delegationRoot.{name}: expected {want_root[name]!r}, "
                 f"got {got_root.get(name)!r}"
             )
+    # A binding the answer leaves out is not established, never a pass; one it
+    # reports, and a thumbprint it reports, must equal what the member declares.
+    if "binding" in want_root and got_root.get("binding", "not-established") != want_root[
+        "binding"
+    ]:
+        normative.append(
+            f"dating delegationRoot.binding: expected {want_root['binding']!r}, "
+            f"got {got_root.get('binding')!r}"
+        )
+    if "keyThumbprint" in got_root and got_root["keyThumbprint"] != want_root.get(
+        "keyThumbprint"
+    ):
+        normative.append(
+            f"dating delegationRoot.keyThumbprint: expected "
+            f"{want_root.get('keyThumbprint')!r}, got {got_root['keyThumbprint']!r}"
+        )
     return normative, _codes_note("dating", declared.get("codes"), got.get("codes"))
 
 
