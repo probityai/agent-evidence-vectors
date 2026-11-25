@@ -53,10 +53,12 @@ def identifier(path: str) -> str:
     return f"https://{IDENTIFIER_HOST}/{path}"
 
 
+# A TypeVar, not PEP 695 syntax (`def f[T]`): the wheel supports Python 3.11, where that syntax
+# does not parse, while ruff targets 3.13 and so asks for it (UP047).
 _T = TypeVar("_T")
 
 
-def canonical_identifier(value: _T) -> _T:
+def canonical_identifier(value: _T) -> _T:  # noqa: UP047
     """The identifier ``value`` names, spelled under ``IDENTIFIER_HOST``.
 
     A string that starts with exactly ``https://<h>/`` for a host ``h`` in
