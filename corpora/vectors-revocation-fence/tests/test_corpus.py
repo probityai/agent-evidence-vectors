@@ -1,4 +1,4 @@
-"""The corpus regenerates, forces every rule and refuses a reader that reads an open revocation as closed."""
+"""The corpus regenerates, forces every rule and refuses a reader that closes an open revocation."""
 
 from __future__ import annotations
 
@@ -27,20 +27,44 @@ from agent_evidence_vectors import revocationfence  # noqa: E402
 
 #: Every refusal code the fence defines; each one is the expected reason of some case.
 FENCE_CODES = (
-    "malformed", "unknown_authority", "unknown_epoch_source", "unknown_target_key", "bad_signature",
-    "wrong_audience", "not_yet_valid", "expired", "epoch_unknown", "epoch_mismatch", "epoch_unavailable",
-    "epoch_rollback", "lease_expired", "revoked_before_commit", "revocation_pending", "key_reused",
+    "malformed",
+    "unknown_authority",
+    "unknown_epoch_source",
+    "unknown_target_key",
+    "bad_signature",
+    "wrong_audience",
+    "not_yet_valid",
+    "expired",
+    "epoch_unknown",
+    "epoch_mismatch",
+    "epoch_unavailable",
+    "epoch_rollback",
+    "lease_expired",
+    "revoked_before_commit",
+    "revocation_pending",
+    "key_reused",
     "retry_after_revoke",
 )
 #: The refusal codes of the feed kind.
 FEED_CODES = (
-    "set_malformed", "unknown_issuer_key", "bad_signature", "wrong_audience", "set_shape",
-    "subject_issuer_mismatch", "jti_reused", "event_unknown",
+    "set_malformed",
+    "unknown_issuer_key",
+    "bad_signature",
+    "wrong_audience",
+    "set_shape",
+    "subject_issuer_mismatch",
+    "jti_reused",
+    "event_unknown",
 )
 #: The decision each kind reaches when every check passes.
 ACCEPTS = {
-    "permit": "valid", "epoch-update": "installed", "outcome": "valid", "commit": "committed",
-    "propagation": "revoked_for_new_admissions", "ledger": "done", "feed": "revoked",
+    "permit": "valid",
+    "epoch-update": "installed",
+    "outcome": "valid",
+    "commit": "committed",
+    "propagation": "revoked_for_new_admissions",
+    "ledger": "done",
+    "feed": "revoked",
 }
 
 
@@ -120,9 +144,13 @@ class TestRevocationFenceCorpus:
 
         def test_every_case_id_names_its_kind(self) -> None:
             prefixes = {
-                "permit": ("permit-",), "epoch-update": ("update-",), "outcome": ("outcome-",),
-                "commit": ("commit-a-", "commit-b-", "commit-c-"), "propagation": ("propagation-",),
-                "ledger": ("ledger-",), "feed": ("feed-",),
+                "permit": ("permit-",),
+                "epoch-update": ("update-",),
+                "outcome": ("outcome-",),
+                "commit": ("commit-a-", "commit-b-", "commit-c-"),
+                "propagation": ("propagation-",),
+                "ledger": ("ledger-",),
+                "feed": ("feed-",),
             }
             for entry in _manifest()["vectors"]:
                 assert entry["id"].startswith(prefixes[_kind(entry)]), entry["id"]
@@ -134,7 +162,9 @@ class TestRevocationFenceCorpus:
                     kind == "commit" and expected["decision"] != "no_outcome"
                 )
                 if about:
-                    assert expected.get("revocation_status") in revocationfence.STATUSES, entry["id"]
+                    assert expected.get("revocation_status") in revocationfence.STATUSES, entry[
+                        "id"
+                    ]
                 if "revocation_status" in expected:
                     assert expected["revocation_status"] in revocationfence.STATUSES
 
@@ -154,7 +184,8 @@ class TestRevocationFenceCorpus:
             _, errors = corpus.check(_stub(tmp_path, close_open=True))
             assert errors, "a reader that maps unknown and partial to closed passed every case"
             open_cases = {
-                e["id"] for e in _manifest()["vectors"]
+                e["id"]
+                for e in _manifest()["vectors"]
                 if e["expected"].get("revocation_status") in ("unknown", "partial")
             }
             assert open_cases and open_cases <= _failed(errors)

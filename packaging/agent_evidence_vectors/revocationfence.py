@@ -46,11 +46,33 @@ PERMIT_DOMAIN = TYPE_URI + "#effect-permit"
 EPOCH_DOMAIN = TYPE_URI + "#epoch-update"
 OUTCOME_DOMAIN = TYPE_URI + "#target-outcome"
 
-PERMIT_MEMBERS = ("v", "permit_id", "subject", "epoch", "idempotency_key", "audience",
-                  "operation_digest", "not_before_ns", "not_after_ns", "kid")  # fmt: skip
+PERMIT_MEMBERS = (
+    "v",
+    "permit_id",
+    "subject",
+    "epoch",
+    "idempotency_key",
+    "audience",
+    "operation_digest",
+    "not_before_ns",
+    "not_after_ns",
+    "kid",
+)
 EPOCH_MEMBERS = ("v", "subject", "epoch", "audience", "kid")
-OUTCOME_MEMBERS = ("v", "target_id", "permit_id", "subject", "epoch", "idempotency_key", "stage",
-                   "outcome", "reason", "shape", "signed_at_ns", "kid")  # fmt: skip
+OUTCOME_MEMBERS = (
+    "v",
+    "target_id",
+    "permit_id",
+    "subject",
+    "epoch",
+    "idempotency_key",
+    "stage",
+    "outcome",
+    "reason",
+    "shape",
+    "signed_at_ns",
+    "kid",
+)
 STAGES = ("accept", "execute", "settle", "final")
 OUTCOMES = ("committed", "refused")
 KINDS = ("permit", "epoch-update", "outcome", "commit", "propagation", "ledger", "feed")
@@ -72,29 +94,80 @@ IN_FLIGHT, UNKNOWN, UNRESOLVED = "in flight", "unknown", "unresolved, revoked"
 COMMITTED, NOT_COMMITTED = "committed", "not committed"
 
 EXIT_FOR = {
-    "valid": 0, "installed": 0, "unchanged": 0, "committed": 0, "replayed": 0, "done": 0,
-    "revoked_for_new_admissions": 0, "delivered": 0, "session_ended": 0, "rotated": 0,
-    "journalled": 0, "revoked": 0, "refused": 1, "pending": 2, "no_outcome": 3,
+    "valid": 0,
+    "installed": 0,
+    "unchanged": 0,
+    "committed": 0,
+    "replayed": 0,
+    "done": 0,
+    "revoked_for_new_admissions": 0,
+    "delivered": 0,
+    "session_ended": 0,
+    "rotated": 0,
+    "journalled": 0,
+    "revoked": 0,
+    "refused": 1,
+    "pending": 2,
+    "no_outcome": 3,
     "outcome_mismatch": 4,
-}  # fmt: skip
+}
 
 #: Every rule a case can force, grouped by kind, in the order the reader applies them.
 CHECKS = (
-    "permit_shape", "permit_types", "permit_ranges", "permit_authority", "permit_signature",
-    "permit_audience", "permit_not_before", "permit_not_after",
-    "update_shape", "update_types", "update_range", "update_source", "update_signature",
-    "update_audience", "update_rollback", "update_unchanged",
-    "outcome_shape", "outcome_values", "outcome_key", "outcome_signature", "outcome_types",
-    "commit_replay", "commit_key_reuse", "commit_epoch_unavailable", "commit_epoch_unknown",
-    "commit_revocation_pending", "commit_epoch_equal", "commit_lease", "commit_hold",
+    "permit_shape",
+    "permit_types",
+    "permit_ranges",
+    "permit_authority",
+    "permit_signature",
+    "permit_audience",
+    "permit_not_before",
+    "permit_not_after",
+    "update_shape",
+    "update_types",
+    "update_range",
+    "update_source",
+    "update_signature",
+    "update_audience",
+    "update_rollback",
+    "update_unchanged",
+    "outcome_shape",
+    "outcome_values",
+    "outcome_key",
+    "outcome_signature",
+    "outcome_types",
+    "commit_replay",
+    "commit_key_reuse",
+    "commit_epoch_unavailable",
+    "commit_epoch_unknown",
+    "commit_revocation_pending",
+    "commit_epoch_equal",
+    "commit_lease",
+    "commit_hold",
     "commit_outcome_honest",
-    "propagation_live_at_commit", "propagation_ack_live", "propagation_ack", "propagation_skew",
-    "ledger_submit_revoked", "ledger_revoke_moves_unknown", "ledger_retry_refused",
-    "ledger_read_only", "ledger_reservation",
-    "set_compact", "set_header", "set_payload", "set_issuer_key", "set_signature",
-    "set_audience", "set_shape", "set_subject_issuer", "set_jti", "set_session_binding",
-    "set_credential_change", "set_account", "set_unknown_event", "set_not_before",
-)  # fmt: skip
+    "propagation_live_at_commit",
+    "propagation_ack_live",
+    "propagation_ack",
+    "propagation_skew",
+    "ledger_submit_revoked",
+    "ledger_revoke_moves_unknown",
+    "ledger_retry_refused",
+    "ledger_read_only",
+    "ledger_reservation",
+    "set_compact",
+    "set_header",
+    "set_payload",
+    "set_issuer_key",
+    "set_signature",
+    "set_audience",
+    "set_shape",
+    "set_subject_issuer",
+    "set_jti",
+    "set_session_binding",
+    "set_credential_change",
+    "set_account",
+    "set_unknown_event",
+    "set_not_before",
+)
 
 _HERE = Path(__file__).resolve().parent
 ROOT = (
@@ -143,8 +216,9 @@ def message(domain: str, claims: Mapping[str, Any]) -> bytes:
     return domain.encode("ascii") + b"\x00" + _rail().jcs_dumps(dict(claims))
 
 
-def _signed(pins: Mapping[str, bytes], kid: Any, domain: str, claims: Mapping[str, Any],
-            sig: Any) -> bool:  # fmt: skip
+def _signed(
+    pins: Mapping[str, bytes], kid: Any, domain: str, claims: Mapping[str, Any], sig: Any
+) -> bool:
     raw = pins.get(kid) if isinstance(kid, str) else None
     if raw is None or not isinstance(sig, str):
         return False
@@ -184,8 +258,10 @@ def _wire(raw: Any, members: tuple[str, ...], rule: str, skip: Skip) -> tuple[di
     if not isinstance(raw, dict) or set(raw) != {"claims", "sig"}:
         raise Refused("malformed")
     claims = raw["claims"]
-    if not isinstance(claims, dict) or set(claims) != set(members) or not (
-        _is_int(claims["v"]) and claims["v"] == 1
+    if (
+        not isinstance(claims, dict)
+        or set(claims) != set(members)
+        or not (_is_int(claims["v"]) and claims["v"] == 1)
     ):
         raise Refused("malformed")
     return dict(claims), raw["sig"]
@@ -202,8 +278,9 @@ def _record(directory: Path, name: str) -> Any:
 # --- the three records --------------------------------------------------------------------------
 
 
-def read_permit(raw: Any, pins: Mapping[str, bytes], audience: str, now_ns: int,
-                skip: Skip = frozenset()) -> dict[str, Any]:  # fmt: skip
+def read_permit(
+    raw: Any, pins: Mapping[str, bytes], audience: str, now_ns: int, skip: Skip = frozenset()
+) -> dict[str, Any]:
     """The permit's claims, with its window as integers, once every check passes."""
     claims, sig = _wire(raw, PERMIT_MEMBERS, "permit_shape", skip)
     texts = ("permit_id", "subject", "idempotency_key", "audience", "operation_digest", "kid")
@@ -215,11 +292,15 @@ def read_permit(raw: Any, pins: Mapping[str, bytes], audience: str, now_ns: int,
         or end is None
     ):
         raise Refused("malformed")
-    if "permit_ranges" not in skip and (claims["epoch"] < 0 or end <= begin):  # type: ignore[operator]
+    epoch = claims["epoch"]
+    ranged = "permit_ranges" in skip or (epoch >= 0 and end > begin)  # type: ignore[operator]
+    if not ranged:
         raise Refused("malformed")
     if "permit_authority" not in skip and claims["kid"] not in pins:
         raise Refused("unknown_authority")
-    if "permit_signature" not in skip and not _signed(pins, claims["kid"], PERMIT_DOMAIN, claims, sig):
+    if "permit_signature" not in skip and not _signed(
+        pins, claims["kid"], PERMIT_DOMAIN, claims, sig
+    ):
         raise Refused("bad_signature")
     if "permit_audience" not in skip and claims["audience"] != audience:
         raise Refused("wrong_audience")
@@ -230,8 +311,9 @@ def read_permit(raw: Any, pins: Mapping[str, bytes], audience: str, now_ns: int,
     return claims
 
 
-def read_update(raw: Any, pins: Mapping[str, bytes], audience: str,
-                skip: Skip = frozenset()) -> dict[str, Any]:  # fmt: skip
+def read_update(
+    raw: Any, pins: Mapping[str, bytes], audience: str, skip: Skip = frozenset()
+) -> dict[str, Any]:
     """The epoch update's claims once its shape, pinned signature and audience pass."""
     claims, sig = _wire(raw, EPOCH_MEMBERS, "update_shape", skip)
     if "update_types" not in skip and (
@@ -243,7 +325,9 @@ def read_update(raw: Any, pins: Mapping[str, bytes], audience: str,
         raise Refused("malformed")
     if "update_source" not in skip and claims["kid"] not in pins:
         raise Refused("unknown_epoch_source")
-    if "update_signature" not in skip and not _signed(pins, claims["kid"], EPOCH_DOMAIN, claims, sig):
+    if "update_signature" not in skip and not _signed(
+        pins, claims["kid"], EPOCH_DOMAIN, claims, sig
+    ):
         raise Refused("bad_signature")
     if "update_audience" not in skip and claims["audience"] != audience:
         raise Refused("wrong_audience")
@@ -263,7 +347,9 @@ def read_outcome(raw: Any, pins: Mapping[str, bytes], skip: Skip = frozenset()) 
         raise Refused("malformed")
     if "outcome_key" not in skip and not (isinstance(claims["kid"], str) and claims["kid"] in pins):
         raise Refused("unknown_target_key")
-    if "outcome_signature" not in skip and not _signed(pins, claims["kid"], OUTCOME_DOMAIN, claims, sig):
+    if "outcome_signature" not in skip and not _signed(
+        pins, claims["kid"], OUTCOME_DOMAIN, claims, sig
+    ):
         raise Refused("bad_signature")
     texts = ("target_id", "permit_id", "subject", "idempotency_key", "shape", "kid")
     if "outcome_types" not in skip and (
@@ -282,8 +368,9 @@ def read_outcome(raw: Any, pins: Mapping[str, bytes], skip: Skip = frozenset()) 
 def _permit_kind(case: dict[str, Any], directory: Path, skip: Skip) -> dict[str, Any]:
     pins = pinned(case["keys"]["authority"])
     try:
-        read_permit(_record(directory, case["permit"]), pins, case["audience"],
-                    int(case["now_ns"]), skip)  # fmt: skip
+        read_permit(
+            _record(directory, case["permit"]), pins, case["audience"], int(case["now_ns"]), skip
+        )
     except Refused as exc:
         return {"decision": "refused", "reason": exc.code}
     return {"decision": "valid", "reason": "permit_valid"}
@@ -340,7 +427,9 @@ def _replay(state: dict[str, Any], permit: dict[str, Any], skip: Skip) -> str | 
     return None if "commit_key_reuse" in skip else "key_reused"
 
 
-def fence(shape: str, state: dict[str, Any], permit: dict[str, Any], skip: Skip = frozenset()) -> str:
+def fence(
+    shape: str, state: dict[str, Any], permit: dict[str, Any], skip: Skip = frozenset()
+) -> str:
     """What the target does: ``commit_done``, ``replay_done`` or a refusal code."""
     replay = _replay(state, permit, skip)
     if replay == "replayed":
@@ -385,8 +474,9 @@ def commit_status(shape: str, state: dict[str, Any], permit_epoch: int) -> str:
     return "live"
 
 
-def _honest(case: dict[str, Any], directory: Path, permit: dict[str, Any], reason: str,
-            skip: Skip) -> bool:  # fmt: skip
+def _honest(
+    case: dict[str, Any], directory: Path, permit: dict[str, Any], reason: str, skip: Skip
+) -> bool:
     """Whether the stored outcome is the target's signed statement of what it did."""
     if case["outcome"] is None:
         return False
@@ -396,20 +486,25 @@ def _honest(case: dict[str, Any], directory: Path, permit: dict[str, Any], reaso
         return False
     committed = reason in ("commit_done", "replay_done")
     want = {
-        "target_id": case["audience"], "permit_id": permit["permit_id"],
-        "subject": permit["subject"], "epoch": permit["epoch"],
-        "idempotency_key": permit["idempotency_key"], "stage": case["stage"],
+        "target_id": case["audience"],
+        "permit_id": permit["permit_id"],
+        "subject": permit["subject"],
+        "epoch": permit["epoch"],
+        "idempotency_key": permit["idempotency_key"],
+        "stage": case["stage"],
         "outcome": "committed" if committed else "refused",
-        "reason": "" if committed else reason, "shape": case["shape"],
-    }  # fmt: skip
+        "reason": "" if committed else reason,
+        "shape": case["shape"],
+    }
     return all(claims[k] == v and type(claims[k]) is type(v) for k, v in want.items())
 
 
 def _commit_kind(case: dict[str, Any], directory: Path, skip: Skip) -> dict[str, Any]:
     pins = pinned(case["keys"]["authority"])
     try:
-        permit = read_permit(_record(directory, case["permit"]), pins, case["audience"],
-                             int(case["now_ns"]), skip)  # fmt: skip
+        permit = read_permit(
+            _record(directory, case["permit"]), pins, case["audience"], int(case["now_ns"]), skip
+        )
     except Refused as exc:
         return {"decision": "no_outcome", "reason": exc.code}
     shape, state = case["shape"], case["state"]
@@ -417,8 +512,11 @@ def _commit_kind(case: dict[str, Any], directory: Path, skip: Skip) -> dict[str,
     decision = {"commit_done": "committed", "replay_done": "replayed"}.get(reason, "refused")
     if "commit_outcome_honest" not in skip and not _honest(case, directory, permit, reason, skip):
         decision = "outcome_mismatch"
-    return {"decision": decision, "reason": reason,
-            "revocation_status": commit_status(shape, state, permit["epoch"])}  # fmt: skip
+    return {
+        "decision": decision,
+        "reason": reason,
+        "revocation_status": commit_status(shape, state, permit["epoch"]),
+    }
 
 
 def _propagation_kind(case: dict[str, Any], skip: Skip) -> dict[str, Any]:
@@ -428,9 +526,10 @@ def _propagation_kind(case: dict[str, Any], skip: Skip) -> dict[str, Any]:
         for gateway, lease in case["leases"].items()
     }
     live = {
-        g: lease for g, lease in leases.items()
+        g: lease
+        for g, lease in leases.items()
         if "propagation_live_at_commit" in skip or lease[0] <= commit < lease[0] + lease[1]
-    }  # fmt: skip
+    }
     acked: set[str] = set()
     for gateway in case["acks"]:
         if gateway not in live and "propagation_ack_live" not in skip:
@@ -444,16 +543,55 @@ def _propagation_kind(case: dict[str, Any], skip: Skip) -> dict[str, Any]:
     }
     waiting = sorted(g for g in live if g not in acked and now < ends[g])
     if waiting:
-        return {"decision": "pending", "label": PENDING_LABEL, "reason": "propagation_pending",
-                "revocation_status": "partial", "waiting_on": waiting,
-                "worst_case_ends_ns": str(max(ends[g] for g in waiting))}  # fmt: skip
-    return {"decision": "revoked_for_new_admissions", "label": REVOKED_LABEL,
-            "reason": "propagation_done", "revocation_status": "closed", "waiting_on": [],
-            "worst_case_ends_ns": str(commit)}  # fmt: skip
+        return {
+            "decision": "pending",
+            "label": PENDING_LABEL,
+            "reason": "propagation_pending",
+            "revocation_status": "partial",
+            "waiting_on": waiting,
+            "worst_case_ends_ns": str(max(ends[g] for g in waiting)),
+        }
+    return {
+        "decision": "revoked_for_new_admissions",
+        "label": REVOKED_LABEL,
+        "reason": "propagation_done",
+        "revocation_status": "closed",
+        "waiting_on": [],
+        "worst_case_ends_ns": str(commit),
+    }
 
 
-def _ledger_step(step: dict[str, Any], requests: dict[str, list[Any]], revoked: set[str],
-                 skip: Skip) -> dict[str, Any]:  # fmt: skip
+def _ledger_retry(
+    step: dict[str, Any], request: list[Any], revoked: set[str], skip: Skip
+) -> dict[str, Any]:
+    """A retry of a request: refused when it is a new admission of an open, revoked outcome."""
+    read_only = step["read_only"] and "ledger_read_only" not in skip
+    refused = (
+        request[0] in revoked
+        and request[2] in (UNKNOWN, UNRESOLVED)
+        and not read_only
+        and "ledger_retry_refused" not in skip
+    )
+    if refused:
+        return {"decision": "refused", "reason": "retry_after_revoke", "state": request[2]}
+    reason = "read_only_status" if read_only else "retry_allowed"
+    return {"decision": "done", "reason": reason, "state": request[2]}
+
+
+def _ledger_revoke(
+    subject: str, requests: dict[str, list[Any]], revoked: set[str], skip: Skip
+) -> dict[str, Any]:
+    revoked.add(subject)
+    if "ledger_revoke_moves_unknown" not in skip:
+        for request in requests.values():
+            if request[0] == subject and request[2] == UNKNOWN:
+                request[2] = UNRESOLVED
+    return {"decision": "done", "reason": "revoked", "state": None}
+
+
+def _ledger_step(
+    step: dict[str, Any], requests: dict[str, list[Any]], revoked: set[str], skip: Skip
+) -> dict[str, Any]:
     op = step["op"]
     if op == "submit":
         if step["subject"] in revoked and "ledger_submit_revoked" not in skip:
@@ -461,27 +599,13 @@ def _ledger_step(step: dict[str, Any], requests: dict[str, list[Any]], revoked: 
         requests[step["permit_id"]] = [step["subject"], step["reservation"], IN_FLIGHT]
         return {"decision": "done", "reason": "submitted", "state": IN_FLIGHT}
     if op == "revoke":
-        revoked.add(step["subject"])
-        if "ledger_revoke_moves_unknown" not in skip:
-            for request in requests.values():
-                if request[0] == step["subject"] and request[2] == UNKNOWN:
-                    request[2] = UNRESOLVED
-        return {"decision": "done", "reason": "revoked", "state": None}
+        return _ledger_revoke(step["subject"], requests, revoked, skip)
     request = requests[step["permit_id"]]
     if op == "mark_unknown":
         request[2] = UNRESOLVED if request[0] in revoked else UNKNOWN
         return {"decision": "done", "reason": "marked_unknown", "state": request[2]}
     if op == "retry":
-        read_only = step["read_only"] and "ledger_read_only" not in skip
-        if (
-            request[0] in revoked
-            and request[2] in (UNKNOWN, UNRESOLVED)
-            and not read_only
-            and "ledger_retry_refused" not in skip
-        ):
-            return {"decision": "refused", "reason": "retry_after_revoke", "state": request[2]}
-        reason = "read_only_status" if read_only else "retry_allowed"
-        return {"decision": "done", "reason": reason, "state": request[2]}
+        return _ledger_retry(step, request, revoked, skip)
     if op == "resolve":
         request[2] = COMMITTED if step["committed"] else NOT_COMMITTED
         return {"decision": "done", "reason": "resolved", "state": request[2]}
@@ -496,7 +620,9 @@ def _ledger_kind(case: dict[str, Any], skip: Skip) -> dict[str, Any]:
     open_states = (IN_FLIGHT,) if "ledger_reservation" in skip else (IN_FLIGHT, UNKNOWN, UNRESOLVED)
     reserved = sum(r[1] for r in requests.values() if r[2] in open_states)
     subjects = {
-        s: "unknown" if any(r[0] == s and r[2] not in settled for r in requests.values()) else "closed"
+        s: "unknown"
+        if any(r[0] == s and r[2] not in settled for r in requests.values())
+        else "closed"
         for s in sorted(revoked)
     }
     if not subjects:
@@ -504,18 +630,28 @@ def _ledger_kind(case: dict[str, Any], skip: Skip) -> dict[str, Any]:
     else:
         status = "unknown" if "unknown" in subjects.values() else "closed"
     return {
-        "decision": steps[-1]["decision"], "reason": steps[-1]["reason"], "reserved": reserved,
-        "revocation_status": status, "states": {p: r[2] for p, r in sorted(requests.items())},
-        "steps": steps, "subjects": subjects,
-    }  # fmt: skip
+        "decision": steps[-1]["decision"],
+        "reason": steps[-1]["reason"],
+        "reserved": reserved,
+        "revocation_status": status,
+        "states": {p: r[2] for p, r in sorted(requests.items())},
+        "steps": steps,
+        "subjects": subjects,
+    }
 
 
 # --- the feed -----------------------------------------------------------------------------------
 
 
 def _set_refused(code: str) -> dict[str, Any]:
-    return {"decision": "refused", "entry": None, "not_before_s": None, "reason": code,
-            "revocation_status": "unknown", "session_id": None}  # fmt: skip
+    return {
+        "decision": "refused",
+        "entry": None,
+        "not_before_s": None,
+        "reason": code,
+        "revocation_status": "unknown",
+        "session_id": None,
+    }
 
 
 def _iss_sub(value: Any) -> tuple[str, str] | None:
@@ -542,7 +678,9 @@ def _subject(sub_id: Any) -> tuple[str, str, str | None] | None:
     if "session" not in sub_id:
         return user[0], user[1], None
     session = sub_id["session"]
-    if not (isinstance(session, dict) and session.get("format") == "opaque" and _text(session.get("id"))):
+    if not (
+        isinstance(session, dict) and session.get("format") == "opaque" and _text(session.get("id"))
+    ):
         return None
     return user[0], user[1], session["id"]
 
@@ -571,7 +709,9 @@ def _decode_set(token: bytes, skip: Skip) -> tuple[str, str, dict[str, Any], dic
         and _text(header["kid"])
     ):
         raise Refused("set_malformed")
-    if "set_payload" not in skip and not (isinstance(payload, dict) and isinstance(payload.get("iss"), str)):
+    if "set_payload" not in skip and not (
+        isinstance(payload, dict) and isinstance(payload.get("iss"), str)
+    ):
         raise Refused("set_malformed")
     return parts[0], parts[1], header, payload, signature
 
@@ -596,56 +736,101 @@ def _not_before(body: dict[str, Any], iat: float, skip: Skip) -> int:
     return math.floor(iat)
 
 
-def _feed_kind(case: dict[str, Any], directory: Path, skip: Skip) -> dict[str, Any]:
-    token = (directory / case["set"]).read_bytes()
-    try:
-        head, body64, header, payload, signature = _decode_set(token, skip)
-    except Refused as exc:
-        return _set_refused(exc.code)
-    iss = payload["iss"]
-    pins = pinned(case["issuer_keys"].get(iss, []))
+def _issuer_refusal(
+    case: dict[str, Any], parts: tuple[str, str, dict[str, Any], dict[str, Any], bytes], skip: Skip
+) -> str | None:
+    """The first of the key, signature and audience checks the token fails."""
+    head, body64, header, payload, signature = parts
+    pins = pinned(case["issuer_keys"].get(payload["iss"], []))
     if "set_issuer_key" not in skip and header["kid"] not in pins:
-        return _set_refused("unknown_issuer_key")
+        return "unknown_issuer_key"
     raw = pins.get(header["kid"])
-    signed = raw is not None and len(signature) == 64 and _rail().ed25519_verify(
-        raw, f"{head}.{body64}".encode("ascii"), signature
+    signed = (
+        raw is not None
+        and len(signature) == 64
+        and _rail().ed25519_verify(raw, f"{head}.{body64}".encode("ascii"), signature)
     )
     if "set_signature" not in skip and not signed:
-        return _set_refused("bad_signature")
+        return "bad_signature"
     aud = payload.get("aud")
     audiences = [aud] if isinstance(aud, str) else aud if isinstance(aud, list) else []
     if "set_audience" not in skip and case["receiver_audience"] not in audiences:
-        return _set_refused("wrong_audience")
+        return "wrong_audience"
+    return None
+
+
+def _journalled(case: dict[str, Any], payload: dict[str, Any], token: bytes, skip: Skip) -> Any:
+    """``delivered`` or a ``jti_reused`` refusal when the jti is journalled, else None."""
+    if "set_jti" in skip:
+        return None
+    digest = hashlib.sha256(token).hexdigest()
+    for entry in case["journal"]:
+        if entry["jti"] == payload["jti"]:
+            if entry["sha256"] != digest:
+                return _set_refused("jti_reused")
+            return {
+                "decision": "delivered",
+                "entry": None,
+                "not_before_s": None,
+                "reason": "jti_delivered",
+                "session_id": None,
+            }
+    return None
+
+
+def _feed_kind(case: dict[str, Any], directory: Path, skip: Skip) -> dict[str, Any]:
+    token = (directory / case["set"]).read_bytes()
+    try:
+        parts = _decode_set(token, skip)
+    except Refused as exc:
+        return _set_refused(exc.code)
+    payload = parts[3]
+    refusal = _issuer_refusal(case, parts, skip)
+    if refusal is not None:
+        return _set_refused(refusal)
     if "set_shape" not in skip and not _shape_ok(payload):
         return _set_refused("set_shape")
     subject = _subject(payload.get("sub_id"))
-    if subject is None and "set_shape" not in skip:
+    if subject is None:
         return _set_refused("set_shape")
-    if "set_subject_issuer" not in skip and subject[0] != iss:  # type: ignore[index]
+    if "set_subject_issuer" not in skip and subject[0] != payload["iss"]:
         return _set_refused("subject_issuer_mismatch")
-    digest = hashlib.sha256(token).hexdigest()
-    if "set_jti" not in skip:
-        for entry in case["journal"]:
-            if entry["jti"] == payload["jti"]:
-                if entry["sha256"] == digest:
-                    return {"decision": "delivered", "entry": None, "not_before_s": None,
-                            "reason": "jti_delivered", "session_id": None}  # fmt: skip
-                return _set_refused("jti_reused")
-    (event, event_body), = payload["events"].items()
-    return _apply_event(case, iss, subject, event, event_body, payload["iat"], skip)  # type: ignore[arg-type]
+    journalled = _journalled(case, payload, token, skip)
+    if journalled is not None:
+        return dict(journalled)
+    ((event, event_body),) = payload["events"].items()
+    iat = payload["iat"]
+    return _apply_event(case, payload["iss"], subject, event, event_body, iat, skip)
 
 
-def _apply_event(case: dict[str, Any], iss: str, subject: tuple[str, str, str | None], event: str,
-                 body: dict[str, Any], iat: float, skip: Skip) -> dict[str, Any]:  # fmt: skip
+def _apply_event(
+    case: dict[str, Any],
+    iss: str,
+    subject: tuple[str, str, str | None],
+    event: str,
+    body: dict[str, Any],
+    iat: float,
+    skip: Skip,
+) -> dict[str, Any]:
     answer: dict[str, Any] = {"entry": None, "not_before_s": None, "session_id": None}
     short = event.rsplit("/", 1)[-1].replace("-", "_")
-    rotated = {**answer, "decision": "rotated", "not_before_s": _not_before(body, iat, skip),
-               "reason": short, "revocation_status": "partial"}  # fmt: skip
+    rotated = {
+        **answer,
+        "decision": "rotated",
+        "not_before_s": _not_before(body, iat, skip),
+        "reason": short,
+        "revocation_status": "partial",
+    }
     if event == SESSION_REVOKED:
         bound = case["session_binding"].get(iss) is True
         if bound and subject[2] is not None and "set_session_binding" not in skip:
-            return {**answer, "decision": "session_ended", "reason": short,
-                    "revocation_status": "partial", "session_id": subject[2]}  # fmt: skip
+            return {
+                **answer,
+                "decision": "session_ended",
+                "reason": short,
+                "revocation_status": "partial",
+                "session_id": subject[2],
+            }
         return rotated
     if event == CREDENTIAL_CHANGE:
         change = body.get("change_type")
@@ -655,8 +840,13 @@ def _apply_event(case: dict[str, Any], iss: str, subject: tuple[str, str, str | 
             return rotated
         return _set_refused("set_shape")
     if event in (ACCOUNT_DISABLED, ACCOUNT_PURGED) and "set_account" not in skip:
-        return {**answer, "decision": "revoked", "entry": f"{iss}#{subject[1]}", "reason": short,
-                "revocation_status": "closed"}  # fmt: skip
+        return {
+            **answer,
+            "decision": "revoked",
+            "entry": f"{iss}#{subject[1]}",
+            "reason": short,
+            "revocation_status": "closed",
+        }
     if event in (RISK_LEVEL_CHANGE, ACCOUNT_ENABLED, ACCOUNT_DISABLED, ACCOUNT_PURGED) or (
         "set_unknown_event" in skip
     ):
@@ -690,8 +880,13 @@ def verify(case_path: Path, skip: Skip = frozenset()) -> dict[str, Any]:
 
 def _external_answer(command: list[str], case_path: Path) -> tuple[bool, dict[str, Any] | str]:
     try:
-        result = subprocess.run([*command, str(case_path), "--json"], capture_output=True,
-                                text=True, timeout=90, check=False)  # fmt: skip
+        result = subprocess.run(
+            [*command, str(case_path), "--json"],
+            capture_output=True,
+            text=True,
+            timeout=90,
+            check=False,
+        )
     except (OSError, subprocess.TimeoutExpired) as exc:
         return False, f"verifier did not run: {exc}"
     try:
@@ -757,8 +952,11 @@ def main(argv: list[str] | None = None) -> int:
     args = parser.parse_args(argv)
     if args.case:
         answer = verify(Path(args.case))
-        print(json.dumps(answer, sort_keys=True) if args.json
-              else f"{answer['decision']} {answer['reason']}")  # fmt: skip
+        print(
+            json.dumps(answer, sort_keys=True)
+            if args.json
+            else f"{answer['decision']} {answer['reason']}"
+        )
         return EXIT_FOR[answer["decision"]]
     answered, errors = check(args.verifier)
     for error in errors:
