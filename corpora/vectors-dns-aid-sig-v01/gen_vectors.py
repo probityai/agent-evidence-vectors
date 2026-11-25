@@ -857,6 +857,13 @@ MEMBERS: tuple[tuple[str, Build, list[str], str], ...] = (
         "low s",
     ),
     (
+        "record-port-true",
+        lambda: _signed_as(with_record(RECORD, port=1), with_record(RECORD, port=True)),
+        ["endpoint-mismatch"],
+        "signed port 1, served port true: a reader where true equals 1 binds a port the record "
+        "never named",
+    ),
+    (
         "member-duplicate-target",
         lambda: member(RECORD, _good()),
         ["jws-malformed"],

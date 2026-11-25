@@ -335,6 +335,7 @@ def check_endpoint(body: dict[str, Any], record: dict[str, Any]) -> None:
         named
         and norm(body["fqdn"]) == norm(record.get("fqdn"))
         and norm(body["target"]) == norm(record.get("target"))
+        and is_int(record.get("port"))  # True == 1 in Python, so a bool port would match 1
         and body["port"] == record.get("port")
         and body["alpn"] == protocol
     ):

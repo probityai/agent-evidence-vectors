@@ -462,6 +462,9 @@ def table() -> dict[str, dict[str, Any]]:
             REC, raw_header('{"alg":"ES256","b64":false,"kid":"k1","typ":"JWT"}')
         ),
         "signature-high-s": case(REC, f"{h}.{p}.{enc(dec(s)[:32] + high_s)}"),
+        "record-port-true": case(
+            served(REC, port=True), jws("owner", compact(body(dict(REC, port=1))))
+        ),
         "member-duplicate-target": case(REC, good),
     }
 

@@ -1,8 +1,8 @@
 {
- "corpusDigest": "a0f5edc3478507a4150cfeca66daeadd276b38aafdac347ae541a2ad66e817e0",
+ "corpusDigest": "fdd158819eb58680f7a89cc4a2441b9760e4545fdb252a8907cea6193a5c1e71",
  "counts": {
   "accept": 7,
-  "reject": 51
+  "reject": 52
  },
  "specification": {
   "profile": {
@@ -819,6 +819,20 @@
    "id": "signature-high-s",
    "kind": "accept",
    "sha256": "dda55458b8ed71262727bcd5ab7f9fbe82a6eee32819d8c8545cedb2e5b105b8"
+  },
+  {
+   "description": "signed port 1, served port true: a reader where true equals 1 binds a port the record never named",
+   "expected": {
+    "codes": [
+     "endpoint-mismatch"
+    ],
+    "decision": "contradicted",
+    "verdict": "invalid"
+   },
+   "file": "cases/record-port-true.json",
+   "id": "record-port-true",
+   "kind": "reject",
+   "sha256": "108f5dd3a0f10eb0ad429dd38cf8c35113657298bf655e49f50ada9a611525bb"
   },
   {
    "description": "the member file names the record's target twice; a first-wins reader serves evil.example.net",
