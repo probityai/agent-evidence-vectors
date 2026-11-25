@@ -273,7 +273,8 @@ def _invocation(records: Path, run: dict) -> tuple[str | None, list[str]]:
         return lines[0], []
     if lines:
         return None, [
-            f"the README prints {len(lines)} different commands that run {script}, so the invocation is ambiguous"
+            f"the README prints {len(lines)} different commands that run {script}, "
+            "so the invocation is ambiguous"
         ]
     return None, []
 
