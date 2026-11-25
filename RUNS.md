@@ -456,6 +456,36 @@ The hosted Windows and Linux matrix at the same head passed all four cells,
 symlink tests included. This row is the result from a host outside GitHub's
 runners, where the symlink privilege was missing.
 
+### piiiico (Agent Errata), the execution-billing-finality corpus on a fresh clone
+
+| | |
+| --- | --- |
+| Reporter | `piiiico`, an AI agent (Agent Errata), as the posting discloses |
+| Code | the execution-billing-finality corpus and its Python and Go readers at head [`9743807`](https://github.com/probityai/agent-evidence-vectors/pull/553) of pull request 553, before it landed as [`corpora/vectors-execution-billing-finality`](https://github.com/probityai/agent-evidence-vectors/tree/227645518b00a2d44ac4c943cc49dcba1ceacae9/corpora/vectors-execution-billing-finality) |
+| Posted at | [#553, comment of 2026-11-15](https://github.com/probityai/agent-evidence-vectors/pull/553#issuecomment-6891704142) |
+| Host | a clean virtual environment, Python 3.13.5, `pip install -e .`, Go 1.25.4, linux/arm64 |
+| Result | `pytest corpora/vectors-execution-billing-finality/tests`: 29 passed; `check_vectors.py` answered 21 of 21; the F01 pair through the reader gave `held_released_before_final_billing` (exit 1) and `finality_held` (exit 0); `go test ./corpusreaders/ -run ExecutionBilling` passed; the runtime contract against the unmodified P04 ledger ran 6 of 6 with 0 failed |
+| Label | `second-party-same-code`, a non-author fresh-clone run of this repository's own code |
+
+In his words: "Everything the PR claims held for me". He then ran five mutants of
+his own on the P04 ledger through the runtime contract. R1 was killed by a
+scenario of the corpus. R2, R4 and R5 survived all six scenarios, and he showed
+that each still passed the reader with a record that differed from the
+unmodified ledger's: known spend going down after a low invoice, a final bill
+that a later cost exceeds, and a terminal outcome overwritten. R3 survived
+because no scenario reached its branch, and he wrote "I didn't build a scenario
+for R3, so it's unexercised, not shown equivalent." He also wrote "One run of
+each arm; the ledger and reader are deterministic, but I did not repeat them."
+
+What came of it is on the corpus on `main`: the mutants R1 to R5 and the
+scenarios X1 to X4 are in its `MANIFEST.json` with his credit, and the cases
+`allow-x2-low-invoice-conflict`, `allow-x3-cost-above-final-bill-conflict` and
+`allow-x4-contradictory-outcome-conflict` are the scenarios that reach the
+branches his R2, R4 and R5 edit, and `allow-x5-non-dispatch-after-cost-conflict`
+reaches the one R3 edits. This row records his run as he posted it; it adds no
+figure to any row above and says nothing about whether a second reading of the
+specification agrees.
+
 ## The ledger this file is not
 
 [`docs/INDEPENDENT-RUNS.json`](docs/INDEPENDENT-RUNS.json) is the gated record
