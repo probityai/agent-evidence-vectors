@@ -1,0 +1,616 @@
+{
+  "anchors-verify-v0.12": [
+    {
+      "id": "v0e6e29013cfcb97c",
+      "kind": "reject",
+      "conditions": [
+        "ans-c-1"
+      ],
+      "expectedOutcome": "VERIFY FAILED",
+      "expectedExit": 1,
+      "expectedStopReason": "digest-mismatch",
+      "observedOutcome": "VERIFY FAILED",
+      "observedExit": 1,
+      "observedStopReason": "digest_mismatch",
+      "observedClass": "digest-mismatch",
+      "observedMessage": "digest mismatch at line 2",
+      "verdictAgrees": true,
+      "reasonAgrees": true,
+      "agrees": true
+    },
+    {
+      "id": "v0e89189941e44d8e",
+      "kind": "accept",
+      "conditions": [
+        "ans-c-4"
+      ],
+      "expectedOutcome": "VERIFY PARTIAL",
+      "expectedExit": 3,
+      "expectedStopReason": null,
+      "observedOutcome": "VERIFY PARTIAL",
+      "observedExit": 3,
+      "observedStopReason": null,
+      "observedClass": null,
+      "observedMessage": "VERIFY PARTIAL: lines=20 digests=20 witness_repo=aos-standard/catalog witness_commit=0eb69bf9f26f03b8d4fbce3b3b64ac46e10e1582 attested_prefix_lines=18",
+      "verdictAgrees": true,
+      "reasonAgrees": true,
+      "agrees": true
+    },
+    {
+      "id": "v0ef2243ce9ba64f6",
+      "kind": "reject",
+      "conditions": [
+        "ans-c-1"
+      ],
+      "expectedOutcome": "VERIFY FAILED",
+      "expectedExit": 1,
+      "expectedStopReason": "digest-mismatch",
+      "observedOutcome": "VERIFY FAILED",
+      "observedExit": 1,
+      "observedStopReason": "digest_mismatch",
+      "observedClass": "digest-mismatch",
+      "observedMessage": "digest mismatch at line 2",
+      "verdictAgrees": true,
+      "reasonAgrees": true,
+      "agrees": true
+    },
+    {
+      "id": "v1247b05a03902477",
+      "kind": "reject",
+      "conditions": [
+        "ans-c-5"
+      ],
+      "expectedOutcome": "VERIFY FAILED",
+      "expectedExit": 1,
+      "expectedStopReason": "witness-unreachable",
+      "observedOutcome": "VERIFY FAILED",
+      "observedExit": 1,
+      "observedStopReason": "unreachable_witness",
+      "observedClass": "witness-unreachable",
+      "observedMessage": "position binding at line 22: commit cafecafecafe is not reachable from aos-standard/catalog default-branch history (fork or non-ancestor)",
+      "verdictAgrees": true,
+      "reasonAgrees": true,
+      "agrees": true
+    },
+    {
+      "id": "v128381d395659cb6",
+      "kind": "reject",
+      "conditions": [
+        "ans-c-10"
+      ],
+      "expectedOutcome": "VERIFY FAILED",
+      "expectedExit": 1,
+      "expectedStopReason": "truncation",
+      "observedOutcome": "VERIFY FAILED",
+      "observedExit": 1,
+      "observedStopReason": "truncation",
+      "observedClass": "truncation",
+      "observedMessage": "truncation vector 2: presented stream shorter than witness commit (12 vs 16 lines); detection assumes witness platform history has not been rewritten",
+      "verdictAgrees": true,
+      "reasonAgrees": true,
+      "agrees": true
+    },
+    {
+      "id": "v1b748575d8a7ee95",
+      "kind": "accept",
+      "conditions": [
+        "ans-c-7"
+      ],
+      "expectedOutcome": "VERIFY PARTIAL",
+      "expectedExit": 3,
+      "expectedStopReason": null,
+      "observedOutcome": "VERIFY PARTIAL",
+      "observedExit": 3,
+      "observedStopReason": null,
+      "observedClass": null,
+      "observedMessage": "VERIFY PARTIAL: lines=25 digests=25 witness_repo=aos-standard/catalog witness_commit=0eb69bf9f26f03b8d4fbce3b3b64ac46e10e1582 attested_prefix_lines=18",
+      "verdictAgrees": true,
+      "reasonAgrees": true,
+      "agrees": true
+    },
+    {
+      "id": "v25a148d9df730b88",
+      "kind": "reject",
+      "conditions": [
+        "ans-c-2"
+      ],
+      "expectedOutcome": "VERIFY FAILED",
+      "expectedExit": 1,
+      "expectedStopReason": "digest-mismatch",
+      "observedOutcome": "VERIFY FAILED",
+      "observedExit": 1,
+      "observedStopReason": "digest_mismatch",
+      "observedClass": "digest-mismatch",
+      "observedMessage": "digest mismatch at line 73",
+      "verdictAgrees": true,
+      "reasonAgrees": true,
+      "agrees": true
+    },
+    {
+      "id": "v27ec0ed3abec3bed",
+      "kind": "reject",
+      "conditions": [
+        "ans-c-1"
+      ],
+      "expectedOutcome": "VERIFY FAILED",
+      "expectedExit": 1,
+      "expectedStopReason": "digest-mismatch",
+      "observedOutcome": "VERIFY FAILED",
+      "observedExit": 1,
+      "observedStopReason": "digest_mismatch",
+      "observedClass": "digest-mismatch",
+      "observedMessage": "digest mismatch at line 2",
+      "verdictAgrees": true,
+      "reasonAgrees": true,
+      "agrees": true
+    },
+    {
+      "id": "v30bb2edf2b9f23ba",
+      "kind": "accept",
+      "conditions": [
+        "ans-c-7"
+      ],
+      "expectedOutcome": "VERIFY PARTIAL",
+      "expectedExit": 3,
+      "expectedStopReason": null,
+      "observedOutcome": "VERIFY PARTIAL",
+      "observedExit": 3,
+      "observedStopReason": null,
+      "observedClass": null,
+      "observedMessage": "VERIFY PARTIAL: lines=20 digests=20 witness_repo=aos-standard/catalog witness_commit=0eb69bf9f26f03b8d4fbce3b3b64ac46e10e1582 attested_prefix_lines=16",
+      "verdictAgrees": true,
+      "reasonAgrees": true,
+      "agrees": true
+    },
+    {
+      "id": "v3c142a4f8828f505",
+      "kind": "accept",
+      "conditions": [
+        "ans-c-2"
+      ],
+      "expectedOutcome": "VERIFY PARTIAL",
+      "expectedExit": 3,
+      "expectedStopReason": null,
+      "observedOutcome": "VERIFY PARTIAL",
+      "observedExit": 3,
+      "observedStopReason": null,
+      "observedClass": null,
+      "observedMessage": "VERIFY PARTIAL: lines=73 digests=73 witness_repo=aos-standard/catalog witness_commit=0eb69bf9f26f03b8d4fbce3b3b64ac46e10e1582 attested_prefix_lines=18",
+      "verdictAgrees": true,
+      "reasonAgrees": true,
+      "agrees": true
+    },
+    {
+      "id": "v3e2e8c8036db8c91",
+      "kind": "accept",
+      "conditions": [
+        "ans-c-4"
+      ],
+      "expectedOutcome": "VERIFY OK",
+      "expectedExit": 0,
+      "expectedStopReason": null,
+      "observedOutcome": "VERIFY OK",
+      "observedExit": 0,
+      "observedStopReason": null,
+      "observedClass": null,
+      "observedMessage": "VERIFY OK: lines=19 digests=19 witness_repo=aos-standard/catalog witness_commit=0eb69bf9f26f03b8d4fbce3b3b64ac46e10e1582 attested_prefix_lines=18",
+      "verdictAgrees": true,
+      "reasonAgrees": true,
+      "agrees": true
+    },
+    {
+      "id": "v415ba6da9df54f96",
+      "kind": "accept",
+      "conditions": [
+        "ans-c-2"
+      ],
+      "expectedOutcome": "VERIFY PARTIAL",
+      "expectedExit": 3,
+      "expectedStopReason": null,
+      "observedOutcome": "VERIFY PARTIAL",
+      "observedExit": 3,
+      "observedStopReason": null,
+      "observedClass": null,
+      "observedMessage": "VERIFY PARTIAL: lines=25 digests=25 witness_repo=aos-standard/catalog witness_commit=0eb69bf9f26f03b8d4fbce3b3b64ac46e10e1582 attested_prefix_lines=18",
+      "verdictAgrees": true,
+      "reasonAgrees": true,
+      "agrees": true
+    },
+    {
+      "id": "v4598881bb94db9a9",
+      "kind": "reject",
+      "conditions": [
+        "ans-c-2"
+      ],
+      "expectedOutcome": "VERIFY FAILED",
+      "expectedExit": 1,
+      "expectedStopReason": "digest-mismatch",
+      "observedOutcome": "VERIFY FAILED",
+      "observedExit": 1,
+      "observedStopReason": "digest_mismatch",
+      "observedClass": "digest-mismatch",
+      "observedMessage": "digest mismatch at line 24",
+      "verdictAgrees": true,
+      "reasonAgrees": true,
+      "agrees": true
+    },
+    {
+      "id": "v4f206ff8ed18be87",
+      "kind": "accept",
+      "conditions": [
+        "ans-c-1"
+      ],
+      "expectedOutcome": "VERIFY PARTIAL",
+      "expectedExit": 3,
+      "expectedStopReason": null,
+      "observedOutcome": "VERIFY PARTIAL",
+      "observedExit": 3,
+      "observedStopReason": null,
+      "observedClass": null,
+      "observedMessage": "VERIFY PARTIAL: lines=25 digests=25 witness_repo=aos-standard/catalog witness_commit=0eb69bf9f26f03b8d4fbce3b3b64ac46e10e1582 attested_prefix_lines=18",
+      "verdictAgrees": true,
+      "reasonAgrees": true,
+      "agrees": true
+    },
+    {
+      "id": "v570c22575790427c",
+      "kind": "reject",
+      "conditions": [
+        "ans-c-1"
+      ],
+      "expectedOutcome": "VERIFY FAILED",
+      "expectedExit": 1,
+      "expectedStopReason": "digest-mismatch",
+      "observedOutcome": "VERIFY FAILED",
+      "observedExit": 1,
+      "observedStopReason": "digest_mismatch",
+      "observedClass": "digest-mismatch",
+      "observedMessage": "digest mismatch at line 2",
+      "verdictAgrees": true,
+      "reasonAgrees": true,
+      "agrees": true
+    },
+    {
+      "id": "v7199fe21ece3c6b2",
+      "kind": "reject",
+      "conditions": [
+        "ans-c-7"
+      ],
+      "expectedOutcome": "VERIFY FAILED",
+      "expectedExit": 1,
+      "expectedStopReason": "unknown-rule-version",
+      "observedOutcome": "VERIFY FAILED",
+      "observedExit": 1,
+      "observedStopReason": "verify_error",
+      "observedClass": "unknown-rule-version",
+      "observedMessage": "unknown rule_version 'position-binding-v99' at line 25 for event 'position_binding_introduced' (known: position-binding-v1)",
+      "verdictAgrees": true,
+      "reasonAgrees": true,
+      "agrees": true
+    },
+    {
+      "id": "v8c0edba09c428917",
+      "kind": "reject",
+      "conditions": [
+        "ans-c-3"
+      ],
+      "expectedOutcome": "VERIFY FAILED",
+      "expectedExit": 1,
+      "expectedStopReason": "sidecar-coverage",
+      "observedOutcome": "VERIFY PARTIAL",
+      "observedExit": 3,
+      "observedStopReason": null,
+      "observedClass": null,
+      "observedMessage": "VERIFY PARTIAL: lines=24 digests=18 witness_repo=aos-standard/catalog witness_commit=0eb69bf9f26f03b8d4fbce3b3b64ac46e10e1582 attested_prefix_lines=18",
+      "verdictAgrees": false,
+      "reasonAgrees": false,
+      "agrees": false
+    },
+    {
+      "id": "v8cfc723dce226033",
+      "kind": "reject",
+      "conditions": [
+        "ans-c-1"
+      ],
+      "expectedOutcome": "VERIFY FAILED",
+      "expectedExit": 1,
+      "expectedStopReason": "digest-mismatch",
+      "observedOutcome": "VERIFY FAILED",
+      "observedExit": 1,
+      "observedStopReason": "digest_mismatch",
+      "observedClass": "digest-mismatch",
+      "observedMessage": "digest mismatch at line 2",
+      "verdictAgrees": true,
+      "reasonAgrees": true,
+      "agrees": true
+    },
+    {
+      "id": "vb519de5288c2a572",
+      "kind": "accept",
+      "conditions": [
+        "ans-c-5"
+      ],
+      "expectedOutcome": "VERIFY PARTIAL",
+      "expectedExit": 3,
+      "expectedStopReason": null,
+      "observedOutcome": "VERIFY PARTIAL",
+      "observedExit": 3,
+      "observedStopReason": null,
+      "observedClass": null,
+      "observedMessage": "VERIFY PARTIAL: lines=24 digests=24 witness_repo=aos-standard/catalog witness_commit=0eb69bf9f26f03b8d4fbce3b3b64ac46e10e1582 attested_prefix_lines=18",
+      "verdictAgrees": true,
+      "reasonAgrees": true,
+      "agrees": true
+    },
+    {
+      "id": "vba949c40114507b1",
+      "kind": "reject",
+      "conditions": [
+        "ans-c-7"
+      ],
+      "expectedOutcome": "VERIFY FAILED",
+      "expectedExit": 1,
+      "expectedStopReason": "unknown-rule-version",
+      "observedOutcome": "VERIFY FAILED",
+      "observedExit": 1,
+      "observedStopReason": "verify_error",
+      "observedClass": "unknown-rule-version",
+      "observedMessage": "unknown rule_version 'witness-ref-v99' at line 18 for event 'witness_ref_introduced' (known: witness-ref-v1)",
+      "verdictAgrees": true,
+      "reasonAgrees": true,
+      "agrees": true
+    },
+    {
+      "id": "vbc642e97495a754d",
+      "kind": "accept",
+      "conditions": [
+        "ans-c-9"
+      ],
+      "expectedOutcome": "VERIFY PARTIAL",
+      "expectedExit": 3,
+      "expectedStopReason": null,
+      "observedOutcome": "VERIFY PARTIAL",
+      "observedExit": 3,
+      "observedStopReason": null,
+      "observedClass": null,
+      "observedMessage": "VERIFY PARTIAL: lines=24 digests=24 witness_repo=aos-standard/catalog witness_commit=0eb69bf9f26f03b8d4fbce3b3b64ac46e10e1582 attested_prefix_lines=18",
+      "verdictAgrees": true,
+      "reasonAgrees": true,
+      "agrees": true
+    },
+    {
+      "id": "vbf8a4048eba3d662",
+      "kind": "reject",
+      "conditions": [
+        "ans-c-1"
+      ],
+      "expectedOutcome": "VERIFY FAILED",
+      "expectedExit": 1,
+      "expectedStopReason": "digest-mismatch",
+      "observedOutcome": "VERIFY FAILED",
+      "observedExit": 1,
+      "observedStopReason": "digest_mismatch",
+      "observedClass": "digest-mismatch",
+      "observedMessage": "digest mismatch at line 2",
+      "verdictAgrees": true,
+      "reasonAgrees": true,
+      "agrees": true
+    },
+    {
+      "id": "vca6a55637cd0742d",
+      "kind": "reject",
+      "conditions": [
+        "ans-c-6"
+      ],
+      "expectedOutcome": "VERIFY FAILED",
+      "expectedExit": 1,
+      "expectedStopReason": "malformed-row",
+      "observedOutcome": "VERIFY FAILED",
+      "observedExit": 1,
+      "observedStopReason": "verify_error",
+      "observedClass": "malformed-row",
+      "observedMessage": "malformed row at line 25: recognized boundary event 'position_binding_introduced' together with record fields ['asset_id']",
+      "verdictAgrees": true,
+      "reasonAgrees": true,
+      "agrees": true
+    },
+    {
+      "id": "vcdb22e90c0812237",
+      "kind": "reject",
+      "conditions": [
+        "ans-c-8"
+      ],
+      "expectedOutcome": "VERIFY FAILED",
+      "expectedExit": 1,
+      "expectedStopReason": "invalid-byte-length",
+      "observedOutcome": "VERIFY FAILED",
+      "observedExit": 1,
+      "observedStopReason": "verify_error",
+      "observedClass": "invalid-byte-length",
+      "observedMessage": "position binding at line 19: invalid byte_length",
+      "verdictAgrees": true,
+      "reasonAgrees": true,
+      "agrees": true
+    },
+    {
+      "id": "vcec4ba461275d0b4",
+      "kind": "reject",
+      "conditions": [
+        "ans-c-1"
+      ],
+      "expectedOutcome": "VERIFY FAILED",
+      "expectedExit": 1,
+      "expectedStopReason": "digest-mismatch",
+      "observedOutcome": "VERIFY FAILED",
+      "observedExit": 1,
+      "observedStopReason": "digest_mismatch",
+      "observedClass": "digest-mismatch",
+      "observedMessage": "digest mismatch at line 2",
+      "verdictAgrees": true,
+      "reasonAgrees": true,
+      "agrees": true
+    },
+    {
+      "id": "vd6eecc03efb27ebd",
+      "kind": "reject",
+      "conditions": [
+        "ans-c-3"
+      ],
+      "expectedOutcome": "VERIFY FAILED",
+      "expectedExit": 1,
+      "expectedStopReason": "sidecar-coverage",
+      "observedOutcome": "VERIFY PARTIAL",
+      "observedExit": 3,
+      "observedStopReason": null,
+      "observedClass": null,
+      "observedMessage": "VERIFY PARTIAL: lines=24 digests=18 witness_repo=aos-standard/catalog witness_commit=0eb69bf9f26f03b8d4fbce3b3b64ac46e10e1582 attested_prefix_lines=18",
+      "verdictAgrees": false,
+      "reasonAgrees": false,
+      "agrees": false
+    },
+    {
+      "id": "vd7195c86129b959f",
+      "kind": "accept",
+      "conditions": [
+        "ans-c-8"
+      ],
+      "expectedOutcome": "VERIFY PARTIAL",
+      "expectedExit": 3,
+      "expectedStopReason": null,
+      "observedOutcome": "VERIFY PARTIAL",
+      "observedExit": 3,
+      "observedStopReason": null,
+      "observedClass": null,
+      "observedMessage": "VERIFY PARTIAL: lines=24 digests=24 witness_repo=aos-standard/catalog witness_commit=0eb69bf9f26f03b8d4fbce3b3b64ac46e10e1582 attested_prefix_lines=1",
+      "verdictAgrees": true,
+      "reasonAgrees": true,
+      "agrees": true
+    },
+    {
+      "id": "ve28432cb7adcdc6b",
+      "kind": "accept",
+      "conditions": [
+        "ans-c-6"
+      ],
+      "expectedOutcome": "VERIFY PARTIAL",
+      "expectedExit": 3,
+      "expectedStopReason": null,
+      "observedOutcome": "VERIFY PARTIAL",
+      "observedExit": 3,
+      "observedStopReason": null,
+      "observedClass": null,
+      "observedMessage": "VERIFY PARTIAL: lines=25 digests=25 witness_repo=aos-standard/catalog witness_commit=0eb69bf9f26f03b8d4fbce3b3b64ac46e10e1582 attested_prefix_lines=18",
+      "verdictAgrees": true,
+      "reasonAgrees": true,
+      "agrees": true
+    },
+    {
+      "id": "vf4bccf922ed33749",
+      "kind": "reject",
+      "conditions": [
+        "ans-c-1"
+      ],
+      "expectedOutcome": "VERIFY FAILED",
+      "expectedExit": 1,
+      "expectedStopReason": "digest-mismatch",
+      "observedOutcome": "VERIFY FAILED",
+      "observedExit": 1,
+      "observedStopReason": "digest_mismatch",
+      "observedClass": "digest-mismatch",
+      "observedMessage": "digest mismatch at line 2",
+      "verdictAgrees": true,
+      "reasonAgrees": true,
+      "agrees": true
+    },
+    {
+      "id": "vf8ef32f6294cea06",
+      "kind": "reject",
+      "conditions": [
+        "ans-c-1"
+      ],
+      "expectedOutcome": "VERIFY FAILED",
+      "expectedExit": 1,
+      "expectedStopReason": "digest-mismatch",
+      "observedOutcome": "VERIFY FAILED",
+      "observedExit": 1,
+      "observedStopReason": "digest_mismatch",
+      "observedClass": "digest-mismatch",
+      "observedMessage": "digest mismatch at line 2",
+      "verdictAgrees": true,
+      "reasonAgrees": true,
+      "agrees": true
+    },
+    {
+      "id": "vf9c8df1aeafd69f7",
+      "kind": "accept",
+      "conditions": [
+        "ans-c-3"
+      ],
+      "expectedOutcome": "VERIFY PARTIAL",
+      "expectedExit": 3,
+      "expectedStopReason": null,
+      "observedOutcome": "VERIFY PARTIAL",
+      "observedExit": 3,
+      "observedStopReason": null,
+      "observedClass": null,
+      "observedMessage": "VERIFY PARTIAL: lines=25 digests=25 witness_repo=aos-standard/catalog witness_commit=0eb69bf9f26f03b8d4fbce3b3b64ac46e10e1582 attested_prefix_lines=18",
+      "verdictAgrees": true,
+      "reasonAgrees": true,
+      "agrees": true
+    },
+    {
+      "id": "vfc54e61742cea5f5",
+      "kind": "accept",
+      "conditions": [
+        "ans-c-10"
+      ],
+      "expectedOutcome": "VERIFY PARTIAL",
+      "expectedExit": 3,
+      "expectedStopReason": null,
+      "observedOutcome": "VERIFY PARTIAL",
+      "observedExit": 3,
+      "observedStopReason": null,
+      "observedClass": null,
+      "observedMessage": "VERIFY PARTIAL: lines=24 digests=24 witness_repo=aos-standard/catalog witness_commit=0eb69bf9f26f03b8d4fbce3b3b64ac46e10e1582 attested_prefix_lines=18",
+      "verdictAgrees": true,
+      "reasonAgrees": true,
+      "agrees": true
+    },
+    {
+      "id": "vfccf46c02cc12618",
+      "kind": "reject",
+      "conditions": [
+        "ans-c-9"
+      ],
+      "expectedOutcome": "VERIFY FAILED",
+      "expectedExit": 1,
+      "expectedStopReason": "binding-repo-absent",
+      "observedOutcome": "VERIFY FAILED",
+      "observedExit": 1,
+      "observedStopReason": "verify_error",
+      "observedClass": "binding-repo-absent",
+      "observedMessage": "position binding at line 19: names no witness repository",
+      "verdictAgrees": true,
+      "reasonAgrees": true,
+      "agrees": true
+    },
+    {
+      "id": "vffcb99f9cab7c8a9",
+      "kind": "reject",
+      "conditions": [
+        "ans-c-8"
+      ],
+      "expectedOutcome": "VERIFY FAILED",
+      "expectedExit": 1,
+      "expectedStopReason": "invalid-line-count",
+      "observedOutcome": "VERIFY FAILED",
+      "observedExit": 1,
+      "observedStopReason": "verify_error",
+      "observedClass": "invalid-line-count",
+      "observedMessage": "position binding at line 19: invalid line_count",
+      "verdictAgrees": true,
+      "reasonAgrees": true,
+      "agrees": true
+    }
+  ]
+}
