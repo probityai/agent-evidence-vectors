@@ -1011,7 +1011,10 @@ def _binding_sweep(manifest: dict[str, object]) -> list[str]:
     for entry in manifest["vectors"]:  # type: ignore[union-attr]
         if not _retained(entry):
             continue
-        retention = json.loads(_raw(entry))["retention"]
+        member = json.loads(_raw(entry))
+        retention = member.get("retention") if isinstance(member, dict) else None
+        if not isinstance(retention, dict):
+            continue
         roots = [
             v
             for v in retention.get("validationData") or []
