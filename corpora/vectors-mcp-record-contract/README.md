@@ -60,11 +60,20 @@ python3 gen_vectors.py                       # regenerate, byte-identically
 python3 gen_vectors.py --check               # refuse a tree the generator does not emit
 aee-verify vectors-mcp-record-contract/      # self-check, including the criterion
 python3 check_run_record.py records/*.json   # the criterion on its own
+python3 check_run_record.py --v01 <records-dir>   # a v0.1 report, read directly
 ```
 
 `check_run_record.py` takes any run record in the shape `records/` uses, so a
 project publishing one can check it before publishing rather than after being
 asked about it.
+
+`--v01` reads the reports of the W3C Agent Conformance and Benchmarking
+Community Group's v0.1 format with no mapping step. Give it a records directory
+(`reports/`, `configs/`, `run.json`, `SHA256SUMS`, and the README beside it that
+prints the command) or one `reports/<name>.json`. Every value is read from those
+files, and one that is not there is reported as missing. A file that is not a run
+record, or a v0.1 report given without `--v01`, exits 2: the checker could not
+read it, which is not a finding about it.
 
 ## What this corpus does not do
 
