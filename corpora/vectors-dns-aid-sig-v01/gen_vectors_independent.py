@@ -448,6 +448,15 @@ def table() -> dict[str, dict[str, Any]]:
             {k: v for k, v in REC.items() if k != "target"},
             jws("owner", compact({k: v for k, v in body(REC).items() if k != "target"})),
         ),
+        "validity-window-inverted": case(
+            REC, jws("owner", compact(body(REC, iat=NOW + 120, exp=NOW + 60)))
+        ),
+        "jwks-url-port-out-of-range": case(
+            REC2,
+            jws("owner", compact(body(REC2))),
+            url="https://dns-aid.example.com:99999/.well-known/dns-aid-jwks.json",
+        ),
+        "svcb1-covers-ipv4hint": case(served(REC, params={"ipv4hint": "192.0.2.66"}), good),
         "member-duplicate-target": case(REC, good),
     }
 

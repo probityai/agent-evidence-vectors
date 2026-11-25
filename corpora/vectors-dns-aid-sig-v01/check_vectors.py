@@ -37,10 +37,11 @@ B64URL = re.compile(r"\A[A-Za-z0-9_-]*\Z")
 #: RFC 7493 section 2.2: an integer beyond this magnitude is not exact in every receiver.
 SAFE_INTEGER = 2**53 - 1
 #: The only JWKS URL shape read here: https, a host of LDH labels, an optional port, an
-#: RFC 3986 path and query, and nothing else (no userinfo, no backslash, no fragment).
+#: RFC 3986 path and query, and nothing else (no userinfo, no backslash, no fragment);
+#: the port is checked to be at most 65535 where the host is read.
 #: A WHATWG parser reads "https://evil\\@host/" as host evil, an RFC 3986 one as host.
 JWKS_URL = re.compile(
-    r"\Ahttps://([A-Za-z0-9.-]+)(?::[0-9]{1,5})?(?:/[A-Za-z0-9._~!$&'()*+,;=:@%/-]*)?"
+    r"\Ahttps://([A-Za-z0-9.-]+)(?::([0-9]{1,5}))?(?:/[A-Za-z0-9._~!$&'()*+,;=:@%/-]*)?"
     r"(?:\?[A-Za-z0-9._~!$&'()*+,;=:@%/?-]*)?\Z"
 )
 REGISTERED_HEADERS = {
@@ -248,7 +249,8 @@ def check_authority(case: dict[str, Any], record: dict[str, Any]) -> None:
     url = case.get("jwks_url")
     if url is not None:
         shape = JWKS_URL.match(url) if isinstance(url, str) else None
-        host = norm(shape.group(1)) if shape else None
+        in_range = shape is not None and int(shape.group(2) or 443) <= 65535
+        host = norm(shape.group(1)) if shape and in_range else None
         if host not in (f"dns-aid.{norm(zone)}", norm(zone)):
             raise Finding(
                 "jwks-host-not-zone",
@@ -301,7 +303,7 @@ def verified_parts(case: dict[str, Any]) -> list[str]:
 
 
 def check_validity(body: dict[str, Any], now: int) -> None:
-    """The payload's integers and its expiry."""
+    """The payload's integers, its validity window and its expiry."""
     for field in ("port", "iat", "exp"):
         if not is_int(body.get(field)):
             raise Finding(
@@ -312,6 +314,8 @@ def check_validity(body: dict[str, Any], now: int) -> None:
         raise Finding(
             "payload-integer-required", f"port {body['port']} is not a 16-bit port (RFC 9460 7.2)"
         )
+    if body["exp"] <= body["iat"]:
+        raise Finding("validity-window-inverted", "exp is at or before iat: the window is empty")
     if body["exp"] <= now:
         raise Finding("expired", "expired at the check time")
 
