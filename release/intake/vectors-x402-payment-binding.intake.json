@@ -1,0 +1,1041 @@
+{
+  "aggregate": {
+    "counts": {
+      "contradicted/indeterminate": 1,
+      "indeterminate/indeterminate": 4,
+      "verified/contradicted": 5,
+      "verified/indeterminate": 7,
+      "verified/not_evaluated": 1,
+      "verified/verified": 3
+    },
+    "line": "verdict: every member behaves as MANIFEST.json declares",
+    "total": 21
+  },
+  "anchor": {
+    "kind": "digest-list-line",
+    "manifest": "vectors-x402-payment-binding/MANIFEST.json",
+    "reference": {
+      "path": "release/CORPUS-DIGESTS.txt",
+      "uri": "https://github.com/probityai/agent-evidence-vectors/blob/main/release/CORPUS-DIGESTS.txt"
+    },
+    "routine": "corpus_digest in corpora/vectors-x402-payment-binding/gen_vectors.py",
+    "routine-file": "corpora/vectors-x402-payment-binding/gen_vectors.py",
+    "serialization": "corpus-routine",
+    "sha256": "787d9edabc2f19a78a53fb7ca7368df78a8494524c1ae6462611309768c83de8",
+    "verdicts": {
+      "availability-failure": "inconclusive",
+      "integrity-failure": "fail"
+    }
+  },
+  "artifacts": [
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "28e8301efeabb1dd34818539dce4b5de37767adda03d8803b6617ee42ae798dc"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "28e8301efeabb1dd34818539dce4b5de37767adda03d8803b6617ee42ae798dc"
+        },
+        "swapped-in": "af30f17679bf9eccbf763fbf7535ae881fb82f72db5c7265aa7036e443aeeaa8",
+        "test": "swap-and-re-pin"
+      },
+      "path": "corpora/vectors-x402-payment-binding/INDEX.md",
+      "serialization": "bytes",
+      "sha256": "8ca044b2f4ab3b9d686f12567f41a93a024fff7e1c22d12882902055554d47b7"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "28e8301efeabb1dd34818539dce4b5de37767adda03d8803b6617ee42ae798dc"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "28e8301efeabb1dd34818539dce4b5de37767adda03d8803b6617ee42ae798dc"
+        },
+        "swapped-in": "be4d820aeef1653bdb5a4d153e1c6a0abdf8b291513b0bf0dc72aae87a37477f",
+        "test": "swap-and-re-pin"
+      },
+      "path": "corpora/vectors-x402-payment-binding/README.md",
+      "serialization": "bytes",
+      "sha256": "7def9691fb2da9b69cfea23a245f7b13b2d84dd79d2ade42497fe644be018bcd"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "28e8301efeabb1dd34818539dce4b5de37767adda03d8803b6617ee42ae798dc"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "28e8301efeabb1dd34818539dce4b5de37767adda03d8803b6617ee42ae798dc"
+        },
+        "swapped-in": "26a3f2420849dba615e3673f32841320083dee3d8f0e72d7b58adbc2cf52faf3",
+        "test": "swap-and-re-pin"
+      },
+      "path": "corpora/vectors-x402-payment-binding/check_vectors.py",
+      "serialization": "bytes",
+      "sha256": "2eb055924be3ee318c2be23333387efdd3fb3f337f2ba8252e10141229bddda9"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "28e8301efeabb1dd34818539dce4b5de37767adda03d8803b6617ee42ae798dc"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "28e8301efeabb1dd34818539dce4b5de37767adda03d8803b6617ee42ae798dc"
+        },
+        "swapped-in": "170c8ea7f6067844ec3b2b1ad4f944ef5578f194cb1ce43b8af573956cc59f1b",
+        "test": "swap-and-re-pin"
+      },
+      "path": "corpora/vectors-x402-payment-binding/gen_vectors.py",
+      "serialization": "bytes",
+      "sha256": "8358b08b77598d9daa080f8d523b20fbfaad8cb3a509846cc42e43a5f401fd06"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "28e8301efeabb1dd34818539dce4b5de37767adda03d8803b6617ee42ae798dc"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "28e8301efeabb1dd34818539dce4b5de37767adda03d8803b6617ee42ae798dc"
+        },
+        "swapped-in": "3deec0e1db0b4a85e4b9bce8300b7c7b3d9dd1b0b6c2676e6cbe69c9ac1737e7",
+        "test": "swap-and-re-pin"
+      },
+      "path": "corpora/vectors-x402-payment-binding/mutation_check.py",
+      "serialization": "bytes",
+      "sha256": "ba4a41f7651aec8d60d305786eef45e8cc9125b09feaa969e594014846b2a0db"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "28e8301efeabb1dd34818539dce4b5de37767adda03d8803b6617ee42ae798dc"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "28e8301efeabb1dd34818539dce4b5de37767adda03d8803b6617ee42ae798dc"
+        },
+        "swapped-in": "b671b371399499496465068b148f6d82149a55de723debe7400f333e54a5f293",
+        "test": "swap-and-re-pin"
+      },
+      "path": "corpora/vectors-x402-payment-binding/profile.json",
+      "serialization": "bytes",
+      "sha256": "5559ff1b260e2c1e7615e114e8fc6064f8faf08a7f142d89f4c5421636aadc2a"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "28e8301efeabb1dd34818539dce4b5de37767adda03d8803b6617ee42ae798dc"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "28e8301efeabb1dd34818539dce4b5de37767adda03d8803b6617ee42ae798dc"
+        },
+        "swapped-in": "2f7f32bdbafe679b6309973207cd9d8de3f7bab14cf96d2dfcca9672a918fe38",
+        "test": "swap-and-re-pin"
+      },
+      "path": "corpora/vectors-x402-payment-binding/tests/test_corpus.py",
+      "serialization": "bytes",
+      "sha256": "439356757558cf6d97fd47e62dbbc3b66546f55f4e7486749aed6c51fb8160e3"
+    }
+  ],
+  "boundary": {
+    "complete": true,
+    "member-locations": [
+      {
+        "dir": "cases",
+        "recursive": true,
+        "suffix": ""
+      }
+    ],
+    "root": "corpora/vectors-x402-payment-binding"
+  },
+  "byte-identity": {
+    "pins": 21,
+    "serialization": "bytes"
+  },
+  "canonicalization": {
+    "encoding": "jcs-sha256"
+  },
+  "checker": {
+    "commands": [
+      "go build -o aee-verify ./cmd/aee-verify",
+      "aee-verify -json corpora/vectors-x402-payment-binding",
+      "aee-verify -json corpora/vectors-x402-payment-binding",
+      "aee-verify corpora/vectors-x402-payment-binding"
+    ],
+    "dependencies": [
+      {
+        "path": "go.mod",
+        "serialization": "bytes",
+        "sha256": "c9f5a67159789ead4e2879e86805505c6ba22150b04bef360e6b3333125fb1c2"
+      },
+      {
+        "path": "go.work",
+        "serialization": "bytes",
+        "sha256": "bba3245567badf24ef1d4e89bfbd02355dbe5786ab709b4299e2c006db2b9093"
+      }
+    ],
+    "helpers": [],
+    "name": "aee-verify",
+    "relationship": "same-implementation",
+    "revision": {
+      "kind": "source-listing",
+      "paths": [
+        "aee/admission.go",
+        "aee/carried_base64.go",
+        "aee/codes.go",
+        "aee/commitments.go",
+        "aee/jcs.go",
+        "aee/merkle.go",
+        "aee/pae.go",
+        "aee/recompute.go",
+        "aee/revocationlist.go",
+        "aee/runbinding.go",
+        "aee/statement.go",
+        "aee/tier.go",
+        "aee/types.go",
+        "aee/validity.go",
+        "aee/verify.go",
+        "cmd/aee-verify/corpus.go",
+        "cmd/aee-verify/main.go",
+        "corpusreaders/a2ajcs.go",
+        "corpusreaders/aci.go",
+        "corpusreaders/acscore.go",
+        "corpusreaders/actormarker.go",
+        "corpusreaders/admission.go",
+        "corpusreaders/aeecorpus.go",
+        "corpusreaders/agentaction.go",
+        "corpusreaders/agentaction_chain.go",
+        "corpusreaders/agentdecision.go",
+        "corpusreaders/agenticprocess.go",
+        "corpusreaders/agentidentity.go",
+        "corpusreaders/agentregistrationclassification.go",
+        "corpusreaders/agentrequestproof.go",
+        "corpusreaders/aggregateaccounting.go",
+        "corpusreaders/aigeneration.go",
+        "corpusreaders/anchoredchain.go",
+        "corpusreaders/anchorstream.go",
+        "corpusreaders/approvalbinding.go",
+        "corpusreaders/artifactbinding.go",
+        "corpusreaders/assertiongrade.go",
+        "corpusreaders/auditrecord.go",
+        "corpusreaders/auditrecord_consumption.go",
+        "corpusreaders/auditrecord_datasubject.go",
+        "corpusreaders/auditrecord_dating.go",
+        "corpusreaders/auditrecord_principal.go",
+        "corpusreaders/auditrecord_sequence.go",
+        "corpusreaders/authoritydispatch.go",
+        "corpusreaders/aveidresolution.go",
+        "corpusreaders/badgevc.go",
+        "corpusreaders/budgetlineage.go",
+        "corpusreaders/canonical_base64.go",
+        "corpusreaders/capabilityrequirement.go",
+        "corpusreaders/cardreceipt.go",
+        "corpusreaders/catalogtrust.go",
+        "corpusreaders/cborreceiptchain.go",
+        "corpusreaders/changeadmission.go",
+        "corpusreaders/chunkedexport.go",
+        "corpusreaders/common.go",
+        "corpusreaders/completionconfirmation.go",
+        "corpusreaders/connectorscope.go",
+        "corpusreaders/containmentjournal.go",
+        "corpusreaders/contextdiscovery.go",
+        "corpusreaders/controldecision.go",
+        "corpusreaders/convertedargs.go",
+        "corpusreaders/credreach.go",
+        "corpusreaders/decisionclient.go",
+        "corpusreaders/decisionrecord.go",
+        "corpusreaders/decisionrecord_binding.go",
+        "corpusreaders/decisionrecord_json.go",
+        "corpusreaders/decisionrecord_read.go",
+        "corpusreaders/delegationchain.go",
+        "corpusreaders/delegationlifecycle.go",
+        "corpusreaders/delegatorright.go",
+        "corpusreaders/dispatchfence.go",
+        "corpusreaders/dnsaid.go",
+        "corpusreaders/doneargv.go",
+        "corpusreaders/donechecks.go",
+        "corpusreaders/donerecords.go",
+        "corpusreaders/donerun.go",
+        "corpusreaders/emptyinterval.go",
+        "corpusreaders/evidencecell.go",
+        "corpusreaders/evidencestate.go",
+        "corpusreaders/evmsig.go",
+        "corpusreaders/executionbilling.go",
+        "corpusreaders/gradefloor.go",
+        "corpusreaders/htxcases.go",
+        "corpusreaders/identitybinding.go",
+        "corpusreaders/ietfagentrecord.go",
+        "corpusreaders/keydirectory.go",
+        "corpusreaders/keyrevocation.go",
+        "corpusreaders/lifecyclebinding.go",
+        "corpusreaders/mcpauthz.go",
+        "corpusreaders/mcpowasp.go",
+        "corpusreaders/mcprecord.go",
+        "corpusreaders/mcpresponsephase.go",
+        "corpusreaders/monitorcoverage.go",
+        "corpusreaders/oasfrecord.go",
+        "corpusreaders/observedeffect.go",
+        "corpusreaders/ocsfdecision.go",
+        "corpusreaders/ocsfjson.go",
+        "corpusreaders/ocsfrecord.go",
+        "corpusreaders/ocsfstream.go",
+        "corpusreaders/openweight.go",
+        "corpusreaders/paymentmandate.go",
+        "corpusreaders/physicalcompletion.go",
+        "corpusreaders/principalaction.go",
+        "corpusreaders/principalbinding.go",
+        "corpusreaders/printwitness.go",
+        "corpusreaders/propagationstep.go",
+        "corpusreaders/pyjson.go",
+        "corpusreaders/receiptchainend.go",
+        "corpusreaders/receiptsignature.go",
+        "corpusreaders/recorded.go",
+        "corpusreaders/refundconnected.go",
+        "corpusreaders/refundconnected_aps.go",
+        "corpusreaders/refundconnected_run.go",
+        "corpusreaders/refundconnected_steps.go",
+        "corpusreaders/refundconnected_trust.go",
+        "corpusreaders/refundconnected_value.go",
+        "corpusreaders/refusalreason.go",
+        "corpusreaders/registry.go",
+        "corpusreaders/responsibilityescalation.go",
+        "corpusreaders/restartrecords.go",
+        "corpusreaders/revocationlist.go",
+        "corpusreaders/rsadigestinfo.go",
+        "corpusreaders/rulecorpus.go",
+        "corpusreaders/runmetrics.go",
+        "corpusreaders/scittcose.go",
+        "corpusreaders/selfreported.go",
+        "corpusreaders/signaturecoverage.go",
+        "corpusreaders/sourcecoverage.go",
+        "corpusreaders/statusreceipt.go",
+        "corpusreaders/strictjson.go",
+        "corpusreaders/telemetryevidence.go",
+        "corpusreaders/traceanchor.go",
+        "corpusreaders/uncertaineffect.go",
+        "corpusreaders/verdictlines.go",
+        "corpusreaders/w3cintake.go",
+        "corpusreaders/w3cjcs.go",
+        "corpusreaders/w3creport.go",
+        "corpusreaders/x402binding.go",
+        "corpusreaders/x402join.go",
+        "internal/identifiers/identifiers.go",
+        "observedeffect/ijson.go",
+        "observedeffect/rules.go",
+        "observedeffect/verify.go",
+        "go.mod"
+      ],
+      "serialization": "sha256-listing-v1",
+      "sha256": "5e910152e511086ea32f93807ae40f610d50c6918528feff8a01cabdaf27d967"
+    },
+    "runtime": {
+      "name": "go",
+      "version": "1.26"
+    },
+    "shared-verification-code": [
+      "aee/admission.go",
+      "aee/carried_base64.go",
+      "aee/codes.go",
+      "aee/commitments.go",
+      "aee/jcs.go",
+      "aee/merkle.go",
+      "aee/pae.go",
+      "aee/recompute.go",
+      "aee/revocationlist.go",
+      "aee/runbinding.go",
+      "aee/statement.go",
+      "aee/tier.go",
+      "aee/types.go",
+      "aee/validity.go",
+      "aee/verify.go",
+      "cmd/aee-verify/corpus.go",
+      "cmd/aee-verify/main.go",
+      "corpusreaders/a2ajcs.go",
+      "corpusreaders/aci.go",
+      "corpusreaders/acscore.go",
+      "corpusreaders/actormarker.go",
+      "corpusreaders/admission.go",
+      "corpusreaders/aeecorpus.go",
+      "corpusreaders/agentaction.go",
+      "corpusreaders/agentaction_chain.go",
+      "corpusreaders/agentdecision.go",
+      "corpusreaders/agenticprocess.go",
+      "corpusreaders/agentidentity.go",
+      "corpusreaders/agentregistrationclassification.go",
+      "corpusreaders/agentrequestproof.go",
+      "corpusreaders/aggregateaccounting.go",
+      "corpusreaders/aigeneration.go",
+      "corpusreaders/anchoredchain.go",
+      "corpusreaders/anchorstream.go",
+      "corpusreaders/approvalbinding.go",
+      "corpusreaders/artifactbinding.go",
+      "corpusreaders/assertiongrade.go",
+      "corpusreaders/auditrecord.go",
+      "corpusreaders/auditrecord_consumption.go",
+      "corpusreaders/auditrecord_datasubject.go",
+      "corpusreaders/auditrecord_dating.go",
+      "corpusreaders/auditrecord_principal.go",
+      "corpusreaders/auditrecord_sequence.go",
+      "corpusreaders/authoritydispatch.go",
+      "corpusreaders/aveidresolution.go",
+      "corpusreaders/badgevc.go",
+      "corpusreaders/budgetlineage.go",
+      "corpusreaders/canonical_base64.go",
+      "corpusreaders/capabilityrequirement.go",
+      "corpusreaders/cardreceipt.go",
+      "corpusreaders/catalogtrust.go",
+      "corpusreaders/cborreceiptchain.go",
+      "corpusreaders/changeadmission.go",
+      "corpusreaders/chunkedexport.go",
+      "corpusreaders/common.go",
+      "corpusreaders/completionconfirmation.go",
+      "corpusreaders/connectorscope.go",
+      "corpusreaders/containmentjournal.go",
+      "corpusreaders/contextdiscovery.go",
+      "corpusreaders/controldecision.go",
+      "corpusreaders/convertedargs.go",
+      "corpusreaders/credreach.go",
+      "corpusreaders/decisionclient.go",
+      "corpusreaders/decisionrecord.go",
+      "corpusreaders/decisionrecord_binding.go",
+      "corpusreaders/decisionrecord_json.go",
+      "corpusreaders/decisionrecord_read.go",
+      "corpusreaders/delegationchain.go",
+      "corpusreaders/delegationlifecycle.go",
+      "corpusreaders/delegatorright.go",
+      "corpusreaders/dispatchfence.go",
+      "corpusreaders/dnsaid.go",
+      "corpusreaders/doneargv.go",
+      "corpusreaders/donechecks.go",
+      "corpusreaders/donerecords.go",
+      "corpusreaders/donerun.go",
+      "corpusreaders/emptyinterval.go",
+      "corpusreaders/evidencecell.go",
+      "corpusreaders/evidencestate.go",
+      "corpusreaders/evmsig.go",
+      "corpusreaders/executionbilling.go",
+      "corpusreaders/gradefloor.go",
+      "corpusreaders/htxcases.go",
+      "corpusreaders/identitybinding.go",
+      "corpusreaders/ietfagentrecord.go",
+      "corpusreaders/keydirectory.go",
+      "corpusreaders/keyrevocation.go",
+      "corpusreaders/lifecyclebinding.go",
+      "corpusreaders/mcpauthz.go",
+      "corpusreaders/mcpowasp.go",
+      "corpusreaders/mcprecord.go",
+      "corpusreaders/mcpresponsephase.go",
+      "corpusreaders/monitorcoverage.go",
+      "corpusreaders/oasfrecord.go",
+      "corpusreaders/observedeffect.go",
+      "corpusreaders/ocsfdecision.go",
+      "corpusreaders/ocsfjson.go",
+      "corpusreaders/ocsfrecord.go",
+      "corpusreaders/ocsfstream.go",
+      "corpusreaders/openweight.go",
+      "corpusreaders/paymentmandate.go",
+      "corpusreaders/physicalcompletion.go",
+      "corpusreaders/principalaction.go",
+      "corpusreaders/principalbinding.go",
+      "corpusreaders/printwitness.go",
+      "corpusreaders/propagationstep.go",
+      "corpusreaders/pyjson.go",
+      "corpusreaders/receiptchainend.go",
+      "corpusreaders/receiptsignature.go",
+      "corpusreaders/recorded.go",
+      "corpusreaders/refundconnected.go",
+      "corpusreaders/refundconnected_aps.go",
+      "corpusreaders/refundconnected_run.go",
+      "corpusreaders/refundconnected_steps.go",
+      "corpusreaders/refundconnected_trust.go",
+      "corpusreaders/refundconnected_value.go",
+      "corpusreaders/refusalreason.go",
+      "corpusreaders/registry.go",
+      "corpusreaders/responsibilityescalation.go",
+      "corpusreaders/restartrecords.go",
+      "corpusreaders/revocationlist.go",
+      "corpusreaders/rsadigestinfo.go",
+      "corpusreaders/rulecorpus.go",
+      "corpusreaders/runmetrics.go",
+      "corpusreaders/scittcose.go",
+      "corpusreaders/selfreported.go",
+      "corpusreaders/signaturecoverage.go",
+      "corpusreaders/sourcecoverage.go",
+      "corpusreaders/statusreceipt.go",
+      "corpusreaders/strictjson.go",
+      "corpusreaders/telemetryevidence.go",
+      "corpusreaders/traceanchor.go",
+      "corpusreaders/uncertaineffect.go",
+      "corpusreaders/verdictlines.go",
+      "corpusreaders/w3cintake.go",
+      "corpusreaders/w3cjcs.go",
+      "corpusreaders/w3creport.go",
+      "corpusreaders/x402binding.go",
+      "corpusreaders/x402join.go",
+      "internal/identifiers/identifiers.go",
+      "observedeffect/ijson.go",
+      "observedeffect/rules.go",
+      "observedeffect/verify.go",
+      "go.mod"
+    ]
+  },
+  "checks": [
+    {
+      "check": "b-batch-log-index-names-transfer",
+      "native": {
+        "reasons": [],
+        "verdict": "verified/verified"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "c-confirmed-single-transfer",
+      "native": {
+        "reasons": [],
+        "verdict": "verified/verified"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "c-confirmed-network-served-as-base",
+      "native": {
+        "reasons": [],
+        "verdict": "verified/verified"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "a-option-only-two-payments-fit",
+      "native": {
+        "reasons": [],
+        "verdict": "indeterminate/indeterminate"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "a-option-only-one-payment-fits",
+      "native": {
+        "reasons": [],
+        "verdict": "indeterminate/indeterminate"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "b-batch-without-log-index",
+      "native": {
+        "reasons": [],
+        "verdict": "verified/indeterminate"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "b-log-index-names-other-payment",
+      "native": {
+        "reasons": [],
+        "verdict": "verified/contradicted"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "b-named-transaction-did-not-use-authorization",
+      "native": {
+        "reasons": [],
+        "verdict": "verified/contradicted"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "c-authorization-not-yet-used",
+      "native": {
+        "reasons": [],
+        "verdict": "verified/indeterminate"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "c-settlement-pending-broadcast-hash",
+      "native": {
+        "reasons": [],
+        "verdict": "verified/indeterminate"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "c-valid-before-passed",
+      "native": {
+        "reasons": [],
+        "verdict": "verified/contradicted"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "c-valid-before-passed-head-not-finalized",
+      "native": {
+        "reasons": [],
+        "verdict": "verified/indeterminate"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "c-authorization-canceled",
+      "native": {
+        "reasons": [],
+        "verdict": "verified/contradicted"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "c-authorization-used-event-not-read",
+      "native": {
+        "reasons": [],
+        "verdict": "verified/indeterminate"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "c-chain-read-failed",
+      "native": {
+        "reasons": [],
+        "verdict": "verified/indeterminate"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "c-no-chain-read",
+      "native": {
+        "reasons": [],
+        "verdict": "verified/not_evaluated"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "c-chain-read-other-network",
+      "native": {
+        "reasons": [],
+        "verdict": "verified/indeterminate"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "c-transfer-pays-other-address",
+      "native": {
+        "reasons": [],
+        "verdict": "verified/contradicted"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "network-identifier-unknown",
+      "native": {
+        "reasons": [],
+        "verdict": "indeterminate/indeterminate"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "binding-nonce-not-payment-nonce",
+      "native": {
+        "reasons": [],
+        "verdict": "contradicted/indeterminate"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "binding-without-asset",
+      "native": {
+        "reasons": [],
+        "verdict": "indeterminate/indeterminate"
+      },
+      "state": "pass"
+    }
+  ],
+  "corpus-digest": {
+    "serialization": "sha256-listing-v1",
+    "sha256": "210843617e11160d546072acdd4fe557ad756fc0d5d3e23b6a4d4bbcda12fd4c"
+  },
+  "exit-code": 0,
+  "exit-rule": "zero-iff-every-check-passes",
+  "exposure": "visible",
+  "faults": [],
+  "format": "public-agent-conformance/intake-record/v2",
+  "manifest": {
+    "closed": true,
+    "ids": [
+      "b-batch-log-index-names-transfer",
+      "c-confirmed-single-transfer",
+      "c-confirmed-network-served-as-base",
+      "a-option-only-two-payments-fit",
+      "a-option-only-one-payment-fits",
+      "b-batch-without-log-index",
+      "b-log-index-names-other-payment",
+      "b-named-transaction-did-not-use-authorization",
+      "c-authorization-not-yet-used",
+      "c-settlement-pending-broadcast-hash",
+      "c-valid-before-passed",
+      "c-valid-before-passed-head-not-finalized",
+      "c-authorization-canceled",
+      "c-authorization-used-event-not-read",
+      "c-chain-read-failed",
+      "c-no-chain-read",
+      "c-chain-read-other-network",
+      "c-transfer-pays-other-address",
+      "network-identifier-unknown",
+      "binding-nonce-not-payment-nonce",
+      "binding-without-asset"
+    ],
+    "path": "corpora/vectors-x402-payment-binding/MANIFEST.json",
+    "sha256": "a15702aa55e6eaa086674959fdd7e1d80e1699f1c3435dd16da2d8815574d61b"
+  },
+  "members": [
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-x402-payment-binding/cases/b-batch-log-index-names-transfer/case.json",
+          "sha256": "e27bdac53ea97698446de1fb1a90ad56d29ce2123f802a64dcee0a958ffd6a2c"
+        }
+      ],
+      "id": "b-batch-log-index-names-transfer"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-x402-payment-binding/cases/c-confirmed-single-transfer/case.json",
+          "sha256": "96fac6c0727da63ae8ebe7530b6b748662563d563001a2889343ac40bc3f87f8"
+        }
+      ],
+      "id": "c-confirmed-single-transfer"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-x402-payment-binding/cases/c-confirmed-network-served-as-base/case.json",
+          "sha256": "e5c1c5f9f01b554bfcf5fb3e67cb421c6c00f9ee9ef7c351d3dcbe0489e3fce7"
+        }
+      ],
+      "id": "c-confirmed-network-served-as-base"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-x402-payment-binding/cases/a-option-only-two-payments-fit/case.json",
+          "sha256": "cd5fbef0bdb1c6e25b659b43885be300688e1e856409e8c59a4f0f8ec70f5cc4"
+        }
+      ],
+      "id": "a-option-only-two-payments-fit"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-x402-payment-binding/cases/a-option-only-one-payment-fits/case.json",
+          "sha256": "bc9b9d6f14aefa283a8fa419075cb06b4dfd1eac4b1dd404dd3f49e9c1fb80be"
+        }
+      ],
+      "id": "a-option-only-one-payment-fits"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-x402-payment-binding/cases/b-batch-without-log-index/case.json",
+          "sha256": "2926df2e1458dda9c625f40418a639c96b1cfed732f6bbde2cfc42f5bfeadf6b"
+        }
+      ],
+      "id": "b-batch-without-log-index"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-x402-payment-binding/cases/b-log-index-names-other-payment/case.json",
+          "sha256": "72f935ea47b1e1547825c51f4c06cea77d938f05f641734ef0ca5b7b02f65ced"
+        }
+      ],
+      "id": "b-log-index-names-other-payment"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-x402-payment-binding/cases/b-named-transaction-did-not-use-authorization/case.json",
+          "sha256": "18d2c273393f16e4f4bb5f8c91d711d329519a10abf72ad64ecc941ade914513"
+        }
+      ],
+      "id": "b-named-transaction-did-not-use-authorization"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-x402-payment-binding/cases/c-authorization-not-yet-used/case.json",
+          "sha256": "e339d88016d27fd935a787d364a5641b6b974498aea44d97d43c6dd76bfa22d4"
+        }
+      ],
+      "id": "c-authorization-not-yet-used"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-x402-payment-binding/cases/c-settlement-pending-broadcast-hash/case.json",
+          "sha256": "8e8b1ee84ad585d8de9ac5c6c1299a776984872900efac85850fc218270d16f7"
+        }
+      ],
+      "id": "c-settlement-pending-broadcast-hash"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-x402-payment-binding/cases/c-valid-before-passed/case.json",
+          "sha256": "9a756e910ca88dafae46616ea9740e47bef78c756d178d964a9a775c53f95228"
+        }
+      ],
+      "id": "c-valid-before-passed"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-x402-payment-binding/cases/c-valid-before-passed-head-not-finalized/case.json",
+          "sha256": "c407abac2f7508ad0edaca1436fe56f58177d746db263fd8c0990262a1c6ce4c"
+        }
+      ],
+      "id": "c-valid-before-passed-head-not-finalized"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-x402-payment-binding/cases/c-authorization-canceled/case.json",
+          "sha256": "06fafe4782116eacebdd817d8eefcb20ad023c84bffb7205963f13a3c9c32ff3"
+        }
+      ],
+      "id": "c-authorization-canceled"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-x402-payment-binding/cases/c-authorization-used-event-not-read/case.json",
+          "sha256": "54d614a93ab42a27535378647170591f39cbf62029d64f4ac5578ebcf2b1352d"
+        }
+      ],
+      "id": "c-authorization-used-event-not-read"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-x402-payment-binding/cases/c-chain-read-failed/case.json",
+          "sha256": "9904d3bb37a508e1fc888bb5d269d5ff90e82c531d9f34ab8ea54f0a5f0b3b77"
+        }
+      ],
+      "id": "c-chain-read-failed"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-x402-payment-binding/cases/c-no-chain-read/case.json",
+          "sha256": "c012bca03cd90890e0accdb845d57d171125d92ad28393ef6d41f9c064b91d49"
+        }
+      ],
+      "id": "c-no-chain-read"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-x402-payment-binding/cases/c-chain-read-other-network/case.json",
+          "sha256": "d68cd725be36273ab4c9c686f01a3a1218005aa918b8da7195ce2eeba916d4a3"
+        }
+      ],
+      "id": "c-chain-read-other-network"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-x402-payment-binding/cases/c-transfer-pays-other-address/case.json",
+          "sha256": "2fbe3e340a27db5c7623df52178e5c470123dc379493c29f2a77e8d0b3885601"
+        }
+      ],
+      "id": "c-transfer-pays-other-address"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-x402-payment-binding/cases/network-identifier-unknown/case.json",
+          "sha256": "81cef8056997c71d010a763bc65cd42ff545ff52ce5fea2e8e15c2631513e11a"
+        }
+      ],
+      "id": "network-identifier-unknown"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-x402-payment-binding/cases/binding-nonce-not-payment-nonce/case.json",
+          "sha256": "88db61962a7abf4f8c7f4caa50c52ff5b8177f13f02d3d840dea17a7d6d96803"
+        }
+      ],
+      "id": "binding-nonce-not-payment-nonce"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-x402-payment-binding/cases/binding-without-asset/case.json",
+          "sha256": "9d3afaa4d38434225ecc324048c2a7a3507f2519657530c602dda17a0db616b1"
+        }
+      ],
+      "id": "binding-without-asset"
+    }
+  ],
+  "native": {
+    "cases": "native-json",
+    "format": "corpus-result-json-v1",
+    "process-status": {
+      "exit-code": 0
+    },
+    "summary": "native-text"
+  },
+  "non-author-runs": [],
+  "observations": [
+    {
+      "carry": "referenced",
+      "id": "native-json",
+      "reference": {
+        "path": "release/intake/native/vectors-x402-payment-binding.json",
+        "serialization": "bytes",
+        "sha256": "28e8301efeabb1dd34818539dce4b5de37767adda03d8803b6617ee42ae798dc"
+      }
+    },
+    {
+      "carry": "referenced",
+      "id": "native-text",
+      "reference": {
+        "path": "release/intake/native/vectors-x402-payment-binding.txt",
+        "serialization": "bytes",
+        "sha256": "f1dc0b629894c406bc31da7a1027852082b9e6779f480410c5b65317b93e3a98"
+      }
+    },
+    {
+      "carried": "",
+      "carry": "carried",
+      "id": "stderr"
+    }
+  ],
+  "pin-serialization": "bytes",
+  "refusal-verdicts": [
+    "contradicted",
+    "failed",
+    "must-reject",
+    "reject",
+    "rejected"
+  ],
+  "refusals": [],
+  "relaxed-controls": [],
+  "replay-stability": {
+    "cause": null,
+    "ordering": "emission-order",
+    "runs": [
+      {
+        "process": "run-1",
+        "sha256": "28e8301efeabb1dd34818539dce4b5de37767adda03d8803b6617ee42ae798dc"
+      },
+      {
+        "process": "run-2",
+        "sha256": "28e8301efeabb1dd34818539dce4b5de37767adda03d8803b6617ee42ae798dc"
+      }
+    ],
+    "seed": null,
+    "state": "stable"
+  },
+  "scope": {
+    "does-not-claim": [
+      "whole-attack-surface",
+      "implementation-ranking",
+      "threats-outside-corpus",
+      "action-occurred-or-authority"
+    ],
+    "establishes": [
+      "aee-verify, at the source listing named here, judges each of the 21 pinned members of x402-payment-binding/v1 as its manifest declares"
+    ],
+    "leaves-open": [
+      "whether an implementation written from the specification, run by someone other than an author, reaches the same verdicts",
+      "whether release/CORPUS-DIGESTS.txt is a list a release signed: the signature beside it does not verify over these bytes, so the anchor is a located line, not a verified one",
+      "whether a re-run by someone other than an author on these exact bytes agrees; none is on the record for them"
+    ]
+  },
+  "selector": {
+    "expression": "*",
+    "language": "id-glob",
+    "matched": 21,
+    "require": "at-least-one",
+    "selected": [
+      "b-batch-log-index-names-transfer",
+      "c-confirmed-single-transfer",
+      "c-confirmed-network-served-as-base",
+      "a-option-only-two-payments-fit",
+      "a-option-only-one-payment-fits",
+      "b-batch-without-log-index",
+      "b-log-index-names-other-payment",
+      "b-named-transaction-did-not-use-authorization",
+      "c-authorization-not-yet-used",
+      "c-settlement-pending-broadcast-hash",
+      "c-valid-before-passed",
+      "c-valid-before-passed-head-not-finalized",
+      "c-authorization-canceled",
+      "c-authorization-used-event-not-read",
+      "c-chain-read-failed",
+      "c-no-chain-read",
+      "c-chain-read-other-network",
+      "c-transfer-pays-other-address",
+      "network-identifier-unknown",
+      "binding-nonce-not-payment-nonce",
+      "binding-without-asset"
+    ]
+  },
+  "specification-readers": [],
+  "state": "pass",
+  "suite": "x402-payment-binding/v1"
+}

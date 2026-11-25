@@ -82,9 +82,10 @@ from pathlib import Path
 from typing import Any
 
 from . import strictjson
+from .identifiers import identifier, same_identifier
 
 SUITE = "uncertain-effect/v1"
-CONTRACT_ID = "https://probityai.github.io/agent-evidence-vectors/predicate/v1/uncertain-effect"
+CONTRACT_ID = identifier("agent-evidence-vectors/predicate/v1/uncertain-effect")
 ALLOW, DENY = "allow", "deny"
 ALLOWED_REASON = "effect_held"
 EXIT_FOR = {ALLOW: 0, DENY: 1}
@@ -299,7 +300,8 @@ def _first_failure(record: Record, skip: frozenset[str]) -> str | None:
     """
     failures: dict[str, Callable[[], bool]] = {
         "contract_id_missing": lambda: "contractId" not in record,
-        "contract_id_unknown": lambda: record.get("contractId", CONTRACT_ID) != CONTRACT_ID,
+        "contract_id_unknown": lambda: not same_identifier(
+            record.get("contractId", CONTRACT_ID), CONTRACT_ID),
         "operation_identity_missing": lambda: _identity_missing(record),
         "idempotency_key_args_changed": lambda: _key_args_changed(record),
         "idempotency_key_follows_trigger": lambda: _key_ignores_trigger(record),

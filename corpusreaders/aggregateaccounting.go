@@ -5,6 +5,8 @@ import (
 	"path/filepath"
 	"reflect"
 	"sort"
+
+	"github.com/probityai/agent-evidence-vectors/internal/identifiers"
 )
 
 func init() { register(aggregateAccounting{}) }
@@ -33,7 +35,7 @@ func init() { register(aggregateAccounting{}) }
 // budget, actions and counts.
 type aggregateAccounting struct{}
 
-const aaContractID = "https://probityai.github.io/agent-evidence-observer/contract/aggregate-accounting/v1"
+var aaContractID = identifiers.Identifier("agent-evidence-observer/contract/aggregate-accounting/v1")
 
 func (aggregateAccounting) Suite() string { return "aggregate-accounting/v1" }
 
@@ -181,7 +183,7 @@ func aaDecide(r aaRecord) scDecision {
 		fails  bool
 	}{
 		{"contract_id_missing", r.ContractID == nil},
-		{"contract_id_unknown", r.ContractID != nil && *r.ContractID != aaContractID},
+		{"contract_id_unknown", r.ContractID != nil && identifiers.CanonicalIdentifier(*r.ContractID) != aaContractID},
 		{"accounting_identity_missing", aaIdentityMissing(r)},
 		{"latency_bound_admitted", aaLatencyAdmitted(r)},
 		{"unknown_outcome_not_charged", aaUnknownReleased(r)},

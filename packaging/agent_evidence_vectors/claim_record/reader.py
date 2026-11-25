@@ -36,6 +36,7 @@ import re
 from collections.abc import Callable, Iterable
 from typing import Any
 
+from ..identifiers import identifier, same_identifier
 from ..invocation_axes.reader import MalformedInput, canonical, parse_strict, sha256_tag
 
 __all__ = [
@@ -54,7 +55,7 @@ __all__ = [
 
 #: The identifier a record carries, as ``claim_type`` and as the in-toto
 #: ``predicateType`` when the record rides in a Statement. It never moves.
-CLAIM_TYPE = "https://probityai.github.io/agent-evidence-vectors/predicate/v1/evaluation-claim"
+CLAIM_TYPE = identifier("agent-evidence-vectors/predicate/v1/evaluation-claim")
 STATEMENT_TYPE = "https://in-toto.io/Statement/v1"
 PROFILE_SCHEMA = "aev-claim-profile/v1"
 RULE_SCHEMA = "aev-claim-acceptance-rule/v1"
@@ -733,7 +734,8 @@ def _has_later_transition(epoch: dict[str, Any], ids: list[str]) -> dict[str, bo
 def unwrap(doc: Any) -> tuple[Any, str | None]:
     """Accept a bare record, or one riding as the predicate of an in-toto Statement v1."""
     if isinstance(doc, dict) and "_type" in doc:
-        if doc["_type"] != STATEMENT_TYPE or doc.get("predicateType") != CLAIM_TYPE:
+        if doc["_type"] != STATEMENT_TYPE or not same_identifier(
+                doc.get("predicateType"), CLAIM_TYPE):
             raise MalformedInput("a Statement carrying a claim names this claim type")
         subject = doc.get("subject")
         if (
@@ -753,7 +755,7 @@ def check_envelope(record: Any) -> dict[str, Any]:
         raise MalformedInput("the record is a JSON object")
     if set(record) != {"claim_type", "profile", "verdict", "coordinates"}:
         raise MalformedInput("the record carries claim_type, profile, verdict and coordinates")
-    if record["claim_type"] != CLAIM_TYPE:
+    if not same_identifier(record["claim_type"], CLAIM_TYPE):
         raise MalformedInput(f"claim_type is {CLAIM_TYPE}")
     if record["verdict"] not in VERDICTS:
         raise MalformedInput(f"verdict is one of {list(VERDICTS)}")

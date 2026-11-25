@@ -5,6 +5,7 @@ A predicate type URI of this project is a persistent identifier under `https://w
 | Type URI | Page | Specification |
 | --- | --- | --- |
 | `https://w3id.org/agent-evidence/predicate/v1/agent-card-receipt` | `pages/predicate/v1/agent-card-receipt/` | `spec/predicates/agent-card-receipt.md` of agent-evidence-vectors |
+| `https://w3id.org/agent-evidence/predicate/v1/agent-identity-statement` | `pages/predicate/v1/agent-identity-statement/` | `spec/predicates/agent-identity-statement.md` of agent-evidence-vectors |
 | `https://w3id.org/agent-evidence/predicate/v1/credential-release` | `pages/predicate/v1/credential-release/` | `spec/predicates/credential-release.md` of agent-evidence-vectors |
 | `https://w3id.org/agent-evidence/predicate/v1/done-contract` | `pages/predicate/v1/done-contract/` | `spec/predicates/done-contract.md` of agent-evidence-vectors |
 | `https://w3id.org/agent-evidence/predicate/v1/done-receipt` | `pages/predicate/v1/done-receipt/` | `spec/predicates/done-receipt.md` of agent-evidence-vectors |

@@ -1,0 +1,469 @@
+{
+  "corpusDigest": "787d9edabc2f19a78a53fb7ca7368df78a8494524c1ae6462611309768c83de8",
+  "counts": {
+    "authorization": {
+      "contradicted": 1,
+      "indeterminate": 4,
+      "verified": 16
+    },
+    "settlement": {
+      "contradicted": 5,
+      "indeterminate": 12,
+      "not_evaluated": 1,
+      "verified": 3
+    }
+  },
+  "schema": "x402-payment-binding-record/v1",
+  "specification": {
+    "discussion": {
+      "a-and-c-distinct": "https://github.com/x402-foundation/wg-identity/issues/37#issuecomment-7123441470",
+      "binding-values": "https://github.com/x402-foundation/wg-identity/issues/37#issuecomment-7044162063",
+      "case-c": "https://github.com/x402-foundation/wg-identity/issues/37#issuecomment-7107019973",
+      "chain-read-reasons": "https://github.com/x402-foundation/tsc/issues/21#issuecomment-7107032958",
+      "network-alias": "https://github.com/x402-foundation/wg-identity/issues/37#issuecomment-7059013079",
+      "test-pair-a-b": "https://github.com/x402-foundation/wg-identity/issues/37#issuecomment-7045346617",
+      "two-verdicts": "https://github.com/x402-foundation/tsc/issues/21#issuecomment-7130535657"
+    },
+    "scope": "Whether an x402 evidence record identifies one EIP-3009 authorization (network, asset contract, payer and nonce together), and whether a chain read of that contract identifies the Transfer log that settled it. The two answers are separate verdicts. Chain reads are modelled fields, never fetched.",
+    "status": "proposal of this repository, not a vendored upstream text",
+    "upstream": {
+      "eip3009": {
+        "commit": "542e05025b63a542606124a55f86aaf85add23a7",
+        "path": "ERCS/erc-3009.md",
+        "repository": "https://github.com/ethereum/ERCs",
+        "used": "AuthorizationUsed(authorizer, nonce) and the optional AuthorizationCanceled(authorizer, nonce) events, authorizationState(authorizer, nonce), nonces unique to the authorizer on one contract, and transferWithAuthorization requiring block time before validBefore"
+      },
+      "x402": {
+        "commit": "211b6bd3b589af8b2fc01d2b5a41ab32fad1c0a6",
+        "paths": [
+          "specs/schemes/exact/scheme_exact_evm.md",
+          "specs/x402-specification-v2.md",
+          "python/x402/mechanisms/evm/v1/constants.py"
+        ],
+        "repository": "https://github.com/x402-foundation/x402",
+        "used": "the exact scheme's EIP-3009 authorization fields, settlement_pending with a broadcast transaction hash, CAIP-2 network identifiers and the v1 network names mapped to chain ids"
+      }
+    }
+  },
+  "suite": "x402-payment-binding/v1",
+  "vectors": [
+    {
+      "description": "case B: two payments in one transaction; payer and nonce identify the authorization, the log index names its Transfer",
+      "expected": {
+        "authorization": {
+          "reason": "authorization_identified",
+          "state": "verified"
+        },
+        "settlement": {
+          "reason": "transfer_identified",
+          "state": "verified"
+        }
+      },
+      "files": {
+        "case.json": "e27bdac53ea97698446de1fb1a90ad56d29ce2123f802a64dcee0a958ffd6a2c"
+      },
+      "id": "b-batch-log-index-names-transfer",
+      "path": "cases/b-batch-log-index-names-transfer",
+      "rationale": "TKCollective's record B: payer and nonce identify which authorization was used once matched to AuthorizationUsed on the stated network, and the log index beside the transaction hash names the Transfer in the batch."
+    },
+    {
+      "description": "case C after confirmation: AuthorizationUsed read, one Transfer in the transaction, no log index needed",
+      "expected": {
+        "authorization": {
+          "reason": "authorization_identified",
+          "state": "verified"
+        },
+        "settlement": {
+          "reason": "transfer_identified",
+          "state": "verified"
+        }
+      },
+      "files": {
+        "case.json": "96fac6c0727da63ae8ebe7530b6b748662563d563001a2889343ac40bc3f87f8"
+      },
+      "id": "c-confirmed-single-transfer",
+      "path": "cases/c-confirmed-single-transfer",
+      "rationale": "The log index is needed only where the transaction carries more than one transfer, as XFuel-Lab's revised wording says; with one Transfer the hash and the event suffice."
+    },
+    {
+      "description": "network alias pair: the same record with the network served as base",
+      "expected": {
+        "authorization": {
+          "reason": "authorization_identified",
+          "state": "verified"
+        },
+        "settlement": {
+          "reason": "transfer_identified",
+          "state": "verified"
+        }
+      },
+      "files": {
+        "case.json": "e5c1c5f9f01b554bfcf5fb3e67cb421c6c00f9ee9ef7c351d3dcbe0489e3fce7"
+      },
+      "id": "c-confirmed-network-served-as-base",
+      "path": "cases/c-confirmed-network-served-as-base",
+      "rationale": "TKCollective's alias test: the record keeps base as served; mapped through x402's v1 table it names eip155:8453, so the answer equals the eip155:8453 twin's."
+    },
+    {
+      "description": "case A: bound by the accepted option and time only; two payments in the batch fit",
+      "expected": {
+        "authorization": {
+          "reason": "option_fits_more_than_one_payment",
+          "state": "indeterminate"
+        },
+        "settlement": {
+          "reason": "authorization_not_identified",
+          "state": "indeterminate"
+        }
+      },
+      "files": {
+        "case.json": "cd5fbef0bdb1c6e25b659b43885be300688e1e856409e8c59a4f0f8ec70f5cc4"
+      },
+      "id": "a-option-only-two-payments-fit",
+      "path": "cases/a-option-only-two-payments-fit",
+      "rationale": "TKCollective's record A: the option and time fit both payments, so the record identifies neither authorization nor transfer. Both payments settled, and that does not make settlement verified: the record names no transfer.",
+      "twin": "b-batch-log-index-names-transfer"
+    },
+    {
+      "description": "accepted option only; exactly one payment in the read fits",
+      "expected": {
+        "authorization": {
+          "reason": "bound_by_accepted_option_only",
+          "state": "indeterminate"
+        },
+        "settlement": {
+          "reason": "authorization_not_identified",
+          "state": "indeterminate"
+        }
+      },
+      "files": {
+        "case.json": "bc9b9d6f14aefa283a8fa419075cb06b4dfd1eac4b1dd404dd3f49e9c1fb80be"
+      },
+      "id": "a-option-only-one-payment-fits",
+      "path": "cases/a-option-only-one-payment-fits",
+      "rationale": "Decided here: the revised wording says unresolved where more than one payment fits and is silent where one does. A read covers some transactions, not every payment the option could match, so one fit in the read does not identify the authorization.",
+      "twin": "c-confirmed-single-transfer"
+    },
+    {
+      "description": "case B without its log index: the authorization is identified, its Transfer is not",
+      "expected": {
+        "authorization": {
+          "reason": "authorization_identified",
+          "state": "verified"
+        },
+        "settlement": {
+          "reason": "transaction_carries_more_than_one_transfer",
+          "state": "indeterminate"
+        }
+      },
+      "files": {
+        "case.json": "2926df2e1458dda9c625f40418a639c96b1cfed732f6bbde2cfc42f5bfeadf6b"
+      },
+      "id": "b-batch-without-log-index",
+      "path": "cases/b-batch-without-log-index",
+      "rationale": "The transaction carries two Transfer logs of the asset. EIP-3009 fixes no order between AuthorizationUsed and Transfer (the order is in its reference implementation only), so a verifier does not pair them by position; without the log index the transfer stays open.",
+      "twin": "b-batch-log-index-names-transfer"
+    },
+    {
+      "description": "the log index names the batch's other Transfer, which pays a different amount",
+      "expected": {
+        "authorization": {
+          "reason": "authorization_identified",
+          "state": "verified"
+        },
+        "settlement": {
+          "reason": "transfer_not_authorization_terms",
+          "state": "contradicted"
+        }
+      },
+      "files": {
+        "case.json": "72f935ea47b1e1547825c51f4c06cea77d938f05f641734ef0ca5b7b02f65ced"
+      },
+      "id": "b-log-index-names-other-payment",
+      "path": "cases/b-log-index-names-other-payment",
+      "rationale": "The named log is a Transfer of the asset, but not of this authorization's value.",
+      "twin": "b-batch-log-index-names-transfer"
+    },
+    {
+      "description": "the record names a transaction; AuthorizationUsed for its nonce is in another one",
+      "expected": {
+        "authorization": {
+          "reason": "authorization_identified",
+          "state": "verified"
+        },
+        "settlement": {
+          "reason": "transaction_did_not_use_authorization",
+          "state": "contradicted"
+        }
+      },
+      "files": {
+        "case.json": "18d2c273393f16e4f4bb5f8c91d711d329519a10abf72ad64ecc941ade914513"
+      },
+      "id": "b-named-transaction-did-not-use-authorization",
+      "path": "cases/b-named-transaction-did-not-use-authorization",
+      "rationale": "The chain read places this authorization's use in another transaction.",
+      "twin": "b-batch-log-index-names-transfer"
+    },
+    {
+      "description": "case C: authorization identified; no AuthorizationUsed yet and validBefore not reached",
+      "expected": {
+        "authorization": {
+          "reason": "authorization_identified",
+          "state": "verified"
+        },
+        "settlement": {
+          "reason": "authorization_not_yet_used",
+          "state": "indeterminate"
+        }
+      },
+      "files": {
+        "case.json": "e339d88016d27fd935a787d364a5641b6b974498aea44d97d43c6dd76bfa22d4"
+      },
+      "id": "c-authorization-not-yet-used",
+      "path": "cases/c-authorization-not-yet-used",
+      "rationale": "XFuel-Lab's record C: bound to one authorization with settlement unconfirmed, not contradicted. A verifier that answers unresolved for both A and C loses the authorization C identifies.",
+      "twin": "c-confirmed-single-transfer"
+    },
+    {
+      "description": "case C holding the facilitator's broadcast hash (settlement_pending)",
+      "expected": {
+        "authorization": {
+          "reason": "authorization_identified",
+          "state": "verified"
+        },
+        "settlement": {
+          "reason": "authorization_not_yet_used",
+          "state": "indeterminate"
+        }
+      },
+      "files": {
+        "case.json": "8e8b1ee84ad585d8de9ac5c6c1299a776984872900efac85850fc218270d16f7"
+      },
+      "id": "c-settlement-pending-broadcast-hash",
+      "path": "cases/c-settlement-pending-broadcast-hash",
+      "rationale": "x402 v2 lets a facilitator return settlement_pending with the broadcast hash. A hash is not a settlement: the read shows the authorization unused before validBefore.",
+      "twin": "c-confirmed-single-transfer"
+    },
+    {
+      "description": "twin of C: unused at a finalized head whose time is past validBefore",
+      "expected": {
+        "authorization": {
+          "reason": "authorization_identified",
+          "state": "verified"
+        },
+        "settlement": {
+          "reason": "authorization_expired_unused",
+          "state": "contradicted"
+        }
+      },
+      "files": {
+        "case.json": "9a756e910ca88dafae46616ea9740e47bef78c756d178d964a9a775c53f95228"
+      },
+      "id": "c-valid-before-passed",
+      "path": "cases/c-valid-before-passed",
+      "rationale": "Decided here, from EIP-3009: transferWithAuthorization requires block time before validBefore, so once a finalized head is past it with the authorization unused, the authorization can never settle. Never settled, not pending. The head's time is the clock, not the verifier's.",
+      "twin": "c-confirmed-single-transfer"
+    },
+    {
+      "description": "twin of C: past validBefore at the head, but the head is not finalized",
+      "expected": {
+        "authorization": {
+          "reason": "authorization_identified",
+          "state": "verified"
+        },
+        "settlement": {
+          "reason": "authorization_not_yet_used",
+          "state": "indeterminate"
+        }
+      },
+      "files": {
+        "case.json": "c407abac2f7508ad0edaca1436fe56f58177d746db263fd8c0990262a1c6ce4c"
+      },
+      "id": "c-valid-before-passed-head-not-finalized",
+      "path": "cases/c-valid-before-passed-head-not-finalized",
+      "rationale": "A head that is not final can be replaced by blocks timed before validBefore that carry the authorization, so the answer stays pending.",
+      "twin": "c-confirmed-single-transfer"
+    },
+    {
+      "description": "the read shows AuthorizationCanceled for the payer and nonce",
+      "expected": {
+        "authorization": {
+          "reason": "authorization_identified",
+          "state": "verified"
+        },
+        "settlement": {
+          "reason": "authorization_canceled",
+          "state": "contradicted"
+        }
+      },
+      "files": {
+        "case.json": "06fafe4782116eacebdd817d8eefcb20ad023c84bffb7205963f13a3c9c32ff3"
+      },
+      "id": "c-authorization-canceled",
+      "path": "cases/c-authorization-canceled",
+      "rationale": "EIP-3009's optional cancelAuthorization marks the nonce used without a transfer.",
+      "twin": "c-confirmed-single-transfer"
+    },
+    {
+      "description": "authorizationState is true, but the read carries no AuthorizationUsed log",
+      "expected": {
+        "authorization": {
+          "reason": "authorization_identified",
+          "state": "verified"
+        },
+        "settlement": {
+          "reason": "authorization_use_not_read",
+          "state": "indeterminate"
+        }
+      },
+      "files": {
+        "case.json": "54d614a93ab42a27535378647170591f39cbf62029d64f4ac5578ebcf2b1352d"
+      },
+      "id": "c-authorization-used-event-not-read",
+      "path": "cases/c-authorization-used-event-not-read",
+      "rationale": "The nonce is spent somewhere; without the event the transaction and its Transfer are unknown.",
+      "twin": "c-confirmed-single-transfer"
+    },
+    {
+      "description": "read-failed half of the pair: the source was unavailable",
+      "expected": {
+        "authorization": {
+          "reason": "authorization_identified",
+          "state": "verified"
+        },
+        "settlement": {
+          "reason": "chain_read_failed",
+          "state": "indeterminate"
+        }
+      },
+      "files": {
+        "case.json": "9904d3bb37a508e1fc888bb5d269d5ff90e82c531d9f34ab8ea54f0a5f0b3b77"
+      },
+      "id": "c-chain-read-failed",
+      "path": "cases/c-chain-read-failed",
+      "rationale": "XFuel-Lab asked to keep the reason: source unavailable here, not found in c-authorization-not-yet-used. Both are indeterminate and neither counts against the record.",
+      "twin": "c-confirmed-single-transfer"
+    },
+    {
+      "description": "an offline run: no chain read was made",
+      "expected": {
+        "authorization": {
+          "reason": "authorization_identified",
+          "state": "verified"
+        },
+        "settlement": {
+          "reason": "no_chain_read",
+          "state": "not_evaluated"
+        }
+      },
+      "files": {
+        "case.json": "c012bca03cd90890e0accdb845d57d171125d92ad28393ef6d41f9c064b91d49"
+      },
+      "id": "c-no-chain-read",
+      "path": "cases/c-no-chain-read",
+      "rationale": "The authorization is identified from the record alone; settlement was not evaluated, which is visible and is not a failure.",
+      "twin": "c-confirmed-single-transfer"
+    },
+    {
+      "description": "the read is of eip155:84532; the record is bound to eip155:8453",
+      "expected": {
+        "authorization": {
+          "reason": "authorization_identified",
+          "state": "verified"
+        },
+        "settlement": {
+          "reason": "chain_read_not_bound_network",
+          "state": "indeterminate"
+        }
+      },
+      "files": {
+        "case.json": "d68cd725be36273ab4c9c686f01a3a1218005aa918b8da7195ce2eeba916d4a3"
+      },
+      "id": "c-chain-read-other-network",
+      "path": "cases/c-chain-read-other-network",
+      "rationale": "A read of another chain says nothing about this authorization.",
+      "twin": "c-confirmed-single-transfer"
+    },
+    {
+      "description": "the single Transfer after AuthorizationUsed credits another address than payTo",
+      "expected": {
+        "authorization": {
+          "reason": "authorization_identified",
+          "state": "verified"
+        },
+        "settlement": {
+          "reason": "transfer_not_authorization_terms",
+          "state": "contradicted"
+        }
+      },
+      "files": {
+        "case.json": "2fbe3e340a27db5c7623df52178e5c470123dc379493c29f2a77e8d0b3885601"
+      },
+      "id": "c-transfer-pays-other-address",
+      "path": "cases/c-transfer-pays-other-address",
+      "rationale": "The transfer the read identifies is not this authorization's terms.",
+      "twin": "c-confirmed-single-transfer"
+    },
+    {
+      "description": "the network is served as base-mainnet, which no mapping names",
+      "expected": {
+        "authorization": {
+          "reason": "binding_network_unknown",
+          "state": "indeterminate"
+        },
+        "settlement": {
+          "reason": "authorization_not_identified",
+          "state": "indeterminate"
+        }
+      },
+      "files": {
+        "case.json": "81cef8056997c71d010a763bc65cd42ff545ff52ce5fea2e8e15c2631513e11a"
+      },
+      "id": "network-identifier-unknown",
+      "path": "cases/network-identifier-unknown",
+      "rationale": "TKCollective's rule: with an unknown identifier the network comparison stays unresolved, so the authorization's scope is not established.",
+      "twin": "c-confirmed-single-transfer"
+    },
+    {
+      "description": "the binding names another nonce than the authorization the record carries",
+      "expected": {
+        "authorization": {
+          "reason": "binding_not_record_authorization",
+          "state": "contradicted"
+        },
+        "settlement": {
+          "reason": "authorization_not_identified",
+          "state": "indeterminate"
+        }
+      },
+      "files": {
+        "case.json": "88db61962a7abf4f8c7f4caa50c52ff5b8177f13f02d3d840dea17a7d6d96803"
+      },
+      "id": "binding-nonce-not-payment-nonce",
+      "path": "cases/binding-nonce-not-payment-nonce",
+      "rationale": "The record contradicts itself about which authorization binds it.",
+      "twin": "c-confirmed-single-transfer"
+    },
+    {
+      "description": "the binding names payer and nonce but no asset contract",
+      "expected": {
+        "authorization": {
+          "reason": "authorization_scope_incomplete",
+          "state": "indeterminate"
+        },
+        "settlement": {
+          "reason": "authorization_not_identified",
+          "state": "indeterminate"
+        }
+      },
+      "files": {
+        "case.json": "9d3afaa4d38434225ecc324048c2a7a3507f2519657530c602dda17a0db616b1"
+      },
+      "id": "binding-without-asset",
+      "path": "cases/binding-without-asset",
+      "rationale": "An EIP-3009 nonce is unique to its authorizer on one contract, so payer and nonce without the asset and network do not identify one authorization.",
+      "twin": "c-confirmed-single-transfer"
+    }
+  ],
+  "verifierContract": "verifier case.json --json"
+}

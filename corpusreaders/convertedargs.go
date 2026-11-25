@@ -10,6 +10,8 @@ import (
 	"path/filepath"
 	"strings"
 	"unicode/utf8"
+
+	"github.com/probityai/agent-evidence-vectors/internal/identifiers"
 )
 
 func init() { register(convertedArgs{}) }
@@ -40,10 +42,9 @@ func init() { register(convertedArgs{}) }
 // The reader also recomputes each member's declared shownEqualsExecuted.
 type convertedArgs struct{}
 
-const (
-	cabContractID = "https://probityai.github.io/agent-evidence-observer/contract/converted-argument-binding/v1"
-	cabSafeBits   = 53
-)
+var cabContractID = identifiers.Identifier("agent-evidence-observer/contract/converted-argument-binding/v1")
+
+const cabSafeBits = 53
 
 func (convertedArgs) Suite() string { return "converted-argument-binding/v1" }
 
@@ -142,7 +143,7 @@ func cabDecide(r cabRecord, f cabFiles) scDecision {
 		fails  bool
 	}{
 		{"contract_id_missing", r.ContractID == nil},
-		{"contract_id_unknown", r.ContractID != nil && *r.ContractID != cabContractID},
+		{"contract_id_unknown", r.ContractID != nil && identifiers.CanonicalIdentifier(*r.ContractID) != cabContractID},
 		{"approval_not_bound_to_shown", r.Approval.ShownSha != sha(f.shown)},
 		{"shown_not_storable", cabStrictError(f.shown) != nil},
 		{"invalid_call_approved", cabInvalidCall(r, f.raw)},

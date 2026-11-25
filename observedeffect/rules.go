@@ -7,6 +7,8 @@ import (
 	"regexp"
 	"strconv"
 	"strings"
+
+	"github.com/probityai/agent-evidence-vectors/internal/identifiers"
 )
 
 // One function per rule the predicate states. The mutation table disables exactly
@@ -47,9 +49,11 @@ func ruleIJSONIntegers(c *ctx) *fault {
 }
 
 // rulePredicateType makes the statement say which predicate these fields belong
-// to. A consumer routes by this value.
+// to. A consumer routes by this value. Both spellings of our host name one type
+// (internal/identifiers), so the comparison is made between canonical forms.
 func rulePredicateType(c *ctx) *fault {
-	if c.policy.PredicateType == "" || c.str(c.stmt, "predicateType") != c.policy.PredicateType {
+	if c.policy.PredicateType == "" ||
+		!identifiers.SameIdentifier(c.str(c.stmt, "predicateType"), c.policy.PredicateType) {
 		return malformed("predicate-type-unexpected")
 	}
 	return nil

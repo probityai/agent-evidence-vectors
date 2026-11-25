@@ -4,6 +4,8 @@ import (
 	"fmt"
 	"path/filepath"
 	"time"
+
+	"github.com/probityai/agent-evidence-vectors/internal/identifiers"
 )
 
 func init() { register(dispatchFence{}) }
@@ -31,7 +33,7 @@ func init() { register(dispatchFence{}) }
 // The reader also recomputes each member's declared holdCoversCommit.
 type dispatchFence struct{}
 
-const dfContractID = "https://probityai.github.io/agent-evidence-observer/contract/dispatch-fence/v1"
+var dfContractID = identifiers.Identifier("agent-evidence-observer/contract/dispatch-fence/v1")
 
 func (dispatchFence) Suite() string { return "dispatch-fence/v1" }
 
@@ -150,7 +152,7 @@ func dfDecide(r dfRecord, expiry time.Time, clock *dfClock) scDecision {
 		fails  bool
 	}{
 		{"contract_id_missing", r.ContractID == nil},
-		{"contract_id_unknown", r.ContractID != nil && *r.ContractID != dfContractID},
+		{"contract_id_unknown", r.ContractID != nil && identifiers.CanonicalIdentifier(*r.ContractID) != dfContractID},
 		{"fence_not_bound_to_check", r.Fence.ExpectedSeq == nil || *r.Fence.ExpectedSeq != r.Check.ReadSeq},
 		{"state_changed_between_check_and_fence", dfStateChanged(r)},
 		{"runtime_exceeds_hold", r.Effect.Declared != nil && *r.Effect.Declared > r.Fence.TTLSeconds &&

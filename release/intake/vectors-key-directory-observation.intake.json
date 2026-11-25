@@ -2,10 +2,10 @@
   "aggregate": {
     "counts": {
       "attributed": 4,
-      "not_attributed": 9
+      "not_attributed": 13
     },
     "line": "verdict: every member behaves as MANIFEST.json declares",
-    "total": 13
+    "total": 17
   },
   "anchor": {
     "kind": "digest-list-line",
@@ -17,7 +17,7 @@
     "routine": "corpus_digest in corpora/vectors-key-directory-observation/gen_vectors.py",
     "routine-file": "corpora/vectors-key-directory-observation/gen_vectors.py",
     "serialization": "corpus-routine",
-    "sha256": "461cddb8a89c5e140f3ba3c566620941e7c4c6feff2bb827fc0d9911a47b1818",
+    "sha256": "5be11db5f049b597510a0bb9a00536937293e1664ceb0582b6b03c387cb9b398",
     "verdicts": {
       "availability-failure": "inconclusive",
       "integrity-failure": "fail"
@@ -29,7 +29,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "35100e6eabdca14b466a12288f9c68af676f113dce12771b33fa44dc8f1ebf19"
+          "sha256": "33fa824ba6ddef7b062f7f3569070a6a9d2722ffd8aca69e0b1b3f48b64fc86c"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [],
@@ -38,21 +38,21 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "35100e6eabdca14b466a12288f9c68af676f113dce12771b33fa44dc8f1ebf19"
+          "sha256": "33fa824ba6ddef7b062f7f3569070a6a9d2722ffd8aca69e0b1b3f48b64fc86c"
         },
         "swapped-in": "8003a0e09a4d24b54e337647149fab27e05c3c543662f3ff41b74f8b4d3247da",
         "test": "swap-and-re-pin"
       },
       "path": "corpora/vectors-key-directory-observation/README.md",
       "serialization": "bytes",
-      "sha256": "74cfc1f05f0a904689b46d752d8f7e1dcca87ed315d4e940c9eabba1b0706003"
+      "sha256": "cb3ea331dce351a92da5ad38b62dcb78e0736e6464319bc44a42a6ee1cbf90a1"
     },
     {
       "consumed": "unconsumed",
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "35100e6eabdca14b466a12288f9c68af676f113dce12771b33fa44dc8f1ebf19"
+          "sha256": "33fa824ba6ddef7b062f7f3569070a6a9d2722ffd8aca69e0b1b3f48b64fc86c"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [],
@@ -61,7 +61,7 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "35100e6eabdca14b466a12288f9c68af676f113dce12771b33fa44dc8f1ebf19"
+          "sha256": "33fa824ba6ddef7b062f7f3569070a6a9d2722ffd8aca69e0b1b3f48b64fc86c"
         },
         "swapped-in": "3cba0bc59b036982834c47a0533a4d3d3cc3907ca28b32046cda556dacc9d99e",
         "test": "swap-and-re-pin"
@@ -75,7 +75,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "35100e6eabdca14b466a12288f9c68af676f113dce12771b33fa44dc8f1ebf19"
+          "sha256": "33fa824ba6ddef7b062f7f3569070a6a9d2722ffd8aca69e0b1b3f48b64fc86c"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [],
@@ -84,21 +84,21 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "35100e6eabdca14b466a12288f9c68af676f113dce12771b33fa44dc8f1ebf19"
+          "sha256": "33fa824ba6ddef7b062f7f3569070a6a9d2722ffd8aca69e0b1b3f48b64fc86c"
         },
         "swapped-in": "78c3262c5c81c01662623c28ae736ff8291be0a1b1a54eb1ea368057cf341ae8",
         "test": "swap-and-re-pin"
       },
       "path": "corpora/vectors-key-directory-observation/gen_vectors.py",
       "serialization": "bytes",
-      "sha256": "61d5d933066c886c7d50d83860d8180d3722fc56364e695de72f9bc36e0dfe39"
+      "sha256": "7cd7cf63af1f7ed0fddabfc21f53692ae15621616308129476efb0c08a8e6eae"
     },
     {
       "consumed": "unconsumed",
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "35100e6eabdca14b466a12288f9c68af676f113dce12771b33fa44dc8f1ebf19"
+          "sha256": "33fa824ba6ddef7b062f7f3569070a6a9d2722ffd8aca69e0b1b3f48b64fc86c"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [],
@@ -107,14 +107,14 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "35100e6eabdca14b466a12288f9c68af676f113dce12771b33fa44dc8f1ebf19"
+          "sha256": "33fa824ba6ddef7b062f7f3569070a6a9d2722ffd8aca69e0b1b3f48b64fc86c"
         },
         "swapped-in": "5573040e0fe119f48fe25c517ab5c6361fc7d69f9fdc74c527a7d50f6f83ea26",
         "test": "swap-and-re-pin"
       },
       "path": "corpora/vectors-key-directory-observation/tests/test_corpus.py",
       "serialization": "bytes",
-      "sha256": "583dfb9085d89a2a5a10b8699e1e5ca0cd836d08dfc2a5da4c9b3809f5a9abd2"
+      "sha256": "c138ff53742a5812f99feb9faa3b2ee55d812077cee0365aeaa9a01478fe70d3"
     }
   ],
   "boundary": {
@@ -129,7 +129,7 @@
     "root": "corpora/vectors-key-directory-observation"
   },
   "byte-identity": {
-    "pins": 25,
+    "pins": 32,
     "serialization": "bytes"
   },
   "canonicalization": {
@@ -187,6 +187,7 @@
         "corpusreaders/agentaction_chain.go",
         "corpusreaders/agentdecision.go",
         "corpusreaders/agenticprocess.go",
+        "corpusreaders/agentidentity.go",
         "corpusreaders/agentregistrationclassification.go",
         "corpusreaders/agentrequestproof.go",
         "corpusreaders/aggregateaccounting.go",
@@ -296,11 +297,16 @@
         "corpusreaders/w3cintake.go",
         "corpusreaders/w3cjcs.go",
         "corpusreaders/w3creport.go",
+        "corpusreaders/x402binding.go",
         "corpusreaders/x402join.go",
+        "internal/identifiers/identifiers.go",
+        "observedeffect/ijson.go",
+        "observedeffect/rules.go",
+        "observedeffect/verify.go",
         "go.mod"
       ],
       "serialization": "sha256-listing-v1",
-      "sha256": "afc414585d530b094c7ddf8962d217b610a21ae231353f406a4c276f7215762c"
+      "sha256": "5e910152e511086ea32f93807ae40f610d50c6918528feff8a01cabdaf27d967"
     },
     "runtime": {
       "name": "go",
@@ -334,6 +340,7 @@
       "corpusreaders/agentaction_chain.go",
       "corpusreaders/agentdecision.go",
       "corpusreaders/agenticprocess.go",
+      "corpusreaders/agentidentity.go",
       "corpusreaders/agentregistrationclassification.go",
       "corpusreaders/agentrequestproof.go",
       "corpusreaders/aggregateaccounting.go",
@@ -443,7 +450,12 @@
       "corpusreaders/w3cintake.go",
       "corpusreaders/w3cjcs.go",
       "corpusreaders/w3creport.go",
+      "corpusreaders/x402binding.go",
       "corpusreaders/x402join.go",
+      "internal/identifiers/identifiers.go",
+      "observedeffect/ijson.go",
+      "observedeffect/rules.go",
+      "observedeffect/verify.go",
       "go.mod"
     ]
   },
@@ -466,6 +478,38 @@
     },
     {
       "check": "empty-key-set-evicts",
+      "native": {
+        "reasons": [],
+        "verdict": "not_attributed"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "refused-with-empty-key-set-keeps-cache",
+      "native": {
+        "reasons": [],
+        "verdict": "not_attributed"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "limit-refused-keeps-cache",
+      "native": {
+        "reasons": [],
+        "verdict": "not_attributed"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "no-keys-member-keeps-cache",
+      "native": {
+        "reasons": [],
+        "verdict": "not_attributed"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "empty-body-keeps-cache",
       "native": {
         "reasons": [],
         "verdict": "not_attributed"
@@ -555,7 +599,7 @@
   ],
   "corpus-digest": {
     "serialization": "sha256-listing-v1",
-    "sha256": "5af2c57fd3dfacb06700a39d119018f8aa5c51a32fb2cfc271e78c235b5a0450"
+    "sha256": "99c1f382ed73699bd4a0d58679e01449cafecc693f7fe5cd14d6c458e2fb1762"
   },
   "exit-code": 0,
   "exit-rule": "zero-iff-every-check-passes",
@@ -568,6 +612,10 @@
       "key-listed",
       "key-listed-among-several",
       "empty-key-set-evicts",
+      "refused-with-empty-key-set-keeps-cache",
+      "limit-refused-keeps-cache",
+      "no-keys-member-keeps-cache",
+      "empty-body-keeps-cache",
       "key-removed-other-kept",
       "status-404-keeps-cache",
       "status-503-keeps-cache",
@@ -580,7 +628,7 @@
       "kid-label-off-well-known"
     ],
     "path": "corpora/vectors-key-directory-observation/MANIFEST.json",
-    "sha256": "477f0a6389fb2804707d61879e4eecef446f95fd04d1047e2c754ab1875c2b44"
+    "sha256": "e0ac8f50966b6bfb8bdde00def0a0ad73720aec03b773ac98e8acb6c259d33b0"
   },
   "members": [
     {
@@ -621,6 +669,54 @@
         }
       ],
       "id": "empty-key-set-evicts"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-key-directory-observation/cases/refused-with-empty-key-set-keeps-cache/case.json",
+          "sha256": "7074b9ba6360077b8d03d91183a7699d469872002c24ba4a59781ea52788a560"
+        },
+        {
+          "path": "corpora/vectors-key-directory-observation/cases/refused-with-empty-key-set-keeps-cache/response.body",
+          "sha256": "32666cf8af5c2667c999d9e815420c621c267460f8e357362faabe3e8a200a82"
+        }
+      ],
+      "id": "refused-with-empty-key-set-keeps-cache"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-key-directory-observation/cases/limit-refused-keeps-cache/case.json",
+          "sha256": "31c15fec570e144698b4208c35d8a4a1e5c30768e8a41cf879675c1a56394ba4"
+        }
+      ],
+      "id": "limit-refused-keeps-cache"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-key-directory-observation/cases/no-keys-member-keeps-cache/case.json",
+          "sha256": "0ea480896cff9b70aa1653fdaea27c7bf288f5f75f80ee07db4742fd3f82f68c"
+        },
+        {
+          "path": "corpora/vectors-key-directory-observation/cases/no-keys-member-keeps-cache/response.body",
+          "sha256": "e6742a544b2ff707a135d1ab5bf089e88b4d9ea35ba2b2e0b8e9d0591d23f95a"
+        }
+      ],
+      "id": "no-keys-member-keeps-cache"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-key-directory-observation/cases/empty-body-keeps-cache/case.json",
+          "sha256": "0ea480896cff9b70aa1653fdaea27c7bf288f5f75f80ee07db4742fd3f82f68c"
+        },
+        {
+          "path": "corpora/vectors-key-directory-observation/cases/empty-body-keeps-cache/response.body",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      ],
+      "id": "empty-body-keeps-cache"
     },
     {
       "files": [
@@ -765,7 +861,7 @@
       "reference": {
         "path": "release/intake/native/vectors-key-directory-observation.json",
         "serialization": "bytes",
-        "sha256": "35100e6eabdca14b466a12288f9c68af676f113dce12771b33fa44dc8f1ebf19"
+        "sha256": "33fa824ba6ddef7b062f7f3569070a6a9d2722ffd8aca69e0b1b3f48b64fc86c"
       }
     },
     {
@@ -774,7 +870,7 @@
       "reference": {
         "path": "release/intake/native/vectors-key-directory-observation.txt",
         "serialization": "bytes",
-        "sha256": "10f9f2b5e5b9270fca18a84988fb329d8c10e666e43e2fdaa17d78afccc3889a"
+        "sha256": "d57c03da7d2ef0c1c0da906714e7b5546b87b048a2ffb3a32b2be0fe92846075"
       }
     },
     {
@@ -799,11 +895,11 @@
     "runs": [
       {
         "process": "run-1",
-        "sha256": "35100e6eabdca14b466a12288f9c68af676f113dce12771b33fa44dc8f1ebf19"
+        "sha256": "33fa824ba6ddef7b062f7f3569070a6a9d2722ffd8aca69e0b1b3f48b64fc86c"
       },
       {
         "process": "run-2",
-        "sha256": "35100e6eabdca14b466a12288f9c68af676f113dce12771b33fa44dc8f1ebf19"
+        "sha256": "33fa824ba6ddef7b062f7f3569070a6a9d2722ffd8aca69e0b1b3f48b64fc86c"
       }
     ],
     "seed": null,
@@ -817,7 +913,7 @@
       "action-occurred-or-authority"
     ],
     "establishes": [
-      "aee-verify, at the source listing named here, judges each of the 13 pinned members of web-bot-auth-key-directory-observation/v1 as its manifest declares"
+      "aee-verify, at the source listing named here, judges each of the 17 pinned members of web-bot-auth-key-directory-observation/v1 as its manifest declares"
     ],
     "leaves-open": [
       "whether an implementation written from the specification, run by someone other than an author, reaches the same verdicts",
@@ -828,12 +924,16 @@
   "selector": {
     "expression": "*",
     "language": "id-glob",
-    "matched": 13,
+    "matched": 17,
     "require": "at-least-one",
     "selected": [
       "key-listed",
       "key-listed-among-several",
       "empty-key-set-evicts",
+      "refused-with-empty-key-set-keeps-cache",
+      "limit-refused-keeps-cache",
+      "no-keys-member-keeps-cache",
+      "empty-body-keeps-cache",
       "key-removed-other-kept",
       "status-404-keeps-cache",
       "status-503-keeps-cache",

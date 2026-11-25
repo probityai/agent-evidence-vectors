@@ -145,6 +145,7 @@ only-include = [
     "corpora/vectors-agent-card-receipt",
     "corpora/vectors-agent-change-admission",
     "corpora/vectors-agent-decision",
+    "corpora/vectors-agent-identity-statement",
     "corpora/vectors-agent-payment-mandate",
     "corpora/vectors-agent-registration-classification",
     "corpora/vectors-agent-request-proof",
@@ -231,6 +232,7 @@ only-include = [
     "corpora/vectors-w3c-intake",
     "corpora/vectors-w3c-report",
     "corpora/vectors-x402-evidence-join",
+    "corpora/vectors-x402-payment-binding",
 ]
 exclude = [
     "**/__pycache__",
@@ -247,6 +249,7 @@ exclude = [
     "corpora/vectors-agent-card-receipt/**/*.py",
     "corpora/vectors-agent-change-admission/**/*.py",
     "corpora/vectors-agent-decision/**/*.py",
+    "corpora/vectors-agent-identity-statement/**/*.py",
     "corpora/vectors-agent-payment-mandate/**/*.py",
     "corpora/vectors-agent-registration-classification/**/*.py",
     "corpora/vectors-agent-request-proof/**/*.py",
@@ -333,6 +336,7 @@ exclude = [
     "corpora/vectors-w3c-intake/**/*.py",
     "corpora/vectors-w3c-report/**/*.py",
     "corpora/vectors-x402-evidence-join/**/*.py",
+    "corpora/vectors-x402-payment-binding/**/*.py",
 ]
 
 [tool.hatch.build.targets.wheel.sources]
@@ -348,6 +352,7 @@ exclude = [
 "corpora/vectors-agent-card-receipt" = "agent_evidence_vectors/corpora/vectors-agent-card-receipt"
 "corpora/vectors-agent-change-admission" = "agent_evidence_vectors/corpora/vectors-agent-change-admission"
 "corpora/vectors-agent-decision" = "agent_evidence_vectors/corpora/vectors-agent-decision"
+"corpora/vectors-agent-identity-statement" = "agent_evidence_vectors/corpora/vectors-agent-identity-statement"
 "corpora/vectors-agent-payment-mandate" = "agent_evidence_vectors/corpora/vectors-agent-payment-mandate"
 "corpora/vectors-agent-registration-classification" = "agent_evidence_vectors/corpora/vectors-agent-registration-classification"
 "corpora/vectors-agent-request-proof" = "agent_evidence_vectors/corpora/vectors-agent-request-proof"
@@ -434,6 +439,7 @@ exclude = [
 "corpora/vectors-w3c-intake" = "agent_evidence_vectors/corpora/vectors-w3c-intake"
 "corpora/vectors-w3c-report" = "agent_evidence_vectors/corpora/vectors-w3c-report"
 "corpora/vectors-x402-evidence-join" = "agent_evidence_vectors/corpora/vectors-x402-evidence-join"
+"corpora/vectors-x402-payment-binding" = "agent_evidence_vectors/corpora/vectors-x402-payment-binding"
 
 [tool.hatch.build.targets.wheel.force-include]
 # The rail, a single stdlib-only module. `sources` rewrites directory prefixes
@@ -524,6 +530,7 @@ only-include = [
     "corpora/vectors-agent-card-receipt",
     "corpora/vectors-agent-change-admission",
     "corpora/vectors-agent-decision",
+    "corpora/vectors-agent-identity-statement",
     "corpora/vectors-agent-payment-mandate",
     "corpora/vectors-agent-registration-classification",
     "corpora/vectors-agent-request-proof",
@@ -610,6 +617,7 @@ only-include = [
     "corpora/vectors-w3c-intake",
     "corpora/vectors-w3c-report",
     "corpora/vectors-x402-evidence-join",
+    "corpora/vectors-x402-payment-binding",
 ]
 exclude = [
     "**/__pycache__",

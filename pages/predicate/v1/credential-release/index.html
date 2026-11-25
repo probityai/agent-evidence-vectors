@@ -26,38 +26,83 @@ th,td{border:1px solid var(--rule);padding:.4rem .6rem;text-align:left;vertical-
 <main class="shell">
 <h1 id="predicate-type-credential-release">Predicate type: Credential Release</h1>
 <p>Type URI: <a href="https://w3id.org/agent-evidence/predicate/v1/credential-release">https://w3id.org/agent-evidence/predicate/v1/credential-release</a></p>
-<p>Version: 0.1.0</p>
+<p>Version: 0.2.0</p>
 <p>Predicate Name: Credential Release</p>
 <blockquote>
 <p>Status: DRAFT, issued under a self-hosted <code>predicateType</code> URI. The in-toto new-predicate guidelines leave the URI namespace to the predicate designer. The URI redirects to a page built from this file and served by the Pages site of the organisation (<code>probityai/probityai.github.io</code>), at <code>https://probityai.github.io/agent-evidence/predicate/v1/credential-release/</code>. The URI will not move once a signed statement carries it, and no signed statement carries it before that page is live. The conformance corpus in this repository, <code>vectors-credential-release/</code>, carries it in unsigned statements.</p>
 </blockquote>
 <h2 id="purpose">Purpose</h2>
-<p>Records that a broker released a credential to an agent against a named <a href="https://github.com/probityai/agent-evidence-vectors/blob/c588c8a23b3027eef33c42458ebac2bdb4cc758b/spec/predicates/agent-card-receipt.md">agent-card-receipt</a>, and holds the broker to what it said it checked. The record names the receipt by digest, repeats the two receipt fields the decision turned on, names the revocation list the broker consulted by digest, and states the credential's audience, scope and lifetime. It has no field that can hold the credential, a hash of it or a fingerprint of it, so the record can be shared with an auditor without sharing anything that works as a secret.</p>
+<p>Records that a broker released a credential to a named agent, acting for a named user or on its own authority, and holds the broker to what it said it checked. The release rests on one of two bases. Under a <strong>receipt</strong> basis the broker released against an <a href="https://github.com/probityai/agent-evidence-vectors/blob/f7d7b9ee98370b5df4a6f920b46b86751d9ae5d9/spec/predicates/agent-card-receipt.md">agent-card-receipt</a>: the record names the receipt by digest, repeats the two receipt fields the decision turned on, and names the revocation list it consulted by digest. Under a <strong>grant</strong> basis there is no Agent Card to evaluate, which is the case for an agent driving a browser in a user's login session: the record names the user's recorded grant by digest and repeats the grant's end. In both, the record states the credential's kind, audience and lifetime. It has no field that can hold the credential, a hash of it or a fingerprint of it, so the record can be shared with an auditor without sharing anything that works as a secret.</p>
 <h2 id="use-cases">Use cases</h2>
 <ul>
-<li>An auditor reading a broker's log can tell, for each credential released, which receipt it was released against, whether that receipt was passing and current at that moment, and that the credential expired no later than the receipt did.</li>
-<li>A resource server that receives a request from an agent can ask the broker for the release record for the presented audience and scope, and check it without learning the credential.</li>
+<li>An auditor reading a broker's records can tell, for each credential released, which agent received it, which user it acted for, what it was released against, and that the credential's release ended no later than that basis did.</li>
+<li>A user can ask for every release made under their grant and check each against the grant's own bytes: the agent, the hosts and the end the grant names.</li>
+<li>A resource server that receives a request from an agent can ask the broker for the release record for the presented audience, and check it without learning the credential.</li>
 <li>A reviewer comparing two brokers sees the same record shape and the same refusal codes.</li>
 </ul>
 <h2 id="prerequisites">Prerequisites</h2>
-<p><a href="https://github.com/probityai/agent-evidence-vectors/blob/c588c8a23b3027eef33c42458ebac2bdb4cc758b/spec/predicates/agent-card-receipt.md">agent-card-receipt</a>, the in-toto Attestation Framework, strict JSON, and DSSE for the revocation list.</p>
+<p><a href="https://github.com/probityai/agent-evidence-vectors/blob/f7d7b9ee98370b5df4a6f920b46b86751d9ae5d9/spec/predicates/agent-card-receipt.md">agent-card-receipt</a> for the receipt basis, the in-toto Attestation Framework, strict JSON, and DSSE for the revocation list.</p>
 <h2 id="model">Model</h2>
 <p>The producer is the broker that released the credential.</p>
-<p>The <strong>subject</strong> is the Agent Card the credential went to, by the same digest the receipt carries: one member whose <code>digest</code> holds only <code>sha256</code>. The subject of the release MUST equal the subject of the receipt it names, so a receipt for one card cannot release a credential to another.</p>
-<p>The <strong>predicate</strong> carries:</p>
+<p>The <strong>predicate</strong> carries, on either basis:</p>
 <ul>
-<li><code>releaseId</code>: a non-empty text.</li>
-<li><code>releasedAt</code>: an RFC 3339 UTC time to whole seconds. Every time check is made at this moment, never at the time the record is read.</li>
-<li><code>ttlSeconds</code>: a positive integer below 2^31. The credential expires <code>ttlSeconds</code> after <code>releasedAt</code>.</li>
+<li><p><code>releaseId</code>: a non-empty text.</p></li>
+<li><p><code>releasedAt</code>: an RFC 3339 UTC time to whole seconds. Every time check is made at this moment, never at the time the record is read.</p></li>
+<li><p><code>ttlSeconds</code>: a positive integer below 2^31. The release ends <code>ttlSeconds</code> after <code>releasedAt</code>. For a token the broker hands over, that is when the token expires. For a session cookie the broker keeps and attaches to the agent's requests itself, it is the moment after which the broker attaches it no more under this release; it says nothing about how long the site keeps the session.</p></li>
+<li><p><code>agent</code>: the principal that received the credential, exactly <code>issuer</code> (an https URL) and <code>subject</code> (a non-empty text): the identity provider and the subject it issued to the agent.</p></li>
+<li><p><code>onBehalfOf</code>: the user the agent acted for, in the same closed principal shape. It is absent when the agent acted on its own authority, and required on a grant basis, because a grant is a user's consent. <code>subject</code> is the identity provider's subject identifier; a broker that shares records outside the user's own organisation should use a pairwise subject (OpenID Connect Core 1.0, section 8).</p></li>
+<li><p><code>credential</code>: the credential's description, closed by kind:</p>
+<ul>
+<li><code>kind</code> <code>session-cookie</code>: exactly <code>kind</code>, <code>audience</code> and <code>cookie</code>. <code>audience</code> is the origin the cookie went to, <code>https://</code> or <code>http://</code> followed by a lowercase host and the port only when it is not the scheme's default, with no path. The <code>http</code> scheme is allowed here and nowhere else, because a cookie without the <code>Secure</code> attribute is sent over plain HTTP by every browser, and the record must say where the value went. <code>cookie</code> is the cookie's name, an RFC 9110 token. A session cookie has no scope: it carries the user's whole session at that origin, and a record listing one would claim a narrowing that does not exist.</li>
+<li>any other <code>kind</code> (a non-empty text such as <code>oauth2-access-token</code>): exactly <code>kind</code>, <code>audience</code> (an https URL) and <code>scope</code> (a non-empty, sorted, duplicate-free list of non-empty texts).</li>
+</ul>
+<p>A member outside <code>kind</code>, <code>audience</code>, <code>scope</code> and <code>cookie</code>, such as a token, a cookie's value, a secret, a hash or a fingerprint, is refused under its own code, because a record that can hold one will eventually be handed one.</p></li>
+<li><p><code>broker</code>: <code>id</code>, an https URL.</p></li>
+</ul>
+<p>and exactly one basis.</p>
+<p><strong>Receipt basis.</strong> The predicate also carries:</p>
+<ul>
 <li><code>receipt</code>: <code>predicateType</code> (the agent-card-receipt Type URI), <code>digest</code> (<code>sha256</code> of the receipt statement's bytes), and the receipt's <code>result</code> and <code>validUntil</code> as the broker read them.</li>
 <li><code>minResult</code>: <code>pass_indirect</code> or <code>pass</code>, the lowest receipt result the broker accepts.</li>
 <li><code>revocationList</code>: <code>digest</code>, the <code>sha256</code> of the bytes of the revocation list consulted.</li>
-<li><code>credential</code>: exactly <code>kind</code>, <code>audience</code> (an https URL) and <code>scope</code> (a non-empty, sorted, duplicate-free list of non-empty texts). The object is closed. A member outside these three, such as a token, a secret, a hash or a fingerprint, is refused under its own code, because a record that can hold one will eventually be handed one.</li>
-<li><code>broker</code>: <code>id</code>, an https URL.</li>
 <li><code>registryDigest</code>: the <code>sha256</code> of the vocabulary registry the results are expressed in.</li>
 </ul>
+<p>The <strong>subject</strong> is the Agent Card the credential went to, by the same digest the receipt carries: one member whose <code>digest</code> holds only <code>sha256</code>. The subject of the release MUST equal the subject of the receipt it names, so a receipt for one card cannot release a credential to another.</p>
+<p><strong>Grant basis.</strong> The predicate also carries <code>grant</code>: <code>digest</code> (<code>sha256</code> of the grant document's bytes) and the grant's <code>notAfter</code> as the broker read it. It carries none of the receipt basis members.</p>
+<p>The <strong>subject</strong> is the grant document: one member whose <code>name</code> is the grant's <code>grantId</code> and whose <code>digest</code> holds only the <code>sha256</code> of the grant document's bytes. In both bases the subject is the thing the release names as the agent's authority to receive the credential.</p>
+<p>The <strong>grant document</strong> is the user's recorded consent, a strict JSON object with exactly:</p>
+<ul>
+<li><code>grantId</code>: a non-empty text.</li>
+<li><code>user</code>: the principal who granted, in the closed principal shape.</li>
+<li><code>agent</code>: the principal the grant lets use the user's credentials.</li>
+<li><code>hosts</code>: a non-empty, sorted, duplicate-free list of lowercase hosts, each with the port only when it is not the default (<code>mail.example.com</code>, <code>127.0.0.1:8443</code>), with no scheme, path or wildcard.</li>
+<li><code>notAfter</code>: an RFC 3339 UTC time to whole seconds, when the grant ends.</li>
+</ul>
+<p>The digest is over the grant document's bytes as the broker publishes them. A broker should publish the RFC 8785 form, so two brokers holding one grant name it by one digest.</p>
 <p><code>predicateType</code> MUST equal the Type URI above.</p>
 <h2 id="schema">Schema</h2>
+<p>A browser session release, on a grant basis:</p>
+<pre class="jsonc"><code>{
+  &quot;_type&quot;: &quot;https://in-toto.io/Statement/v1&quot;,
+  &quot;subject&quot;: [
+    { &quot;name&quot;: &quot;grant-0001&quot;,
+      &quot;digest&quot;: { &quot;sha256&quot;: &quot;&lt;64-hex of the grant document&gt;&quot; } }
+  ],
+  &quot;predicateType&quot;: &quot;https://w3id.org/agent-evidence/predicate/v1/credential-release&quot;,
+  &quot;predicate&quot;: {
+    &quot;releaseId&quot;: &quot;release-0001&quot;,
+    &quot;releasedAt&quot;: &quot;2026-10-27T12:00:00Z&quot;,
+    &quot;ttlSeconds&quot;: 900,
+    &quot;agent&quot;: { &quot;issuer&quot;: &quot;https://idp.example.com/realms/agents&quot;, &quot;subject&quot;: &quot;mail-agent&quot; },
+    &quot;onBehalfOf&quot;: { &quot;issuer&quot;: &quot;https://idp.example.com/realms/users&quot;, &quot;subject&quot;: &quot;user-0001&quot; },
+    &quot;grant&quot;: { &quot;digest&quot;: { &quot;sha256&quot;: &quot;&lt;64-hex of the grant document&gt;&quot; },
+               &quot;notAfter&quot;: &quot;2026-10-27T18:00:00Z&quot; },
+    &quot;credential&quot;: { &quot;kind&quot;: &quot;session-cookie&quot;, &quot;audience&quot;: &quot;https://mail.example.com&quot;,
+                    &quot;cookie&quot;: &quot;sid&quot; },
+    &quot;broker&quot;: { &quot;id&quot;: &quot;https://broker.example.org/credential-broker&quot; }
+  }
+}</code></pre>
+<p>A token release, on a receipt basis:</p>
 <pre class="jsonc"><code>{
   &quot;_type&quot;: &quot;https://in-toto.io/Statement/v1&quot;,
   &quot;subject&quot;: [
@@ -69,6 +114,7 @@ th,td{border:1px solid var(--rule);padding:.4rem .6rem;text-align:left;vertical-
     &quot;releaseId&quot;: &quot;release-0001&quot;,
     &quot;releasedAt&quot;: &quot;2026-10-27T12:00:00Z&quot;,
     &quot;ttlSeconds&quot;: 900,
+    &quot;agent&quot;: { &quot;issuer&quot;: &quot;https://idp.example.com/realms/agents&quot;, &quot;subject&quot;: &quot;travel-agent&quot; },
     &quot;receipt&quot;: { &quot;predicateType&quot;: &quot;https://w3id.org/agent-evidence/predicate/v1/agent-card-receipt&quot;,
                  &quot;digest&quot;: { &quot;sha256&quot;: &quot;&lt;64-hex of the receipt statement&gt;&quot; },
                  &quot;result&quot;: &quot;pass&quot;, &quot;validUntil&quot;: &quot;2026-11-19T00:00:00Z&quot; },
@@ -82,7 +128,7 @@ th,td{border:1px solid var(--rule);padding:.4rem .6rem;text-align:left;vertical-
   }
 }</code></pre>
 <h2 id="rules">Rules</h2>
-<p>A verifier is given the release statement, the receipt statement it names, the revocation list it says it consulted, and the public key of the receipt signer. It applies these in order and reports the first that fails.</p>
+<p>A verifier is given the release statement and, for a receipt basis, the receipt statement it names, the revocation list it says it consulted and the public key of the receipt signer, or, for a grant basis, the grant document it names. It applies these in order and reports the first that fails. Rules 7 to 15 apply only to a receipt basis and rules 16 to 23 only to a grant basis.</p>
 <table>
 <thead>
 <tr>
@@ -114,12 +160,12 @@ th,td{border:1px solid var(--rule);padding:.4rem .6rem;text-align:left;vertical-
 </tr>
 <tr>
 <td>5</td>
-<td><code>credential</code> has no member outside <code>kind</code>, <code>audience</code> and <code>scope</code></td>
+<td><code>credential</code> has no member outside <code>kind</code>, <code>audience</code>, <code>scope</code> and <code>cookie</code></td>
 <td><code>credential_fields</code></td>
 </tr>
 <tr>
 <td>6</td>
-<td>The predicate has exactly its members, each well formed</td>
+<td>The predicate has exactly the members of one basis, each well formed, with <code>credential</code> closed for its kind and <code>onBehalfOf</code> present on a grant basis</td>
 <td><code>predicate_malformed</code></td>
 </tr>
 <tr>
@@ -167,15 +213,61 @@ th,td{border:1px solid var(--rule);padding:.4rem .6rem;text-align:left;vertical-
 <td>The list is well formed, signed by the receipt signer's key, current at <code>releasedAt</code>, and does not name the receipt</td>
 <td><code>revocation_list_malformed</code>, <code>revocation_list_signature</code>, <code>revocation_list_stale</code>, <code>receipt_revoked</code></td>
 </tr>
+<tr>
+<td>16</td>
+<td>The grant document's bytes hash to the digest the release names</td>
+<td><code>grant_digest_mismatch</code></td>
+</tr>
+<tr>
+<td>17</td>
+<td>The grant document is well formed</td>
+<td><code>grant_malformed</code></td>
+</tr>
+<tr>
+<td>18</td>
+<td>The grant's <code>notAfter</code> is the one the release copied</td>
+<td><code>grant_fields_differ</code></td>
+</tr>
+<tr>
+<td>19</td>
+<td>The release's subject digest is the grant's digest</td>
+<td><code>subject_not_granted</code></td>
+</tr>
+<tr>
+<td>20</td>
+<td>The release's <code>agent</code> is the grant's <code>agent</code> and its <code>onBehalfOf</code> is the grant's <code>user</code></td>
+<td><code>principals_not_granted</code></td>
+</tr>
+<tr>
+<td>21</td>
+<td>The host and port of <code>credential.audience</code> are one of the grant's <code>hosts</code></td>
+<td><code>audience_not_granted</code></td>
+</tr>
+<tr>
+<td>22</td>
+<td><code>releasedAt</code> is before the grant's <code>notAfter</code></td>
+<td><code>grant_not_current</code></td>
+</tr>
+<tr>
+<td>23</td>
+<td><code>releasedAt</code> plus <code>ttlSeconds</code> is not after the grant's <code>notAfter</code></td>
+<td><code>credential_outlives_grant</code></td>
+</tr>
 </tbody>
 </table>
 <p>A member that passes every rule is accepted with the reason <code>release_bound</code>.</p>
 <h2 id="what-a-release-does-not-establish">What a release does not establish</h2>
-<p>A release is a statement by the broker about what it checked. It does not show that the broker checked it: a broker can write a record for a release it never gated, and a record is evidence only to a reader who trusts the broker's key. It does not show that the credential was used as scoped, that it was not copied after release, or that the receipt was a good evaluation: the receipt's own limits are in <a href="https://github.com/probityai/agent-evidence-vectors/blob/c588c8a23b3027eef33c42458ebac2bdb4cc758b/spec/predicates/agent-card-receipt.md">agent-card-receipt</a>. It does not hold the credential.</p>
+<p>A release is a statement by the broker about what it checked. It does not show that the broker checked it: a broker can write a record for a release it never gated, and a record is evidence only to a reader who trusts the broker's key. It does not show that the credential was used as described, that it was not copied after release, or that the receipt was a good evaluation: the receipt's own limits are in <a href="https://github.com/probityai/agent-evidence-vectors/blob/f7d7b9ee98370b5df4a6f920b46b86751d9ae5d9/spec/predicates/agent-card-receipt.md">agent-card-receipt</a>. On a grant basis it does not show that the user made the grant, only that the broker holds a document naming them, and it does not show that the grant was still unrevoked at <code>releasedAt</code>: this version defines no grant revocation list. It does not show that the <code>agent</code> principal and the Agent Card of a receipt basis are the same agent. It does not hold the credential.</p>
+<h2 id="changes">Changes</h2>
+<ul>
+<li>0.2.0: <code>agent</code> and <code>onBehalfOf</code> name the principals; the grant basis releases against a user's grant document when no Agent Card exists; the <code>session-cookie</code> credential kind names an origin and a cookie, with no scope. Codes added: <code>grant_digest_mismatch</code>, <code>grant_malformed</code>, <code>grant_fields_differ</code>, <code>subject_not_granted</code>, <code>principals_not_granted</code>, <code>audience_not_granted</code>, <code>grant_not_current</code>, <code>credential_outlives_grant</code>.</li>
+<li>0.1.0: a receipt basis only, with no member for the agent or the user.</li>
+</ul>
+<p><strong>What a 0.1.0 record means.</strong> It records a credential released to the Agent Card its subject names, against the receipt it names, and says nothing about who received it or whom they acted for. A 0.2.0 reader refuses it with <code>predicate_malformed</code>, because it has no <code>agent</code>. No signed 0.1.0 statement was published under this URI. A producer that holds 0.1.0 records reissues them as 0.2.0 records naming the principals it knows; a record whose principals it does not know stays a 0.1.0 record and is not reissued with invented ones.</p>
 <h2 id="conformance">Conformance</h2>
-<p><code>vectors-credential-release/</code> (suite <code>credential-release/v1</code>) holds the members: a release statement, the receipt statement it names, the revocation list it consulted and a context naming the signer's key. Every rule above is the first failure of at least one member, and the accepting members are the controls: a minimum of <code>pass_indirect</code>, a release at the receipt's <code>issuedAt</code>, a credential that ends exactly when the receipt does, and a plain release against a passing receipt. A reader conforms when it reaches the declared decision and reason for every member. <code>aee-verify vectors-credential-release</code> and the packaged Python reader both replay it.</p>
+<p><code>vectors-credential-release/</code> (suite <code>credential-release/v1</code>) holds the members. A receipt basis member is a release statement, the receipt statement it names, the revocation list it consulted and a context naming the signer's key; a grant basis member is a release statement and the grant document it names. Every rule above is the first failure of at least one member, and the accepting members are the controls on each basis, including a session cookie sent to a plain HTTP origin and a release that ends exactly when its basis does. A reader conforms when it reaches the declared decision and reason for every member. <code>aee-verify vectors-credential-release</code> and the packaged Python reader both replay it.</p>
 
 </main>
-<footer><div class="shell">Built from <a href="https://github.com/probityai/agent-evidence-vectors/blob/c588c8a23b3027eef33c42458ebac2bdb4cc758b/spec/predicates/credential-release.md">spec/predicates/credential-release.md</a> (SHA-256 <code>2319014abc7c2d11a839bd59ccd69bb0c502b8c566e0c4ce9dafac0d8f000c8e</code>). The type URI is <code>https://w3id.org/agent-evidence/predicate/v1/credential-release</code>; it does not change once a signed statement carries it. Record format: <a href="https://datatracker.ietf.org/doc/draft-gilda-audit-agent-audit-record/03/">draft-gilda-audit-agent-audit-record-03</a>, Section 4 (an in-toto Statement carried in a DSSE envelope).</div></footer>
+<footer><div class="shell">Built from <a href="https://github.com/probityai/agent-evidence-vectors/blob/f7d7b9ee98370b5df4a6f920b46b86751d9ae5d9/spec/predicates/credential-release.md">spec/predicates/credential-release.md</a> (SHA-256 <code>33e26b562d0b8c0c826689900a5a5342c22d0633b023da29e8f0c3771c6a69dd</code>). The type URI is <code>https://w3id.org/agent-evidence/predicate/v1/credential-release</code>; it does not change once a signed statement carries it. Record format: <a href="https://datatracker.ietf.org/doc/draft-gilda-audit-agent-audit-record/03/">draft-gilda-audit-agent-audit-record-03</a>, Section 4 (an in-toto Statement carried in a DSSE envelope).</div></footer>
 </body>
 </html>

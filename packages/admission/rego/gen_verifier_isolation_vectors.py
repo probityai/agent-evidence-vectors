@@ -32,7 +32,10 @@ HERE = Path(__file__).resolve().parent
 OUT = HERE / "verifier_isolation_vectors.json"
 TEST_OUT = HERE / "verifier_isolation_test.rego"
 
-PREDICATE_URI = "https://probityai.github.io/probity/predicate/v1/done-receipt"
+#: The host identifiers are written under: a local copy of
+#: agent_evidence_vectors.identifiers.IDENTIFIER_HOST, held equal by tests/test_identifier_hosts.py.
+IDENTIFIER_HOST = "probityai.github.io"
+PREDICATE_URI = f"https://{IDENTIFIER_HOST}/probity/predicate/v1/done-receipt"
 STATEMENT_TYPE = "https://in-toto.io/Statement/v1"
 PINS = {"signature_verified_upstream": True}
 

@@ -5,6 +5,8 @@ import (
 	"fmt"
 	"path/filepath"
 	"strings"
+
+	"github.com/probityai/agent-evidence-vectors/internal/identifiers"
 )
 
 func init() { register(decisionClient{}) }
@@ -46,7 +48,7 @@ func init() { register(decisionClient{}) }
 // outcome and performed flag.
 type decisionClient struct{}
 
-const dcContractID = "https://probityai.github.io/agent-evidence-vectors/predicate/v1/decision-client-failure-modes"
+var dcContractID = identifiers.Identifier("agent-evidence-vectors/predicate/v1/decision-client-failure-modes")
 
 func (decisionClient) Suite() string { return "decision-client-failure-modes/v1" }
 
@@ -283,7 +285,7 @@ func dcDecide(r map[string]any) scDecision {
 	if !hasContract {
 		return scDecision{"deny", "contract_id_missing"}
 	}
-	if id, ok := contract.(string); !ok || id != dcContractID {
+	if id, ok := contract.(string); !ok || identifiers.CanonicalIdentifier(id) != dcContractID {
 		return scDecision{"deny", "contract_id_unknown"}
 	}
 	if dcMalformed(r) {

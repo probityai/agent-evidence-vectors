@@ -1,0 +1,230 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Predicate type: Agent Identity Statement</title>
+<meta name="description" content="Type URI, schema and rules of the Agent Identity Statement in-toto predicate.">
+<link rel="canonical" href="https://w3id.org/agent-evidence/predicate/v1/agent-identity-statement">
+<style>
+:root{color-scheme:light dark;--page:#f6f8fb;--surface:#fff;--ink:#14202e;--body:#33404f;--link:#1f4fd1;--rule:#cfd8e3;font-family:system-ui,sans-serif;color:var(--ink);background:var(--page)}
+@media (prefers-color-scheme:dark){:root{--page:#10151b;--surface:#18202a;--ink:#e8edf3;--body:#c3ccd6;--link:#8fb0ff;--rule:#2c3846}}
+*{box-sizing:border-box}body{margin:0;font:400 1rem/1.6 system-ui,sans-serif;background:var(--page)}
+.shell{max-width:52rem;margin-inline:auto;padding-inline:16px}
+header,footer{padding-block:1.25rem}header a{font-weight:700;color:var(--ink);text-decoration:none}
+footer{border-top:1px solid var(--rule);color:var(--body);font-size:.9375rem;margin-top:3rem}
+a{color:var(--link)}p,li,td{color:var(--body)}h1{line-height:1.2}
+code,pre{font-family:ui-monospace,Consolas,monospace;font-size:.875em}code{overflow-wrap:anywhere}
+pre{background:var(--surface);border:1px solid var(--rule);border-radius:6px;padding:1rem;overflow-x:auto}
+blockquote{margin:1rem 0;padding:.25rem 1rem;border-left:4px solid var(--rule);background:var(--surface)}
+table{border-collapse:collapse;display:block;overflow-x:auto}
+th,td{border:1px solid var(--rule);padding:.4rem .6rem;text-align:left;vertical-align:top}
+</style>
+</head>
+<body>
+<header class="shell"><a href="https://github.com/probityai/agent-evidence-vectors">Agent Evidence</a></header>
+<main class="shell">
+<h1 id="predicate-type-agent-identity-statement">Predicate type: Agent Identity Statement</h1>
+<p>Type URI: <a href="https://w3id.org/agent-evidence/predicate/v1/agent-identity-statement">https://w3id.org/agent-evidence/predicate/v1/agent-identity-statement</a></p>
+<p>Version: 0.1.0</p>
+<p>Predicate Name: Agent Identity Statement</p>
+<blockquote>
+<p>Status: DRAFT, issued under a self-hosted <code>predicateType</code> URI. The in-toto new-predicate guidelines leave the URI namespace to the predicate designer. The URI redirects to a page built from this file and served by the Pages site of the organisation (<code>probityai/probityai.github.io</code>), at <code>https://probityai.github.io/agent-evidence/predicate/v1/agent-identity-statement/</code>. The URI will not move once a signed statement carries it, and no signed statement carries it before that page is live. The conformance corpus in this repository, <code>vectors-agent-identity-statement/</code>, carries it in statements signed with test keys.</p>
+</blockquote>
+<h2 id="purpose">Purpose</h2>
+<p>Records, for each version of an agent's identity document, which keys were in force and whether the agent was active, suspended or revoked, from which instant, signed by the party that issues the agent's identity and chained to the version before it. A relying party that accepted a signed request from an agent can then answer, after the fact and offline, the question a key directory cannot: when the decision was made, was the key that signed it in force, and was the agent allowed to act? A directory shows the keys as they are now. A live status lookup answers for the moment it is made and leaves no record. Neither lets an auditor re-check a decision made last month, after a rotation or a revocation.</p>
+<h2 id="use-cases">Use cases</h2>
+<ul>
+<li>A relying party that keeps the agent's signed requests and the issuer's history can show an auditor that every request it accepted was signed by a key in force, by an agent that was active at that instant.</li>
+<li>An issuer that learns a key was compromised revokes the agent with an <code>effectiveAt</code> before the statement's own <code>issuedAt</code>. Every decision made in that window is refused on re-check, which no check made at the time could have done.</li>
+<li>A consumer that holds the newest version an issuer published can tell a history that stops early (a withheld revocation) from a complete one, because it pins the head.</li>
+<li>Two issuers' histories read the same way, with the same refusal codes.</li>
+</ul>
+<h2 id="prerequisites">Prerequisites</h2>
+<p>The in-toto Attestation Framework, DSSE, strict JSON and Ed25519.</p>
+<h2 id="model">Model</h2>
+<p>The producer is the issuer of the agent's identity: the identity provider, registry or platform that names the agent and stands behind its keys. Each version is an in-toto Statement in a DSSE envelope (<code>payloadType</code> <code>application/vnd.in-toto+json</code>) signed with an issuer key. A consumer pins the issuer's keys; it never takes a key from the history it is checking.</p>
+<p>The <strong>subject</strong> is the identity document this version describes: one member whose <code>name</code> identifies the document (its URL, for a served document) and whose <code>digest</code> holds only the <code>sha256</code> of that version's bytes. The statement binds the version to those bytes; the verifier does not need the document itself.</p>
+<p>The <strong>predicate</strong> carries:</p>
+<ul>
+<li><code>agent</code>: the agent, exactly <code>issuer</code> (an https URL) and <code>subject</code> (a non-empty text), the principal shape <a href="https://github.com/probityai/agent-evidence-vectors/blob/14494ee8b/spec/predicates/credential-release.md">credential-release</a> uses. Every version of one history names the same agent.</li>
+<li><code>version</code>: a positive integer below 2^53. Version 1 begins the history.</li>
+<li><code>previous</code>: <code>sha256</code>, the SHA-256 of the previous version's DSSE payload bytes. Present exactly when <code>version</code> is above 1.</li>
+<li><code>issuedAt</code>: when the issuer signed this version, an RFC 3339 UTC time to whole seconds.</li>
+<li><code>effectiveAt</code>: when this version takes effect, in the same form, never after <code>issuedAt</code>. It may be earlier: an issuer that learns of a compromise late revokes from the moment it began.</li>
+<li><code>status</code>: <code>active</code>, <code>suspended</code> or <code>revoked</code>. <code>revoked</code> is final: no version follows it. A suspended agent may be made active again by a later version.</li>
+<li><code>keys</code>: the agent's keys in force, a list of <code>{ "type": "Ed25519", "publicKey": &lt;the raw 32-byte key in lowercase hex&gt; }</code>, sorted by <code>publicKey</code>, without duplicates. An <code>active</code> version lists at least one key. A key's identifier is the SHA-256 of its raw bytes, which is the identifier a <code>key</code> entry of a signed revocation list carries.</li>
+<li><code>reason</code>: an optional non-empty text, for a person reading why the status changed.</li>
+</ul>
+<p>Each member is exactly as listed; any other member makes the predicate malformed.</p>
+<p><strong>The version in force</strong> at an instant is the version with the highest <code>version</code> whose <code>effectiveAt</code> is not after that instant. An instant before version 1's <code>effectiveAt</code> has no version in force.</p>
+<p><code>predicateType</code> MUST equal the Type URI above.</p>
+<h2 id="schema">Schema</h2>
+<pre class="jsonc"><code>{
+  &quot;_type&quot;: &quot;https://in-toto.io/Statement/v1&quot;,
+  &quot;subject&quot;: [
+    { &quot;name&quot;: &quot;https://agents.example.com/travel-agent/identity.json&quot;,
+      &quot;digest&quot;: { &quot;sha256&quot;: &quot;&lt;64-hex of this version of the document&gt;&quot; } }
+  ],
+  &quot;predicateType&quot;: &quot;https://w3id.org/agent-evidence/predicate/v1/agent-identity-statement&quot;,
+  &quot;predicate&quot;: {
+    &quot;agent&quot;: { &quot;issuer&quot;: &quot;https://idp.example.com/realms/agents&quot;, &quot;subject&quot;: &quot;travel-agent&quot; },
+    &quot;version&quot;: 2,
+    &quot;previous&quot;: { &quot;sha256&quot;: &quot;&lt;64-hex of version 1&#39;s signed payload&gt;&quot; },
+    &quot;issuedAt&quot;: &quot;2026-11-10T00:00:00Z&quot;,
+    &quot;effectiveAt&quot;: &quot;2026-11-10T00:00:00Z&quot;,
+    &quot;status&quot;: &quot;active&quot;,
+    &quot;keys&quot;: [ { &quot;type&quot;: &quot;Ed25519&quot;, &quot;publicKey&quot;: &quot;&lt;64-hex raw key&gt;&quot; } ]
+  }
+}</code></pre>
+<h2 id="verifying-a-past-decision">Verifying a past decision</h2>
+<p>A consumer holds the issuer's keys, the agent it expects, and the SHA-256 of the newest version it has (the head). It is given the history and a decision: the instant it acted and the DSSE envelope the agent signed, with one signature whose <code>keyid</code> is the SHA-256 of the agent's raw key. It refuses with the first rule that fails:</p>
+<table>
+<thead>
+<tr>
+<th>Order</th>
+<th>Rule</th>
+<th>Code</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>The history is a non-empty list of DSSE envelopes with in-toto payloads</td>
+<td><code>history_malformed</code></td>
+</tr>
+<tr>
+<td>2</td>
+<td>Every version is signed by a pinned issuer key</td>
+<td><code>statement_signature</code></td>
+</tr>
+<tr>
+<td>3</td>
+<td>Each payload is exactly the four Statement members</td>
+<td><code>statement_malformed</code></td>
+</tr>
+<tr>
+<td>4</td>
+<td><code>_type</code> is in-toto Statement v1</td>
+<td><code>statement_type_wrong</code></td>
+</tr>
+<tr>
+<td>5</td>
+<td><code>predicateType</code> is this Type URI</td>
+<td><code>predicate_type_wrong</code></td>
+</tr>
+<tr>
+<td>6</td>
+<td>The subject is one member with a lowercase SHA-256</td>
+<td><code>subject_malformed</code></td>
+</tr>
+<tr>
+<td>7</td>
+<td>The predicate has exactly its members, each well formed</td>
+<td><code>predicate_malformed</code></td>
+</tr>
+<tr>
+<td>8</td>
+<td>No <code>active</code> version has an empty key set</td>
+<td><code>active_without_keys</code></td>
+</tr>
+<tr>
+<td>9</td>
+<td>No version takes effect after it was issued</td>
+<td><code>effective_after_issued</code></td>
+</tr>
+<tr>
+<td>10</td>
+<td>Every version names the pinned agent</td>
+<td><code>agent_mismatch</code></td>
+</tr>
+<tr>
+<td>11</td>
+<td>There is a version 1</td>
+<td><code>history_no_genesis</code></td>
+</tr>
+<tr>
+<td>12</td>
+<td>No two versions name the same previous version (or both begin the history)</td>
+<td><code>history_forked</code></td>
+</tr>
+<tr>
+<td>13</td>
+<td>Every previous version is in the history</td>
+<td><code>history_previous_missing</code></td>
+</tr>
+<tr>
+<td>14</td>
+<td>A version is above its previous one</td>
+<td><code>version_not_incremented</code></td>
+</tr>
+<tr>
+<td>15</td>
+<td>A version is its previous one plus one</td>
+<td><code>version_gap</code></td>
+</tr>
+<tr>
+<td>16</td>
+<td>Neither <code>effectiveAt</code> nor <code>issuedAt</code> runs backwards</td>
+<td><code>history_time_reversed</code></td>
+</tr>
+<tr>
+<td>17</td>
+<td>Nothing follows a revoked version</td>
+<td><code>revoked_is_final</code></td>
+</tr>
+<tr>
+<td>18</td>
+<td>The chain ends at the pinned head</td>
+<td><code>history_head_mismatch</code></td>
+</tr>
+<tr>
+<td>19</td>
+<td>The decision is an instant and an envelope with one signature naming its key</td>
+<td><code>decision_malformed</code></td>
+</tr>
+<tr>
+<td>20</td>
+<td>Some version lists the decision's key</td>
+<td><code>key_unknown</code></td>
+</tr>
+<tr>
+<td>21</td>
+<td>That key signed the decision</td>
+<td><code>decision_signature</code></td>
+</tr>
+<tr>
+<td>22</td>
+<td>A version is in force at the decision's instant</td>
+<td><code>decision_before_history</code></td>
+</tr>
+<tr>
+<td>23</td>
+<td>The agent is not suspended in it</td>
+<td><code>agent_suspended</code></td>
+</tr>
+<tr>
+<td>24</td>
+<td>The agent is not revoked in it</td>
+<td><code>agent_revoked</code></td>
+</tr>
+<tr>
+<td>25</td>
+<td>Its key set holds the decision's key</td>
+<td><code>key_not_in_force</code></td>
+</tr>
+</tbody>
+</table>
+<p>A decision that passes every rule is accepted with reason <code>key_in_force</code>. Identical envelopes count once.</p>
+<p>The head is the consumer's own pin. A history whose newest version is not the head, such as one that stops before a revocation the consumer already saw, is refused rather than read as complete. What the head cannot show is a version the consumer never received; a consumer that must know it holds the newest version fetches the head from the issuer, or from a log the issuer writes each version into, at the time it re-checks.</p>
+<h2 id="what-it-does-not-establish">What it does not establish</h2>
+<p>That the issuer is entitled to speak for the agent (the consumer decides that by pinning its keys), that the identity document's contents are true, or that a decision whose instant the relying party recorded wrongly was made when it says. It establishes, for the decision as recorded, that the history the issuer signed placed the key in force and the agent active at that instant.</p>
+<h2 id="changes">Changes</h2>
+<ul>
+<li>0.1.0: first version.</li>
+</ul>
+
+</main>
+<footer><div class="shell">Built from <a href="https://github.com/probityai/agent-evidence-vectors/blob/14494ee8b/spec/predicates/agent-identity-statement.md">spec/predicates/agent-identity-statement.md</a> (SHA-256 <code>737f3e17fc53c7137b0f914e0e204e2c5ac2c23b28ae2aaf09ad06d01e3f7345</code>). The type URI is <code>https://w3id.org/agent-evidence/predicate/v1/agent-identity-statement</code>; it does not change once a signed statement carries it. Record format: <a href="https://datatracker.ietf.org/doc/draft-gilda-audit-agent-audit-record/03/">draft-gilda-audit-agent-audit-record-03</a>, Section 4 (an in-toto Statement carried in a DSSE envelope).</div></footer>
+</body>
+</html>

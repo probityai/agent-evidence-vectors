@@ -7,6 +7,8 @@ import (
 	"reflect"
 	"sort"
 	"time"
+
+	"github.com/probityai/agent-evidence-vectors/internal/identifiers"
 )
 
 func init() { register(uncertainEffect{}) }
@@ -54,7 +56,7 @@ func init() { register(uncertainEffect{}) }
 // operation, settled outcome, owner effects and unknown attempts.
 type uncertainEffect struct{}
 
-const ueContractID = "https://probityai.github.io/agent-evidence-vectors/predicate/v1/uncertain-effect"
+var ueContractID = identifiers.Identifier("agent-evidence-vectors/predicate/v1/uncertain-effect")
 
 func (uncertainEffect) Suite() string { return "uncertain-effect/v1" }
 
@@ -297,7 +299,7 @@ func ueRetain(r ueRecord) ueRetained {
 
 func ueDecide(r ueRecord) scDecision {
 	var contract string
-	known := len(r.ContractID) > 0 && strictUnmarshal(r.ContractID, &contract) == nil && contract == ueContractID
+	known := len(r.ContractID) > 0 && strictUnmarshal(r.ContractID, &contract) == nil && identifiers.CanonicalIdentifier(contract) == ueContractID
 	settled := ueSettled(r)
 	checks := []struct {
 		reason string

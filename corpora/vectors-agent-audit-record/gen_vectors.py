@@ -52,17 +52,16 @@ from cryptography.hazmat.primitives.asymmetric.ed25519 import (  # noqa: E402
 )
 from digest import corpus_digest  # noqa: E402
 
+sys.path.insert(0, os.path.join(HERE, os.pardir, os.pardir, "packaging"))
+from agent_evidence_vectors.identifiers import identifier  # noqa: E402
+
 SUITE = "agent-audit-record-conformance"
-PREDICATE_TYPE = (
-    "https://probityai.github.io/agent-evidence-vectors/predicate/v1/agent-audit-record"
-)
+PREDICATE_TYPE = identifier("agent-evidence-vectors/predicate/v1/agent-audit-record")
 #: The second URI revision 03 publishes (Section 8), for the input set extended
 #: by principal-standing-source. A member carrying predicateType is judged by a
 #: verifier configured for it; every other member, by one configured for the
 #: URI above.
-PREDICATE_TYPE_V2 = (
-    "https://probityai.github.io/agent-evidence-vectors/predicate/v2/agent-audit-record"
-)
+PREDICATE_TYPE_V2 = identifier("agent-evidence-vectors/predicate/v2/agent-audit-record")
 DRAFT_NAME = "draft-gilda-audit-agent-audit-record"
 #: Every revision of the draft the IETF has published, oldest first, with the
 #: SHA-256 of its text as https://www.ietf.org/archive/id/ serves it. The texts

@@ -21,8 +21,12 @@ import subprocess
 import sys
 import tempfile
 from pathlib import Path
+from typing import Any, assert_type
 
 ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT / "packaging"))
+from agent_evidence_vectors.identifiers import canonical_identifier  # noqa: E402
+
 GATE = ROOT / "scripts" / "identifier-pages-gate.py"
 HOST = "https://probityai.github.io/agent-evidence-vectors"
 #: Nesting a vector may legitimately carry. 3000 levels parses but outruns a recursive walk of the
@@ -74,6 +78,24 @@ def stage(work: Path) -> Path:
 
 def commit_all(repo: Path) -> None:
     subprocess.run(["git", "-C", str(repo), "add", "-A"], check=True, capture_output=True)
+
+
+def helper_keeps_types() -> str | None:
+    """The helper's result has the type of its argument, which both type checkers read here.
+
+    A string stays a string and an untyped record member stays untyped, so a caller can look the
+    answer up in a table keyed by string. A signature that said ``object`` made the gate refuse
+    the restart-records reader, which holds its predicate type as an untyped JSON value.
+    """
+    spelled = f"{HOST}/predicate/v1/observed-effect"
+    member: Any = json.loads(json.dumps(spelled))
+    assert_type(canonical_identifier(spelled), str)
+    assert_type(canonical_identifier(member), Any)
+    assert_type(canonical_identifier(None), None)
+    table: dict[str, int] = {spelled: 1}
+    if table.get(canonical_identifier(member)) != 1 or canonical_identifier(None) is not None:
+        return "the helper did not return an identifier unchanged, or a non-string as it was"
+    return None
 
 
 def main() -> int:
@@ -145,6 +167,27 @@ def main() -> int:
             )
         else:
             print("PASS control: a schema identifier no schema backs is refused")
+
+    with tempfile.TemporaryDirectory(dir=ROOT.parent) as tmp:
+        repo = stage(Path(tmp))
+        new_host = "https://probityai.org/agent-evidence-vectors"
+        planted = (f"{new_host}/predicate/v9/only-under-the-new-host\n"
+                   f"{new_host}/predicate/v1/observed-effect\n"
+                   "http://probityai.org/agent-evidence-vectors/predicate/v9/not-a-recognised-spelling\n")
+        (repo / "docs" / "planted-new-host.txt").write_text(planted, encoding="utf-8")
+        commit_all(repo)
+        code, out = gate(repo)
+        if (code != 1 or "predicate/v9/only-under-the-new-host" not in out
+                or "not-a-recognised-spelling" in out or "observed-effect is named" in out):
+            failures.append(f"the new host was not read as ours (exit {code}):\n{out}")
+        else:
+            print("PASS control: a URI under the new host is checked like one under the old host")
+
+    typing_failure = helper_keeps_types()
+    if typing_failure:
+        failures.append(typing_failure)
+    else:
+        print("PASS the helper keeps the type of what it is given")
 
     for failure in failures:
         print(f"FAIL {failure}")

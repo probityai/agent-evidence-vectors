@@ -8,6 +8,8 @@ import (
 	"path/filepath"
 	"reflect"
 	"regexp"
+
+	"github.com/probityai/agent-evidence-vectors/internal/identifiers"
 )
 
 func init() { register(executionBilling{}) }
@@ -57,7 +59,7 @@ func init() { register(executionBilling{}) }
 // dispatch states.
 type executionBilling struct{}
 
-const ebContractID = "https://probityai.github.io/agent-evidence-vectors/predicate/v1/execution-billing-finality"
+var ebContractID = identifiers.Identifier("agent-evidence-vectors/predicate/v1/execution-billing-finality")
 
 func (executionBilling) Suite() string { return "execution-billing-finality/v1" }
 
@@ -166,7 +168,7 @@ func ebDecide(r ebObj) scDecision {
 		fail func(ebObj) bool
 	}{
 		{"contract_id_missing", func(r ebObj) bool { _, ok := r["contractId"]; return !ok }},
-		{"contract_id_unknown", func(r ebObj) bool { return r["contractId"] != ebContractID }},
+		{"contract_id_unknown", func(r ebObj) bool { return identifiers.CanonicalValue(r["contractId"]) != ebContractID }},
 		{"record_malformed", ebMalformed},
 		{"dispatch_state_missing", ebDispatchStateMissing},
 		{"claim_boundary_dropped", ebBoundaryDropped},

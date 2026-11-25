@@ -3,6 +3,28 @@
 A published `suiteRevision` is never mutated in place. A normative change to the predicate or
 a case added bumps the revision, and the generator rewrites the cases byte-identically.
 
+## suiteRevision 6 (predicate revision 2.1: refusals take the shared registry, and a refused call reaches nothing)
+
+- A refusal's `reasonCode` is any code of the refusal-code registry (`refusal_codes.json`, shipped
+  with the package and the Go readers), where revisions 1.1 and 1.2 registered four. The four
+  keep their meaning. A reader still denies a code it does not know, a code in another form and a
+  code with a detail, all as `closed_vocabulary_violation`.
+- A refused tool call is no reach: the blast-radius reach skips a `tool_call` whose `refused` is
+  true, in both readers. A refused call did not run, so the receipt names only calls that ran. A
+  refused write and a refused read never taint either: the revision 2.0 store taint follows only
+  writes and reads that ran.
+- Cases added: `allow-refusal-registry-code-<family>` for each of the 14 registry families
+  (approval, authority, delegation, gateway, governance, grants, identity, journal, key, marker,
+  mesh, possession, revocation, singleuse), `reject-closed-vocabulary-violation-refusal-code-unknown`,
+  `reject-closed-vocabulary-violation-refusal-code-kebab`, `reject-closed-vocabulary-violation-refusal-code-detail` and
+  `reject-blast-radius-overstated-counts-refused-tool-call` (the receipt that revision 5 allowed).
+- Cases changed: `allow-isolated-agents-tool-call-refused`: its receipt counted the refused call
+  (`toolCalls` 1) and now counts none (`toolCalls` 0). Its journal keeps its bytes. Every other
+  earlier case keeps its bytes and its verdict.
+- Verdict changes outside the corpus: a journal whose refusal names a registry code other than
+  the four was denied and is now allowed; a receipt that counts a refused tool call was allowed
+  and is now denied with `blast_radius_overstated`.
+
 ## suiteRevision 5 (predicate revision 2.0: every value an agent writes says who wrote it)
 
 - Release note: two events, `write` and `store_read`. A write names its agent, store, key and
