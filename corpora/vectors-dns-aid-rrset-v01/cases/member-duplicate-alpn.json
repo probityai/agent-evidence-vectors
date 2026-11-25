@@ -1,0 +1,28 @@
+{
+ "case": "member-duplicate-alpn",
+ "published": [
+  "a2a",
+  "mcp"
+ ],
+ "rrset": [
+  {
+   "owner": "_chat._agents.example.com",
+   "params": {
+    "alpn": "h2",
+    "alpn": "mcp",
+    "port": 443
+   },
+   "priority": 1,
+   "target": "chat.example.com"
+  },
+  {
+   "owner": "_chat._agents.example.com",
+   "params": {
+    "alpn": "a2a",
+    "port": 443
+   },
+   "priority": 1,
+   "target": "chat.example.com"
+  }
+ ]
+}

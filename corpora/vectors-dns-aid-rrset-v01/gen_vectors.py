@@ -26,9 +26,12 @@ SPECIFICATION = {
     "status": "proposal of this repository, not a vendored upstream text",
     "scope": (
         "The SVCB RRset served for one DNS-AID agent name. The agent protocol of a record is "
-        "its proto SvcParam when present and otherwise the alpn tokens that are not transports "
-        "(h2, h3, h2c, http/1.1). A conforming RRset has exactly one record per agent protocol "
-        "the publisher published, and no record names no protocol or two. All fixtures are "
+        "its proto SvcParam when that member is present, even when it is empty, and otherwise "
+        "the alpn tokens that are not transports (h2, h3, h2c, http/1.1). Each is a "
+        "comma-separated string or a list of strings. A conforming RRset has exactly one record "
+        "per agent protocol the publisher published, and no record names no protocol or two. "
+        "Any other shape, a published list that is not strings, or a member file that is not "
+        "strict JSON (a duplicate name, a NaN literal) is rrset-malformed. All fixtures are "
         "synthetic."
     ),
     "sources": [
@@ -44,7 +47,7 @@ SPECIFICATION = {
 }
 
 
-def rec(alpn: str, proto: str | None = None, target: str = "chat.example.com") -> dict[str, Any]:
+def rec(alpn: Any, proto: Any = None, target: str = "chat.example.com") -> dict[str, Any]:
     params: dict[str, Any] = {"alpn": alpn, "port": 443}
     if proto is not None:
         params["proto"] = proto
@@ -52,7 +55,9 @@ def rec(alpn: str, proto: str | None = None, target: str = "chat.example.com") -
 
 
 BOTH = ["a2a", "mcp"]
-MEMBERS: tuple[tuple[str, list[str], list[dict[str, Any]], list[str], str], ...] = (
+#: (id, published, rrset, codes, description). published and the records are Any because
+#: the malformed members carry shapes the rule refuses (a string, a non-object record).
+MEMBERS: tuple[tuple[str, Any, list[Any], list[str], str], ...] = (
     (
         "two-records-bare-alpn",
         BOTH,
@@ -131,7 +136,51 @@ MEMBERS: tuple[tuple[str, list[str], list[dict[str, Any]], list[str], str], ...]
         ["protocol-record-missing"],
         "deleting the mcp record also removed the a2a record",
     ),
+    (
+        "alpn-as-list",
+        BOTH,
+        [rec(["mcp", "h2"]), rec(["a2a", "h3"])],
+        [],
+        "alpn as a list of ids (RFC 9460 7.1.1): reading its text form ['mcp', 'h2'] would find "
+        "two protocols",
+    ),
+    (
+        "proto-empty",
+        ["mcp"],
+        [rec("mcp", "")],
+        ["protocol-record-missing", "record-names-no-protocol"],
+        "proto is present and empty, so the record names no protocol; it does not fall back to "
+        "alpn",
+    ),
+    (
+        "record-not-object",
+        BOTH,
+        ["mcp"],
+        ["rrset-malformed"],
+        "a record that is a string, not an object",
+    ),
+    (
+        "published-as-string",
+        "mcp",
+        [rec("mcp")],
+        ["rrset-malformed"],
+        "published is the string mcp, not a list; read as a set of characters it would be m, c "
+        "and p",
+    ),
+    ("alpn-not-a-string", ["mcp"], [rec(5)], ["rrset-malformed"], "alpn is the number 5"),
+    (
+        "member-duplicate-alpn",
+        BOTH,
+        [rec("mcp"), rec("a2a")],
+        ["rrset-malformed"],
+        "the member file names the first record's alpn twice; a first-wins reader sees h2 and no "
+        "mcp record",
+    ),
 )
+
+#: Member files whose text is edited after writing, so that one is not strict JSON:
+#: (the text to find, the text put in front of it).
+TEXT_EDITS = {"member-duplicate-alpn": ('    "alpn": "mcp",\n', '    "alpn": "h2",\n')}
 
 
 def _json(value: object) -> bytes:
@@ -161,6 +210,11 @@ def generate(root: Path = ROOT) -> dict[str, Any]:
     entries = []
     for name, published, rrset, codes, description in MEMBERS:
         data = _json({"case": name, "published": published, "rrset": rrset})
+        if name in TEXT_EDITS:
+            find, before = TEXT_EDITS[name]
+            if data.count(find.encode()) != 1:
+                raise ValueError(f"{name}: the text edit does not find exactly one {find!r}")
+            data = data.replace(find.encode(), (before + find).encode())
         (root / "cases" / f"{name}.json").write_bytes(data)
         entries.append(
             {

@@ -1,0 +1,17 @@
+{
+ "case": "alpn-not-a-string",
+ "published": [
+  "mcp"
+ ],
+ "rrset": [
+  {
+   "owner": "_chat._agents.example.com",
+   "params": {
+    "alpn": 5,
+    "port": 443
+   },
+   "priority": 1,
+   "target": "chat.example.com"
+  }
+ ]
+}
