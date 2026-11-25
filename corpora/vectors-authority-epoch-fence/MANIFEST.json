@@ -1,0 +1,933 @@
+{
+  "corpusDigest": "9b17c002cf3287a9caeaf97f2e808dce328362dea03a9a0e03553b983d2acf87",
+  "counts": {
+    "admit": 10,
+    "no_verdict": 8,
+    "refuse": 29
+  },
+  "provenance": {
+    "note": "Synthetic logs, heads, requests and keys. The decision, reason and status tokens are this corpus's own. Cases marked proposed state rules offered for adoption.",
+    "source": "authority epochs over a signed, hash-chained log closed by a signed head"
+  },
+  "revocationStatusCounts": {
+    "closed": 10,
+    "live": 18,
+    "partial": 1,
+    "suspended": 1,
+    "unknown": 17
+  },
+  "suite": "authority-epoch-fence/v1",
+  "synthetic": true,
+  "typeUri": "https://probityai.github.io/agent-evidence-vectors/predicate/v1/authority-epoch-fence",
+  "vectors": [
+    {
+      "edit": "the control: a held grant, presented in the current epoch",
+      "expected": {
+        "decision": "admit",
+        "reason": "authority_valid",
+        "revocation_status": "live"
+      },
+      "files": {
+        "case.json": "866fc17ca14c6a7645ca7606a86f147af416b99628bb8e17805d5a48876c9909",
+        "event-000.json": "53aa545276e9850fad2d6b72f3574896dd1d1118f422f1f298cd906fbeff8e24",
+        "event-001.json": "e77424377683e5a5cec24ac0aa58aa45a44e56e2613da9d35124df40f2d70301",
+        "head.json": "67bea8589ffda8a824829caab47ad1af3b0582105fa33bb1d70755bdb4f7215f",
+        "request.json": "69f8dd51d4014dd488f6147494c51c067d508d3c49972461d146d86d02479c43"
+      },
+      "id": "epoch-current-epoch-admitted",
+      "path": "cases/epoch-current-epoch-admitted",
+      "status": "normative"
+    },
+    {
+      "edit": "a restart opened epoch 1 and the request names epoch 0",
+      "expected": {
+        "decision": "refuse",
+        "reason": "epoch_closed",
+        "revocation_status": "live"
+      },
+      "files": {
+        "case.json": "b4e6f191429555c6c7b78b8ba6682ccccc0f2f5546c04a12cf75c59cb5f73cf1",
+        "event-000.json": "53aa545276e9850fad2d6b72f3574896dd1d1118f422f1f298cd906fbeff8e24",
+        "event-001.json": "e77424377683e5a5cec24ac0aa58aa45a44e56e2613da9d35124df40f2d70301",
+        "event-002.json": "b5e63adbd190d2295792da8891a6cd2dac0cb2f6f41239a8d5b9bad3e6bf2274",
+        "head.json": "221b36c52edf48fbaa47d66e5b0336ce2d6f1ffbc07cd324a076515c0bcbdb67",
+        "request.json": "69f8dd51d4014dd488f6147494c51c067d508d3c49972461d146d86d02479c43"
+      },
+      "id": "epoch-closed-after-restart",
+      "path": "cases/epoch-closed-after-restart",
+      "status": "normative"
+    },
+    {
+      "edit": "the control: after the restart the same grant is presented in epoch 1",
+      "expected": {
+        "decision": "admit",
+        "reason": "authority_valid",
+        "revocation_status": "live"
+      },
+      "files": {
+        "case.json": "b4e6f191429555c6c7b78b8ba6682ccccc0f2f5546c04a12cf75c59cb5f73cf1",
+        "event-000.json": "53aa545276e9850fad2d6b72f3574896dd1d1118f422f1f298cd906fbeff8e24",
+        "event-001.json": "e77424377683e5a5cec24ac0aa58aa45a44e56e2613da9d35124df40f2d70301",
+        "event-002.json": "b5e63adbd190d2295792da8891a6cd2dac0cb2f6f41239a8d5b9bad3e6bf2274",
+        "head.json": "221b36c52edf48fbaa47d66e5b0336ce2d6f1ffbc07cd324a076515c0bcbdb67",
+        "request.json": "d3f5348449165078e95c3166028a35ed4decae68aa161f7830fa34e9a6257ad2"
+      },
+      "id": "epoch-request-of-the-new-epoch-admitted",
+      "path": "cases/epoch-request-of-the-new-epoch-admitted",
+      "status": "normative"
+    },
+    {
+      "edit": "an acknowledged clock fault opened epoch 1; the request of epoch 0 carries a time after the epoch opened, and its time does not reopen the epoch",
+      "expected": {
+        "decision": "refuse",
+        "reason": "epoch_closed",
+        "revocation_status": "live"
+      },
+      "files": {
+        "case.json": "b4e6f191429555c6c7b78b8ba6682ccccc0f2f5546c04a12cf75c59cb5f73cf1",
+        "event-000.json": "53aa545276e9850fad2d6b72f3574896dd1d1118f422f1f298cd906fbeff8e24",
+        "event-001.json": "e77424377683e5a5cec24ac0aa58aa45a44e56e2613da9d35124df40f2d70301",
+        "event-002.json": "c4d1f4801baaa11725565d36f4b353379dc50db5119160b4af33b59e9e13071e",
+        "head.json": "fbfb1d493ffab066f9c1331e84dbe6eadf8af7205decfc8d3557315faea4c7f7",
+        "request.json": "de30fa88494ed61b11611e017f3c72bd5fed6cf1c4149885ba5b51b9aa10bb6f"
+      },
+      "id": "epoch-closed-whatever-its-time",
+      "path": "cases/epoch-closed-whatever-its-time",
+      "status": "normative"
+    },
+    {
+      "edit": "the request names an epoch the log has not opened",
+      "expected": {
+        "decision": "refuse",
+        "reason": "epoch_ahead",
+        "revocation_status": "live"
+      },
+      "files": {
+        "case.json": "866fc17ca14c6a7645ca7606a86f147af416b99628bb8e17805d5a48876c9909",
+        "event-000.json": "53aa545276e9850fad2d6b72f3574896dd1d1118f422f1f298cd906fbeff8e24",
+        "event-001.json": "e77424377683e5a5cec24ac0aa58aa45a44e56e2613da9d35124df40f2d70301",
+        "head.json": "67bea8589ffda8a824829caab47ad1af3b0582105fa33bb1d70755bdb4f7215f",
+        "request.json": "d3f5348449165078e95c3166028a35ed4decae68aa161f7830fa34e9a6257ad2"
+      },
+      "id": "epoch-ahead-of-the-log",
+      "path": "cases/epoch-ahead-of-the-log",
+      "status": "normative"
+    },
+    {
+      "edit": "proposed: a request of epoch 0 on a grant revoked in epoch 0, presented again after two more epochs opened; dead is dead across epochs",
+      "expected": {
+        "decision": "refuse",
+        "reason": "epoch_closed",
+        "revocation_status": "closed"
+      },
+      "files": {
+        "case.json": "6c01f992aab97e3ccf3f904f501745b85c579b189f94dec3d8b24d74323fd76e",
+        "event-000.json": "53aa545276e9850fad2d6b72f3574896dd1d1118f422f1f298cd906fbeff8e24",
+        "event-001.json": "e77424377683e5a5cec24ac0aa58aa45a44e56e2613da9d35124df40f2d70301",
+        "event-002.json": "cebd60b6444d99b45225129eb0c393f7eb33a79de0f5e11d231544fb11b4805e",
+        "event-003.json": "d10e9a99ad4bf9765343c47f8e2f7da34ca7c65529dc197c282c5c62b5c62664",
+        "event-004.json": "9b5ba5b3653aa4d1566c54f6c013eb9e093440e61be61262d759587641001359",
+        "head.json": "44a9d29009c45a1e211dabb85cb4e00face51800c335f5df5b2514d90002a2aa",
+        "request.json": "69f8dd51d4014dd488f6147494c51c067d508d3c49972461d146d86d02479c43"
+      },
+      "id": "epoch-dead-request-presented-two-epochs-later",
+      "path": "cases/epoch-dead-request-presented-two-epochs-later",
+      "status": "proposed"
+    },
+    {
+      "edit": "the log records the approval as consumed and the request presents it again",
+      "expected": {
+        "decision": "refuse",
+        "reason": "approval_consumed",
+        "revocation_status": "live"
+      },
+      "files": {
+        "case.json": "b4e6f191429555c6c7b78b8ba6682ccccc0f2f5546c04a12cf75c59cb5f73cf1",
+        "event-000.json": "53aa545276e9850fad2d6b72f3574896dd1d1118f422f1f298cd906fbeff8e24",
+        "event-001.json": "e77424377683e5a5cec24ac0aa58aa45a44e56e2613da9d35124df40f2d70301",
+        "event-002.json": "8e2fa691fcfff266945026b600a228ac4604e98cfc900fce7d5ec5edb3fcb769",
+        "head.json": "d94f3031ab6ef67676f7153767ad92e2e0b6df37f77461c1c82d28e56715d6bf",
+        "request.json": "00bb79cebe286d085387ddaa619adcb638ea65f1979306f49bf80eb143854546"
+      },
+      "id": "approval-consumed-presented-again",
+      "path": "cases/approval-consumed-presented-again",
+      "status": "normative"
+    },
+    {
+      "edit": "the control: an approval the log has not consumed",
+      "expected": {
+        "decision": "admit",
+        "reason": "authority_valid",
+        "revocation_status": "live"
+      },
+      "files": {
+        "case.json": "b4e6f191429555c6c7b78b8ba6682ccccc0f2f5546c04a12cf75c59cb5f73cf1",
+        "event-000.json": "53aa545276e9850fad2d6b72f3574896dd1d1118f422f1f298cd906fbeff8e24",
+        "event-001.json": "e77424377683e5a5cec24ac0aa58aa45a44e56e2613da9d35124df40f2d70301",
+        "event-002.json": "8e2fa691fcfff266945026b600a228ac4604e98cfc900fce7d5ec5edb3fcb769",
+        "head.json": "d94f3031ab6ef67676f7153767ad92e2e0b6df37f77461c1c82d28e56715d6bf",
+        "request.json": "063b022bf5c27618a7bcfa9a7e12620a5dcb823392078cd902cfea5848256f96"
+      },
+      "id": "approval-fresh-admitted",
+      "path": "cases/approval-fresh-admitted",
+      "status": "normative"
+    },
+    {
+      "edit": "a suspension can be lifted, so it reads suspended, never closed",
+      "expected": {
+        "decision": "refuse",
+        "reason": "suspended",
+        "revocation_status": "suspended"
+      },
+      "files": {
+        "case.json": "b4e6f191429555c6c7b78b8ba6682ccccc0f2f5546c04a12cf75c59cb5f73cf1",
+        "event-000.json": "53aa545276e9850fad2d6b72f3574896dd1d1118f422f1f298cd906fbeff8e24",
+        "event-001.json": "e77424377683e5a5cec24ac0aa58aa45a44e56e2613da9d35124df40f2d70301",
+        "event-002.json": "6515a87d6ae37a43a3396586703baa74009977320456ce76db056178f5919587",
+        "head.json": "461b8bc9c799cf2896aee1286b3dc8e98361320b74856e7e28e07784fe5274a3",
+        "request.json": "69f8dd51d4014dd488f6147494c51c067d508d3c49972461d146d86d02479c43"
+      },
+      "id": "suspend-subject-suspended",
+      "path": "cases/suspend-subject-suspended",
+      "status": "normative"
+    },
+    {
+      "edit": "a resume lifts the suspension",
+      "expected": {
+        "decision": "admit",
+        "reason": "authority_valid",
+        "revocation_status": "live"
+      },
+      "files": {
+        "case.json": "13a11f3178847f10c52af158b08d3a08618e0980ccaf7931060de8ae5cdc9b2d",
+        "event-000.json": "53aa545276e9850fad2d6b72f3574896dd1d1118f422f1f298cd906fbeff8e24",
+        "event-001.json": "e77424377683e5a5cec24ac0aa58aa45a44e56e2613da9d35124df40f2d70301",
+        "event-002.json": "6515a87d6ae37a43a3396586703baa74009977320456ce76db056178f5919587",
+        "event-003.json": "9edbe55b8f1f161ffd67a86b5f5c6f75ec1dc103aa6172af56ac3b1fc59375c1",
+        "head.json": "14a332bb139f6e15ee6f072b9f01679e8e46510f2b0150ae6f929c7bd685608f",
+        "request.json": "69f8dd51d4014dd488f6147494c51c067d508d3c49972461d146d86d02479c43"
+      },
+      "id": "suspend-resumed-admitted",
+      "path": "cases/suspend-resumed-admitted",
+      "status": "normative"
+    },
+    {
+      "edit": "a resume lifts only a suspension, never a revocation",
+      "expected": {
+        "decision": "refuse",
+        "reason": "revoked",
+        "revocation_status": "closed"
+      },
+      "files": {
+        "case.json": "6c01f992aab97e3ccf3f904f501745b85c579b189f94dec3d8b24d74323fd76e",
+        "event-000.json": "53aa545276e9850fad2d6b72f3574896dd1d1118f422f1f298cd906fbeff8e24",
+        "event-001.json": "e77424377683e5a5cec24ac0aa58aa45a44e56e2613da9d35124df40f2d70301",
+        "event-002.json": "6515a87d6ae37a43a3396586703baa74009977320456ce76db056178f5919587",
+        "event-003.json": "a671bf94f1193b48847f605ce6bf3682b09402fc78a79a7481b25f5de757ccb5",
+        "event-004.json": "22850f28efe8fcc295d4d797fd51a0ae35632b258f5dc26ecf6c8a88029c09bf",
+        "head.json": "8416b1b2ad08252fa8a33b5e1cf06d5b4fbcc0f8c9a26873301187666dd01df2",
+        "request.json": "69f8dd51d4014dd488f6147494c51c067d508d3c49972461d146d86d02479c43"
+      },
+      "id": "suspend-resume-after-revoke-does-nothing",
+      "path": "cases/suspend-resume-after-revoke-does-nothing",
+      "status": "normative"
+    },
+    {
+      "edit": "the child grant was issued before its parent was revoked; the revocation reaches it",
+      "expected": {
+        "decision": "refuse",
+        "reason": "revoked",
+        "revocation_status": "closed"
+      },
+      "files": {
+        "case.json": "13a11f3178847f10c52af158b08d3a08618e0980ccaf7931060de8ae5cdc9b2d",
+        "event-000.json": "53aa545276e9850fad2d6b72f3574896dd1d1118f422f1f298cd906fbeff8e24",
+        "event-001.json": "e77424377683e5a5cec24ac0aa58aa45a44e56e2613da9d35124df40f2d70301",
+        "event-002.json": "bc8e4edda4ba0e816c8470c6dd8f48c711d05482ab9a0dcc4ab83ff40d8c43a9",
+        "event-003.json": "7878c5d8020cc71086438a8ded4019d2d6066313e625ef071488ff386982f172",
+        "head.json": "0557ddbf02035e5c9d8b682a93f9cad335022a5b82dc64f056027cb52995c5a7",
+        "request.json": "3cfde9f69dc9d8c8361374dc16cc34407956ef54e0d37a8f82853a67fa8be6d3"
+      },
+      "id": "delegation-parent-revoked-child-presented",
+      "path": "cases/delegation-parent-revoked-child-presented",
+      "status": "normative"
+    },
+    {
+      "edit": "the child grant was issued after its parent was revoked: the delegator no longer held what it granted",
+      "expected": {
+        "decision": "refuse",
+        "reason": "parent_revoked",
+        "revocation_status": "closed"
+      },
+      "files": {
+        "case.json": "13a11f3178847f10c52af158b08d3a08618e0980ccaf7931060de8ae5cdc9b2d",
+        "event-000.json": "53aa545276e9850fad2d6b72f3574896dd1d1118f422f1f298cd906fbeff8e24",
+        "event-001.json": "e77424377683e5a5cec24ac0aa58aa45a44e56e2613da9d35124df40f2d70301",
+        "event-002.json": "cebd60b6444d99b45225129eb0c393f7eb33a79de0f5e11d231544fb11b4805e",
+        "event-003.json": "eeea7091428043ae765599b3b270ee67a03d46677efd2a79b6162fc7af0b5ead",
+        "head.json": "4015faab33dd480f2a7a4940caba025ff8816083df6192722a2439cb98a1b038",
+        "request.json": "3cfde9f69dc9d8c8361374dc16cc34407956ef54e0d37a8f82853a67fa8be6d3"
+      },
+      "id": "delegation-child-issued-after-parent-revoked",
+      "path": "cases/delegation-child-issued-after-parent-revoked",
+      "status": "normative"
+    },
+    {
+      "edit": "revoking one child grant leaves its sibling live",
+      "expected": {
+        "decision": "admit",
+        "reason": "authority_valid",
+        "revocation_status": "live"
+      },
+      "files": {
+        "case.json": "6c01f992aab97e3ccf3f904f501745b85c579b189f94dec3d8b24d74323fd76e",
+        "event-000.json": "53aa545276e9850fad2d6b72f3574896dd1d1118f422f1f298cd906fbeff8e24",
+        "event-001.json": "e77424377683e5a5cec24ac0aa58aa45a44e56e2613da9d35124df40f2d70301",
+        "event-002.json": "bc8e4edda4ba0e816c8470c6dd8f48c711d05482ab9a0dcc4ab83ff40d8c43a9",
+        "event-003.json": "5df0bbc2cf0ab47eccff2ee7b104284b6fce10b9ab92f8d4a2261ec950f55f4c",
+        "event-004.json": "87936931ec3b5a6e2dc41533efe4b503541f00d4bdf7369d5548dfe9750638a4",
+        "head.json": "cf33590984f219d2de1c85ec9ad5817fd3100284c210ee1f6758f8aec1a0ba41",
+        "request.json": "5294d72073f224ddd2c6f538456efe32b207e6c0f57ba341b31627ca9d7686a5"
+      },
+      "id": "delegation-sibling-unaffected",
+      "path": "cases/delegation-sibling-unaffected",
+      "status": "normative"
+    },
+    {
+      "edit": "a revocation reaches every grant below it",
+      "expected": {
+        "decision": "refuse",
+        "reason": "revoked",
+        "revocation_status": "closed"
+      },
+      "files": {
+        "case.json": "6c01f992aab97e3ccf3f904f501745b85c579b189f94dec3d8b24d74323fd76e",
+        "event-000.json": "53aa545276e9850fad2d6b72f3574896dd1d1118f422f1f298cd906fbeff8e24",
+        "event-001.json": "e77424377683e5a5cec24ac0aa58aa45a44e56e2613da9d35124df40f2d70301",
+        "event-002.json": "bc8e4edda4ba0e816c8470c6dd8f48c711d05482ab9a0dcc4ab83ff40d8c43a9",
+        "event-003.json": "0a89416df7f780f102246c97151ba9e59c91b966f00485d14b649170b28f1e75",
+        "event-004.json": "2ec42e67200a856f50bce94a39ce512a8a153a6a3efc89c4af84ddb6b32d4093",
+        "head.json": "1ac81ec98207fb48e5daf99cc7549903af9ae23239a3772b4d314f8f616976cb",
+        "request.json": "5294d72073f224ddd2c6f538456efe32b207e6c0f57ba341b31627ca9d7686a5"
+      },
+      "id": "delegation-grandchild-of-a-revoked-grant",
+      "path": "cases/delegation-grandchild-of-a-revoked-grant",
+      "status": "normative"
+    },
+    {
+      "edit": "agent-b presents a grant the log issued to agent-a",
+      "expected": {
+        "decision": "refuse",
+        "reason": "no_grant",
+        "revocation_status": "live"
+      },
+      "files": {
+        "case.json": "866fc17ca14c6a7645ca7606a86f147af416b99628bb8e17805d5a48876c9909",
+        "event-000.json": "53aa545276e9850fad2d6b72f3574896dd1d1118f422f1f298cd906fbeff8e24",
+        "event-001.json": "e77424377683e5a5cec24ac0aa58aa45a44e56e2613da9d35124df40f2d70301",
+        "head.json": "67bea8589ffda8a824829caab47ad1af3b0582105fa33bb1d70755bdb4f7215f",
+        "request.json": "c8f4d3d66c4121a07a1461d39902a812fcc68e6264282634d20181f65126cf19"
+      },
+      "id": "delegation-grant-held-by-another-subject",
+      "path": "cases/delegation-grant-held-by-another-subject",
+      "status": "normative"
+    },
+    {
+      "edit": "the log key changed in epoch 1; the next event and the head are signed by the new key, which the genesis key's event named",
+      "expected": {
+        "decision": "admit",
+        "reason": "authority_valid",
+        "revocation_status": "live"
+      },
+      "files": {
+        "case.json": "13a11f3178847f10c52af158b08d3a08618e0980ccaf7931060de8ae5cdc9b2d",
+        "event-000.json": "53aa545276e9850fad2d6b72f3574896dd1d1118f422f1f298cd906fbeff8e24",
+        "event-001.json": "e77424377683e5a5cec24ac0aa58aa45a44e56e2613da9d35124df40f2d70301",
+        "event-002.json": "bd4d90ce06963f8bf5397c95660c1c1c6ebd746ee988900202f145bc80782b53",
+        "event-003.json": "97f880898fd1c9c6827b02ad3e906f941fbffeada3401023b246c1192589b7a5",
+        "head.json": "338dba22fa27ae68a20723919f30b5eb79cf6e463041dec6a70a812d389eb584",
+        "request.json": "56abc3a499f69fe574b6fbfde903dd8aee60e7ae0b17b83fef6e6b9786a294d4"
+      },
+      "id": "root-change-then-request-admitted",
+      "path": "cases/root-change-then-request-admitted",
+      "status": "normative"
+    },
+    {
+      "edit": "after the key change an event is still signed by the old key",
+      "expected": {
+        "decision": "refuse",
+        "reason": "log_invalid",
+        "revocation_status": "unknown"
+      },
+      "files": {
+        "case.json": "13a11f3178847f10c52af158b08d3a08618e0980ccaf7931060de8ae5cdc9b2d",
+        "event-000.json": "53aa545276e9850fad2d6b72f3574896dd1d1118f422f1f298cd906fbeff8e24",
+        "event-001.json": "e77424377683e5a5cec24ac0aa58aa45a44e56e2613da9d35124df40f2d70301",
+        "event-002.json": "bd4d90ce06963f8bf5397c95660c1c1c6ebd746ee988900202f145bc80782b53",
+        "event-003.json": "d8c03591631e45e47fcce5bf0eb7ef3154a80ce49de34c385aeff853730e9b94",
+        "head.json": "fa2df927371623b646cce6f0583af2899bde588cea3c4d62cafda63617d0bc85",
+        "request.json": "56abc3a499f69fe574b6fbfde903dd8aee60e7ae0b17b83fef6e6b9786a294d4"
+      },
+      "id": "root-event-after-change-signed-by-old-key",
+      "path": "cases/root-event-after-change-signed-by-old-key",
+      "status": "normative"
+    },
+    {
+      "edit": "the head is signed by the key the log retired",
+      "expected": {
+        "decision": "refuse",
+        "reason": "history_incomplete",
+        "revocation_status": "unknown"
+      },
+      "files": {
+        "case.json": "13a11f3178847f10c52af158b08d3a08618e0980ccaf7931060de8ae5cdc9b2d",
+        "event-000.json": "53aa545276e9850fad2d6b72f3574896dd1d1118f422f1f298cd906fbeff8e24",
+        "event-001.json": "e77424377683e5a5cec24ac0aa58aa45a44e56e2613da9d35124df40f2d70301",
+        "event-002.json": "bd4d90ce06963f8bf5397c95660c1c1c6ebd746ee988900202f145bc80782b53",
+        "event-003.json": "97f880898fd1c9c6827b02ad3e906f941fbffeada3401023b246c1192589b7a5",
+        "head.json": "d8d435bef341340c7bf1a77adb1050fe9e838cfc9eaf08064fbf6a1f3588d516",
+        "request.json": "56abc3a499f69fe574b6fbfde903dd8aee60e7ae0b17b83fef6e6b9786a294d4"
+      },
+      "id": "root-head-signed-by-old-key-after-change",
+      "path": "cases/root-head-signed-by-old-key-after-change",
+      "status": "normative"
+    },
+    {
+      "edit": "the request names agent-a and is signed by a key no verifier pins for agent-a",
+      "expected": {
+        "decision": "refuse",
+        "reason": "unknown_holder",
+        "revocation_status": "live"
+      },
+      "files": {
+        "case.json": "866fc17ca14c6a7645ca7606a86f147af416b99628bb8e17805d5a48876c9909",
+        "event-000.json": "53aa545276e9850fad2d6b72f3574896dd1d1118f422f1f298cd906fbeff8e24",
+        "event-001.json": "e77424377683e5a5cec24ac0aa58aa45a44e56e2613da9d35124df40f2d70301",
+        "head.json": "67bea8589ffda8a824829caab47ad1af3b0582105fa33bb1d70755bdb4f7215f",
+        "request.json": "e9afb9bb29dadb8e10c6c4ca7c8771b6289a74a81438f25bd7283055ad9ed91b"
+      },
+      "id": "root-request-signed-by-unpinned-holder",
+      "path": "cases/root-request-signed-by-unpinned-holder",
+      "status": "normative"
+    },
+    {
+      "edit": "the request id was changed after the holder signed",
+      "expected": {
+        "decision": "refuse",
+        "reason": "request_signature_invalid",
+        "revocation_status": "live"
+      },
+      "files": {
+        "case.json": "866fc17ca14c6a7645ca7606a86f147af416b99628bb8e17805d5a48876c9909",
+        "event-000.json": "53aa545276e9850fad2d6b72f3574896dd1d1118f422f1f298cd906fbeff8e24",
+        "event-001.json": "e77424377683e5a5cec24ac0aa58aa45a44e56e2613da9d35124df40f2d70301",
+        "head.json": "67bea8589ffda8a824829caab47ad1af3b0582105fa33bb1d70755bdb4f7215f",
+        "request.json": "9379b5c33dce8a767ae0f459cdc50095a6af6c4ab7ca418451f8d6d520133e17"
+      },
+      "id": "root-request-altered-after-signing",
+      "path": "cases/root-request-altered-after-signing",
+      "status": "normative"
+    },
+    {
+      "edit": "agent-a was re-registered after the grant was issued",
+      "expected": {
+        "decision": "refuse",
+        "reason": "grant_superseded",
+        "revocation_status": "live"
+      },
+      "files": {
+        "case.json": "b4e6f191429555c6c7b78b8ba6682ccccc0f2f5546c04a12cf75c59cb5f73cf1",
+        "event-000.json": "53aa545276e9850fad2d6b72f3574896dd1d1118f422f1f298cd906fbeff8e24",
+        "event-001.json": "e77424377683e5a5cec24ac0aa58aa45a44e56e2613da9d35124df40f2d70301",
+        "event-002.json": "6251deef76f1bf88342853ccc4325988363db5858e7530cfa401f2e62c910efe",
+        "head.json": "3828a18609664e7dbd625b782c974cd5ec35ebb3f5582bbe3dc398015c40a211",
+        "request.json": "d3f5348449165078e95c3166028a35ed4decae68aa161f7830fa34e9a6257ad2"
+      },
+      "id": "rereg-grant-superseded",
+      "path": "cases/rereg-grant-superseded",
+      "status": "normative"
+    },
+    {
+      "edit": "the control: a grant issued after the re-registration",
+      "expected": {
+        "decision": "admit",
+        "reason": "authority_valid",
+        "revocation_status": "live"
+      },
+      "files": {
+        "case.json": "13a11f3178847f10c52af158b08d3a08618e0980ccaf7931060de8ae5cdc9b2d",
+        "event-000.json": "53aa545276e9850fad2d6b72f3574896dd1d1118f422f1f298cd906fbeff8e24",
+        "event-001.json": "e77424377683e5a5cec24ac0aa58aa45a44e56e2613da9d35124df40f2d70301",
+        "event-002.json": "6251deef76f1bf88342853ccc4325988363db5858e7530cfa401f2e62c910efe",
+        "event-003.json": "d7e9e811c29629d2d89f296e25757dad259c82000ba15ffd2882f1aa2f037a6e",
+        "head.json": "1e93cf900139b3ed9981b8f1c01c82b2b4e6c8563425ad2a0fd80bdd5d9526c3",
+        "request.json": "56abc3a499f69fe574b6fbfde903dd8aee60e7ae0b17b83fef6e6b9786a294d4"
+      },
+      "id": "rereg-new-grant-after-re-registration-admitted",
+      "path": "cases/rereg-new-grant-after-re-registration-admitted",
+      "status": "normative"
+    },
+    {
+      "edit": "every grant of agent-a was revoked; a re-registration and a new grant do not bring it back",
+      "expected": {
+        "decision": "refuse",
+        "reason": "revoked",
+        "revocation_status": "closed"
+      },
+      "files": {
+        "case.json": "6c01f992aab97e3ccf3f904f501745b85c579b189f94dec3d8b24d74323fd76e",
+        "event-000.json": "53aa545276e9850fad2d6b72f3574896dd1d1118f422f1f298cd906fbeff8e24",
+        "event-001.json": "e77424377683e5a5cec24ac0aa58aa45a44e56e2613da9d35124df40f2d70301",
+        "event-002.json": "93731b75bc4f5f0dd52f3a6bffb444e67c68d8b7aee6c41b16cb4de1ffb44ef7",
+        "event-003.json": "744b6fb53a07e4ab30ba4db70cd9fcd1c411eb77348280bfc23866c0bab219bd",
+        "event-004.json": "2046122cf380a5ddd08cded09c5348218d1f91ecc885e85aee50967cc908de3e",
+        "head.json": "9de2cc37f9bd0f7f91aef523ea44c6609c8a1ac541acb01d8356573371fbdf33",
+        "request.json": "56abc3a499f69fe574b6fbfde903dd8aee60e7ae0b17b83fef6e6b9786a294d4"
+      },
+      "id": "rereg-does-not-lift-a-kill",
+      "path": "cases/rereg-does-not-lift-a-kill",
+      "status": "normative"
+    },
+    {
+      "edit": "every grant of agent-a was revoked; a new owner and a new grant do not bring it back",
+      "expected": {
+        "decision": "refuse",
+        "reason": "revoked",
+        "revocation_status": "closed"
+      },
+      "files": {
+        "case.json": "6c01f992aab97e3ccf3f904f501745b85c579b189f94dec3d8b24d74323fd76e",
+        "event-000.json": "53aa545276e9850fad2d6b72f3574896dd1d1118f422f1f298cd906fbeff8e24",
+        "event-001.json": "e77424377683e5a5cec24ac0aa58aa45a44e56e2613da9d35124df40f2d70301",
+        "event-002.json": "93731b75bc4f5f0dd52f3a6bffb444e67c68d8b7aee6c41b16cb4de1ffb44ef7",
+        "event-003.json": "ec615223a305693c35b4fe3c78b27263217b1a930ec159041496689517097d53",
+        "event-004.json": "d4b6d1fcf1b9d53c3a29c8978df76fcda1b77d1d6f76820d342c847c98f7fc88",
+        "head.json": "7b0959023d4c16a3d20e39c64765d3a36685bfe83622c8160973647b1ec7f13a",
+        "request.json": "56abc3a499f69fe574b6fbfde903dd8aee60e7ae0b17b83fef6e6b9786a294d4"
+      },
+      "id": "owner-kill-survives-owner-change",
+      "path": "cases/owner-kill-survives-owner-change",
+      "status": "normative"
+    },
+    {
+      "edit": "a subject granted after the owner change is not touched by the earlier kill",
+      "expected": {
+        "decision": "admit",
+        "reason": "authority_valid",
+        "revocation_status": "live"
+      },
+      "files": {
+        "case.json": "04a54c7bc41e8563e603fe1702f00595460762e5cc59e5d774e2618f98d7db2f",
+        "event-000.json": "53aa545276e9850fad2d6b72f3574896dd1d1118f422f1f298cd906fbeff8e24",
+        "event-001.json": "e77424377683e5a5cec24ac0aa58aa45a44e56e2613da9d35124df40f2d70301",
+        "event-002.json": "93731b75bc4f5f0dd52f3a6bffb444e67c68d8b7aee6c41b16cb4de1ffb44ef7",
+        "event-003.json": "ec615223a305693c35b4fe3c78b27263217b1a930ec159041496689517097d53",
+        "event-004.json": "d4b6d1fcf1b9d53c3a29c8978df76fcda1b77d1d6f76820d342c847c98f7fc88",
+        "event-005.json": "9e87c57dfd3536ef12c258ac41ed5b294b509222a08c76dbb717aa074f2d4fef",
+        "head.json": "d519c880c783dd10dd1701675e5d3c3594b043c570cb34aa479bf95f9ef13209",
+        "request.json": "fac95e77acea476d0df820aa1054421091a89a3c187cb6052f2a827eeed98de5"
+      },
+      "id": "owner-new-subject-granted-after-change-admitted",
+      "path": "cases/owner-new-subject-granted-after-change-admitted",
+      "status": "normative"
+    },
+    {
+      "edit": "an owner change opens an epoch and does not supersede a grant, unlike a re-registration",
+      "expected": {
+        "decision": "admit",
+        "reason": "authority_valid",
+        "revocation_status": "live"
+      },
+      "files": {
+        "case.json": "b4e6f191429555c6c7b78b8ba6682ccccc0f2f5546c04a12cf75c59cb5f73cf1",
+        "event-000.json": "53aa545276e9850fad2d6b72f3574896dd1d1118f422f1f298cd906fbeff8e24",
+        "event-001.json": "e77424377683e5a5cec24ac0aa58aa45a44e56e2613da9d35124df40f2d70301",
+        "event-002.json": "ac1ada0ccc4e198677efa443854d3c01bd8cf9e629bc5be6f95255fb4880dea7",
+        "head.json": "c1c7d141dfc6cdeb90e1564bf30022a786bf750ef91076943aeded6ce272094f",
+        "request.json": "d3f5348449165078e95c3166028a35ed4decae68aa161f7830fa34e9a6257ad2"
+      },
+      "id": "owner-grant-kept-across-owner-change",
+      "path": "cases/owner-grant-kept-across-owner-change",
+      "status": "normative"
+    },
+    {
+      "edit": "proposed: a second signer for agent-a ends in a recorded fork, which closes it",
+      "expected": {
+        "decision": "refuse",
+        "reason": "fork",
+        "revocation_status": "closed"
+      },
+      "files": {
+        "case.json": "b4e6f191429555c6c7b78b8ba6682ccccc0f2f5546c04a12cf75c59cb5f73cf1",
+        "event-000.json": "53aa545276e9850fad2d6b72f3574896dd1d1118f422f1f298cd906fbeff8e24",
+        "event-001.json": "e77424377683e5a5cec24ac0aa58aa45a44e56e2613da9d35124df40f2d70301",
+        "event-002.json": "c42a4580e1f0e2975a126bdc15e156828475d2b20d3b12800847c244912ed257",
+        "head.json": "451dcfa57f1f5389a2f1e38e30c17a2863c515d7a891f4064fbceb6bf7b1ec14",
+        "request.json": "69f8dd51d4014dd488f6147494c51c067d508d3c49972461d146d86d02479c43"
+      },
+      "id": "fork-second-signer-recorded",
+      "path": "cases/fork-second-signer-recorded",
+      "status": "proposed"
+    },
+    {
+      "edit": "the revocation's dispute is open, so its effect is unresolved and never reads closed",
+      "expected": {
+        "decision": "refuse",
+        "reason": "revoked_dispute_open",
+        "revocation_status": "unknown"
+      },
+      "files": {
+        "case.json": "13a11f3178847f10c52af158b08d3a08618e0980ccaf7931060de8ae5cdc9b2d",
+        "event-000.json": "53aa545276e9850fad2d6b72f3574896dd1d1118f422f1f298cd906fbeff8e24",
+        "event-001.json": "e77424377683e5a5cec24ac0aa58aa45a44e56e2613da9d35124df40f2d70301",
+        "event-002.json": "cebd60b6444d99b45225129eb0c393f7eb33a79de0f5e11d231544fb11b4805e",
+        "event-003.json": "a780eeb5f9a560aab83eaa88109913a1d497dbd56152f9a979c8a35285df02d2",
+        "head.json": "bfdc00e607ed15cb4a830740374543ef21ccc1a8840d82ef6e1161a1085e782d",
+        "request.json": "69f8dd51d4014dd488f6147494c51c067d508d3c49972461d146d86d02479c43"
+      },
+      "id": "status-open-dispute-reads-unknown",
+      "path": "cases/status-open-dispute-reads-unknown",
+      "status": "normative"
+    },
+    {
+      "edit": "the dispute closed with the revocation confirmed",
+      "expected": {
+        "decision": "refuse",
+        "reason": "revoked",
+        "revocation_status": "closed"
+      },
+      "files": {
+        "case.json": "6c01f992aab97e3ccf3f904f501745b85c579b189f94dec3d8b24d74323fd76e",
+        "event-000.json": "53aa545276e9850fad2d6b72f3574896dd1d1118f422f1f298cd906fbeff8e24",
+        "event-001.json": "e77424377683e5a5cec24ac0aa58aa45a44e56e2613da9d35124df40f2d70301",
+        "event-002.json": "cebd60b6444d99b45225129eb0c393f7eb33a79de0f5e11d231544fb11b4805e",
+        "event-003.json": "a780eeb5f9a560aab83eaa88109913a1d497dbd56152f9a979c8a35285df02d2",
+        "event-004.json": "7d2f74e0bffe8eae60e61191f01bee03796f5a1c1924e85d0ee59e1b258d7758",
+        "head.json": "ee0ea472f41a9d986f731ccec36e3c84cc875f6160c27b2d8e3b3ce8f2351704",
+        "request.json": "69f8dd51d4014dd488f6147494c51c067d508d3c49972461d146d86d02479c43"
+      },
+      "id": "status-confirmed-dispute-reads-closed",
+      "path": "cases/status-confirmed-dispute-reads-closed",
+      "status": "normative"
+    },
+    {
+      "edit": "the dispute closed as restored; a restoration never revives the revoked grant",
+      "expected": {
+        "decision": "refuse",
+        "reason": "revoked",
+        "revocation_status": "closed"
+      },
+      "files": {
+        "case.json": "6c01f992aab97e3ccf3f904f501745b85c579b189f94dec3d8b24d74323fd76e",
+        "event-000.json": "53aa545276e9850fad2d6b72f3574896dd1d1118f422f1f298cd906fbeff8e24",
+        "event-001.json": "e77424377683e5a5cec24ac0aa58aa45a44e56e2613da9d35124df40f2d70301",
+        "event-002.json": "cebd60b6444d99b45225129eb0c393f7eb33a79de0f5e11d231544fb11b4805e",
+        "event-003.json": "a780eeb5f9a560aab83eaa88109913a1d497dbd56152f9a979c8a35285df02d2",
+        "event-004.json": "677e3a268f1d32991e333e4341ab0d106849c2e2e11e019dc37ec8dd1d367068",
+        "head.json": "e81d6db7afc67c0f90e790999f7283ad708055e4009d8ffdbbff2f9a0804179a",
+        "request.json": "69f8dd51d4014dd488f6147494c51c067d508d3c49972461d146d86d02479c43"
+      },
+      "id": "status-restored-dispute-still-revoked",
+      "path": "cases/status-restored-dispute-still-revoked",
+      "status": "normative"
+    },
+    {
+      "edit": "after the restoration a new grant is issued and admitted",
+      "expected": {
+        "decision": "admit",
+        "reason": "authority_valid",
+        "revocation_status": "live"
+      },
+      "files": {
+        "case.json": "04a54c7bc41e8563e603fe1702f00595460762e5cc59e5d774e2618f98d7db2f",
+        "event-000.json": "53aa545276e9850fad2d6b72f3574896dd1d1118f422f1f298cd906fbeff8e24",
+        "event-001.json": "e77424377683e5a5cec24ac0aa58aa45a44e56e2613da9d35124df40f2d70301",
+        "event-002.json": "cebd60b6444d99b45225129eb0c393f7eb33a79de0f5e11d231544fb11b4805e",
+        "event-003.json": "a780eeb5f9a560aab83eaa88109913a1d497dbd56152f9a979c8a35285df02d2",
+        "event-004.json": "677e3a268f1d32991e333e4341ab0d106849c2e2e11e019dc37ec8dd1d367068",
+        "event-005.json": "38ed0b84d0ea90db9d2999923a9f024fc3c30a38171cd593d6c608b1f0411563",
+        "head.json": "5a2b7c7acc1172d57b5137763cad461880865c9f71b7034896520ef653e44c2a",
+        "request.json": "27c6dc5c5144944e0975d2b448e24d5d1aad10b184df79cfec7a7a35462f6ab1"
+      },
+      "id": "status-restoration-is-a-new-grant",
+      "path": "cases/status-restoration-is-a-new-grant",
+      "status": "normative"
+    },
+    {
+      "edit": "the revocation stops new admissions only, so work already admitted may run on",
+      "expected": {
+        "decision": "refuse",
+        "reason": "revoked",
+        "revocation_status": "partial"
+      },
+      "files": {
+        "case.json": "b4e6f191429555c6c7b78b8ba6682ccccc0f2f5546c04a12cf75c59cb5f73cf1",
+        "event-000.json": "53aa545276e9850fad2d6b72f3574896dd1d1118f422f1f298cd906fbeff8e24",
+        "event-001.json": "e77424377683e5a5cec24ac0aa58aa45a44e56e2613da9d35124df40f2d70301",
+        "event-002.json": "d59554c456f5aa55dd5a2032ee3111e3c76c649140f94acc59b0a339f28ab24b",
+        "head.json": "8ab70f012cf0337b0cd5289947b4bfef819682213022d2e1452d8a5e87ede33c",
+        "request.json": "69f8dd51d4014dd488f6147494c51c067d508d3c49972461d146d86d02479c43"
+      },
+      "id": "status-new-admissions-scope-reads-partial",
+      "path": "cases/status-new-admissions-scope-reads-partial",
+      "status": "normative"
+    },
+    {
+      "edit": "the head binds an event the log no longer holds; a missing event is never clean",
+      "expected": {
+        "decision": "refuse",
+        "reason": "history_incomplete",
+        "revocation_status": "unknown"
+      },
+      "files": {
+        "case.json": "866fc17ca14c6a7645ca7606a86f147af416b99628bb8e17805d5a48876c9909",
+        "event-000.json": "53aa545276e9850fad2d6b72f3574896dd1d1118f422f1f298cd906fbeff8e24",
+        "event-001.json": "e77424377683e5a5cec24ac0aa58aa45a44e56e2613da9d35124df40f2d70301",
+        "head.json": "88f66ad3f04965c472cf85a251cdeeff69f23fe093681066c165387458a21e58",
+        "request.json": "69f8dd51d4014dd488f6147494c51c067d508d3c49972461d146d86d02479c43"
+      },
+      "id": "status-truncated-log-reads-unknown",
+      "path": "cases/status-truncated-log-reads-unknown",
+      "status": "normative"
+    },
+    {
+      "edit": "no head closes the log, so the current epoch is unknown",
+      "expected": {
+        "decision": "refuse",
+        "reason": "epoch_unavailable",
+        "revocation_status": "unknown"
+      },
+      "files": {
+        "case.json": "7b13f21ab210eb624fee59c6549c29e33f885179480465b49139aae518500f82",
+        "event-000.json": "53aa545276e9850fad2d6b72f3574896dd1d1118f422f1f298cd906fbeff8e24",
+        "event-001.json": "e77424377683e5a5cec24ac0aa58aa45a44e56e2613da9d35124df40f2d70301",
+        "request.json": "69f8dd51d4014dd488f6147494c51c067d508d3c49972461d146d86d02479c43"
+      },
+      "id": "status-no-head-reads-unknown",
+      "path": "cases/status-no-head-reads-unknown",
+      "status": "normative"
+    },
+    {
+      "edit": "an event's previous digest names no event",
+      "expected": {
+        "decision": "refuse",
+        "reason": "log_invalid",
+        "revocation_status": "unknown"
+      },
+      "files": {
+        "case.json": "b4e6f191429555c6c7b78b8ba6682ccccc0f2f5546c04a12cf75c59cb5f73cf1",
+        "event-000.json": "53aa545276e9850fad2d6b72f3574896dd1d1118f422f1f298cd906fbeff8e24",
+        "event-001.json": "e77424377683e5a5cec24ac0aa58aa45a44e56e2613da9d35124df40f2d70301",
+        "event-002.json": "5cf73b1a59f74be8c5abbf2021c762db4dc192bf2709d7767cc681bbfcb33d11",
+        "head.json": "eccb326b19e6cf1932b8020b32b78332653f7ce393967983f2bb3e445b6ca00e",
+        "request.json": "69f8dd51d4014dd488f6147494c51c067d508d3c49972461d146d86d02479c43"
+      },
+      "id": "status-broken-previous-link-reads-unknown",
+      "path": "cases/status-broken-previous-link-reads-unknown",
+      "status": "normative"
+    },
+    {
+      "edit": "an event skips a sequence number, signed and linked",
+      "expected": {
+        "decision": "refuse",
+        "reason": "log_invalid",
+        "revocation_status": "unknown"
+      },
+      "files": {
+        "case.json": "b4e6f191429555c6c7b78b8ba6682ccccc0f2f5546c04a12cf75c59cb5f73cf1",
+        "event-000.json": "53aa545276e9850fad2d6b72f3574896dd1d1118f422f1f298cd906fbeff8e24",
+        "event-001.json": "e77424377683e5a5cec24ac0aa58aa45a44e56e2613da9d35124df40f2d70301",
+        "event-002.json": "ce47a5f3cdd7493b9ceb30babbe85377176077b067e6bca91d19f73887ea5b5f",
+        "head.json": "6dc980b6deccdb21dcae40e1fafd9a63b2614afe6882b8c4d427bf608dbe92e9",
+        "request.json": "69f8dd51d4014dd488f6147494c51c067d508d3c49972461d146d86d02479c43"
+      },
+      "id": "status-sequence-gap-reads-unknown",
+      "path": "cases/status-sequence-gap-reads-unknown",
+      "status": "normative"
+    },
+    {
+      "edit": "an event raises the epoch without an epoch_open event",
+      "expected": {
+        "decision": "refuse",
+        "reason": "log_invalid",
+        "revocation_status": "unknown"
+      },
+      "files": {
+        "case.json": "b4e6f191429555c6c7b78b8ba6682ccccc0f2f5546c04a12cf75c59cb5f73cf1",
+        "event-000.json": "53aa545276e9850fad2d6b72f3574896dd1d1118f422f1f298cd906fbeff8e24",
+        "event-001.json": "e77424377683e5a5cec24ac0aa58aa45a44e56e2613da9d35124df40f2d70301",
+        "event-002.json": "beb13495d94e082a44ad93fcfd1bb1f1b397dfcaeb2370bbe4069c04a18e24ca",
+        "head.json": "7acfe6e67ae74ef33fb1291c45ca3f41caf2286fe3bb463f03a04cae1dbfbd4f",
+        "request.json": "d3f5348449165078e95c3166028a35ed4decae68aa161f7830fa34e9a6257ad2"
+      },
+      "id": "status-epoch-jump-without-open-reads-unknown",
+      "path": "cases/status-epoch-jump-without-open-reads-unknown",
+      "status": "normative"
+    },
+    {
+      "edit": "a dispute names a sequence number that is no revocation",
+      "expected": {
+        "decision": "refuse",
+        "reason": "log_invalid",
+        "revocation_status": "unknown"
+      },
+      "files": {
+        "case.json": "b4e6f191429555c6c7b78b8ba6682ccccc0f2f5546c04a12cf75c59cb5f73cf1",
+        "event-000.json": "53aa545276e9850fad2d6b72f3574896dd1d1118f422f1f298cd906fbeff8e24",
+        "event-001.json": "e77424377683e5a5cec24ac0aa58aa45a44e56e2613da9d35124df40f2d70301",
+        "event-002.json": "5cef545cf2ee5d1dc8d8628314ae4fc2cb8a65c5ac7d07ab59d67aa54fd2679f",
+        "head.json": "11369a00650874edb766f11256d5c920eb5d5df8fe6dc0ae1435a2c627956c55",
+        "request.json": "69f8dd51d4014dd488f6147494c51c067d508d3c49972461d146d86d02479c43"
+      },
+      "id": "status-dispute-names-no-revocation-reads-unknown",
+      "path": "cases/status-dispute-names-no-revocation-reads-unknown",
+      "status": "normative"
+    },
+    {
+      "edit": "an event carries a member its record type does not declare, signed with it",
+      "expected": {
+        "decision": "no_verdict",
+        "reason": "malformed",
+        "revocation_status": "unknown"
+      },
+      "files": {
+        "case.json": "b4e6f191429555c6c7b78b8ba6682ccccc0f2f5546c04a12cf75c59cb5f73cf1",
+        "event-000.json": "53aa545276e9850fad2d6b72f3574896dd1d1118f422f1f298cd906fbeff8e24",
+        "event-001.json": "e77424377683e5a5cec24ac0aa58aa45a44e56e2613da9d35124df40f2d70301",
+        "event-002.json": "f5b75cc840c690f64f6f548420c1c14f52f75af376b2f84745a9dd79636d20ef",
+        "head.json": "a7ac53b0de134d14d113b231606f5803a97bc8a2ea6a80975429341267a4d6df",
+        "request.json": "69f8dd51d4014dd488f6147494c51c067d508d3c49972461d146d86d02479c43"
+      },
+      "id": "status-malformed-event-extra-member",
+      "path": "cases/status-malformed-event-extra-member",
+      "status": "normative"
+    },
+    {
+      "edit": "an event lacks the scope member",
+      "expected": {
+        "decision": "no_verdict",
+        "reason": "malformed",
+        "revocation_status": "unknown"
+      },
+      "files": {
+        "case.json": "866fc17ca14c6a7645ca7606a86f147af416b99628bb8e17805d5a48876c9909",
+        "event-000.json": "53aa545276e9850fad2d6b72f3574896dd1d1118f422f1f298cd906fbeff8e24",
+        "event-001.json": "d66ef973f8a95a5e33f50473c683f95dd898ab8fd755ac03283806b723ecaf17",
+        "head.json": "afaca7c7384640365622db96f20bdb245cdc0c560ae31310808cf17e9564e82c",
+        "request.json": "69f8dd51d4014dd488f6147494c51c067d508d3c49972461d146d86d02479c43"
+      },
+      "id": "status-malformed-event-member-missing",
+      "path": "cases/status-malformed-event-member-missing",
+      "status": "normative"
+    },
+    {
+      "edit": "an event carries v 2",
+      "expected": {
+        "decision": "no_verdict",
+        "reason": "malformed",
+        "revocation_status": "unknown"
+      },
+      "files": {
+        "case.json": "866fc17ca14c6a7645ca7606a86f147af416b99628bb8e17805d5a48876c9909",
+        "event-000.json": "53aa545276e9850fad2d6b72f3574896dd1d1118f422f1f298cd906fbeff8e24",
+        "event-001.json": "663b35754d49bb844661d5df0641d31bf623f179304ea86cc453df6f64b96efd",
+        "head.json": "ddb577ebbf672d554043c598caa296dffe34f74209390350758afa47c4787344",
+        "request.json": "69f8dd51d4014dd488f6147494c51c067d508d3c49972461d146d86d02479c43"
+      },
+      "id": "status-malformed-event-version-2",
+      "path": "cases/status-malformed-event-version-2",
+      "status": "normative"
+    },
+    {
+      "edit": "the request's epoch is the JSON number 0.0, not an integer",
+      "expected": {
+        "decision": "no_verdict",
+        "reason": "malformed",
+        "revocation_status": "unknown"
+      },
+      "files": {
+        "case.json": "866fc17ca14c6a7645ca7606a86f147af416b99628bb8e17805d5a48876c9909",
+        "event-000.json": "53aa545276e9850fad2d6b72f3574896dd1d1118f422f1f298cd906fbeff8e24",
+        "event-001.json": "e77424377683e5a5cec24ac0aa58aa45a44e56e2613da9d35124df40f2d70301",
+        "head.json": "67bea8589ffda8a824829caab47ad1af3b0582105fa33bb1d70755bdb4f7215f",
+        "request.json": "7b2a521aceaf489684ed56f2c97107879cbc2145a295289b0cde03a638e1f129"
+      },
+      "id": "status-malformed-request-epoch-float",
+      "path": "cases/status-malformed-request-epoch-float",
+      "status": "normative"
+    },
+    {
+      "edit": "the request's epoch is false, not an integer",
+      "expected": {
+        "decision": "no_verdict",
+        "reason": "malformed",
+        "revocation_status": "unknown"
+      },
+      "files": {
+        "case.json": "866fc17ca14c6a7645ca7606a86f147af416b99628bb8e17805d5a48876c9909",
+        "event-000.json": "53aa545276e9850fad2d6b72f3574896dd1d1118f422f1f298cd906fbeff8e24",
+        "event-001.json": "e77424377683e5a5cec24ac0aa58aa45a44e56e2613da9d35124df40f2d70301",
+        "head.json": "67bea8589ffda8a824829caab47ad1af3b0582105fa33bb1d70755bdb4f7215f",
+        "request.json": "80d069e1e487d26b388087ad70e2209848d691bf03e08c437ec19bd6c2199d44"
+      },
+      "id": "status-malformed-request-epoch-boolean",
+      "path": "cases/status-malformed-request-epoch-boolean",
+      "status": "normative"
+    },
+    {
+      "edit": "the head's at_ns is a JSON number, which RFC 8785 cannot carry past 2^53",
+      "expected": {
+        "decision": "no_verdict",
+        "reason": "malformed",
+        "revocation_status": "unknown"
+      },
+      "files": {
+        "case.json": "866fc17ca14c6a7645ca7606a86f147af416b99628bb8e17805d5a48876c9909",
+        "event-000.json": "53aa545276e9850fad2d6b72f3574896dd1d1118f422f1f298cd906fbeff8e24",
+        "event-001.json": "e77424377683e5a5cec24ac0aa58aa45a44e56e2613da9d35124df40f2d70301",
+        "head.json": "3c96eb1b8f3cb087c27c43f5547445bc9d0b1261b7adee7118c3773e25a2394d",
+        "request.json": "69f8dd51d4014dd488f6147494c51c067d508d3c49972461d146d86d02479c43"
+      },
+      "id": "status-malformed-head-time-as-number",
+      "path": "cases/status-malformed-head-time-as-number",
+      "status": "normative"
+    },
+    {
+      "edit": "the request's at_ns has a leading zero",
+      "expected": {
+        "decision": "no_verdict",
+        "reason": "malformed",
+        "revocation_status": "unknown"
+      },
+      "files": {
+        "case.json": "866fc17ca14c6a7645ca7606a86f147af416b99628bb8e17805d5a48876c9909",
+        "event-000.json": "53aa545276e9850fad2d6b72f3574896dd1d1118f422f1f298cd906fbeff8e24",
+        "event-001.json": "e77424377683e5a5cec24ac0aa58aa45a44e56e2613da9d35124df40f2d70301",
+        "head.json": "67bea8589ffda8a824829caab47ad1af3b0582105fa33bb1d70755bdb4f7215f",
+        "request.json": "a4ab033482151679fa2528ae739c254024672c8db95fc5d795ef2142080e1aaf"
+      },
+      "id": "status-malformed-request-time-leading-zero",
+      "path": "cases/status-malformed-request-time-leading-zero",
+      "status": "normative"
+    },
+    {
+      "edit": "the request's signature is base64 that decodes but is not its canonical spelling",
+      "expected": {
+        "decision": "no_verdict",
+        "reason": "malformed",
+        "revocation_status": "unknown"
+      },
+      "files": {
+        "case.json": "866fc17ca14c6a7645ca7606a86f147af416b99628bb8e17805d5a48876c9909",
+        "event-000.json": "53aa545276e9850fad2d6b72f3574896dd1d1118f422f1f298cd906fbeff8e24",
+        "event-001.json": "e77424377683e5a5cec24ac0aa58aa45a44e56e2613da9d35124df40f2d70301",
+        "head.json": "67bea8589ffda8a824829caab47ad1af3b0582105fa33bb1d70755bdb4f7215f",
+        "request.json": "d0b99fa88f9691ff240e2874d17066110280366ed80fb2dfe46e7b6673026a85"
+      },
+      "id": "status-malformed-request-signature-not-canonical",
+      "path": "cases/status-malformed-request-signature-not-canonical",
+      "status": "normative"
+    }
+  ],
+  "verifierContract": "verifier case.json --json; prints decision, reason and revocation_status; exit 0 admit, 1 refuse, 2 no_verdict"
+}
