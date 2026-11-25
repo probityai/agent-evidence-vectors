@@ -468,31 +468,6 @@ func arJWKRoot(material []byte) (arRootResult, error) {
 	return root, nil
 }
 
-// arJWKThumbprint is RFC 7638: SHA-256 over the key's required members in
-// lexicographic order, base64url without padding.
-func arJWKThumbprint(key map[string]any) (string, error) {
-	required := []string{"crv", "kty", "x"}
-	if key["kty"] == "EC" {
-		required = append(required, "y")
-	}
-	members := map[string]string{}
-	for _, name := range required {
-		value, ok := key[name].(string)
-		if !ok {
-			return "", errProof
-		}
-		members[name] = value
-	}
-	var text bytes.Buffer
-	encoder := json.NewEncoder(&text)
-	encoder.SetEscapeHTML(false)
-	if err := encoder.Encode(members); err != nil {
-		return "", err
-	}
-	sum := sha256.Sum256(bytes.TrimRight(text.Bytes(), "\n"))
-	return base64.RawURLEncoding.EncodeToString(sum[:]), nil
-}
-
 // arDelegationRoot establishes the root from a delegation-root element whose
 // digest equals delegation.rootDigest (R13); none leaves it not established,
 // never a pass (R14); an unequal digest makes the entry malformed (R15). A key

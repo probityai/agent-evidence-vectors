@@ -3175,16 +3175,15 @@ def _dating_mismatch(declared: dict[str, Any], got: Any) -> tuple[list[str], lis
             )
     # A binding the answer leaves out is not established, never a pass; one it
     # reports, and a thumbprint it reports, must equal what the member declares.
-    if "binding" in want_root and got_root.get("binding", "not-established") != want_root[
-        "binding"
-    ]:
+    if (
+        "binding" in want_root
+        and got_root.get("binding", "not-established") != want_root["binding"]
+    ):
         normative.append(
             f"dating delegationRoot.binding: expected {want_root['binding']!r}, "
             f"got {got_root.get('binding')!r}"
         )
-    if "keyThumbprint" in got_root and got_root["keyThumbprint"] != want_root.get(
-        "keyThumbprint"
-    ):
+    if "keyThumbprint" in got_root and got_root["keyThumbprint"] != want_root.get("keyThumbprint"):
         normative.append(
             f"dating delegationRoot.keyThumbprint: expected "
             f"{want_root.get('keyThumbprint')!r}, got {got_root['keyThumbprint']!r}"

@@ -1013,7 +1013,8 @@ def _binding_sweep(manifest: dict[str, object]) -> list[str]:
             continue
         retention = json.loads(_raw(entry))["retention"]
         roots = [
-            v for v in retention.get("validationData") or []
+            v
+            for v in retention.get("validationData") or []
             if v.get("for") == "delegation-root"
             and v.get("mediaType") == "application/jwk-set+json"
         ]
@@ -1023,12 +1024,18 @@ def _binding_sweep(manifest: dict[str, object]) -> list[str]:
             continue
         swept += 1
         if root.get("binding") != "not-established":
-            findings.append(f"{entry['draftId']}: a key set root declares binding {root.get('binding')!r}")
+            findings.append(
+                f"{entry['draftId']}: a key set root declares binding {root.get('binding')!r}"
+            )
         forged = {**declared, "delegationRoot": {**root, "binding": "established"}}
         if not auditrecord._dating_mismatch(declared, forged)[0]:
-            findings.append(f"{entry['draftId']}: an answer reporting the binding established passes")
+            findings.append(
+                f"{entry['draftId']}: an answer reporting the binding established passes"
+            )
     if swept == 0:
-        findings.append("no retained member carries a key set root, so the binding rule is untested")
+        findings.append(
+            "no retained member carries a key set root, so the binding rule is untested"
+        )
     return findings
 
 
@@ -1114,7 +1121,9 @@ def _fails(entry: dict[str, object], policy: auditrecord.Policy) -> bool:
         reports, joint = auditrecord.verify_set(_raw(entry), policy)
         declared = expected["set"]
         limits = [
-            auditrecord.within_limit(strictjson.loads(auditrecord._envelope_payload(env)[1])["predicate"])
+            auditrecord.within_limit(
+                strictjson.loads(auditrecord._envelope_payload(env)[1])["predicate"]
+            )
             for env in _envelopes(entry)
         ]
         return (

@@ -158,7 +158,8 @@ def key_set_binding_failures(raw: dict[str, bytes], want: dict[str, dict[str, An
     for row, family in KEY_SET_ROOTS:
         root = want[row]["delegationRoot"]
         element = next(
-            v for v in json.loads(raw[row])["retention"]["validationData"]
+            v
+            for v in json.loads(raw[row])["retention"]["validationData"]
             if v["for"] == "delegation-root"
         )
         keys = json.loads(base64.b64decode(element["value"]))["keys"]
