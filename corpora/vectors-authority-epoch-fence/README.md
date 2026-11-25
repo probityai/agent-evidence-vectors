@@ -130,5 +130,8 @@ which closes it).
 
 An external verifier is run as `<verifier> <case-dir>/case.json --json`. It prints one
 JSON object with `decision`, `reason` and `revocation_status`, and exits 0 for `admit`, 1
-for `refuse` and 2 for `no_verdict`. `gen_vectors.py` rebuilds every file byte for byte;
+for `refuse` and 2 for `no_verdict`. The Python reader is
+`packaging/agent_evidence_vectors/authorityepoch.py`; the Go reader
+`corpusreaders/authorityepoch.go`, which `aee-verify` runs, applies the same checks in the
+same order. `gen_vectors.py` rebuilds every file byte for byte;
 the keys come from published labels and protect nothing.
