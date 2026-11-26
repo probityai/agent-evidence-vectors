@@ -290,7 +290,8 @@ def _swap_cases() -> list[Case]:
         ("swap-verdict-tampered", swap_case(), {}, retampered(failed, _set_verdict), "rejected",
          "signature_invalid", "the verdict was changed from fail to pass after signing"),
         ("swap-wrong-signer", swap_case(), {}, envelope(swap_statement(), "adversary"),
-         "rejected", "signer_not_trusted", "a valid signature by a key the verifier does not trust"),
+         "rejected", "signer_not_trusted",
+         "a valid signature by a key the verifier does not trust"),
         ("swap-signed-by-another-trusted-party", swap_case(), {},
          envelope(swap_statement(), "procurement"), "rejected", "signer_not_swapper",
          "signed by a trusted key of a party other than the swapper the record names"),
@@ -299,7 +300,8 @@ def _swap_cases() -> list[Case]:
          "the model now deployed is not the swap's new model"),
         ("swap-test-set-not-required", swap_case(), {},
          envelope(swap_statement(test_set=OTHER_TEST_SET), "swapper"), "mismatch",
-         "test_set_not_required", "the run used a test set other than the one the requirement names"),
+         "test_set_not_required",
+         "the run used a test set other than the one the requirement names"),
         ("swap-old-model-not-identified", swap_case(), {},
          envelope(swap_statement(old={"model": "provider-chat-large"}), "swapper"),
          "not_established", "old_model_not_identified",
@@ -310,6 +312,22 @@ def _swap_cases() -> list[Case]:
 def cases() -> list[Case]:
     """Every case: id, case file, copy files, record, decision, reason and what it shows."""
     return _reference_cases() + _swap_cases()
+
+
+def corpus_digest(manifest: dict[str, Any], root: str) -> str:
+    """Recompute the digest from the committed files, not their declared hashes."""
+    base_dir = Path(root)
+    entries = []
+    for entry in manifest["vectors"]:
+        directory = base_dir / entry["path"]
+        declared = entry["files"]
+        if {p.name for p in directory.iterdir() if p.is_file()} != set(declared):
+            raise ValueError(f"{entry['id']}: file set changed")
+        files = {name: _sha((directory / name).read_bytes()) for name in declared}
+        if files != declared:
+            raise ValueError(f"{entry['id']}: file digest mismatch")
+        entries.append({**entry, "files": files})
+    return _sha(_json(entries))
 
 
 def generate(root: Path = ROOT) -> dict[str, Any]:

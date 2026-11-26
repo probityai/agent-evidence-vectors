@@ -169,7 +169,9 @@ def _b64(value: Any) -> bytes:
         raise ValueError("not standard base64") from exc
 
 
-def _signed_statement(case: Case, envelope: Any, skip: frozenset[str]) -> tuple[Any, dict[str, Any]]:
+def _signed_statement(
+    case: Case, envelope: Any, skip: frozenset[str]
+) -> tuple[Any, dict[str, Any]]:
     """The statement and the trusted entry whose key signed it, or the first refusal."""
     trusted = {t["keyid"]: t for t in case["trusted"]}
     message = pae(envelope["payloadType"], _b64(envelope["payload"]))
@@ -233,7 +235,9 @@ def _identified(old: Any) -> bool:
     return isinstance(old.get("service"), str) and isinstance(old.get("observedOn"), str)
 
 
-def _check_swap(case: Case, statement: Any, signer: dict[str, Any], skip: frozenset[str]) -> dict[str, str]:
+def _check_swap(
+    case: Case, statement: Any, signer: dict[str, Any], skip: frozenset[str]
+) -> dict[str, str]:
     predicate = statement["predicate"]
     if "signer_is_swapper" not in skip and signer["party"] != predicate["swapper"]:
         raise _Answer(REJECTED, "signer_not_swapper")
