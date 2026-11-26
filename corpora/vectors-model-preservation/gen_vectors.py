@@ -87,8 +87,11 @@ def resources(files: dict[str, bytes], pointer: tuple[str, ...] = ()) -> list[di
     for name in sorted(files):
         if name in pointer:
             out.append(
-                {"algorithm": reader.POINTER, "digest": reader.pointer_id(files[name]),
-                 "name": name}
+                {
+                    "algorithm": reader.POINTER,
+                    "digest": reader.pointer_id(files[name]),
+                    "name": name,
+                }
             )
         else:
             out.append({"algorithm": "sha256", "digest": _sha(files[name]), "name": name})
@@ -121,8 +124,9 @@ def reference_statement(
             },
         },
         "predicateType": reader.REFERENCE_PREDICATE,
-        "subject": [{"digest": {"sha256": subject_digest or reader.root_digest(res)},
-                     "name": MODEL_NAME}],
+        "subject": [
+            {"digest": {"sha256": subject_digest or reader.root_digest(res)}, "name": MODEL_NAME}
+        ],
     }
 
 
@@ -133,12 +137,16 @@ def model_digest(files: dict[str, bytes]) -> dict[str, str]:
 TEST_SET = {"sha256": _sha(b"held-back test set, rotation 2026-11")}
 OTHER_TEST_SET = {"sha256": _sha(b"an easier test set")}
 OLD_BY_DIGEST = {"digest": model_digest(FILES), "name": MODEL_NAME}
-OLD_HOSTED = {"model": "provider-chat-large", "observedOn": "2026-11-01",
-              "service": "https://api.provider.example/v1/chat"}
+OLD_HOSTED = {
+    "model": "provider-chat-large",
+    "observedOn": "2026-11-01",
+    "service": "https://api.provider.example/v1/chat",
+}
 
 
-def swap_statement(old: dict[str, Any] = OLD_BY_DIGEST, verdict: str = "pass",
-                   test_set: dict[str, str] = TEST_SET) -> dict[str, Any]:
+def swap_statement(
+    old: dict[str, Any] = OLD_BY_DIGEST, verdict: str = "pass", test_set: dict[str, str] = TEST_SET
+) -> dict[str, Any]:
     """A swap record: old model, new model as the subject, test set and verdict."""
     return {
         "_type": reader.STATEMENT_TYPE,
@@ -162,8 +170,12 @@ def envelope(statement: dict[str, Any], label: str, claimed: str | None = None) 
     return {
         "payload": base64.b64encode(payload).decode(),
         "payloadType": reader.PAYLOAD_TYPE,
-        "signatures": [{"keyid": claimed or reader.keyid(_public(label)),
-                        "sig": base64.b64encode(sig).decode()}],
+        "signatures": [
+            {
+                "keyid": claimed or reader.keyid(_public(label)),
+                "sig": base64.b64encode(sig).decode(),
+            }
+        ],
     }
 
 
@@ -176,8 +188,9 @@ def retampered(env: dict[str, Any], edit: Any) -> dict[str, Any]:
     return out
 
 
-def reference_case(copy_files: dict[str, bytes] = FILES,
-                   withdrawn: str | None = None) -> tuple[dict[str, Any], dict[str, bytes]]:
+def reference_case(
+    copy_files: dict[str, bytes] = FILES, withdrawn: str | None = None
+) -> tuple[dict[str, Any], dict[str, bytes]]:
     """The verifier's inputs for a reference record and the copy's files."""
     names = {name: "copy-" + name for name in sorted(copy_files)}
     case: dict[str, Any] = {
@@ -213,7 +226,9 @@ def _set_digest(name: str, data: bytes) -> Any:
             if r["name"] == name:
                 r["digest"] = _sha(data)
         statement["subject"][0]["digest"]["sha256"] = reader.root_digest(
-            statement["predicate"]["resources"])
+            statement["predicate"]["resources"]
+        )
+
     return edit
 
 
@@ -233,43 +248,115 @@ def _reference_cases() -> list[Case]:
     gated = envelope(reference_statement(pointer=("model.safetensors",)), "endpoint")
     w_case, w_files = reference_case(withdrawn="2026-11-01T00:00:00Z")
     return [
-        ("reference-copy-matches", case, copy_files, good, "verified", "copy_matches_record",
-         "every file of the copy has the digest the endpoint's signed record lists"),
-        ("reference-copy-file-tampered", t_case, t_files, good, "mismatch",
-         "file_digest_mismatch", "the copy's weights differ from the recorded digest"),
-        ("reference-copy-file-missing", m_case, m_files, good, "mismatch", "file_missing",
-         "the copy lacks a file the record lists"),
-        ("reference-copy-extra-file", e_case, e_files, good, "mismatch", "file_not_in_record",
-         "the copy carries a file the record does not list"),
-        ("reference-record-digest-tampered", t_case, t_files,
-         retampered(good, _set_digest("model.safetensors", TAMPERED_WEIGHTS)), "rejected",
-         "signature_invalid",
-         "the record's weights digest was rewritten after signing to match a tampered copy"),
-        ("reference-wrong-signer", case, copy_files,
-         envelope(reference_statement(), "adversary"), "rejected", "signer_not_trusted",
-         "a valid signature by a key the verifier does not trust"),
-        ("reference-wrong-signer-names-trusted-keyid", case, copy_files,
-         envelope(reference_statement(), "adversary",
-                  claimed=reader.keyid(_public("endpoint"))),
-         "rejected", "signature_invalid",
-         "a signature by another key that names the endpoint's keyid"),
-        ("reference-root-digest-inconsistent", case, copy_files,
-         envelope(reference_statement(subject_digest=_sha(b"another model")), "endpoint"),
-         "rejected", "root_digest_inconsistent",
-         "the subject digest is not the SHA-256 over the listed resource digests"),
-        ("reference-gated-pointer-matches", case, copy_files, gated, "verified",
-         "copy_matches_record",
-         "the weights were recorded by their large-file pointer's git id before access; the "
-         "pointer rebuilt from the copy has that id"),
-        ("reference-gated-pointer-mismatch", t_case, t_files, gated, "mismatch",
-         "file_digest_mismatch", "the pointer rebuilt from tampered weights has another git id"),
-        ("reference-recorded-after-withdrawal", w_case, w_files,
-         envelope(reference_statement(), "endpoint"), "not_established",
-         "record_after_withdrawal",
-         "the record was made after the model was withdrawn, so it cannot vouch for the copy"),
-        ("reference-record-is-a-swap-record", case, copy_files,
-         envelope(swap_statement(), "endpoint"), "rejected", "unexpected_predicate_type",
-         "a signed swap record offered where a reference record is asked for"),
+        (
+            "reference-copy-matches",
+            case,
+            copy_files,
+            good,
+            "verified",
+            "copy_matches_record",
+            "every file of the copy has the digest the endpoint's signed record lists",
+        ),
+        (
+            "reference-copy-file-tampered",
+            t_case,
+            t_files,
+            good,
+            "mismatch",
+            "file_digest_mismatch",
+            "the copy's weights differ from the recorded digest",
+        ),
+        (
+            "reference-copy-file-missing",
+            m_case,
+            m_files,
+            good,
+            "mismatch",
+            "file_missing",
+            "the copy lacks a file the record lists",
+        ),
+        (
+            "reference-copy-extra-file",
+            e_case,
+            e_files,
+            good,
+            "mismatch",
+            "file_not_in_record",
+            "the copy carries a file the record does not list",
+        ),
+        (
+            "reference-record-digest-tampered",
+            t_case,
+            t_files,
+            retampered(good, _set_digest("model.safetensors", TAMPERED_WEIGHTS)),
+            "rejected",
+            "signature_invalid",
+            "the record's weights digest was rewritten after signing to match a tampered copy",
+        ),
+        (
+            "reference-wrong-signer",
+            case,
+            copy_files,
+            envelope(reference_statement(), "adversary"),
+            "rejected",
+            "signer_not_trusted",
+            "a valid signature by a key the verifier does not trust",
+        ),
+        (
+            "reference-wrong-signer-names-trusted-keyid",
+            case,
+            copy_files,
+            envelope(reference_statement(), "adversary", claimed=reader.keyid(_public("endpoint"))),
+            "rejected",
+            "signature_invalid",
+            "a signature by another key that names the endpoint's keyid",
+        ),
+        (
+            "reference-root-digest-inconsistent",
+            case,
+            copy_files,
+            envelope(reference_statement(subject_digest=_sha(b"another model")), "endpoint"),
+            "rejected",
+            "root_digest_inconsistent",
+            "the subject digest is not the SHA-256 over the listed resource digests",
+        ),
+        (
+            "reference-gated-pointer-matches",
+            case,
+            copy_files,
+            gated,
+            "verified",
+            "copy_matches_record",
+            "the weights were recorded by their large-file pointer's git id before access; the "
+            "pointer rebuilt from the copy has that id",
+        ),
+        (
+            "reference-gated-pointer-mismatch",
+            t_case,
+            t_files,
+            gated,
+            "mismatch",
+            "file_digest_mismatch",
+            "the pointer rebuilt from tampered weights has another git id",
+        ),
+        (
+            "reference-recorded-after-withdrawal",
+            w_case,
+            w_files,
+            envelope(reference_statement(), "endpoint"),
+            "not_established",
+            "record_after_withdrawal",
+            "the record was made after the model was withdrawn, so it cannot vouch for the copy",
+        ),
+        (
+            "reference-record-is-a-swap-record",
+            case,
+            copy_files,
+            envelope(swap_statement(), "endpoint"),
+            "rejected",
+            "unexpected_predicate_type",
+            "a signed swap record offered where a reference record is asked for",
+        ),
     ]
 
 
@@ -277,35 +364,89 @@ def _swap_cases() -> list[Case]:
     good = envelope(swap_statement(), "swapper")
     failed = envelope(swap_statement(verdict="fail"), "swapper")
     return [
-        ("swap-passed", swap_case(), {}, good, "verified", "swap_passed",
-         "the swapper signed a passing run of the required test set, and the new model is the "
-         "one deployed"),
-        ("swap-passed-hosted-old-model", swap_case(), {},
-         envelope(swap_statement(old=OLD_HOSTED), "swapper"), "verified",
-         "swap_passed_old_model_unproven",
-         "the old model was a hosted service named by service and date, so its identity stays "
-         "unproven while the behaviour passed"),
-        ("swap-failed-test", swap_case(), {}, failed, "failed", "swap_failed_test",
-         "a worse model swapped in: the run failed and the swapper is on record"),
-        ("swap-verdict-tampered", swap_case(), {}, retampered(failed, _set_verdict), "rejected",
-         "signature_invalid", "the verdict was changed from fail to pass after signing"),
-        ("swap-wrong-signer", swap_case(), {}, envelope(swap_statement(), "adversary"),
-         "rejected", "signer_not_trusted",
-         "a valid signature by a key the verifier does not trust"),
-        ("swap-signed-by-another-trusted-party", swap_case(), {},
-         envelope(swap_statement(), "procurement"), "rejected", "signer_not_swapper",
-         "signed by a trusted key of a party other than the swapper the record names"),
-        ("swap-deployed-model-differs", swap_case(deployed=model_digest(FILES)), {}, good,
-         "mismatch", "deployed_model_not_swapped_in",
-         "the model now deployed is not the swap's new model"),
-        ("swap-test-set-not-required", swap_case(), {},
-         envelope(swap_statement(test_set=OTHER_TEST_SET), "swapper"), "mismatch",
-         "test_set_not_required",
-         "the run used a test set other than the one the requirement names"),
-        ("swap-old-model-not-identified", swap_case(), {},
-         envelope(swap_statement(old={"model": "provider-chat-large"}), "swapper"),
-         "not_established", "old_model_not_identified",
-         "the old model has neither a digest nor a service and date"),
+        (
+            "swap-passed",
+            swap_case(),
+            {},
+            good,
+            "verified",
+            "swap_passed",
+            "the swapper signed a passing run of the required test set, and the new model is the "
+            "one deployed",
+        ),
+        (
+            "swap-passed-hosted-old-model",
+            swap_case(),
+            {},
+            envelope(swap_statement(old=OLD_HOSTED), "swapper"),
+            "verified",
+            "swap_passed_old_model_unproven",
+            "the old model was a hosted service named by service and date, so its identity stays "
+            "unproven while the behaviour passed",
+        ),
+        (
+            "swap-failed-test",
+            swap_case(),
+            {},
+            failed,
+            "failed",
+            "swap_failed_test",
+            "a worse model swapped in: the run failed and the swapper is on record",
+        ),
+        (
+            "swap-verdict-tampered",
+            swap_case(),
+            {},
+            retampered(failed, _set_verdict),
+            "rejected",
+            "signature_invalid",
+            "the verdict was changed from fail to pass after signing",
+        ),
+        (
+            "swap-wrong-signer",
+            swap_case(),
+            {},
+            envelope(swap_statement(), "adversary"),
+            "rejected",
+            "signer_not_trusted",
+            "a valid signature by a key the verifier does not trust",
+        ),
+        (
+            "swap-signed-by-another-trusted-party",
+            swap_case(),
+            {},
+            envelope(swap_statement(), "procurement"),
+            "rejected",
+            "signer_not_swapper",
+            "signed by a trusted key of a party other than the swapper the record names",
+        ),
+        (
+            "swap-deployed-model-differs",
+            swap_case(deployed=model_digest(FILES)),
+            {},
+            good,
+            "mismatch",
+            "deployed_model_not_swapped_in",
+            "the model now deployed is not the swap's new model",
+        ),
+        (
+            "swap-test-set-not-required",
+            swap_case(),
+            {},
+            envelope(swap_statement(test_set=OTHER_TEST_SET), "swapper"),
+            "mismatch",
+            "test_set_not_required",
+            "the run used a test set other than the one the requirement names",
+        ),
+        (
+            "swap-old-model-not-identified",
+            swap_case(),
+            {},
+            envelope(swap_statement(old={"model": "provider-chat-large"}), "swapper"),
+            "not_established",
+            "old_model_not_identified",
+            "the old model has neither a digest nor a service and date",
+        ),
     ]
 
 

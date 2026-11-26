@@ -284,9 +284,9 @@ def retained(case_path: Path) -> dict[str, Any]:
     statement = strictjson.loads(_b64(envelope["payload"]))
     facts: dict[str, Any] = {"predicateType": statement["predicateType"]}
     if statement["predicateType"] == REFERENCE_PREDICATE:
-        facts["rootDigestConsistent"] = statement["subject"][0]["digest"][
-            "sha256"
-        ] == root_digest(statement["predicate"]["resources"])
+        facts["rootDigestConsistent"] = statement["subject"][0]["digest"]["sha256"] == root_digest(
+            statement["predicate"]["resources"]
+        )
     return facts
 
 

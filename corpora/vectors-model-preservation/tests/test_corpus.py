@@ -76,8 +76,10 @@ class TestModelPreservationCorpus:
             assert set(manifest["counts"]) == set(modelpreservation.EXIT_FOR)
 
         def test_each_record_has_a_match_a_tampered_digest_and_a_wrong_signer(self) -> None:
-            expected = {e["id"]: e["expected"]["reason"] for e in
-                        json.loads((ROOT / "MANIFEST.json").read_text())["vectors"]}
+            expected = {
+                e["id"]: e["expected"]["reason"]
+                for e in json.loads((ROOT / "MANIFEST.json").read_text())["vectors"]
+            }
             for kind, match, tampered in (
                 ("reference", "copy_matches_record", "reference-record-digest-tampered"),
                 ("swap", "swap_passed", "swap-verdict-tampered"),
@@ -92,7 +94,8 @@ class TestModelPreservationCorpus:
             names = [r["name"] for r in statement["predicate"]["resources"]]
             assert names == sorted(names)
             assert statement["subject"][0]["digest"]["sha256"] == modelpreservation.root_digest(
-                statement["predicate"]["resources"])
+                statement["predicate"]["resources"]
+            )
 
         def test_pointer_id_is_the_git_blob_id_of_the_lfs_pointer(self) -> None:
             # git hash-object of the pointer text for 64 bytes 0x00..0x3f, computed independently.
