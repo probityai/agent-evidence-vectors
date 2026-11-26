@@ -913,6 +913,18 @@ standards = ["mcp"]
 shapes = ["coverage-gap", "ordering"]
 
 [[corpus]]
+id = "vectors-model-preservation"
+path = "corpora/vectors-model-preservation"
+wheel = true
+sdist = true
+title = "Model preservation records"
+summary = "A verifier must check a held model copy file by file against a reference record signed before the model went, and accept a swap record only from the swapper with the required test set, keeping a failed swap on record."
+record_class = "record"
+domains = ["model-governance", "provenance"]
+standards = ["in-toto"]
+shapes = ["tampering", "forged-signature", "coverage-gap"]
+
+[[corpus]]
 id = "vectors-monitor-coverage"
 path = "corpora/vectors-monitor-coverage"
 wheel = true

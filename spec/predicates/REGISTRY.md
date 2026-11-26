@@ -71,6 +71,26 @@ seen, and reads a key the list does not cover as no statement.
 - Field semantics: defined here, as a proposal; the check order and reason tokens are this corpus's own.
 - Example: `corpora/vectors-key-revocation-list/cases/revoked-in-list/list.json`.
 
+### `predicate/v1/model-swap`
+
+- Document: `corpora/vectors-model-preservation/README.md`
+- Corpus: `corpora/vectors-model-preservation/`, suite `model-preservation/v1`
+- Rails: `corpusreaders/modelpreservation.go`, `packaging/agent_evidence_vectors/modelpreservation.py`
+
+The predicate records that a service replaced one model with another: the old model, by
+digest where there is one and by service and observation date where there is not; the new
+model as the statement's subject; the digest of the test set the swap was run against; the
+verdict of that run; and the party that made the swap, whose key signs it. A verifier
+accepts it only from the swapper's key, refuses a test set other than the required one or a
+subject other than the deployed model, keeps a failed run on record, and reports a hosted
+old model's identity as unproven apart from the verdict. The same corpus checks the
+reference record a swap's old model is named by, which uses the OpenSSF model-signing
+v1.0 predicate and is not registered here.
+
+- Envelope: an in-toto Statement v1 in a DSSE envelope.
+- Field semantics: defined here, as a proposal; the check order and reason tokens are this corpus's own.
+- Example: `corpora/vectors-model-preservation/cases/swap-passed/record.dsse.json`.
+
 ### `predicate/v1/signature-coverage`
 
 - Document: `corpora/vectors-signature-coverage/README.md`
