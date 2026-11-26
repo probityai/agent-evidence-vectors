@@ -265,7 +265,8 @@ def test_a_malformed_snapshot_is_judged_not_crashed() -> None:
         member["subject"]["robots"]["disallow"] = 2
         path.write_text(json.dumps(member, indent=2, sort_keys=True) + "\n", encoding="utf-8")
         proc = subprocess.run(
-            [sys.executable, str(REPO / "packaging" / "run_vectors.py"), "--vectors", str(corpus)],
+            [sys.executable, str(REPO / "packaging" / "run_vectors.py"), "--vectors", str(corpus),
+             "--report", str(Path(tmp) / "report.json")],
             capture_output=True, text=True, check=False,
         )
     if "Traceback" in proc.stderr or proc.returncode != 1:

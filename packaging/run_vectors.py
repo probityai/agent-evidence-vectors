@@ -4237,7 +4237,8 @@ def run_suite(args: argparse.Namespace) -> int:
         max(suite_refusals, 0), executed,
     )
     args.report_written = report_path
-    _run_print_table(report, rows_out, suite_notes, rail_note, report_path, report_base)
+    shown = getattr(args, "report_shown", None) or report_path
+    _run_print_table(report, rows_out, suite_notes, rail_note, shown, report_base)
     return _run_exit_status(failures, executed)
 
 
@@ -5083,42 +5084,259 @@ def stamp_report(path: str, suite_dir: str, before: tuple[int, int] | None) -> b
 
 REPORT_NAME = "conformance-report.json"
 
+#: The flag a run passes to replace a file the harness's own checkout tracks.
+REPLACE_RECORD_FLAG = "--replace-record"
 
-def committed_report_path() -> str | None:
-    """The report a checkout commits beside this file, or None from the wheel.
 
-    A run is an observation, so it never writes this file unless its caller
-    names the path. It was once the default, and a corpus run replaced the
-    committed record with its own.
+def _output_path(value: str) -> str:
+    """argparse type for an output path: an empty value is a usage error, never the default."""
+    if not value.strip():
+        raise argparse.ArgumentTypeError("an output path may not be empty")
+    return value
+
+
+def harness_checkout_root() -> str | None:
+    """The checkout this harness file sits in, or None when it runs from a wheel.
+
+    Read from the real path of this file, so a symlink to the harness resolves to
+    the checkout behind it, and from the checkout's own registry rather than from
+    the wheel-layout test, so a stray ``corpora/`` beside the harness cannot turn
+    the guard off.
     """
-    if installed_layout():
+    here = os.path.dirname(os.path.realpath(__file__))
+    root = os.path.dirname(here)
+    if os.path.basename(here) != "packaging":
         return None
-    return os.path.join(os.path.dirname(os.path.abspath(__file__)), REPORT_NAME)
+    if not os.path.isfile(os.path.join(root, "corpora", "REGISTRY.toml")):
+        return None
+    return root
 
 
-def default_report_refusal(explicit: str | None) -> str | None:
-    """Why a defaulted report may not be written, or None when it may.
+def _entry(path: str) -> str:
+    """The directory entry a write replaces: the real directory plus the final name.
 
-    The default is ``conformance-report.json`` in the working directory. In a
-    checkout, a caller standing in the directory that holds the committed report
-    would reach it by default, so that case is refused; ``--report`` naming the
-    path is the way to ask for it.
+    A report is written by renaming a staged file onto this entry, so a symlink or
+    a hard link standing at the destination is replaced, never written through.
     """
-    if explicit is not None:
+    absolute = os.path.abspath(path)
+    return os.path.join(os.path.realpath(os.path.dirname(absolute)), os.path.basename(absolute))
+
+
+def _tracked(root: str, entry: str) -> bool | None:
+    """Whether git tracks ``entry`` in ``root``: True, False, or None when git cannot say."""
+    rel = os.path.relpath(entry, root)
+    try:
+        proc = subprocess.run(
+            ["git", "-C", root, "ls-files", "--error-unmatch", "--", rel],
+            capture_output=True,
+            check=False,
+            timeout=30,
+        )
+    except (OSError, subprocess.SubprocessError):
         return None
-    committed = committed_report_path()
-    if committed is None or os.path.realpath(REPORT_NAME) != os.path.realpath(committed):
+    if proc.returncode == 0:
+        return True
+    if proc.returncode == 1:
+        return False
+    return None
+
+
+#: Whether the platform can open a directory and rename inside it by descriptor.
+HAVE_DIR_FD = os.open in os.supports_dir_fd and os.rename in os.supports_dir_fd
+
+
+class Destination:
+    """The directory a report is published into, bound before any check on it.
+
+    The directory is opened once, and the entry checked against the tracked-record
+    rule is the one this descriptor names (``os.path.samestat`` confirms it), so a
+    later swap of the path for a symlink cannot redirect the publish. Where the
+    platform cannot rename by descriptor, the parent is compared again at publish
+    and the publish is refused when it changed.
+    """
+
+    def __init__(self, path: str) -> None:
+        self.entry = _entry(path)
+        self.name = os.path.basename(self.entry)
+        self.directory = os.path.dirname(self.entry)
+        self.fd: int | None = None
+        flags = os.O_RDONLY | getattr(os, "O_DIRECTORY", 0) | getattr(os, "O_CLOEXEC", 0)
+        if HAVE_DIR_FD:
+            self.fd = os.open(self.directory, flags)
+            bound = os.fstat(self.fd)
+        else:
+            bound = os.stat(self.directory)
+        self.stat = bound
+        if not os.path.samestat(os.stat(self.directory), bound):
+            self.close()
+            raise OSError(f"{self.directory} changed while it was being bound")
+
+    def close(self) -> None:
+        if self.fd is not None:
+            os.close(self.fd)
+            self.fd = None
+
+    def _unchanged(self) -> bool:
+        """The parent still resolves to the directory bound at the start (no-descriptor path)."""
+        try:
+            same = os.path.samestat(os.stat(self.directory), self.stat)
+            return same and os.path.realpath(self.directory) == self.directory
+        except OSError:
+            return False
+
+    def write(self, data: bytes) -> None:
+        """Create a fresh file in the bound directory, then rename it onto the entry."""
+        tmp = f".aev-report-{os.getpid()}-{os.urandom(6).hex()}"
+        flags = os.O_WRONLY | os.O_CREAT | os.O_EXCL | getattr(os, "O_CLOEXEC", 0)
+        if self.fd is not None:
+            handle = os.open(tmp, flags, 0o666, dir_fd=self.fd)
+        elif self._unchanged():
+            handle = os.open(os.path.join(self.directory, tmp), flags, 0o666)
+        else:
+            raise OSError(f"{self.directory} changed after it was checked; nothing was written")
+        try:
+            with os.fdopen(handle, "wb") as out:
+                out.write(data)
+                out.flush()
+                os.fsync(out.fileno())
+            if self.fd is not None:
+                os.replace(tmp, self.name, src_dir_fd=self.fd, dst_dir_fd=self.fd)
+            elif self._unchanged():
+                os.replace(os.path.join(self.directory, tmp), self.entry)
+            else:
+                raise OSError(f"{self.directory} changed before the publish; nothing was written")
+        except BaseException:
+            try:
+                if self.fd is not None:
+                    os.unlink(tmp, dir_fd=self.fd)
+                else:
+                    os.unlink(os.path.join(self.directory, tmp))
+            except OSError:
+                pass
+            raise
+
+
+def record_refusal(entry: str, flag: str, replace: bool) -> str | None:
+    """Why this run may not write ``entry``, or None when it may.
+
+    ``entry`` is the resolved entry of a bound :class:`Destination`, so the path
+    checked here is the one the run publishes onto.
+
+    A run is an observation. It never replaces a file the harness's own checkout
+    tracks unless the caller passes the replace flag, whether the path came from
+    the default or from ``flag``. When git cannot answer, any existing file named
+    like a report inside the checkout counts as a record, so an unknown is refused.
+    """
+    if replace:
+        return None
+    beside = os.path.join(os.path.dirname(os.path.realpath(__file__)), REPORT_NAME)
+    if not installed_layout() and entry == beside:
+        # Outside the wheel the report beside the harness is the committed one,
+        # whether or not a checkout or git can be found around it (a vendored copy).
+        return (
+            f"agent-evidence-vectors: refusing to write {entry} ({flag}): it is the "
+            f"report committed beside the harness, and this run did not ask to replace "
+            f"it. Pass {flag} with another path, or add {REPLACE_RECORD_FLAG}"
+        )
+    root = harness_checkout_root()
+    if root is None or os.path.commonpath([entry, root]) != root:
+        return None
+    tracked = _tracked(root, entry)
+    if tracked is None:
+        tracked = os.path.lexists(entry) and os.path.basename(entry) == REPORT_NAME and (
+            entry != os.path.join(root, REPORT_NAME)
+        )
+    if not tracked:
         return None
     return (
-        f"agent-evidence-vectors: refusing to write {committed}: it is the committed "
-        "report, and this run did not ask for it. Run from another directory, or pass "
-        "--report with that path to replace it"
+        f"agent-evidence-vectors: refusing to write {entry} ({flag}): this checkout "
+        f"tracks it as a record, and this run did not ask to replace it. Pass {flag} "
+        f"with another path, or add {REPLACE_RECORD_FLAG} to replace the record"
     )
 
 
 def _report_path(args: argparse.Namespace) -> str:
     """Where the report goes: --report, else conformance-report.json in the working directory."""
-    return str(args.report) if args.report else REPORT_NAME
+    return str(args.report) if args.report is not None else REPORT_NAME
+
+
+def _bind_outputs(args: argparse.Namespace) -> tuple[Destination, Destination | None]:
+    """Bind the report's directory, and the v0.1 report's, before any check on them."""
+    report = Destination(_report_path(args))
+    try:
+        w3c = None if args.emit_w3c_report is None else Destination(args.emit_w3c_report)
+    except OSError:
+        report.close()
+        raise
+    return report, w3c
+
+
+def _output_refusal(
+    args: argparse.Namespace, report: Destination, w3c: Destination | None
+) -> str | None:
+    """The first output of this run that would replace a tracked record, as a refusal."""
+    outputs = [(report, "--report")]
+    if w3c is not None:
+        outputs.append((w3c, "--emit-w3c-report"))
+    for destination, flag in outputs:
+        refusal = record_refusal(destination.entry, flag, args.replace_record)
+        if refusal is not None:
+            return refusal
+    return None
+
+
+def _run_staged(args: argparse.Namespace, report: Destination) -> int:
+    """Replay with the report staged privately, then publish it onto the bound destination."""
+    args.report_written = None
+    args.report_data = b""
+    args.report_shown = _report_path(args)
+    staged = StagedReport(report)
+    args.report = staged.path
+    try:
+        status = run_suite(args)
+    finally:
+        try:
+            published = staged.publish(os.path.abspath(args.vectors))
+            args.report_data = staged.data
+        except OSError as exc:
+            print(f"agent-evidence-vectors: the report was not published: {exc}", file=sys.stderr)
+            published = False
+            args.report_failed = True
+        args.report = args.report_shown
+    if getattr(args, "report_failed", False):
+        return status or 1
+    args.report_written = args.report_shown if published and args.report_written else None
+    return status
+
+
+class StagedReport:
+    """A per-run private path every report writer writes to, then published onto the destination.
+
+    The staging directory is private and outside the checkout. Concurrent runs
+    never share a file: each stamps only the report it wrote, and the publish
+    creates a fresh file in the bound destination directory and renames it onto
+    the entry, so nothing is ever written through a link standing at the entry.
+    """
+
+    def __init__(self, destination: Destination) -> None:
+        self.destination = destination
+        self.directory = tempfile.mkdtemp(prefix="aev-report-")
+        self.path = os.path.join(self.directory, REPORT_NAME)
+        self.data = b""
+
+    def publish(self, suite_dir: str) -> bool:
+        """Stamp and publish the staged report; False when this run wrote none."""
+        try:
+            if not os.path.isfile(self.path):
+                return False
+            # A report the header cannot be added to is still this run's report.
+            stamp_report(self.path, suite_dir, None)
+            with open(self.path, "rb") as handle:
+                self.data = handle.read()
+            self.destination.write(self.data)
+            return True
+        finally:
+            shutil.rmtree(self.directory, ignore_errors=True)
 
 
 def _run_write_report(
@@ -5855,8 +6073,6 @@ def corpus_main(argv: list[str]) -> int:
 
 def runtime_main(argv: list[str]) -> int:
     """Run a runtime adapter through the scenarios of a corpus with a runtime contract."""
-    from pathlib import Path
-
     from agent_evidence_vectors import (
         decisionclient,
         decisionclient_runtime,
@@ -5882,14 +6098,33 @@ def runtime_main(argv: list[str]) -> int:
     parser.add_argument(
         "--report",
         default=None,
+        type=_output_path,
         help="output path for conformance-report.json (default: the working directory)",
     )
+    parser.add_argument(REPLACE_RECORD_FLAG, action="store_true", dest="replace_record")
     args = parser.parse_args(argv)
-    refusal = default_report_refusal(args.report)
+    args.report = _report_path(args)
+    try:
+        destination = Destination(args.report)
+    except OSError as exc:
+        print(f"agent-evidence-vectors: cannot write {args.report}: {exc}", file=sys.stderr)
+        return 2
+    try:
+        return _runtime_publish(args, destination, runners)
+    finally:
+        destination.close()
+
+
+def _runtime_publish(
+    args: argparse.Namespace, destination: Destination, runners: dict[str, Any]
+) -> int:
+    """Replay a runtime into a staged report and publish it onto the bound destination."""
+    from pathlib import Path
+
+    refusal = record_refusal(destination.entry, "--report", args.replace_record)
     if refusal is not None:
         print(refusal, file=sys.stderr)
         return 2
-    args.report = _report_path(args)
     root = args.vectors or corpus_dir(args.corpus)
     manifest = _read_manifest_suite(root)
     runner = runners.get(manifest or "")
@@ -5900,9 +6135,13 @@ def runtime_main(argv: list[str]) -> int:
             file=sys.stderr,
         )
         return 2
-    report_before = _report_stat(args.report)
-    status = runner(args.runtime, args.report, Path(root))
-    stamp_report(args.report, os.path.abspath(root), report_before)
+    staged = StagedReport(destination)
+    status: int = runner(args.runtime, staged.path, Path(root))
+    try:
+        staged.publish(os.path.abspath(root))
+    except OSError as exc:
+        print(f"agent-evidence-vectors: the report was not published: {exc}", file=sys.stderr)
+        return status or 1
     return status
 
 
@@ -5963,9 +6202,16 @@ def rail_main() -> int:
     parser.add_argument(
         "--report",
         default=None,
+        type=_output_path,
         help="output path for conformance-report.json (default: the working "
-        "directory; naming the committed packaging/conformance-report.json asks to "
-        "replace it)",
+        "directory). A file this checkout tracks is replaced only with "
+        f"{REPLACE_RECORD_FLAG}",
+    )
+    parser.add_argument(
+        REPLACE_RECORD_FLAG,
+        action="store_true",
+        dest="replace_record",
+        help="allow --report or --emit-w3c-report to replace a file this checkout tracks",
     )
     parser.add_argument(
         "--self-test",
@@ -5975,6 +6221,7 @@ def rail_main() -> int:
     parser.add_argument(
         "--emit-w3c-report",
         default=None,
+        type=_output_path,
         metavar="PATH",
         help="after the replay, also write the v0.1 per-check report of the W3C "
         "public-agent-conformance group, crosswalked from conformance-report.json",
@@ -6000,15 +6247,27 @@ def rail_main() -> int:
         return self_test()
     if args.vectors is None:
         args.vectors = corpus_dir(args.corpus)
-    refusal = default_report_refusal(args.report)
+    try:
+        report, w3c = _bind_outputs(args)
+    except OSError as exc:
+        print(f"agent-evidence-vectors: cannot write the report: {exc}", file=sys.stderr)
+        return 2
+    try:
+        return _run_and_emit(args, report, w3c)
+    finally:
+        report.close()
+        if w3c is not None:
+            w3c.close()
+
+
+def _run_and_emit(args: argparse.Namespace, report: Destination, w3c: Destination | None) -> int:
+    """Check the outputs, replay, publish the report, then the v0.1 report when asked."""
+    refusal = _output_refusal(args, report, w3c)
     if refusal is not None:
         print(refusal, file=sys.stderr)
         return 2
-    args.report_written = None
-    report_before = _report_stat(_report_path(args))
-    status = run_suite(args)
-    stamp_report(_report_path(args), os.path.abspath(args.vectors), report_before)
-    if args.emit_w3c_report is not None:
+    status = _run_staged(args, report)
+    if w3c is not None:
         if args.report_written is None:
             # Reading whatever report sits at the path would emit a v0.1 report
             # for a run that never happened, from a file an earlier run left.
@@ -6018,19 +6277,17 @@ def rail_main() -> int:
                 file=sys.stderr,
             )
             return status or 2
-        _emit_w3c(args)
+        _emit_w3c(args, w3c)
     if status == 0:
         starhint.maybe_print_hint()
     return status
 
 
-def _emit_w3c(args: argparse.Namespace) -> None:
+def _emit_w3c(args: argparse.Namespace, destination: Destination) -> None:
     """Write the v0.1 report beside the harness report, from the harness report."""
-    with open(args.report_written, encoding="utf-8") as handle:
-        harness = strictjson.load(handle)
-    with open(args.emit_w3c_report, "w", encoding="utf-8") as handle:
-        json.dump(w3creport.emit(harness), handle, indent=2, sort_keys=True)
-        handle.write("\n")
+    harness = strictjson.loads(args.report_data)
+    text = json.dumps(w3creport.emit(harness), indent=2, sort_keys=True) + "\n"
+    destination.write(text.encode("utf-8"))
     print(f"v0.1 per-check report written to {args.emit_w3c_report}")
 
 
