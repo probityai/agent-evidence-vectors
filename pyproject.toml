@@ -813,6 +813,9 @@ extend-exclude = [
   # spend ledger the execution-billing-finality mutants are spliced into. An
   # edit would break the pin, so it is not ours to lint.
   "corpora/vectors-execution-billing-finality/tests/p04/exposure_ledger.py",
+  # Fixture bytes pinned by the model-preservation manifest: a reference copy that
+  # carries an extra file. Reformatting it would change its digest.
+  "corpora/vectors-model-preservation/cases/reference-copy-extra-file/copy-loader.py",
   "scripts/workspace.py",
   "scripts/build_predicate_pages.py",
   "scripts/build_vocabulary_pages.py",
