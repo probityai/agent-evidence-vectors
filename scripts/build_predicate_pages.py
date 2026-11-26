@@ -25,7 +25,8 @@ PAGES = ROOT / "pages"
 TYPE_BASE = "https://w3id.org/agent-evidence/predicate/v1/"
 SPEC_REPO = "https://github.com/probityai/agent-evidence-vectors"
 # The predicates this site defines, by URI name, and the specification file of each.
-PREDICATES = {"agent-card-receipt": "agent-card-receipt.md", "credential-release": "credential-release.md",
+PREDICATES = {"agent-card-receipt": "agent-card-receipt.md",
+              "agent-identity-statement": "agent-identity-statement.md", "credential-release": "credential-release.md",
               "done-contract": "done-contract.md", "done-receipt": "done-receipt.md",
               "token-grant-receipt": "token-grant-receipt.md",
               "principal-action": "principal-action.md"}

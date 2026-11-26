@@ -24,6 +24,7 @@ ROOT = Path(__file__).resolve().parent
 sys.path.insert(0, str(ROOT.parents[1] / "packaging"))
 
 from agent_evidence_vectors import evidencecell as reader  # noqa: E402
+from agent_evidence_vectors.identifiers import IDENTIFIER_HOST  # noqa: E402
 
 SUITE = reader.SUITE
 TABLE = "decision-table-1"
@@ -127,7 +128,7 @@ def _controls() -> list[Case]:
 
 def _statement_cases(base: dict[str, Any]) -> list[Case]:
     sibling = reader.PREDICATE_TYPE.replace("incident-evidence-cell", "evidence-state")
-    foreign = reader.PREDICATE_TYPE.replace("probityai.github.io", "example.invalid")
+    foreign = reader.PREDICATE_TYPE.replace(IDENTIFIER_HOST, "example.invalid")
     upper = restate(base, subject=[{**_source(1), "digest": {
         "sha256": _sha(b"synthetic source document 1\n").upper()}}])
     reason = "statement_malformed"

@@ -67,6 +67,7 @@ if __package__ in (None, ""):
     sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from agent_evidence_vectors import strictb64, strictjson  # noqa: E402
+from agent_evidence_vectors.identifiers import same_identifier  # noqa: E402
 
 SUITE = "observed-effect-conformance"
 STATEMENT_TYPE = "https://in-toto.io/Statement/v1"
@@ -481,7 +482,7 @@ def _rule_predicate_type(state: _State) -> None:
     checking which predicate it is reading.
     """
     expected = state.policy.predicate_type
-    if not expected or state.statement.get("predicateType") != expected:
+    if not expected or not same_identifier(state.statement.get("predicateType"), expected):
         raise Malformed("predicate-type-unexpected")
 
 
@@ -1454,7 +1455,7 @@ def _indeterminate_findings(entry: dict[str, Any], report: Report) -> list[str]:
 def _corpus(directory: str, manifest: dict[str, Any], policy: Policy) -> list[str]:
     """The claims that belong to no single member."""
     out: list[str] = []
-    if manifest.get("predicateType") != policy.predicate_type:
+    if not same_identifier(manifest.get("predicateType"), policy.predicate_type):
         out.append(
             f"the manifest's predicateType is not the Type URI "
             f"{manifest.get('predicateSpec')} states"

@@ -67,9 +67,10 @@ from typing import Any
 from agent_evidence_vectors import monitorcoverage as _shared
 
 from . import strictjson
+from .identifiers import identifier, same_identifier
 
 SUITE = "evidence-state/v1"
-CONTRACT_ID = "https://probityai.github.io/agent-evidence-vectors/predicate/v1/evidence-state"
+CONTRACT_ID = identifier("agent-evidence-vectors/predicate/v1/evidence-state")
 TERM_URI = "https://w3id.org/agent-evidence/vocab/v1/evidence_state"
 ALLOW, DENY = "allow", "deny"
 ALLOWED_REASON = "state_supported"
@@ -162,7 +163,8 @@ def _first_failure(record: Record, skip: frozenset[str]) -> str | None:
 
     failures: dict[str, Callable[[], bool]] = {
         "contract_id_missing": lambda: "contractId" not in record,
-        "contract_id_unknown": lambda: record.get("contractId", CONTRACT_ID) != CONTRACT_ID,
+        "contract_id_unknown": lambda: not same_identifier(
+            record.get("contractId", CONTRACT_ID), CONTRACT_ID),
         "record_malformed": lambda: _malformed(record),
         "evidence_state_unregistered": lambda: declared() not in STATES,
         "observations_inconsistent": lambda: _inconsistent(record["observations"]),

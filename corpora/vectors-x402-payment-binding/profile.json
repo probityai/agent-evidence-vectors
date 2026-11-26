@@ -1,0 +1,58 @@
+{
+  "map": {
+    "AuthorizationUsed, AuthorizationCanceled and Transfer logs read": "chain_read.logs",
+    "accepted option the buyer acted on (served form kept)": "offer.accepted",
+    "authorization scope: network, asset contract, payer, nonce": "binding.authorization",
+    "authorization the buyer signed (exact scheme, EIP-3009)": "payment.authorization",
+    "authorizationState(payer, nonce) at that head": "chain_read.authorization_state",
+    "chain read of the bound network": "chain_read.network, chain_read.status",
+    "settlement reference: network, transaction, log index": "binding.settlement",
+    "the head the read was taken at, and whether it is final": "chain_read.head",
+    "what binds the record: authorization one-time value or accepted option only": "binding.kind"
+  },
+  "networkIdentifiers": {
+    "rule": "Kept in the record exactly as the origin served it. Compared after mapping: a CAIP-2 identifier names itself, a v1 name maps through the table below, any other identifier is unknown and leaves the comparison unresolved.",
+    "v1": {
+      "abstract": "eip155:2741",
+      "abstract-testnet": "eip155:11124",
+      "avalanche": "eip155:43114",
+      "avalanche-fuji": "eip155:43113",
+      "base": "eip155:8453",
+      "base-sepolia": "eip155:84532",
+      "celo": "eip155:42220",
+      "educhain": "eip155:41923",
+      "ethereum": "eip155:1",
+      "flare": "eip155:14",
+      "hemi": "eip155:43111",
+      "hemi-testnet": "eip155:743111",
+      "iotex": "eip155:4689",
+      "megaeth": "eip155:4326",
+      "monad": "eip155:143",
+      "monad-testnet": "eip155:10143",
+      "peaq": "eip155:3338",
+      "polygon": "eip155:137",
+      "polygon-amoy": "eip155:80002",
+      "sei": "eip155:1329",
+      "sei-testnet": "eip155:1328",
+      "skale-base-sepolia": "eip155:324705682",
+      "stable": "eip155:988",
+      "stable-testnet": "eip155:2201",
+      "story": "eip155:1514"
+    }
+  },
+  "note": "Maps what binds an x402 evidence record to one payment, and what a chain read must show, to the record fields this suite checks. Two verdicts per case, each in the four states of the Evidence Chain RFP: verified, contradicted, indeterminate, not_evaluated.",
+  "suite": "x402-payment-binding/v1",
+  "verdicts": {
+    "authorization": {
+      "contradicted": "the record's binding disagrees with the authorization it carries",
+      "indeterminate": "the record does not identify one authorization; the reason says why",
+      "verified": "the record identifies one authorization by its full scope"
+    },
+    "settlement": {
+      "contradicted": "the chain read shows the authorization did not or cannot settle as the record binds it",
+      "indeterminate": "settlement cannot be decided from this read; the reason separates a read that failed from a read that found nothing yet",
+      "not_evaluated": "no chain read was made; an offline run records this, not a failure",
+      "verified": "the chain read identifies the Transfer log that settled the authorization"
+    }
+  }
+}

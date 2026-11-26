@@ -12,6 +12,8 @@ import (
 	"sort"
 	"strings"
 	"unicode/utf8"
+
+	"github.com/probityai/agent-evidence-vectors/internal/identifiers"
 )
 
 func init() { register(selfReportedRecord{}) }
@@ -39,11 +41,11 @@ func (selfReportedRecord) Suite() string { return "self-reported-record-conforma
 
 const (
 	srrStatementType = "https://in-toto.io/Statement/v1"
-	srrPredicateType = "https://probityai.github.io/agent-evidence-vectors/" +
-		"predicate/v1/self-reported-record"
-	srrTurnContext  = "agent-evidence/self-reported-record/v1/turn"
-	srrFieldContext = "agent-evidence/self-reported-record/v1/field"
+	srrTurnContext   = "agent-evidence/self-reported-record/v1/turn"
+	srrFieldContext  = "agent-evidence/self-reported-record/v1/field"
 )
+
+var srrPredicateType = identifiers.Identifier("agent-evidence-vectors/predicate/v1/self-reported-record")
 
 var (
 	srrHex64      = regexp.MustCompile(`^[0-9a-f]{64}$`)
@@ -306,7 +308,7 @@ func srrWellformed(statement map[string]any) bool {
 	if str(statement["_type"]) != srrStatementType {
 		return false
 	}
-	if str(statement["predicateType"]) != srrPredicateType {
+	if identifiers.CanonicalIdentifier(str(statement["predicateType"])) != srrPredicateType {
 		return false
 	}
 	if !srrSubjectWellformed(statement["subject"]) {

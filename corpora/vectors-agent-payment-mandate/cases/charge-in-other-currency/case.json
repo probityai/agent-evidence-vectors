@@ -2,31 +2,51 @@
   "case_id": "vectors-agent-payment-mandate-charge-in-other-currency",
   "credential": {
     "consumed_token_ids": [],
-    "mandate_digest": "a32a498c0e180da17237f4ae35055050ba48e13f6476aac81c3d0e10c385376b",
+    "mandate_digest": "c1e52d087ae25fb481f2e21be341216d0eb0a61cc74f40ce86bce3f016cff45f",
     "single_use": true,
     "token_id": "tok-0001"
   },
   "execution": {
+    "agent_key_id": "agent-key-1",
+    "agent_signature": {
+      "alg": "ed25519",
+      "key_id": "agent-key-1",
+      "value": "b942907b6fe75a282230f4b5642d3adced81ef5606767d852c6cfe86a23641f5a4c765862cc71f942c9db32b16aabba6479540a5e8bb0d408bc284e7f7a7400e"
+    },
     "amount_minor": 4100,
     "currency": "GBP",
     "executed_at": "2026-11-02T10:15:00Z",
     "merchant": "merchant-b.example",
+    "rail": "card",
     "token_id": "tok-0001"
   },
   "mandate": {
-    "digest": "a32a498c0e180da17237f4ae35055050ba48e13f6476aac81c3d0e10c385376b",
+    "digest": "c1e52d087ae25fb481f2e21be341216d0eb0a61cc74f40ce86bce3f016cff45f",
     "signature": {
       "alg": "ed25519",
       "key_id": "issuer-key-1",
-      "value_sha256": "1a339e793445d5a0572a705eb9fd3372daac3e97938227d2723bf4a6ab45a5f5"
+      "value": "4116813bb617a613d95e6ab46c2f6ba9f75ab9020264ecdd0f52af87fd9d5107648d1a29377bfd780ce027c86edfcacca62728c62536f35b325c0c687e31e100"
     },
     "terms": {
+      "agent": {
+        "key_id": "agent-key-1",
+        "public_key": "17cb79fb2b4120f2b1ec65e4198d6e08b28e813feb01e4a400839b85e18080ce"
+      },
       "currency": "EUR",
       "expires_at": "2026-11-30T00:00:00Z",
+      "issued_at": "2026-11-01T09:00:00Z",
       "issuer": "did:example:issuer-1",
       "kind": "intent",
       "max_amount_minor": 4500,
-      "merchant": "merchant-b.example"
+      "merchant": "merchant-b.example",
+      "post_checkout_required": [
+        "capture",
+        "fulfilment"
+      ],
+      "rails": [
+        "card"
+      ],
+      "single_use": true
     }
   },
   "post_checkout": {
@@ -40,9 +60,15 @@
     ]
   },
   "receipt": {
-    "execution_digest": "68662196f2704631177d358f479215b33002b7a4ad9ae3d57b1eee34d20b1058",
-    "mandate_digest": "a32a498c0e180da17237f4ae35055050ba48e13f6476aac81c3d0e10c385376b",
-    "receipt_id": "rcpt-0001"
+    "execution_digest": "508add086883aad4cb7964ca2a82afb0590515d41d649c282a98e1dae2823e8b",
+    "mandate_digest": "c1e52d087ae25fb481f2e21be341216d0eb0a61cc74f40ce86bce3f016cff45f",
+    "receipt_id": "rcpt-0001",
+    "signature": {
+      "alg": "ed25519",
+      "key_id": "witness-key-1",
+      "value": "b894fc86d824a832194461750103cd8177e88f687030184eb71c9d95b21ea6545e314e23411091119e10185c4dc0752aa3acdb472b133d5c11c6dfd59def7d0f"
+    },
+    "token_use_seq": 1
   },
   "schema": "agent-payment-mandate-record/v1",
   "scheme": "mastercard-verifiable-intent-credential"

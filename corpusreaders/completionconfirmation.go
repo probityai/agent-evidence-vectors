@@ -5,6 +5,8 @@ import (
 	"path/filepath"
 	"slices"
 	"time"
+
+	"github.com/probityai/agent-evidence-vectors/internal/identifiers"
 )
 
 func init() { register(completionConfirmation{}) }
@@ -32,7 +34,7 @@ func init() { register(completionConfirmation{}) }
 //  11. the confirmed outcome is not absent: outcome_contradicts_claim.
 type completionConfirmation struct{}
 
-const ccContractID = "https://probityai.github.io/agent-evidence-vectors/contract/completion-confirmation/v1"
+var ccContractID = identifiers.Identifier("agent-evidence-vectors/contract/completion-confirmation/v1")
 
 func (completionConfirmation) Suite() string { return "completion-confirmation/v1" }
 
@@ -99,7 +101,7 @@ func ccDecide(record map[string]any) scDecision {
 	if !present {
 		return scDecision{"deny", "contract_id_missing"}
 	}
-	if id != ccContractID {
+	if identifiers.CanonicalValue(id) != ccContractID {
 		return scDecision{"deny", "contract_id_unknown"}
 	}
 	p, ok := ccParse(record)

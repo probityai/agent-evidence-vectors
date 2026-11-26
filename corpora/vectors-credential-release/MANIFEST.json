@@ -1,8 +1,8 @@
 {
-  "corpusDigest": "585eb6e3fabced309e7d27e1240f49574e4c2cdeb42bb5d05f2fb6e1f83a6ef2",
+  "corpusDigest": "11f77ea6d7dc8f54c68042d1bdc634bdbefdc95025c3da79c6092791015fbe98",
   "counts": {
-    "accept": 4,
-    "reject": 26
+    "accept": 11,
+    "reject": 55
   },
   "suite": "credential-release/v1",
   "vectors": [
@@ -16,7 +16,7 @@
         "context.json": "d78977902b24db601b2e0c3f62891ad8bf9fd72fb6e2abac121c1ea7d708026c",
         "receipt.json": "094c78e4622639a35cdcf57613ccf3dfc6f85b0d287bd10dd262446355932258",
         "revocations.json": "fd7ee8682d7e8bc827ce604a05e7ee84d1388a041bf884cc1aa291fddd022446",
-        "statement.json": "4c321201245ab8845df35e2dd477b20212609e9f5c9b735a80f6ba36f191989a"
+        "statement.json": "47334c2a267aa1a0bf47a46a02d6f16b559f17cbdc3425b16351f615bc997eb5"
       },
       "id": "accept-release-on-passing-receipt",
       "path": "cases/accept-release-on-passing-receipt"
@@ -31,7 +31,7 @@
         "context.json": "d78977902b24db601b2e0c3f62891ad8bf9fd72fb6e2abac121c1ea7d708026c",
         "receipt.json": "ee4328a2671d305bc4ad00ac983c951593bf5f7f3ac2f8d5aa5cb9ca50880cfb",
         "revocations.json": "fd7ee8682d7e8bc827ce604a05e7ee84d1388a041bf884cc1aa291fddd022446",
-        "statement.json": "e98fd1f98b07e4d33d28c44e9825507eb46080287de1257f3233101ba736c0c3"
+        "statement.json": "203c14866c5c76731386441cb2737aa8a07a2cba56a364651901d423b3b2db93"
       },
       "id": "accept-pass-indirect-minimum",
       "path": "cases/accept-pass-indirect-minimum"
@@ -46,7 +46,7 @@
         "context.json": "d78977902b24db601b2e0c3f62891ad8bf9fd72fb6e2abac121c1ea7d708026c",
         "receipt.json": "094c78e4622639a35cdcf57613ccf3dfc6f85b0d287bd10dd262446355932258",
         "revocations.json": "78443b8c14727334e031a5cbba0acd0c3f4117a96b32bce503390c087cabf447",
-        "statement.json": "782108fe78570d3cede5fbf780c285db3555f48f2425747bf3cbca46c06e83fe"
+        "statement.json": "840d05ff61f7e79300b8d596f01edece7445a3b36a37422dd434a4097c1459d1"
       },
       "id": "accept-ttl-ends-at-receipt-expiry",
       "path": "cases/accept-ttl-ends-at-receipt-expiry"
@@ -61,10 +61,105 @@
         "context.json": "d78977902b24db601b2e0c3f62891ad8bf9fd72fb6e2abac121c1ea7d708026c",
         "receipt.json": "094c78e4622639a35cdcf57613ccf3dfc6f85b0d287bd10dd262446355932258",
         "revocations.json": "655f781d1a8bde0ffa93db49d5485a2c82769fb69343955bb1eee93a8caf4733",
-        "statement.json": "e627fbc6b2c814d0340aeb1a22d5b2bbd20f4014c4dea17f7ca90d023b054e84"
+        "statement.json": "46355054010814d41fe9891beeaa27d8b29b2289688f702a86a574135c4bae25"
       },
       "id": "accept-released-at-receipt-issued-at",
       "path": "cases/accept-released-at-receipt-issued-at"
+    },
+    {
+      "edit": "control: the release names the user the agent acted for",
+      "expected": {
+        "decision": "accept",
+        "reason": "release_bound"
+      },
+      "files": {
+        "context.json": "d78977902b24db601b2e0c3f62891ad8bf9fd72fb6e2abac121c1ea7d708026c",
+        "receipt.json": "094c78e4622639a35cdcf57613ccf3dfc6f85b0d287bd10dd262446355932258",
+        "revocations.json": "fd7ee8682d7e8bc827ce604a05e7ee84d1388a041bf884cc1aa291fddd022446",
+        "statement.json": "8bb28d7c0b71453d1f51cf32a3ab77726024aa10a021692775364e67da54392b"
+      },
+      "id": "accept-receipt-on-behalf-of-user",
+      "path": "cases/accept-receipt-on-behalf-of-user"
+    },
+    {
+      "edit": "control: a session cookie released to an agent a passing receipt names",
+      "expected": {
+        "decision": "accept",
+        "reason": "release_bound"
+      },
+      "files": {
+        "context.json": "d78977902b24db601b2e0c3f62891ad8bf9fd72fb6e2abac121c1ea7d708026c",
+        "receipt.json": "094c78e4622639a35cdcf57613ccf3dfc6f85b0d287bd10dd262446355932258",
+        "revocations.json": "fd7ee8682d7e8bc827ce604a05e7ee84d1388a041bf884cc1aa291fddd022446",
+        "statement.json": "f2d62f6ce28d0af5193ec0eb2cbbf76431b14bc1846b51155287443feefe1af3"
+      },
+      "id": "accept-session-cookie-on-receipt",
+      "path": "cases/accept-session-cookie-on-receipt"
+    },
+    {
+      "edit": "control: a browser session released the user's cookie to the agent and host the user's grant names",
+      "expected": {
+        "decision": "accept",
+        "reason": "release_bound"
+      },
+      "files": {
+        "grant.json": "b0bc704fd356be690f71178602ce1d8de09e5aaf6ae927533b48e9911dfc374d",
+        "statement.json": "61561c205dfe27e97e730642578176b6704432dd06648240dc356ad96aaeba3f"
+      },
+      "id": "accept-session-cookie-on-grant",
+      "path": "cases/accept-session-cookie-on-grant"
+    },
+    {
+      "edit": "control: the cookie went to a plain HTTP origin, which the record states",
+      "expected": {
+        "decision": "accept",
+        "reason": "release_bound"
+      },
+      "files": {
+        "grant.json": "b0bc704fd356be690f71178602ce1d8de09e5aaf6ae927533b48e9911dfc374d",
+        "statement.json": "b5274cfdd37152648447e7d4558f7554e3c2a0b574efd8d8c375374a2e5c5e72"
+      },
+      "id": "accept-session-cookie-plain-http-origin",
+      "path": "cases/accept-session-cookie-plain-http-origin"
+    },
+    {
+      "edit": "control: the grant names a host with its port and the origin carries it",
+      "expected": {
+        "decision": "accept",
+        "reason": "release_bound"
+      },
+      "files": {
+        "grant.json": "65a83018311cfa8410283fc37ea2abec40bb9099ac7ffdbad252c2278aeb9162",
+        "statement.json": "de37faff300887d7e9b10ee94bb6b3d846508b356687ad3e76f0148f09f8f675"
+      },
+      "id": "accept-session-cookie-non-default-port",
+      "path": "cases/accept-session-cookie-non-default-port"
+    },
+    {
+      "edit": "control: the release ends exactly when the grant does",
+      "expected": {
+        "decision": "accept",
+        "reason": "release_bound"
+      },
+      "files": {
+        "grant.json": "b0bc704fd356be690f71178602ce1d8de09e5aaf6ae927533b48e9911dfc374d",
+        "statement.json": "af38c395ac3a11c0afc7dcf3aedf56f107f426926c58f27b78d7ab17355d7954"
+      },
+      "id": "accept-release-ends-at-grant-end",
+      "path": "cases/accept-release-ends-at-grant-end"
+    },
+    {
+      "edit": "control: a scoped token released under the user's grant to an API on a granted host",
+      "expected": {
+        "decision": "accept",
+        "reason": "release_bound"
+      },
+      "files": {
+        "grant.json": "b0bc704fd356be690f71178602ce1d8de09e5aaf6ae927533b48e9911dfc374d",
+        "statement.json": "0387ede339bea6443a38b37bebb785cbcf9c077a8aa3c7762ba56f431ab89798"
+      },
+      "id": "accept-token-on-grant",
+      "path": "cases/accept-token-on-grant"
     },
     {
       "edit": "the statement is not JSON",
@@ -91,7 +186,7 @@
         "context.json": "d78977902b24db601b2e0c3f62891ad8bf9fd72fb6e2abac121c1ea7d708026c",
         "receipt.json": "094c78e4622639a35cdcf57613ccf3dfc6f85b0d287bd10dd262446355932258",
         "revocations.json": "fd7ee8682d7e8bc827ce604a05e7ee84d1388a041bf884cc1aa291fddd022446",
-        "statement.json": "3d51e2d3849ef4cdb10e4890c4ab891898ede1ea84756ae5595d4cb6ee2f4493"
+        "statement.json": "0ec1cd313e7c678fe1e20d4a5b55ead246d302f5b7326c9ddbbd7981b9251289"
       },
       "id": "statement-type-wrong",
       "path": "cases/statement-type-wrong"
@@ -106,7 +201,7 @@
         "context.json": "d78977902b24db601b2e0c3f62891ad8bf9fd72fb6e2abac121c1ea7d708026c",
         "receipt.json": "094c78e4622639a35cdcf57613ccf3dfc6f85b0d287bd10dd262446355932258",
         "revocations.json": "fd7ee8682d7e8bc827ce604a05e7ee84d1388a041bf884cc1aa291fddd022446",
-        "statement.json": "6b551e6ae3116d5adf5948d05e803e248b5fc2722ddb2fe6e00ed2bf84286663"
+        "statement.json": "00981819fa664918518b48493a54ad82171914715d4d213ea349caf2a83f78e8"
       },
       "id": "predicate-type-wrong",
       "path": "cases/predicate-type-wrong"
@@ -121,7 +216,7 @@
         "context.json": "d78977902b24db601b2e0c3f62891ad8bf9fd72fb6e2abac121c1ea7d708026c",
         "receipt.json": "094c78e4622639a35cdcf57613ccf3dfc6f85b0d287bd10dd262446355932258",
         "revocations.json": "fd7ee8682d7e8bc827ce604a05e7ee84d1388a041bf884cc1aa291fddd022446",
-        "statement.json": "d2b5771bdd42c9ea7c1bff70851891543804962b5b391221104712d59c324f31"
+        "statement.json": "7203f2706d2d5590ad14d6ba0ad100874ea8d0bff0d51ae58c9da3d05ba67c5d"
       },
       "id": "subject-digest-uppercase",
       "path": "cases/subject-digest-uppercase"
@@ -136,7 +231,7 @@
         "context.json": "d78977902b24db601b2e0c3f62891ad8bf9fd72fb6e2abac121c1ea7d708026c",
         "receipt.json": "094c78e4622639a35cdcf57613ccf3dfc6f85b0d287bd10dd262446355932258",
         "revocations.json": "fd7ee8682d7e8bc827ce604a05e7ee84d1388a041bf884cc1aa291fddd022446",
-        "statement.json": "deecd792acb915cf52e720a2a7936d20bbcacb048934b5a9fce90e6ce313b3ad"
+        "statement.json": "0d78c4ed7cf3a0e15ea64e36e3095122f8846f1fb34c2a2cc9dbbfbe09535608"
       },
       "id": "credential-carries-secret",
       "path": "cases/credential-carries-secret"
@@ -151,7 +246,7 @@
         "context.json": "d78977902b24db601b2e0c3f62891ad8bf9fd72fb6e2abac121c1ea7d708026c",
         "receipt.json": "094c78e4622639a35cdcf57613ccf3dfc6f85b0d287bd10dd262446355932258",
         "revocations.json": "fd7ee8682d7e8bc827ce604a05e7ee84d1388a041bf884cc1aa291fddd022446",
-        "statement.json": "be00278bc086acd4d93cd2095cfec593a0e6e4cdc66d141a330f91fe683b6768"
+        "statement.json": "ed3407e678b866705a0bc68ba0f877f378e9600ef2e0ae3a09bc057022ec59fc"
       },
       "id": "credential-carries-token-hash",
       "path": "cases/credential-carries-token-hash"
@@ -166,7 +261,7 @@
         "context.json": "d78977902b24db601b2e0c3f62891ad8bf9fd72fb6e2abac121c1ea7d708026c",
         "receipt.json": "094c78e4622639a35cdcf57613ccf3dfc6f85b0d287bd10dd262446355932258",
         "revocations.json": "fd7ee8682d7e8bc827ce604a05e7ee84d1388a041bf884cc1aa291fddd022446",
-        "statement.json": "2b95adf08fb3d512d28160a4889a83afe1482abdf12e9c544598d74a6458bc32"
+        "statement.json": "f1df1d33f55f87785eb42f058bf102709e6896e8fb96f9873c9c69047006cd9f"
       },
       "id": "predicate-min-result-degraded",
       "path": "cases/predicate-min-result-degraded"
@@ -181,7 +276,7 @@
         "context.json": "d78977902b24db601b2e0c3f62891ad8bf9fd72fb6e2abac121c1ea7d708026c",
         "receipt.json": "094c78e4622639a35cdcf57613ccf3dfc6f85b0d287bd10dd262446355932258",
         "revocations.json": "fd7ee8682d7e8bc827ce604a05e7ee84d1388a041bf884cc1aa291fddd022446",
-        "statement.json": "d747242564f9854710877464a7de230c4b3cf89f05531ce3d99f15756bd8e20f"
+        "statement.json": "cd77eeda2cc75c4cf88ea3b75d6875b341067eb4ec2a70c7cc0d4f7429a411a1"
       },
       "id": "predicate-ttl-zero",
       "path": "cases/predicate-ttl-zero"
@@ -196,7 +291,7 @@
         "context.json": "d78977902b24db601b2e0c3f62891ad8bf9fd72fb6e2abac121c1ea7d708026c",
         "receipt.json": "094c78e4622639a35cdcf57613ccf3dfc6f85b0d287bd10dd262446355932258",
         "revocations.json": "fd7ee8682d7e8bc827ce604a05e7ee84d1388a041bf884cc1aa291fddd022446",
-        "statement.json": "13c4a2f11a31055d69001a61ff12985bbd3c4a3c4957907ea5c4ebe6a1b33cb5"
+        "statement.json": "45bceab44a6972a0e0f3b9a70ffc7971be3c204ea285f193894c4318345eb82c"
       },
       "id": "predicate-ttl-boolean",
       "path": "cases/predicate-ttl-boolean"
@@ -211,7 +306,7 @@
         "context.json": "d78977902b24db601b2e0c3f62891ad8bf9fd72fb6e2abac121c1ea7d708026c",
         "receipt.json": "094c78e4622639a35cdcf57613ccf3dfc6f85b0d287bd10dd262446355932258",
         "revocations.json": "fd7ee8682d7e8bc827ce604a05e7ee84d1388a041bf884cc1aa291fddd022446",
-        "statement.json": "e8309e789b5dbe04a1f224be8c9bacda6cefd9bb6cbd830311d059e3569f632d"
+        "statement.json": "9518be05267d2e7bc69ab5f81887100e83d41b231c536e0d4c85000d89d2299a"
       },
       "id": "predicate-scope-unsorted",
       "path": "cases/predicate-scope-unsorted"
@@ -226,7 +321,7 @@
         "context.json": "d78977902b24db601b2e0c3f62891ad8bf9fd72fb6e2abac121c1ea7d708026c",
         "receipt.json": "094c78e4622639a35cdcf57613ccf3dfc6f85b0d287bd10dd262446355932258",
         "revocations.json": "fd7ee8682d7e8bc827ce604a05e7ee84d1388a041bf884cc1aa291fddd022446",
-        "statement.json": "ae1b2d9e8c3ddf24a64bad8ee3c152bea016cc29e11d3a83e148110f6fabc49e"
+        "statement.json": "840a890d6bdecc3af29087e0850bc940d893e480056c51cdce9d3d3f5de6ced6"
       },
       "id": "predicate-scope-empty",
       "path": "cases/predicate-scope-empty"
@@ -241,7 +336,7 @@
         "context.json": "d78977902b24db601b2e0c3f62891ad8bf9fd72fb6e2abac121c1ea7d708026c",
         "receipt.json": "094c78e4622639a35cdcf57613ccf3dfc6f85b0d287bd10dd262446355932258",
         "revocations.json": "fd7ee8682d7e8bc827ce604a05e7ee84d1388a041bf884cc1aa291fddd022446",
-        "statement.json": "8913129e843b63a51d6919d9f984adf7d1fd0521e50ee48af86729061910e955"
+        "statement.json": "9f7477d84feab865a02618ffa58b4a0630d01f809ffc7ab1b2297671a597b800"
       },
       "id": "predicate-receipt-type-other",
       "path": "cases/predicate-receipt-type-other"
@@ -256,10 +351,206 @@
         "context.json": "d78977902b24db601b2e0c3f62891ad8bf9fd72fb6e2abac121c1ea7d708026c",
         "receipt.json": "094c78e4622639a35cdcf57613ccf3dfc6f85b0d287bd10dd262446355932258",
         "revocations.json": "fd7ee8682d7e8bc827ce604a05e7ee84d1388a041bf884cc1aa291fddd022446",
-        "statement.json": "9e848d937ddb441d1e05ec4695f060c5896c60f1571c4ad47ecb72b9cbf6ef5f"
+        "statement.json": "4f5df8147960ab37511979d80dcfdfd4ee20f91fb719e8078990d3e7793199dd"
       },
       "id": "predicate-broker-missing",
       "path": "cases/predicate-broker-missing"
+    },
+    {
+      "edit": "a 0.1.0 record: it names no agent",
+      "expected": {
+        "decision": "reject",
+        "reason": "predicate_malformed"
+      },
+      "files": {
+        "context.json": "d78977902b24db601b2e0c3f62891ad8bf9fd72fb6e2abac121c1ea7d708026c",
+        "receipt.json": "094c78e4622639a35cdcf57613ccf3dfc6f85b0d287bd10dd262446355932258",
+        "revocations.json": "fd7ee8682d7e8bc827ce604a05e7ee84d1388a041bf884cc1aa291fddd022446",
+        "statement.json": "4c321201245ab8845df35e2dd477b20212609e9f5c9b735a80f6ba36f191989a"
+      },
+      "id": "predicate-v0-1-without-agent",
+      "path": "cases/predicate-v0-1-without-agent"
+    },
+    {
+      "edit": "the agent's issuer is not an https URL",
+      "expected": {
+        "decision": "reject",
+        "reason": "predicate_malformed"
+      },
+      "files": {
+        "context.json": "d78977902b24db601b2e0c3f62891ad8bf9fd72fb6e2abac121c1ea7d708026c",
+        "receipt.json": "094c78e4622639a35cdcf57613ccf3dfc6f85b0d287bd10dd262446355932258",
+        "revocations.json": "fd7ee8682d7e8bc827ce604a05e7ee84d1388a041bf884cc1aa291fddd022446",
+        "statement.json": "13bc177ff5aee990a7b86db5f5ebd840fd864e509da463d8db05bf4dfdb3e0e4"
+      },
+      "id": "predicate-agent-issuer-not-https",
+      "path": "cases/predicate-agent-issuer-not-https"
+    },
+    {
+      "edit": "the user principal also carries an email address",
+      "expected": {
+        "decision": "reject",
+        "reason": "predicate_malformed"
+      },
+      "files": {
+        "context.json": "d78977902b24db601b2e0c3f62891ad8bf9fd72fb6e2abac121c1ea7d708026c",
+        "receipt.json": "094c78e4622639a35cdcf57613ccf3dfc6f85b0d287bd10dd262446355932258",
+        "revocations.json": "fd7ee8682d7e8bc827ce604a05e7ee84d1388a041bf884cc1aa291fddd022446",
+        "statement.json": "01bf7742f2c092b449a7f072defe2aa0fa7bdae9db6e6acd56dafae7e957f4e8"
+      },
+      "id": "predicate-on-behalf-of-extra-member",
+      "path": "cases/predicate-on-behalf-of-extra-member"
+    },
+    {
+      "edit": "the release names a receipt and a grant",
+      "expected": {
+        "decision": "reject",
+        "reason": "predicate_malformed"
+      },
+      "files": {
+        "context.json": "d78977902b24db601b2e0c3f62891ad8bf9fd72fb6e2abac121c1ea7d708026c",
+        "receipt.json": "094c78e4622639a35cdcf57613ccf3dfc6f85b0d287bd10dd262446355932258",
+        "revocations.json": "fd7ee8682d7e8bc827ce604a05e7ee84d1388a041bf884cc1aa291fddd022446",
+        "statement.json": "f95e6a111d50440f7f021f809b64cf2375300918ee27e22517ec9b734b04fb19"
+      },
+      "id": "predicate-receipt-and-grant",
+      "path": "cases/predicate-receipt-and-grant"
+    },
+    {
+      "edit": "the credential object carries the cookie's value",
+      "expected": {
+        "decision": "reject",
+        "reason": "credential_fields"
+      },
+      "files": {
+        "context.json": "d78977902b24db601b2e0c3f62891ad8bf9fd72fb6e2abac121c1ea7d708026c",
+        "receipt.json": "094c78e4622639a35cdcf57613ccf3dfc6f85b0d287bd10dd262446355932258",
+        "revocations.json": "fd7ee8682d7e8bc827ce604a05e7ee84d1388a041bf884cc1aa291fddd022446",
+        "statement.json": "57c56b7c644d85f5159b6f8760497a33aec85009d9d1a4f82d259d3538af3636"
+      },
+      "id": "credential-carries-cookie-value",
+      "path": "cases/credential-carries-cookie-value"
+    },
+    {
+      "edit": "a session cookie claims a scope",
+      "expected": {
+        "decision": "reject",
+        "reason": "predicate_malformed"
+      },
+      "files": {
+        "context.json": "d78977902b24db601b2e0c3f62891ad8bf9fd72fb6e2abac121c1ea7d708026c",
+        "receipt.json": "094c78e4622639a35cdcf57613ccf3dfc6f85b0d287bd10dd262446355932258",
+        "revocations.json": "fd7ee8682d7e8bc827ce604a05e7ee84d1388a041bf884cc1aa291fddd022446",
+        "statement.json": "5d8784bc29e935569871ef98e7023b6b4c36ca4330d1eee7dc05b35819a39571"
+      },
+      "id": "credential-session-cookie-with-scope",
+      "path": "cases/credential-session-cookie-with-scope"
+    },
+    {
+      "edit": "a token names a plain HTTP audience, which only a session cookie may",
+      "expected": {
+        "decision": "reject",
+        "reason": "predicate_malformed"
+      },
+      "files": {
+        "context.json": "d78977902b24db601b2e0c3f62891ad8bf9fd72fb6e2abac121c1ea7d708026c",
+        "receipt.json": "094c78e4622639a35cdcf57613ccf3dfc6f85b0d287bd10dd262446355932258",
+        "revocations.json": "fd7ee8682d7e8bc827ce604a05e7ee84d1388a041bf884cc1aa291fddd022446",
+        "statement.json": "b23c2deccebb5faea10672bf49c24b74d6d04ab23b6a2a0e5682c18ad304c3d2"
+      },
+      "id": "credential-token-audience-plain-http",
+      "path": "cases/credential-token-audience-plain-http"
+    },
+    {
+      "edit": "a grant basis release names no user",
+      "expected": {
+        "decision": "reject",
+        "reason": "predicate_malformed"
+      },
+      "files": {
+        "grant.json": "b0bc704fd356be690f71178602ce1d8de09e5aaf6ae927533b48e9911dfc374d",
+        "statement.json": "2d401b7beb433cc5fce6382f54f68f2df415221d2311c9c71c37982f7d9ca87a"
+      },
+      "id": "predicate-grant-without-on-behalf-of",
+      "path": "cases/predicate-grant-without-on-behalf-of"
+    },
+    {
+      "edit": "a grant basis release carries a receipt basis member",
+      "expected": {
+        "decision": "reject",
+        "reason": "predicate_malformed"
+      },
+      "files": {
+        "grant.json": "b0bc704fd356be690f71178602ce1d8de09e5aaf6ae927533b48e9911dfc374d",
+        "statement.json": "877ba91f76681eee382063b3a6019964b2818db427f95b2881ee521c1178d899"
+      },
+      "id": "predicate-grant-with-min-result",
+      "path": "cases/predicate-grant-with-min-result"
+    },
+    {
+      "edit": "the grant's copied notAfter is not an RFC 3339 time",
+      "expected": {
+        "decision": "reject",
+        "reason": "predicate_malformed"
+      },
+      "files": {
+        "grant.json": "b0bc704fd356be690f71178602ce1d8de09e5aaf6ae927533b48e9911dfc374d",
+        "statement.json": "9be17dfaee1134141b605114a941ebdb9eb06a7de7e26d8b1533cecdde3ecc7b"
+      },
+      "id": "predicate-grant-not-after-not-a-time",
+      "path": "cases/predicate-grant-not-after-not-a-time"
+    },
+    {
+      "edit": "the cookie's origin carries a path",
+      "expected": {
+        "decision": "reject",
+        "reason": "predicate_malformed"
+      },
+      "files": {
+        "grant.json": "b0bc704fd356be690f71178602ce1d8de09e5aaf6ae927533b48e9911dfc374d",
+        "statement.json": "1ee4b28c357890cc562f700a5cbc3659a7d2abce2d8889b7aab93c9ec062cb78"
+      },
+      "id": "credential-session-cookie-audience-path",
+      "path": "cases/credential-session-cookie-audience-path"
+    },
+    {
+      "edit": "the cookie's origin writes the default port",
+      "expected": {
+        "decision": "reject",
+        "reason": "predicate_malformed"
+      },
+      "files": {
+        "grant.json": "b0bc704fd356be690f71178602ce1d8de09e5aaf6ae927533b48e9911dfc374d",
+        "statement.json": "7e6e0bb1f00b5c840120c5d910277240fe4b42662ed7bd0191dab85165f40d13"
+      },
+      "id": "credential-session-cookie-default-port",
+      "path": "cases/credential-session-cookie-default-port"
+    },
+    {
+      "edit": "the cookie's origin host is not lowercase",
+      "expected": {
+        "decision": "reject",
+        "reason": "predicate_malformed"
+      },
+      "files": {
+        "grant.json": "b0bc704fd356be690f71178602ce1d8de09e5aaf6ae927533b48e9911dfc374d",
+        "statement.json": "cc20abad807f406c36221e6f47f01981f61479335c66860329fc61db05c1930a"
+      },
+      "id": "credential-session-cookie-uppercase-host",
+      "path": "cases/credential-session-cookie-uppercase-host"
+    },
+    {
+      "edit": "the cookie name holds a space",
+      "expected": {
+        "decision": "reject",
+        "reason": "predicate_malformed"
+      },
+      "files": {
+        "grant.json": "b0bc704fd356be690f71178602ce1d8de09e5aaf6ae927533b48e9911dfc374d",
+        "statement.json": "8080224ac198dcd6055222d13fe8c6226860a7726a77fc448f7f6639c436a8b8"
+      },
+      "id": "credential-cookie-name-not-token",
+      "path": "cases/credential-cookie-name-not-token"
     },
     {
       "edit": "the receipt file is not the receipt the release names",
@@ -271,7 +562,7 @@
         "context.json": "d78977902b24db601b2e0c3f62891ad8bf9fd72fb6e2abac121c1ea7d708026c",
         "receipt.json": "094c78e4622639a35cdcf57613ccf3dfc6f85b0d287bd10dd262446355932258",
         "revocations.json": "fd7ee8682d7e8bc827ce604a05e7ee84d1388a041bf884cc1aa291fddd022446",
-        "statement.json": "abaf95d1d7fbae398465e47126475914fb810b8cd3daadf0611c87fb50927ba6"
+        "statement.json": "b2ea779c0d41f029c45729470eb2a13350b29aef90f9a86cd112072d4ed0c472"
       },
       "id": "receipt-digest-mismatch",
       "path": "cases/receipt-digest-mismatch"
@@ -286,7 +577,7 @@
         "context.json": "d78977902b24db601b2e0c3f62891ad8bf9fd72fb6e2abac121c1ea7d708026c",
         "receipt.json": "9e3999f998a2c383fee7d26f12f298cf3e30358a75c434f997807bdc52fa086b",
         "revocations.json": "fd7ee8682d7e8bc827ce604a05e7ee84d1388a041bf884cc1aa291fddd022446",
-        "statement.json": "10533f5b05a19f3faa8fe79d8bf97c50d557676c04d1fc0f2f571c044fff07d0"
+        "statement.json": "b8555c2c45c1544396ff46f42082521995c5a04f31bd9c87325342e10f677fe6"
       },
       "id": "receipt-malformed",
       "path": "cases/receipt-malformed"
@@ -301,7 +592,7 @@
         "context.json": "d78977902b24db601b2e0c3f62891ad8bf9fd72fb6e2abac121c1ea7d708026c",
         "receipt.json": "25bc4604a45270bb12a89c8ba73ab9693e1bf8e76af14a366b571a88da68ad52",
         "revocations.json": "fd7ee8682d7e8bc827ce604a05e7ee84d1388a041bf884cc1aa291fddd022446",
-        "statement.json": "45e59553111448cc08a6e09ba9d03e461bde0edb2ae334b3a59cba76a79d2e7f"
+        "statement.json": "fafb692fca386f2a3d1df17009798aee5edfe37f39531f33a3ab6d2afdda0e2e"
       },
       "id": "receipt-fields-differ",
       "path": "cases/receipt-fields-differ"
@@ -316,7 +607,7 @@
         "context.json": "d78977902b24db601b2e0c3f62891ad8bf9fd72fb6e2abac121c1ea7d708026c",
         "receipt.json": "094c78e4622639a35cdcf57613ccf3dfc6f85b0d287bd10dd262446355932258",
         "revocations.json": "fd7ee8682d7e8bc827ce604a05e7ee84d1388a041bf884cc1aa291fddd022446",
-        "statement.json": "04aa54a5b64c3c529abc6a8170188121590ae117f3ba5c198bac26b82afe1290"
+        "statement.json": "9ce690435f251f452bfbad2ff6211c64d0f571a662de0e04e46361c2be2a1410"
       },
       "id": "subject-not-receipted",
       "path": "cases/subject-not-receipted"
@@ -331,7 +622,7 @@
         "context.json": "d78977902b24db601b2e0c3f62891ad8bf9fd72fb6e2abac121c1ea7d708026c",
         "receipt.json": "25bc4604a45270bb12a89c8ba73ab9693e1bf8e76af14a366b571a88da68ad52",
         "revocations.json": "fd7ee8682d7e8bc827ce604a05e7ee84d1388a041bf884cc1aa291fddd022446",
-        "statement.json": "abaf95d1d7fbae398465e47126475914fb810b8cd3daadf0611c87fb50927ba6"
+        "statement.json": "b2ea779c0d41f029c45729470eb2a13350b29aef90f9a86cd112072d4ed0c472"
       },
       "id": "receipt-not-passing",
       "path": "cases/receipt-not-passing"
@@ -346,7 +637,7 @@
         "context.json": "d78977902b24db601b2e0c3f62891ad8bf9fd72fb6e2abac121c1ea7d708026c",
         "receipt.json": "094c78e4622639a35cdcf57613ccf3dfc6f85b0d287bd10dd262446355932258",
         "revocations.json": "4775288fb641f803850e76895270b770e8f553c42e75cbbe1f2c17fcb67cd6fa",
-        "statement.json": "ee4f05039decb7856d54261e665a8e05a87b6a97bcd0544cfd6d8b690632ecce"
+        "statement.json": "ab3bf0e8e6e1e0c6fd8134a0517cb540f0566639245f69d63a12bff0415283d6"
       },
       "id": "receipt-not-current",
       "path": "cases/receipt-not-current"
@@ -361,7 +652,7 @@
         "context.json": "d78977902b24db601b2e0c3f62891ad8bf9fd72fb6e2abac121c1ea7d708026c",
         "receipt.json": "094c78e4622639a35cdcf57613ccf3dfc6f85b0d287bd10dd262446355932258",
         "revocations.json": "4775288fb641f803850e76895270b770e8f553c42e75cbbe1f2c17fcb67cd6fa",
-        "statement.json": "63319d03fd6b97266688ff25bc032f1956fdb089e38fa12fda308141f3842fd9"
+        "statement.json": "7a07cde8e0684a8ad8522dab635e19f79c745924afd8416909c67fcdfed7d2fc"
       },
       "id": "receipt-not-current-at-valid-until",
       "path": "cases/receipt-not-current-at-valid-until"
@@ -376,7 +667,7 @@
         "context.json": "d78977902b24db601b2e0c3f62891ad8bf9fd72fb6e2abac121c1ea7d708026c",
         "receipt.json": "094c78e4622639a35cdcf57613ccf3dfc6f85b0d287bd10dd262446355932258",
         "revocations.json": "78443b8c14727334e031a5cbba0acd0c3f4117a96b32bce503390c087cabf447",
-        "statement.json": "9c8842bfd97cfa06ae12e65b55c9f157ecf0b0e54b19975f6a57b55f98707b83"
+        "statement.json": "2a8554ce1596b91d99b0202f9a4738ac76f9f27b9fa6fcd3c14e313d392e0c4a"
       },
       "id": "credential-outlives-receipt",
       "path": "cases/credential-outlives-receipt"
@@ -391,7 +682,7 @@
         "context.json": "d78977902b24db601b2e0c3f62891ad8bf9fd72fb6e2abac121c1ea7d708026c",
         "receipt.json": "094c78e4622639a35cdcf57613ccf3dfc6f85b0d287bd10dd262446355932258",
         "revocations.json": "fd7ee8682d7e8bc827ce604a05e7ee84d1388a041bf884cc1aa291fddd022446",
-        "statement.json": "277154939600153fcc12767a92f6400b140464000c4ca3ddfc8c6e2d5bd35bad"
+        "statement.json": "fe9467ec2de5b62b0adb9726f9fe2c69c3eb19b165d776060dd782f3677ef525"
       },
       "id": "revocation-list-digest-mismatch",
       "path": "cases/revocation-list-digest-mismatch"
@@ -406,7 +697,7 @@
         "context.json": "d78977902b24db601b2e0c3f62891ad8bf9fd72fb6e2abac121c1ea7d708026c",
         "receipt.json": "094c78e4622639a35cdcf57613ccf3dfc6f85b0d287bd10dd262446355932258",
         "revocations.json": "c5e09b4134766e4c657312c242f3e02976bf38f18da0e77bbef6cd4266d112cb",
-        "statement.json": "c03f91eb40d77f9cf82475d3ff2f96480e31967a8906fa291198c4c8bec57656"
+        "statement.json": "5e224b6ac561781223b679c2f9f921c303e923ed4343cefc31b89c265ec414b2"
       },
       "id": "revocation-list-malformed",
       "path": "cases/revocation-list-malformed"
@@ -421,7 +712,7 @@
         "context.json": "d78977902b24db601b2e0c3f62891ad8bf9fd72fb6e2abac121c1ea7d708026c",
         "receipt.json": "094c78e4622639a35cdcf57613ccf3dfc6f85b0d287bd10dd262446355932258",
         "revocations.json": "f94804780895208fa0ecd3fcc5b7c9c88efb7636967f2a8eeff5ddea5dd66dbf",
-        "statement.json": "d3d18b7beb8fa7e79cb686260013eee3e2728095adb34a44e3af3b4943b68ccb"
+        "statement.json": "060a1ca0afc278213f628a09f2b6f7f23ded62472cfbf56d6aa9ee0b13d9a2d0"
       },
       "id": "revocation-list-other-signer",
       "path": "cases/revocation-list-other-signer"
@@ -436,7 +727,7 @@
         "context.json": "d78977902b24db601b2e0c3f62891ad8bf9fd72fb6e2abac121c1ea7d708026c",
         "receipt.json": "094c78e4622639a35cdcf57613ccf3dfc6f85b0d287bd10dd262446355932258",
         "revocations.json": "5508063806d00d218ae378ad1bd3f744a5de08b6d80874684661acec58508bbf",
-        "statement.json": "503b74dead0e93d50c085b2224ad738e3957acf0912706f4be6702b6c694db84"
+        "statement.json": "b2ea9c845b12a6e22af54b096fafa33bc987c075a11885afaa5ea02b374375da"
       },
       "id": "revocation-list-stale",
       "path": "cases/revocation-list-stale"
@@ -451,10 +742,204 @@
         "context.json": "d78977902b24db601b2e0c3f62891ad8bf9fd72fb6e2abac121c1ea7d708026c",
         "receipt.json": "094c78e4622639a35cdcf57613ccf3dfc6f85b0d287bd10dd262446355932258",
         "revocations.json": "135380f6d4caa83b21c16e8dbc8adbd8223319211d5bab1fd9c4e38ee9ebd8d4",
-        "statement.json": "112ba975f1c6ed4afadafe697e57fae80a0609a9b00ad6436a19ccbac405a65e"
+        "statement.json": "2045e153ca1fc9ebe838a5b8b1de19d7cd0267ae2397aaec2e276db403dd625a"
       },
       "id": "receipt-revoked",
       "path": "cases/receipt-revoked"
+    },
+    {
+      "edit": "the grant file is not the grant the release names",
+      "expected": {
+        "decision": "reject",
+        "reason": "grant_digest_mismatch"
+      },
+      "files": {
+        "grant.json": "b0bc704fd356be690f71178602ce1d8de09e5aaf6ae927533b48e9911dfc374d",
+        "statement.json": "cfb49bfd5c0ecf3cd5ef883899a7c0413b91d74744bd05ad45de0d6a5c63b945"
+      },
+      "id": "grant-digest-mismatch",
+      "path": "cases/grant-digest-mismatch"
+    },
+    {
+      "edit": "the release names a grant and none is given",
+      "expected": {
+        "decision": "reject",
+        "reason": "grant_digest_mismatch"
+      },
+      "files": {
+        "statement.json": "61561c205dfe27e97e730642578176b6704432dd06648240dc356ad96aaeba3f"
+      },
+      "id": "grant-absent",
+      "path": "cases/grant-absent"
+    },
+    {
+      "edit": "the grant's hosts are not sorted",
+      "expected": {
+        "decision": "reject",
+        "reason": "grant_malformed"
+      },
+      "files": {
+        "grant.json": "89c5f740e8e06416d57e122dcfc643a5262fe8be02c1ba4c286d57aff9a10e6a",
+        "statement.json": "bd0c9b8f0abeed6b3191e64627a70db659569b1e8523c2f6ec70662495e51305"
+      },
+      "id": "grant-malformed-hosts-unsorted",
+      "path": "cases/grant-malformed-hosts-unsorted"
+    },
+    {
+      "edit": "the grant writes a host as a URL",
+      "expected": {
+        "decision": "reject",
+        "reason": "grant_malformed"
+      },
+      "files": {
+        "grant.json": "06862128a02ad51894933d8a56be8b324b2d3686b6b0eadd7cbd0d2129893b71",
+        "statement.json": "ecace15f1aabd1ec5c76ee54cfbc9e2d735cc872d16a96a265650dcd31022b1d"
+      },
+      "id": "grant-malformed-host-has-scheme",
+      "path": "cases/grant-malformed-host-has-scheme"
+    },
+    {
+      "edit": "the grant file is not JSON",
+      "expected": {
+        "decision": "reject",
+        "reason": "grant_malformed"
+      },
+      "files": {
+        "grant.json": "b1bc5c8bfc20d4fc6b71cac98edb8c668a182cdc0681bcdd9bafc4abd371fe66",
+        "statement.json": "9c0dd35a8a82da79c2f5aa5b48d9e73d02321e57f1b26e11097e6c210b7b5a39"
+      },
+      "id": "grant-malformed-not-json",
+      "path": "cases/grant-malformed-not-json"
+    },
+    {
+      "edit": "the release copied a later end than the grant's",
+      "expected": {
+        "decision": "reject",
+        "reason": "grant_fields_differ"
+      },
+      "files": {
+        "grant.json": "b0bc704fd356be690f71178602ce1d8de09e5aaf6ae927533b48e9911dfc374d",
+        "statement.json": "85c9a2c70291cbbcb215b0f5407fb1bd7ba7c9168dbd2f4d8fec6801c7ed4bae"
+      },
+      "id": "grant-fields-differ",
+      "path": "cases/grant-fields-differ"
+    },
+    {
+      "edit": "the subject names a digest the release's grant member does not",
+      "expected": {
+        "decision": "reject",
+        "reason": "subject_not_granted"
+      },
+      "files": {
+        "grant.json": "b0bc704fd356be690f71178602ce1d8de09e5aaf6ae927533b48e9911dfc374d",
+        "statement.json": "cfdb671bb72bf10b64b66111c8342c9b19c93fc7674128ed92067f4a6b2a9cf3"
+      },
+      "id": "subject-not-granted",
+      "path": "cases/subject-not-granted"
+    },
+    {
+      "edit": "another agent received the cookie",
+      "expected": {
+        "decision": "reject",
+        "reason": "principals_not_granted"
+      },
+      "files": {
+        "grant.json": "b0bc704fd356be690f71178602ce1d8de09e5aaf6ae927533b48e9911dfc374d",
+        "statement.json": "fd4adacea57c0b37eed1215e268f5cb9368891250b2f49dcb39b93c514a58771"
+      },
+      "id": "principals-agent-not-granted",
+      "path": "cases/principals-agent-not-granted"
+    },
+    {
+      "edit": "the agent's subject is granted under another issuer",
+      "expected": {
+        "decision": "reject",
+        "reason": "principals_not_granted"
+      },
+      "files": {
+        "grant.json": "b0bc704fd356be690f71178602ce1d8de09e5aaf6ae927533b48e9911dfc374d",
+        "statement.json": "936c26db1cde508a4bd20240e775afd521c1ef74340f9dd99b5d83c56fc22b79"
+      },
+      "id": "principals-agent-issuer-differs",
+      "path": "cases/principals-agent-issuer-differs"
+    },
+    {
+      "edit": "the release names a user who did not grant",
+      "expected": {
+        "decision": "reject",
+        "reason": "principals_not_granted"
+      },
+      "files": {
+        "grant.json": "b0bc704fd356be690f71178602ce1d8de09e5aaf6ae927533b48e9911dfc374d",
+        "statement.json": "50118a84f7ee2f74fb17f67af6a33b51205f17e6a1a73e02612032b0987d1109"
+      },
+      "id": "principals-user-not-granted",
+      "path": "cases/principals-user-not-granted"
+    },
+    {
+      "edit": "the cookie went to a host the grant does not name",
+      "expected": {
+        "decision": "reject",
+        "reason": "audience_not_granted"
+      },
+      "files": {
+        "grant.json": "b0bc704fd356be690f71178602ce1d8de09e5aaf6ae927533b48e9911dfc374d",
+        "statement.json": "159ef21c4d48b7d8bef716eb3529177fa4701a52b07971cde6adf45a8491cb11"
+      },
+      "id": "audience-not-granted",
+      "path": "cases/audience-not-granted"
+    },
+    {
+      "edit": "the cookie went to the granted host on another port",
+      "expected": {
+        "decision": "reject",
+        "reason": "audience_not_granted"
+      },
+      "files": {
+        "grant.json": "b0bc704fd356be690f71178602ce1d8de09e5aaf6ae927533b48e9911dfc374d",
+        "statement.json": "a14a120a03855c90e7450353a773373f8c621e28a82c71d777d466155c56ffd9"
+      },
+      "id": "audience-port-not-granted",
+      "path": "cases/audience-port-not-granted"
+    },
+    {
+      "edit": "the release was made at the grant's end; the grant holds until, not at, notAfter",
+      "expected": {
+        "decision": "reject",
+        "reason": "grant_not_current"
+      },
+      "files": {
+        "grant.json": "b0bc704fd356be690f71178602ce1d8de09e5aaf6ae927533b48e9911dfc374d",
+        "statement.json": "cae45fa0d358c0a8a806f581511cc0f3a9078b5265d498cb4a81fd24b32bb7b1"
+      },
+      "id": "grant-not-current",
+      "path": "cases/grant-not-current"
+    },
+    {
+      "edit": "the release was made after the grant ended",
+      "expected": {
+        "decision": "reject",
+        "reason": "grant_not_current"
+      },
+      "files": {
+        "grant.json": "b0bc704fd356be690f71178602ce1d8de09e5aaf6ae927533b48e9911dfc374d",
+        "statement.json": "a0410ee151eabc1a6b154adaf4a7d74211e6e340329f972564f67f9650cbd3a3"
+      },
+      "id": "grant-not-current-after-end",
+      "path": "cases/grant-not-current-after-end"
+    },
+    {
+      "edit": "the release ends a second after the grant",
+      "expected": {
+        "decision": "reject",
+        "reason": "credential_outlives_grant"
+      },
+      "files": {
+        "grant.json": "b0bc704fd356be690f71178602ce1d8de09e5aaf6ae927533b48e9911dfc374d",
+        "statement.json": "0d3213df10db22b75fbb58a5db4b99b5c0543234ef5454791e5a77a8b72341e0"
+      },
+      "id": "credential-outlives-grant",
+      "path": "cases/credential-outlives-grant"
     }
   ],
   "verifierContract": "verifier <suite> <case-dir> --json; exit 0 accept, 1 reject"

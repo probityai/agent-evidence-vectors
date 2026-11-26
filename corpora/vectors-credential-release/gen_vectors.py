@@ -1,10 +1,12 @@
 """Build the credential-release cases byte-identically.
 
 Every case is an unsigned in-toto Statement recording that a broker released a
-scoped credential (spec/predicates/credential-release.md), the agent-card
+credential to a named agent (spec/predicates/credential-release.md, version
+0.2.0) and the basis it names. A receipt basis case also holds the agent-card
 receipt it released against, the revocation list it says it consulted, and a
-context naming the receipt signer's public key. Each rejected case is built so
-the check it names is the first that fails; each accepted case is a control.
+context naming the receipt signer's public key; a grant basis case holds the
+user's grant document. Each rejected case is built so the check it names is the
+first that fails; each accepted case is a control.
 
 Regenerate byte-identically:
 
@@ -43,6 +45,11 @@ enc, sha, corpus_digest = _digest.enc, _digest.sha, _digest.corpus_digest
 RELEASED = "2026-10-27T12:00:00Z"
 BROKER = "https://broker.example.org/credential-broker"
 AUDIENCE = "https://api.travel-bookings.example.com"
+AGENT = {"issuer": "https://idp.example.com/realms/agents", "subject": "travel-agent"}
+MAIL_AGENT = {"issuer": "https://idp.example.com/realms/agents", "subject": "mail-agent"}
+USER = {"issuer": "https://idp.example.com/realms/users", "subject": "user-0001"}
+SITE = "mail.example.com"
+GRANT_ENDS = "2026-10-27T18:00:00Z"
 
 
 def receipt_statement(**changes: Any) -> dict[str, Any]:
@@ -58,7 +65,7 @@ def release(receipt: dict[str, Any], revocations: dict[str, Any], *,
     """A release on ``receipt`` that copies its result and validUntil."""
     held = receipt["predicate"]
     predicate: dict[str, Any] = {
-        "broker": {"id": BROKER},
+        "agent": dict(AGENT), "broker": {"id": BROKER},
         "credential": {"audience": AUDIENCE, "kind": "oauth2-access-token",
                        "scope": ["bookings:hold", "bookings:read"]},
         "minResult": "pass", "registryDigest": {"sha256": receipts.REGISTRY},
@@ -73,6 +80,31 @@ def release(receipt: dict[str, Any], revocations: dict[str, Any], *,
     return {"_type": reader.STATEMENT_TYPE, "predicate": predicate,
             "predicateType": reader.RELEASE_TYPE,
             "subject": [{"digest": {"sha256": digest}, "name": receipts.CARD_URL}]}
+
+
+def grant_document(**changes: Any) -> dict[str, Any]:
+    """The user's grant: this agent may use this user's login at these hosts until notAfter."""
+    grant: dict[str, Any] = {"agent": dict(MAIL_AGENT), "grantId": "grant-0001",
+                             "hosts": [SITE], "notAfter": GRANT_ENDS, "user": dict(USER)}
+    grant.update(changes)
+    return grant
+
+
+def grant_release(grant: dict[str, Any], *, grant_bytes: bytes | None = None,
+                  **changes: Any) -> dict[str, Any]:
+    """A browser session release of the user's cookie under ``grant``, which it names."""
+    digest = sha(enc(grant) if grant_bytes is None else grant_bytes)
+    predicate: dict[str, Any] = {
+        "agent": dict(MAIL_AGENT), "broker": {"id": BROKER},
+        "credential": {"audience": f"https://{SITE}", "cookie": "sid", "kind": "session-cookie"},
+        "grant": {"digest": {"sha256": digest}, "notAfter": grant["notAfter"]},
+        "onBehalfOf": dict(USER), "releaseId": "release-0001", "releasedAt": RELEASED,
+        "ttlSeconds": 900,
+    }
+    predicate.update(changes)
+    return {"_type": reader.STATEMENT_TYPE, "predicate": predicate,
+            "predicateType": reader.RELEASE_TYPE,
+            "subject": [{"digest": {"sha256": digest}, "name": grant["grantId"]}]}
 
 
 Case = tuple[str, str, dict[str, bytes], str, str]
@@ -92,6 +124,31 @@ def case(name: str, edit: str, *, receipt: dict[str, Any] | None = None,
              "statement.json": stmt if isinstance(stmt, bytes) else enc(stmt)}
     decision = reader.ACCEPT if reason == "release_bound" else reader.REJECT
     return name, edit, files, decision, reason
+
+
+def grant_case(name: str, edit: str, *, grant: dict[str, Any] | None = None,
+               statement: Callable[[dict[str, Any]], dict[str, Any]] | None = None,
+               grant_file: bytes | None = None, reason: str = "release_bound") -> Case:
+    held = grant_document() if grant is None else grant
+    stmt = (statement or grant_release)(held)
+    files = {"statement.json": enc(stmt)}
+    if grant_file != b"":
+        files["grant.json"] = grant_file if grant_file is not None else enc(held)
+    decision = reader.ACCEPT if reason == "release_bound" else reader.REJECT
+    return name, edit, files, decision, reason
+
+
+def _granted(**changes: Any) -> Callable[[dict[str, Any]], dict[str, Any]]:
+    return lambda held: grant_release(held, **changes)
+
+
+def _grant_edited(change: Callable[[dict[str, Any]], None]
+                  ) -> Callable[[dict[str, Any]], dict[str, Any]]:
+    def build(held: dict[str, Any]) -> dict[str, Any]:
+        stmt = grant_release(held)
+        change(stmt["predicate"])
+        return stmt
+    return build
 
 
 def _with(**changes: Any) -> Callable[[dict[str, Any], dict[str, Any]], dict[str, Any]]:
@@ -129,6 +186,35 @@ def accepted() -> list[Case]:
              "the second the receipt was issued", statement=_with(
                  releasedAt=receipts.ISSUED),
              revocations=listing(issued=receipts.ISSUED, next_update="2026-10-21T00:00:00Z")),
+        case("accept-receipt-on-behalf-of-user", "control: the release names the user the "
+             "agent acted for", statement=_with(onBehalfOf=dict(USER))),
+        case("accept-session-cookie-on-receipt", "control: a session cookie released to an "
+             "agent a passing receipt names", statement=_with(credential={
+                 "audience": "https://bookings.example.com", "cookie": "sid",
+                 "kind": "session-cookie"}, onBehalfOf=dict(USER))),
+    ]
+
+
+def accepted_grants() -> list[Case]:
+    return [
+        grant_case("accept-session-cookie-on-grant", "control: a browser session released "
+                   "the user's cookie to the agent and host the user's grant names"),
+        grant_case("accept-session-cookie-plain-http-origin", "control: the cookie went to "
+                   "a plain HTTP origin, which the record states",
+                   statement=_grant_edited(lambda p: p["credential"].update(
+                       audience=f"http://{SITE}"))),
+        grant_case("accept-session-cookie-non-default-port", "control: the grant names a "
+                   "host with its port and the origin carries it",
+                   grant=grant_document(hosts=["127.0.0.1:8443", SITE]),
+                   statement=_grant_edited(lambda p: p["credential"].update(
+                       audience="https://127.0.0.1:8443"))),
+        grant_case("accept-release-ends-at-grant-end", "control: the release ends exactly "
+                   "when the grant does", statement=_granted(
+                       releasedAt="2026-10-27T17:00:00Z", ttlSeconds=3600)),
+        grant_case("accept-token-on-grant", "control: a scoped token released under the "
+                   "user's grant to an API on a granted host", statement=_granted(
+                       credential={"audience": f"https://{SITE}/api",
+                                   "kind": "oauth2-access-token", "scope": ["mail:read"]})),
     ]
 
 
@@ -171,6 +257,111 @@ def _shape_cases() -> list[Case]:
         case("predicate-broker-missing", "the release names no broker",
              statement=_edited(lambda s: s["predicate"].pop("broker")),
              reason="predicate_malformed"),
+        case("predicate-v0-1-without-agent", "a 0.1.0 record: it names no agent",
+             statement=_edited(lambda s: s["predicate"].pop("agent")),
+             reason="predicate_malformed"),
+        case("predicate-agent-issuer-not-https", "the agent's issuer is not an https URL",
+             statement=_with(agent={"issuer": "idp.example.com", "subject": "travel-agent"}),
+             reason="predicate_malformed"),
+        case("predicate-on-behalf-of-extra-member", "the user principal also carries an "
+             "email address", statement=_with(onBehalfOf={**USER, "email": "a@example.com"}),
+             reason="predicate_malformed"),
+        case("predicate-receipt-and-grant", "the release names a receipt and a grant",
+             statement=_with(grant={"digest": {"sha256": sha(b"g")}, "notAfter": GRANT_ENDS},
+                             onBehalfOf=dict(USER)), reason="predicate_malformed"),
+        case("credential-carries-cookie-value", "the credential object carries the cookie's "
+             "value", statement=_credential(value="user-session-value"),
+             reason="credential_fields"),
+        case("credential-session-cookie-with-scope", "a session cookie claims a scope",
+             statement=_with(credential={"audience": "https://bookings.example.com",
+                                         "cookie": "sid", "kind": "session-cookie",
+                                         "scope": ["bookings:read"]}),
+             reason="predicate_malformed"),
+        case("credential-token-audience-plain-http", "a token names a plain HTTP audience, "
+             "which only a session cookie may", statement=_credential(
+                 audience="http://api.travel-bookings.example.com"),
+             reason="predicate_malformed"),
+    ]
+
+
+def _grant_shape_cases() -> list[Case]:
+    return [
+        grant_case("predicate-grant-without-on-behalf-of", "a grant basis release names no "
+                   "user", statement=_grant_edited(lambda p: p.pop("onBehalfOf")),
+                   reason="predicate_malformed"),
+        grant_case("predicate-grant-with-min-result", "a grant basis release carries a "
+                   "receipt basis member", statement=_granted(minResult="pass"),
+                   reason="predicate_malformed"),
+        grant_case("predicate-grant-not-after-not-a-time", "the grant's copied notAfter is "
+                   "not an RFC 3339 time", statement=_grant_edited(
+                       lambda p: p["grant"].update(notAfter="2026-10-27")),
+                   reason="predicate_malformed"),
+        grant_case("credential-session-cookie-audience-path", "the cookie's origin carries "
+                   "a path", statement=_grant_edited(lambda p: p["credential"].update(
+                       audience=f"https://{SITE}/inbox")), reason="predicate_malformed"),
+        grant_case("credential-session-cookie-default-port", "the cookie's origin writes the "
+                   "default port", statement=_grant_edited(lambda p: p["credential"].update(
+                       audience=f"https://{SITE}:443")), reason="predicate_malformed"),
+        grant_case("credential-session-cookie-uppercase-host", "the cookie's origin host is "
+                   "not lowercase", statement=_grant_edited(lambda p: p["credential"].update(
+                       audience="https://Mail.example.com")), reason="predicate_malformed"),
+        grant_case("credential-cookie-name-not-token", "the cookie name holds a space",
+                   statement=_grant_edited(lambda p: p["credential"].update(
+                       cookie="session id")), reason="predicate_malformed"),
+    ]
+
+
+def _grant_cases() -> list[Case]:
+    other_user = {"issuer": USER["issuer"], "subject": "user-0002"}
+    held = grant_document()
+    return [
+        grant_case("grant-digest-mismatch", "the grant file is not the grant the release names",
+                   statement=lambda g: grant_release(grant_document(hosts=["other.example"])),
+                   reason="grant_digest_mismatch"),
+        grant_case("grant-absent", "the release names a grant and none is given",
+                   grant_file=b"", reason="grant_digest_mismatch"),
+        grant_case("grant-malformed-hosts-unsorted", "the grant's hosts are not sorted",
+                   grant=grant_document(hosts=[SITE, "calendar.example.com"]),
+                   reason="grant_malformed"),
+        grant_case("grant-malformed-host-has-scheme", "the grant writes a host as a URL",
+                   grant=grant_document(hosts=[f"https://{SITE}"]), reason="grant_malformed"),
+        grant_case("grant-malformed-not-json", "the grant file is not JSON",
+                   grant_file=b"{\"grantId\": \n",
+                   statement=lambda g: grant_release(g, grant_bytes=b"{\"grantId\": \n"),
+                   reason="grant_malformed"),
+        grant_case("grant-fields-differ", "the release copied a later end than the grant's",
+                   statement=_grant_edited(lambda p: p["grant"].update(
+                       notAfter="2026-10-28T18:00:00Z")), reason="grant_fields_differ"),
+        grant_case("subject-not-granted", "the subject names a digest the release's grant "
+                   "member does not", statement=lambda g: {
+                       **grant_release(g), "subject": [{"digest": {"sha256": sha(b"x")},
+                                                        "name": g["grantId"]}]},
+                   reason="subject_not_granted"),
+        grant_case("principals-agent-not-granted", "another agent received the cookie",
+                   statement=_granted(agent=dict(AGENT)), reason="principals_not_granted"),
+        grant_case("principals-agent-issuer-differs", "the agent's subject is granted under "
+                   "another issuer", statement=_granted(agent={
+                       "issuer": "https://other-idp.example.com", "subject": "mail-agent"}),
+                   reason="principals_not_granted"),
+        grant_case("principals-user-not-granted", "the release names a user who did not "
+                   "grant", statement=_granted(onBehalfOf=other_user),
+                   reason="principals_not_granted"),
+        grant_case("audience-not-granted", "the cookie went to a host the grant does not name",
+                   statement=_grant_edited(lambda p: p["credential"].update(
+                       audience="https://tracker.example.net")),
+                   reason="audience_not_granted"),
+        grant_case("audience-port-not-granted", "the cookie went to the granted host on "
+                   "another port", statement=_grant_edited(lambda p: p["credential"].update(
+                       audience=f"https://{SITE}:8443")), reason="audience_not_granted"),
+        grant_case("grant-not-current", "the release was made at the grant's end; the grant "
+                   "holds until, not at, notAfter", statement=_granted(releasedAt=GRANT_ENDS),
+                   reason="grant_not_current"),
+        grant_case("grant-not-current-after-end", "the release was made after the grant "
+                   "ended", grant=held, statement=_granted(releasedAt="2026-10-28T00:00:00Z"),
+                   reason="grant_not_current"),
+        grant_case("credential-outlives-grant", "the release ends a second after the grant",
+                   statement=_granted(releasedAt="2026-10-27T17:00:00Z", ttlSeconds=3601),
+                   reason="credential_outlives_grant"),
     ]
 
 
@@ -233,7 +424,8 @@ def _list_cases() -> list[Case]:
 
 def cases() -> list[Case]:
     """Every case: id, what it shows, files, expected decision and reason."""
-    return [*accepted(), *_shape_cases(), *_receipt_cases(), *_list_cases()]
+    return [*accepted(), *accepted_grants(), *_shape_cases(), *_grant_shape_cases(),
+            *_receipt_cases(), *_list_cases(), *_grant_cases()]
 
 
 def generate(root: Path = ROOT) -> dict[str, Any]:

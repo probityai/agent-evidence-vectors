@@ -8,7 +8,7 @@
     "total": 57
   },
   "anchor": {
-    "kind": "digest-list-line",
+    "kind": "signed-digest-list",
     "manifest": "vectors-restart-records/MANIFEST.json",
     "reference": {
       "path": "release/CORPUS-DIGESTS.txt",
@@ -18,6 +18,13 @@
     "routine-file": "corpora/vectors-restart-records/gen_vectors.py",
     "serialization": "corpus-routine",
     "sha256": "5b7f58c91b517bd7c96dcccdef0d827a4f730fd4a650b4992b362bb9925cae29",
+    "signature": {
+      "key": "release/cosign.pub",
+      "key-sha256": "15fccb1635dd1d9333146cb389f26fa3c3b9213aeed1da945ea1f51a2dc1be84",
+      "path": "release/CORPUS-DIGESTS.txt.sig",
+      "scheme": "ed25519",
+      "serialization": "bytes"
+    },
     "verdicts": {
       "availability-failure": "inconclusive",
       "integrity-failure": "fail"
@@ -91,7 +98,7 @@
       },
       "path": "corpora/vectors-restart-records/check_vectors.py",
       "serialization": "bytes",
-      "sha256": "ed4d4b05c591c5c67cef2e4cd9dacc339d693fd376d0fbd1615040f3cc4a910d"
+      "sha256": "f98a45408be1e86667b67836053195089adb5f56089ab3057e44f4e13ec0efce"
     },
     {
       "consumed": "unconsumed",
@@ -233,6 +240,7 @@
         "corpusreaders/agentaction_chain.go",
         "corpusreaders/agentdecision.go",
         "corpusreaders/agenticprocess.go",
+        "corpusreaders/agentidentity.go",
         "corpusreaders/agentregistrationclassification.go",
         "corpusreaders/agentrequestproof.go",
         "corpusreaders/aggregateaccounting.go",
@@ -342,11 +350,16 @@
         "corpusreaders/w3cintake.go",
         "corpusreaders/w3cjcs.go",
         "corpusreaders/w3creport.go",
+        "corpusreaders/x402binding.go",
         "corpusreaders/x402join.go",
+        "internal/identifiers/identifiers.go",
+        "observedeffect/ijson.go",
+        "observedeffect/rules.go",
+        "observedeffect/verify.go",
         "go.mod"
       ],
       "serialization": "sha256-listing-v1",
-      "sha256": "afc414585d530b094c7ddf8962d217b610a21ae231353f406a4c276f7215762c"
+      "sha256": "5e910152e511086ea32f93807ae40f610d50c6918528feff8a01cabdaf27d967"
     },
     "runtime": {
       "name": "go",
@@ -380,6 +393,7 @@
       "corpusreaders/agentaction_chain.go",
       "corpusreaders/agentdecision.go",
       "corpusreaders/agenticprocess.go",
+      "corpusreaders/agentidentity.go",
       "corpusreaders/agentregistrationclassification.go",
       "corpusreaders/agentrequestproof.go",
       "corpusreaders/aggregateaccounting.go",
@@ -489,7 +503,12 @@
       "corpusreaders/w3cintake.go",
       "corpusreaders/w3cjcs.go",
       "corpusreaders/w3creport.go",
+      "corpusreaders/x402binding.go",
       "corpusreaders/x402join.go",
+      "internal/identifiers/identifiers.go",
+      "observedeffect/ijson.go",
+      "observedeffect/rules.go",
+      "observedeffect/verify.go",
       "go.mod"
     ]
   },
@@ -953,7 +972,7 @@
   ],
   "corpus-digest": {
     "serialization": "sha256-listing-v1",
-    "sha256": "ca11e977a6e18a15d27fc37402f972a4a3d0a3e4a70047ed18a45368c15f6975"
+    "sha256": "4ad55e63b7aa712f0c0a398b69e9e27bf9bea799cf331dc0b4b323d854a7cfd1"
   },
   "exit-code": 0,
   "exit-rule": "zero-iff-every-check-passes",
@@ -2020,7 +2039,6 @@
     ],
     "leaves-open": [
       "whether an implementation written from the specification, run by someone other than an author, reaches the same verdicts",
-      "whether release/CORPUS-DIGESTS.txt is a list a release signed: the signature beside it does not verify over these bytes, so the anchor is a located line, not a verified one",
       "whether a re-run by someone other than an author on these exact bytes agrees; none is on the record for them"
     ]
   },

@@ -16,14 +16,19 @@ from __future__ import annotations
 import base64
 import hashlib
 import json
+import sys
+from pathlib import Path
 from typing import Any
 
 from cryptography.exceptions import InvalidSignature
 from cryptography.hazmat.primitives.asymmetric.ed25519 import Ed25519PublicKey
 
+sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "packaging"))
+from agent_evidence_vectors.identifiers import identifier, same_identifier  # noqa: E402
+
 PAYLOAD_TYPE = "application/vnd.in-toto+json"
 STATEMENT_TYPE = "https://in-toto.io/Statement/v1"
-PREDICATE_TYPE = "https://probityai.github.io/agent-evidence-vectors/predicate/v1/control-decision"
+PREDICATE_TYPE = identifier("agent-evidence-vectors/predicate/v1/control-decision")
 DECISIONS = ("allow", "deny", "transform")
 MAX_SAFE = 2**53 - 1
 ACCEPTED = "decision-bound"
@@ -118,7 +123,7 @@ def _predicate(statement: dict[str, Any]) -> dict[str, Any]:
     subject = statement.get("subject")
     if (
         statement.get("_type") != STATEMENT_TYPE
-        or statement.get("predicateType") != PREDICATE_TYPE
+        or not same_identifier(statement.get("predicateType"), PREDICATE_TYPE)
         or not isinstance(predicate, dict)
         or not isinstance(subject, list)
         or len(subject) != 1

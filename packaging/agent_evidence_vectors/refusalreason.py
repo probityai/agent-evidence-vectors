@@ -60,10 +60,11 @@ from agent_evidence_vectors.monitorcoverage import (
 )
 
 from . import strictjson
+from .identifiers import identifier, same_identifier
 
 SUITE = "refusal-reason-priority/v1"
-CONTRACT_ID = (
-    "https://probityai.github.io/agent-evidence-vectors/predicate/v1/refusal-reason-priority"
+CONTRACT_ID = identifier(
+    "agent-evidence-vectors/predicate/v1/refusal-reason-priority"
 )
 CONFORMANT, NONCONFORMANT, AMBIGUOUS = "conformant", "nonconformant", "ambiguous"
 CONFORMANT_REASON = "response_follows_source"
@@ -201,7 +202,8 @@ def _first_failure(record: Record, skip: frozenset[str]) -> str | None:
 
     failures: dict[str, Callable[[], bool]] = {
         "contract_id_missing": lambda: "contractId" not in record,
-        "contract_id_unknown": lambda: record.get("contractId", CONTRACT_ID) != CONTRACT_ID,
+        "contract_id_unknown": lambda: not same_identifier(
+            record.get("contractId", CONTRACT_ID), CONTRACT_ID),
         "reason_member_absent": lambda: "reason" not in response,
         "reason_outside_closed_set": lambda: (
             response.get("reason") is not None and response.get("reason") not in FIVE

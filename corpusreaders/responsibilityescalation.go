@@ -7,6 +7,8 @@ import (
 	"reflect"
 	"strings"
 	"time"
+
+	"github.com/probityai/agent-evidence-vectors/internal/identifiers"
 )
 
 func init() { register(responsibilityEscalation{}) }
@@ -35,7 +37,7 @@ func init() { register(responsibilityEscalation{}) }
 // A record that passes every check is established.
 type responsibilityEscalation struct{}
 
-const resContractID = "https://probityai.github.io/agent-evidence-vectors/predicate/v1/responsibility-escalation"
+var resContractID = identifiers.Identifier("agent-evidence-vectors/predicate/v1/responsibility-escalation")
 
 func (responsibilityEscalation) Suite() string { return "responsibility-escalation/v1" }
 
@@ -291,7 +293,7 @@ func resChecks(r resRecord, held *resVersion) ([]resCheck, error) {
 	required := r.Escalation.Closure.Required
 	return []resCheck{
 		{"contract_id_missing", "not_established", r.ContractID == nil},
-		{"contract_id_unknown", "not_established", r.ContractID != nil && *r.ContractID != resContractID},
+		{"contract_id_unknown", "not_established", r.ContractID != nil && identifiers.CanonicalIdentifier(*r.ContractID) != resContractID},
 		{"referral_not_evidenced", "not_established", !r.evidenced("referral")},
 		{"event_after_evaluation_instant", "not_established", after},
 		{"reference_unavailable", "not_established", r.Authority.Resolution.Status != "resolved"},

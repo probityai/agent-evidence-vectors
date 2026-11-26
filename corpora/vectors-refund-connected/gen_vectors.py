@@ -24,6 +24,7 @@ ROOT = Path(__file__).resolve().parent
 sys.path.insert(0, str(ROOT.parents[1] / "packaging"))
 
 from agent_evidence_vectors import refundconnected as reader  # noqa: E402
+from agent_evidence_vectors.identifiers import identifier  # noqa: E402
 
 SUITE = reader.SUITE
 SOURCE_COMMIT = "dcc07c3cdde0ca4beab6f7b5afe6a7e15801eb58"
@@ -103,7 +104,7 @@ def generate(root: Path = ROOT) -> dict[str, Any]:
                 }
             )
     manifest = {
-        "contractId": "https://probityai.github.io/agent-evidence-vectors/contract/refund-connected/v1",
+        "contractId": identifier("agent-evidence-vectors/contract/refund-connected/v1"),
         "runs": runs,
         "source": {"commit": SOURCE_COMMIT, "path": SOURCE_PATH},
         "suite": SUITE,

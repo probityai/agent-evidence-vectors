@@ -342,6 +342,67 @@ def _staged_root(root: Path, edit: Callable[[str], str]) -> Path:
     return root
 
 
+def _unstaged(root: Path, staged: tuple[str, ...]) -> list[str]:
+    """The top-level entries a build of ``cmd/mutrun`` reads that ``staged`` omits.
+
+    Asked of the Go toolchain, not of the harness: the list it stages is written
+    by hand, and a package the build gained (``internal/identifiers``, imported by
+    ``corpusreaders``) was missing from it until a run on the branch died with
+    ``no required module provides package``.
+    """
+    proc = subprocess.run(
+        ["go", "list", "-deps", "-f", "{{if .Module}}{{if .Module.Main}}{{.Dir}}{{end}}{{end}}",
+         "./cmd/mutrun"],
+        cwd=root,
+        capture_output=True,
+        text=True,
+        timeout=300,
+        check=False,
+    )
+    if proc.returncode != 0:
+        raise AssertionError(f"go list -deps ./cmd/mutrun failed:\n{proc.stderr}")
+    base = root.resolve()
+    needed = {"go.mod"}
+    for line in proc.stdout.split():
+        rel = Path(line).resolve().relative_to(base)
+        if rel.parts:
+            needed.add(rel.parts[0])
+    return sorted(needed - set(staged))
+
+
+def check_stage_covers_the_build(module: Any, failures: list[str]) -> None:
+    """The staged tree must hold every directory a build of the rail reads.
+
+    A rail is staged as a handful of named members, not the whole repository, so
+    a package the build starts to import is silently outside the copy and the
+    harness dies at its first build. Two assertions:
+
+      * the live ``STAGED`` omits nothing the build reads.
+      * the same check on ``STAGED`` without ``internal`` must name ``internal``.
+        A check that cannot see an omission passes for the wrong reason, which is
+        how the first version of this list went stale unnoticed.
+    """
+    missing = _unstaged(REPO_ROOT, module.STAGED)
+    if missing:
+        failures.append(
+            f"stage covers the build: {missing} are read by a build of ./cmd/mutrun "
+            "and are not in STAGED, so a staged rail cannot build"
+        )
+        return
+    reduced = tuple(member for member in module.STAGED if member != "internal")
+    if reduced == tuple(module.STAGED):
+        failures.append("stage covers the build: STAGED has no internal member to drop")
+        return
+    seen = _unstaged(REPO_ROOT, reduced)
+    if seen != ["internal"]:
+        failures.append(
+            f"stage covers the build: with internal removed the check reports {seen}, "
+            "not ['internal']; it cannot see an omission"
+        )
+        return
+    print("  control: STAGED covers every directory a build of ./cmd/mutrun reads")
+
+
 def check_citation_read_path(module: Any, failures: list[str]) -> None:
     """The per-vector citation index must be read, and must refuse to read empty.
 
@@ -486,6 +547,8 @@ def main() -> int:
             print("  control: the committed ledger passes (rc=0)")
 
         check_citation_read_path(module, failures)
+        if not args.fast:
+            check_stage_covers_the_build(module, failures)
 
         for name, build, extra, expected_rc, phrase in cases:
             with tempfile.TemporaryDirectory() as td:

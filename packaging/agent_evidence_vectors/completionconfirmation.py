@@ -57,9 +57,10 @@ from pathlib import Path
 from typing import Any
 
 from . import strictjson
+from .identifiers import identifier, same_identifier
 
 SUITE = "completion-confirmation/v1"
-CONTRACT_ID = ("https://probityai.github.io/agent-evidence-vectors/contract/"
+CONTRACT_ID = identifier("agent-evidence-vectors/contract/"
                "completion-confirmation/v1")
 ALLOW, DENY = "allow", "deny"
 EXIT_FOR = {ALLOW: 0, DENY: 1}
@@ -169,7 +170,8 @@ def _first_failure(record: dict[str, Any], skip: frozenset[str]) -> str | None:
     """
     failures: dict[str, Callable[[], bool]] = {
         "contract_id_missing": lambda: "contractId" not in record,
-        "contract_id_unknown": lambda: record.get("contractId", CONTRACT_ID) != CONTRACT_ID,
+        "contract_id_unknown": lambda: not same_identifier(
+            record.get("contractId", CONTRACT_ID), CONTRACT_ID),
         "malformed_record": lambda: _malformed(record),
         "no_completion_claimed": lambda: record["claim"]["status"] != "complete",
         "completion_unconfirmed": lambda: record["confirmation"] is None,

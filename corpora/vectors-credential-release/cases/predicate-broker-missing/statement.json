@@ -1,6 +1,10 @@
 {
   "_type": "https://in-toto.io/Statement/v1",
   "predicate": {
+    "agent": {
+      "issuer": "https://idp.example.com/realms/agents",
+      "subject": "travel-agent"
+    },
     "credential": {
       "audience": "https://api.travel-bookings.example.com",
       "kind": "oauth2-access-token",

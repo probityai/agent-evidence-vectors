@@ -46,6 +46,7 @@ from cryptography.hazmat.primitives.asymmetric.ed25519 import Ed25519PublicKey
 _REPO = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 sys.path.insert(0, os.path.join(_REPO, "packaging"))
 from agent_evidence_vectors import strictjson  # noqa: E402
+from agent_evidence_vectors.identifiers import same_identifier  # noqa: E402
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, HERE)
@@ -273,7 +274,7 @@ def rule_ijson_integers(statement: dict[str, Any]) -> None:
 
 def rule_predicate_type(statement: dict[str, Any]) -> None:
     """The statement must say which predicate these fields belong to."""
-    if statement.get("predicateType") != PREDICATE_TYPE:
+    if not same_identifier(statement.get("predicateType"), PREDICATE_TYPE):
         raise Malformed("predicate-type-unexpected")
 
 
@@ -1417,7 +1418,7 @@ def check_counts(manifest: dict[str, Any]) -> None:
         actual[entry["kind"]] += 1
     if actual != manifest["counts"]:
         FAILURES.append(f"counts declare {manifest['counts']} and the members are {actual}")
-    if manifest["predicateType"] != PREDICATE_TYPE:
+    if not same_identifier(manifest["predicateType"], PREDICATE_TYPE):
         FAILURES.append("the manifest's predicateType is not the URI this verifier enforces")
     published = {digest: text.encode("ascii") for digest, text in manifest["blobs"].items()}
     if published != BLOBS:

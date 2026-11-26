@@ -46,9 +46,10 @@ from pathlib import Path
 from typing import Any
 
 from . import strictjson
+from .identifiers import identifier, same_identifier
 
 SUITE = "chunked-export/v1"
-CONTRACT_ID = ("https://probityai.github.io/agent-evidence-vectors/contract/"
+CONTRACT_ID = identifier("agent-evidence-vectors/contract/"
                "chunked-export/v1")
 ALLOW, DENY = "allow", "deny"
 REVERSIBLE, IRREVERSIBLE = "reversible", "irreversible"
@@ -116,7 +117,8 @@ def _first_failure(record: dict[str, Any], skip: frozenset[str]) -> str | None:
     first_left = min(_when(chunk["leftAt"]) for chunk in _exported(record))
     failures: dict[str, Callable[[], bool]] = {
         "contract_id_missing": lambda: "contractId" not in record,
-        "contract_id_unknown": lambda: record.get("contractId", CONTRACT_ID) != CONTRACT_ID,
+        "contract_id_unknown": lambda: not same_identifier(
+            record.get("contractId", CONTRACT_ID), CONTRACT_ID),
         "threshold_not_precommitted": lambda: _when(
             record["reconstruction"]["committedAt"]) > first_left,
         "seal_understates_composition": lambda: record["seal"]["maxClass"] != composed_class(

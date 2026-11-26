@@ -1,0 +1,16 @@
+{
+  "agent": {
+    "issuer": "https://idp.example.com/realms/agents",
+    "subject": "mail-agent"
+  },
+  "grantId": "grant-0001",
+  "hosts": [
+    "127.0.0.1:8443",
+    "mail.example.com"
+  ],
+  "notAfter": "2026-10-27T18:00:00Z",
+  "user": {
+    "issuer": "https://idp.example.com/realms/users",
+    "subject": "user-0001"
+  }
+}

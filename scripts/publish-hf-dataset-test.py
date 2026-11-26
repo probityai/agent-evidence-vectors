@@ -153,13 +153,17 @@ MANIFEST = {
 }
 
 
+# A stand-in SHA-256 digest: 64 hex characters, a width, not a count of any corpus.
+SHA256_HEX = "d" * 64
+
+
 def make_tree(root: Path) -> None:
     """A minimal published tree: a `vectors` corpus, release/, LICENSE, CITATION.cff."""
     write_json(root / "vectors" / "MANIFEST.json", MANIFEST)
     write_json(root / "vectors" / "v1.json", {"a": 1})
     (root / "release").mkdir()
     (root / "release" / "CORPUS-DIGESTS.txt").write_text(
-        f"# header\n{'d' * 64}  vectors/MANIFEST.json  s  vectors=1\n"
+        f"# header\n{SHA256_HEX}  vectors/MANIFEST.json  s  vectors=1\n"
     )
     (root / "LICENSE").write_text("Apache-2.0\n")
     (root / "CITATION.cff").write_text(

@@ -13,6 +13,8 @@ import (
 	"strconv"
 	"strings"
 	"time"
+
+	"github.com/probityai/agent-evidence-vectors/internal/identifiers"
 )
 
 func init() { register(capabilityRequirement{}) }
@@ -38,10 +40,11 @@ func init() { register(capabilityRequirement{}) }
 // deployment trusts is a separate decision this reader does not make.
 type capabilityRequirement struct{}
 
+var capreqContractID = identifiers.Identifier("agent-evidence-vectors/predicate/v1/capability-requirement")
+
 const (
-	capreqContractID = "https://probityai.github.io/agent-evidence-vectors/predicate/v1/capability-requirement"
-	capreqAllowed    = "record_consistent"
-	capreqUnproven   = "unproven"
+	capreqAllowed  = "record_consistent"
+	capreqUnproven = "unproven"
 )
 
 func (capabilityRequirement) Suite() string { return "capability-requirement/v1" }
@@ -196,7 +199,7 @@ func capreqTable(rec map[string]any) map[string]func() bool {
 		"contract_id_missing": func() bool { _, has := rec["contractId"]; return !has },
 		"contract_id_unknown": func() bool {
 			id, has := rec["contractId"]
-			return has && !capreqSame(id, capreqContractID)
+			return has && !capreqSame(identifiers.CanonicalValue(id), capreqContractID)
 		},
 		"kind_unknown": func() bool { return !capreqKindIs(kind, "requirement", "endpoint-report", "drift") },
 		"requirement_invalid": func() bool {

@@ -90,8 +90,9 @@ PYTHON_RUNTIME = (3, 13)
 
 #: The Go checker's packages: the binary's package and every package it imports
 #: from this module. The module is stdlib-only, so there is no go.sum; go.work
-#: decides which modules a build in this tree resolves.
-GO_PACKAGES = ["aee", "cmd/aee-verify", "corpusreaders"]
+#: decides which modules a build in this tree resolves. regenerate-derived-test.py
+#: compares this list with `go list -deps ./cmd/aee-verify`.
+GO_PACKAGES = ["aee", "cmd/aee-verify", "corpusreaders", "internal/identifiers", "observedeffect"]
 
 
 def go_source(root: Path = REPO) -> list[str]:
