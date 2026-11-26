@@ -2133,6 +2133,12 @@
    "uri": "https://probityai.github.io/agent-evidence-vectors/refusal-code/v1/revocation_entry_from_future"
   },
   {
+   "code": "revocation_entry_repeated",
+   "check": "revocation.list",
+   "meaning": "a revocation list names a subject an earlier list of its chain already revoked",
+   "uri": "https://probityai.github.io/agent-evidence-vectors/refusal-code/v1/revocation_entry_repeated"
+  },
+  {
    "code": "revocation_handle_invalid",
    "check": "mesh.revocation",
    "meaning": "the admission handle is not well formed",
