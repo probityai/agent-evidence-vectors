@@ -213,7 +213,7 @@ def pinned(keys: list[str]) -> dict[str, bytes]:
 
 def message(domain: str, claims: Mapping[str, Any]) -> bytes:
     """The bytes a record's signature covers: the domain, one zero byte, then JCS of the claims."""
-    return domain.encode("ascii") + b"\x00" + _rail().jcs_dumps(dict(claims))
+    return domain.encode("ascii") + b"\x00" + bytes(_rail().jcs_dumps(dict(claims)))
 
 
 def _signed(
@@ -731,7 +731,7 @@ def _shape_ok(payload: dict[str, Any]) -> bool:
 
 def _not_before(body: dict[str, Any], iat: float, skip: Skip) -> int:
     stamp = body.get("event_timestamp")
-    if "set_not_before" not in skip and _number(stamp) and stamp <= iat:
+    if "set_not_before" not in skip and isinstance(stamp, (int, float)) and stamp <= iat:
         return math.floor(stamp)
     return math.floor(iat)
 

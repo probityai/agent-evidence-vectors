@@ -192,7 +192,7 @@ def digest(wire: dict[str, Any]) -> str:
 
 def message(domain: bytes, claims: dict[str, Any]) -> bytes:
     """The bytes a record's signature covers."""
-    return domain + b"\x00" + _rail().jcs_dumps(claims)
+    return domain + b"\x00" + bytes(_rail().jcs_dumps(claims))
 
 
 def _key(text: Any) -> bytes:
@@ -310,18 +310,18 @@ class Log:
 
 def _sequence_ok(claims: dict[str, Any], index: int, log_id: str) -> bool:
     first = claims["kind"] == "genesis"
-    return claims["seq"] == index and claims["log_id"] == log_id and first == (index == 0)
+    return bool(claims["seq"] == index and claims["log_id"] == log_id and first == (index == 0))
 
 
 def _link_ok(claims: dict[str, Any], log: Log) -> bool:
-    return claims["previous"] == ("" if log.last is None else digest(log.last))
+    return bool(claims["previous"] == ("" if log.last is None else digest(log.last)))
 
 
 def _epoch_ok(claims: dict[str, Any], log: Log) -> bool:
     if not log.events:
-        return claims["epoch"] == 0
+        return bool(claims["epoch"] == 0)
     step = 1 if claims["kind"] == "epoch_open" else 0
-    return claims["epoch"] == log.epoch + step
+    return bool(claims["epoch"] == log.epoch + step)
 
 
 def _open_disputes(log: Log) -> set[str]:
@@ -396,7 +396,7 @@ def _event_fault(wire: dict[str, Any], index: int, log: Log, log_id: str,
                  skip: frozenset[str]) -> bool:
     """Whether one event breaks a rule of the walk."""
     c = wire["claims"]
-    tests = (
+    tests: tuple[tuple[str, Callable[[], bool]], ...] = (
         ("log_sequence", lambda: _sequence_ok(c, index, log_id)),
         ("log_links", lambda: _link_ok(c, log)),
         ("log_epochs", lambda: _epoch_ok(c, log)),
@@ -427,7 +427,7 @@ def head_binds(case: Case, log: Log) -> bool:
         return False
     h, last = head["claims"], log.events[-1]
     same = h["log_id"] == case.log_id and h["seq"] == last["seq"] and h["epoch"] == last["epoch"]
-    return same and h["digest"] == digest(log.last)
+    return bool(same and h["digest"] == digest(log.last))
 
 
 def _chain(log: Log, grant: dict[str, Any] | None) -> list[dict[str, Any]]:
