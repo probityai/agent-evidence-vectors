@@ -72,9 +72,10 @@ from agent_evidence_vectors.monitorcoverage import (
 )
 
 from . import strictb64, strictjson
+from .identifiers import identifier, same_identifier
 
 SUITE = "signature-coverage/v1"
-CONTRACT_ID = "https://probityai.github.io/agent-evidence-vectors/predicate/v1/signature-coverage"
+CONTRACT_ID = identifier("agent-evidence-vectors/predicate/v1/signature-coverage")
 ALLOWED_REASON = "signature_covers_reading"
 MAX_EXACT_INTEGER = 2**53 - 1
 CHECKS = (
@@ -252,7 +253,8 @@ def _first_failure(record: Record, skip: frozenset[str]) -> str | None:
     off = "payload_repeated_member" in skip
     failures: dict[str, Callable[[], bool]] = {
         "contract_id_missing": lambda: "contractId" not in record,
-        "contract_id_unknown": lambda: record.get("contractId", CONTRACT_ID) != CONTRACT_ID,
+        "contract_id_unknown": lambda: not same_identifier(
+            record.get("contractId", CONTRACT_ID), CONTRACT_ID),
         "signature_invalid": lambda: not _signature_valid(record),
         "payload_repeated_member": lambda: _repeated_member(record),
         "number_not_interoperable": lambda: (

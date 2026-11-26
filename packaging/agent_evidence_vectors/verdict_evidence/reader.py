@@ -68,6 +68,7 @@ from pathlib import Path
 from typing import Any
 
 from .. import strictb64, strictjson
+from ..identifiers import identifier, same_identifier
 
 SUITE = "acs-verdict-evidence/v1.0.1-draft"
 SUPPORTED, CONTRADICTED, NOT_ESTABLISHED, NO_VERDICT = (
@@ -77,7 +78,7 @@ STATEMENT_V1 = "https://in-toto.io/Statement/v1"
 INTOTO = "application/vnd.in-toto+json"
 VERDICT_PREDICATE = ("https://github.com/GenAI-Security-Project/agent-control-standard/"
                      "blob/main/docs/predicates/acs-verdict-evidence-v1.md")
-PEER_PREDICATE = ("https://probityai.github.io/agent-evidence-vectors/"
+PEER_PREDICATE = identifier("agent-evidence-vectors/"
                   "predicate/v1/peer-verification")
 VECTOR_PREFIX = "acs-conformance-vector:"
 HEX64 = re.compile(r"^[0-9a-f]{64}$")
@@ -276,7 +277,8 @@ def _statement(body: bytes, predicate_type: str, skip: frozenset[str],
     if not isinstance(payload, dict) or (
             payload.get("_type") != STATEMENT_V1 and f"{prefix}statement_type" not in skip):
         raise Refusal(NOT_ESTABLISHED, "payload_not_statement")
-    if payload.get("predicateType") != predicate_type and f"{prefix}predicate" not in skip:
+    if (not same_identifier(payload.get("predicateType"), predicate_type)
+            and f"{prefix}predicate" not in skip):
         raise Refusal(NOT_ESTABLISHED, "unsupported_predicate")
     if not isinstance(payload.get("predicate"), dict):
         raise Refusal(NOT_ESTABLISHED, "field_invalid:predicate")

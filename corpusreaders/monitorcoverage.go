@@ -7,6 +7,8 @@ import (
 	"reflect"
 	"slices"
 	"time"
+
+	"github.com/probityai/agent-evidence-vectors/internal/identifiers"
 )
 
 func init() { register(monitorCoverage{}) }
@@ -32,7 +34,7 @@ func init() { register(monitorCoverage{}) }
 //     reduced harm rests on at least one effective action.
 type monitorCoverage struct{}
 
-const mcContractID = "https://probityai.github.io/agent-evidence-vectors/predicate/v1/monitor-coverage"
+var mcContractID = identifiers.Identifier("agent-evidence-vectors/predicate/v1/monitor-coverage")
 
 func (monitorCoverage) Suite() string { return "monitor-coverage/v1" }
 
@@ -150,7 +152,7 @@ func mcCountsInvalid(r mcRecord) bool {
 
 func mcDecide(r mcRecord) scDecision {
 	var contract string
-	known := len(r.ContractID) > 0 && strictUnmarshal(r.ContractID, &contract) == nil && contract == mcContractID
+	known := len(r.ContractID) > 0 && strictUnmarshal(r.ContractID, &contract) == nil && identifiers.CanonicalIdentifier(contract) == mcContractID
 	clean := r.Verdict.Result == "clean"
 	at := func(stamp string) time.Time { t, _ := time.Parse(time.RFC3339, stamp); return t }
 	start, end := at(r.Window.Start), at(r.Window.End)

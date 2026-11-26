@@ -16,6 +16,7 @@ import base64
 import copy
 import hashlib
 import json
+import sys
 from collections.abc import Callable
 from pathlib import Path
 from typing import Any
@@ -35,6 +36,9 @@ from record import (
     judge,
     pae,
 )
+
+sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "packaging"))
+from agent_evidence_vectors.identifiers import IDENTIFIER_HOST  # noqa: E402
 
 HERE = Path(__file__).resolve().parent
 RUN = HERE / "observed" / "run-acs-0.4.0a4.json"
@@ -136,7 +140,7 @@ def wrong_predicate_type(stmt: dict[str, Any], _disc: dict[str, Any]) -> None:
     # A type the reader does not accept, on a host nobody can register. A wrong type
     # under this repository's own /predicate/ prefix would be a type URI written into
     # signed bytes that no page answers for, which scripts/identifier-pages-gate.py refuses.
-    stmt["predicateType"] = PREDICATE_TYPE.replace("probityai.github.io", "example.invalid")
+    stmt["predicateType"] = PREDICATE_TYPE.replace(IDENTIFIER_HOST, "example.invalid")
 
 
 #: slug, case, edit (None for an accept member), code, what the member shows.

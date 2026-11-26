@@ -1,0 +1,173 @@
+{
+  "version": 1,
+  "pairs": [
+    {
+      "a": "https://probityai.github.io/agent-evidence-vectors/predicate/v1/observed-effect",
+      "b": "https://probityai.org/agent-evidence-vectors/predicate/v1/observed-effect",
+      "same": true,
+      "why": "predicate v1: the old host and the new host with the path unchanged name one identifier"
+    },
+    {
+      "a": "https://probityai.github.io/agent-evidence-vectors/predicate/v2/agent-audit-record",
+      "b": "https://probityai.org/agent-evidence-vectors/predicate/v2/agent-audit-record",
+      "same": true,
+      "why": "predicate v2: the old host and the new host with the path unchanged name one identifier"
+    },
+    {
+      "a": "https://probityai.github.io/agent-evidence/predicate/v1/agent-card-receipt",
+      "b": "https://probityai.org/agent-evidence/predicate/v1/agent-card-receipt",
+      "same": true,
+      "why": "organisation predicate: the old host and the new host with the path unchanged name one identifier"
+    },
+    {
+      "a": "https://probityai.github.io/agent-evidence-vectors/contract/approval-binding/v1",
+      "b": "https://probityai.org/agent-evidence-vectors/contract/approval-binding/v1",
+      "same": true,
+      "why": "contract: the old host and the new host with the path unchanged name one identifier"
+    },
+    {
+      "a": "https://probityai.github.io/agent-evidence-observer/contract/aggregate-accounting/v1",
+      "b": "https://probityai.org/agent-evidence-observer/contract/aggregate-accounting/v1",
+      "same": true,
+      "why": "observer contract: the old host and the new host with the path unchanged name one identifier"
+    },
+    {
+      "a": "https://probityai.github.io/agent-evidence-vectors/schema/revocation-sweep/v1",
+      "b": "https://probityai.org/agent-evidence-vectors/schema/revocation-sweep/v1",
+      "same": true,
+      "why": "schema: the old host and the new host with the path unchanged name one identifier"
+    },
+    {
+      "a": "https://probityai.github.io/agent-evidence-vectors/evaluator/payment-scope/v1",
+      "b": "https://probityai.org/agent-evidence-vectors/evaluator/payment-scope/v1",
+      "same": true,
+      "why": "evaluator: the old host and the new host with the path unchanged name one identifier"
+    },
+    {
+      "a": "https://probityai.github.io/agent-evidence/vocab/v1/result",
+      "b": "https://probityai.org/agent-evidence/vocab/v1/result",
+      "same": true,
+      "why": "vocabulary term: the old host and the new host with the path unchanged name one identifier"
+    },
+    {
+      "a": "https://probityai.github.io/probity/verifiers/agent-evidence-verify",
+      "b": "https://probityai.org/probity/verifiers/agent-evidence-verify",
+      "same": true,
+      "why": "verifier: the old host and the new host with the path unchanged name one identifier"
+    },
+    {
+      "a": "https://probityai.github.io/agent-evidence-vectors/predicate/v1/observed-effect",
+      "b": "https://probityai.github.io/agent-evidence-vectors/predicate/v1/observed-effect",
+      "same": true,
+      "why": "an identifier is the same as itself under the old host"
+    },
+    {
+      "a": "https://probityai.org/agent-evidence-vectors/predicate/v1/observed-effect",
+      "b": "https://probityai.org/agent-evidence-vectors/predicate/v1/observed-effect",
+      "same": true,
+      "why": "an identifier is the same as itself under the new host"
+    },
+    {
+      "a": "https://probityai.github.io/agent-evidence-vectors/predicate/v1/observed-effect",
+      "b": "https://probityai.github.io/agent-evidence-vectors/predicate/v1/uncertain-effect",
+      "same": false,
+      "why": "the host maps and the path stays: two paths are two identifiers"
+    },
+    {
+      "a": "https://probityai.org/agent-evidence-vectors/predicate/v1/observed-effect",
+      "b": "https://probityai.github.io/agent-evidence-vectors/predicate/v1/observed-effect/",
+      "same": false,
+      "why": "the path is compared byte for byte, a trailing slash included"
+    },
+    {
+      "a": "https://probityai.org/agent-evidence-vectors/predicate/v1/observed-effect",
+      "b": "https://probityai.github.io/agent-evidence-vectors/predicate/v1/Observed-Effect",
+      "same": false,
+      "why": "the path is case-sensitive"
+    },
+    {
+      "a": "https://probityai.github.io/agent-evidence-vectors/predicate/v1/observed-effect",
+      "b": "http://probityai.org/agent-evidence-vectors/predicate/v1/observed-effect",
+      "same": false,
+      "why": "the scheme must be https"
+    },
+    {
+      "a": "https://probityai.github.io/agent-evidence-vectors/predicate/v1/observed-effect",
+      "b": "http://probityai.github.io/agent-evidence-vectors/predicate/v1/observed-effect",
+      "same": false,
+      "why": "the scheme must be https, under the old host as under the new"
+    },
+    {
+      "a": "https://probityai.github.io/agent-evidence-vectors/predicate/v1/observed-effect",
+      "b": "HTTPS://probityai.org/agent-evidence-vectors/predicate/v1/observed-effect",
+      "same": false,
+      "why": "the scheme is matched byte for byte, so upper case is another spelling"
+    },
+    {
+      "a": "https://probityai.github.io/agent-evidence-vectors/predicate/v1/observed-effect",
+      "b": "https://www.probityai.org/agent-evidence-vectors/predicate/v1/observed-effect",
+      "same": false,
+      "why": "www. is another host"
+    },
+    {
+      "a": "https://probityai.github.io/agent-evidence-vectors/predicate/v1/observed-effect",
+      "b": "https://probityai.org:443/agent-evidence-vectors/predicate/v1/observed-effect",
+      "same": false,
+      "why": "a port, even the default one, is another spelling"
+    },
+    {
+      "a": "https://probityai.github.io/agent-evidence-vectors/predicate/v1/observed-effect",
+      "b": "https://probityai.org./agent-evidence-vectors/predicate/v1/observed-effect",
+      "same": false,
+      "why": "a trailing dot is another spelling"
+    },
+    {
+      "a": "https://probityai.github.io/agent-evidence-vectors/predicate/v1/observed-effect",
+      "b": "https://PROBITYAI.ORG/agent-evidence-vectors/predicate/v1/observed-effect",
+      "same": false,
+      "why": "the host is matched byte for byte, so upper case is another spelling"
+    },
+    {
+      "a": "https://probityai.github.io/agent-evidence-vectors/predicate/v1/observed-effect",
+      "b": "https://Probityai.org/agent-evidence-vectors/predicate/v1/observed-effect",
+      "same": false,
+      "why": "one upper-case letter is enough to be another spelling"
+    },
+    {
+      "a": "https://probityai.github.io/agent-evidence-vectors/predicate/v1/observed-effect",
+      "b": "https://user@probityai.org/agent-evidence-vectors/predicate/v1/observed-effect",
+      "same": false,
+      "why": "userinfo is another spelling"
+    },
+    {
+      "a": "https://probityai.github.io/agent-evidence-vectors/predicate/v1/observed-effect",
+      "b": "https://probityai.org.example/agent-evidence-vectors/predicate/v1/observed-effect",
+      "same": false,
+      "why": "a host that only starts with probityai.org is another host"
+    },
+    {
+      "a": "https://probityai.github.io/agent-evidence-vectors/predicate/v1/observed-effect",
+      "b": "https://probityai.organisation/agent-evidence-vectors/predicate/v1/observed-effect",
+      "same": false,
+      "why": "a host that only starts with probityai.org is another host"
+    },
+    {
+      "a": "https://probityai.github.io/agent-evidence-vectors/predicate/v1/observed-effect",
+      "b": "https://example.invalid/agent-evidence-vectors/predicate/v1/observed-effect",
+      "same": false,
+      "why": "a host that is not ours"
+    },
+    {
+      "a": "https://probityai.github.io/agent-evidence-vectors/predicate/v1/observed-effect",
+      "b": " https://probityai.org/agent-evidence-vectors/predicate/v1/observed-effect",
+      "same": false,
+      "why": "leading white space is another spelling"
+    },
+    {
+      "a": "https://probityai.github.io",
+      "b": "https://probityai.org",
+      "same": false,
+      "why": "a bare host with no slash after it is not an identifier under the rule and is compared as it is"
+    }
+  ]
+}

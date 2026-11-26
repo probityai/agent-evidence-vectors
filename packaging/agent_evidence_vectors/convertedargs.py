@@ -56,9 +56,10 @@ from pathlib import Path
 from typing import Any
 
 from . import a2ajcs, strictjson
+from .identifiers import identifier, same_identifier
 
 SUITE = "converted-argument-binding/v1"
-CONTRACT_ID = ("https://probityai.github.io/agent-evidence-observer/contract/"
+CONTRACT_ID = identifier("agent-evidence-observer/contract/"
                "converted-argument-binding/v1")
 ALLOW, DENY = "allow", "deny"
 EXIT_FOR = {ALLOW: 0, DENY: 1}
@@ -213,7 +214,8 @@ def _first_failure(case: Case, skip: frozenset[str]) -> str | None:
     approved = case.approved()
     failures: dict[str, Callable[[], bool]] = {
         "contract_id_missing": lambda: "contractId" not in record,
-        "contract_id_unknown": lambda: record.get("contractId", CONTRACT_ID) != CONTRACT_ID,
+        "contract_id_unknown": lambda: not same_identifier(
+            record.get("contractId", CONTRACT_ID), CONTRACT_ID),
         "approval_not_bound_to_shown": lambda: record["approval"]["shownSha256"] != _sha(
             case.files["shown.json"] or b""),
         "shown_not_storable": lambda: _shown_unstorable(case),

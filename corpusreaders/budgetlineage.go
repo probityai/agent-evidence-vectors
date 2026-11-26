@@ -8,6 +8,8 @@ import (
 	"sort"
 	"strings"
 	"time"
+
+	"github.com/probityai/agent-evidence-vectors/internal/identifiers"
 )
 
 func init() { register(budgetLineage{}) }
@@ -39,7 +41,7 @@ func init() { register(budgetLineage{}) }
 // agents and charged units.
 type budgetLineage struct{}
 
-const blContractID = "https://probityai.github.io/agent-evidence-observer/contract/budget-lineage/v1"
+var blContractID = identifiers.Identifier("agent-evidence-observer/contract/budget-lineage/v1")
 
 func (budgetLineage) Suite() string { return "budget-lineage/v1" }
 
@@ -463,7 +465,7 @@ func blDecide(raw map[string]any) scDecision {
 	if _, present := raw["contractId"]; !present {
 		return scDecision{"deny", "contract_id_missing"}
 	}
-	if id, _ := raw["contractId"].(string); id != blContractID {
+	if id, _ := raw["contractId"].(string); identifiers.CanonicalIdentifier(id) != blContractID {
 		return scDecision{"deny", "contract_id_unknown"}
 	}
 	r, ok := blParse(raw)

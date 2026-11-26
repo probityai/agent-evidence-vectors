@@ -253,6 +253,18 @@ standards = ["in-toto", "rfc8785"]
 shapes = ["malformed-input", "tampering"]
 
 [[corpus]]
+id = "vectors-agent-identity-statement"
+path = "corpora/vectors-agent-identity-statement"
+wheel = true
+sdist = true
+title = "Agent identity statement"
+summary = "A verifier must accept a past decision only when the issuer's signed, versioned history of the agent's identity is one unforked chain to the pinned head and, at the decision's instant, placed the signing key in force and the agent active."
+record_class = "record"
+domains = ["identity", "authority", "transparency"]
+standards = ["in-toto"]
+shapes = ["stale-authority", "broken-chain", "forged-signature"]
+
+[[corpus]]
 id = "vectors-agent-payment-mandate"
 path = "corpora/vectors-agent-payment-mandate"
 wheel = true
@@ -570,7 +582,7 @@ path = "corpora/vectors-credential-release"
 wheel = true
 sdist = true
 title = "Credential release"
-summary = "A verifier must accept a credential release only against a current passing agent-card receipt, with audience, scope and lifetime inside the receipt."
+summary = "A verifier must accept a credential release only to the named agent and user, against a current passing agent-card receipt or the user's grant, with audience and lifetime inside that basis."
 record_class = "record"
 domains = ["authority", "identity"]
 standards = ["a2a"]
@@ -1307,3 +1319,15 @@ record_class = "record"
 domains = ["payments", "provenance"]
 standards = ["x402"]
 shapes = ["missing-binding", "tampering", "uncertainty"]
+
+[[corpus]]
+id = "vectors-x402-payment-binding"
+path = "corpora/vectors-x402-payment-binding"
+wheel = true
+sdist = true
+title = "x402 payment binding, authorization and settlement"
+summary = "A verifier must say, as two verdicts, whether an x402 evidence record identifies one EIP-3009 authorization and whether a chain read identifies the transfer that settled it."
+record_class = "record"
+domains = ["payments", "provenance"]
+standards = ["x402"]
+shapes = ["missing-binding", "uncertainty"]

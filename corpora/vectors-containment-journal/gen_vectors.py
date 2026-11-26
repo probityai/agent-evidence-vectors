@@ -359,7 +359,8 @@ def _allowed() -> list[Case]:
     return [
         ("allow-isolated-agents-tool-call-refused", refused, receipt(refused), "allow",
          reader.RECEIPT_REASON, "control: agent-c is isolated and its tool call is refused, "
-         "agent-a's call names its grant chain, and the receipt counts agent-c's attempt"),
+         "agent-a's call names its authority chain, and the receipt does not count agent-c's "
+         "refused attempt as reach"),
         ("allow-refusal-over-present-edge",
          Journal(channelsClosed=True).refuse("agent-a", "agent-b").deliver("agent-b", "agent-a")
          .refuse("agent-b", "agent-c", "purpose_out_of_scope").build("refusal"), None, "allow",
@@ -722,11 +723,55 @@ def _receipt_cases() -> list[Case]:
     ]
 
 
+def _registry_cases() -> list[Case]:
+    """Revision 2.1: a refusal's reasonCode is any registry code, one control a family."""
+    registry = json.loads((ROOT.parents[1] / "packaging" / "agent_evidence_vectors"
+                           / "refusal_codes.json").read_text("utf-8"))["codes"]
+    taken = {"budget_exhausted", "purpose_out_of_scope", "permit_revoked",
+             "authority_chain_violation"}
+    first: dict[str, str] = {}
+    for entry in registry:  # the registry is sorted, so the first code of a family is stable
+        family = entry["check"].split(".")[0]
+        if entry["code"] not in taken:
+            first.setdefault(family, entry["code"])
+    out: list[Case] = [
+        (f"allow-refusal-registry-code-{family}",
+         Journal(channelsClosed=True).refuse("agent-a", "agent-b", code)
+         .build(f"registry-{family}"),
+         None, "allow", reader.ALLOWED_REASON,
+         f"control: the router refuses a message over an edge in force under {code}, a code of "
+         f"the {family} family of the shared registry, and the verdict is the one every "
+         "registered code gives")
+        for family, code in sorted(first.items())]
+    refused = tool_run(authorityChainChecked=True).build("refused-reach",
+                                                         componentProfileDigest=PROFILE)
+    counted = receipt(refused, reached={"toolCalls": 1})
+    out += [
+        ("reject-closed-vocabulary-violation-refusal-code-unknown",
+         Journal(channelsClosed=True).refuse("agent-a", "agent-b", "not_a_registered_code")
+         .build("unknown-code"), None, "deny", "closed_vocabulary_violation",
+         "the refusal names a code the registry does not hold"),
+        ("reject-closed-vocabulary-violation-refusal-code-kebab",
+         Journal(channelsClosed=True).refuse("agent-a", "agent-b", "budget-exhausted")
+         .build("kebab-code"), None, "deny", "closed_vocabulary_violation",
+         "the refusal spells a registered code in kebab form, which is not the code"),
+        ("reject-closed-vocabulary-violation-refusal-code-detail",
+         Journal(channelsClosed=True).refuse("agent-a", "agent-b", "permit_revoked:link-2")
+         .build("detail-code"), None, "deny", "closed_vocabulary_violation",
+         "the refusal carries a detail after the code, and a published record names the "
+         "code alone"),
+        ("reject-blast-radius-overstated-counts-refused-tool-call", refused, counted, "deny",
+         "blast_radius_overstated", "the receipt counts agent-c's refused tool call, which "
+         "reached nothing"),
+    ]
+    return out
+
+
 def cases() -> list[Case]:
     """Every case: id, journal, receipt or None, decision, reason, and what it shows."""
     return (_allowed() + _malformed_cases() + _delivery_cases() + _decision_cases()
             + _recovery_cases() + _restoration_cases() + _response_cases() + _v11_cases()
-            + _v13_cases() + _v20_cases() + _receipt_cases())
+            + _v13_cases() + _v20_cases() + _receipt_cases() + _registry_cases())
 
 
 def generate(root: Path = ROOT) -> dict[str, Any]:

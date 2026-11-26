@@ -1,0 +1,74 @@
+{
+  "case_id": "vectors-agent-payment-mandate-mandate-expiry-missing",
+  "credential": {
+    "consumed_token_ids": [],
+    "mandate_digest": "c85a91b012d2b852d889b82401ab0166d1fecece33944e27080c0a89bfdff37a",
+    "single_use": true,
+    "token_id": "tok-0001"
+  },
+  "execution": {
+    "agent_key_id": "agent-key-1",
+    "agent_signature": {
+      "alg": "ed25519",
+      "key_id": "agent-key-1",
+      "value": "79f0b33bdbe170b874dc8a82256c518b48063322773b3668873b5d86d779f751676fe2be411d74993cdbd8845007d373cc1c6be483ecc8fbbb5bd27d56aa3209"
+    },
+    "amount_minor": 12500,
+    "currency": "USD",
+    "executed_at": "2027-11-02T10:15:00Z",
+    "merchant": "merchant-a.example",
+    "rail": "card",
+    "token_id": "tok-0001"
+  },
+  "mandate": {
+    "digest": "c85a91b012d2b852d889b82401ab0166d1fecece33944e27080c0a89bfdff37a",
+    "signature": {
+      "alg": "ed25519",
+      "key_id": "issuer-key-1",
+      "value": "745b39a673ad748e6337310bc1766e300c6e6a3fff1e29002ee08678b2031bf95af854a69656e778209810fee511c95ae71a76fdc8d4bd553aca49233381ee06"
+    },
+    "terms": {
+      "agent": {
+        "key_id": "agent-key-1",
+        "public_key": "17cb79fb2b4120f2b1ec65e4198d6e08b28e813feb01e4a400839b85e18080ce"
+      },
+      "currency": "USD",
+      "issued_at": "2026-11-01T09:00:00Z",
+      "issuer": "did:example:issuer-1",
+      "kind": "cart",
+      "max_amount_minor": 12900,
+      "merchant": "merchant-a.example",
+      "post_checkout_required": [
+        "capture",
+        "fulfilment"
+      ],
+      "rails": [
+        "card"
+      ],
+      "single_use": true
+    }
+  },
+  "post_checkout": {
+    "recorded": [
+      "capture",
+      "fulfilment"
+    ],
+    "required": [
+      "capture",
+      "fulfilment"
+    ]
+  },
+  "receipt": {
+    "execution_digest": "6d879ff4a2b3a0d8a86ee41216438fac0140d06c15fda9cfb40763954505db18",
+    "mandate_digest": "c85a91b012d2b852d889b82401ab0166d1fecece33944e27080c0a89bfdff37a",
+    "receipt_id": "rcpt-0001",
+    "signature": {
+      "alg": "ed25519",
+      "key_id": "witness-key-1",
+      "value": "39353781a59c7e4c25cdeefc5341fbf0eb899d6f1ded0fc32887089cd9f5d1571049724033eac67fd68d47cca6d9ffc7ef702609b8b196cd33028f69c25e9204"
+    },
+    "token_use_seq": 1
+  },
+  "schema": "agent-payment-mandate-record/v1",
+  "scheme": "ap2-cart-mandate"
+}

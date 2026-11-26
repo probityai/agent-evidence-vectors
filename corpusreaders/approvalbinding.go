@@ -6,6 +6,8 @@ import (
 	"reflect"
 	"slices"
 	"time"
+
+	"github.com/probityai/agent-evidence-vectors/internal/identifiers"
 )
 
 func init() { register(approvalBinding{}) }
@@ -55,7 +57,7 @@ func init() { register(approvalBinding{}) }
 //     release_not_served_at_decision.
 type approvalBinding struct{}
 
-const abContractID = "https://probityai.github.io/agent-evidence-vectors/contract/approval-binding/v1"
+var abContractID = identifiers.Identifier("agent-evidence-vectors/contract/approval-binding/v1")
 
 func (approvalBinding) Suite() string { return "approval-binding/v1" }
 
@@ -280,7 +282,7 @@ func abDecide(r abRecord, matches bool) (scDecision, error) {
 		fails  bool
 	}{
 		{"contract_id_missing", r.ContractID == nil},
-		{"contract_id_unknown", r.ContractID != nil && *r.ContractID != abContractID},
+		{"contract_id_unknown", r.ContractID != nil && identifiers.CanonicalIdentifier(*r.ContractID) != abContractID},
 		{"approval_not_cited", r.Use["approvalId"] != abField(r, "approvalId")},
 		{"approval_not_issued", !slices.Contains(r.Issued, abField(r, "approvalId"))},
 		{"approval_id_ambiguous", abAmbiguous(r)},

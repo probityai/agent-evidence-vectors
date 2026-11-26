@@ -4,6 +4,8 @@ import (
 	"fmt"
 	"path/filepath"
 	"time"
+
+	"github.com/probityai/agent-evidence-vectors/internal/identifiers"
 )
 
 func init() { register(chunkedExport{}) }
@@ -29,7 +31,7 @@ func init() { register(chunkedExport{}) }
 // and checks every chunk payload against its stated digest.
 type chunkedExport struct{}
 
-const ceContractID = "https://probityai.github.io/agent-evidence-vectors/contract/chunked-export/v1"
+var ceContractID = identifiers.Identifier("agent-evidence-vectors/contract/chunked-export/v1")
 
 func (chunkedExport) Suite() string { return "chunked-export/v1" }
 
@@ -208,7 +210,7 @@ func ceDecide(r ceRecord, composed string) (scDecision, error) {
 		fails  bool
 	}{
 		{"contract_id_missing", r.ContractID == nil},
-		{"contract_id_unknown", r.ContractID != nil && *r.ContractID != ceContractID},
+		{"contract_id_unknown", r.ContractID != nil && identifiers.CanonicalIdentifier(*r.ContractID) != ceContractID},
 		{"threshold_not_precommitted", committed.After(firstLeft)},
 		{"seal_understates_composition", r.Seal.MaxClass != composed},
 		{"export_irreversible", composed == "irreversible"},

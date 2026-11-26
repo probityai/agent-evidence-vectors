@@ -1,7 +1,7 @@
 {
   "verifier": "https://probityai.github.io/probity/verifiers/agent-evidence-verify",
   "checked": 734,
-  "total": 4527,
+  "total": 4494,
   "corpora": [
     {
       "id": "vectors",
@@ -70,9 +70,15 @@
       "disagreements": 0
     },
     {
+      "id": "vectors-agent-identity-statement",
+      "checked": 0,
+      "total": 46,
+      "disagreements": 0
+    },
+    {
       "id": "vectors-agent-payment-mandate",
       "checked": 0,
-      "total": 42,
+      "total": 62,
       "disagreements": 0
     },
     {
@@ -148,12 +154,6 @@
       "disagreements": 0
     },
     {
-      "id": "vectors-authority-epoch-fence",
-      "checked": 0,
-      "total": 47,
-      "disagreements": 0
-    },
-    {
       "id": "vectors-ave-id-resolution",
       "checked": 0,
       "total": 13,
@@ -210,7 +210,7 @@
     {
       "id": "vectors-containment-journal",
       "checked": 0,
-      "total": 73,
+      "total": 91,
       "disagreements": 0
     },
     {
@@ -228,7 +228,7 @@
     {
       "id": "vectors-credential-release",
       "checked": 0,
-      "total": 30,
+      "total": 66,
       "disagreements": 0
     },
     {
@@ -360,7 +360,7 @@
     {
       "id": "vectors-key-directory-observation",
       "checked": 0,
-      "total": 13,
+      "total": 17,
       "disagreements": 0
     },
     {
@@ -502,12 +502,6 @@
       "disagreements": 0
     },
     {
-      "id": "vectors-revocation-fence",
-      "checked": 0,
-      "total": 131,
-      "disagreements": 0
-    },
-    {
       "id": "vectors-revocation-list",
       "checked": 0,
       "total": 87,
@@ -595,6 +589,12 @@
       "id": "vectors-x402-evidence-join",
       "checked": 0,
       "total": 17,
+      "disagreements": 0
+    },
+    {
+      "id": "vectors-x402-payment-binding",
+      "checked": 0,
+      "total": 21,
       "disagreements": 0
     }
   ]
