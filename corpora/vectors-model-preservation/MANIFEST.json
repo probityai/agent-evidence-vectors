@@ -1,0 +1,414 @@
+{
+  "corpusDigest": "fed2ef6728422f36bc2d8d4415ba49cbbc9994deac6284054627ab2656e94ef6",
+  "counts": {
+    "failed": 1,
+    "mismatch": 6,
+    "not_established": 2,
+    "rejected": 8,
+    "verified": 4
+  },
+  "provenance": {
+    "note": "Synthetic models, records and keys. The reference record is the OpenSSF model-signing v1.0 statement with a fetch member; the swap record and the decision and reason tokens are this corpus's own.",
+    "source": "Model preservation draft, open-source-ecosystem/ai-model-sovereignty PRESERVATION.md, sections on the reference record (T0), existing building blocks and hosted models"
+  },
+  "suite": "model-preservation/v1",
+  "synthetic": true,
+  "vectors": [
+    {
+      "edit": "every file of the copy has the digest the endpoint's signed record lists",
+      "expected": {
+        "decision": "verified",
+        "reason": "copy_matches_record"
+      },
+      "files": {
+        "case.json": "6ed8559045e8c7c314bb036d26820fb2c7abad83b710f09032839db82dfdef83",
+        "copy-LICENSE": "ed6383578d266ca9ee9147db6da8dc97b90fe65183d64c84fcdabaed9c461a05",
+        "copy-README.md": "4981774eefe4987f2d86e7e095569df6fc26ec61f05b4f9ea38d4eb544b8df67",
+        "copy-config.json": "890f75315af51bc3b83b9697b0d3d0b503b4ef41b9696c41cc335e7280f06c0e",
+        "copy-model.safetensors": "fdeab9acf3710362bd2658cdc9a29e8f9c757fcf9811603a8c447cd1d9151108",
+        "record.dsse.json": "95e0af758630611f2bdf1a20e216bb9c50bebadc37f79cd27505e1903032e083"
+      },
+      "id": "reference-copy-matches",
+      "path": "cases/reference-copy-matches",
+      "retained": {
+        "predicateType": "https://model_signing/signature/v1.0",
+        "rootDigestConsistent": true
+      }
+    },
+    {
+      "edit": "the copy's weights differ from the recorded digest",
+      "expected": {
+        "decision": "mismatch",
+        "reason": "file_digest_mismatch"
+      },
+      "files": {
+        "case.json": "6ed8559045e8c7c314bb036d26820fb2c7abad83b710f09032839db82dfdef83",
+        "copy-LICENSE": "ed6383578d266ca9ee9147db6da8dc97b90fe65183d64c84fcdabaed9c461a05",
+        "copy-README.md": "4981774eefe4987f2d86e7e095569df6fc26ec61f05b4f9ea38d4eb544b8df67",
+        "copy-config.json": "890f75315af51bc3b83b9697b0d3d0b503b4ef41b9696c41cc335e7280f06c0e",
+        "copy-model.safetensors": "20a7ec84684f7fe124cb3727d049734ab0b7da2f52fcafbcef989ecfd91e870b",
+        "record.dsse.json": "95e0af758630611f2bdf1a20e216bb9c50bebadc37f79cd27505e1903032e083"
+      },
+      "id": "reference-copy-file-tampered",
+      "path": "cases/reference-copy-file-tampered",
+      "retained": {
+        "predicateType": "https://model_signing/signature/v1.0",
+        "rootDigestConsistent": true
+      }
+    },
+    {
+      "edit": "the copy lacks a file the record lists",
+      "expected": {
+        "decision": "mismatch",
+        "reason": "file_missing"
+      },
+      "files": {
+        "case.json": "1051f649c303f0a60f854eac00d0ff232ee520e2f3fbfa19971f4ac70e9ddc35",
+        "copy-LICENSE": "ed6383578d266ca9ee9147db6da8dc97b90fe65183d64c84fcdabaed9c461a05",
+        "copy-README.md": "4981774eefe4987f2d86e7e095569df6fc26ec61f05b4f9ea38d4eb544b8df67",
+        "copy-model.safetensors": "fdeab9acf3710362bd2658cdc9a29e8f9c757fcf9811603a8c447cd1d9151108",
+        "record.dsse.json": "95e0af758630611f2bdf1a20e216bb9c50bebadc37f79cd27505e1903032e083"
+      },
+      "id": "reference-copy-file-missing",
+      "path": "cases/reference-copy-file-missing",
+      "retained": {
+        "predicateType": "https://model_signing/signature/v1.0",
+        "rootDigestConsistent": true
+      }
+    },
+    {
+      "edit": "the copy carries a file the record does not list",
+      "expected": {
+        "decision": "mismatch",
+        "reason": "file_not_in_record"
+      },
+      "files": {
+        "case.json": "da80fb06eaabcf37b5be4d4710c0b14a5d7d6858a24cb1924aa9cb867c4d28e9",
+        "copy-LICENSE": "ed6383578d266ca9ee9147db6da8dc97b90fe65183d64c84fcdabaed9c461a05",
+        "copy-README.md": "4981774eefe4987f2d86e7e095569df6fc26ec61f05b4f9ea38d4eb544b8df67",
+        "copy-config.json": "890f75315af51bc3b83b9697b0d3d0b503b4ef41b9696c41cc335e7280f06c0e",
+        "copy-loader.py": "970d09706b0850d22da3b6087f2299d1afe298db4f330651f012866c20d3a7d4",
+        "copy-model.safetensors": "fdeab9acf3710362bd2658cdc9a29e8f9c757fcf9811603a8c447cd1d9151108",
+        "record.dsse.json": "95e0af758630611f2bdf1a20e216bb9c50bebadc37f79cd27505e1903032e083"
+      },
+      "id": "reference-copy-extra-file",
+      "path": "cases/reference-copy-extra-file",
+      "retained": {
+        "predicateType": "https://model_signing/signature/v1.0",
+        "rootDigestConsistent": true
+      }
+    },
+    {
+      "edit": "the record's weights digest was rewritten after signing to match a tampered copy",
+      "expected": {
+        "decision": "rejected",
+        "reason": "signature_invalid"
+      },
+      "files": {
+        "case.json": "6ed8559045e8c7c314bb036d26820fb2c7abad83b710f09032839db82dfdef83",
+        "copy-LICENSE": "ed6383578d266ca9ee9147db6da8dc97b90fe65183d64c84fcdabaed9c461a05",
+        "copy-README.md": "4981774eefe4987f2d86e7e095569df6fc26ec61f05b4f9ea38d4eb544b8df67",
+        "copy-config.json": "890f75315af51bc3b83b9697b0d3d0b503b4ef41b9696c41cc335e7280f06c0e",
+        "copy-model.safetensors": "20a7ec84684f7fe124cb3727d049734ab0b7da2f52fcafbcef989ecfd91e870b",
+        "record.dsse.json": "c00c4644ff80f6e3000afac132daad9ed201c1294d3ba500df6829949e6d679c"
+      },
+      "id": "reference-record-digest-tampered",
+      "path": "cases/reference-record-digest-tampered",
+      "retained": {
+        "predicateType": "https://model_signing/signature/v1.0",
+        "rootDigestConsistent": true
+      }
+    },
+    {
+      "edit": "a valid signature by a key the verifier does not trust",
+      "expected": {
+        "decision": "rejected",
+        "reason": "signer_not_trusted"
+      },
+      "files": {
+        "case.json": "6ed8559045e8c7c314bb036d26820fb2c7abad83b710f09032839db82dfdef83",
+        "copy-LICENSE": "ed6383578d266ca9ee9147db6da8dc97b90fe65183d64c84fcdabaed9c461a05",
+        "copy-README.md": "4981774eefe4987f2d86e7e095569df6fc26ec61f05b4f9ea38d4eb544b8df67",
+        "copy-config.json": "890f75315af51bc3b83b9697b0d3d0b503b4ef41b9696c41cc335e7280f06c0e",
+        "copy-model.safetensors": "fdeab9acf3710362bd2658cdc9a29e8f9c757fcf9811603a8c447cd1d9151108",
+        "record.dsse.json": "c90ca4053d2acce424f4b9a933eee2fc8918d86ef571f47f573b9c9d3a0b9f27"
+      },
+      "id": "reference-wrong-signer",
+      "path": "cases/reference-wrong-signer",
+      "retained": {
+        "predicateType": "https://model_signing/signature/v1.0",
+        "rootDigestConsistent": true
+      }
+    },
+    {
+      "edit": "a signature by another key that names the endpoint's keyid",
+      "expected": {
+        "decision": "rejected",
+        "reason": "signature_invalid"
+      },
+      "files": {
+        "case.json": "6ed8559045e8c7c314bb036d26820fb2c7abad83b710f09032839db82dfdef83",
+        "copy-LICENSE": "ed6383578d266ca9ee9147db6da8dc97b90fe65183d64c84fcdabaed9c461a05",
+        "copy-README.md": "4981774eefe4987f2d86e7e095569df6fc26ec61f05b4f9ea38d4eb544b8df67",
+        "copy-config.json": "890f75315af51bc3b83b9697b0d3d0b503b4ef41b9696c41cc335e7280f06c0e",
+        "copy-model.safetensors": "fdeab9acf3710362bd2658cdc9a29e8f9c757fcf9811603a8c447cd1d9151108",
+        "record.dsse.json": "e9ac7ebdcf54206a8b6f1db2862dd7b01827268eca741e5a925525db9c860861"
+      },
+      "id": "reference-wrong-signer-names-trusted-keyid",
+      "path": "cases/reference-wrong-signer-names-trusted-keyid",
+      "retained": {
+        "predicateType": "https://model_signing/signature/v1.0",
+        "rootDigestConsistent": true
+      }
+    },
+    {
+      "edit": "the subject digest is not the SHA-256 over the listed resource digests",
+      "expected": {
+        "decision": "rejected",
+        "reason": "root_digest_inconsistent"
+      },
+      "files": {
+        "case.json": "6ed8559045e8c7c314bb036d26820fb2c7abad83b710f09032839db82dfdef83",
+        "copy-LICENSE": "ed6383578d266ca9ee9147db6da8dc97b90fe65183d64c84fcdabaed9c461a05",
+        "copy-README.md": "4981774eefe4987f2d86e7e095569df6fc26ec61f05b4f9ea38d4eb544b8df67",
+        "copy-config.json": "890f75315af51bc3b83b9697b0d3d0b503b4ef41b9696c41cc335e7280f06c0e",
+        "copy-model.safetensors": "fdeab9acf3710362bd2658cdc9a29e8f9c757fcf9811603a8c447cd1d9151108",
+        "record.dsse.json": "1e303000c778077c05609f7bac7cb9ff54f552e8b97f648c8b649ff8b50124cd"
+      },
+      "id": "reference-root-digest-inconsistent",
+      "path": "cases/reference-root-digest-inconsistent",
+      "retained": {
+        "predicateType": "https://model_signing/signature/v1.0",
+        "rootDigestConsistent": false
+      }
+    },
+    {
+      "edit": "the weights were recorded by their large-file pointer's git id before access; the pointer rebuilt from the copy has that id",
+      "expected": {
+        "decision": "verified",
+        "reason": "copy_matches_record"
+      },
+      "files": {
+        "case.json": "6ed8559045e8c7c314bb036d26820fb2c7abad83b710f09032839db82dfdef83",
+        "copy-LICENSE": "ed6383578d266ca9ee9147db6da8dc97b90fe65183d64c84fcdabaed9c461a05",
+        "copy-README.md": "4981774eefe4987f2d86e7e095569df6fc26ec61f05b4f9ea38d4eb544b8df67",
+        "copy-config.json": "890f75315af51bc3b83b9697b0d3d0b503b4ef41b9696c41cc335e7280f06c0e",
+        "copy-model.safetensors": "fdeab9acf3710362bd2658cdc9a29e8f9c757fcf9811603a8c447cd1d9151108",
+        "record.dsse.json": "3f4d78e693151ea6e8bbe40be4b59645357c3fe36c3c27fe157e29662d75cf8c"
+      },
+      "id": "reference-gated-pointer-matches",
+      "path": "cases/reference-gated-pointer-matches",
+      "retained": {
+        "predicateType": "https://model_signing/signature/v1.0",
+        "rootDigestConsistent": true
+      }
+    },
+    {
+      "edit": "the pointer rebuilt from tampered weights has another git id",
+      "expected": {
+        "decision": "mismatch",
+        "reason": "file_digest_mismatch"
+      },
+      "files": {
+        "case.json": "6ed8559045e8c7c314bb036d26820fb2c7abad83b710f09032839db82dfdef83",
+        "copy-LICENSE": "ed6383578d266ca9ee9147db6da8dc97b90fe65183d64c84fcdabaed9c461a05",
+        "copy-README.md": "4981774eefe4987f2d86e7e095569df6fc26ec61f05b4f9ea38d4eb544b8df67",
+        "copy-config.json": "890f75315af51bc3b83b9697b0d3d0b503b4ef41b9696c41cc335e7280f06c0e",
+        "copy-model.safetensors": "20a7ec84684f7fe124cb3727d049734ab0b7da2f52fcafbcef989ecfd91e870b",
+        "record.dsse.json": "3f4d78e693151ea6e8bbe40be4b59645357c3fe36c3c27fe157e29662d75cf8c"
+      },
+      "id": "reference-gated-pointer-mismatch",
+      "path": "cases/reference-gated-pointer-mismatch",
+      "retained": {
+        "predicateType": "https://model_signing/signature/v1.0",
+        "rootDigestConsistent": true
+      }
+    },
+    {
+      "edit": "the record was made after the model was withdrawn, so it cannot vouch for the copy",
+      "expected": {
+        "decision": "not_established",
+        "reason": "record_after_withdrawal"
+      },
+      "files": {
+        "case.json": "d002d2dbf14d1f5a03734eb6224c18732aa3c44ab50371b67346c5a6f059f72e",
+        "copy-LICENSE": "ed6383578d266ca9ee9147db6da8dc97b90fe65183d64c84fcdabaed9c461a05",
+        "copy-README.md": "4981774eefe4987f2d86e7e095569df6fc26ec61f05b4f9ea38d4eb544b8df67",
+        "copy-config.json": "890f75315af51bc3b83b9697b0d3d0b503b4ef41b9696c41cc335e7280f06c0e",
+        "copy-model.safetensors": "fdeab9acf3710362bd2658cdc9a29e8f9c757fcf9811603a8c447cd1d9151108",
+        "record.dsse.json": "95e0af758630611f2bdf1a20e216bb9c50bebadc37f79cd27505e1903032e083"
+      },
+      "id": "reference-recorded-after-withdrawal",
+      "path": "cases/reference-recorded-after-withdrawal",
+      "retained": {
+        "predicateType": "https://model_signing/signature/v1.0",
+        "rootDigestConsistent": true
+      }
+    },
+    {
+      "edit": "a signed swap record offered where a reference record is asked for",
+      "expected": {
+        "decision": "rejected",
+        "reason": "unexpected_predicate_type"
+      },
+      "files": {
+        "case.json": "6ed8559045e8c7c314bb036d26820fb2c7abad83b710f09032839db82dfdef83",
+        "copy-LICENSE": "ed6383578d266ca9ee9147db6da8dc97b90fe65183d64c84fcdabaed9c461a05",
+        "copy-README.md": "4981774eefe4987f2d86e7e095569df6fc26ec61f05b4f9ea38d4eb544b8df67",
+        "copy-config.json": "890f75315af51bc3b83b9697b0d3d0b503b4ef41b9696c41cc335e7280f06c0e",
+        "copy-model.safetensors": "fdeab9acf3710362bd2658cdc9a29e8f9c757fcf9811603a8c447cd1d9151108",
+        "record.dsse.json": "6799afb00c0bf539709fb1654cd343a5059b34905ec8f0c8b53822574c89b49d"
+      },
+      "id": "reference-record-is-a-swap-record",
+      "path": "cases/reference-record-is-a-swap-record",
+      "retained": {
+        "predicateType": "https://probityai.github.io/agent-evidence-vectors/predicate/v1/model-swap"
+      }
+    },
+    {
+      "edit": "the swapper signed a passing run of the required test set, and the new model is the one deployed",
+      "expected": {
+        "decision": "verified",
+        "reason": "swap_passed"
+      },
+      "files": {
+        "case.json": "79573b62783722e923746b7dd462376f1a7deb0b8d2fdc854b644960b93336bf",
+        "record.dsse.json": "2329710080d61ea311d26742f5e216374d1ebaff69a673dc0ccb4a5c2365608e"
+      },
+      "id": "swap-passed",
+      "path": "cases/swap-passed",
+      "retained": {
+        "predicateType": "https://probityai.github.io/agent-evidence-vectors/predicate/v1/model-swap"
+      }
+    },
+    {
+      "edit": "the old model was a hosted service named by service and date, so its identity stays unproven while the behaviour passed",
+      "expected": {
+        "decision": "verified",
+        "reason": "swap_passed_old_model_unproven"
+      },
+      "files": {
+        "case.json": "79573b62783722e923746b7dd462376f1a7deb0b8d2fdc854b644960b93336bf",
+        "record.dsse.json": "83c1898a4aedd8339d20d175384a37a426ca908702087677e214e60dca9d9943"
+      },
+      "id": "swap-passed-hosted-old-model",
+      "path": "cases/swap-passed-hosted-old-model",
+      "retained": {
+        "predicateType": "https://probityai.github.io/agent-evidence-vectors/predicate/v1/model-swap"
+      }
+    },
+    {
+      "edit": "a worse model swapped in: the run failed and the swapper is on record",
+      "expected": {
+        "decision": "failed",
+        "reason": "swap_failed_test"
+      },
+      "files": {
+        "case.json": "79573b62783722e923746b7dd462376f1a7deb0b8d2fdc854b644960b93336bf",
+        "record.dsse.json": "0c41f47893977131441d8c28b2a4fc03843c777b63436d77eb6e193c136b37a2"
+      },
+      "id": "swap-failed-test",
+      "path": "cases/swap-failed-test",
+      "retained": {
+        "predicateType": "https://probityai.github.io/agent-evidence-vectors/predicate/v1/model-swap"
+      }
+    },
+    {
+      "edit": "the verdict was changed from fail to pass after signing",
+      "expected": {
+        "decision": "rejected",
+        "reason": "signature_invalid"
+      },
+      "files": {
+        "case.json": "79573b62783722e923746b7dd462376f1a7deb0b8d2fdc854b644960b93336bf",
+        "record.dsse.json": "6b6529a3ef1387a0d645d036de641ee77ce3ca06be86a0cc18a32862cc8861a1"
+      },
+      "id": "swap-verdict-tampered",
+      "path": "cases/swap-verdict-tampered",
+      "retained": {
+        "predicateType": "https://probityai.github.io/agent-evidence-vectors/predicate/v1/model-swap"
+      }
+    },
+    {
+      "edit": "a valid signature by a key the verifier does not trust",
+      "expected": {
+        "decision": "rejected",
+        "reason": "signer_not_trusted"
+      },
+      "files": {
+        "case.json": "79573b62783722e923746b7dd462376f1a7deb0b8d2fdc854b644960b93336bf",
+        "record.dsse.json": "8dceea1b083daf7914728f011235642f50087a2a28b4b77dd0f18867921e47e8"
+      },
+      "id": "swap-wrong-signer",
+      "path": "cases/swap-wrong-signer",
+      "retained": {
+        "predicateType": "https://probityai.github.io/agent-evidence-vectors/predicate/v1/model-swap"
+      }
+    },
+    {
+      "edit": "signed by a trusted key of a party other than the swapper the record names",
+      "expected": {
+        "decision": "rejected",
+        "reason": "signer_not_swapper"
+      },
+      "files": {
+        "case.json": "79573b62783722e923746b7dd462376f1a7deb0b8d2fdc854b644960b93336bf",
+        "record.dsse.json": "9315203f83ed969a721741a31f9b752bb9dcbc804c0e9155f59aac7957447440"
+      },
+      "id": "swap-signed-by-another-trusted-party",
+      "path": "cases/swap-signed-by-another-trusted-party",
+      "retained": {
+        "predicateType": "https://probityai.github.io/agent-evidence-vectors/predicate/v1/model-swap"
+      }
+    },
+    {
+      "edit": "the model now deployed is not the swap's new model",
+      "expected": {
+        "decision": "mismatch",
+        "reason": "deployed_model_not_swapped_in"
+      },
+      "files": {
+        "case.json": "0545f29d514cc53c9c673f5f17f2a191cfd968c2b2c5ba157e39bc4e73514fa4",
+        "record.dsse.json": "2329710080d61ea311d26742f5e216374d1ebaff69a673dc0ccb4a5c2365608e"
+      },
+      "id": "swap-deployed-model-differs",
+      "path": "cases/swap-deployed-model-differs",
+      "retained": {
+        "predicateType": "https://probityai.github.io/agent-evidence-vectors/predicate/v1/model-swap"
+      }
+    },
+    {
+      "edit": "the run used a test set other than the one the requirement names",
+      "expected": {
+        "decision": "mismatch",
+        "reason": "test_set_not_required"
+      },
+      "files": {
+        "case.json": "79573b62783722e923746b7dd462376f1a7deb0b8d2fdc854b644960b93336bf",
+        "record.dsse.json": "7ff18fe44a039141d61dbe95443b4d35a35d942dead96b6de313f484c735dae0"
+      },
+      "id": "swap-test-set-not-required",
+      "path": "cases/swap-test-set-not-required",
+      "retained": {
+        "predicateType": "https://probityai.github.io/agent-evidence-vectors/predicate/v1/model-swap"
+      }
+    },
+    {
+      "edit": "the old model has neither a digest nor a service and date",
+      "expected": {
+        "decision": "not_established",
+        "reason": "old_model_not_identified"
+      },
+      "files": {
+        "case.json": "79573b62783722e923746b7dd462376f1a7deb0b8d2fdc854b644960b93336bf",
+        "record.dsse.json": "66b954e6a8b64c5847b5ba73c6fb1fcaab2dfd7b35e4f8a9a1ae0d2880dfc95b"
+      },
+      "id": "swap-old-model-not-identified",
+      "path": "cases/swap-old-model-not-identified",
+      "retained": {
+        "predicateType": "https://probityai.github.io/agent-evidence-vectors/predicate/v1/model-swap"
+      }
+    }
+  ],
+  "verifierContract": "verifier case.json --json; exit 0 verified, 1 failed, 2 mismatch, 3 rejected, 4 not_established"
+}

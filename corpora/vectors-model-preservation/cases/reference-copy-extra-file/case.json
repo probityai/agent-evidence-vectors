@@ -1,0 +1,19 @@
+{
+  "copy": {
+    "LICENSE": "copy-LICENSE",
+    "README.md": "copy-README.md",
+    "config.json": "copy-config.json",
+    "loader.py": "copy-loader.py",
+    "model.safetensors": "copy-model.safetensors"
+  },
+  "kind": "reference",
+  "record": "record.dsse.json",
+  "suite": "model-preservation/v1",
+  "trusted": [
+    {
+      "key": "490104d3d6333b501fda1344da2291aff75211a55cd0e8647eab26804d5d5923",
+      "keyid": "13c0264d56817aee7fccf29f4142fd5e1c10d95177f23c3001ad4367b8af5c42",
+      "party": "https://models.institution.example"
+    }
+  ]
+}
