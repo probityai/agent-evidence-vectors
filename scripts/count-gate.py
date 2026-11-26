@@ -1754,6 +1754,14 @@ FROZEN: tuple[Frozen, ...] = (
         'the entry was written. It is history, does not track any corpus, and met the '
         'observed-effect reject count by coincidence.',
     ),
+    Frozen(
+        'vectors/CHANGES.md',
+        'the size of the corpus when a past mutation check ran',
+        'is the ONLY vector of the 260 that goes',
+        'The size the main corpus had when that mutation check was run, recorded in the change '
+        'history as it was then. It is history, does not track any corpus now, and met the '
+        'audit record corpus total by coincidence.',
+    ),
     # ---- the output of a published, immutable release, shown as it prints.
     Frozen(
         'README.md',
