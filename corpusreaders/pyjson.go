@@ -5,11 +5,13 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	"math"
 	"math/big"
 	"sort"
 	"strconv"
 	"strings"
 	"unicode/utf16"
+	"unicode/utf8"
 )
 
 // pythonCompactJSON reproduces, byte for byte, what
@@ -74,7 +76,20 @@ func jsonNumberIsZero(n json.Number) bool {
 // decodeJSONNumbers parses raw JSON with numbers kept as json.Number, so a
 // re-encoding can tell an integer from a float instead of routing both through
 // float64 and printing 1 as 1.0.
+//
+// It refuses, before any field of the value is read, what the Python readers'
+// strictjson refuses: bytes that are not UTF-8, a string or member name holding
+// a lone surrogate escape (encoding/json folds each to U+FFFD, so two distinct
+// names would read as one), a repeated member, and a number literal that
+// overflows a double (UseNumber keeps the text and never converts it, so
+// encoding/json's own refusal of one never fires).
 func decodeJSONNumbers(raw []byte) (any, error) {
+	if !utf8.Valid(raw) {
+		return nil, errors.New("corpora: the document is not valid UTF-8")
+	}
+	if err := refuseLoneSurrogates(raw); err != nil {
+		return nil, err
+	}
 	if err := refuseRepeatedMembers(raw); err != nil {
 		return nil, err
 	}
@@ -84,7 +99,87 @@ func decodeJSONNumbers(raw []byte) (any, error) {
 	if err := dec.Decode(&value); err != nil {
 		return nil, err
 	}
+	if err := refuseOverflowingNumbers(value); err != nil {
+		return nil, err
+	}
 	return value, nil
+}
+
+// refuseLoneSurrogates scans the string tokens of raw JSON for a \uD800-\uDFFF
+// escape that is not half of a valid high-then-low pair. A backslash pair such
+// as \\ud800 is a literal backslash followed by text, never an escape.
+func refuseLoneSurrogates(raw []byte) error {
+	inString := false
+	for i := 0; i < len(raw); i++ {
+		c := raw[i]
+		if !inString {
+			inString = c == '"'
+			continue
+		}
+		switch c {
+		case '"':
+			inString = false
+		case '\\':
+			if i+1 < len(raw) && raw[i+1] == 'u' {
+				unit, ok := hexUnit(raw, i+2)
+				switch {
+				case ok && unit >= 0xDC00 && unit <= 0xDFFF:
+					return errLoneSurrogate
+				case ok && unit >= 0xD800 && unit <= 0xDBFF:
+					low, paired := uint16(0), false
+					if i+11 < len(raw) && raw[i+6] == '\\' && raw[i+7] == 'u' {
+						low, paired = hexUnit(raw, i+8)
+					}
+					if !paired || low < 0xDC00 || low > 0xDFFF {
+						return errLoneSurrogate
+					}
+					i += 11
+					continue
+				}
+			}
+			i++ // the escaped character is never a closing quote
+		}
+	}
+	return nil
+}
+
+var errLoneSurrogate = errors.New("corpora: a string holds a lone surrogate escape")
+
+func hexUnit(raw []byte, at int) (uint16, bool) {
+	if at+4 > len(raw) {
+		return 0, false
+	}
+	n, err := strconv.ParseUint(string(raw[at:at+4]), 16, 16)
+	return uint16(n), err == nil
+}
+
+// refuseOverflowingNumbers walks a decoded value and refuses a float-shaped
+// number that does not fit a double. Underflow to zero is accepted, as Python's
+// float() accepts it; an integer literal of any size stays exact.
+func refuseOverflowingNumbers(value any) error {
+	switch v := value.(type) {
+	case json.Number:
+		if !strings.ContainsAny(v.String(), ".eE") {
+			return nil
+		}
+		f, _ := strconv.ParseFloat(v.String(), 64)
+		if math.IsInf(f, 0) || math.IsNaN(f) {
+			return fmt.Errorf("corpora: number %s overflows a double", v.String())
+		}
+	case []any:
+		for _, item := range v {
+			if err := refuseOverflowingNumbers(item); err != nil {
+				return err
+			}
+		}
+	case map[string]any:
+		for _, item := range v {
+			if err := refuseOverflowingNumbers(item); err != nil {
+				return err
+			}
+		}
+	}
+	return nil
 }
 
 func encodePythonOpts(buf *bytes.Buffer, value any, opts pyEncodeOpts) error {

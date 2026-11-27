@@ -11,14 +11,20 @@ Python's ``json`` module reads three things a JSON text may not carry and keeps 
   may keep the first, and a signature covers the bytes, so the record one reader verified is
   not the record another reader judged.
 
-A strict reader refuses all three. :func:`loads` and :func:`load` raise :class:`NotStrictJson`
+A strict reader also refuses a string, or a member name, holding a lone surrogate (an escape
+such as ``\\ud800`` with no partner, or its UTF-8 bytes): it is not a Unicode scalar value, it
+cannot be written as UTF-8, and RFC 8785 signing input cannot be built from it. Go's decoder folds
+every such escape to U+FFFD, so two distinct names would read as one there.
+
+A strict reader refuses all of these. :func:`loads` and :func:`load` raise :class:`NotStrictJson`
 for them, and for anything else ``json`` refuses. It subclasses ``json.JSONDecodeError``, so
 every reader that already maps a parse failure to its own malformed-input refusal maps these
 bytes to the same refusal without a second handler.
 
 The Go readers under ``corpusreaders/`` refuse the same bytes: ``encoding/json`` refuses the
-three constants and an overflowing literal, and ``strictUnmarshal`` there refuses a repeated
-member.
+three constants, ``decodeJSONNumbers`` refuses an overflowing literal (it keeps numbers as
+``json.Number``, so ``encoding/json`` never converts one) and a lone surrogate escape, and
+``strictUnmarshal`` there refuses a repeated member.
 """
 
 from __future__ import annotations
@@ -64,6 +70,21 @@ def _finite_float(literal: str) -> float:
     return value
 
 
+def _refuse_lone_surrogates(value: Any) -> None:
+    """Raise when any string or member name in ``value`` holds a lone surrogate."""
+    stack = [value]
+    while stack:
+        item = stack.pop()
+        if isinstance(item, str):
+            if any(0xD800 <= ord(c) <= 0xDFFF for c in item):
+                raise _refused("string holds a lone surrogate")
+        elif isinstance(item, dict):
+            stack.extend(item.keys())
+            stack.extend(item.values())
+        elif isinstance(item, list):
+            stack.extend(item)
+
+
 def _text(data: str | bytes | bytearray) -> str:
     if isinstance(data, str):
         return data
@@ -77,13 +98,15 @@ def loads(data: str | bytes | bytearray, *, parse_float: Any = None, parse_int: 
     (``decimal.Decimal``); the constant and repeated-member refusals cannot be turned off.
     """
     try:
-        return json.loads(
+        value = json.loads(
             data,
             object_pairs_hook=refuse_repeated,
             parse_constant=refuse_constant,
             parse_float=parse_float or _finite_float,
             parse_int=parse_int,
         )
+        _refuse_lone_surrogates(value)
+        return value
     except NotStrictJson as exc:
         raise NotStrictJson(exc.msg, _text(data), 0) from None
     except json.JSONDecodeError as exc:

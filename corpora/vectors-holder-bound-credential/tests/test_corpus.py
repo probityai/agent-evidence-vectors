@@ -164,3 +164,36 @@ def test_an_honest_key_is_in_the_prime_order_subgroup() -> None:
     honest = reader.unb64url(generator.jwk("holder")["x"]) or b""
     assert reader._prime_order(honest)
     assert not reader._prime_order((1).to_bytes(32, "little"))
+
+
+@pytest.mark.parametrize(
+    "text",
+    [
+        '{"a":1e999}',
+        '{"a":-1e999}',
+        '{"a":[1,{"b":1E400}]}',
+        '{"\\ud800":1,"\\ud801":2}',
+        '{"a":"\\ud800"}',
+        '{"a":"\\udc00"}',
+        '{"a":"\\ud800x"}',
+        '{"a":"\\ud800\\ud800"}',
+    ],
+)
+def test_a_number_that_overflows_or_a_lone_surrogate_is_record_malformed(
+    tmp_path: Path, text: str
+) -> None:
+    path = tmp_path / "record.json"
+    path.write_text(text, encoding="utf-8")
+    assert reader.verify(path) == {"decision": "reject", "reason": "record_malformed"}
+
+
+def test_a_surrogate_pair_and_a_tiny_number_are_still_read(tmp_path: Path) -> None:
+    path = tmp_path / "record.json"
+    path.write_text('{"a":"\\ud83d\\ude00","b":1e-999,"c":"\\\\ud800"}', encoding="utf-8")
+    assert reader.verify(path)["reason"] == "contract_id_missing"
+
+
+@pytest.mark.parametrize("alg", ["hß", "Hß256", "hſ256", "HS256", "hs512", "None"])
+def test_alg_names_fold_case_over_ascii_only(alg: str) -> None:
+    ascii_mac = alg.lower().startswith("hs") and alg.isascii()
+    assert (reader._ascii_fold(alg).startswith("hs")) is ascii_mac

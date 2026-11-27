@@ -278,7 +278,7 @@ def _prime_order(raw: bytes) -> bool:
 
 
 def _key_of(proof: Proof) -> dict[str, Any] | None:
-    """The header key when it is a public Ed25519 key of prime order with exactly its three members."""
+    """The header key when it is a public prime-order Ed25519 key with exactly its three members."""
     jwk = (proof.header or {}).get("jwk")
     if not isinstance(jwk, dict) or set(jwk) != {"kty", "crv", "x"}:
         return None
@@ -306,76 +306,107 @@ def _claims_ok(proof: Proof) -> bool:
     )
 
 
-def _first_failure(record: Record, skip: frozenset[str] = frozenset()) -> str | None:
-    contract = record.get("contractId") if isinstance(record, dict) else None
-    shaped = {"ok": True}
+def _ascii_fold(value: object) -> str:
+    """Lower-case the ASCII letters of ``str(value)`` only. JOSE algorithm names are ASCII, so a
+    name with any other letter is not a MAC name, whatever Unicode case mapping would make of it."""
+    return str(value).translate(_ASCII_LOWER)
 
-    def malformed() -> bool:
+
+_ASCII_LOWER = {c: c + 32 for c in range(ord("A"), ord("Z") + 1)}
+
+
+class _Reading:
+    """One record read lazily: each check asks for the decoded proofs it needs."""
+
+    def __init__(self, record: Record) -> None:
+        self.record = record
+        self._proofs: list[Proof] | None = None
+
+    def malformed(self) -> bool:
         try:
-            _shape(record)
+            _shape(self.record)
         except (Malformed, KeyError, TypeError, ValueError, AttributeError):
-            shaped["ok"] = False
-        return not shaped["ok"]
+            return True
+        return False
 
-    cache: dict[str, list[Proof]] = {}
+    def proofs(self) -> list[Proof]:
+        if self._proofs is None:
+            self._proofs = [_decode_proof(item) for item in self.record["presentations"]]
+        return self._proofs
 
-    def proofs() -> list[Proof]:
-        if "p" not in cache:
-            cache["p"] = [_decode_proof(item) for item in record["presentations"]]
-        return cache["p"]
+    def decoded(self, check: Callable[[Proof], bool]) -> bool:
+        return any(check(p) for p in self.proofs() if p.header is not None and p.claims is not None)
 
-    def decoded(check: Callable[[Proof], bool]) -> bool:
-        return any(check(p) for p in proofs() if p.header is not None and p.claims is not None)
-
-    def credential() -> dict[str, Any]:
-        value: dict[str, Any] = record["credential"]
+    def credential(self) -> dict[str, Any]:
+        value: dict[str, Any] = self.record["credential"]
         return value
 
-    def not_bound(p: Proof) -> bool:
+    def not_bound(self, p: Proof) -> bool:
         jwk = _key_of(p)
-        return jwk is not None and thumbprint(jwk) != credential().get("cnf", {}).get("jkt")
+        return jwk is not None and thumbprint(jwk) != self.credential().get("cnf", {}).get("jkt")
 
-    def replayed() -> bool:
-        seen = [p.claims["jti"] for p in proofs() if p.claims and "jti" in p.claims]  # type: ignore[index]
+    def replayed(self) -> bool:
+        seen = [p.claims["jti"] for p in self.proofs() if p.claims and "jti" in p.claims]  # type: ignore[index]
         return len(seen) != len(set(map(str, seen)))
 
-    failures: dict[str, Callable[[], bool]] = {
+    def any_at(self, test: Callable[[dict[str, Any]], bool]) -> bool:
+        return any(test(i) for i in self.record["presentations"])
+
+
+def _alg_forbidden(p: Proof) -> bool:
+    folded = _ascii_fold((p.header or {}).get("alg"))
+    return folded == "none" or folded.startswith("hs")
+
+
+def _key_invalid(p: Proof) -> bool:
+    return _key_of(p) is None or any(
+        m in ((p.header or {}).get("jwk") or {}) for m in _PRIVATE_MEMBERS
+    )
+
+
+def _claim_checks(r: _Reading) -> dict[str, Callable[[], bool]]:
+    def claim(p: Proof, name: str, default: Any = None) -> Any:
+        return (p.claims or {}).get(name, default)
+
+    return {
+        "proof_claims_malformed": lambda: r.decoded(lambda p: not _claims_ok(p)),
+        "proof_method_mismatch": lambda: r.decoded(lambda p: claim(p, "htm") != p.method),
+        "proof_uri_mismatch": lambda: r.decoded(lambda p: claim(p, "htu") != p.uri),
+        "proof_stale": lambda: r.decoded(lambda p: claim(p, "iat", 0) < p.at - MAX_AGE),
+        "proof_from_future": lambda: r.decoded(lambda p: claim(p, "iat", 0) > p.at + MAX_AHEAD),
+        "proof_ath_missing": lambda: r.decoded(lambda p: "ath" not in (p.claims or {})),
+        "proof_ath_mismatch": lambda: r.decoded(
+            lambda p: claim(p, "ath") != ath(r.credential()["token"])
+        ),
+        "proof_key_not_bound": lambda: r.decoded(r.not_bound),
+        "proof_replayed": r.replayed,
+    }
+
+
+def _failures(record: Record) -> dict[str, Callable[[], bool]]:
+    r = _Reading(record)
+    contract = record.get("contractId") if isinstance(record, dict) else None
+    return {
         "contract_id_missing": lambda: not isinstance(record, dict) or "contractId" not in record,
         "contract_id_unknown": lambda: contract != CONTRACT_ID,
-        "record_malformed": malformed,
-        "credential_not_holder_bound": lambda: "cnf" not in credential(),
-        "credential_not_yet_valid": lambda: any(
-            i["at"] < credential()["iat"] for i in record["presentations"]
+        "record_malformed": r.malformed,
+        "credential_not_holder_bound": lambda: "cnf" not in r.credential(),
+        "credential_not_yet_valid": lambda: r.any_at(lambda i: i["at"] < r.credential()["iat"]),
+        "credential_expired": lambda: r.any_at(lambda i: i["at"] >= r.credential()["exp"]),
+        "proof_malformed": lambda: any(p.header is None or p.claims is None for p in r.proofs()),
+        "proof_type_wrong": lambda: r.decoded(lambda p: (p.header or {}).get("typ") != "dpop+jwt"),
+        "proof_alg_forbidden": lambda: r.decoded(_alg_forbidden),
+        "proof_alg_unsupported": lambda: r.decoded(
+            lambda p: (p.header or {}).get("alg") != "EdDSA"
         ),
-        "credential_expired": lambda: any(
-            i["at"] >= credential()["exp"] for i in record["presentations"]
-        ),
-        "proof_malformed": lambda: any(p.header is None or p.claims is None for p in proofs()),
-        "proof_type_wrong": lambda: decoded(lambda p: (p.header or {}).get("typ") != "dpop+jwt"),
-        "proof_alg_forbidden": lambda: decoded(
-            lambda p: str((p.header or {}).get("alg")).lower() == "none"
-            or str((p.header or {}).get("alg")).upper().startswith("HS")
-        ),
-        "proof_alg_unsupported": lambda: decoded(lambda p: (p.header or {}).get("alg") != "EdDSA"),
-        "proof_key_invalid": lambda: decoded(
-            lambda p: _key_of(p) is None
-            or any(m in ((p.header or {}).get("jwk") or {}) for m in _PRIVATE_MEMBERS)
-        ),
-        "proof_signature_invalid": lambda: decoded(lambda p: not _signature_holds(p)),
-        "proof_claims_malformed": lambda: decoded(lambda p: not _claims_ok(p)),
-        "proof_method_mismatch": lambda: decoded(lambda p: (p.claims or {}).get("htm") != p.method),
-        "proof_uri_mismatch": lambda: decoded(lambda p: (p.claims or {}).get("htu") != p.uri),
-        "proof_stale": lambda: decoded(lambda p: (p.claims or {}).get("iat", 0) < p.at - MAX_AGE),
-        "proof_from_future": lambda: decoded(
-            lambda p: (p.claims or {}).get("iat", 0) > p.at + MAX_AHEAD
-        ),
-        "proof_ath_missing": lambda: decoded(lambda p: "ath" not in (p.claims or {})),
-        "proof_ath_mismatch": lambda: decoded(
-            lambda p: (p.claims or {}).get("ath") != ath(credential()["token"])
-        ),
-        "proof_key_not_bound": lambda: decoded(not_bound),
-        "proof_replayed": replayed,
+        "proof_key_invalid": lambda: r.decoded(_key_invalid),
+        "proof_signature_invalid": lambda: r.decoded(lambda p: not _signature_holds(p)),
+        **_claim_checks(r),
     }
+
+
+def _first_failure(record: Record, skip: frozenset[str] = frozenset()) -> str | None:
+    failures = _failures(record)
     for name in CHECKS:
         if name not in skip and failures[name]():
             return name

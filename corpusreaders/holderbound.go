@@ -320,6 +320,18 @@ func hbClaimsOK(p hbProof) bool {
 	return hbIsText(p.claims["jti"]) && hbIsText(p.claims["htm"]) && hbIsText(p.claims["htu"]) && okIat
 }
 
+// hbASCIIFold lower-cases the ASCII letters only, as the Python reader does: JOSE algorithm
+// names are ASCII, so a name with any other letter is not a MAC name, and neither Go's simple
+// nor Python's full Unicode case mapping may make it one.
+func hbASCIIFold(text string) string {
+	return strings.Map(func(r rune) rune {
+		if r >= 'A' && r <= 'Z' {
+			return r + 'a' - 'A'
+		}
+		return r
+	}, text)
+}
+
 // hbAlgText is Python's str() of the header's alg for the two comparisons that read it:
 // a missing or null alg reads "None".
 func hbAlgText(header map[string]any) string {
@@ -389,7 +401,8 @@ func hbDecide(record map[string]any) scDecision {
 		{"proof_type_wrong", func(p hbProof) bool { return p.header["typ"] != "dpop+jwt" }},
 		{"proof_alg_forbidden", func(p hbProof) bool {
 			alg := hbAlgText(p.header)
-			return strings.ToLower(alg) == "none" || strings.HasPrefix(strings.ToUpper(alg), "HS")
+			folded := hbASCIIFold(alg)
+			return folded == "none" || strings.HasPrefix(folded, "hs")
 		}},
 		{"proof_alg_unsupported", func(p hbProof) bool { return p.header["alg"] != "EdDSA" }},
 		{"proof_key_invalid", func(p hbProof) bool { return hbKey(p) == nil }},
