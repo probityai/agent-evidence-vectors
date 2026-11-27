@@ -1,8 +1,0 @@
-{
-  "aciVersion": "0.9",
-  "files": {
-    "capabilities.json": "{\n  \"manifest_version\": \"0.9.0\",\n  \"last_updated\": \"2026-07-01\",\n  \"publisher\": \"NovaDynamics Inc.\",\n  \"products\": [\n    {\n      \"id\": \"novadynamics.skyhook\",\n      \"name\": \"SkyHook API\",\n      \"type\": \"Cloud infrastructure management API\",\n      \"description\": \"Declarative cloud orchestration with auto-scaling, multi-region deployment, and SLA monitoring.\"\n    }\n  ],\n  \"services\": [\n    {\n      \"id\": \"novadynamics.consulting\",\n      \"name\": \"Infrastructure Consulting\",\n      \"description\": \"Cloud architecture review, migration planning, and performance optimization.\"\n    }\n  ],\n  \"industries\": [\"Technology\", \"Cloud Computing\"],\n  \"documentation\": {\n    \"api-docs\": \"https://docs.novadynamics.example\",\n    \"status\": \"https://status.novadynamics.example\"\n  }\n}\n",
-    "identity.json": "{\n  \"manifest_version\": \"0.9.0\",\n  \"last_updated\": \"2026-07-01\",\n  \"publisher\": \"NovaDynamics Inc.\",\n  \"identifiers\": [\n    {\n      \"id\": \"org.novadynamics\",\n      \"type\": \"domain\",\n      \"value\": \"novadynamics.example\"\n    }\n  ],\n  \"website\": \"https://novadynamics.example\",\n  \"contact\": \"contact@novadynamics.example\",\n  \"brand\": \"NovaDynamics\",\n  \"description\": \"Cloud infrastructure and autonomous agent services.\",\n  \"jurisdiction\": \"United States\",\n  \"discovery\": {\n    \"llms-txt\": \"https://novadynamics.example/llms.txt\",\n    \"capability-manifest\": \"https://novadynamics.example/capabilities.json\"\n  }\n}\n",
-    "llms.txt": "# AI manifests\n- [Identity Manifest](identity.json)\n- [Capability Manifest](capabilities.json)\n"
-  }
-}
