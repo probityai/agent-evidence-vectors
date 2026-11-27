@@ -8,13 +8,14 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "packaging"))
 
+from agent_evidence_vectors import strictjson  # noqa: E402
 from agent_evidence_vectors.assurancelevels import check, main, verify  # noqa: E402, F401
 
 
 def corpus_json() -> int:
     """Print every case's decision as one JSON object, for the intake record."""
     root = Path(__file__).resolve().parent
-    manifest = json.loads((root / "MANIFEST.json").read_text(encoding="utf-8"))
+    manifest = strictjson.loads((root / "MANIFEST.json").read_text(encoding="utf-8"))
     members = []
     for entry in sorted(manifest["vectors"], key=lambda e: e["id"]):
         answer = verify(root / entry["path"] / "record.json")
