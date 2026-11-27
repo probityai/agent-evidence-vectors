@@ -55,6 +55,7 @@ Each family below has already been shown on #352 or in a pull request. The perso
 | `paid-audit-record` | #247 | slot for its contributor to file |
 | `privacy-access-request` | #423 | slot for its contributor to file |
 | `rttp-refusal` | #453 | registered as `predicate/v1/refusal-reason-priority`, corpus `vectors-refusal-reason-priority` (#483); its owner confirmed revision 02 of the draft in #492 |
+| `attestation-envelope` | #585 | registered as `predicate/v1/attestation-envelope`, from Section 7.2 of draft-li-rttp-iqa-addressing-03; its owner confirmed revision 03 in #585 (revision 02 was the first offered text), and the corpus of fail-closed frames follows |
 | `physical-completion` | #80 | this repository builds the `vectors-physical-completion` suite now from draft-noa-scitt-ai-agent-receipt-01 sections 8.1 to 8.3 (rejects) and 1.5 (indeterminate), crediting #80 in the suite manifest, and #80 closes with a link to it |
 
 A slot is a reservation, not an entry. Demand seen on a thread is not settled semantics, and nothing is listed as
