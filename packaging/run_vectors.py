@@ -107,6 +107,7 @@ import os
 import re
 import shlex
 import shutil
+import stat
 import subprocess
 import sys
 import tempfile
@@ -5184,8 +5185,41 @@ class Destination:
         except OSError:
             return False
 
+    def _is_special(self) -> bool:
+        """Whether the entry is a device, pipe or socket: a sink, never a record to replace."""
+        try:
+            if self.fd is not None:
+                mode = os.stat(self.name, dir_fd=self.fd, follow_symlinks=False).st_mode
+            else:
+                mode = os.lstat(self.entry).st_mode
+        except OSError:
+            return False
+        return not (stat.S_ISREG(mode) or stat.S_ISLNK(mode) or stat.S_ISDIR(mode))
+
+    def _write_sink(self, data: bytes) -> None:
+        """Write straight into a device or pipe (``--report /dev/null``), which a rename cannot reach.
+
+        The entry is opened without following a link and without creating it. If it is a
+        regular file by the time it opens, it was swapped in after the check: nothing is written.
+        """
+        flags = os.O_WRONLY | os.O_NOFOLLOW | getattr(os, "O_CLOEXEC", 0)
+        if self.fd is not None:
+            handle = os.open(self.name, flags, dir_fd=self.fd)
+        elif self._unchanged():
+            handle = os.open(self.entry, flags)
+        else:
+            raise OSError(f"{self.directory} changed after it was checked; nothing was written")
+        with os.fdopen(handle, "wb") as out:
+            if stat.S_ISREG(os.fstat(out.fileno()).st_mode):
+                raise OSError(f"{self.entry} became a regular file after it was checked; nothing was written")
+            out.write(data)
+            out.flush()
+
     def write(self, data: bytes) -> None:
         """Create a fresh file in the bound directory, then rename it onto the entry."""
+        if self._is_special():
+            self._write_sink(data)
+            return
         tmp = f".aev-report-{os.getpid()}-{os.urandom(6).hex()}"
         flags = os.O_WRONLY | os.O_CREAT | os.O_EXCL | getattr(os, "O_CLOEXEC", 0)
         if self.fd is not None:

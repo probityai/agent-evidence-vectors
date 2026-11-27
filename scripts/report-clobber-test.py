@@ -207,6 +207,13 @@ def g03_explicit_committed_writes(ctx: Ctx) -> Result:
     return verdict_of(p.returncode == 0 and count > 0, f"exit={p.returncode} vectors={count}")
 
 
+def g05_report_to_a_device(ctx: Ctx) -> Result:
+    """A report sent to /dev/null is discarded, not refused: a device is a sink, never a record."""
+    p = ctx.run(["--vectors", str(VECTORS), "--report", os.devnull], ctx.elsewhere)
+    ok = p.returncode == 0 and not os.path.isfile(os.devnull)
+    return verdict_of(ok, f"exit={p.returncode} stderr={tail(p)!r}")
+
+
 def a01_empty_report(ctx: Ctx) -> Result:
     before = sha(ctx.committed)
     p = ctx.run(["--vectors", str(VECTORS), "--report", ""], ctx.packaging)
@@ -383,7 +390,7 @@ def a17_parent_directory_swapped(ctx: Ctx) -> Result:
 
 CASES: list[Callable[[Ctx], Result]] = [
     g01_default_elsewhere, g04_default_at_checkout_root, g02_default_in_packaging_refused,
-    g03_explicit_committed_writes, a01_empty_report, a02_empty_report_runtime,
+    g03_explicit_committed_writes, g05_report_to_a_device, a01_empty_report, a02_empty_report_runtime,
     a03_hardlink_outside, a04_symlink_in_cwd, a05_symlinked_cwd, a06_harness_via_file_symlink,
     a07_toctou_symlink, a08_explicit_bare_name, a09_emit_w3c_onto_record, a10_stray_corpora_dir,
     a11_second_committed_record, a12_shared_default_misattribution, a13_cwd_dependent_test,
