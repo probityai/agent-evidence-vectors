@@ -13,8 +13,8 @@ use pyo3::types::{PyBytes, PyTuple};
 
 use crate::errors::{refusal, DsseError};
 
-/// The `dsse` release this extension links, as pinned in `Cargo.toml`.
-pub(crate) const BOUND_VERSION: &str = "0.1.6";
+/// The `dsse` release this extension links, read from its exact pin in `Cargo.toml` by `build.rs`.
+pub(crate) const BOUND_VERSION: &str = env!("DSSE_BOUND_VERSION");
 
 /// The prefix `dsse` writes in front of an ed25519 key's identity.
 const ED25519_IDENTITY_PREFIX: &[u8] = b"ed25519:";

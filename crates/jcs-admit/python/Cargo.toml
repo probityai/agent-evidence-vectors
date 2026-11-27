@@ -2,7 +2,7 @@
 name = "jcs-admit-python"
 version = "0.1.1"
 edition = "2021"
-# The highest floor in the locked graph: sha2 0.11.1, which dsse 0.1.6 reaches through
+# The highest floor in the locked graph: sha2 0.11.1, which dsse reaches through
 # ed25519-dalek 3.0, needs 1.88 although dsse itself declares 1.85. The python-msrv CI job
 # builds on this version.
 rust-version = "1.88"

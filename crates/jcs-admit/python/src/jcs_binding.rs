@@ -11,11 +11,9 @@ use pyo3::types::PyBytes;
 
 use crate::errors::{refusal, JcsError};
 
-/// The `jcs-admit` release this extension links, as pinned in `Cargo.toml`.
-///
-/// The test suite compares it with the version Cargo resolved, so the constant
-/// cannot drift from the crate actually built in.
-pub(crate) const BOUND_VERSION: &str = "0.1.3";
+/// The `jcs-admit` release this extension links, read from its exact pin in `Cargo.toml` by
+/// `build.rs`. The test suite compares it with the version Cargo resolved.
+pub(crate) const BOUND_VERSION: &str = env!("JCS_ADMIT_BOUND_VERSION");
 
 /// Runs one admission with the interpreter released, then maps the result.
 fn run(py: Python<'_>, data: &[u8], opts: &Options) -> PyResult<Py<PyBytes>> {

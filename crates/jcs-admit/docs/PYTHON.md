@@ -85,6 +85,6 @@ The distribution name is `jcs-admit` and the import package is `jcs_admit`. The 
 `probityai` belongs to the `probity` command-line distribution, so the two install
 side by side in one environment.
 
-To release: bump `python/pyproject.toml` (and `BOUND_VERSION` and the crate pins
-together), merge to `main`, then publish a GitHub release tagged `jcs-admit-py-v<version>` on
+To release: bump `python/pyproject.toml` (and the crate pins, which
+`build.rs` reads into the reported versions), merge to `main`, then publish a GitHub release tagged `jcs-admit-py-v<version>` on
 the merge commit. A tag on a commit not on `main` is refused.
