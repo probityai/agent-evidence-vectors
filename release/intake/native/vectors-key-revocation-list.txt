@@ -1,8 +1,0 @@
-suite: key-revocation-list/v1
-members: 13
-  no_statement: 1
-  not_revoked: 4
-  rejected: 4
-  revoked: 3
-  stale: 1
-verdict: every member behaves as MANIFEST.json declares
