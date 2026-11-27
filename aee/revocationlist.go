@@ -2,14 +2,29 @@ package aee
 
 // The reader of the one signed revocation list: a Go twin of
 // probity_records.revocation, held to the same shared vectors
-// (aee/testdata/revocation-list.json) and the same order of checks.
+// (aee/testdata/revocation-list-v2.json and the v1 sets beside it) and the same
+// order of checks.
 //
 // A signed list is {"body": BODY, "sig": base64(Ed25519 over
 // RevocationDomain || JCS(BODY))}. The verifier pins root key ids and never
 // reads one from a list: a list is checked under its presented key only once
-// that key's id is a pinned root. Lists are cumulative and chained by
-// sequence number and digest, so an entry, once published, stays in every
-// later list byte for byte.
+// that key's id is a pinned root. Lists are chained by sequence number and
+// digest. Two formats exist, and the verifier picks the one it reads, never
+// the list:
+//
+//   - v2 (RevocationListType; NewRevocationState, VerifyRevocationChain): each
+//     list is a delta. Its entries are only the subjects it newly revokes, the
+//     revocations in force are the union of the chain, and a list naming a
+//     subject an earlier list revoked is refused (revocation_entry_repeated), so
+//     an entry's revokedAt never moves and nothing is un-revoked. An empty list
+//     is a freshness list. Folding a list costs what its delta holds.
+//   - v1 (RevocationListTypeV1; NewRevocationStateV1, VerifyRevocationChainV1):
+//     each list is cumulative. An entry, once published, stays in every later
+//     list byte for byte (revocation_list_drops_entry). The published corpus
+//     revocation-list/v1 is this format.
+//
+// Each reader refuses the other format's type. Both read the type under either
+// host this module recognises (internal/identifiers).
 
 import (
 	"bytes"
@@ -21,25 +36,57 @@ import (
 	"fmt"
 	"sort"
 	"strconv"
+	"strings"
+	"sync"
 	"time"
 )
 
 // RevocationDomain is prepended to the canonical body before signing.
 const RevocationDomain = "probity-revocation-v1\x00"
 
-// RevocationListType is the one body type a list carries.
-const RevocationListType = "https://probityai.github.io/agent-evidence-vectors/predicate/v1/revocation-list"
+// RevocationListType is the body type of a v2 (delta) list.
+const RevocationListType = "https://probityai.github.io/agent-evidence-vectors/predicate/v2/revocation-list"
 
-// RevocationKind is one of the seven subject kinds a list names. The queries take this type, so a kind
+// RevocationListTypeV1 is the body type of a v1 (cumulative) list.
+const RevocationListTypeV1 = "https://probityai.github.io/agent-evidence-vectors/predicate/v1/revocation-list"
+
+// revocationHosts are the hosts whose identifiers this module reads as its own. The core
+// imports only the standard library, so it keeps this copy of internal/identifiers'
+// rule; TestRevocationHostRuleIsTheModuleRule holds the copy to it.
+var revocationHosts = [...]string{"probityai.github.io", "probityai.org"}
+
+// sameRevocationType reports whether v is text naming want under a recognised host:
+// the match is byte-exact on the scheme and the host, and a value that is not text
+// is never a type.
+func sameRevocationType(v any, want string) bool {
+	s, ok := v.(string)
+	if !ok {
+		return false
+	}
+	return canonicalRevocationIdentifier(s) == canonicalRevocationIdentifier(want)
+}
+
+func canonicalRevocationIdentifier(s string) string {
+	for _, host := range revocationHosts {
+		if rest, found := strings.CutPrefix(s, "https://"+host+"/"); found {
+			return "https://" + revocationHosts[0] + "/" + rest
+		}
+	}
+	return s
+}
+
+// RevocationKind is one of the eight subject kinds a list names. The queries take this type, so a kind
 // the format does not define cannot be passed as a variable; the list's parser refuses an entry of any
 // other kind, so no state ever holds one.
 type RevocationKind string
 
-// The seven subject kinds a list names.
+// The eight subject kinds a list names. An idp-key is an identity provider's token-signing key, named
+// by its RFC 7638 JWK thumbprint; it is never kind key and carries no successor.
 const (
 	KindAgent   RevocationKind = "agent"
 	KindBuild   RevocationKind = "build"
 	KindGrant   RevocationKind = "grant"
+	KindIdpKey  RevocationKind = "idp-key"
 	KindKey     RevocationKind = "key"
 	KindPermit  RevocationKind = "permit"
 	KindSponsor RevocationKind = "sponsor"
@@ -47,7 +94,7 @@ const (
 )
 
 // RevocationKinds lists every kind, ascending.
-var RevocationKinds = []RevocationKind{KindAgent, KindBuild, KindGrant, KindKey, KindPermit, KindSponsor, KindStream}
+var RevocationKinds = []RevocationKind{KindAgent, KindBuild, KindGrant, KindIdpKey, KindKey, KindPermit, KindSponsor, KindStream}
 
 // RevocationSubject names one revocable thing: an id under a kind.
 type RevocationSubject struct {
@@ -55,7 +102,9 @@ type RevocationSubject struct {
 	ID   string
 }
 
-// The ten refusals Apply reports, in the order it checks them.
+// The refusals Apply reports, in the order it checks them: the first nine are
+// common to both formats, the tenth is CodeEntryRepeated for v2 and CodeDropsEntry
+// for v1.
 const (
 	CodeShape             = "revocation_list_shape"
 	CodeSignerNotARoot    = "revocation_list_signer_not_a_root"
@@ -67,11 +116,18 @@ const (
 	CodeTimeReversed      = "revocation_list_time_reversed"
 	CodeEntryFromFuture   = "revocation_entry_from_future"
 	CodeDropsEntry        = "revocation_list_drops_entry"
+	CodeEntryRepeated     = "revocation_entry_repeated"
 	maxExactRevocationSeq = 1<<53 - 1
 )
 
-// RevocationRefusalCodes lists the ten codes in the order Apply checks them.
+// RevocationRefusalCodes lists the ten codes a v2 reader reports, in the order Apply checks them.
 var RevocationRefusalCodes = []string{
+	CodeShape, CodeSignerNotARoot, CodeSignatureBad, CodeOtherChain, CodeRollback, CodeGap,
+	CodePreviousMismatch, CodeTimeReversed, CodeEntryFromFuture, CodeEntryRepeated,
+}
+
+// RevocationRefusalCodesV1 lists the ten codes a v1 reader reports, in the order Apply checks them.
+var RevocationRefusalCodesV1 = []string{
 	CodeShape, CodeSignerNotARoot, CodeSignatureBad, CodeOtherChain, CodeRollback, CodeGap,
 	CodePreviousMismatch, CodeTimeReversed, CodeEntryFromFuture, CodeDropsEntry,
 }
@@ -95,9 +151,12 @@ func refuse(code, format string, args ...any) error {
 
 func shape(why string) error { return &RevocationError{Code: CodeShape, Detail: why} }
 
-// RevocationState is a verifier's side: the pinned roots and the list in
-// force (none: Seq 0, nothing revoked). It is a value; Apply returns a new
-// one and never changes its receiver, so a caller must not edit Roots.
+// RevocationState is a verifier's side: the format it reads, the pinned roots
+// and the list in force (none: Seq 0, nothing revoked). It is a value; Apply
+// returns a new one and never changes its receiver, so a caller must not edit
+// Roots. States are safe to read and to apply lists to from any number of
+// goroutines: an older state never sees a later list's entries, and two lists
+// applied to one state give two independent states.
 type RevocationState struct {
 	// Roots are the pinned root key ids, sorted ascending.
 	Roots []string
@@ -107,12 +166,92 @@ type RevocationState struct {
 	Seq      int64
 	Head     string
 	IssuedAt string
-	entries  map[[2]string][]byte // (kind, id) -> JCS bytes of the entry
+	v1       bool      // reads the cumulative format
+	entries  *revStore // nil while no list is held
+	count    int       // how many of the store's keys this state sees
 }
 
-// NewRevocationState pins the given key ids and holds no list.
+// NewRevocationState pins the given key ids, reads v2 (delta) lists and holds no list.
 func NewRevocationState(rootKeyIDs []string) RevocationState {
 	return RevocationState{Roots: sortedSet(rootKeyIDs, nil)}
+}
+
+// NewRevocationStateV1 pins the given key ids, reads v1 (cumulative) lists and holds no list.
+func NewRevocationStateV1(rootKeyIDs []string) RevocationState {
+	return RevocationState{Roots: sortedSet(rootKeyIDs, nil), v1: true}
+}
+
+// revStore holds the entries of one chain of lists, each with the seq of the list that
+// added it. Only the state at the store's tip extends it, in place; every state sees the
+// keys added at or before its own seq, and order holds the keys in the order they were
+// added, so a state's keys are exactly the first count of them.
+type revStore struct {
+	mu    sync.RWMutex
+	added map[[2]string]revHeld
+	order [][2]string
+	tip   int64
+}
+
+type revHeld struct {
+	seq   int64
+	canon []byte // JCS bytes of the entry
+}
+
+// held returns the JCS bytes of the entry under key the list in force holds.
+func (s RevocationState) held(key [2]string) ([]byte, bool) {
+	if s.entries == nil {
+		return nil, false
+	}
+	s.entries.mu.RLock()
+	h, ok := s.entries.added[key]
+	s.entries.mu.RUnlock()
+	if !ok || h.seq > s.Seq {
+		return nil, false
+	}
+	return h.canon, true
+}
+
+// heldKeys returns the keys of the list in force, in the order they were added.
+func (s RevocationState) heldKeys() [][2]string {
+	if s.entries == nil {
+		return nil
+	}
+	s.entries.mu.RLock()
+	defer s.entries.mu.RUnlock()
+	return append([][2]string(nil), s.entries.order[:s.count]...)
+}
+
+// extended returns a store holding this state's entries and delta's, added at seq, and
+// the number of keys it holds: this state's store grown in place when the state is its
+// tip, else a store of its own, built once from the keys this state sees.
+func (s RevocationState) extended(seq int64, delta []revEntry) (*revStore, int) {
+	if store := s.entries; store != nil {
+		store.mu.Lock()
+		if store.tip == s.Seq {
+			for _, e := range delta {
+				key := [2]string{e.kind, e.id}
+				store.added[key] = revHeld{seq: seq, canon: e.canon}
+				store.order = append(store.order, key)
+			}
+			store.tip = seq
+			n := len(store.order)
+			store.mu.Unlock()
+			return store, n
+		}
+		store.mu.Unlock()
+	}
+	branch := &revStore{added: map[[2]string]revHeld{}, tip: seq}
+	for _, key := range s.heldKeys() {
+		canon, _ := s.held(key)
+		branch.added[key] = revHeld{seq: s.Seq, canon: canon}
+		branch.order = append(branch.order, key)
+	}
+	for _, e := range delta {
+		key := [2]string{e.kind, e.id}
+		branch.added[key] = revHeld{seq: seq, canon: e.canon}
+		branch.order = append(branch.order, key)
+	}
+	return branch, len(branch.order)
 }
 
 func sortedSet(ids []string, drop map[string]bool) []string {
@@ -135,7 +274,7 @@ func (s RevocationState) isRoot(id string) bool {
 
 // Revoked reports whether the list in force names id under kind.
 func (s RevocationState) Revoked(kind RevocationKind, id string) bool {
-	_, ok := s.entries[[2]string{string(kind), id}]
+	_, ok := s.held([2]string{string(kind), id})
 	return ok
 }
 
@@ -152,7 +291,7 @@ func (s RevocationState) Revokes(subjects ...RevocationSubject) bool {
 // RevokedIDs returns the ids the list in force names under kind, sorted.
 func (s RevocationState) RevokedIDs(kind RevocationKind) []string {
 	out := []string{}
-	for k := range s.entries {
+	for _, k := range s.heldKeys() {
 		if k[0] == string(kind) {
 			out = append(out, k[1])
 		}
@@ -192,8 +331,9 @@ type revBody struct {
 	canon                      []byte
 }
 
-// Apply returns the state with signed (the JSON bytes of a signed list) as
-// the list in force, or a *RevocationError. The receiver is never changed.
+// Apply returns the state with signed (the JSON bytes of a signed list, of the
+// format the state reads) as the list in force, or a *RevocationError. The
+// receiver is never changed.
 func (s RevocationState) Apply(signed []byte) (RevocationState, error) {
 	top, err := parseJSONValue(signed)
 	if err != nil {
@@ -203,7 +343,11 @@ func (s RevocationState) Apply(signed []byte) (RevocationState, error) {
 	if !ok || len(obj.values) != 2 || !hasMember(obj, "body") || !hasMember(obj, "sig") {
 		return s, shape("signed_list_members")
 	}
-	body, err := readRevBody(obj.values["body"])
+	listType := RevocationListType
+	if s.v1 {
+		listType = RevocationListTypeV1
+	}
+	body, err := readRevBody(obj.values["body"], listType)
 	if err != nil {
 		return s, err
 	}
@@ -216,7 +360,10 @@ func (s RevocationState) Apply(signed []byte) (RevocationState, error) {
 		!ed25519.Verify(ed25519.PublicKey(body.issuerKey), append([]byte(RevocationDomain), body.canon...), sig) {
 		return s, &RevocationError{Code: CodeSignatureBad}
 	}
-	return s.install(body)
+	if s.v1 {
+		return s.install(body)
+	}
+	return s.installDelta(body)
 }
 
 // RevocationChainVerdict is a chain of signed lists judged in order by a verifier that pins
@@ -233,10 +380,18 @@ type RevocationChainVerdict struct {
 	State RevocationState
 }
 
-// VerifyRevocationChain applies the signed lists (the JSON bytes of each) in order, from a
+// VerifyRevocationChain applies the signed v2 lists (the JSON bytes of each) in order, from a
 // verifier that pins rootKeyIDs and holds no list, and stops at the first refusal.
 func VerifyRevocationChain(rootKeyIDs []string, lists [][]byte) RevocationChainVerdict {
-	state := NewRevocationState(rootKeyIDs)
+	return verifyRevocationChain(NewRevocationState(rootKeyIDs), lists)
+}
+
+// VerifyRevocationChainV1 is VerifyRevocationChain for v1 (cumulative) lists.
+func VerifyRevocationChainV1(rootKeyIDs []string, lists [][]byte) RevocationChainVerdict {
+	return verifyRevocationChain(NewRevocationStateV1(rootKeyIDs), lists)
+}
+
+func verifyRevocationChain(state RevocationState, lists [][]byte) RevocationChainVerdict {
 	for i, list := range lists {
 		next, err := state.Apply(list)
 		if err != nil {
@@ -253,35 +408,47 @@ func hasMember(o *jsonObject, name string) bool {
 	return ok
 }
 
-// install runs the chain checks (4 to 10) on a list whose shape and
-// signature are already proved.
-func (s RevocationState) install(b revBody) (RevocationState, error) {
+// chainChecks runs the checks both formats share (4 to 9) on a list whose shape
+// and signature are already proved.
+func (s RevocationState) chainChecks(b revBody) error {
 	if s.ListID != "" && b.listID != s.ListID {
-		return s, &RevocationError{Code: CodeOtherChain}
+		return &RevocationError{Code: CodeOtherChain}
 	}
 	if b.seq <= s.Seq {
-		return s, refuse(CodeRollback, "%d<=%d", b.seq, s.Seq)
+		return refuse(CodeRollback, "%d<=%d", b.seq, s.Seq)
 	}
 	if b.seq > s.Seq+1 {
-		return s, refuse(CodeGap, "%d>%d", b.seq, s.Seq+1)
+		return refuse(CodeGap, "%d>%d", b.seq, s.Seq+1)
 	}
 	if b.hasPrevious != (s.Head != "") || b.previous != s.Head {
-		return s, &RevocationError{Code: CodePreviousMismatch}
+		return &RevocationError{Code: CodePreviousMismatch}
 	}
 	if s.IssuedAt != "" && b.issuedAt < s.IssuedAt {
-		return s, &RevocationError{Code: CodeTimeReversed}
+		return &RevocationError{Code: CodeTimeReversed}
+	}
+	for _, e := range b.entries {
+		if e.revokedAt > b.issuedAt {
+			return &RevocationError{Code: CodeEntryFromFuture}
+		}
+	}
+	return nil
+}
+
+// install runs the v1 chain checks (4 to 10) on a list whose shape and
+// signature are already proved: the list is cumulative, so it must hold every
+// entry the list in force holds, byte for byte.
+func (s RevocationState) install(b revBody) (RevocationState, error) {
+	if err := s.chainChecks(b); err != nil {
+		return s, err
 	}
 	entries := make(map[[2]string][]byte, len(b.entries))
 	for _, e := range b.entries {
-		if e.revokedAt > b.issuedAt {
-			return s, &RevocationError{Code: CodeEntryFromFuture}
-		}
 		entries[[2]string{e.kind, e.id}] = e.canon
 	}
 	// Held entries are checked in (kind, id) order, so a list that drops or edits several is
 	// refused naming the first of them, the same one on every run.
-	for _, key := range sortedEntryKeys(s.entries) {
-		if held := s.entries[key]; !bytes.Equal(entries[key], held) {
+	for _, key := range sortedEntryKeys(s.heldKeys()) {
+		if held, _ := s.held(key); !bytes.Equal(entries[key], held) {
 			return s, refuse(CodeDropsEntry, "%s:%.12s", key[0], key[1])
 		}
 	}
@@ -299,28 +466,77 @@ func (s RevocationState) install(b revBody) (RevocationState, error) {
 			joined = append(joined, hex.EncodeToString(sum[:]))
 		}
 	}
+	// A v1 list replaces the entries in force, so its store is its own.
+	store := &revStore{added: make(map[[2]string]revHeld, len(b.entries)), tip: b.seq}
+	for _, e := range b.entries {
+		key := [2]string{e.kind, e.id}
+		store.added[key] = revHeld{seq: b.seq, canon: e.canon}
+		store.order = append(store.order, key)
+	}
 	return RevocationState{
 		Roots:    sortedSet(append(append([]string{}, s.Roots...), joined...), gone),
 		ListID:   b.listID,
 		Seq:      b.seq,
 		Head:     digestOfCanonical(b.canon),
 		IssuedAt: b.issuedAt,
-		entries:  entries,
+		v1:       true,
+		entries:  store,
+		count:    len(store.order),
 	}, nil
 }
 
-func sortedEntryKeys(entries map[[2]string][]byte) [][2]string {
-	keys := make([][2]string, 0, len(entries))
-	for key := range entries {
-		keys = append(keys, key)
+// installDelta runs the v2 chain checks (4 to 10) on a list whose shape and
+// signature are already proved: the list is a delta, so it must name no subject
+// an earlier list of the chain revoked.
+func (s RevocationState) installDelta(b revBody) (RevocationState, error) {
+	if err := s.chainChecks(b); err != nil {
+		return s, err
 	}
+	// Entries are strictly ascending, so a list that repeats several is refused naming the
+	// first of them, the same one on every run.
+	for _, e := range b.entries {
+		if _, held := s.held([2]string{e.kind, e.id}); held {
+			return s, refuse(CodeEntryRepeated, "%s:%.12s", e.kind, e.id)
+		}
+	}
+	// A revoked key is never a root, whatever the order of the entries and whichever list revoked
+	// it: the successors of the held roots this list revokes join unless an earlier list revoked
+	// them, then every key id this list revokes leaves, so a successor the same list revokes does
+	// not stay either.
+	gone, joined := map[string]bool{}, []string{}
+	for _, e := range b.entries {
+		if e.kind != string(KindKey) {
+			continue
+		}
+		gone[e.id] = true
+		if e.successor != nil && s.isRoot(e.id) {
+			sum := sha256.Sum256(e.successor)
+			if successor := hex.EncodeToString(sum[:]); !s.Revoked(KindKey, successor) {
+				joined = append(joined, successor)
+			}
+		}
+	}
+	store, count := s.extended(b.seq, b.entries)
+	return RevocationState{
+		Roots:    sortedSet(append(append([]string{}, s.Roots...), joined...), gone),
+		ListID:   b.listID,
+		Seq:      b.seq,
+		Head:     digestOfCanonical(b.canon),
+		IssuedAt: b.issuedAt,
+		entries:  store,
+		count:    count,
+	}, nil
+}
+
+func sortedEntryKeys(keys [][2]string) [][2]string {
+	keys = append([][2]string(nil), keys...)
 	sort.Slice(keys, func(i, j int) bool {
 		return keys[i][0] < keys[j][0] || keys[i][0] == keys[j][0] && keys[i][1] < keys[j][1]
 	})
 	return keys
 }
 
-func readRevBody(v any) (revBody, error) {
+func readRevBody(v any, listType string) (revBody, error) {
 	var b revBody
 	o, ok := v.(*jsonObject)
 	if !ok || len(o.values) != 7 {
@@ -331,7 +547,7 @@ func readRevBody(v any) (revBody, error) {
 			return b, shape("body_members")
 		}
 	}
-	if o.values["type"] != RevocationListType {
+	if !sameRevocationType(o.values["type"], listType) {
 		return b, shape("type")
 	}
 	var listID string
@@ -425,6 +641,10 @@ func readRevEntry(v any) (revEntry, error) {
 		if !isHex64(id) {
 			return e, shape("entry_id_form:" + kind)
 		}
+	} else if kind == string(KindIdpKey) {
+		if !isThumbprint(id) {
+			return e, shape("entry_id_form:" + kind)
+		}
 	} else if !isIdentifier(id) {
 		return e, shape("entry_id_form:" + kind)
 	}
@@ -485,6 +705,21 @@ func isLowerHex(s string) bool {
 }
 
 func isHex64(s string) bool { return len(s) == 64 && isLowerHex(s) }
+
+// isThumbprint accepts an RFC 7638 SHA-256 thumbprint in base64url without padding:
+// 43 digits, the last carrying two zero bits, so each key has one spelling and a lookup
+// by the thumbprint a reader computes cannot miss an entry written another way.
+func isThumbprint(s string) bool {
+	if len(s) != 43 {
+		return false
+	}
+	for i := 0; i < 42; i++ {
+		if c := s[i]; (c < 'A' || c > 'Z') && (c < 'a' || c > 'z') && (c < '0' || c > '9') && c != '-' && c != '_' {
+			return false
+		}
+	}
+	return strings.IndexByte("AEIMQUYcgkosw048", s[42]) >= 0
+}
 
 func isListDigest(s string) bool { return len(s) == 71 && s[:7] == "sha256:" && isLowerHex(s[7:]) }
 

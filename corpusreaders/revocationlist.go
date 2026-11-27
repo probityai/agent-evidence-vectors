@@ -14,9 +14,10 @@ func init() { register(revocationList{}) }
 
 // revocationList judges corpora/vectors-revocation-list/. Each member is what one
 // verifier sees: the root key ids it pins (roots.json) and the signed lists it is
-// handed, in order, each in the published form. The reader runs
-// aee.VerifyRevocationChain, the reference reader of the one revocation list, and
-// holds the member to every fact its manifest row states:
+// handed, in order, each in the published form. The suite publishes v1
+// (cumulative) lists, so the reader runs aee.VerifyRevocationChainV1, the
+// reference reader of that format, and holds the member to every fact its
+// manifest row states:
 //
 //  1. the decision, the full refusal text (code, or code:detail) and the index of
 //     the refused list;
@@ -113,7 +114,7 @@ func revJudgeMember(caseDir string, v revVector) (findings []string) {
 		}
 		lists[i] = body
 	}
-	got := aee.VerifyRevocationChain(pins.Roots, lists)
+	got := aee.VerifyRevocationChainV1(pins.Roots, lists)
 	findings = append(findings, revVerdictFindings(got, v.Expected)...)
 	findings = append(findings, revStateFindings(got.State, v.Expected.State)...)
 	return append(findings, revDigestFindings(lists, v.Expected.ListDigests)...)
