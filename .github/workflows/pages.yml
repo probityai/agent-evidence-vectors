@@ -36,16 +36,16 @@ jobs:
       # this file would be free to drift from the one the checker reads, and the
       # site would then be built by a renderer nothing had type-checked against.
       - name: sync the toolchain
-        run: uv sync --extra dev
+        run: uv sync --locked --extra dev
       - name: check page routes and links
-        run: uv run --extra dev python -m pytest -q scripts/test_site_navigation.py
+        run: uv run --locked --extra dev python -m pytest -q scripts/test_site_navigation.py
       # pages/ holds the identifier pages imported from agent-evidence, which
       # w3id.org/agent-evidence/ resolves to on the organisation site. This
       # site does not serve them; the check keeps their pins honest here.
       - name: every imported predicate page matches its pin
         run: python3 scripts/check_predicate_pages.py
       - name: build the site from tracked files
-        run: uv run python docs/site/build.py --out _site --require-lastmod
+        run: uv run --locked --extra dev python docs/site/build.py --out _site --require-lastmod
       - name: the built pages load nothing from another host
         run: |
           # A hermetic page names no external script or stylesheet. Links to the
@@ -83,14 +83,22 @@ jobs:
   # The per-push gate proves the build writes a page for every type URI; only
   # the host can prove it serves one. This runs after the deploy that
   # publishes a new page, which is the only moment the answer can be 200.
+  # The gate builds the site itself (docs/site/build.py imports markdown), so
+  # this job installs from the lock like the build job and runs the gate under
+  # `uv run`. A bare python3 sees only the standard library: that is what turned
+  # this job red from 24 Nov 2026 (ModuleNotFoundError: markdown).
+  # scripts/workflow-python-env-gate.py refuses the same mistake in any job.
   resolve:
     needs: deploy
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: astral-sh/setup-uv@37802adc94f370d6bfd71619e3f0bf239e1f3b78 # v7
+      - name: sync the toolchain
+        run: uv sync --locked --extra dev
       - name: every identifier answers as listed from the published host (200 served, 404 negative vector)
-        run: python3 scripts/identifier-pages-gate.py --live
+        run: uv run --locked --extra dev python scripts/identifier-pages-gate.py --live
 
   # Tells IndexNow engines which pages are new or carry a newer lastmod than the sitemap that was
   # live before this deploy (the build job diffed them and kept the list). The key file lives at the
