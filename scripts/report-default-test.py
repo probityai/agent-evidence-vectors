@@ -39,7 +39,7 @@ CORPUS = REPO_ROOT / "vectors"
 HARNESS_UNDER_TEST_ENV = "AEV_HARNESS_UNDER_TEST"
 
 # The one line that sends a defaulted report beside the harness again.
-MUTATION_OLD = "    return str(args.report) if args.report else REPORT_NAME\n"
+MUTATION_OLD = "    return str(args.report) if args.report is not None else REPORT_NAME\n"
 MUTATION_NEW = (
     "    return str(args.report) if args.report else os.path.join(\n"
     '        os.path.dirname(os.path.abspath(__file__)), "conformance-report.json"\n'
@@ -107,7 +107,9 @@ def case_naming_the_committed_report_asks_for_it(work: Path) -> None:
     tracked = packaging / "conformance-report.json"
     tracked.write_text('{"stale": "record"}\n', encoding="utf-8")
     proc = run(
-        ["--vectors", str(CORPUS), "--report", str(tracked)], packaging, harness_path(packaging)
+        ["--vectors", str(CORPUS), "--report", str(tracked), "--replace-record"],
+        packaging,
+        harness_path(packaging),
     )
     assert proc.returncode == 0, (
         f"an explicit report path exited {proc.returncode}: {proc.stderr[-400:]}"
@@ -145,8 +147,12 @@ def case_the_real_record_is_untouched(work: Path) -> None:
         capture_output=True,
         check=False,
     )
-    if committed.returncode != 0:
-        return  # not a git checkout: nothing to compare against
+    # A comparison that could not run is a failure, never a pass: without it a
+    # tree with no git, or a HEAD without the record, read as untouched.
+    assert committed.returncode == 0, (
+        f"git show HEAD:packaging/conformance-report.json exited {committed.returncode}: "
+        f"{committed.stderr.decode(errors='replace').strip()[:200]}; the record was not compared"
+    )
     assert hashlib.sha256(committed.stdout).hexdigest() == digest(TRACKED), (
         "packaging/conformance-report.json differs from HEAD: a run of this "
         "repository's own tests replaced it"

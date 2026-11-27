@@ -6732,7 +6732,7 @@
         "gate1": "-",
         "recompute": "-",
         "tier": "-",
-        "self-check": "PASS"
+        "self-check": "-"
       },
       "observed": {
         "verdict": "invalid",
@@ -12418,5 +12418,15 @@
       "conformanceReasons": [],
       "reasonParityFindings": []
     }
-  ]
+  ],
+  "verifierResult": {
+    "schema": "agent-evidence-vectors/verifier-result/v1",
+    "package": "agent-evidence-vectors",
+    "version": "0.38.0",
+    "versionSource": "checkout",
+    "corpus": "adversarial-execution-evidence-conformance",
+    "corpusDigest": "bf3e5befd71640757ff1b3f0af63507364b823b5e3f9059678f72f64a46e11c1",
+    "corpusRevision": "f16b126fd38cbae4faa1143e1e211d3410e77a93",
+    "corpusRevisionKind": "git-commit"
+  }
 }

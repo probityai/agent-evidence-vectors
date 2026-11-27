@@ -273,7 +273,9 @@ def check_parity(work: Path, binary: Path) -> int:
             mutate(corpus)
         go_status, go_out = run([str(binary), str(corpus)], REPO)
         py_status, py_out = run(
-            [sys.executable, "packaging/run_vectors.py", "--vectors", str(corpus)], REPO
+            [sys.executable, "packaging/run_vectors.py", "--vectors", str(corpus),
+             "--report", str(work / name / "report.json")],
+            REPO,
         )
         want = 0 if mutate is None else 1
         if go_out != py_out or go_status != py_status or go_status != want:

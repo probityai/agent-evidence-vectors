@@ -362,7 +362,9 @@ def main() -> int:
                 mutate(corpus)
             go_status, go_out = run([str(binary), str(corpus)], REPO)
             py_status, py_out = run(
-                [sys.executable, "packaging/run_vectors.py", "--vectors", str(corpus)], REPO
+                [sys.executable, "packaging/run_vectors.py", "--vectors", str(corpus),
+                 "--report", str(work / name / "report.json")],
+                REPO,
             )
             rs_status, rs_out = run([str(rust), str(corpus)], REPO)
             same = (

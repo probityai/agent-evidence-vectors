@@ -203,7 +203,10 @@ def main() -> int:
             corpus, manifest, notes = mutated_round(work, r, rng)
             outputs: dict[str, dict[str, list[str]]] = {}
             for name, cmd in rails.items():
-                proc = subprocess.run(cmd + [str(corpus)], cwd=REPO, capture_output=True, text=True)
+                extra = ["--report", str(work / f"round{r}-report.json")] if name == "py" else []
+                proc = subprocess.run(
+                    cmd + [str(corpus), *extra], cwd=REPO, capture_output=True, text=True
+                )
                 if crashed(proc):
                     tail = (proc.stderr.strip().splitlines() or ["(no stderr)"])[-1]
                     crashes.append(f"round {r}: {name} exited {proc.returncode}: {tail}")
