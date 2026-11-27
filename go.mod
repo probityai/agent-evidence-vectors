@@ -2,4 +2,4 @@
 // (aee/imports_test.go) enforces zero go-witness imports in the verification core.
 module github.com/probityai/agent-evidence-vectors
 
-go 1.24
+go 1.25.0
