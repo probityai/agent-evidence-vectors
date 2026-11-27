@@ -284,6 +284,15 @@ def score(module, manifest: dict, expect_repo: str, reasons: dict) -> list[dict]
                 and needle.lower() in (message or "").splitlines()[0].lower()
             )
         agrees = verdict_agrees and reason_agrees
+        # The corpus class the message falls in, by the map alone. It is what
+        # the reason is scored on, written out so a recording can show the
+        # class beside the raw stop text instead of asking a reader to redo
+        # the match by eye.
+        first_line = (message or "").splitlines()[0].lower() if message else ""
+        observed_class = next(
+            (name for name, needle in reasons.items() if needle.lower() in first_line),
+            None,
+        )
         rows.append(
             {
                 "id": entry["id"],
@@ -295,6 +304,7 @@ def score(module, manifest: dict, expect_repo: str, reasons: dict) -> list[dict]
                 "observedOutcome": outcome,
                 "observedExit": code,
                 "observedStopReason": reason,
+                "observedClass": observed_class,
                 "observedMessage": message.splitlines()[0] if message else "",
                 "verdictAgrees": verdict_agrees,
                 "reasonAgrees": reason_agrees,

@@ -1661,6 +1661,16 @@ _DRAFT_1105_SPANS = (
     'So correction 3\'s "the 34 reproduce" names a check that counts them.',
 )
 
+_RECORDINGS_RUN_WHY = (
+    'A figure of the 23 November 2026 run recorded in the recordings index: a past run '
+    'against the corpus of that day, which must not track the corpus as it grows.'
+)
+
+_OUTSIDE_RUN_WHY = (
+    "A result an outside implementer reported for a past run against his own case set "
+    "or this repository's code, recorded as posted. It must not track this corpus."
+)
+
 FROZEN: tuple[Frozen, ...] = (
     Frozen(
         'corpora/vectors-acs-core/README.md',
@@ -1830,6 +1840,105 @@ FROZEN: tuple[Frozen, ...] = (
         '57/57, verify 57/57 and negative control 53/57',
         'Results an outside implementer reported for a past run against his own case set. They '
         'record that report as posted and must not track this corpus.',
+    ),
+    Frozen(
+        'RUNS.md',
+        "an outside author's reported authority-at-dispatch verify result",
+        '`verify.py` 20/20, exit 0',
+        _OUTSIDE_RUN_WHY,
+    ),
+    Frozen(
+        'RUNS.md',
+        "an outside author's reported authority-at-dispatch rerun at a second release",
+        'gave 20/20 on both',
+        _OUTSIDE_RUN_WHY,
+    ),
+    Frozen(
+        'RUNS.md',
+        "an outside author's reported refund-connected score before reading the reader",
+        'had already scored 12/12 before',
+        _OUTSIDE_RUN_WHY,
+    ),
+    Frozen(
+        'RUNS.md',
+        "an outside author's reported refund-connected run_corpus result",
+        'prints `12/12 scored vectors match`',
+        _OUTSIDE_RUN_WHY,
+    ),
+    Frozen(
+        'RUNS.md',
+        "the reading of an outside author's refund-connected score",
+        'The 12/12 says the text is implementable',
+        _OUTSIDE_RUN_WHY,
+    ),
+    Frozen(
+        'RUNS.md',
+        "an outside author's reported receipt-signature result",
+        (
+            '29 vectors, 29 pass, 0 not honouring a SHOULD, 0 closing a gap, 0 fail; '
+            '"ran on 29 of 29 vectors"'
+        ),
+        _OUTSIDE_RUN_WHY,
+    ),
+    Frozen(
+        'RUNS.md',
+        "an outside author's reported first red CI run of the receipt-signature corpus",
+        'red on 4 of 29',
+        _OUTSIDE_RUN_WHY,
+    ),
+    Frozen(
+        'RUNS.md',
+        'the receipt-signature figure reproduced at release 0.38.0',
+        'gives 29 vectors, 29 pass',
+        _OUTSIDE_RUN_WHY,
+    ),
+    Frozen(
+        'RUNS.md',
+        "an outside author's reported test count on the billing-finality pull request",
+        '29 passed',
+        _OUTSIDE_RUN_WHY,
+    ),
+    Frozen(
+        'RUNS.md',
+        "an outside author's reported check_vectors answer on the billing-finality pull request",
+        'answered 21 of 21',
+        _OUTSIDE_RUN_WHY,
+    ),
+    Frozen(
+        'RUNS.md',
+        "an outside author's reported runtime-contract result on the billing-finality pull request",
+        'ran 6 of 6 with 0 failed',
+        _OUTSIDE_RUN_WHY,
+    ),
+    Frozen(
+        'corpora/vectors-anchor-stream/recordings/INDEX.md',
+        'the size of the corpus at the 23 November run',
+        '(34 members, corpus digest',
+        _RECORDINGS_RUN_WHY,
+    ),
+    Frozen(
+        'corpora/vectors-anchor-stream/recordings/INDEX.md',
+        'the agreement count of the 23 November run',
+        '32 of 34 members agree on verdict',
+        _RECORDINGS_RUN_WHY,
+    ),
+    Frozen(
+        'corpora/vectors-anchor-stream/recordings/INDEX.md',
+        'the agreement count under the v0.10 map at the 23 November run',
+        'the count is 31 of 34',
+        _RECORDINGS_RUN_WHY,
+    ),
+    Frozen(
+        'corpora/vectors-anchor-stream/recordings/INDEX.md',
+        'the stream lines a sidecar covered at the 23 November run',
+        'covers 18 of 24 stream lines',
+        _RECORDINGS_RUN_WHY,
+    ),
+    Frozen(
+        'corpora/vectors-anchor-stream/recordings/INDEX.md',
+        'the member count of the run the thread discusses',
+        'after the 32-member run the thread',
+        _RECORDINGS_RUN_WHY,
     ),
     Frozen(
         'docs/runs/vantage-grid-0.35.0.md',

@@ -285,12 +285,58 @@
           "exit-code": 0,
           "sha256": "c70e94353dedd367a72a0343612a9930332dc0d3fac6b77e3f9a0d78659aaf91"
         },
+        "swapped-in": "b3768a12de605bf43b877954674c4fec498ade74499296edbc2d9fd8c97d4a13",
+        "test": "swap-and-re-pin"
+      },
+      "path": "corpora/vectors-anchor-stream/reason-map/aos-anchors-verify-v0.12.json",
+      "serialization": "bytes",
+      "sha256": "fa9009b8086f1fad1453fed10d9cb052f490d786b9fd5abe74a5003337991a13"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "c70e94353dedd367a72a0343612a9930332dc0d3fac6b77e3f9a0d78659aaf91"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "c70e94353dedd367a72a0343612a9930332dc0d3fac6b77e3f9a0d78659aaf91"
+        },
         "swapped-in": "e4a5e6cf7a5e9cfe0142cec212627dfd972e215030eb846a8bbe49e5672cd5e7",
         "test": "swap-and-re-pin"
       },
       "path": "corpora/vectors-anchor-stream/reason-map/aos-anchors-verify.json",
       "serialization": "bytes",
       "sha256": "88d5274ecf0ee1fb639e511c0718668157960ea3697ddf4e97602c99c8990c19"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "c70e94353dedd367a72a0343612a9930332dc0d3fac6b77e3f9a0d78659aaf91"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "c70e94353dedd367a72a0343612a9930332dc0d3fac6b77e3f9a0d78659aaf91"
+        },
+        "swapped-in": "60787bc07c8756c8a3a7f2524038bafe7f7744efe8b180d97c404473c490fb20",
+        "test": "swap-and-re-pin"
+      },
+      "path": "corpora/vectors-anchor-stream/recordings/INDEX.md",
+      "serialization": "bytes",
+      "sha256": "516c622515aac312a0209aec4639bd90413041e51893a4aec17f303b0caaee7b"
     },
     {
       "consumed": "unconsumed",
@@ -331,12 +377,58 @@
           "exit-code": 0,
           "sha256": "c70e94353dedd367a72a0343612a9930332dc0d3fac6b77e3f9a0d78659aaf91"
         },
+        "swapped-in": "36abc36030664de9d26f091658751e489f33c48272aff2c044627b4ed2929a9c",
+        "test": "swap-and-re-pin"
+      },
+      "path": "corpora/vectors-anchor-stream/recordings/anchors-verify-v0.12.json",
+      "serialization": "bytes",
+      "sha256": "55a1855f669195a312964a0d3a70a65705cff890069b3eeb77071f69210a6072"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "c70e94353dedd367a72a0343612a9930332dc0d3fac6b77e3f9a0d78659aaf91"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "c70e94353dedd367a72a0343612a9930332dc0d3fac6b77e3f9a0d78659aaf91"
+        },
+        "swapped-in": "707779456508301e732c59764f171c2082d5c06aa32abe6e71c9c6cdde6287ab",
+        "test": "swap-and-re-pin"
+      },
+      "path": "corpora/vectors-anchor-stream/recordings/anchors-verify-v0.12.observations.json",
+      "serialization": "bytes",
+      "sha256": "58cab19ba0c7f954beebfcd444443d66ef23ef9354aee30c1ab9dc33677fd188"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "c70e94353dedd367a72a0343612a9930332dc0d3fac6b77e3f9a0d78659aaf91"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "c70e94353dedd367a72a0343612a9930332dc0d3fac6b77e3f9a0d78659aaf91"
+        },
         "swapped-in": "464f3dd8223fbafbf89d8645f30c17c620a7e1e1ea86aad6aee4072ec10351ae",
         "test": "swap-and-re-pin"
       },
       "path": "corpora/vectors-anchor-stream/run_verifier.py",
       "serialization": "bytes",
-      "sha256": "4d39790185cf20d10a163d35479ac44c8b65b44fabe3cf5d2b5a4de48bbb2449"
+      "sha256": "f10115278e17771180112050f84925656c57b3dd96eda3dd7cbf083ef9142f60"
     },
     {
       "consumed": "unconsumed",
@@ -997,7 +1089,7 @@
   ],
   "corpus-digest": {
     "serialization": "sha256-listing-v1",
-    "sha256": "af5229a0db0baa8a821f57c471cf213e10fb1013562fc0aff2873bcf0785de13"
+    "sha256": "59e5ca4b9cced84315939ee0c41548448966b43452dd3dbc74b8b9b60f4b447e"
   },
   "exit-code": 0,
   "exit-rule": "zero-iff-every-check-passes",
