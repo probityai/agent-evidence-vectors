@@ -384,7 +384,7 @@ class _Chain:
         return bool(self.delegated["exp"] - self.delegated["iat"] > limit)
 
     def unbound(self) -> bool:
-        return "cnf" not in self.delegated
+        return self.delegated.get("cnf") is None
 
     def proof_missing(self) -> bool:
         return any("proof" not in s["received"] for s in self.exchanges())
@@ -410,7 +410,8 @@ class _Chain:
     def check_skipped(self) -> bool:
         digest = allowlist_digest(self.trust)
         return any(
-            "destinationCheck" not in s or s["destinationCheck"]["allowlistSha256"] != digest
+            s.get("destinationCheck") is None
+            or s["destinationCheck"]["allowlistSha256"] != digest
             for s in self.exchanges()
         )
 

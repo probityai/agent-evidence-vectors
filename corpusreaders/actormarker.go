@@ -6,6 +6,7 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	"math/big"
 	"path/filepath"
 	"reflect"
 	"regexp"
@@ -198,7 +199,8 @@ func amDecode(part any) (amPrincipals, error) {
 		}
 		if exp, present := claims["exp"]; present && exp != nil {
 			n, ok := exp.(json.Number)
-			if _, err := n.Int64(); !ok || err != nil {
+			// An integer of any size is an int to the Python reader; a float is not.
+			if _, isInt := new(big.Int).SetString(n.String(), 10); !ok || !isInt {
 				return amPrincipals{}, errAM
 			}
 		}
