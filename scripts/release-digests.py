@@ -208,6 +208,7 @@ RECOMPUTERS: dict[str, Callable[[Path, dict[str, Any]], str]] = {
     "vectors-physical-completion": _recompute_from_generator,
     "vectors-principal-action": _recompute_from_generator,
     "vectors-actor-marker-survival": _recompute_from_generator,
+    "vectors-destination-narrowed-exchange": _recompute_from_generator,
     "vectors-cbor-receipt-chain": _recompute_from_generator,
     "vectors-agent-card-receipt": _recompute_from_generator,
     "vectors-agent-identity-statement": _recompute_from_generator,

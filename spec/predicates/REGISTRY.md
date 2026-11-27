@@ -222,6 +222,25 @@ and a token acted on despite an unknown critical header parameter (RFC 7515 sect
   its RFC 8785 bytes under a writer key and role taken from a trust bundle the verifier holds.
 - Example: `corpora/vectors-actor-marker-survival/cases/accept-protocol-change/record.json`.
 
+### `predicate/v1/destination-narrowed-exchange`
+
+- Document: `corpora/vectors-destination-narrowed-exchange/README.md`
+- Corpus: `corpora/vectors-destination-narrowed-exchange/`, suite `destination-narrowed-exchange/v1`
+- Rails: `packaging/agent_evidence_vectors/destexchange.py`
+
+The predicate carries one delegated token and its exchange for one token per destination
+(RFC 8693 section 2.1, `audience` and `resource`). A narrowed destination is not narrowed
+rights: a verifier refuses an exchange unless the holder proved the key the token is bound to
+(RFC 9449 `cnf.jkt`, RFC 7638), a named intermediary checked the destination against the
+reviewed list the verifier pins, the token was live and unrevoked at the exchange, the actor
+chain survived with the exchanger appended (RFC 8693 section 4.1), the exchanged token carries
+only rights the delegation names for that destination, and no token travelled in a request
+parameter (RFC 6750 section 2.3).
+
+- Envelope: a bare JSON record (`contractId`, `statements`), each statement Ed25519-signed over
+  its RFC 8785 bytes under a writer key and role taken from a trust bundle the verifier holds.
+- Example: `corpora/vectors-destination-narrowed-exchange/cases/accept-single-destination/record.json`.
+
 ### `predicate/v1/refusal-reason-priority`
 
 - Document: `corpora/vectors-refusal-reason-priority/README.md`

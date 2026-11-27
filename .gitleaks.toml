@@ -372,6 +372,18 @@ regexTarget = "match"
 regexes = ['''key"\s*:\s*"(6u-4h_FKsEp4zItPdJFa_DrmaHVAiVt4frww42pfudo|ojuNdiZ-Y96TCP8fLPW86JL89c2LQIFtm_bZoaJ1BJQ|eYH24yhsIF5f8QY2d_So64YHeJAx6grKd2TYcL9SLpQ|XIot846rHq3eno56PetnXmHJ3bsYDHeIPoNlkoFDFvg|mbrVmGamyI0XZ8R3fGQ8LYe5s5NwXhncyipcsliO21g|A1FDEw7pxa9CGhe1FAxhV9WrJliSRNgUl0SgL2_U3Ko|ywcgKBs8VG84u-mviUvpzfop7iadzd42m8A6ermMk1Y|Pu8FJnMUFaC6MDLFlZEgBsWHUPcyVcriltHq7UZTxuM)"''']
 
 [[allowlists]]
+description = "Base64url Ed25519 public keys in the destination-narrowed-exchange trust bundle"
+# TRUST.json gives the verifier each writer's public key under writers.<name>.key.
+# Each signing seed is the SHA-256 of "destination-narrowed-exchange/v1 test key " plus
+# the writer's name (gen_vectors.py, key()), so the keys are public by construction.
+# The values are pinned: AND, only that one file, and only these exact members.
+targetRules = ["generic-api-key"]
+condition = "AND"
+paths = ['''^(corpora/)?vectors-destination-narrowed-exchange/TRUST\.json$''']
+regexTarget = "match"
+regexes = ['''key"\s*:\s*"(dt7PnsITVQWg8N1yeH5TmBexm7GNGIR1cxYSV6eA7tg|KZFQQt5gY2CNzblT5ye2HOCXtTNH8O1Wu6_RU0vk5iA|aognfLV7gMg8564GpQNI5NC7A7hsVubCRT8wlOrjpT8|1DG6wvxX2F6lVTlSfSmSkcsHVf-8bWJlyz3kwunaYks|p04LZQTVRW8_jW0q6OqH1ayrYvfjNYrgZ4MNTiJKwoU|1op793z4A8OuTIBPLg5sAdMMukktvlg8Hltfeaor08E|7QALoDWb0PxMa5BBKXc1leOHnfkkmUHIPmaj9Tzs1sE)"''']
+
+[[allowlists]]
 description = "Published demo provenance keys in the ocsf-audit sample output"
 # SAMPLE-OUTPUT-PROVENANCE.md is the upstream sink's published sample, copied
 # unchanged and pinned by SHA-256. Its two `provenance_key` lines carry the
