@@ -390,12 +390,12 @@ def a17_parent_directory_swapped(ctx: Ctx) -> Result:
 
 CASES: list[Callable[[Ctx], Result]] = [
     g01_default_elsewhere, g04_default_at_checkout_root, g02_default_in_packaging_refused,
-    g03_explicit_committed_writes, g05_report_to_a_device, a01_empty_report, a02_empty_report_runtime,
-    a03_hardlink_outside, a04_symlink_in_cwd, a05_symlinked_cwd, a06_harness_via_file_symlink,
-    a07_toctou_symlink, a08_explicit_bare_name, a09_emit_w3c_onto_record, a10_stray_corpora_dir,
-    a11_second_committed_record, a12_shared_default_misattribution, a13_cwd_dependent_test,
-    a14_test_silent_pass_without_git, a15_no_git_fallback, a16_explicit_other_tracked_file,
-    a17_parent_directory_swapped,
+    g03_explicit_committed_writes, g05_report_to_a_device, a01_empty_report,
+    a02_empty_report_runtime, a03_hardlink_outside, a04_symlink_in_cwd, a05_symlinked_cwd,
+    a06_harness_via_file_symlink, a07_toctou_symlink, a08_explicit_bare_name,
+    a09_emit_w3c_onto_record, a10_stray_corpora_dir, a11_second_committed_record,
+    a12_shared_default_misattribution, a13_cwd_dependent_test, a14_test_silent_pass_without_git,
+    a15_no_git_fallback, a16_explicit_other_tracked_file, a17_parent_directory_swapped,
 ]
 
 # Mutants of the guard: (name, [(old text, new text)], the cases that must turn red).

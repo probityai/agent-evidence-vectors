@@ -5197,7 +5197,9 @@ class Destination:
         return not (stat.S_ISREG(mode) or stat.S_ISLNK(mode) or stat.S_ISDIR(mode))
 
     def _write_sink(self, data: bytes) -> None:
-        """Write straight into a device or pipe (``--report /dev/null``), which a rename cannot reach.
+        """Write straight into a device or pipe (``--report /dev/null``).
+
+        A rename cannot reach such an entry.
 
         The entry is opened without following a link and without creating it. If it is a
         regular file by the time it opens, it was swapped in after the check: nothing is written.
@@ -5211,7 +5213,9 @@ class Destination:
             raise OSError(f"{self.directory} changed after it was checked; nothing was written")
         with os.fdopen(handle, "wb") as out:
             if stat.S_ISREG(os.fstat(out.fileno()).st_mode):
-                raise OSError(f"{self.entry} became a regular file after it was checked; nothing was written")
+                raise OSError(
+                    f"{self.entry} became a regular file after it was checked; nothing was written"
+                )
             out.write(data)
             out.flush()
 
