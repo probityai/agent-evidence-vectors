@@ -127,7 +127,8 @@ REGISTRATION = "vectors-agent-registration-classification"
 #: Corpora whose checker is a Python script in the corpus directory, not aee-verify.
 HOLDER_BOUND = "vectors-holder-bound-credential"
 ASSURANCE = "vectors-identity-assurance"
-PYTHON_CHECKERS = (SCITT, DELEGATION, REGISTRATION, HOLDER_BOUND, ASSURANCE)
+DESTINATION_EXCHANGE = "vectors-destination-narrowed-exchange"
+PYTHON_CHECKERS = (SCITT, DELEGATION, REGISTRATION, HOLDER_BOUND, ASSURANCE, DESTINATION_EXCHANGE)
 #: Python checkers whose text run prints one "answered N of M cases" line, with the
 #: manifest count keys that name their accept and reject totals. A missing key is a
 #: malformed manifest and stops the run; it is never read as zero cases.
@@ -135,6 +136,7 @@ ANSWERED_LINE_CHECKERS = {
     DELEGATION: ("allow", "deny"),
     HOLDER_BOUND: ("accept", "reject"),
     ASSURANCE: ("accept", "reject"),
+    DESTINATION_EXCHANGE: ("accept", "reject"),
 }
 PYTHON_DEPENDENCIES = ["pyproject.toml", "uv.lock"]
 

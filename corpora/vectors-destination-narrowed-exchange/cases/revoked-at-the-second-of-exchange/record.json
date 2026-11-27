@@ -1,0 +1,171 @@
+{
+  "contractId": "https://probityai.github.io/agent-evidence-vectors/predicate/v1/destination-narrowed-exchange",
+  "statements": [
+    {
+      "signature": "_SAseY_wlzZ1FOzVD3gitjjBgk0qlzmvQ4R11b5b0Bd89uKxqr5flCOtOCHATBv1oLM9dEpH3_B_ihewjyMLDQ",
+      "statement": {
+        "entitlements": {
+          "billing": "billing:read billing:pay",
+          "calendar": "calendar:read calendar:write",
+          "payroll": "payroll:read payroll:write payroll:approve"
+        },
+        "kind": "origin",
+        "sent": {
+          "at": "2026-11-22T15:00:00Z",
+          "protocol": "rfc8693",
+          "to": "agent:researcher",
+          "token": {
+            "claims": {
+              "act": {
+                "act": {
+                  "sub": "agent:planner"
+                },
+                "sub": "agent:researcher"
+              },
+              "aud": [
+                "exchange:internal"
+              ],
+              "cnf": {
+                "jkt": "M6CbH-DnrkyWwXSakKF0_FznXwTjtdP7e5gTt7SEVnc"
+              },
+              "exp": 1795359900,
+              "iat": 1795359600,
+              "jti": "dt-1",
+              "scope": "payroll:read payroll:write calendar:read billing:read",
+              "sub": "user:alice@example.com"
+            },
+            "header": {
+              "typ": "JWT"
+            }
+          }
+        },
+        "writer": "idp.example"
+      }
+    },
+    {
+      "signature": "kK9m4T8gte71WkGaq2pVbid_JDlHgGM5iYRbcKGfjIyFfDsviRfTlNJ0pMxsFcTufSfMNJCyydr5WguDj_EzDw",
+      "statement": {
+        "at": "2026-11-22T15:01:00Z",
+        "jti": "dt-1",
+        "kind": "revocation",
+        "prev": "1fa755c283ba88da972fca3682ad742891bb61d1c18c7d420e7a47d6b4b0a931",
+        "writer": "idp.example"
+      }
+    },
+    {
+      "signature": "KvwEIbgeGgQ4EWgr0gMr8sBbCb7Sg0r1ou3gIbGPWIlP_AjrzIVZHCckhT7VLg0nQ9rzRyCVWKk5X1O9vnO4CQ",
+      "statement": {
+        "destinationCheck": {
+          "allowlistSha256": "f4f89f4dea496953dddb8ab02ee1bec843deb223ca5b0b521e085981c8aff4db",
+          "destination": "payroll"
+        },
+        "kind": "exchange",
+        "prev": "a3d54d4a351a610140c5edd95a106da8a0b4092a0239664a570517bbce29ba1d",
+        "received": {
+          "at": "2026-11-22T15:01:00Z",
+          "carriedIn": "authorization-header",
+          "from": "agent:researcher",
+          "proof": {
+            "jwk": {
+              "crv": "Ed25519",
+              "kty": "OKP",
+              "x": "KxBObMs1ZVLqGfZywjboCW04f98yhLjvl3slbosiHEY"
+            },
+            "payload": {
+              "ath": "Mit1XqbDh7zsE4KTumgvibs_zbDMEPO-AWnnTE3PjP8",
+              "aud": "exchange:internal",
+              "iat": 1795359660
+            },
+            "signature": "8uHv4INaX3O3fjPggI5ff5A0ZanuslIdH8Si3tFtHjHfAjWcAh7XXwnspkW7z3aDyVhFogesWoBQhmdj3h4LDg"
+          },
+          "protocol": "rfc8693",
+          "token": {
+            "claims": {
+              "act": {
+                "act": {
+                  "sub": "agent:planner"
+                },
+                "sub": "agent:researcher"
+              },
+              "aud": [
+                "exchange:internal"
+              ],
+              "cnf": {
+                "jkt": "M6CbH-DnrkyWwXSakKF0_FznXwTjtdP7e5gTt7SEVnc"
+              },
+              "exp": 1795359900,
+              "iat": 1795359600,
+              "jti": "dt-1",
+              "scope": "payroll:read payroll:write calendar:read billing:read",
+              "sub": "user:alice@example.com"
+            },
+            "header": {
+              "typ": "JWT"
+            }
+          }
+        },
+        "sent": {
+          "at": "2026-11-22T15:01:01Z",
+          "protocol": "rfc8693",
+          "to": "verifier:payroll",
+          "token": {
+            "claims": {
+              "act": {
+                "act": {
+                  "act": {
+                    "sub": "agent:planner"
+                  },
+                  "sub": "agent:researcher"
+                },
+                "sub": "exchange:internal"
+              },
+              "aud": "verifier:payroll",
+              "exp": 1795359781,
+              "iat": 1795359661,
+              "scope": "payroll:read",
+              "sub": "user:alice@example.com"
+            },
+            "header": {
+              "typ": "JWT"
+            }
+          }
+        },
+        "writer": "exchange:internal"
+      }
+    },
+    {
+      "signature": "3J2UvssX96pBU9RUSSE_P3zWl9SrmKtFl9cIlh7unHcLm51xl0hkuB9tfU7sf-n9MhnRKWvlSIJo0QdtOsWEDg",
+      "statement": {
+        "kind": "presentation",
+        "prev": "65fc3e4d936a2e6b6678f8ba36d64820dcc8dd953e9b1ea4ea7f3e11a458b115",
+        "received": {
+          "at": "2026-11-22T15:01:05Z",
+          "carriedIn": "authorization-header",
+          "protocol": "rfc8693",
+          "token": {
+            "claims": {
+              "act": {
+                "act": {
+                  "act": {
+                    "sub": "agent:planner"
+                  },
+                  "sub": "agent:researcher"
+                },
+                "sub": "exchange:internal"
+              },
+              "aud": "verifier:payroll",
+              "exp": 1795359781,
+              "iat": 1795359661,
+              "scope": "payroll:read",
+              "sub": "user:alice@example.com"
+            },
+            "header": {
+              "typ": "JWT"
+            }
+          }
+        },
+        "writer": "verifier:payroll"
+      }
+    }
+  ]
+}

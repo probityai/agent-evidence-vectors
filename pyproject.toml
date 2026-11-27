@@ -178,6 +178,7 @@ only-include = [
     "corpora/vectors-delegation-lifecycle",
     "corpora/vectors-delegator-right",
     "corpora/vectors-dependency-selection",
+    "corpora/vectors-destination-narrowed-exchange",
     "corpora/vectors-dispatch-fence",
     "corpora/vectors-dns-aid-rrset-v01",
     "corpora/vectors-dns-aid-sig-v01",
@@ -284,6 +285,7 @@ exclude = [
     "corpora/vectors-delegation-lifecycle/**/*.py",
     "corpora/vectors-delegator-right/**/*.py",
     "corpora/vectors-dependency-selection/**/*.py",
+    "corpora/vectors-destination-narrowed-exchange/**/*.py",
     "corpora/vectors-dispatch-fence/**/*.py",
     "corpora/vectors-dns-aid-rrset-v01/**/*.py",
     "corpora/vectors-dns-aid-sig-v01/**/*.py",
@@ -389,6 +391,7 @@ exclude = [
 "corpora/vectors-delegation-lifecycle" = "agent_evidence_vectors/corpora/vectors-delegation-lifecycle"
 "corpora/vectors-delegator-right" = "agent_evidence_vectors/corpora/vectors-delegator-right"
 "corpora/vectors-dependency-selection" = "agent_evidence_vectors/corpora/vectors-dependency-selection"
+"corpora/vectors-destination-narrowed-exchange" = "agent_evidence_vectors/corpora/vectors-destination-narrowed-exchange"
 "corpora/vectors-dispatch-fence" = "agent_evidence_vectors/corpora/vectors-dispatch-fence"
 "corpora/vectors-dns-aid-rrset-v01" = "agent_evidence_vectors/corpora/vectors-dns-aid-rrset-v01"
 "corpora/vectors-dns-aid-sig-v01" = "agent_evidence_vectors/corpora/vectors-dns-aid-sig-v01"
@@ -569,6 +572,7 @@ only-include = [
     "corpora/vectors-delegation-lifecycle",
     "corpora/vectors-delegator-right",
     "corpora/vectors-dependency-selection",
+    "corpora/vectors-destination-narrowed-exchange",
     "corpora/vectors-dispatch-fence",
     "corpora/vectors-dns-aid-rrset-v01",
     "corpora/vectors-dns-aid-sig-v01",

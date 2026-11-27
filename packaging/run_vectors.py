@@ -133,6 +133,7 @@ from typing import Any, NamedTuple, TypeGuard
 from agent_evidence_vectors import (
     a2ajcs,
     actormarker,
+    destexchange,
     admission,
     agenticprocess,
     agentidentity,
@@ -3979,6 +3980,7 @@ def _run_non_reference_suite(
         physicalcompletion.SUITE,
         principalaction.SUITE,
         actormarker.SUITE,
+        destexchange.SUITE,
         credreach.SUITE,
         cborreceiptchain.SUITE,
         *cardreceipt.SUITES,
@@ -4058,6 +4060,7 @@ def _run_non_reference_suite(
         physicalcompletion.SUITE: physicalcompletion.run,
         principalaction.SUITE: principalaction.run,
         actormarker.SUITE: actormarker.run,
+        destexchange.SUITE: destexchange.run,
         credreach.SUITE: credreach.run,
         cborreceiptchain.SUITE: cborreceiptchain.run,
         **{suite: cardreceipt.runner(suite) for suite in cardreceipt.SUITES},

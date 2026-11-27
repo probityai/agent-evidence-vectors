@@ -1,0 +1,137 @@
+{
+  "contractId": "https://probityai.github.io/agent-evidence-vectors/predicate/v1/destination-narrowed-exchange",
+  "statements": [
+    {
+      "signature": "hhtH97kx48JWyUoaNyGZDuqD8Wz9HJt7lwqGImgdwUgIF7PyhKE_oBcYb23bBX9u_nEE133KC-zXUOVjrBpLAQ",
+      "statement": {
+        "entitlements": {
+          "billing": "billing:read billing:pay",
+          "calendar": "calendar:read calendar:write",
+          "payroll": "payroll:read payroll:write payroll:approve"
+        },
+        "kind": "origin",
+        "sent": {
+          "at": "2026-11-22T15:00:00Z",
+          "protocol": "rfc8693",
+          "to": "agent:researcher",
+          "token": {
+            "claims": {
+              "aud": [
+                "exchange:internal"
+              ],
+              "cnf": {
+                "jkt": "M6CbH-DnrkyWwXSakKF0_FznXwTjtdP7e5gTt7SEVnc"
+              },
+              "exp": 1795359900,
+              "iat": 1795359600,
+              "jti": "dt-1",
+              "scope": "payroll:read payroll:write calendar:read billing:read",
+              "sub": "user:alice@example.com"
+            },
+            "header": {
+              "typ": "JWT"
+            }
+          }
+        },
+        "writer": "idp.example"
+      }
+    },
+    {
+      "signature": "EUVYyFqasCigEQv6xS-kLGCi_LfPl2jql9DpwMvMIVOrZx7eBnYSqXppK9qjj3-e_L69Uoh5WHOV76YdOVboCQ",
+      "statement": {
+        "destinationCheck": {
+          "allowlistSha256": "f4f89f4dea496953dddb8ab02ee1bec843deb223ca5b0b521e085981c8aff4db",
+          "destination": "payroll"
+        },
+        "kind": "exchange",
+        "prev": "0f4ca922c4d522a220577c7be91841e9a6090407ba1e180693719d5434e07089",
+        "received": {
+          "at": "2026-11-22T15:01:00Z",
+          "carriedIn": "authorization-header",
+          "from": "agent:researcher",
+          "proof": {
+            "jwk": {
+              "crv": "Ed25519",
+              "kty": "OKP",
+              "x": "KxBObMs1ZVLqGfZywjboCW04f98yhLjvl3slbosiHEY"
+            },
+            "payload": {
+              "ath": "eOrCkn9E0-bKWKqso4CNTbQMvmVoGjYVbXVUrOmO3cY",
+              "aud": "exchange:internal",
+              "iat": 1795359660
+            },
+            "signature": "tS6-VEBCBgcA2dK2fKZ6AP-AzkwUlA1Mh0_NLyp9bQjihQudFMfOkiTenXF2VwlT7hLQBaHypIFUs9qXMewqDw"
+          },
+          "protocol": "rfc8693",
+          "token": {
+            "claims": {
+              "aud": [
+                "exchange:internal"
+              ],
+              "cnf": {
+                "jkt": "M6CbH-DnrkyWwXSakKF0_FznXwTjtdP7e5gTt7SEVnc"
+              },
+              "exp": 1795359900,
+              "iat": 1795359600,
+              "jti": "dt-1",
+              "scope": "payroll:read payroll:write calendar:read billing:read",
+              "sub": "user:alice@example.com"
+            },
+            "header": {
+              "typ": "JWT"
+            }
+          }
+        },
+        "sent": {
+          "at": "2026-11-22T15:01:01Z",
+          "protocol": "rfc8693",
+          "to": "verifier:payroll",
+          "token": {
+            "claims": {
+              "act": {
+                "sub": "exchange:internal"
+              },
+              "aud": "verifier:payroll",
+              "exp": 1795359781,
+              "iat": 1795359661,
+              "scope": "payroll:read",
+              "sub": "user:alice@example.com"
+            },
+            "header": {
+              "typ": "JWT"
+            }
+          }
+        },
+        "writer": "exchange:internal"
+      }
+    },
+    {
+      "signature": "FB2hDKtU93uALbNd0KCpjEeknJCJ-QztUo8qXmf-IBTAFPi7iHjVl3qE0qGwseqiMN_y8anMLZl_n9HD5OyADw",
+      "statement": {
+        "kind": "presentation",
+        "prev": "84dad996a1f33fc2905643be32ae7ea23b8f914b8783e9c042d59bfaa6d6c826",
+        "received": {
+          "at": "2026-11-22T15:01:05Z",
+          "carriedIn": "authorization-header",
+          "protocol": "rfc8693",
+          "token": {
+            "claims": {
+              "act": {
+                "sub": "exchange:internal"
+              },
+              "aud": "verifier:payroll",
+              "exp": 1795359781,
+              "iat": 1795359661,
+              "scope": "payroll:read",
+              "sub": "user:alice@example.com"
+            },
+            "header": {
+              "typ": "JWT"
+            }
+          }
+        },
+        "writer": "verifier:payroll"
+      }
+    }
+  ]
+}

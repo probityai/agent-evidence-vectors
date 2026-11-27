@@ -649,6 +649,18 @@ standards = []
 shapes = ["missing-binding", "tampering", "coverage-gap"]
 
 [[corpus]]
+id = "vectors-destination-narrowed-exchange"
+path = "corpora/vectors-destination-narrowed-exchange"
+wheel = true
+sdist = true
+title = "Destination-narrowed token exchange"
+summary = "A verifier must refuse an exchanged destination token unless the holder proved its key, the exchanger checked the reviewed list and kept the actor chain, and the rights narrowed with the destination."
+record_class = "chain"
+domains = ["identity", "delegation"]
+standards = ["rfc8785"]
+shapes = ["broken-chain", "missing-binding", "replay"]
+
+[[corpus]]
 id = "vectors-dispatch-fence"
 path = "corpora/vectors-dispatch-fence"
 wheel = true

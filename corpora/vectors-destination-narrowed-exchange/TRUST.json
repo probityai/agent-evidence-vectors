@@ -1,0 +1,42 @@
+{
+  "contractId": "https://probityai.github.io/agent-evidence-vectors/predicate/v1/destination-narrowed-exchange",
+  "destinations": {
+    "calendar": {
+      "verifier": "verifier:calendar"
+    },
+    "payroll": {
+      "verifier": "verifier:payroll"
+    }
+  },
+  "maxDelegatedLifetimeSeconds": 300,
+  "writers": {
+    "agent:intruder": {
+      "key": "dt7PnsITVQWg8N1yeH5TmBexm7GNGIR1cxYSV6eA7tg",
+      "role": "exchanger"
+    },
+    "exchange:internal": {
+      "key": "KZFQQt5gY2CNzblT5ye2HOCXtTNH8O1Wu6_RU0vk5iA",
+      "role": "exchanger"
+    },
+    "exchange:other": {
+      "key": "aognfLV7gMg8564GpQNI5NC7A7hsVubCRT8wlOrjpT8",
+      "role": "exchanger"
+    },
+    "idp.example": {
+      "key": "1DG6wvxX2F6lVTlSfSmSkcsHVf-8bWJlyz3kwunaYks",
+      "role": "issuer"
+    },
+    "verifier:billing": {
+      "key": "p04LZQTVRW8_jW0q6OqH1ayrYvfjNYrgZ4MNTiJKwoU",
+      "role": "destination"
+    },
+    "verifier:calendar": {
+      "key": "1op793z4A8OuTIBPLg5sAdMMukktvlg8Hltfeaor08E",
+      "role": "destination"
+    },
+    "verifier:payroll": {
+      "key": "7QALoDWb0PxMa5BBKXc1leOHnfkkmUHIPmaj9Tzs1sE",
+      "role": "destination"
+    }
+  }
+}

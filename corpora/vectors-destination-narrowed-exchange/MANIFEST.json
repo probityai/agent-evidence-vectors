@@ -1,0 +1,1951 @@
+{
+  "contractId": "https://probityai.github.io/agent-evidence-vectors/predicate/v1/destination-narrowed-exchange",
+  "corpusDigest": "bd3cdfdd69d7ab8bab250792f3c8ca3d692e2ba0062c73e296137b463ccfb27d",
+  "counts": {
+    "accept": 7,
+    "reject": 39
+  },
+  "sources": {
+    "rfc6750": {
+      "title": "RFC 6750",
+      "url": "https://www.rfc-editor.org/rfc/rfc6750"
+    },
+    "rfc7519": {
+      "title": "RFC 7519",
+      "url": "https://www.rfc-editor.org/rfc/rfc7519"
+    },
+    "rfc7638": {
+      "title": "RFC 7638",
+      "url": "https://www.rfc-editor.org/rfc/rfc7638"
+    },
+    "rfc8693": {
+      "title": "RFC 8693",
+      "url": "https://www.rfc-editor.org/rfc/rfc8693"
+    },
+    "rfc9449": {
+      "title": "RFC 9449",
+      "url": "https://www.rfc-editor.org/rfc/rfc9449"
+    }
+  },
+  "suite": "destination-narrowed-exchange/v1",
+  "synthetic": true,
+  "trustSha256": "54d1ee0341bcc30ed23e672b8862101c0e5a3320cd199e8bea0195fb79f67e99",
+  "vectors": [
+    {
+      "anchors": [
+        {
+          "quote": "The logical name of the target service where the client intends to use the requested security token.",
+          "section": "2.1",
+          "source": "rfc8693"
+        },
+        {
+          "quote": "The outermost \"act\" claim represents the current actor while nested \"act\" claims represent prior actors. The least recent actor is the most deeply nested.",
+          "section": "4.1",
+          "source": "rfc8693"
+        },
+        {
+          "quote": "the value of the jkt member MUST be the base64url encoding (as defined in [RFC7515]) of the JWK SHA-256 Thumbprint (according to [RFC7638]) of the DPoP public key (in JWK format) to which the access token is bound.",
+          "section": "6.1",
+          "source": "rfc9449"
+        },
+        {
+          "quote": "A list of space-delimited, case-sensitive strings, as defined in Section 3.3 of [RFC6749], that allow the client to specify the desired scope of the requested security token in the context of the service or resource where the token will be used.",
+          "section": "2.1",
+          "source": "rfc8693"
+        }
+      ],
+      "edit": "control: the holder proves its key, the exchanger checks the reviewed list and sends one narrowed token for payroll carrying the whole chain and itself",
+      "expected": {
+        "decision": "accept",
+        "reason": "exchange_narrowed"
+      },
+      "files": {
+        "record.json": "989fdc16ad50998df889d86de76889476d38dcbef6aae5b6cbf9b234116bc416",
+        "signing-input-0.jcs": "1fa755c283ba88da972fca3682ad742891bb61d1c18c7d420e7a47d6b4b0a931",
+        "signing-input-1.jcs": "e2e71ef670da575efd369a3d31afbe5d28545b20905ed1bfa55392d612de01b1",
+        "signing-input-2.jcs": "2aaea5122c80ac5846d56b4cd1706c5b9d3243d0798e74f6a0ad9e8df1558330"
+      },
+      "id": "accept-single-destination",
+      "path": "cases/accept-single-destination",
+      "retained": {
+        "delivered": [
+          {
+            "actors": [
+              "agent:planner",
+              "agent:researcher",
+              "exchange:internal"
+            ],
+            "rights": [
+              "payroll:read"
+            ],
+            "subject": "user:alice@example.com",
+            "verifier": "verifier:payroll"
+          }
+        ],
+        "signingInputs": [
+          "1fa755c283ba88da972fca3682ad742891bb61d1c18c7d420e7a47d6b4b0a931",
+          "e2e71ef670da575efd369a3d31afbe5d28545b20905ed1bfa55392d612de01b1",
+          "2aaea5122c80ac5846d56b4cd1706c5b9d3243d0798e74f6a0ad9e8df1558330"
+        ]
+      }
+    },
+    {
+      "anchors": [
+        {
+          "quote": "The logical name of the target service where the client intends to use the requested security token.",
+          "section": "2.1",
+          "source": "rfc8693"
+        }
+      ],
+      "edit": "control: one delegated token, one exchange and one token per destination",
+      "expected": {
+        "decision": "accept",
+        "reason": "exchange_narrowed"
+      },
+      "files": {
+        "record.json": "427ad297276355acadc96dedca3edcdac4662811aa1ebd03701a2cd7247e4b3a",
+        "signing-input-0.jcs": "1fa755c283ba88da972fca3682ad742891bb61d1c18c7d420e7a47d6b4b0a931",
+        "signing-input-1.jcs": "e2e71ef670da575efd369a3d31afbe5d28545b20905ed1bfa55392d612de01b1",
+        "signing-input-2.jcs": "2aaea5122c80ac5846d56b4cd1706c5b9d3243d0798e74f6a0ad9e8df1558330",
+        "signing-input-3.jcs": "dd93a0aebc603c5998aa4187302fa253694d5871fb5d44a4ba6e53b8cbbabecf",
+        "signing-input-4.jcs": "ec4cc7a793e94488ba1461ebb633a8629013f3ed61f6f4c8f4045af5c5ee1bca"
+      },
+      "id": "accept-two-destinations",
+      "path": "cases/accept-two-destinations",
+      "retained": {
+        "delivered": [
+          {
+            "actors": [
+              "agent:planner",
+              "agent:researcher",
+              "exchange:internal"
+            ],
+            "rights": [
+              "payroll:read"
+            ],
+            "subject": "user:alice@example.com",
+            "verifier": "verifier:payroll"
+          },
+          {
+            "actors": [
+              "agent:planner",
+              "agent:researcher",
+              "exchange:internal"
+            ],
+            "rights": [
+              "calendar:read"
+            ],
+            "subject": "user:alice@example.com",
+            "verifier": "verifier:calendar"
+          }
+        ],
+        "signingInputs": [
+          "1fa755c283ba88da972fca3682ad742891bb61d1c18c7d420e7a47d6b4b0a931",
+          "e2e71ef670da575efd369a3d31afbe5d28545b20905ed1bfa55392d612de01b1",
+          "2aaea5122c80ac5846d56b4cd1706c5b9d3243d0798e74f6a0ad9e8df1558330",
+          "dd93a0aebc603c5998aa4187302fa253694d5871fb5d44a4ba6e53b8cbbabecf",
+          "ec4cc7a793e94488ba1461ebb633a8629013f3ed61f6f4c8f4045af5c5ee1bca"
+        ]
+      }
+    },
+    {
+      "anchors": [
+        {
+          "quote": "The outermost \"act\" claim represents the current actor while nested \"act\" claims represent prior actors. The least recent actor is the most deeply nested.",
+          "section": "4.1",
+          "source": "rfc8693"
+        }
+      ],
+      "edit": "control: the delegated token names one agent; the exchanged token carries it and the exchanger",
+      "expected": {
+        "decision": "accept",
+        "reason": "exchange_narrowed"
+      },
+      "files": {
+        "record.json": "d01a66e3422655e1d89b2af1ab45e171d30270a12b371b002cc3e0b03fd352ed",
+        "signing-input-0.jcs": "488820c8b416a40cea45b8669f48275f848fd0ded0b10658ebd375ba799e4a65",
+        "signing-input-1.jcs": "aacdd6b36210601eabae3eeea079714367a12101352a8f2e57de44f93006e13e",
+        "signing-input-2.jcs": "7df3004f2487c8c4aaafa5acce7a3199dd11622add77dbc313547ea880a4e89c"
+      },
+      "id": "accept-one-actor-chain",
+      "path": "cases/accept-one-actor-chain",
+      "retained": {
+        "delivered": [
+          {
+            "actors": [
+              "agent:researcher",
+              "exchange:internal"
+            ],
+            "rights": [
+              "payroll:read"
+            ],
+            "subject": "user:alice@example.com",
+            "verifier": "verifier:payroll"
+          }
+        ],
+        "signingInputs": [
+          "488820c8b416a40cea45b8669f48275f848fd0ded0b10658ebd375ba799e4a65",
+          "aacdd6b36210601eabae3eeea079714367a12101352a8f2e57de44f93006e13e",
+          "7df3004f2487c8c4aaafa5acce7a3199dd11622add77dbc313547ea880a4e89c"
+        ]
+      }
+    },
+    {
+      "anchors": [
+        {
+          "quote": "A list of space-delimited, case-sensitive strings, as defined in Section 3.3 of [RFC6749], that allow the client to specify the desired scope of the requested security token in the context of the service or resource where the token will be used.",
+          "section": "2.1",
+          "source": "rfc8693"
+        }
+      ],
+      "edit": "control: the exchanged token carries every right the delegation names for payroll and no more",
+      "expected": {
+        "decision": "accept",
+        "reason": "exchange_narrowed"
+      },
+      "files": {
+        "record.json": "66c8ab0d2116d322aef9619e8a14a0eb6ceb775684ee4216b661cf03bd4265b2",
+        "signing-input-0.jcs": "1fa755c283ba88da972fca3682ad742891bb61d1c18c7d420e7a47d6b4b0a931",
+        "signing-input-1.jcs": "3c014e2cace5c2b229bc163283901c03e6689053c20e69622ed333214484b912",
+        "signing-input-2.jcs": "e3ff033de5254b50e1c53900caabc278e2ef68d110c5b1b84fbd8739817ba1a9"
+      },
+      "id": "accept-rights-equal-to-delegation",
+      "path": "cases/accept-rights-equal-to-delegation",
+      "retained": {
+        "delivered": [
+          {
+            "actors": [
+              "agent:planner",
+              "agent:researcher",
+              "exchange:internal"
+            ],
+            "rights": [
+              "payroll:read",
+              "payroll:write"
+            ],
+            "subject": "user:alice@example.com",
+            "verifier": "verifier:payroll"
+          }
+        ],
+        "signingInputs": [
+          "1fa755c283ba88da972fca3682ad742891bb61d1c18c7d420e7a47d6b4b0a931",
+          "3c014e2cace5c2b229bc163283901c03e6689053c20e69622ed333214484b912",
+          "e3ff033de5254b50e1c53900caabc278e2ef68d110c5b1b84fbd8739817ba1a9"
+        ]
+      }
+    },
+    {
+      "anchors": [],
+      "edit": "control: the delegated token is revoked after the exchange; the exchange stands",
+      "expected": {
+        "decision": "accept",
+        "reason": "exchange_narrowed"
+      },
+      "files": {
+        "record.json": "5cd8ce01e8276f77440145c4e71b80bb7b5c88d8e37c570da23262f7a05b72bb",
+        "signing-input-0.jcs": "1fa755c283ba88da972fca3682ad742891bb61d1c18c7d420e7a47d6b4b0a931",
+        "signing-input-1.jcs": "e2e71ef670da575efd369a3d31afbe5d28545b20905ed1bfa55392d612de01b1",
+        "signing-input-2.jcs": "2aaea5122c80ac5846d56b4cd1706c5b9d3243d0798e74f6a0ad9e8df1558330",
+        "signing-input-3.jcs": "4d0ba6927791fd7f4de2cb8fdc8f16750f854e3bbec0a551f5a2d5e8be5d7b26"
+      },
+      "id": "accept-revoked-after-exchange",
+      "path": "cases/accept-revoked-after-exchange",
+      "retained": {
+        "delivered": [
+          {
+            "actors": [
+              "agent:planner",
+              "agent:researcher",
+              "exchange:internal"
+            ],
+            "rights": [
+              "payroll:read"
+            ],
+            "subject": "user:alice@example.com",
+            "verifier": "verifier:payroll"
+          }
+        ],
+        "signingInputs": [
+          "1fa755c283ba88da972fca3682ad742891bb61d1c18c7d420e7a47d6b4b0a931",
+          "e2e71ef670da575efd369a3d31afbe5d28545b20905ed1bfa55392d612de01b1",
+          "2aaea5122c80ac5846d56b4cd1706c5b9d3243d0798e74f6a0ad9e8df1558330",
+          "4d0ba6927791fd7f4de2cb8fdc8f16750f854e3bbec0a551f5a2d5e8be5d7b26"
+        ]
+      }
+    },
+    {
+      "anchors": [
+        {
+          "quote": "The \"exp\" (expiration time) claim identifies the expiration time on or after which the JWT MUST NOT be accepted for processing.",
+          "section": "4.1.4",
+          "source": "rfc7519"
+        }
+      ],
+      "edit": "control: the exchange happens one second before the delegated token's exp",
+      "expected": {
+        "decision": "accept",
+        "reason": "exchange_narrowed"
+      },
+      "files": {
+        "record.json": "ac1ff154e3fc3f4ae0955d76d13ece2a6d84433926dff19dd691e1bcef1aed2c",
+        "signing-input-0.jcs": "1fa755c283ba88da972fca3682ad742891bb61d1c18c7d420e7a47d6b4b0a931",
+        "signing-input-1.jcs": "2ca34bd0c449db463edf139f4fd1b5cb1f264940d1bf4c7bf4d03891c7948777",
+        "signing-input-2.jcs": "a05a70a2fefc7428a83a5c52462771a258c0afeedf4be012f213f64f19ac24be"
+      },
+      "id": "accept-exchange-a-second-before-expiry",
+      "path": "cases/accept-exchange-a-second-before-expiry",
+      "retained": {
+        "delivered": [
+          {
+            "actors": [
+              "agent:planner",
+              "agent:researcher",
+              "exchange:internal"
+            ],
+            "rights": [
+              "payroll:read"
+            ],
+            "subject": "user:alice@example.com",
+            "verifier": "verifier:payroll"
+          }
+        ],
+        "signingInputs": [
+          "1fa755c283ba88da972fca3682ad742891bb61d1c18c7d420e7a47d6b4b0a931",
+          "2ca34bd0c449db463edf139f4fd1b5cb1f264940d1bf4c7bf4d03891c7948777",
+          "a05a70a2fefc7428a83a5c52462771a258c0afeedf4be012f213f64f19ac24be"
+        ]
+      }
+    },
+    {
+      "anchors": [],
+      "edit": "control: a revocation of another token's jti before the exchange changes nothing",
+      "expected": {
+        "decision": "accept",
+        "reason": "exchange_narrowed"
+      },
+      "files": {
+        "record.json": "d12b13150d29e4f7907b51191ae8b73af03aa3c4cf55ee588c86294f7fb3293f",
+        "signing-input-0.jcs": "1fa755c283ba88da972fca3682ad742891bb61d1c18c7d420e7a47d6b4b0a931",
+        "signing-input-1.jcs": "a0d40583e40d34b3734a470440c3b27723ea72b010387e93be3b25024e4aec39",
+        "signing-input-2.jcs": "06a3a17e406352fceaf68b3bdc50f93f009987e791f4c8f58c5e892ec714840f",
+        "signing-input-3.jcs": "d9d775e6305f87af05631d5d5a775bf558e5d230713f0fdd1ce4322be422e9d2"
+      },
+      "id": "accept-revocation-of-another-token",
+      "path": "cases/accept-revocation-of-another-token",
+      "retained": {
+        "delivered": [
+          {
+            "actors": [
+              "agent:planner",
+              "agent:researcher",
+              "exchange:internal"
+            ],
+            "rights": [
+              "payroll:read"
+            ],
+            "subject": "user:alice@example.com",
+            "verifier": "verifier:payroll"
+          }
+        ],
+        "signingInputs": [
+          "1fa755c283ba88da972fca3682ad742891bb61d1c18c7d420e7a47d6b4b0a931",
+          "a0d40583e40d34b3734a470440c3b27723ea72b010387e93be3b25024e4aec39",
+          "06a3a17e406352fceaf68b3bdc50f93f009987e791f4c8f58c5e892ec714840f",
+          "d9d775e6305f87af05631d5d5a775bf558e5d230713f0fdd1ce4322be422e9d2"
+        ]
+      }
+    },
+    {
+      "anchors": [],
+      "edit": "the record names no contract",
+      "expected": {
+        "decision": "reject",
+        "reason": "contract_id_missing"
+      },
+      "files": {
+        "record.json": "b8739ef18f2b78230d044743e3c5b6f4c5b3da088680b0db01e92526e73582f0",
+        "signing-input-0.jcs": "1fa755c283ba88da972fca3682ad742891bb61d1c18c7d420e7a47d6b4b0a931",
+        "signing-input-1.jcs": "e2e71ef670da575efd369a3d31afbe5d28545b20905ed1bfa55392d612de01b1",
+        "signing-input-2.jcs": "2aaea5122c80ac5846d56b4cd1706c5b9d3243d0798e74f6a0ad9e8df1558330"
+      },
+      "id": "contract-id-missing",
+      "path": "cases/contract-id-missing",
+      "retained": {
+        "delivered": [
+          {
+            "actors": [
+              "agent:planner",
+              "agent:researcher",
+              "exchange:internal"
+            ],
+            "rights": [
+              "payroll:read"
+            ],
+            "subject": "user:alice@example.com",
+            "verifier": "verifier:payroll"
+          }
+        ],
+        "signingInputs": [
+          "1fa755c283ba88da972fca3682ad742891bb61d1c18c7d420e7a47d6b4b0a931",
+          "e2e71ef670da575efd369a3d31afbe5d28545b20905ed1bfa55392d612de01b1",
+          "2aaea5122c80ac5846d56b4cd1706c5b9d3243d0798e74f6a0ad9e8df1558330"
+        ]
+      }
+    },
+    {
+      "anchors": [],
+      "edit": "the record names another contract",
+      "expected": {
+        "decision": "reject",
+        "reason": "contract_id_unknown"
+      },
+      "files": {
+        "record.json": "93f22fd995310ae94d9f2dd451e1f32cc4b518de85b90fb497fe32141dc0c66a",
+        "signing-input-0.jcs": "1fa755c283ba88da972fca3682ad742891bb61d1c18c7d420e7a47d6b4b0a931",
+        "signing-input-1.jcs": "e2e71ef670da575efd369a3d31afbe5d28545b20905ed1bfa55392d612de01b1",
+        "signing-input-2.jcs": "2aaea5122c80ac5846d56b4cd1706c5b9d3243d0798e74f6a0ad9e8df1558330"
+      },
+      "id": "contract-id-unknown",
+      "path": "cases/contract-id-unknown",
+      "retained": {
+        "delivered": [
+          {
+            "actors": [
+              "agent:planner",
+              "agent:researcher",
+              "exchange:internal"
+            ],
+            "rights": [
+              "payroll:read"
+            ],
+            "subject": "user:alice@example.com",
+            "verifier": "verifier:payroll"
+          }
+        ],
+        "signingInputs": [
+          "1fa755c283ba88da972fca3682ad742891bb61d1c18c7d420e7a47d6b4b0a931",
+          "e2e71ef670da575efd369a3d31afbe5d28545b20905ed1bfa55392d612de01b1",
+          "2aaea5122c80ac5846d56b4cd1706c5b9d3243d0798e74f6a0ad9e8df1558330"
+        ]
+      }
+    },
+    {
+      "anchors": [],
+      "edit": "the exchange states the token arrived in a place this contract does not name",
+      "expected": {
+        "decision": "reject",
+        "reason": "record_malformed"
+      },
+      "files": {
+        "record.json": "75a08ba895e9cb9f4025202ef95bfd55a303b7087142ff1988d249c86559c746",
+        "signing-input-0.jcs": "1fa755c283ba88da972fca3682ad742891bb61d1c18c7d420e7a47d6b4b0a931",
+        "signing-input-1.jcs": "bb80b2384fe92af04d958c60b1c7678093779457ac319776089313f6b10a257f",
+        "signing-input-2.jcs": "96cf32a9461f81f1956785d2902e69e1a40189d3130d43eff13408173558a95c"
+      },
+      "id": "token-carried-in-cookie",
+      "path": "cases/token-carried-in-cookie",
+      "retained": {
+        "delivered": null,
+        "signingInputs": []
+      }
+    },
+    {
+      "anchors": [],
+      "edit": "the exchange is written by a component the trust bundle does not list",
+      "expected": {
+        "decision": "reject",
+        "reason": "statement_writer_unknown"
+      },
+      "files": {
+        "record.json": "fdf3d9839b4dbb477d6a4c65310843194dff459a66bad53bde471d9fb523e5c6",
+        "signing-input-0.jcs": "1fa755c283ba88da972fca3682ad742891bb61d1c18c7d420e7a47d6b4b0a931",
+        "signing-input-1.jcs": "4fc9b7e701d4be72e51dc0a22dbd5bd319b01ac10c8a8d60686c178a72d38b89",
+        "signing-input-2.jcs": "eb0d62d9ec2fcb5620013eadac091f936a602d2032117e3005d96d06da26fb82"
+      },
+      "id": "writer-not-in-trust-bundle",
+      "path": "cases/writer-not-in-trust-bundle",
+      "retained": {
+        "delivered": [
+          {
+            "actors": [
+              "agent:planner",
+              "agent:researcher",
+              "exchange:unlisted"
+            ],
+            "rights": [
+              "payroll:read"
+            ],
+            "subject": "user:alice@example.com",
+            "verifier": "verifier:payroll"
+          }
+        ],
+        "signingInputs": [
+          "1fa755c283ba88da972fca3682ad742891bb61d1c18c7d420e7a47d6b4b0a931",
+          "4fc9b7e701d4be72e51dc0a22dbd5bd319b01ac10c8a8d60686c178a72d38b89",
+          "eb0d62d9ec2fcb5620013eadac091f936a602d2032117e3005d96d06da26fb82"
+        ]
+      }
+    },
+    {
+      "anchors": [],
+      "edit": "the exchanged token's scope is widened after the exchange statement was signed",
+      "expected": {
+        "decision": "reject",
+        "reason": "statement_signature_invalid"
+      },
+      "files": {
+        "record.json": "615eb184b516d7d8b85b1ff24e19a240d32efc288639be69f1d635a5fdaad9a2",
+        "signing-input-0.jcs": "1fa755c283ba88da972fca3682ad742891bb61d1c18c7d420e7a47d6b4b0a931",
+        "signing-input-1.jcs": "3c014e2cace5c2b229bc163283901c03e6689053c20e69622ed333214484b912",
+        "signing-input-2.jcs": "2aaea5122c80ac5846d56b4cd1706c5b9d3243d0798e74f6a0ad9e8df1558330"
+      },
+      "id": "signature-forged",
+      "path": "cases/signature-forged",
+      "retained": {
+        "delivered": [
+          {
+            "actors": [
+              "agent:planner",
+              "agent:researcher",
+              "exchange:internal"
+            ],
+            "rights": [
+              "payroll:read"
+            ],
+            "subject": "user:alice@example.com",
+            "verifier": "verifier:payroll"
+          }
+        ],
+        "signingInputs": [
+          "1fa755c283ba88da972fca3682ad742891bb61d1c18c7d420e7a47d6b4b0a931",
+          "3c014e2cace5c2b229bc163283901c03e6689053c20e69622ed333214484b912",
+          "2aaea5122c80ac5846d56b4cd1706c5b9d3243d0798e74f6a0ad9e8df1558330"
+        ]
+      }
+    },
+    {
+      "anchors": [],
+      "edit": "the exchange statement is signed with another writer's key",
+      "expected": {
+        "decision": "reject",
+        "reason": "statement_signature_invalid"
+      },
+      "files": {
+        "record.json": "3e46c21787767eeede784914d202963a6a94bb9e2ca36114f7ce23e9d6c67310",
+        "signing-input-0.jcs": "1fa755c283ba88da972fca3682ad742891bb61d1c18c7d420e7a47d6b4b0a931",
+        "signing-input-1.jcs": "e2e71ef670da575efd369a3d31afbe5d28545b20905ed1bfa55392d612de01b1",
+        "signing-input-2.jcs": "2aaea5122c80ac5846d56b4cd1706c5b9d3243d0798e74f6a0ad9e8df1558330"
+      },
+      "id": "signature-swapped-key",
+      "path": "cases/signature-swapped-key",
+      "retained": {
+        "delivered": [
+          {
+            "actors": [
+              "agent:planner",
+              "agent:researcher",
+              "exchange:internal"
+            ],
+            "rights": [
+              "payroll:read"
+            ],
+            "subject": "user:alice@example.com",
+            "verifier": "verifier:payroll"
+          }
+        ],
+        "signingInputs": [
+          "1fa755c283ba88da972fca3682ad742891bb61d1c18c7d420e7a47d6b4b0a931",
+          "e2e71ef670da575efd369a3d31afbe5d28545b20905ed1bfa55392d612de01b1",
+          "2aaea5122c80ac5846d56b4cd1706c5b9d3243d0798e74f6a0ad9e8df1558330"
+        ]
+      }
+    },
+    {
+      "anchors": [],
+      "edit": "the payroll presentation is removed from a two-destination chain",
+      "expected": {
+        "decision": "reject",
+        "reason": "hop_link_broken"
+      },
+      "files": {
+        "record.json": "045947a6c34c38bcb7074cf9a0780ff71759e6d9b772b7f6eb1bdb22bc0007f0",
+        "signing-input-0.jcs": "1fa755c283ba88da972fca3682ad742891bb61d1c18c7d420e7a47d6b4b0a931",
+        "signing-input-1.jcs": "e2e71ef670da575efd369a3d31afbe5d28545b20905ed1bfa55392d612de01b1",
+        "signing-input-2.jcs": "dd93a0aebc603c5998aa4187302fa253694d5871fb5d44a4ba6e53b8cbbabecf",
+        "signing-input-3.jcs": "ec4cc7a793e94488ba1461ebb633a8629013f3ed61f6f4c8f4045af5c5ee1bca"
+      },
+      "id": "statement-dropped-from-chain",
+      "path": "cases/statement-dropped-from-chain",
+      "retained": {
+        "delivered": [
+          {
+            "actors": [
+              "agent:planner",
+              "agent:researcher",
+              "exchange:internal"
+            ],
+            "rights": [
+              "calendar:read"
+            ],
+            "subject": "user:alice@example.com",
+            "verifier": "verifier:calendar"
+          }
+        ],
+        "signingInputs": [
+          "1fa755c283ba88da972fca3682ad742891bb61d1c18c7d420e7a47d6b4b0a931",
+          "e2e71ef670da575efd369a3d31afbe5d28545b20905ed1bfa55392d612de01b1",
+          "dd93a0aebc603c5998aa4187302fa253694d5871fb5d44a4ba6e53b8cbbabecf",
+          "ec4cc7a793e94488ba1461ebb633a8629013f3ed61f6f4c8f4045af5c5ee1bca"
+        ]
+      }
+    },
+    {
+      "anchors": [
+        {
+          "quote": "The outermost \"act\" claim represents the current actor while nested \"act\" claims represent prior actors. The least recent actor is the most deeply nested.",
+          "section": "4.1",
+          "source": "rfc8693"
+        }
+      ],
+      "edit": "a verifier states a token naming the exchanger, and no statement records the exchange",
+      "expected": {
+        "decision": "reject",
+        "reason": "exchange_unrecorded"
+      },
+      "files": {
+        "record.json": "ad2fe8d29a2cc99ad962a0d07606d7a9de1e59f9906e2e735a61f97d69a20509",
+        "signing-input-0.jcs": "1fa755c283ba88da972fca3682ad742891bb61d1c18c7d420e7a47d6b4b0a931",
+        "signing-input-1.jcs": "8130edb5dfed56aa805f329c293e65f073b8de2f1fa2a4dba982be4bbc9889ad"
+      },
+      "id": "exchange-unrecorded",
+      "path": "cases/exchange-unrecorded",
+      "retained": {
+        "delivered": [
+          {
+            "actors": [
+              "agent:planner",
+              "agent:researcher",
+              "exchange:internal"
+            ],
+            "rights": [
+              "payroll:read"
+            ],
+            "subject": "user:alice@example.com",
+            "verifier": "verifier:payroll"
+          }
+        ],
+        "signingInputs": [
+          "1fa755c283ba88da972fca3682ad742891bb61d1c18c7d420e7a47d6b4b0a931",
+          "8130edb5dfed56aa805f329c293e65f073b8de2f1fa2a4dba982be4bbc9889ad"
+        ]
+      }
+    },
+    {
+      "anchors": [],
+      "edit": "the holder adds a right to its delegated token before it presents it",
+      "expected": {
+        "decision": "reject",
+        "reason": "received_not_sent"
+      },
+      "files": {
+        "record.json": "303355e7b5e30cec72b19f7edbc85e1854d94b58ccd6061fee270f0f76489b5e",
+        "signing-input-0.jcs": "1fa755c283ba88da972fca3682ad742891bb61d1c18c7d420e7a47d6b4b0a931",
+        "signing-input-1.jcs": "c0f74c330ccbf24e75830635cd87de6f5338b3280963268db528a8535cc7de4a",
+        "signing-input-2.jcs": "36244fe5f6aca21500ddbf7a26bedcf97cc28d9375427871b31f017d26262db1"
+      },
+      "id": "delegated-token-edited-by-holder",
+      "path": "cases/delegated-token-edited-by-holder",
+      "retained": {
+        "delivered": [
+          {
+            "actors": [
+              "agent:planner",
+              "agent:researcher",
+              "exchange:internal"
+            ],
+            "rights": [
+              "payroll:read"
+            ],
+            "subject": "user:alice@example.com",
+            "verifier": "verifier:payroll"
+          }
+        ],
+        "signingInputs": [
+          "1fa755c283ba88da972fca3682ad742891bb61d1c18c7d420e7a47d6b4b0a931",
+          "c0f74c330ccbf24e75830635cd87de6f5338b3280963268db528a8535cc7de4a",
+          "36244fe5f6aca21500ddbf7a26bedcf97cc28d9375427871b31f017d26262db1"
+        ]
+      }
+    },
+    {
+      "anchors": [
+        {
+          "quote": "If the principal processing the claim does not identify itself with a value in the \"aud\" claim when this claim is present, then the JWT MUST be rejected.",
+          "section": "4.1.3",
+          "source": "rfc7519"
+        }
+      ],
+      "edit": "the token minted for the payroll verifier is forwarded to the calendar verifier",
+      "expected": {
+        "decision": "reject",
+        "reason": "token_presented_off_destination"
+      },
+      "files": {
+        "record.json": "78dfbdaddec5a3f82e8304bb9e7e767ae03c00a95026d26940df549c402de036",
+        "signing-input-0.jcs": "1fa755c283ba88da972fca3682ad742891bb61d1c18c7d420e7a47d6b4b0a931",
+        "signing-input-1.jcs": "e2e71ef670da575efd369a3d31afbe5d28545b20905ed1bfa55392d612de01b1",
+        "signing-input-2.jcs": "dfec4c7444d3649781aa343b74a90bdbdbc0fdcec1df5ee9406e50ca64b6a1f6"
+      },
+      "id": "forwarded-token-at-another-destination",
+      "path": "cases/forwarded-token-at-another-destination",
+      "retained": {
+        "delivered": [
+          {
+            "actors": [
+              "agent:planner",
+              "agent:researcher",
+              "exchange:internal"
+            ],
+            "rights": [
+              "payroll:read"
+            ],
+            "subject": "user:alice@example.com",
+            "verifier": "verifier:calendar"
+          }
+        ],
+        "signingInputs": [
+          "1fa755c283ba88da972fca3682ad742891bb61d1c18c7d420e7a47d6b4b0a931",
+          "e2e71ef670da575efd369a3d31afbe5d28545b20905ed1bfa55392d612de01b1",
+          "dfec4c7444d3649781aa343b74a90bdbdbc0fdcec1df5ee9406e50ca64b6a1f6"
+        ]
+      }
+    },
+    {
+      "anchors": [
+        {
+          "quote": "Because of the security weaknesses associated with the URI method (see Section 5), including the high likelihood that the URL containing the access token will be logged, it SHOULD NOT be used unless it is impossible to transport the access token in the \"Authorization\" request header field or the HTTP request entity-body.",
+          "section": "2.3",
+          "source": "rfc6750"
+        }
+      ],
+      "edit": "the holder sends its delegated token as a query parameter",
+      "expected": {
+        "decision": "reject",
+        "reason": "token_in_request_parameter"
+      },
+      "files": {
+        "record.json": "0107d6ec84b43ee52d9d3e13eb6eaa515cc7b716e307f9a4a19e11be2f41c5d3",
+        "signing-input-0.jcs": "1fa755c283ba88da972fca3682ad742891bb61d1c18c7d420e7a47d6b4b0a931",
+        "signing-input-1.jcs": "7890a603ce1c5a8cf67f83bcf8a22dbe8f83496d1850ac11f263448403a30df4",
+        "signing-input-2.jcs": "0d72c7b33ec4c27612bbe165e7dd813dc816de14293c6276e4352f0fa067fbf8"
+      },
+      "id": "delegated-token-in-query",
+      "path": "cases/delegated-token-in-query",
+      "retained": {
+        "delivered": [
+          {
+            "actors": [
+              "agent:planner",
+              "agent:researcher",
+              "exchange:internal"
+            ],
+            "rights": [
+              "payroll:read"
+            ],
+            "subject": "user:alice@example.com",
+            "verifier": "verifier:payroll"
+          }
+        ],
+        "signingInputs": [
+          "1fa755c283ba88da972fca3682ad742891bb61d1c18c7d420e7a47d6b4b0a931",
+          "7890a603ce1c5a8cf67f83bcf8a22dbe8f83496d1850ac11f263448403a30df4",
+          "0d72c7b33ec4c27612bbe165e7dd813dc816de14293c6276e4352f0fa067fbf8"
+        ]
+      }
+    },
+    {
+      "anchors": [
+        {
+          "quote": "Because of the security weaknesses associated with the URI method (see Section 5), including the high likelihood that the URL containing the access token will be logged, it SHOULD NOT be used unless it is impossible to transport the access token in the \"Authorization\" request header field or the HTTP request entity-body.",
+          "section": "2.3",
+          "source": "rfc6750"
+        }
+      ],
+      "edit": "the exchanged token reaches the verifier as a form parameter",
+      "expected": {
+        "decision": "reject",
+        "reason": "token_in_request_parameter"
+      },
+      "files": {
+        "record.json": "36bd2d2ce0763310f379d7ecb9a3deab741141d78f0843e056ce4239900b401b",
+        "signing-input-0.jcs": "1fa755c283ba88da972fca3682ad742891bb61d1c18c7d420e7a47d6b4b0a931",
+        "signing-input-1.jcs": "e2e71ef670da575efd369a3d31afbe5d28545b20905ed1bfa55392d612de01b1",
+        "signing-input-2.jcs": "a3d2ac884ccaa28436f5ad75390133639210ad15f9368b19a61174f30efcd2eb"
+      },
+      "id": "exchanged-token-in-form-body",
+      "path": "cases/exchanged-token-in-form-body",
+      "retained": {
+        "delivered": [
+          {
+            "actors": [
+              "agent:planner",
+              "agent:researcher",
+              "exchange:internal"
+            ],
+            "rights": [
+              "payroll:read"
+            ],
+            "subject": "user:alice@example.com",
+            "verifier": "verifier:payroll"
+          }
+        ],
+        "signingInputs": [
+          "1fa755c283ba88da972fca3682ad742891bb61d1c18c7d420e7a47d6b4b0a931",
+          "e2e71ef670da575efd369a3d31afbe5d28545b20905ed1bfa55392d612de01b1",
+          "a3d2ac884ccaa28436f5ad75390133639210ad15f9368b19a61174f30efcd2eb"
+        ]
+      }
+    },
+    {
+      "anchors": [
+        {
+          "quote": "The outermost \"act\" claim represents the current actor while nested \"act\" claims represent prior actors. The least recent actor is the most deeply nested.",
+          "section": "4.1",
+          "source": "rfc8693"
+        }
+      ],
+      "edit": "the issuer mints the delegated token for the user alone, with no agent marker",
+      "expected": {
+        "decision": "reject",
+        "reason": "delegated_token_unmarked"
+      },
+      "files": {
+        "record.json": "b8573ec014573e261690703f973882dac386796859c7902bd97f046d3e35e921",
+        "signing-input-0.jcs": "0f4ca922c4d522a220577c7be91841e9a6090407ba1e180693719d5434e07089",
+        "signing-input-1.jcs": "84dad996a1f33fc2905643be32ae7ea23b8f914b8783e9c042d59bfaa6d6c826",
+        "signing-input-2.jcs": "408f6796a0e994aba91d7ecc96885362dd25951a2f15e90d59a850d7a2687843"
+      },
+      "id": "delegated-token-unmarked",
+      "path": "cases/delegated-token-unmarked",
+      "retained": {
+        "delivered": [
+          {
+            "actors": [
+              "exchange:internal"
+            ],
+            "rights": [
+              "payroll:read"
+            ],
+            "subject": "user:alice@example.com",
+            "verifier": "verifier:payroll"
+          }
+        ],
+        "signingInputs": [
+          "0f4ca922c4d522a220577c7be91841e9a6090407ba1e180693719d5434e07089",
+          "84dad996a1f33fc2905643be32ae7ea23b8f914b8783e9c042d59bfaa6d6c826",
+          "408f6796a0e994aba91d7ecc96885362dd25951a2f15e90d59a850d7a2687843"
+        ]
+      }
+    },
+    {
+      "anchors": [
+        {
+          "quote": "If the principal processing the claim does not identify itself with a value in the \"aud\" claim when this claim is present, then the JWT MUST be rejected.",
+          "section": "4.1.3",
+          "source": "rfc7519"
+        }
+      ],
+      "edit": "an exchanger the delegated token does not name as an intermediary exchanges it",
+      "expected": {
+        "decision": "reject",
+        "reason": "exchanger_not_intermediary"
+      },
+      "files": {
+        "record.json": "f426eacb4d058950717a1e31688cd48f926fd4af2a5756bf117e02f89c208ad1",
+        "signing-input-0.jcs": "1fa755c283ba88da972fca3682ad742891bb61d1c18c7d420e7a47d6b4b0a931",
+        "signing-input-1.jcs": "4f72c1aeade7e225b93ce93d106165780cd9108ac7cc101e99bcffb25937bd50",
+        "signing-input-2.jcs": "7d53b96583202a9b2fd5098c53b25dff10bfddd96202acf1386e50790a0f1b46"
+      },
+      "id": "exchanged-by-hop-outside-intermediaries",
+      "path": "cases/exchanged-by-hop-outside-intermediaries",
+      "retained": {
+        "delivered": [
+          {
+            "actors": [
+              "agent:planner",
+              "agent:researcher",
+              "exchange:other"
+            ],
+            "rights": [
+              "payroll:read"
+            ],
+            "subject": "user:alice@example.com",
+            "verifier": "verifier:payroll"
+          }
+        ],
+        "signingInputs": [
+          "1fa755c283ba88da972fca3682ad742891bb61d1c18c7d420e7a47d6b4b0a931",
+          "4f72c1aeade7e225b93ce93d106165780cd9108ac7cc101e99bcffb25937bd50",
+          "7d53b96583202a9b2fd5098c53b25dff10bfddd96202acf1386e50790a0f1b46"
+        ]
+      }
+    },
+    {
+      "anchors": [],
+      "edit": "the issuer revokes the delegated token before the exchange",
+      "expected": {
+        "decision": "reject",
+        "reason": "delegated_token_revoked"
+      },
+      "files": {
+        "record.json": "8b474e4b22cba6648b0ee5abd000a87f0c4d9e60e2ae167936adf3739dddce0a",
+        "signing-input-0.jcs": "1fa755c283ba88da972fca3682ad742891bb61d1c18c7d420e7a47d6b4b0a931",
+        "signing-input-1.jcs": "9665656f99d960dc4956ac346063d0106a4f9fc65675ea39f58ae5594e064d68",
+        "signing-input-2.jcs": "33b2e8f2e6cfb146ee4a96667725135b42f6422fb5dfc962efdc581f106fe15c",
+        "signing-input-3.jcs": "bb853f2fbf9fbe7eb47df549284d9045e8bf4d8235e465fb2e7b46b593b247a6"
+      },
+      "id": "delegated-token-revoked-before-exchange",
+      "path": "cases/delegated-token-revoked-before-exchange",
+      "retained": {
+        "delivered": [
+          {
+            "actors": [
+              "agent:planner",
+              "agent:researcher",
+              "exchange:internal"
+            ],
+            "rights": [
+              "payroll:read"
+            ],
+            "subject": "user:alice@example.com",
+            "verifier": "verifier:payroll"
+          }
+        ],
+        "signingInputs": [
+          "1fa755c283ba88da972fca3682ad742891bb61d1c18c7d420e7a47d6b4b0a931",
+          "9665656f99d960dc4956ac346063d0106a4f9fc65675ea39f58ae5594e064d68",
+          "33b2e8f2e6cfb146ee4a96667725135b42f6422fb5dfc962efdc581f106fe15c",
+          "bb853f2fbf9fbe7eb47df549284d9045e8bf4d8235e465fb2e7b46b593b247a6"
+        ]
+      }
+    },
+    {
+      "anchors": [],
+      "edit": "the revocation and the exchange fall in the same second; the revocation wins",
+      "expected": {
+        "decision": "reject",
+        "reason": "delegated_token_revoked"
+      },
+      "files": {
+        "record.json": "7f38eada3349f40a48aa5bb97c69e43f305017826c855ff2d9d827765e20425b",
+        "signing-input-0.jcs": "1fa755c283ba88da972fca3682ad742891bb61d1c18c7d420e7a47d6b4b0a931",
+        "signing-input-1.jcs": "a3d54d4a351a610140c5edd95a106da8a0b4092a0239664a570517bbce29ba1d",
+        "signing-input-2.jcs": "65fc3e4d936a2e6b6678f8ba36d64820dcc8dd953e9b1ea4ea7f3e11a458b115",
+        "signing-input-3.jcs": "5161bf7efabd79e21bd940c8d244547b1184c5fa2d24145fa2088004e4f5c029"
+      },
+      "id": "revoked-at-the-second-of-exchange",
+      "path": "cases/revoked-at-the-second-of-exchange",
+      "retained": {
+        "delivered": [
+          {
+            "actors": [
+              "agent:planner",
+              "agent:researcher",
+              "exchange:internal"
+            ],
+            "rights": [
+              "payroll:read"
+            ],
+            "subject": "user:alice@example.com",
+            "verifier": "verifier:payroll"
+          }
+        ],
+        "signingInputs": [
+          "1fa755c283ba88da972fca3682ad742891bb61d1c18c7d420e7a47d6b4b0a931",
+          "a3d54d4a351a610140c5edd95a106da8a0b4092a0239664a570517bbce29ba1d",
+          "65fc3e4d936a2e6b6678f8ba36d64820dcc8dd953e9b1ea4ea7f3e11a458b115",
+          "5161bf7efabd79e21bd940c8d244547b1184c5fa2d24145fa2088004e4f5c029"
+        ]
+      }
+    },
+    {
+      "anchors": [
+        {
+          "quote": "The \"exp\" (expiration time) claim identifies the expiration time on or after which the JWT MUST NOT be accepted for processing.",
+          "section": "4.1.4",
+          "source": "rfc7519"
+        }
+      ],
+      "edit": "the exchange happens after the delegated token's exp",
+      "expected": {
+        "decision": "reject",
+        "reason": "delegated_token_expired"
+      },
+      "files": {
+        "record.json": "767e9ce526f93dea82f7e96383988315b858a2898dbcc7a7ff6dade17a0cabd3",
+        "signing-input-0.jcs": "1fa755c283ba88da972fca3682ad742891bb61d1c18c7d420e7a47d6b4b0a931",
+        "signing-input-1.jcs": "4dbe9f80293879b519cd72093363c0423b1998d8cc1caf6332036a8abae4d53b",
+        "signing-input-2.jcs": "8eb5ce72cbf23c744c32d9af4acb0dc6bd6bb6b9d8313e32dcc49dae2ec64a6c"
+      },
+      "id": "exchanged-after-expiry",
+      "path": "cases/exchanged-after-expiry",
+      "retained": {
+        "delivered": [
+          {
+            "actors": [
+              "agent:planner",
+              "agent:researcher",
+              "exchange:internal"
+            ],
+            "rights": [
+              "payroll:read"
+            ],
+            "subject": "user:alice@example.com",
+            "verifier": "verifier:payroll"
+          }
+        ],
+        "signingInputs": [
+          "1fa755c283ba88da972fca3682ad742891bb61d1c18c7d420e7a47d6b4b0a931",
+          "4dbe9f80293879b519cd72093363c0423b1998d8cc1caf6332036a8abae4d53b",
+          "8eb5ce72cbf23c744c32d9af4acb0dc6bd6bb6b9d8313e32dcc49dae2ec64a6c"
+        ]
+      }
+    },
+    {
+      "anchors": [
+        {
+          "quote": "The \"exp\" (expiration time) claim identifies the expiration time on or after which the JWT MUST NOT be accepted for processing.",
+          "section": "4.1.4",
+          "source": "rfc7519"
+        }
+      ],
+      "edit": "the exchange happens at the delegated token's exp, which is already expired",
+      "expected": {
+        "decision": "reject",
+        "reason": "delegated_token_expired"
+      },
+      "files": {
+        "record.json": "ad367c577a37633744e5263acd76fb4e5d174c9d1fc315e9b4aa0b821fe44dce",
+        "signing-input-0.jcs": "1fa755c283ba88da972fca3682ad742891bb61d1c18c7d420e7a47d6b4b0a931",
+        "signing-input-1.jcs": "7fb808ded1475da738f274ece51d6cc90a36afbd8bf8e1acf41f9e8fafc24898",
+        "signing-input-2.jcs": "533f6695748efd3fc5514c5a10c11ae39b90bb40063d76805fc42422127e07f3"
+      },
+      "id": "exchanged-at-expiry",
+      "path": "cases/exchanged-at-expiry",
+      "retained": {
+        "delivered": [
+          {
+            "actors": [
+              "agent:planner",
+              "agent:researcher",
+              "exchange:internal"
+            ],
+            "rights": [
+              "payroll:read"
+            ],
+            "subject": "user:alice@example.com",
+            "verifier": "verifier:payroll"
+          }
+        ],
+        "signingInputs": [
+          "1fa755c283ba88da972fca3682ad742891bb61d1c18c7d420e7a47d6b4b0a931",
+          "7fb808ded1475da738f274ece51d6cc90a36afbd8bf8e1acf41f9e8fafc24898",
+          "533f6695748efd3fc5514c5a10c11ae39b90bb40063d76805fc42422127e07f3"
+        ]
+      }
+    },
+    {
+      "anchors": [],
+      "edit": "the delegated token lives 301 s, over the relying party's 300 s limit",
+      "expected": {
+        "decision": "reject",
+        "reason": "delegated_lifetime_over_limit"
+      },
+      "files": {
+        "record.json": "cc02e9fcc1f4baae588b52c5c03f70f9d8ea04749accbb9074a1f4ead0076457",
+        "signing-input-0.jcs": "4d3f35d7124d22c7cfd7f12544ebe06c0ed374deedc21b9a662fcd1219b37c0f",
+        "signing-input-1.jcs": "e20dda1ea0096453c7512ec4768c8849afbe5f63ac0309c48bc1aa7f9b855c6b",
+        "signing-input-2.jcs": "c83dcfced373324695c7cf2b022042634d9025d8e185df788678b58931720eb1"
+      },
+      "id": "delegated-lifetime-over-limit",
+      "path": "cases/delegated-lifetime-over-limit",
+      "retained": {
+        "delivered": [
+          {
+            "actors": [
+              "agent:planner",
+              "agent:researcher",
+              "exchange:internal"
+            ],
+            "rights": [
+              "payroll:read"
+            ],
+            "subject": "user:alice@example.com",
+            "verifier": "verifier:payroll"
+          }
+        ],
+        "signingInputs": [
+          "4d3f35d7124d22c7cfd7f12544ebe06c0ed374deedc21b9a662fcd1219b37c0f",
+          "e20dda1ea0096453c7512ec4768c8849afbe5f63ac0309c48bc1aa7f9b855c6b",
+          "c83dcfced373324695c7cf2b022042634d9025d8e185df788678b58931720eb1"
+        ]
+      }
+    },
+    {
+      "anchors": [
+        {
+          "quote": "the value of the jkt member MUST be the base64url encoding (as defined in [RFC7515]) of the JWK SHA-256 Thumbprint (according to [RFC7638]) of the DPoP public key (in JWK format) to which the access token is bound.",
+          "section": "6.1",
+          "source": "rfc9449"
+        }
+      ],
+      "edit": "the delegated token names no key, so anyone holding it can exchange it",
+      "expected": {
+        "decision": "reject",
+        "reason": "delegated_token_unbound"
+      },
+      "files": {
+        "record.json": "88237e97c1d5f4a6c660eb31d2b1ec092d7e75a7f02d7ef5e49398068017c4de",
+        "signing-input-0.jcs": "2affa4169cc84564a0a1ad5adb904866bb0c2e325348a8506227b1285696acb2",
+        "signing-input-1.jcs": "70c8fafbcd71cc583d71032f9cc43bc6e48cfeda57ad27422383304b3025f4ca",
+        "signing-input-2.jcs": "f6506248c19e0bd0a905c76982a61022e822b24e0f08bda0341b0637e236c229"
+      },
+      "id": "delegated-token-bearer",
+      "path": "cases/delegated-token-bearer",
+      "retained": {
+        "delivered": [
+          {
+            "actors": [
+              "agent:planner",
+              "agent:researcher",
+              "exchange:internal"
+            ],
+            "rights": [
+              "payroll:read"
+            ],
+            "subject": "user:alice@example.com",
+            "verifier": "verifier:payroll"
+          }
+        ],
+        "signingInputs": [
+          "2affa4169cc84564a0a1ad5adb904866bb0c2e325348a8506227b1285696acb2",
+          "70c8fafbcd71cc583d71032f9cc43bc6e48cfeda57ad27422383304b3025f4ca",
+          "f6506248c19e0bd0a905c76982a61022e822b24e0f08bda0341b0637e236c229"
+        ]
+      }
+    },
+    {
+      "anchors": [
+        {
+          "quote": "the value of the jkt member MUST be the base64url encoding (as defined in [RFC7515]) of the JWK SHA-256 Thumbprint (according to [RFC7638]) of the DPoP public key (in JWK format) to which the access token is bound.",
+          "section": "6.1",
+          "source": "rfc9449"
+        }
+      ],
+      "edit": "the delegated token is bound to a key and is presented with no proof of it",
+      "expected": {
+        "decision": "reject",
+        "reason": "holder_proof_missing"
+      },
+      "files": {
+        "record.json": "0921a3d255a58f4bbaf539d8a410b3636f3391556ebd63bdab84a31c09d19be4",
+        "signing-input-0.jcs": "1fa755c283ba88da972fca3682ad742891bb61d1c18c7d420e7a47d6b4b0a931",
+        "signing-input-1.jcs": "e2620cabf77fd20c754876ef3b8371efa4884fe504fbd0f2080ecc36d7a72eb6",
+        "signing-input-2.jcs": "fa0a58bcf7f152f13eb451b9051da3bc515c6c042a49f928e3967184ff752967"
+      },
+      "id": "holder-proof-missing",
+      "path": "cases/holder-proof-missing",
+      "retained": {
+        "delivered": [
+          {
+            "actors": [
+              "agent:planner",
+              "agent:researcher",
+              "exchange:internal"
+            ],
+            "rights": [
+              "payroll:read"
+            ],
+            "subject": "user:alice@example.com",
+            "verifier": "verifier:payroll"
+          }
+        ],
+        "signingInputs": [
+          "1fa755c283ba88da972fca3682ad742891bb61d1c18c7d420e7a47d6b4b0a931",
+          "e2620cabf77fd20c754876ef3b8371efa4884fe504fbd0f2080ecc36d7a72eb6",
+          "fa0a58bcf7f152f13eb451b9051da3bc515c6c042a49f928e3967184ff752967"
+        ]
+      }
+    },
+    {
+      "anchors": [
+        {
+          "quote": "the value of the jkt member MUST be the base64url encoding (as defined in [RFC7515]) of the JWK SHA-256 Thumbprint (according to [RFC7638]) of the DPoP public key (in JWK format) to which the access token is bound.",
+          "section": "6.1",
+          "source": "rfc9449"
+        }
+      ],
+      "edit": "the proof is made with a key whose thumbprint is not the token's jkt",
+      "expected": {
+        "decision": "reject",
+        "reason": "holder_proof_invalid"
+      },
+      "files": {
+        "record.json": "1a4f0fd37946603be49e96ba72771846b593e904d3bfb57fe743125834acb9f1",
+        "signing-input-0.jcs": "1fa755c283ba88da972fca3682ad742891bb61d1c18c7d420e7a47d6b4b0a931",
+        "signing-input-1.jcs": "f56e7179e6cb48fd0ec0780d852d0bfa1482d7e167490d3f6f6bf609dffd8394",
+        "signing-input-2.jcs": "2b2b1bf2e1baad2dbf6b596d1280df9a151968f7b65857e105da56960cbb7bbc"
+      },
+      "id": "holder-proof-other-key",
+      "path": "cases/holder-proof-other-key",
+      "retained": {
+        "delivered": [
+          {
+            "actors": [
+              "agent:planner",
+              "agent:researcher",
+              "exchange:internal"
+            ],
+            "rights": [
+              "payroll:read"
+            ],
+            "subject": "user:alice@example.com",
+            "verifier": "verifier:payroll"
+          }
+        ],
+        "signingInputs": [
+          "1fa755c283ba88da972fca3682ad742891bb61d1c18c7d420e7a47d6b4b0a931",
+          "f56e7179e6cb48fd0ec0780d852d0bfa1482d7e167490d3f6f6bf609dffd8394",
+          "2b2b1bf2e1baad2dbf6b596d1280df9a151968f7b65857e105da56960cbb7bbc"
+        ]
+      }
+    },
+    {
+      "anchors": [
+        {
+          "quote": "the value of the jkt member MUST be the base64url encoding (as defined in [RFC7515]) of the JWK SHA-256 Thumbprint (according to [RFC7638]) of the DPoP public key (in JWK format) to which the access token is bound.",
+          "section": "6.1",
+          "source": "rfc9449"
+        }
+      ],
+      "edit": "the proof names the holder's key and is signed with another",
+      "expected": {
+        "decision": "reject",
+        "reason": "holder_proof_invalid"
+      },
+      "files": {
+        "record.json": "8f6e3471f5f527ea48d8e313780f176604889a9dbc1b3ba0d5a1a82317567d28",
+        "signing-input-0.jcs": "1fa755c283ba88da972fca3682ad742891bb61d1c18c7d420e7a47d6b4b0a931",
+        "signing-input-1.jcs": "46f684a5d531b78276c3c6ce37eef5096680dc8fcdd17cec9bc0de12e4885084",
+        "signing-input-2.jcs": "0f348a2cdee346b8fe8d5be5a7b301c6215541cd13b9b96b5cb53223bccdcbe0"
+      },
+      "id": "holder-proof-signature-invalid",
+      "path": "cases/holder-proof-signature-invalid",
+      "retained": {
+        "delivered": [
+          {
+            "actors": [
+              "agent:planner",
+              "agent:researcher",
+              "exchange:internal"
+            ],
+            "rights": [
+              "payroll:read"
+            ],
+            "subject": "user:alice@example.com",
+            "verifier": "verifier:payroll"
+          }
+        ],
+        "signingInputs": [
+          "1fa755c283ba88da972fca3682ad742891bb61d1c18c7d420e7a47d6b4b0a931",
+          "46f684a5d531b78276c3c6ce37eef5096680dc8fcdd17cec9bc0de12e4885084",
+          "0f348a2cdee346b8fe8d5be5a7b301c6215541cd13b9b96b5cb53223bccdcbe0"
+        ]
+      }
+    },
+    {
+      "anchors": [
+        {
+          "quote": "the value of the jkt member MUST be the base64url encoding (as defined in [RFC7515]) of the JWK SHA-256 Thumbprint (according to [RFC7638]) of the DPoP public key (in JWK format) to which the access token is bound.",
+          "section": "6.1",
+          "source": "rfc9449"
+        }
+      ],
+      "edit": "the proof's token hash is for another token",
+      "expected": {
+        "decision": "reject",
+        "reason": "holder_proof_invalid"
+      },
+      "files": {
+        "record.json": "3a88065c81df6ec9e8fd1ed8a2eaf35dba84a5de16265a1460a13328252fa57c",
+        "signing-input-0.jcs": "1fa755c283ba88da972fca3682ad742891bb61d1c18c7d420e7a47d6b4b0a931",
+        "signing-input-1.jcs": "d9b5fe15f1b3114cd912a17780afaae24f136f96bc3cf03eabe61cf427649ac9",
+        "signing-input-2.jcs": "4a95566baf59beb3bd5d790dbdc8a71ee9bbced7b05133c584676adbac8687dc"
+      },
+      "id": "holder-proof-for-another-token",
+      "path": "cases/holder-proof-for-another-token",
+      "retained": {
+        "delivered": [
+          {
+            "actors": [
+              "agent:planner",
+              "agent:researcher",
+              "exchange:internal"
+            ],
+            "rights": [
+              "payroll:read"
+            ],
+            "subject": "user:alice@example.com",
+            "verifier": "verifier:payroll"
+          }
+        ],
+        "signingInputs": [
+          "1fa755c283ba88da972fca3682ad742891bb61d1c18c7d420e7a47d6b4b0a931",
+          "d9b5fe15f1b3114cd912a17780afaae24f136f96bc3cf03eabe61cf427649ac9",
+          "4a95566baf59beb3bd5d790dbdc8a71ee9bbced7b05133c584676adbac8687dc"
+        ]
+      }
+    },
+    {
+      "anchors": [
+        {
+          "quote": "the value of the jkt member MUST be the base64url encoding (as defined in [RFC7515]) of the JWK SHA-256 Thumbprint (according to [RFC7638]) of the DPoP public key (in JWK format) to which the access token is bound.",
+          "section": "6.1",
+          "source": "rfc9449"
+        }
+      ],
+      "edit": "the proof was made for another exchanger and replayed here",
+      "expected": {
+        "decision": "reject",
+        "reason": "holder_proof_invalid"
+      },
+      "files": {
+        "record.json": "5c2691256172c6b8c2b42f7dde87db53ff7afdba020786b6ab2d911397b1e427",
+        "signing-input-0.jcs": "1fa755c283ba88da972fca3682ad742891bb61d1c18c7d420e7a47d6b4b0a931",
+        "signing-input-1.jcs": "ceff124a3b9c3f0b7e54496c57c755aa97eed77e9a7876edb52590e94c5c71e9",
+        "signing-input-2.jcs": "28cd6d07968b3f34749f8b9bb5b522d2ee536f59709c16bbf23421ba49e8a285"
+      },
+      "id": "holder-proof-for-another-exchanger",
+      "path": "cases/holder-proof-for-another-exchanger",
+      "retained": {
+        "delivered": [
+          {
+            "actors": [
+              "agent:planner",
+              "agent:researcher",
+              "exchange:internal"
+            ],
+            "rights": [
+              "payroll:read"
+            ],
+            "subject": "user:alice@example.com",
+            "verifier": "verifier:payroll"
+          }
+        ],
+        "signingInputs": [
+          "1fa755c283ba88da972fca3682ad742891bb61d1c18c7d420e7a47d6b4b0a931",
+          "ceff124a3b9c3f0b7e54496c57c755aa97eed77e9a7876edb52590e94c5c71e9",
+          "28cd6d07968b3f34749f8b9bb5b522d2ee536f59709c16bbf23421ba49e8a285"
+        ]
+      }
+    },
+    {
+      "anchors": [
+        {
+          "quote": "The logical name of the target service where the client intends to use the requested security token.",
+          "section": "2.1",
+          "source": "rfc8693"
+        }
+      ],
+      "edit": "an automatic exchange path mints the token without consulting the reviewed list",
+      "expected": {
+        "decision": "reject",
+        "reason": "destination_check_skipped"
+      },
+      "files": {
+        "record.json": "4a453bde31fa78166178e90e877cc66c660a8a4aef8d19f4d04b9c24c856d67e",
+        "signing-input-0.jcs": "1fa755c283ba88da972fca3682ad742891bb61d1c18c7d420e7a47d6b4b0a931",
+        "signing-input-1.jcs": "a9f430482fc03e692bc2ec5939a3fc011d0c11805c12fea3ba288fcffe2916c9",
+        "signing-input-2.jcs": "b6d04bc19b2675fd50f7833344f453a3583973db7eee9578c3a1438ff7455f20"
+      },
+      "id": "exchange-path-skips-destination-list",
+      "path": "cases/exchange-path-skips-destination-list",
+      "retained": {
+        "delivered": [
+          {
+            "actors": [
+              "agent:planner",
+              "agent:researcher",
+              "exchange:internal"
+            ],
+            "rights": [
+              "payroll:read"
+            ],
+            "subject": "user:alice@example.com",
+            "verifier": "verifier:payroll"
+          }
+        ],
+        "signingInputs": [
+          "1fa755c283ba88da972fca3682ad742891bb61d1c18c7d420e7a47d6b4b0a931",
+          "a9f430482fc03e692bc2ec5939a3fc011d0c11805c12fea3ba288fcffe2916c9",
+          "b6d04bc19b2675fd50f7833344f453a3583973db7eee9578c3a1438ff7455f20"
+        ]
+      }
+    },
+    {
+      "anchors": [
+        {
+          "quote": "The logical name of the target service where the client intends to use the requested security token.",
+          "section": "2.1",
+          "source": "rfc8693"
+        }
+      ],
+      "edit": "the exchanger consulted a list other than the reviewed one the relying party pins",
+      "expected": {
+        "decision": "reject",
+        "reason": "destination_check_skipped"
+      },
+      "files": {
+        "record.json": "3c1abfa46f6fdd73318c9755524ab2c01f11bc841650dbd9a37eefb2711ca04d",
+        "signing-input-0.jcs": "1fa755c283ba88da972fca3682ad742891bb61d1c18c7d420e7a47d6b4b0a931",
+        "signing-input-1.jcs": "7e9c7274d69924f7c190d3a13d076ab5d5878493162bc532c7dc969fc87b1f7f",
+        "signing-input-2.jcs": "8784e6f0bb88b8b4f11b66bffe0f38fc44cbd548eb78c02df4f349bd2ba055bb"
+      },
+      "id": "exchange-checked-another-list",
+      "path": "cases/exchange-checked-another-list",
+      "retained": {
+        "delivered": [
+          {
+            "actors": [
+              "agent:planner",
+              "agent:researcher",
+              "exchange:internal"
+            ],
+            "rights": [
+              "payroll:read"
+            ],
+            "subject": "user:alice@example.com",
+            "verifier": "verifier:payroll"
+          }
+        ],
+        "signingInputs": [
+          "1fa755c283ba88da972fca3682ad742891bb61d1c18c7d420e7a47d6b4b0a931",
+          "7e9c7274d69924f7c190d3a13d076ab5d5878493162bc532c7dc969fc87b1f7f",
+          "8784e6f0bb88b8b4f11b66bffe0f38fc44cbd548eb78c02df4f349bd2ba055bb"
+        ]
+      }
+    },
+    {
+      "anchors": [
+        {
+          "quote": "The logical name of the target service where the client intends to use the requested security token.",
+          "section": "2.1",
+          "source": "rfc8693"
+        }
+      ],
+      "edit": "the exchange is for a destination the reviewed list does not name",
+      "expected": {
+        "decision": "reject",
+        "reason": "destination_not_allowlisted"
+      },
+      "files": {
+        "record.json": "81d873cd91fe48f5f8a2da2f41caf950ecaf9e90607dfa9db083f75bc8bd50d0",
+        "signing-input-0.jcs": "1fa755c283ba88da972fca3682ad742891bb61d1c18c7d420e7a47d6b4b0a931",
+        "signing-input-1.jcs": "bddeae67caf2a186b29d59b6904dab7fa352c1784dca1804e25c64bd5ec72d8d",
+        "signing-input-2.jcs": "60155858f4ab0e345fef90de0c2c8b5234cb1592920e5215be7018045d5d736a"
+      },
+      "id": "destination-off-allowlist",
+      "path": "cases/destination-off-allowlist",
+      "retained": {
+        "delivered": [
+          {
+            "actors": [
+              "agent:planner",
+              "agent:researcher",
+              "exchange:internal"
+            ],
+            "rights": [
+              "billing:read"
+            ],
+            "subject": "user:alice@example.com",
+            "verifier": "verifier:billing"
+          }
+        ],
+        "signingInputs": [
+          "1fa755c283ba88da972fca3682ad742891bb61d1c18c7d420e7a47d6b4b0a931",
+          "bddeae67caf2a186b29d59b6904dab7fa352c1784dca1804e25c64bd5ec72d8d",
+          "60155858f4ab0e345fef90de0c2c8b5234cb1592920e5215be7018045d5d736a"
+        ]
+      }
+    },
+    {
+      "anchors": [
+        {
+          "quote": "The logical name of the target service where the client intends to use the requested security token.",
+          "section": "2.1",
+          "source": "rfc8693"
+        },
+        {
+          "quote": "If the principal processing the claim does not identify itself with a value in the \"aud\" claim when this claim is present, then the JWT MUST be rejected.",
+          "section": "4.1.3",
+          "source": "rfc7519"
+        }
+      ],
+      "edit": "the exchange for payroll aims its token at the calendar verifier",
+      "expected": {
+        "decision": "reject",
+        "reason": "destination_verifier_mismatch"
+      },
+      "files": {
+        "record.json": "77c2d46c21a339ed4746ed482da39338db72e3c661a745f0b860bee79adb0d45",
+        "signing-input-0.jcs": "1fa755c283ba88da972fca3682ad742891bb61d1c18c7d420e7a47d6b4b0a931",
+        "signing-input-1.jcs": "c6f5ddae3eeb8d7faf8933b79cd54dc78b5d40cab92b7482cf776702a91869ea",
+        "signing-input-2.jcs": "fef29783d6d433dbde5b404be5931acb59a9ee27f53ad47f16e8006e20dd4bc6"
+      },
+      "id": "exchanged-token-aimed-at-another-verifier",
+      "path": "cases/exchanged-token-aimed-at-another-verifier",
+      "retained": {
+        "delivered": [
+          {
+            "actors": [
+              "agent:planner",
+              "agent:researcher",
+              "exchange:internal"
+            ],
+            "rights": [
+              "payroll:read"
+            ],
+            "subject": "user:alice@example.com",
+            "verifier": "verifier:calendar"
+          }
+        ],
+        "signingInputs": [
+          "1fa755c283ba88da972fca3682ad742891bb61d1c18c7d420e7a47d6b4b0a931",
+          "c6f5ddae3eeb8d7faf8933b79cd54dc78b5d40cab92b7482cf776702a91869ea",
+          "fef29783d6d433dbde5b404be5931acb59a9ee27f53ad47f16e8006e20dd4bc6"
+        ]
+      }
+    },
+    {
+      "anchors": [],
+      "edit": "the exchanged token names another user",
+      "expected": {
+        "decision": "reject",
+        "reason": "subject_replaced"
+      },
+      "files": {
+        "record.json": "308d0c7b291f7239116aef46a7bc0b3560b6be56c7df47907fdb7f15dfc0be57",
+        "signing-input-0.jcs": "1fa755c283ba88da972fca3682ad742891bb61d1c18c7d420e7a47d6b4b0a931",
+        "signing-input-1.jcs": "0447c2ee2a6b523df7f0d62c73cda2f62dc4463a17e82074d86fdc077160789a",
+        "signing-input-2.jcs": "5297254e5cd12f6d722c7aa90dcd037b3c7256f66f4ca45028f1fc1452f64538"
+      },
+      "id": "subject-replaced-at-exchange",
+      "path": "cases/subject-replaced-at-exchange",
+      "retained": {
+        "delivered": [
+          {
+            "actors": [
+              "agent:planner",
+              "agent:researcher",
+              "exchange:internal"
+            ],
+            "rights": [
+              "payroll:read"
+            ],
+            "subject": "user:bob@example.com",
+            "verifier": "verifier:payroll"
+          }
+        ],
+        "signingInputs": [
+          "1fa755c283ba88da972fca3682ad742891bb61d1c18c7d420e7a47d6b4b0a931",
+          "0447c2ee2a6b523df7f0d62c73cda2f62dc4463a17e82074d86fdc077160789a",
+          "5297254e5cd12f6d722c7aa90dcd037b3c7256f66f4ca45028f1fc1452f64538"
+        ]
+      }
+    },
+    {
+      "anchors": [
+        {
+          "quote": "The outermost \"act\" claim represents the current actor while nested \"act\" claims represent prior actors. The least recent actor is the most deeply nested.",
+          "section": "4.1",
+          "source": "rfc8693"
+        }
+      ],
+      "edit": "the exchanged token names only the user: the destination's authorization reads no intermediary and no chain",
+      "expected": {
+        "decision": "reject",
+        "reason": "actor_lost_at_exchange"
+      },
+      "files": {
+        "record.json": "ddfbdbb7e96ec82071d5a3a2dd5eba660533f2992e3817000783254d4e671148",
+        "signing-input-0.jcs": "1fa755c283ba88da972fca3682ad742891bb61d1c18c7d420e7a47d6b4b0a931",
+        "signing-input-1.jcs": "7958ed5582fc478fdcda12543072d3d0808ec36d662cdebb0440c947351c3ad7",
+        "signing-input-2.jcs": "2ca11c7bbc204855cd7cf8864f32b335a38d41146e9ab38570790f063da8a068"
+      },
+      "id": "actor-lost-at-exchange",
+      "path": "cases/actor-lost-at-exchange",
+      "retained": {
+        "delivered": [
+          {
+            "actors": [],
+            "rights": [
+              "payroll:read"
+            ],
+            "subject": "user:alice@example.com",
+            "verifier": "verifier:payroll"
+          }
+        ],
+        "signingInputs": [
+          "1fa755c283ba88da972fca3682ad742891bb61d1c18c7d420e7a47d6b4b0a931",
+          "7958ed5582fc478fdcda12543072d3d0808ec36d662cdebb0440c947351c3ad7",
+          "2ca11c7bbc204855cd7cf8864f32b335a38d41146e9ab38570790f063da8a068"
+        ]
+      }
+    },
+    {
+      "anchors": [
+        {
+          "quote": "The outermost \"act\" claim represents the current actor while nested \"act\" claims represent prior actors. The least recent actor is the most deeply nested.",
+          "section": "4.1",
+          "source": "rfc8693"
+        }
+      ],
+      "edit": "the exchanged token names the exchanger and drops the agents it received",
+      "expected": {
+        "decision": "reject",
+        "reason": "agent_marker_dropped"
+      },
+      "files": {
+        "record.json": "095d5edb54433a303d3647918cfaaeab5a9c9ff1197f8d998c313f1364e512d3",
+        "signing-input-0.jcs": "1fa755c283ba88da972fca3682ad742891bb61d1c18c7d420e7a47d6b4b0a931",
+        "signing-input-1.jcs": "56bb1bc0d14733e8594f4fbf73e7429d7cac0d6164d03251a5b834c96a5204db",
+        "signing-input-2.jcs": "a98915ae221ac1ba2ef24752a7d1255a4ba77e4533fd9b24777037aab4e9ff28"
+      },
+      "id": "agent-marker-dropped",
+      "path": "cases/agent-marker-dropped",
+      "retained": {
+        "delivered": [
+          {
+            "actors": [
+              "exchange:internal"
+            ],
+            "rights": [
+              "payroll:read"
+            ],
+            "subject": "user:alice@example.com",
+            "verifier": "verifier:payroll"
+          }
+        ],
+        "signingInputs": [
+          "1fa755c283ba88da972fca3682ad742891bb61d1c18c7d420e7a47d6b4b0a931",
+          "56bb1bc0d14733e8594f4fbf73e7429d7cac0d6164d03251a5b834c96a5204db",
+          "a98915ae221ac1ba2ef24752a7d1255a4ba77e4533fd9b24777037aab4e9ff28"
+        ]
+      }
+    },
+    {
+      "anchors": [
+        {
+          "quote": "The outermost \"act\" claim represents the current actor while nested \"act\" claims represent prior actors. The least recent actor is the most deeply nested.",
+          "section": "4.1",
+          "source": "rfc8693"
+        }
+      ],
+      "edit": "the exchanged token keeps the acting agent's marker and drops the agent before it",
+      "expected": {
+        "decision": "reject",
+        "reason": "previous_hop_dropped"
+      },
+      "files": {
+        "record.json": "f95262b35097a38b32779446300e8c7ece5a15a03422b2d84350baa3fa906b65",
+        "signing-input-0.jcs": "1fa755c283ba88da972fca3682ad742891bb61d1c18c7d420e7a47d6b4b0a931",
+        "signing-input-1.jcs": "9193714d8b77f578dbdc4f316303f1ab1f35dd56f9358630c6d8be03c4e9cb78",
+        "signing-input-2.jcs": "13776d43ec999472a037aa6e62d44383b0b35c8450c13d10c295461446a54f96"
+      },
+      "id": "previous-hop-dropped",
+      "path": "cases/previous-hop-dropped",
+      "retained": {
+        "delivered": [
+          {
+            "actors": [
+              "agent:researcher",
+              "exchange:internal"
+            ],
+            "rights": [
+              "payroll:read"
+            ],
+            "subject": "user:alice@example.com",
+            "verifier": "verifier:payroll"
+          }
+        ],
+        "signingInputs": [
+          "1fa755c283ba88da972fca3682ad742891bb61d1c18c7d420e7a47d6b4b0a931",
+          "9193714d8b77f578dbdc4f316303f1ab1f35dd56f9358630c6d8be03c4e9cb78",
+          "13776d43ec999472a037aa6e62d44383b0b35c8450c13d10c295461446a54f96"
+        ]
+      }
+    },
+    {
+      "anchors": [
+        {
+          "quote": "The outermost \"act\" claim represents the current actor while nested \"act\" claims represent prior actors. The least recent actor is the most deeply nested.",
+          "section": "4.1",
+          "source": "rfc8693"
+        }
+      ],
+      "edit": "the exchanged token forwards the chain and leaves out the exchanger that minted it",
+      "expected": {
+        "decision": "reject",
+        "reason": "exchanger_not_in_chain"
+      },
+      "files": {
+        "record.json": "7c91fba5837e9614bbe5a6f99eaba958f892a82b5590686c881e3ebea4e81918",
+        "signing-input-0.jcs": "1fa755c283ba88da972fca3682ad742891bb61d1c18c7d420e7a47d6b4b0a931",
+        "signing-input-1.jcs": "fec7e5fcb43b3cdcd59347a85c571b90db8330515bfb5e89e2c13a20fb0b7afa",
+        "signing-input-2.jcs": "0a9c6f7abe0f934b7583fe93f84c9e8735718f9c30d6f708bfea8d4b6f4f0ec3"
+      },
+      "id": "exchanger-not-in-chain",
+      "path": "cases/exchanger-not-in-chain",
+      "retained": {
+        "delivered": [
+          {
+            "actors": [
+              "agent:planner",
+              "agent:researcher"
+            ],
+            "rights": [
+              "payroll:read"
+            ],
+            "subject": "user:alice@example.com",
+            "verifier": "verifier:payroll"
+          }
+        ],
+        "signingInputs": [
+          "1fa755c283ba88da972fca3682ad742891bb61d1c18c7d420e7a47d6b4b0a931",
+          "fec7e5fcb43b3cdcd59347a85c571b90db8330515bfb5e89e2c13a20fb0b7afa",
+          "0a9c6f7abe0f934b7583fe93f84c9e8735718f9c30d6f708bfea8d4b6f4f0ec3"
+        ]
+      }
+    },
+    {
+      "anchors": [
+        {
+          "quote": "The outermost \"act\" claim represents the current actor while nested \"act\" claims represent prior actors. The least recent actor is the most deeply nested.",
+          "section": "4.1",
+          "source": "rfc8693"
+        }
+      ],
+      "edit": "the exchanged token reverses the agents it received",
+      "expected": {
+        "decision": "reject",
+        "reason": "chain_altered_at_exchange"
+      },
+      "files": {
+        "record.json": "4fa1ede17b11ad9fd2707d754953243284cd5285502182f7d7290f53811287ad",
+        "signing-input-0.jcs": "1fa755c283ba88da972fca3682ad742891bb61d1c18c7d420e7a47d6b4b0a931",
+        "signing-input-1.jcs": "475d2a0bed2cc6deef939ad61f67304e32b49b34c6579ec3617dbbd79a30fcda",
+        "signing-input-2.jcs": "2a29509d1d1d616d4dc0289d0a1ae6d2e61b7c654e61eb95b254d6838e9e8600"
+      },
+      "id": "chain-reordered-at-exchange",
+      "path": "cases/chain-reordered-at-exchange",
+      "retained": {
+        "delivered": [
+          {
+            "actors": [
+              "agent:researcher",
+              "agent:planner",
+              "exchange:internal"
+            ],
+            "rights": [
+              "payroll:read"
+            ],
+            "subject": "user:alice@example.com",
+            "verifier": "verifier:payroll"
+          }
+        ],
+        "signingInputs": [
+          "1fa755c283ba88da972fca3682ad742891bb61d1c18c7d420e7a47d6b4b0a931",
+          "475d2a0bed2cc6deef939ad61f67304e32b49b34c6579ec3617dbbd79a30fcda",
+          "2a29509d1d1d616d4dc0289d0a1ae6d2e61b7c654e61eb95b254d6838e9e8600"
+        ]
+      }
+    },
+    {
+      "anchors": [
+        {
+          "quote": "A list of space-delimited, case-sensitive strings, as defined in Section 3.3 of [RFC6749], that allow the client to specify the desired scope of the requested security token in the context of the service or resource where the token will be used.",
+          "section": "2.1",
+          "source": "rfc8693"
+        }
+      ],
+      "edit": "the payroll token also carries a calendar right from the delegation",
+      "expected": {
+        "decision": "reject",
+        "reason": "rights_beyond_destination"
+      },
+      "files": {
+        "record.json": "499d7b14d1e47f290a817a3b924216def15a5945283286794031e7074cc0adf9",
+        "signing-input-0.jcs": "1fa755c283ba88da972fca3682ad742891bb61d1c18c7d420e7a47d6b4b0a931",
+        "signing-input-1.jcs": "cfa8a635fc308ccd7733c94b676fbf04a4ddb63a2c7bf76fb8dfcf2635edf149",
+        "signing-input-2.jcs": "7d214ab082ee985538eb89ad9317b59666b6e3f82f084a6c09f8ca5bd2b912ef"
+      },
+      "id": "rights-beyond-destination",
+      "path": "cases/rights-beyond-destination",
+      "retained": {
+        "delivered": [
+          {
+            "actors": [
+              "agent:planner",
+              "agent:researcher",
+              "exchange:internal"
+            ],
+            "rights": [
+              "calendar:read",
+              "payroll:read"
+            ],
+            "subject": "user:alice@example.com",
+            "verifier": "verifier:payroll"
+          }
+        ],
+        "signingInputs": [
+          "1fa755c283ba88da972fca3682ad742891bb61d1c18c7d420e7a47d6b4b0a931",
+          "cfa8a635fc308ccd7733c94b676fbf04a4ddb63a2c7bf76fb8dfcf2635edf149",
+          "7d214ab082ee985538eb89ad9317b59666b6e3f82f084a6c09f8ca5bd2b912ef"
+        ]
+      }
+    },
+    {
+      "anchors": [
+        {
+          "quote": "A list of space-delimited, case-sensitive strings, as defined in Section 3.3 of [RFC6749], that allow the client to specify the desired scope of the requested security token in the context of the service or resource where the token will be used.",
+          "section": "2.1",
+          "source": "rfc8693"
+        }
+      ],
+      "edit": "the destination is narrowed and the token carries the user's full payroll rights, where the delegation named fewer",
+      "expected": {
+        "decision": "reject",
+        "reason": "rights_not_narrowed"
+      },
+      "files": {
+        "record.json": "0b9fe98206b40fcf2de32c9fd83015abaf89b7eb7318d840e316dcf3c0624f5f",
+        "signing-input-0.jcs": "1fa755c283ba88da972fca3682ad742891bb61d1c18c7d420e7a47d6b4b0a931",
+        "signing-input-1.jcs": "96dd67894ba92aae484f5e367f8b7ffe6181780e1950c317478a92d40a4b7121",
+        "signing-input-2.jcs": "f6fb905a8f7a17db128736a64f98cb355441bed488b6f2b9d87daa8938750444"
+      },
+      "id": "rights-not-narrowed",
+      "path": "cases/rights-not-narrowed",
+      "retained": {
+        "delivered": [
+          {
+            "actors": [
+              "agent:planner",
+              "agent:researcher",
+              "exchange:internal"
+            ],
+            "rights": [
+              "payroll:approve",
+              "payroll:read",
+              "payroll:write"
+            ],
+            "subject": "user:alice@example.com",
+            "verifier": "verifier:payroll"
+          }
+        ],
+        "signingInputs": [
+          "1fa755c283ba88da972fca3682ad742891bb61d1c18c7d420e7a47d6b4b0a931",
+          "96dd67894ba92aae484f5e367f8b7ffe6181780e1950c317478a92d40a4b7121",
+          "f6fb905a8f7a17db128736a64f98cb355441bed488b6f2b9d87daa8938750444"
+        ]
+      }
+    },
+    {
+      "anchors": [
+        {
+          "quote": "A list of space-delimited, case-sensitive strings, as defined in Section 3.3 of [RFC6749], that allow the client to specify the desired scope of the requested security token in the context of the service or resource where the token will be used.",
+          "section": "2.1",
+          "source": "rfc8693"
+        }
+      ],
+      "edit": "the exchange narrows the destination and adds a right the delegation never named",
+      "expected": {
+        "decision": "reject",
+        "reason": "rights_widened"
+      },
+      "files": {
+        "record.json": "b31fc3f561aaf854806ed0f4cfceed4897bbea4d711d0dc447e10e03a0bec57c",
+        "signing-input-0.jcs": "1fa755c283ba88da972fca3682ad742891bb61d1c18c7d420e7a47d6b4b0a931",
+        "signing-input-1.jcs": "882ab217bb481312d38399607543b399a4b91be260cbb87bd0b68264da8045fe",
+        "signing-input-2.jcs": "fddce8856076803a3222a8c8c5a47c0b52defd85cd55835bdeab484e623b23ee"
+      },
+      "id": "rights-widened-while-destination-narrowed",
+      "path": "cases/rights-widened-while-destination-narrowed",
+      "retained": {
+        "delivered": [
+          {
+            "actors": [
+              "agent:planner",
+              "agent:researcher",
+              "exchange:internal"
+            ],
+            "rights": [
+              "payroll:approve",
+              "payroll:read"
+            ],
+            "subject": "user:alice@example.com",
+            "verifier": "verifier:payroll"
+          }
+        ],
+        "signingInputs": [
+          "1fa755c283ba88da972fca3682ad742891bb61d1c18c7d420e7a47d6b4b0a931",
+          "882ab217bb481312d38399607543b399a4b91be260cbb87bd0b68264da8045fe",
+          "fddce8856076803a3222a8c8c5a47c0b52defd85cd55835bdeab484e623b23ee"
+        ]
+      }
+    },
+    {
+      "anchors": [
+        {
+          "quote": "The \"exp\" (expiration time) claim identifies the expiration time on or after which the JWT MUST NOT be accepted for processing.",
+          "section": "4.1.4",
+          "source": "rfc7519"
+        }
+      ],
+      "edit": "the verifier accepts the exchanged token at its exp",
+      "expected": {
+        "decision": "reject",
+        "reason": "exchanged_token_expired_at_use"
+      },
+      "files": {
+        "record.json": "37251bfcf9089123a7f928bdacd8986fb3eb741fbaae455ea5431783702f35b6",
+        "signing-input-0.jcs": "1fa755c283ba88da972fca3682ad742891bb61d1c18c7d420e7a47d6b4b0a931",
+        "signing-input-1.jcs": "e2e71ef670da575efd369a3d31afbe5d28545b20905ed1bfa55392d612de01b1",
+        "signing-input-2.jcs": "30319510ee89aebfd45848c0d4090176a5b02e965de4c69a18ef8487117c61c3"
+      },
+      "id": "exchanged-token-used-after-expiry",
+      "path": "cases/exchanged-token-used-after-expiry",
+      "retained": {
+        "delivered": [
+          {
+            "actors": [
+              "agent:planner",
+              "agent:researcher",
+              "exchange:internal"
+            ],
+            "rights": [
+              "payroll:read"
+            ],
+            "subject": "user:alice@example.com",
+            "verifier": "verifier:payroll"
+          }
+        ],
+        "signingInputs": [
+          "1fa755c283ba88da972fca3682ad742891bb61d1c18c7d420e7a47d6b4b0a931",
+          "e2e71ef670da575efd369a3d31afbe5d28545b20905ed1bfa55392d612de01b1",
+          "30319510ee89aebfd45848c0d4090176a5b02e965de4c69a18ef8487117c61c3"
+        ]
+      }
+    }
+  ],
+  "verifierContract": "verifier record.json --trust TRUST.json --json; exit 0 accept, 1 reject"
+}

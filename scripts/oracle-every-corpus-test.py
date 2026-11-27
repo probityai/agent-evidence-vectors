@@ -81,6 +81,7 @@ RUNS_A_VERIFIER = (
     "vectors-agent-request-proof",
     "vectors-physical-completion",
     "vectors-actor-marker-survival",
+    "vectors-destination-narrowed-exchange",
     "vectors-cbor-receipt-chain",
     "vectors-agent-card-receipt",
     "vectors-agent-identity-statement",
