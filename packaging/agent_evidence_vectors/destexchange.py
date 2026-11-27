@@ -410,8 +410,7 @@ class _Chain:
     def check_skipped(self) -> bool:
         digest = allowlist_digest(self.trust)
         return any(
-            s.get("destinationCheck") is None
-            or s["destinationCheck"]["allowlistSha256"] != digest
+            s.get("destinationCheck") is None or s["destinationCheck"]["allowlistSha256"] != digest
             for s in self.exchanges()
         )
 

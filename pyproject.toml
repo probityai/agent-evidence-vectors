@@ -861,3 +861,8 @@ max-complexity = 10
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 addopts = ["--strict-markers", "-ra"]
+
+# The corpus tests import the generators, which sign with cryptography (the
+# `generators` extra), so a HiPerGator run syncs that extra as well as the groups.
+[tool.hpg-run]
+uv-sync = ["--frozen", "--all-groups", "--extra", "generators"]

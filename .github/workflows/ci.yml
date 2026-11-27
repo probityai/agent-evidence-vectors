@@ -1936,7 +1936,7 @@ jobs:
       - name: oasf-record cases regenerate and force every check
         run: uv run --extra dev pytest corpora/vectors-oasf-record/tests -q
       - name: holder-bound-credential cases regenerate, force every check and refuse a proof that chose its key
-        run: uv run --extra dev pytest corpora/vectors-holder-bound-credential/tests -q
+        run: uv run --extra dev --extra generators pytest corpora/vectors-holder-bound-credential/tests -q
       - name: identity-assurance cases regenerate, force every check and refuse a skipped level
         run: uv run --extra dev pytest corpora/vectors-identity-assurance/tests -q
       - name: assurance vocabulary lint refuses each scale's word on the other's page
