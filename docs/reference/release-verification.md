@@ -6,7 +6,7 @@ Check the corpus bytes, the maintainer's signature and the two timestamp proofs 
 
 ```bash
 git clone https://github.com/probityai/agent-evidence-vectors && cd agent-evidence-vectors
-git checkout v0.38.0
+git checkout v0.39.0
 
 # 1. the digest list is what the vector files on disk hash to, recomputed
 python3 scripts/release-digests.py --check
