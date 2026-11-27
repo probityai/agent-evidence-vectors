@@ -1,8 +1,0 @@
-{
-  "attack": "f1-strip-chain-object",
-  "spec_clause": "The predicate.chain object is OPTIONAL on tool_call records. When absent, the attestation stands alone without ordering guarantees.",
-  "chainHash_with_chain": "0a67a7531230d922de3dbda1bbfa635ff306d7cf58b32783a21093d3ce300922",
-  "chainHash_without_chain": "e663fa266b50fc027b6d639abb49d272653bd1f0c8981e1094501837c0a4931b",
-  "successor_link_still_valid": false,
-  "why_foreclosed": "The chain hash covers the complete serialized record, so removing the chain object changes the record's own hash and the next record's previousHash no longer resolves. Hashing the whole record rather than a field subset is what stops this, and it is the strongest property the design currently has."
-}

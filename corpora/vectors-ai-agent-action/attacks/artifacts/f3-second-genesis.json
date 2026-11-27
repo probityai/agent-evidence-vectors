@@ -1,7 +1,0 @@
-{
-  "attack": "f3-second-genesis",
-  "clause": "A consumer that encounters a second \"genesis\" anywhere in the log SHOULD treat it as evidence of adversarial chain replacement.",
-  "genesis_section_contains_MUST": true,
-  "detection_is_SHOULD_not_MUST": false,
-  "verdict_reasoning": "Partly foreclosed. The convention is stated and the chain_break successor rule makes the scar load-bearing, which is a real improvement. But the detection obligation is SHOULD, so a verifier that ignores a second genesis is conformant, and the fork in A5 needs no second genesis at all."
-}
