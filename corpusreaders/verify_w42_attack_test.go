@@ -133,7 +133,7 @@ func TestAttackReadersAgreeWithPythonOnEveryMutant(t *testing.T) {
 		cnt[0]++
 		if got.Decision != c.Decision || got.Reason != c.Reason {
 			cnt[1]++
-			if shown[c.Suite] < 12 {
+			if shown[c.Suite] < 200 {
 				shown[c.Suite]++
 				t.Errorf("%s %s: go %s/%s, python %s/%s\n  text: %.300s", c.Suite, c.Tag, got.Decision, got.Reason, c.Decision, c.Reason, c.Text)
 			}
