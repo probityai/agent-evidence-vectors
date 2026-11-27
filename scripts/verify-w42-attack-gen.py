@@ -294,6 +294,8 @@ WEAK = [(1).to_bytes(32, "little"), (P - 1).to_bytes(32, "little"), bytes(32),
 
 
 def hbc_targeted(record, rng):
+    if not record.get("presentations"):
+        return
     holder = hb_gen.jwk("holder")
     heads = []
     for alg in ALGS:
