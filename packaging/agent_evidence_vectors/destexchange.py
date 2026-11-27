@@ -67,8 +67,7 @@ from .actormarker import (
 
 SUITE = "destination-narrowed-exchange/v1"
 CONTRACT_ID = (
-    "https://probityai.github.io/agent-evidence-vectors/predicate/v1/"
-    "destination-narrowed-exchange"
+    "https://probityai.github.io/agent-evidence-vectors/predicate/v1/destination-narrowed-exchange"
 )
 ACCEPT, REJECT = "accept", "reject"
 ACCEPT_REASON = "exchange_narrowed"
@@ -241,14 +240,15 @@ def _shape_statement(index: int, statement: Any) -> None:
     _need((kind == "origin") == (index == 0), "the origin is not the first statement")
     _need(kind == "origin" or kind in KINDS, f"kind {kind!r}")
     if index:
-        _need(isinstance(statement.get("prev"), str) and bool(_HEX64.match(statement["prev"])), "prev")
+        _need(
+            isinstance(statement.get("prev"), str) and bool(_HEX64.match(statement["prev"])), "prev"
+        )
     if kind == "origin":
         _shape_token(statement.get("sent"), "sent", delegated=True)
         _need(_text(statement["sent"].get("to")), "sent.to")
         rights = statement.get("entitlements")
         _need(
-            isinstance(rights, dict)
-            and all(isinstance(v, str) for v in rights.values()),
+            isinstance(rights, dict) and all(isinstance(v, str) for v in rights.values()),
             "entitlements",
         )
         for value in rights.values():
@@ -377,9 +377,7 @@ class _Chain:
         return False
 
     def expired(self) -> bool:
-        return any(
-            _seconds(s["received"]["at"]) >= self.delegated["exp"] for s in self.exchanges()
-        )
+        return any(_seconds(s["received"]["at"]) >= self.delegated["exp"] for s in self.exchanges())
 
     def lifetime_over(self) -> bool:
         limit = self.trust["maxDelegatedLifetimeSeconds"]

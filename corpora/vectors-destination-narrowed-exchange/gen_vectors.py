@@ -99,7 +99,7 @@ ANCHORS = {
     "aud": (
         "rfc7519",
         "4.1.3",
-        'If the principal processing the claim does not identify itself with a value in '
+        "If the principal processing the claim does not identify itself with a value in "
         'the "aud" claim when this claim is present, then the JWT MUST be rejected.',
     ),
     "exp": (
@@ -121,7 +121,7 @@ ANCHORS = {
         "Because of the security weaknesses associated with the URI method (see Section "
         "5), including the high likelihood that the URL containing the access token will "
         "be logged, it SHOULD NOT be used unless it is impossible to transport the access "
-        "token in the \"Authorization\" request header field or the HTTP request "
+        'token in the "Authorization" request header field or the HTTP request '
         "entity-body.",
     ),
     "scope-narrow": (
@@ -227,9 +227,18 @@ def build(
         clock += 30
     if revoke_at is not None:
         # The revocation goes where its time puts it, so the statements stay in time order.
-        revocation = {"at": at(revoke_at), "jti": revoke_jti, "kind": "revocation", "writer": ISSUER}
+        revocation = {
+            "at": at(revoke_at),
+            "jti": revoke_jti,
+            "kind": "revocation",
+            "writer": ISSUER,
+        }
         place = next(
-            (i for i, e in enumerate(entries) if i and reader._time(e["statement"]) >= T0 + revoke_at),
+            (
+                i
+                for i, e in enumerate(entries)
+                if i and reader._time(e["statement"]) >= T0 + revoke_at
+            ),
             len(entries),
         )
         entries.insert(place, {"statement": revocation})
@@ -309,7 +318,9 @@ def proof(
     return body
 
 
-def seal(entries: list[dict[str, Any]], signers: dict[int, str] | None = None) -> list[dict[str, Any]]:
+def seal(
+    entries: list[dict[str, Any]], signers: dict[int, str] | None = None
+) -> list[dict[str, Any]]:
     """Link each statement to the one before it and sign every statement."""
     chosen = signers or {}
     out: list[dict[str, Any]] = []
@@ -324,7 +335,9 @@ def seal(entries: list[dict[str, Any]], signers: dict[int, str] | None = None) -
     return out
 
 
-def record(statements: list[dict[str, Any]], contract: str | None = reader.CONTRACT_ID) -> dict[str, Any]:
+def record(
+    statements: list[dict[str, Any]], contract: str | None = reader.CONTRACT_ID
+) -> dict[str, Any]:
     body: dict[str, Any] = {"statements": statements}
     if contract is not None:
         body["contractId"] = contract
@@ -333,7 +346,9 @@ def record(statements: list[dict[str, Any]], contract: str | None = reader.CONTR
 
 def one(**kw: Any) -> dict[str, Any]:
     """A sealed record of one payroll exchange with the given edits."""
-    chain_kw = {k: kw.pop(k) for k in ("chain", "lifetime", "bound", "revoke_at", "revoke_jti") if k in kw}
+    chain_kw = {
+        k: kw.pop(k) for k in ("chain", "lifetime", "bound", "revoke_at", "revoke_jti") if k in kw
+    }
     return record(seal(build([exchange(kw.pop("destination", "payroll"), **kw)], **chain_kw)))
 
 
@@ -383,120 +398,386 @@ Case = tuple[str, dict[str, Any], str, str, str, list[str]]
 def cases() -> list[Case]:
     """id, record, expected decision, reason, the edit, and the anchors it rests on."""
     a, r, ok = reader.ACCEPT, reader.REJECT, reader.ACCEPT_REASON
-    other_list = _sha(reader.a2ajcs.canonicalize({**DESTINATIONS, "billing": {"verifier": "verifier:billing"}}))
+    other_list = _sha(
+        reader.a2ajcs.canonicalize({**DESTINATIONS, "billing": {"verifier": "verifier:billing"}})
+    )
     return [
-        ("accept-single-destination", one(), a, ok,
-         "control: the holder proves its key, the exchanger checks the reviewed list and sends "
-         "one narrowed token for payroll carrying the whole chain and itself",
-         ["audience", "nesting", "jkt", "scope-narrow"]),
-        ("accept-two-destinations", record(seal(build([exchange("payroll"), exchange("calendar")]))),
-         a, ok, "control: one delegated token, one exchange and one token per destination",
-         ["audience"]),
-        ("accept-one-actor-chain", one(chain=(HOLDER,)), a, ok,
-         "control: the delegated token names one agent; the exchanged token carries it and the exchanger",
-         ["nesting"]),
-        ("accept-rights-equal-to-delegation", one(rights=["payroll:read", "payroll:write"]), a, ok,
-         "control: the exchanged token carries every right the delegation names for payroll and no more",
-         ["scope-narrow"]),
-        ("accept-revoked-after-exchange", one(revoke_at=200), a, ok,
-         "control: the delegated token is revoked after the exchange; the exchange stands",
-         []),
-        ("accept-exchange-a-second-before-expiry", one(at=LIFETIME - 1), a, ok,
-         "control: the exchange happens one second before the delegated token's exp",
-         ["exp"]),
-        ("accept-revocation-of-another-token", one(revoke_at=30, revoke_jti="dt-other"), a, ok,
-         "control: a revocation of another token's jti before the exchange changes nothing",
-         []),
-        ("contract-id-missing", record(seal(build([exchange("payroll")])), contract=None), r,
-         "contract_id_missing", "the record names no contract", []),
-        ("contract-id-unknown",
-         record(seal(build([exchange("payroll")])),
-                contract=reader.CONTRACT_ID.replace("/predicate/v1/", "/predicate-unknown/v1/")),
-         r, "contract_id_unknown", "the record names another contract", []),
-        ("token-carried-in-cookie", _carried("cookie"), r, "record_malformed",
-         "the exchange states the token arrived in a place this contract does not name", []),
-        ("writer-not-in-trust-bundle", one(writer="exchange:unlisted"), r, "statement_writer_unknown",
-         "the exchange is written by a component the trust bundle does not list", []),
-        ("signature-forged", _forge(), r, "statement_signature_invalid",
-         "the exchanged token's scope is widened after the exchange statement was signed", []),
-        ("signature-swapped-key",
-         record(seal(build([exchange("payroll")]), signers={1: "agent:intruder"})), r,
-         "statement_signature_invalid", "the exchange statement is signed with another writer's key", []),
-        ("statement-dropped-from-chain", _drop(2), r, "hop_link_broken",
-         "the payroll presentation is removed from a two-destination chain", []),
-        ("exchange-unrecorded", one(recorded=False), r, "exchange_unrecorded",
-         "a verifier states a token naming the exchanger, and no statement records the exchange",
-         ["nesting"]),
-        ("delegated-token-edited-by-holder", one(received_token=_widen_received), r, "received_not_sent",
-         "the holder adds a right to its delegated token before it presents it", []),
-        ("forwarded-token-at-another-destination", one(presented_to="verifier:calendar"), r,
-         "token_presented_off_destination",
-         "the token minted for the payroll verifier is forwarded to the calendar verifier", ["aud"]),
-        ("delegated-token-in-query", _carried("query"), r, "token_in_request_parameter",
-         "the holder sends its delegated token as a query parameter", ["uri"]),
-        ("exchanged-token-in-form-body", one(presented_in="form-body"), r, "token_in_request_parameter",
-         "the exchanged token reaches the verifier as a form parameter", ["uri"]),
-        ("delegated-token-unmarked", one(chain=(), actors=(EXCHANGER,)), r, "delegated_token_unmarked",
-         "the issuer mints the delegated token for the user alone, with no agent marker", ["nesting"]),
-        ("exchanged-by-hop-outside-intermediaries", one(writer="exchange:other"), r,
-         "exchanger_not_intermediary",
-         "an exchanger the delegated token does not name as an intermediary exchanges it", ["aud"]),
-        ("delegated-token-revoked-before-exchange", one(revoke_at=30), r, "delegated_token_revoked",
-         "the issuer revokes the delegated token before the exchange", []),
-        ("revoked-at-the-second-of-exchange", one(revoke_at=60), r, "delegated_token_revoked",
-         "the revocation and the exchange fall in the same second; the revocation wins", []),
-        ("exchanged-after-expiry", one(at=LIFETIME + 30), r, "delegated_token_expired",
-         "the exchange happens after the delegated token's exp", ["exp"]),
-        ("exchanged-at-expiry", one(at=LIFETIME), r, "delegated_token_expired",
-         "the exchange happens at the delegated token's exp, which is already expired", ["exp"]),
-        ("delegated-lifetime-over-limit", one(lifetime=LIFETIME + 1), r, "delegated_lifetime_over_limit",
-         "the delegated token lives 301 s, over the relying party's 300 s limit", []),
-        ("delegated-token-bearer", one(bound=False, proof=False), r, "delegated_token_unbound",
-         "the delegated token names no key, so anyone holding it can exchange it", ["jkt"]),
-        ("holder-proof-missing", one(proof=False), r, "holder_proof_missing",
-         "the delegated token is bound to a key and is presented with no proof of it", ["jkt"]),
-        ("holder-proof-other-key", one(proof_edit=_other_key), r, "holder_proof_invalid",
-         "the proof is made with a key whose thumbprint is not the token's jkt", ["jkt"]),
-        ("holder-proof-signature-invalid", one(proof_edit=_signed_by_other), r, "holder_proof_invalid",
-         "the proof names the holder's key and is signed with another", ["jkt"]),
-        ("holder-proof-for-another-token", one(proof_edit=_other_token), r, "holder_proof_invalid",
-         "the proof's token hash is for another token", ["jkt"]),
-        ("holder-proof-for-another-exchanger", one(proof_edit=_other_exchanger), r, "holder_proof_invalid",
-         "the proof was made for another exchanger and replayed here", ["jkt"]),
-        ("exchange-path-skips-destination-list", one(checked=False), r, "destination_check_skipped",
-         "an automatic exchange path mints the token without consulting the reviewed list", ["audience"]),
-        ("exchange-checked-another-list", one(allowlist=other_list), r, "destination_check_skipped",
-         "the exchanger consulted a list other than the reviewed one the relying party pins", ["audience"]),
-        ("destination-off-allowlist", one(destination="billing"), r, "destination_not_allowlisted",
-         "the exchange is for a destination the reviewed list does not name", ["audience"]),
-        ("exchanged-token-aimed-at-another-verifier", one(aimed="verifier:calendar"), r,
-         "destination_verifier_mismatch",
-         "the exchange for payroll aims its token at the calendar verifier", ["audience", "aud"]),
-        ("subject-replaced-at-exchange", one(subject="user:bob@example.com"), r, "subject_replaced",
-         "the exchanged token names another user", []),
-        ("actor-lost-at-exchange", one(actors=()), r, "actor_lost_at_exchange",
-         "the exchanged token names only the user: the destination's authorization reads no "
-         "intermediary and no chain", ["nesting"]),
-        ("agent-marker-dropped", one(actors=(EXCHANGER,)), r, "agent_marker_dropped",
-         "the exchanged token names the exchanger and drops the agents it received", ["nesting"]),
-        ("previous-hop-dropped", one(actors=(HOLDER, EXCHANGER)), r, "previous_hop_dropped",
-         "the exchanged token keeps the acting agent's marker and drops the agent before it", ["nesting"]),
-        ("exchanger-not-in-chain", one(actors=(PLANNER, HOLDER)), r, "exchanger_not_in_chain",
-         "the exchanged token forwards the chain and leaves out the exchanger that minted it", ["nesting"]),
-        ("chain-reordered-at-exchange", one(actors=(HOLDER, PLANNER, EXCHANGER)), r,
-         "chain_altered_at_exchange", "the exchanged token reverses the agents it received", ["nesting"]),
-        ("rights-beyond-destination", one(rights=["payroll:read", "calendar:read"]), r,
-         "rights_beyond_destination",
-         "the payroll token also carries a calendar right from the delegation", ["scope-narrow"]),
-        ("rights-not-narrowed", one(rights=sorted(ENTITLEMENTS["payroll"].split(" "))), r,
-         "rights_not_narrowed",
-         "the destination is narrowed and the token carries the user's full payroll rights, "
-         "where the delegation named fewer", ["scope-narrow"]),
-        ("rights-widened-while-destination-narrowed", one(rights=["payroll:read", "payroll:approve"]), r,
-         "rights_widened", "the exchange narrows the destination and adds a right the delegation never named",
-         ["scope-narrow"]),
-        ("exchanged-token-used-after-expiry", one(presented_at=60 + 1 + 120), r,
-         "exchanged_token_expired_at_use", "the verifier accepts the exchanged token at its exp", ["exp"]),
+        (
+            "accept-single-destination",
+            one(),
+            a,
+            ok,
+            "control: the holder proves its key, the exchanger checks the reviewed list and sends "
+            "one narrowed token for payroll carrying the whole chain and itself",
+            ["audience", "nesting", "jkt", "scope-narrow"],
+        ),
+        (
+            "accept-two-destinations",
+            record(seal(build([exchange("payroll"), exchange("calendar")]))),
+            a,
+            ok,
+            "control: one delegated token, one exchange and one token per destination",
+            ["audience"],
+        ),
+        (
+            "accept-one-actor-chain",
+            one(chain=(HOLDER,)),
+            a,
+            ok,
+            "control: the delegated token names one agent; "
+            "the exchanged token carries it and the exchanger",
+            ["nesting"],
+        ),
+        (
+            "accept-rights-equal-to-delegation",
+            one(rights=["payroll:read", "payroll:write"]),
+            a,
+            ok,
+            "control: the exchanged token carries every right the delegation names "
+            "for payroll and no more",
+            ["scope-narrow"],
+        ),
+        (
+            "accept-revoked-after-exchange",
+            one(revoke_at=200),
+            a,
+            ok,
+            "control: the delegated token is revoked after the exchange; the exchange stands",
+            [],
+        ),
+        (
+            "accept-exchange-a-second-before-expiry",
+            one(at=LIFETIME - 1),
+            a,
+            ok,
+            "control: the exchange happens one second before the delegated token's exp",
+            ["exp"],
+        ),
+        (
+            "accept-revocation-of-another-token",
+            one(revoke_at=30, revoke_jti="dt-other"),
+            a,
+            ok,
+            "control: a revocation of another token's jti before the exchange changes nothing",
+            [],
+        ),
+        (
+            "contract-id-missing",
+            record(seal(build([exchange("payroll")])), contract=None),
+            r,
+            "contract_id_missing",
+            "the record names no contract",
+            [],
+        ),
+        (
+            "contract-id-unknown",
+            record(
+                seal(build([exchange("payroll")])),
+                contract=reader.CONTRACT_ID.replace("/predicate/v1/", "/predicate-unknown/v1/"),
+            ),
+            r,
+            "contract_id_unknown",
+            "the record names another contract",
+            [],
+        ),
+        (
+            "token-carried-in-cookie",
+            _carried("cookie"),
+            r,
+            "record_malformed",
+            "the exchange states the token arrived in a place this contract does not name",
+            [],
+        ),
+        (
+            "writer-not-in-trust-bundle",
+            one(writer="exchange:unlisted"),
+            r,
+            "statement_writer_unknown",
+            "the exchange is written by a component the trust bundle does not list",
+            [],
+        ),
+        (
+            "signature-forged",
+            _forge(),
+            r,
+            "statement_signature_invalid",
+            "the exchanged token's scope is widened after the exchange statement was signed",
+            [],
+        ),
+        (
+            "signature-swapped-key",
+            record(seal(build([exchange("payroll")]), signers={1: "agent:intruder"})),
+            r,
+            "statement_signature_invalid",
+            "the exchange statement is signed with another writer's key",
+            [],
+        ),
+        (
+            "statement-dropped-from-chain",
+            _drop(2),
+            r,
+            "hop_link_broken",
+            "the payroll presentation is removed from a two-destination chain",
+            [],
+        ),
+        (
+            "exchange-unrecorded",
+            one(recorded=False),
+            r,
+            "exchange_unrecorded",
+            "a verifier states a token naming the exchanger, and no statement records the exchange",
+            ["nesting"],
+        ),
+        (
+            "delegated-token-edited-by-holder",
+            one(received_token=_widen_received),
+            r,
+            "received_not_sent",
+            "the holder adds a right to its delegated token before it presents it",
+            [],
+        ),
+        (
+            "forwarded-token-at-another-destination",
+            one(presented_to="verifier:calendar"),
+            r,
+            "token_presented_off_destination",
+            "the token minted for the payroll verifier is forwarded to the calendar verifier",
+            ["aud"],
+        ),
+        (
+            "delegated-token-in-query",
+            _carried("query"),
+            r,
+            "token_in_request_parameter",
+            "the holder sends its delegated token as a query parameter",
+            ["uri"],
+        ),
+        (
+            "exchanged-token-in-form-body",
+            one(presented_in="form-body"),
+            r,
+            "token_in_request_parameter",
+            "the exchanged token reaches the verifier as a form parameter",
+            ["uri"],
+        ),
+        (
+            "delegated-token-unmarked",
+            one(chain=(), actors=(EXCHANGER,)),
+            r,
+            "delegated_token_unmarked",
+            "the issuer mints the delegated token for the user alone, with no agent marker",
+            ["nesting"],
+        ),
+        (
+            "exchanged-by-hop-outside-intermediaries",
+            one(writer="exchange:other"),
+            r,
+            "exchanger_not_intermediary",
+            "an exchanger the delegated token does not name as an intermediary exchanges it",
+            ["aud"],
+        ),
+        (
+            "delegated-token-revoked-before-exchange",
+            one(revoke_at=30),
+            r,
+            "delegated_token_revoked",
+            "the issuer revokes the delegated token before the exchange",
+            [],
+        ),
+        (
+            "revoked-at-the-second-of-exchange",
+            one(revoke_at=60),
+            r,
+            "delegated_token_revoked",
+            "the revocation and the exchange fall in the same second; the revocation wins",
+            [],
+        ),
+        (
+            "exchanged-after-expiry",
+            one(at=LIFETIME + 30),
+            r,
+            "delegated_token_expired",
+            "the exchange happens after the delegated token's exp",
+            ["exp"],
+        ),
+        (
+            "exchanged-at-expiry",
+            one(at=LIFETIME),
+            r,
+            "delegated_token_expired",
+            "the exchange happens at the delegated token's exp, which is already expired",
+            ["exp"],
+        ),
+        (
+            "delegated-lifetime-over-limit",
+            one(lifetime=LIFETIME + 1),
+            r,
+            "delegated_lifetime_over_limit",
+            "the delegated token lives 301 s, over the relying party's 300 s limit",
+            [],
+        ),
+        (
+            "delegated-token-bearer",
+            one(bound=False, proof=False),
+            r,
+            "delegated_token_unbound",
+            "the delegated token names no key, so anyone holding it can exchange it",
+            ["jkt"],
+        ),
+        (
+            "holder-proof-missing",
+            one(proof=False),
+            r,
+            "holder_proof_missing",
+            "the delegated token is bound to a key and is presented with no proof of it",
+            ["jkt"],
+        ),
+        (
+            "holder-proof-other-key",
+            one(proof_edit=_other_key),
+            r,
+            "holder_proof_invalid",
+            "the proof is made with a key whose thumbprint is not the token's jkt",
+            ["jkt"],
+        ),
+        (
+            "holder-proof-signature-invalid",
+            one(proof_edit=_signed_by_other),
+            r,
+            "holder_proof_invalid",
+            "the proof names the holder's key and is signed with another",
+            ["jkt"],
+        ),
+        (
+            "holder-proof-for-another-token",
+            one(proof_edit=_other_token),
+            r,
+            "holder_proof_invalid",
+            "the proof's token hash is for another token",
+            ["jkt"],
+        ),
+        (
+            "holder-proof-for-another-exchanger",
+            one(proof_edit=_other_exchanger),
+            r,
+            "holder_proof_invalid",
+            "the proof was made for another exchanger and replayed here",
+            ["jkt"],
+        ),
+        (
+            "exchange-path-skips-destination-list",
+            one(checked=False),
+            r,
+            "destination_check_skipped",
+            "an automatic exchange path mints the token without consulting the reviewed list",
+            ["audience"],
+        ),
+        (
+            "exchange-checked-another-list",
+            one(allowlist=other_list),
+            r,
+            "destination_check_skipped",
+            "the exchanger consulted a list other than the reviewed one the relying party pins",
+            ["audience"],
+        ),
+        (
+            "destination-off-allowlist",
+            one(destination="billing"),
+            r,
+            "destination_not_allowlisted",
+            "the exchange is for a destination the reviewed list does not name",
+            ["audience"],
+        ),
+        (
+            "exchanged-token-aimed-at-another-verifier",
+            one(aimed="verifier:calendar"),
+            r,
+            "destination_verifier_mismatch",
+            "the exchange for payroll aims its token at the calendar verifier",
+            ["audience", "aud"],
+        ),
+        (
+            "subject-replaced-at-exchange",
+            one(subject="user:bob@example.com"),
+            r,
+            "subject_replaced",
+            "the exchanged token names another user",
+            [],
+        ),
+        (
+            "actor-lost-at-exchange",
+            one(actors=()),
+            r,
+            "actor_lost_at_exchange",
+            "the exchanged token names only the user: the destination's authorization reads no "
+            "intermediary and no chain",
+            ["nesting"],
+        ),
+        (
+            "agent-marker-dropped",
+            one(actors=(EXCHANGER,)),
+            r,
+            "agent_marker_dropped",
+            "the exchanged token names the exchanger and drops the agents it received",
+            ["nesting"],
+        ),
+        (
+            "previous-hop-dropped",
+            one(actors=(HOLDER, EXCHANGER)),
+            r,
+            "previous_hop_dropped",
+            "the exchanged token keeps the acting agent's marker and drops the agent before it",
+            ["nesting"],
+        ),
+        (
+            "exchanger-not-in-chain",
+            one(actors=(PLANNER, HOLDER)),
+            r,
+            "exchanger_not_in_chain",
+            "the exchanged token forwards the chain and leaves out the exchanger that minted it",
+            ["nesting"],
+        ),
+        (
+            "chain-reordered-at-exchange",
+            one(actors=(HOLDER, PLANNER, EXCHANGER)),
+            r,
+            "chain_altered_at_exchange",
+            "the exchanged token reverses the agents it received",
+            ["nesting"],
+        ),
+        (
+            "rights-beyond-destination",
+            one(rights=["payroll:read", "calendar:read"]),
+            r,
+            "rights_beyond_destination",
+            "the payroll token also carries a calendar right from the delegation",
+            ["scope-narrow"],
+        ),
+        (
+            "rights-not-narrowed",
+            one(rights=sorted(ENTITLEMENTS["payroll"].split(" "))),
+            r,
+            "rights_not_narrowed",
+            "the destination is narrowed and the token carries the user's full payroll rights, "
+            "where the delegation named fewer",
+            ["scope-narrow"],
+        ),
+        (
+            "rights-widened-while-destination-narrowed",
+            one(rights=["payroll:read", "payroll:approve"]),
+            r,
+            "rights_widened",
+            "the exchange narrows the destination and adds a right the delegation never named",
+            ["scope-narrow"],
+        ),
+        (
+            "exchanged-token-used-after-expiry",
+            one(presented_at=60 + 1 + 120),
+            r,
+            "exchanged_token_expired_at_use",
+            "the verifier accepts the exchanged token at its exp",
+            ["exp"],
+        ),
     ]
 
 
@@ -542,7 +823,9 @@ def generate(root: Path = ROOT) -> dict[str, Any]:
         "suite": SUITE,
         "synthetic": True,
         "trustSha256": _sha(trust_bytes),
-        "verifierContract": "verifier record.json --trust TRUST.json --json; exit 0 accept, 1 reject",
+        "verifierContract": (
+            "verifier record.json --trust TRUST.json --json; exit 0 accept, 1 reject"
+        ),
         "vectors": entries,
     }
     (root / "MANIFEST.json").write_bytes(_json(manifest))
