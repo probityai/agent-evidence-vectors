@@ -419,7 +419,7 @@ reproduce is refused.
 - Document: `corpora/vectors-revocation-list/README.md`
 - Corpus: `corpora/vectors-revocation-list/`, suite `revocation-list/v1`
 - Rails: `aee/revocationlist.go` (`NewRevocationStateV1`, `VerifyRevocationChainV1`), `corpusreaders/revocationlist.go`
-- Emitter: the `probity-records` package, [`revocation.py`](https://github.com/probityai/probity/blob/main/packages/probity-records/src/probity_records/revocation.py), which emitted it before the delta list below.
+- Emitter: the `probity-records` package, [`revocation.py`](https://github.com/probityai/probity/blob/main/packages/probity-records/src/probity_records/revocation.py), up to 0.9.0. From 0.10.0 it emits the delta form, `predicate/v2/revocation-list`, and refuses a list of this type.
 - Status: read. The published corpus and every list already minted under it stay verifiable, and the URI will not move, because a record carries it inside the bytes its producer signed. New lists are minted as `predicate/v2/revocation-list`.
 
 The predicate carries one signed, cumulative revocation list: a body of seven members, chained to
@@ -636,10 +636,11 @@ when the record, its signature and the JWKS are judged offline.
 
 ### `predicate/v2/revocation-list`
 
-- Predicate body: one signed revocation list of the same shape and envelope as `predicate/v1/revocation-list`, except that each list is a delta: its entries are only the subjects it newly revokes, the revocations in force are the union of the chain, and a list naming a subject an earlier list of its chain revoked is refused (`revocation_entry_repeated`). Eight subject kinds, `idp-key` among them.
-- Document: the `probity-records` package, [`revocation.py`](https://github.com/probityai/probity/blob/main/packages/probity-records/src/probity_records/revocation.py), which emits and verifies it.
+- Predicate body: one signed revocation list of the same shape and envelope as `predicate/v1/revocation-list`, except that each list is a delta: its entries are only the subjects it newly revokes, the revocations in force are the union of the chain, and a list naming a subject an earlier list of its chain revoked is refused (`revocation_entry_repeated`). Eight subject kinds, `idp-key` among them. A list of the cumulative `predicate/v1/revocation-list` type is refused, and an empty list is a freshness list.
+- Document: the `probity-records` package from 0.10.0, [`revocation.py`](https://github.com/probityai/probity/blob/main/packages/probity-records/src/probity_records/revocation.py), which emits and verifies it.
 - Reference reader: `aee/revocationlist.go` (`NewRevocationState`, `VerifyRevocationChain`), held to `aee/testdata/revocation-list-v2.json` (52 vectors).
-- Status: current. The URI will not move, because a record carries it inside the bytes its producer signed.
+- Corpus: [`vectors/shared/revocation.json`](https://github.com/probityai/probity/blob/main/packages/probity-records/vectors/shared/revocation.json) of that package, cases RL01 to RL52.
+- Status: current. `v1` and `v2` are both live: a list already signed under `v1` keeps its type, and the URI will not move, because a record carries it inside the bytes its producer signed.
 
 The entries in this section are registrations, not specifications. Their field
 definitions are normative where they are published, which is not here, and no
