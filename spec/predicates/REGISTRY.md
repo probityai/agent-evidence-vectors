@@ -636,7 +636,7 @@ when the record, its signature and the JWKS are judged offline.
 
 ### `predicate/v2/revocation-list`
 
-- Predicate body: one signed revocation list of the same shape and envelope as `predicate/v1/revocation-list`, except that each list is a delta: its entries are only the subjects it newly revokes, the revocations in force are the union of the chain, and a list naming a subject an earlier list of its chain revoked is refused (`revocation_entry_repeated`). Eight subject kinds, `idp-key` among them. A list of the cumulative `predicate/v1/revocation-list` type is refused, and an empty list is a freshness list.
+- Predicate body: one signed revocation list of the same shape and envelope as `predicate/v1/revocation-list`, except that each list is a delta: its entries are only the subjects it newly revokes, the revocations in force are the union of the chain, and a list naming a subject an earlier list of its chain revoked is refused (`revocation_entry_repeated`). An entry is published once and never changes. Eight subject kinds, `idp-key` among them. A list of the cumulative `predicate/v1/revocation-list` type is refused, and an empty list is a freshness list.
 - Document: the `probity-records` package from 0.10.0, [`revocation.py`](https://github.com/probityai/probity/blob/main/packages/probity-records/src/probity_records/revocation.py), which emits and verifies it.
 - Reference reader: `aee/revocationlist.go` (`NewRevocationState`, `VerifyRevocationChain`), held to `aee/testdata/revocation-list-v2.json` (52 vectors).
 - Corpus: [`vectors/shared/revocation.json`](https://github.com/probityai/probity/blob/main/packages/probity-records/vectors/shared/revocation.json) of that package, cases RL01 to RL52.
