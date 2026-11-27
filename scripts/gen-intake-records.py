@@ -553,23 +553,27 @@ REGISTRATION_LINE = re.compile(r"^CLASSIFICATION_PASS (\d+) generated cases; ")
 SCITT_LINE = re.compile(r"^OK (\d+) accept, (\d+) reject, (\d+) indeterminate, ")
 
 
+def _answered_aggregate(directory: str, output: str) -> dict[str, Any]:
+    line = output.rstrip("\n")
+    match = DELEGATION_LINE.match(line)
+    if match is None:
+        raise SystemExit(f"FAIL: {directory} printed no summary line: {output!r}")
+    declared = json.loads(read(f"{where(directory)}/MANIFEST.json"))["counts"]
+    accept_key, reject_key = ANSWERED_LINE_CHECKERS[directory]
+    if accept_key not in declared or reject_key not in declared:
+        raise SystemExit(f"FAIL: {directory} manifest counts lack {accept_key!r} or "
+                         f"{reject_key!r}: {declared!r}")
+    counts = {"accept": declared[accept_key], "reject": declared[reject_key]}
+    if int(match[1]) != sum(counts.values()):
+        raise SystemExit(f"FAIL: {directory} summary counts {match[1]} cases, "
+                         f"its manifest declares {sum(counts.values())}")
+    return {"line": line, "total": int(match[1]), "counts": counts}
+
+
 def aggregate_of(directory: str, text: Run) -> dict[str, Any]:
     output = text.stdout.decode("utf-8")
     if directory in ANSWERED_LINE_CHECKERS:
-        line = output.rstrip("\n")
-        match = DELEGATION_LINE.match(line)
-        if match is None:
-            raise SystemExit(f"FAIL: {directory} printed no summary line: {output!r}")
-        declared = json.loads(read(f"{where(directory)}/MANIFEST.json"))["counts"]
-        accept_key, reject_key = ANSWERED_LINE_CHECKERS[directory]
-        if accept_key not in declared or reject_key not in declared:
-            raise SystemExit(f"FAIL: {directory} manifest counts lack {accept_key!r} or "
-                             f"{reject_key!r}: {declared!r}")
-        counts = {"accept": declared[accept_key], "reject": declared[reject_key]}
-        if int(match[1]) != sum(counts.values()):
-            raise SystemExit(f"FAIL: {directory} summary counts {match[1]} cases, "
-                             f"its manifest declares {sum(counts.values())}")
-        return {"line": line, "total": int(match[1]), "counts": counts}
+        return _answered_aggregate(directory, output)
     if directory == REGISTRATION:
         line = output.rstrip("\n")
         match = REGISTRATION_LINE.match(line)

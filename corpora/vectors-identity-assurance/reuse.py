@@ -135,8 +135,9 @@ def main(argv: list[str] | None = None) -> int:
     for error in errors:
         print(error)
     total = len(load())
-    print(f"reuse: {verified} of {total} pointers verified, {pending} pending, "
-          f"{len(errors)} errors")
+    print(
+        f"reuse: {verified} of {total} pointers verified, {pending} pending, {len(errors)} errors"
+    )
     return 1 if errors else 0
 
 

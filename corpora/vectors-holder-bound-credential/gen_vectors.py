@@ -150,8 +150,9 @@ def presentation(
 ) -> dict[str, Any]:
     return {
         "at": at,
-        "proof": flatten(proof(method=method, uri=uri, at=at) if proof_text is None
-                         else proof_text),
+        "proof": flatten(
+            proof(method=method, uri=uri, at=at) if proof_text is None else proof_text
+        ),
         "request": {"htm": method, "htu": uri},
     }
 
@@ -238,8 +239,13 @@ def _weak_key_record(public: bytes, sign: Callable[[bytes], bytes], what: str) -
     jwk_value = {"crv": "Ed25519", "kty": "OKP", "x": reader.b64url(public)}
     for attempt in range(512):
         head = {"alg": "EdDSA", "jwk": jwk_value, "typ": "dpop+jwt"}
-        body = {"ath": reader.ath(TOKEN), "htm": "POST", "htu": URI, "iat": AT,
-                "jti": f"weak-{attempt}"}
+        body = {
+            "ath": reader.ath(TOKEN),
+            "htm": "POST",
+            "htu": URI,
+            "iat": AT,
+            "jti": f"weak-{attempt}",
+        }
         signing = f"{reader.b64url(_compact(head))}.{reader.b64url(_compact(body))}"
         signature = sign(signing.encode("ascii"))
         if rail.ed25519_verify(public, signing.encode("ascii"), signature):
@@ -269,17 +275,29 @@ def _weak_key_cases() -> list[tuple[str, dict[str, Any], str, str, tuple[str, ..
         return commitment + ((nonce + k * scalar) % rail._L).to_bytes(32, "little")
 
     return [
-        ("proof-key-identity-point",
-         _weak_key_record(identity, lambda m: forge_zero, "identity"), "proof_key_invalid",
-         "the confirmed key is the identity point, so (identity, 0) signs every message", ()),
-        ("proof-key-order-two",
-         _weak_key_record(order_two, lambda m: forge_zero, "order two"), "proof_key_invalid",
-         "the confirmed key has order two, so a forged signature verifies for half of all "
-         "messages", ()),
-        ("proof-key-torsion-component",
-         _weak_key_record(mixed, sign_mixed, "mixed order"), "proof_key_invalid",
-         "the confirmed key is an honest key plus an order-two point: cofactored and "
-         "cofactorless verifiers answer differently", ()),
+        (
+            "proof-key-identity-point",
+            _weak_key_record(identity, lambda m: forge_zero, "identity"),
+            "proof_key_invalid",
+            "the confirmed key is the identity point, so (identity, 0) signs every message",
+            (),
+        ),
+        (
+            "proof-key-order-two",
+            _weak_key_record(order_two, lambda m: forge_zero, "order two"),
+            "proof_key_invalid",
+            "the confirmed key has order two, so a forged signature verifies for half of all "
+            "messages",
+            (),
+        ),
+        (
+            "proof-key-torsion-component",
+            _weak_key_record(mixed, sign_mixed, "mixed order"),
+            "proof_key_invalid",
+            "the confirmed key is an honest key plus an order-two point: cofactored and "
+            "cofactorless verifiers answer differently",
+            (),
+        ),
     ]
 
 
@@ -289,20 +307,46 @@ def cases() -> list[Case]:
     accepted = reader.ACCEPT
     held = reader.ACCEPT_REASON
     out: list[Case] = [
-        ("accept-single-presentation", record(), accepted, held,
-         "control: one request with a fresh proof signed by the confirmed key", ()),
-        ("accept-two-presentations", record([
-            presentation(), presentation(proof(jti="proof-2", at=AT + 30), at=AT + 30)]),
-         accepted, held, "control: two requests, each with its own proof", ()),
-        ("accept-proof-at-the-age-limit", record([
-            presentation(proof(at=AT - reader.MAX_AGE))]),
-         accepted, held, "control: a proof exactly 60 seconds old is still fresh", ()),
-        ("accept-proof-at-the-ahead-limit", record([
-            presentation(proof(at=AT + reader.MAX_AHEAD))]),
-         accepted, held, "control: a proof 5 seconds ahead of the clock is within skew", ()),
-        ("accept-request-at-credential-start", record([
-            presentation(proof(at=IAT), at=IAT)]),
-         accepted, held, "control: a request exactly at the credential's start is inside", ()),
+        (
+            "accept-single-presentation",
+            record(),
+            accepted,
+            held,
+            "control: one request with a fresh proof signed by the confirmed key",
+            (),
+        ),
+        (
+            "accept-two-presentations",
+            record([presentation(), presentation(proof(jti="proof-2", at=AT + 30), at=AT + 30)]),
+            accepted,
+            held,
+            "control: two requests, each with its own proof",
+            (),
+        ),
+        (
+            "accept-proof-at-the-age-limit",
+            record([presentation(proof(at=AT - reader.MAX_AGE))]),
+            accepted,
+            held,
+            "control: a proof exactly 60 seconds old is still fresh",
+            (),
+        ),
+        (
+            "accept-proof-at-the-ahead-limit",
+            record([presentation(proof(at=AT + reader.MAX_AHEAD))]),
+            accepted,
+            held,
+            "control: a proof 5 seconds ahead of the clock is within skew",
+            (),
+        ),
+        (
+            "accept-request-at-credential-start",
+            record([presentation(proof(at=IAT), at=IAT)]),
+            accepted,
+            held,
+            "control: a request exactly at the credential's start is inside",
+            (),
+        ),
     ]
     refusals: list[tuple[str, dict[str, Any], str, str, tuple[str, ...]]] = []
     base = record()
@@ -312,63 +356,187 @@ def cases() -> list[Case]:
     wrong_id["contractId"] += "-other"
     refusals += [
         ("contract-id-missing", no_id, "contract_id_missing", "no contract identifier", ()),
-        ("contract-id-unknown", wrong_id, "contract_id_unknown", "another contract identifier",
-         ()),
-        ("no-presentations", record([]), "record_malformed",
-         "a credential with no presentation at all", ()),
-        ("credential-is-bearer", record(cnf=False), "credential_not_holder_bound",
-         "the credential confirms no key, so anyone who copies it can use it", ("dpop-jkt",)),
-        ("used-before-valid", record([presentation(proof(at=IAT - 1), at=IAT - 1)]),
-         "credential_not_yet_valid", "a request one second before the credential starts", ()),
-        ("used-at-expiry", record([presentation(proof(at=EXP), at=EXP)]),
-         "credential_expired", "a request exactly at exp; the window is half-open", ()),
-        ("used-after-expiry", record([presentation(proof(at=EXP + 600), at=EXP + 600)]),
-         "credential_expired", "a request ten minutes after exp", ()),
-        ("proof-not-a-jws", _with_proof("not-a-jws"), "proof_malformed",
-         "a proof that is not a compact JWS", ()),
-        ("proof-carries-crit", _with_proof(proof(header={"crit": ["exp"], "exp": 1})),
-         "proof_malformed", "a proof header with a crit member the profile does not read", ()),
-        ("proof-type-jwt", _with_proof(proof(header={"typ": "JWT"})), "proof_type_wrong",
-         "typ is JWT, so the proof can be confused with another token", ("dpop-type",)),
-        ("proof-alg-none", _with_proof(_unsigned("none")), "proof_alg_forbidden",
-         "an unsecured proof: alg none and an empty signature", ("dpop-alg",)),
-        ("proof-alg-hs256", _with_proof(proof(header={"alg": "HS256"})), "proof_alg_forbidden",
-         "a MAC algorithm that anyone holding the shared secret could forge", ("dpop-alg",)),
-        ("proof-alg-rs256", _with_proof(proof(header={"alg": "RS256"})),
-         "proof_alg_unsupported", "an asymmetric algorithm this profile does not read", ()),
-        ("proof-jwk-has-private-member", _with_proof(_private_jwk()), "proof_key_invalid",
-         "the header key carries the private member d", ("dpop-jwk",)),
-        ("proof-jwk-missing", _with_proof(proof(header={"jwk": None})), "proof_key_invalid",
-         "the header carries no key", ()),
-        ("proof-signature-flipped", _with_proof(_flipped_signature()), "proof_signature_invalid",
-         "one bit of the signature changed", ()),
-        ("proof-edited-after-signing", _with_proof(_edited_after_signing()),
-         "proof_signature_invalid", "the request target was changed after the proof was signed",
-         ()),
-        ("proof-jti-missing", _with_proof(_resign(proof(), _drop("jti"), "holder")),
-         "proof_claims_malformed", "a re-signed proof with no jti", ()),
-        ("proof-method-mismatch", record([presentation(proof(method="GET"))]),
-         "proof_method_mismatch", "the proof is for GET and the request is POST", ()),
-        ("proof-for-another-uri", record([presentation(proof(uri=OTHER_URI))]),
-         "proof_uri_mismatch", "a proof for another endpoint replayed against this one",
-         ("dpop-htu",)),
-        ("proof-stale", record([presentation(proof(at=AT - reader.MAX_AGE - 1))]),
-         "proof_stale", "a proof 61 seconds old", ()),
-        ("proof-from-future", record([presentation(proof(at=AT + reader.MAX_AHEAD + 1))]),
-         "proof_from_future", "a proof 6 seconds ahead of the clock", ()),
-        ("proof-ath-missing", _with_proof(proof(claims={"ath": None})), "proof_ath_missing",
-         "a proof with no access token hash", ("dpop-ath",)),
-        ("proof-ath-for-another-token", _with_proof(proof(token=OTHER_TOKEN)),
-         "proof_ath_mismatch", "a proof made for a different access token", ("dpop-ath",)),
-        ("proof-signed-by-other-key", _with_proof(proof("intruder")), "proof_key_not_bound",
-         "a valid proof, signed by a key the credential does not confirm", ("dpop-jkt",)),
-        ("proof-replayed", record([
-            presentation(), presentation(proof(at=AT + 10), at=AT + 10)]),
-         "proof_replayed", "two requests carry proofs with the same jti", ()),
-        ("second-proof-bad", record([
-            presentation(), presentation(proof(jti="proof-2", at=AT + 30, uri=OTHER_URI),
-                                         at=AT + 30)]),
-         "proof_uri_mismatch", "the first request holds and the second does not", ()),
+        ("contract-id-unknown", wrong_id, "contract_id_unknown", "another contract identifier", ()),
+        (
+            "no-presentations",
+            record([]),
+            "record_malformed",
+            "a credential with no presentation at all",
+            (),
+        ),
+        (
+            "credential-is-bearer",
+            record(cnf=False),
+            "credential_not_holder_bound",
+            "the credential confirms no key, so anyone who copies it can use it",
+            ("dpop-jkt",),
+        ),
+        (
+            "used-before-valid",
+            record([presentation(proof(at=IAT - 1), at=IAT - 1)]),
+            "credential_not_yet_valid",
+            "a request one second before the credential starts",
+            (),
+        ),
+        (
+            "used-at-expiry",
+            record([presentation(proof(at=EXP), at=EXP)]),
+            "credential_expired",
+            "a request exactly at exp; the window is half-open",
+            (),
+        ),
+        (
+            "used-after-expiry",
+            record([presentation(proof(at=EXP + 600), at=EXP + 600)]),
+            "credential_expired",
+            "a request ten minutes after exp",
+            (),
+        ),
+        (
+            "proof-not-a-jws",
+            _with_proof("not-a-jws"),
+            "proof_malformed",
+            "a proof that is not a compact JWS",
+            (),
+        ),
+        (
+            "proof-carries-crit",
+            _with_proof(proof(header={"crit": ["exp"], "exp": 1})),
+            "proof_malformed",
+            "a proof header with a crit member the profile does not read",
+            (),
+        ),
+        (
+            "proof-type-jwt",
+            _with_proof(proof(header={"typ": "JWT"})),
+            "proof_type_wrong",
+            "typ is JWT, so the proof can be confused with another token",
+            ("dpop-type",),
+        ),
+        (
+            "proof-alg-none",
+            _with_proof(_unsigned("none")),
+            "proof_alg_forbidden",
+            "an unsecured proof: alg none and an empty signature",
+            ("dpop-alg",),
+        ),
+        (
+            "proof-alg-hs256",
+            _with_proof(proof(header={"alg": "HS256"})),
+            "proof_alg_forbidden",
+            "a MAC algorithm that anyone holding the shared secret could forge",
+            ("dpop-alg",),
+        ),
+        (
+            "proof-alg-rs256",
+            _with_proof(proof(header={"alg": "RS256"})),
+            "proof_alg_unsupported",
+            "an asymmetric algorithm this profile does not read",
+            (),
+        ),
+        (
+            "proof-jwk-has-private-member",
+            _with_proof(_private_jwk()),
+            "proof_key_invalid",
+            "the header key carries the private member d",
+            ("dpop-jwk",),
+        ),
+        (
+            "proof-jwk-missing",
+            _with_proof(proof(header={"jwk": None})),
+            "proof_key_invalid",
+            "the header carries no key",
+            (),
+        ),
+        (
+            "proof-signature-flipped",
+            _with_proof(_flipped_signature()),
+            "proof_signature_invalid",
+            "one bit of the signature changed",
+            (),
+        ),
+        (
+            "proof-edited-after-signing",
+            _with_proof(_edited_after_signing()),
+            "proof_signature_invalid",
+            "the request target was changed after the proof was signed",
+            (),
+        ),
+        (
+            "proof-jti-missing",
+            _with_proof(_resign(proof(), _drop("jti"), "holder")),
+            "proof_claims_malformed",
+            "a re-signed proof with no jti",
+            (),
+        ),
+        (
+            "proof-method-mismatch",
+            record([presentation(proof(method="GET"))]),
+            "proof_method_mismatch",
+            "the proof is for GET and the request is POST",
+            (),
+        ),
+        (
+            "proof-for-another-uri",
+            record([presentation(proof(uri=OTHER_URI))]),
+            "proof_uri_mismatch",
+            "a proof for another endpoint replayed against this one",
+            ("dpop-htu",),
+        ),
+        (
+            "proof-stale",
+            record([presentation(proof(at=AT - reader.MAX_AGE - 1))]),
+            "proof_stale",
+            "a proof 61 seconds old",
+            (),
+        ),
+        (
+            "proof-from-future",
+            record([presentation(proof(at=AT + reader.MAX_AHEAD + 1))]),
+            "proof_from_future",
+            "a proof 6 seconds ahead of the clock",
+            (),
+        ),
+        (
+            "proof-ath-missing",
+            _with_proof(proof(claims={"ath": None})),
+            "proof_ath_missing",
+            "a proof with no access token hash",
+            ("dpop-ath",),
+        ),
+        (
+            "proof-ath-for-another-token",
+            _with_proof(proof(token=OTHER_TOKEN)),
+            "proof_ath_mismatch",
+            "a proof made for a different access token",
+            ("dpop-ath",),
+        ),
+        (
+            "proof-signed-by-other-key",
+            _with_proof(proof("intruder")),
+            "proof_key_not_bound",
+            "a valid proof, signed by a key the credential does not confirm",
+            ("dpop-jkt",),
+        ),
+        (
+            "proof-replayed",
+            record([presentation(), presentation(proof(at=AT + 10), at=AT + 10)]),
+            "proof_replayed",
+            "two requests carry proofs with the same jti",
+            (),
+        ),
+        (
+            "second-proof-bad",
+            record(
+                [
+                    presentation(),
+                    presentation(proof(jti="proof-2", at=AT + 30, uri=OTHER_URI), at=AT + 30),
+                ]
+            ),
+            "proof_uri_mismatch",
+            "the first request holds and the second does not",
+            (),
+        ),
     ]
     refusals += _weak_key_cases()
     for name, body, reason, edit, anchors in refusals:

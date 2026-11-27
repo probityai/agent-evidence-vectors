@@ -161,27 +161,42 @@ def _shape(record: Record) -> list[dict[str, Any]]:
     return findings
 
 
-def _cause(test: str, reasons: dict[str, frozenset[str]], mine: list[dict[str, Any]],
-           any_named: bool) -> str | None:
-    """None when the test passes, else why it fails."""
-    if not any_named:
-        return "no_finding"
-    if not mine:
-        return "subject_mismatch"
+def _first_bad_finding(
+    reasons: dict[str, frozenset[str]], mine: list[dict[str, Any]]
+) -> str | None:
+    """The first finding that refuses, or whose reason does not prove this test."""
     for item in mine:
         if item["decision"] == REJECT:
             return f"finding_refused:{item['reason']}"
     for item in mine:
         if item["reason"] not in reasons[item["suite"]]:
             return f"reason_not_proving:{item['reason']}"
-    if test == "T6":
-        for item in mine:
-            rung = item.get("rung")
-            if rung is None:
-                return "rung_missing"
-            if RUNGS.index(rung) < RUNGS.index(FLOOR_RUNG):
-                return f"rung_below_floor:{rung}"
     return None
+
+
+def _rung_cause(mine: list[dict[str, Any]]) -> str | None:
+    """Why the evidence of the top test sits below the rung floor, or None."""
+    for item in mine:
+        rung = item.get("rung")
+        if rung is None:
+            return "rung_missing"
+        if RUNGS.index(rung) < RUNGS.index(FLOOR_RUNG):
+            return f"rung_below_floor:{rung}"
+    return None
+
+
+def _cause(
+    test: str, reasons: dict[str, frozenset[str]], mine: list[dict[str, Any]], any_named: bool
+) -> str | None:
+    """None when the test passes, else why it fails."""
+    if not any_named:
+        return "no_finding"
+    if not mine:
+        return "subject_mismatch"
+    bad = _first_bad_finding(reasons, mine)
+    if bad is not None:
+        return bad
+    return _rung_cause(mine) if test == "T6" else None
 
 
 def grade(record: Record, skip: frozenset[str] = frozenset()) -> tuple[int, str, str | None]:

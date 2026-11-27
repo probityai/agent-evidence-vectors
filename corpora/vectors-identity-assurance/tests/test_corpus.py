@@ -26,9 +26,8 @@ def _load(name: str, path: Path):  # type: ignore[no-untyped-def]
 
 
 generator = _load("identity_assurance_generator", ROOT / "gen_vectors.py")
-from agent_evidence_vectors import assurancelevels as reader  # noqa: E402
-
 import reuse  # noqa: E402
+from agent_evidence_vectors import assurancelevels as reader  # noqa: E402
 
 TESTS = [t[0] for t in reader.TESTS]
 LADDER = generator.LADDER

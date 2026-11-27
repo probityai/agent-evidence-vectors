@@ -18,9 +18,15 @@ def corpus_json() -> int:
     members = []
     for entry in sorted(manifest["vectors"], key=lambda e: e["id"]):
         answer = verify(root / entry["path"] / "record.json")
-        members.append({"id": entry["id"], "kind": "accept" if answer["decision"] == "accept" else "reject"})
-    print(json.dumps({"suite": manifest["suite"], "dir": root.name, "members": members},
-                     sort_keys=True, separators=(",", ":")))
+        kind = "accept" if answer["decision"] == "accept" else "reject"
+        members.append({"id": entry["id"], "kind": kind})
+    print(
+        json.dumps(
+            {"suite": manifest["suite"], "dir": root.name, "members": members},
+            sort_keys=True,
+            separators=(",", ":"),
+        )
+    )
     return 0
 
 

@@ -133,7 +133,6 @@ from typing import Any, NamedTuple, TypeGuard
 from agent_evidence_vectors import (
     a2ajcs,
     actormarker,
-    destexchange,
     admission,
     agenticprocess,
     agentidentity,
@@ -162,6 +161,7 @@ from agent_evidence_vectors import (
     delegationchain,
     delegationlifecycle,
     delegatorright,
+    destexchange,
     dispatchfence,
     donerun,
     emptyinterval,
