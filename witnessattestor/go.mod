@@ -11,7 +11,7 @@ go 1.26.4
 require (
 	github.com/in-toto/go-witness v0.12.0
 	github.com/invopop/jsonschema v0.14.0
-	github.com/probityai/agent-evidence-vectors v0.37.1
+	github.com/probityai/agent-evidence-vectors v0.38.0
 )
 
 require (
