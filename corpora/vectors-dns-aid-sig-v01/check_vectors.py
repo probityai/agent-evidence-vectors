@@ -162,7 +162,9 @@ def norm(name: Any) -> str | None:
 def within(name: Any, zone: Any) -> bool:
     n, z = norm(name), norm(zone)
     # An empty name is the root, which is no publishing zone and contains no fqdn.
-    return bool(n) and bool(z) and (n == z or n.endswith("." + z))
+    if not n or not z:
+        return False
+    return n == z or n.endswith("." + z)
 
 
 def svcb1(params: dict[str, Any]) -> str:
