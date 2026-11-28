@@ -42,9 +42,10 @@ from pathlib import Path
 from typing import Any
 
 from . import strictjson
+from .identifiers import identifier, same_identifier
 
 SUITE = "aggregate-accounting/v1"
-CONTRACT_ID = ("https://probityai.github.io/agent-evidence-observer/contract/"
+CONTRACT_ID = identifier("agent-evidence-observer/contract/"
                "aggregate-accounting/v1")
 ALLOW, DENY = "allow", "deny"
 EXIT_FOR = {ALLOW: 0, DENY: 1}
@@ -145,7 +146,8 @@ def _first_failure(record: dict[str, Any], skip: frozenset[str]) -> str | None:
     """
     failures: dict[str, Callable[[], bool]] = {
         "contract_id_missing": lambda: "contractId" not in record,
-        "contract_id_unknown": lambda: record.get("contractId", CONTRACT_ID) != CONTRACT_ID,
+        "contract_id_unknown": lambda: not same_identifier(
+            record.get("contractId", CONTRACT_ID), CONTRACT_ID),
         "accounting_identity_missing": lambda: _identity_missing(record),
         "latency_bound_admitted": lambda: _latency_admitted(record),
         "unknown_outcome_not_charged": lambda: _unknown_released(record),

@@ -128,6 +128,7 @@ fn every_byte_corpus_family_is_read() {
         "driftCases",
         "depthCases",
         "refusalCases",
+        "invalidInputCases",
         "noncharacterCases",
     ];
     // Field-digest preimages are not canonicalizer cases.

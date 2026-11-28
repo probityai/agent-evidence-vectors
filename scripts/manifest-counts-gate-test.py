@@ -113,6 +113,61 @@ def main() -> int:
             findings_for({"cases": ENTRIES, "counts": {"accept": 3}}),
             None,
         ),
+        (
+            "per-verdict counts that each sum to the entries are accepted",
+            findings_for(
+                {
+                    "vectors": ENTRIES,
+                    "counts": {
+                        "authorization": {"verified": 2, "contradicted": 1},
+                        "settlement": {"verified": 1, "indeterminate": 2},
+                    },
+                }
+            ),
+            None,
+        ),
+        (
+            "a verdict whose buckets do not sum to the entries is refused",
+            findings_for(
+                {
+                    "vectors": ENTRIES,
+                    "counts": {
+                        "authorization": {"verified": 2, "contradicted": 1},
+                        "settlement": {"verified": 1, "indeterminate": 1},
+                    },
+                }
+            ),
+            "verdict 'settlement' lists 3 entries and a counts block summing to 2",
+        ),
+        (
+            "a verdict with a non-integer bucket is refused",
+            findings_for(
+                {"vectors": ENTRIES, "counts": {"authorization": {"verified": "3"}}}
+            ),
+            "verdict 'authorization' has a counts member 'verified' that is not a non-negative",
+        ),
+        (
+            "a verdict with a wrong declared total is refused",
+            findings_for(
+                {
+                    "vectors": ENTRIES,
+                    "counts": {"authorization": {"verified": 1, "failed": 2, "total": 9}},
+                }
+            ),
+            "verdict 'authorization' declares a counts total of 9",
+        ),
+        (
+            "an empty verdict is refused",
+            findings_for({"vectors": ENTRIES, "counts": {"authorization": {}}}),
+            "verdict 'authorization' carries no counts",
+        ),
+        (
+            "counts mixing a bucket with a verdict are refused",
+            findings_for(
+                {"vectors": ENTRIES, "counts": {"accept": 3, "settlement": {"verified": 3}}}
+            ),
+            "mixes plain buckets with per-verdict counts",
+        ),
     ]
     failures = [msg for label, found, needle in cases if (msg := expect(label, found, needle))]
     live = subprocess.run(

@@ -1,0 +1,109 @@
+{
+  "contractId": "https://probityai.github.io/agent-evidence-vectors/predicate/v1/actor-marker-survival",
+  "statements": [
+    {
+      "signature": "B4Bed3PTg-IyXSaf4P7O6zanr7hieOv-8pMh7v56XZtHeWHYg9Y-h_aIAHmeGpKLKe2gH3_dqPgoL_dTZTXsBg",
+      "statement": {
+        "humanEvidence": {
+          "at": "2026-11-22T14:59:30Z",
+          "method": "user-presence"
+        },
+        "kind": "origin",
+        "sent": {
+          "at": "2026-11-22T15:00:00Z",
+          "protocol": "rfc8693",
+          "to": "agent:planner",
+          "token": {
+            "claims": {
+              "exp": 1795363200,
+              "sub": "user:alice@example.com"
+            },
+            "header": {
+              "typ": "JWT"
+            }
+          }
+        },
+        "writer": "idp.example"
+      }
+    },
+    {
+      "signature": "3t94ehWRWU-lI4RqjP1RqNji3SGUW88C-ehW9ZXbm5yoyG4HYnqIAqfveF7A0aAGFTWgrCkR9KhU1izNNPisCg",
+      "statement": {
+        "kind": "hop",
+        "prev": "8e1be1529e0153160cc4c2c523eaa6fea7c5b2586ea15de8237fd171053fddd1",
+        "received": {
+          "at": "2026-11-22T15:00:10Z",
+          "protocol": "rfc8693",
+          "token": {
+            "claims": {
+              "exp": 1795363200,
+              "sub": "user:alice@example.com"
+            },
+            "header": {
+              "typ": "JWT"
+            }
+          }
+        },
+        "sent": {
+          "at": "2026-11-22T15:00:11Z",
+          "protocol": "rfc8693",
+          "to": "gateway:other",
+          "token": {
+            "claims": {
+              "act": {
+                "sub": "agent:planner"
+              },
+              "exp": 1795363200,
+              "sub": "user:alice@example.com"
+            },
+            "header": {
+              "typ": "JWT"
+            }
+          }
+        },
+        "writer": "agent:planner"
+      }
+    },
+    {
+      "signature": "TvVZ-97yEkXj58pHNilACbJJ_HvL3xPjCpLS1OBL_gOAds_SwDnnuzuv5lhnyjNDBmyvuZCMSAQADWXV9g98BQ",
+      "statement": {
+        "kind": "hop",
+        "prev": "977d0854e56669d1342d64e34878fb43d39970356aea0ac87ef58a8d4a25c5c9",
+        "received": {
+          "at": "2026-11-22T15:00:21Z",
+          "protocol": "rfc8693",
+          "token": {
+            "claims": {
+              "act": {
+                "sub": "agent:planner"
+              },
+              "exp": 1795363200,
+              "sub": "user:alice@example.com"
+            },
+            "header": {
+              "typ": "JWT"
+            }
+          }
+        },
+        "sent": {
+          "at": "2026-11-22T15:00:22Z",
+          "protocol": "rfc8693",
+          "to": "api.example",
+          "token": {
+            "claims": {
+              "act": {
+                "sub": "agent:planner"
+              },
+              "exp": 1795363200,
+              "sub": "user:alice@example.com"
+            },
+            "header": {
+              "typ": "JWT"
+            }
+          }
+        },
+        "writer": "gateway:edge"
+      }
+    }
+  ]
+}

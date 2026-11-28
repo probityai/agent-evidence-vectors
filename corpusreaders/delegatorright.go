@@ -6,6 +6,8 @@ import (
 	"path/filepath"
 	"slices"
 	"time"
+
+	"github.com/probityai/agent-evidence-vectors/internal/identifiers"
 )
 
 func init() { register(delegatorRight{}) }
@@ -30,7 +32,7 @@ func init() { register(delegatorRight{}) }
 //     more before the decision: ancestor_scope_removed.
 type delegatorRight struct{}
 
-const drContractID = "https://probityai.github.io/agent-evidence-vectors/contract/delegator-right/v1"
+var drContractID = identifiers.Identifier("agent-evidence-vectors/contract/delegator-right/v1")
 
 func (delegatorRight) Suite() string { return "delegator-right/v1" }
 
@@ -111,7 +113,7 @@ func drDecide(record map[string]any) scDecision {
 	if !present {
 		return scDecision{"deny", "contract_id_missing"}
 	}
-	if id != drContractID {
+	if identifiers.CanonicalValue(id) != drContractID {
 		return scDecision{"deny", "contract_id_unknown"}
 	}
 	p, ok := drParse(record)
@@ -131,6 +133,9 @@ func drDecide(record map[string]any) scDecision {
 		if check.fails {
 			return scDecision{"deny", check.reason}
 		}
+	}
+	if drWithinLimit(p) {
+		return scDecision{"allow", "within_propagation_limit"}
 	}
 	return scDecision{"allow", "entitled"}
 }
@@ -338,6 +343,30 @@ func drScopeRemoved(p drParsed) bool {
 	for _, hop := range p.chain {
 		for _, n := range hop.narrowings {
 			if n.operation == p.operation && drReached(p, n.at) {
+				return true
+			}
+		}
+	}
+	return false
+}
+
+// drPending reports a removal already effective at the source that the
+// propagation limit has not yet carried to enforcement.
+func drPending(p drParsed, effective time.Time) bool {
+	return !effective.After(p.decided) && !drReached(p, effective)
+}
+
+// drWithinLimit reports an allow that rests on such a removal: the limit is a
+// tolerance for cached state, not an entitlement.
+func drWithinLimit(p drParsed) bool {
+	for _, hop := range drDelegating(p) {
+		if right := drEntitlement(p, hop); right != nil && right.until != nil && drPending(p, *right.until) {
+			return true
+		}
+	}
+	for _, hop := range p.chain {
+		for _, n := range hop.narrowings {
+			if n.operation == p.operation && drPending(p, n.at) {
 				return true
 			}
 		}

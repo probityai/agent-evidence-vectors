@@ -10,10 +10,11 @@ from typing import Any
 
 import run_vectors
 from agent_evidence_vectors import observedeffect
+from agent_evidence_vectors.identifiers import identifier
 
 DOMAIN = b"probity-ws4-prior-witness-candidate-v0\0"
 GENESIS = "0" * 64
-PREDICATE_TYPE = "https://probityai.github.io/agent-evidence-vectors/predicate/v1/observed-effect"
+PREDICATE_TYPE = identifier("agent-evidence-vectors/predicate/v1/observed-effect")
 RECORD_DIGEST = "162352770f2f6c1cd861685e8e84c85603948b324cfa58752e7ad9dd76747da8"
 
 

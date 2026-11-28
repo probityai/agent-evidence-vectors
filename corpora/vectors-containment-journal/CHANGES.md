@@ -3,6 +3,71 @@
 A published `suiteRevision` is never mutated in place. A normative change to the predicate or
 a case added bumps the revision, and the generator rewrites the cases byte-identically.
 
+## suiteRevision 6 (predicate revision 2.1: refusals take the shared registry, and a refused call reaches nothing)
+
+- A refusal's `reasonCode` is any code of the refusal-code registry (`refusal_codes.json`, shipped
+  with the package and the Go readers), where revisions 1.1 and 1.2 registered four. The four
+  keep their meaning. A reader still denies a code it does not know, a code in another form and a
+  code with a detail, all as `closed_vocabulary_violation`.
+- A refused tool call is no reach: the blast-radius reach skips a `tool_call` whose `refused` is
+  true, in both readers. A refused call did not run, so the receipt names only calls that ran. A
+  refused write and a refused read never taint either: the revision 2.0 store taint follows only
+  writes and reads that ran.
+- Cases added: `allow-refusal-registry-code-<family>` for each of the 14 registry families
+  (approval, authority, delegation, gateway, governance, grants, identity, journal, key, marker,
+  mesh, possession, revocation, singleuse), `reject-closed-vocabulary-violation-refusal-code-unknown`,
+  `reject-closed-vocabulary-violation-refusal-code-kebab`, `reject-closed-vocabulary-violation-refusal-code-detail` and
+  `reject-blast-radius-overstated-counts-refused-tool-call` (the receipt that revision 5 allowed).
+- Cases changed: `allow-isolated-agents-tool-call-refused`: its receipt counted the refused call
+  (`toolCalls` 1) and now counts none (`toolCalls` 0). Its journal keeps its bytes. Every other
+  earlier case keeps its bytes and its verdict.
+- Verdict changes outside the corpus: a journal whose refusal names a registry code other than
+  the four was denied and is now allowed; a receipt that counts a refused tool call was allowed
+  and is now denied with `blast_radius_overstated`.
+
+## suiteRevision 5 (predicate revision 2.0: every value an agent writes says who wrote it)
+
+- Release note: two events, `write` and `store_read`. A write names its agent, store, key and
+  value digests, whether it was refused and why, the value its permit bound
+  (`permitValueDigest`) and, when attributed, its `principals` (user, delegation chain digest,
+  and the digest of the agent, user and chain). A read back names the writer of the last write
+  that ran to the key. The reader checks that writer on every read, refused or not, and checks
+  the value on a read that was not refused, so a withheld read cannot name a writer that never
+  wrote the key. The blast-radius reach follows taint through a shared store.
+- Major revision: a reader of revision 1.x denies a journal that carries a `write` or a
+  `store_read` entry with `closed_vocabulary_violation`. That is the correct behaviour for a
+  reader that does not know an event, and the reason the number is 2.0. This is the write event
+  revision 1.1 deferred to ("Refusals of writes belong to the next major revision's write
+  event").
+- New members, all optional: the claims `writesAttributed` and `writesBound`.
+- New rules: `write_principals_digest_mismatch`, `write_value_not_permitted`,
+  `write_by_isolated_agent`, `read_value_unwritten`, `read_writer_mismatch`,
+  `write_principals_missing`, `write_unpermitted`.
+- Cases added: `allow-write-attributed-and-read-back` (with a receipt that reaches agent-b
+  through the store), `allow-blast-radius-store-overwritten-by-clean-writer` (with a receipt),
+  `allow-write-unattributed-without-claim`, and one `reject-` case per new rule.
+- Cases changed: none. Every revision 3 case keeps its bytes and its verdict.
+- Verdict change outside the corpus: none for a journal without the two events.
+
+## suiteRevision 4 (predicate revision 1.3: the authority chain and the grant chain are two members)
+
+- Until revision 1.2 a tool call's `grantChainDigest` held the digest of the authority chain
+  the guard walked from the call back to the principal's task grant (the document
+  `{"chain": [...], "data_roles": [...]}`), not a chain of capability grants. Revision 1.3 names
+  that digest `authorityChainDigest`, and `tool_call_authority_unbound` now reads it.
+- `grantChainDigest` now means the digest of the capability grant chain the call was delegated
+  under: `sha256:` over the RFC 8785 bytes of the list of the links' grant digests, root first
+  (`probity_records.digests.grant_chain_digest`). It is optional and is never read as an
+  authority chain.
+- Case added: `allow-tool-call-names-authority-and-grant-chains`.
+- Cases changed: `allow-isolated-agents-tool-call-refused` (its `record.json` names agent-a's
+  authority chain as `authorityChainDigest`, and its `receipt.json` cites the new head). Every
+  other revision 3 case keeps its bytes and its verdict.
+- Verdict change outside the corpus: a journal that claims `authorityChainChecked` and names a
+  tool call's authority chain only as `grantChainDigest` (the revision 1.2 spelling) was allowed
+  and is now denied with `tool_call_authority_unbound`. It fails closed: a revision 1.2 value
+  never equals the capability grant chain digest a consumer computes.
+
 ## suiteRevision 3 (predicate revision 1.2: a detector decision is judged by what it changes)
 
 - `decision_not_supported_by_estimates` now fires only when a `detector_` decision with equal

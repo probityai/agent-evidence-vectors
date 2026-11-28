@@ -15,7 +15,7 @@ use crate::errors::{refusal, JcsError};
 ///
 /// The test suite compares it with the version Cargo resolved, so the constant
 /// cannot drift from the crate actually built in.
-pub(crate) const BOUND_VERSION: &str = "0.1.2";
+pub(crate) const BOUND_VERSION: &str = "0.1.3";
 
 /// Runs one admission with the interpreter released, then maps the result.
 fn run(py: Python<'_>, data: &[u8], opts: &Options) -> PyResult<Py<PyBytes>> {

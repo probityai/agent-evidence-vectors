@@ -25,10 +25,10 @@ crate-type = ["cdylib"]
 # Both pins are exact. The wheel binds one published, checksummed release of each crate,
 # and its tests read that same release's own corpus out of the Cargo registry, so the
 # bytes under test and the bytes bound cannot drift apart.
-jcs-admit = { version = "=0.1.2", features = ["serde"] }
+jcs-admit = { version = "=0.1.3", features = ["serde"] }
 dsse = { version = "=0.1.6", default-features = false, features = ["ed25519"] }
 # One abi3 wheel per platform serves CPython 3.10 and every later release.
-pyo3 = { version = "=0.29.3", features = ["abi3-py310"] }
+pyo3 = { version = "=0.30.1", features = ["abi3-py310"] }
 # Both already in the graph through the two crates; used here only to read each crate's own
 # serialized refusal, so a Python error carries the native variant and fields unchanged.
 serde = "1.0"

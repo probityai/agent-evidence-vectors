@@ -35,6 +35,9 @@ SOURCE: dict[str, Any] = {
     ),
 }
 
+#: The tool versions of the box run that wrote results/ (results/box-run-steps.txt).
+#: CI installs what requirements.txt and jcs-admit-check/Cargo.lock pin, and the
+#: reproduction test shows those versions write the same bytes.
 TOOLS: dict[str, str] = {
     "agent-evidence-vectors": "0.18.1",
     "cryptography": "50.0.2",

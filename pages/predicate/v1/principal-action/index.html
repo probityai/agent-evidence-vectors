@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Predicate type: Principal Action</title>
+<meta name="description" content="Type URI, schema and rules of the Principal Action in-toto predicate.">
+<link rel="canonical" href="https://w3id.org/agent-evidence/predicate/v1/principal-action">
+<style>
+:root{color-scheme:light dark;--page:#f6f8fb;--surface:#fff;--ink:#14202e;--body:#33404f;--link:#1f4fd1;--rule:#cfd8e3;font-family:system-ui,sans-serif;color:var(--ink);background:var(--page)}
+@media (prefers-color-scheme:dark){:root{--page:#10151b;--surface:#18202a;--ink:#e8edf3;--body:#c3ccd6;--link:#8fb0ff;--rule:#2c3846}}
+*{box-sizing:border-box}body{margin:0;font:400 1rem/1.6 system-ui,sans-serif;background:var(--page)}
+.shell{max-width:52rem;margin-inline:auto;padding-inline:16px}
+header,footer{padding-block:1.25rem}header a{font-weight:700;color:var(--ink);text-decoration:none}
+footer{border-top:1px solid var(--rule);color:var(--body);font-size:.9375rem;margin-top:3rem}
+a{color:var(--link)}p,li,td{color:var(--body)}h1{line-height:1.2}
+code,pre{font-family:ui-monospace,Consolas,monospace;font-size:.875em}code{overflow-wrap:anywhere}
+pre{background:var(--surface);border:1px solid var(--rule);border-radius:6px;padding:1rem;overflow-x:auto}
+blockquote{margin:1rem 0;padding:.25rem 1rem;border-left:4px solid var(--rule);background:var(--surface)}
+table{border-collapse:collapse;display:block;overflow-x:auto}
+th,td{border:1px solid var(--rule);padding:.4rem .6rem;text-align:left;vertical-align:top}
+</style>
+</head>
+<body>
+<header class="shell"><a href="https://github.com/probityai/agent-evidence-vectors">Agent Evidence</a></header>
+<main class="shell">
+<h1 id="predicate-type-principal-action">Predicate type: Principal Action</h1>
+<p>Type URI: <a href="https://w3id.org/agent-evidence/predicate/v1/principal-action">https://w3id.org/agent-evidence/predicate/v1/principal-action</a></p>
+<p>Version: 0.1.0</p>
+<p>Predicate Name: Principal Action</p>
+<blockquote>
+<p>Status: DRAFT, issued under a self-hosted <code>predicateType</code> URI. The in-toto new-predicate guidelines leave the URI namespace to the predicate designer. The URI redirects to a page built from this file and served by the Pages site of the organisation (<code>probityai/probityai.github.io</code>), at <code>https://probityai.github.io/agent-evidence/predicate/v1/principal-action/</code>. The URI will not move once a signed statement carries it. The conformance corpus in this repository, <code>vectors-principal-action/</code>, carries it in signed statements made with published test keys.</p>
+</blockquote>
+<h2 id="purpose">Purpose</h2>
+<p>Records that an action an agent took ran under principals an identity provider authenticated, and binds each principal to the credential that proved it. A gateway, a tool server or a decision point that validated a signed token before it let the agent act knows who the token named, which client it was issued to, which key the issuer signed it with and whether the token carried a delegation chain. Logs keep that answer as text a reader cannot check. This predicate keeps it as signed bytes: up to four principals, each named by issuer, subject, client, audience, the digest of the credential, the issuer key and its RFC 7638 thumbprint, and the digest of the issuer's key set, together with the RFC 8693 <code>act</code> chain the credential carried. A third party rechecks every binding offline, against the issuers and keys it trusts, without the token.</p>
+<h2 id="use-cases">Use cases</h2>
+<ul>
+<li>An auditor reading a tool server's records can tell, for each call, which user invoked it, which agent executed it, who is accountable for that agent and who approved the call, and that each of them was established from a credential of an issuer the auditor trusts, under a key the auditor pinned for that issuer.</li>
+<li>A relying party that requires delegated authority can refuse a record whose user credential names a different agent in its <code>act</code> chain, and can require <code>strict</code> conformance: all four principals and a delegation chain.</li>
+<li>A gateway operator that accepts Cross App Access grants records the identity assertion grant as the principal's source, so the grant and the action are joined by digest.</li>
+</ul>
+<h2 id="prerequisites">Prerequisites</h2>
+<p>The in-toto Attestation Framework (Statement v1 in a DSSE envelope), RFC 8785 (JSON Canonicalization Scheme), RFC 7638 (JWK thumbprint), RFC 7517 (JWK), RFC 8693 (<code>act</code> claim), and the <code>principal</code> member of the agent audit record (<a href="../../docs/proposals/audit-record-04-principal.md">proposed text</a>), whose members each principal here carries unchanged.</p>
+<h2 id="model">Model</h2>
+<p>The producer is the party that validated the credentials before the action ran: a gateway, a tool server or a decision point. It signs the statement with its own key in a DSSE envelope whose <code>payloadType</code> is <code>application/vnd.in-toto+json</code>. The payload is the RFC 8785 serialization of the statement, and no other serialization is accepted.</p>
+<p>The <strong>subject</strong> is the action: exactly one member, named <code>action</code>, whose <code>digest</code> holds only <code>sha256</code>, the SHA-256 of the RFC 8785 bytes of the predicate's <code>action</code> object.</p>
+<p>The <strong>predicate</strong> carries:</p>
+<ul>
+<li><code>action</code>: what was done, an object of exactly these members:
+<ul>
+<li><code>tool</code>: the name of the tool, operation or endpoint, a non-empty text.</li>
+<li><code>argumentsDigest</code>: the SHA-256 of the RFC 8785 bytes of the arguments, 64 lower-case hexadecimal characters. The arguments are never carried.</li>
+<li><code>at</code>: the time the action was taken, an RFC 3339 UTC time ending in <code>Z</code>. Every time check is made at this moment, never when the record is read.</li>
+</ul></li>
+<li><code>principals</code>: an object whose keys are drawn from <code>user</code> (who invoked the action), <code>agent</code> (what executed it), <code>sponsor</code> (the accountable owner of the agent) and <code>approver</code> (who approved the action, when someone did). <code>user</code> and <code>agent</code> are required. Each value is a principal, defined below.</li>
+<li><code>approvals</code>: OPTIONAL, an array of approvals the record counts, each an object of exactly <code>subject</code> (the approver's subject, a non-empty text) and <code>approvalDigest</code> (the SHA-256 of the approval record's bytes, 64 lower-case hexadecimal characters).</li>
+</ul>
+<p>A <strong>principal</strong> is an object carrying exactly the required members of the audit-record <code>principal</code> member, and MAY carry its optional members and <code>act</code> and <code>idJag</code>:</p>
+<ul>
+<li>Required: <code>issuer</code> (an <code>https</code> URL), <code>subject</code>, <code>clientId</code>, <code>audience</code> (a non-empty array of distinct texts), <code>authMethod</code> (a value of the IANA registry "OAuth Token Endpoint Authentication Methods"), <code>source</code>, <code>tokenDigest</code>, <code>issuedAt</code>, <code>expiresAt</code>, <code>kid</code>, <code>key</code>, <code>keyThumbprint</code> and <code>jwksDigest</code>, each as the audit-record member defines it.</li>
+<li><code>source</code> is one of <code>jwt-access-token</code> (RFC 9068), <code>id-token</code> (OpenID Connect Core 1.0), <code>jwt-assertion</code> (RFC 7523) and <code>id-jag</code> (an Identity Assertion JWT Authorization Grant, JWS <code>typ</code> <code>oauth-id-jag+jwt</code>).</li>
+<li><code>tokenDigest</code> is the assertion digest: the SHA-256 of the exact credential bytes the principal presented, 64 lower-case hexadecimal characters. The credential is never carried.</li>
+<li>Optional: <code>tenant</code>, <code>identityProvider</code> and <code>pinnedThumbprint</code>, as the audit-record member defines them.</li>
+<li><code>act</code>: OPTIONAL, the credential's RFC 8693 <code>act</code> claim as the credential carried it: an object with a text <code>sub</code>, and optionally a nested <code>act</code> of the same shape, outermost (the current actor) first.</li>
+<li><code>idJag</code>: OPTIONAL, reserved for the identity assertion grant block of the audit-record <code>principal</code> member. Its members and checks are those that definition gives. Until it is published, a verifier refuses a principal carrying <code>idJag</code> (<code>principal_idjag_undefined</code>), because it cannot check what it was given.</li>
+</ul>
+<h2 id="schema">Schema</h2>
+<div class="sourceCode" id="cb1"><pre class="sourceCode json"><code class="sourceCode json"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;_type&quot;</span><span class="fu">:</span> <span class="st">&quot;https://in-toto.io/Statement/v1&quot;</span><span class="fu">,</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;subject&quot;</span><span class="fu">:</span> <span class="ot">[</span><span class="fu">{</span><span class="dt">&quot;name&quot;</span><span class="fu">:</span> <span class="st">&quot;action&quot;</span><span class="fu">,</span> <span class="dt">&quot;digest&quot;</span><span class="fu">:</span> <span class="fu">{</span><span class="dt">&quot;sha256&quot;</span><span class="fu">:</span> <span class="st">&quot;&lt;sha256 of RFC 8785 action&gt;&quot;</span><span class="fu">}}</span><span class="ot">]</span><span class="fu">,</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;predicateType&quot;</span><span class="fu">:</span> <span class="st">&quot;https://w3id.org/agent-evidence/predicate/v1/principal-action&quot;</span><span class="fu">,</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;predicate&quot;</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&quot;action&quot;</span><span class="fu">:</span> <span class="fu">{</span><span class="dt">&quot;tool&quot;</span><span class="fu">:</span> <span class="st">&quot;&lt;text&gt;&quot;</span><span class="fu">,</span> <span class="dt">&quot;argumentsDigest&quot;</span><span class="fu">:</span> <span class="st">&quot;&lt;hex64&gt;&quot;</span><span class="fu">,</span> <span class="dt">&quot;at&quot;</span><span class="fu">:</span> <span class="st">&quot;&lt;RFC 3339 Z&gt;&quot;</span><span class="fu">},</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&quot;principals&quot;</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>      <span class="dt">&quot;user&quot;</span><span class="fu">:</span> <span class="fu">{</span><span class="dt">&quot;issuer&quot;</span><span class="fu">:</span> <span class="st">&quot;https://...&quot;</span><span class="fu">,</span> <span class="dt">&quot;subject&quot;</span><span class="fu">:</span> <span class="st">&quot;&lt;text&gt;&quot;</span><span class="fu">,</span> <span class="dt">&quot;clientId&quot;</span><span class="fu">:</span> <span class="st">&quot;&lt;text&gt;&quot;</span><span class="fu">,</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>               <span class="dt">&quot;audience&quot;</span><span class="fu">:</span> <span class="ot">[</span><span class="st">&quot;&lt;text&gt;&quot;</span><span class="ot">]</span><span class="fu">,</span> <span class="dt">&quot;authMethod&quot;</span><span class="fu">:</span> <span class="st">&quot;&lt;IANA value&gt;&quot;</span><span class="fu">,</span> <span class="dt">&quot;source&quot;</span><span class="fu">:</span> <span class="st">&quot;&lt;source&gt;&quot;</span><span class="fu">,</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>               <span class="dt">&quot;tokenDigest&quot;</span><span class="fu">:</span> <span class="st">&quot;&lt;hex64&gt;&quot;</span><span class="fu">,</span> <span class="dt">&quot;issuedAt&quot;</span><span class="fu">:</span> <span class="st">&quot;&lt;RFC 3339 Z&gt;&quot;</span><span class="fu">,</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>               <span class="dt">&quot;expiresAt&quot;</span><span class="fu">:</span> <span class="st">&quot;&lt;RFC 3339 Z&gt;&quot;</span><span class="fu">,</span> <span class="dt">&quot;kid&quot;</span><span class="fu">:</span> <span class="st">&quot;&lt;text&gt;&quot;</span><span class="fu">,</span> <span class="dt">&quot;key&quot;</span><span class="fu">:</span> <span class="fu">{</span><span class="dt">&quot;kty&quot;</span><span class="fu">:</span> <span class="st">&quot;...&quot;</span><span class="fu">,</span> <span class="dt">&quot;kid&quot;</span><span class="fu">:</span> <span class="st">&quot;...&quot;</span><span class="fu">},</span></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>               <span class="dt">&quot;keyThumbprint&quot;</span><span class="fu">:</span> <span class="st">&quot;&lt;base64url&gt;&quot;</span><span class="fu">,</span> <span class="dt">&quot;jwksDigest&quot;</span><span class="fu">:</span> <span class="st">&quot;&lt;hex64&gt;&quot;</span><span class="fu">,</span></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>               <span class="dt">&quot;act&quot;</span><span class="fu">:</span> <span class="fu">{</span><span class="dt">&quot;sub&quot;</span><span class="fu">:</span> <span class="st">&quot;&lt;agent subject or client&gt;&quot;</span><span class="fu">}},</span></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>      <span class="dt">&quot;agent&quot;</span><span class="fu">:</span> <span class="fu">{</span><span class="dt">&quot;...&quot;</span><span class="fu">:</span> <span class="st">&quot;a principal&quot;</span><span class="fu">},</span></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>      <span class="dt">&quot;sponsor&quot;</span><span class="fu">:</span> <span class="fu">{</span><span class="dt">&quot;...&quot;</span><span class="fu">:</span> <span class="st">&quot;a principal, optional&quot;</span><span class="fu">},</span></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>      <span class="dt">&quot;approver&quot;</span><span class="fu">:</span> <span class="fu">{</span><span class="dt">&quot;...&quot;</span><span class="fu">:</span> <span class="st">&quot;a principal, optional&quot;</span><span class="fu">}</span></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>    <span class="fu">},</span></span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&quot;approvals&quot;</span><span class="fu">:</span> <span class="ot">[</span><span class="fu">{</span><span class="dt">&quot;subject&quot;</span><span class="fu">:</span> <span class="st">&quot;&lt;text&gt;&quot;</span><span class="fu">,</span> <span class="dt">&quot;approvalDigest&quot;</span><span class="fu">:</span> <span class="st">&quot;&lt;hex64&gt;&quot;</span><span class="fu">}</span><span class="ot">]</span></span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">}</span></span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code></pre></div>
+<h2 id="rules">Rules</h2>
+<p>A verifier holds the producer's public key and a pin set: for each issuer it trusts, the RFC 7638 thumbprints of the issuer keys it accepts. The pin set is the verifier's policy and is never read from the record. The verifier applies these checks in this order and reports the first that fails; the codes are the reference reader's.</p>
+<ol type="1">
+<li>The envelope parses, its payload is an in-toto Statement v1 of this type with one <code>action</code> subject, and the predicate has <code>action</code> and <code>principals</code> objects and, when present, an <code>approvals</code> array of well-formed approvals (<code>statement_malformed</code>).</li>
+<li>The DSSE signature verifies under the producer key (<code>recorder_signature_invalid</code>).</li>
+<li>The payload is byte-for-byte the RFC 8785 serialization of the statement (<code>statement_not_canonical</code>).</li>
+<li><code>action</code> carries exactly <code>tool</code>, <code>argumentsDigest</code> and <code>at</code>, well formed (<code>action_malformed</code>).</li>
+<li>The subject digest is the SHA-256 of the RFC 8785 bytes of <code>action</code> (<code>action_digest_mismatch</code>).</li>
+<li><code>principals</code> is a non-empty object whose keys are roles (<code>principals_malformed</code>).</li>
+<li>For each role present, in the order <code>user</code>, <code>agent</code>, <code>sponsor</code>, <code>approver</code>, the principal passes the checks below; a failure is reported as <code>principal_&lt;role&gt;:&lt;code&gt;</code>.
+<ol type="1">
+<li>It is an object (<code>principal_malformed</code>), carries every required member (<code>principal_member_missing</code>) and no member outside the required and optional sets (<code>principal_member_unknown</code>).</li>
+<li><code>issuer</code> is an <code>https</code> URL (<code>principal_issuer_invalid</code>); <code>subject</code>, <code>clientId</code>, <code>kid</code> and <code>keyThumbprint</code> are non-empty texts, <code>audience</code> a non-empty array of distinct texts, <code>source</code> and <code>authMethod</code> registered values, <code>tokenDigest</code> and <code>jwksDigest</code> 64 lower-case hexadecimal characters, <code>identityProvider</code> a value of the <code>identity_provider</code> term and <code>pinnedThumbprint</code> unpadded base64url, where present (<code>principal_malformed</code>).</li>
+<li><code>key</code> is a public JWK with no private member (<code>principal_key_invalid</code>), of key type <code>RSA</code>, <code>EC</code> or <code>OKP</code> with every member its thumbprint needs (<code>principal_key_invalid</code>).</li>
+<li><code>keyThumbprint</code> is the RFC 7638 SHA-256 thumbprint of <code>key</code> (<code>principal_thumbprint_mismatch</code>), and <code>key.kid</code> equals <code>kid</code> (<code>principal_kid_mismatch</code>).</li>
+<li>A declared <code>identityProvider</code> agrees with the provider the <code>issuer</code> names, by the derivation of the audit-record member (<code>principal_provider_mismatch</code>), and a <code>pinnedThumbprint</code> equals <code>keyThumbprint</code> (<code>principal_pin_mismatch</code>).</li>
+<li><code>issuedAt</code> and <code>expiresAt</code> are RFC 3339 UTC times with <code>expiresAt</code> later (<code>principal_malformed</code>); at <code>action.at</code> the credential had been issued (<code>principal_not_yet_valid</code>) and had not expired (<code>principal_expired</code>).</li>
+<li>The pin set names <code>issuer</code> (<code>principal_issuer_untrusted</code>) and holds <code>keyThumbprint</code> for it (<code>principal_key_not_pinned</code>).</li>
+<li><code>act</code>, when present, is a chain of objects each with a text <code>sub</code> (<code>principal_act_malformed</code>).</li>
+<li><code>idJag</code>, when present, is refused until its definition is published (<code>principal_idjag_undefined</code>).</li>
+</ol></li>
+<li><code>user</code> and <code>agent</code> are both present (<code>principals_need_user_and_agent</code>).</li>
+<li>When the user principal carries <code>act</code>, the outermost actor's <code>sub</code> is the agent principal's <code>subject</code> or <code>clientId</code> (<code>principal_act_names_another_agent</code>).</li>
+<li>When <code>approver</code> is present, its <code>subject</code> is the <code>subject</code> of one of <code>approvals</code> (<code>principal_approver_not_an_approval_signer</code>). A record with no <code>approvals</code> counts none.</li>
+</ol>
+<p>A record that passes every check is verified, and graded on two axes. Never refused on either:</p>
+<ul>
+<li><strong>Delegation:</strong> <code>act-chain</code> when the user principal carries <code>act</code>, <code>act-absent</code> when it does not.</li>
+<li><strong>Conformance:</strong> <code>strict</code> when all four roles are present and the delegation is <code>act-chain</code>; <code>basic</code> otherwise. A relying party MAY require <code>strict</code>.</li>
+</ul>
+<h2 id="what-a-record-does-not-establish">What a record does not establish</h2>
+<p>That the credential's signature verified (the producer checked it; the record names the key it used and the digest of the credential, so a party holding the credential and the retained key set rechecks it), that the issuer's key set at that time held <code>key</code> (the retained key set and <code>jwksDigest</code> answer that), that a custom-domain issuer is run by the provider it declares, or that a subject is who the issuer says it is. A signature shows who wrote the record, not that it is true.</p>
+<h2 id="relation-to-other-types">Relation to other types</h2>
+<ul>
+<li>The agent audit record's <code>principal</code> member carries one principal of a decision. This type carries up to four for one action, with the delegation chain, and each principal is that member's object unchanged, so one reader checks both.</li>
+<li>A <code>token-grant-receipt</code> records the issuance of a credential at the identity provider. A principal here names that credential by <code>tokenDigest</code>; joining the two by that digest ties the action to the grant without either record holding the token.</li>
+</ul>
+<h2 id="conformance">Conformance</h2>
+<p><code>corpora/vectors-principal-action/</code> (suite <code>principal-action/v1</code>) holds signed accept and reject cases with a published producer test key. Each case is <code>case.json</code> (the producer key and the verifier's pin set) and one envelope. A verifier conforms when it gives every case its declared decision and reason. The reference readers are <code>packaging/agent_evidence_vectors/principalaction.py</code> and <code>corpusreaders/principalaction.go</code>, written independently of each other.</p>
+
+</main>
+<footer><div class="shell">Built from <a href="https://github.com/probityai/agent-evidence-vectors/blob/c4d64fb67aa0f4ce025e3360b3edfcfec1eed81a/spec/predicates/principal-action.md">spec/predicates/principal-action.md</a> (SHA-256 <code>b3f40632694d77eac10c3b9e79a2b2e86401a9ebb90fb00bcb0942c7bff0341a</code>). The type URI is <code>https://w3id.org/agent-evidence/predicate/v1/principal-action</code>; it does not change once a signed statement carries it. Record format: <a href="https://datatracker.ietf.org/doc/draft-gilda-audit-agent-audit-record/03/">draft-gilda-audit-agent-audit-record-03</a>, Section 4 (an in-toto Statement carried in a DSSE envelope).</div></footer>
+</body>
+</html>

@@ -25,6 +25,10 @@
 
 set -euo pipefail
 
+# shellcheck source=scripts/prepush-test-lib.sh
+. "$(dirname "$0")/prepush-test-lib.sh"
+prepush_actionlint_stub
+
 here="$(cd "$(dirname "$0")/.." && pwd -P)"
 mutate=0
 if [ "${1:-}" = "--one" ]; then

@@ -51,7 +51,10 @@ agent-evidence-verify reader, plus four that only an admission profile refuses:
 ## Time bounds
 
 `audit-freshness` holds each `evaluation.inputs` entry to two bounds that are not symmetric. The
-past bound is the entry's `maxAge`; an age equal to it is fresh. The future bound is the skew
+past bound is the entry's `maxAge`; an input is fresh only while its age is less than it, so an age
+equal to it is stale. Ages are measured to `decision.evaluatedAt` when the record carries it and to
+`decision.reportedAt` otherwise; an `evaluatedAt` later than `reportedAt` by more than the skew
+tolerance is refused. The future bound is the skew
 tolerance alone (300 seconds; `--option skew=<seconds>`, a whole number in 0..2^53 - 1, anything
 else `option-malformed`): a result produced an hour after the
 decision it fed is refused, even with a day's `maxAge`, which is what a verifier checking

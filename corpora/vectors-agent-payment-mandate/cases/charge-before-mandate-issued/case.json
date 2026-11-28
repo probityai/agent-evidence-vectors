@@ -1,0 +1,75 @@
+{
+  "case_id": "vectors-agent-payment-mandate-charge-before-mandate-issued",
+  "credential": {
+    "consumed_token_ids": [],
+    "mandate_digest": "b38af67a75baf3aba279e0895372bbb8db442982fde76d42347f54e4a217d46f",
+    "single_use": true,
+    "token_id": "tok-0001"
+  },
+  "execution": {
+    "agent_key_id": "agent-key-1",
+    "agent_signature": {
+      "alg": "ed25519",
+      "key_id": "agent-key-1",
+      "value": "57f77c8c9c38d08d27ae0fabb61b24a941896c2596788cb1baaeb69903eeec19c4f899f5d542254dc8780c50e06296a3c781fd1a295006924f8b850acd161f06"
+    },
+    "amount_minor": 12500,
+    "currency": "USD",
+    "executed_at": "2026-10-20T10:15:00Z",
+    "merchant": "merchant-a.example",
+    "rail": "card",
+    "token_id": "tok-0001"
+  },
+  "mandate": {
+    "digest": "b38af67a75baf3aba279e0895372bbb8db442982fde76d42347f54e4a217d46f",
+    "signature": {
+      "alg": "ed25519",
+      "key_id": "issuer-key-1",
+      "value": "4b2c39b39587be8fca9840aa5baa006f4edc9262f1b5f1fa46b0c1a0de8c318237da1b3ef26b6e6f71d9b2c1e02f476577162ee2e4efd09948639ac76c023e06"
+    },
+    "terms": {
+      "agent": {
+        "key_id": "agent-key-1",
+        "public_key": "17cb79fb2b4120f2b1ec65e4198d6e08b28e813feb01e4a400839b85e18080ce"
+      },
+      "currency": "USD",
+      "expires_at": "2026-11-30T00:00:00Z",
+      "issued_at": "2026-11-01T09:00:00Z",
+      "issuer": "did:example:issuer-1",
+      "kind": "cart",
+      "max_amount_minor": 12900,
+      "merchant": "merchant-a.example",
+      "post_checkout_required": [
+        "capture",
+        "fulfilment"
+      ],
+      "rails": [
+        "card"
+      ],
+      "single_use": true
+    }
+  },
+  "post_checkout": {
+    "recorded": [
+      "capture",
+      "fulfilment"
+    ],
+    "required": [
+      "capture",
+      "fulfilment"
+    ]
+  },
+  "receipt": {
+    "execution_digest": "7973885d48c192b6eb3862953402f798656eeb3b03caf8e1fd7f894ac7cd1c0d",
+    "mandate_digest": "b38af67a75baf3aba279e0895372bbb8db442982fde76d42347f54e4a217d46f",
+    "receipt_id": "rcpt-0001",
+    "signature": {
+      "alg": "ed25519",
+      "key_id": "witness-key-1",
+      "value": "5d19681857d0b94a9cee4d2e5341c34ce9941ba90a6a9a53f68a2637cf4de134c32a822a7e757f63433e7b72f9f49653638c491a0d33e391abea69454637730a"
+    },
+    "token_use_seq": 1
+  },
+  "schema": "agent-payment-mandate-record/v1",
+  "scheme": "ap2-cart-mandate"
+}

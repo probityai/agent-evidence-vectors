@@ -99,12 +99,13 @@ checker is aee-verify.
 
 [[gate]]
 ident = "derived-files"
-argv = ["uv", "run", "--locked", "--extra", "generators", "python", "scripts/regenerate-derived.py", "--check"]
-fix = ["uv", "run", "--locked", "--extra", "generators", "python", "scripts/regenerate-derived.py"]
+argv = ["uv", "run", "--locked", "--extra", "generators", "--group", "crosscheck", "python", "scripts/regenerate-derived.py", "--check"]
+fix = ["uv", "run", "--locked", "--extra", "generators", "--group", "crosscheck", "python", "scripts/regenerate-derived.py"]
 why = """
-The signed digest list, the intake records and the shared-source lock are
-derived files. --check runs the three generators in comparing mode and refuses
-any differing byte; a bare invocation rewrites all three in order. After a
+The jcsvectors copies, the signed digest list, the intake records, the
+shared-source lock and the reference coverage are derived files. --check runs
+the five generators in comparing mode and refuses any differing byte; a bare
+invocation rewrites all five in order. After a
 merge whose conflicts are all in derived files, --resolve-merge settles it.
 """
 
@@ -128,6 +129,17 @@ The driftCases and depthCases keys of corpora/jcs-byte-vectors/cases.json are
 written by the generator, with the canonical bytes pinned by hand in it. A hand
 edit to either key, or a change to the generator, moves the file; the Go
 module's embedded copy follows through scripts/gen-jcsvectors-data.py.
+"""
+
+[[gate]]
+ident = "dsse-pae-vectors"
+argv = ["python3", "scripts/gen-dsse-pae-vectors.py", "--check"]
+fix = ["python3", "scripts/gen-dsse-pae-vectors.py"]
+why = """
+interop/dsse-pae-vectors/cases.json is written by the generator, with every
+expected pre-authentication encoding built from the DSSE rule rather than from
+the code under test. --check refuses when the committed file differs from what a
+run writes; a bare invocation rewrites it.
 """
 
 [[gate]]

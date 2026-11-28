@@ -30,7 +30,11 @@ type site struct {
 	ret     *ast.ReturnStmt
 	clause  *ast.CaseClause
 	swBody  *ast.BlockStmt
-	rng     *ast.RangeStmt
+	// typeSwitch is the enclosing type switch of a CASE_DEL arm, nil for a
+	// tagged value switch. Deleting the last arm that reads the switch's bound
+	// symbol leaves it declared and unused, which Go refuses to compile.
+	typeSwitch *ast.TypeSwitchStmt
+	rng        *ast.RangeStmt
 }
 
 // maxSnippet bounds the recorded source excerpt. It is part of the site key, so
@@ -203,29 +207,63 @@ func (i *funcIndex) inBoolFunc(p token.Pos) bool {
 // lists carry values and types rather than booleans, so `case false && (v):` does
 // not typecheck and `case json.Delim:` does not even parse as an expression; the
 // equivalent weakening there is to delete the arm and let its value fall through.
-func taggedClauses(f *ast.File) map[*ast.CaseClause]*ast.BlockStmt {
-	out := map[*ast.CaseClause]*ast.BlockStmt{}
+func taggedClauses(f *ast.File) map[*ast.CaseClause]switchArm {
+	out := map[*ast.CaseClause]switchArm{}
 	ast.Inspect(f, func(nd ast.Node) bool {
-		var body *ast.BlockStmt
+		var arm switchArm
 		switch sw := nd.(type) {
 		case *ast.SwitchStmt:
 			if sw.Tag == nil {
 				return true
 			}
-			body = sw.Body
+			arm.body = sw.Body
 		case *ast.TypeSwitchStmt:
-			body = sw.Body
+			arm.body, arm.typeSwitch = sw.Body, sw
 		default:
 			return true
 		}
-		for _, st := range body.List {
+		for _, st := range arm.body.List {
 			if cc, ok := st.(*ast.CaseClause); ok && len(cc.List) > 0 {
-				out[cc] = body
+				out[cc] = arm
 			}
 		}
 		return true
 	})
 	return out
+}
+
+// switchArm is where one deletable arm lives: the switch body, and the type
+// switch itself when it is one.
+type switchArm struct {
+	body       *ast.BlockStmt
+	typeSwitch *ast.TypeSwitchStmt
+}
+
+// unbindIfUnused turns `switch v := x.(type)` into `switch x.(type)` when no
+// remaining arm reads v. Go refuses a type switch whose bound symbol no clause
+// uses, so without this a deleted arm that was the only reader yields a mutant
+// that does not build: a site the campaign can never measure.
+func unbindIfUnused(ts *ast.TypeSwitchStmt) {
+	assign, ok := ts.Assign.(*ast.AssignStmt)
+	if !ok || len(assign.Lhs) != 1 || len(assign.Rhs) != 1 {
+		return
+	}
+	bound, ok := assign.Lhs[0].(*ast.Ident)
+	if !ok {
+		return
+	}
+	used := false
+	for _, st := range ts.Body.List {
+		ast.Inspect(st, func(n ast.Node) bool {
+			if id, isIdent := n.(*ast.Ident); isIdent && id.Name == bound.Name {
+				used = true
+			}
+			return !used
+		})
+	}
+	if !used {
+		ts.Assign = &ast.ExprStmt{X: assign.Rhs[0]}
+	}
 }
 
 func isLit(e ast.Expr, want string) bool {
@@ -461,8 +499,8 @@ func collect(fset *token.FileSet, f *ast.File, rel string) []*site {
 				c.condSites("IF", x.Cond, x)
 			}
 		case *ast.CaseClause:
-			if body, isTagged := tagged[x]; isTagged {
-				c.add("CASE_DEL", x, &site{kind: "casedel", clause: x, swBody: body})
+			if arm, isTagged := tagged[x]; isTagged {
+				c.add("CASE_DEL", x, &site{kind: "casedel", clause: x, swBody: arm.body, typeSwitch: arm.typeSwitch})
 				break
 			}
 			for _, e := range x.List {
@@ -552,6 +590,9 @@ func apply(f *ast.File, s *site) error {
 			kept = append(kept, st)
 		}
 		s.swBody.List = kept
+		if done && s.typeSwitch != nil {
+			unbindIfUnused(s.typeSwitch)
+		}
 	}
 	if !done {
 		return fmt.Errorf("mutation site %s not reachable in AST", s.Key)

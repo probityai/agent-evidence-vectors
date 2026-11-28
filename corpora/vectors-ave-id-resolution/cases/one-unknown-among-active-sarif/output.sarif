@@ -1,0 +1,68 @@
+{
+  "$schema": "https://json.schemastore.org/sarif-2.1.0.json",
+  "runs": [
+    {
+      "results": [
+        {
+          "level": "error",
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "skills/example.md"
+                },
+                "region": {
+                  "startLine": 1
+                }
+              }
+            }
+          ],
+          "message": {
+            "text": "finding for AVE-2026-00002 at line 1"
+          },
+          "ruleId": "AVE-2026-00002"
+        },
+        {
+          "level": "error",
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "skills/example.md"
+                },
+                "region": {
+                  "startLine": 2
+                }
+              }
+            }
+          ],
+          "message": {
+            "text": "finding for AVE-2026-09999 at line 2"
+          },
+          "ruleId": "AVE-2026-09999"
+        }
+      ],
+      "tool": {
+        "driver": {
+          "name": "example-scanner",
+          "rules": [
+            {
+              "id": "AVE-2026-00002",
+              "shortDescription": {
+                "text": "rule AVE-2026-00002"
+              }
+            },
+            {
+              "id": "AVE-2026-09999",
+              "shortDescription": {
+                "text": "rule AVE-2026-09999"
+              }
+            }
+          ],
+          "version": "0.0.0"
+        }
+      }
+    }
+  ],
+  "version": "2.1.0"
+}

@@ -55,7 +55,12 @@ The reader checks in a fixed order and names the first check that fails:
 14. a terminal execution outcome is never overwritten: ``SUCCEEDED`` and
     ``FAILED`` hold in every later state, and ``NOT_DISPATCHED`` leaves only for
     ``UNKNOWN`` in a ``CONFLICT`` state, when later evidence contradicts the
-    non-dispatch proof (``terminal_outcome_overwritten``).
+    non-dispatch proof (``terminal_outcome_overwritten``);
+15. once billing is final, nothing is held for the attempt: a hold left open
+    after a final invoice quietly shrinks the budget with every settled bill
+    (``held_after_final_billing``). It is the invariant of check 8 seen from
+    the other side, and it is numbered last so no earlier check changes its
+    number or its place in the order.
 
 A record that passes every check is ``allow`` with reason ``finality_held``.
 A pass establishes no external effect, no invoice authenticity, no durability
@@ -80,10 +85,11 @@ from pathlib import Path
 from typing import Any
 
 from agent_evidence_vectors import strictjson
+from agent_evidence_vectors.identifiers import identifier, same_identifier
 
 SUITE = "execution-billing-finality/v1"
-CONTRACT_ID = (
-    "https://probityai.github.io/agent-evidence-vectors/predicate/v1/execution-billing-finality"
+CONTRACT_ID = identifier(
+    "agent-evidence-vectors/predicate/v1/execution-billing-finality"
 )
 ALLOW, DENY = "allow", "deny"
 ALLOWED_REASON = "finality_held"
@@ -118,6 +124,7 @@ CHECKS = (
     "known_spend_decreased",
     "final_billing_reversed",
     "terminal_outcome_overwritten",
+    "held_after_final_billing",
 )
 _HERE = Path(__file__).resolve().parent
 _NAME = "vectors-execution-billing-finality"
@@ -246,6 +253,11 @@ def _held_released(record: Record) -> bool:
                for state in states(record))
 
 
+def _held_after_final(record: Record) -> bool:
+    return any(state["billingFinality"] == "FINAL" and state["heldMicroUsd"] != 0
+               for state in states(record))
+
+
 def _redispatched(record: Record) -> bool:
     return any(step["cmd"] == "dispatch" and step.get("attempt", "A") == "A"
                and action["return"].get("dispatchAllowed") is True
@@ -335,7 +347,8 @@ def _first_failure(record: Record, skip: frozenset[str]) -> str | None:
     """
     failures: dict[str, Callable[[], bool]] = {
         "contract_id_missing": lambda: "contractId" not in record,
-        "contract_id_unknown": lambda: record.get("contractId", CONTRACT_ID) != CONTRACT_ID,
+        "contract_id_unknown": lambda: not same_identifier(
+            record.get("contractId", CONTRACT_ID), CONTRACT_ID),
         "record_malformed": lambda: malformed(record),
         "dispatch_state_missing": lambda: _dispatch_state_missing(record),
         "claim_boundary_dropped": lambda: _boundary_dropped(record),
@@ -348,6 +361,7 @@ def _first_failure(record: Record, skip: frozenset[str]) -> str | None:
         "known_spend_decreased": lambda: _known_decreased(record),
         "final_billing_reversed": lambda: _billing_reversed(record),
         "terminal_outcome_overwritten": lambda: _outcome_overwritten(record),
+        "held_after_final_billing": lambda: _held_after_final(record),
     }
     for name in CHECKS:
         if failures[name]():

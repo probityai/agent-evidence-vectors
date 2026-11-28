@@ -9,6 +9,8 @@ import (
 	"slices"
 	"sort"
 	"strings"
+
+	"github.com/probityai/agent-evidence-vectors/internal/identifiers"
 )
 
 func init() { register(refusalReason{}) }
@@ -37,7 +39,7 @@ func init() { register(refusalReason{}) }
 // ambiguous: the draft leaves both open.
 type refusalReason struct{}
 
-const rsnContractID = "https://probityai.github.io/agent-evidence-vectors/predicate/v1/refusal-reason-priority"
+var rsnContractID = identifiers.Identifier("agent-evidence-vectors/predicate/v1/refusal-reason-priority")
 
 func (refusalReason) Suite() string { return "refusal-reason-priority/v1" }
 
@@ -227,7 +229,7 @@ type rsnCheck struct {
 // rsnChecks is the ordered refusal table, first failure wins.
 func rsnChecks(r rsnRecord, emitted string, owed []string, leaseOnly bool) []rsnCheck {
 	var contract string
-	known := len(r.ContractID) > 0 && strictUnmarshal(r.ContractID, &contract) == nil && contract == rsnContractID
+	known := len(r.ContractID) > 0 && strictUnmarshal(r.ContractID, &contract) == nil && identifiers.CanonicalIdentifier(contract) == rsnContractID
 	wrong := !leaseOnly && !slices.Contains(owed, emitted)
 	return []rsnCheck{
 		{"contract_id_missing", len(r.ContractID) == 0},

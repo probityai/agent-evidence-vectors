@@ -85,7 +85,9 @@ def test_counts_come_from_the_manifest() -> None:
 
 def test_every_rule_has_its_denied_case() -> None:
     assert set(DENIED.values()) == set(CHECKS) | set(RECEIPT_CHECKS)
-    assert all(name == _case_for(reason) for name, reason in DENIED.items())
+    assert all(_case_for(rule) in DENIED for rule in DENIED.values())
+    # A further case for a rule is named after it (reject-<rule>-<what it adds>).
+    assert all(name.startswith(_case_for(reason)) for name, reason in DENIED.items())
 
 
 @pytest.mark.parametrize("name", sorted(DENIED))
@@ -102,7 +104,8 @@ def test_each_denied_case_fails_exactly_its_named_rule(name: str) -> None:
 @pytest.mark.parametrize("rule", CHECKS + RECEIPT_CHECKS)
 def test_every_rule_is_forced_by_exactly_its_case(rule: str) -> None:
     _, errors = corpus.check(skip=frozenset({rule}))
-    assert _failed(errors) == {_case_for(rule)}, f"switching off {rule}: {errors}"
+    named = {name for name, reason in DENIED.items() if reason == rule}
+    assert _failed(errors) == named, f"switching off {rule}: {errors}"
 
 
 def test_verifier_that_denies_everything_fails_the_controls(tmp_path: Path) -> None:
@@ -233,25 +236,59 @@ def _too_deep(record: dict[str, Any]) -> None:
 
 
 def _unbound(record: dict[str, Any]) -> None:
-    del record["entries"][3]["grantChainDigest"]
+    del record["entries"][3]["authorityChainDigest"]
+
+
+def _authority_as_grant_chain(record: dict[str, Any]) -> None:
+    """The revision 1.2 spelling: the guard's walk under the grant-chain member."""
+    record["entries"][3]["grantChainDigest"] = record["entries"][3].pop("authorityChainDigest")
+
+
+def _bad_grant_chain(record: dict[str, Any]) -> None:
+    record["entries"][3]["grantChainDigest"] = "sha256:00"
 
 
 def _bad_profile(record: dict[str, Any]) -> None:
     record["componentProfileDigest"] = "sha256:00"
 
 
+READ_BACK = "allow-write-attributed-and-read-back"
+WITHHELD = 4  # agent-c's read of agent-a's value, refused by agent-c for want of a rule
+
+
+def _withheld_read_names_another_writer(record: dict[str, Any]) -> None:
+    record["entries"][WITHHELD]["writer"] = {"agent": "agent-d"}
+
+
+def _withheld_read_names_another_user(record: dict[str, Any]) -> None:
+    record["entries"][WITHHELD]["writer"]["user"] = "another principal"
+
+
+def _withheld_read_of_an_unwritten_key(record: dict[str, Any]) -> None:
+    record["entries"][WITHHELD]["keyDigest"] = "sha256:" + "0" * 64
+
+
+def _withheld_read_of_another_value(record: dict[str, Any]) -> None:
+    record["entries"][WITHHELD]["valueDigest"] = "sha256:" + "0" * 64
+
+
 # Each attempt to get an isolated agent's call, an unattested document or an unbound
-# call past the 1.1 rules, and the reason the reader must give.
+# call past the 1.1 and 1.3 rules, and the reason the reader must give.
 BYPASSES = [
     (REFUSED, _unrefuse, "tool_call_by_isolated_agent"),
     (REFUSED, _refused_false, "tool_call_by_isolated_agent"),
     (REFUSED, _reason_only, "record_malformed"),
     (REFUSED, _unbound, "tool_call_authority_unbound"),
+    (REFUSED, _authority_as_grant_chain, "tool_call_authority_unbound"),
+    (REFUSED, _bad_grant_chain, "record_malformed"),
     (REFUSED, _bad_profile, "record_malformed"),
     (ATTESTED, _no_root, "retrieval_admitted_outside_snapshot"),
     (ATTESTED, _outside, "retrieval_admitted_outside_snapshot"),
     (ATTESTED, _sibling_swapped, "retrieval_admitted_outside_snapshot"),
     (ATTESTED, _too_deep, "record_malformed"),
+    (READ_BACK, _withheld_read_names_another_writer, "read_writer_mismatch"),
+    (READ_BACK, _withheld_read_names_another_user, "read_writer_mismatch"),
+    (READ_BACK, _withheld_read_of_an_unwritten_key, "read_value_unwritten"),
 ]
 
 
@@ -262,6 +299,18 @@ def test_each_bypass_attempt_is_refused(tmp_path: Path, name: str, change: Any,
     assert _edited_verdict(tmp_path, name, change) == {"decision": "deny", "reason": reason}
 
 
+def test_a_withheld_read_of_another_value_is_still_allowed(tmp_path: Path) -> None:
+    # The receipt binds the journal's head, so the edited journal is judged without it.
+    record = _record(READ_BACK)
+    _withheld_read_of_another_value(record)
+    generator.rechain(record["entries"])
+    staged = tmp_path / READ_BACK
+    staged.mkdir()
+    _write(staged / "record.json", record)
+    assert reader.verify(staged / "record.json") == {"decision": "allow",
+                                                    "reason": reader.ALLOWED_REASON}
+
+
 def test_a_run_that_names_no_snapshot_and_claims_none_is_judged_on_the_rest(
         tmp_path: Path) -> None:
     # No root and no claim: the journal says nothing about attestation, so a consumer
@@ -270,12 +319,12 @@ def test_a_run_that_names_no_snapshot_and_claims_none_is_judged_on_the_rest(
         "decision": "allow", "reason": reader.ALLOWED_REASON}
 
 
-def test_the_reach_rule_counts_every_tool_call_by_a_tainted_agent() -> None:
+def test_the_reach_rule_counts_every_unrefused_tool_call_by_a_tainted_agent() -> None:
     # The subject is tainted from the start; from fromSeq on, a delivery the router did
     # not drop counts when its sender is tainted and taints the receiver, even one already
-    # tainted; a tool call counts when its agent is tainted, refused or not.
+    # tainted; a tool call counts when its agent is tainted and it was not refused (2.1).
     assert reader.reach(_record(REFUSED), "agent-c", 0) == {
-        "agents": [], "deliveries": 0, "toolCalls": 1}
+        "agents": [], "deliveries": 0, "toolCalls": 0}
     again = _record("allow-blast-radius-counts-delivery-to-tainted-receiver")
     assert reader.reach(again, "agent-c", 0) == {
         "agents": ["agent-a"], "deliveries": 2, "toolCalls": 0}
@@ -314,11 +363,6 @@ def test_every_registered_refusal_code_gives_the_same_verdict(tmp_path: Path, co
         "decision": "allow", "reason": "containment_consistent"}
 
 
-def test_the_registered_refusal_codes_are_the_four_the_spec_lists() -> None:
-    assert reader.CLOSED["reasonCode"] == (
-        "budget_exhausted", "purpose_out_of_scope", "permit_revoked", "authority_chain_violation")
-
-
 def test_the_inclusion_path_reaches_the_root_for_every_snapshot_document() -> None:
     for document in generator.DOCUMENTS:
         assert reader.merkle_root(document, generator.inclusion(document)) == \
@@ -332,3 +376,44 @@ def test_the_manifest_revision_is_the_changelogs_newest() -> None:
     heading = next(line for line in (ROOT / "CHANGES.md").read_text(encoding="utf-8").splitlines()
                    if line.startswith("## suiteRevision "))
     assert manifest["suiteRevision"] == int(heading.split()[2])
+
+
+def test_the_registry_is_sorted_unique_snake_case_and_holds_the_four_original_codes() -> None:
+    codes = list(reader.REFUSAL_CODES)
+    assert codes == sorted(set(codes))
+    assert all("-" not in code and ":" not in code for code in codes)
+    assert {"budget_exhausted", "purpose_out_of_scope", "permit_revoked",
+            "authority_chain_violation"} <= set(codes)
+
+
+def test_both_readers_ship_the_same_registry_bytes() -> None:
+    package = Path(reader.__file__).resolve().parent / "refusal_codes.json"
+    go_copy = ROOT.parents[1] / "corpusreaders" / "refusal_codes.json"
+    assert package.read_bytes() == go_copy.read_bytes()
+
+
+def test_every_registry_family_has_a_control_case() -> None:
+    registry = json.loads((Path(reader.__file__).resolve().parent / "refusal_codes.json")
+                          .read_text("utf-8"))["codes"]
+    families = {entry["check"].split(".")[0] for entry in registry}
+    assert families == {name.removeprefix("allow-refusal-registry-code-") for name in ALLOWED
+                        if name.startswith("allow-refusal-registry-code-")}
+
+
+def test_a_refused_tool_call_is_no_reach() -> None:
+    record = {"entries": [{"event": "tool_call", "agent": "agent-c", "tool": "t", "refused": True},
+                          {"event": "tool_call", "agent": "agent-c", "tool": "t"}]}
+    assert reader.reach(record, "agent-c", 0)["toolCalls"] == 1
+
+
+def test_a_refused_write_and_a_refused_read_never_taint() -> None:
+    write = {"event": "write", "agent": "agent-c", "store": "s", "keyDigest": "k",
+             "valueDigest": "v", "refused": True}
+    read = {"event": "store_read", "agent": "agent-b", "store": "s", "keyDigest": "k",
+            "valueDigest": "v"}
+    # A refused write by a tainted agent stores nothing, so a later read back stays clean.
+    assert reader.reach({"entries": [write, read]}, "agent-c", 0)["agents"] == []
+    ran = {**write, "refused": False}
+    assert reader.reach({"entries": [ran, read]}, "agent-c", 0)["agents"] == ["agent-b"]
+    # A refused read of a tainted value taints nobody.
+    assert reader.reach({"entries": [ran, {**read, "refused": True}]}, "agent-c", 0)["agents"] == []

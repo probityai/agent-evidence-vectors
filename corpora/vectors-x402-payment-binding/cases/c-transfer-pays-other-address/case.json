@@ -1,0 +1,66 @@
+{
+  "binding": {
+    "authorization": {
+      "asset": "0xa5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5",
+      "network": "eip155:8453",
+      "nonce": "0xe3e3e3e3e3e3e3e3e3e3e3e3e3e3e3e3e3e3e3e3e3e3e3e3e3e3e3e3e3e3e3e3",
+      "payer": "0xc1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1"
+    },
+    "kind": "authorization"
+  },
+  "case_id": "vectors-x402-payment-binding-c-transfer-pays-other-address",
+  "chain_read": {
+    "authorization_state": {
+      "authorizer": "0xc1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1",
+      "nonce": "0xe3e3e3e3e3e3e3e3e3e3e3e3e3e3e3e3e3e3e3e3e3e3e3e3e3e3e3e3e3e3e3e3",
+      "used": true
+    },
+    "head": {
+      "finalized": true,
+      "number": 30000000,
+      "timestamp": 1795000100
+    },
+    "logs": [
+      {
+        "address": "0xa5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5",
+        "authorizer": "0xc1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1",
+        "event": "AuthorizationUsed",
+        "log_index": 5,
+        "nonce": "0xe3e3e3e3e3e3e3e3e3e3e3e3e3e3e3e3e3e3e3e3e3e3e3e3e3e3e3e3e3e3e3e3",
+        "transaction": "0xd3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3"
+      },
+      {
+        "address": "0xa5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5",
+        "event": "Transfer",
+        "from": "0xc1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1",
+        "log_index": 6,
+        "to": "0xf4f4f4f4f4f4f4f4f4f4f4f4f4f4f4f4f4f4f4f4",
+        "transaction": "0xd3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3",
+        "value": "10000"
+      }
+    ],
+    "network": "eip155:8453",
+    "status": "ok"
+  },
+  "offer": {
+    "accepted": {
+      "amount": "10000",
+      "asset": "0xa5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5",
+      "maxTimeoutSeconds": 60,
+      "network": "eip155:8453",
+      "payTo": "0xb0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0",
+      "scheme": "exact"
+    }
+  },
+  "payment": {
+    "authorization": {
+      "from": "0xc1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1",
+      "nonce": "0xe3e3e3e3e3e3e3e3e3e3e3e3e3e3e3e3e3e3e3e3e3e3e3e3e3e3e3e3e3e3e3e3",
+      "to": "0xb0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0",
+      "validAfter": "1794999000",
+      "validBefore": "1795000000",
+      "value": "10000"
+    }
+  },
+  "schema": "x402-payment-binding-record/v1"
+}

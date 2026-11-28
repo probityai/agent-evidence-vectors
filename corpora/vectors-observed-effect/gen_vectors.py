@@ -52,8 +52,11 @@ from cryptography.hazmat.primitives.asymmetric.ed25519 import (  # noqa: E402
 # One preimage, one spelling. release-digests.py reaches the same function.
 from digest import corpus_digest  # noqa: E402
 
+sys.path.insert(0, os.path.join(HERE, os.pardir, os.pardir, "packaging"))
+from agent_evidence_vectors.identifiers import identifier  # noqa: E402
+
 SUITE = "observed-effect-conformance"
-PREDICATE_TYPE = "https://probityai.github.io/agent-evidence-vectors/predicate/v1/observed-effect"
+PREDICATE_TYPE = identifier("agent-evidence-vectors/predicate/v1/observed-effect")
 PREDICATE_SPEC = "spec/predicates/observed-effect.md"
 STATEMENT_TYPE = "https://in-toto.io/Statement/v1"
 PAYLOAD_TYPE = "application/vnd.in-toto+json"

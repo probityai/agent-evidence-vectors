@@ -75,6 +75,15 @@ var corpusCases = []corpusCase{
 	// A member of the recorded-set corpus is a directory of a publisher's
 	// bytes; its digest list is the file whose flipped byte must be named.
 	{dir: "vectors-recorded", memberFileKey: "file"},
+	// A member of the AVE id resolution corpus is one tool output file, judged
+	// against a vendored AVE records snapshot.
+	{dir: "vectors-ave-id-resolution", memberFileKey: "path"},
+	// A member of the decision-record corpus is one attachment, the decision
+	// record beside it and what the relying party holds, in one file.
+	{dir: "vectors-decision-record", memberFileKey: "path"},
+	// A member of the OCSF decision corpus is one JSON object in one file: the
+	// records' exact text, the relying party's key set and heads, and a profile.
+	{dir: "vectors-ocsf-decision", memberFileKey: "path"},
 }
 
 // corpusPath is where a corpus sits in this repository: under corpora/<id>/,
@@ -200,6 +209,25 @@ func TestUnknownSuiteIsRefusedByName(t *testing.T) {
 	}
 	if len(unknown.Known) == 0 {
 		t.Error("the refusal lists no known suite, so a reader who mistyped one sees no set")
+	}
+}
+
+// TestDelegationChainSuiteRefusesByName: the delegation-chain corpus is judged
+// by its Python reference reader only, so this binary names it and refuses.
+func TestDelegationChainSuiteRefusesByName(t *testing.T) {
+	dir := t.TempDir()
+	manifest := `{"suite":"delegation-chain/v1","vectors":[]}`
+	if err := os.WriteFile(filepath.Join(dir, corpusreaders.ManifestName), []byte(manifest), 0o600); err != nil {
+		t.Fatal(err)
+	}
+	result, err := corpusreaders.Judge(dir)
+	if result != nil || err == nil {
+		t.Fatal("a suite with no reader behind it returned a result")
+	}
+	for _, want := range []string{"delegation-chain/v1", "Python reference reader", "not a pass"} {
+		if !strings.Contains(err.Error(), want) {
+			t.Errorf("the refusal does not mention %q: %v", want, err)
+		}
 	}
 }
 

@@ -1,7 +1,6 @@
 package corpusreaders
 
 import (
-	"encoding/json"
 	"fmt"
 	"path/filepath"
 	"strings"
@@ -124,14 +123,6 @@ func rlStr(v any) string {
 		return s
 	}
 	return ""
-}
-
-func rlInt(v any) int64 {
-	if n, ok := v.(json.Number); ok {
-		i, _ := n.Int64()
-		return i
-	}
-	return 0
 }
 
 func rlList(v any) []any {

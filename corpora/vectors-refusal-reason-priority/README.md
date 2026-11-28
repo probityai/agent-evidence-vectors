@@ -36,6 +36,21 @@ stale evidence read through a diagnostic read), `later_value_emitted` (the prior
 and differ in the code: a checker that accepts any applicable value fails exactly the later-code
 member of each pair. Counts are in `MANIFEST.json`.
 
+A conformant answer reads `conformant` with reason `response_follows_source`. An open member
+reads `ambiguous` with reason `boundary_undeclared` (no boundary declared) or
+`declaration_contradicts_use` (a declared boundary the answer contradicts).
+
+Each member's `rule` names the sentence group it rests on:
+
+| Rule | Draft text | What its members test |
+| --- | --- | --- |
+| `R-ORDER` | section 8.1, the priority order | the emitted reason is the first value whose condition applies |
+| `R-NOTDET` | section 8.1, `not_determined` | an unreachable source is refused under that value, never read as assent |
+| `R-NULLOBS` | section 8.2 | `observation_as_of_ms` stays null for absent or stale evidence; a diagnostic read neither backfills it nor renews evidence |
+| `R-CLOSED` | section 8.1, the closed set | a null reason is the only permit; no value outside the five; a reason is always present |
+| `R-DECLARED` | sections 6.1 and 7.2 | the lease-instant boundary is a declared convention; frame acceptance does not decide reliance |
+| `envelope` | this repository | the record names the contract it is written against |
+
 ## Three questions the draft leaves open
 
 At the lease instant, section 6.1 makes the boundary a declared convention. A permit under a

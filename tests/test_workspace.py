@@ -146,3 +146,41 @@ def test_every_prefixed_unit_tag_resolves_to_a_real_registry_in_this_repository(
         version = workspace._version(unit, workspace.ROOT)
         got = workspace.release_target(f"{unit['prefix']}-v{version}")
         assert got["registry"] == unit["registry"] != "none", unit["prefix"]
+
+
+def _git(root: Path, *args: str) -> str:
+    import subprocess
+    return subprocess.run(["git", "-c", "user.name=t", "-c", "user.email=t@example.com", *args],
+                          cwd=root, check=True, capture_output=True, text=True).stdout.strip()
+
+
+def test_bumped_names_the_tag_of_each_unit_whose_version_changed(repo: Path) -> None:
+    _git(repo, "init", "-q")
+    _git(repo, "add", "-A")
+    _git(repo, "commit", "-q", "-m", "base")
+    base = _git(repo, "rev-parse", "HEAD")
+    (repo / "crates" / "dsse" / "Cargo.toml").write_text('[package]\nname = "dsse"\nversion = "0.1.5"\n')
+    (repo / "crates" / "dsse" / "npm" / "package.json").write_text('{"name": "dsse", "version": "0.1.0"}\n')
+    (repo / "actions" / "VERSION").write_text("0.2.0\n")
+    _git(repo, "add", "-A")
+    _git(repo, "commit", "-q", "-m", "bump")
+    head = _git(repo, "rev-parse", "HEAD")
+    assert workspace.bumped(base, head, repo) == ["dsse-v0.1.5", "action-v0.2.0"]
+    assert workspace.bumped(head, head, repo) == []
+
+
+def test_bumped_counts_one_directory_once_and_ignores_an_imported_unit(repo: Path) -> None:
+    (repo / "release.toml").write_text(
+        (repo / "release.toml").read_text()
+        + '\n[[unit]]\nprefix = "dsse-again"\nname = "dsse"\nregistry = "crates.io"\ndirectory = "crates/dsse"\n')
+    _git(repo, "init", "-q")
+    _git(repo, "add", "-A")
+    _git(repo, "commit", "-q", "-m", "base")
+    base = _git(repo, "rev-parse", "HEAD")
+    (repo / "crates" / "dsse" / "Cargo.toml").write_text('[package]\nname = "dsse"\nversion = "0.1.5"\n')
+    (repo / "crates" / "jcs-admit").mkdir()
+    (repo / "crates" / "jcs-admit" / "Cargo.toml").write_text('[package]\nname = "jcs-admit"\nversion = "0.1.0"\n')
+    _git(repo, "add", "-A")
+    _git(repo, "commit", "-q", "-m", "bump and import")
+    head = _git(repo, "rev-parse", "HEAD")
+    assert workspace.bumped(base, head, repo) == ["dsse-v0.1.5"]

@@ -1,28 +1,33 @@
 #!/usr/bin/env python3
 """Regenerate every file this repository derives, and resolve a merge over them.
 
-Four generators write files that pull requests never edit by hand: the
+Five generators write files that pull requests never edit by hand: the
 jcsvectors package copies of the RFC 8785 corpora (scripts/gen-jcsvectors-data.py),
 the signed digest list (scripts/release-digests.py), the intake records under
-release/intake/ (scripts/gen-intake-records.py) and the shared-source lock
-(interop/agentavow-signed-map-v1/lock_sources.py). Each pins bytes of code or
-corpora that many pull requests change, so two open pull requests that each
-changed anything shared disagreed on every one of those files, and each merge
-meant a hand resolution of dozens of generated records.
+release/intake/ (scripts/gen-intake-records.py), the shared-source lock
+(interop/agentavow-signed-map-v1/lock_sources.py) and the reference coverage
+(scripts/reference-coverage.py: N of M per corpus, which every corpus a pull request
+adds changes). Each pins bytes of code or corpora that many pull requests change, so
+two open pull requests that each changed anything shared disagreed on every one of
+those files, and each merge meant a hand resolution of dozens of generated records.
+
+One environment runs every step. The reference coverage step imports the reference
+verifier, which the `crosscheck` dependency group holds, so every command runs as
+UV = `uv run --locked --extra generators --group crosscheck python`.
 
 The files are marked with the `derived` attribute in .gitattributes. Their
 content is a function of the rest of the tree, so a merge conflict in one is
 never a real disagreement. This script is the one place that knows that:
 
-  uv run --locked --extra generators python scripts/regenerate-derived.py
+  UV scripts/regenerate-derived.py
       rewrite every derived file from the tree
-  uv run --locked --extra generators python scripts/regenerate-derived.py --check
+  UV scripts/regenerate-derived.py --check
       refuse when any derived file differs from what a run writes now
-  uv run --locked --extra generators python scripts/regenerate-derived.py --resolve-merge
+  UV scripts/regenerate-derived.py --resolve-merge
       after `git merge origin/main` stops on conflicts: when every conflicted
       path carries the `derived` attribute, take one side of each, regenerate,
       and stage the result. A conflict in any other path is refused untouched.
-  uv run --locked --extra generators python scripts/regenerate-derived.py --stale-ok origin/main
+  UV scripts/regenerate-derived.py --stale-ok origin/main
       the plain pull request's form of --check (scripts/pre-queue.py): pass a
       derived file that is only stale and refuse one no generator run wrote.
 
@@ -58,17 +63,20 @@ REPO = Path(__file__).resolve().parent.parent
 
 #: (name, script). Order matters: the intake records name the signed digest
 #: list, so the list is written first. The jcsvectors copies come before both,
-#: so any generator that reads a package file reads the refreshed one.
+#: so any generator that reads a package file reads the refreshed one. The
+#: reference coverage is last: it reads the corpora and the reference verifier,
+#: and nothing reads it.
 STEPS: list[tuple[str, str]] = [
     ("jcsvectors copies", "scripts/gen-jcsvectors-data.py"),
     ("digest list", "scripts/release-digests.py"),
     ("intake records", "scripts/gen-intake-records.py"),
     ("shared-source lock", "interop/agentavow-signed-map-v1/lock_sources.py"),
+    ("reference coverage", "scripts/reference-coverage.py"),
 ]
 
 #: What a failed check tells the person who has to make it pass.
 REGENERATE_HINT = (
-    "regenerate: uv run --locked --python 3.13 --extra generators python "
+    "regenerate: uv run --locked --python 3.13 --extra generators --group crosscheck python "
     "scripts/regenerate-derived.py, commit the derived files it changes "
     "(after a conflicted `git merge origin/main`: add --resolve-merge)"
 )

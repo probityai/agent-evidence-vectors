@@ -10,6 +10,8 @@ python interop/action-tuple-framed-v1/reader.py check interop/action-tuple-frame
 python interop/action-tuple-framed-v1/reader.py check interop/action-tuple-framed-v1/cases/ATF-010.json
 ```
 
+The tests that create symbolic links need that privilege. On Windows the privilege needs Developer Mode or an elevated shell; without either, the tests probe once and report a skip that names the reason, instead of failing with error 1314. Enable Developer Mode (or run elevated) to execute them.
+
 The first packet is accepted with exit 0. The second has an ambiguous native replacement tuple paired with the first candidate's frame and digest; it is refused as `tuple-mismatch` with exit 2. A refusal is not reported as an authorization verdict.
 
 For a corpus run, select the manifest SHA-256 from your reviewed, immutable checkout before running the reader. The value below is the pin for this candidate revision:

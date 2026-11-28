@@ -90,8 +90,9 @@ PYTHON_RUNTIME = (3, 13)
 
 #: The Go checker's packages: the binary's package and every package it imports
 #: from this module. The module is stdlib-only, so there is no go.sum; go.work
-#: decides which modules a build in this tree resolves.
-GO_PACKAGES = ["aee", "cmd/aee-verify", "corpusreaders"]
+#: decides which modules a build in this tree resolves. regenerate-derived-test.py
+#: compares this list with `go list -deps ./cmd/aee-verify`.
+GO_PACKAGES = ["aee", "cmd/aee-verify", "corpusreaders", "internal/identifiers", "observedeffect"]
 
 
 def go_source(root: Path = REPO) -> list[str]:
@@ -121,6 +122,10 @@ def go_source(root: Path = REPO) -> list[str]:
 
 GO_DEPENDENCIES = ["go.mod", "go.work"]
 SCITT = "vectors-scitt-cose"
+DELEGATION = "vectors-delegation-chain"
+REGISTRATION = "vectors-agent-registration-classification"
+#: Corpora whose checker is a Python script in the corpus directory, not aee-verify.
+PYTHON_CHECKERS = (SCITT, DELEGATION, REGISTRATION)
 PYTHON_DEPENDENCIES = ["pyproject.toml", "uv.lock"]
 
 REFUSAL_VERDICTS = ["contradicted", "failed", "must-reject", "reject", "rejected"]
@@ -199,8 +204,8 @@ def where(corpus: str) -> str:
             from None
 
 
-def scitt_script() -> str:
-    return where(SCITT) + "/check_vectors.py"
+def python_script(directory: str) -> str:
+    return where(directory) + "/check_vectors.py"
 
 
 def corpora() -> list[tuple[str, str, str]]:
@@ -350,9 +355,9 @@ def go_runs(binary: str, directory: str) -> tuple[Run, Run, Run]:
     return first, second, text
 
 
-def scitt_runs() -> tuple[Run, Run, Run]:
+def python_runs(directory: str) -> tuple[Run, Run, Run]:
     env = dict(os.environ, PYTHONHASHSEED="0")
-    script = scitt_script()
+    script = python_script(directory)
     shown = f"PYTHONHASHSEED=0 python {script}"
     first = Run(shown + " --json", [sys.executable, script, "--json"], env)
     second = Run(shown + " --json", [sys.executable, script, "--json"], env)
@@ -443,9 +448,9 @@ def native_result(run: Run) -> dict[str, Any]:
 
 
 def checker_run(directory: str, binary: str, cwd: Path) -> Run:
-    if directory == SCITT:
+    if directory in PYTHON_CHECKERS:
         env = dict(os.environ, PYTHONHASHSEED="0")
-        argv = [sys.executable, scitt_script(), "--json"]
+        argv = [sys.executable, python_script(directory), "--json"]
         return Run("", argv, env, cwd)
     return Run("", [binary, "-json", where(directory)], None, cwd)
 
@@ -531,11 +536,33 @@ def refused_by(document: dict[str, Any], farm: Farm) -> None:
         item["evidence"]["refused-by"] = found
 
 
+DELEGATION_LINE = re.compile(r"^answered (\d+) of (\d+) cases$")
+REGISTRATION_LINE = re.compile(r"^CLASSIFICATION_PASS (\d+) generated cases; ")
 SCITT_LINE = re.compile(r"^OK (\d+) accept, (\d+) reject, (\d+) indeterminate, ")
 
 
 def aggregate_of(directory: str, text: Run) -> dict[str, Any]:
     output = text.stdout.decode("utf-8")
+    if directory == DELEGATION:
+        line = output.rstrip("\n")
+        match = DELEGATION_LINE.match(line)
+        if match is None:
+            raise SystemExit(f"FAIL: {DELEGATION} printed no summary line: {output!r}")
+        declared = json.loads(read(f"{where(DELEGATION)}/MANIFEST.json"))["counts"]
+        counts = {"accept": declared["allow"], "reject": declared["deny"]}
+        return {"line": line, "total": int(match[1]), "counts": counts}
+    if directory == REGISTRATION:
+        line = output.rstrip("\n")
+        match = REGISTRATION_LINE.match(line)
+        if match is None:
+            raise SystemExit(f"FAIL: {REGISTRATION} printed no summary line: {output!r}")
+        declared = json.loads(read(f"{where(REGISTRATION)}/MANIFEST.json"))["counts"]
+        counts = {"accept": declared["registration_credit"],
+                  "reject": declared["no_registration_credit"]}
+        if int(match[1]) != sum(counts.values()):
+            raise SystemExit(f"FAIL: {REGISTRATION} summary counts {match[1]} cases, "
+                             f"its manifest declares {sum(counts.values())}")
+        return {"line": line, "total": int(match[1]), "counts": counts}
     if directory == SCITT:
         line = output.rstrip("\n")
         match = SCITT_LINE.match(line)
@@ -561,9 +588,9 @@ def listing(paths: list[str]) -> str:
 
 
 def checker(directory: str, runs: tuple[Run, Run, Run]) -> dict[str, Any]:
-    if directory == SCITT:
-        source, deps = [scitt_script()], PYTHON_DEPENDENCIES
-        name, runtime = scitt_script(), {
+    if directory in PYTHON_CHECKERS:
+        source, deps = [python_script(directory)], PYTHON_DEPENDENCIES
+        name, runtime = python_script(directory), {
             "name": "cpython", "version": ".".join(map(str, PYTHON_RUNTIME)),
         }
         build = "uv sync --locked --extra generators"
@@ -722,8 +749,8 @@ def record(
                              "inputs": [f"member:{check['check']}", f"check:{check['check']}"]})
     member_paths = [(f["path"], f["sha256"]) for m in pop["members"] for f in m["files"]]
     manifest_sha = sha(read(manifest_path))
-    is_scitt = directory == SCITT
-    name = scitt_script() if is_scitt else "aee-verify"
+    is_scitt = directory in PYTHON_CHECKERS
+    name = python_script(directory) if is_scitt else "aee-verify"
     nonauthor = non_author_runs(directory, digest)
     covered = any(r["covers-these-bytes"] for r in nonauthor)
     observations: list[dict[str, Any]] = [
@@ -801,7 +828,10 @@ def build() -> dict[str, bytes]:
         subprocess.run(["go", "build", "-o", binary, "./cmd/aee-verify"], cwd=REPO, check=True)
         out: dict[str, bytes] = {}
         for directory, suite, digest in corpora():
-            runs = scitt_runs() if directory == SCITT else go_runs(binary, directory)
+            if directory in PYTHON_CHECKERS:
+                runs = python_runs(directory)
+            else:
+                runs = go_runs(binary, directory)
             manifest = json.loads(read(f"{where(directory)}/MANIFEST.json"))
             paths = artifact_paths(directory, population(directory, manifest))
             natives = {f"{NATIVE}/{directory}.json": runs[0].stdout,

@@ -1,0 +1,86 @@
+{
+  "format": "dsse-pae-vectors/v1",
+  "paeCases": [
+    {
+      "id": "pae-ascii-type",
+      "family": "ascii",
+      "payloadType": "application/vnd.in-toto+json",
+      "payloadHex": "7b2261223a317d",
+      "typeByteLength": 28,
+      "typeCharLength": 28,
+      "paeHex": "445353457631203238206170706c69636174696f6e2f766e642e696e2d746f746f2b6a736f6e2037207b2261223a317d",
+      "sha256": "bb68caefb81bc00b03e8afdd58699083c6d70ecbd6ee0b405a8317d2dd44e5c5"
+    },
+    {
+      "id": "pae-empty-body",
+      "family": "ascii",
+      "payloadType": "text/plain",
+      "payloadHex": "",
+      "typeByteLength": 10,
+      "typeCharLength": 10,
+      "paeHex": "44535345763120313020746578742f706c61696e203020",
+      "sha256": "54ce189eaef962afcf870ab5a69deac6b379133fea42299468d45716b00cde13"
+    },
+    {
+      "id": "pae-two-byte-char-type",
+      "family": "non-ascii-type",
+      "payloadType": "application/vnd.caf\u00e9",
+      "payloadHex": "78",
+      "typeByteLength": 21,
+      "typeCharLength": 20,
+      "paeHex": "445353457631203231206170706c69636174696f6e2f766e642e636166c3a920312078",
+      "sha256": "9cc09a71a924e6c356b4de114a43a0e306eab1050a3006d6bff22b158d5d90f5"
+    },
+    {
+      "id": "pae-three-byte-char-type",
+      "family": "non-ascii-type",
+      "payloadType": "text/\u20ac",
+      "payloadHex": "78",
+      "typeByteLength": 8,
+      "typeCharLength": 6,
+      "paeHex": "445353457631203820746578742fe282ac20312078",
+      "sha256": "b4588fd9aa403836151459eae4d372742725b0a616399f8c195282a69511548e"
+    },
+    {
+      "id": "pae-four-byte-char-type",
+      "family": "non-ascii-type",
+      "payloadType": "text/\ud83d\ude00",
+      "payloadHex": "78",
+      "typeByteLength": 9,
+      "typeCharLength": 6,
+      "paeHex": "445353457631203920746578742ff09f988020312078",
+      "sha256": "4c12fd8ce02bc6e57733ba229c65cbc8532a45f860dd648c22f215ad85b42e66"
+    },
+    {
+      "id": "pae-cjk-type",
+      "family": "non-ascii-type",
+      "payloadType": "application/\u6587\u4ef6",
+      "payloadHex": "7b7d",
+      "typeByteLength": 18,
+      "typeCharLength": 14,
+      "paeHex": "445353457631203138206170706c69636174696f6e2fe69687e4bbb62032207b7d",
+      "sha256": "9451d8abbf78a15bf1449c05ed75cd45e59143d692ec2ab212e6a37a3e44f143"
+    },
+    {
+      "id": "pae-empty-type",
+      "family": "empty-type",
+      "payloadType": "",
+      "payloadHex": "78",
+      "typeByteLength": 0,
+      "typeCharLength": 0,
+      "paeHex": "44535345763120302020312078",
+      "sha256": "0bd871edbd0bd907c7e116bf82732f20af300e47f2d2d53b34a5d3658c8f8f36",
+      "note": "the PAE is defined for an empty type; a signer may refuse it, so a signing result is not compared"
+    },
+    {
+      "id": "pae-binary-body",
+      "family": "ascii",
+      "payloadType": "application/octet-stream",
+      "payloadHex": "000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f202122232425262728292a2b2c2d2e2f303132333435363738393a3b3c3d3e3f404142434445464748494a4b4c4d4e4f505152535455565758595a5b5c5d5e5f606162636465666768696a6b6c6d6e6f707172737475767778797a7b7c7d7e7f808182838485868788898a8b8c8d8e8f909192939495969798999a9b9c9d9e9fa0a1a2a3a4a5a6a7a8a9aaabacadaeafb0b1b2b3b4b5b6b7b8b9babbbcbdbebfc0c1c2c3c4c5c6c7c8c9cacbcccdcecfd0d1d2d3d4d5d6d7d8d9dadbdcdddedfe0e1e2e3e4e5e6e7e8e9eaebecedeeeff0f1f2f3f4f5f6f7f8f9fafbfcfdfeff",
+      "typeByteLength": 24,
+      "typeCharLength": 24,
+      "paeHex": "445353457631203234206170706c69636174696f6e2f6f637465742d73747265616d2032353620000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f202122232425262728292a2b2c2d2e2f303132333435363738393a3b3c3d3e3f404142434445464748494a4b4c4d4e4f505152535455565758595a5b5c5d5e5f606162636465666768696a6b6c6d6e6f707172737475767778797a7b7c7d7e7f808182838485868788898a8b8c8d8e8f909192939495969798999a9b9c9d9e9fa0a1a2a3a4a5a6a7a8a9aaabacadaeafb0b1b2b3b4b5b6b7b8b9babbbcbdbebfc0c1c2c3c4c5c6c7c8c9cacbcccdcecfd0d1d2d3d4d5d6d7d8d9dadbdcdddedfe0e1e2e3e4e5e6e7e8e9eaebecedeeeff0f1f2f3f4f5f6f7f8f9fafbfcfdfeff",
+      "sha256": "d2614ab5162d1d336f141a5e3342e591d6e22e330fa8ce8ff2277f2e3982a973"
+    }
+  ]
+}

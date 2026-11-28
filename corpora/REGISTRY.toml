@@ -181,6 +181,18 @@ standards = ["in-toto", "rfc8785"]
 shapes = ["missing-binding", "tampering", "forged-signature"]
 
 [[corpus]]
+id = "vectors-actor-marker-survival"
+path = "corpora/vectors-actor-marker-survival"
+wheel = true
+sdist = true
+title = "Actor-marker survival"
+summary = "The acting-agent marker must survive every hop: a verifier refuses a stripped, replaced, reordered or truncated actor, a user-alone downgrade, an unsigned marker and an ignored critical parameter."
+record_class = "chain"
+domains = ["identity", "delegation"]
+standards = ["ietf-draft", "a2a", "rfc8785"]
+shapes = ["broken-chain", "missing-binding", "forged-signature"]
+
+[[corpus]]
 id = "vectors-admission"
 path = "corpora/vectors-admission"
 wheel = true
@@ -241,6 +253,18 @@ standards = ["in-toto", "rfc8785"]
 shapes = ["malformed-input", "tampering"]
 
 [[corpus]]
+id = "vectors-agent-identity-statement"
+path = "corpora/vectors-agent-identity-statement"
+wheel = true
+sdist = true
+title = "Agent identity statement"
+summary = "A verifier must accept a past decision only when the issuer's signed, versioned history of the agent's identity is one unforked chain to the pinned head and, at the decision's instant, placed the signing key in force and the agent active."
+record_class = "record"
+domains = ["identity", "authority", "transparency"]
+standards = ["in-toto"]
+shapes = ["stale-authority", "broken-chain", "forged-signature"]
+
+[[corpus]]
 id = "vectors-agent-payment-mandate"
 path = "corpora/vectors-agent-payment-mandate"
 wheel = true
@@ -248,9 +272,33 @@ sdist = true
 title = "Agent payment dispute packs"
 summary = "A reader must accept an agent-initiated payment only when the signed mandate, presented credential, charge and receipt recompute to the same digests."
 record_class = "record"
-domains = ["payments", "authority"]
-standards = ["ap2"]
+domains = ["payments", "authority", "identity"]
+standards = ["ap2", "x402"]
 shapes = ["missing-binding", "tampering", "scope-overreach"]
+
+[[corpus]]
+id = "vectors-agent-registration-classification"
+path = "corpora/vectors-agent-registration-classification"
+wheel = true
+sdist = true
+title = "Agent registration evidence classification"
+summary = "Differentiate agent discovery and quarantined reports from consented durable registration with challenged key possession, deduplication, and signed registry evidence."
+record_class = "record"
+domains = ["identity", "provenance", "agent-protocols"]
+standards = ["mcp"]
+shapes = ["self-report", "missing-binding", "replay"]
+
+[[corpus]]
+id = "vectors-agent-request-proof"
+path = "corpora/vectors-agent-request-proof"
+wheel = true
+sdist = true
+title = "Agent request proof"
+summary = "A recorded per-request RS256 agent proof must bind its typ, alg, registered key thumbprint, issuer, method, path, body digest, lifetime and single-use jti to the request the recorder received."
+record_class = "record"
+domains = ["identity", "provenance"]
+standards = ["in-toto", "rfc8785"]
+shapes = ["missing-binding", "forged-signature", "replay"]
 
 [[corpus]]
 id = "vectors-agentic-process-evidence"
@@ -349,6 +397,18 @@ standards = []
 shapes = ["missing-binding", "tampering", "coverage-gap"]
 
 [[corpus]]
+id = "vectors-assertion-grade"
+path = "corpora/vectors-assertion-grade"
+wheel = true
+sdist = true
+title = "Assertion grade"
+summary = "A reader must grade each assertion of a record bundle by who could have written its content (I, W+, W or S) and name whom it is independent of, never taking a grade from the bundle's own claim."
+record_class = "record"
+domains = ["grading", "transparency", "provenance"]
+standards = []
+shapes = ["wrong-grade", "self-report", "forged-signature"]
+
+[[corpus]]
 id = "vectors-authority-at-dispatch"
 path = "corpora/vectors-authority-at-dispatch"
 wheel = true
@@ -359,6 +419,18 @@ record_class = "record"
 domains = ["authority", "delegation"]
 standards = []
 shapes = ["stale-authority", "scope-overreach", "missing-binding"]
+
+[[corpus]]
+id = "vectors-ave-id-resolution"
+path = "corpora/vectors-ave-id-resolution"
+wheel = true
+sdist = true
+title = "AVE id resolution"
+summary = "Every AVE id a tool's SARIF or JSON output names must resolve to an active record in a snapshot pinned by commit and digest; unknown, malformed or non-active ids fail."
+record_class = "report"
+domains = ["provenance"]
+standards = []
+shapes = ["malformed-input", "stale-authority"]
 
 [[corpus]]
 id = "vectors-badge-vc-verify"
@@ -407,6 +479,18 @@ record_class = "credential"
 domains = ["identity", "provenance", "agent-protocols"]
 standards = ["ietf-draft", "did", "rfc8785"]
 shapes = ["forged-signature", "missing-binding", "malformed-input"]
+
+[[corpus]]
+id = "vectors-cbor-receipt-chain"
+path = "corpora/vectors-cbor-receipt-chain"
+wheel = true
+sdist = true
+title = "CBOR receipt chain"
+summary = "A reader must judge a stream of signed CBOR receipts as one ordered chain: a repeated, reissued, swapped, dropped or re-signed receipt, a cut tail or a restart that hides a lost one, with every trust input held by the consumer."
+record_class = "chain"
+domains = ["provenance", "authority"]
+standards = []
+shapes = ["broken-chain", "replay", "coverage-gap"]
 
 [[corpus]]
 id = "vectors-chunked-export"
@@ -469,12 +553,24 @@ standards = ["rfc8785"]
 shapes = ["missing-binding", "tampering"]
 
 [[corpus]]
+id = "vectors-credential-reachability"
+path = "corpora/vectors-credential-reachability"
+wheel = true
+sdist = true
+title = "Credential reachability"
+summary = "A verifier must accept a probe's signed credential-reachability result only when a key outside the agent's reach signed it, bound to the environment contract, its challenge and its audience, and no finding is hidden or overstated."
+record_class = "record"
+domains = ["authority", "identity", "provenance"]
+standards = ["in-toto"]
+shapes = ["self-report", "missing-binding", "replay"]
+
+[[corpus]]
 id = "vectors-credential-release"
 path = "corpora/vectors-credential-release"
 wheel = true
 sdist = true
 title = "Credential release"
-summary = "A verifier must accept a credential release only against a current passing agent-card receipt, with audience, scope and lifetime inside the receipt."
+summary = "A verifier must accept a credential release only to the named agent and user, against a current passing agent-card receipt or the user's grant, with audience and lifetime inside that basis."
 record_class = "record"
 domains = ["authority", "identity"]
 standards = ["a2a"]
@@ -491,6 +587,30 @@ record_class = "record"
 domains = ["authority", "effects"]
 standards = []
 shapes = ["uncertainty", "malformed-input", "self-report"]
+
+[[corpus]]
+id = "vectors-decision-record"
+path = "corpora/vectors-decision-record"
+wheel = true
+sdist = true
+title = "Decision records: action binding"
+summary = "A verifier must report each action-binding check on its own and refuse self-approval, one request taking effect twice and a removed signature."
+record_class = "record"
+domains = ["approval", "authority"]
+standards = []
+shapes = ["missing-binding", "replay", "forged-signature"]
+
+[[corpus]]
+id = "vectors-delegation-chain"
+path = "corpora/vectors-delegation-chain"
+wheel = true
+sdist = true
+title = "Delegation chains"
+summary = "A verifier must refuse a signed delegation chain that widens any axis at any hop, is spliced, re-signed by an outsider or revoked."
+record_class = "record"
+domains = ["delegation", "authority"]
+standards = ["owasp"]
+shapes = ["scope-overreach", "stale-authority"]
 
 [[corpus]]
 id = "vectors-delegation-lifecycle"
@@ -721,6 +841,18 @@ standards = ["ietf-draft"]
 shapes = ["stale-authority", "uncertainty", "malformed-input"]
 
 [[corpus]]
+id = "vectors-key-revocation-list"
+path = "corpora/vectors-key-revocation-list"
+wheel = true
+sdist = true
+title = "Key-revocation lists"
+summary = "A verifier must trust a signed list of revoked keys only from a signer chosen by thumbprint, refuse tampered, replayed older and stale lists, keep revocations it has seen, and read an uncovered key as no statement."
+record_class = "record"
+domains = ["authority", "provenance"]
+standards = ["w3c"]
+shapes = ["stale-authority", "replay", "coverage-gap"]
+
+[[corpus]]
 id = "vectors-lifecycle-binding"
 path = "corpora/vectors-lifecycle-binding"
 wheel = true
@@ -793,6 +925,18 @@ standards = []
 shapes = ["coverage-gap", "self-report"]
 
 [[corpus]]
+id = "vectors-oasf-record"
+path = "corpora/vectors-oasf-record"
+wheel = true
+sdist = true
+title = "OASF records"
+summary = "A verifier must accept an OASF record only when its digest is the RFC 8785 digest of the record and the signature comes from the signer the consumer's policy names."
+record_class = "record"
+domains = ["provenance", "identity", "canonicalization"]
+standards = ["rfc8785"]
+shapes = ["tampering", "missing-binding"]
+
+[[corpus]]
 id = "vectors-observed-effect"
 path = "corpora/vectors-observed-effect"
 wheel = true
@@ -805,6 +949,18 @@ standards = ["in-toto"]
 shapes = ["forged-signature", "tampering", "missing-binding"]
 
 [[corpus]]
+id = "vectors-ocsf-decision"
+path = "corpora/vectors-ocsf-decision"
+wheel = true
+sdist = true
+title = "Decision records: OCSF API Activity"
+summary = "A verifier must report each OCSF decision-record check on its own and refuse a member named twice under a valid seal, a key chosen by an unsigned key id and a cut tail."
+record_class = "record"
+domains = ["authority", "provenance"]
+standards = []
+shapes = ["malformed-input", "forged-signature", "broken-chain"]
+
+[[corpus]]
 id = "vectors-open-weight-art53"
 path = "corpora/vectors-open-weight-art53"
 wheel = true
@@ -815,6 +971,30 @@ record_class = "record"
 domains = ["model-governance"]
 standards = ["eu-ai-act"]
 shapes = ["coverage-gap", "uncertainty"]
+
+[[corpus]]
+id = "vectors-physical-completion"
+path = "corpora/vectors-physical-completion"
+wheel = true
+sdist = true
+title = "Physical completion"
+summary = "A verifier must not read physical completion out of a receipt or a controller's report, must name the policy behind a proof, and must not turn a gap or a lost reply into a negative finding."
+record_class = "report"
+domains = ["completion", "effects", "transparency"]
+standards = ["ietf-draft", "scitt-cose"]
+shapes = ["self-report", "missing-binding", "uncertainty"]
+
+[[corpus]]
+id = "vectors-principal-action"
+path = "corpora/vectors-principal-action"
+wheel = true
+sdist = true
+title = "Principal action"
+summary = "An action bound to user, agent, sponsor and approver principals, each by credential digest and pinned RFC 7638 issuer key thumbprint, with the RFC 8693 act chain naming the agent."
+record_class = "record"
+domains = ["identity", "provenance"]
+standards = ["in-toto", "rfc8785"]
+shapes = ["missing-binding", "forged-signature"]
 
 [[corpus]]
 id = "vectors-principal-binding"
@@ -937,6 +1117,18 @@ standards = ["in-toto"]
 shapes = ["missing-binding", "malformed-input", "stale-authority"]
 
 [[corpus]]
+id = "vectors-revocation-list"
+path = "corpora/vectors-revocation-list"
+wheel = true
+sdist = true
+title = "Revocation list"
+summary = "A verifier pinning its root keys must refuse a signed revocation list that is malformed, signed by a key it does not pin, forked, rolled back, gapped, issued out of order or shrunk, and must hold the list in force exactly."
+record_class = "chain"
+domains = ["identity", "authority"]
+standards = ["rfc8785"]
+shapes = ["stale-authority", "forged-signature", "replay"]
+
+[[corpus]]
 id = "vectors-rsa-digestinfo"
 path = "corpora/vectors-rsa-digestinfo"
 wheel = true
@@ -1007,6 +1199,18 @@ record_class = "execution-evidence"
 domains = ["effects", "completion", "grading"]
 standards = []
 shapes = ["self-report", "tampering"]
+
+[[corpus]]
+id = "vectors-status-receipt-binding"
+path = "corpora/vectors-status-receipt-binding"
+wheel = true
+sdist = true
+title = "Status receipt binding"
+summary = "A verifier must accept an agent credential's status receipt only when it binds the digest of the credential's bytes, so a changed capability set or key is refused beside a genuine receipt."
+record_class = "receipt"
+domains = ["identity", "authority"]
+standards = ["rfc8785"]
+shapes = ["missing-binding", "scope-overreach", "forged-signature"]
 
 [[corpus]]
 id = "vectors-telemetry-evidence"
@@ -1091,3 +1295,15 @@ record_class = "record"
 domains = ["payments", "provenance"]
 standards = ["x402"]
 shapes = ["missing-binding", "tampering", "uncertainty"]
+
+[[corpus]]
+id = "vectors-x402-payment-binding"
+path = "corpora/vectors-x402-payment-binding"
+wheel = true
+sdist = true
+title = "x402 payment binding, authorization and settlement"
+summary = "A verifier must say, as two verdicts, whether an x402 evidence record identifies one EIP-3009 authorization and whether a chain read identifies the transfer that settled it."
+record_class = "record"
+domains = ["payments", "provenance"]
+standards = ["x402"]
+shapes = ["missing-binding", "uncertainty"]

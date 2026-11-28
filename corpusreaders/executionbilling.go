@@ -8,6 +8,8 @@ import (
 	"path/filepath"
 	"reflect"
 	"regexp"
+
+	"github.com/probityai/agent-evidence-vectors/internal/identifiers"
 )
 
 func init() { register(executionBilling{}) }
@@ -49,13 +51,15 @@ func init() { register(executionBilling{}) }
 //     final_billing_reversed;
 //  14. SUCCEEDED and FAILED hold in every later state, and NOT_DISPATCHED
 //     leaves only for UNKNOWN in a CONFLICT state:
-//     terminal_outcome_overwritten.
+//     terminal_outcome_overwritten;
+//  15. once billing is final nothing is held for the attempt:
+//     held_after_final_billing.
 //
 // The reader also recomputes each member's retained scenario, axes and
 // dispatch states.
 type executionBilling struct{}
 
-const ebContractID = "https://probityai.github.io/agent-evidence-vectors/predicate/v1/execution-billing-finality"
+var ebContractID = identifiers.Identifier("agent-evidence-vectors/predicate/v1/execution-billing-finality")
 
 func (executionBilling) Suite() string { return "execution-billing-finality/v1" }
 
@@ -164,7 +168,7 @@ func ebDecide(r ebObj) scDecision {
 		fail func(ebObj) bool
 	}{
 		{"contract_id_missing", func(r ebObj) bool { _, ok := r["contractId"]; return !ok }},
-		{"contract_id_unknown", func(r ebObj) bool { return r["contractId"] != ebContractID }},
+		{"contract_id_unknown", func(r ebObj) bool { return identifiers.CanonicalValue(r["contractId"]) != ebContractID }},
 		{"record_malformed", ebMalformed},
 		{"dispatch_state_missing", ebDispatchStateMissing},
 		{"claim_boundary_dropped", ebBoundaryDropped},
@@ -177,6 +181,7 @@ func ebDecide(r ebObj) scDecision {
 		{"known_spend_decreased", ebKnownDecreased},
 		{"final_billing_reversed", ebBillingReversed},
 		{"terminal_outcome_overwritten", ebOutcomeOverwritten},
+		{"held_after_final_billing", ebHeldAfterFinal},
 	}
 	for _, c := range checks {
 		if c.fail(r) {
@@ -422,6 +427,15 @@ func ebHeldReleased(r ebObj) bool {
 			want.SetInt64(0)
 		}
 		if ebInt(state["heldMicroUsd"]).Cmp(want) != 0 {
+			return true
+		}
+	}
+	return false
+}
+
+func ebHeldAfterFinal(r ebObj) bool {
+	for _, state := range ebAllStates(r) {
+		if state["billingFinality"] == "FINAL" && ebInt(state["heldMicroUsd"]).Sign() != 0 {
 			return true
 		}
 	}

@@ -1,0 +1,157 @@
+{
+  "contractId": "https://probityai.github.io/agent-evidence-vectors/predicate/v1/actor-marker-survival",
+  "statements": [
+    {
+      "signature": "q6NCEWKybH3wdz6d71e1rEy0FP4nvaEF1EnO8O0BHfeoF13h_tas-oU9O6qoYlLJwtnM9UvhuIR3cDPCdk4oCQ",
+      "statement": {
+        "humanEvidence": {
+          "at": "2026-11-22T14:59:30Z",
+          "method": "user-presence"
+        },
+        "kind": "origin",
+        "sent": {
+          "at": "2026-11-22T15:00:00Z",
+          "protocol": "a2a-actor-chain",
+          "to": "agent:planner",
+          "token": {
+            "actorChain": {
+              "actors": [],
+              "origin": {
+                "sub": "user:alice@example.com"
+              }
+            }
+          }
+        },
+        "writer": "idp.example"
+      }
+    },
+    {
+      "signature": "VkUsJVMx5pzE_wZ-eq9UEEoZ37Z6mlS6yxQ7RLUM1l3O-4GIaYs3yh7yxWABED2Fvf7yr5GV0IJqEWfsL1UXCg",
+      "statement": {
+        "kind": "hop",
+        "prev": "f60cd9460ca296868e928816e3cef0da2b30febd51d0f9884b8a4056750d3e64",
+        "received": {
+          "at": "2026-11-22T15:00:10Z",
+          "protocol": "a2a-actor-chain",
+          "token": {
+            "actorChain": {
+              "actors": [],
+              "origin": {
+                "sub": "user:alice@example.com"
+              }
+            }
+          }
+        },
+        "sent": {
+          "at": "2026-11-22T15:00:11Z",
+          "protocol": "a2a-actor-chain",
+          "to": "agent:researcher",
+          "token": {
+            "actorChain": {
+              "actors": [
+                {
+                  "sub": "agent:planner"
+                }
+              ],
+              "origin": {
+                "sub": "user:alice@example.com"
+              }
+            }
+          }
+        },
+        "writer": "agent:planner"
+      }
+    },
+    {
+      "signature": "5vPb5zVU2osG4aJ3g1nv2mv--QuVIpn-YkjXgMpTnyf0NH8ue3RYYTQoc5KUwKC9wW8nP432_JdnvCiRZPxECg",
+      "statement": {
+        "kind": "hop",
+        "prev": "1dfcdb2bea800f64a9323f9ee3fa662fe25d6d5208140b37cd28c7213a5a38de",
+        "received": {
+          "at": "2026-11-22T15:00:21Z",
+          "protocol": "a2a-actor-chain",
+          "token": {
+            "actorChain": {
+              "actors": [
+                {
+                  "sub": "agent:planner"
+                }
+              ],
+              "origin": {
+                "sub": "user:alice@example.com"
+              }
+            }
+          }
+        },
+        "sent": {
+          "at": "2026-11-22T15:00:22Z",
+          "protocol": "a2a-actor-chain",
+          "to": "bridge:a2a-oauth",
+          "token": {
+            "actorChain": {
+              "actors": [
+                {
+                  "sub": "agent:planner"
+                },
+                {
+                  "sub": "agent:researcher"
+                }
+              ],
+              "origin": {
+                "sub": "user:alice@example.com"
+              }
+            }
+          }
+        },
+        "writer": "agent:researcher"
+      }
+    },
+    {
+      "signature": "zbmIj91pE3zT00-JNegO8JNlvL-RLYrjcboRLQUf-usO7EofNjg_ggi1DFX-P2euAU3Hxpk32BUoIQcJ8bQiBw",
+      "statement": {
+        "kind": "hop",
+        "prev": "f7264dc556f8e85728ad86ec96514a6042c4c8a7b5476582d2c4e779ce656746",
+        "received": {
+          "at": "2026-11-22T15:00:32Z",
+          "protocol": "a2a-actor-chain",
+          "token": {
+            "actorChain": {
+              "actors": [
+                {
+                  "sub": "agent:planner"
+                },
+                {
+                  "sub": "agent:researcher"
+                }
+              ],
+              "origin": {
+                "sub": "user:alice@example.com"
+              }
+            }
+          }
+        },
+        "sent": {
+          "at": "2026-11-22T15:00:33Z",
+          "protocol": "rfc8693",
+          "to": "api.example",
+          "token": {
+            "claims": {
+              "act": {
+                "act": {
+                  "sub": "agent:planner"
+                },
+                "sub": "agent:researcher"
+              },
+              "exp": 1795363200,
+              "sub": "user:alice@example.com"
+            },
+            "header": {
+              "typ": "JWT"
+            }
+          }
+        },
+        "writer": "bridge:a2a-oauth"
+      }
+    }
+  ]
+}

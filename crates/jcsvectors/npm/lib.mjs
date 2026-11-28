@@ -272,7 +272,7 @@ export function readers(read) {
     const reject = cases.rejectCases
       .filter((c) => c.jcsError)
       .map((c) => ({ id: c.id, corpus: BYTE_CORPUS, clause: "", input: utf8.encode(c.input), canonical: null }));
-    for (const c of cases.refusalCases ?? []) {
+    for (const c of [...(cases.refusalCases ?? []), ...(cases.invalidInputCases ?? [])]) {
       if (c.expect !== "reject") throw new Error(`${BYTE_CORPUS} case ${c.id}: a refusal case expects ${c.expect}, not reject`);
       reject.push({ id: c.id, corpus: BYTE_CORPUS, clause: "", input: refusalInput(c), canonical: null });
     }
@@ -333,7 +333,7 @@ export function readers(read) {
         boundedError: bounded,
       });
     }
-    for (const c of cases.refusalCases ?? []) {
+    for (const c of [...(cases.refusalCases ?? []), ...(cases.invalidInputCases ?? [])]) {
       if (!c.error || !c.family) throw new Error(`${BYTE_CORPUS} case ${c.id}: a refusal case needs a family and an error`);
       add({ id: c.id, family: c.family, input: refusalInput(c), error: c.error, canonical: null, boundedError: c.error });
     }

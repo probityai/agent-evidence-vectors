@@ -120,7 +120,7 @@ func differentials() ([]Differential, error) {
 		}
 		add(Differential{ID: c.ID, Family: family, Input: []byte(c.Input), Error: c.JCSError, BoundedError: bounded})
 	}
-	for _, c := range cases.RefusalCases {
+	for _, c := range cases.refusals() {
 		if c.Error == "" || c.Family == "" {
 			return nil, fmt.Errorf("%s case %s: a refusal case needs a family and an error", byteCorpus, c.ID)
 		}

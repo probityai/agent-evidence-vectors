@@ -32,7 +32,10 @@ The reader checks in a fixed order and names the first check that fails:
    least ``propagationLimitSeconds`` before the decision
    (``ancestor_scope_removed``).
 
-A record that passes all seven is ``allow`` with reason ``entitled``.
+A record that passes all seven is ``allow``. The reason is ``within_propagation_limit``
+when an entitlement or a grant scope was removed at its source at or before the decision but
+has not yet reached enforcement, because the propagation limit is a tolerance for cached
+state and not an entitlement; otherwise it is ``entitled``.
 
 The external-verifier contract: ``<verifier> <case-dir>/record.json --json``
 prints one JSON object carrying ``decision`` and ``reason``, and exits 0 for
@@ -52,9 +55,10 @@ from pathlib import Path
 from typing import Any
 
 from . import strictjson
+from .identifiers import identifier, same_identifier
 
 SUITE = "delegator-right/v1"
-CONTRACT_ID = "https://probityai.github.io/agent-evidence-vectors/contract/delegator-right/v1"
+CONTRACT_ID = identifier("agent-evidence-vectors/contract/delegator-right/v1")
 ALLOW, DENY = "allow", "deny"
 EXIT_FOR = {ALLOW: 0, DENY: 1}
 # The order is the contract: a reader names the first check that fails.
@@ -189,6 +193,22 @@ def _scope_removed(record: dict[str, Any]) -> bool:
                for hop in record["chain"] for n in hop["narrowings"])
 
 
+def _pending(record: dict[str, Any], effective: str) -> bool:
+    """Whether a removal already effective at the source is still inside the limit."""
+    return _when(effective) <= _when(record["decisionTime"]) and not _reached(record, effective)
+
+
+def _within_limit(record: dict[str, Any]) -> bool:
+    """Whether the allow rests on a removal the propagation limit has not yet reached."""
+    for hop in _delegating_hops(record):
+        right = _entitlement(record, hop)
+        if right is not None and right["until"] is not None and _pending(record, right["until"]):
+            return True
+    operation = record["request"]["operation"]
+    return any(n["operation"] == operation and _pending(record, n["effectiveAt"])
+               for hop in record["chain"] for n in hop["narrowings"])
+
+
 def _load(record_path: Path) -> dict[str, Any]:
     record: dict[str, Any] = strictjson.loads(record_path.read_text(encoding="utf-8"))
     return record
@@ -204,7 +224,8 @@ def _first_failure(record: dict[str, Any], skip: frozenset[str]) -> str | None:
     """
     failures: dict[str, Callable[[], bool]] = {
         "contract_id_missing": lambda: "contractId" not in record,
-        "contract_id_unknown": lambda: record.get("contractId", CONTRACT_ID) != CONTRACT_ID,
+        "contract_id_unknown": lambda: not same_identifier(
+            record.get("contractId", CONTRACT_ID), CONTRACT_ID),
         "malformed_record": lambda: _malformed(record),
         "delegate_exceeds_delegator": lambda: _exceeds(record),
         "delegator_not_entitled": lambda: _not_entitled(record),
@@ -229,7 +250,8 @@ def verify(record_path: Path, skip: frozenset[str] = frozenset()) -> dict[str, s
     failure = _first_failure(_load(record_path), skip)
     if failure is not None:
         return {"decision": DENY, "reason": failure}
-    return {"decision": ALLOW, "reason": "entitled"}
+    reason = "within_propagation_limit" if _within_limit(_load(record_path)) else "entitled"
+    return {"decision": ALLOW, "reason": reason}
 
 
 def _fixture_error(directory: Path, entry: dict[str, Any]) -> str | None:

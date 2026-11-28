@@ -1,0 +1,206 @@
+{
+  "checker": "resolve_ids.py",
+  "corpusDigest": "5e3741be300ea425c4180ade6636531bd3b73361a7f4d3a99e9faef546c0c8fe",
+  "counts": {
+    "fails": 9,
+    "no-ids": 1,
+    "resolves": 3
+  },
+  "credit": "chaksaray, for the AVE project: the v1.2.0 pin, the four cases (active, unknown, malformed, not active) and the rule that any status other than active fails",
+  "rules": [
+    "id-malformed",
+    "id-unknown",
+    "id-not-active",
+    "run-snapshot-differs"
+  ],
+  "snapshots": {
+    "v1.2.0": {
+      "files": {
+        "SHA256SUMS": "5b42a63899a599362435b49c8f3cb526fa5a0d72c2d844f6166fa3f14cd63a9f",
+        "ave-records.json": "92e002e98cdd10f5de36e0ccfa80696b623cdadf302cc4d884f2a33b7fd94390",
+        "ave-records.manifest.json": "8df489a37ebb079a22cf6a8d918ac88c9620669106ec387745716a5a582b86e0"
+      },
+      "recordsSha256": "92e002e98cdd10f5de36e0ccfa80696b623cdadf302cc4d884f2a33b7fd94390",
+      "sourceCommit": "a18315536706365021b514ab940392ed0805897e",
+      "tag": "https://github.com/aveproject/ave/releases/tag/v1.2.0"
+    },
+    "v1.3.0": {
+      "files": {
+        "SHA256SUMS": "b7398be4738aab08c3bde859c6e668d6c46212e1a55280b63b597f78242eabed",
+        "ave-records.json": "7d3284314f7ea19af096df2b20e9d715b628a398cf88391d97be90a1ae074e74",
+        "ave-records.manifest.json": "d60969077ce76f9ceee1d984fcdc2f49af60fbf79340d69794bd8256c0aca951",
+        "ave-taxonomy.json": "6bda1d2ce21fe56730eec37c1e3a14988e4a200af88ad95eb7011af57120facc"
+      },
+      "recordsSha256": "7d3284314f7ea19af096df2b20e9d715b628a398cf88391d97be90a1ae074e74",
+      "sourceCommit": "647e1ce2fff39b26957b8f232a42ab3117f5c2ec",
+      "tag": "https://github.com/aveproject/ave/releases/tag/v1.3.0"
+    }
+  },
+  "source": {
+    "repository": "https://github.com/aveproject/ave"
+  },
+  "suite": "ave-id-resolution/v1",
+  "vectors": [
+    {
+      "expected": {
+        "codes": [],
+        "verdict": "resolves"
+      },
+      "id": "active-resolves-json",
+      "path": "cases/active-resolves-json/output.json",
+      "sha256": "70b84a11ed01d8b8b57821d3e57d7da9f470eb67655ec58806978882c3d051f3",
+      "shows": "an active id resolves",
+      "snapshot": "v1.2.0"
+    },
+    {
+      "expected": {
+        "codes": [],
+        "verdict": "resolves"
+      },
+      "id": "active-resolves-sarif",
+      "path": "cases/active-resolves-sarif/output.sarif",
+      "sha256": "505bb4faa9bac72aa7b34203acb3826c7f6c506e78ea803174952a31d1c08bd8",
+      "shows": "an active id resolves",
+      "snapshot": "v1.2.0"
+    },
+    {
+      "expected": {
+        "codes": [
+          "id-unknown"
+        ],
+        "verdict": "fails"
+      },
+      "id": "unknown-id-json",
+      "path": "cases/unknown-id-json/output.json",
+      "sha256": "0b2cf683bd16ce34b74295d4f64299cb22da2cd3dcf96efdfc94b6ccbf30f27c",
+      "shows": "a well-formed id with no record fails",
+      "snapshot": "v1.2.0"
+    },
+    {
+      "expected": {
+        "codes": [
+          "id-unknown"
+        ],
+        "verdict": "fails"
+      },
+      "id": "unknown-id-sarif",
+      "path": "cases/unknown-id-sarif/output.sarif",
+      "sha256": "5b464115d7eb2bee5f67875c6e01e9e8dee7f9282136e93a5fd605d0b1215d17",
+      "shows": "a well-formed id with no record fails",
+      "snapshot": "v1.2.0"
+    },
+    {
+      "expected": {
+        "codes": [
+          "id-malformed"
+        ],
+        "verdict": "fails"
+      },
+      "id": "malformed-id-json",
+      "path": "cases/malformed-id-json/output.json",
+      "sha256": "585c566e7a29f429e16a7bfb10119ec54b751943e9e155d5d95fe102584111ea",
+      "shows": "an id that is not AVE-YYYY-NNNNN fails",
+      "snapshot": "v1.2.0"
+    },
+    {
+      "expected": {
+        "codes": [
+          "id-malformed"
+        ],
+        "verdict": "fails"
+      },
+      "id": "malformed-id-sarif",
+      "path": "cases/malformed-id-sarif/output.sarif",
+      "sha256": "c72947d81e3da1fb7364d6d8d3ae4cd17261331bd772296264ffaf8a50786693",
+      "shows": "an id that is not AVE-YYYY-NNNNN fails",
+      "snapshot": "v1.2.0"
+    },
+    {
+      "expected": {
+        "codes": [
+          "id-not-active"
+        ],
+        "verdict": "fails"
+      },
+      "id": "not-active-json",
+      "path": "cases/not-active-json/output.json",
+      "sha256": "cffe12037855316f633a3ebf2fd848df7dc3543c4cd23f7f7f37385798ea1762",
+      "shows": "a record whose status is not active fails",
+      "snapshot": "v1.3.0"
+    },
+    {
+      "expected": {
+        "codes": [
+          "id-not-active"
+        ],
+        "verdict": "fails"
+      },
+      "id": "not-active-sarif",
+      "path": "cases/not-active-sarif/output.sarif",
+      "sha256": "f3c833ce02be49cde5fffc09dafbccbf7eab7cee52968fa77467cbfff1be5f96",
+      "shows": "a record whose status is not active fails",
+      "snapshot": "v1.3.0"
+    },
+    {
+      "expected": {
+        "codes": [],
+        "verdict": "resolves"
+      },
+      "id": "not-active-sarif-under-v1.2.0",
+      "path": "cases/not-active-sarif-under-v1.2.0/output.sarif",
+      "sha256": "f3c833ce02be49cde5fffc09dafbccbf7eab7cee52968fa77467cbfff1be5f96",
+      "shows": "the same output against the earlier pin, where that record is active",
+      "snapshot": "v1.2.0"
+    },
+    {
+      "expected": {
+        "codes": [
+          "id-not-active"
+        ],
+        "verdict": "fails"
+      },
+      "id": "property-id-not-active-sarif",
+      "path": "cases/property-id-not-active-sarif/output.sarif",
+      "sha256": "cc0260d5d6c46c43477be3a59ab580d7f20b402c9a0796a59ebe62c8c03e85fb",
+      "shows": "an id carried in properties.ave_id under the tool's own rule id",
+      "snapshot": "v1.3.0"
+    },
+    {
+      "expected": {
+        "codes": [
+          "id-unknown"
+        ],
+        "verdict": "fails"
+      },
+      "id": "one-unknown-among-active-sarif",
+      "path": "cases/one-unknown-among-active-sarif/output.sarif",
+      "sha256": "2ed87648d48a97ab64006e46d602ac292956f5182ec29374bc01a6c55de86688",
+      "shows": "one unresolved id fails the whole output",
+      "snapshot": "v1.2.0"
+    },
+    {
+      "expected": {
+        "codes": [
+          "run-snapshot-differs"
+        ],
+        "verdict": "fails"
+      },
+      "id": "run-names-other-snapshot-sarif",
+      "path": "cases/run-names-other-snapshot-sarif/output.sarif",
+      "sha256": "43e39bd07bf62accf57edfd785be8666f566236425197f6d5be8fafab505779d",
+      "shows": "the run declares records other than the pinned snapshot",
+      "snapshot": "v1.2.0"
+    },
+    {
+      "expected": {
+        "codes": [],
+        "verdict": "no-ids"
+      },
+      "id": "no-ave-id-sarif",
+      "path": "cases/no-ave-id-sarif/output.sarif",
+      "sha256": "6d0bf48f1835a9f340e024d1b71327a136813b82432b1c6a36c46a10e3b240af",
+      "shows": "a tool rule with no AVE id leaves nothing to judge",
+      "snapshot": "v1.2.0"
+    }
+  ]
+}

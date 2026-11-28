@@ -83,12 +83,15 @@ def judge(
     uncertainty: int = 0,
     max_uncertainty: int = DEFAULT_MAX_UNCERTAINTY_SECONDS,
     where: str = "",
+    inclusive: bool = True,
 ) -> bool:
     """True when a value produced at ``produced`` is fresh at ``reference`` (both nanoseconds).
 
     The future bound is ``skew`` alone: a value produced later than the reference by more than the
     skew is refused (``result-after-reference``), whatever its window. The past bound is
-    ``max_age`` plus ``uncertainty``, and an age equal to the bound is fresh. ``uncertainty`` past
+    ``max_age`` plus ``uncertainty``, and an age equal to the bound is fresh. With
+    ``inclusive=False`` a value is fresh only while its age is less than the bound, so an age equal
+    to it is stale (the audit record's rule since revision 05). ``uncertainty`` past
     ``max_uncertainty`` is refused (``uncertainty-over-cap``).
     """
     max_age = seconds(max_age, where, "maxAge")
@@ -98,7 +101,8 @@ def judge(
         raise Refusal("uncertainty-over-cap", where, f"uncertainty {uncertainty} s is over the cap of {max_uncertainty} s")
     if produced - reference > skew * NANOS:
         raise Refusal("result-after-reference", where, "produced later than the reference by more than the skew tolerance")
-    return reference - produced <= (max_age + uncertainty) * NANOS
+    age, bound = reference - produced, (max_age + uncertainty) * NANOS
+    return age <= bound if inclusive else age < bound
 
 
 def late(start: int, event: int, window: int, allowance: int, where: str = "") -> bool:
@@ -132,11 +136,25 @@ def _predicate(context: Context) -> tuple[dict[str, Any], str]:
 
 
 def _reference(context: Context) -> int:
+    """The time every entry's age is measured to: ``decision.evaluatedAt`` when the record carries
+    it, ``decision.reportedAt`` otherwise (revision 05). A decision is not reported before it is
+    evaluated, so an ``evaluatedAt`` later than ``reportedAt`` by more than the skew tolerance is
+    refused, and one exactly at the tolerance is not."""
     predicate, where = _predicate(context)
     decision = predicate.get("decision")
     if not isinstance(decision, dict) or "reportedAt" not in decision:
         raise Refusal("member-missing", f"{where}/decision/reportedAt", "no reference time to measure any age to")
-    return instant(decision["reportedAt"], f"{where}/decision/reportedAt")
+    reported = instant(decision["reportedAt"], f"{where}/decision/reportedAt")
+    if "evaluatedAt" not in decision:
+        return reported
+    evaluated = instant(decision["evaluatedAt"], f"{where}/decision/evaluatedAt")
+    if evaluated - reported > _skew(context) * NANOS:
+        raise Refusal(
+            "evaluation-result-after-decision",
+            f"{where}/decision/evaluatedAt",
+            "evaluatedAt is later than reportedAt by more than the skew tolerance",
+        )
+    return evaluated
 
 
 def _entries(context: Context) -> list[tuple[str, dict[str, Any]]]:
@@ -201,7 +219,7 @@ def _derive(context: Context, future_bound: bool) -> list[str] | None:
             out.append(entry["input"])
             continue
         try:
-            fresh = judge(moment, reference, entry["maxAge"], skew=skew, where=path)
+            fresh = judge(moment, reference, entry["maxAge"], skew=skew, where=path, inclusive=False)
         except Refusal as refusal:
             raise Refusal("evaluation-result-after-decision", f"{path}/lastResult", refusal.detail) from refusal
         if not fresh:
@@ -260,9 +278,9 @@ AUDIT_FRESHNESS = register(
         name="audit-freshness",
         summary="audit record: every evaluation entry range-checked, then fresh or stale under asymmetric bounds",
         checks=(
-            Check("reference-time", "decision.reportedAt is present and an RFC 3339 instant", _check_reference),
+            Check("reference-time", "decision.reportedAt is present, and decision.evaluatedAt when present is an RFC 3339 instant no later than it by more than the skew tolerance", _check_reference),
             Check("entry-shape", "each entry is input, lastResult and maxAge, maxAge in 0..2**53 - 1", _check_entry_shape),
-            Check("future-bound", "no lastResult later than reportedAt by more than the skew tolerance", _check_future_bound),
+            Check("future-bound", "no lastResult later than the reference time by more than the skew tolerance", _check_future_bound),
             Check("status", "status is evaluated or not-evaluated and, with unavailableInput, equals what the entries derive", _check_status),
         ),
         option_help={"skew": "the skew tolerance in seconds (default 300)"},

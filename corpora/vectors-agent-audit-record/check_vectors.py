@@ -200,9 +200,15 @@ Rule = Callable[[Any], None]
 class _Freshness:
     """The freshness sentences of Section 5.4 as a reader might take them."""
 
-    reference: str = "reportedAt"
-    inclusive: bool = True
+    #: "reference" is decision.evaluatedAt when carried and decision.reportedAt
+    #: otherwise; "reportedAt" ignores evaluatedAt; "issuedAt" is the seal time.
+    reference: str = "reference"
+    stale_at_bound: bool = True
     skew: datetime.timedelta | None = auditrecord.SKEW_TOLERANCE
+    #: The skew of a lastResult measured to the reference time, or to reportedAt.
+    skew_to_reported: bool = False
+    #: How far evaluatedAt may follow reportedAt; None accepts it however late.
+    evaluated_skew: datetime.timedelta | None = auditrecord.SKEW_TOLERANCE
     never_held_unavailable: bool = True
     refuse_negative: bool = True
     refuse_extra: bool = True
@@ -220,25 +226,41 @@ class _Freshness:
             raise auditrecord.Malformed("evaluation-input-repeated")
         seen.add(entry["input"])
 
-    def unavailable(self, entry: dict[str, Any], reported_at: datetime.datetime) -> bool:
+    def unavailable(
+        self, entry: dict[str, Any], moment: datetime.datetime, skew_from: datetime.datetime
+    ) -> bool:
         if entry["lastResult"] == auditrecord.NEVER_HELD:
             return self.never_held_unavailable
         produced = auditrecord._instant(entry["lastResult"])
-        if self.skew is not None and produced - reported_at > self.skew:
+        if self.skew is not None and produced - skew_from > self.skew:
             raise auditrecord.Malformed("evaluation-result-after-decision")
-        age = (reported_at - produced).total_seconds()
-        return age > entry["maxAge"] or (not self.inclusive and age == entry["maxAge"])
+        age = (moment - produced).total_seconds()
+        return age > entry["maxAge"] or (self.stale_at_bound and age == entry["maxAge"])
+
+    def reference_time(self, pred: dict[str, Any]) -> datetime.datetime:
+        decision = pred["decision"]
+        reported_at = auditrecord._instant(decision["reportedAt"])
+        if self.reference == "issuedAt":
+            return auditrecord._instant(pred["issuedAt"])
+        if "evaluatedAt" not in decision:
+            return reported_at
+        evaluated_at = auditrecord._instant(decision["evaluatedAt"])
+        if self.evaluated_skew is not None and evaluated_at - reported_at > self.evaluated_skew:
+            raise auditrecord.Malformed("evaluation-result-after-decision")
+        return reported_at if self.reference == "reportedAt" else evaluated_at
 
     def derive(self, pred: dict[str, Any], predicate_type: str) -> list[str]:
-        moment = (
-            pred["issuedAt"] if self.reference == "issuedAt" else pred["decision"]["reportedAt"]
+        moment = self.reference_time(pred)
+        skew_from = (
+            auditrecord._instant(pred["decision"]["reportedAt"])
+            if self.skew_to_reported
+            else moment
         )
-        reported_at = auditrecord._instant(moment)
         seen: set[str] = set()
         out: list[str] = []
         for entry in pred["evaluation"]["inputs"]:
             self.shape(entry, seen, predicate_type)
-            if self.unavailable(entry, reported_at):
+            if self.unavailable(entry, moment, skew_from):
                 out.append(entry["input"])
         return out
 
@@ -597,7 +619,7 @@ SECTION_READINGS: list[tuple[str, Callable[[], contextlib.AbstractContextManager
     (
         "the v2 URI read with the v1 input set",
         _v2_without_extension,
-        "PS1,PS3,PS4,PS5,PS6",
+        "PS1,PS1b,PS3,PS4,PS5,PS6",
     ),
     (
         "agent.authentication without api-key",
@@ -653,22 +675,42 @@ SECTION_READINGS: list[tuple[str, Callable[[], contextlib.AbstractContextManager
         "EV8,EV9,EV10",
     ),
     (
-        "an age measured to issuedAt rather than decision.reportedAt",
+        "an age measured to issuedAt rather than the reference time",
         lambda: _freshness(reference="issuedAt"),
-        "FR2,FR9",
+        "FR9,FR21,FR22,FR23,FR25",
     ),
     (
-        "an age equal to maxAge read as stale",
-        lambda: _freshness(inclusive=False),
-        "FR2",
+        "an age equal to maxAge read as fresh, the boundary of revisions 00 to 03",
+        lambda: _freshness(stale_at_bound=False),
+        "FR2,FR24,PS1b",
     ),
     (
-        "a lastResult after decision.reportedAt accepted however late",
+        "decision.evaluatedAt ignored, every age measured to decision.reportedAt",
+        lambda: _freshness(reference="reportedAt"),
+        "FR21,FR22,FR23",
+    ),
+    (
+        "a decision.evaluatedAt after decision.reportedAt accepted however late",
+        lambda: _freshness(evaluated_skew=None),
+        "FR25",
+    ),
+    (
+        "a decision.evaluatedAt after decision.reportedAt refused with no skew tolerance",
+        lambda: _freshness(evaluated_skew=datetime.timedelta(0)),
+        "FR26",
+    ),
+    (
+        "a lastResult's skew measured to decision.reportedAt rather than the reference time",
+        lambda: _freshness(skew_to_reported=True),
+        "FR27",
+    ),
+    (
+        "a lastResult after the reference time accepted however late",
         lambda: _freshness(skew=None),
-        "FR9",
+        "FR9,FR27",
     ),
     (
-        "a lastResult after decision.reportedAt refused with no skew tolerance",
+        "a lastResult after the reference time refused with no skew tolerance",
         lambda: _freshness(skew=datetime.timedelta(0)),
         "FR18",
     ),
@@ -695,12 +737,12 @@ SECTION_READINGS: list[tuple[str, Callable[[], contextlib.AbstractContextManager
     (
         "unavailableInput not matched against the entries",
         lambda: _swapped_rule("evaluation", _evaluation_reading(match_entries=False)),
-        "FR7",
+        "FR7,FR22",
     ),
     (
         "evaluated not checked against the entries",
         lambda: _swapped_rule("evaluation", _evaluation_reading(evaluated_by_entries=False)),
-        "FR8,FR17c,FR15",
+        "FR2,FR8,FR17c,FR15,FR24",
     ),
     (
         "an evaluation member the draft does not define accepted",
@@ -890,6 +932,16 @@ SECTION_READINGS: list[tuple[str, Callable[[], contextlib.AbstractContextManager
         "CS53",
     ),
     (
+        "a principal's token refused when issued within the skew tolerance after the decision",
+        lambda: _reading(auditrecord.PRINCIPAL_SKEW_READING, "issued", False),
+        "PR13",
+    ),
+    (
+        "a principal's token refused when expired within the skew tolerance before the decision",
+        lambda: _reading(auditrecord.PRINCIPAL_SKEW_READING, "expires", False),
+        "PR12",
+    ),
+    (
         "a zero settlement's hold ended only by a record after its deadline, not at it",
         lambda: _reading(auditrecord.DEADLINE_READING, "inclusive", False),
         "CS54",
@@ -945,11 +997,73 @@ def _dating_sweep(manifest: dict[str, object]) -> list[str]:
     return findings
 
 
-def _failing(manifest: dict[str, object]) -> str:
+def _proposed(entry: dict[str, object]) -> bool:
+    """A member carrying ``proposed`` tests a rule only text proposed for the next
+    revision states. No published revision supports its verdict, so the published
+    reader is not scored on it: the generator's own rule, and the one
+    ``auditrecord.verify_external`` already applies to a named verifier."""
+    return auditrecord.text_status(entry) == "proposed"
+
+
+def _own_findings(entry: dict[str, object], raw: bytes) -> list[str]:
+    """What the corpus claims of a member whatever text it tests; the rest of what
+    ``auditrecord.judge`` reports is verdicts of the published reader."""
+    return auditrecord.own_findings(entry, raw)
+
+
+def _score_published_text(
+    judged: auditrecord.Judged, manifest: dict[str, object]
+) -> auditrecord.Judged:
+    """Each proposed member's published-reader verdict becomes a note, not a
+    failure, so the run still prints what the published reader says about the
+    proposed text. The member keeps what the corpus claims of it whatever its
+    text, so a proposed member still fails on its bytes or its aggregation."""
+    entries = manifest["vectors"]
+    assert isinstance(entries, list)
+    by_id = {str(entry["id"]): entry for entry in entries}
+    scored = auditrecord.Judged()
+    scored.findings = list(judged.findings)
+    scored.notes = list(judged.notes)
+    for identifier, kind, findings in judged.members:
+        entry = by_id.get(identifier)
+        if entry is None or not _proposed(entry):
+            scored.members.append((identifier, kind, findings))
+            continue
+        own = _own_findings(entry, _raw(entry))
+        verdicts = [finding for finding in findings if finding not in own]
+        scored.notes.extend(
+            f"{identifier} (proposed text, not scored): {finding}" for finding in verdicts
+        )
+        scored.members.append((identifier, kind, own))
+    return scored
+
+
+def _agreeing_proposed(manifest: dict[str, object]) -> frozenset[str]:
+    """The proposed members the reader, as it stands, already reads as declared.
+
+    A weakening that moves one of them shows the reading it removed is load
+    bearing, whatever revision the member's text belongs to, so the section
+    sweep counts them. A proposed member the reader disagrees with at the start
+    (the published reader's own verdict differs) stays out: it cannot show a
+    weakening, only the disagreement it was proposed to settle."""
+    entries = manifest["vectors"]
+    assert isinstance(entries, list)
+    return frozenset(
+        str(entry["draftId"])
+        for entry in entries
+        if _proposed(entry) and not _fails(entry, auditrecord.policy_for(manifest, entry))
+    )
+
+
+def _failing(manifest: dict[str, object], counted: frozenset[str] = frozenset()) -> str:
+    """The members a reader fails, published members always and a proposed
+    member only when ``counted`` names it."""
     entries = manifest["vectors"]
     assert isinstance(entries, list)
     failing = []
     for entry in entries:
+        if _proposed(entry) and str(entry["draftId"]) not in counted:
+            continue  # not scored on the published text, see _score_published_text
         if _fails(entry, auditrecord.policy_for(manifest, entry)):
             failing.append(str(entry["draftId"]))
     return ",".join(failing)
@@ -986,11 +1100,12 @@ def _fails(entry: dict[str, object], policy: auditrecord.Policy) -> bool:
 
 def _section_sweep(manifest: dict[str, object]) -> list[str]:
     findings = []
-    if _failing(manifest):
+    counted = _agreeing_proposed(manifest)
+    if _failing(manifest, counted):
         return ["the section sweep needs a clean corpus to start from"]
     for label, weaken, want in SECTION_READINGS:
         with weaken():
-            got = _failing(manifest)
+            got = _failing(manifest, counted)
         if got != want:
             findings.append(f"{label}: caught by [{got}], want [{want}]")
     return findings
@@ -1014,9 +1129,9 @@ def _set_bundle_profile() -> list[str]:
 
 
 def main() -> int:
-    judged = auditrecord.judge(HERE)
-    sys.stdout.write(auditrecord.render(judged, auditrecord.SUITE))
     manifest = _manifest()
+    judged = _score_published_text(auditrecord.judge(HERE), manifest)
+    sys.stdout.write(auditrecord.render(judged, auditrecord.SUITE))
     swept, notes = _mutation_sweep(manifest)
     findings = (
         _second_signature_path(manifest)

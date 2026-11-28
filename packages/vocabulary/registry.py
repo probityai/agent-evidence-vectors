@@ -590,9 +590,25 @@ def payment_scope_v1(scope: dict, payment: dict) -> tuple[str, str | None]:
     return "within", None
 
 
+#: The host an evaluator's identifiers are written under, and the hosts they are read under.
+#: A local copy of agent_evidence_vectors.identifiers (spec/identifiers/HOSTS.md), so this
+#: package keeps no dependency; tests/test_identifier_hosts.py holds the two equal.
+IDENTIFIER_HOST = "probityai.github.io"
+RECOGNISED_HOSTS = ("probityai.github.io", "probityai.org")
+
+
+def canonical_identifier(value: object) -> object:
+    """``value`` with a recognised host spelled as ``IDENTIFIER_HOST``; anything else as it was."""
+    if isinstance(value, str):
+        for host in RECOGNISED_HOSTS:
+            if value.startswith(f"https://{host}/"):
+                return f"https://{IDENTIFIER_HOST}/{value[len(host) + 9:]}"
+    return value
+
+
 #: name -> (function from recorded inputs to a verdict, the verdicts the function can return)
 EVALUATORS = {
-    "https://probityai.github.io/agent-evidence-vectors/evaluator/payment-scope/v1":
+    f"https://{IDENTIFIER_HOST}/agent-evidence-vectors/evaluator/payment-scope/v1":
         (lambda inputs: payment_scope_v1(inputs["scope"], inputs["payment"])[0], ("within", "outside")),
 }
 
@@ -620,6 +636,8 @@ def asserted_verdict(record: dict, evaluators: dict | None = None) -> Derived:
     name = record.get("evaluator")
     if name is not None and not _absolute_https(name):
         return _refuse(term, "evaluator-not-an-https-uri")
+    # A name under either recognised host is looked up as the one identifier it names.
+    name = canonical_identifier(name)
     if name not in known:
         return Derived(term, "evaluator_unknown", False, "no evaluator the verifier holds")
     function, outputs = known[name]

@@ -1,0 +1,1106 @@
+{
+  "aggregate": {
+    "counts": {
+      "accept": 1,
+      "reject": 23
+    },
+    "line": "CLASSIFICATION_PASS 24 generated cases; 5 adversarial reader controls; 2 manifest-integrity probes; 4 cases forcing a rule; 3 absent-vs-explicit canonical differentials",
+    "total": 24
+  },
+  "anchor": {
+    "kind": "digest-list-line",
+    "manifest": "vectors-agent-registration-classification/MANIFEST.json",
+    "reference": {
+      "path": "release/CORPUS-DIGESTS.txt",
+      "uri": "https://github.com/probityai/agent-evidence-vectors/blob/main/release/CORPUS-DIGESTS.txt"
+    },
+    "routine": "corpus_digest in corpora/vectors-agent-registration-classification/digest.py",
+    "routine-file": "corpora/vectors-agent-registration-classification/digest.py",
+    "serialization": "corpus-routine",
+    "sha256": "81e499ef59b0ad8b82679b59045ad5bc819696630ac53b419303f1f69dbb28af",
+    "verdicts": {
+      "availability-failure": "inconclusive",
+      "integrity-failure": "fail"
+    }
+  },
+  "artifacts": [
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "6ba87c6df12cdd131337d16451355406e74adaa50d28df045396b63346c074e5"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "6ba87c6df12cdd131337d16451355406e74adaa50d28df045396b63346c074e5"
+        },
+        "swapped-in": "6b4fc1b36527aebe74de47e475852ae33ab474e0d70efa2f93dacfad609fb949",
+        "test": "swap-and-re-pin"
+      },
+      "path": "corpora/vectors-agent-registration-classification/INDEX.md",
+      "serialization": "bytes",
+      "sha256": "c007538d0874deca45684ba2a0831a25693949eacd6790600649dce0257527e4"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "6ba87c6df12cdd131337d16451355406e74adaa50d28df045396b63346c074e5"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "6ba87c6df12cdd131337d16451355406e74adaa50d28df045396b63346c074e5"
+        },
+        "swapped-in": "002614ba22ec1ba509b827dcd055e7f4f23a5caf3c7a6be8cfd1b382d56d3dac",
+        "test": "swap-and-re-pin"
+      },
+      "path": "corpora/vectors-agent-registration-classification/README.md",
+      "serialization": "bytes",
+      "sha256": "48eea517dfba24d38e3a41067a56f523044414941718e3379d264b185cd729e6"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "6ba87c6df12cdd131337d16451355406e74adaa50d28df045396b63346c074e5"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "6ba87c6df12cdd131337d16451355406e74adaa50d28df045396b63346c074e5"
+        },
+        "swapped-in": "6408a9bf49b5b435596b893d8991f03d88ac4d49dbd0986af2b161b3718d5a0d",
+        "test": "swap-and-re-pin"
+      },
+      "path": "corpora/vectors-agent-registration-classification/REGISTRY_ADDENDUM.toml",
+      "serialization": "bytes",
+      "sha256": "eacb4e5e14c4d4690fd5cf05f5d72fe7094dc1f38db84a2c268e3aa2de6a1bbf"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "6ba87c6df12cdd131337d16451355406e74adaa50d28df045396b63346c074e5"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "6ba87c6df12cdd131337d16451355406e74adaa50d28df045396b63346c074e5"
+        },
+        "swapped-in": "471c749849e8601e5dbbfed7792ad284f23f931d44d7826dfd906c7e172d5849",
+        "test": "swap-and-re-pin"
+      },
+      "path": "corpora/vectors-agent-registration-classification/adversarial_probe.py",
+      "serialization": "bytes",
+      "sha256": "de7b5c86e40c0a531c943fde0d3cb3b57ad4488055dff878671de792e4143c24"
+    },
+    {
+      "consumed": "consumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "6ba87c6df12cdd131337d16451355406e74adaa50d28df045396b63346c074e5"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "swapped": {
+          "exit-code": 1,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "swapped-in": "4a0529eb1e63e0bd5f2ff923cfbbc38c8aaf7bdb135481f6841f4b9dec34af30",
+        "test": "swap-and-re-pin"
+      },
+      "path": "corpora/vectors-agent-registration-classification/check_vectors.py",
+      "serialization": "bytes",
+      "sha256": "607ae0714476e2699788448c32b34ca14d15551ded2579dc3c7290a275bc6491"
+    },
+    {
+      "consumed": "consumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "6ba87c6df12cdd131337d16451355406e74adaa50d28df045396b63346c074e5"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "swapped": {
+          "exit-code": 1,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "swapped-in": "8a589ac888d6bb60e50d16ca183314c7e4fef0ea64c448de5d8b89e97dd3ac8a",
+        "test": "swap-and-re-pin"
+      },
+      "path": "corpora/vectors-agent-registration-classification/contract.py",
+      "serialization": "bytes",
+      "sha256": "9f10efcdc075473f93f1cfd6f0fc3e295d892a0e609d9e6cbca7170afb5e79ed"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "6ba87c6df12cdd131337d16451355406e74adaa50d28df045396b63346c074e5"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "6ba87c6df12cdd131337d16451355406e74adaa50d28df045396b63346c074e5"
+        },
+        "swapped-in": "d17905a69512be954e07fd559999cfa66539a13ad0636efe58d54d000290878e",
+        "test": "swap-and-re-pin"
+      },
+      "path": "corpora/vectors-agent-registration-classification/digest.py",
+      "serialization": "bytes",
+      "sha256": "a9a56dba0296b8086309a93683b7723b786b4e3a68178ce5d94340d19befd470"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "6ba87c6df12cdd131337d16451355406e74adaa50d28df045396b63346c074e5"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "6ba87c6df12cdd131337d16451355406e74adaa50d28df045396b63346c074e5"
+        },
+        "swapped-in": "d8fb9a492a90dcc45f4c7cd04afd46399c61b49d2f5c7307071a0a18d2475aa9",
+        "test": "swap-and-re-pin"
+      },
+      "path": "corpora/vectors-agent-registration-classification/gen_vectors.py",
+      "serialization": "bytes",
+      "sha256": "b5f5831c7bbd6e847d9f213884d68de32ea2eb31ca34d1f37ecb8b33c1ac63f3"
+    }
+  ],
+  "boundary": {
+    "complete": true,
+    "member-locations": [
+      {
+        "dir": "cases",
+        "recursive": true,
+        "suffix": ""
+      }
+    ],
+    "root": "corpora/vectors-agent-registration-classification"
+  },
+  "byte-identity": {
+    "pins": 48,
+    "serialization": "bytes"
+  },
+  "canonicalization": {
+    "encoding": "jcs-sha256"
+  },
+  "checker": {
+    "commands": [
+      "uv sync --locked --extra generators",
+      "PYTHONHASHSEED=0 python corpora/vectors-agent-registration-classification/check_vectors.py --json",
+      "PYTHONHASHSEED=0 python corpora/vectors-agent-registration-classification/check_vectors.py --json",
+      "PYTHONHASHSEED=0 python corpora/vectors-agent-registration-classification/check_vectors.py"
+    ],
+    "dependencies": [
+      {
+        "path": "pyproject.toml",
+        "serialization": "bytes",
+        "sha256": "7ab036049b81bbe4d2d13296bf307f4c31ce8ef88208e4c9468cff63b36c2403"
+      },
+      {
+        "path": "uv.lock",
+        "serialization": "bytes",
+        "sha256": "9eba2b8e6705334bbac9384594c1aac35a01109b718d42f38c77b71b3a62d538"
+      }
+    ],
+    "helpers": [],
+    "name": "corpora/vectors-agent-registration-classification/check_vectors.py",
+    "relationship": "same-implementation",
+    "revision": {
+      "kind": "source-listing",
+      "paths": [
+        "corpora/vectors-agent-registration-classification/check_vectors.py"
+      ],
+      "serialization": "sha256-listing-v1",
+      "sha256": "ddbd708cfed3c315fd92693ec2698f5623448bdcaa02de624f13645ff23c6748"
+    },
+    "runtime": {
+      "name": "cpython",
+      "version": "3.13"
+    },
+    "shared-verification-code": [
+      "corpora/vectors-agent-registration-classification/check_vectors.py"
+    ]
+  },
+  "checks": [
+    {
+      "check": "agent-id-null",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "anonymous-mcp-discovery",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "challenge-expired",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "challenge-replayed",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "challenge-state-missing",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "challenge-state-null",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "challenge-state-text",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "child-agent",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "consent-revoked",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "duplicate-agent",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "duplicate-consent-scope",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "duplicate-swarm",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "forged-agent-signature",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "forged-registry-receipt",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "missing-registry-receipt",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "nonce-not-issued",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "parent-marker-absent",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "quarantined-report",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "signed-report-not-registration",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "swarm-id-null",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "tampered-committed-digest",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "valid-new-registration",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "wrong-challenge-key",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "wrong-consent-purpose",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    }
+  ],
+  "corpus-digest": {
+    "serialization": "sha256-listing-v1",
+    "sha256": "d89cbe6df41bb50174e71519925ce7f33f42af6fdb4e6ddbcb25d230d7edbc9d"
+  },
+  "exit-code": 0,
+  "exit-rule": "zero-iff-every-check-passes",
+  "exposure": "visible",
+  "faults": [],
+  "format": "public-agent-conformance/intake-record/v2",
+  "manifest": {
+    "closed": true,
+    "ids": [
+      "valid-new-registration",
+      "anonymous-mcp-discovery",
+      "signed-report-not-registration",
+      "quarantined-report",
+      "consent-revoked",
+      "wrong-consent-purpose",
+      "child-agent",
+      "duplicate-swarm",
+      "duplicate-agent",
+      "nonce-not-issued",
+      "challenge-expired",
+      "challenge-replayed",
+      "challenge-state-missing",
+      "challenge-state-null",
+      "challenge-state-text",
+      "wrong-challenge-key",
+      "forged-agent-signature",
+      "tampered-committed-digest",
+      "forged-registry-receipt",
+      "missing-registry-receipt",
+      "agent-id-null",
+      "swarm-id-null",
+      "parent-marker-absent",
+      "duplicate-consent-scope"
+    ],
+    "path": "corpora/vectors-agent-registration-classification/MANIFEST.json",
+    "sha256": "9f6d2f5d145c395c1d9b3a5b9000efdf30c89bbf0e26fcda717a13951c98cf91"
+  },
+  "members": [
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-agent-registration-classification/cases/valid-new-registration/context.json",
+          "sha256": "70febd618cee77ace82dbc78c1b4248d36c868f20fd1cd28c59dfd820d7b8341"
+        },
+        {
+          "path": "corpora/vectors-agent-registration-classification/cases/valid-new-registration/record.json",
+          "sha256": "bd23ec80d0f8b6c60f9d5b83ad7fe02531fc4da45693dd04743abc5e65202d68"
+        }
+      ],
+      "id": "valid-new-registration"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-agent-registration-classification/cases/anonymous-mcp-discovery/context.json",
+          "sha256": "70febd618cee77ace82dbc78c1b4248d36c868f20fd1cd28c59dfd820d7b8341"
+        },
+        {
+          "path": "corpora/vectors-agent-registration-classification/cases/anonymous-mcp-discovery/record.json",
+          "sha256": "b84074456821995083214e7880bda2197df79c03a29fb2da46fcccbf03b1380b"
+        }
+      ],
+      "id": "anonymous-mcp-discovery"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-agent-registration-classification/cases/signed-report-not-registration/context.json",
+          "sha256": "70febd618cee77ace82dbc78c1b4248d36c868f20fd1cd28c59dfd820d7b8341"
+        },
+        {
+          "path": "corpora/vectors-agent-registration-classification/cases/signed-report-not-registration/record.json",
+          "sha256": "24510a1108e3ffd3e7068890b79538ee552d0fbd533cd8f80f9d7d44bc552c18"
+        }
+      ],
+      "id": "signed-report-not-registration"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-agent-registration-classification/cases/quarantined-report/context.json",
+          "sha256": "70febd618cee77ace82dbc78c1b4248d36c868f20fd1cd28c59dfd820d7b8341"
+        },
+        {
+          "path": "corpora/vectors-agent-registration-classification/cases/quarantined-report/record.json",
+          "sha256": "42be9b4fb378513fa9561bf1a0b4d357841b32d1dcc679b5b1dc23f59b5540b6"
+        }
+      ],
+      "id": "quarantined-report"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-agent-registration-classification/cases/consent-revoked/context.json",
+          "sha256": "70febd618cee77ace82dbc78c1b4248d36c868f20fd1cd28c59dfd820d7b8341"
+        },
+        {
+          "path": "corpora/vectors-agent-registration-classification/cases/consent-revoked/record.json",
+          "sha256": "fdbe9d808b8bb945318025fcafe77946e0d78200f3668b00d80b23322b43a8f2"
+        }
+      ],
+      "id": "consent-revoked"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-agent-registration-classification/cases/wrong-consent-purpose/context.json",
+          "sha256": "70febd618cee77ace82dbc78c1b4248d36c868f20fd1cd28c59dfd820d7b8341"
+        },
+        {
+          "path": "corpora/vectors-agent-registration-classification/cases/wrong-consent-purpose/record.json",
+          "sha256": "8d6868ac89f9560aef4f82cb2d9039faf8cba9690bda9db7f3c21d8ee119f060"
+        }
+      ],
+      "id": "wrong-consent-purpose"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-agent-registration-classification/cases/child-agent/context.json",
+          "sha256": "70febd618cee77ace82dbc78c1b4248d36c868f20fd1cd28c59dfd820d7b8341"
+        },
+        {
+          "path": "corpora/vectors-agent-registration-classification/cases/child-agent/record.json",
+          "sha256": "fb9076f08af576c2bb0e9826756c889eb5c7f6ad7977fbfb88dc102fa44010bf"
+        }
+      ],
+      "id": "child-agent"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-agent-registration-classification/cases/duplicate-swarm/context.json",
+          "sha256": "749ec0a915511856c530ba322483eb2af086079398a4655bf614c1762088cba8"
+        },
+        {
+          "path": "corpora/vectors-agent-registration-classification/cases/duplicate-swarm/record.json",
+          "sha256": "b12d2dafdea070a98011fcb15606b397b414a7c5111c5d14eb5592310856b4f2"
+        }
+      ],
+      "id": "duplicate-swarm"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-agent-registration-classification/cases/duplicate-agent/context.json",
+          "sha256": "98102b82d1f64a3f5ead936bf769a3252d8f8ba258eeb5734f95c5a33ed1b95c"
+        },
+        {
+          "path": "corpora/vectors-agent-registration-classification/cases/duplicate-agent/record.json",
+          "sha256": "8091245cc69ec89e500cdd6d4a3f39e6414d6415125df4455ea9e1160260e828"
+        }
+      ],
+      "id": "duplicate-agent"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-agent-registration-classification/cases/nonce-not-issued/context.json",
+          "sha256": "70febd618cee77ace82dbc78c1b4248d36c868f20fd1cd28c59dfd820d7b8341"
+        },
+        {
+          "path": "corpora/vectors-agent-registration-classification/cases/nonce-not-issued/record.json",
+          "sha256": "280ad7ad6df24692316da5737d4c007e523b28f0c184eb3dda884904ab55d59a"
+        }
+      ],
+      "id": "nonce-not-issued"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-agent-registration-classification/cases/challenge-expired/context.json",
+          "sha256": "538d57dd598582819d0ae731aeb7102beb88a67fb3a2f96844116931ab83b9a0"
+        },
+        {
+          "path": "corpora/vectors-agent-registration-classification/cases/challenge-expired/record.json",
+          "sha256": "bd23ec80d0f8b6c60f9d5b83ad7fe02531fc4da45693dd04743abc5e65202d68"
+        }
+      ],
+      "id": "challenge-expired"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-agent-registration-classification/cases/challenge-replayed/context.json",
+          "sha256": "83881e85c3406069988b3147a6b4c804459929e9322fb397077defd9e0bc838e"
+        },
+        {
+          "path": "corpora/vectors-agent-registration-classification/cases/challenge-replayed/record.json",
+          "sha256": "bd23ec80d0f8b6c60f9d5b83ad7fe02531fc4da45693dd04743abc5e65202d68"
+        }
+      ],
+      "id": "challenge-replayed"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-agent-registration-classification/cases/challenge-state-missing/context.json",
+          "sha256": "27f4a7c009caf64960d2561e49b00907fdc977b90e8b56fc2b5e543c3de0f0df"
+        },
+        {
+          "path": "corpora/vectors-agent-registration-classification/cases/challenge-state-missing/record.json",
+          "sha256": "bd23ec80d0f8b6c60f9d5b83ad7fe02531fc4da45693dd04743abc5e65202d68"
+        }
+      ],
+      "id": "challenge-state-missing"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-agent-registration-classification/cases/challenge-state-null/context.json",
+          "sha256": "b23b9e418a1fc57cfcf72930dbca930a54056f871103e39cf0b2d0c63718ca5b"
+        },
+        {
+          "path": "corpora/vectors-agent-registration-classification/cases/challenge-state-null/record.json",
+          "sha256": "bd23ec80d0f8b6c60f9d5b83ad7fe02531fc4da45693dd04743abc5e65202d68"
+        }
+      ],
+      "id": "challenge-state-null"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-agent-registration-classification/cases/challenge-state-text/context.json",
+          "sha256": "0c1e1bca4049a2e1266b595877a4624448f942f53900848a3a38819659f5a726"
+        },
+        {
+          "path": "corpora/vectors-agent-registration-classification/cases/challenge-state-text/record.json",
+          "sha256": "bd23ec80d0f8b6c60f9d5b83ad7fe02531fc4da45693dd04743abc5e65202d68"
+        }
+      ],
+      "id": "challenge-state-text"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-agent-registration-classification/cases/wrong-challenge-key/context.json",
+          "sha256": "150db4c66053010f939080c6980122acfbf8def9046bfa14b1fe2be2b53efd13"
+        },
+        {
+          "path": "corpora/vectors-agent-registration-classification/cases/wrong-challenge-key/record.json",
+          "sha256": "bd23ec80d0f8b6c60f9d5b83ad7fe02531fc4da45693dd04743abc5e65202d68"
+        }
+      ],
+      "id": "wrong-challenge-key"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-agent-registration-classification/cases/forged-agent-signature/context.json",
+          "sha256": "70febd618cee77ace82dbc78c1b4248d36c868f20fd1cd28c59dfd820d7b8341"
+        },
+        {
+          "path": "corpora/vectors-agent-registration-classification/cases/forged-agent-signature/record.json",
+          "sha256": "24957ba376476341a315caf14f4cef34691c0b48691b456d2f332ae4089fe7d5"
+        }
+      ],
+      "id": "forged-agent-signature"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-agent-registration-classification/cases/tampered-committed-digest/context.json",
+          "sha256": "70febd618cee77ace82dbc78c1b4248d36c868f20fd1cd28c59dfd820d7b8341"
+        },
+        {
+          "path": "corpora/vectors-agent-registration-classification/cases/tampered-committed-digest/record.json",
+          "sha256": "6f9e938bf606d9f16457ba4019da5ac1cd0f277bca75dbd29462d13d589bcaf7"
+        }
+      ],
+      "id": "tampered-committed-digest"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-agent-registration-classification/cases/forged-registry-receipt/context.json",
+          "sha256": "70febd618cee77ace82dbc78c1b4248d36c868f20fd1cd28c59dfd820d7b8341"
+        },
+        {
+          "path": "corpora/vectors-agent-registration-classification/cases/forged-registry-receipt/record.json",
+          "sha256": "6b33deaff7f6ee3dc36007915c190679aae7386ce05d783d50c10300979afafa"
+        }
+      ],
+      "id": "forged-registry-receipt"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-agent-registration-classification/cases/missing-registry-receipt/context.json",
+          "sha256": "70febd618cee77ace82dbc78c1b4248d36c868f20fd1cd28c59dfd820d7b8341"
+        },
+        {
+          "path": "corpora/vectors-agent-registration-classification/cases/missing-registry-receipt/record.json",
+          "sha256": "6bbb6927e483b8a13831dd36260957bcf6ce0316a2d3967ae726a5cabaa5d443"
+        }
+      ],
+      "id": "missing-registry-receipt"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-agent-registration-classification/cases/agent-id-null/context.json",
+          "sha256": "ca4e981ff2c3b741bac2238e1473ce4f92f5cded0677cd0cdc20126eae5d6755"
+        },
+        {
+          "path": "corpora/vectors-agent-registration-classification/cases/agent-id-null/record.json",
+          "sha256": "94291073cd3c4948fbfb4ed867bea43e7041b9ab4bf052663b1d1aabf2d6086f"
+        }
+      ],
+      "id": "agent-id-null"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-agent-registration-classification/cases/swarm-id-null/context.json",
+          "sha256": "e6b4bbabf0f8b5da654827998b5a45f091e26c4ffa8acb6b51e315932eb6ed30"
+        },
+        {
+          "path": "corpora/vectors-agent-registration-classification/cases/swarm-id-null/record.json",
+          "sha256": "9fe59a3ec0faa655cb97b00c1fc5a789824618ddfc321ea649de34e83c1cc606"
+        }
+      ],
+      "id": "swarm-id-null"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-agent-registration-classification/cases/parent-marker-absent/context.json",
+          "sha256": "70febd618cee77ace82dbc78c1b4248d36c868f20fd1cd28c59dfd820d7b8341"
+        },
+        {
+          "path": "corpora/vectors-agent-registration-classification/cases/parent-marker-absent/record.json",
+          "sha256": "d87bbf19d31afb58885fc57e2e2f4f66d3006e2cb2fb6b8bf4bb1dca00c87ff2"
+        }
+      ],
+      "id": "parent-marker-absent"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-agent-registration-classification/cases/duplicate-consent-scope/context.json",
+          "sha256": "70febd618cee77ace82dbc78c1b4248d36c868f20fd1cd28c59dfd820d7b8341"
+        },
+        {
+          "path": "corpora/vectors-agent-registration-classification/cases/duplicate-consent-scope/record.json",
+          "sha256": "7a8f6fae5e518ddf65c5c50440ae3d0de8ce6ff47cab2ed5d5e49e8c3b820831"
+        }
+      ],
+      "id": "duplicate-consent-scope"
+    }
+  ],
+  "native": {
+    "cases": "native-json",
+    "format": "corpus-result-json-v1",
+    "process-status": {
+      "exit-code": 0
+    },
+    "summary": null
+  },
+  "non-author-runs": [],
+  "observations": [
+    {
+      "carry": "referenced",
+      "id": "native-json",
+      "reference": {
+        "path": "release/intake/native/vectors-agent-registration-classification.json",
+        "serialization": "bytes",
+        "sha256": "6ba87c6df12cdd131337d16451355406e74adaa50d28df045396b63346c074e5"
+      }
+    },
+    {
+      "carry": "referenced",
+      "id": "native-text",
+      "reference": {
+        "path": "release/intake/native/vectors-agent-registration-classification.txt",
+        "serialization": "bytes",
+        "sha256": "3cb86ed0d35ac818c95bb9730c8f338a321cfd5068ab0da61a15e7c5606df570"
+      }
+    },
+    {
+      "carried": "",
+      "carry": "carried",
+      "id": "stderr"
+    }
+  ],
+  "pin-serialization": "bytes",
+  "refusal-verdicts": [
+    "contradicted",
+    "failed",
+    "must-reject",
+    "reject",
+    "rejected"
+  ],
+  "refusals": [
+    {
+      "check": "agent-id-null",
+      "inputs": [
+        "member:agent-id-null",
+        "check:agent-id-null"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"reason\":\"malformed_or_missing_evidence\",\"registration_credit\":false}}"
+    },
+    {
+      "check": "anonymous-mcp-discovery",
+      "inputs": [
+        "member:anonymous-mcp-discovery",
+        "check:anonymous-mcp-discovery"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"reason\":\"not_registration_event\",\"registration_credit\":false}}"
+    },
+    {
+      "check": "challenge-expired",
+      "inputs": [
+        "member:challenge-expired",
+        "check:challenge-expired"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"reason\":\"challenge_expired_or_not_yet_issued\",\"registration_credit\":false}}"
+    },
+    {
+      "check": "challenge-replayed",
+      "inputs": [
+        "member:challenge-replayed",
+        "check:challenge-replayed"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"reason\":\"challenge_replayed\",\"registration_credit\":false}}"
+    },
+    {
+      "check": "challenge-state-missing",
+      "inputs": [
+        "member:challenge-state-missing",
+        "check:challenge-state-missing"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"reason\":\"challenge_state_unverified\",\"registration_credit\":false}}"
+    },
+    {
+      "check": "challenge-state-null",
+      "inputs": [
+        "member:challenge-state-null",
+        "check:challenge-state-null"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"reason\":\"challenge_state_unverified\",\"registration_credit\":false}}"
+    },
+    {
+      "check": "challenge-state-text",
+      "inputs": [
+        "member:challenge-state-text",
+        "check:challenge-state-text"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"reason\":\"challenge_state_unverified\",\"registration_credit\":false}}"
+    },
+    {
+      "check": "child-agent",
+      "inputs": [
+        "member:child-agent",
+        "check:child-agent"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"reason\":\"ephemeral_or_child_agent\",\"registration_credit\":false}}"
+    },
+    {
+      "check": "consent-revoked",
+      "inputs": [
+        "member:consent-revoked",
+        "check:consent-revoked"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"reason\":\"consent_not_affirmative\",\"registration_credit\":false}}"
+    },
+    {
+      "check": "duplicate-agent",
+      "inputs": [
+        "member:duplicate-agent",
+        "check:duplicate-agent"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"reason\":\"agent_already_registered\",\"registration_credit\":false}}"
+    },
+    {
+      "check": "duplicate-consent-scope",
+      "inputs": [
+        "member:duplicate-consent-scope",
+        "check:duplicate-consent-scope"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"reason\":\"evidence_bytes_not_strict_json\",\"registration_credit\":false}}"
+    },
+    {
+      "check": "duplicate-swarm",
+      "inputs": [
+        "member:duplicate-swarm",
+        "check:duplicate-swarm"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"reason\":\"swarm_already_registered\",\"registration_credit\":false}}"
+    },
+    {
+      "check": "forged-agent-signature",
+      "inputs": [
+        "member:forged-agent-signature",
+        "check:forged-agent-signature"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"reason\":\"agent_proof_invalid\",\"registration_credit\":false}}"
+    },
+    {
+      "check": "forged-registry-receipt",
+      "inputs": [
+        "member:forged-registry-receipt",
+        "check:forged-registry-receipt"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"reason\":\"durable_receipt_signature_invalid\",\"registration_credit\":false}}"
+    },
+    {
+      "check": "missing-registry-receipt",
+      "inputs": [
+        "member:missing-registry-receipt",
+        "check:missing-registry-receipt"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"reason\":\"malformed_or_missing_evidence\",\"registration_credit\":false}}"
+    },
+    {
+      "check": "nonce-not-issued",
+      "inputs": [
+        "member:nonce-not-issued",
+        "check:nonce-not-issued"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"reason\":\"challenge_binding_mismatch\",\"registration_credit\":false}}"
+    },
+    {
+      "check": "parent-marker-absent",
+      "inputs": [
+        "member:parent-marker-absent",
+        "check:parent-marker-absent"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"reason\":\"malformed_or_missing_evidence\",\"registration_credit\":false}}"
+    },
+    {
+      "check": "quarantined-report",
+      "inputs": [
+        "member:quarantined-report",
+        "check:quarantined-report"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"reason\":\"not_durably_committed\",\"registration_credit\":false}}"
+    },
+    {
+      "check": "signed-report-not-registration",
+      "inputs": [
+        "member:signed-report-not-registration",
+        "check:signed-report-not-registration"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"reason\":\"not_registration_event\",\"registration_credit\":false}}"
+    },
+    {
+      "check": "swarm-id-null",
+      "inputs": [
+        "member:swarm-id-null",
+        "check:swarm-id-null"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"reason\":\"malformed_or_missing_evidence\",\"registration_credit\":false}}"
+    },
+    {
+      "check": "tampered-committed-digest",
+      "inputs": [
+        "member:tampered-committed-digest",
+        "check:tampered-committed-digest"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"reason\":\"durable_receipt_binding_mismatch\",\"registration_credit\":false}}"
+    },
+    {
+      "check": "wrong-challenge-key",
+      "inputs": [
+        "member:wrong-challenge-key",
+        "check:wrong-challenge-key"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"reason\":\"challenge_key_mismatch\",\"registration_credit\":false}}"
+    },
+    {
+      "check": "wrong-consent-purpose",
+      "inputs": [
+        "member:wrong-consent-purpose",
+        "check:wrong-consent-purpose"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"reason\":\"consent_scope_mismatch\",\"registration_credit\":false}}"
+    }
+  ],
+  "relaxed-controls": [],
+  "replay-stability": {
+    "cause": null,
+    "ordering": "emission-order",
+    "runs": [
+      {
+        "process": "run-1",
+        "sha256": "6ba87c6df12cdd131337d16451355406e74adaa50d28df045396b63346c074e5"
+      },
+      {
+        "process": "run-2",
+        "sha256": "6ba87c6df12cdd131337d16451355406e74adaa50d28df045396b63346c074e5"
+      }
+    ],
+    "seed": "PYTHONHASHSEED=0",
+    "state": "stable"
+  },
+  "scope": {
+    "does-not-claim": [
+      "whole-attack-surface",
+      "implementation-ranking",
+      "threats-outside-corpus",
+      "action-occurred-or-authority"
+    ],
+    "establishes": [
+      "corpora/vectors-agent-registration-classification/check_vectors.py, at the source listing named here, judges each of the 24 pinned members of synthetic-agent-registration-classification/v1 as its manifest declares"
+    ],
+    "leaves-open": [
+      "whether an implementation written from the specification, run by someone other than an author, reaches the same verdicts",
+      "whether release/CORPUS-DIGESTS.txt is a list a release signed: the signature beside it does not verify over these bytes, so the anchor is a located line, not a verified one",
+      "whether a re-run by someone other than an author on these exact bytes agrees; none is on the record for them"
+    ]
+  },
+  "selector": {
+    "expression": "*",
+    "language": "id-glob",
+    "matched": 24,
+    "require": "at-least-one",
+    "selected": [
+      "valid-new-registration",
+      "anonymous-mcp-discovery",
+      "signed-report-not-registration",
+      "quarantined-report",
+      "consent-revoked",
+      "wrong-consent-purpose",
+      "child-agent",
+      "duplicate-swarm",
+      "duplicate-agent",
+      "nonce-not-issued",
+      "challenge-expired",
+      "challenge-replayed",
+      "challenge-state-missing",
+      "challenge-state-null",
+      "challenge-state-text",
+      "wrong-challenge-key",
+      "forged-agent-signature",
+      "tampered-committed-digest",
+      "forged-registry-receipt",
+      "missing-registry-receipt",
+      "agent-id-null",
+      "swarm-id-null",
+      "parent-marker-absent",
+      "duplicate-consent-scope"
+    ]
+  },
+  "specification-readers": [],
+  "state": "pass",
+  "suite": "synthetic-agent-registration-classification/v1"
+}

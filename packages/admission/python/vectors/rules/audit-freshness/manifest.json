@@ -21,9 +21,69 @@
    "id": "fr2-age-equal-to-max-age",
    "text": "{\"_type\":\"https://in-toto.io/Statement/v1\",\"subject\":[{\"name\":\"record\",\"digest\":{\"sha256\":\"0000000000000000000000000000000000000000000000000000000000000000\"}}],\"predicateType\":\"https://example.org/agent-audit-record/v1\",\"predicate\":{\"decision\":{\"action\":\"write\",\"reported\":\"permit\",\"reportedAt\":\"2026-09-19T11:04:02Z\"},\"evaluation\":{\"inputs\":[{\"input\":\"policy-source\",\"lastResult\":\"2026-09-19T10:00:00Z\",\"maxAge\":86400},{\"input\":\"key-source\",\"lastResult\":\"2026-09-19T11:00:00Z\",\"maxAge\":3600},{\"input\":\"standing-source\",\"lastResult\":\"2026-09-19T10:04:02Z\",\"maxAge\":3600}],\"status\":\"evaluated\"}}}",
    "expect": {
+    "verdict": "refuse",
+    "code": "evaluation-inconsistent"
+   },
+   "rationale": "an age equal to maxAge is stale, recorded as evaluated"
+  },
+  {
+   "id": "age-max-age-minus-1ns",
+   "text": "{\"_type\":\"https://in-toto.io/Statement/v1\",\"subject\":[{\"name\":\"record\",\"digest\":{\"sha256\":\"0000000000000000000000000000000000000000000000000000000000000000\"}}],\"predicateType\":\"https://example.org/agent-audit-record/v1\",\"predicate\":{\"decision\":{\"action\":\"write\",\"reported\":\"permit\",\"reportedAt\":\"2026-09-19T11:04:02Z\"},\"evaluation\":{\"inputs\":[{\"input\":\"policy-source\",\"lastResult\":\"2026-09-19T10:00:00Z\",\"maxAge\":86400},{\"input\":\"key-source\",\"lastResult\":\"2026-09-19T11:00:00Z\",\"maxAge\":3600},{\"input\":\"standing-source\",\"lastResult\":\"2026-09-19T10:04:02.000000001Z\",\"maxAge\":3600}],\"status\":\"evaluated\"}}}",
+   "expect": {
     "verdict": "admit"
    },
-   "rationale": "an age equal to maxAge is fresh"
+   "rationale": "one nanosecond under maxAge is still fresh"
+  },
+  {
+   "id": "fr21-fresh-at-evaluated-at",
+   "text": "{\"_type\":\"https://in-toto.io/Statement/v1\",\"subject\":[{\"name\":\"record\",\"digest\":{\"sha256\":\"0000000000000000000000000000000000000000000000000000000000000000\"}}],\"predicateType\":\"https://example.org/agent-audit-record/v1\",\"predicate\":{\"decision\":{\"action\":\"write\",\"reported\":\"permit\",\"reportedAt\":\"2026-09-19T11:04:02Z\",\"evaluatedAt\":\"2026-09-19T10:34:02Z\"},\"evaluation\":{\"inputs\":[{\"input\":\"standing-source\",\"lastResult\":\"2026-09-19T10:30:00Z\",\"maxAge\":3600}],\"status\":\"evaluated\"}}}",
+   "expect": {
+    "verdict": "admit"
+   },
+   "rationale": "evaluatedAt 1800 s before reportedAt: fresh when the decision was made, stale by the time it was reported"
+  },
+  {
+   "id": "fr23-one-second-under-max-age-at-evaluated-at",
+   "text": "{\"_type\":\"https://in-toto.io/Statement/v1\",\"subject\":[{\"name\":\"record\",\"digest\":{\"sha256\":\"0000000000000000000000000000000000000000000000000000000000000000\"}}],\"predicateType\":\"https://example.org/agent-audit-record/v1\",\"predicate\":{\"decision\":{\"action\":\"write\",\"reported\":\"permit\",\"reportedAt\":\"2026-09-19T11:04:02Z\",\"evaluatedAt\":\"2026-09-19T11:00:00Z\"},\"evaluation\":{\"inputs\":[{\"input\":\"standing-source\",\"lastResult\":\"2026-09-19T10:00:01Z\",\"maxAge\":3600}],\"status\":\"evaluated\"}}}",
+   "expect": {
+    "verdict": "admit"
+   },
+   "rationale": "an age one second under maxAge at evaluatedAt, stale at reportedAt"
+  },
+  {
+   "id": "fr24-max-age-at-evaluated-at",
+   "text": "{\"_type\":\"https://in-toto.io/Statement/v1\",\"subject\":[{\"name\":\"record\",\"digest\":{\"sha256\":\"0000000000000000000000000000000000000000000000000000000000000000\"}}],\"predicateType\":\"https://example.org/agent-audit-record/v1\",\"predicate\":{\"decision\":{\"action\":\"write\",\"reported\":\"permit\",\"reportedAt\":\"2026-09-19T11:04:02Z\",\"evaluatedAt\":\"2026-09-19T11:00:00Z\"},\"evaluation\":{\"inputs\":[{\"input\":\"standing-source\",\"lastResult\":\"2026-09-19T10:00:00Z\",\"maxAge\":3600}],\"status\":\"evaluated\"}}}",
+   "expect": {
+    "verdict": "refuse",
+    "code": "evaluation-inconsistent"
+   },
+   "rationale": "an age equal to maxAge at evaluatedAt, recorded as evaluated"
+  },
+  {
+   "id": "fr25-evaluated-at-301-after-reported-at",
+   "text": "{\"_type\":\"https://in-toto.io/Statement/v1\",\"subject\":[{\"name\":\"record\",\"digest\":{\"sha256\":\"0000000000000000000000000000000000000000000000000000000000000000\"}}],\"predicateType\":\"https://example.org/agent-audit-record/v1\",\"predicate\":{\"decision\":{\"action\":\"write\",\"reported\":\"permit\",\"reportedAt\":\"2026-09-19T11:04:02Z\",\"evaluatedAt\":\"2026-09-19T11:09:03Z\"},\"evaluation\":{\"inputs\":[{\"input\":\"policy-source\",\"lastResult\":\"2026-09-19T10:00:00Z\",\"maxAge\":86400},{\"input\":\"key-source\",\"lastResult\":\"2026-09-19T11:00:00Z\",\"maxAge\":3600},{\"input\":\"standing-source\",\"lastResult\":\"2026-09-19T10:30:00Z\",\"maxAge\":3600}],\"status\":\"evaluated\"}}}",
+   "expect": {
+    "verdict": "refuse",
+    "code": "evaluation-result-after-decision"
+   },
+   "rationale": "evaluatedAt 301 s after reportedAt: a decision is not reported before it is evaluated"
+  },
+  {
+   "id": "fr26-evaluated-at-300-after-reported-at",
+   "text": "{\"_type\":\"https://in-toto.io/Statement/v1\",\"subject\":[{\"name\":\"record\",\"digest\":{\"sha256\":\"0000000000000000000000000000000000000000000000000000000000000000\"}}],\"predicateType\":\"https://example.org/agent-audit-record/v1\",\"predicate\":{\"decision\":{\"action\":\"write\",\"reported\":\"permit\",\"reportedAt\":\"2026-09-19T11:04:02Z\",\"evaluatedAt\":\"2026-09-19T11:09:02Z\"},\"evaluation\":{\"inputs\":[{\"input\":\"policy-source\",\"lastResult\":\"2026-09-19T10:00:00Z\",\"maxAge\":86400}],\"status\":\"evaluated\"}}}",
+   "expect": {
+    "verdict": "admit"
+   },
+   "rationale": "evaluatedAt exactly the skew tolerance after reportedAt"
+  },
+  {
+   "id": "fr27-result-301-after-evaluated-at",
+   "text": "{\"_type\":\"https://in-toto.io/Statement/v1\",\"subject\":[{\"name\":\"record\",\"digest\":{\"sha256\":\"0000000000000000000000000000000000000000000000000000000000000000\"}}],\"predicateType\":\"https://example.org/agent-audit-record/v1\",\"predicate\":{\"decision\":{\"action\":\"write\",\"reported\":\"permit\",\"reportedAt\":\"2026-09-19T11:04:02Z\",\"evaluatedAt\":\"2026-09-19T11:00:00Z\"},\"evaluation\":{\"inputs\":[{\"input\":\"standing-source\",\"lastResult\":\"2026-09-19T11:05:01Z\",\"maxAge\":3600}],\"status\":\"evaluated\"}}}",
+   "expect": {
+    "verdict": "refuse",
+    "code": "evaluation-result-after-decision"
+   },
+   "rationale": "a lastResult 301 s after evaluatedAt and before reportedAt"
   },
   {
    "id": "fr8-evaluated-beside-stale",

@@ -1,0 +1,1919 @@
+{
+  "aggregate": {
+    "counts": {
+      "accepted": 16,
+      "rejected": 37
+    },
+    "line": "verdict: every member behaves as MANIFEST.json declares",
+    "total": 53
+  },
+  "anchor": {
+    "kind": "digest-list-line",
+    "manifest": "vectors-assertion-grade/MANIFEST.json",
+    "reference": {
+      "path": "release/CORPUS-DIGESTS.txt",
+      "uri": "https://github.com/probityai/agent-evidence-vectors/blob/main/release/CORPUS-DIGESTS.txt"
+    },
+    "routine": "corpus_digest in corpora/vectors-assertion-grade/gen_vectors.py",
+    "routine-file": "corpora/vectors-assertion-grade/gen_vectors.py",
+    "serialization": "corpus-routine",
+    "sha256": "57905bda97e20196bb66a6c5486fe7e372c5854be3829cae15298e8422449514",
+    "verdicts": {
+      "availability-failure": "inconclusive",
+      "integrity-failure": "fail"
+    }
+  },
+  "artifacts": [
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "965551773acf1ec23bf49037f09006fdeb3e2026089aa18991d3912f5310a61b"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "965551773acf1ec23bf49037f09006fdeb3e2026089aa18991d3912f5310a61b"
+        },
+        "swapped-in": "739ab5d11cadbbca801dbc086260fb60cd194034fa4fdb451ee6d7c83258327f",
+        "test": "swap-and-re-pin"
+      },
+      "path": "corpora/vectors-assertion-grade/INDEX.md",
+      "serialization": "bytes",
+      "sha256": "88e9a6c181fe88a4c3ab878c0ab36a137ef446fde1310d7b946aadef7ffcca6c"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "965551773acf1ec23bf49037f09006fdeb3e2026089aa18991d3912f5310a61b"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "965551773acf1ec23bf49037f09006fdeb3e2026089aa18991d3912f5310a61b"
+        },
+        "swapped-in": "2011ebaafd7cf589b341c15808296b1e64d80ee77bd00d0f4d5a38b4000ed3c0",
+        "test": "swap-and-re-pin"
+      },
+      "path": "corpora/vectors-assertion-grade/README.md",
+      "serialization": "bytes",
+      "sha256": "ed3e4f2122fdcc176fe278780d84d5197e2122c3322549d79f9516d3ef3e0541"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "965551773acf1ec23bf49037f09006fdeb3e2026089aa18991d3912f5310a61b"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "965551773acf1ec23bf49037f09006fdeb3e2026089aa18991d3912f5310a61b"
+        },
+        "swapped-in": "6b3249c35c2315ed7d9b37a9d271ea5705a207d39f5a0d8c194b74114ae3829d",
+        "test": "swap-and-re-pin"
+      },
+      "path": "corpora/vectors-assertion-grade/check_vectors.py",
+      "serialization": "bytes",
+      "sha256": "2889e78f561fcc9fcb54d2853abbfc4f8e23bdba6b12f01f6b930966d3861743"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "965551773acf1ec23bf49037f09006fdeb3e2026089aa18991d3912f5310a61b"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "965551773acf1ec23bf49037f09006fdeb3e2026089aa18991d3912f5310a61b"
+        },
+        "swapped-in": "ba4baddb63e2b84acf054488dbb1c29279a41057ebe4489225dd2977ebf37c20",
+        "test": "swap-and-re-pin"
+      },
+      "path": "corpora/vectors-assertion-grade/gen_vectors.py",
+      "serialization": "bytes",
+      "sha256": "7cfff0aa4a27175402d7cec992270a455d9b983714d86ddf9a2acbdfb95caa3c"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "965551773acf1ec23bf49037f09006fdeb3e2026089aa18991d3912f5310a61b"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "965551773acf1ec23bf49037f09006fdeb3e2026089aa18991d3912f5310a61b"
+        },
+        "swapped-in": "dec7f56cd013ca567367d1d71fdd229bc998d3a7dddcf2e36121581bc3f38412",
+        "test": "swap-and-re-pin"
+      },
+      "path": "corpora/vectors-assertion-grade/mutation_check.py",
+      "serialization": "bytes",
+      "sha256": "f0304721120746eff641905c05e1d9f003f873b682c8610985dbeb36ebc0347e"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "965551773acf1ec23bf49037f09006fdeb3e2026089aa18991d3912f5310a61b"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "965551773acf1ec23bf49037f09006fdeb3e2026089aa18991d3912f5310a61b"
+        },
+        "swapped-in": "54ec24883564e2dc822bab99a482882a4c07a957ef22e817b9589ce1953b8519",
+        "test": "swap-and-re-pin"
+      },
+      "path": "corpora/vectors-assertion-grade/tests/test_corpus.py",
+      "serialization": "bytes",
+      "sha256": "9c9909e390fc308de386bf8324a5bb933d97981324d3962f185a7bad2dc35578"
+    }
+  ],
+  "boundary": {
+    "complete": true,
+    "member-locations": [
+      {
+        "dir": "cases",
+        "recursive": true,
+        "suffix": ""
+      }
+    ],
+    "root": "corpora/vectors-assertion-grade"
+  },
+  "byte-identity": {
+    "pins": 53,
+    "serialization": "bytes"
+  },
+  "canonicalization": {
+    "encoding": "jcs-sha256"
+  },
+  "checker": {
+    "commands": [
+      "go build -o aee-verify ./cmd/aee-verify",
+      "aee-verify -json corpora/vectors-assertion-grade",
+      "aee-verify -json corpora/vectors-assertion-grade",
+      "aee-verify corpora/vectors-assertion-grade"
+    ],
+    "dependencies": [
+      {
+        "path": "go.mod",
+        "serialization": "bytes",
+        "sha256": "c9f5a67159789ead4e2879e86805505c6ba22150b04bef360e6b3333125fb1c2"
+      },
+      {
+        "path": "go.work",
+        "serialization": "bytes",
+        "sha256": "bba3245567badf24ef1d4e89bfbd02355dbe5786ab709b4299e2c006db2b9093"
+      }
+    ],
+    "helpers": [],
+    "name": "aee-verify",
+    "relationship": "same-implementation",
+    "revision": {
+      "kind": "source-listing",
+      "paths": [
+        "aee/admission.go",
+        "aee/carried_base64.go",
+        "aee/codes.go",
+        "aee/commitments.go",
+        "aee/jcs.go",
+        "aee/merkle.go",
+        "aee/pae.go",
+        "aee/recompute.go",
+        "aee/revocationlist.go",
+        "aee/runbinding.go",
+        "aee/statement.go",
+        "aee/tier.go",
+        "aee/types.go",
+        "aee/validity.go",
+        "aee/verify.go",
+        "cmd/aee-verify/corpus.go",
+        "cmd/aee-verify/main.go",
+        "corpusreaders/a2ajcs.go",
+        "corpusreaders/aci.go",
+        "corpusreaders/acscore.go",
+        "corpusreaders/actormarker.go",
+        "corpusreaders/admission.go",
+        "corpusreaders/aeecorpus.go",
+        "corpusreaders/agentaction.go",
+        "corpusreaders/agentaction_chain.go",
+        "corpusreaders/agentdecision.go",
+        "corpusreaders/agenticprocess.go",
+        "corpusreaders/agentidentity.go",
+        "corpusreaders/agentregistrationclassification.go",
+        "corpusreaders/agentrequestproof.go",
+        "corpusreaders/aggregateaccounting.go",
+        "corpusreaders/aigeneration.go",
+        "corpusreaders/anchoredchain.go",
+        "corpusreaders/anchorstream.go",
+        "corpusreaders/approvalbinding.go",
+        "corpusreaders/artifactbinding.go",
+        "corpusreaders/assertiongrade.go",
+        "corpusreaders/auditrecord.go",
+        "corpusreaders/auditrecord_consumption.go",
+        "corpusreaders/auditrecord_datasubject.go",
+        "corpusreaders/auditrecord_dating.go",
+        "corpusreaders/auditrecord_principal.go",
+        "corpusreaders/auditrecord_sequence.go",
+        "corpusreaders/authoritydispatch.go",
+        "corpusreaders/aveidresolution.go",
+        "corpusreaders/badgevc.go",
+        "corpusreaders/budgetlineage.go",
+        "corpusreaders/canonical_base64.go",
+        "corpusreaders/capabilityrequirement.go",
+        "corpusreaders/cardreceipt.go",
+        "corpusreaders/catalogtrust.go",
+        "corpusreaders/cborreceiptchain.go",
+        "corpusreaders/changeadmission.go",
+        "corpusreaders/chunkedexport.go",
+        "corpusreaders/common.go",
+        "corpusreaders/completionconfirmation.go",
+        "corpusreaders/connectorscope.go",
+        "corpusreaders/containmentjournal.go",
+        "corpusreaders/contextdiscovery.go",
+        "corpusreaders/controldecision.go",
+        "corpusreaders/convertedargs.go",
+        "corpusreaders/credreach.go",
+        "corpusreaders/decisionclient.go",
+        "corpusreaders/decisionrecord.go",
+        "corpusreaders/decisionrecord_binding.go",
+        "corpusreaders/decisionrecord_json.go",
+        "corpusreaders/decisionrecord_read.go",
+        "corpusreaders/delegationchain.go",
+        "corpusreaders/delegationlifecycle.go",
+        "corpusreaders/delegatorright.go",
+        "corpusreaders/dispatchfence.go",
+        "corpusreaders/dnsaid.go",
+        "corpusreaders/doneargv.go",
+        "corpusreaders/donechecks.go",
+        "corpusreaders/donerecords.go",
+        "corpusreaders/donerun.go",
+        "corpusreaders/emptyinterval.go",
+        "corpusreaders/evidencecell.go",
+        "corpusreaders/evidencestate.go",
+        "corpusreaders/evmsig.go",
+        "corpusreaders/executionbilling.go",
+        "corpusreaders/gradefloor.go",
+        "corpusreaders/htxcases.go",
+        "corpusreaders/identitybinding.go",
+        "corpusreaders/ietfagentrecord.go",
+        "corpusreaders/keydirectory.go",
+        "corpusreaders/keyrevocation.go",
+        "corpusreaders/lifecyclebinding.go",
+        "corpusreaders/mcpauthz.go",
+        "corpusreaders/mcpowasp.go",
+        "corpusreaders/mcprecord.go",
+        "corpusreaders/mcpresponsephase.go",
+        "corpusreaders/monitorcoverage.go",
+        "corpusreaders/oasfrecord.go",
+        "corpusreaders/observedeffect.go",
+        "corpusreaders/ocsfdecision.go",
+        "corpusreaders/ocsfjson.go",
+        "corpusreaders/ocsfrecord.go",
+        "corpusreaders/ocsfstream.go",
+        "corpusreaders/openweight.go",
+        "corpusreaders/paymentmandate.go",
+        "corpusreaders/physicalcompletion.go",
+        "corpusreaders/principalaction.go",
+        "corpusreaders/principalbinding.go",
+        "corpusreaders/printwitness.go",
+        "corpusreaders/propagationstep.go",
+        "corpusreaders/pyjson.go",
+        "corpusreaders/receiptchainend.go",
+        "corpusreaders/receiptsignature.go",
+        "corpusreaders/recorded.go",
+        "corpusreaders/refundconnected.go",
+        "corpusreaders/refundconnected_aps.go",
+        "corpusreaders/refundconnected_run.go",
+        "corpusreaders/refundconnected_steps.go",
+        "corpusreaders/refundconnected_trust.go",
+        "corpusreaders/refundconnected_value.go",
+        "corpusreaders/refusalreason.go",
+        "corpusreaders/registry.go",
+        "corpusreaders/responsibilityescalation.go",
+        "corpusreaders/restartrecords.go",
+        "corpusreaders/revocationlist.go",
+        "corpusreaders/rsadigestinfo.go",
+        "corpusreaders/rulecorpus.go",
+        "corpusreaders/runmetrics.go",
+        "corpusreaders/scittcose.go",
+        "corpusreaders/selfreported.go",
+        "corpusreaders/signaturecoverage.go",
+        "corpusreaders/sourcecoverage.go",
+        "corpusreaders/statusreceipt.go",
+        "corpusreaders/strictjson.go",
+        "corpusreaders/telemetryevidence.go",
+        "corpusreaders/traceanchor.go",
+        "corpusreaders/uncertaineffect.go",
+        "corpusreaders/verdictlines.go",
+        "corpusreaders/w3cintake.go",
+        "corpusreaders/w3cjcs.go",
+        "corpusreaders/w3creport.go",
+        "corpusreaders/x402binding.go",
+        "corpusreaders/x402join.go",
+        "internal/identifiers/identifiers.go",
+        "observedeffect/ijson.go",
+        "observedeffect/rules.go",
+        "observedeffect/verify.go",
+        "go.mod"
+      ],
+      "serialization": "sha256-listing-v1",
+      "sha256": "5e910152e511086ea32f93807ae40f610d50c6918528feff8a01cabdaf27d967"
+    },
+    "runtime": {
+      "name": "go",
+      "version": "1.26"
+    },
+    "shared-verification-code": [
+      "aee/admission.go",
+      "aee/carried_base64.go",
+      "aee/codes.go",
+      "aee/commitments.go",
+      "aee/jcs.go",
+      "aee/merkle.go",
+      "aee/pae.go",
+      "aee/recompute.go",
+      "aee/revocationlist.go",
+      "aee/runbinding.go",
+      "aee/statement.go",
+      "aee/tier.go",
+      "aee/types.go",
+      "aee/validity.go",
+      "aee/verify.go",
+      "cmd/aee-verify/corpus.go",
+      "cmd/aee-verify/main.go",
+      "corpusreaders/a2ajcs.go",
+      "corpusreaders/aci.go",
+      "corpusreaders/acscore.go",
+      "corpusreaders/actormarker.go",
+      "corpusreaders/admission.go",
+      "corpusreaders/aeecorpus.go",
+      "corpusreaders/agentaction.go",
+      "corpusreaders/agentaction_chain.go",
+      "corpusreaders/agentdecision.go",
+      "corpusreaders/agenticprocess.go",
+      "corpusreaders/agentidentity.go",
+      "corpusreaders/agentregistrationclassification.go",
+      "corpusreaders/agentrequestproof.go",
+      "corpusreaders/aggregateaccounting.go",
+      "corpusreaders/aigeneration.go",
+      "corpusreaders/anchoredchain.go",
+      "corpusreaders/anchorstream.go",
+      "corpusreaders/approvalbinding.go",
+      "corpusreaders/artifactbinding.go",
+      "corpusreaders/assertiongrade.go",
+      "corpusreaders/auditrecord.go",
+      "corpusreaders/auditrecord_consumption.go",
+      "corpusreaders/auditrecord_datasubject.go",
+      "corpusreaders/auditrecord_dating.go",
+      "corpusreaders/auditrecord_principal.go",
+      "corpusreaders/auditrecord_sequence.go",
+      "corpusreaders/authoritydispatch.go",
+      "corpusreaders/aveidresolution.go",
+      "corpusreaders/badgevc.go",
+      "corpusreaders/budgetlineage.go",
+      "corpusreaders/canonical_base64.go",
+      "corpusreaders/capabilityrequirement.go",
+      "corpusreaders/cardreceipt.go",
+      "corpusreaders/catalogtrust.go",
+      "corpusreaders/cborreceiptchain.go",
+      "corpusreaders/changeadmission.go",
+      "corpusreaders/chunkedexport.go",
+      "corpusreaders/common.go",
+      "corpusreaders/completionconfirmation.go",
+      "corpusreaders/connectorscope.go",
+      "corpusreaders/containmentjournal.go",
+      "corpusreaders/contextdiscovery.go",
+      "corpusreaders/controldecision.go",
+      "corpusreaders/convertedargs.go",
+      "corpusreaders/credreach.go",
+      "corpusreaders/decisionclient.go",
+      "corpusreaders/decisionrecord.go",
+      "corpusreaders/decisionrecord_binding.go",
+      "corpusreaders/decisionrecord_json.go",
+      "corpusreaders/decisionrecord_read.go",
+      "corpusreaders/delegationchain.go",
+      "corpusreaders/delegationlifecycle.go",
+      "corpusreaders/delegatorright.go",
+      "corpusreaders/dispatchfence.go",
+      "corpusreaders/dnsaid.go",
+      "corpusreaders/doneargv.go",
+      "corpusreaders/donechecks.go",
+      "corpusreaders/donerecords.go",
+      "corpusreaders/donerun.go",
+      "corpusreaders/emptyinterval.go",
+      "corpusreaders/evidencecell.go",
+      "corpusreaders/evidencestate.go",
+      "corpusreaders/evmsig.go",
+      "corpusreaders/executionbilling.go",
+      "corpusreaders/gradefloor.go",
+      "corpusreaders/htxcases.go",
+      "corpusreaders/identitybinding.go",
+      "corpusreaders/ietfagentrecord.go",
+      "corpusreaders/keydirectory.go",
+      "corpusreaders/keyrevocation.go",
+      "corpusreaders/lifecyclebinding.go",
+      "corpusreaders/mcpauthz.go",
+      "corpusreaders/mcpowasp.go",
+      "corpusreaders/mcprecord.go",
+      "corpusreaders/mcpresponsephase.go",
+      "corpusreaders/monitorcoverage.go",
+      "corpusreaders/oasfrecord.go",
+      "corpusreaders/observedeffect.go",
+      "corpusreaders/ocsfdecision.go",
+      "corpusreaders/ocsfjson.go",
+      "corpusreaders/ocsfrecord.go",
+      "corpusreaders/ocsfstream.go",
+      "corpusreaders/openweight.go",
+      "corpusreaders/paymentmandate.go",
+      "corpusreaders/physicalcompletion.go",
+      "corpusreaders/principalaction.go",
+      "corpusreaders/principalbinding.go",
+      "corpusreaders/printwitness.go",
+      "corpusreaders/propagationstep.go",
+      "corpusreaders/pyjson.go",
+      "corpusreaders/receiptchainend.go",
+      "corpusreaders/receiptsignature.go",
+      "corpusreaders/recorded.go",
+      "corpusreaders/refundconnected.go",
+      "corpusreaders/refundconnected_aps.go",
+      "corpusreaders/refundconnected_run.go",
+      "corpusreaders/refundconnected_steps.go",
+      "corpusreaders/refundconnected_trust.go",
+      "corpusreaders/refundconnected_value.go",
+      "corpusreaders/refusalreason.go",
+      "corpusreaders/registry.go",
+      "corpusreaders/responsibilityescalation.go",
+      "corpusreaders/restartrecords.go",
+      "corpusreaders/revocationlist.go",
+      "corpusreaders/rsadigestinfo.go",
+      "corpusreaders/rulecorpus.go",
+      "corpusreaders/runmetrics.go",
+      "corpusreaders/scittcose.go",
+      "corpusreaders/selfreported.go",
+      "corpusreaders/signaturecoverage.go",
+      "corpusreaders/sourcecoverage.go",
+      "corpusreaders/statusreceipt.go",
+      "corpusreaders/strictjson.go",
+      "corpusreaders/telemetryevidence.go",
+      "corpusreaders/traceanchor.go",
+      "corpusreaders/uncertaineffect.go",
+      "corpusreaders/verdictlines.go",
+      "corpusreaders/w3cintake.go",
+      "corpusreaders/w3cjcs.go",
+      "corpusreaders/w3creport.go",
+      "corpusreaders/x402binding.go",
+      "corpusreaders/x402join.go",
+      "internal/identifiers/identifiers.go",
+      "observedeffect/ijson.go",
+      "observedeffect/rules.go",
+      "observedeffect/verify.go",
+      "go.mod"
+    ]
+  },
+  "checks": [
+    {
+      "check": "hosted-external-quorum",
+      "native": {
+        "reasons": [],
+        "verdict": "accepted"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "hosted-staging-witness",
+      "native": {
+        "reasons": [],
+        "verdict": "accepted"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "managed-customer-witness",
+      "native": {
+        "reasons": [],
+        "verdict": "accepted"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "managed-plus-external",
+      "native": {
+        "reasons": [],
+        "verdict": "accepted"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "notary-saw-request",
+      "native": {
+        "reasons": [],
+        "verdict": "accepted"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "tee-decision-path",
+      "native": {
+        "reasons": [],
+        "verdict": "accepted"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "counterparty-domain-document",
+      "native": {
+        "reasons": [],
+        "verdict": "accepted"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "counterparty-naming-log",
+      "native": {
+        "reasons": [],
+        "verdict": "accepted"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "counterparty-rail-operator",
+      "native": {
+        "reasons": [],
+        "verdict": "accepted"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "hsm-stream",
+      "native": {
+        "reasons": [],
+        "verdict": "accepted"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "tee-journal",
+      "native": {
+        "reasons": [],
+        "verdict": "accepted"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "gateway-decision-mutually-signed",
+      "native": {
+        "reasons": [],
+        "verdict": "accepted"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "byok-witnessed",
+      "native": {
+        "reasons": [],
+        "verdict": "accepted"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "local-only",
+      "native": {
+        "reasons": [],
+        "verdict": "accepted"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "mixed-bundle",
+      "native": {
+        "reasons": [],
+        "verdict": "accepted"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "coverage-two-checkpoints",
+      "native": {
+        "reasons": [],
+        "verdict": "accepted"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "forged-witness-cosignature",
+      "native": {
+        "reasons": [],
+        "verdict": "rejected"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "swapped-witness-key",
+      "native": {
+        "reasons": [],
+        "verdict": "rejected"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "expired-checkpoint",
+      "native": {
+        "reasons": [],
+        "verdict": "rejected"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "wrong-tenant",
+      "native": {
+        "reasons": [],
+        "verdict": "rejected"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "w-relabelled-i",
+      "native": {
+        "reasons": [],
+        "verdict": "rejected"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "coverage-overclaimed",
+      "native": {
+        "reasons": [],
+        "verdict": "rejected"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "mocked-attestation-chain",
+      "native": {
+        "reasons": [],
+        "verdict": "rejected"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "receipt-without-map-proof",
+      "native": {
+        "reasons": [],
+        "verdict": "rejected"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "tenant-declared-counterparty",
+      "native": {
+        "reasons": [],
+        "verdict": "rejected"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "receipt-forged-key-document",
+      "native": {
+        "reasons": [],
+        "verdict": "rejected"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "receipt-replayed-second-slot",
+      "native": {
+        "reasons": [],
+        "verdict": "rejected"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "receipt-window-exceeded",
+      "native": {
+        "reasons": [],
+        "verdict": "rejected"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "receipt-window-backdated-by-tenant-witness",
+      "native": {
+        "reasons": [],
+        "verdict": "rejected"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "receipt-key-expired-at-inclusion",
+      "native": {
+        "reasons": [],
+        "verdict": "rejected"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "receipt-without-actor-stamp",
+      "native": {
+        "reasons": [],
+        "verdict": "rejected"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "rollback",
+      "native": {
+        "reasons": [],
+        "verdict": "rejected"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "split-view",
+      "native": {
+        "reasons": [],
+        "verdict": "rejected"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "notary-saw-commitment-only",
+      "native": {
+        "reasons": [],
+        "verdict": "rejected"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "notary-customer-custody-root",
+      "native": {
+        "reasons": [],
+        "verdict": "rejected"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "notary-run-by-tenant",
+      "native": {
+        "reasons": [],
+        "verdict": "rejected"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "hsm-without-usage-log",
+      "native": {
+        "reasons": [],
+        "verdict": "rejected"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "hsm-partition-reinit",
+      "native": {
+        "reasons": [],
+        "verdict": "rejected"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "hsm-hidden-signature",
+      "native": {
+        "reasons": [],
+        "verdict": "rejected"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "tee-journal-stale-nonce",
+      "native": {
+        "reasons": [],
+        "verdict": "rejected"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "tee-journal-wrong-head",
+      "native": {
+        "reasons": [],
+        "verdict": "rejected"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "gateway-mutually-signed-claimed-i",
+      "native": {
+        "reasons": [],
+        "verdict": "rejected"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "tenant-key-under-our-root",
+      "native": {
+        "reasons": [],
+        "verdict": "rejected"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "tee-measurement-unknown",
+      "native": {
+        "reasons": [],
+        "verdict": "rejected"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "tee-channel-on-host",
+      "native": {
+        "reasons": [],
+        "verdict": "rejected"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "unknown-record-key",
+      "native": {
+        "reasons": [],
+        "verdict": "rejected"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "record-edited-after-signing",
+      "native": {
+        "reasons": [],
+        "verdict": "rejected"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "log-not-pinned",
+      "native": {
+        "reasons": [],
+        "verdict": "rejected"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "checkpoint-wrong-log-key",
+      "native": {
+        "reasons": [],
+        "verdict": "rejected"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "inclusion-proof-wrong",
+      "native": {
+        "reasons": [],
+        "verdict": "rejected"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "self-witnessed",
+      "native": {
+        "reasons": [],
+        "verdict": "rejected"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "route-relabelled",
+      "native": {
+        "reasons": [],
+        "verdict": "rejected"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "byok-without-counter",
+      "native": {
+        "reasons": [],
+        "verdict": "rejected"
+      },
+      "state": "pass"
+    }
+  ],
+  "corpus-digest": {
+    "serialization": "sha256-listing-v1",
+    "sha256": "bdfe1ecbc85477d6cf143898f205e00ded566a78efa6bf004eb5571ede538266"
+  },
+  "exit-code": 0,
+  "exit-rule": "zero-iff-every-check-passes",
+  "exposure": "visible",
+  "faults": [],
+  "format": "public-agent-conformance/intake-record/v2",
+  "manifest": {
+    "closed": true,
+    "ids": [
+      "hosted-external-quorum",
+      "hosted-staging-witness",
+      "managed-customer-witness",
+      "managed-plus-external",
+      "notary-saw-request",
+      "tee-decision-path",
+      "counterparty-domain-document",
+      "counterparty-naming-log",
+      "counterparty-rail-operator",
+      "hsm-stream",
+      "tee-journal",
+      "gateway-decision-mutually-signed",
+      "byok-witnessed",
+      "local-only",
+      "mixed-bundle",
+      "coverage-two-checkpoints",
+      "forged-witness-cosignature",
+      "swapped-witness-key",
+      "expired-checkpoint",
+      "wrong-tenant",
+      "w-relabelled-i",
+      "coverage-overclaimed",
+      "mocked-attestation-chain",
+      "receipt-without-map-proof",
+      "tenant-declared-counterparty",
+      "receipt-forged-key-document",
+      "receipt-replayed-second-slot",
+      "receipt-window-exceeded",
+      "receipt-window-backdated-by-tenant-witness",
+      "receipt-key-expired-at-inclusion",
+      "receipt-without-actor-stamp",
+      "rollback",
+      "split-view",
+      "notary-saw-commitment-only",
+      "notary-customer-custody-root",
+      "notary-run-by-tenant",
+      "hsm-without-usage-log",
+      "hsm-partition-reinit",
+      "hsm-hidden-signature",
+      "tee-journal-stale-nonce",
+      "tee-journal-wrong-head",
+      "gateway-mutually-signed-claimed-i",
+      "tenant-key-under-our-root",
+      "tee-measurement-unknown",
+      "tee-channel-on-host",
+      "unknown-record-key",
+      "record-edited-after-signing",
+      "log-not-pinned",
+      "checkpoint-wrong-log-key",
+      "inclusion-proof-wrong",
+      "self-witnessed",
+      "route-relabelled",
+      "byok-without-counter"
+    ],
+    "path": "corpora/vectors-assertion-grade/MANIFEST.json",
+    "sha256": "adec0ecad340da1d2622a3a69b92329ace1b62b8ea2a04849652b615792ad3c0"
+  },
+  "members": [
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-assertion-grade/cases/hosted-external-quorum/case.json",
+          "sha256": "c91340bea8baf16cf6b983a1c89cc5a4b43000a686313fdf50a877bf72644b99"
+        }
+      ],
+      "id": "hosted-external-quorum"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-assertion-grade/cases/hosted-staging-witness/case.json",
+          "sha256": "edcff3715d36dc4d7fd2ad033b26cbacc91c28e2ce000596249309e66c0e57ab"
+        }
+      ],
+      "id": "hosted-staging-witness"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-assertion-grade/cases/managed-customer-witness/case.json",
+          "sha256": "7d6bfb039f3ca235f618608e9fe98e2e12f3497023f2fab930f7cc5af1d60251"
+        }
+      ],
+      "id": "managed-customer-witness"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-assertion-grade/cases/managed-plus-external/case.json",
+          "sha256": "5de0e58e1a277c2ba953968642aff92d4c3fd929bc41dc93cf2d29f1034df858"
+        }
+      ],
+      "id": "managed-plus-external"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-assertion-grade/cases/notary-saw-request/case.json",
+          "sha256": "6c7eb15390a25ceb34b9ecb320816d0ecd00d0ebc0c5b57cb9cb8ebdea0347bc"
+        }
+      ],
+      "id": "notary-saw-request"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-assertion-grade/cases/tee-decision-path/case.json",
+          "sha256": "d81f181d1f06f88d07acf6f6c3f86529c050b114e436b4c0d6dd5a8bfe506950"
+        }
+      ],
+      "id": "tee-decision-path"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-assertion-grade/cases/counterparty-domain-document/case.json",
+          "sha256": "c77b044cff51be4a63ea21c88da654592209355e275d5328496da47c4ee57305"
+        }
+      ],
+      "id": "counterparty-domain-document"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-assertion-grade/cases/counterparty-naming-log/case.json",
+          "sha256": "5195f8a4fbe2e645d07c00c1e277a4210181077c7fab48c798e6d478f0be4666"
+        }
+      ],
+      "id": "counterparty-naming-log"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-assertion-grade/cases/counterparty-rail-operator/case.json",
+          "sha256": "d157a41e017074463e87272322ec7d7c5ea187af4d242a3534351cf0304e357d"
+        }
+      ],
+      "id": "counterparty-rail-operator"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-assertion-grade/cases/hsm-stream/case.json",
+          "sha256": "08d722b0f29ca8b7bf03319a53df8e6e434944c189268b4b26c08a176dad7cca"
+        }
+      ],
+      "id": "hsm-stream"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-assertion-grade/cases/tee-journal/case.json",
+          "sha256": "116f7157a6121c60072fcb2d1dba80f26e6b55ef196361a953adacc86a83440d"
+        }
+      ],
+      "id": "tee-journal"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-assertion-grade/cases/gateway-decision-mutually-signed/case.json",
+          "sha256": "ddaceaa003e92c347f579ab1486bda2c20248ce52b3da34343d294f57e90071f"
+        }
+      ],
+      "id": "gateway-decision-mutually-signed"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-assertion-grade/cases/byok-witnessed/case.json",
+          "sha256": "52ebbb18ac900dc469f2cb49a392e888adff1c03f3381bb435c55e6c462c92f3"
+        }
+      ],
+      "id": "byok-witnessed"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-assertion-grade/cases/local-only/case.json",
+          "sha256": "c237e4b709ae1d13bc2f9d763aa8ae4f5d2bbedb47142ee4575cb1fdfc7e6ceb"
+        }
+      ],
+      "id": "local-only"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-assertion-grade/cases/mixed-bundle/case.json",
+          "sha256": "8f46eac0e828fef17a4832002d895d1eb5bedf0e3901208ecf0c4ce0c5639b1b"
+        }
+      ],
+      "id": "mixed-bundle"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-assertion-grade/cases/coverage-two-checkpoints/case.json",
+          "sha256": "090128c3e57ecab987aa4a214b70351424deac46504f2660853dab6aae10bc6d"
+        }
+      ],
+      "id": "coverage-two-checkpoints"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-assertion-grade/cases/forged-witness-cosignature/case.json",
+          "sha256": "51281b7f03bf686d41ec026f8cef0980065c447f97be1c804b7d701791d7ae91"
+        }
+      ],
+      "id": "forged-witness-cosignature"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-assertion-grade/cases/swapped-witness-key/case.json",
+          "sha256": "712f7d22d8677080e9835e21069606101ae6927cc9b0cbc5e1ace28715ee7b81"
+        }
+      ],
+      "id": "swapped-witness-key"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-assertion-grade/cases/expired-checkpoint/case.json",
+          "sha256": "987466ddcc1dd5a71a1d4f69008759421d2414e39de8d4322419e0d58fb7a9ec"
+        }
+      ],
+      "id": "expired-checkpoint"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-assertion-grade/cases/wrong-tenant/case.json",
+          "sha256": "a772422da0868f73947889c1377c96e7a640e0ed1311d49d3b4cdfb8b52744eb"
+        }
+      ],
+      "id": "wrong-tenant"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-assertion-grade/cases/w-relabelled-i/case.json",
+          "sha256": "d40f2d256c378ca8e04c131221b9903ba7c7d89ee687a25048b4eff10f6935df"
+        }
+      ],
+      "id": "w-relabelled-i"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-assertion-grade/cases/coverage-overclaimed/case.json",
+          "sha256": "c74e98741b84cadddf4d1ff9e42a273e519a321a1743f382742bf028f61e4ab2"
+        }
+      ],
+      "id": "coverage-overclaimed"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-assertion-grade/cases/mocked-attestation-chain/case.json",
+          "sha256": "2ffb4f09539ba5d5e7c053ea9f1620e49bcf4ed257a1a51d307df4177d4670be"
+        }
+      ],
+      "id": "mocked-attestation-chain"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-assertion-grade/cases/receipt-without-map-proof/case.json",
+          "sha256": "cf9a45baba687833c7054c65a3c8265b5b686ad0d8266c4a2c191904e5f0a552"
+        }
+      ],
+      "id": "receipt-without-map-proof"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-assertion-grade/cases/tenant-declared-counterparty/case.json",
+          "sha256": "8ccdad93dc699e8d7e230a4e0369f589417630c9290e4eb8643fbbce98c6db76"
+        }
+      ],
+      "id": "tenant-declared-counterparty"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-assertion-grade/cases/receipt-forged-key-document/case.json",
+          "sha256": "4b346259ba433241bd226e6e74d7698e0d827457d9a5f787a26a9ddc6b51042a"
+        }
+      ],
+      "id": "receipt-forged-key-document"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-assertion-grade/cases/receipt-replayed-second-slot/case.json",
+          "sha256": "bec0fdfdbcbbe28fca72d77df3651ce167832186d4b9c9506d665c6781b9d742"
+        }
+      ],
+      "id": "receipt-replayed-second-slot"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-assertion-grade/cases/receipt-window-exceeded/case.json",
+          "sha256": "922bf03d73fa80eb68eea24a66fe08661f3b57f85c2d46cb54c9693c41aa70fe"
+        }
+      ],
+      "id": "receipt-window-exceeded"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-assertion-grade/cases/receipt-window-backdated-by-tenant-witness/case.json",
+          "sha256": "a6368bc8fa2f00cb1153c948c47679c7896949b2bd3a878446161d98467d5f13"
+        }
+      ],
+      "id": "receipt-window-backdated-by-tenant-witness"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-assertion-grade/cases/receipt-key-expired-at-inclusion/case.json",
+          "sha256": "a2566ce79e91b6fb5d2af6287d485bcbb129b2056bb2892e2bed1de59d9d72ab"
+        }
+      ],
+      "id": "receipt-key-expired-at-inclusion"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-assertion-grade/cases/receipt-without-actor-stamp/case.json",
+          "sha256": "72e20e27806c1b307e06267058bf924ba38fda2ecee0249edb73207ea5c64818"
+        }
+      ],
+      "id": "receipt-without-actor-stamp"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-assertion-grade/cases/rollback/case.json",
+          "sha256": "3a163ca658934e3aed1dc6555684e7fc5a73f979d80bd70fa3fc81bf750339ec"
+        }
+      ],
+      "id": "rollback"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-assertion-grade/cases/split-view/case.json",
+          "sha256": "08f6ed2fce5e5ec800835ff55c92e29200bb10ec8a2318bd09a8dbe01bbf49c9"
+        }
+      ],
+      "id": "split-view"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-assertion-grade/cases/notary-saw-commitment-only/case.json",
+          "sha256": "58ce81d3030f0fb9533459cbd52684c6f6192293a92276a1b09481c02ac87282"
+        }
+      ],
+      "id": "notary-saw-commitment-only"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-assertion-grade/cases/notary-customer-custody-root/case.json",
+          "sha256": "f1057248aacac6532b15fd10d950f628df1be67b9a5c68b9f10260871f48a032"
+        }
+      ],
+      "id": "notary-customer-custody-root"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-assertion-grade/cases/notary-run-by-tenant/case.json",
+          "sha256": "aa0862151ee6aff71d8fda71a9fae23c9e53a852721a204986c4ed739e9f35f8"
+        }
+      ],
+      "id": "notary-run-by-tenant"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-assertion-grade/cases/hsm-without-usage-log/case.json",
+          "sha256": "c30108361b33173b07e613efacddcdc5b5084d39c7cd42f9d55637e21c5a954f"
+        }
+      ],
+      "id": "hsm-without-usage-log"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-assertion-grade/cases/hsm-partition-reinit/case.json",
+          "sha256": "00c6f4bdc4ad9ed5826462f247166f56a9c2ec8c4eb572a22c8eea668df2dbf1"
+        }
+      ],
+      "id": "hsm-partition-reinit"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-assertion-grade/cases/hsm-hidden-signature/case.json",
+          "sha256": "f2ca0fde8b3064bd7a2ef69df984dd171a9714de17e54a30eb02c278f7f0f593"
+        }
+      ],
+      "id": "hsm-hidden-signature"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-assertion-grade/cases/tee-journal-stale-nonce/case.json",
+          "sha256": "a330a0789f073df22dbf433fe90c1f5c081f19cef152568a3cdc323de3f3a2c7"
+        }
+      ],
+      "id": "tee-journal-stale-nonce"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-assertion-grade/cases/tee-journal-wrong-head/case.json",
+          "sha256": "0f94d02fb0f7c0066bbc22924aab4ded143690c4794add42ee3845aa58242833"
+        }
+      ],
+      "id": "tee-journal-wrong-head"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-assertion-grade/cases/gateway-mutually-signed-claimed-i/case.json",
+          "sha256": "41fd35a78853c2d8e0b29fa2ac1d615e2bc06e3e447c333d77a98618a137d3a0"
+        }
+      ],
+      "id": "gateway-mutually-signed-claimed-i"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-assertion-grade/cases/tenant-key-under-our-root/case.json",
+          "sha256": "fd22138b30ebf366dc25de827cb6790829dc870180f4d1984f721cbe6f8ecac0"
+        }
+      ],
+      "id": "tenant-key-under-our-root"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-assertion-grade/cases/tee-measurement-unknown/case.json",
+          "sha256": "05d2dae44b09768c450b4075f28c9a3a1ad2e7d98e33da3204c05134dc1fe12b"
+        }
+      ],
+      "id": "tee-measurement-unknown"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-assertion-grade/cases/tee-channel-on-host/case.json",
+          "sha256": "bcbb3385cbbbf9b4bfffd49375188160cd07f468a7707890be9b51e39a8b0a43"
+        }
+      ],
+      "id": "tee-channel-on-host"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-assertion-grade/cases/unknown-record-key/case.json",
+          "sha256": "243eb0eb0c86a66e622bf089557d852de0a15c678dae0bd9eb5b0bf98d9615cd"
+        }
+      ],
+      "id": "unknown-record-key"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-assertion-grade/cases/record-edited-after-signing/case.json",
+          "sha256": "a3512dc29d1a33ead9f35d6a1a4379f53d3baedabcb3b998409f8de8a4a66bc7"
+        }
+      ],
+      "id": "record-edited-after-signing"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-assertion-grade/cases/log-not-pinned/case.json",
+          "sha256": "c3a9a6bc3119ded635e2689a4868b925442d8a8ccd497de7e96ef4797a0b3cc9"
+        }
+      ],
+      "id": "log-not-pinned"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-assertion-grade/cases/checkpoint-wrong-log-key/case.json",
+          "sha256": "daf4468e1adf95530335cec4f64ead49a9336992774391e4bbee0c634a309fdd"
+        }
+      ],
+      "id": "checkpoint-wrong-log-key"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-assertion-grade/cases/inclusion-proof-wrong/case.json",
+          "sha256": "1f4ae31994e3de671423115841d53468f3cc829a1870e0dd1554f9dfa599bf7f"
+        }
+      ],
+      "id": "inclusion-proof-wrong"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-assertion-grade/cases/self-witnessed/case.json",
+          "sha256": "86be08b90a5bcd4a700d20a20b64f478b7f93a0ffbaf49c9bdcfac4c1a7fe683"
+        }
+      ],
+      "id": "self-witnessed"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-assertion-grade/cases/route-relabelled/case.json",
+          "sha256": "bc6270a76b21c5df4d8951d5594f77bee458edfd6aa4874a949ca9fde66e60a6"
+        }
+      ],
+      "id": "route-relabelled"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-assertion-grade/cases/byok-without-counter/case.json",
+          "sha256": "88fae14265cdf3c44a01347af330031bed3109e65384652ae411377d953f191d"
+        }
+      ],
+      "id": "byok-without-counter"
+    }
+  ],
+  "native": {
+    "cases": "native-json",
+    "format": "corpus-result-json-v1",
+    "process-status": {
+      "exit-code": 0
+    },
+    "summary": "native-text"
+  },
+  "non-author-runs": [],
+  "observations": [
+    {
+      "carry": "referenced",
+      "id": "native-json",
+      "reference": {
+        "path": "release/intake/native/vectors-assertion-grade.json",
+        "serialization": "bytes",
+        "sha256": "965551773acf1ec23bf49037f09006fdeb3e2026089aa18991d3912f5310a61b"
+      }
+    },
+    {
+      "carry": "referenced",
+      "id": "native-text",
+      "reference": {
+        "path": "release/intake/native/vectors-assertion-grade.txt",
+        "serialization": "bytes",
+        "sha256": "94fbf2d092cf47394a359a3c8e69f42a3648c8c8501bb4299aa16278231ed074"
+      }
+    },
+    {
+      "carried": "",
+      "carry": "carried",
+      "id": "stderr"
+    }
+  ],
+  "pin-serialization": "bytes",
+  "refusal-verdicts": [
+    "contradicted",
+    "failed",
+    "must-reject",
+    "reject",
+    "rejected"
+  ],
+  "refusals": [
+    {
+      "check": "forged-witness-cosignature",
+      "inputs": [
+        "member:forged-witness-cosignature",
+        "check:forged-witness-cosignature"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"assertions\":[{\"anchors\":[],\"boundary\":\"gateway ingress\",\"custody\":\"us\",\"grade\":\"S\",\"id\":\"event\",\"independentOf\":[],\"label\":\"\",\"properties\":[],\"qualifier\":\"\",\"route\":\"S-LOCAL\",\"witnesses\":[]}],\"decision\":\"rejected\",\"reason\":\"witness_cosignature_invalid\"}}"
+    },
+    {
+      "check": "swapped-witness-key",
+      "inputs": [
+        "member:swapped-witness-key",
+        "check:swapped-witness-key"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"assertions\":[{\"anchors\":[],\"boundary\":\"gateway ingress\",\"custody\":\"us\",\"grade\":\"S\",\"id\":\"event\",\"independentOf\":[],\"label\":\"\",\"properties\":[],\"qualifier\":\"\",\"route\":\"S-LOCAL\",\"witnesses\":[]}],\"decision\":\"rejected\",\"reason\":\"witness_key_mismatch\"}}"
+    },
+    {
+      "check": "expired-checkpoint",
+      "inputs": [
+        "member:expired-checkpoint",
+        "check:expired-checkpoint"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"assertions\":[{\"anchors\":[],\"boundary\":\"gateway ingress\",\"custody\":\"us\",\"grade\":\"S\",\"id\":\"event\",\"independentOf\":[],\"label\":\"\",\"properties\":[],\"qualifier\":\"\",\"route\":\"S-LOCAL\",\"witnesses\":[]}],\"decision\":\"rejected\",\"reason\":\"witness_key_expired\"}}"
+    },
+    {
+      "check": "wrong-tenant",
+      "inputs": [
+        "member:wrong-tenant",
+        "check:wrong-tenant"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"assertions\":[{\"anchors\":[],\"boundary\":\"\",\"custody\":\"\",\"grade\":\"none\",\"id\":\"event\",\"independentOf\":[],\"label\":\"\",\"properties\":[],\"qualifier\":\"\",\"route\":\"none\",\"witnesses\":[]}],\"decision\":\"rejected\",\"reason\":\"wrong_tenant\"}}"
+    },
+    {
+      "check": "w-relabelled-i",
+      "inputs": [
+        "member:w-relabelled-i",
+        "check:w-relabelled-i"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"assertions\":[{\"anchors\":[],\"boundary\":\"gateway ingress\",\"custody\":\"us\",\"grade\":\"W\",\"id\":\"event\",\"independentOf\":[\"us\"],\"label\":\"\",\"properties\":[\"customer-held witness in quorum\"],\"qualifier\":\"\",\"route\":\"W-MANAGED-CUSTOMER-WITNESS\",\"witnesses\":[{\"from\":1795305760,\"name\":\"witness.northwind.example\",\"operator\":\"tenant\",\"to\":1795305760}]}],\"decision\":\"rejected\",\"reason\":\"no_external_witness\"}}"
+    },
+    {
+      "check": "coverage-overclaimed",
+      "inputs": [
+        "member:coverage-overclaimed",
+        "check:coverage-overclaimed"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"assertions\":[{\"anchors\":[],\"boundary\":\"gateway ingress\",\"custody\":\"us\",\"grade\":\"I\",\"id\":\"event\",\"independentOf\":[\"tenant\"],\"label\":\"\",\"properties\":[],\"qualifier\":\"\",\"route\":\"I-HOSTED-WITNESS-QUORUM\",\"witnesses\":[{\"from\":1795305760,\"name\":\"witness.alpha.example\",\"operator\":\"external\",\"to\":1795306360}]}],\"decision\":\"rejected\",\"reason\":\"coverage_overclaimed\"}}"
+    },
+    {
+      "check": "mocked-attestation-chain",
+      "inputs": [
+        "member:mocked-attestation-chain",
+        "check:mocked-attestation-chain"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"assertions\":[{\"anchors\":[],\"boundary\":\"\",\"custody\":\"\",\"grade\":\"none\",\"id\":\"decision\",\"independentOf\":[],\"label\":\"\",\"properties\":[],\"qualifier\":\"\",\"route\":\"none\",\"witnesses\":[]}],\"decision\":\"rejected\",\"reason\":\"attestation_chain_unverified\"}}"
+    },
+    {
+      "check": "receipt-without-map-proof",
+      "inputs": [
+        "member:receipt-without-map-proof",
+        "check:receipt-without-map-proof"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"assertions\":[{\"anchors\":[\"web-root:web-root-1\"],\"boundary\":\"target\",\"custody\":\"counterparty\",\"grade\":\"W\",\"id\":\"receipt\",\"independentOf\":[],\"label\":\"\",\"properties\":[],\"qualifier\":\"\",\"route\":\"W-WITNESSED\",\"witnesses\":[{\"from\":1795305760,\"name\":\"witness.alpha.example\",\"operator\":\"external\",\"to\":1795305760}]}],\"decision\":\"rejected\",\"reason\":\"map_proof_missing\"}}"
+    },
+    {
+      "check": "tenant-declared-counterparty",
+      "inputs": [
+        "member:tenant-declared-counterparty",
+        "check:tenant-declared-counterparty"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"assertions\":[{\"anchors\":[],\"boundary\":\"target\",\"custody\":\"counterparty\",\"grade\":\"W\",\"id\":\"receipt\",\"independentOf\":[],\"label\":\"tenant-declared counterparty\",\"properties\":[],\"qualifier\":\"\",\"route\":\"W-WITNESSED\",\"witnesses\":[{\"from\":1795305760,\"name\":\"witness.alpha.example\",\"operator\":\"external\",\"to\":1795305760}]}],\"decision\":\"rejected\",\"reason\":\"tenant_declared_counterparty\"}}"
+    },
+    {
+      "check": "receipt-forged-key-document",
+      "inputs": [
+        "member:receipt-forged-key-document",
+        "check:receipt-forged-key-document"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"assertions\":[{\"anchors\":[],\"boundary\":\"target\",\"custody\":\"counterparty\",\"grade\":\"W\",\"id\":\"receipt\",\"independentOf\":[],\"label\":\"unbound counterparty key\",\"properties\":[],\"qualifier\":\"\",\"route\":\"W-WITNESSED\",\"witnesses\":[{\"from\":1795305760,\"name\":\"witness.alpha.example\",\"operator\":\"external\",\"to\":1795305760}]}],\"decision\":\"rejected\",\"reason\":\"counterparty_key_unbound\"}}"
+    },
+    {
+      "check": "receipt-replayed-second-slot",
+      "inputs": [
+        "member:receipt-replayed-second-slot",
+        "check:receipt-replayed-second-slot"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"assertions\":[{\"anchors\":[\"web-root:web-root-1\"],\"boundary\":\"target\",\"custody\":\"counterparty\",\"grade\":\"I\",\"id\":\"first\",\"independentOf\":[\"tenant\"],\"label\":\"\",\"properties\":[\"counterparty self-attests\"],\"qualifier\":\"\",\"route\":\"I-COUNTERPARTY\",\"witnesses\":[{\"from\":1795305760,\"name\":\"witness.alpha.example\",\"operator\":\"external\",\"to\":1795305760}]},{\"anchors\":[\"web-root:web-root-1\"],\"boundary\":\"target\",\"custody\":\"counterparty\",\"grade\":\"W\",\"id\":\"second\",\"independentOf\":[],\"label\":\"\",\"properties\":[],\"qualifier\":\"\",\"route\":\"W-WITNESSED\",\"witnesses\":[{\"from\":1795305760,\"name\":\"witness.alpha.example\",\"operator\":\"external\",\"to\":1795305760}]}],\"decision\":\"rejected\",\"reason\":\"map_proof_mismatch\"}}"
+    },
+    {
+      "check": "receipt-window-exceeded",
+      "inputs": [
+        "member:receipt-window-exceeded",
+        "check:receipt-window-exceeded"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"assertions\":[{\"anchors\":[\"web-root:web-root-1\"],\"boundary\":\"target\",\"custody\":\"counterparty\",\"grade\":\"S\",\"id\":\"receipt\",\"independentOf\":[],\"label\":\"\",\"properties\":[],\"qualifier\":\"\",\"route\":\"S-LOCAL\",\"witnesses\":[{\"from\":1795306100,\"name\":\"witness.alpha.example\",\"operator\":\"external\",\"to\":1795306100}]}],\"decision\":\"rejected\",\"reason\":\"receipt_window_exceeded\"}}"
+    },
+    {
+      "check": "receipt-window-backdated-by-tenant-witness",
+      "inputs": [
+        "member:receipt-window-backdated-by-tenant-witness",
+        "check:receipt-window-backdated-by-tenant-witness"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"assertions\":[{\"anchors\":[\"web-root:web-root-1\"],\"boundary\":\"target\",\"custody\":\"counterparty\",\"grade\":\"S\",\"id\":\"receipt\",\"independentOf\":[],\"label\":\"\",\"properties\":[],\"qualifier\":\"\",\"route\":\"S-LOCAL\",\"witnesses\":[{\"from\":1795306100,\"name\":\"witness.alpha.example\",\"operator\":\"external\",\"to\":1795306100},{\"from\":1795305750,\"name\":\"witness.northwind.example\",\"operator\":\"tenant\",\"to\":1795305750}]}],\"decision\":\"rejected\",\"reason\":\"receipt_window_exceeded\"}}"
+    },
+    {
+      "check": "receipt-key-expired-at-inclusion",
+      "inputs": [
+        "member:receipt-key-expired-at-inclusion",
+        "check:receipt-key-expired-at-inclusion"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"assertions\":[{\"anchors\":[\"web-root:web-root-1\"],\"boundary\":\"target\",\"custody\":\"counterparty\",\"grade\":\"S\",\"id\":\"receipt\",\"independentOf\":[],\"label\":\"\",\"properties\":[],\"qualifier\":\"\",\"route\":\"S-LOCAL\",\"witnesses\":[{\"from\":1795305760,\"name\":\"witness.alpha.example\",\"operator\":\"external\",\"to\":1795305760}]}],\"decision\":\"rejected\",\"reason\":\"receipt_key_not_valid_at_inclusion\"}}"
+    },
+    {
+      "check": "receipt-without-actor-stamp",
+      "inputs": [
+        "member:receipt-without-actor-stamp",
+        "check:receipt-without-actor-stamp"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"assertions\":[{\"anchors\":[\"web-root:web-root-1\"],\"boundary\":\"target\",\"custody\":\"counterparty\",\"grade\":\"W\",\"id\":\"receipt\",\"independentOf\":[],\"label\":\"\",\"properties\":[],\"qualifier\":\"\",\"route\":\"W-WITNESSED\",\"witnesses\":[{\"from\":1795305760,\"name\":\"witness.alpha.example\",\"operator\":\"external\",\"to\":1795305760}]}],\"decision\":\"rejected\",\"reason\":\"receipt_tuple_unbound\"}}"
+    },
+    {
+      "check": "rollback",
+      "inputs": [
+        "member:rollback",
+        "check:rollback"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"assertions\":[{\"anchors\":[],\"boundary\":\"gateway ingress\",\"custody\":\"us\",\"grade\":\"S\",\"id\":\"event\",\"independentOf\":[],\"label\":\"\",\"properties\":[],\"qualifier\":\"\",\"route\":\"S-LOCAL\",\"witnesses\":[]}],\"decision\":\"rejected\",\"reason\":\"log_history_inconsistent\"}}"
+    },
+    {
+      "check": "split-view",
+      "inputs": [
+        "member:split-view",
+        "check:split-view"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"assertions\":[{\"anchors\":[],\"boundary\":\"gateway ingress\",\"custody\":\"us\",\"grade\":\"S\",\"id\":\"event\",\"independentOf\":[],\"label\":\"\",\"properties\":[],\"qualifier\":\"\",\"route\":\"S-LOCAL\",\"witnesses\":[]}],\"decision\":\"rejected\",\"reason\":\"log_history_inconsistent\"}}"
+    },
+    {
+      "check": "notary-saw-commitment-only",
+      "inputs": [
+        "member:notary-saw-commitment-only",
+        "check:notary-saw-commitment-only"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"assertions\":[{\"anchors\":[],\"boundary\":\"notary\",\"custody\":\"external\",\"grade\":\"W\",\"id\":\"notarized\",\"independentOf\":[],\"label\":\"\",\"properties\":[],\"qualifier\":\"\",\"route\":\"W-WITNESSED\",\"witnesses\":[{\"from\":1795305760,\"name\":\"witness.alpha.example\",\"operator\":\"external\",\"to\":1795305760}]}],\"decision\":\"rejected\",\"reason\":\"notary_saw_commitment_only\"}}"
+    },
+    {
+      "check": "notary-customer-custody-root",
+      "inputs": [
+        "member:notary-customer-custody-root",
+        "check:notary-customer-custody-root"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"assertions\":[{\"anchors\":[],\"boundary\":\"notary\",\"custody\":\"external\",\"grade\":\"W\",\"id\":\"notarized\",\"independentOf\":[],\"label\":\"\",\"properties\":[],\"qualifier\":\"\",\"route\":\"W-WITNESSED\",\"witnesses\":[{\"from\":1795305760,\"name\":\"witness.alpha.example\",\"operator\":\"external\",\"to\":1795305760}]}],\"decision\":\"rejected\",\"reason\":\"customer_custody_root\"}}"
+    },
+    {
+      "check": "notary-run-by-tenant",
+      "inputs": [
+        "member:notary-run-by-tenant",
+        "check:notary-run-by-tenant"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"assertions\":[{\"anchors\":[],\"boundary\":\"notary\",\"custody\":\"tenant\",\"grade\":\"W\",\"id\":\"notarized\",\"independentOf\":[],\"label\":\"\",\"properties\":[],\"qualifier\":\"\",\"route\":\"W-WITNESSED\",\"witnesses\":[{\"from\":1795305760,\"name\":\"witness.alpha.example\",\"operator\":\"external\",\"to\":1795305760}]}],\"decision\":\"rejected\",\"reason\":\"notary_not_independent\"}}"
+    },
+    {
+      "check": "hsm-without-usage-log",
+      "inputs": [
+        "member:hsm-without-usage-log",
+        "check:hsm-without-usage-log"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"assertions\":[{\"anchors\":[],\"boundary\":\"tenant signer\",\"custody\":\"tenant\",\"grade\":\"W\",\"id\":\"tenant-record\",\"independentOf\":[],\"label\":\"\",\"properties\":[],\"qualifier\":\"\",\"route\":\"W-WITNESSED\",\"witnesses\":[{\"from\":1795305760,\"name\":\"witness.alpha.example\",\"operator\":\"external\",\"to\":1795305760}]}],\"decision\":\"rejected\",\"reason\":\"hsm_counter_not_attested\"}}"
+    },
+    {
+      "check": "hsm-partition-reinit",
+      "inputs": [
+        "member:hsm-partition-reinit",
+        "check:hsm-partition-reinit"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"assertions\":[{\"anchors\":[\"hsm:nShield 5c\"],\"boundary\":\"tenant signer\",\"custody\":\"tenant\",\"grade\":\"W\",\"id\":\"tenant-record\",\"independentOf\":[],\"label\":\"\",\"properties\":[],\"qualifier\":\"\",\"route\":\"W-WITNESSED\",\"witnesses\":[{\"from\":1795305760,\"name\":\"witness.alpha.example\",\"operator\":\"external\",\"to\":1795305760}]}],\"decision\":\"rejected\",\"reason\":\"hsm_counter_gap\"}}"
+    },
+    {
+      "check": "hsm-hidden-signature",
+      "inputs": [
+        "member:hsm-hidden-signature",
+        "check:hsm-hidden-signature"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"assertions\":[{\"anchors\":[\"hsm:nShield 5c\"],\"boundary\":\"tenant signer\",\"custody\":\"tenant\",\"grade\":\"W\",\"id\":\"tenant-record\",\"independentOf\":[],\"label\":\"\",\"properties\":[],\"qualifier\":\"\",\"route\":\"W-WITNESSED\",\"witnesses\":[{\"from\":1795305760,\"name\":\"witness.alpha.example\",\"operator\":\"external\",\"to\":1795305760}]}],\"decision\":\"rejected\",\"reason\":\"hsm_signature_unaccounted\"}}"
+    },
+    {
+      "check": "tee-journal-stale-nonce",
+      "inputs": [
+        "member:tee-journal-stale-nonce",
+        "check:tee-journal-stale-nonce"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"assertions\":[{\"anchors\":[\"attestation-root:tee-vendor-test\"],\"boundary\":\"tenant signer\",\"custody\":\"tenant\",\"grade\":\"W\",\"id\":\"tenant-record\",\"independentOf\":[],\"label\":\"\",\"properties\":[],\"qualifier\":\"\",\"route\":\"W-WITNESSED\",\"witnesses\":[{\"from\":1795305760,\"name\":\"witness.alpha.example\",\"operator\":\"external\",\"to\":1795305760}]}],\"decision\":\"rejected\",\"reason\":\"stale_challenge\"}}"
+    },
+    {
+      "check": "tee-journal-wrong-head",
+      "inputs": [
+        "member:tee-journal-wrong-head",
+        "check:tee-journal-wrong-head"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"assertions\":[{\"anchors\":[\"attestation-root:tee-vendor-test\"],\"boundary\":\"tenant signer\",\"custody\":\"tenant\",\"grade\":\"W\",\"id\":\"tenant-record\",\"independentOf\":[],\"label\":\"\",\"properties\":[],\"qualifier\":\"\",\"route\":\"W-WITNESSED\",\"witnesses\":[{\"from\":1795305760,\"name\":\"witness.alpha.example\",\"operator\":\"external\",\"to\":1795305760}]}],\"decision\":\"rejected\",\"reason\":\"journal_head_mismatch\"}}"
+    },
+    {
+      "check": "gateway-mutually-signed-claimed-i",
+      "inputs": [
+        "member:gateway-mutually-signed-claimed-i",
+        "check:gateway-mutually-signed-claimed-i"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"assertions\":[{\"anchors\":[],\"boundary\":\"gateway ingress\",\"custody\":\"us\",\"grade\":\"W\",\"id\":\"decision\",\"independentOf\":[],\"label\":\"\",\"properties\":[\"mutually signed\"],\"qualifier\":\"\",\"route\":\"W-WITNESSED\",\"witnesses\":[{\"from\":1795305760,\"name\":\"witness.alpha.example\",\"operator\":\"external\",\"to\":1795305760}]}],\"decision\":\"rejected\",\"reason\":\"gateway_self_attested\"}}"
+    },
+    {
+      "check": "tenant-key-under-our-root",
+      "inputs": [
+        "member:tenant-key-under-our-root",
+        "check:tenant-key-under-our-root"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"assertions\":[{\"anchors\":[],\"boundary\":\"tenant signer\",\"custody\":\"tenant\",\"grade\":\"W\",\"id\":\"tenant-record\",\"independentOf\":[],\"label\":\"\",\"properties\":[],\"qualifier\":\"\",\"route\":\"W-WITNESSED\",\"witnesses\":[{\"from\":1795305760,\"name\":\"witness.alpha.example\",\"operator\":\"external\",\"to\":1795305760}]}],\"decision\":\"rejected\",\"reason\":\"content_self_attested\"}}"
+    },
+    {
+      "check": "tee-measurement-unknown",
+      "inputs": [
+        "member:tee-measurement-unknown",
+        "check:tee-measurement-unknown"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"assertions\":[{\"anchors\":[\"attestation-root:tee-vendor-test\"],\"boundary\":\"enclave channel\",\"custody\":\"enclave\",\"grade\":\"W\",\"id\":\"decision\",\"independentOf\":[],\"label\":\"\",\"properties\":[],\"qualifier\":\"\",\"route\":\"W-WITNESSED\",\"witnesses\":[{\"from\":1795305760,\"name\":\"witness.alpha.example\",\"operator\":\"external\",\"to\":1795305760}]}],\"decision\":\"rejected\",\"reason\":\"measurement_not_allowed\"}}"
+    },
+    {
+      "check": "tee-channel-on-host",
+      "inputs": [
+        "member:tee-channel-on-host",
+        "check:tee-channel-on-host"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"assertions\":[{\"anchors\":[\"attestation-root:tee-vendor-test\"],\"boundary\":\"enclave channel\",\"custody\":\"enclave\",\"grade\":\"W\",\"id\":\"decision\",\"independentOf\":[],\"label\":\"\",\"properties\":[],\"qualifier\":\"\",\"route\":\"W-WITNESSED\",\"witnesses\":[{\"from\":1795305760,\"name\":\"witness.alpha.example\",\"operator\":\"external\",\"to\":1795305760}]}],\"decision\":\"rejected\",\"reason\":\"channel_not_terminated_in_enclave\"}}"
+    },
+    {
+      "check": "unknown-record-key",
+      "inputs": [
+        "member:unknown-record-key",
+        "check:unknown-record-key"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"assertions\":[{\"anchors\":[],\"boundary\":\"\",\"custody\":\"\",\"grade\":\"none\",\"id\":\"event\",\"independentOf\":[],\"label\":\"\",\"properties\":[],\"qualifier\":\"\",\"route\":\"none\",\"witnesses\":[]}],\"decision\":\"rejected\",\"reason\":\"record_key_unknown\"}}"
+    },
+    {
+      "check": "record-edited-after-signing",
+      "inputs": [
+        "member:record-edited-after-signing",
+        "check:record-edited-after-signing"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"assertions\":[{\"anchors\":[],\"boundary\":\"\",\"custody\":\"\",\"grade\":\"none\",\"id\":\"event\",\"independentOf\":[],\"label\":\"\",\"properties\":[],\"qualifier\":\"\",\"route\":\"none\",\"witnesses\":[]}],\"decision\":\"rejected\",\"reason\":\"record_signature_invalid\"}}"
+    },
+    {
+      "check": "log-not-pinned",
+      "inputs": [
+        "member:log-not-pinned",
+        "check:log-not-pinned"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"assertions\":[{\"anchors\":[],\"boundary\":\"gateway ingress\",\"custody\":\"us\",\"grade\":\"S\",\"id\":\"event\",\"independentOf\":[],\"label\":\"\",\"properties\":[],\"qualifier\":\"\",\"route\":\"S-LOCAL\",\"witnesses\":[]}],\"decision\":\"rejected\",\"reason\":\"log_unknown\"}}"
+    },
+    {
+      "check": "checkpoint-wrong-log-key",
+      "inputs": [
+        "member:checkpoint-wrong-log-key",
+        "check:checkpoint-wrong-log-key"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"assertions\":[{\"anchors\":[],\"boundary\":\"gateway ingress\",\"custody\":\"us\",\"grade\":\"S\",\"id\":\"event\",\"independentOf\":[],\"label\":\"\",\"properties\":[],\"qualifier\":\"\",\"route\":\"S-LOCAL\",\"witnesses\":[]}],\"decision\":\"rejected\",\"reason\":\"checkpoint_signature_invalid\"}}"
+    },
+    {
+      "check": "inclusion-proof-wrong",
+      "inputs": [
+        "member:inclusion-proof-wrong",
+        "check:inclusion-proof-wrong"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"assertions\":[{\"anchors\":[],\"boundary\":\"gateway ingress\",\"custody\":\"us\",\"grade\":\"S\",\"id\":\"event\",\"independentOf\":[],\"label\":\"\",\"properties\":[],\"qualifier\":\"\",\"route\":\"S-LOCAL\",\"witnesses\":[]}],\"decision\":\"rejected\",\"reason\":\"inclusion_proof_invalid\"}}"
+    },
+    {
+      "check": "self-witnessed",
+      "inputs": [
+        "member:self-witnessed",
+        "check:self-witnessed"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"assertions\":[{\"anchors\":[],\"boundary\":\"gateway ingress\",\"custody\":\"us\",\"grade\":\"S\",\"id\":\"event\",\"independentOf\":[],\"label\":\"\",\"properties\":[],\"qualifier\":\"\",\"route\":\"S-LOCAL\",\"witnesses\":[]}],\"decision\":\"rejected\",\"reason\":\"not_witnessed\"}}"
+    },
+    {
+      "check": "route-relabelled",
+      "inputs": [
+        "member:route-relabelled",
+        "check:route-relabelled"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"assertions\":[{\"anchors\":[],\"boundary\":\"gateway ingress\",\"custody\":\"us\",\"grade\":\"I\",\"id\":\"event\",\"independentOf\":[\"tenant\"],\"label\":\"\",\"properties\":[],\"qualifier\":\"\",\"route\":\"I-HOSTED-WITNESS-QUORUM\",\"witnesses\":[{\"from\":1795305760,\"name\":\"witness.alpha.example\",\"operator\":\"external\",\"to\":1795305760}]}],\"decision\":\"rejected\",\"reason\":\"claim_route_mismatch\"}}"
+    },
+    {
+      "check": "byok-without-counter",
+      "inputs": [
+        "member:byok-without-counter",
+        "check:byok-without-counter"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"assertions\":[{\"anchors\":[],\"boundary\":\"tenant signer\",\"custody\":\"tenant\",\"grade\":\"W\",\"id\":\"tenant-record\",\"independentOf\":[],\"label\":\"\",\"properties\":[],\"qualifier\":\"\",\"route\":\"W-WITNESSED\",\"witnesses\":[{\"from\":1795305760,\"name\":\"witness.alpha.example\",\"operator\":\"external\",\"to\":1795305760}]}],\"decision\":\"rejected\",\"reason\":\"no_key_use_counter\"}}"
+    }
+  ],
+  "relaxed-controls": [],
+  "replay-stability": {
+    "cause": null,
+    "ordering": "emission-order",
+    "runs": [
+      {
+        "process": "run-1",
+        "sha256": "965551773acf1ec23bf49037f09006fdeb3e2026089aa18991d3912f5310a61b"
+      },
+      {
+        "process": "run-2",
+        "sha256": "965551773acf1ec23bf49037f09006fdeb3e2026089aa18991d3912f5310a61b"
+      }
+    ],
+    "seed": null,
+    "state": "stable"
+  },
+  "scope": {
+    "does-not-claim": [
+      "whole-attack-surface",
+      "implementation-ranking",
+      "threats-outside-corpus",
+      "action-occurred-or-authority"
+    ],
+    "establishes": [
+      "aee-verify, at the source listing named here, judges each of the 53 pinned members of assertion-grade/v1 as its manifest declares"
+    ],
+    "leaves-open": [
+      "whether an implementation written from the specification, run by someone other than an author, reaches the same verdicts",
+      "whether release/CORPUS-DIGESTS.txt is a list a release signed: the signature beside it does not verify over these bytes, so the anchor is a located line, not a verified one",
+      "whether a re-run by someone other than an author on these exact bytes agrees; none is on the record for them"
+    ]
+  },
+  "selector": {
+    "expression": "*",
+    "language": "id-glob",
+    "matched": 53,
+    "require": "at-least-one",
+    "selected": [
+      "hosted-external-quorum",
+      "hosted-staging-witness",
+      "managed-customer-witness",
+      "managed-plus-external",
+      "notary-saw-request",
+      "tee-decision-path",
+      "counterparty-domain-document",
+      "counterparty-naming-log",
+      "counterparty-rail-operator",
+      "hsm-stream",
+      "tee-journal",
+      "gateway-decision-mutually-signed",
+      "byok-witnessed",
+      "local-only",
+      "mixed-bundle",
+      "coverage-two-checkpoints",
+      "forged-witness-cosignature",
+      "swapped-witness-key",
+      "expired-checkpoint",
+      "wrong-tenant",
+      "w-relabelled-i",
+      "coverage-overclaimed",
+      "mocked-attestation-chain",
+      "receipt-without-map-proof",
+      "tenant-declared-counterparty",
+      "receipt-forged-key-document",
+      "receipt-replayed-second-slot",
+      "receipt-window-exceeded",
+      "receipt-window-backdated-by-tenant-witness",
+      "receipt-key-expired-at-inclusion",
+      "receipt-without-actor-stamp",
+      "rollback",
+      "split-view",
+      "notary-saw-commitment-only",
+      "notary-customer-custody-root",
+      "notary-run-by-tenant",
+      "hsm-without-usage-log",
+      "hsm-partition-reinit",
+      "hsm-hidden-signature",
+      "tee-journal-stale-nonce",
+      "tee-journal-wrong-head",
+      "gateway-mutually-signed-claimed-i",
+      "tenant-key-under-our-root",
+      "tee-measurement-unknown",
+      "tee-channel-on-host",
+      "unknown-record-key",
+      "record-edited-after-signing",
+      "log-not-pinned",
+      "checkpoint-wrong-log-key",
+      "inclusion-proof-wrong",
+      "self-witnessed",
+      "route-relabelled",
+      "byok-without-counter"
+    ]
+  },
+  "specification-readers": [],
+  "state": "pass",
+  "suite": "assertion-grade/v1"
+}

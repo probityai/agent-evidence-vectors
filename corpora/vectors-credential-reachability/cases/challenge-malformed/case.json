@@ -1,0 +1,23 @@
+{
+  "envelope": "envelope.json",
+  "policy": {
+    "agent_keys": {
+      "6b0c184dc9b6d3e033f0624fbde5112c1d75dfd99f1ceb21e89c06653d16144f": "wfyHXL+PNUF/dTXWEvg2/ZES2tdhab82+ofbeKlKq18="
+    },
+    "audience": "https://auditor.example.org",
+    "challenge": "67479289fe9ff88ac085fda05638c85f80c2dfb039eb7320013b187194c975a8",
+    "environment": {
+      "name": "environment/run-0042",
+      "sha256": "1235c1ab711562596574344cca4c775cb1a8aff8f2e64f9e57054c8d4ed2e716"
+    },
+    "judged_at": "2026-11-21T18:05:00Z",
+    "max_age_seconds": 3600,
+    "payload_type": "application/vnd.in-toto+json",
+    "probe_digests": [
+      "71240229e6a74f223df62616efbdb5058ad3e815938914776b182bcf3f50f955"
+    ],
+    "trusted_signers": {
+      "f49838752f4581ef7fcdadc8369e3fd9e72a6e388850aa5b8bb202e282a98a6f": "oNZnohFJsaGuXG2Ned83rf9EckuLnoIeBiRGBIiXx+I="
+    }
+  }
+}

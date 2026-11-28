@@ -15,7 +15,8 @@
 # refused by name (exit 2) because its suite has no reader here. A third state
 # -- a verdict printed by a rail that does not implement the suite -- fails.
 # The refused suites also run through the Go directory reader against the
-# installed wheel data. SCITT-COSE explicitly needs a CBOR reader.
+# installed wheel data. SCITT-COSE explicitly needs a CBOR reader, and delegation-chain
+# has only its Python reference reader, so the Go directory route refuses it by name.
 set -euo pipefail
 if [ "$#" -ne 2 ]; then
   echo "usage: $0 <wheel> <aee-verify binary>" >&2
@@ -41,6 +42,12 @@ while read -r corpus; do
     if [ "$corpus" = vectors-scitt-cose ] && [ "$directory_rc" = 2 ] && \
        grep -q 'no reader here carries a CBOR decoder' "directory-$corpus.txt"; then
       echo "$corpus: explicitly requires a CBOR reader"
+    elif [ "$corpus" = vectors-delegation-chain ] && [ "$directory_rc" = 2 ] && \
+       grep -q 'its only reader is the Python reference reader' "directory-$corpus.txt"; then
+      echo "$corpus: judged by its Python reference reader, refused by name here"
+    elif [ "$corpus" = vectors-agent-registration-classification ] && [ "$directory_rc" = 2 ] && \
+       grep -q 'no reader in this binary judges it' "directory-$corpus.txt"; then
+      echo "$corpus: judged by its own check_vectors.py, refused by name here"
     else
       cat "directory-$corpus.txt"
       echo "::error::installed directory route for $corpus exited $directory_rc"

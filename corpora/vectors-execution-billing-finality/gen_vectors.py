@@ -32,6 +32,7 @@ ROOT = Path(__file__).resolve().parent
 sys.path.insert(0, str(ROOT.parents[1] / "packaging"))
 
 from agent_evidence_vectors import executionbilling as reader  # noqa: E402
+from agent_evidence_vectors.identifiers import identifier  # noqa: E402
 
 SUITE = reader.SUITE
 ADAPTER = ROOT / "tests" / "billing_adapter.py"
@@ -40,19 +41,22 @@ SOURCE = {
     "contributedBy": [
         {"name": "mohammedmessaoudene-cmd",
          "role": "P04 ledger, the F01, F03, F04, F05 and F14 scenarios, the input contract, "
-                 "and the decision that dispatch_state is a required output",
+                 "the decision that dispatch_state is a required output, and the finding "
+                 "that a hold left open after a final invoice passed every check",
          "url": "https://github.com/mohammedmessaoudene-cmd"},
         {"name": "piiiico (Agent Errata)",
          "role": "the X1 scenario, the three dispatch_start mutants and the M4 observation; "
                  "the R1 to R5 mutants and the X2, X3 and X4 scenarios that showed known "
-                 "spend, a final bill and a terminal outcome could each be overwritten",
+                 "spend, a final bill and a terminal outcome could each be overwritten; "
+                 "the reproduction of the stuck hold and the check that closes it",
          "url": "https://github.com/piiiico"},
     ],
     "contract": "https://github.com/mohammedmessaoudene-cmd/agent-evidence-lab/blob/"
                 "8db9989ee5eb071bad4c4c5618bdb8ef6cdb625c/collaborations/open-evidence-lab/"
                 "p04-execution-billing/INPUT_CONTRACT.md",
     "issues": ["https://github.com/probityai/agent-evidence-vectors/issues/435",
-               "https://github.com/probityai/agent-evidence-vectors/issues/485"],
+               "https://github.com/probityai/agent-evidence-vectors/issues/485",
+               "https://github.com/probityai/agent-evidence-vectors/pull/553"],
     "ledger": {"gitBlob": "3b9599c4fa1063156b28aea0588634f9ca04cefe",
                "path": "tests/p04/exposure_ledger.py",
                "sha256": "c321eab3e1adfa2169164f63238597f1a1c2a7868d339540a3da574f09c82d0f"},
@@ -95,6 +99,10 @@ MUTANTS: dict[str, tuple[str, str, list[tuple[str, str]]]] = {
         [("UPDATE attempts SET known=?,billing_finality='FINAL',finality_basis='final_invoice',",
           "UPDATE attempts SET known=?,outcome='SUCCEEDED',billing_finality='FINAL',"
           "finality_basis='final_invoice',")]),
+    "stuck-hold-after-final-invoice": (
+        "a final invoice settles the bill but the remainder of the reservation stays held",
+        "mohammedmessaoudene-cmd",
+        [(REMAINDER, 'remainder = max(0, row["authorized_max"] - row["known"])')]),
     "R1-replay-reported-new": (
         "a replayed event id is reported as a new event", "piiiico",
         [("new_event = False", "new_event = True")]),
@@ -271,6 +279,10 @@ def cases() -> list[Case]:
         ("f01-success-releases-reservation", "F01", "success-releases-exposure", None, "deny",
          "held_released_before_final_billing",
          "the call succeeded and the reservation is released with no final bill"),
+        ("f05-stuck-hold-after-final-invoice", "F05", "stuck-hold-after-final-invoice", None,
+         "deny", "held_after_final_billing",
+         "a final invoice settles the bill and the unit left over from the reservation stays "
+         "held, so the next reservation is refused"),
         ("f03-guard-removed-redispatch", "F03", "M1-guard-removed", None, "deny",
          "same_attempt_redispatched",
          "with the dispatch guard removed, a second dispatch after a lost reply is allowed"),
@@ -312,7 +324,7 @@ def cases() -> list[Case]:
     ]
 
 
-CONTRACT_OTHER = "https://probityai.github.io/agent-evidence-vectors/predicate/v1/uncertain-effect"
+CONTRACT_OTHER = identifier("agent-evidence-vectors/predicate/v1/uncertain-effect")
 
 
 def mutation_table(work: Path, base: dict[str, dict[str, Any]]) -> list[dict[str, Any]]:

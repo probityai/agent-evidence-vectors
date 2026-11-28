@@ -4,6 +4,8 @@ import (
 	"fmt"
 	"path/filepath"
 	"time"
+
+	"github.com/probityai/agent-evidence-vectors/internal/identifiers"
 )
 
 func init() { register(dispatchFence{}) }
@@ -25,12 +27,13 @@ func init() { register(dispatchFence{}) }
 //     hold_expired_before_effect_ended;
 //  7. no other proposal was admitted from acquisition to the effect's end:
 //     concurrent_dispatch_admitted;
-//  8. the commit was at or before the hold's expiry: commit_after_hold_expired.
+//  8. the commit was before the hold's expiry (the hold is half-open, so a
+//     commit at the expiry is outside it): commit_after_hold_expired.
 //
 // The reader also recomputes each member's declared holdCoversCommit.
 type dispatchFence struct{}
 
-const dfContractID = "https://probityai.github.io/agent-evidence-observer/contract/dispatch-fence/v1"
+var dfContractID = identifiers.Identifier("agent-evidence-observer/contract/dispatch-fence/v1")
 
 func (dispatchFence) Suite() string { return "dispatch-fence/v1" }
 
@@ -116,7 +119,7 @@ func dfJudgeMember(caseDir string, v dfVector) []string {
 	}
 	var clock dfClock
 	expiry := dfExpiry(record, &clock)
-	covers := !clock.at(record.Effect.EndedAt).After(expiry) && !clock.at(record.Commit.At).After(expiry)
+	covers := !clock.at(record.Effect.EndedAt).After(expiry) && clock.at(record.Commit.At).Before(expiry)
 	if clock.err != nil {
 		return append(findings, clock.err.Error())
 	}
@@ -149,14 +152,14 @@ func dfDecide(r dfRecord, expiry time.Time, clock *dfClock) scDecision {
 		fails  bool
 	}{
 		{"contract_id_missing", r.ContractID == nil},
-		{"contract_id_unknown", r.ContractID != nil && *r.ContractID != dfContractID},
+		{"contract_id_unknown", r.ContractID != nil && identifiers.CanonicalIdentifier(*r.ContractID) != dfContractID},
 		{"fence_not_bound_to_check", r.Fence.ExpectedSeq == nil || *r.Fence.ExpectedSeq != r.Check.ReadSeq},
 		{"state_changed_between_check_and_fence", dfStateChanged(r)},
 		{"runtime_exceeds_hold", r.Effect.Declared != nil && *r.Effect.Declared > r.Fence.TTLSeconds &&
 			len(r.Fence.Renewals) == 0},
 		{"hold_expired_before_effect_ended", clock.at(r.Effect.EndedAt).After(expiry)},
 		{"concurrent_dispatch_admitted", dfConcurrent(r, clock)},
-		{"commit_after_hold_expired", clock.at(r.Commit.At).After(expiry)},
+		{"commit_after_hold_expired", !clock.at(r.Commit.At).Before(expiry)},
 	}
 	for _, check := range checks {
 		if check.fails {

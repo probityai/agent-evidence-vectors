@@ -272,14 +272,27 @@ type byteCases struct {
 	// RefusalCases is input that is not one valid RFC 8785 input at all, which
 	// no profile excuses a canonicalizer for printing. InputHex carries input
 	// that is not UTF-8.
-	RefusalCases []struct {
-		ID       string  `json:"id"`
-		Family   string  `json:"family"`
-		Error    string  `json:"error"`
-		Expect   string  `json:"expect"`
-		Input    *string `json:"input"`
-		InputHex *string `json:"inputHex"`
-	} `json:"refusalCases"`
+	RefusalCases []refusalCase `json:"refusalCases"`
+	// InvalidInputCases are the same kind of case, grouped by what is wrong
+	// with the input: invalid UTF-8, a byte order mark, malformed JSON, a
+	// duplicate member, an unpaired surrogate escape.
+	InvalidInputCases []refusalCase `json:"invalidInputCases"`
+}
+
+// refusalCase is one input a canonicalizer must refuse, with the family and
+// error code it is refused under.
+type refusalCase struct {
+	ID       string  `json:"id"`
+	Family   string  `json:"family"`
+	Error    string  `json:"error"`
+	Expect   string  `json:"expect"`
+	Input    *string `json:"input"`
+	InputHex *string `json:"inputHex"`
+}
+
+// refusals returns every case a canonicalizer must refuse as a whole input.
+func (c byteCases) refusals() []refusalCase {
+	return append(append([]refusalCase{}, c.RefusalCases...), c.InvalidInputCases...)
 }
 
 func load() (accept, reject []Vector, err error) {
@@ -373,7 +386,7 @@ func loadBytes() (accept, reject []Vector, err error) {
 			reject = append(reject, Vector{ID: c.ID, Corpus: byteCorpus, Input: []byte(c.Input)})
 		}
 	}
-	for _, c := range cases.RefusalCases {
+	for _, c := range cases.refusals() {
 		if c.Expect != "reject" {
 			return nil, nil, fmt.Errorf("%s case %s: a refusal case expects %q, not reject", byteCorpus, c.ID, c.Expect)
 		}
