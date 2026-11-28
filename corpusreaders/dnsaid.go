@@ -129,6 +129,14 @@ func dnsAidUnlisted(dir string, files []string) string {
 }
 
 func (d dnsAidCorpus) judgeMember(dir string, e dnsAidEntry, out *Member) {
+	d.judgeDeclared(e, out)
+	d.judgeMemberFile(dir, e, out)
+}
+
+// judgeDeclared checks the manifest's declared answer for one case: the
+// verdict and codes fit the kind, the codes are a sorted set, and the
+// decision (when the corpus declares decisions) fits the kind.
+func (d dnsAidCorpus) judgeDeclared(e dnsAidEntry, out *Member) {
 	switch {
 	case e.Kind == "accept" && e.Expected.Verdict == "valid" && len(e.Expected.Codes) == 0:
 	case e.Kind == "reject" && e.Expected.Verdict == "invalid" && len(e.Expected.Codes) > 0:
@@ -152,6 +160,12 @@ func (d dnsAidCorpus) judgeMember(dir string, e dnsAidEntry, out *Member) {
 				fmt.Sprintf("decision %q does not fit the kind: agrees is an accept, contradicted and cannot-tell are rejects", e.Expected.Decision))
 		}
 	}
+}
+
+// judgeMemberFile checks the member file a manifest entry names: it sits
+// under cases/, exists, matches its declared sha256, parses as strict JSON
+// outside the judged members, and names the case it is listed as.
+func (d dnsAidCorpus) judgeMemberFile(dir string, e dnsAidEntry, out *Member) {
 	if !strings.HasPrefix(e.File, "cases/") || strings.Contains(e.File, "..") {
 		out.Findings = append(out.Findings, "the member file is not under cases/")
 		return
