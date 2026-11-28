@@ -1102,7 +1102,7 @@ jobs:
         run: uv run mypy packaging/run_vectors.py packaging/agent_evidence_vectors/verdictlines.py packaging/agent_evidence_vectors/w3creport.py packaging/agent_evidence_vectors/producer.py scripts/action-producer-test.py scripts/action_checks.py scripts/action-conformance.py scripts/action-controls.py scripts/action-control-verifier.py packaging/agent_evidence_vectors/observedeffect.py packaging/agent_evidence_vectors/auditrecord.py packaging/agent_evidence_vectors/runmetrics.py packaging/agent_evidence_vectors/contextdiscovery.py corpora/vectors-w3c-report/gen_vectors.py corpora/vectors-w3c-report/origin/derive_pairs.py scripts/w3c-rails-parity-test.py scripts/w3c-reader-differential.py scripts/w3c-report-rules-test.py scripts/json-encoding-differential-test.py packaging/agent_evidence_vectors/receiptsignature.py packaging/agent_evidence_vectors/a2ajcs.py scripts/a2a-jcs-rails-test.py packaging/agent_evidence_vectors/changeadmission.py packaging/agent_evidence_vectors/agenticprocess.py scripts/receipt-signature-rails-test.py packaging/agent_evidence_vectors/delegationlifecycle.py scripts/delegation-lifecycle-rails-test.py corpora/vectors-delegation-lifecycle/mutate.py corpora/vectors-receipt-signature/digest.py 
           corpora/vectors-receipt-signature/tools/veritasacta-verify.py scripts/gen-w3c-appendix.py vectors/reject/gen_invalid_vectors.py vectors/accept/gen_valid_vectors.py vectors/gen_manifest.py scripts/spec-drift-gate.py scripts/interpretation-registry-gate.py scripts/interpretation-registry-gate-test.py scripts/coverage-matrix-gate.py scripts/complexity-table-gate.py scripts/specpins.py scripts/spec-anchor-gate.py scripts/spec-anchor-gate-test.py scripts/code-contract-gate.py scripts/code-contract-gate-test.py scripts/receipt-verdict-codes-gate.py scripts/receipt-verdict-codes-gate-test.py scripts/offline-verify-page-test.py docs/guides/offline-verify/make_case.py docs/guides/offline-verify/summary.py scripts/consumer-lag-gate.py scripts/consumer-lag-gate-test.py scripts/independent-runs-gate.py scripts/suite-commit-gate.py scripts/suite-commit-gate-test.py scripts/condition-registry-gate.py scripts/condition-registry-gate-test.py scripts/condition-forcing-gate.py scripts/condition-forcing-gate-test.py scripts/condition-forcing-crosscheck.py scripts/condition-forcing-crosscheck-test.py 
           scripts/external-rail-gate.py scripts/predicate-state-gate.py scripts/forcing-gate.py scripts/forcing-gate-test.py scripts/countcensus.py scripts/countcensus-sparse-test.py scripts/count-gate.py scripts/count-gate-test.py scripts/distribution-gate.py scripts/distribution-gate-test.py scripts/test_doc_gate_migration.py scripts/test_site_navigation.py docs/site/build.py scripts/regenerability-gate.py scripts/mutationdiff.py scripts/accept-anchor-gate.py scripts/accept-anchor-gate-test.py scripts/liveness-probe.py scripts/liveness-probe-test.py scripts/citation-metadata-gate.py scripts/citation-metadata-gate-test.py scripts/expectation-slack-gate.py scripts/expectation-slack-gate-test.py scripts/observed-code-closure-gate.py scripts/observed-code-closure-gate-test.py scripts/uncited-crosscheck-gate.py scripts/reading-differential.py scripts/reading-differential-test.py scripts/vendor-remap-test.py scripts/vector-distinctness-gate.py scripts/vector-distinctness-gate-test.py 
-          scripts/surface-leakage-gate.py scripts/surface-leakage-gate-test.py scripts/harness-output-contract-test.py scripts/stage-column-test.py scripts/starhint-test.py packaging/agent_evidence_vectors/starhint.py scripts/verifier-must-run-test.py scripts/report-provenance-test.py scripts/report-default-test.py scripts/action-retention-test.py scripts/action-build-pin-test.py scripts/verify-release-tag.py scripts/verify-release-tag-test.py scripts/workflow-steps-gate.py scripts/workflow-steps-gate-test.py scripts/readme-lint.py scripts/readme-lint-test.py scripts/action-download-budget.py scripts/action-download-budget-test.py scripts/runner-labels-gate.py scripts/runner-labels-gate-test.py scripts/_go_selector.py scripts/go-selector-test.py scripts/_lockfile.py scripts/_lockfile-test.py scripts/manifest-revision-test.py scripts/statement-layer-test.py scripts/independent-runs-gate-test.py scripts/indeterminate-readers-test.py scripts/write-chain-replay-test.py scripts/audit-record-dating-rows-test.py 
+          scripts/surface-leakage-gate.py scripts/surface-leakage-gate-test.py scripts/harness-output-contract-test.py scripts/stage-column-test.py scripts/starhint-test.py packaging/agent_evidence_vectors/starhint.py scripts/verifier-must-run-test.py scripts/report-provenance-test.py scripts/report-default-test.py scripts/action-retention-test.py scripts/action-build-pin-test.py scripts/verify-release-tag.py scripts/verify-release-tag-test.py scripts/workflow-steps-gate.py scripts/workflow-steps-gate-test.py scripts/workflow-python-env-gate.py scripts/workflow-python-env-gate-test.py scripts/readme-lint.py scripts/readme-lint-test.py scripts/action-download-budget.py scripts/action-download-budget-test.py scripts/runner-labels-gate.py scripts/runner-labels-gate-test.py scripts/_go_selector.py scripts/go-selector-test.py scripts/_lockfile.py scripts/_lockfile-test.py scripts/manifest-revision-test.py scripts/statement-layer-test.py scripts/independent-runs-gate-test.py scripts/indeterminate-readers-test.py scripts/write-chain-replay-test.py scripts/audit-record-dating-rows-test.py 
           scripts/indeterminate-scoring-gate.py scripts/indeterminate-scoring-gate-test.py interop/action-tuple-framed-v1/reader.py packaging/agent_evidence_vectors/heldout.py scripts/heldout-runner-test.py scripts/identifier-pages-gate.py scripts/identifier-pages-gate-test.py scripts/oracle-verifier.py scripts/oracle-every-corpus-test.py scripts/pre-queue.py scripts/pre-queue-test.py packaging/agent_evidence_vectors/admission.py scripts/admission-rails-test.py packaging/agent_evidence_vectors/w3cintake.py scripts/w3c-intake-parity-test.py scripts/gen-intake-records.py scripts/badge-grants-gate.py scripts/badge-grants-gate-test.py packaging/agent_evidence_vectors/selfreportedrecord.py scripts/self-reported-record-rails-test.py packaging/agent_evidence_vectors/approvalbinding.py scripts/approval-binding-rails-test.py scripts/conformance_receipt.py
       # Type-checks by DIRECTORY, which is why it sits beside the pass above
       # rather than replacing it. That one is driven from the list of files
@@ -1181,8 +1181,8 @@ jobs:
       # whole-file question while still printing OK.
       - name: the generator identifier maps the anchor gate resolves rows through
         run: |
-          python3 vectors/accept/gen_valid_vectors.py
-          python3 vectors/reject/gen_invalid_vectors.py
+          .venv/bin/python -B vectors/accept/gen_valid_vectors.py
+          .venv/bin/python -B vectors/reject/gen_invalid_vectors.py
       # Every line anchor into the specification is rewritten when the spec is
       # re-vendored, and that rewrite had never been exercised against an
       # insertion -- which is exactly what the next re-vendor carries. Its
@@ -1230,8 +1230,8 @@ jobs:
       # write an empty ledger and exit zero, and every run after that was green.
       - name: spec anchor gate
         run: |
-          python3 scripts/spec-anchor-gate.py
-          python3 scripts/spec-anchor-gate-test.py
+          .venv/bin/python -B scripts/spec-anchor-gate.py
+          .venv/bin/python -B scripts/spec-anchor-gate-test.py
       # Two artifacts describe the same population of normative sentences, and
       # they are deliberately not merged: the `[[uncited]]` rows in
       # spec/READINGS.toml are the enforced ledger, each pinning a sentence
@@ -1359,8 +1359,8 @@ jobs:
       # cannot go red is the defect it exists to catch.
       - name: every refusal ships beside a vector that must be accepted
         run: |
-          python3 scripts/accept-anchor-gate.py
-          python3 scripts/accept-anchor-gate-test.py
+          .venv/bin/python -B scripts/accept-anchor-gate.py
+          .venv/bin/python -B scripts/accept-anchor-gate-test.py
       # Detector liveness, computed per channel. A check that never fires and a
       # boundary nothing reached emit the same clean run, so the vectors plant a
       # stimulus per channel and the probe recomputes, from the carried bytes,
@@ -1565,8 +1565,8 @@ jobs:
       # independent: regenerating one artifact can move a figure another derives.
       - name: every comparing gate declares how to repair it
         run: |
-          python3 scripts/regen.py --audit
-          python3 scripts/regen-test.py
+          .venv/bin/python -B scripts/regen.py --audit
+          .venv/bin/python -B scripts/regen-test.py
       # And the gate is watched to go red, and to go red at the right moment.
       # Measured against the checked-out tree instead of the default branch it
       # refused correctly and too early: a branch adding vectors could not be
@@ -1661,6 +1661,13 @@ jobs:
         run: |
           .venv/bin/python -B scripts/workflow-concurrency-gate.py
           .venv/bin/python -B scripts/workflow-concurrency-gate-test.py
+      # A step that runs a repository script must run it where the script's imports are
+      # installed. The pages `resolve` job ran a gate under a bare python3 that launches a
+      # build importing `markdown`, and was red on every main push from 24 Nov 2026.
+      - name: every workflow step runs its Python script where the script's imports are installed
+        run: |
+          .venv/bin/python -B scripts/workflow-python-env-gate.py
+          .venv/bin/python -B scripts/workflow-python-env-gate-test.py
       # The release procedure runs the leak tier locally and leaves the proof to
       # this workflow. A procedure that asks for the full local mirror of these
       # jobs ran about 15 hours on one box and held v0.30.0 back.
