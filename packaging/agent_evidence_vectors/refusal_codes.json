@@ -1299,6 +1299,24 @@
    "uri": "https://probityai.github.io/agent-evidence-vectors/refusal-code/v1/identity_ref_type_unknown"
   },
   {
+   "code": "identity_sponsor_malformed",
+   "check": "identity.string",
+   "meaning": "the identity's sponsors are not a list of sponsor refs",
+   "uri": "https://probityai.github.io/agent-evidence-vectors/refusal-code/v1/identity_sponsor_malformed"
+  },
+  {
+   "code": "identity_sponsor_order",
+   "check": "identity.string",
+   "meaning": "the identity's sponsors are not sorted by their rendered refs",
+   "uri": "https://probityai.github.io/agent-evidence-vectors/refusal-code/v1/identity_sponsor_order"
+  },
+  {
+   "code": "identity_sponsor_repeated",
+   "check": "identity.string",
+   "meaning": "a sponsor appears twice in one identity",
+   "uri": "https://probityai.github.io/agent-evidence-vectors/refusal-code/v1/identity_sponsor_repeated"
+  },
+  {
    "code": "identity_string_malformed",
    "check": "identity.string",
    "meaning": "the identity string is not ASCII or does not start with its version marker",
