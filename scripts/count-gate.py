@@ -1754,6 +1754,14 @@ FROZEN: tuple[Frozen, ...] = (
         'the entry was written. It is history, does not track any corpus, and met the '
         'observed-effect reject count by coincidence.',
     ),
+    Frozen(
+        'vectors/CHANGES.md',
+        "the corpus size a past measurement of bad-986 was taken over",
+        'is the ONLY vector of the 260 that goes',
+        'A count of the main corpus when the entry was written: the measurement that '
+        'bad-986 alone went red. It is history, does not track any corpus now, and met '
+        'the audit record corpus total by coincidence.',
+    ),
     # ---- the output of a published, immutable release, shown as it prints.
     Frozen(
         'README.md',
@@ -3585,6 +3593,10 @@ MASKS = tuple(
         # surfaced when the ACS-Core corpus cited an upstream pull request whose
         # number equals the W3C report corpus total.
         r"\b[Pp]ull\s+requests?\s+\d+\b",
+        # And `PR 236`, the abbreviation with a space before the number. It
+        # surfaced when the audit-record corpus total reached the number of the
+        # pull request an appendix check cites.
+        r"\bPR\s+\d+\b",
         # A numbered article of a law, `Article 53(2)`, names a provision and
         # counts nothing. It surfaced when the ACS-Core accept count reached the
         # article number in the title of the open-weight release corpus.

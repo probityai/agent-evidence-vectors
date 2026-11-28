@@ -16,7 +16,8 @@ are proposed for revision 05. This test pins that:
   revision 04 adds CS18 to CS54, PS3 to PS5, PR, DS and X1 to X18);
 - the committed manifest labels every member with a published revision: the 38
   members and CS32 with revision 04, and X2, X3 and X8 to X16, which -04 also
-  prints, with -03, whose sections first stated their rules;
+  prints, with -03, whose sections first stated their rules; PS6, which no
+  Appendix B prints, with -04, whose Section 5.4 states its rule;
 - the generator refuses a member that is published and proposed at once, a
   section member whose revision has no such section, and a section entry that
   names no revision earlier than the Appendix B that first prints the row;
@@ -65,7 +66,7 @@ REV04 = "draft-gilda-audit-agent-audit-record-04"
 # The text findings the manifest records: members the published text states, and members
 # proposed for revision 05 by docs/proposals/audit-record-04-evaluated-at.md.
 REV05 = "draft-gilda-audit-agent-audit-record-05"
-PUBLISHED_TEXT_FINDINGS = 235
+PUBLISHED_TEXT_FINDINGS = 236
 PROPOSED_TEXT_FINDINGS = 24
 #: Every proposed member is proposed for revision 05, by the proposal that states its rule.
 PROPOSED_BY_TEXT = collections.Counter(
@@ -100,8 +101,12 @@ def _check_labels(manifest: dict, failures: list[str]) -> None:
         if by_id[draft_id].get("draftRevision") != REV04:
             failures.append(f"{draft_id} tests text revision 04 publishes and is not labelled -04")
     labelled04 = sorted(d for d, e in by_id.items() if e.get("draftRevision") == REV04)
-    if len(labelled04) != 68:
-        failures.append(f"68 members test rules -04 first states, read {len(labelled04)}")
+    if len(labelled04) != 69:
+        failures.append(
+            f"69 members test rules -04 first states (68 rows and PS6), read {len(labelled04)}"
+        )
+    if by_id["PS6"].get("draftSection") != "5.4":
+        failures.append("PS6 tests a sentence of Section 5.4 of -04, which prints no row for it")
     for draft_id in ("X2", "X3", "X8", "X16"):
         if by_id[draft_id].get("draftRevision") != "draft-gilda-audit-agent-audit-record-03":
             failures.append(
