@@ -1,0 +1,24 @@
+{
+  "issuer_keys": {
+    "https://idp.example": [
+      "u1fqfUErgLZZ/pC02QIJnzEHWKfYMxmI3M42lmR95r0="
+    ],
+    "https://other-idp.example": [
+      "S+LKJEhjsV6a30iB/+ym8a2HR4ArNm2qMxVUPFMo8Qs="
+    ]
+  },
+  "journal": [
+    {
+      "jti": "set-1",
+      "sha256": "4280ffa9e24d7a8432279468c618cc6a8ec878702492c73e386a5af3a663b0e5"
+    }
+  ],
+  "kind": "feed",
+  "receiver_audience": "https://receiver.example",
+  "session_binding": {
+    "https://idp.example": true,
+    "https://other-idp.example": false
+  },
+  "set": "set.jws",
+  "v": 1
+}

@@ -421,6 +421,18 @@ standards = []
 shapes = ["stale-authority", "scope-overreach", "missing-binding"]
 
 [[corpus]]
+id = "vectors-authority-epoch-fence"
+path = "corpora/vectors-authority-epoch-fence"
+wheel = true
+sdist = true
+title = "Authority epoch fence"
+summary = "A verifier must refuse a request of a closed authority epoch whatever its time, and must read a revocation that is open, partial, suspended, unreadable or cut short as anything but closed."
+record_class = "record"
+domains = ["authority", "identity"]
+standards = []
+shapes = ["stale-authority", "uncertainty", "missing-binding"]
+
+[[corpus]]
 id = "vectors-ave-id-resolution"
 path = "corpora/vectors-ave-id-resolution"
 wheel = true
@@ -1115,6 +1127,18 @@ record_class = "record"
 domains = ["authority", "approval"]
 standards = ["in-toto"]
 shapes = ["missing-binding", "malformed-input", "stale-authority"]
+
+[[corpus]]
+id = "vectors-revocation-fence"
+path = "corpora/vectors-revocation-fence"
+wheel = true
+sdist = true
+title = "Revocation fence"
+summary = "A target must commit an effect only when the epoch it holds for the subject equals the permit's epoch, so that a revocation known only to a gateway or a registry cannot be overtaken by a permit already on its way."
+record_class = "record"
+domains = ["authority", "effects"]
+standards = []
+shapes = ["race-condition", "stale-authority", "missing-binding"]
 
 [[corpus]]
 id = "vectors-revocation-list"

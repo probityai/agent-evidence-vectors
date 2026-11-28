@@ -1,0 +1,2349 @@
+{
+  "corpusDigest": "1070886b863292c0504da4103648fab6cd383eee61322f43bc524d168f310010",
+  "counts": {
+    "committed": 3,
+    "delivered": 1,
+    "done": 7,
+    "installed": 3,
+    "journalled": 3,
+    "no_outcome": 2,
+    "outcome_mismatch": 4,
+    "pending": 3,
+    "refused": 77,
+    "replayed": 5,
+    "revoked": 3,
+    "revoked_for_new_admissions": 4,
+    "rotated": 9,
+    "session_ended": 1,
+    "unchanged": 1,
+    "valid": 5
+  },
+  "kinds": {
+    "commit": 28,
+    "epoch-update": 14,
+    "feed": 38,
+    "ledger": 9,
+    "outcome": 10,
+    "permit": 24,
+    "propagation": 8
+  },
+  "provenance": {
+    "note": "Synthetic records and keys. The check order and refusal codes restate a target-side revocation fence; the feed kind reads Security Event Tokens of the OpenID CAEP 1.0 and RISC 1.0 event types.",
+    "source": "https://openid.net/specs/openid-caep-1_0-final.html"
+  },
+  "suite": "revocation-fence/v1",
+  "synthetic": true,
+  "typeUri": "https://probityai.github.io/agent-evidence-vectors/predicate/v1/revocation-fence",
+  "vectors": [
+    {
+      "edit": "a permit signed by the pinned authority for this target, inside its window",
+      "expected": {
+        "decision": "valid",
+        "reason": "permit_valid"
+      },
+      "files": {
+        "case.json": "61ab1045cb1ebe2fdffe8ed8ba99da2ca5acdbea5b3a33f55e64e2133603b581",
+        "permit.json": "0db5dc504ad40c66ee4f91fc83c366fafb8aafab3180323944c71fe054efe66e"
+      },
+      "id": "permit-valid",
+      "path": "cases/permit-valid"
+    },
+    {
+      "edit": "the window is half-open: the first instant is inside",
+      "expected": {
+        "decision": "valid",
+        "reason": "permit_valid"
+      },
+      "files": {
+        "case.json": "ba717849ae5246386ef3f3092e7aa186363013a120c11ec167b59feb210bb108",
+        "permit.json": "0db5dc504ad40c66ee4f91fc83c366fafb8aafab3180323944c71fe054efe66e"
+      },
+      "id": "permit-valid-at-not-before",
+      "path": "cases/permit-valid-at-not-before"
+    },
+    {
+      "edit": "one nanosecond before the window begins",
+      "expected": {
+        "decision": "refused",
+        "reason": "not_yet_valid"
+      },
+      "files": {
+        "case.json": "83c125c9e13053016a935b8ebeabebe61d1994e0d8b8dad7cf9aea30dda0ed60",
+        "permit.json": "0db5dc504ad40c66ee4f91fc83c366fafb8aafab3180323944c71fe054efe66e"
+      },
+      "id": "permit-not-yet-valid-one-ns-early",
+      "path": "cases/permit-not-yet-valid-one-ns-early"
+    },
+    {
+      "edit": "the last nanosecond inside the window",
+      "expected": {
+        "decision": "valid",
+        "reason": "permit_valid"
+      },
+      "files": {
+        "case.json": "caa0cf98a48bd3cfd8c29c5c77e7136f8e1603ec4db58b65522b21648f29ac04",
+        "permit.json": "0db5dc504ad40c66ee4f91fc83c366fafb8aafab3180323944c71fe054efe66e"
+      },
+      "id": "permit-valid-one-ns-before-not-after",
+      "path": "cases/permit-valid-one-ns-before-not-after"
+    },
+    {
+      "edit": "the window is half-open: its end instant is outside",
+      "expected": {
+        "decision": "refused",
+        "reason": "expired"
+      },
+      "files": {
+        "case.json": "debfc4c5cb3ce42e25f0b60520ba55ce0a8c710d68c13b3d0fdbd12abf1107b9",
+        "permit.json": "0db5dc504ad40c66ee4f91fc83c366fafb8aafab3180323944c71fe054efe66e"
+      },
+      "id": "permit-expired-at-not-after",
+      "path": "cases/permit-expired-at-not-after"
+    },
+    {
+      "edit": "signed by a key this target does not pin, naming that key",
+      "expected": {
+        "decision": "refused",
+        "reason": "unknown_authority"
+      },
+      "files": {
+        "case.json": "61ab1045cb1ebe2fdffe8ed8ba99da2ca5acdbea5b3a33f55e64e2133603b581",
+        "permit.json": "e34b732be0633e62414960b1f173945f952979096fdc230b68eca0bf068e9756"
+      },
+      "id": "permit-unknown-authority",
+      "path": "cases/permit-unknown-authority"
+    },
+    {
+      "edit": "the epoch was raised after the authority signed",
+      "expected": {
+        "decision": "refused",
+        "reason": "bad_signature"
+      },
+      "files": {
+        "case.json": "61ab1045cb1ebe2fdffe8ed8ba99da2ca5acdbea5b3a33f55e64e2133603b581",
+        "permit.json": "32f52cfdb06c6d9e9c02f54205fb80f5b4c92bdc5c8ba09f90743d8467cc0e6e"
+      },
+      "id": "permit-bad-signature-claims-edited",
+      "path": "cases/permit-bad-signature-claims-edited"
+    },
+    {
+      "edit": "names the pinned authority's key id and was signed by another key",
+      "expected": {
+        "decision": "refused",
+        "reason": "bad_signature"
+      },
+      "files": {
+        "case.json": "61ab1045cb1ebe2fdffe8ed8ba99da2ca5acdbea5b3a33f55e64e2133603b581",
+        "permit.json": "7f62c98ec8c451efc2d709337082aeff1968328e8f404cbcfe1f81b3f213ee28"
+      },
+      "id": "permit-bad-signature-pinned-kid-other-signer",
+      "path": "cases/permit-bad-signature-pinned-kid-other-signer"
+    },
+    {
+      "edit": "the authority's signature under the epoch-update domain does not sign a permit",
+      "expected": {
+        "decision": "refused",
+        "reason": "bad_signature"
+      },
+      "files": {
+        "case.json": "61ab1045cb1ebe2fdffe8ed8ba99da2ca5acdbea5b3a33f55e64e2133603b581",
+        "permit.json": "8cd55e09d778d349c978595ed83f0d82d3ed0b02029aae55df6037d3763dd0fa"
+      },
+      "id": "permit-bad-signature-other-domain",
+      "path": "cases/permit-bad-signature-other-domain"
+    },
+    {
+      "edit": "the signature bytes are right and their base64 spelling is not the canonical one",
+      "expected": {
+        "decision": "refused",
+        "reason": "bad_signature"
+      },
+      "files": {
+        "case.json": "61ab1045cb1ebe2fdffe8ed8ba99da2ca5acdbea5b3a33f55e64e2133603b581",
+        "permit.json": "0c03f15bc87f91ec3f19e5e043672cddc49c139b0edd5f595393d3c75deb4724"
+      },
+      "id": "permit-bad-signature-non-canonical-base64",
+      "path": "cases/permit-bad-signature-non-canonical-base64"
+    },
+    {
+      "edit": "a genuine permit for another target",
+      "expected": {
+        "decision": "refused",
+        "reason": "wrong_audience"
+      },
+      "files": {
+        "case.json": "61ab1045cb1ebe2fdffe8ed8ba99da2ca5acdbea5b3a33f55e64e2133603b581",
+        "permit.json": "052ded0c74b96c87bd9f8c33cc252dd970b0471baad34ea44ce93fce6ce251b5"
+      },
+      "id": "permit-wrong-audience",
+      "path": "cases/permit-wrong-audience"
+    },
+    {
+      "edit": "a permit with no epoch: there is no expiry-only mode to fall back to",
+      "expected": {
+        "decision": "refused",
+        "reason": "malformed"
+      },
+      "files": {
+        "case.json": "61ab1045cb1ebe2fdffe8ed8ba99da2ca5acdbea5b3a33f55e64e2133603b581",
+        "permit.json": "a6db284391cf1dcda8afc881caff30a3f3930de355e6f0da7635eeda3f04c377"
+      },
+      "id": "permit-malformed-epoch-missing",
+      "path": "cases/permit-malformed-epoch-missing"
+    },
+    {
+      "edit": "the epoch 3.0 is a JSON number with a fraction part, not an integer",
+      "expected": {
+        "decision": "refused",
+        "reason": "malformed"
+      },
+      "files": {
+        "case.json": "61ab1045cb1ebe2fdffe8ed8ba99da2ca5acdbea5b3a33f55e64e2133603b581",
+        "permit.json": "5429910421f9daf421d6cd47cdadf053946e0292d3e782da9359cc3613d24f13"
+      },
+      "id": "permit-malformed-epoch-float",
+      "path": "cases/permit-malformed-epoch-float"
+    },
+    {
+      "edit": "the epoch true is not an integer",
+      "expected": {
+        "decision": "refused",
+        "reason": "malformed"
+      },
+      "files": {
+        "case.json": "61ab1045cb1ebe2fdffe8ed8ba99da2ca5acdbea5b3a33f55e64e2133603b581",
+        "permit.json": "6d96910bc951c32655bf137353a64e1728db82b3c6061aed623934383152f7f8"
+      },
+      "id": "permit-malformed-epoch-boolean",
+      "path": "cases/permit-malformed-epoch-boolean"
+    },
+    {
+      "edit": "an epoch is never negative",
+      "expected": {
+        "decision": "refused",
+        "reason": "malformed"
+      },
+      "files": {
+        "case.json": "61ab1045cb1ebe2fdffe8ed8ba99da2ca5acdbea5b3a33f55e64e2133603b581",
+        "permit.json": "062155476eba9326415472f09929ab99d2eeda327647a30f38da7ac2f44c786e"
+      },
+      "id": "permit-malformed-epoch-negative",
+      "path": "cases/permit-malformed-epoch-negative"
+    },
+    {
+      "edit": "a nanosecond time written as a JSON number instead of a decimal string",
+      "expected": {
+        "decision": "refused",
+        "reason": "malformed"
+      },
+      "files": {
+        "case.json": "61ab1045cb1ebe2fdffe8ed8ba99da2ca5acdbea5b3a33f55e64e2133603b581",
+        "permit.json": "ebb63600e5557f6805e0d6fcb17b146f2eea872a8f2352b57f6575bcf7bfbac0"
+      },
+      "id": "permit-malformed-ns-json-number",
+      "path": "cases/permit-malformed-ns-json-number"
+    },
+    {
+      "edit": "a nanosecond time with a leading zero has two spellings",
+      "expected": {
+        "decision": "refused",
+        "reason": "malformed"
+      },
+      "files": {
+        "case.json": "61ab1045cb1ebe2fdffe8ed8ba99da2ca5acdbea5b3a33f55e64e2133603b581",
+        "permit.json": "2400ea103401886780e41e650b0b6f91eb6e11f3dea17e9809f2e4c7fb1a6c81"
+      },
+      "id": "permit-malformed-ns-leading-zero",
+      "path": "cases/permit-malformed-ns-leading-zero"
+    },
+    {
+      "edit": "a window whose end equals its start contains no instant",
+      "expected": {
+        "decision": "refused",
+        "reason": "malformed"
+      },
+      "files": {
+        "case.json": "61ab1045cb1ebe2fdffe8ed8ba99da2ca5acdbea5b3a33f55e64e2133603b581",
+        "permit.json": "8e22d3edc1cfd42e0bd5b02cdd2150f4bdffc4a91db63604f6abd4b69fcb2413"
+      },
+      "id": "permit-malformed-empty-window",
+      "path": "cases/permit-malformed-empty-window"
+    },
+    {
+      "edit": "a member the permit does not declare, signed along with the rest",
+      "expected": {
+        "decision": "refused",
+        "reason": "malformed"
+      },
+      "files": {
+        "case.json": "61ab1045cb1ebe2fdffe8ed8ba99da2ca5acdbea5b3a33f55e64e2133603b581",
+        "permit.json": "96508c684e9807df16a8c86f2096c280a7ca652d0da74b5d6b7d384242b78284"
+      },
+      "id": "permit-malformed-extra-member",
+      "path": "cases/permit-malformed-extra-member"
+    },
+    {
+      "edit": "version 2 is not this protocol",
+      "expected": {
+        "decision": "refused",
+        "reason": "malformed"
+      },
+      "files": {
+        "case.json": "61ab1045cb1ebe2fdffe8ed8ba99da2ca5acdbea5b3a33f55e64e2133603b581",
+        "permit.json": "bf525e687958894f36daa11f8f6fe5268b3cbc65774773657a60b6e421b232a8"
+      },
+      "id": "permit-malformed-version-2",
+      "path": "cases/permit-malformed-version-2"
+    },
+    {
+      "edit": "the version true is not the integer 1",
+      "expected": {
+        "decision": "refused",
+        "reason": "malformed"
+      },
+      "files": {
+        "case.json": "61ab1045cb1ebe2fdffe8ed8ba99da2ca5acdbea5b3a33f55e64e2133603b581",
+        "permit.json": "cf519ee37721428f5c8a7671e3ba7d52b80bfb4cd14d31a8343ab62cde3f31c4"
+      },
+      "id": "permit-malformed-version-boolean",
+      "path": "cases/permit-malformed-version-boolean"
+    },
+    {
+      "edit": "an empty subject names nobody",
+      "expected": {
+        "decision": "refused",
+        "reason": "malformed"
+      },
+      "files": {
+        "case.json": "61ab1045cb1ebe2fdffe8ed8ba99da2ca5acdbea5b3a33f55e64e2133603b581",
+        "permit.json": "05d6fd6d99773285d23898ff59ebaf2082e32b4a04fdee18d5df90b40f651d06"
+      },
+      "id": "permit-malformed-empty-subject",
+      "path": "cases/permit-malformed-empty-subject"
+    },
+    {
+      "edit": "the signed record carries a member beside claims and sig",
+      "expected": {
+        "decision": "refused",
+        "reason": "malformed"
+      },
+      "files": {
+        "case.json": "61ab1045cb1ebe2fdffe8ed8ba99da2ca5acdbea5b3a33f55e64e2133603b581",
+        "permit.json": "4f0f21979875e118725f06c05e54c631cb921e09cbbded2feeca344e23b5a8bf"
+      },
+      "id": "permit-malformed-envelope-extra-member",
+      "path": "cases/permit-malformed-envelope-extra-member"
+    },
+    {
+      "edit": "the claims name v twice; two readers could read two records",
+      "expected": {
+        "decision": "refused",
+        "reason": "malformed"
+      },
+      "files": {
+        "case.json": "61ab1045cb1ebe2fdffe8ed8ba99da2ca5acdbea5b3a33f55e64e2133603b581",
+        "permit.json": "74bcbe95b7a473d65ef49e86997071ad9bbb7b68881ac292931e46557f83c6d3"
+      },
+      "id": "permit-malformed-repeated-member",
+      "path": "cases/permit-malformed-repeated-member"
+    },
+    {
+      "edit": "revoking a subject is installing its next epoch",
+      "expected": {
+        "decision": "installed",
+        "held_after": {
+          "agent:alpha": 4
+        },
+        "reason": "epoch_installed",
+        "results": [
+          {
+            "decision": "installed",
+            "reason": "epoch_installed"
+          }
+        ],
+        "revocation_status": "closed"
+      },
+      "files": {
+        "case.json": "dfe867b2936296cc443100ca14f837dbc770ba300e79726ae8709cd07e67f6a3",
+        "update-1.json": "62b453b83db754dfdf3151bf19652e7b1d45796a795be231beeef8753ea53a95"
+      },
+      "id": "update-installs-next-epoch",
+      "path": "cases/update-installs-next-epoch"
+    },
+    {
+      "edit": "a target that held no epoch for the subject installs one",
+      "expected": {
+        "decision": "installed",
+        "held_after": {
+          "agent:alpha": 0
+        },
+        "reason": "epoch_installed",
+        "results": [
+          {
+            "decision": "installed",
+            "reason": "epoch_installed"
+          }
+        ]
+      },
+      "files": {
+        "case.json": "a527fe7bba6ed27b169d9289d63cf8de37b5c15431da4b8eb8e5304472513aae",
+        "update-1.json": "2cfd52f4bb92fa3e5eda7b6c72aaa0c0afb8ea5e2365e6617b11bfcdd80f1a9a"
+      },
+      "id": "update-installs-first-epoch",
+      "path": "cases/update-installs-first-epoch"
+    },
+    {
+      "edit": "the update repeats the epoch already held",
+      "expected": {
+        "decision": "unchanged",
+        "held_after": {
+          "agent:alpha": 3
+        },
+        "reason": "epoch_unchanged",
+        "results": [
+          {
+            "decision": "unchanged",
+            "reason": "epoch_unchanged"
+          }
+        ]
+      },
+      "files": {
+        "case.json": "dfe867b2936296cc443100ca14f837dbc770ba300e79726ae8709cd07e67f6a3",
+        "update-1.json": "78ed89c35b4ff8b533d96a958300339328bb3156a69f35d21595a1f5dacd8392"
+      },
+      "id": "update-unchanged-at-equal-epoch",
+      "path": "cases/update-unchanged-at-equal-epoch"
+    },
+    {
+      "edit": "a replayed older update is refused and the revocation stays",
+      "expected": {
+        "decision": "refused",
+        "held_after": {
+          "agent:alpha": 4
+        },
+        "reason": "epoch_rollback",
+        "results": [
+          {
+            "decision": "refused",
+            "reason": "epoch_rollback"
+          }
+        ],
+        "revocation_status": "closed"
+      },
+      "files": {
+        "case.json": "4b0351031f42b434297eeba1b0bf4927a84001dcc0ab45818feeef89f4a0108c",
+        "update-1.json": "78ed89c35b4ff8b533d96a958300339328bb3156a69f35d21595a1f5dacd8392"
+      },
+      "id": "update-rollback-refused",
+      "path": "cases/update-rollback-refused"
+    },
+    {
+      "edit": "the revocation installs, then the earlier update is replayed",
+      "expected": {
+        "decision": "refused",
+        "held_after": {
+          "agent:alpha": 4
+        },
+        "reason": "epoch_rollback",
+        "results": [
+          {
+            "decision": "installed",
+            "reason": "epoch_installed"
+          },
+          {
+            "decision": "refused",
+            "reason": "epoch_rollback"
+          }
+        ],
+        "revocation_status": "closed"
+      },
+      "files": {
+        "case.json": "a5486c291e410b9c86a0c37c466611fed5a4c29ce7a0b703936def060e1ce271",
+        "update-1.json": "62b453b83db754dfdf3151bf19652e7b1d45796a795be231beeef8753ea53a95",
+        "update-2.json": "78ed89c35b4ff8b533d96a958300339328bb3156a69f35d21595a1f5dacd8392"
+      },
+      "id": "update-revoke-then-replay-old",
+      "path": "cases/update-revoke-then-replay-old"
+    },
+    {
+      "edit": "an update the epoch source did not sign is refused and the next genuine one installs",
+      "expected": {
+        "decision": "installed",
+        "held_after": {
+          "agent:alpha": 4
+        },
+        "reason": "epoch_installed",
+        "results": [
+          {
+            "decision": "refused",
+            "reason": "bad_signature"
+          },
+          {
+            "decision": "installed",
+            "reason": "epoch_installed"
+          }
+        ],
+        "revocation_status": "closed"
+      },
+      "files": {
+        "case.json": "a5486c291e410b9c86a0c37c466611fed5a4c29ce7a0b703936def060e1ce271",
+        "update-1.json": "f88e9fb6010802e9ad7ad73b22f529d64551917c96ab4d15c26dad65a9e8d989",
+        "update-2.json": "62b453b83db754dfdf3151bf19652e7b1d45796a795be231beeef8753ea53a95"
+      },
+      "id": "update-refusal-does-not-stop-later",
+      "path": "cases/update-refusal-does-not-stop-later"
+    },
+    {
+      "edit": "the authority's permit key is not an epoch source",
+      "expected": {
+        "decision": "refused",
+        "held_after": {
+          "agent:alpha": 3
+        },
+        "reason": "unknown_epoch_source",
+        "results": [
+          {
+            "decision": "refused",
+            "reason": "unknown_epoch_source"
+          }
+        ]
+      },
+      "files": {
+        "case.json": "dfe867b2936296cc443100ca14f837dbc770ba300e79726ae8709cd07e67f6a3",
+        "update-1.json": "b2d1346b00640f4e04d16cf45d7682f3a4bcf2811a4cf1a5fd51a18e3c64a9fa"
+      },
+      "id": "update-unknown-epoch-source",
+      "path": "cases/update-unknown-epoch-source"
+    },
+    {
+      "edit": "the epoch was changed after the source signed",
+      "expected": {
+        "decision": "refused",
+        "held_after": {
+          "agent:alpha": 3
+        },
+        "reason": "bad_signature",
+        "results": [
+          {
+            "decision": "refused",
+            "reason": "bad_signature"
+          }
+        ]
+      },
+      "files": {
+        "case.json": "dfe867b2936296cc443100ca14f837dbc770ba300e79726ae8709cd07e67f6a3",
+        "update-1.json": "c28ec7dde8014a59b9cc34fa75a673b5170a8c904bb45b9fe3ca329d2d05b96c"
+      },
+      "id": "update-bad-signature",
+      "path": "cases/update-bad-signature"
+    },
+    {
+      "edit": "a genuine update for another target",
+      "expected": {
+        "decision": "refused",
+        "held_after": {
+          "agent:alpha": 3
+        },
+        "reason": "wrong_audience",
+        "results": [
+          {
+            "decision": "refused",
+            "reason": "wrong_audience"
+          }
+        ]
+      },
+      "files": {
+        "case.json": "dfe867b2936296cc443100ca14f837dbc770ba300e79726ae8709cd07e67f6a3",
+        "update-1.json": "089dd79bd8a508ada9ddb1e5a903975b93cf7de5aef5cc16d4724b91146f9cea"
+      },
+      "id": "update-wrong-audience",
+      "path": "cases/update-wrong-audience"
+    },
+    {
+      "edit": "an epoch is never negative",
+      "expected": {
+        "decision": "refused",
+        "held_after": {
+          "agent:alpha": 3
+        },
+        "reason": "malformed",
+        "results": [
+          {
+            "decision": "refused",
+            "reason": "malformed"
+          }
+        ]
+      },
+      "files": {
+        "case.json": "dfe867b2936296cc443100ca14f837dbc770ba300e79726ae8709cd07e67f6a3",
+        "update-1.json": "9b984ce407366be144790ef9e0d038c7ad2b7510f7bfc9ab9083419b397b2915"
+      },
+      "id": "update-malformed-epoch-negative",
+      "path": "cases/update-malformed-epoch-negative"
+    },
+    {
+      "edit": "the epoch 4.0 is not an integer",
+      "expected": {
+        "decision": "refused",
+        "held_after": {
+          "agent:alpha": 3
+        },
+        "reason": "malformed",
+        "results": [
+          {
+            "decision": "refused",
+            "reason": "malformed"
+          }
+        ]
+      },
+      "files": {
+        "case.json": "dfe867b2936296cc443100ca14f837dbc770ba300e79726ae8709cd07e67f6a3",
+        "update-1.json": "6f2027a3a051569060ed779369e55b8e3bf0e61ac85dfc837d03bbac88e17e3f"
+      },
+      "id": "update-malformed-epoch-float",
+      "path": "cases/update-malformed-epoch-float"
+    },
+    {
+      "edit": "a member the update does not declare",
+      "expected": {
+        "decision": "refused",
+        "held_after": {
+          "agent:alpha": 3
+        },
+        "reason": "malformed",
+        "results": [
+          {
+            "decision": "refused",
+            "reason": "malformed"
+          }
+        ]
+      },
+      "files": {
+        "case.json": "dfe867b2936296cc443100ca14f837dbc770ba300e79726ae8709cd07e67f6a3",
+        "update-1.json": "86901239278403d490f5449855344a07f9252cf71a39c62a74cc364637ad4289"
+      },
+      "id": "update-malformed-extra-member",
+      "path": "cases/update-malformed-extra-member"
+    },
+    {
+      "edit": "an empty subject names nobody",
+      "expected": {
+        "decision": "refused",
+        "held_after": {
+          "agent:alpha": 3
+        },
+        "reason": "malformed",
+        "results": [
+          {
+            "decision": "refused",
+            "reason": "malformed"
+          }
+        ]
+      },
+      "files": {
+        "case.json": "dfe867b2936296cc443100ca14f837dbc770ba300e79726ae8709cd07e67f6a3",
+        "update-1.json": "683362b4c89a689ed2dc352b599e79943328a6eeb60309257cb63a98e67b04de"
+      },
+      "id": "update-malformed-empty-subject",
+      "path": "cases/update-malformed-empty-subject"
+    },
+    {
+      "edit": "version 2 is not this protocol",
+      "expected": {
+        "decision": "refused",
+        "held_after": {
+          "agent:alpha": 3
+        },
+        "reason": "malformed",
+        "results": [
+          {
+            "decision": "refused",
+            "reason": "malformed"
+          }
+        ]
+      },
+      "files": {
+        "case.json": "dfe867b2936296cc443100ca14f837dbc770ba300e79726ae8709cd07e67f6a3",
+        "update-1.json": "f15473ee749e7aa1e79513332380bc047534ea21461d37390cc5b4a2b5394c35"
+      },
+      "id": "update-malformed-version-2",
+      "path": "cases/update-malformed-version-2"
+    },
+    {
+      "edit": "the target's signed statement that it committed",
+      "expected": {
+        "decision": "valid",
+        "reason": "outcome_valid"
+      },
+      "files": {
+        "case.json": "eb7be3e4faa86a9fe2a31a6d250ab9d11b5b7480d5ae4f0c5cc836350998f639",
+        "outcome.json": "f0e09ab6eb01656f445d7fac028e8e2b7834a64ed4057cd893a86795e2d91b25"
+      },
+      "id": "outcome-valid-committed",
+      "path": "cases/outcome-valid-committed"
+    },
+    {
+      "edit": "the target's signed statement that it refused, with the code",
+      "expected": {
+        "decision": "valid",
+        "reason": "outcome_valid"
+      },
+      "files": {
+        "case.json": "eb7be3e4faa86a9fe2a31a6d250ab9d11b5b7480d5ae4f0c5cc836350998f639",
+        "outcome.json": "e624a90cad1ee139bbafb2e6ff723a97f27f12bc7e203037b06011311d4dabeb"
+      },
+      "id": "outcome-valid-refused",
+      "path": "cases/outcome-valid-refused"
+    },
+    {
+      "edit": "an unknown stage is malformed before the key is looked at",
+      "expected": {
+        "decision": "refused",
+        "reason": "malformed"
+      },
+      "files": {
+        "case.json": "eb7be3e4faa86a9fe2a31a6d250ab9d11b5b7480d5ae4f0c5cc836350998f639",
+        "outcome.json": "6cc38490c03068a59682f417267360fe6dc2e9b3d31d44ee7f3258f614fe1c42"
+      },
+      "id": "outcome-malformed-stage-before-key",
+      "path": "cases/outcome-malformed-stage-before-key"
+    },
+    {
+      "edit": "an outcome is committed or refused",
+      "expected": {
+        "decision": "refused",
+        "reason": "malformed"
+      },
+      "files": {
+        "case.json": "eb7be3e4faa86a9fe2a31a6d250ab9d11b5b7480d5ae4f0c5cc836350998f639",
+        "outcome.json": "7f9b2b3a2f0251f7702b0b279d1c1e0a4466c96faf463fd7b7271dbf68f1bca6"
+      },
+      "id": "outcome-malformed-outcome-value",
+      "path": "cases/outcome-malformed-outcome-value"
+    },
+    {
+      "edit": "signed by a key the reader does not pin",
+      "expected": {
+        "decision": "refused",
+        "reason": "unknown_target_key"
+      },
+      "files": {
+        "case.json": "eb7be3e4faa86a9fe2a31a6d250ab9d11b5b7480d5ae4f0c5cc836350998f639",
+        "outcome.json": "341bc3ff32662202e33a25eb9c59fc850938bdf19be280e629411cd88128a516"
+      },
+      "id": "outcome-unknown-target-key",
+      "path": "cases/outcome-unknown-target-key"
+    },
+    {
+      "edit": "an unpinned key is refused before the member types are read",
+      "expected": {
+        "decision": "refused",
+        "reason": "unknown_target_key"
+      },
+      "files": {
+        "case.json": "eb7be3e4faa86a9fe2a31a6d250ab9d11b5b7480d5ae4f0c5cc836350998f639",
+        "outcome.json": "6a1cf69046da4898657f6c35b98f80675f004ecce9a4efc83eff503142c8fe4b"
+      },
+      "id": "outcome-key-before-types",
+      "path": "cases/outcome-key-before-types"
+    },
+    {
+      "edit": "a committed outcome edited to read refused",
+      "expected": {
+        "decision": "refused",
+        "reason": "bad_signature"
+      },
+      "files": {
+        "case.json": "eb7be3e4faa86a9fe2a31a6d250ab9d11b5b7480d5ae4f0c5cc836350998f639",
+        "outcome.json": "73e06d896e143f4d0ca0fef5082a5dbdd5ec29a540a3600d1849a42f59d2dd2b"
+      },
+      "id": "outcome-bad-signature",
+      "path": "cases/outcome-bad-signature"
+    },
+    {
+      "edit": "a genuine signature over a time written as a JSON number",
+      "expected": {
+        "decision": "refused",
+        "reason": "malformed"
+      },
+      "files": {
+        "case.json": "eb7be3e4faa86a9fe2a31a6d250ab9d11b5b7480d5ae4f0c5cc836350998f639",
+        "outcome.json": "24eef7b4e0c176b56a04f18472f75e4e64f2c33f9e0a08de69d0b1eff076a8f8"
+      },
+      "id": "outcome-malformed-signed-at-number",
+      "path": "cases/outcome-malformed-signed-at-number"
+    },
+    {
+      "edit": "the reason is a string, empty when committed",
+      "expected": {
+        "decision": "refused",
+        "reason": "malformed"
+      },
+      "files": {
+        "case.json": "eb7be3e4faa86a9fe2a31a6d250ab9d11b5b7480d5ae4f0c5cc836350998f639",
+        "outcome.json": "99de04aa0fe4ef43e4f6c173ff49efc29f501f6e471e8a8bf4fd83c516739380"
+      },
+      "id": "outcome-malformed-reason-not-string",
+      "path": "cases/outcome-malformed-reason-not-string"
+    },
+    {
+      "edit": "a member the outcome does not declare",
+      "expected": {
+        "decision": "refused",
+        "reason": "malformed"
+      },
+      "files": {
+        "case.json": "eb7be3e4faa86a9fe2a31a6d250ab9d11b5b7480d5ae4f0c5cc836350998f639",
+        "outcome.json": "38c6790c2ac897716a9c661dab3c3e857e5609eec5ebd249bbc8d9aa791ce56b"
+      },
+      "id": "outcome-malformed-extra-member",
+      "path": "cases/outcome-malformed-extra-member"
+    },
+    {
+      "edit": "the store's epoch equals the permit's: the effect commits",
+      "expected": {
+        "decision": "committed",
+        "reason": "commit_done",
+        "revocation_status": "live"
+      },
+      "files": {
+        "case.json": "f399efc91e51552bd70a03f4dd813c93632dc383cf2d8f59633edd0ccdc66ed0",
+        "outcome.json": "f0e09ab6eb01656f445d7fac028e8e2b7834a64ed4057cd893a86795e2d91b25",
+        "permit.json": "0db5dc504ad40c66ee4f91fc83c366fafb8aafab3180323944c71fe054efe66e"
+      },
+      "id": "commit-a-committed",
+      "path": "cases/commit-a-committed"
+    },
+    {
+      "edit": "the subject was revoked before the commit and the effect was not done",
+      "expected": {
+        "decision": "refused",
+        "reason": "epoch_mismatch",
+        "revocation_status": "closed"
+      },
+      "files": {
+        "case.json": "026636f021b064d5ca66b1bc43fa2e21eed6b6c94b07fc678ac615e68f6bc063",
+        "outcome.json": "e624a90cad1ee139bbafb2e6ff723a97f27f12bc7e203037b06011311d4dabeb",
+        "permit.json": "0db5dc504ad40c66ee4f91fc83c366fafb8aafab3180323944c71fe054efe66e"
+      },
+      "id": "commit-a-revoked-effect-not-done",
+      "path": "cases/commit-a-revoked-effect-not-done"
+    },
+    {
+      "edit": "the effect committed before the revocation; a retry returns it and runs nothing",
+      "expected": {
+        "decision": "replayed",
+        "reason": "replay_done",
+        "revocation_status": "closed"
+      },
+      "files": {
+        "case.json": "a7aa86c3a40f3fdd4cc1eb37eb7ee5e1c60985e3570e8d41cabcde00e26369ae",
+        "outcome.json": "f0e09ab6eb01656f445d7fac028e8e2b7834a64ed4057cd893a86795e2d91b25",
+        "permit.json": "0db5dc504ad40c66ee4f91fc83c366fafb8aafab3180323944c71fe054efe66e"
+      },
+      "id": "commit-a-revoked-effect-done-replays",
+      "path": "cases/commit-a-revoked-effect-done-replays"
+    },
+    {
+      "edit": "a retry under the same key and operation",
+      "expected": {
+        "decision": "replayed",
+        "reason": "replay_done",
+        "revocation_status": "live"
+      },
+      "files": {
+        "case.json": "1be8956b64ff5c6252c231082dcf10a9848e2d05b1d553297a738730e239bcc9",
+        "outcome.json": "d16641bb2834634bc5a3f8f182a93e74cb16194a2eef8bba398679ca85bb46c1",
+        "permit.json": "0db5dc504ad40c66ee4f91fc83c366fafb8aafab3180323944c71fe054efe66e"
+      },
+      "id": "commit-a-replayed",
+      "path": "cases/commit-a-replayed"
+    },
+    {
+      "edit": "the idempotency key already names another permit's effect",
+      "expected": {
+        "decision": "refused",
+        "reason": "key_reused",
+        "revocation_status": "live"
+      },
+      "files": {
+        "case.json": "6c417ad8191484e05bc75b4d9814e613df1eb45d35bf4d67ea5cb86ff9e3165d",
+        "outcome.json": "7840c6ef598df402d0b60297dbe59d3c3818fa38d95370468574e48da1ce2aa7",
+        "permit.json": "0db5dc504ad40c66ee4f91fc83c366fafb8aafab3180323944c71fe054efe66e"
+      },
+      "id": "commit-a-key-reused",
+      "path": "cases/commit-a-key-reused"
+    },
+    {
+      "edit": "the store could not give an epoch: fail closed",
+      "expected": {
+        "decision": "refused",
+        "reason": "epoch_unavailable",
+        "revocation_status": "unknown"
+      },
+      "files": {
+        "case.json": "8ab2ee481b42dd12bc8a2b78f7463a33a8815c9779d0a8d4138906b4cc1635a8",
+        "outcome.json": "946e5ef265bca52d638bb7078cd20018884ac730d866c5504606bdd33dc86b2a",
+        "permit.json": "0db5dc504ad40c66ee4f91fc83c366fafb8aafab3180323944c71fe054efe66e"
+      },
+      "id": "commit-a-epoch-unavailable",
+      "path": "cases/commit-a-epoch-unavailable"
+    },
+    {
+      "edit": "a recorded effect is returned before the epoch is needed",
+      "expected": {
+        "decision": "replayed",
+        "reason": "replay_done",
+        "revocation_status": "unknown"
+      },
+      "files": {
+        "case.json": "249d16c9ddd057caad3200de0f444e9b17072679b979f6a25b9a471265ecc48d",
+        "outcome.json": "f0e09ab6eb01656f445d7fac028e8e2b7834a64ed4057cd893a86795e2d91b25",
+        "permit.json": "0db5dc504ad40c66ee4f91fc83c366fafb8aafab3180323944c71fe054efe66e"
+      },
+      "id": "commit-a-replay-before-epoch-read",
+      "path": "cases/commit-a-replay-before-epoch-read"
+    },
+    {
+      "edit": "the target holds no epoch for the subject: it has heard nothing",
+      "expected": {
+        "decision": "refused",
+        "reason": "epoch_unknown",
+        "revocation_status": "unknown"
+      },
+      "files": {
+        "case.json": "4dde6420ec967c201b14ac0992b727c3017801b060be4d88feda2b5bb972e0ed",
+        "outcome.json": "98a10005777c91acab34e27b7ac682c0bfa9df2b6ebdddffbd42f427dd2d2db7",
+        "permit.json": "0db5dc504ad40c66ee4f91fc83c366fafb8aafab3180323944c71fe054efe66e"
+      },
+      "id": "commit-a-epoch-unknown",
+      "path": "cases/commit-a-epoch-unknown"
+    },
+    {
+      "edit": "the permit names epoch 5 and the target holds 3: the target is behind",
+      "expected": {
+        "decision": "refused",
+        "reason": "epoch_mismatch",
+        "revocation_status": "unknown"
+      },
+      "files": {
+        "case.json": "f399efc91e51552bd70a03f4dd813c93632dc383cf2d8f59633edd0ccdc66ed0",
+        "outcome.json": "d391161c421e0531d722bb417339267d6f501d9069b598ccc27c79b613203467",
+        "permit.json": "f17ca7581e426955a2c62905499b0a9ebfb075d6f53d39d925246c3536464af2"
+      },
+      "id": "commit-a-permit-from-future-epoch",
+      "path": "cases/commit-a-permit-from-future-epoch"
+    },
+    {
+      "edit": "an expired permit is refused before any outcome can be attributed",
+      "expected": {
+        "decision": "no_outcome",
+        "reason": "expired"
+      },
+      "files": {
+        "case.json": "9e24d8ba6ec725a54a23cede46effa0a85bb7ff2531044990817de901e939dfc",
+        "permit.json": "0db5dc504ad40c66ee4f91fc83c366fafb8aafab3180323944c71fe054efe66e"
+      },
+      "id": "commit-a-no-outcome-expired",
+      "path": "cases/commit-a-no-outcome-expired"
+    },
+    {
+      "edit": "a permit under an unpinned key gets no outcome",
+      "expected": {
+        "decision": "no_outcome",
+        "reason": "unknown_authority"
+      },
+      "files": {
+        "case.json": "f2ac2e74b35fe21b0df2d6a0544b041192bf165e99c778273f5809f755cfc237",
+        "permit.json": "e34b732be0633e62414960b1f173945f952979096fdc230b68eca0bf068e9756"
+      },
+      "id": "commit-a-no-outcome-unknown-authority",
+      "path": "cases/commit-a-no-outcome-unknown-authority"
+    },
+    {
+      "edit": "the target signed committed while its epoch says revoked",
+      "expected": {
+        "decision": "outcome_mismatch",
+        "reason": "epoch_mismatch",
+        "revocation_status": "closed"
+      },
+      "files": {
+        "case.json": "026636f021b064d5ca66b1bc43fa2e21eed6b6c94b07fc678ac615e68f6bc063",
+        "outcome.json": "f0e09ab6eb01656f445d7fac028e8e2b7834a64ed4057cd893a86795e2d91b25",
+        "permit.json": "0db5dc504ad40c66ee4f91fc83c366fafb8aafab3180323944c71fe054efe66e"
+      },
+      "id": "commit-a-outcome-says-committed-after-revocation",
+      "path": "cases/commit-a-outcome-says-committed-after-revocation"
+    },
+    {
+      "edit": "the target signed a refusal with another code",
+      "expected": {
+        "decision": "outcome_mismatch",
+        "reason": "epoch_mismatch",
+        "revocation_status": "closed"
+      },
+      "files": {
+        "case.json": "026636f021b064d5ca66b1bc43fa2e21eed6b6c94b07fc678ac615e68f6bc063",
+        "outcome.json": "a47516ba4770439f8abe0cc4a7e9dcb37a90da0a2f8df0f1968a99050726cbc5",
+        "permit.json": "0db5dc504ad40c66ee4f91fc83c366fafb8aafab3180323944c71fe054efe66e"
+      },
+      "id": "commit-a-outcome-wrong-code",
+      "path": "cases/commit-a-outcome-wrong-code"
+    },
+    {
+      "edit": "an honest-looking outcome signed by a key the reader does not pin",
+      "expected": {
+        "decision": "outcome_mismatch",
+        "reason": "commit_done",
+        "revocation_status": "live"
+      },
+      "files": {
+        "case.json": "f399efc91e51552bd70a03f4dd813c93632dc383cf2d8f59633edd0ccdc66ed0",
+        "outcome.json": "341bc3ff32662202e33a25eb9c59fc850938bdf19be280e629411cd88128a516",
+        "permit.json": "0db5dc504ad40c66ee4f91fc83c366fafb8aafab3180323944c71fe054efe66e"
+      },
+      "id": "commit-a-outcome-unpinned-key",
+      "path": "cases/commit-a-outcome-unpinned-key"
+    },
+    {
+      "edit": "the target's outcome names another permit",
+      "expected": {
+        "decision": "outcome_mismatch",
+        "reason": "commit_done",
+        "revocation_status": "live"
+      },
+      "files": {
+        "case.json": "f399efc91e51552bd70a03f4dd813c93632dc383cf2d8f59633edd0ccdc66ed0",
+        "outcome.json": "0cd41201429b8914c4b094e7caf1d50c9828262d40a6a710c65edbd1f85f5416",
+        "permit.json": "0db5dc504ad40c66ee4f91fc83c366fafb8aafab3180323944c71fe054efe66e"
+      },
+      "id": "commit-a-outcome-other-permit",
+      "path": "cases/commit-a-outcome-other-permit"
+    },
+    {
+      "edit": "a commit lease at the permit's epoch, still live",
+      "expected": {
+        "decision": "committed",
+        "reason": "commit_done",
+        "revocation_status": "live"
+      },
+      "files": {
+        "case.json": "a35894bce460284305d2bab7af78703ffa53cb9e46e8d07c0c29e0a26b4cd849",
+        "outcome.json": "b1a7431b062dbcb4cd50d1a66f1bb8720499bc4e8d9342de422a13461e846702",
+        "permit.json": "0db5dc504ad40c66ee4f91fc83c366fafb8aafab3180323944c71fe054efe66e"
+      },
+      "id": "commit-b-committed",
+      "path": "cases/commit-b-committed"
+    },
+    {
+      "edit": "a revocation waits on leases in force: no new lease is granted",
+      "expected": {
+        "decision": "refused",
+        "reason": "revocation_pending",
+        "revocation_status": "partial"
+      },
+      "files": {
+        "case.json": "e47e179bec611b059cf31cc1bebc1fe0b8f768eea1c4faac67375c9cfe4c6b77",
+        "outcome.json": "4f9e8ee87bf28342a91c9453fc099efbc87484ffb52daa8869b9a38daebbf7cb",
+        "permit.json": "0db5dc504ad40c66ee4f91fc83c366fafb8aafab3180323944c71fe054efe66e"
+      },
+      "id": "commit-b-revocation-pending",
+      "path": "cases/commit-b-revocation-pending"
+    },
+    {
+      "edit": "a retry of a done effect is returned while the revocation waits",
+      "expected": {
+        "decision": "replayed",
+        "reason": "replay_done",
+        "revocation_status": "partial"
+      },
+      "files": {
+        "case.json": "732c922f78a21a596f19345b7a62560df1da7e8db91144ce12d997e9c41424ea",
+        "outcome.json": "b1a7431b062dbcb4cd50d1a66f1bb8720499bc4e8d9342de422a13461e846702",
+        "permit.json": "0db5dc504ad40c66ee4f91fc83c366fafb8aafab3180323944c71fe054efe66e"
+      },
+      "id": "commit-b-replayed-while-pending",
+      "path": "cases/commit-b-replayed-while-pending"
+    },
+    {
+      "edit": "no epoch held is refused before the pending revocation is consulted",
+      "expected": {
+        "decision": "refused",
+        "reason": "epoch_unknown",
+        "revocation_status": "unknown"
+      },
+      "files": {
+        "case.json": "c08411c6d862322dc8c591e2ecb320984a548ddfc2fd085702e9868ad5d8f01e",
+        "outcome.json": "82ae97b2ad9b845601bcdfda4588f5b36bd0d40d375887ffe3199a46ead7a4a8",
+        "permit.json": "0db5dc504ad40c66ee4f91fc83c366fafb8aafab3180323944c71fe054efe66e"
+      },
+      "id": "commit-b-epoch-unknown-before-pending",
+      "path": "cases/commit-b-epoch-unknown-before-pending"
+    },
+    {
+      "edit": "the commit lease ended before the commit began",
+      "expected": {
+        "decision": "refused",
+        "reason": "lease_expired",
+        "revocation_status": "live"
+      },
+      "files": {
+        "case.json": "b8cdfcce60bac7256c70a9de46e7cbcb27fcd2aed873c52398aca4952a78166e",
+        "outcome.json": "3b89ee259ab044b572f0ed9fc3c65d13536024bbd969e5bd3b653d2bcb2ffcf0",
+        "permit.json": "0db5dc504ad40c66ee4f91fc83c366fafb8aafab3180323944c71fe054efe66e"
+      },
+      "id": "commit-b-lease-expired",
+      "path": "cases/commit-b-lease-expired"
+    },
+    {
+      "edit": "the revocation committed; the epoch is checked before the lease",
+      "expected": {
+        "decision": "refused",
+        "reason": "epoch_mismatch",
+        "revocation_status": "closed"
+      },
+      "files": {
+        "case.json": "80f0d320c12d558512ba2dc4bc3daca5e353bbd68f29f32d1871df7188c09de5",
+        "outcome.json": "77b535e5a9809c5d4e478d4db9d39ce3606e51114ca00d6777ffb9b1a2ef4ade",
+        "permit.json": "0db5dc504ad40c66ee4f91fc83c366fafb8aafab3180323944c71fe054efe66e"
+      },
+      "id": "commit-b-revoked",
+      "path": "cases/commit-b-revoked"
+    },
+    {
+      "edit": "the idempotency key already names another permit's effect",
+      "expected": {
+        "decision": "refused",
+        "reason": "key_reused",
+        "revocation_status": "live"
+      },
+      "files": {
+        "case.json": "e5aaddf012dd7738d24535d34b333b741b85e337d89ba956f19111ccebd4f3fd",
+        "outcome.json": "56c0f22c8b39f046d964fa1ade23254509b447aded96d1451f5c8875e3bd11c0",
+        "permit.json": "0db5dc504ad40c66ee4f91fc83c366fafb8aafab3180323944c71fe054efe66e"
+      },
+      "id": "commit-b-key-reused",
+      "path": "cases/commit-b-key-reused"
+    },
+    {
+      "edit": "the coordinator's prepared hold commits",
+      "expected": {
+        "decision": "committed",
+        "reason": "commit_done",
+        "revocation_status": "live"
+      },
+      "files": {
+        "case.json": "683cda262c4f806edfb257214f443f0b0998d873c12b574a4b1400b425e110e6",
+        "outcome.json": "fab7bddff69d4aa0bab7cc17025e7b2aac476b5c7c590ab03083bab0d5c8ddb2",
+        "permit.json": "0db5dc504ad40c66ee4f91fc83c366fafb8aafab3180323944c71fe054efe66e"
+      },
+      "id": "commit-c-committed",
+      "path": "cases/commit-c-committed"
+    },
+    {
+      "edit": "the revocation voided the prepared hold and the participant confirmed it",
+      "expected": {
+        "decision": "refused",
+        "reason": "revoked_before_commit",
+        "revocation_status": "closed"
+      },
+      "files": {
+        "case.json": "0d867a9aafb0d9f364053e1706b2ab25829e96db9e8589a0c804479df1dd117a",
+        "outcome.json": "cc86c385e3936357baaf5056f09cb06793873e25a2548183e127c3746537b4a4",
+        "permit.json": "0db5dc504ad40c66ee4f91fc83c366fafb8aafab3180323944c71fe054efe66e"
+      },
+      "id": "commit-c-revoked-before-commit-voided",
+      "path": "cases/commit-c-revoked-before-commit-voided"
+    },
+    {
+      "edit": "the hold is void pending: the participant has not confirmed the release",
+      "expected": {
+        "decision": "refused",
+        "reason": "revoked_before_commit",
+        "revocation_status": "partial"
+      },
+      "files": {
+        "case.json": "09fa856134b9079b7563574cb0ca4ea14d801e21739bb03861425d0d368cff79",
+        "outcome.json": "cc86c385e3936357baaf5056f09cb06793873e25a2548183e127c3746537b4a4",
+        "permit.json": "0db5dc504ad40c66ee4f91fc83c366fafb8aafab3180323944c71fe054efe66e"
+      },
+      "id": "commit-c-revoked-before-commit-void-pending",
+      "path": "cases/commit-c-revoked-before-commit-void-pending"
+    },
+    {
+      "edit": "the subject's epoch moved before the prepare",
+      "expected": {
+        "decision": "refused",
+        "reason": "epoch_mismatch",
+        "revocation_status": "closed"
+      },
+      "files": {
+        "case.json": "e68cf6203ccc9fcb3ab393c208a6136ad9a8cb2d299d56f3915215559f716115",
+        "outcome.json": "d930de4f2396eed4120a589b42c4f612a09a2135713e7a1ef9565dd7cff58c2b",
+        "permit.json": "0db5dc504ad40c66ee4f91fc83c366fafb8aafab3180323944c71fe054efe66e"
+      },
+      "id": "commit-c-revoked",
+      "path": "cases/commit-c-revoked"
+    },
+    {
+      "edit": "the coordinator holds no epoch for the subject",
+      "expected": {
+        "decision": "refused",
+        "reason": "epoch_unknown",
+        "revocation_status": "unknown"
+      },
+      "files": {
+        "case.json": "429bfe09378f0c6d0cada39adb162eaaa5a1d101e0700e38d624047ebd618c27",
+        "outcome.json": "958282e1e84760b59b78d3e381573824c53968d6804ed383e10528e60d599771",
+        "permit.json": "0db5dc504ad40c66ee4f91fc83c366fafb8aafab3180323944c71fe054efe66e"
+      },
+      "id": "commit-c-epoch-unknown",
+      "path": "cases/commit-c-epoch-unknown"
+    },
+    {
+      "edit": "the first delivery committed; a retry's hold is voided and the effect is returned",
+      "expected": {
+        "decision": "replayed",
+        "reason": "replay_done",
+        "revocation_status": "closed"
+      },
+      "files": {
+        "case.json": "47798e50de546a78171a8ba5a01274b743256bcc6b3a44f1a2e621a6e1246048",
+        "outcome.json": "d943f6f67fbde917103604680228dee95f69008c3e94b7d5b4f815066644f3b8",
+        "permit.json": "0db5dc504ad40c66ee4f91fc83c366fafb8aafab3180323944c71fe054efe66e"
+      },
+      "id": "commit-c-replayed-after-void",
+      "path": "cases/commit-c-replayed-after-void"
+    },
+    {
+      "edit": "every gateway that held a live lease at the commit acknowledged",
+      "expected": {
+        "decision": "revoked_for_new_admissions",
+        "label": "revoked for new admissions",
+        "reason": "propagation_done",
+        "revocation_status": "closed",
+        "waiting_on": [],
+        "worst_case_ends_ns": "1767225720000000000"
+      },
+      "files": {
+        "case.json": "131b403c349220bbf1e7c752505aa08362e3ae6a6303f15a52fdb044946a443c"
+      },
+      "id": "propagation-all-acknowledged",
+      "path": "cases/propagation-all-acknowledged"
+    },
+    {
+      "edit": "no gateway acknowledged: both still admit on the old list until lease plus skew",
+      "expected": {
+        "decision": "pending",
+        "label": "pending",
+        "reason": "propagation_pending",
+        "revocation_status": "partial",
+        "waiting_on": [
+          "gw-east",
+          "gw-west"
+        ],
+        "worst_case_ends_ns": "1767225747000000000"
+      },
+      "files": {
+        "case.json": "708fce92569a62b518ae7ba5906ce23ce309983f3c4d85955618d8ef7ca5e912"
+      },
+      "id": "propagation-pending-on-both",
+      "path": "cases/propagation-pending-on-both"
+    },
+    {
+      "edit": "one gateway acknowledged and one is waited on",
+      "expected": {
+        "decision": "pending",
+        "label": "pending",
+        "reason": "propagation_pending",
+        "revocation_status": "partial",
+        "waiting_on": [
+          "gw-west"
+        ],
+        "worst_case_ends_ns": "1767225747000000000"
+      },
+      "files": {
+        "case.json": "b9c75db9da81461c8be31d8b048e5baae3cbb1f0d9e3ffbf575bf4d73fb06e76"
+      },
+      "id": "propagation-pending-on-one",
+      "path": "cases/propagation-pending-on-one"
+    },
+    {
+      "edit": "the lease ended at 25 s and the skew bound keeps it waited on to 27 s",
+      "expected": {
+        "decision": "pending",
+        "label": "pending",
+        "reason": "propagation_pending",
+        "revocation_status": "partial",
+        "waiting_on": [
+          "gw-west"
+        ],
+        "worst_case_ends_ns": "1767225747000000000"
+      },
+      "files": {
+        "case.json": "2f1d9f0c427fcd60d54fda15e6fb148d8eb7c2da1da033ee00a92105dec1373d"
+      },
+      "id": "propagation-skew-keeps-pending",
+      "path": "cases/propagation-skew-keeps-pending"
+    },
+    {
+      "edit": "at lease plus skew the last gateway no longer admits on the old list",
+      "expected": {
+        "decision": "revoked_for_new_admissions",
+        "label": "revoked for new admissions",
+        "reason": "propagation_done",
+        "revocation_status": "closed",
+        "waiting_on": [],
+        "worst_case_ends_ns": "1767225720000000000"
+      },
+      "files": {
+        "case.json": "f79c7fe2cda6c3205c6b98cc499bdb5bb65c98dc69c065bc8d98568533199086"
+      },
+      "id": "propagation-ends-at-lease-plus-skew",
+      "path": "cases/propagation-ends-at-lease-plus-skew"
+    },
+    {
+      "edit": "no acknowledgement arrived and every lease plus skew has ended",
+      "expected": {
+        "decision": "revoked_for_new_admissions",
+        "label": "revoked for new admissions",
+        "reason": "propagation_done",
+        "revocation_status": "closed",
+        "waiting_on": [],
+        "worst_case_ends_ns": "1767225720000000000"
+      },
+      "files": {
+        "case.json": "234fafaf3b3aa9cd3970fb4aa13616c8fcae451ef25327c3cdd60ac7c8932a44"
+      },
+      "id": "propagation-unacknowledged-leases-end",
+      "path": "cases/propagation-unacknowledged-leases-end"
+    },
+    {
+      "edit": "leases that ended at or before the commit instant are not live at it",
+      "expected": {
+        "decision": "revoked_for_new_admissions",
+        "label": "revoked for new admissions",
+        "reason": "propagation_done",
+        "revocation_status": "closed",
+        "waiting_on": [],
+        "worst_case_ends_ns": "1767225720000000000"
+      },
+      "files": {
+        "case.json": "6d787f7cebc9069b4e5a16a41491f7159670a0506868e36c2c02a72c02855259"
+      },
+      "id": "propagation-ended-leases-not-waited-on",
+      "path": "cases/propagation-ended-leases-not-waited-on"
+    },
+    {
+      "edit": "an acknowledgement from a gateway that held no live lease at the commit",
+      "expected": {
+        "decision": "refused",
+        "reason": "malformed",
+        "revocation_status": "unknown"
+      },
+      "files": {
+        "case.json": "d949a27f28fd295939cf65ae512733dd089dfaf9889ed9ddfbfd0576dc3ce072"
+      },
+      "id": "propagation-ack-without-live-lease",
+      "path": "cases/propagation-ack-without-live-lease"
+    },
+    {
+      "edit": "a request in flight resolves committed with no revocation",
+      "expected": {
+        "decision": "done",
+        "reason": "resolved",
+        "reserved": 0,
+        "revocation_status": "live",
+        "states": {
+          "p1": "committed"
+        },
+        "steps": [
+          {
+            "decision": "done",
+            "reason": "submitted",
+            "state": "in flight"
+          },
+          {
+            "decision": "done",
+            "reason": "resolved",
+            "state": "committed"
+          }
+        ],
+        "subjects": {}
+      },
+      "files": {
+        "case.json": "8126b3e1aab9d0c70f1302d10c0eff2ce5d9f45841906dfdae49f8d044e486e7"
+      },
+      "id": "ledger-no-revocation",
+      "path": "cases/ledger-no-revocation"
+    },
+    {
+      "edit": "the unknown outcome is reconciled after the revocation and the reservation ends",
+      "expected": {
+        "decision": "done",
+        "reason": "resolved",
+        "reserved": 0,
+        "revocation_status": "closed",
+        "states": {
+          "p1": "committed"
+        },
+        "steps": [
+          {
+            "decision": "done",
+            "reason": "submitted",
+            "state": "in flight"
+          },
+          {
+            "decision": "done",
+            "reason": "marked_unknown",
+            "state": "unknown"
+          },
+          {
+            "decision": "done",
+            "reason": "revoked",
+            "state": null
+          },
+          {
+            "decision": "done",
+            "reason": "read_only_status",
+            "state": "unresolved, revoked"
+          },
+          {
+            "decision": "done",
+            "reason": "resolved",
+            "state": "committed"
+          }
+        ],
+        "subjects": {
+          "agent:alpha": "closed"
+        }
+      },
+      "files": {
+        "case.json": "f107e6b4faf71cbd4d57415feca80a2cca3da3f229fb785f22f3ffb44bed2887"
+      },
+      "id": "ledger-resolved-after-revoke",
+      "path": "cases/ledger-resolved-after-revoke"
+    },
+    {
+      "edit": "a retry of an unknown outcome after the revocation is a new admission",
+      "expected": {
+        "decision": "refused",
+        "reason": "retry_after_revoke",
+        "reserved": 100,
+        "revocation_status": "unknown",
+        "states": {
+          "p1": "unresolved, revoked"
+        },
+        "steps": [
+          {
+            "decision": "done",
+            "reason": "submitted",
+            "state": "in flight"
+          },
+          {
+            "decision": "done",
+            "reason": "marked_unknown",
+            "state": "unknown"
+          },
+          {
+            "decision": "done",
+            "reason": "revoked",
+            "state": null
+          },
+          {
+            "decision": "refused",
+            "reason": "retry_after_revoke",
+            "state": "unresolved, revoked"
+          }
+        ],
+        "subjects": {
+          "agent:alpha": "unknown"
+        }
+      },
+      "files": {
+        "case.json": "6defe00523f6771855542d133a70ea514e59ad051fc56fdcbbb5485b3b2bd00e"
+      },
+      "id": "ledger-retry-after-revoke-refused",
+      "path": "cases/ledger-retry-after-revoke-refused"
+    },
+    {
+      "edit": "a read-only status query proceeds and the outcome stays unresolved",
+      "expected": {
+        "decision": "done",
+        "reason": "read_only_status",
+        "reserved": 100,
+        "revocation_status": "unknown",
+        "states": {
+          "p1": "unresolved, revoked"
+        },
+        "steps": [
+          {
+            "decision": "done",
+            "reason": "submitted",
+            "state": "in flight"
+          },
+          {
+            "decision": "done",
+            "reason": "marked_unknown",
+            "state": "unknown"
+          },
+          {
+            "decision": "done",
+            "reason": "revoked",
+            "state": null
+          },
+          {
+            "decision": "done",
+            "reason": "read_only_status",
+            "state": "unresolved, revoked"
+          }
+        ],
+        "subjects": {
+          "agent:alpha": "unknown"
+        }
+      },
+      "files": {
+        "case.json": "b9c9d357a5673c4dda0e4b7774299a5e830e0cc2729f72d4a5ad2cab067513de"
+      },
+      "id": "ledger-read-only-status-proceeds",
+      "path": "cases/ledger-read-only-status-proceeds"
+    },
+    {
+      "edit": "a submit for a revoked subject is a new admission",
+      "expected": {
+        "decision": "refused",
+        "reason": "retry_after_revoke",
+        "reserved": 0,
+        "revocation_status": "closed",
+        "states": {},
+        "steps": [
+          {
+            "decision": "done",
+            "reason": "revoked",
+            "state": null
+          },
+          {
+            "decision": "refused",
+            "reason": "retry_after_revoke",
+            "state": null
+          }
+        ],
+        "subjects": {
+          "agent:alpha": "closed"
+        }
+      },
+      "files": {
+        "case.json": "c740812a48405c983afb7bbf89d9050183ef840c11b529a53aa0df36e8218e16"
+      },
+      "id": "ledger-submit-after-revoke-refused",
+      "path": "cases/ledger-submit-after-revoke-refused"
+    },
+    {
+      "edit": "a request in flight at the revocation keeps it open",
+      "expected": {
+        "decision": "done",
+        "reason": "revoked",
+        "reserved": 100,
+        "revocation_status": "unknown",
+        "states": {
+          "p1": "in flight"
+        },
+        "steps": [
+          {
+            "decision": "done",
+            "reason": "submitted",
+            "state": "in flight"
+          },
+          {
+            "decision": "done",
+            "reason": "revoked",
+            "state": null
+          }
+        ],
+        "subjects": {
+          "agent:alpha": "unknown"
+        }
+      },
+      "files": {
+        "case.json": "e5525284171917b081872a704a312b3ffd2d3f957a8b2d677c4cc5922aafc888"
+      },
+      "id": "ledger-in-flight-at-revoke",
+      "path": "cases/ledger-in-flight-at-revoke"
+    },
+    {
+      "edit": "an outcome that turns unknown after the revocation is unresolved, revoked",
+      "expected": {
+        "decision": "done",
+        "reason": "marked_unknown",
+        "reserved": 100,
+        "revocation_status": "unknown",
+        "states": {
+          "p1": "unresolved, revoked"
+        },
+        "steps": [
+          {
+            "decision": "done",
+            "reason": "submitted",
+            "state": "in flight"
+          },
+          {
+            "decision": "done",
+            "reason": "revoked",
+            "state": null
+          },
+          {
+            "decision": "done",
+            "reason": "marked_unknown",
+            "state": "unresolved, revoked"
+          }
+        ],
+        "subjects": {
+          "agent:alpha": "unknown"
+        }
+      },
+      "files": {
+        "case.json": "36bc2ea3d02d27e2dda93ad0a82f90b9e75cbdd6e415b764f9f8ac0aed900671"
+      },
+      "id": "ledger-unknown-after-revoke",
+      "path": "cases/ledger-unknown-after-revoke"
+    },
+    {
+      "edit": "reconciliation says the effect did not commit: the revocation is closed",
+      "expected": {
+        "decision": "done",
+        "reason": "resolved",
+        "reserved": 0,
+        "revocation_status": "closed",
+        "states": {
+          "p1": "not committed"
+        },
+        "steps": [
+          {
+            "decision": "done",
+            "reason": "submitted",
+            "state": "in flight"
+          },
+          {
+            "decision": "done",
+            "reason": "marked_unknown",
+            "state": "unknown"
+          },
+          {
+            "decision": "done",
+            "reason": "revoked",
+            "state": null
+          },
+          {
+            "decision": "done",
+            "reason": "resolved",
+            "state": "not committed"
+          }
+        ],
+        "subjects": {
+          "agent:alpha": "closed"
+        }
+      },
+      "files": {
+        "case.json": "9b62d71f565cba1615c082110afda2edd44a44aa41d98282935d30cee8949fab"
+      },
+      "id": "ledger-not-committed-closes",
+      "path": "cases/ledger-not-committed-closes"
+    },
+    {
+      "edit": "another subject's unknown outcome may still be retried",
+      "expected": {
+        "decision": "done",
+        "reason": "retry_allowed",
+        "reserved": 140,
+        "revocation_status": "unknown",
+        "states": {
+          "p1": "unresolved, revoked",
+          "p2": "unknown"
+        },
+        "steps": [
+          {
+            "decision": "done",
+            "reason": "submitted",
+            "state": "in flight"
+          },
+          {
+            "decision": "done",
+            "reason": "submitted",
+            "state": "in flight"
+          },
+          {
+            "decision": "done",
+            "reason": "marked_unknown",
+            "state": "unknown"
+          },
+          {
+            "decision": "done",
+            "reason": "marked_unknown",
+            "state": "unknown"
+          },
+          {
+            "decision": "done",
+            "reason": "revoked",
+            "state": null
+          },
+          {
+            "decision": "done",
+            "reason": "retry_allowed",
+            "state": "unknown"
+          }
+        ],
+        "subjects": {
+          "agent:alpha": "unknown"
+        }
+      },
+      "files": {
+        "case.json": "e8d6e9a4c3617e567ea001e93525f9adbccd25ea4bb1ba1126f0c8a23c969d79"
+      },
+      "id": "ledger-other-subject-retries",
+      "path": "cases/ledger-other-subject-retries"
+    },
+    {
+      "edit": "a RISC account-disabled event writes a permanent entry for the subject",
+      "expected": {
+        "decision": "revoked",
+        "entry": "https://idp.example#user-42",
+        "not_before_s": null,
+        "reason": "account_disabled",
+        "revocation_status": "closed",
+        "session_id": null
+      },
+      "files": {
+        "case.json": "d56f976665a91d8c9543a2d4896fab9012833bd4db0b94d3a6fc7d314a996faa",
+        "set.jws": "4280ffa9e24d7a8432279468c618cc6a8ec878702492c73e386a5af3a663b0e5"
+      },
+      "id": "feed-account-disabled-revoked",
+      "path": "cases/feed-account-disabled-revoked"
+    },
+    {
+      "edit": "a RISC account-purged event writes a permanent entry",
+      "expected": {
+        "decision": "revoked",
+        "entry": "https://idp.example#user-42",
+        "not_before_s": null,
+        "reason": "account_purged",
+        "revocation_status": "closed",
+        "session_id": null
+      },
+      "files": {
+        "case.json": "d56f976665a91d8c9543a2d4896fab9012833bd4db0b94d3a6fc7d314a996faa",
+        "set.jws": "042cd13653e9bb6f6adb41a48ad1d44758cb8f22dfa275c4f82262462ea07612"
+      },
+      "id": "feed-account-purged-revoked",
+      "path": "cases/feed-account-purged-revoked"
+    },
+    {
+      "edit": "an aud list that includes the receiver",
+      "expected": {
+        "decision": "revoked",
+        "entry": "https://idp.example#user-42",
+        "not_before_s": null,
+        "reason": "account_disabled",
+        "revocation_status": "closed",
+        "session_id": null
+      },
+      "files": {
+        "case.json": "d56f976665a91d8c9543a2d4896fab9012833bd4db0b94d3a6fc7d314a996faa",
+        "set.jws": "9d644d5b425c1c817f0f93360543dd5ca8434f9129c19f9af0b7552e06801c82"
+      },
+      "id": "feed-audience-list",
+      "path": "cases/feed-audience-list"
+    },
+    {
+      "edit": "account-enabled is recorded and never un-revokes",
+      "expected": {
+        "decision": "journalled",
+        "entry": null,
+        "not_before_s": null,
+        "reason": "account_enabled",
+        "session_id": null
+      },
+      "files": {
+        "case.json": "d56f976665a91d8c9543a2d4896fab9012833bd4db0b94d3a6fc7d314a996faa",
+        "set.jws": "4a5e1d4929689a0d01728376b8a51beefa7eb6a10f49ad639d27391b75f66ebe"
+      },
+      "id": "feed-account-enabled-journalled",
+      "path": "cases/feed-account-enabled-journalled"
+    },
+    {
+      "edit": "a risk change is recorded and revokes nothing",
+      "expected": {
+        "decision": "journalled",
+        "entry": null,
+        "not_before_s": null,
+        "reason": "risk_level_change",
+        "session_id": null
+      },
+      "files": {
+        "case.json": "d56f976665a91d8c9543a2d4896fab9012833bd4db0b94d3a6fc7d314a996faa",
+        "set.jws": "5c5b498a525133cef66f06a87a4a7c13cc9518d2d26a97fd6f5e643741f5cd0d"
+      },
+      "id": "feed-risk-level-change-journalled",
+      "path": "cases/feed-risk-level-change-journalled"
+    },
+    {
+      "edit": "the receiver binds session ids for this issuer and the token names one",
+      "expected": {
+        "decision": "session_ended",
+        "entry": null,
+        "not_before_s": null,
+        "reason": "session_revoked",
+        "revocation_status": "partial",
+        "session_id": "sess-9"
+      },
+      "files": {
+        "case.json": "d56f976665a91d8c9543a2d4896fab9012833bd4db0b94d3a6fc7d314a996faa",
+        "set.jws": "408121654eaf46ac05b12fd10d0c7284663f6213f49ad91eaa4beaaeb4e38a16"
+      },
+      "id": "feed-session-revoked-bound",
+      "path": "cases/feed-session-revoked-bound"
+    },
+    {
+      "edit": "the receiver binds no session ids for this issuer: rotation class",
+      "expected": {
+        "decision": "rotated",
+        "entry": null,
+        "not_before_s": 1767225600,
+        "reason": "session_revoked",
+        "revocation_status": "partial",
+        "session_id": null
+      },
+      "files": {
+        "case.json": "65f2f177505eea350f52e895494030b771a1b4f58b3f2442a0af9ffe9296d22b",
+        "set.jws": "408121654eaf46ac05b12fd10d0c7284663f6213f49ad91eaa4beaaeb4e38a16"
+      },
+      "id": "feed-session-revoked-unbound",
+      "path": "cases/feed-session-revoked-unbound"
+    },
+    {
+      "edit": "the token's subject carries no session",
+      "expected": {
+        "decision": "rotated",
+        "entry": null,
+        "not_before_s": 1767225600,
+        "reason": "session_revoked",
+        "revocation_status": "partial",
+        "session_id": null
+      },
+      "files": {
+        "case.json": "d56f976665a91d8c9543a2d4896fab9012833bd4db0b94d3a6fc7d314a996faa",
+        "set.jws": "1ab796912eb3ee4321043991c8b63ebd12ca96dd0c10bbd11410ba44b31172a4"
+      },
+      "id": "feed-session-revoked-no-session",
+      "path": "cases/feed-session-revoked-no-session"
+    },
+    {
+      "edit": "a complex subject with a user and no session",
+      "expected": {
+        "decision": "rotated",
+        "entry": null,
+        "not_before_s": 1767225600,
+        "reason": "session_revoked",
+        "revocation_status": "partial",
+        "session_id": null
+      },
+      "files": {
+        "case.json": "d56f976665a91d8c9543a2d4896fab9012833bd4db0b94d3a6fc7d314a996faa",
+        "set.jws": "a09878514e7a55cd112d270dcf016889518a887688b53676c6db86db9a51bcca"
+      },
+      "id": "feed-session-revoked-complex-no-session",
+      "path": "cases/feed-session-revoked-complex-no-session"
+    },
+    {
+      "edit": "a new credential revokes nothing",
+      "expected": {
+        "decision": "journalled",
+        "entry": null,
+        "not_before_s": null,
+        "reason": "credential_change",
+        "session_id": null
+      },
+      "files": {
+        "case.json": "d56f976665a91d8c9543a2d4896fab9012833bd4db0b94d3a6fc7d314a996faa",
+        "set.jws": "7467be9a2be1b7784bed00a8e5dabb59e37b12224581295dd2fb5981ec7a2766"
+      },
+      "id": "feed-credential-change-create",
+      "path": "cases/feed-credential-change-create"
+    },
+    {
+      "edit": "a revoked credential rotates the subject",
+      "expected": {
+        "decision": "rotated",
+        "entry": null,
+        "not_before_s": 1767225600,
+        "reason": "credential_change",
+        "revocation_status": "partial",
+        "session_id": null
+      },
+      "files": {
+        "case.json": "d56f976665a91d8c9543a2d4896fab9012833bd4db0b94d3a6fc7d314a996faa",
+        "set.jws": "ac5caef1a0e42ddff923e2bb3f0a08933c9c79466d0018b7f59cdc3283ed0cd0"
+      },
+      "id": "feed-credential-change-revoke",
+      "path": "cases/feed-credential-change-revoke"
+    },
+    {
+      "edit": "a deleted credential rotates the subject",
+      "expected": {
+        "decision": "rotated",
+        "entry": null,
+        "not_before_s": 1767225600,
+        "reason": "credential_change",
+        "revocation_status": "partial",
+        "session_id": null
+      },
+      "files": {
+        "case.json": "d56f976665a91d8c9543a2d4896fab9012833bd4db0b94d3a6fc7d314a996faa",
+        "set.jws": "78419b397c1c090937836e2818d0369865787a976d159d94880d2a59fdf448fc"
+      },
+      "id": "feed-credential-change-delete",
+      "path": "cases/feed-credential-change-delete"
+    },
+    {
+      "edit": "an updated credential rotates the subject",
+      "expected": {
+        "decision": "rotated",
+        "entry": null,
+        "not_before_s": 1767225600,
+        "reason": "credential_change",
+        "revocation_status": "partial",
+        "session_id": null
+      },
+      "files": {
+        "case.json": "d56f976665a91d8c9543a2d4896fab9012833bd4db0b94d3a6fc7d314a996faa",
+        "set.jws": "510a2f8ecc6bd696c3509c701ee840ef74ff18bdc86848304de68e675b2c3e56"
+      },
+      "id": "feed-credential-change-update",
+      "path": "cases/feed-credential-change-update"
+    },
+    {
+      "edit": "a change_type CAEP 1.0 does not define",
+      "expected": {
+        "decision": "refused",
+        "entry": null,
+        "not_before_s": null,
+        "reason": "set_shape",
+        "revocation_status": "unknown",
+        "session_id": null
+      },
+      "files": {
+        "case.json": "d56f976665a91d8c9543a2d4896fab9012833bd4db0b94d3a6fc7d314a996faa",
+        "set.jws": "0dbb8c997c1ebf7d6af93b04ed746097a550ec264ce9e38291cb26d138695e53"
+      },
+      "id": "feed-credential-change-unknown-type",
+      "path": "cases/feed-credential-change-unknown-type"
+    },
+    {
+      "edit": "rotation takes effect from the event time",
+      "expected": {
+        "decision": "rotated",
+        "entry": null,
+        "not_before_s": 1767225570,
+        "reason": "session_revoked",
+        "revocation_status": "partial",
+        "session_id": null
+      },
+      "files": {
+        "case.json": "d56f976665a91d8c9543a2d4896fab9012833bd4db0b94d3a6fc7d314a996faa",
+        "set.jws": "c3f40b98f04c0b72f765c1371381b0d252109b2a9898b1e3b2c44aa5b8c339b7"
+      },
+      "id": "feed-not-before-event-timestamp",
+      "path": "cases/feed-not-before-event-timestamp"
+    },
+    {
+      "edit": "an event time later than iat is not used",
+      "expected": {
+        "decision": "rotated",
+        "entry": null,
+        "not_before_s": 1767225600,
+        "reason": "session_revoked",
+        "revocation_status": "partial",
+        "session_id": null
+      },
+      "files": {
+        "case.json": "d56f976665a91d8c9543a2d4896fab9012833bd4db0b94d3a6fc7d314a996faa",
+        "set.jws": "3d847e39898b39143e0cd60f81dfecbf296170a8cd98bab82a7d485a053df8f2"
+      },
+      "id": "feed-not-before-event-after-iat",
+      "path": "cases/feed-not-before-event-after-iat"
+    },
+    {
+      "edit": "an iat with a fraction, as the CAEP 1.0 examples carry, is floored",
+      "expected": {
+        "decision": "rotated",
+        "entry": null,
+        "not_before_s": 1767225600,
+        "reason": "session_revoked",
+        "revocation_status": "partial",
+        "session_id": null
+      },
+      "files": {
+        "case.json": "d56f976665a91d8c9543a2d4896fab9012833bd4db0b94d3a6fc7d314a996faa",
+        "set.jws": "8e51768d87e2b26337236cf66d6202e8e2e39bd08ef01c1089696a86774ef2fa"
+      },
+      "id": "feed-not-before-fractional-iat",
+      "path": "cases/feed-not-before-fractional-iat"
+    },
+    {
+      "edit": "an event type this receiver does not act on",
+      "expected": {
+        "decision": "refused",
+        "entry": null,
+        "not_before_s": null,
+        "reason": "event_unknown",
+        "revocation_status": "unknown",
+        "session_id": null
+      },
+      "files": {
+        "case.json": "d56f976665a91d8c9543a2d4896fab9012833bd4db0b94d3a6fc7d314a996faa",
+        "set.jws": "32076116b1b5662b29a80e3cdbff8a01ab1f823d49e98c77b4b92553d5ddda81"
+      },
+      "id": "feed-unknown-event",
+      "path": "cases/feed-unknown-event"
+    },
+    {
+      "edit": "the same token again: already journalled, nothing changes",
+      "expected": {
+        "decision": "delivered",
+        "entry": null,
+        "not_before_s": null,
+        "reason": "jti_delivered",
+        "session_id": null
+      },
+      "files": {
+        "case.json": "235d684c2494a67ccbbe1439261f67b87bc76fb68e1a480f492b6609e0844642",
+        "set.jws": "4280ffa9e24d7a8432279468c618cc6a8ec878702492c73e386a5af3a663b0e5"
+      },
+      "id": "feed-duplicate-delivered",
+      "path": "cases/feed-duplicate-delivered"
+    },
+    {
+      "edit": "the jti is journalled for different token bytes",
+      "expected": {
+        "decision": "refused",
+        "entry": null,
+        "not_before_s": null,
+        "reason": "jti_reused",
+        "revocation_status": "unknown",
+        "session_id": null
+      },
+      "files": {
+        "case.json": "37546019ea9359fedb9d85c6d9e13e900a6c4356554e7c1028c4b77c918fbd99",
+        "set.jws": "4280ffa9e24d7a8432279468c618cc6a8ec878702492c73e386a5af3a663b0e5"
+      },
+      "id": "feed-jti-reused",
+      "path": "cases/feed-jti-reused"
+    },
+    {
+      "edit": "a compact JWS has three parts",
+      "expected": {
+        "decision": "refused",
+        "entry": null,
+        "not_before_s": null,
+        "reason": "set_malformed",
+        "revocation_status": "unknown",
+        "session_id": null
+      },
+      "files": {
+        "case.json": "d56f976665a91d8c9543a2d4896fab9012833bd4db0b94d3a6fc7d314a996faa",
+        "set.jws": "71603b349a3f106bda89760bd207e9eeb8a3db92bf7143f761960d138909afa9"
+      },
+      "id": "feed-set-malformed-two-parts",
+      "path": "cases/feed-set-malformed-two-parts"
+    },
+    {
+      "edit": "base64url in a JWS carries no padding",
+      "expected": {
+        "decision": "refused",
+        "entry": null,
+        "not_before_s": null,
+        "reason": "set_malformed",
+        "revocation_status": "unknown",
+        "session_id": null
+      },
+      "files": {
+        "case.json": "d56f976665a91d8c9543a2d4896fab9012833bd4db0b94d3a6fc7d314a996faa",
+        "set.jws": "0a667f82afc012acc2b010eab7e7003260ba64dda3c6746a374349e7edd5746c"
+      },
+      "id": "feed-set-malformed-padded",
+      "path": "cases/feed-set-malformed-padded"
+    },
+    {
+      "edit": "the header names an algorithm other than EdDSA",
+      "expected": {
+        "decision": "refused",
+        "entry": null,
+        "not_before_s": null,
+        "reason": "set_malformed",
+        "revocation_status": "unknown",
+        "session_id": null
+      },
+      "files": {
+        "case.json": "d56f976665a91d8c9543a2d4896fab9012833bd4db0b94d3a6fc7d314a996faa",
+        "set.jws": "cde577f561689532f48cdded1864c02f14130a9d0f742fdafe39e46fe6666e24"
+      },
+      "id": "feed-set-malformed-alg",
+      "path": "cases/feed-set-malformed-alg"
+    },
+    {
+      "edit": "the header type is not secevent+jwt",
+      "expected": {
+        "decision": "refused",
+        "entry": null,
+        "not_before_s": null,
+        "reason": "set_malformed",
+        "revocation_status": "unknown",
+        "session_id": null
+      },
+      "files": {
+        "case.json": "d56f976665a91d8c9543a2d4896fab9012833bd4db0b94d3a6fc7d314a996faa",
+        "set.jws": "5bb77f41205ca9f08a3a719ea9aeff0f40a2d11de9ed0a7fb0f50c23504f063c"
+      },
+      "id": "feed-set-malformed-typ",
+      "path": "cases/feed-set-malformed-typ"
+    },
+    {
+      "edit": "the header carries a member beside alg, kid and typ",
+      "expected": {
+        "decision": "refused",
+        "entry": null,
+        "not_before_s": null,
+        "reason": "set_malformed",
+        "revocation_status": "unknown",
+        "session_id": null
+      },
+      "files": {
+        "case.json": "d56f976665a91d8c9543a2d4896fab9012833bd4db0b94d3a6fc7d314a996faa",
+        "set.jws": "75edd973f02f790d7000a85088b0e803737cd48de99e5c84d3c96450293cf4f7"
+      },
+      "id": "feed-set-malformed-header-member",
+      "path": "cases/feed-set-malformed-header-member"
+    },
+    {
+      "edit": "a payload with no string iss",
+      "expected": {
+        "decision": "refused",
+        "entry": null,
+        "not_before_s": null,
+        "reason": "set_malformed",
+        "revocation_status": "unknown",
+        "session_id": null
+      },
+      "files": {
+        "case.json": "d56f976665a91d8c9543a2d4896fab9012833bd4db0b94d3a6fc7d314a996faa",
+        "set.jws": "0b8f652f3ccc0d1e47e752866d854ebde4bab2f357c15728aacb7251f79999aa"
+      },
+      "id": "feed-set-malformed-no-iss",
+      "path": "cases/feed-set-malformed-no-iss"
+    },
+    {
+      "edit": "signed by a key pinned for no issuer",
+      "expected": {
+        "decision": "refused",
+        "entry": null,
+        "not_before_s": null,
+        "reason": "unknown_issuer_key",
+        "revocation_status": "unknown",
+        "session_id": null
+      },
+      "files": {
+        "case.json": "d56f976665a91d8c9543a2d4896fab9012833bd4db0b94d3a6fc7d314a996faa",
+        "set.jws": "b7bda0672a5e294d3489b0ee039cea633e48385835ca5d771f9fbf4df8dd6b16"
+      },
+      "id": "feed-unknown-issuer-key",
+      "path": "cases/feed-unknown-issuer-key"
+    },
+    {
+      "edit": "signed by the key pinned for another issuer",
+      "expected": {
+        "decision": "refused",
+        "entry": null,
+        "not_before_s": null,
+        "reason": "unknown_issuer_key",
+        "revocation_status": "unknown",
+        "session_id": null
+      },
+      "files": {
+        "case.json": "d56f976665a91d8c9543a2d4896fab9012833bd4db0b94d3a6fc7d314a996faa",
+        "set.jws": "c28decfac7bc4501775ffbed181e2d4c01a986e14c0a881bf220892f3f901ab7"
+      },
+      "id": "feed-key-of-another-issuer",
+      "path": "cases/feed-key-of-another-issuer"
+    },
+    {
+      "edit": "the payload was replaced after the issuer signed",
+      "expected": {
+        "decision": "refused",
+        "entry": null,
+        "not_before_s": null,
+        "reason": "bad_signature",
+        "revocation_status": "unknown",
+        "session_id": null
+      },
+      "files": {
+        "case.json": "d56f976665a91d8c9543a2d4896fab9012833bd4db0b94d3a6fc7d314a996faa",
+        "set.jws": "34256ebac1852057b49ec10b2a522b4ff893df50857697bc3b2ed10025c62fbf"
+      },
+      "id": "feed-bad-signature",
+      "path": "cases/feed-bad-signature"
+    },
+    {
+      "edit": "a genuine token for another receiver",
+      "expected": {
+        "decision": "refused",
+        "entry": null,
+        "not_before_s": null,
+        "reason": "wrong_audience",
+        "revocation_status": "unknown",
+        "session_id": null
+      },
+      "files": {
+        "case.json": "d56f976665a91d8c9543a2d4896fab9012833bd4db0b94d3a6fc7d314a996faa",
+        "set.jws": "7573272dd5e4b9bc02c808c2d3782f9a9fdb28ae2adbb5f10d67d2b49c869e1a"
+      },
+      "id": "feed-wrong-audience",
+      "path": "cases/feed-wrong-audience"
+    },
+    {
+      "edit": "a SET carries no sub claim",
+      "expected": {
+        "decision": "refused",
+        "entry": null,
+        "not_before_s": null,
+        "reason": "set_shape",
+        "revocation_status": "unknown",
+        "session_id": null
+      },
+      "files": {
+        "case.json": "d56f976665a91d8c9543a2d4896fab9012833bd4db0b94d3a6fc7d314a996faa",
+        "set.jws": "8f46b8dd6791b34aeace137add971d8fd8065cec9e51f7001f767837b16e8dbb"
+      },
+      "id": "feed-shape-sub-present",
+      "path": "cases/feed-shape-sub-present"
+    },
+    {
+      "edit": "a SET carries no exp claim",
+      "expected": {
+        "decision": "refused",
+        "entry": null,
+        "not_before_s": null,
+        "reason": "set_shape",
+        "revocation_status": "unknown",
+        "session_id": null
+      },
+      "files": {
+        "case.json": "d56f976665a91d8c9543a2d4896fab9012833bd4db0b94d3a6fc7d314a996faa",
+        "set.jws": "472cece5efb031e5f35c9417239318ac3b3988e645dbc89f5dadc1d20a9300cc"
+      },
+      "id": "feed-shape-exp-present",
+      "path": "cases/feed-shape-exp-present"
+    },
+    {
+      "edit": "one event per token",
+      "expected": {
+        "decision": "refused",
+        "entry": null,
+        "not_before_s": null,
+        "reason": "set_shape",
+        "revocation_status": "unknown",
+        "session_id": null
+      },
+      "files": {
+        "case.json": "d56f976665a91d8c9543a2d4896fab9012833bd4db0b94d3a6fc7d314a996faa",
+        "set.jws": "d703d4aa8e8c04c79be157b6d7a32af792e93a6fa6e30dc1bd5f1bf8d7c4cc73"
+      },
+      "id": "feed-shape-two-events",
+      "path": "cases/feed-shape-two-events"
+    },
+    {
+      "edit": "an empty jti identifies nothing",
+      "expected": {
+        "decision": "refused",
+        "entry": null,
+        "not_before_s": null,
+        "reason": "set_shape",
+        "revocation_status": "unknown",
+        "session_id": null
+      },
+      "files": {
+        "case.json": "d56f976665a91d8c9543a2d4896fab9012833bd4db0b94d3a6fc7d314a996faa",
+        "set.jws": "c03f48780df2b3476e531de255d7baadd950d9f5f0a909acc645779da45e018c"
+      },
+      "id": "feed-shape-empty-jti",
+      "path": "cases/feed-shape-empty-jti"
+    },
+    {
+      "edit": "iat is a JSON number",
+      "expected": {
+        "decision": "refused",
+        "entry": null,
+        "not_before_s": null,
+        "reason": "set_shape",
+        "revocation_status": "unknown",
+        "session_id": null
+      },
+      "files": {
+        "case.json": "d56f976665a91d8c9543a2d4896fab9012833bd4db0b94d3a6fc7d314a996faa",
+        "set.jws": "9f225412c3b48f3027062b2cb56b59551c10714f52e5bffa47641925c96b0562"
+      },
+      "id": "feed-shape-iat-string",
+      "path": "cases/feed-shape-iat-string"
+    },
+    {
+      "edit": "a token with no subject identifier",
+      "expected": {
+        "decision": "refused",
+        "entry": null,
+        "not_before_s": null,
+        "reason": "set_shape",
+        "revocation_status": "unknown",
+        "session_id": null
+      },
+      "files": {
+        "case.json": "d56f976665a91d8c9543a2d4896fab9012833bd4db0b94d3a6fc7d314a996faa",
+        "set.jws": "0e7f317d96f01475fd4089238209e5ce68dcc838bb504dd36e3eaf904762f2b9"
+      },
+      "id": "feed-shape-no-sub-id",
+      "path": "cases/feed-shape-no-sub-id"
+    },
+    {
+      "edit": "a transmitter states an account of another issuer",
+      "expected": {
+        "decision": "refused",
+        "entry": null,
+        "not_before_s": null,
+        "reason": "subject_issuer_mismatch",
+        "revocation_status": "unknown",
+        "session_id": null
+      },
+      "files": {
+        "case.json": "d56f976665a91d8c9543a2d4896fab9012833bd4db0b94d3a6fc7d314a996faa",
+        "set.jws": "35b489c2f4ad8b43cdf7739ce3a5af37cbf43aaa56705ea5325fdc9492704567"
+      },
+      "id": "feed-subject-issuer-mismatch",
+      "path": "cases/feed-subject-issuer-mismatch"
+    },
+    {
+      "edit": "the user inside a complex subject belongs to another issuer",
+      "expected": {
+        "decision": "refused",
+        "entry": null,
+        "not_before_s": null,
+        "reason": "subject_issuer_mismatch",
+        "revocation_status": "unknown",
+        "session_id": null
+      },
+      "files": {
+        "case.json": "d56f976665a91d8c9543a2d4896fab9012833bd4db0b94d3a6fc7d314a996faa",
+        "set.jws": "e54f4cffe1abf1c40348095c4bd5bfe4da2c781b104a09ee07710212b8007a73"
+      },
+      "id": "feed-subject-issuer-mismatch-complex",
+      "path": "cases/feed-subject-issuer-mismatch-complex"
+    }
+  ],
+  "verifierContract": "verifier case.json --json prints the expected object; exit 0 for an accepting decision, 1 refused, 2 pending, 3 no_outcome, 4 outcome_mismatch"
+}

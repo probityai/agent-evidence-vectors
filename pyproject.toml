@@ -159,6 +159,7 @@ only-include = [
     "corpora/vectors-artifact-binding",
     "corpora/vectors-assertion-grade",
     "corpora/vectors-authority-at-dispatch",
+    "corpora/vectors-authority-epoch-fence",
     "corpora/vectors-ave-id-resolution",
     "corpora/vectors-badge-vc-verify",
     "corpora/vectors-budget-lineage",
@@ -217,6 +218,7 @@ only-include = [
     "corpora/vectors-refusal-reason-priority",
     "corpora/vectors-responsibility-escalation",
     "corpora/vectors-restart-records",
+    "corpora/vectors-revocation-fence",
     "corpora/vectors-revocation-list",
     "corpora/vectors-rsa-digestinfo",
     "corpora/vectors-scitt-cose",
@@ -263,6 +265,7 @@ exclude = [
     "corpora/vectors-artifact-binding/**/*.py",
     "corpora/vectors-assertion-grade/**/*.py",
     "corpora/vectors-authority-at-dispatch/**/*.py",
+    "corpora/vectors-authority-epoch-fence/**/*.py",
     "corpora/vectors-ave-id-resolution/**/*.py",
     "corpora/vectors-badge-vc-verify/**/*.py",
     "corpora/vectors-budget-lineage/**/*.py",
@@ -321,6 +324,7 @@ exclude = [
     "corpora/vectors-refusal-reason-priority/**/*.py",
     "corpora/vectors-responsibility-escalation/**/*.py",
     "corpora/vectors-restart-records/**/*.py",
+    "corpora/vectors-revocation-fence/**/*.py",
     "corpora/vectors-revocation-list/**/*.py",
     "corpora/vectors-rsa-digestinfo/**/*.py",
     "corpora/vectors-scitt-cose/**/*.py",
@@ -366,6 +370,7 @@ exclude = [
 "corpora/vectors-artifact-binding" = "agent_evidence_vectors/corpora/vectors-artifact-binding"
 "corpora/vectors-assertion-grade" = "agent_evidence_vectors/corpora/vectors-assertion-grade"
 "corpora/vectors-authority-at-dispatch" = "agent_evidence_vectors/corpora/vectors-authority-at-dispatch"
+"corpora/vectors-authority-epoch-fence" = "agent_evidence_vectors/corpora/vectors-authority-epoch-fence"
 "corpora/vectors-ave-id-resolution" = "agent_evidence_vectors/corpora/vectors-ave-id-resolution"
 "corpora/vectors-badge-vc-verify" = "agent_evidence_vectors/corpora/vectors-badge-vc-verify"
 "corpora/vectors-budget-lineage" = "agent_evidence_vectors/corpora/vectors-budget-lineage"
@@ -424,6 +429,7 @@ exclude = [
 "corpora/vectors-refusal-reason-priority" = "agent_evidence_vectors/corpora/vectors-refusal-reason-priority"
 "corpora/vectors-responsibility-escalation" = "agent_evidence_vectors/corpora/vectors-responsibility-escalation"
 "corpora/vectors-restart-records" = "agent_evidence_vectors/corpora/vectors-restart-records"
+"corpora/vectors-revocation-fence" = "agent_evidence_vectors/corpora/vectors-revocation-fence"
 "corpora/vectors-revocation-list" = "agent_evidence_vectors/corpora/vectors-revocation-list"
 "corpora/vectors-rsa-digestinfo" = "agent_evidence_vectors/corpora/vectors-rsa-digestinfo"
 "corpora/vectors-scitt-cose" = "agent_evidence_vectors/corpora/vectors-scitt-cose"
@@ -544,6 +550,7 @@ only-include = [
     "corpora/vectors-artifact-binding",
     "corpora/vectors-assertion-grade",
     "corpora/vectors-authority-at-dispatch",
+    "corpora/vectors-authority-epoch-fence",
     "corpora/vectors-ave-id-resolution",
     "corpora/vectors-badge-vc-verify",
     "corpora/vectors-budget-lineage",
@@ -602,6 +609,7 @@ only-include = [
     "corpora/vectors-refusal-reason-priority",
     "corpora/vectors-responsibility-escalation",
     "corpora/vectors-restart-records",
+    "corpora/vectors-revocation-fence",
     "corpora/vectors-revocation-list",
     "corpora/vectors-rsa-digestinfo",
     "corpora/vectors-scitt-cose",

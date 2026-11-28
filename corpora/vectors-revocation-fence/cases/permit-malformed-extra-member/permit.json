@@ -1,0 +1,16 @@
+{
+  "claims": {
+    "v": 1,
+    "permit_id": "permit-1",
+    "subject": "agent:alpha",
+    "epoch": 3,
+    "idempotency_key": "idem-1",
+    "audience": "target:ledger",
+    "operation_digest": "bb90814b7c0f4cf4d95d71547445882339433f3c5ddab28e6f56bea489411593",
+    "not_before_ns": "1767225600000000000",
+    "not_after_ns": "1767225900000000000",
+    "kid": "0d01a2e12c9a2f111ab188d1d12ce8f39fd0ad245453aa40e22f02ed269e177d",
+    "scope": "all"
+  },
+  "sig": "Y7QFD37fSdYwVPaHBqSaaziwueQuwqSomDx/905kDuCczlEiqMaGEpIxO8wvL00el/UXsHHbdrEJj2VOhzmhDQ=="
+}

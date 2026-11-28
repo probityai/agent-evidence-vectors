@@ -335,6 +335,14 @@ targetRules = ["jwt"]
 paths = ['''^corpora/vectors-agent-request-proof/cases/[^/]+/envelope-[0-9]+\.json$''']
 
 [[allowlists]]
+description = "Test Security Event Tokens of the revocation-fence feed cases"
+# Each set.jws is a compact JWS signed with an Ed25519 key whose seed is the SHA-256 of a
+# published label in the corpus generator, so every token is public by construction and
+# grants nothing. Scoped to the jwt rule and the feed cases' set.jws files only.
+targetRules = ["jwt"]
+paths = ['''^corpora/vectors-revocation-fence/cases/feed-[a-z0-9-]+/set\.jws$''']
+
+[[allowlists]]
 description = "The public recorder key of the agent request-proof corpus"
 # An Ed25519 PUBLIC key derived from a published seed label; the pattern names
 # that exact value, so any other value is still reported.

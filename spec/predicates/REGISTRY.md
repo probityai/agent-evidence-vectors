@@ -71,6 +71,39 @@ seen, and reads a key the list does not cover as no statement.
 - Field semantics: defined here, as a proposal; the check order and reason tokens are this corpus's own.
 - Example: `corpora/vectors-key-revocation-list/cases/revoked-in-list/list.json`.
 
+### `predicate/v1/revocation-fence`
+
+- Document: `corpora/vectors-revocation-fence/README.md`
+- Corpus: `corpora/vectors-revocation-fence/`, suite `revocation-fence/v1`
+- Rails: `corpusreaders/revocationfence.go`, `packaging/agent_evidence_vectors/revocationfence.py`
+
+The type names three records a target uses to enforce a revocation at its own commit: an
+authority's effect permit naming a revocation epoch, an authority's epoch update that installs
+the next epoch, and the target's signed outcome. A target commits an effect only when the epoch
+it holds for the subject equals the permit's, so a permit from a revoked epoch cannot commit,
+whatever its expiry. The corpus also fixes how a revocation's reach is reported (closed, partial
+or unknown, where an open or unresolved state never reads closed) and how CAEP and RISC security
+events map to a revocation, a rotation or nothing.
+
+- Envelope: a signed JSON claims object, `{"claims", "sig"}`, not an in-toto Statement. The
+  signing domain is this URI with the fragment `#effect-permit`, `#epoch-update` or `#target-outcome`.
+- Field semantics: defined here, as a proposal; the check order and reason tokens are this corpus's own.
+
+### `predicate/v1/authority-epoch-fence`
+
+- Document: `corpora/vectors-authority-epoch-fence/README.md`
+- Corpus: `corpora/vectors-authority-epoch-fence/`, suite `authority-epoch-fence/v1`
+- Rails: `corpusreaders/authorityepoch.go`, `packaging/agent_evidence_vectors/authorityepoch.py`
+
+The type names a signed, hash-chained authority log closed by a signed head, and the request an
+agent makes under it. Every request names the epoch of the log it was made in; a request of a
+closed epoch is refused whatever its time, an approval counts once, a revocation is never undone,
+and a log that does not reach its signed head reads unknown, never clean.
+
+- Envelope: signed JSON claims objects, not an in-toto Statement. The signing domain is this URI
+  with the fragment `#event`, `#head` or `#request`.
+- Field semantics: defined here, as a proposal; the check order and reason tokens are this corpus's own.
+
 ### `predicate/v1/signature-coverage`
 
 - Document: `corpora/vectors-signature-coverage/README.md`
