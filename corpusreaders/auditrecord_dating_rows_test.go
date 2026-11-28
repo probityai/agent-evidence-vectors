@@ -1,6 +1,8 @@
 package corpusreaders
 
 import (
+	"crypto/sha256"
+	"encoding/base64"
 	"encoding/json"
 	"os"
 	"path/filepath"
@@ -87,4 +89,71 @@ func TestAuditRecordRevisionOneRejectsFailForOneReason(t *testing.T) {
 	restore("R15", "R13", func(child, from map[string]any) {
 		child["validationData"] = from["validationData"]
 	})
+}
+
+// TestAuditRecordKeySetBindsNoParty holds R13 and R25 to what a key set shows: the
+// key the chain verifier held, its algorithm family and its RFC 7638 thumbprint,
+// and never the binding of that key to a party. A reader that reports the binding
+// established for a key set disagrees with the corpus.
+func TestAuditRecordKeySetBindsNoParty(t *testing.T) {
+	manifest, heads, bodies, expected := arRetainedMembers(t)
+	key := manifest.Keys.Observer.PublicKey
+	for row, family := range map[string]string{"R13": "Ed25519", "R25": "P-256"} {
+		body, ok := bodies[row]
+		if !ok {
+			t.Fatalf("the corpus carries no %s", row)
+		}
+		want := expected[row].DelegationRoot
+		if want.Result != "established" || want.Algorithm != family || want.Binding != "not-established" {
+			t.Errorf("%s: want the root established under %s and the binding not established, got %+v", row, family, want)
+		}
+		var member struct {
+			Retention struct {
+				ValidationData []struct {
+					For, MediaType, Value string
+				} `json:"validationData"`
+			} `json:"retention"`
+		}
+		if err := json.Unmarshal(body, &member); err != nil {
+			t.Fatal(err)
+		}
+		var keys []map[string]any
+		for _, element := range member.Retention.ValidationData {
+			if element.For != "delegation-root" {
+				continue
+			}
+			material, err := base64.StdEncoding.DecodeString(element.Value)
+			var set struct {
+				Keys []map[string]any `json:"keys"`
+			}
+			if err != nil || element.MediaType != "application/jwk-set+json" || json.Unmarshal(material, &set) != nil {
+				t.Fatalf("%s: the root element is not a readable key set", row)
+			}
+			keys = set.Keys
+		}
+		if len(keys) != 1 || keys[0]["x5c"] != nil || keys[0]["x5u"] != nil {
+			t.Fatalf("%s: want one key with no certificate, got %v", row, keys)
+		}
+		required := []string{"crv", "kty", "x"}
+		if keys[0]["kty"] == "EC" {
+			required = append(required, "y")
+		}
+		members := map[string]any{}
+		for _, name := range required {
+			members[name] = keys[0][name]
+		}
+		text, _ := json.Marshal(members)
+		sum := sha256.Sum256(text)
+		if want.KeyThumbprint != base64.RawURLEncoding.EncodeToString(sum[:]) {
+			t.Errorf("%s: keyThumbprint %q is not the RFC 7638 thumbprint of the held key", row, want.KeyThumbprint)
+		}
+		report, dated := arVerifyRetained(body, manifest.PredicateType, key, heads, "")
+		if report.verdict != "valid" || !dated.equal(expected[row]) {
+			t.Errorf("%s: got %s and %+v, want valid and %+v", row, report.verdict, dated, expected[row])
+		}
+		dated.DelegationRoot.Binding = "established"
+		if dated.equal(expected[row]) {
+			t.Errorf("%s: a reader reporting the binding established agrees with the corpus", row)
+		}
+	}
 }

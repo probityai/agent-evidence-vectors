@@ -90,12 +90,18 @@
         "rootHash": "20e56f9de66020d9cd72165462328e78253ea3bfc19d34fbc2b27cd5c3c7380b",
         "timestamp": "2026-09-19T11:14:11Z",
         "treeSize": 4
+      },
+      {
+        "logId": "2b0601040181fd590101",
+        "rootHash": "2482199c9feb7c7bdadfe21b6f89fa02935a5763335219064657f74a93ffda81",
+        "timestamp": "2026-09-19T11:05:00Z",
+        "treeSize": 3
       }
     ]
   },
-  "corpusDigest": "935ec284837de18f91e0bf12f4f10517b8527961c9edbfe324fc134a853f1d1b",
+  "corpusDigest": "7c7bfe33ddda9cb35c6f7ec90edc2fe2d57a43188c4583831a9dfc7bafb6bc23",
   "counts": {
-    "accept": 117,
+    "accept": 118,
     "indeterminate": 1,
     "reject": 141
   },
@@ -149,7 +155,7 @@
   "skewTolerance": 300,
   "suite": "agent-audit-record-conformance",
   "textCounts": {
-    "proposed": 24,
+    "proposed": 25,
     "published": 235
   },
   "vectors": [
@@ -3562,6 +3568,8 @@
           "datedAt": "2026-09-19T11:05:00Z",
           "delegationRoot": {
             "algorithm": "Ed25519",
+            "binding": "not-established",
+            "keyThumbprint": "vM9ymo2m7Td_6D93isEvtcG3rLNNt-RueDwWy6PvdzI",
             "result": "established"
           },
           "entry": "well-formed"
@@ -3804,6 +3812,36 @@
       "parentDraftId": "R23",
       "row": "the block time one second later than R23's, past anchorWithin plus the 7200 seconds",
       "slug": "r24-opentimestamps-late-bound-one-second-past"
+    },
+    {
+      "draftId": "R25",
+      "expected": {
+        "codes": [],
+        "dating": {
+          "codes": [],
+          "datedAt": "2026-09-19T11:05:00Z",
+          "delegationRoot": {
+            "algorithm": "P-256",
+            "binding": "not-established",
+            "keyThumbprint": "Yt-C6O77Lc2PzQQFvQCgB4ZPtIFpPZ_B3M_jpwd5et0",
+            "result": "established"
+          },
+          "entry": "well-formed"
+        },
+        "derivedTier": "authoritative",
+        "verdict": "valid"
+      },
+      "file": "retained/vf78d2fb01bb8b261.json",
+      "id": "vf78d2fb01bb8b261",
+      "kind": "accept",
+      "parent": "v5fdda90f44e68c91",
+      "parentDraftId": "R13",
+      "proposed": {
+        "revision": "draft-gilda-audit-agent-audit-record-05",
+        "text": "docs/proposals/audit-record-05-delegation-root-binding.md"
+      },
+      "row": "R13 with the root a key set holding one P-256 key and no certificate: the key, its algorithm family and its thumbprint as recorded, and its binding to a party not established, never a pass",
+      "slug": "r25-delegation-root-key-set-without-certificate"
     },
     {
       "draftId": "IS1",

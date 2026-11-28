@@ -57,10 +57,15 @@ type arTreeHead struct {
 	height    uint64
 }
 
-// arRootResult is the delegation root's result (R13 to R15).
+// arRootResult is the delegation root's result (R13 to R15, R25). A key set
+// records the key the chain verifier held, its algorithm family and, for a set
+// of one key, its RFC 7638 thumbprint; it names no party, so Binding is
+// not-established for every key set.
 type arRootResult struct {
-	Result    string `json:"result"`
-	Algorithm string `json:"algorithm,omitempty"`
+	Result        string `json:"result"`
+	Algorithm     string `json:"algorithm,omitempty"`
+	KeyThumbprint string `json:"keyThumbprint,omitempty"`
+	Binding       string `json:"binding,omitempty"`
 }
 
 var arNotEstablished = arRootResult{Result: "not-established"}
@@ -432,33 +437,41 @@ var arJWKAlgorithms = map[[2]string]string{
 	{"EC", "P-256"}: "P-256", {"EC", "P-384"}: "P-384", {"EC", "P-521"}: "P-521",
 }
 
-func arJWKAlgorithm(material []byte) (string, error) {
+func arJWKRoot(material []byte) (arRootResult, error) {
 	var set struct {
-		Keys []struct {
-			Kty string `json:"kty"`
-			Crv string `json:"crv"`
-		} `json:"keys"`
+		Keys []map[string]any `json:"keys"`
 	}
 	if err := strictUnmarshal(material, &set); err != nil {
-		return "", err
+		return arRootResult{}, err
 	}
 	algorithm := ""
 	for _, k := range set.Keys {
-		a, ok := arJWKAlgorithms[[2]string{k.Kty, k.Crv}]
+		kty, _ := k["kty"].(string)
+		crv, _ := k["crv"].(string)
+		a, ok := arJWKAlgorithms[[2]string{kty, crv}]
 		if !ok || (algorithm != "" && a != algorithm) {
-			return "", errProof
+			return arRootResult{}, errProof
 		}
 		algorithm = a
 	}
 	if algorithm == "" {
-		return "", errProof
+		return arRootResult{}, errProof
 	}
-	return algorithm, nil
+	root := arRootResult{Result: "established", Algorithm: algorithm, Binding: "not-established"}
+	if len(set.Keys) == 1 {
+		thumbprint, err := arJWKThumbprint(set.Keys[0])
+		if err != nil {
+			return arRootResult{}, err
+		}
+		root.KeyThumbprint = thumbprint
+	}
+	return root, nil
 }
 
 // arDelegationRoot establishes the root from a delegation-root element whose
 // digest equals delegation.rootDigest (R13); none leaves it not established,
-// never a pass (R14); an unequal digest makes the entry malformed (R15).
+// never a pass (R14); an unequal digest makes the entry malformed (R15). A key
+// set names no party, so the key's binding to one stays not established (R25).
 func arDelegationRoot(r *arRetained) error {
 	data, _ := r.entry["validationData"].([]any)
 	var elements []map[string]any
@@ -482,11 +495,11 @@ func arDelegationRoot(r *arRetained) error {
 	if hex.EncodeToString(sum[:]) != r.rootDigest {
 		return arRefuse("entry-delegation-root-mismatch")
 	}
-	algorithm, err := arJWKAlgorithm(material)
+	root, err := arJWKRoot(material)
 	if err != nil {
 		return arRefuse("entry-delegation-root-unreadable")
 	}
-	r.root = arRootResult{Result: "established", Algorithm: algorithm}
+	r.root = root
 	return nil
 }
 

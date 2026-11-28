@@ -24,6 +24,11 @@ Three checks, each able to fail on its own.
    4.7.1 must move at least one retained member (R1 to R9) off its declared
    dating result, and must never move its record verdict.
 
+7. The binding sweep: a delegation-root element that is a key set records the
+   key the chain verifier held and names no party, so every member carrying one
+   declares the binding not established, and the scoring refuses an answer that
+   reports it established (R13, R25).
+
 6. The aggregation check: FR14 lists the two values of one input a decision
    depended on. The reference aggregation must reproduce FR14's entry, and the
    revision 00 aggregation must instead write FR15's, which the reader refuses.
@@ -997,6 +1002,46 @@ def _dating_sweep(manifest: dict[str, object]) -> list[str]:
     return findings
 
 
+def _binding_sweep(manifest: dict[str, object]) -> list[str]:
+    """No key set binds its key to a party: every retained member whose root
+    element is a key set declares the binding not established, and an answer
+    reporting it established is a normative disagreement, never a note."""
+    findings: list[str] = []
+    swept = 0
+    for entry in manifest["vectors"]:  # type: ignore[union-attr]
+        if not _retained(entry):
+            continue
+        member = json.loads(_raw(entry))
+        retention = member.get("retention") if isinstance(member, dict) else None
+        if not isinstance(retention, dict):
+            continue
+        roots = [
+            v
+            for v in retention.get("validationData") or []
+            if v.get("for") == "delegation-root"
+            and v.get("mediaType") == "application/jwk-set+json"
+        ]
+        declared = entry["expected"]["dating"]
+        root = declared["delegationRoot"]
+        if not roots or root.get("result") != "established":
+            continue
+        swept += 1
+        if root.get("binding") != "not-established":
+            findings.append(
+                f"{entry['draftId']}: a key set root declares binding {root.get('binding')!r}"
+            )
+        forged = {**declared, "delegationRoot": {**root, "binding": "established"}}
+        if not auditrecord._dating_mismatch(declared, forged)[0]:
+            findings.append(
+                f"{entry['draftId']}: an answer reporting the binding established passes"
+            )
+    if swept == 0:
+        findings.append(
+            "no retained member carries a key set root, so the binding rule is untested"
+        )
+    return findings
+
+
 def _proposed(entry: dict[str, object]) -> bool:
     """A member carrying ``proposed`` tests a rule only text proposed for the next
     revision states. No published revision supports its verdict, so the published
@@ -1079,7 +1124,9 @@ def _fails(entry: dict[str, object], policy: auditrecord.Policy) -> bool:
         reports, joint = auditrecord.verify_set(_raw(entry), policy)
         declared = expected["set"]
         limits = [
-            auditrecord.within_limit(strictjson.loads(auditrecord._envelope_payload(env)[1])["predicate"])
+            auditrecord.within_limit(
+                strictjson.loads(auditrecord._envelope_payload(env)[1])["predicate"]
+            )
             for env in _envelopes(entry)
         ]
         return (
@@ -1137,6 +1184,7 @@ def main() -> int:
         _second_signature_path(manifest)
         + swept
         + _dating_sweep(manifest)
+        + _binding_sweep(manifest)
         + _section_sweep(manifest)
         + _aggregation_check(manifest)
         + _set_bundle_profile()

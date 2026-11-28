@@ -9,7 +9,10 @@ R19 to R22 sit exactly on the bounds R3, R6, R7 and R11 are one second past:
 with every tolerance one second shorter each on-bound member turns malformed
 under its pair's code, and with every tolerance one second longer each
 past-bound member turns well-formed, so a reader whose comparison is off by
-one at any bound is caught. The dating sweep in check_vectors.py asks only that each rule move some
+one at any bound is caught. R25 holds the root's key set to what a key set can show: it
+records the key the chain verifier held and its algorithm family, and it never binds that key to a
+party, so R13 and R25 report the binding not established, and an answer reporting it established
+is scored as a disagreement. The dating sweep in check_vectors.py asks only that each rule move some
 member. This test asks that each rule move the member whose row names it, that
 R14 never report the root as a pass, and that each malformed entry (R11, R15)
 returns to its parent's result once its one mutation is restored, so it fails
@@ -21,7 +24,9 @@ Exit 0 when every case holds; 1 with a summary of the failures.
 
 from __future__ import annotations
 
+import base64
 import datetime
+import hashlib
 import json
 import sys
 from collections.abc import Callable
@@ -45,7 +50,12 @@ CASES = (
     ("R23", "opentimestamps-tolerance"),
     ("R24", "entry-anchor-late"),
     ("R22", "opentimestamps-tolerance"),
+    ("R25", "entry-delegation-root"),
 )
+
+#: The members whose delegation-root element is a key set, each with the
+#: algorithm family its one key names.
+KEY_SET_ROOTS = (("R13", "Ed25519"), ("R25", "P-256"))
 
 #: Each dating bound as a pair of members: the first sits exactly on the bound,
 #: the second one second past it, with the code the second is refused under.
@@ -95,9 +105,10 @@ def main() -> int:
     restored("R24", "R23", "anchors", 1)
 
     failures.extend(bound_pair_failures(raw, want, date))
+    failures.extend(key_set_binding_failures(raw, want))
     for line in failures:
         print("FAIL", line)
-    total = len(CASES) + 4 + 3 * len(BOUND_PAIRS)
+    total = len(CASES) + 4 + 3 * len(BOUND_PAIRS) + 6 * len(KEY_SET_ROOTS)
     print(f"{total - len(failures)} of {total} checks hold")
     return 1 if failures else 0
 
@@ -129,6 +140,46 @@ def bound_pair_failures(
             failures.append(f"{on} with every tolerance one second shorter: {shorter[on]}")
         if longer[past].get("entry") != "well-formed":
             failures.append(f"{past} with every tolerance one second longer: {longer[past]}")
+    return failures
+
+
+def thumbprint(jwk: dict[str, Any]) -> str:
+    """RFC 7638: SHA-256 over the required members in lexicographic order, base64url."""
+    required = ("crv", "kty", "x", "y") if jwk["kty"] == "EC" else ("crv", "kty", "x")
+    text = json.dumps({k: jwk[k] for k in required}, separators=(",", ":"), sort_keys=True)
+    digest = hashlib.sha256(text.encode()).digest()
+    return base64.urlsafe_b64encode(digest).rstrip(b"=").decode()
+
+
+def key_set_binding_failures(raw: dict[str, bytes], want: dict[str, dict[str, Any]]) -> list[str]:
+    """A key set records a held key and names no party, so the binding of that key
+    to a party is never established, and the scoring refuses an answer that says it is."""
+    failures: list[str] = []
+    for row, family in KEY_SET_ROOTS:
+        root = want[row]["delegationRoot"]
+        element = next(
+            v
+            for v in json.loads(raw[row])["retention"]["validationData"]
+            if v["for"] == "delegation-root"
+        )
+        keys = json.loads(base64.b64decode(element["value"]))["keys"]
+        if element["mediaType"] != "application/jwk-set+json" or len(keys) != 1:
+            failures.append(f"{row}: the root element is not a key set holding one key")
+            continue
+        if any("x5c" in k or "x5u" in k for k in keys):
+            failures.append(f"{row}: the root key carries a certificate")
+        if root.get("result") != "established" or root.get("algorithm") != family:
+            failures.append(f"{row}: want the root established under {family}, got {root}")
+        if root.get("binding") != "not-established":
+            failures.append(f"{row}: a key set must leave the binding not established, got {root}")
+        if root.get("keyThumbprint") != thumbprint(keys[0]):
+            failures.append(f"{row}: keyThumbprint is not the RFC 7638 thumbprint of the held key")
+        forged = {**want[row], "delegationRoot": {**root, "binding": "established"}}
+        if not auditrecord._dating_mismatch(want[row], forged)[0]:
+            failures.append(f"{row}: an answer reporting the binding established is scored a pass")
+        silent = {**want[row], "delegationRoot": {k: v for k, v in root.items() if k != "binding"}}
+        if auditrecord._dating_mismatch(want[row], silent)[0]:
+            failures.append(f"{row}: an answer that leaves the binding out is scored a failure")
     return failures
 
 

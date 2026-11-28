@@ -70,7 +70,7 @@ digests of member bytes and moved where a member gained its inputs.
 v0.18.1, v0.25.0, v0.26.0, v0.27.0 and v0.28.0 and says what changed.
 
 Each member is a DSSE envelope whose payload is an in-toto Statement carrying one
-agent audit record, except `R1` to `R16`: each of those is a retained record, a
+agent audit record, except `R1` to `R25`: each of those is a retained record, a
 JSON object carrying the `envelope` beside its `retention` entry (Section 4.7).
 What a conforming verifier must reach is in the manifest, never in the file, so
 a member cannot be scored without being read.
@@ -105,7 +105,7 @@ carries one (`PS1`, `PS1b` and `PS3` to `PS5` carry the `v2` URI), then score ea
   takes `valid`. `N1` had two readings under revision 02; -00 gives it one,
   `valid`, because the anchor in `correlation.externalAnchor` dates nothing by
   itself;
-- a retained member (`R1` to `R16`) is scored twice: the envelope's verdict
+- a retained member (`R1` to `R25`) is scored twice: the envelope's verdict
   against `expected.verdict`, and your dating check against `expected.dating`
   (below).
 
@@ -157,10 +157,14 @@ The contract, identifier
   `withinLimit` where declared. A retained member (`retained/`) needs `dating`:
   `entry`, `codes`, `datedAt` and `receipt` (absent where the entry has none),
   and `delegationRoot.result`, plus `delegationRoot.algorithm` where declared.
+  `delegationRoot.binding` and `delegationRoot.keyThumbprint` may be reported
+  beside them.
 - **Scoring.** The verdict must be one of `conforming_verdicts(entry)`. The tier,
   `withinLimit`, the `set` verdict, `missing` and `withinLimit`, and the
   `dating` entry, `datedAt`, `receipt` and `delegationRoot` must equal what the
-  entry declares. No code array is scored: the record's `codes`, and the code
+  entry declares. Where the entry declares `delegationRoot.binding`, an answer
+  that leaves it out is read as `not-established`, never as a pass, and a
+  reported `keyThumbprint` must equal the declared one. No code array is scored: the record's `codes`, and the code
   arrays inside `set` and `dating` (compared as sets), are reported under
   `reasonParityNotes`, because the draft defines verdicts and results and not
   codes. Only published members are scored. On a proposed member (see "Which
@@ -560,8 +564,8 @@ never established, beside `A18`, `A20` and `FR4`.
 
 ## Retained records and the dating check: Section 4.7
 
-A signature says who signed a record and nothing about when. `R1` to `R16` are
-the record `A1` (or, for `R13` to `R15`, `A1` carrying `delegation.rootDigest`) beside the retention entry a retaining party keeps for it. The
+A signature says who signed a record and nothing about when. `R1` to `R25` are
+the record `A1` (or, for `R13` to `R15` and `R25`, `A1` carrying `delegation.rootDigest`) beside the retention entry a retaining party keeps for it. The
 envelope is valid in every one, and what each row tests is the dating check of
 Section 4.7.1, which the manifest carries in `expected.dating` beside the
 verdict and which never changes it:
@@ -612,6 +616,18 @@ root (`R13`), an omitted element leaves it `not-established` and never a pass
 (`R14`), and an element whose digest differs is
 `entry-delegation-root-mismatch` (`R15`). `R1` to `R12` and `R16` carry no
 `rootDigest` and report `not-established`.
+
+An established root says the verifier held the key the record names, and
+nothing about whom that key belongs to. A key set (`application/jwk-set+json`)
+whose keys carry no certificate gives the key and its algorithm family and names
+no party, so `delegationRoot` reports the key's RFC 7638 `keyThumbprint` beside
+`algorithm` and the key's `binding` to a party as `not-established`, never as a
+pass: `R13` for an Ed25519 key, and `R25` for a P-256 key with no `x5c`, built
+from a fixed scalar in [`gen_vectors.py`](gen_vectors.py). `R25` tests text
+proposed for the next revision
+([proposed text](../../docs/proposals/audit-record-05-delegation-root-binding.md)).
+A verifier that reports the binding established for a key set disagrees with
+the corpus, and `check_vectors.py` refuses a scoring that lets it pass.
 
 ## The sequence member and record identity: `SQ1` to `SQ5`
 
