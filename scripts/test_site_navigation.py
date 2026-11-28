@@ -182,6 +182,7 @@ def repository(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> Path:
         "corpora/vectors-uncertain-effect/README.md",
         "corpora/vectors-empty-interval-statement/README.md",
         "corpora/vectors-key-revocation-list/README.md",
+        "corpora/vectors-model-preservation/README.md",
         "corpora/vectors-decision-client-failure-modes/README.md",
         "corpora/vectors-refusal-reason-priority/README.md",
         "corpora/vectors-agent-request-proof/README.md",

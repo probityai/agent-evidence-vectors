@@ -49,6 +49,7 @@ RUNS_A_VERIFIER = (
     "vectors-anchored-chain",
     "vectors-empty-interval-statement",
     "vectors-key-revocation-list",
+    "vectors-model-preservation",
     "vectors-approval-binding",
     "vectors-delegator-right",
     "vectors-oasf-record",

@@ -200,6 +200,7 @@ only-include = [
     "corpora/vectors-mcp-owasp",
     "corpora/vectors-mcp-record-contract",
     "corpora/vectors-mcp-response-phase",
+    "corpora/vectors-model-preservation",
     "corpora/vectors-monitor-coverage",
     "corpora/vectors-oasf-record",
     "corpora/vectors-observed-effect",
@@ -304,6 +305,7 @@ exclude = [
     "corpora/vectors-mcp-owasp/**/*.py",
     "corpora/vectors-mcp-record-contract/**/*.py",
     "corpora/vectors-mcp-response-phase/**/*.py",
+    "corpora/vectors-model-preservation/**/*.py",
     "corpora/vectors-monitor-coverage/**/*.py",
     "corpora/vectors-oasf-record/**/*.py",
     "corpora/vectors-observed-effect/**/*.py",
@@ -407,6 +409,7 @@ exclude = [
 "corpora/vectors-mcp-owasp" = "agent_evidence_vectors/corpora/vectors-mcp-owasp"
 "corpora/vectors-mcp-record-contract" = "agent_evidence_vectors/corpora/vectors-mcp-record-contract"
 "corpora/vectors-mcp-response-phase" = "agent_evidence_vectors/corpora/vectors-mcp-response-phase"
+"corpora/vectors-model-preservation" = "agent_evidence_vectors/corpora/vectors-model-preservation"
 "corpora/vectors-monitor-coverage" = "agent_evidence_vectors/corpora/vectors-monitor-coverage"
 "corpora/vectors-oasf-record" = "agent_evidence_vectors/corpora/vectors-oasf-record"
 "corpora/vectors-observed-effect" = "agent_evidence_vectors/corpora/vectors-observed-effect"
@@ -585,6 +588,7 @@ only-include = [
     "corpora/vectors-mcp-owasp",
     "corpora/vectors-mcp-record-contract",
     "corpora/vectors-mcp-response-phase",
+    "corpora/vectors-model-preservation",
     "corpora/vectors-monitor-coverage",
     "corpora/vectors-oasf-record",
     "corpora/vectors-observed-effect",
@@ -809,6 +813,9 @@ extend-exclude = [
   # spend ledger the execution-billing-finality mutants are spliced into. An
   # edit would break the pin, so it is not ours to lint.
   "corpora/vectors-execution-billing-finality/tests/p04/exposure_ledger.py",
+  # Fixture bytes pinned by the model-preservation manifest: a reference copy that
+  # carries an extra file. Reformatting it would change its digest.
+  "corpora/vectors-model-preservation/cases/reference-copy-extra-file/copy-loader.py",
   "scripts/workspace.py",
   "scripts/build_predicate_pages.py",
   "scripts/build_vocabulary_pages.py",

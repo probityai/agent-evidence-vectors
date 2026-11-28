@@ -1,0 +1,23 @@
+{
+  "deployed": {
+    "sha256": "4ba74b847fefae14e58b1af4f8888c6646c94c7546bb5ba19945e9c8daf10776"
+  },
+  "kind": "swap",
+  "record": "record.dsse.json",
+  "requiredTestSet": {
+    "sha256": "659e22b13e36286677d7db6778379d62f93ec08572707605be2659843a1fc62b"
+  },
+  "suite": "model-preservation/v1",
+  "trusted": [
+    {
+      "key": "09cc477a687a14bb75cf6006d9448026be5e3ffdeb5eeca9f0cdf06e02c036da",
+      "keyid": "b5f2b168ec8a4404fe052bfc80d7fc2113fb4f821f46accdc921cb1114f83e35",
+      "party": "https://ai-ops.institution.example"
+    },
+    {
+      "key": "c48373f977995a565b0346bcb1351aeb018652b39fa4314295b2d00afb22130b",
+      "keyid": "6d0ecf8ed07727dfd7a013b87681ac181654d0eb703751074d36afa5d47ba2fc",
+      "party": "https://procurement.institution.example"
+    }
+  ]
+}
