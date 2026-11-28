@@ -3,7 +3,9 @@ package corpusreaders_test
 // The dns-aid readers judge the corpus tree, not the members' verdicts. Each case
 // copies one of the two corpora, makes one change, and requires the reader to
 // report it, so a check deleted from dnsaid.go fails here instead of passing a
-// damaged corpus as clean.
+// damaged corpus as clean. The committed corpora carry one member each that repeats
+// a key inside its record or RRset on purpose, so the clean test also holds that
+// such a repeat is left to the corpus's own reader.
 
 import (
 	"crypto/sha256"
@@ -32,6 +34,21 @@ func dnsAidRewriteMember(t *testing.T, dir, id, body string) {
 		row := firstRowWhere(t, m, func(r map[string]any) bool { return r["id"] == id })
 		row["sha256"] = hex.EncodeToString(sum[:])
 	})
+}
+
+// dnsAidEditText replaces one span of a staged file's text: a repeated or
+// case-folded key cannot be written through a map, so these cases edit bytes.
+func dnsAidEditText(t *testing.T, dir, rel, from, to string) {
+	t.Helper()
+	path := filepath.Join(dir, rel)
+	raw, err := os.ReadFile(path) // #nosec G304 -- a test editing its own copy
+	if err != nil {
+		t.Fatal(err)
+	}
+	if !strings.Contains(string(raw), from) {
+		t.Fatalf("%s does not contain %q", path, from)
+	}
+	writeFile(t, dir, rel, strings.Replace(string(raw), from, to, 1))
 }
 
 func dnsAidFirstReject(m map[string]any) string {
@@ -125,6 +142,39 @@ func dnsAidFindings() []findingCase {
 				m["corpusDigest"] = strings.Repeat("0", 64)
 			})
 		}, "corpusDigest does not match"},
+		// encoding/json gives a struct field the last member whose name matches it without
+		// regard to case, while the Python reader reads "expected" exactly.
+		{"dns-aid manifest key repeated in another letter case", dnsSigDir, func(t *testing.T, dir string) {
+			dnsAidEditText(t, dir, "MANIFEST.json", `"expected": {`,
+				`"Expected": {"codes": ["expired"], "decision": "contradicted", "verdict": "invalid"}, "expected": {`)
+		}, "twice in one object"},
+		{"dns-aid folded key inside the vectors array", dnsRRsetDir, func(t *testing.T, dir string) {
+			dnsAidEditText(t, dir, "MANIFEST.json", `"id": "alpn-as-list"`, `"id": "alpn-as-list", "ID": "x"`)
+		}, "twice in one object"},
+		// U+017F folds to s under Unicode simple folding, which encoding/json applies and a
+		// lowercase comparison does not.
+		{"dns-aid manifest key repeated under Unicode folding", dnsRRsetDir, func(t *testing.T, dir string) {
+			dnsAidEditText(t, dir, "MANIFEST.json", `"suite": "dns-aid-rrset/v1"`,
+				`"\u017fuite": "x", "suite": "dns-aid-rrset/v1"`)
+		}, "twice in one object"},
+		{"dns-aid case file the manifest does not list", dnsRRsetDir, func(t *testing.T, dir string) {
+			writeFile(t, dir, filepath.Join("cases", "stray.json"), "{}\n")
+		}, "does not list: [stray.json]"},
+		{"dns-aid cases directory gone", dnsRRsetDir, func(t *testing.T, dir string) {
+			if err := os.RemoveAll(filepath.Join(dir, "cases")); err != nil {
+				t.Fatal(err)
+			}
+		}, "cases/ cannot be read"},
+		{"dns-aid declared code listed twice", dnsRRsetDir, func(t *testing.T, dir string) {
+			editManifest(t, dir, func(m map[string]any) {
+				setDeep(t, firstRowWhere(t, m, kindIs("reject")), []any{"rrset-malformed", "rrset-malformed"},
+					"expected", "codes")
+			})
+		}, "twice: codes are a set"},
+		{"dns-aid sig member repeats a member outside its record", dnsSigDir, func(t *testing.T, dir string) {
+			dnsAidRewriteMember(t, dir, "member-duplicate-target",
+				`{"case":"member-duplicate-target","now":1,"now":2,"record":{"target":"a","target":"b"}}`)
+		}, "the member does not parse"},
 	}
 }
 
@@ -152,6 +202,11 @@ func TestDNSAidCommittedCorporaAreClean(t *testing.T) {
 		}
 		if !result.OK() || len(result.Members) == 0 {
 			t.Fatalf("%s: findings %v, members %d", dir, result.Findings, len(result.Members))
+		}
+		for _, m := range result.Members {
+			if !m.OK() {
+				t.Errorf("%s %s: %v", dir, m.ID, m.Findings)
+			}
 		}
 	}
 }

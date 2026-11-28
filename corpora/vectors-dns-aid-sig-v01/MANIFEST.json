@@ -1,23 +1,30 @@
 {
- "corpusDigest": "b85cffefc7f2aa9e37cf47b9422f3337198298558510c6425e23d1d4bb8ffd6b",
+ "corpusDigest": "fdd158819eb58680f7a89cc4a2441b9760e4545fdb252a8907cea6193a5c1e71",
  "counts": {
-  "accept": 3,
-  "reject": 30
+  "accept": 7,
+  "reject": 52
  },
  "specification": {
   "profile": {
+   "b64": "a b64 header is refused, with or without crit (RFC 7797): the payload is always base64url",
    "base64url": "the strict alphabet without padding, and the canonical encoding only",
    "crit": "a crit header is refused (RFC 7515 section 4.1.11): this profile defines no extension",
    "iatSkewSeconds": 300,
-   "integers": "port, iat and exp are JSON integers; 443.0 is not 443",
-   "jwksHost": "dns-aid.<zone> or the zone apex, over https",
-   "payload": "I-JSON (RFC 7493): a duplicate member name is refused",
-   "protocol": "the payload alpn is compared with the record's proto when present, else its alpn"
+   "integers": "port, iat and exp are JSON integers from -(2^53-1) to 2^53-1 (RFC 7493 section 2.2); 443.0 is not 443; port is 0 to 65535",
+   "jwksHost": "https://dns-aid.<zone> or https://<zone>, with an optional port from 0 to 65535, path and query and no userinfo, backslash, percent-encoded host or fragment",
+   "keys": "a JWK verifies only when it is EC P-256 with 32-octet coordinates, its use is sig or absent, its key_ops name verify or are absent, and its alg is ES256 or absent; any other key in the set is ignored (RFC 7517 section 5)",
+   "names": "fqdn, target and zone compare by ASCII case only (RFC 4343) with one optional root dot",
+   "payload": "I-JSON (RFC 7493): a duplicate member name, a NaN or Infinity literal, and a surrogate or noncharacter code point in a name or string are refused; the member file itself is I-JSON too",
+   "protocol": "the payload's fqdn, target and alpn are strings; its alpn is compared with the record's proto when that member is present (an empty proto names nothing), else with its alpn",
+   "signature": "r and s as 32 octets each; a high-s signature verifies (RFC 7518 does not require low s)",
+   "window": "exp after iat; a window whose exp is at or before its iat is refused"
   },
   "scope": "The `sig` binding of a DNS-AID SVCB record: a compact JWS (RFC 7515, ES256 with a raw 64-byte signature) whose payload names the endpoint (fqdn, target, port, agent protocol), an issue and an expiry time, and optionally the `svcb1` digest of the record's SvcParams. The digest is SHA-256 over the ASCII prefix `svcb1:` followed by the canonical JSON of the non-null params (keys sorted, no whitespace). A reader reaches agrees only when the signature verifies, the endpoint and digest match the served record, the record is unexpired and issued no later than five minutes after the check time, and a key authority the consumer holds (today a pin of the key-set fingerprint) ties the key set to the owner of the zone. All fixtures are synthetic.",
   "sources": [
    "RFC 7515 JSON Web Signature, sections 2, 4.1.11 and 7.1",
-   "RFC 7518 JSON Web Algorithms, section 3.4 (ES256)",
+   "RFC 7518 JSON Web Algorithms, sections 3.4 (ES256) and 6.2.1.2 (coordinate length)",
+   "RFC 7517 JSON Web Key, sections 4.2 to 4.4 and 5",
+   "RFC 4343 DNS case insensitivity",
    "RFC 7493 The I-JSON Message Format",
    "RFC 9460 Service Binding and Parameter Specification via the DNS (SVCB)",
    "RFC 4648 section 3.5 (canonical encoding)",
@@ -484,6 +491,362 @@
    "id": "signature-base64url-non-canonical",
    "kind": "reject",
    "sha256": "e8a5d4151300ae8a5509eca5d6fc934c9d8ec23e29b4eac0ea27de297051e36c"
+  },
+  {
+   "description": "the signed payload holds a NaN literal, which is not JSON though a lenient parser reads it",
+   "expected": {
+    "codes": [
+     "payload-not-object"
+    ],
+    "decision": "contradicted",
+    "verdict": "invalid"
+   },
+   "file": "cases/payload-nan-literal.json",
+   "id": "payload-nan-literal",
+   "kind": "reject",
+   "sha256": "1a5ea9b9899df4048e63c654fe9fe71788215dc4f767a1b46a8a97c8ecf0949b"
+  },
+  {
+   "description": "the protected header holds a -Infinity literal, which is not JSON",
+   "expected": {
+    "codes": [
+     "jws-malformed"
+    ],
+    "decision": "contradicted",
+    "verdict": "invalid"
+   },
+   "file": "cases/header-infinity-literal.json",
+   "id": "header-infinity-literal",
+   "kind": "reject",
+   "sha256": "2fa8e9f9f3af44293e276ba402139228995661bebc280aa6efe4855fbaca5ec2"
+  },
+  {
+   "description": "the signed payload holds a lone surrogate escape, which RFC 7493 section 2.1 forbids",
+   "expected": {
+    "codes": [
+     "payload-not-i-json"
+    ],
+    "decision": "contradicted",
+    "verdict": "invalid"
+   },
+   "file": "cases/payload-lone-surrogate.json",
+   "id": "payload-lone-surrogate",
+   "kind": "reject",
+   "sha256": "51f8583975a2f6b54377df6335353e89794e053cea05115e84d43de8852a998e"
+  },
+  {
+   "description": "the signed payload holds the noncharacter U+FDD0, which RFC 7493 section 2.1 forbids",
+   "expected": {
+    "codes": [
+     "payload-not-i-json"
+    ],
+    "decision": "contradicted",
+    "verdict": "invalid"
+   },
+   "file": "cases/payload-noncharacter.json",
+   "id": "payload-noncharacter",
+   "kind": "reject",
+   "sha256": "660390f42db53ace219cf7f9de4340ecb3ff2f9d808556d695dd23aecc101ef0"
+  },
+  {
+   "description": "exp is 2^53, past the exact integer range RFC 7493 section 2.2 names",
+   "expected": {
+    "codes": [
+     "payload-integer-required"
+    ],
+    "decision": "contradicted",
+    "verdict": "invalid"
+   },
+   "file": "cases/exp-beyond-safe-integer.json",
+   "id": "exp-beyond-safe-integer",
+   "kind": "reject",
+   "sha256": "b4b969d9b1c0188ea1374591e661acb929fd46e4a7fb078c2c37e6faa402cb09"
+  },
+  {
+   "description": "port 65536 on both sides: signed and served agree, but it is not a 16-bit port",
+   "expected": {
+    "codes": [
+     "payload-integer-required"
+    ],
+    "decision": "contradicted",
+    "verdict": "invalid"
+   },
+   "file": "cases/port-out-of-range.json",
+   "id": "port-out-of-range",
+   "kind": "reject",
+   "sha256": "b56307553a68a44a5c2dad0dc3723ea0ab3eb593aea56c77ea3f0eee428bbcad"
+  },
+  {
+   "description": "a WHATWG parser fetches this URL from evil.example and an RFC 3986 parser from dns-aid.example.com",
+   "expected": {
+    "codes": [
+     "jwks-host-not-zone"
+    ],
+    "decision": "contradicted",
+    "verdict": "invalid"
+   },
+   "file": "cases/jwks-url-backslash-userinfo.json",
+   "id": "jwks-url-backslash-userinfo",
+   "kind": "reject",
+   "sha256": "137368f1a9f7e1e8efb401dbc3da8c16a2ee97df3327fef01233f1bd186d90c7"
+  },
+  {
+   "description": "the JWKS URL carries userinfo, which the profile's URL shape does not allow",
+   "expected": {
+    "codes": [
+     "jwks-host-not-zone"
+    ],
+    "decision": "contradicted",
+    "verdict": "invalid"
+   },
+   "file": "cases/jwks-url-userinfo.json",
+   "id": "jwks-url-userinfo",
+   "kind": "reject",
+   "sha256": "ddc0fa545a716915970591187d7e3ed3f53065b10383b8561f7ea7c8a09a21ea"
+  },
+  {
+   "description": "signed target kchat, served target with the Kelvin sign U+212A: Unicode lowercasing makes them equal, DNS does not",
+   "expected": {
+    "codes": [
+     "endpoint-mismatch"
+    ],
+    "decision": "contradicted",
+    "verdict": "invalid"
+   },
+   "file": "cases/target-kelvin-sign.json",
+   "id": "target-kelvin-sign",
+   "kind": "reject",
+   "sha256": "229d64ee0899463c90ccf720488d2cb44be070389e234886bd6739ec34d2b246"
+  },
+  {
+   "description": "served target ends in two dots; only one root dot is dropped before comparing",
+   "expected": {
+    "codes": [
+     "endpoint-mismatch"
+    ],
+    "decision": "contradicted",
+    "verdict": "invalid"
+   },
+   "file": "cases/target-two-trailing-dots.json",
+   "id": "target-two-trailing-dots",
+   "kind": "reject",
+   "sha256": "b47012020ce2a07f80ec06e33dd7ff612ecc5f8f10848ba0d4d1136cee1b5547"
+  },
+  {
+   "description": "control: served target ends in the root dot, which names the same host",
+   "expected": {
+    "codes": [],
+    "decision": "agrees",
+    "verdict": "valid"
+   },
+   "file": "cases/target-root-dot.json",
+   "id": "target-root-dot",
+   "kind": "accept",
+   "sha256": "a8dc0294306a091e83f8473a02f34fd155516f1fce7c6a3b5383664a10fea61e"
+  },
+  {
+   "description": "control: served fqdn differs from the signed one in ASCII case only (RFC 4343)",
+   "expected": {
+    "codes": [],
+    "decision": "agrees",
+    "verdict": "valid"
+   },
+   "file": "cases/fqdn-ascii-case.json",
+   "id": "fqdn-ascii-case",
+   "kind": "accept",
+   "sha256": "1459543c2bd486a4e86f7e131116fc364c90282278e65d3c16fb3d5fb7421145"
+  },
+  {
+   "description": "the only key is published for encryption (use enc, RFC 7517 section 4.2), so it verifies no signature",
+   "expected": {
+    "codes": [
+     "key-unusable"
+    ],
+    "decision": "cannot-tell",
+    "verdict": "invalid"
+   },
+   "file": "cases/jwk-use-enc.json",
+   "id": "jwk-use-enc",
+   "kind": "reject",
+   "sha256": "e67355e70fd13de7230fa4550ea1633a725fe2e919de7d030e06923905c7d387"
+  },
+  {
+   "description": "the only key's key_ops do not name verify (RFC 7517 section 4.3)",
+   "expected": {
+    "codes": [
+     "key-unusable"
+    ],
+    "decision": "cannot-tell",
+    "verdict": "invalid"
+   },
+   "file": "cases/jwk-key-ops-derive.json",
+   "id": "jwk-key-ops-derive",
+   "kind": "reject",
+   "sha256": "1124c6be38701b4e863eb12f2a0a15777e4fe75d297306cef494cb5aada6295f"
+  },
+  {
+   "description": "the only key is published for ES384 (RFC 7517 section 4.4), not for this ES256 signature",
+   "expected": {
+    "codes": [
+     "key-unusable"
+    ],
+    "decision": "cannot-tell",
+    "verdict": "invalid"
+   },
+   "file": "cases/jwk-alg-es384.json",
+   "id": "jwk-alg-es384",
+   "kind": "reject",
+   "sha256": "b4f47262f492e1d715b264607dd4a841df676f963897f6cfe78fed8651d3fff8"
+  },
+  {
+   "description": "x carries a leading zero octet: the same integer, but RFC 7518 section 6.2.1.2 requires 32 octets",
+   "expected": {
+    "codes": [
+     "key-unusable"
+    ],
+    "decision": "cannot-tell",
+    "verdict": "invalid"
+   },
+   "file": "cases/jwk-x-33-bytes.json",
+   "id": "jwk-x-33-bytes",
+   "kind": "reject",
+   "sha256": "e2ab18bbfa2ed38cf882f845b4dd5415f1712833eb1aa400838fd616f632fa78"
+  },
+  {
+   "description": "control: a header with no kid and a key set whose first key is malformed: that key is ignored (RFC 7517 section 5)",
+   "expected": {
+    "codes": [],
+    "decision": "agrees",
+    "verdict": "valid"
+   },
+   "file": "cases/jwk-set-skips-malformed-key.json",
+   "id": "jwk-set-skips-malformed-key",
+   "kind": "accept",
+   "sha256": "9253b6333503b9f62333a6b6d399aecb45c09bb3fa54d5ffc87b4b2436ea61f9"
+  },
+  {
+   "description": "the record carries an empty proto, which names no protocol, so the signed alpn a2a does not match",
+   "expected": {
+    "codes": [
+     "endpoint-mismatch"
+    ],
+    "decision": "contradicted",
+    "verdict": "invalid"
+   },
+   "file": "cases/record-proto-empty.json",
+   "id": "record-proto-empty",
+   "kind": "reject",
+   "sha256": "6adb667624bbe0c547172037f3b7b604ecef1e8bd9d92c80a9e716aae0b6e3d8"
+  },
+  {
+   "description": "neither the payload nor the record names a target: an endpoint that names no host binds nothing",
+   "expected": {
+    "codes": [
+     "endpoint-mismatch"
+    ],
+    "decision": "contradicted",
+    "verdict": "invalid"
+   },
+   "file": "cases/target-absent-both-sides.json",
+   "id": "target-absent-both-sides",
+   "kind": "reject",
+   "sha256": "a9012b979ce780a87903ed20e202b6199c7c3895af2eb0e09223caa6a56359dc"
+  },
+  {
+   "description": "iat is two minutes after the check time (inside the skew) and exp one minute after it: an empty window",
+   "expected": {
+    "codes": [
+     "validity-window-inverted"
+    ],
+    "decision": "contradicted",
+    "verdict": "invalid"
+   },
+   "file": "cases/validity-window-inverted.json",
+   "id": "validity-window-inverted",
+   "kind": "reject",
+   "sha256": "4db97614fc51aafa85a6d6378c744c17d487320e42f609ff155378934d8cb72e"
+  },
+  {
+   "description": "the JWKS URL names port 99999, which no client can connect to",
+   "expected": {
+    "codes": [
+     "jwks-host-not-zone"
+    ],
+    "decision": "contradicted",
+    "verdict": "invalid"
+   },
+   "file": "cases/jwks-url-port-out-of-range.json",
+   "id": "jwks-url-port-out-of-range",
+   "kind": "reject",
+   "sha256": "1bee8dfdabf55c8970b088b642aa906454a53ea5be6cd3126045404df5d2cc61"
+  },
+  {
+   "description": "a served ipv4hint the signer never saw: every present param enters the digest, not only the DNS-AID ones",
+   "expected": {
+    "codes": [
+     "svcb1-digest-mismatch"
+    ],
+    "decision": "contradicted",
+    "verdict": "invalid"
+   },
+   "file": "cases/svcb1-covers-ipv4hint.json",
+   "id": "svcb1-covers-ipv4hint",
+   "kind": "reject",
+   "sha256": "9ffac075f9055d90e4977776c67bfefac627484fb36e387fce9f3e0035433bdb"
+  },
+  {
+   "description": "b64 false without crit: an RFC 7797 reader signs the raw payload, a base64url reader the encoded one",
+   "expected": {
+    "codes": [
+     "jws-malformed"
+    ],
+    "decision": "contradicted",
+    "verdict": "invalid"
+   },
+   "file": "cases/header-b64-false.json",
+   "id": "header-b64-false",
+   "kind": "reject",
+   "sha256": "3939df0d1d8d642d6235f407126077fac4c2b7dd0824d6ac2403b799c8fa8ab2"
+  },
+  {
+   "description": "control: s replaced by n - s, the other valid ECDSA signature; ES256 does not require low s",
+   "expected": {
+    "codes": [],
+    "decision": "agrees",
+    "verdict": "valid"
+   },
+   "file": "cases/signature-high-s.json",
+   "id": "signature-high-s",
+   "kind": "accept",
+   "sha256": "dda55458b8ed71262727bcd5ab7f9fbe82a6eee32819d8c8545cedb2e5b105b8"
+  },
+  {
+   "description": "signed port 1, served port true: a reader where true equals 1 binds a port the record never named",
+   "expected": {
+    "codes": [
+     "endpoint-mismatch"
+    ],
+    "decision": "contradicted",
+    "verdict": "invalid"
+   },
+   "file": "cases/record-port-true.json",
+   "id": "record-port-true",
+   "kind": "reject",
+   "sha256": "108f5dd3a0f10eb0ad429dd38cf8c35113657298bf655e49f50ada9a611525bb"
+  },
+  {
+   "description": "the member file names the record's target twice; a first-wins reader serves evil.example.net",
+   "expected": {
+    "codes": [
+     "jws-malformed"
+    ],
+    "decision": "contradicted",
+    "verdict": "invalid"
+   },
+   "file": "cases/member-duplicate-target.json",
+   "id": "member-duplicate-target",
+   "kind": "reject",
+   "sha256": "d78a7423602e1b96960ddb5e95f7b1ef11630cca22400dcaf93fe04834880e5b"
   }
  ]
 }

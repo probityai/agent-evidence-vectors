@@ -1,14 +1,14 @@
 {
   "aggregate": {
     "counts": {
-      "accept": 3,
-      "reject": 30
+      "accept": 7,
+      "reject": 52
     },
     "line": "verdict: every member behaves as MANIFEST.json declares",
-    "total": 33
+    "total": 59
   },
   "anchor": {
-    "kind": "signed-digest-list",
+    "kind": "digest-list-line",
     "manifest": "vectors-dns-aid-sig-v01/MANIFEST.json",
     "reference": {
       "path": "release/CORPUS-DIGESTS.txt",
@@ -17,14 +17,7 @@
     "routine": "corpus_digest in corpora/vectors-dns-aid-sig-v01/digest.py",
     "routine-file": "corpora/vectors-dns-aid-sig-v01/digest.py",
     "serialization": "corpus-routine",
-    "sha256": "b85cffefc7f2aa9e37cf47b9422f3337198298558510c6425e23d1d4bb8ffd6b",
-    "signature": {
-      "key": "release/cosign.pub",
-      "key-sha256": "15fccb1635dd1d9333146cb389f26fa3c3b9213aeed1da945ea1f51a2dc1be84",
-      "path": "release/CORPUS-DIGESTS.txt.sig",
-      "scheme": "ed25519",
-      "serialization": "bytes"
-    },
+    "sha256": "fdd158819eb58680f7a89cc4a2441b9760e4545fdb252a8907cea6193a5c1e71",
     "verdicts": {
       "availability-failure": "inconclusive",
       "integrity-failure": "fail"
@@ -36,7 +29,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "ee0219d4fd6a25823e6a78f71d2393c2a226af7d1f38812e9bfab71b6b3cebf0"
+          "sha256": "f0011e9dbe48baba37ad0e29c654241ecda7cecb798ed8f5d3d0aa49a38db52c"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [],
@@ -45,21 +38,21 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "ee0219d4fd6a25823e6a78f71d2393c2a226af7d1f38812e9bfab71b6b3cebf0"
+          "sha256": "f0011e9dbe48baba37ad0e29c654241ecda7cecb798ed8f5d3d0aa49a38db52c"
         },
         "swapped-in": "784dfdc8da2c0f07d260027cb943d9670427d81dbd76e0533f3c3a3c77f8f449",
         "test": "swap-and-re-pin"
       },
       "path": "corpora/vectors-dns-aid-sig-v01/INDEX.md",
       "serialization": "bytes",
-      "sha256": "d40903abb77a8fc6ed573361b17d61a587e70dfb4d0173d7db3753a33e911022"
+      "sha256": "ca262e55582aabed4a0ee0a5fbea948a4a69bed52c12e68be22a26daea0356ee"
     },
     {
       "consumed": "unconsumed",
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "ee0219d4fd6a25823e6a78f71d2393c2a226af7d1f38812e9bfab71b6b3cebf0"
+          "sha256": "f0011e9dbe48baba37ad0e29c654241ecda7cecb798ed8f5d3d0aa49a38db52c"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [],
@@ -68,21 +61,21 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "ee0219d4fd6a25823e6a78f71d2393c2a226af7d1f38812e9bfab71b6b3cebf0"
+          "sha256": "f0011e9dbe48baba37ad0e29c654241ecda7cecb798ed8f5d3d0aa49a38db52c"
         },
         "swapped-in": "e67f92092c03ce4f4d8c89f407c056efc5b94f98a9fd088f208b1b6eac4163b2",
         "test": "swap-and-re-pin"
       },
       "path": "corpora/vectors-dns-aid-sig-v01/check_vectors.py",
       "serialization": "bytes",
-      "sha256": "099290eee5dbce8944358a0dcd330aa79867bdca37563880f0455e545b883ff2"
+      "sha256": "32b27917031432dc71b8c40c419abf4df019e55a0452b9492582aa5e91a51fe4"
     },
     {
       "consumed": "unconsumed",
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "ee0219d4fd6a25823e6a78f71d2393c2a226af7d1f38812e9bfab71b6b3cebf0"
+          "sha256": "f0011e9dbe48baba37ad0e29c654241ecda7cecb798ed8f5d3d0aa49a38db52c"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [],
@@ -91,7 +84,7 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "ee0219d4fd6a25823e6a78f71d2393c2a226af7d1f38812e9bfab71b6b3cebf0"
+          "sha256": "f0011e9dbe48baba37ad0e29c654241ecda7cecb798ed8f5d3d0aa49a38db52c"
         },
         "swapped-in": "89a124961eb2f4c615f89247d6cae4a55f3071cc482ae5f5f10bed4dd5ed6010",
         "test": "swap-and-re-pin"
@@ -105,7 +98,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "ee0219d4fd6a25823e6a78f71d2393c2a226af7d1f38812e9bfab71b6b3cebf0"
+          "sha256": "f0011e9dbe48baba37ad0e29c654241ecda7cecb798ed8f5d3d0aa49a38db52c"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [],
@@ -114,21 +107,21 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "ee0219d4fd6a25823e6a78f71d2393c2a226af7d1f38812e9bfab71b6b3cebf0"
+          "sha256": "f0011e9dbe48baba37ad0e29c654241ecda7cecb798ed8f5d3d0aa49a38db52c"
         },
         "swapped-in": "4df9495fde82283cd17fb033cf363c1a3bdc558a0450ed1a26e0a342beff948d",
         "test": "swap-and-re-pin"
       },
       "path": "corpora/vectors-dns-aid-sig-v01/gen_vectors.py",
       "serialization": "bytes",
-      "sha256": "1464953a79a624a4287630ccc24786c595072a5fd4fc976149f77b60c3183f8d"
+      "sha256": "bd16e3e960cb88dddefbb6665b5c234602961802e2b7288c47e99a3300ffb628"
     },
     {
       "consumed": "unconsumed",
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "ee0219d4fd6a25823e6a78f71d2393c2a226af7d1f38812e9bfab71b6b3cebf0"
+          "sha256": "f0011e9dbe48baba37ad0e29c654241ecda7cecb798ed8f5d3d0aa49a38db52c"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [],
@@ -137,21 +130,21 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "ee0219d4fd6a25823e6a78f71d2393c2a226af7d1f38812e9bfab71b6b3cebf0"
+          "sha256": "f0011e9dbe48baba37ad0e29c654241ecda7cecb798ed8f5d3d0aa49a38db52c"
         },
         "swapped-in": "889fd0887a8764f46ed26b8f7c93d4795adf57a1c5bbe0d652ccfafc4b5d4fa6",
         "test": "swap-and-re-pin"
       },
       "path": "corpora/vectors-dns-aid-sig-v01/gen_vectors_independent.py",
       "serialization": "bytes",
-      "sha256": "cdc0890fd608940c552e82db55f2ebe4d5535ba978cf5edd42b82a6de519dd36"
+      "sha256": "72311119866dbb344a08c80d7bc6e51ce3a901254b5435de4826ba8ca9b41770"
     },
     {
       "consumed": "unconsumed",
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "ee0219d4fd6a25823e6a78f71d2393c2a226af7d1f38812e9bfab71b6b3cebf0"
+          "sha256": "f0011e9dbe48baba37ad0e29c654241ecda7cecb798ed8f5d3d0aa49a38db52c"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [],
@@ -160,14 +153,14 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "ee0219d4fd6a25823e6a78f71d2393c2a226af7d1f38812e9bfab71b6b3cebf0"
+          "sha256": "f0011e9dbe48baba37ad0e29c654241ecda7cecb798ed8f5d3d0aa49a38db52c"
         },
         "swapped-in": "082bef0d7134aea898b9455aad7e82b20d147b5ef2887aedc7ec5abef4e9e958",
         "test": "swap-and-re-pin"
       },
       "path": "corpora/vectors-dns-aid-sig-v01/tests/test_corpus.py",
       "serialization": "bytes",
-      "sha256": "0962234c96abf2076ea765d09694603c0d93f8d5a1801439756a39ad59b030f0"
+      "sha256": "b59162672aef6b42d97433be4b56c3820cc541917ec8b1fa0d44deb15abfba65"
     }
   ],
   "boundary": {
@@ -182,7 +175,7 @@
     "root": "corpora/vectors-dns-aid-sig-v01"
   },
   "byte-identity": {
-    "pins": 33,
+    "pins": 59,
     "serialization": "bytes"
   },
   "canonicalization": {
@@ -359,7 +352,7 @@
         "go.mod"
       ],
       "serialization": "sha256-listing-v1",
-      "sha256": "5e910152e511086ea32f93807ae40f610d50c6918528feff8a01cabdaf27d967"
+      "sha256": "8fbe09df3788bb20c17413b99d898e69057264a0d959879e147f0131719d40b8"
     },
     "runtime": {
       "name": "go",
@@ -578,6 +571,14 @@
       "state": "pass"
     },
     {
+      "check": "exp-beyond-safe-integer",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
       "check": "expired",
       "native": {
         "reasons": [],
@@ -610,10 +611,26 @@
       "state": "pass"
     },
     {
+      "check": "fqdn-ascii-case",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
       "check": "full-coverage-valid",
       "native": {
         "reasons": [],
         "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "header-b64-false",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
       },
       "state": "pass"
     },
@@ -626,7 +643,79 @@
       "state": "pass"
     },
     {
+      "check": "header-infinity-literal",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
       "check": "iat-future",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "jwk-alg-es384",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "jwk-key-ops-derive",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "jwk-set-skips-malformed-key",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "jwk-use-enc",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "jwk-x-33-bytes",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "jwks-url-backslash-userinfo",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "jwks-url-port-out-of-range",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "jwks-url-userinfo",
       "native": {
         "reasons": [],
         "verdict": "reject"
@@ -658,6 +747,14 @@
       "state": "pass"
     },
     {
+      "check": "member-duplicate-target",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
       "check": "owner-key-pinned-control",
       "native": {
         "reasons": [],
@@ -682,7 +779,39 @@
       "state": "pass"
     },
     {
+      "check": "payload-lone-surrogate",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "payload-nan-literal",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "payload-noncharacter",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
       "check": "port-float",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "port-out-of-range",
       "native": {
         "reasons": [],
         "verdict": "reject"
@@ -714,6 +843,22 @@
       "state": "pass"
     },
     {
+      "check": "record-port-true",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "record-proto-empty",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
       "check": "record-without-zone",
       "native": {
         "reasons": [],
@@ -738,7 +883,23 @@
       "state": "pass"
     },
     {
+      "check": "signature-high-s",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
       "check": "signature-truncated",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "svcb1-covers-ipv4hint",
       "native": {
         "reasons": [],
         "verdict": "reject"
@@ -770,6 +931,46 @@
       "state": "pass"
     },
     {
+      "check": "target-absent-both-sides",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "target-kelvin-sign",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "target-root-dot",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "target-two-trailing-dots",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "validity-window-inverted",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
       "check": "wrong-key",
       "native": {
         "reasons": [],
@@ -780,7 +981,7 @@
   ],
   "corpus-digest": {
     "serialization": "sha256-listing-v1",
-    "sha256": "7f2e42bb6ad8bbeeb10a64c4cb8cab48ce661eef4f5a2d310edaf4e6c1114ce4"
+    "sha256": "433a6e07e26fb8e5c9eb8b9767819b9a3e17bf5cb9db6387ced28d480908a214"
   },
   "exit-code": 0,
   "exit-rule": "zero-iff-every-check-passes",
@@ -822,10 +1023,36 @@
       "payload-array",
       "record-without-zone",
       "key-authority-dnssec-chain",
-      "signature-base64url-non-canonical"
+      "signature-base64url-non-canonical",
+      "payload-nan-literal",
+      "header-infinity-literal",
+      "payload-lone-surrogate",
+      "payload-noncharacter",
+      "exp-beyond-safe-integer",
+      "port-out-of-range",
+      "jwks-url-backslash-userinfo",
+      "jwks-url-userinfo",
+      "target-kelvin-sign",
+      "target-two-trailing-dots",
+      "target-root-dot",
+      "fqdn-ascii-case",
+      "jwk-use-enc",
+      "jwk-key-ops-derive",
+      "jwk-alg-es384",
+      "jwk-x-33-bytes",
+      "jwk-set-skips-malformed-key",
+      "record-proto-empty",
+      "target-absent-both-sides",
+      "validity-window-inverted",
+      "jwks-url-port-out-of-range",
+      "svcb1-covers-ipv4hint",
+      "header-b64-false",
+      "signature-high-s",
+      "record-port-true",
+      "member-duplicate-target"
     ],
     "path": "corpora/vectors-dns-aid-sig-v01/MANIFEST.json",
-    "sha256": "efa7af792d314d4bd5eac1c1c111bb1268074c039a00da44b4ec8d70eebe3e19"
+    "sha256": "4b7406795cfb0593093ca5182b037cc4a8198bfd7f4fc0f28c9791cfdcb45580"
   },
   "members": [
     {
@@ -1124,6 +1351,240 @@
         }
       ],
       "id": "signature-base64url-non-canonical"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-dns-aid-sig-v01/cases/payload-nan-literal.json",
+          "sha256": "1a5ea9b9899df4048e63c654fe9fe71788215dc4f767a1b46a8a97c8ecf0949b"
+        }
+      ],
+      "id": "payload-nan-literal"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-dns-aid-sig-v01/cases/header-infinity-literal.json",
+          "sha256": "2fa8e9f9f3af44293e276ba402139228995661bebc280aa6efe4855fbaca5ec2"
+        }
+      ],
+      "id": "header-infinity-literal"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-dns-aid-sig-v01/cases/payload-lone-surrogate.json",
+          "sha256": "51f8583975a2f6b54377df6335353e89794e053cea05115e84d43de8852a998e"
+        }
+      ],
+      "id": "payload-lone-surrogate"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-dns-aid-sig-v01/cases/payload-noncharacter.json",
+          "sha256": "660390f42db53ace219cf7f9de4340ecb3ff2f9d808556d695dd23aecc101ef0"
+        }
+      ],
+      "id": "payload-noncharacter"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-dns-aid-sig-v01/cases/exp-beyond-safe-integer.json",
+          "sha256": "b4b969d9b1c0188ea1374591e661acb929fd46e4a7fb078c2c37e6faa402cb09"
+        }
+      ],
+      "id": "exp-beyond-safe-integer"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-dns-aid-sig-v01/cases/port-out-of-range.json",
+          "sha256": "b56307553a68a44a5c2dad0dc3723ea0ab3eb593aea56c77ea3f0eee428bbcad"
+        }
+      ],
+      "id": "port-out-of-range"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-dns-aid-sig-v01/cases/jwks-url-backslash-userinfo.json",
+          "sha256": "137368f1a9f7e1e8efb401dbc3da8c16a2ee97df3327fef01233f1bd186d90c7"
+        }
+      ],
+      "id": "jwks-url-backslash-userinfo"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-dns-aid-sig-v01/cases/jwks-url-userinfo.json",
+          "sha256": "ddc0fa545a716915970591187d7e3ed3f53065b10383b8561f7ea7c8a09a21ea"
+        }
+      ],
+      "id": "jwks-url-userinfo"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-dns-aid-sig-v01/cases/target-kelvin-sign.json",
+          "sha256": "229d64ee0899463c90ccf720488d2cb44be070389e234886bd6739ec34d2b246"
+        }
+      ],
+      "id": "target-kelvin-sign"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-dns-aid-sig-v01/cases/target-two-trailing-dots.json",
+          "sha256": "b47012020ce2a07f80ec06e33dd7ff612ecc5f8f10848ba0d4d1136cee1b5547"
+        }
+      ],
+      "id": "target-two-trailing-dots"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-dns-aid-sig-v01/cases/target-root-dot.json",
+          "sha256": "a8dc0294306a091e83f8473a02f34fd155516f1fce7c6a3b5383664a10fea61e"
+        }
+      ],
+      "id": "target-root-dot"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-dns-aid-sig-v01/cases/fqdn-ascii-case.json",
+          "sha256": "1459543c2bd486a4e86f7e131116fc364c90282278e65d3c16fb3d5fb7421145"
+        }
+      ],
+      "id": "fqdn-ascii-case"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-dns-aid-sig-v01/cases/jwk-use-enc.json",
+          "sha256": "e67355e70fd13de7230fa4550ea1633a725fe2e919de7d030e06923905c7d387"
+        }
+      ],
+      "id": "jwk-use-enc"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-dns-aid-sig-v01/cases/jwk-key-ops-derive.json",
+          "sha256": "1124c6be38701b4e863eb12f2a0a15777e4fe75d297306cef494cb5aada6295f"
+        }
+      ],
+      "id": "jwk-key-ops-derive"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-dns-aid-sig-v01/cases/jwk-alg-es384.json",
+          "sha256": "b4f47262f492e1d715b264607dd4a841df676f963897f6cfe78fed8651d3fff8"
+        }
+      ],
+      "id": "jwk-alg-es384"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-dns-aid-sig-v01/cases/jwk-x-33-bytes.json",
+          "sha256": "e2ab18bbfa2ed38cf882f845b4dd5415f1712833eb1aa400838fd616f632fa78"
+        }
+      ],
+      "id": "jwk-x-33-bytes"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-dns-aid-sig-v01/cases/jwk-set-skips-malformed-key.json",
+          "sha256": "9253b6333503b9f62333a6b6d399aecb45c09bb3fa54d5ffc87b4b2436ea61f9"
+        }
+      ],
+      "id": "jwk-set-skips-malformed-key"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-dns-aid-sig-v01/cases/record-proto-empty.json",
+          "sha256": "6adb667624bbe0c547172037f3b7b604ecef1e8bd9d92c80a9e716aae0b6e3d8"
+        }
+      ],
+      "id": "record-proto-empty"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-dns-aid-sig-v01/cases/target-absent-both-sides.json",
+          "sha256": "a9012b979ce780a87903ed20e202b6199c7c3895af2eb0e09223caa6a56359dc"
+        }
+      ],
+      "id": "target-absent-both-sides"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-dns-aid-sig-v01/cases/validity-window-inverted.json",
+          "sha256": "4db97614fc51aafa85a6d6378c744c17d487320e42f609ff155378934d8cb72e"
+        }
+      ],
+      "id": "validity-window-inverted"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-dns-aid-sig-v01/cases/jwks-url-port-out-of-range.json",
+          "sha256": "1bee8dfdabf55c8970b088b642aa906454a53ea5be6cd3126045404df5d2cc61"
+        }
+      ],
+      "id": "jwks-url-port-out-of-range"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-dns-aid-sig-v01/cases/svcb1-covers-ipv4hint.json",
+          "sha256": "9ffac075f9055d90e4977776c67bfefac627484fb36e387fce9f3e0035433bdb"
+        }
+      ],
+      "id": "svcb1-covers-ipv4hint"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-dns-aid-sig-v01/cases/header-b64-false.json",
+          "sha256": "3939df0d1d8d642d6235f407126077fac4c2b7dd0824d6ac2403b799c8fa8ab2"
+        }
+      ],
+      "id": "header-b64-false"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-dns-aid-sig-v01/cases/signature-high-s.json",
+          "sha256": "dda55458b8ed71262727bcd5ab7f9fbe82a6eee32819d8c8545cedb2e5b105b8"
+        }
+      ],
+      "id": "signature-high-s"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-dns-aid-sig-v01/cases/record-port-true.json",
+          "sha256": "108f5dd3a0f10eb0ad429dd38cf8c35113657298bf655e49f50ada9a611525bb"
+        }
+      ],
+      "id": "record-port-true"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-dns-aid-sig-v01/cases/member-duplicate-target.json",
+          "sha256": "d78a7423602e1b96960ddb5e95f7b1ef11630cca22400dcaf93fe04834880e5b"
+        }
+      ],
+      "id": "member-duplicate-target"
     }
   ],
   "native": {
@@ -1142,7 +1603,7 @@
       "reference": {
         "path": "release/intake/native/vectors-dns-aid-sig-v01.json",
         "serialization": "bytes",
-        "sha256": "ee0219d4fd6a25823e6a78f71d2393c2a226af7d1f38812e9bfab71b6b3cebf0"
+        "sha256": "f0011e9dbe48baba37ad0e29c654241ecda7cecb798ed8f5d3d0aa49a38db52c"
       }
     },
     {
@@ -1151,7 +1612,7 @@
       "reference": {
         "path": "release/intake/native/vectors-dns-aid-sig-v01.txt",
         "serialization": "bytes",
-        "sha256": "77508d3be8af780ae3aeff66b1f19e42cbe45366135a39af4bd622704ffa82c3"
+        "sha256": "0257507077d2b1728d277e6f6887229c760f483c1befb69ee27cd44fb3957206"
       }
     },
     {
@@ -1234,6 +1695,14 @@
       "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"codes\":[\"endpoint-mismatch\"],\"decision\":\"contradicted\",\"verdict\":\"invalid\"}}"
     },
     {
+      "check": "exp-beyond-safe-integer",
+      "inputs": [
+        "member:exp-beyond-safe-integer",
+        "check:exp-beyond-safe-integer"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"codes\":[\"payload-integer-required\"],\"decision\":\"contradicted\",\"verdict\":\"invalid\"}}"
+    },
+    {
       "check": "expired",
       "inputs": [
         "member:expired",
@@ -1266,6 +1735,14 @@
       "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"codes\":[\"jwks-host-not-zone\"],\"decision\":\"contradicted\",\"verdict\":\"invalid\"}}"
     },
     {
+      "check": "header-b64-false",
+      "inputs": [
+        "member:header-b64-false",
+        "check:header-b64-false"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"codes\":[\"jws-malformed\"],\"decision\":\"contradicted\",\"verdict\":\"invalid\"}}"
+    },
+    {
       "check": "header-duplicate-alg",
       "inputs": [
         "member:header-duplicate-alg",
@@ -1274,12 +1751,76 @@
       "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"codes\":[\"header-duplicate-member\"],\"decision\":\"contradicted\",\"verdict\":\"invalid\"}}"
     },
     {
+      "check": "header-infinity-literal",
+      "inputs": [
+        "member:header-infinity-literal",
+        "check:header-infinity-literal"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"codes\":[\"jws-malformed\"],\"decision\":\"contradicted\",\"verdict\":\"invalid\"}}"
+    },
+    {
       "check": "iat-future",
       "inputs": [
         "member:iat-future",
         "check:iat-future"
       ],
       "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"codes\":[\"iat-in-future\"],\"decision\":\"cannot-tell\",\"verdict\":\"invalid\"}}"
+    },
+    {
+      "check": "jwk-alg-es384",
+      "inputs": [
+        "member:jwk-alg-es384",
+        "check:jwk-alg-es384"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"codes\":[\"key-unusable\"],\"decision\":\"cannot-tell\",\"verdict\":\"invalid\"}}"
+    },
+    {
+      "check": "jwk-key-ops-derive",
+      "inputs": [
+        "member:jwk-key-ops-derive",
+        "check:jwk-key-ops-derive"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"codes\":[\"key-unusable\"],\"decision\":\"cannot-tell\",\"verdict\":\"invalid\"}}"
+    },
+    {
+      "check": "jwk-use-enc",
+      "inputs": [
+        "member:jwk-use-enc",
+        "check:jwk-use-enc"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"codes\":[\"key-unusable\"],\"decision\":\"cannot-tell\",\"verdict\":\"invalid\"}}"
+    },
+    {
+      "check": "jwk-x-33-bytes",
+      "inputs": [
+        "member:jwk-x-33-bytes",
+        "check:jwk-x-33-bytes"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"codes\":[\"key-unusable\"],\"decision\":\"cannot-tell\",\"verdict\":\"invalid\"}}"
+    },
+    {
+      "check": "jwks-url-backslash-userinfo",
+      "inputs": [
+        "member:jwks-url-backslash-userinfo",
+        "check:jwks-url-backslash-userinfo"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"codes\":[\"jwks-host-not-zone\"],\"decision\":\"contradicted\",\"verdict\":\"invalid\"}}"
+    },
+    {
+      "check": "jwks-url-port-out-of-range",
+      "inputs": [
+        "member:jwks-url-port-out-of-range",
+        "check:jwks-url-port-out-of-range"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"codes\":[\"jwks-host-not-zone\"],\"decision\":\"contradicted\",\"verdict\":\"invalid\"}}"
+    },
+    {
+      "check": "jwks-url-userinfo",
+      "inputs": [
+        "member:jwks-url-userinfo",
+        "check:jwks-url-userinfo"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"codes\":[\"jwks-host-not-zone\"],\"decision\":\"contradicted\",\"verdict\":\"invalid\"}}"
     },
     {
       "check": "key-authority-dnssec-chain",
@@ -1306,6 +1847,14 @@
       "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"codes\":[\"jws-malformed\"],\"decision\":\"contradicted\",\"verdict\":\"invalid\"}}"
     },
     {
+      "check": "member-duplicate-target",
+      "inputs": [
+        "member:member-duplicate-target",
+        "check:member-duplicate-target"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"codes\":[\"jws-malformed\"],\"decision\":\"contradicted\",\"verdict\":\"invalid\"}}"
+    },
+    {
       "check": "param-tamper-cap-sha256",
       "inputs": [
         "member:param-tamper-cap-sha256",
@@ -1322,10 +1871,42 @@
       "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"codes\":[\"payload-not-object\"],\"decision\":\"contradicted\",\"verdict\":\"invalid\"}}"
     },
     {
+      "check": "payload-lone-surrogate",
+      "inputs": [
+        "member:payload-lone-surrogate",
+        "check:payload-lone-surrogate"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"codes\":[\"payload-not-i-json\"],\"decision\":\"contradicted\",\"verdict\":\"invalid\"}}"
+    },
+    {
+      "check": "payload-nan-literal",
+      "inputs": [
+        "member:payload-nan-literal",
+        "check:payload-nan-literal"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"codes\":[\"payload-not-object\"],\"decision\":\"contradicted\",\"verdict\":\"invalid\"}}"
+    },
+    {
+      "check": "payload-noncharacter",
+      "inputs": [
+        "member:payload-noncharacter",
+        "check:payload-noncharacter"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"codes\":[\"payload-not-i-json\"],\"decision\":\"contradicted\",\"verdict\":\"invalid\"}}"
+    },
+    {
       "check": "port-float",
       "inputs": [
         "member:port-float",
         "check:port-float"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"codes\":[\"payload-integer-required\"],\"decision\":\"contradicted\",\"verdict\":\"invalid\"}}"
+    },
+    {
+      "check": "port-out-of-range",
+      "inputs": [
+        "member:port-out-of-range",
+        "check:port-out-of-range"
       ],
       "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"codes\":[\"payload-integer-required\"],\"decision\":\"contradicted\",\"verdict\":\"invalid\"}}"
     },
@@ -1344,6 +1925,22 @@
         "check:realm-value-injected"
       ],
       "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"codes\":[\"svcb1-digest-mismatch\"],\"decision\":\"contradicted\",\"verdict\":\"invalid\"}}"
+    },
+    {
+      "check": "record-port-true",
+      "inputs": [
+        "member:record-port-true",
+        "check:record-port-true"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"codes\":[\"endpoint-mismatch\"],\"decision\":\"contradicted\",\"verdict\":\"invalid\"}}"
+    },
+    {
+      "check": "record-proto-empty",
+      "inputs": [
+        "member:record-proto-empty",
+        "check:record-proto-empty"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"codes\":[\"endpoint-mismatch\"],\"decision\":\"contradicted\",\"verdict\":\"invalid\"}}"
     },
     {
       "check": "record-without-zone",
@@ -1378,6 +1975,14 @@
       "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"codes\":[\"signature-length\"],\"decision\":\"contradicted\",\"verdict\":\"invalid\"}}"
     },
     {
+      "check": "svcb1-covers-ipv4hint",
+      "inputs": [
+        "member:svcb1-covers-ipv4hint",
+        "check:svcb1-covers-ipv4hint"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"codes\":[\"svcb1-digest-mismatch\"],\"decision\":\"contradicted\",\"verdict\":\"invalid\"}}"
+    },
+    {
       "check": "svcb1-field-boundary",
       "inputs": [
         "member:svcb1-field-boundary",
@@ -1402,6 +2007,38 @@
       "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"codes\":[\"svcb1-digest-mismatch\"],\"decision\":\"contradicted\",\"verdict\":\"invalid\"}}"
     },
     {
+      "check": "target-absent-both-sides",
+      "inputs": [
+        "member:target-absent-both-sides",
+        "check:target-absent-both-sides"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"codes\":[\"endpoint-mismatch\"],\"decision\":\"contradicted\",\"verdict\":\"invalid\"}}"
+    },
+    {
+      "check": "target-kelvin-sign",
+      "inputs": [
+        "member:target-kelvin-sign",
+        "check:target-kelvin-sign"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"codes\":[\"endpoint-mismatch\"],\"decision\":\"contradicted\",\"verdict\":\"invalid\"}}"
+    },
+    {
+      "check": "target-two-trailing-dots",
+      "inputs": [
+        "member:target-two-trailing-dots",
+        "check:target-two-trailing-dots"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"codes\":[\"endpoint-mismatch\"],\"decision\":\"contradicted\",\"verdict\":\"invalid\"}}"
+    },
+    {
+      "check": "validity-window-inverted",
+      "inputs": [
+        "member:validity-window-inverted",
+        "check:validity-window-inverted"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"codes\":[\"validity-window-inverted\"],\"decision\":\"contradicted\",\"verdict\":\"invalid\"}}"
+    },
+    {
       "check": "wrong-key",
       "inputs": [
         "member:wrong-key",
@@ -1417,11 +2054,11 @@
     "runs": [
       {
         "process": "run-1",
-        "sha256": "ee0219d4fd6a25823e6a78f71d2393c2a226af7d1f38812e9bfab71b6b3cebf0"
+        "sha256": "f0011e9dbe48baba37ad0e29c654241ecda7cecb798ed8f5d3d0aa49a38db52c"
       },
       {
         "process": "run-2",
-        "sha256": "ee0219d4fd6a25823e6a78f71d2393c2a226af7d1f38812e9bfab71b6b3cebf0"
+        "sha256": "f0011e9dbe48baba37ad0e29c654241ecda7cecb798ed8f5d3d0aa49a38db52c"
       }
     ],
     "seed": null,
@@ -1435,17 +2072,18 @@
       "action-occurred-or-authority"
     ],
     "establishes": [
-      "aee-verify, at the source listing named here, judges each of the 33 pinned members of dns-aid-sig-binding/v1 as its manifest declares"
+      "aee-verify, at the source listing named here, judges each of the 59 pinned members of dns-aid-sig-binding/v1 as its manifest declares"
     ],
     "leaves-open": [
       "whether an implementation written from the specification, run by someone other than an author, reaches the same verdicts",
+      "whether release/CORPUS-DIGESTS.txt is a list a release signed: the signature beside it does not verify over these bytes, so the anchor is a located line, not a verified one",
       "whether a re-run by someone other than an author on these exact bytes agrees; none is on the record for them"
     ]
   },
   "selector": {
     "expression": "*",
     "language": "id-glob",
-    "matched": 33,
+    "matched": 59,
     "require": "at-least-one",
     "selected": [
       "full-coverage-valid",
@@ -1480,7 +2118,33 @@
       "payload-array",
       "record-without-zone",
       "key-authority-dnssec-chain",
-      "signature-base64url-non-canonical"
+      "signature-base64url-non-canonical",
+      "payload-nan-literal",
+      "header-infinity-literal",
+      "payload-lone-surrogate",
+      "payload-noncharacter",
+      "exp-beyond-safe-integer",
+      "port-out-of-range",
+      "jwks-url-backslash-userinfo",
+      "jwks-url-userinfo",
+      "target-kelvin-sign",
+      "target-two-trailing-dots",
+      "target-root-dot",
+      "fqdn-ascii-case",
+      "jwk-use-enc",
+      "jwk-key-ops-derive",
+      "jwk-alg-es384",
+      "jwk-x-33-bytes",
+      "jwk-set-skips-malformed-key",
+      "record-proto-empty",
+      "target-absent-both-sides",
+      "validity-window-inverted",
+      "jwks-url-port-out-of-range",
+      "svcb1-covers-ipv4hint",
+      "header-b64-false",
+      "signature-high-s",
+      "record-port-true",
+      "member-duplicate-target"
     ]
   },
   "specification-readers": [],

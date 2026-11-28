@@ -1,15 +1,16 @@
 package corpusreaders
 
 import (
-	"encoding/json"
 	"fmt"
+	"os"
+	"path/filepath"
 	"sort"
 	"strings"
 )
 
 func init() {
-	register(dnsAidCorpus{suite: "dns-aid-sig-binding/v1", decisions: true})
-	register(dnsAidCorpus{suite: "dns-aid-rrset/v1"})
+	register(dnsAidCorpus{suite: "dns-aid-sig-binding/v1", decisions: true, judged: "record"})
+	register(dnsAidCorpus{suite: "dns-aid-rrset/v1", judged: "rrset"})
 }
 
 // dnsAidCorpus judges that corpora/vectors-dns-aid-sig-v01/ and
@@ -22,9 +23,19 @@ func init() {
 // valid with no codes, a reject is invalid with exactly the codes it lists), the
 // sig corpus maps agrees to valid and contradicted or cannot-tell to invalid,
 // and the counts and corpus digest agree with the tree.
+//
+// It also refuses a manifest that names one member twice in an object, exactly or in
+// another letter case: encoding/json matches a name to a field without regard to
+// case and keeps the last, while the Python reader reads the exact name, so a manifest
+// carrying "expected" and "Expected" would show each reader a different answer. A
+// file under cases/ that the manifest does not list, and a declared code listed twice,
+// are findings too. A member file is strict JSON except inside its judged member
+// (the record or the RRset): a repeat there is a defect the corpus's own reader names
+// as the member's verdict, and one member carries it on purpose.
 type dnsAidCorpus struct {
 	suite     string
 	decisions bool
+	judged    string
 }
 
 func (d dnsAidCorpus) Suite() string { return d.suite }
@@ -50,10 +61,14 @@ type dnsAidEntry struct {
 
 func (d dnsAidCorpus) Judge(dir string, raw []byte) (*Result, error) {
 	var m dnsAidManifest
-	if err := json.Unmarshal(raw, &m); err != nil {
+	if err := strictUnmarshal(raw, &m); err != nil {
 		return nil, fmt.Errorf("%s/MANIFEST.json does not parse: %w", dir, err)
 	}
 	result := &Result{}
+	if name := foldedRepeat(raw); name != "" {
+		result.Findings = append(result.Findings,
+			fmt.Sprintf("MANIFEST.json names %q twice in one object (in another letter case)", name))
+	}
 	seen := map[string]bool{}
 	measured := map[string]int{}
 	for _, e := range m.Vectors {
@@ -83,10 +98,45 @@ func (d dnsAidCorpus) Judge(dir string, raw []byte) (*Result, error) {
 	if bad := countsDisagree(m.Counts, measured); bad != "" {
 		result.Findings = append(result.Findings, bad)
 	}
+	if extra := dnsAidUnlisted(dir, files); extra != "" {
+		result.Findings = append(result.Findings, extra)
+	}
 	return result, nil
 }
 
+// dnsAidUnlisted names every file under cases/ the manifest does not list: a harness
+// that runs the directory would judge a member nobody declared an answer for.
+func dnsAidUnlisted(dir string, files []string) string {
+	entries, err := os.ReadDir(filepath.Join(dir, "cases"))
+	if err != nil {
+		return "cases/ cannot be read: " + err.Error()
+	}
+	listed := map[string]bool{}
+	for _, f := range files {
+		listed[f] = true
+	}
+	var extra []string
+	for _, e := range entries {
+		if !listed["cases/"+e.Name()] {
+			extra = append(extra, e.Name())
+		}
+	}
+	if len(extra) == 0 {
+		return ""
+	}
+	sort.Strings(extra)
+	return fmt.Sprintf("cases/ holds files the manifest does not list: %v", extra)
+}
+
 func (d dnsAidCorpus) judgeMember(dir string, e dnsAidEntry, out *Member) {
+	d.judgeDeclared(e, out)
+	d.judgeMemberFile(dir, e, out)
+}
+
+// judgeDeclared checks the manifest's declared answer for one case: the
+// verdict and codes fit the kind, the codes are a sorted set, and the
+// decision (when the corpus declares decisions) fits the kind.
+func (d dnsAidCorpus) judgeDeclared(e dnsAidEntry, out *Member) {
 	switch {
 	case e.Kind == "accept" && e.Expected.Verdict == "valid" && len(e.Expected.Codes) == 0:
 	case e.Kind == "reject" && e.Expected.Verdict == "invalid" && len(e.Expected.Codes) > 0:
@@ -97,6 +147,12 @@ func (d dnsAidCorpus) judgeMember(dir string, e dnsAidEntry, out *Member) {
 	if !sort.StringsAreSorted(e.Expected.Codes) {
 		out.Findings = append(out.Findings, "the declared codes are not sorted")
 	}
+	for i := 1; i < len(e.Expected.Codes); i++ {
+		if e.Expected.Codes[i] == e.Expected.Codes[i-1] {
+			out.Findings = append(out.Findings, "the declared codes list "+e.Expected.Codes[i]+" twice: codes are a set")
+			break
+		}
+	}
 	if d.decisions {
 		want := map[string]bool{"agrees": e.Kind == "accept", "contradicted": e.Kind == "reject", "cannot-tell": e.Kind == "reject"}
 		if ok, known := want[e.Expected.Decision]; !known || !ok {
@@ -104,6 +160,12 @@ func (d dnsAidCorpus) judgeMember(dir string, e dnsAidEntry, out *Member) {
 				fmt.Sprintf("decision %q does not fit the kind: agrees is an accept, contradicted and cannot-tell are rejects", e.Expected.Decision))
 		}
 	}
+}
+
+// judgeMemberFile checks the member file a manifest entry names: it sits
+// under cases/, exists, matches its declared sha256, parses as strict JSON
+// outside the judged members, and names the case it is listed as.
+func (d dnsAidCorpus) judgeMemberFile(dir string, e dnsAidEntry, out *Member) {
 	if !strings.HasPrefix(e.File, "cases/") || strings.Contains(e.File, "..") {
 		out.Findings = append(out.Findings, "the member file is not under cases/")
 		return
@@ -119,7 +181,7 @@ func (d dnsAidCorpus) judgeMember(dir string, e dnsAidEntry, out *Member) {
 	var member struct {
 		Case string `json:"case"`
 	}
-	if err := strictUnmarshal(body, &member); err != nil {
+	if err := strictUnmarshalExcept(body, &member, d.judged); err != nil {
 		out.Findings = append(out.Findings, "the member does not parse: "+err.Error())
 		return
 	}

@@ -1,14 +1,14 @@
 {
   "aggregate": {
     "counts": {
-      "accept": 4,
-      "reject": 7
+      "accept": 5,
+      "reject": 12
     },
     "line": "verdict: every member behaves as MANIFEST.json declares",
-    "total": 11
+    "total": 17
   },
   "anchor": {
-    "kind": "signed-digest-list",
+    "kind": "digest-list-line",
     "manifest": "vectors-dns-aid-rrset-v01/MANIFEST.json",
     "reference": {
       "path": "release/CORPUS-DIGESTS.txt",
@@ -17,14 +17,7 @@
     "routine": "corpus_digest in corpora/vectors-dns-aid-rrset-v01/gen_vectors.py",
     "routine-file": "corpora/vectors-dns-aid-rrset-v01/gen_vectors.py",
     "serialization": "corpus-routine",
-    "sha256": "e4b706b02bec52dd9b6059d707686658ea7a2c5a45ec1b0b82cd5f136c07b2f2",
-    "signature": {
-      "key": "release/cosign.pub",
-      "key-sha256": "15fccb1635dd1d9333146cb389f26fa3c3b9213aeed1da945ea1f51a2dc1be84",
-      "path": "release/CORPUS-DIGESTS.txt.sig",
-      "scheme": "ed25519",
-      "serialization": "bytes"
-    },
+    "sha256": "54730baf0fa72cb90966756cdcd076897253fa505113efe931a4f294b2970789",
     "verdicts": {
       "availability-failure": "inconclusive",
       "integrity-failure": "fail"
@@ -36,7 +29,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "f949203f99f5b98c3615b3f0bd366270c082a4059aaae7bd537d954788a620af"
+          "sha256": "7de68e85557efd03a4b74c171a2d0511816d9fb16cdf963b77597eb195832542"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [],
@@ -45,21 +38,21 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "f949203f99f5b98c3615b3f0bd366270c082a4059aaae7bd537d954788a620af"
+          "sha256": "7de68e85557efd03a4b74c171a2d0511816d9fb16cdf963b77597eb195832542"
         },
         "swapped-in": "c2ef70a06e1a27b17d987e1c0b57567486b12df91ff5356c6326b34576a7a01d",
         "test": "swap-and-re-pin"
       },
       "path": "corpora/vectors-dns-aid-rrset-v01/INDEX.md",
       "serialization": "bytes",
-      "sha256": "12df6485fb8e1b482872acc3b55ad29e309d59a553b77f3426fb5ffc4889558a"
+      "sha256": "126a4eece312c55b0edf94f5d726fdf1e83fd9b80b56af0a67ba7b1d686a0d52"
     },
     {
       "consumed": "unconsumed",
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "f949203f99f5b98c3615b3f0bd366270c082a4059aaae7bd537d954788a620af"
+          "sha256": "7de68e85557efd03a4b74c171a2d0511816d9fb16cdf963b77597eb195832542"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [],
@@ -68,21 +61,21 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "f949203f99f5b98c3615b3f0bd366270c082a4059aaae7bd537d954788a620af"
+          "sha256": "7de68e85557efd03a4b74c171a2d0511816d9fb16cdf963b77597eb195832542"
         },
         "swapped-in": "a6c70a84f969be566e1845dfe725de1722d55d2f5e28fcccf9276476f30fddbb",
         "test": "swap-and-re-pin"
       },
       "path": "corpora/vectors-dns-aid-rrset-v01/check_vectors.py",
       "serialization": "bytes",
-      "sha256": "0e1388c4c1e657f3df7c6f6be3b801493905b6ff46d0b49d0e298bb3bdb7c2e7"
+      "sha256": "bec9d67360fbff9a8d1d73d70c77713a7d00ee2ab24cda3d0b4ddb0305d9e99e"
     },
     {
       "consumed": "unconsumed",
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "f949203f99f5b98c3615b3f0bd366270c082a4059aaae7bd537d954788a620af"
+          "sha256": "7de68e85557efd03a4b74c171a2d0511816d9fb16cdf963b77597eb195832542"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [],
@@ -91,21 +84,21 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "f949203f99f5b98c3615b3f0bd366270c082a4059aaae7bd537d954788a620af"
+          "sha256": "7de68e85557efd03a4b74c171a2d0511816d9fb16cdf963b77597eb195832542"
         },
         "swapped-in": "5087812ca90dd7c57e77ba44b3c989f201d520fa744873a113852fe4db1b0095",
         "test": "swap-and-re-pin"
       },
       "path": "corpora/vectors-dns-aid-rrset-v01/gen_vectors.py",
       "serialization": "bytes",
-      "sha256": "54236ee0d0ce8c395aeec817bec0287774a5e2c77de0e06086acd003f0cacd31"
+      "sha256": "1378a2af3cca9b9c9dec97c717c48fd4b4c357cb032133144bab57178815af5e"
     },
     {
       "consumed": "unconsumed",
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "f949203f99f5b98c3615b3f0bd366270c082a4059aaae7bd537d954788a620af"
+          "sha256": "7de68e85557efd03a4b74c171a2d0511816d9fb16cdf963b77597eb195832542"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [],
@@ -114,14 +107,14 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "f949203f99f5b98c3615b3f0bd366270c082a4059aaae7bd537d954788a620af"
+          "sha256": "7de68e85557efd03a4b74c171a2d0511816d9fb16cdf963b77597eb195832542"
         },
         "swapped-in": "b634c317cd256e6381d11fbd5d9c9f7b702e490fa3c820d8ea84dd86e29ce6a5",
         "test": "swap-and-re-pin"
       },
       "path": "corpora/vectors-dns-aid-rrset-v01/tests/test_corpus.py",
       "serialization": "bytes",
-      "sha256": "f4675601128291b247eb3068ca534b5d91d079c2dbd338654dd4ef83969809dd"
+      "sha256": "ad1daed1b647c68070c338fbc7ff65cc02a56210096cf5c5284c7b26971581fa"
     }
   ],
   "boundary": {
@@ -136,7 +129,7 @@
     "root": "corpora/vectors-dns-aid-rrset-v01"
   },
   "byte-identity": {
-    "pins": 11,
+    "pins": 17,
     "serialization": "bytes"
   },
   "canonicalization": {
@@ -313,7 +306,7 @@
         "go.mod"
       ],
       "serialization": "sha256-listing-v1",
-      "sha256": "5e910152e511086ea32f93807ae40f610d50c6918528feff8a01cabdaf27d967"
+      "sha256": "8fbe09df3788bb20c17413b99d898e69057264a0d959879e147f0131719d40b8"
     },
     "runtime": {
       "name": "go",
@@ -484,6 +477,22 @@
       "state": "pass"
     },
     {
+      "check": "alpn-as-list",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "alpn-not-a-string",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
       "check": "draft-02-example-rrset",
       "native": {
         "reasons": [],
@@ -508,7 +517,39 @@
       "state": "pass"
     },
     {
+      "check": "member-duplicate-alpn",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
       "check": "one-record-after-overwrite",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "proto-empty",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "published-as-string",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "record-not-object",
       "native": {
         "reasons": [],
         "verdict": "reject"
@@ -558,7 +599,7 @@
   ],
   "corpus-digest": {
     "serialization": "sha256-listing-v1",
-    "sha256": "3e5a6824d488b95f68ddfa1ed9a7a477eb3246f5de69cd6a92687f18b0b2d28b"
+    "sha256": "d5c0b8bc316005cb44e384aef91a1935de99439312c0de7e5a6592554279498a"
   },
   "exit-code": 0,
   "exit-rule": "zero-iff-every-check-passes",
@@ -578,10 +619,16 @@
       "duplicate-protocol-record",
       "unpublished-protocol-record",
       "after-delete-sibling-kept",
-      "after-delete-sibling-lost"
+      "after-delete-sibling-lost",
+      "alpn-as-list",
+      "proto-empty",
+      "record-not-object",
+      "published-as-string",
+      "alpn-not-a-string",
+      "member-duplicate-alpn"
     ],
     "path": "corpora/vectors-dns-aid-rrset-v01/MANIFEST.json",
-    "sha256": "3fa1e40d4f9bff16854e0ff15be9e4938c30620d5f3e80b165a6c37bdd5d482c"
+    "sha256": "8f4751f58470efe65f68f0503e82e786565e8f6f8ec55c01f0446acb1bdd2a9d"
   },
   "members": [
     {
@@ -682,6 +729,60 @@
         }
       ],
       "id": "after-delete-sibling-lost"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-dns-aid-rrset-v01/cases/alpn-as-list.json",
+          "sha256": "ae30f348516af379bc6a5d5ab720212be49b2e5f92c201669d23c87d1c5b76d0"
+        }
+      ],
+      "id": "alpn-as-list"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-dns-aid-rrset-v01/cases/proto-empty.json",
+          "sha256": "39b818005138fbb80d7417741eb1bde21948af51eb5f8872f2d9ae39ac8814d0"
+        }
+      ],
+      "id": "proto-empty"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-dns-aid-rrset-v01/cases/record-not-object.json",
+          "sha256": "08038e7df32774f8cb15e3612e23aecde32744e42a510017f0923d215df0adbf"
+        }
+      ],
+      "id": "record-not-object"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-dns-aid-rrset-v01/cases/published-as-string.json",
+          "sha256": "4ddebe281498b9163520ef2f42158e477fc7989ce3f6a428962b5a53139d4fa2"
+        }
+      ],
+      "id": "published-as-string"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-dns-aid-rrset-v01/cases/alpn-not-a-string.json",
+          "sha256": "c33fd4a7066e637dd62203a413b571218a90b59f43ab34254f34e2c84b949c49"
+        }
+      ],
+      "id": "alpn-not-a-string"
+    },
+    {
+      "files": [
+        {
+          "path": "corpora/vectors-dns-aid-rrset-v01/cases/member-duplicate-alpn.json",
+          "sha256": "41840430d51b989eb781a1ccfb40a41a5ded3268ebac717587ac80f4e1c133f9"
+        }
+      ],
+      "id": "member-duplicate-alpn"
     }
   ],
   "native": {
@@ -700,7 +801,7 @@
       "reference": {
         "path": "release/intake/native/vectors-dns-aid-rrset-v01.json",
         "serialization": "bytes",
-        "sha256": "f949203f99f5b98c3615b3f0bd366270c082a4059aaae7bd537d954788a620af"
+        "sha256": "7de68e85557efd03a4b74c171a2d0511816d9fb16cdf963b77597eb195832542"
       }
     },
     {
@@ -709,7 +810,7 @@
       "reference": {
         "path": "release/intake/native/vectors-dns-aid-rrset-v01.txt",
         "serialization": "bytes",
-        "sha256": "a1344df51a764711e5fcda1d1b6d826735c9b9ba4bb180bf25f4480aa5fc32cb"
+        "sha256": "45c3cf90871c4905fb41893fcf5dbf58f710e7fb7bbb2ecd7add9c6b165cf363"
       }
     },
     {
@@ -736,6 +837,14 @@
       "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"codes\":[\"protocol-record-missing\"],\"verdict\":\"invalid\"}}"
     },
     {
+      "check": "alpn-not-a-string",
+      "inputs": [
+        "member:alpn-not-a-string",
+        "check:alpn-not-a-string"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"codes\":[\"rrset-malformed\"],\"verdict\":\"invalid\"}}"
+    },
+    {
       "check": "duplicate-protocol-record",
       "inputs": [
         "member:duplicate-protocol-record",
@@ -744,12 +853,44 @@
       "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"codes\":[\"protocol-record-duplicated\"],\"verdict\":\"invalid\"}}"
     },
     {
+      "check": "member-duplicate-alpn",
+      "inputs": [
+        "member:member-duplicate-alpn",
+        "check:member-duplicate-alpn"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"codes\":[\"rrset-malformed\"],\"verdict\":\"invalid\"}}"
+    },
+    {
       "check": "one-record-after-overwrite",
       "inputs": [
         "member:one-record-after-overwrite",
         "check:one-record-after-overwrite"
       ],
       "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"codes\":[\"protocol-record-missing\"],\"verdict\":\"invalid\"}}"
+    },
+    {
+      "check": "proto-empty",
+      "inputs": [
+        "member:proto-empty",
+        "check:proto-empty"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"codes\":[\"protocol-record-missing\",\"record-names-no-protocol\"],\"verdict\":\"invalid\"}}"
+    },
+    {
+      "check": "published-as-string",
+      "inputs": [
+        "member:published-as-string",
+        "check:published-as-string"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"codes\":[\"rrset-malformed\"],\"verdict\":\"invalid\"}}"
+    },
+    {
+      "check": "record-not-object",
+      "inputs": [
+        "member:record-not-object",
+        "check:record-not-object"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"codes\":[\"rrset-malformed\"],\"verdict\":\"invalid\"}}"
     },
     {
       "check": "transport-only-record",
@@ -791,11 +932,11 @@
     "runs": [
       {
         "process": "run-1",
-        "sha256": "f949203f99f5b98c3615b3f0bd366270c082a4059aaae7bd537d954788a620af"
+        "sha256": "7de68e85557efd03a4b74c171a2d0511816d9fb16cdf963b77597eb195832542"
       },
       {
         "process": "run-2",
-        "sha256": "f949203f99f5b98c3615b3f0bd366270c082a4059aaae7bd537d954788a620af"
+        "sha256": "7de68e85557efd03a4b74c171a2d0511816d9fb16cdf963b77597eb195832542"
       }
     ],
     "seed": null,
@@ -809,17 +950,18 @@
       "action-occurred-or-authority"
     ],
     "establishes": [
-      "aee-verify, at the source listing named here, judges each of the 11 pinned members of dns-aid-rrset/v1 as its manifest declares"
+      "aee-verify, at the source listing named here, judges each of the 17 pinned members of dns-aid-rrset/v1 as its manifest declares"
     ],
     "leaves-open": [
       "whether an implementation written from the specification, run by someone other than an author, reaches the same verdicts",
+      "whether release/CORPUS-DIGESTS.txt is a list a release signed: the signature beside it does not verify over these bytes, so the anchor is a located line, not a verified one",
       "whether a re-run by someone other than an author on these exact bytes agrees; none is on the record for them"
     ]
   },
   "selector": {
     "expression": "*",
     "language": "id-glob",
-    "matched": 11,
+    "matched": 17,
     "require": "at-least-one",
     "selected": [
       "two-records-bare-alpn",
@@ -832,7 +974,13 @@
       "duplicate-protocol-record",
       "unpublished-protocol-record",
       "after-delete-sibling-kept",
-      "after-delete-sibling-lost"
+      "after-delete-sibling-lost",
+      "alpn-as-list",
+      "proto-empty",
+      "record-not-object",
+      "published-as-string",
+      "alpn-not-a-string",
+      "member-duplicate-alpn"
     ]
   },
   "specification-readers": [],

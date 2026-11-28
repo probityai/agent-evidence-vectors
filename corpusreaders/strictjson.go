@@ -6,6 +6,8 @@ import (
 	"errors"
 	"fmt"
 	"io"
+	"unicode"
+	"unicode/utf8"
 )
 
 // errRepeatedMember is the refusal for an object that names one member twice.
@@ -110,4 +112,70 @@ func walkUnique(dec *json.Decoder) error {
 	}
 	_, err = dec.Token() // the closing delimiter
 	return err
+}
+
+// foldedRepeat returns the first object member name in data that repeats within one
+// object, compared the way encoding/json matches a name to a struct field
+// (bytes.EqualFold: Unicode simple case folding, so "Expected", "EXPECTED" and
+// "expected" are one field, and so are "s" and the long s U+017F), or "" when none
+// does. json.Unmarshal into a struct gives the last such member to the field, while a
+// reader in another language reads the exact name, so a manifest that carries both
+// shows the two rails two different answers. Bytes that are not one JSON value give
+// "": the caller's decode reports those.
+func foldedRepeat(data []byte) string {
+	dec := json.NewDecoder(bytes.NewReader(data))
+	dec.UseNumber()
+	name, _ := walkFolded(dec)
+	return name
+}
+
+func walkFolded(dec *json.Decoder) (string, error) {
+	tok, err := dec.Token()
+	if err != nil {
+		return "", err
+	}
+	delim, ok := tok.(json.Delim)
+	if !ok {
+		return "", nil
+	}
+	seen := map[string]bool{}
+	for dec.More() {
+		if delim == '{' {
+			key, err := dec.Token()
+			if err != nil {
+				return "", err
+			}
+			name, _ := key.(string)
+			folded := foldFieldName(name)
+			if seen[folded] {
+				return name, nil
+			}
+			seen[folded] = true
+		}
+		if name, err := walkFolded(dec); name != "" || err != nil {
+			return name, err
+		}
+	}
+	_, err = dec.Token() // the closing delimiter
+	return "", err
+}
+
+// foldFieldName maps a name to the smallest rune of each rune's simple fold orbit, so
+// two names map to one string exactly when bytes.EqualFold reports them equal.
+func foldFieldName(name string) string {
+	var out []byte
+	for _, r := range name {
+		out = utf8.AppendRune(out, smallestFold(r))
+	}
+	return string(out)
+}
+
+func smallestFold(r rune) rune {
+	least := r
+	for next := unicode.SimpleFold(r); next != r; next = unicode.SimpleFold(next) {
+		if next < least {
+			least = next
+		}
+	}
+	return least
 }
