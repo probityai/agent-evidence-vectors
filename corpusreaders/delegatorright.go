@@ -6,6 +6,8 @@ import (
 	"path/filepath"
 	"slices"
 	"time"
+
+	"github.com/probityai/agent-evidence-vectors/internal/identifiers"
 )
 
 func init() { register(delegatorRight{}) }
@@ -30,7 +32,7 @@ func init() { register(delegatorRight{}) }
 //     more before the decision: ancestor_scope_removed.
 type delegatorRight struct{}
 
-const drContractID = "https://probityai.github.io/agent-evidence-vectors/contract/delegator-right/v1"
+var drContractID = identifiers.Identifier("agent-evidence-vectors/contract/delegator-right/v1")
 
 func (delegatorRight) Suite() string { return "delegator-right/v1" }
 
@@ -111,7 +113,7 @@ func drDecide(record map[string]any) scDecision {
 	if !present {
 		return scDecision{"deny", "contract_id_missing"}
 	}
-	if id != drContractID {
+	if identifiers.CanonicalValue(id) != drContractID {
 		return scDecision{"deny", "contract_id_unknown"}
 	}
 	p, ok := drParse(record)

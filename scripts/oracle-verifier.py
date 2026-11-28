@@ -160,6 +160,25 @@ def suite_exit_codes(suite: str) -> dict[str, int]:
     raise SystemExit(f"no reader in this package names the suite {suite!r}")
 
 
+def suite_exit_function(suite: str) -> Any:
+    """The reader's own exit function, for a corpus whose answer is not one decision.
+
+    The x402 payment binding corpus answers two verdicts, so its exit status is a
+    function of both (``x402binding.exit_code``), not a lookup of one decision.
+    """
+    sys.path.insert(0, os.path.join(ROOT, "packaging"))
+    import importlib
+    import pkgutil
+
+    import agent_evidence_vectors as pkg
+
+    for info in pkgutil.iter_modules(pkg.__path__):
+        module = importlib.import_module(f"agent_evidence_vectors.{info.name}")
+        if getattr(module, "SUITE", None) == suite:
+            return getattr(module, "exit_code", None)
+    return None
+
+
 def case_directory(case_path: str) -> int:
     """``<verifier> <cases/<id>/<member file>> [--policy <file>] --json``.
 
@@ -173,6 +192,9 @@ def case_directory(case_path: str) -> int:
         if entry.get("id") == stem:
             expected = dict(entry.get("expected") or {})
             print(json.dumps(expected))
+            exit_for = suite_exit_function(str(manifest.get("suite")))
+            if exit_for is not None:
+                return int(exit_for(expected))
             codes = suite_exit_codes(str(manifest.get("suite")))
             return codes.get(str(expected.get("decision")), 0)
     raise SystemExit(f"no MANIFEST row names {stem}")

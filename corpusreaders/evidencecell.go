@@ -7,6 +7,8 @@ import (
 	"regexp"
 	"slices"
 	"time"
+
+	"github.com/probityai/agent-evidence-vectors/internal/identifiers"
 )
 
 func init() { register(evidenceCell{}) }
@@ -33,10 +35,11 @@ type evidenceCell struct{}
 
 const (
 	ecStatementType = "https://in-toto.io/Statement/v1"
-	ecPredicateType = "https://probityai.github.io/agent-evidence-vectors/predicate/v1/incident-evidence-cell"
 	ecStateTerm     = "https://w3id.org/agent-evidence/vocab/v1/evidence_state"
 	ecDisclaimer    = "The signature shows who coded this cell, not that the cell is true."
 )
+
+var ecPredicateType = identifiers.Identifier("agent-evidence-vectors/predicate/v1/incident-evidence-cell")
 
 var (
 	ecResponses = []string{"monitoring_increase", "notification", "restriction", "isolation",
@@ -168,7 +171,7 @@ func ecStatementMalformed(record map[string]any) bool {
 		}
 	}
 	_, isObject := record["predicate"].(map[string]any)
-	return record["_type"] != ecStatementType || record["predicateType"] != ecPredicateType || !isObject
+	return record["_type"] != ecStatementType || identifiers.CanonicalValue(record["predicateType"]) != ecPredicateType || !isObject
 }
 
 func ecContentMalformed(predicate map[string]any) bool {

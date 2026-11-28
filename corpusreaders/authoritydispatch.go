@@ -5,6 +5,8 @@ import (
 	"path/filepath"
 	"slices"
 	"time"
+
+	"github.com/probityai/agent-evidence-vectors/internal/identifiers"
 )
 
 func init() { register(authorityDispatch{}) }
@@ -31,7 +33,7 @@ func init() { register(authorityDispatch{}) }
 // the approved bytes.
 type authorityDispatch struct{}
 
-const atdContractID = "https://probityai.github.io/agent-evidence-observer/contract/authority-at-dispatch/v1"
+var atdContractID = identifiers.Identifier("agent-evidence-observer/contract/authority-at-dispatch/v1")
 
 func (authorityDispatch) Suite() string { return "authority-at-dispatch/v1" }
 
@@ -147,7 +149,7 @@ func atdDecide(r atdRecord, matches bool) (scDecision, error) {
 		fails  bool
 	}{
 		{"contract_id_missing", r.ContractID == nil},
-		{"contract_id_unknown", r.ContractID != nil && *r.ContractID != atdContractID},
+		{"contract_id_unknown", r.ContractID != nil && identifiers.CanonicalIdentifier(*r.ContractID) != atdContractID},
 		{"evidence_age_inconsistent", r.Evidence.AgeSeconds != age},
 		{"authority_evidence_stale", r.Evidence.AgeSeconds > r.Evidence.MaxAgeSeconds},
 		{"grant_revoked", atdRevoked(r, decided, &clock)},

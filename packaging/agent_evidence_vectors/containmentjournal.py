@@ -26,12 +26,15 @@ every such event is an entry of one hash-chained journal:
 - ``tool_call``: an agent called a tool, and, from revision 1.1, whether the
   call was refused (with its reason); from revision 1.3 the digest of the
   authority chain the guard walked for it (``authorityChainDigest``) and of the
-  capability grant chain it was delegated under (``grantChainDigest``);
+  capability grant chain it was delegated under (``grantChainDigest``); from
+  revision 2.1 a refused call is no reach;
 - ``refusal`` (revision 1.1): the router refused one message over an edge in
-  force, named by a neutral registered code (``budget_exhausted``,
-  ``purpose_out_of_scope``, ``permit_revoked``, ``authority_chain_violation``);
-  the verdict is the same for every registered code, and only an unknown code
-  is denied; it is not a delivery, so it is not a drop over a present edge;
+  force, named by a neutral code of the shared refusal-code registry
+  (``refusal_codes.json``, for example ``budget_exhausted`` or
+  ``permit_revoked``; from revision 2.1 the whole registry, before it four
+  codes); the verdict is the same for every registered code, and only an
+  unknown code is denied; it is not a delivery, so it is not a drop over a
+  present edge;
 - ``retrieval`` (revision 1.1): an agent asked for a document, whether it was
   admitted, and the Merkle inclusion path from the document's digest to the
   run's ``snapshotRoot``;
@@ -98,6 +101,8 @@ from datetime import datetime
 from pathlib import Path
 from typing import Any
 
+from agent_evidence_vectors import strictjson
+from agent_evidence_vectors.identifiers import identifier, same_identifier
 from agent_evidence_vectors.monitorcoverage import (
     ALLOW,
     DENY,
@@ -108,13 +113,25 @@ from agent_evidence_vectors.monitorcoverage import (
 )
 
 SUITE = "containment-journal/v1"
-SUITE_REVISION = 5  # revision 2.0 of the predicate; CHANGES.md carries the ledger
-_BASE = "https://probityai.github.io/agent-evidence-vectors/predicate/v1/"
+SUITE_REVISION = 6  # revision 2.1 of the predicate; CHANGES.md carries the ledger
+_BASE = identifier("agent-evidence-vectors/predicate/v1/")
 CONTRACT_ID = _BASE + "containment-journal"
 RECEIPT_CONTRACT_ID = _BASE + "blast-radius-receipt"
 ALLOWED_REASON = "containment_consistent"
 RECEIPT_REASON = "blast_radius_consistent"
 ZERO = "sha256:" + "0" * 64
+
+
+def _registry_codes() -> tuple[str, ...]:
+    """The codes of refusal-code/v1, read from the registry file beside this module."""
+    registry_file = Path(__file__).resolve().parent / "refusal_codes.json"
+    document = strictjson.loads(registry_file.read_text("utf-8"))
+    return tuple(entry["code"] for entry in document["codes"])
+
+
+# Revision 2.1: a refusal's reasonCode is any code of the shared registry, so a verifier and the
+# checks that report a refusal name it the same way. A minor release adds codes to the registry.
+REFUSAL_CODES = _registry_codes()
 CHECKS = (
     "contract_id_missing", "contract_id_unknown", "record_not_canonical", "record_malformed",
     "closed_vocabulary_violation", "chain_seq_gap", "chain_broken", "chain_time_reversed",
@@ -153,8 +170,7 @@ CLOSED = {
     "witness": ("SELF", "EXTERNAL"),
     "decision": ("act", "continue", "escalate"),
     "side": ("left", "right"),
-    "reasonCode": ("budget_exhausted", "purpose_out_of_scope", "permit_revoked",
-                   "authority_chain_violation"),
+    "reasonCode": REFUSAL_CODES,
 }
 # The members each event carries, past seq, prev, at and event.
 EVENT_MEMBERS = {
@@ -673,9 +689,9 @@ def _claims_failure(record: Record, skip: frozenset[str]) -> str | None:
 def judge_journal(record: Any, not_canonical: bool,
                   skip: frozenset[str] = frozenset()) -> str | None:
     """The first rule the journal fails, or None when it passes every rule."""
-    early = (
+    early: tuple[tuple[str, Callable[[], bool]], ...] = (
         ("contract_id_missing", lambda: not isinstance(record, dict) or "contractId" not in record),
-        ("contract_id_unknown", lambda: record["contractId"] != CONTRACT_ID),
+        ("contract_id_unknown", lambda: not same_identifier(record["contractId"], CONTRACT_ID)),
         ("record_not_canonical", lambda: not_canonical),
         ("record_malformed", lambda: _malformed(record)),
         ("closed_vocabulary_violation", lambda: _closed_violation(record)),
@@ -699,6 +715,8 @@ def reach(record: Record, subject: str, from_seq: int) -> dict[str, Any]:
     From revision 2.0 a shared store carries taint too: a value a tainted agent wrote (a write
     that ran) is tainted until an untainted agent overwrites it, and an agent that reads a
     tainted value back (a read not refused) is tainted. Neither is counted as a delivery.
+    From revision 2.1 a refused call is no reach: a refused tool call is not counted, and a
+    refused write and a refused read never taint, since none of them ran.
     """
     tainted, deliveries, tools = {subject}, 0, 0
     values: set[tuple[str, str]] = set()  # store keys whose last value a tainted agent wrote
@@ -706,7 +724,8 @@ def reach(record: Record, subject: str, from_seq: int) -> dict[str, Any]:
         if entry["event"] == "delivery" and not entry["dropped"] and entry["sender"] in tainted:
             tainted.add(entry["receiver"])
             deliveries += 1
-        elif entry["event"] == "tool_call" and entry["agent"] in tainted:
+        elif (entry["event"] == "tool_call" and not entry.get("refused")
+              and entry["agent"] in tainted):
             tools += 1
         elif entry["event"] == "write" and not entry["refused"]:
             key = (entry["store"], entry["keyDigest"])
@@ -760,7 +779,7 @@ def judge_receipt(receipt: Any, not_canonical: bool, record: Record,
         ("receipt_contract_id_missing",
          lambda: not isinstance(receipt, dict) or "contractId" not in receipt),
         ("receipt_contract_id_unknown",
-         lambda: receipt.get("contractId") != RECEIPT_CONTRACT_ID),
+         lambda: not same_identifier(receipt.get("contractId"), RECEIPT_CONTRACT_ID)),
         ("receipt_malformed", lambda: not_canonical or _receipt_malformed(receipt, record)),
         ("receipt_journal_mismatch",
          lambda: receipt["journal"] != {"runId": record["runId"], "head": digest(entries[-1]),

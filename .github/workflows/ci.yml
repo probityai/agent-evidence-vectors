@@ -827,21 +827,21 @@ jobs:
           go-version: '1.26'
       - name: gofmt (no diffs)
         run: |
-          unformatted=$(gofmt -l aee cmd corpusreaders observedeffect witnessattestor)
+          unformatted=$(gofmt -l aee cmd corpusreaders internal observedeffect witnessattestor)
           if [ -n "$unformatted" ]; then
             echo "gofmt needs to run on:"; echo "$unformatted"; exit 1
           fi
       - name: build
         run: |
-          go build ./aee/... ./cmd/... ./corpusreaders/... ./observedeffect/...
+          go build ./aee/... ./cmd/... ./corpusreaders/... ./internal/... ./observedeffect/...
           (cd witnessattestor && go build ./...)
       - name: vet
         run: |
-          go vet ./aee/... ./cmd/... ./corpusreaders/... ./observedeffect/...
+          go vet ./aee/... ./cmd/... ./corpusreaders/... ./internal/... ./observedeffect/...
           (cd witnessattestor && go vet ./...)
       - name: test (race)
         run: |
-          go test ./aee/... ./cmd/... ./corpusreaders/... ./observedeffect/... -race -count=1 -timeout 30m
+          go test ./aee/... ./cmd/... ./corpusreaders/... ./internal/... ./observedeffect/... -race -count=1 -timeout 30m
           (cd witnessattestor && go test ./... -race -count=1 -timeout 30m)
       - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
         with:
@@ -921,13 +921,13 @@ jobs:
       # rebuilds every record and native output, refuses any byte that differs,
       # and reads each record back with the intake checker under the repository
       # root. It needs the Go toolchain, so it lives in this job.
-      - name: every derived file is what a fresh run writes (intake records, digest list, source lock)
-        run: uv run --locked --extra generators python scripts/regenerate-derived.py --check
+      - name: every derived file is what a fresh run writes (intake records, digest list, source lock, reference coverage)
+        run: uv run --locked --extra generators --group crosscheck python scripts/regenerate-derived.py --check
       # The derived files (digest list, intake records, shared-source lock) are
       # marked in .gitattributes; this holds that marking, the ruff layout and
       # the merge resolution that replaces hand-editing generated records.
       - name: derived files are marked, checked together and resolved by regeneration
-        run: python3 scripts/regenerate-derived-test.py
+        run: uv run --locked --extra generators --group crosscheck python scripts/regenerate-derived-test.py
       # The a2a-jcs-v01 corpus is judged by a Go reader in aee-verify and the
       # Python reader other projects import as agent_evidence_vectors.a2ajcs,
       # each with its own canonicalizer. This holds the two to the same failing
@@ -1030,7 +1030,7 @@ jobs:
 
       - name: coverage (per-file 80% minimum)
         run: |
-          go test ./aee/... ./cmd/... ./corpusreaders/... ./observedeffect/... -coverprofile=core.cov -count=1
+          go test ./aee/... ./cmd/... ./corpusreaders/... ./internal/... ./observedeffect/... -coverprofile=core.cov -count=1
           (cd witnessattestor && go test ./... -coverprofile=../wa.cov -count=1)
           # The aee-witness-demo command is a runnable library-mode example; its
           # attest lifecycle is covered by the attestor tests, so it is excluded.
@@ -1039,7 +1039,7 @@ jobs:
       - name: staticcheck
         run: |
           go install honnef.co/go/tools/cmd/staticcheck@latest
-          "$(go env GOPATH)/bin/staticcheck" ./aee/... ./cmd/... ./corpusreaders/... ./observedeffect/...
+          "$(go env GOPATH)/bin/staticcheck" ./aee/... ./cmd/... ./corpusreaders/... ./internal/... ./observedeffect/...
           (cd witnessattestor && "$(go env GOPATH)/bin/staticcheck" ./...)
       # The accepted-complexity table in docs/architecture/DESIGN_DECISIONS.md
       # names each branch-heavy Go function and its measured complexity. This
@@ -1917,6 +1917,8 @@ jobs:
         run: uv run --extra dev pytest corpora/vectors-cbor-receipt-chain/tests -q
       - name: agent-card-receipt cases regenerate and force every check
         run: uv run --extra dev pytest corpora/vectors-agent-card-receipt/tests -q
+      - name: agent-identity-statement cases regenerate and force every check
+        run: uv run --extra dev pytest corpora/vectors-agent-identity-statement/tests -q
       - name: credential-reachability cases regenerate, force every check and refuse a result signed by a key the agent holds
         run: uv run --extra dev pytest corpora/vectors-credential-reachability/tests -q
       - name: credential-release cases regenerate and force every check
@@ -1990,6 +1992,12 @@ jobs:
           uv run --extra dev pytest corpora/vectors-x402-evidence-join/tests -q
           uv run python corpora/vectors-x402-evidence-join/check_vectors.py
           uv run python corpora/vectors-x402-evidence-join/mutation_check.py
+      - name: vectors-x402-payment-binding cases regenerate, agree and every rule is load-bearing
+        run: |
+          set -euo pipefail
+          uv run --extra dev pytest corpora/vectors-x402-payment-binding/tests -q
+          uv run python corpora/vectors-x402-payment-binding/check_vectors.py
+          uv run python corpora/vectors-x402-payment-binding/mutation_check.py
       - name: vectors-connector-scope cases regenerate, agree and every rule is load-bearing
         run: |
           set -euo pipefail
@@ -3081,13 +3089,13 @@ jobs:
           go-version: '1.26'
 
       - name: initialize codeql
-        uses: github/codeql-action/init@33d7b85da1a04171e211befe2c739303b9a4c066 # v4.39.3
+        uses: github/codeql-action/init@1bd86f2fdb4b86187fa4059f16f31a3202acc9ea # v4.39.4
         with:
           languages: ${{ matrix.language }}
           build-mode: ${{ matrix.build-mode }}
 
       - name: perform codeql analysis
-        uses: github/codeql-action/analyze@33d7b85da1a04171e211befe2c739303b9a4c066 # v4.39.3
+        uses: github/codeql-action/analyze@1bd86f2fdb4b86187fa4059f16f31a3202acc9ea # v4.39.4
         with:
           category: "/language:${{ matrix.language }}"
     needs:

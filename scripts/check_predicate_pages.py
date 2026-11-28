@@ -19,7 +19,8 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 TYPE_BASE = "https://w3id.org/agent-evidence/predicate/v1/"
-ALLOWED_HOSTS = {"w3id.org", "github.com", "in-toto.io", "probityai.github.io", "datatracker.ietf.org"}
+ALLOWED_HOSTS = {"w3id.org", "github.com", "in-toto.io", "probityai.github.io", "probityai.org",
+                 "datatracker.ietf.org"}
 
 
 def check(pages: Path) -> list[str]:

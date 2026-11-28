@@ -29,10 +29,15 @@ func init() {
 // without its top-level signatures hashes to the subject digest), then the check
 // time against the window, then the signed revocation list.
 //
-// credential-release/v1: the same Statement checks plus the closed credential
-// object, then the receipt the release names (its digest, shape, copied fields,
-// subject, result, currency at releasedAt, and that the credential does not
-// outlive it), then the revocation list the release consulted.
+// credential-release/v1 (predicate version 0.2.0): the same Statement checks
+// plus the closed credential object, then a predicate of exactly one basis with
+// its principals and a credential closed for its kind. On a receipt basis, the
+// receipt the release names (its digest, shape, copied fields, subject, result,
+// currency at releasedAt, and that the credential does not outlive it), then the
+// revocation list the release consulted. On a grant basis, the grant document
+// the release names (its digest, shape, copied end), then the subject, the
+// principals and the audience against it, then its currency and that the
+// release does not outlive it.
 type cardReceipt struct{ suite string }
 
 const (
@@ -47,10 +52,13 @@ const (
 )
 
 var (
-	crHex        = regexp.MustCompile(`^[0-9a-f]{64}$`)
-	crTimeText   = regexp.MustCompile(`^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}Z$`)
-	crThumbprint = regexp.MustCompile(`^[A-Za-z0-9_-]{43}$`)
-	crResults    = []string{"fail", "degraded", "pass_indirect", "pass"}
+	crHex         = regexp.MustCompile(`^[0-9a-f]{64}$`)
+	crTimeText    = regexp.MustCompile(`^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}Z$`)
+	crThumbprint  = regexp.MustCompile(`^[A-Za-z0-9_-]{43}$`)
+	crHost        = regexp.MustCompile(`^(?:[a-z0-9-]+(?:\.[a-z0-9-]+)*|\[[0-9a-f:.]+\])(?::[0-9]{1,5})?$`)
+	crToken       = regexp.MustCompile("^[!#$%&'*+.^_`|~0-9A-Za-z-]+$")
+	crDefaultPort = map[string]string{"https": "443", "http": "80"}
+	crResults     = []string{"fail", "degraded", "pass_indirect", "pass"}
 )
 
 type crObj = map[string]any
@@ -111,14 +119,14 @@ func (c cardReceipt) judgeMember(caseDir string, v crVector) []string {
 }
 
 func (c cardReceipt) decide(dir string) (scDecision, error) {
+	if c.suite == crReleaseSuite {
+		return crReleaseDecide(dir)
+	}
 	context, key, err := crContext(dir)
 	if err != nil {
 		return scDecision{}, err
 	}
-	if c.suite == crReceiptSuite {
-		return crReceiptDecide(dir, context, key)
-	}
-	return crReleaseDecide(dir, context, key)
+	return crReceiptDecide(dir, context, key)
 }
 
 func crReject(reason string) scDecision { return scDecision{"reject", reason} }
@@ -316,10 +324,43 @@ func crReceiptPredicateOK(value any) bool {
 	return true
 }
 
-var crCredentialMembers = []string{"kind", "audience", "scope"}
+// crOrigin reports the authority of an http or https origin with a lowercase
+// host, the port only when it is not the scheme's default, and no path.
+func crOrigin(value any) (string, bool) {
+	text, ok := value.(string)
+	if !ok {
+		return "", false
+	}
+	scheme, authority, found := strings.Cut(text, "://")
+	port, known := crDefaultPort[scheme]
+	if !found || !known || !crHost.MatchString(authority) {
+		return "", false
+	}
+	if !strings.HasSuffix(authority, "]") {
+		if i := strings.LastIndex(authority, ":"); i >= 0 && strings.TrimLeft(authority[i+1:], "0") == port {
+			return "", false
+		}
+	}
+	return authority, true
+}
 
 func crCredentialOK(value any) bool {
-	c, ok := crMembers(value, crCredentialMembers)
+	object, ok := value.(crObj)
+	if !ok {
+		return false
+	}
+	if object["kind"] == "session-cookie" {
+		c, ok := crMembers(object, []string{"kind", "audience", "cookie"})
+		if !ok {
+			return false
+		}
+		if _, ok := crOrigin(c["audience"]); !ok {
+			return false
+		}
+		name, ok := c["cookie"].(string)
+		return ok && crToken.MatchString(name)
+	}
+	c, ok := crMembers(object, []string{"kind", "audience", "scope"})
 	if !ok || !crText(c["kind"]) || !crHTTPS(c["audience"]) {
 		return false
 	}
@@ -335,6 +376,12 @@ func crCredentialOK(value any) bool {
 	return true
 }
 
+// crPrincipalOK reports a closed principal: an https issuer and a subject.
+func crPrincipalOK(value any) bool {
+	p, ok := crMembers(value, []string{"issuer", "subject"})
+	return ok && crHTTPS(p["issuer"]) && crText(p["subject"])
+}
+
 func crTTLOK(value any) bool {
 	number, ok := value.(json.Number)
 	if !ok || strings.ContainsAny(string(number), ".eE") {
@@ -344,41 +391,121 @@ func crTTLOK(value any) bool {
 	return err == nil && n > 0 && n < 1<<31
 }
 
-func crReleasePredicateOK(value any) bool {
-	p, ok := crMembers(value, []string{"releaseId", "releasedAt", "ttlSeconds", "receipt", "minResult",
-		"revocationList", "credential", "broker", "registryDigest"})
-	if !ok || !crText(p["releaseId"]) || !crTTLOK(p["ttlSeconds"]) {
-		return false
+var (
+	crCommonMembers = []string{"releaseId", "releasedAt", "ttlSeconds", "agent", "credential", "broker"}
+	crReceiptBasis  = []string{"receipt", "minResult", "revocationList", "registryDigest"}
+)
+
+// crBasis names the one basis whose members the predicate carries, and
+// reports whether its member set is exact.
+func crBasis(p crObj) (string, bool) {
+	_, hasGrant := p["grant"]
+	receipt := true
+	for _, name := range crReceiptBasis {
+		if _, has := p[name]; !has {
+			receipt = false
+		}
+	}
+	if receipt && !hasGrant {
+		_, ok := crMembers(p, append(append([]string{}, crCommonMembers...), crReceiptBasis...), "onBehalfOf")
+		return "receipt", ok
+	}
+	_, ok := crMembers(p, append(append([]string{}, crCommonMembers...), "grant", "onBehalfOf"))
+	return "grant", ok
+}
+
+// crReleasePredicateOK returns the basis of a well formed release predicate.
+func crReleasePredicateOK(value any) (string, bool) {
+	p, ok := value.(crObj)
+	if !ok {
+		return "", false
+	}
+	basis, ok := crBasis(p)
+	if !ok || !crText(p["releaseId"]) || !crTTLOK(p["ttlSeconds"]) || !crPrincipalOK(p["agent"]) {
+		return "", false
 	}
 	if _, ok := crTime(p["releasedAt"]); !ok {
-		return false
+		return "", false
 	}
-	receipt, ok := crMembers(p["receipt"], []string{"predicateType", "digest", "result", "validUntil"})
-	if !ok || receipt["predicateType"] != crReceiptType || crResultIndex(receipt["result"]) < 0 {
-		return false
-	}
-	if _, ok := crSHA(receipt["digest"]); !ok {
-		return false
-	}
-	if _, ok := crTime(receipt["validUntil"]); !ok {
-		return false
-	}
-	if crResultIndex(p["minResult"]) < 2 {
-		return false
-	}
-	list, ok := crMembers(p["revocationList"], []string{"digest"})
-	if !ok {
-		return false
-	}
-	if _, ok := crSHA(list["digest"]); !ok {
-		return false
+	if user, has := p["onBehalfOf"]; has && !crPrincipalOK(user) {
+		return "", false
 	}
 	broker, ok := crMembers(p["broker"], []string{"id"})
 	if !ok || !crHTTPS(broker["id"]) || !crCredentialOK(p["credential"]) {
-		return false
+		return "", false
+	}
+	if basis == "grant" {
+		grant, ok := crMembers(p["grant"], []string{"digest", "notAfter"})
+		if !ok {
+			return "", false
+		}
+		if _, ok := crSHA(grant["digest"]); !ok {
+			return "", false
+		}
+		_, ok = crTime(grant["notAfter"])
+		return basis, ok
+	}
+	receipt, ok := crMembers(p["receipt"], []string{"predicateType", "digest", "result", "validUntil"})
+	if !ok || receipt["predicateType"] != crReceiptType || crResultIndex(receipt["result"]) < 0 {
+		return "", false
+	}
+	if _, ok := crSHA(receipt["digest"]); !ok {
+		return "", false
+	}
+	if _, ok := crTime(receipt["validUntil"]); !ok {
+		return "", false
+	}
+	if crResultIndex(p["minResult"]) < 2 {
+		return "", false
+	}
+	list, ok := crMembers(p["revocationList"], []string{"digest"})
+	if !ok {
+		return "", false
+	}
+	if _, ok := crSHA(list["digest"]); !ok {
+		return "", false
 	}
 	_, ok = crSHA(p["registryDigest"])
-	return ok
+	return basis, ok
+}
+
+// crGrant parses a grant document, reporting false unless it is well formed.
+func crGrant(raw []byte) (crObj, bool) {
+	object, ok := crObject(raw)
+	if !ok {
+		return nil, false
+	}
+	grant, ok := crMembers(object, []string{"grantId", "user", "agent", "hosts", "notAfter"})
+	if !ok || !crText(grant["grantId"]) || !crPrincipalOK(grant["user"]) || !crPrincipalOK(grant["agent"]) {
+		return nil, false
+	}
+	hosts, ok := grant["hosts"].([]any)
+	if !ok || len(hosts) == 0 || !crSortedUnique(hosts) {
+		return nil, false
+	}
+	for _, host := range hosts {
+		if !crHost.MatchString(host.(string)) {
+			return nil, false
+		}
+	}
+	_, ok = crTime(grant["notAfter"])
+	return grant, ok
+}
+
+// crAudienceAuthority is the host and port of an audience URL, as a grant's
+// hosts write them.
+func crAudienceAuthority(audience string) string {
+	_, rest, _ := strings.Cut(audience, "://")
+	if i := strings.IndexAny(rest, "/?#"); i >= 0 {
+		rest = rest[:i]
+	}
+	return rest
+}
+
+func crSamePrincipal(a, b any) bool {
+	x, okX := a.(crObj)
+	y, okY := b.(crObj)
+	return okX && okY && x["issuer"] == y["issuer"] && x["subject"] == y["subject"]
 }
 
 // crCredentialFields is true when the credential object has a member outside
@@ -393,7 +520,7 @@ func crCredentialFields(predicate any) bool {
 		return false
 	}
 	for name := range credential {
-		if name != "kind" && name != "audience" && name != "scope" {
+		if name != "kind" && name != "audience" && name != "scope" && name != "cookie" {
 			return true
 		}
 	}
@@ -603,28 +730,36 @@ func crReceiptDecide(dir string, context crObj, key []byte) (scDecision, error) 
 	return scDecision{"accept", "receipt_current"}, nil
 }
 
-func crReleaseStatementFailure(raw []byte) (string, crObj) {
+func crReleaseStatementFailure(raw []byte) (string, crObj, string) {
 	statement, ok := crObject(raw)
 	if !ok {
-		return "statement_malformed", nil
+		return "statement_malformed", nil, ""
 	}
 	if failure := crStatement(statement, crReleaseType); failure != "" {
-		return failure, statement
+		return failure, statement, ""
 	}
 	if crCredentialFields(statement["predicate"]) {
-		return "credential_fields", statement
+		return "credential_fields", statement, ""
 	}
-	if !crReleasePredicateOK(statement["predicate"]) {
-		return "predicate_malformed", statement
+	basis, ok := crReleasePredicateOK(statement["predicate"])
+	if !ok {
+		return "predicate_malformed", statement, ""
 	}
-	return "", statement
+	return "", statement, basis
 }
 
-func crReleaseDecide(dir string, _ crObj, key []byte) (scDecision, error) {
+func crReleaseDecide(dir string) (scDecision, error) {
 	raw, _ := crRead(dir, "statement.json")
-	failure, statement := crReleaseStatementFailure(raw)
+	failure, statement, basis := crReleaseStatementFailure(raw)
 	if failure != "" {
 		return crReject(failure), nil
+	}
+	if basis == "grant" {
+		return crGrantDecide(dir, statement), nil
+	}
+	_, key, err := crContext(dir)
+	if err != nil {
+		return scDecision{}, err
 	}
 	predicate := statement["predicate"].(crObj)
 	declared := predicate["receipt"].(crObj)
@@ -666,4 +801,49 @@ func crReleaseDecide(dir string, _ crObj, key []byte) (scDecision, error) {
 		return crReject(failure), nil
 	}
 	return scDecision{"accept", "release_bound"}, nil
+}
+
+// crGrantDecide applies the grant basis rules to a release whose own checks pass.
+func crGrantDecide(dir string, statement crObj) scDecision {
+	predicate := statement["predicate"].(crObj)
+	declared := predicate["grant"].(crObj)
+	named, _ := crSHA(declared["digest"])
+	raw, present := crRead(dir, "grant.json")
+	if !present || sha(raw) != named {
+		return crReject("grant_digest_mismatch")
+	}
+	grant, ok := crGrant(raw)
+	if !ok {
+		return crReject("grant_malformed")
+	}
+	if declared["notAfter"] != grant["notAfter"] {
+		return crReject("grant_fields_differ")
+	}
+	if crSubjectDigest(statement) != named {
+		return crReject("subject_not_granted")
+	}
+	if !crSamePrincipal(predicate["agent"], grant["agent"]) ||
+		!crSamePrincipal(predicate["onBehalfOf"], grant["user"]) {
+		return crReject("principals_not_granted")
+	}
+	audience := crAudienceAuthority(predicate["credential"].(crObj)["audience"].(string))
+	granted := false
+	for _, host := range grant["hosts"].([]any) {
+		if host == audience {
+			granted = true
+		}
+	}
+	if !granted {
+		return crReject("audience_not_granted")
+	}
+	at, _ := crTime(predicate["releasedAt"])
+	end, _ := crTime(grant["notAfter"])
+	if !at.Before(end) {
+		return crReject("grant_not_current")
+	}
+	ttl, _ := predicate["ttlSeconds"].(json.Number).Int64()
+	if at.Add(time.Duration(ttl) * time.Second).After(end) {
+		return crReject("credential_outlives_grant")
+	}
+	return scDecision{"accept", "release_bound"}
 }

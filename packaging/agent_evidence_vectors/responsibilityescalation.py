@@ -62,6 +62,7 @@ from pathlib import Path
 from typing import Any
 
 from agent_evidence_vectors import strictjson
+from agent_evidence_vectors.identifiers import identifier, same_identifier
 from agent_evidence_vectors.monitorcoverage import (
     _fixture_error,
     _validated_entries,
@@ -69,8 +70,8 @@ from agent_evidence_vectors.monitorcoverage import (
 )
 
 SUITE = "responsibility-escalation/v1"
-CONTRACT_ID = (
-    "https://probityai.github.io/agent-evidence-vectors/predicate/v1/responsibility-escalation"
+CONTRACT_ID = identifier(
+    "agent-evidence-vectors/predicate/v1/responsibility-escalation"
 )
 ESTABLISHED, PARTIAL, UNRESOLVED, NOT_ESTABLISHED = (
     "established",
@@ -206,7 +207,8 @@ def _failures(record: Record) -> dict[str, Callable[[], bool]]:
     authority = record.get("authority", {})
     return {
         "contract_id_missing": lambda: "contractId" not in record,
-        "contract_id_unknown": lambda: record.get("contractId", CONTRACT_ID) != CONTRACT_ID,
+        "contract_id_unknown": lambda: not same_identifier(
+            record.get("contractId", CONTRACT_ID), CONTRACT_ID),
         "referral_not_evidenced": lambda: not evidenced(record, "referral"),
         "event_after_evaluation_instant": lambda: _after_evaluation(record),
         "reference_unavailable": lambda: (

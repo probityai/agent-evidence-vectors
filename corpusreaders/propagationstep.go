@@ -6,6 +6,8 @@ import (
 	"path/filepath"
 	"reflect"
 	"time"
+
+	"github.com/probityai/agent-evidence-vectors/internal/identifiers"
 )
 
 func init() { register(propagationStep{}) }
@@ -26,7 +28,7 @@ func init() { register(propagationStep{}) }
 //     agents were exposed to before the effect.
 type propagationStep struct{}
 
-const psContractID = "https://probityai.github.io/agent-evidence-vectors/predicate/v1/propagation-step"
+var psContractID = identifiers.Identifier("agent-evidence-vectors/predicate/v1/propagation-step")
 
 func (propagationStep) Suite() string { return "propagation-step/v1" }
 
@@ -131,7 +133,7 @@ func psAt(stamp string) time.Time { t, _ := time.Parse(time.RFC3339, stamp); ret
 
 func psDecide(r psRecord) scDecision {
 	var contract string
-	known := len(r.ContractID) > 0 && strictUnmarshal(r.ContractID, &contract) == nil && contract == psContractID
+	known := len(r.ContractID) > 0 && strictUnmarshal(r.ContractID, &contract) == nil && identifiers.CanonicalIdentifier(contract) == psContractID
 	byID := map[string]psMessage{}
 	for _, m := range r.Messages {
 		byID[m.ID] = m

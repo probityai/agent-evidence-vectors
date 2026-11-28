@@ -24,6 +24,10 @@ mistake fails.
 | key-listed | 200, directory lists the key | attributed, `key_in_directory` | replaced |
 | key-listed-among-several | 200, old and new key | attributed, `key_in_directory` | replaced |
 | empty-key-set-evicts | 200, empty key set | not attributed, `key_absent_from_directory` | replaced, empty |
+| refused-with-empty-key-set-keeps-cache | 403, the bytes of `empty-key-set-evicts` | not attributed, `discovery_failed` | kept |
+| limit-refused-keeps-cache | the verifier's own limit refused the load | not attributed, `discovery_failed` | kept |
+| no-keys-member-keeps-cache | 200, JSON without a `keys` array | not attributed, `not_a_directory` | kept |
+| empty-body-keeps-cache | 200, no bytes | not attributed, `not_a_directory` | kept |
 | key-removed-other-kept | 200, the other key only | not attributed, `key_absent_from_directory` | replaced |
 | status-404-keeps-cache | 404 | not attributed, `discovery_failed` | kept |
 | status-503-keeps-cache | 503 | not attributed, `discovery_failed` | kept |
@@ -35,12 +39,43 @@ mistake fails.
 | kid-thumbprint-at-well-known | 200, the same key with its thumbprint as `kid` | attributed, `key_in_directory` | replaced |
 | kid-label-off-well-known | 200 at another URL, `kid` an operator label | attributed, `key_in_directory` | replaced |
 
+## The pair, and the cases that share its request
+
+A provider that withdraws an agent can serve an empty key set with a success status, and
+that is evidence (draft Section 6.10: a directory that resolves without the key replaces
+whatever the verifier holds). A load that failed or was refused is not, even when the bytes
+it carried look the same. The pair is
+`empty-key-set-evicts` and `refused-with-empty-key-set-keeps-cache`: one request, one
+cache, one response body, differing only in the status (200 against 403). The first
+evicts the cached key; the second keeps it.
+
+These cases share the pair's request, which names the key the verifier holds (`keyid`
+is in `cached`), so a verifier that serves the stale key after a failed load, and one that
+empties the cache, both disagree with the manifest. Each is one of the ways Section 6.10
+lists for a discovery to fail, read as something other than an empty key set:
+
+- `refused-with-empty-key-set-keeps-cache`: a refusal whose body parses as `{"keys": []}`.
+  A verifier that judges the bytes and not the status evicts.
+- `limit-refused-keeps-cache`: the verifier's own limit refused the load (Section 6.7:
+  response size, key count, timeout, redirect depth, address range), so there are no bytes
+  at all. The fetch records `outcome` as `limit_refused`; a verifier reads any outcome other
+  than `response` as a fetch that read nothing.
+- `no-keys-member-keeps-cache`: a 200 whose JSON has no `keys` array. A verifier that
+  defaults the missing member to an empty list evicts.
+- `empty-body-keeps-cache`: a 200 with zero bytes. An empty response is not an empty key
+  set.
+
+The corpus tests prove each of these is forced: a reader that ignores the status, one
+that defaults a missing key set to empty, and one that treats an unknown outcome as a
+removal each fail exactly the cases written for that mistake.
+
 ## What a case holds
 
 - `case.json`: the directory URL, the `keyid` the request names (an RFC 7638
   thumbprint), the thumbprints the verifier held for that URL before the fetch
-  (`cached`), and the fetch as observed (`outcome`, `status`, `mediaType`,
-  `body`).
+  (`cached`), and the fetch as observed (`outcome`: `response`, `connect_failure` or
+  `limit_refused`; `status`, `mediaType` and `body`, which are null unless `outcome` is
+  `response`).
 - `response.body`: the response bytes, when there was a response.
 
 ## The checks, in order
@@ -64,7 +99,8 @@ Two choices here go one step past the draft's wording, and each is stated so a
 reader can contest it: a malformed entry at the well-known URI is dropped rather
 than trusted (Section 5.5.1 says a verifier SHOULD reject malformed entries),
 and the request in hand is never attributed through a cached key after a failed
-fetch, because no failure case names a key the cache holds.
+fetch (Section 6.10: the verifier MUST NOT attribute the request to that URL), which the
+cases that name a cached key pin.
 
 ## Running it
 

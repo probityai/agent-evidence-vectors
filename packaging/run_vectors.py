@@ -135,6 +135,7 @@ from agent_evidence_vectors import (
     actormarker,
     admission,
     agenticprocess,
+    agentidentity,
     agentrequestproof,
     aggregateaccounting,
     anchoredchain,
@@ -200,6 +201,7 @@ from agent_evidence_vectors import (
     uncertaineffect,
     w3cintake,
     w3creport,
+    x402binding,
     x402join,
 )
 
@@ -3138,6 +3140,8 @@ def external_record(
 # ---------------------------------------------------------------------------
 
 GATE_NAMES = ("gate0", "gate1", "recompute", "tier", "self-check")
+# Width of the vector-id column in the stdout coverage table: a layout width, not a count.
+VECTOR_ID_WIDTH = 42
 
 
 def load_manifest(suite_dir: str) -> dict[str, Any] | None:
@@ -3976,6 +3980,7 @@ def _run_non_reference_suite(
         credreach.SUITE,
         cborreceiptchain.SUITE,
         *cardreceipt.SUITES,
+        agentidentity.SUITE,
         catalogtrust.SUITE,
         convertedargs.SUITE,
         delegatorright.SUITE,
@@ -3991,6 +3996,7 @@ def _run_non_reference_suite(
         connectorscope.SUITE,
         paymentmandate.SUITE,
         x402join.SUITE,
+        x402binding.SUITE,
         recorded.SUITE,
         changeadmission.SUITE,
         agenticprocess.SUITE,
@@ -4051,6 +4057,7 @@ def _run_non_reference_suite(
         credreach.SUITE: credreach.run,
         cborreceiptchain.SUITE: cborreceiptchain.run,
         **{suite: cardreceipt.runner(suite) for suite in cardreceipt.SUITES},
+        agentidentity.SUITE: agentidentity.run,
         catalogtrust.SUITE: catalogtrust.runner(catalogtrust.SUITE),
         convertedargs.SUITE: convertedargs.run,
         delegatorright.SUITE: delegatorright.run,
@@ -4065,6 +4072,7 @@ def _run_non_reference_suite(
         connectorscope.SUITE: connectorscope.run,
         paymentmandate.SUITE: paymentmandate.run,
         x402join.SUITE: x402join.run,
+        x402binding.SUITE: x402binding.run,
         recorded.SUITE: recorded.run,
         changeadmission.SUITE: changeadmission.run,
         agenticprocess.SUITE: agenticprocess.run,
@@ -5198,12 +5206,12 @@ def _run_print_table(
     # stdout coverage table (gate x vector)
     print(f"rail: {report['rail']}  ({rail_note})")
     gate_cols = " ".join(f"{g:<10}" for g in GATE_NAMES)
-    header = f"{'vector':<42} {'status':<6} {gate_cols}"
+    header = f"{'vector':<{VECTOR_ID_WIDTH}} {'status':<6} {gate_cols}"
     print(header)
     print("-" * len(header))
     for r in rows_out:
         row_gates = " ".join(f"{r['gates'][g]:<10}" for g in GATE_NAMES)
-        print(f"{r['id'][:42]:<42} {r['status']:<6} {row_gates}")
+        print(f"{r['id'][:VECTOR_ID_WIDTH]:<{VECTOR_ID_WIDTH}} {r['status']:<6} {row_gates}")
         if r["status"] == "FAIL":
             for reason in r["reasons"]:
                 print(f"    ! {reason}")

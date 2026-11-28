@@ -1,6 +1,10 @@
 {
   "_type": "https://in-toto.io/Statement/v0.1",
   "predicate": {
+    "agent": {
+      "issuer": "https://idp.example.com/realms/agents",
+      "subject": "travel-agent"
+    },
     "broker": {
       "id": "https://broker.example.org/credential-broker"
     },

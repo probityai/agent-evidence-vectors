@@ -85,10 +85,11 @@ from pathlib import Path
 from typing import Any
 
 from agent_evidence_vectors import strictjson
+from agent_evidence_vectors.identifiers import identifier, same_identifier
 
 SUITE = "execution-billing-finality/v1"
-CONTRACT_ID = (
-    "https://probityai.github.io/agent-evidence-vectors/predicate/v1/execution-billing-finality"
+CONTRACT_ID = identifier(
+    "agent-evidence-vectors/predicate/v1/execution-billing-finality"
 )
 ALLOW, DENY = "allow", "deny"
 ALLOWED_REASON = "finality_held"
@@ -346,7 +347,8 @@ def _first_failure(record: Record, skip: frozenset[str]) -> str | None:
     """
     failures: dict[str, Callable[[], bool]] = {
         "contract_id_missing": lambda: "contractId" not in record,
-        "contract_id_unknown": lambda: record.get("contractId", CONTRACT_ID) != CONTRACT_ID,
+        "contract_id_unknown": lambda: not same_identifier(
+            record.get("contractId", CONTRACT_ID), CONTRACT_ID),
         "record_malformed": lambda: malformed(record),
         "dispatch_state_missing": lambda: _dispatch_state_missing(record),
         "claim_boundary_dropped": lambda: _boundary_dropped(record),

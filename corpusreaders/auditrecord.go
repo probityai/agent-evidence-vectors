@@ -17,6 +17,7 @@ import (
 	"time"
 
 	"github.com/probityai/agent-evidence-vectors/aee"
+	"github.com/probityai/agent-evidence-vectors/internal/identifiers"
 )
 
 func init() { register(auditRecord{}) }
@@ -103,7 +104,7 @@ var arUnavailableInputs = []string{"standing-source", "key-source", "consumption
 // input set extended by arV2Inputs. A closed set grows only under a new URI, so
 // a verifier configured for the v1 URI never meets a value it must refuse there
 // (rows PS1 and PS2).
-const arPredicateTypeV2 = "https://probityai.github.io/agent-evidence-vectors/predicate/v2/agent-audit-record"
+var arPredicateTypeV2 = identifiers.Identifier("agent-evidence-vectors/predicate/v2/agent-audit-record")
 
 // arV2Inputs is what the v2 URI adds to both input sets, and only under that
 // URI: the source the principal's standing is established from.
@@ -113,7 +114,7 @@ var arV2Inputs = []string{"principal-standing-source"}
 // URI, the one the verifier was configured to accept. It reads the sets at call
 // time, so a test that narrows one narrows this too.
 func arInputsUnder(predicateType string, base []string) []string {
-	if predicateType != arPredicateTypeV2 {
+	if identifiers.CanonicalIdentifier(predicateType) != arPredicateTypeV2 {
 		return base
 	}
 	return append(append([]string{}, base...), arV2Inputs...)
@@ -558,7 +559,7 @@ func arRules(predicateType string) []arRule {
 			if s.statement["_type"] != arStatementType {
 				return arRefuse("statement-type-unexpected")
 			}
-			if s.statement["predicateType"] != predicateType {
+			if identifiers.CanonicalValue(s.statement["predicateType"]) != identifiers.CanonicalIdentifier(predicateType) {
 				return arRefuse("predicate-type-mismatch")
 			}
 			return nil

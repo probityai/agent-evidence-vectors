@@ -187,6 +187,10 @@ OWN_PROFILE = {
     # The lenient parse runs only when the corpus mutation check switches the strict-JSON
     # rule off, to prove a repeated-member payload is refused by that rule and no other.
     ("packaging/agent_evidence_vectors/credreach.py", "_statement"),
+    # The same switch in the payment-mandate reader: the lenient parse runs only when the
+    # corpus mutation check skips the malformed-record refusal, to show that refusal is
+    # load-bearing and the strict loader ahead of it is what refuses the spelling.
+    ("packaging/agent_evidence_vectors/paymentmandate.py", "verify"),
     # A forcing check: it reads each case with the plain json module on purpose, to show the
     # case is credited by a reader without the strict loader and refused by the strict one.
     ("corpora/vectors-agent-registration-classification/check_vectors.py", "lenient"),

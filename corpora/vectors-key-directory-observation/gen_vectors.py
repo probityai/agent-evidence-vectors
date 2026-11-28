@@ -102,6 +102,22 @@ def cases() -> list[tuple[str, str, str, list[str], dict[str, Any], str, str, st
          response(200, DIRECTORY_TYPE, jwks()), no, "key_absent_from_directory", rep, [],
          "the operator withdrew the agent and serves an empty key set with 200: evidence, "
          "so the cached key is evicted"),
+        ("refused-with-empty-key-set-keeps-cache", WELL_KNOWN, t1, [t1],
+         response(403, DIRECTORY_TYPE, jwks()), no, "discovery_failed", kept, [t1],
+         "the same bytes as empty-key-set-evicts behind a refusal: the status says the load "
+         "failed, so an empty key set read out of it is not evidence and nothing is evicted"),
+        ("limit-refused-keeps-cache", WELL_KNOWN, t1, [t1],
+         {"outcome": "limit_refused", "status": None, "mediaType": None, "body": None},
+         no, "discovery_failed", kept, [t1],
+         "the verifier's own limit (size, key count, timeout or address range) refused the "
+         "load: nothing was read, so nothing is withdrawn"),
+        ("no-keys-member-keeps-cache", WELL_KNOWN, t1, [t1],
+         response(200, DIRECTORY_TYPE, _json({"error": "directory temporarily unavailable"})),
+         no, "not_a_directory", kept, [t1],
+         "a 200 that is JSON without a keys array is not an empty key set"),
+        ("empty-body-keeps-cache", WELL_KNOWN, t1, [t1],
+         response(200, DIRECTORY_TYPE, b""), no, "not_a_directory", kept, [t1],
+         "a 200 with no bytes is an empty response, not an empty key set"),
         ("key-removed-other-kept", WELL_KNOWN, t1, [t1, t2],
          response(200, DIRECTORY_TYPE, jwks(K2)), no, "key_absent_from_directory", rep, [t2],
          "the directory stopped listing one key and still lists the other"),

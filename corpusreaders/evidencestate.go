@@ -7,6 +7,8 @@ import (
 	"reflect"
 	"slices"
 	"strings"
+
+	"github.com/probityai/agent-evidence-vectors/internal/identifiers"
 )
 
 func init() { register(evidenceState{}) }
@@ -29,7 +31,7 @@ func init() { register(evidenceState{}) }
 //  8. evidence_state_understated: the declared code is no lower than derived.
 type evidenceState struct{}
 
-const esContractID = "https://probityai.github.io/agent-evidence-vectors/predicate/v1/evidence-state"
+var esContractID = identifiers.Identifier("agent-evidence-vectors/predicate/v1/evidence-state")
 
 var (
 	esStates = []string{"ES0", "ES1", "ES2", "ES3", "ES4", "ES5", "ES6", "ES7", "ES8"}
@@ -217,7 +219,7 @@ func esDecide(record map[string]any) scDecision {
 		fails  func() bool
 	}{
 		{"contract_id_missing", func() bool { return !present }},
-		{"contract_id_unknown", func() bool { return contract != esContractID }},
+		{"contract_id_unknown", func() bool { return identifiers.CanonicalValue(contract) != esContractID }},
 		{"record_malformed", func() bool { return esMalformed(record) }},
 		{"evidence_state_unregistered", func() bool { return !slices.Contains(esStates, declared) }},
 		{"observations_inconsistent", func() bool { return esInconsistent(esObservations(record)) }},

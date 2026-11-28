@@ -74,10 +74,11 @@ from typing import Any
 from agent_evidence_vectors import monitorcoverage as _shared
 
 from . import strictjson
+from .identifiers import identifier, same_identifier
 
 SUITE = "incident-evidence-cell/v1"
 STATEMENT_TYPE = "https://in-toto.io/Statement/v1"
-PREDICATE_TYPE = ("https://probityai.github.io/agent-evidence-vectors/predicate/v1/"
+PREDICATE_TYPE = identifier("agent-evidence-vectors/predicate/v1/"
                   "incident-evidence-cell")
 STATE_TERM = "https://w3id.org/agent-evidence/vocab/v1/evidence_state"
 STATES = tuple(f"{STATE_TERM}#ES{n}" for n in range(9))
@@ -146,7 +147,7 @@ def _statement_malformed(record: Record) -> bool:
             or record["_type"] != STATEMENT_TYPE
             or not isinstance(subjects, list) or not subjects
             or not all(_subject(subject) for subject in subjects)
-            or record["predicateType"] != PREDICATE_TYPE
+            or not same_identifier(record["predicateType"], PREDICATE_TYPE)
             or not isinstance(record["predicate"], dict))
 
 

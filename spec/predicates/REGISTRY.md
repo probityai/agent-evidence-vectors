@@ -419,7 +419,7 @@ reproduce is refused.
 - Document: `corpora/vectors-revocation-list/README.md`
 - Corpus: `corpora/vectors-revocation-list/`, suite `revocation-list/v1`
 - Rails: `aee/revocationlist.go`, `corpusreaders/revocationlist.go`
-- Emitter: the `probity-records` package, [`revocation.py`](https://github.com/probityai/probity/blob/main/packages/probity-records/src/probity_records/revocation.py), which emits and verifies it.
+- Emitter: the `probity-records` package up to 0.9.0. From 0.10.0 it emits the delta form, `predicate/v2/revocation-list`, and refuses a list of this type.
 - Status: current. The URI will not move, because a record carries it inside the bytes its producer signed.
 
 The predicate carries one signed, cumulative revocation list: a body of seven members, chained to
@@ -633,6 +633,13 @@ when the record, its signature and the JWKS are judged offline.
 - Document: the `probity-records` package, [`governance.py`](https://github.com/probityai/probity/blob/main/packages/probity-records/src/probity_records/governance.py), which emits and verifies it.
 - Status: current. The URI will not move, because a record carries it inside the bytes its producer signed.
 
+### `predicate/v2/revocation-list`
+
+- Predicate body: one signed revocation list in delta form: a list carries only the subjects it newly revokes, chained to the previous list by sequence number and digest and signed by a pinned root key, and a reader folds each list into the state it already holds. An entry is published once and never changes; a list that repeats an earlier entry is refused, and an empty list is a freshness list. A list of the cumulative `predicate/v1/revocation-list` type is refused.
+- Document: the `probity-records` package from 0.10.0, [`revocation.py`](https://github.com/probityai/probity/blob/main/packages/probity-records/src/probity_records/revocation.py), which emits and verifies it.
+- Corpus: [`vectors/shared/revocation.json`](https://github.com/probityai/probity/blob/main/packages/probity-records/vectors/shared/revocation.json) of that package, cases RL01 to RL52.
+- Status: current. `v1` and `v2` are both live: a list already signed under `v1` keeps its type, and the URI will not move, because a record carries it inside the bytes its producer signed.
+
 The entries in this section are registrations, not specifications. Their field
 definitions are normative where they are published, which is not here, and no
 count, field list or wire form on this page may be read as authoritative for
@@ -657,6 +664,9 @@ each day. Each document is the authority for its type.
   `corpora/vectors-agent-card-receipt/`.
 - `credential-release`: `spec/predicates/credential-release.md`, corpus
   `corpora/vectors-credential-release/`.
+- `agent-identity-statement`: `spec/predicates/agent-identity-statement.md`, corpus
+  `corpora/vectors-agent-identity-statement/`, also checked by the `agent_identity_statement/v1`
+  claim type of `agent-evidence-verify`.
 - `token-grant-receipt`: `spec/predicates/token-grant-receipt.md`, checked by the
   `token_grant_receipt/v1` claim type of `agent-evidence-verify`; no corpus yet.
 - `principal-action`: `spec/predicates/principal-action.md`, corpus

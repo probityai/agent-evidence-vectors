@@ -1,8 +1,8 @@
 {
-  "corpusDigest": "461cddb8a89c5e140f3ba3c566620941e7c4c6feff2bb827fc0d9911a47b1818",
+  "corpusDigest": "5be11db5f049b597510a0bb9a00536937293e1664ceb0582b6b03c387cb9b398",
   "counts": {
     "attributed": 4,
-    "not_attributed": 9
+    "not_attributed": 13
   },
   "source": {
     "document": "draft-ietf-webbotauth-httpsig-protocol-01",
@@ -66,6 +66,73 @@
       },
       "id": "empty-key-set-evicts",
       "path": "cases/empty-key-set-evicts"
+    },
+    {
+      "edit": "the same bytes as empty-key-set-evicts behind a refusal: the status says the load failed, so an empty key set read out of it is not evidence and nothing is evicted",
+      "expected": {
+        "cache": "kept",
+        "cacheAfter": [
+          "NoLxPewTmsLpNeG-SjV7pV0VSZQd_JWq0qndZlbA0yg"
+        ],
+        "decision": "not_attributed",
+        "reason": "discovery_failed"
+      },
+      "files": {
+        "case.json": "7074b9ba6360077b8d03d91183a7699d469872002c24ba4a59781ea52788a560",
+        "response.body": "32666cf8af5c2667c999d9e815420c621c267460f8e357362faabe3e8a200a82"
+      },
+      "id": "refused-with-empty-key-set-keeps-cache",
+      "path": "cases/refused-with-empty-key-set-keeps-cache"
+    },
+    {
+      "edit": "the verifier's own limit (size, key count, timeout or address range) refused the load: nothing was read, so nothing is withdrawn",
+      "expected": {
+        "cache": "kept",
+        "cacheAfter": [
+          "NoLxPewTmsLpNeG-SjV7pV0VSZQd_JWq0qndZlbA0yg"
+        ],
+        "decision": "not_attributed",
+        "reason": "discovery_failed"
+      },
+      "files": {
+        "case.json": "31c15fec570e144698b4208c35d8a4a1e5c30768e8a41cf879675c1a56394ba4"
+      },
+      "id": "limit-refused-keeps-cache",
+      "path": "cases/limit-refused-keeps-cache"
+    },
+    {
+      "edit": "a 200 that is JSON without a keys array is not an empty key set",
+      "expected": {
+        "cache": "kept",
+        "cacheAfter": [
+          "NoLxPewTmsLpNeG-SjV7pV0VSZQd_JWq0qndZlbA0yg"
+        ],
+        "decision": "not_attributed",
+        "reason": "not_a_directory"
+      },
+      "files": {
+        "case.json": "0ea480896cff9b70aa1653fdaea27c7bf288f5f75f80ee07db4742fd3f82f68c",
+        "response.body": "e6742a544b2ff707a135d1ab5bf089e88b4d9ea35ba2b2e0b8e9d0591d23f95a"
+      },
+      "id": "no-keys-member-keeps-cache",
+      "path": "cases/no-keys-member-keeps-cache"
+    },
+    {
+      "edit": "a 200 with no bytes is an empty response, not an empty key set",
+      "expected": {
+        "cache": "kept",
+        "cacheAfter": [
+          "NoLxPewTmsLpNeG-SjV7pV0VSZQd_JWq0qndZlbA0yg"
+        ],
+        "decision": "not_attributed",
+        "reason": "not_a_directory"
+      },
+      "files": {
+        "case.json": "0ea480896cff9b70aa1653fdaea27c7bf288f5f75f80ee07db4742fd3f82f68c",
+        "response.body": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "id": "empty-body-keeps-cache",
+      "path": "cases/empty-body-keeps-cache"
     },
     {
       "edit": "the directory stopped listing one key and still lists the other",
