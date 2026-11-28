@@ -12,8 +12,9 @@ records: alpn=mcp,h2,h3). Each of the two is a comma-separated string or a list
 of strings (RFC 9460 7.1.1 defines alpn as a list of ids). Any other shape, a
 member file that is not strict JSON, or a published list that is not strings is
 rrset-malformed: a verdict, never an exception. A conforming RRset has exactly
-one record per published protocol and no record that names none or two. Reading the raw alpn string as the protocol set, which an earlier
-oracle did, fails both drafts' own example RRsets; the controls here hold them.
+one record per published protocol and no record that names none or two. Reading
+the raw alpn string as the protocol set, which an earlier oracle did, fails both
+drafts' own example RRsets; the controls here hold them.
 """
 
 from __future__ import annotations
