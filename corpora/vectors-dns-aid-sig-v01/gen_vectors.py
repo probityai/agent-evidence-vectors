@@ -76,9 +76,9 @@ SPECIFICATION = {
         "signature": "r and s as 32 octets each; a high-s signature verifies (RFC 7518 does not "
         "require low s)",
         "base64url": "the strict alphabet without padding, and the canonical encoding only",
-        "protocol": "the payload's fqdn, target and alpn are strings; its alpn is compared with the "
-        "record's proto when that member is present (an empty proto names nothing), else with its "
-        "alpn",
+        "protocol": "the payload's fqdn, target and alpn are strings; its alpn is compared with "
+        "the record's proto when that member is present (an empty proto names nothing), else with "
+        "its alpn",
         "jwksHost": "https://dns-aid.<zone> or https://<zone>, with an optional port from 0 to "
         "65535, path and query and no userinfo, backslash, percent-encoded host or fragment",
     },
@@ -688,7 +688,8 @@ MEMBERS: tuple[tuple[str, Build, list[str], str], ...] = (
         "payload-nan-literal",
         lambda: _payload_tail(b',"z":NaN'),
         ["payload-not-object"],
-        "the signed payload holds a NaN literal, which is not JSON though a lenient parser reads it",
+        "the signed payload holds a NaN literal, which is not JSON though a lenient parser "
+        "reads it",
     ),
     (
         "header-infinity-literal",
