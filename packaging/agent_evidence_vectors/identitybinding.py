@@ -16,8 +16,12 @@ a transparency-log inclusion or a timestamp it checked, or else its own clock
 when it decides). ``signedAt`` is the signer's word; a key that was rotated out
 or a DID that was deactivated before ``provenAt`` cannot be told apart from a
 signature backdated to before the change, so the key must hold from
-``signedAt`` through ``provenAt``. The reader checks in a fixed order and names
-the first check that fails:
+``signedAt`` through ``provenAt``. Each fixture also states ``observedAt``: the
+last time its resolver read the DID's current document. A history is evidence
+only up to then; a change after it (a rotation, a deactivation, or a did:web
+domain passing to another registrant, which publishes no new version at all)
+is simply absent from it. The reader checks in a fixed order and names the
+first check that fails:
 
 1. the subject DID and the signer DID are well formed did:web or did:wba
    strings (``did_malformed``);
@@ -26,17 +30,20 @@ the first check that fails:
 3. a resolution fixture exists for that DID (``did_unresolvable``);
 4. the case states ``provenAt`` and ``signedAt`` is not later than it
    (``signing_time_unproven``);
-5. a did:wba path DID's final ``e1_`` segment is the RFC 7638 thumbprint of an
+5. the fixture states ``observedAt`` and it is not earlier than ``provenAt``
+   (``history_unobserved``): silence after the last observation is not
+   evidence that the key still held;
+6. a did:wba path DID's final ``e1_`` segment is the RFC 7638 thumbprint of an
    Ed25519 Multikey its document authorises for authentication
    (``binding_fingerprint_mismatch``);
-6. every document version in effect from the signing time through ``provenAt``
+7. every document version in effect from the signing time through ``provenAt``
    still carries the key, and the DID is not deactivated in that span, where a
    version at or before the signing time carried it (``key_rotated_out``);
-7. the version in effect at signing lists the key under ``authentication`` or
+8. the version in effect at signing lists the key under ``authentication`` or
    ``assertionMethod`` (``key_not_authorized``);
-8. the DSSE signature verifies under that key (``signature_invalid``).
+9. the DSSE signature verifies under that key (``signature_invalid``).
 
-A record that passes all seven is ``verified`` with reason ``subject_bound``.
+A record that passes all nine is ``verified`` with reason ``subject_bound``.
 
 The external-verifier contract: ``<verifier> <case-dir>/case.json --json``
 prints one JSON object carrying ``decision`` and ``reason``, and exits 0 for
@@ -71,6 +78,7 @@ CHECKS = (
     "signer_not_subject",
     "did_unresolvable",
     "signing_time_unproven",
+    "history_unobserved",
     "binding_fingerprint_mismatch",
     "key_rotated_out",
     "key_not_authorized",
@@ -208,6 +216,14 @@ class _Case:
     resolution: dict[str, Any] | None
     proven_at: datetime | None
 
+    def observed_at(self) -> datetime | None:
+        """When the resolver last read the DID's current document, or None."""
+        value = self.resolution.get("observedAt") if self.resolution else None
+        try:
+            return _when(value) if isinstance(value, str) else None
+        except ValueError:
+            return None
+
     def versions(self) -> list[dict[str, Any]]:
         return list(self.resolution["versions"]) if self.resolution else []
 
@@ -310,6 +326,14 @@ def signature_verifies(c: _Case) -> bool:
     return bool(rail.ed25519_verify(key, rail.pae(str(c.envelope["payloadType"]), payload), sig))
 
 
+def _history_unobserved(c: _Case) -> bool:
+    """True when the resolver's last read of the DID is missing or older than ``provenAt``."""
+    observed, proven = c.observed_at(), c.proven_at
+    if observed is None or proven is None:
+        return True
+    return observed < proven
+
+
 def _first_failure(c: _Case, skip: frozenset[str]) -> str | None:
     """Name the first check in ``CHECKS`` the record fails, or None.
 
@@ -322,6 +346,7 @@ def _first_failure(c: _Case, skip: frozenset[str]) -> str | None:
         "signer_not_subject": lambda: c.signer != c.subject,
         "did_unresolvable": lambda: c.resolution is None,
         "signing_time_unproven": lambda: c.proven_at is None or c.signed_at > c.proven_at,
+        "history_unobserved": lambda: _history_unobserved(c),
         "binding_fingerprint_mismatch": lambda: _fingerprint_mismatch(c),
         "key_rotated_out": lambda: _rotated_out(c),
         "key_not_authorized": lambda: _not_authorised(c),

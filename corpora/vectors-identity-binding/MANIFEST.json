@@ -1,8 +1,8 @@
 {
-  "corpusDigest": "74b9494a9cc5bb5458c3f2f3d587605887b70c32392a37e3330f9e8eb188eb3e",
+  "corpusDigest": "d67ecaaf4632db112588099c454a960098877654e89c793cd72faed116732be8",
   "counts": {
-    "rejected": 13,
-    "verified": 3
+    "rejected": 15,
+    "verified": 4
   },
   "didWbaSource": {
     "commit": "c6a467b4e690137d237d8068f2c60b48955dbaf6",
@@ -20,7 +20,7 @@
       },
       "files": {
         "case.json": "1e3afab734bc651f4b8840a3bbf3f0eafdfdb042428495311857a1afccb15bee",
-        "did-alice.json": "649d8c4f26d9138c3d7f5f3a685ae78b3dbf16a9e574221c9daa55bc97078ec6",
+        "did-alice.json": "b082928fae83b9734ddaa282fe8394b889e564e56922198a7da94aacb2ced337",
         "envelope.json": "a7455e4be92a5ef90d52025a2c3fd9e536a504a6b6b3e717383c1689873df6e7"
       },
       "id": "web-verified",
@@ -36,7 +36,7 @@
       },
       "files": {
         "case.json": "94d3d687e3f1ffc86e99c22824cc2d7f6c9d9bcdc12f8e00c39636115d1794a6",
-        "did-alice.json": "9f5065ef7922589c462ae6e5c38c2bd5781fd92c310016ac4beb5d7d612fca2e",
+        "did-alice.json": "23c852bb3462b792a9e9b0615823f8b7293fa12a84e270ccfa1054b81ee6a1a3",
         "envelope.json": "587512d4c051e940ee96f53fb0745a0207c2629950e101d925c7a4f996868590"
       },
       "id": "wba-verified",
@@ -52,7 +52,7 @@
       },
       "files": {
         "case.json": "89036f6d6664eb11a5b70fc4c5778ac3a792ff8183c6a1c9d30cbf3282d94e6d",
-        "did-alice.json": "138d263eb75a1a8203aa024d592e2309e85207465d6235d7c12d0d25dbc8514b",
+        "did-alice.json": "e5275d8a0e3ef5aa5e6596b7e986ef2c8ef46f2b397f1e63e3d7b9ef9ab5948f",
         "envelope.json": "a7455e4be92a5ef90d52025a2c3fd9e536a504a6b6b3e717383c1689873df6e7"
       },
       "id": "web-signed-before-rotation",
@@ -68,7 +68,7 @@
       },
       "files": {
         "case.json": "1e3afab734bc651f4b8840a3bbf3f0eafdfdb042428495311857a1afccb15bee",
-        "did-alice.json": "649d8c4f26d9138c3d7f5f3a685ae78b3dbf16a9e574221c9daa55bc97078ec6",
+        "did-alice.json": "b082928fae83b9734ddaa282fe8394b889e564e56922198a7da94aacb2ced337",
         "envelope.json": "a855c7c59695f50d1d6b358a6945dd89699b718ae97f658cd42ca70d25ba2c93"
       },
       "id": "key-not-in-authentication",
@@ -84,7 +84,7 @@
       },
       "files": {
         "case.json": "1e3afab734bc651f4b8840a3bbf3f0eafdfdb042428495311857a1afccb15bee",
-        "did-alice.json": "649d8c4f26d9138c3d7f5f3a685ae78b3dbf16a9e574221c9daa55bc97078ec6",
+        "did-alice.json": "b082928fae83b9734ddaa282fe8394b889e564e56922198a7da94aacb2ced337",
         "envelope.json": "e5ebf1040cda1c280953819052c41217fa8905c6cfd6de7bdee2592c8d6aecff"
       },
       "id": "key-absent-from-document",
@@ -115,7 +115,7 @@
       },
       "files": {
         "case.json": "2856550e0726102b26d93c1c3ec836bcf1fdd7ad4edfaac50c1cdb4ca921e8c2",
-        "did-alice.json": "138d263eb75a1a8203aa024d592e2309e85207465d6235d7c12d0d25dbc8514b",
+        "did-alice.json": "e5275d8a0e3ef5aa5e6596b7e986ef2c8ef46f2b397f1e63e3d7b9ef9ab5948f",
         "envelope.json": "64ac8c874900a6e0c825fc0c7193d7f038939abb531c8589eb40cd64433aaba3"
       },
       "id": "web-key-rotated-out",
@@ -131,7 +131,7 @@
       },
       "files": {
         "case.json": "94d3d687e3f1ffc86e99c22824cc2d7f6c9d9bcdc12f8e00c39636115d1794a6",
-        "did-alice.json": "fd95ba8641e445cffeb8da17aef1302651f23a4e7b974ad4e17554e6a80db2e5",
+        "did-alice.json": "4d0ca699c9c0c0e8319d33533405b1c0e9939772b608f948df5826328092637a",
         "envelope.json": "587512d4c051e940ee96f53fb0745a0207c2629950e101d925c7a4f996868590"
       },
       "id": "wba-deactivated-before-signing",
@@ -147,8 +147,8 @@
       },
       "files": {
         "case.json": "ecce9f58ccb2e3fc04aa1720cc398d7fe83b5b5518d67b65dfcfca1e8b869bfb",
-        "did-alice.json": "649d8c4f26d9138c3d7f5f3a685ae78b3dbf16a9e574221c9daa55bc97078ec6",
-        "did-bob.json": "8e989d1f9c74290deed9407603c7c12a989fd2e188055d399e702431c92498d4",
+        "did-alice.json": "b082928fae83b9734ddaa282fe8394b889e564e56922198a7da94aacb2ced337",
+        "did-bob.json": "bea9ca5504c1cdc695d35eabf45de718e1550faf000294e22b232d18f8e71a84",
         "envelope.json": "c2bb5f9a4b5c4576a57fe66d04fceb038f324eea68ccedf2cc80cd4c6e0f8f31"
       },
       "id": "subject-swap",
@@ -179,7 +179,7 @@
       },
       "files": {
         "case.json": "94d3d687e3f1ffc86e99c22824cc2d7f6c9d9bcdc12f8e00c39636115d1794a6",
-        "did-alice.json": "4c336327832dc99b403ef646675ae07ebb99686cca4dc523cec153200f43bd74",
+        "did-alice.json": "8dbbdad90e7c23ee9065d298cf92cc492edde6cd4bfd252911a19ff60a1e0cf0",
         "envelope.json": "358008d0387fb8085a10174529d526530b6cc896a5984f12617e736b8a67c84a"
       },
       "id": "wba-fingerprint-mismatch",
@@ -195,7 +195,7 @@
       },
       "files": {
         "case.json": "1e3afab734bc651f4b8840a3bbf3f0eafdfdb042428495311857a1afccb15bee",
-        "did-alice.json": "649d8c4f26d9138c3d7f5f3a685ae78b3dbf16a9e574221c9daa55bc97078ec6",
+        "did-alice.json": "b082928fae83b9734ddaa282fe8394b889e564e56922198a7da94aacb2ced337",
         "envelope.json": "02073615284bd3029da448b5921e7ae4e2229165d98ef2971f7f77f2f42e8057"
       },
       "id": "payload-altered",
@@ -211,7 +211,7 @@
       },
       "files": {
         "case.json": "9ebb3b4dd57673aec11c79610614b20ab8f9b486e196f3e17bc580fb13afdc23",
-        "did-alice.json": "138d263eb75a1a8203aa024d592e2309e85207465d6235d7c12d0d25dbc8514b",
+        "did-alice.json": "e5275d8a0e3ef5aa5e6596b7e986ef2c8ef46f2b397f1e63e3d7b9ef9ab5948f",
         "envelope.json": "a7455e4be92a5ef90d52025a2c3fd9e536a504a6b6b3e717383c1689873df6e7"
       },
       "id": "web-backdated-after-rotation",
@@ -227,7 +227,7 @@
       },
       "files": {
         "case.json": "4a366cc5b3fc207c6151e7e8b5deac7b7fa1372f5ba19fbe10b97ee559ce5c19",
-        "did-alice.json": "fd95ba8641e445cffeb8da17aef1302651f23a4e7b974ad4e17554e6a80db2e5",
+        "did-alice.json": "4d0ca699c9c0c0e8319d33533405b1c0e9939772b608f948df5826328092637a",
         "envelope.json": "38ce7e41ad49bbaa27bd1a0236d23feda68cd7c7a8518b2d635b59232939ccb7"
       },
       "id": "wba-deactivated-after-signing",
@@ -243,11 +243,59 @@
       },
       "files": {
         "case.json": "385d0d5eaf4ea0f023f82abbf9048d767c97fcc2c013f87bb2de8e6f364adab3",
-        "did-alice.json": "649d8c4f26d9138c3d7f5f3a685ae78b3dbf16a9e574221c9daa55bc97078ec6",
+        "did-alice.json": "b082928fae83b9734ddaa282fe8394b889e564e56922198a7da94aacb2ced337",
         "envelope.json": "a7455e4be92a5ef90d52025a2c3fd9e536a504a6b6b3e717383c1689873df6e7"
       },
       "id": "web-signing-time-unproven",
       "path": "cases/web-signing-time-unproven",
+      "signatureVerifies": true
+    },
+    {
+      "didMethod": "web",
+      "edit": "the domain passed to another registrant in June and the former holder, who kept the key, signed in July; the history the verifier holds was last observed in January, so it cannot show the key still held when the record was proven",
+      "expected": {
+        "decision": "rejected",
+        "reason": "history_unobserved"
+      },
+      "files": {
+        "case.json": "2856550e0726102b26d93c1c3ec836bcf1fdd7ad4edfaac50c1cdb4ca921e8c2",
+        "did-alice.json": "9c78bd825c5b9d276aa9472a98f8e4d1f2a4008d7fb021f774b2b92b9203be02",
+        "envelope.json": "64ac8c874900a6e0c825fc0c7193d7f038939abb531c8589eb40cd64433aaba3"
+      },
+      "id": "web-history-observed-before-transfer",
+      "path": "cases/web-history-observed-before-transfer",
+      "signatureVerifies": true
+    },
+    {
+      "didMethod": "web",
+      "edit": "the fixture does not say when its resolver last read the document; an unstated observation is a refusal, never a clean pass",
+      "expected": {
+        "decision": "rejected",
+        "reason": "history_unobserved"
+      },
+      "files": {
+        "case.json": "1e3afab734bc651f4b8840a3bbf3f0eafdfdb042428495311857a1afccb15bee",
+        "did-alice.json": "90d2082171b2af7ba0142c4d7214517d4a57cd467b007edcaeefe9f46f1a8c3c",
+        "envelope.json": "a7455e4be92a5ef90d52025a2c3fd9e536a504a6b6b3e717383c1689873df6e7"
+      },
+      "id": "web-history-observed-unstated",
+      "path": "cases/web-history-observed-unstated",
+      "signatureVerifies": true
+    },
+    {
+      "didMethod": "web",
+      "edit": "control: the history was observed at the moment the record was proven to exist",
+      "expected": {
+        "decision": "verified",
+        "reason": "subject_bound"
+      },
+      "files": {
+        "case.json": "2856550e0726102b26d93c1c3ec836bcf1fdd7ad4edfaac50c1cdb4ca921e8c2",
+        "did-alice.json": "e08bedb5ab907fe88f3976be90f3578ea1ad20f5246f79cf87149bcd1a2d5431",
+        "envelope.json": "64ac8c874900a6e0c825fc0c7193d7f038939abb531c8589eb40cd64433aaba3"
+      },
+      "id": "web-history-observed-at-proof",
+      "path": "cases/web-history-observed-at-proof",
       "signatureVerifies": true
     },
     {
@@ -259,7 +307,7 @@
       },
       "files": {
         "case.json": "1e3afab734bc651f4b8840a3bbf3f0eafdfdb042428495311857a1afccb15bee",
-        "did-alice.json": "649d8c4f26d9138c3d7f5f3a685ae78b3dbf16a9e574221c9daa55bc97078ec6",
+        "did-alice.json": "b082928fae83b9734ddaa282fe8394b889e564e56922198a7da94aacb2ced337",
         "envelope.json": "64ac8c874900a6e0c825fc0c7193d7f038939abb531c8589eb40cd64433aaba3"
       },
       "id": "web-forward-dated",

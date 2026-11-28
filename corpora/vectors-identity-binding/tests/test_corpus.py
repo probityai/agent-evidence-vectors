@@ -30,7 +30,10 @@ from agent_evidence_vectors import identitybinding  # noqa: E402
 SIGNED_REJECTS = {"subject-swap", "web-key-rotated-out", "wba-deactivated-before-signing",
                   "wba-fingerprint-mismatch", "key-not-in-authentication",
                   "web-backdated-after-rotation", "wba-deactivated-after-signing",
-                  "web-signing-time-unproven", "web-forward-dated"}
+                  "web-signing-time-unproven", "web-forward-dated",
+                  "web-history-observed-before-transfer", "web-history-observed-unstated"}
+# Members a verifier that trusts a DID history however long ago it was observed accepts.
+STALE_HISTORY_ACCEPTS = {"web-history-observed-before-transfer", "web-history-observed-unstated"}
 # Members a verifier that judges the key only at the signer-asserted signedAt accepts.
 SIGNED_AT_ONLY_ACCEPTS = {"web-backdated-after-rotation", "wba-deactivated-after-signing",
                           "web-signing-time-unproven", "web-forward-dated"}
@@ -107,6 +110,12 @@ class TestIdentityBindingCorpus:
             skip = tuple(c for c in identitybinding.CHECKS if c != "signature_invalid")
             _, errors = corpus.check(_stub(tmp_path, skip))
             assert SIGNED_REJECTS <= _failed(errors)
+
+        def test_a_verifier_trusting_a_stale_history_is_refused(self, tmp_path: Path) -> None:
+            """A reader that never asks when the history was observed admits the former holder
+            of a did:web domain signing after the domain changed hands."""
+            _, errors = corpus.check(_stub(tmp_path, ("history_unobserved",)))
+            assert _failed(errors) == STALE_HISTORY_ACCEPTS
 
         def test_a_verifier_trusting_the_signers_clock_is_refused(self, tmp_path: Path) -> None:
             """A reader that judges the key only at signedAt admits a signature backdated to
@@ -186,3 +195,18 @@ class TestIdentityBindingCorpus:
         ])
         def test_well_formed_did_strings_are_accepted(self, did: str) -> None:
             assert identitybinding.well_formed(did)
+
+        @pytest.mark.parametrize("resolution,proven", [
+            (None, None),
+            ({"versions": []}, None),
+            ({"versions": []}, "2026-01-01T00:00:00Z"),
+            ({"versions": [], "observedAt": 5}, "2026-01-01T00:00:00Z"),
+            ({"versions": [], "observedAt": "not a time"}, "2026-01-01T00:00:00Z"),
+        ])
+        def test_missing_observation_refuses_instead_of_raising(self, resolution, proven) -> None:  # type: ignore[no-untyped-def]
+            when = identitybinding._when
+            case = identitybinding._Case(
+                envelope={}, subject="did:web:example.com", signed_at=when("2025-01-01T00:00:00Z"),
+                keyid="k", signer="did:web:example.com", resolution=resolution,
+                proven_at=when(proven) if proven else None)
+            assert identitybinding._history_unobserved(case) is True
