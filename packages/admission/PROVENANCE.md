@@ -70,11 +70,11 @@ somewhere else would be a claim about different bytes.
 ## The corpus these rails are measured against
 
 Not lifted, and not vendored wholesale. `rego/corpus_vectors.json` is a mechanical
-projection of the published conformance corpus at the tag `v0.30.0` of
+projection of the published conformance corpus at the tag `v0.38.0` of
 [probityai/agent-evidence-vectors](https://github.com/probityai/agent-evidence-vectors)
 at commit `c74c8a7337b2186ec120eb4f988d7daab9f16caa`, corpus digest
 `bf3e5befd71640757ff1b3f0af63507364b823b5e3f9059678f72f64a46e11c1`. Continuous
-integration installs the published `agent-evidence-vectors` 0.30.0 package from PyPI,
+integration installs the published `agent-evidence-vectors` 0.38.0 package from PyPI,
 which ships that corpus unchanged, pinned by version and wheel SHA-256 in
 `requirements-vectors.txt`. It refuses a package whose corpus digest is not the one
 the repository-root `.github/workflows/package-admission.yml` records as measured,

@@ -10,7 +10,7 @@ The predicate is `https://in-toto.io/attestation/adversarial-execution-evidence/
 at [in-toto/attestation#570](https://github.com/in-toto/attestation/pull/570). The corpus these
 rails are measured against is
 [probityai/agent-evidence-vectors](https://github.com/probityai/agent-evidence-vectors), at the
-tag `v0.30.0`, installed as `agent-evidence-vectors==0.30.0` from `requirements-vectors.txt`.
+tag `v0.38.0`, installed as `agent-evidence-vectors==0.38.0` from `requirements-vectors.txt`.
 `scripts/vectors-pin-gate.py` refuses a page here that names another release.
 
 ## Verify the claim in four commands
@@ -19,7 +19,7 @@ Nothing below asks you to trust a table in this repository. From a fresh clone, 
 `opa`, `kyverno`, and `cue` on the path:
 
 ```bash
-git clone --depth 1 --branch v0.30.0 \
+git clone --depth 1 --branch v0.38.0 \
   https://github.com/probityai/agent-evidence-vectors.git /tmp/vectors
 python3 rego/gen_corpus_vectors.py --check --corpus /tmp/vectors
 python3 scripts/gen_profile_map.py --jobs 4 && git diff --exit-code -- profiles/
